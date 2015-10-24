@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "eu.faircode.netguard"
+        minSdkVersion 21
+        targetSdkVersion 23
+        versionCode 1
+        versionName "0.2"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                setOutputFile(variant, defaultConfig)
+            }
+        }
+    }
+}
+
+def setOutputFile(variant, defaultConfig) {
+    variant.outputs.each { output ->
+        def fileName = "NetGuard-v" + defaultConfig.versionName + ".apk"
+        if (output.zipAlign)
+            output.outputFile = new File(output.outputFile.parent, fileName)
+        else
+            output.packageApplication.outputFile = new File(output.packageApplication.outputFile.parent, fileName)
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
+}
