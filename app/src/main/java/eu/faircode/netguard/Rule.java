@@ -3,6 +3,7 @@ package eu.faircode.netguard;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +38,10 @@ public class Rule implements Comparable<Rule> {
         Collections.sort(listRules);
 
         return listRules;
+    }
+
+    public Drawable getIcon(Context context) {
+        return info.applicationInfo.loadIcon(context.getPackageManager());
     }
 
     @Override

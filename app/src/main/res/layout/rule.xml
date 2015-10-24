@@ -5,17 +5,24 @@
     android:orientation="horizontal"
     android:paddingBottom="6dp">
 
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="?android:attr/listPreferredItemHeightSmall"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:layout_gravity="center_vertical" />
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="6dp">
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
             android:ellipsize="end"
             android:singleLine="true"
             android:textAppearance="@android:style/TextAppearance.Material.Medium" />
@@ -24,7 +31,6 @@
             android:id="@+id/tvPackage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
             android:ellipsize="start"
             android:singleLine="true"
             android:textAppearance="@android:style/TextAppearance.Material.Small" />
@@ -35,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:button="@drawable/wifi"
         android:paddingLeft="3dp" />
 
     <CheckBox
@@ -42,5 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:button="@drawable/other"
         android:paddingLeft="3dp" />
 </LinearLayout>

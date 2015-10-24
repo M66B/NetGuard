@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> {
     private List<Rule> listRule;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public View view;
+        public ImageView ivIcon;
         public TextView tvName;
         public TextView tvPackage;
         public CheckBox cbWifi;
@@ -28,6 +31,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
+            this.view = itemView;
+            this.ivIcon = (ImageView) itemView.findViewById(R.id.ivIcon);
             this.tvName = (TextView) itemView.findViewById(R.id.tvName);
             this.tvPackage = (TextView) itemView.findViewById(R.id.tvPackage);
             this.cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
@@ -49,6 +54,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Rule rule = listRule.get(position);
+
+        holder.ivIcon.setImageDrawable(rule.getIcon(holder.view.getContext()));
         holder.tvName.setText(rule.name);
         holder.tvPackage.setText(rule.info.packageName);
 
