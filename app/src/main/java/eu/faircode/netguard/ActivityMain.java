@@ -35,6 +35,7 @@ public class ActivityMain extends AppCompatActivity {
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        // On/off switch
         Switch swEnabled = (Switch) view.findViewById(R.id.swEnabled);
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -61,6 +62,7 @@ public class ActivityMain extends AppCompatActivity {
         });
         swEnabled.setChecked(prefs.getBoolean("enabled", false));
 
+        // Package list
         final RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(true);
         rvApplication.setLayoutManager(new LinearLayoutManager(this));

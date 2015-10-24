@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.VpnService;
 import android.os.IBinder;
 import android.os.ParcelFileDescriptor;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.FileInputStream;
@@ -29,12 +30,14 @@ public class BlackHoleService extends VpnService implements Runnable {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "Start");
+        Log.i(TAG, "Start intent=" + intent);
 
         if (thread != null)
             thread.interrupt();
 
-        boolean enabled = intent.hasExtra(EXTRA_START) && intent.getBooleanExtra(EXTRA_START, false);
+        boolean enabled = (intent != null &&
+                intent.hasExtra(EXTRA_START) &&
+                intent.getBooleanExtra(EXTRA_START, false));
 
         if (enabled) {
             Log.i(TAG, "Starting");
@@ -49,19 +52,21 @@ public class BlackHoleService extends VpnService implements Runnable {
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
-                    intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI) {
-                Intent service = new Intent(BlackHoleService.this, BlackHoleService.class);
-                service.putExtra(BlackHoleService.EXTRA_START, true);
-                Log.i(TAG, "Start service=" + service);
-                startService(service);
-            }
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("enabled", false))
+                if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
+                        intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI) {
+                    Intent service = new Intent(BlackHoleService.this, BlackHoleService.class);
+                    service.putExtra(BlackHoleService.EXTRA_START, true);
+                    Log.i(TAG, "Start service=" + service);
+                    startService(service);
+                }
         }
     };
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i(TAG, "Create");
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangedReceiver, intentFilter);
@@ -89,11 +94,13 @@ public class BlackHoleService extends VpnService implements Runnable {
         Log.i(TAG, "Run");
         ParcelFileDescriptor pfd = null;
         try {
+            // Check if Wi-Fi connection
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo ni = cm.getActiveNetworkInfo();
             boolean wifi = (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
             Log.i(TAG, "wifi=" + wifi);
 
+            // Build VPN service
             final Builder builder = new Builder();
             builder.setSession("BlackHoleService");
             builder.addAddress("10.1.10.1", 32);
@@ -111,10 +118,12 @@ public class BlackHoleService extends VpnService implements Runnable {
             PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setConfigureIntent(pi);
 
+            // Start VPN service
             pfd = builder.establish();
-            FileInputStream in = new FileInputStream(pfd.getFileDescriptor());
 
+            // Drop all packets
             Log.i(TAG, "Loop start");
+            FileInputStream in = new FileInputStream(pfd.getFileDescriptor());
             while (!thread.isInterrupted())
                 in.skip(32768);
             Log.i(TAG, "Loop exit");

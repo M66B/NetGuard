@@ -30,7 +30,7 @@ public class Rule implements Comparable<Rule> {
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0))
             listRules.add(new Rule(
                     info,
-                    wifi.getBoolean(info.packageName, true),
+                    wifi.getBoolean(info.packageName, false),
                     other.getBoolean(info.packageName, true),
                     context
             ));
