@@ -53,6 +53,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // On/off switch
         Switch swEnabled = (Switch) view.findViewById(R.id.swEnabled);
+        swEnabled.setChecked(prefs.getBoolean("enabled", false));
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -74,7 +75,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 }
             }
         });
-        swEnabled.setChecked(prefs.getBoolean("enabled", false));
 
         // Listen for preference changes
         prefs.registerOnSharedPreferenceChangeListener(this);
