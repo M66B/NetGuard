@@ -46,7 +46,7 @@ public class Rule implements Comparable<Rule> {
 
     @Override
     public int compareTo(Rule other) {
-        int i = this.name.compareTo(other.name);
-        return (i == 0 ? this.info.packageName.compareTo(other.info.packageName) : i);
+        int i = name.compareToIgnoreCase(other.name);
+        return (i == 0 ? info.packageName.compareTo(other.info.packageName) : i);
     }
 }

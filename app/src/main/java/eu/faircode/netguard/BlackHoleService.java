@@ -5,10 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.VpnService;
-import android.os.IBinder;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -19,47 +19,50 @@ import java.io.IOException;
 public class BlackHoleService extends VpnService implements Runnable {
     private static final String TAG = "NetGuard.BlackHole";
 
-    private Thread thread;
+    private Thread thread = null;
+    public static final String EXTRA_COMMAND = "Command";
 
-    public static final String EXTRA_START = "Start";
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+    public enum Command {start, reload, stop}
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "Start intent=" + intent);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean enabled = prefs.getBoolean("enabled", false);
 
-        if (thread != null)
-            thread.interrupt();
+        Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
+        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " running=" + (thread != null));
 
-        boolean enabled = (intent != null &&
-                intent.hasExtra(EXTRA_START) &&
-                intent.getBooleanExtra(EXTRA_START, false));
-
-        if (enabled) {
-            Log.i(TAG, "Starting");
-            thread = new Thread(this, "BlackHoleThread");
-            thread.start();
+        if (cmd == Command.reload || cmd == Command.stop) {
+            if (thread != null) {
+                Log.i(TAG, "Stopping");
+                thread.interrupt();
+            }
+            if (cmd == Command.stop)
+                stopSelf();
         }
 
-        // TODO: check if start sticky is enough to keep the VPN service alive
+        if (cmd == Command.start || cmd == Command.reload) {
+            if (enabled && (thread == null || thread.isInterrupted())) {
+                Log.i(TAG, "Starting");
+                thread = new Thread(this, "BlackHoleThread");
+                thread.start();
+            }
+        }
+
         return START_STICKY;
     }
 
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("enabled", false))
-                if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
-                        intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI) {
-                    Intent service = new Intent(BlackHoleService.this, BlackHoleService.class);
-                    service.putExtra(BlackHoleService.EXTRA_START, true);
-                    Log.i(TAG, "Start service=" + service);
-                    startService(service);
-                }
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(TAG, intent);
+            if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
+                    intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI) {
+                Intent service = new Intent(BlackHoleService.this, BlackHoleService.class);
+                service.putExtra(BlackHoleService.EXTRA_COMMAND, Command.reload);
+                startService(service);
+            }
         }
     };
 
@@ -86,11 +89,13 @@ public class BlackHoleService extends VpnService implements Runnable {
         Log.i(TAG, "Revoke");
         if (thread != null)
             thread.interrupt();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.edit().putBoolean("enabled", false).apply();
         super.onRevoke();
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         Log.i(TAG, "Run");
         ParcelFileDescriptor pfd = null;
         try {
@@ -124,11 +129,13 @@ public class BlackHoleService extends VpnService implements Runnable {
             // Drop all packets
             Log.i(TAG, "Loop start");
             FileInputStream in = new FileInputStream(pfd.getFileDescriptor());
-            while (!thread.isInterrupted())
+            while (!Thread.currentThread().isInterrupted())
                 in.skip(32768);
             Log.i(TAG, "Loop exit");
+
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+
         } finally {
             if (pfd != null)
                 try {
@@ -136,8 +143,6 @@ public class BlackHoleService extends VpnService implements Runnable {
                 } catch (IOException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
-            thread = null;
-            stopSelf();
         }
     }
 }
