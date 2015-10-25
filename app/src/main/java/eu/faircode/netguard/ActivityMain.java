@@ -1,7 +1,10 @@
 package eu.faircode.netguard;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.VpnService;
 import android.os.AsyncTask;
@@ -75,6 +78,35 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Listen for external enabled changes
         prefs.registerOnSharedPreferenceChangeListener(this);
 
+        // Fill application list
+        getApplicationList();
+
+        // Listen for added/removed applications
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        intentFilter.addDataScheme("package");
+        registerReceiver(packageChangedReceiver, intentFilter);
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(TAG, "Destroy");
+        running = false;
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+        unregisterReceiver(packageChangedReceiver);
+        super.onDestroy();
+    }
+
+    private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            getApplicationList();
+        }
+    };
+
+    private void getApplicationList() {
         // Package list
         final RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(true);
@@ -105,14 +137,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             if (swEnabled.isChecked() != enabled)
                 swEnabled.setChecked(enabled);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.i(TAG, "Destroy");
-        running = false;
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
-        super.onDestroy();
     }
 
     @Override

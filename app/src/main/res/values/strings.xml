@@ -4,6 +4,6 @@
     <string name="menu_search">Search</string>
     <string name="menu_wifi">Toggle Wi-Fi</string>
     <string name="menu_other">Toggle other</string>
-    <string name="menu_vpn_settings">VPN settings</string>
+    <string name="menu_vpn_settings">Android VPN settings</string>
     <string name="menu_about">About</string>
 </resources>
