@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -196,12 +197,20 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             case R.id.menu_vpn_settings:
                 // Open VPN settings
-                Intent intent = new Intent("android.net.vpn.SETTINGS");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                if (intent.resolveActivity(getPackageManager()) != null)
-                    startActivity(intent);
+                Intent vpn = new Intent("android.net.vpn.SETTINGS");
+                if (vpn.resolveActivity(getPackageManager()) != null)
+                    startActivity(vpn);
                 else
-                    Log.w(TAG, intent + " not available");
+                    Log.w(TAG, vpn + " not available");
+                return true;
+
+            case R.id.menu_support:
+                Intent xda = new Intent(Intent.ACTION_VIEW);
+                xda.setData(Uri.parse("http://forum.xda-developers.com/showthread.php?t=3233012"));
+                if (xda.resolveActivity(getPackageManager()) != null)
+                    startActivity(xda);
+                else
+                    Log.w(TAG, xda + " not available");
                 return true;
 
             case R.id.menu_about:

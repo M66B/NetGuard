@@ -57,7 +57,7 @@ No, unlike most of the similar closed source alternatives.
 Support
 -------
 
-* Questions: please [use this forum](http://forum.xda-developers.com/android/apps-games/netguard-t3233012)
+* Questions: please [use this forum](http://forum.xda-developers.com/showthread.php?t=3233012)
 * Feature requests and bugs: please [report an issue](https://github.com/M66B/NetGuard/issues/new)
 
 Please do not use GitHub for questions.
