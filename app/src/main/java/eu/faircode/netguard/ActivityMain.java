@@ -123,7 +123,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             protected void onPostExecute(List<Rule> result) {
                 if (running) {
-                    adapter = new RuleAdapter(result);
+                    adapter = new RuleAdapter(result, ActivityMain.this);
                     rvApplication.setAdapter(adapter);
                 }
             }

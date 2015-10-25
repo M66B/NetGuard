@@ -3,6 +3,8 @@ package eu.faircode.netguard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +23,9 @@ import java.util.List;
 public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.RuleAdapter";
 
+    private Context context;
+    private int colorText;
+    private int colorAccent;
     private List<Rule> listAll;
     private List<Rule> listSelected;
 
@@ -43,7 +48,15 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
     }
 
-    public RuleAdapter(List<Rule> listRule) {
+    public RuleAdapter(List<Rule> listRule, Context context) {
+        this.context = context;
+        colorAccent = ContextCompat.getColor(context, R.color.colorAccent);
+        TypedArray ta = context.getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
+        try {
+            colorText = ta.getColor(0, 0);
+        } finally {
+            ta.recycle();
+        }
         listAll = listRule;
         listSelected = new ArrayList<>();
         listSelected.addAll(listRule);
@@ -68,8 +81,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 }
                 Log.i(TAG, rule.info.packageName + ": " + name + "=" + isChecked);
 
-                Context context = buttonView.getContext();
-
                 SharedPreferences prefs = context.getSharedPreferences(name, Context.MODE_PRIVATE);
                 prefs.edit().putBoolean(rule.info.packageName, isChecked).apply();
 
@@ -81,9 +92,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         };
 
-        holder.ivIcon.setImageDrawable(rule.getIcon(holder.view.getContext()));
+        holder.ivIcon.setImageDrawable(rule.getIcon(context));
         holder.tvName.setText(rule.name);
+        holder.tvName.setTextColor(rule.system ? colorAccent : colorText);
         holder.tvPackage.setText(rule.info.packageName);
+        holder.tvPackage.setTextColor(rule.system ? colorAccent : colorText);
 
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
@@ -155,7 +168,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     @Override
     public RuleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rule, parent, false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.rule, parent, false));
     }
 
     @Override

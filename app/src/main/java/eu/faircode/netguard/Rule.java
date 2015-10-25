@@ -2,6 +2,7 @@ package eu.faircode.netguard;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
 
@@ -12,12 +13,14 @@ import java.util.List;
 public class Rule implements Comparable<Rule> {
     public PackageInfo info;
     public String name;
+    public boolean system;
     public boolean wifi_blocked;
     public boolean other_blocked;
 
     private Rule(PackageInfo info, boolean wifi_blocked, boolean other_blocked, Context context) {
         this.info = info;
         this.name = info.applicationInfo.loadLabel(context.getPackageManager()).toString();
+        this.system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
         this.wifi_blocked = wifi_blocked;
         this.other_blocked = other_blocked;
     }
