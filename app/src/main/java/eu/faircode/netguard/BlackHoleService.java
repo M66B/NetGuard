@@ -110,11 +110,16 @@ public class BlackHoleService extends VpnService {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
             if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
-                    intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI) {
-                Intent service = new Intent(BlackHoleService.this, BlackHoleService.class);
-                service.putExtra(BlackHoleService.EXTRA_COMMAND, Command.reload);
-                startService(service);
-            }
+                    intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI)
+                reload(null, BlackHoleService.this);
+        }
+    };
+
+    private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            reload(null, BlackHoleService.this);
         }
     };
 
@@ -123,10 +128,16 @@ public class BlackHoleService extends VpnService {
         super.onCreate();
         Log.i(TAG, "Create");
 
-        // Request connectivity updates
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(connectivityChangedReceiver, intentFilter);
+        // Listen connectivity updates
+        IntentFilter ifConnectivity = new IntentFilter();
+        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectivityChangedReceiver, ifConnectivity);
+
+        // Listen for added applications
+        IntentFilter ifPackage = new IntentFilter();
+        ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
+        ifPackage.addDataScheme("package");
+        registerReceiver(packageAddedReceiver, ifPackage);
     }
 
     @Override
@@ -137,6 +148,7 @@ public class BlackHoleService extends VpnService {
             vpnStop();
 
         unregisterReceiver(connectivityChangedReceiver);
+        unregisterReceiver(packageAddedReceiver);
 
         super.onDestroy();
     }
@@ -156,7 +168,7 @@ public class BlackHoleService extends VpnService {
     }
 
     public static void reload(String name, Context context) {
-        if ("wifi".equals(name) ? Util.isWifiActive(context) : !Util.isWifiActive(context)) {
+        if (name == null || ("wifi".equals(name) ? Util.isWifiActive(context) : !Util.isWifiActive(context))) {
             Intent intent = new Intent(context, BlackHoleService.class);
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             context.startService(intent);
