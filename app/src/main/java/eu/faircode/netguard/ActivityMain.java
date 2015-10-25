@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -117,7 +119,36 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                applyFilter(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                applyFilter(newText);
+                return true;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                applyFilter(null);
+                return true;
+            }
+        });
+
         return true;
+    }
+
+    private void applyFilter(String query) {
+        if (adapter != null)
+            adapter.getFilter().filter(query);
     }
 
     @Override

@@ -10,15 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> {
+public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.RuleAdapter";
 
-    private List<Rule> listRule;
+    private List<Rule> listAll;
+    private List<Rule> listSelected;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -40,12 +44,14 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> {
     }
 
     public RuleAdapter(List<Rule> listRule) {
-        this.listRule = listRule;
+        listAll = listRule;
+        listSelected = new ArrayList<>();
+        listSelected.addAll(listRule);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Rule rule = listRule.get(position);
+        final Rule rule = listSelected.get(position);
 
         holder.ivIcon.setImageDrawable(rule.getIcon(holder.view.getContext()));
         holder.tvName.setText(rule.name);
@@ -85,12 +91,46 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> {
     }
 
     @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence query) {
+                List<Rule> listResult = new ArrayList<>();
+                if (query == null)
+                    listResult.addAll(listAll);
+                else {
+                    query = query.toString().toLowerCase();
+                    for (Rule rule : listAll)
+                        if (rule.name.toLowerCase().contains(query))
+                            listResult.add(rule);
+                }
+
+                FilterResults result = new FilterResults();
+                result.values = listResult;
+                result.count = listResult.size();
+                return result;
+            }
+
+            @Override
+            protected void publishResults(CharSequence query, FilterResults result) {
+                listSelected.clear();
+                if (result == null)
+                    listSelected.addAll(listAll);
+                else
+                    for (Rule rule : (List<Rule>) result.values)
+                        listSelected.add(rule);
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    @Override
     public RuleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rule, parent, false));
     }
 
     @Override
     public int getItemCount() {
-        return listRule.size();
+        return listSelected.size();
     }
 }
