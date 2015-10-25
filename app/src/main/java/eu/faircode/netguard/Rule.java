@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +37,7 @@ public class Rule implements Comparable<Rule> {
     }
 
     public static List<Rule> getRules(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
 
@@ -43,8 +45,8 @@ public class Rule implements Comparable<Rule> {
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0))
             listRules.add(new Rule(
                     info,
-                    wifi.getBoolean(info.packageName, true),
-                    other.getBoolean(info.packageName, true),
+                    wifi.getBoolean(info.packageName, prefs.getBoolean("whitelist_wifi", true)),
+                    other.getBoolean(info.packageName, prefs.getBoolean("whitelist_other", true)),
                     context
             ));
 

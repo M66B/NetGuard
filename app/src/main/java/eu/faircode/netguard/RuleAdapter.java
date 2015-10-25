@@ -85,11 +85,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 SharedPreferences prefs = context.getSharedPreferences(name, Context.MODE_PRIVATE);
                 prefs.edit().putBoolean(rule.info.packageName, isChecked).apply();
 
-                if ("wifi".equals(name) ? Util.isWifiActive(context) : !Util.isWifiActive(context)) {
-                    Intent intent = new Intent(context, BlackHoleService.class);
-                    intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.reload);
-                    context.startService(intent);
-                }
+                BlackHoleService.reload(name, context);
             }
         };
 
@@ -144,33 +140,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 notifyDataSetChanged();
             }
         };
-    }
-
-    public void toggle(String name, Context context) {
-        Log.i(TAG, "Toggle " + name);
-
-        // Toggle rule set
-        SharedPreferences.Editor editor = context.getSharedPreferences(name, Context.MODE_PRIVATE).edit();
-        for (Rule rule : listSelected) {
-            if ("wifi".equals(name)) {
-                rule.wifi_blocked = !rule.wifi_blocked;
-                editor.putBoolean(rule.info.packageName, rule.wifi_blocked);
-            } else {
-                rule.other_blocked = !rule.other_blocked;
-                editor.putBoolean(rule.info.packageName, rule.other_blocked);
-            }
-        }
-        editor.apply();
-
-        // Reload rules
-        if ("wifi".equals(name) ? Util.isWifiActive(context) : !Util.isWifiActive(context)) {
-            Intent intent = new Intent(context, BlackHoleService.class);
-            intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.reload);
-            context.startService(intent);
-        }
-
-        // Update UI
-        notifyDataSetChanged();
     }
 
     @Override

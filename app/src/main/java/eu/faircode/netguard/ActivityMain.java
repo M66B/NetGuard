@@ -187,19 +187,34 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        MenuItem wifiItem = menu.findItem(R.id.menu_whitelist_wifi);
+        wifiItem.setChecked(prefs.getBoolean("whitelist_wifi", true));
+
+        MenuItem otherItem = menu.findItem(R.id.menu_whitelist_other);
+        otherItem.setChecked(prefs.getBoolean("whitelist_other", true));
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_wifi:
-                // Toggle Wi-Fi
-                if (adapter != null)
-                    adapter.toggle("wifi", this);
+            case R.id.menu_whitelist_wifi:
+                prefs.edit().putBoolean("whitelist_wifi", !prefs.getBoolean("whitelist_wifi", true)).apply();
+                fillApplicationList();
+                BlackHoleService.reload("wifi", this);
                 return true;
 
-            case R.id.menu_other:
-                // Toggle other
-                if (adapter != null)
-                    adapter.toggle("other", this);
+            case R.id.menu_whitelist_other:
+                prefs.edit().putBoolean("whitelist_other", !prefs.getBoolean("whitelist_other", true)).apply();
+                fillApplicationList();
+                BlackHoleService.reload("other", this);
                 return true;
 
             case R.id.menu_vpn_settings:

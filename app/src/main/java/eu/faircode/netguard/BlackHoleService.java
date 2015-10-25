@@ -156,4 +156,12 @@ public class BlackHoleService extends VpnService {
 
         super.onRevoke();
     }
+
+    public static void reload(String name, Context context) {
+        if ("wifi".equals(name) ? Util.isWifiActive(context) : !Util.isWifiActive(context)) {
+            Intent intent = new Intent(context, BlackHoleService.class);
+            intent.putExtra(EXTRA_COMMAND, Command.reload);
+            context.startService(intent);
+        }
+    }
 }

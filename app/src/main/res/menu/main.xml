@@ -6,17 +6,15 @@
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/menu_search"
         netguard:actionViewClass="android.support.v7.widget.SearchView"
-        netguard:showAsAction="always|collapseActionView" />
+        netguard:showAsAction="ifRoom|collapseActionView" />
     <item
-        android:id="@+id/menu_wifi"
-        android:icon="@drawable/ic_network_wifi_white_24dp"
-        android:title="@string/menu_wifi"
-        netguard:showAsAction="always" />
+        android:id="@+id/menu_whitelist_wifi"
+        android:checkable="true"
+        android:title="@string/menu_whitelist_wifi" />
     <item
-        android:id="@+id/menu_other"
-        android:icon="@drawable/ic_network_cell_white_24dp"
-        android:title="@string/menu_other"
-        netguard:showAsAction="always" />
+        android:id="@+id/menu_whitelist_other"
+        android:checkable="true"
+        android:title="@string/menu_whitelist_other" />
     <item
         android:id="@+id/menu_vpn_settings"
         android:title="@string/menu_vpn_settings" />
