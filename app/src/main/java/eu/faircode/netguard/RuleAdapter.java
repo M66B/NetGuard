@@ -124,14 +124,16 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         };
     }
 
-    public void set(String name, boolean blocked, Context context) {
+    public void toggle(String name, Context context) {
         SharedPreferences.Editor editor = context.getSharedPreferences(name, Context.MODE_PRIVATE).edit();
         for (Rule rule : listSelected) {
-            if ("wifi".equals(name))
-                rule.wifi_blocked = blocked;
-            else
-                rule.other_blocked = blocked;
-            editor.putBoolean(rule.info.packageName, blocked);
+            if ("wifi".equals(name)) {
+                rule.wifi_blocked = !rule.wifi_blocked;
+                editor.putBoolean(rule.info.packageName, rule.wifi_blocked);
+            } else {
+                rule.other_blocked = !rule.other_blocked;
+                editor.putBoolean(rule.info.packageName, rule.other_blocked);
+            }
         }
         editor.apply();
 

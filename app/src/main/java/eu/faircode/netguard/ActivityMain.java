@@ -120,13 +120,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        MenuItem wifiItem = menu.findItem(R.id.menu_wifi);
-        MenuItem otherItem = menu.findItem(R.id.menu_other);
-        wifiItem.setIcon(prefs.getBoolean("wifi", true) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_signal_wifi_off_white_24dp);
-        otherItem.setIcon(prefs.getBoolean("other", true) ? R.drawable.ic_network_cell_white_24dp : R.drawable.ic_signal_cellular_off_white_24dp);
-
         MenuItem searchItem = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -159,21 +152,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         switch (item.getItemId()) {
             case R.id.menu_wifi:
-                boolean wifi = !prefs.getBoolean("wifi", true);
-                prefs.edit().putBoolean("wifi", wifi).apply();
                 if (adapter != null)
-                    adapter.set("wifi", wifi, this);
+                    adapter.toggle("wifi", this);
                 invalidateOptionsMenu();
                 return true;
 
             case R.id.menu_other:
-                boolean other = !prefs.getBoolean("other", true);
-                prefs.edit().putBoolean("other", other).apply();
                 if (adapter != null)
-                    adapter.set("other", other, this);
+                    adapter.toggle("other", this);
                 invalidateOptionsMenu();
                 return true;
 
