@@ -4,11 +4,26 @@ NetGuard is possibly the first free and open source no root firewall for Android
 
 <img src="screenshot.png" width="232" height="371" hspace="4"/>
 
+Features
+--------
+
+* No root required
+* Simple to use
+* Free and open source
+* No calling home
+* No ads
+
 Usage
 -----
 
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-FI/mobile internet access using the icons at the right side of the application list
+
+Permissions
+-----------
+
+* ACCESS_NETWORK_STATE: to check if the device is connected to the internet through Wi-Fi
+* RECEIVE_BOOT_COMPLETED: to start the firewall when starting the device
 
 Frequently asked questions
 --------------------------
