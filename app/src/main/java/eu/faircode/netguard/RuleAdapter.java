@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -112,6 +113,27 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.cbOther.setChecked(rule.other_blocked);
         holder.cbOther.setOnCheckedChangeListener(cbListener);
         holder.cbOther.setAlpha(rule.other_default ? 0.4f : 1);
+
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
+                SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
+
+                wifi.edit().remove(rule.info.packageName).apply();
+                other.edit().remove(rule.info.packageName).apply();
+
+                rule.wifi_blocked = prefs.getBoolean("whitelist_wifi", true);
+                rule.wifi_default = true;
+                rule.other_blocked = prefs.getBoolean("whitelist_other", true);
+                rule.other_default = true;
+
+                notifyDataSetChanged();
+                BlackHoleService.reload(null, context);
+                return true;
+            }
+        });
     }
 
     @Override
