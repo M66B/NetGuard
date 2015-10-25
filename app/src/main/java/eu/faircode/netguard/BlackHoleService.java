@@ -42,10 +42,8 @@ public class BlackHoleService extends VpnService {
                 stopSelf();
         }
         if (cmd == Command.start || cmd == Command.reload) {
-            if (enabled && vpn == null) {
-                Log.i(TAG, "Starting");
+            if (enabled && vpn == null)
                 vpnStart();
-            }
         }
 
         return START_STICKY;
