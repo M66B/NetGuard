@@ -15,6 +15,8 @@ Features
 * No tracking (analytics)
 * No ads
 
+NetGuard doesn't even require internet permission.
+
 Usage
 -----
 
