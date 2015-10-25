@@ -48,6 +48,12 @@ then no, because NetGuard needs to use this service too and Android allows this 
 No, because the method [addDisallowedApplication](http://developer.android.com/reference/android/net/VpnService.Builder.html#addDisallowedApplication(java.lang.String))
 is being used the minimum required Android version is 5.0 (Lollipop).
 
+<a name="FAQ4"></a>
+**(4) Will NetGuard use extra battery power?**
+
+No, unlike most of the similar closed source alternatives.
+
+
 Support
 -------
 
