@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -92,11 +93,15 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         };
 
+        int color = rule.system ? colorAccent : colorText;
+        if (rule.disabled)
+            color = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
+
         holder.ivIcon.setImageDrawable(rule.getIcon(context));
         holder.tvName.setText(rule.name);
-        holder.tvName.setTextColor(rule.system ? colorAccent : colorText);
+        holder.tvName.setTextColor(color);
         holder.tvPackage.setText(rule.info.packageName);
-        holder.tvPackage.setTextColor(rule.system ? colorAccent : colorText);
+        holder.tvPackage.setTextColor(color);
 
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);

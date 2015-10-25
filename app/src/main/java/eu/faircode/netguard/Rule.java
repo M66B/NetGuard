@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
@@ -14,13 +15,22 @@ public class Rule implements Comparable<Rule> {
     public PackageInfo info;
     public String name;
     public boolean system;
+    public boolean disabled;
     public boolean wifi_blocked;
     public boolean other_blocked;
 
     private Rule(PackageInfo info, boolean wifi_blocked, boolean other_blocked, Context context) {
+        PackageManager pm = context.getPackageManager();
         this.info = info;
-        this.name = info.applicationInfo.loadLabel(context.getPackageManager()).toString();
+        this.name = info.applicationInfo.loadLabel(pm).toString();
         this.system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+
+        int setting = pm.getApplicationEnabledSetting(info.packageName);
+        if (setting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
+            this.disabled = !info.applicationInfo.enabled;
+        else
+            this.disabled = (setting != PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
+
         this.wifi_blocked = wifi_blocked;
         this.other_blocked = other_blocked;
     }
