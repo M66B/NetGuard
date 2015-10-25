@@ -124,6 +124,24 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         };
     }
 
+    public void set(String name, boolean blocked, Context context) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(name, Context.MODE_PRIVATE).edit();
+        for (Rule rule : listSelected) {
+            if ("wifi".equals(name))
+                rule.wifi_blocked = blocked;
+            else
+                rule.other_blocked = blocked;
+            editor.putBoolean(rule.info.packageName, blocked);
+        }
+        editor.apply();
+
+        Intent intent = new Intent(context, BlackHoleService.class);
+        intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.reload);
+        context.startService(intent);
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public RuleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rule, parent, false));

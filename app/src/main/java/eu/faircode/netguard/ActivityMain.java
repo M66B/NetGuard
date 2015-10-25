@@ -120,25 +120,35 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        MenuItem wifiItem = menu.findItem(R.id.menu_wifi);
+        MenuItem otherItem = menu.findItem(R.id.menu_other);
+        wifiItem.setIcon(prefs.getBoolean("wifi", true) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_signal_wifi_off_white_24dp);
+        otherItem.setIcon(prefs.getBoolean("other", true) ? R.drawable.ic_network_cell_white_24dp : R.drawable.ic_signal_cellular_off_white_24dp);
+
         MenuItem searchItem = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                applyFilter(query);
+                if (adapter != null)
+                    adapter.getFilter().filter(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                applyFilter(newText);
+                if (adapter != null)
+                    adapter.getFilter().filter(newText);
                 return true;
             }
         });
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                applyFilter(null);
+                if (adapter != null)
+                    adapter.getFilter().filter(null);
                 return true;
             }
         });
@@ -146,15 +156,27 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         return true;
     }
 
-    private void applyFilter(String query) {
-        if (adapter != null)
-            adapter.getFilter().filter(query);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         switch (item.getItemId()) {
+            case R.id.menu_wifi:
+                boolean wifi = !prefs.getBoolean("wifi", true);
+                prefs.edit().putBoolean("wifi", wifi).apply();
+                if (adapter != null)
+                    adapter.set("wifi", wifi, this);
+                invalidateOptionsMenu();
+                return true;
+
+            case R.id.menu_other:
+                boolean other = !prefs.getBoolean("other", true);
+                prefs.edit().putBoolean("other", other).apply();
+                if (adapter != null)
+                    adapter.set("other", other, this);
+                invalidateOptionsMenu();
+                return true;
+
             case R.id.menu_vpn_settings:
                 Intent intent = new Intent("android.net.vpn.SETTINGS");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

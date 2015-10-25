@@ -1,11 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal">
 
     <Switch
         android:id="@+id/swEnabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp" />
-</RelativeLayout>
+        android:layout_marginLeft="12dp" />
+</LinearLayout>

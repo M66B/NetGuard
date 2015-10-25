@@ -115,7 +115,7 @@ public class BlackHoleService extends VpnService implements Runnable {
             builder.setSession("BlackHoleService");
             builder.addAddress("10.1.10.1", 32);
             builder.addRoute("0.0.0.0", 0);
-            builder.setBlocking(true);
+            builder.setBlocking(false);
 
             // Add list of allowed applications
             for (Rule rule : Rule.getRules(this))
@@ -135,7 +135,11 @@ public class BlackHoleService extends VpnService implements Runnable {
             Log.i(TAG, "Loop start thread=" + Thread.currentThread());
             FileInputStream in = new FileInputStream(pfd.getFileDescriptor());
             while (!Thread.currentThread().isInterrupted() && pfd.getFileDescriptor().valid())
-                in.skip(32768);
+                if (in.skip(32768) < 0)
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ignored) {
+                    }
             Log.i(TAG, "Loop exit thread=" + Thread.currentThread());
 
         } catch (Throwable ex) {
