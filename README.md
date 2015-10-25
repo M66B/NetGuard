@@ -40,6 +40,14 @@ and because updating firewall rules require momentarily turning off the firewall
 If the VPN application is using the Android [VPN service](http://developer.android.com/reference/android/net/VpnService.html),
 then no, because NetGuard needs to use this service too and Android allows this to just one application at a time.
 
+Support
+-------
+
+* Questions: please [use this forum](http://forum.xda-developers.com/android/apps-games/netguard-t3233012)
+* Feature requests and bugs: please [report an issue](https://github.com/M66B/NetGuard/issues/new)
+
+Please do not use GitHub for questions.
+
 Contributing
 ------------
 
