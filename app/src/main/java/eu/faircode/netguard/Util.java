@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,6 +19,13 @@ public class Util {
         } catch (PackageManager.NameNotFoundException ex) {
             return ex.toString();
         }
+    }
+
+    public static boolean isWifiActive(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
+
     }
 
     public static void logExtras(String tag, Intent intent) {

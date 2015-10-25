@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
@@ -55,9 +54,7 @@ public class BlackHoleService extends VpnService {
         Log.i(TAG, "Starting");
 
         // Check if Wi-Fi
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        boolean wifi = (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
+        boolean wifi = Util.isWifiActive(this);
         Log.i(TAG, "wifi=" + wifi);
 
         // Build VPN service

@@ -73,9 +73,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 SharedPreferences prefs = context.getSharedPreferences(name, Context.MODE_PRIVATE);
                 prefs.edit().putBoolean(rule.info.packageName, isChecked).apply();
 
-                Intent intent = new Intent(context, BlackHoleService.class);
-                intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.reload);
-                context.startService(intent);
+                if ("wifi".equals(name) ? Util.isWifiActive(context) : !Util.isWifiActive(context)) {
+                    Intent intent = new Intent(context, BlackHoleService.class);
+                    intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.reload);
+                    context.startService(intent);
+                }
             }
         };
 
@@ -141,9 +143,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         editor.apply();
 
         // Reload rules
-        Intent intent = new Intent(context, BlackHoleService.class);
-        intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.reload);
-        context.startService(intent);
+        if ("wifi".equals(name) ? Util.isWifiActive(context) : !Util.isWifiActive(context)) {
+            Intent intent = new Intent(context, BlackHoleService.class);
+            intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.reload);
+            context.startService(intent);
+        }
 
         // Update UI
         notifyDataSetChanged();
