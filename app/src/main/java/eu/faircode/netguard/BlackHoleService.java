@@ -34,7 +34,7 @@ public class BlackHoleService extends VpnService implements Runnable {
 
         if (cmd == Command.reload || cmd == Command.stop) {
             if (thread != null) {
-                Log.i(TAG, "Stopping");
+                Log.i(TAG, "Stopping thread=" + thread);
                 thread.interrupt();
             }
             if (cmd == Command.stop)
@@ -46,6 +46,7 @@ public class BlackHoleService extends VpnService implements Runnable {
                 Log.i(TAG, "Starting");
                 thread = new Thread(this, "BlackHoleThread");
                 thread.start();
+                Log.i(TAG, "Started thread=" + thread);
             }
         }
 
@@ -78,8 +79,10 @@ public class BlackHoleService extends VpnService implements Runnable {
     @Override
     public void onDestroy() {
         Log.i(TAG, "Destroy");
-        if (thread != null)
+        if (thread != null) {
+            Log.i(TAG, "Interrupt thread=" + thread);
             thread.interrupt();
+        }
         unregisterReceiver(connectivityChangedReceiver);
         super.onDestroy();
     }
@@ -87,8 +90,10 @@ public class BlackHoleService extends VpnService implements Runnable {
     @Override
     public void onRevoke() {
         Log.i(TAG, "Revoke");
-        if (thread != null)
+        if (thread != null) {
+            Log.i(TAG, "Interrupt thread=" + thread);
             thread.interrupt();
+        }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("enabled", false).apply();
         super.onRevoke();
@@ -96,7 +101,7 @@ public class BlackHoleService extends VpnService implements Runnable {
 
     @Override
     public synchronized void run() {
-        Log.i(TAG, "Run");
+        Log.i(TAG, "Run thread=" + Thread.currentThread());
         ParcelFileDescriptor pfd = null;
         try {
             // Check if Wi-Fi connection
@@ -127,11 +132,11 @@ public class BlackHoleService extends VpnService implements Runnable {
             pfd = builder.establish();
 
             // Drop all packets
-            Log.i(TAG, "Loop start");
+            Log.i(TAG, "Loop start thread=" + Thread.currentThread());
             FileInputStream in = new FileInputStream(pfd.getFileDescriptor());
-            while (!Thread.currentThread().isInterrupted())
+            while (!Thread.currentThread().isInterrupted() && pfd.getFileDescriptor().valid())
                 in.skip(32768);
-            Log.i(TAG, "Loop exit");
+            Log.i(TAG, "Loop exit thread=" + Thread.currentThread());
 
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));

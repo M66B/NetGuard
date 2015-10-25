@@ -52,7 +52,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.i(TAG, "On");
+                    Log.i(TAG, "Switch on");
                     Intent intent = VpnService.prepare(ActivityMain.this);
                     if (intent == null) {
                         Log.e(TAG, "Prepare done");
@@ -62,7 +62,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         startActivityForResult(intent, REQUEST_VPN);
                     }
                 } else {
-                    Log.i(TAG, "Off");
+                    Log.i(TAG, "Switch off");
                     prefs.edit().putBoolean("enabled", false).apply();
                     Intent intent = new Intent(ActivityMain.this, BlackHoleService.class);
                     intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.stop);
