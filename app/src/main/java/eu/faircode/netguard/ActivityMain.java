@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -58,13 +59,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     Log.i(TAG, "Switch on");
-                    Intent intent = VpnService.prepare(ActivityMain.this);
-                    if (intent == null) {
+                    Intent prepare = VpnService.prepare(ActivityMain.this);
+                    if (prepare == null) {
                         Log.e(TAG, "Prepare done");
                         onActivityResult(REQUEST_VPN, RESULT_OK, null);
                     } else {
-                        Log.i(TAG, "Start intent=" + intent);
-                        startActivityForResult(intent, REQUEST_VPN);
+                        Log.i(TAG, "Start intent=" + prepare);
+                        try {
+                            startActivityForResult(prepare, REQUEST_VPN);
+                        } catch (Throwable ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                            onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
+                            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
+                        }
                     }
                 } else {
                     Log.i(TAG, "Switch off");

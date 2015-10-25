@@ -12,6 +12,7 @@ import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -70,7 +71,8 @@ public class BlackHoleService extends VpnService {
                 Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
                     builder.addDisallowedApplication(rule.info.packageName);
-                } catch (PackageManager.NameNotFoundException ignored) {
+                } catch (PackageManager.NameNotFoundException ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
             }
 
@@ -80,7 +82,18 @@ public class BlackHoleService extends VpnService {
         builder.setConfigureIntent(pi);
 
         // Start VPN service
-        vpn = builder.establish();
+        try {
+            vpn = builder.establish();
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+
+            // Disable firewall
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            prefs.edit().putBoolean("enabled", false).apply();
+
+            // Feedback
+            Util.toast(ex.toString(), Toast.LENGTH_LONG, this);
+        }
     }
 
     private void vpnStop() {
@@ -88,7 +101,8 @@ public class BlackHoleService extends VpnService {
         try {
             vpn.close();
             vpn = null;
-        } catch (IOException ignored) {
+        } catch (IOException ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
     }
 

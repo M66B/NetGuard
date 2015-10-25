@@ -7,7 +7,10 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Set;
 
@@ -26,6 +29,15 @@ public class Util {
         NetworkInfo ni = cm.getActiveNetworkInfo();
         return (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
 
+    }
+
+    public static void toast(final String text, final int length, final Context context) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, text, length).show();
+            }
+        });
     }
 
     public static void logExtras(String tag, Intent intent) {
