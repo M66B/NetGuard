@@ -76,14 +76,18 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 if (buttonView == holder.cbWifi) {
                     name = "wifi";
                     rule.wifi_blocked = isChecked;
+                    rule.wifi_default = false;
                 } else {
                     name = "other";
                     rule.other_blocked = isChecked;
+                    rule.other_default = false;
                 }
                 Log.i(TAG, rule.info.packageName + ": " + name + "=" + isChecked);
 
                 SharedPreferences prefs = context.getSharedPreferences(name, Context.MODE_PRIVATE);
                 prefs.edit().putBoolean(rule.info.packageName, isChecked).apply();
+
+                notifyDataSetChanged();
 
                 BlackHoleService.reload(name, context);
             }
@@ -102,10 +106,12 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
         holder.cbWifi.setOnCheckedChangeListener(cbListener);
+        holder.cbWifi.setAlpha(rule.wifi_default ? 0.4f : 1);
 
         holder.cbOther.setOnCheckedChangeListener(null);
         holder.cbOther.setChecked(rule.other_blocked);
         holder.cbOther.setOnCheckedChangeListener(cbListener);
+        holder.cbOther.setAlpha(rule.other_default ? 0.4f : 1);
     }
 
     @Override
