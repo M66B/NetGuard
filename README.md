@@ -29,11 +29,16 @@ Frequently asked questions
 --------------------------
 
 <a name="FAQ1"></a>
-**(1) Is NetGuard suitable to protect my privacy?**
+**(1) Can NetGuard protect my privacy?**
 
 Not really, since the firewall cannot be started right after starting your device
 and because updating firewall rules require momentarily turning off the firewall.
 
+<a name="FAQ2"></a>
+**(2) Can I use VPN applications while using NetGuard?**
+
+If the VPN application is using the Android [VPN service](http://developer.android.com/reference/android/net/VpnService.html),
+then no, because NetGuard needs to use this service too and Android allows this to just one application at a time.
 
 Contributing
 ------------
