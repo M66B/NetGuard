@@ -37,8 +37,14 @@ and because updating firewall rules require momentarily turning off the firewall
 <a name="FAQ2"></a>
 **(2) Can I use VPN applications while using NetGuard?**
 
-If the VPN application is using the Android [VPN service](http://developer.android.com/reference/android/net/VpnService.html),
+If the VPN application is using the [VPN service](http://developer.android.com/reference/android/net/VpnService.html),
 then no, because NetGuard needs to use this service too and Android allows this to just one application at a time.
+
+<a name="FAQ3"></a>
+**(3) Can I use NetGuard on any Android version?**
+
+No, because the method [addDisallowedApplication](http://developer.android.com/reference/android/net/VpnService.Builder.html#addDisallowedApplication(java.lang.String))
+is being used the minimum required Android version is 5.0 (Lollipop).
 
 Support
 -------
