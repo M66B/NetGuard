@@ -10,7 +10,9 @@ Features
 * No root required
 * Simple to use
 * Free and open source
+* No extra battery usage
 * No calling home
+* No tracking (analytics)
 * No ads
 
 Usage

@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.net.VpnService;
 import android.util.Log;
 
-public class BootReceiver extends BroadcastReceiver {
-    private static final String TAG = "NetGuard.Boot";
+public class Receiver extends BroadcastReceiver {
+    private static final String TAG = "NetGuard.Receiver";
 
     @Override
     public void onReceive(final Context context, Intent intent) {

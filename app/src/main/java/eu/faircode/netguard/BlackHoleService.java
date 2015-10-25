@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.VpnService;
@@ -13,13 +14,12 @@ import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 
-public class BlackHoleService extends VpnService implements Runnable {
-    private static final String TAG = "NetGuard.BlackHole";
+public class BlackHoleService extends VpnService {
+    private static final String TAG = "NetGuard.Service";
 
-    private Thread thread = null;
+    private ParcelFileDescriptor vpn = null;
     public static final String EXTRA_COMMAND = "Command";
 
     public enum Command {start, reload, stop}
@@ -30,27 +30,66 @@ public class BlackHoleService extends VpnService implements Runnable {
         boolean enabled = prefs.getBoolean("enabled", false);
 
         Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
-        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " running=" + (thread != null));
+        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
 
         if (cmd == Command.reload || cmd == Command.stop) {
-            if (thread != null) {
-                Log.i(TAG, "Stopping thread=" + thread);
-                thread.interrupt();
-            }
+            if (vpn != null)
+                vpnStop();
             if (cmd == Command.stop)
                 stopSelf();
         }
 
         if (cmd == Command.start || cmd == Command.reload) {
-            if (enabled && (thread == null || thread.isInterrupted())) {
+            if (enabled && vpn == null) {
                 Log.i(TAG, "Starting");
-                thread = new Thread(this, "BlackHoleThread");
-                thread.start();
-                Log.i(TAG, "Started thread=" + thread);
+                vpnStart();
             }
         }
 
         return START_STICKY;
+    }
+
+    private void vpnStart() {
+        Log.i(TAG, "Starting");
+
+        // Check if Wi-Fi connection
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        boolean wifi = (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
+        Log.i(TAG, "wifi=" + wifi);
+
+        // Build VPN service
+        final Builder builder = new Builder();
+        builder.setSession("BlackHoleService");
+        builder.addAddress("10.1.10.1", 32);
+        builder.addRoute("0.0.0.0", 0);
+        builder.setBlocking(false);
+
+        // Add list of allowed applications
+        for (Rule rule : Rule.getRules(this))
+            if (!(wifi ? rule.wifi_blocked : rule.other_blocked)) {
+                Log.i(TAG, "Allowing " + rule.info.packageName);
+                try {
+                    builder.addDisallowedApplication(rule.info.packageName);
+                } catch (PackageManager.NameNotFoundException ignored) {
+                }
+            }
+
+        Intent configure = new Intent(this, ActivityMain.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setConfigureIntent(pi);
+
+        // Start VPN service
+        vpn = builder.establish();
+    }
+
+    private void vpnStop() {
+        Log.i(TAG, "Stopping");
+        try {
+            vpn.close();
+            vpn = null;
+        } catch (IOException ignored) {
+        }
     }
 
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
@@ -79,10 +118,8 @@ public class BlackHoleService extends VpnService implements Runnable {
     @Override
     public void onDestroy() {
         Log.i(TAG, "Destroy");
-        if (thread != null) {
-            Log.i(TAG, "Interrupt thread=" + thread);
-            thread.interrupt();
-        }
+        if (vpn != null)
+            vpnStop();
         unregisterReceiver(connectivityChangedReceiver);
         super.onDestroy();
     }
@@ -90,68 +127,10 @@ public class BlackHoleService extends VpnService implements Runnable {
     @Override
     public void onRevoke() {
         Log.i(TAG, "Revoke");
-        if (thread != null) {
-            Log.i(TAG, "Interrupt thread=" + thread);
-            thread.interrupt();
-        }
+        if (vpn != null)
+            vpnStop();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("enabled", false).apply();
         super.onRevoke();
-    }
-
-    @Override
-    public synchronized void run() {
-        Log.i(TAG, "Run thread=" + Thread.currentThread());
-        ParcelFileDescriptor pfd = null;
-        try {
-            // Check if Wi-Fi connection
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo ni = cm.getActiveNetworkInfo();
-            boolean wifi = (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
-            Log.i(TAG, "wifi=" + wifi);
-
-            // Build VPN service
-            final Builder builder = new Builder();
-            builder.setSession("BlackHoleService");
-            builder.addAddress("10.1.10.1", 32);
-            builder.addRoute("0.0.0.0", 0);
-            builder.setBlocking(false);
-
-            // Add list of allowed applications
-            for (Rule rule : Rule.getRules(this))
-                if (!(wifi ? rule.wifi_blocked : rule.other_blocked)) {
-                    Log.i(TAG, "Allowing " + rule.info.packageName);
-                    builder.addDisallowedApplication(rule.info.packageName);
-                }
-
-            Intent intent = new Intent(this, ActivityMain.class);
-            PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setConfigureIntent(pi);
-
-            // Start VPN service
-            pfd = builder.establish();
-
-            // Drop all packets
-            Log.i(TAG, "Loop start thread=" + Thread.currentThread());
-            FileInputStream in = new FileInputStream(pfd.getFileDescriptor());
-            while (!Thread.currentThread().isInterrupted() && pfd.getFileDescriptor().valid())
-                if (in.skip(32768) < 0)
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ignored) {
-                    }
-            Log.i(TAG, "Loop exit thread=" + Thread.currentThread());
-
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-
-        } finally {
-            if (pfd != null)
-                try {
-                    pfd.close();
-                } catch (IOException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-        }
     }
 }
