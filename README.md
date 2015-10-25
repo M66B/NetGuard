@@ -17,7 +17,7 @@ Frequently asked questions
 **(1) Is NetGuard suitable to protect my privacy?**
 
 Not really, since the firewall cannot be started right after starting your device
-and because changing the firewall rules require momentarily turning off the firewall.
+and because updating firewall rules require momentarily turning off the firewall.
 
 
 Contributing
