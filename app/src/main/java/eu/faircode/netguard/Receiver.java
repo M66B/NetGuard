@@ -13,6 +13,7 @@ public class Receiver extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
         Log.i(TAG, "Received " + intent);
 
+        // Start service
         if (VpnService.prepare(context) == null) {
             Intent service = new Intent(context, BlackHoleService.class);
             service.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.start);

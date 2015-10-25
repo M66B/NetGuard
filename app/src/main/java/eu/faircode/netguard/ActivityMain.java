@@ -75,11 +75,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         });
         swEnabled.setChecked(prefs.getBoolean("enabled", false));
 
-        // Listen for external enabled changes
+        // Listen for preference changes
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Fill application list
-        getApplicationList();
+        fillApplicationList();
 
         // Listen for added/removed applications
         IntentFilter intentFilter = new IntentFilter();
@@ -102,16 +102,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            getApplicationList();
+            fillApplicationList();
         }
     };
 
-    private void getApplicationList() {
-        // Package list
+    private void fillApplicationList() {
+        // Get recycler view
         final RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(true);
         rvApplication.setLayoutManager(new LinearLayoutManager(this));
 
+        // Get/set application list
         new AsyncTask<Object, Object, List<Rule>>() {
             @Override
             protected List<Rule> doInBackground(Object... arg) {
@@ -132,7 +133,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
         Log.i(TAG, "Changed pref=" + name);
         if ("enabled".equals(name)) {
+            // Get enabled
             boolean enabled = prefs.getBoolean(name, false);
+
+            // Check switch state
             Switch swEnabled = (Switch) getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
             if (swEnabled.isChecked() != enabled)
                 swEnabled.setChecked(enabled);
@@ -144,6 +148,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
+        // Search
         MenuItem searchItem = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -178,18 +183,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_wifi:
+                // Toggle Wi-Fi
                 if (adapter != null)
                     adapter.toggle("wifi", this);
-                invalidateOptionsMenu();
                 return true;
 
             case R.id.menu_other:
+                // Toggle other
                 if (adapter != null)
                     adapter.toggle("other", this);
-                invalidateOptionsMenu();
                 return true;
 
             case R.id.menu_vpn_settings:
+                // Open VPN settings
                 Intent intent = new Intent("android.net.vpn.SETTINGS");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (intent.resolveActivity(getPackageManager()) != null)
@@ -199,6 +205,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_about:
+                // Show about
                 LayoutInflater inflater = LayoutInflater.from(this);
                 View view = inflater.inflate(R.layout.about, null);
                 TextView tvVersion = (TextView) view.findViewById(R.id.tvVersion);
@@ -217,9 +224,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_VPN) {
+            // Update enabled state
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
 
+            // Start service
             if (resultCode == RESULT_OK) {
                 Intent intent = new Intent(ActivityMain.this, BlackHoleService.class);
                 intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.start);

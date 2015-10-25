@@ -51,12 +51,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        // Get rule
         final Rule rule = listSelected.get(position);
 
-        holder.ivIcon.setImageDrawable(rule.getIcon(holder.view.getContext()));
-        holder.tvName.setText(rule.name);
-        holder.tvPackage.setText(rule.info.packageName);
-
+        // Rule change listener
         CompoundButton.OnCheckedChangeListener cbListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -80,6 +78,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 context.startService(intent);
             }
         };
+
+        holder.ivIcon.setImageDrawable(rule.getIcon(holder.view.getContext()));
+        holder.tvName.setText(rule.name);
+        holder.tvPackage.setText(rule.info.packageName);
 
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
@@ -125,6 +127,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     }
 
     public void toggle(String name, Context context) {
+        // Toggle rule set
         SharedPreferences.Editor editor = context.getSharedPreferences(name, Context.MODE_PRIVATE).edit();
         for (Rule rule : listSelected) {
             if ("wifi".equals(name)) {
@@ -137,10 +140,12 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
         editor.apply();
 
+        // Reload rules
         Intent intent = new Intent(context, BlackHoleService.class);
         intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.reload);
         context.startService(intent);
 
+        // Update UI
         notifyDataSetChanged();
     }
 

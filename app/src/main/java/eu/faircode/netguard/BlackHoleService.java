@@ -26,19 +26,21 @@ public class BlackHoleService extends VpnService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // Get enabled
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enabled = prefs.getBoolean("enabled", false);
 
+        // Get command
         Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
 
+        // Process command
         if (cmd == Command.reload || cmd == Command.stop) {
             if (vpn != null)
                 vpnStop();
             if (cmd == Command.stop)
                 stopSelf();
         }
-
         if (cmd == Command.start || cmd == Command.reload) {
             if (enabled && vpn == null) {
                 Log.i(TAG, "Starting");
@@ -52,7 +54,7 @@ public class BlackHoleService extends VpnService {
     private void vpnStart() {
         Log.i(TAG, "Starting");
 
-        // Check if Wi-Fi connection
+        // Check if Wi-Fi
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         boolean wifi = (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
@@ -60,7 +62,7 @@ public class BlackHoleService extends VpnService {
 
         // Build VPN service
         final Builder builder = new Builder();
-        builder.setSession("BlackHoleService");
+        builder.setSession(getString(R.string.app_name));
         builder.addAddress("10.1.10.1", 32);
         builder.addRoute("0.0.0.0", 0);
         builder.setBlocking(false);
@@ -75,6 +77,7 @@ public class BlackHoleService extends VpnService {
                 }
             }
 
+        // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setConfigureIntent(pi);
@@ -110,6 +113,8 @@ public class BlackHoleService extends VpnService {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "Create");
+
+        // Request connectivity updates
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangedReceiver, intentFilter);
@@ -118,19 +123,26 @@ public class BlackHoleService extends VpnService {
     @Override
     public void onDestroy() {
         Log.i(TAG, "Destroy");
+
         if (vpn != null)
             vpnStop();
+
         unregisterReceiver(connectivityChangedReceiver);
+
         super.onDestroy();
     }
 
     @Override
     public void onRevoke() {
         Log.i(TAG, "Revoke");
+
         if (vpn != null)
             vpnStop();
+
+        // Disable firewall
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("enabled", false).apply();
+
         super.onRevoke();
     }
 }
