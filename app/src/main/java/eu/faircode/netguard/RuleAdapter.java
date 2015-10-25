@@ -142,6 +142,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     }
 
     public void toggle(String name, Context context) {
+        Log.i(TAG, "Toggle " + name);
+
         // Toggle rule set
         SharedPreferences.Editor editor = context.getSharedPreferences(name, Context.MODE_PRIVATE).edit();
         for (Rule rule : listSelected) {

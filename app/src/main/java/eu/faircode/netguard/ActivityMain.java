@@ -132,7 +132,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
-        Log.i(TAG, "Changed pref=" + name);
+        Log.i(TAG, "Preference " + name + "=" + prefs.getAll().get(name));
         if ("enabled".equals(name)) {
             // Get enabled
             boolean enabled = prefs.getBoolean(name, false);

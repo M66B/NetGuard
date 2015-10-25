@@ -12,6 +12,7 @@ public class Receiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
         Log.i(TAG, "Received " + intent);
+        Util.logExtras(TAG, intent);
 
         // Start service
         if (VpnService.prepare(context) == null) {
