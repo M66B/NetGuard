@@ -19,8 +19,9 @@ public class Rule implements Comparable<Rule> {
     public boolean disabled;
     public boolean wifi_blocked;
     public boolean other_blocked;
+    public boolean changed;
 
-    private Rule(PackageInfo info, boolean wifi_blocked, boolean other_blocked, Context context) {
+    private Rule(PackageInfo info, boolean wifi_blocked, boolean other_blocked, boolean changed, Context context) {
         PackageManager pm = context.getPackageManager();
         this.info = info;
         this.name = info.applicationInfo.loadLabel(pm).toString();
@@ -34,6 +35,7 @@ public class Rule implements Comparable<Rule> {
 
         this.wifi_blocked = wifi_blocked;
         this.other_blocked = other_blocked;
+        this.changed = changed;
     }
 
     public static List<Rule> getRules(Context context) {
@@ -41,14 +43,16 @@ public class Rule implements Comparable<Rule> {
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
 
+        boolean wlWifi = prefs.getBoolean("whitelist_wifi", true);
+        boolean wlOther = prefs.getBoolean("whitelist_other", true);
+
         List<Rule> listRules = new ArrayList<>();
-        for (PackageInfo info : context.getPackageManager().getInstalledPackages(0))
-            listRules.add(new Rule(
-                    info,
-                    wifi.getBoolean(info.packageName, prefs.getBoolean("whitelist_wifi", true)),
-                    other.getBoolean(info.packageName, prefs.getBoolean("whitelist_other", true)),
-                    context
-            ));
+        for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
+            boolean blWifi = wifi.getBoolean(info.packageName, wlWifi);
+            boolean blOther = other.getBoolean(info.packageName, wlOther);
+            boolean changed = (blWifi != wlWifi || blOther != wlOther);
+            listRules.add(new Rule(info, blWifi, blOther, changed, context));
+        }
 
         Collections.sort(listRules);
 
@@ -61,7 +65,10 @@ public class Rule implements Comparable<Rule> {
 
     @Override
     public int compareTo(Rule other) {
-        int i = name.compareToIgnoreCase(other.name);
-        return (i == 0 ? info.packageName.compareTo(other.info.packageName) : i);
+        if (changed == other.changed) {
+            int i = name.compareToIgnoreCase(other.name);
+            return (i == 0 ? info.packageName.compareTo(other.info.packageName) : i);
+        }
+        return (changed ? -1 : 1);
     }
 }
