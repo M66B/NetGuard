@@ -43,6 +43,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Create");
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -52,8 +56,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         View view = getLayoutInflater().inflate(R.layout.actionbar, null);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(view);
-
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // On/off switch
         SwitchCompat swEnabled = (SwitchCompat) view.findViewById(R.id.swEnabled);
@@ -216,6 +218,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         MenuItem other = menu.findItem(R.id.menu_whitelist_other);
         other.setChecked(prefs.getBoolean("whitelist_other", true));
 
+        MenuItem dark = menu.findItem(R.id.menu_dark);
+        dark.setChecked(prefs.getBoolean("dark_theme", false));
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -270,6 +275,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         })
                         .setNegativeButton(android.R.string.no, null)
                         .show();
+                return true;
+
+            case R.id.menu_dark:
+                prefs.edit().putBoolean("dark_theme", !prefs.getBoolean("dark_theme", false)).apply();
+                recreate();
                 return true;
 
             case R.id.menu_vpn_settings:

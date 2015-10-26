@@ -26,6 +26,10 @@
         android:id="@+id/menu_reset_other"
         android:title="@string/menu_reset_other" />
     <item
+        android:id="@+id/menu_dark"
+        android:checkable="true"
+        android:title="@string/menu_dark" />
+    <item
         android:id="@+id/menu_vpn_settings"
         android:title="@string/menu_vpn_settings" />
     <item
