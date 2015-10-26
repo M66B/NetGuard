@@ -19,10 +19,8 @@ public class Rule implements Comparable<Rule> {
     public boolean disabled;
     public boolean wifi_blocked;
     public boolean other_blocked;
-    public boolean wifi_default;
-    public boolean other_default;
 
-    private Rule(PackageInfo info, boolean wifi_blocked, boolean other_blocked, boolean wifi_default, boolean other_default, Context context) {
+    private Rule(PackageInfo info, boolean wifi_blocked, boolean other_blocked, Context context) {
         PackageManager pm = context.getPackageManager();
         this.info = info;
         this.name = info.applicationInfo.loadLabel(pm).toString();
@@ -36,8 +34,6 @@ public class Rule implements Comparable<Rule> {
 
         this.wifi_blocked = wifi_blocked;
         this.other_blocked = other_blocked;
-        this.wifi_default = wifi_default;
-        this.other_default = other_default;
     }
 
     public static List<Rule> getRules(Context context) {
@@ -51,8 +47,6 @@ public class Rule implements Comparable<Rule> {
                     info,
                     wifi.getBoolean(info.packageName, prefs.getBoolean("whitelist_wifi", true)),
                     other.getBoolean(info.packageName, prefs.getBoolean("whitelist_other", true)),
-                    !wifi.contains(info.packageName),
-                    !other.contains(info.packageName),
                     context
             ));
 
