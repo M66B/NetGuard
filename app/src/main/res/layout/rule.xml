@@ -25,7 +25,8 @@
             android:layout_height="match_parent"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvPackage"

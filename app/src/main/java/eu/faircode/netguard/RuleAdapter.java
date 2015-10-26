@@ -84,8 +84,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 SharedPreferences prefs = context.getSharedPreferences(name, Context.MODE_PRIVATE);
                 prefs.edit().putBoolean(rule.info.packageName, isChecked).apply();
 
-                notifyDataSetChanged();
-
                 BlackHoleService.reload(name, context);
             }
         };
