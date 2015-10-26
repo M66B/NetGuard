@@ -7,10 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,6 +92,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Fill application list
         fillApplicationList();
 
+        // Listen connectivity updates
+        IntentFilter ifConnectivity = new IntentFilter();
+        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectivityChangedReceiver, ifConnectivity);
+
         // Listen for added/removed applications
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
@@ -103,14 +110,25 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Log.i(TAG, "Destroy");
         running = false;
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+        unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageChangedReceiver);
         super.onDestroy();
     }
+
+    private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(TAG, intent);
+            invalidateOptionsMenu();
+        }
+    };
 
     private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
+            Util.logExtras(TAG, intent);
             fillApplicationList();
         }
     };
@@ -191,11 +209,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        MenuItem wifiItem = menu.findItem(R.id.menu_whitelist_wifi);
-        wifiItem.setChecked(prefs.getBoolean("whitelist_wifi", true));
+        MenuItem network = menu.findItem(R.id.menu_network);
+        network.setIcon(Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
 
-        MenuItem otherItem = menu.findItem(R.id.menu_whitelist_other);
-        otherItem.setChecked(prefs.getBoolean("whitelist_other", true));
+        MenuItem wifi = menu.findItem(R.id.menu_whitelist_wifi);
+        wifi.setChecked(prefs.getBoolean("whitelist_wifi", true));
+
+        MenuItem other = menu.findItem(R.id.menu_whitelist_other);
+        other.setChecked(prefs.getBoolean("whitelist_other", true));
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -206,6 +227,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.menu_network:
+                Intent settings = new Intent(Util.isWifiActive(this)
+                        ? Settings.ACTION_WIFI_SETTINGS : Settings.ACTION_WIRELESS_SETTINGS);
+                if (settings.resolveActivity(getPackageManager()) != null)
+                    startActivity(settings);
+                else
+                    Log.w(TAG, settings + " not available");
+                return true;
+
             case R.id.menu_refresh:
                 fillApplicationList();
                 return true;

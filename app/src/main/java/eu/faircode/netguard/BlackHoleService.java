@@ -119,6 +119,7 @@ public class BlackHoleService extends VpnService {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
+            Util.logExtras(TAG, intent);
             reload(null, BlackHoleService.this);
         }
     };
