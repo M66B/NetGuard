@@ -60,7 +60,9 @@ public class BlackHoleService extends VpnService {
         final Builder builder = new Builder();
         builder.setSession(getString(R.string.app_name));
         builder.addAddress("10.1.10.1", 32);
+        builder.addAddress("fd00:1:fd00:1:fd00:1:fd00:1", 64);
         builder.addRoute("0.0.0.0", 0);
+        builder.addRoute("0:0:0:0:0:0:0:0", 0);
         builder.setBlocking(false);
 
         // Add list of allowed applications
