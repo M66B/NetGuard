@@ -67,6 +67,14 @@ Please do not use GitHub for questions.
 Contributing
 ------------
 
+Translations:
+
+* Translations to other languages are welcomed
+* Check if the language [is supported by Android](http://stackoverflow.com/questions/7973023/what-is-the-list-of-supported-languages-locales-on-android) and find its locale
+* Copy [this file](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/values/strings.xml) to the correct locale folder
+* Translate the strings in the copied file and omit all lines with **translatable="false"**
+* Create a [pull request](https://help.github.com/articles/using-pull-requests) for the new/updated translation
+
 Please note that you agree to the license below by contributing, including the copyright.
 
 
