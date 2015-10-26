@@ -66,8 +66,8 @@ is being used, the minimum required Android version is 5.0 (Lollipop).
 
 No, unlike most of the similar closed source alternatives.
 
-<a name="FAQ4"></a>
-**(4) Can you add selective allowing/blocking addresses?**
+<a name="FAQ5"></a>
+**(5) Can you add selective allowing/blocking addresses?**
 
 Unfortunately this is not possible without sacrificing quite some battery power
 and adding a lot of complex code to do network translation from OSI layer 3 to layer 4
