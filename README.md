@@ -33,10 +33,19 @@ Frequently asked questions
 --------------------------
 
 <a name="FAQ1"></a>
-**(1) Can NetGuard protect my privacy?**
+**(1) Can NetGuard completely protect my privacy?**
 
-Not really, since the firewall cannot be started right after starting your device
-and because updating firewall rules require momentarily turning off the firewall.
+No - nothing can completely protect your privacy.
+NetGuard will do its best, but it is limited by the fact it must use the VPN service.
+This is the trade-off required to make a firewall which does not require root access.
+Since the firewall must momentarily be turned off to update rules, and it only starts when Android "allows" it to start,
+it will not offer 100% protection against an application connecting to the internet.
+It will, however, be a lot better than nothing, especially if you are not rebooting often.
+
+If you wanted to protect yourself more, you could (in theory at least) disable WiFi and mobile data before rebooting,
+and only enable them on reboot, after the firewall service has started (and the small key icon is visible in the status bar).
+
+Thanks @[pulser](https://github.com/pulser/)
 
 <a name="FAQ2"></a>
 **(2) Can I use VPN applications while using NetGuard?**
