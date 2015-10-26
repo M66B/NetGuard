@@ -4,7 +4,6 @@
 
     <string name="menu_search">Search applications</string>
     <string name="menu_network">Android network settings</string>
-    <string name="menu_refresh">Refresh applications</string>
     <string name="menu_whitelist_wifi">Default block Wi-Fi</string>
     <string name="menu_whitelist_other">Default block mobile</string>
     <string name="menu_reset_wifi">Reset Wi-Fi rules</string>
