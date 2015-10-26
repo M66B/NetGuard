@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> implements Filterable {
-    private static final String TAG = "NetGuard.RuleAdapter";
+    private static final String TAG = "NetGuard.Adapter";
 
     private Context context;
     private int colorText;
@@ -71,20 +71,20 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         CompoundButton.OnCheckedChangeListener cbListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                String name;
+                String network;
                 if (buttonView == holder.cbWifi) {
-                    name = "wifi";
+                    network = "wifi";
                     rule.wifi_blocked = isChecked;
                 } else {
-                    name = "other";
+                    network = "other";
                     rule.other_blocked = isChecked;
                 }
-                Log.i(TAG, rule.info.packageName + ": " + name + "=" + isChecked);
+                Log.i(TAG, rule.info.packageName + ": " + network + "=" + isChecked);
 
-                SharedPreferences prefs = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+                SharedPreferences prefs = context.getSharedPreferences(network, Context.MODE_PRIVATE);
                 prefs.edit().putBoolean(rule.info.packageName, isChecked).apply();
 
-                BlackHoleService.reload(name, context);
+                BlackHoleService.reload(network, context);
             }
         };
 

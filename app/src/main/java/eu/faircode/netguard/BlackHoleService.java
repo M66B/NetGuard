@@ -145,7 +145,7 @@ public class BlackHoleService extends VpnService {
         super.onCreate();
         Log.i(TAG, "Create");
 
-        // Listen connectivity updates
+        // Listen for connectivity updates
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangedReceiver, ifConnectivity);
@@ -194,8 +194,8 @@ public class BlackHoleService extends VpnService {
         context.startService(intent);
     }
 
-    public static void reload(String name, Context context) {
-        if (name == null || ("wifi".equals(name) ? Util.isWifiActive(context) : !Util.isWifiActive(context))) {
+    public static void reload(String network, Context context) {
+        if (network == null || ("wifi".equals(network) ? Util.isWifiActive(context) : !Util.isWifiActive(context))) {
             Intent intent = new Intent(context, BlackHoleService.class);
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             context.startService(intent);

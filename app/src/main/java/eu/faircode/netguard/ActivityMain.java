@@ -90,7 +90,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Fill application list
         fillApplicationList();
 
-        // Listen connectivity updates
+        // Listen for connectivity updates
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangedReceiver, ifConnectivity);
@@ -307,14 +307,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    private void reset(String name) {
-        SharedPreferences other = getSharedPreferences(name, Context.MODE_PRIVATE);
+    private void reset(String network) {
+        SharedPreferences other = getSharedPreferences(network, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = other.edit();
         for (String key : other.getAll().keySet())
             edit.remove(key);
         edit.apply();
         fillApplicationList();
-        BlackHoleService.reload(name, ActivityMain.this);
+        BlackHoleService.reload(network, ActivityMain.this);
     }
 
     @Override
