@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">NetGuard</string>
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
+
     <string name="menu_search">Search applications</string>
     <string name="menu_whitelist_wifi">Default block Wi-Fi</string>
-    <string name="menu_whitelist_other">Default block other</string>
+    <string name="menu_whitelist_other">Default block mobile</string>
+    <string name="menu_reset_wifi">Reset Wi-Fi rules</string>
+    <string name="menu_reset_other">Reset mobile rules</string>
     <string name="menu_vpn_settings">Android VPN settings</string>
     <string name="menu_support">Support</string>
     <string name="menu_about">About</string>
+
+    <string name="msg_sure">Are you sure?</string>
 </resources>

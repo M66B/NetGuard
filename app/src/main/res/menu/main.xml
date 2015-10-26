@@ -16,6 +16,12 @@
         android:checkable="true"
         android:title="@string/menu_whitelist_other" />
     <item
+        android:id="@+id/menu_reset_wifi"
+        android:title="@string/menu_reset_wifi" />
+    <item
+        android:id="@+id/menu_reset_other"
+        android:title="@string/menu_reset_other" />
+    <item
         android:id="@+id/menu_vpn_settings"
         android:title="@string/menu_vpn_settings" />
     <item

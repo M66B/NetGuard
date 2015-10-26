@@ -3,6 +3,7 @@ package eu.faircode.netguard;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -217,6 +218,32 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 BlackHoleService.reload("other", this);
                 return true;
 
+            case R.id.menu_reset_wifi:
+                new AlertDialog.Builder(this)
+                        .setMessage(R.string.msg_sure)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                reset("wifi");
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .show();
+                return true;
+
+            case R.id.menu_reset_other:
+                new AlertDialog.Builder(this)
+                        .setMessage(R.string.msg_sure)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                reset("other");
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .show();
+                return true;
+
             case R.id.menu_vpn_settings:
                 // Open VPN settings
                 Intent vpn = new Intent("android.net.vpn.SETTINGS");
@@ -250,6 +277,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void reset(String name) {
+        SharedPreferences other = getSharedPreferences(name, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = other.edit();
+        for (String key : other.getAll().keySet())
+            edit.remove(key);
+        edit.apply();
+        fillApplicationList();
+        BlackHoleService.reload(name, ActivityMain.this);
     }
 
     @Override
