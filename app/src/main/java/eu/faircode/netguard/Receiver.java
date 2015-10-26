@@ -15,10 +15,7 @@ public class Receiver extends BroadcastReceiver {
         Util.logExtras(TAG, intent);
 
         // Start service
-        if (VpnService.prepare(context) == null) {
-            Intent service = new Intent(context, BlackHoleService.class);
-            service.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.start);
-            context.startService(service);
-        }
+        if (VpnService.prepare(context) == null)
+            BlackHoleService.start(context);
     }
 }

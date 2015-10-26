@@ -20,9 +20,9 @@ public class BlackHoleService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
     private ParcelFileDescriptor vpn = null;
-    public static final String EXTRA_COMMAND = "Command";
+    private static final String EXTRA_COMMAND = "Command";
 
-    public enum Command {start, reload, stop}
+    private enum Command {start, reload, stop}
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -188,11 +188,23 @@ public class BlackHoleService extends VpnService {
         super.onRevoke();
     }
 
+    public static void start(Context context) {
+        Intent intent = new Intent(context, BlackHoleService.class);
+        intent.putExtra(EXTRA_COMMAND, Command.start);
+        context.startService(intent);
+    }
+
     public static void reload(String name, Context context) {
         if (name == null || ("wifi".equals(name) ? Util.isWifiActive(context) : !Util.isWifiActive(context))) {
             Intent intent = new Intent(context, BlackHoleService.class);
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             context.startService(intent);
         }
+    }
+
+    public static void stop(Context context) {
+        Intent intent = new Intent(context, BlackHoleService.class);
+        intent.putExtra(EXTRA_COMMAND, Command.stop);
+        context.startService(intent);
     }
 }

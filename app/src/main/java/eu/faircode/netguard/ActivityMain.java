@@ -79,9 +79,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 } else {
                     Log.i(TAG, "Switch off");
                     prefs.edit().putBoolean("enabled", false).apply();
-                    Intent intent = new Intent(ActivityMain.this, BlackHoleService.class);
-                    intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.stop);
-                    startService(intent);
+                    BlackHoleService.stop(ActivityMain.this);
                 }
             }
         });
@@ -327,11 +325,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
 
             // Start service
-            if (resultCode == RESULT_OK) {
-                Intent intent = new Intent(ActivityMain.this, BlackHoleService.class);
-                intent.putExtra(BlackHoleService.EXTRA_COMMAND, BlackHoleService.Command.start);
-                startService(intent);
-            }
+            if (resultCode == RESULT_OK)
+                BlackHoleService.start(this);
         } else
             super.onActivityResult(requestCode, resultCode, data);
     }
