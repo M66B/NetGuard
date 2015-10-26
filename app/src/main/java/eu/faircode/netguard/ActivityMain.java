@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,7 +27,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +56,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // On/off switch
-        Switch swEnabled = (Switch) view.findViewById(R.id.swEnabled);
+        SwitchCompat swEnabled = (SwitchCompat) view.findViewById(R.id.swEnabled);
         swEnabled.setChecked(prefs.getBoolean("enabled", false));
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -162,7 +162,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             boolean enabled = prefs.getBoolean(name, false);
 
             // Check switch state
-            Switch swEnabled = (Switch) getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
+            SwitchCompat swEnabled = (SwitchCompat) getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
             if (swEnabled.isChecked() != enabled)
                 swEnabled.setChecked(enabled);
         }
