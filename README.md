@@ -15,6 +15,7 @@ Features
 * No calling home
 * No tracking or analytics
 * No ads
+* IPv4/IPv6 TCP/UDP supported
 
 NetGuard doesn't even require the *internet* permission!
 
