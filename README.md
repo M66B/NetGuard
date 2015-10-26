@@ -67,13 +67,16 @@ is being used, the minimum required Android version is 5.0 (Lollipop).
 No, unlike most of the similar closed source alternatives.
 
 <a name="FAQ5"></a>
-**(5) Can you add selective allowing/blocking addresses?**
+**(5) Can you add selective allowing/blocking IP addresses?**
 
-Unfortunately this is not possible without sacrificing quite some battery power
+Unfortunately this is not possible without using significant battery power
 and adding a lot of complex code to do network translation from OSI layer 3 to layer 4
 (and thus implementing a TCP/IP stack), which will inevitably introduce bugs as well.
-This is how most (all?) other no root firewall work. NetGuard is unique,
-because it doesn't implement a TCP/IP stack and is therefore both highly efficient and simple.
+This is how most (all?) other no root firewalls work.
+NetGuard is unique, because it doesn't implement a TCP/IP stack and is therefore both highly efficient and simple.
+
+For more advanced use cases while not sacrificing battery usage, rooting and using a iptables based firewall,
+like [AFWall+](https://github.com/ukanth/afwall) might be a better option.
 
 Support
 -------
