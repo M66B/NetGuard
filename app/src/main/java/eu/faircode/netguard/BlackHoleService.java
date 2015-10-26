@@ -63,7 +63,6 @@ public class BlackHoleService extends VpnService {
         builder.addAddress("fd00:1:fd00:1:fd00:1:fd00:1", 64);
         builder.addRoute("0.0.0.0", 0);
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
-        builder.setBlocking(false);
 
         // Add list of allowed applications
         for (Rule rule : Rule.getRules(this))
@@ -84,6 +83,7 @@ public class BlackHoleService extends VpnService {
         // Start VPN service
         try {
             vpn = builder.establish();
+
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
