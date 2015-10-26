@@ -8,6 +8,11 @@
         netguard:actionViewClass="android.support.v7.widget.SearchView"
         netguard:showAsAction="ifRoom|collapseActionView" />
     <item
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_refresh_white_24dp"
+        android:title="@string/menu_refresh"
+        netguard:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menu_whitelist_wifi"
         android:checkable="true"
         android:title="@string/menu_whitelist_wifi" />

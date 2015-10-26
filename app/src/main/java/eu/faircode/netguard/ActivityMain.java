@@ -206,6 +206,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                fillApplicationList();
+                return true;
+
             case R.id.menu_whitelist_wifi:
                 prefs.edit().putBoolean("whitelist_wifi", !prefs.getBoolean("whitelist_wifi", true)).apply();
                 fillApplicationList();
