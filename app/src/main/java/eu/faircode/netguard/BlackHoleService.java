@@ -35,21 +35,34 @@ public class BlackHoleService extends VpnService {
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
 
         // Process command
-        if (cmd == Command.reload || cmd == Command.stop) {
-            if (vpn != null)
-                vpnStop();
-            if (cmd == Command.stop)
+        switch (cmd) {
+            case start:
+                if (enabled && vpn == null)
+                    vpn = vpnStart();
+                break;
+
+            case reload:
+                // Seamless handover
+                ParcelFileDescriptor prev = vpn;
+                if (enabled)
+                    vpn = vpnStart();
+                if (prev != null)
+                    vpnStop(prev);
+                break;
+
+            case stop:
+                if (vpn != null) {
+                    vpnStop(vpn);
+                    vpn = null;
+                }
                 stopSelf();
-        }
-        if (cmd == Command.start || cmd == Command.reload) {
-            if (enabled && vpn == null)
-                vpnStart();
+                break;
         }
 
         return START_STICKY;
     }
 
-    private void vpnStart() {
+    private ParcelFileDescriptor vpnStart() {
         Log.i(TAG, "Starting");
 
         // Check if Wi-Fi
@@ -82,7 +95,7 @@ public class BlackHoleService extends VpnService {
 
         // Start VPN service
         try {
-            vpn = builder.establish();
+            return builder.establish();
 
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -93,14 +106,15 @@ public class BlackHoleService extends VpnService {
 
             // Feedback
             Util.toast(ex.toString(), Toast.LENGTH_LONG, this);
+
+            return null;
         }
     }
 
-    private void vpnStop() {
+    private void vpnStop(ParcelFileDescriptor pfd) {
         Log.i(TAG, "Stopping");
         try {
-            vpn.close();
-            vpn = null;
+            pfd.close();
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
@@ -147,8 +161,10 @@ public class BlackHoleService extends VpnService {
     public void onDestroy() {
         Log.i(TAG, "Destroy");
 
-        if (vpn != null)
-            vpnStop();
+        if (vpn != null) {
+            vpnStop(vpn);
+            vpn = null;
+        }
 
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageAddedReceiver);
@@ -160,8 +176,10 @@ public class BlackHoleService extends VpnService {
     public void onRevoke() {
         Log.i(TAG, "Revoke");
 
-        if (vpn != null)
-            vpnStop();
+        if (vpn != null) {
+            vpnStop(vpn);
+            vpn = null;
+        }
 
         // Disable firewall
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

@@ -40,8 +40,8 @@ Frequently Asked Questions (FAQ)
 No - nothing can completely protect your privacy.
 NetGuard will do its best, but it is limited by the fact it must use the VPN service.
 This is the trade-off required to make a firewall which does not require root access.
-Since the firewall must momentarily be turned off to update rules, and it only starts when Android "allows" it to start,
-it will not offer 100% protection against an application connecting to the internet.
+The firewall can only start when Android "allows" it to start,
+so it will not offer protection during early boot-up (although your network may not be loaded at that time).
 It will, however, be much better than nothing, especially if you are not rebooting often.
 
 If you want to protect yourself more, you can (at least in theory) disable WiFi and mobile data before rebooting,
