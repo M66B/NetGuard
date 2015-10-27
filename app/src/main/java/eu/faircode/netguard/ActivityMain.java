@@ -37,6 +37,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private boolean running = false;
     private RuleAdapter adapter = null;
+    private MenuItem searchItem = null;
 
     private static final int REQUEST_VPN = 1;
 
@@ -149,6 +150,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             protected void onPostExecute(List<Rule> result) {
                 if (running) {
+                    if (searchItem != null)
+                        MenuItemCompat.collapseActionView(searchItem);
                     adapter = new RuleAdapter(result, ActivityMain.this);
                     rvApplication.setAdapter(adapter);
                 }
@@ -176,7 +179,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         inflater.inflate(R.menu.main, menu);
 
         // Search
-        MenuItem searchItem = menu.findItem(R.id.menu_search);
+        searchItem = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
