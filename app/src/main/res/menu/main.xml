@@ -13,9 +13,7 @@
         netguard:showAsAction="always" />
     <item
         android:id="@+id/menu_refresh"
-        android:icon="@drawable/ic_refresh_white_24dp"
-        android:title="@string/menu_refresh"
-        netguard:showAsAction="ifRoom" />
+        android:title="@string/menu_refresh" />
     <item
         android:id="@+id/menu_whitelist_wifi"
         android:checkable="true"
