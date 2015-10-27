@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -81,8 +82,15 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 }
                 Log.i(TAG, rule.info.packageName + ": " + network + "=" + isChecked);
 
-                SharedPreferences prefs = context.getSharedPreferences(network, Context.MODE_PRIVATE);
-                prefs.edit().putBoolean(rule.info.packageName, isChecked).apply();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences rules = context.getSharedPreferences(network, Context.MODE_PRIVATE);
+                if (isChecked == prefs.getBoolean("whitelist_" + network, true)) {
+                    Log.i(TAG, "Removing " + rule.info.packageName + " " + network);
+                    rules.edit().remove(rule.info.packageName).apply();
+                } else {
+                    Log.i(TAG, "Setting " + rule.info.packageName + " " + network + "=" + isChecked);
+                    rules.edit().putBoolean(rule.info.packageName, isChecked).apply();
+                }
 
                 BlackHoleService.reload(network, context);
             }
