@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">NetGuard</string>
-    <string name="app_copyright" translatable="false">Copyright \u00A9 2015 par M. Bokhorst (M66B)</string>
+    <string name="app_copyright">Copyright \u00A9 2015 par M. Bokhorst (M66B)</string>
 
     <string name="menu_search">Recherche application</string>
     <string name="menu_network">Ouvrir les paramètres réseaux</string>
