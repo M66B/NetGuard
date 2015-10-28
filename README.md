@@ -67,7 +67,7 @@ is being used, the minimum required Android version is 5.0 (Lollipop).
 No, unlike most of the similar closed source alternatives.
 
 <a name="FAQ5"></a>
-**(5) Can you add selective allowing/blocking IP addresses?**
+**(5) Can you add selective allowing/blocking applications/IP addresses?**
 
 Unfortunately this is not possible without using significant battery power
 and adding a lot of complex code to do network translation from OSI layer 3 to layer 4
