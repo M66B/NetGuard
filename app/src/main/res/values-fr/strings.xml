@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name" translatable="false">NetGuard</string>
+    <string name="app_copyright" translatable="false">Copyright \u00A9 2015 par M. Bokhorst (M66B)</string>
+
+    <string name="menu_search">Recherche application</string>
+    <string name="menu_network">Ouvrir les paramètres réseaux</string>
+    <string name="menu_refresh">Actualiser les applications</string>
+    <string name="menu_whitelist_wifi">Blocage Wi-Fi par défaut</string>
+    <string name="menu_whitelist_other">Blocage données mobiles par défaut</string>
+    <string name="menu_reset_wifi">Réinitialiser les règles Wi-Fi</string>
+    <string name="menu_reset_other">Réinitialiser les règles Données mobiles</string>
+    <string name="menu_dark">Utiliser le thème sombre</string>
+    <string name="menu_vpn_settings">Ouvrir les paramètres VPN</string>
+    <string name="menu_support">Support</string>
+    <string name="menu_about">À propos</string>
+
+    <string name="msg_sure">Etes-vous sûr ?</string>
+</resources>
