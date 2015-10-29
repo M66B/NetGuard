@@ -9,7 +9,7 @@ Blocking access to the internet can help:
 * save your battery
 * increase your privacy
 
-<img src="screenshot.png" width="232" height="371" hspace="4"/>
+<img src="screenshot.png" />
 
 Features
 --------
