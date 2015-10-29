@@ -22,6 +22,8 @@ public class Rule implements Comparable<Rule> {
     public boolean unused;
     public boolean changed;
 
+    public boolean attributes = false;
+
     private Rule(PackageInfo info, boolean wifi_blocked, boolean other_blocked, boolean unused, boolean changed, Context context) {
         PackageManager pm = context.getPackageManager();
         this.info = info;
@@ -69,10 +71,10 @@ public class Rule implements Comparable<Rule> {
 
     @Override
     public int compareTo(Rule other) {
-        if (changed == other.changed) {
+        if ((changed || unused) == (other.changed || other.unused)) {
             int i = name.compareToIgnoreCase(other.name);
             return (i == 0 ? info.packageName.compareTo(other.info.packageName) : i);
         }
-        return (changed ? -1 : 1);
+        return (changed || unused ? -1 : 1);
     }
 }

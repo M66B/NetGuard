@@ -37,7 +37,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private boolean running = false;
     private RuleAdapter adapter = null;
-    private MenuItem searchItem = null;
+    private MenuItem menuSearch = null;
+    private MenuItem menuNetwork = null;
 
     private static final int REQUEST_VPN = 1;
 
@@ -121,7 +122,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
-            invalidateOptionsMenu();
+            if (menuNetwork != null)
+                menuNetwork.setIcon(Util.isWifiActive(ActivityMain.this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
         }
     };
 
@@ -150,8 +152,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             protected void onPostExecute(List<Rule> result) {
                 if (running) {
-                    if (searchItem != null)
-                        MenuItemCompat.collapseActionView(searchItem);
+                    if (menuSearch != null)
+                        MenuItemCompat.collapseActionView(menuSearch);
                     adapter = new RuleAdapter(result, ActivityMain.this);
                     rvApplication.setAdapter(adapter);
                 }
@@ -179,8 +181,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         inflater.inflate(R.menu.main, menu);
 
         // Search
-        searchItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        menuSearch = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -212,8 +214,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        MenuItem network = menu.findItem(R.id.menu_network);
-        network.setIcon(Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
+        menuNetwork = menu.findItem(R.id.menu_network);
+        menuNetwork.setIcon(Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
 
         MenuItem wifi = menu.findItem(R.id.menu_whitelist_wifi);
         wifi.setChecked(prefs.getBoolean("whitelist_wifi", true));

@@ -15,5 +15,5 @@
 
     <string name="msg_sure">Etes-vous sûr ?</string>
 
-    <string name="title_unused">Block when device not in use</string>
+    <string name="title_unused">Block only when device not in use</string>
 </resources>

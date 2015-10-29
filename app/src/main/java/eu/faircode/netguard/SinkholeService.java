@@ -83,7 +83,7 @@ public class SinkholeService extends VpnService {
 
         // Add list of allowed applications
         for (Rule rule : Rule.getRules(this))
-            if (!(wifi ? rule.wifi_blocked : rule.other_blocked) && (!rule.unused || interactive)) {
+            if (!(wifi ? rule.wifi_blocked : rule.other_blocked) || (rule.unused && interactive)) {
                 Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
                     builder.addDisallowedApplication(rule.info.packageName);

@@ -101,6 +101,14 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     rules.edit().putBoolean(rule.info.packageName, isChecked).apply();
                 }
 
+                if (!(rule.wifi_blocked || rule.other_blocked)) {
+                    rule.unused = false;
+                    SharedPreferences punused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
+                    punused.edit().remove(rule.info.packageName).apply();
+                    holder.ivUnused.setVisibility(View.INVISIBLE);
+                    holder.cbUnused.setChecked(false);
+                }
+
                 SinkholeService.reload(network, context);
             }
         };
@@ -125,7 +133,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         holder.ivUnused.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
 
-        holder.llAttributes.setVisibility(View.GONE);
+        holder.llAttributes.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
 
         holder.cbUnused.setOnCheckedChangeListener(null);
         holder.cbUnused.setChecked(rule.unused);
@@ -133,7 +141,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.llApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.llAttributes.setVisibility(holder.llAttributes.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+                if (rule.wifi_blocked || rule.other_blocked) {
+                    rule.attributes = !rule.attributes;
+                    holder.llAttributes.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
+                }
             }
         });
 
@@ -142,7 +153,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.unused = isChecked;
                 SharedPreferences punused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
-                punused.edit().putBoolean(rule.info.packageName, rule.unused).apply();
+                if (rule.unused)
+                    punused.edit().putBoolean(rule.info.packageName, true).apply();
+                else
+                    punused.edit().remove(rule.info.packageName).apply();
                 holder.ivUnused.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
 
                 SinkholeService.reload(null, context);
