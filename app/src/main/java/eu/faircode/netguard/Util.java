@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,6 +30,11 @@ public class Util {
         NetworkInfo ni = cm.getActiveNetworkInfo();
         return (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
 
+    }
+
+    public static boolean isInteractive(Context context) {
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        return pm.isInteractive();
     }
 
     public static void toast(final String text, final int length, final Context context) {

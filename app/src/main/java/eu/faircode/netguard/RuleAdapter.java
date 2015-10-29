@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -32,20 +33,28 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
+        public LinearLayout llApplication;
         public ImageView ivIcon;
         public TextView tvName;
         public TextView tvPackage;
         public CheckBox cbWifi;
         public CheckBox cbOther;
+        public ImageView ivUnused;
+        public LinearLayout llAttributes;
+        public CheckBox cbUnused;
 
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
+            llApplication = (LinearLayout) itemView.findViewById(R.id.llApplication);
             ivIcon = (ImageView) itemView.findViewById(R.id.ivIcon);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
             tvPackage = (TextView) itemView.findViewById(R.id.tvPackage);
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
             cbOther = (CheckBox) itemView.findViewById(R.id.cbOther);
+            ivUnused = (ImageView) itemView.findViewById(R.id.ivUnused);
+            llAttributes = (LinearLayout) itemView.findViewById(R.id.llAttributes);
+            cbUnused = (CheckBox) itemView.findViewById(R.id.cbUnused);
         }
     }
 
@@ -113,6 +122,32 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.cbOther.setOnCheckedChangeListener(null);
         holder.cbOther.setChecked(rule.other_blocked);
         holder.cbOther.setOnCheckedChangeListener(cbListener);
+
+        holder.ivUnused.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
+
+        holder.llAttributes.setVisibility(View.GONE);
+
+        holder.cbUnused.setOnCheckedChangeListener(null);
+        holder.cbUnused.setChecked(rule.unused);
+
+        holder.llApplication.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.llAttributes.setVisibility(holder.llAttributes.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
+        });
+
+        holder.cbUnused.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                rule.unused = isChecked;
+                SharedPreferences punused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
+                punused.edit().putBoolean(rule.info.packageName, rule.unused).apply();
+                holder.ivUnused.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
+
+                SinkholeService.reload(null, context);
+            }
+        });
     }
 
     @Override

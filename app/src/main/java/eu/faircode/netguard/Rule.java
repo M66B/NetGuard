@@ -19,9 +19,10 @@ public class Rule implements Comparable<Rule> {
     public boolean disabled;
     public boolean wifi_blocked;
     public boolean other_blocked;
+    public boolean unused;
     public boolean changed;
 
-    private Rule(PackageInfo info, boolean wifi_blocked, boolean other_blocked, boolean changed, Context context) {
+    private Rule(PackageInfo info, boolean wifi_blocked, boolean other_blocked, boolean unused, boolean changed, Context context) {
         PackageManager pm = context.getPackageManager();
         this.info = info;
         this.name = info.applicationInfo.loadLabel(pm).toString();
@@ -35,6 +36,7 @@ public class Rule implements Comparable<Rule> {
 
         this.wifi_blocked = wifi_blocked;
         this.other_blocked = other_blocked;
+        this.unused = unused;
         this.changed = changed;
     }
 
@@ -42,6 +44,7 @@ public class Rule implements Comparable<Rule> {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
+        SharedPreferences punused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
 
         boolean wlWifi = prefs.getBoolean("whitelist_wifi", true);
         boolean wlOther = prefs.getBoolean("whitelist_other", true);
@@ -50,8 +53,9 @@ public class Rule implements Comparable<Rule> {
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
             boolean blWifi = wifi.getBoolean(info.packageName, wlWifi);
             boolean blOther = other.getBoolean(info.packageName, wlOther);
+            boolean unused = punused.getBoolean(info.packageName, false);
             boolean changed = (blWifi != wlWifi || blOther != wlOther);
-            listRules.add(new Rule(info, blWifi, blOther, changed, context));
+            listRules.add(new Rule(info, blWifi, blOther, unused, changed, context));
         }
 
         Collections.sort(listRules);

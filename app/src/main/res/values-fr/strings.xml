@@ -14,4 +14,6 @@
     <string name="menu_about">À propos</string>
 
     <string name="msg_sure">Etes-vous sûr ?</string>
+
+    <string name="title_unused">Block only when device unused</string>
 </resources>

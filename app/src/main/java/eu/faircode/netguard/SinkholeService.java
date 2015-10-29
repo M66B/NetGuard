@@ -69,6 +69,10 @@ public class SinkholeService extends VpnService {
         boolean wifi = Util.isWifiActive(this);
         Log.i(TAG, "wifi=" + wifi);
 
+        // Check if interactive
+        boolean interactive = Util.isInteractive(this);
+        Log.i(TAG, "interactive=" + interactive);
+
         // Build VPN service
         final Builder builder = new Builder();
         builder.setSession(getString(R.string.app_name));
@@ -79,7 +83,7 @@ public class SinkholeService extends VpnService {
 
         // Add list of allowed applications
         for (Rule rule : Rule.getRules(this))
-            if (!(wifi ? rule.wifi_blocked : rule.other_blocked)) {
+            if (!(wifi ? rule.wifi_blocked : rule.other_blocked) && (!rule.unused || interactive)) {
                 Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
                     builder.addDisallowedApplication(rule.info.packageName);
@@ -120,6 +124,15 @@ public class SinkholeService extends VpnService {
         }
     }
 
+    private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(TAG, intent);
+            reload(null, SinkholeService.this);
+        }
+    };
+
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -131,7 +144,7 @@ public class SinkholeService extends VpnService {
         }
     };
 
-    private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
@@ -145,16 +158,22 @@ public class SinkholeService extends VpnService {
         super.onCreate();
         Log.i(TAG, "Create");
 
-        // Listen for connectivity updates
-        IntentFilter ifConnectivity = new IntentFilter();
-        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(connectivityChangedReceiver, ifConnectivity);
-
         // Listen for added applications
         IntentFilter ifPackage = new IntentFilter();
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
+
+        // Listen for connectivity updates
+        IntentFilter ifConnectivity = new IntentFilter();
+        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectivityChangedReceiver, ifConnectivity);
+
+        // Listen for interactive state changes
+        IntentFilter ifInteractive = new IntentFilter();
+        ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
+        ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(interactiveStateReceiver, ifInteractive);
     }
 
     @Override
@@ -166,8 +185,9 @@ public class SinkholeService extends VpnService {
             vpn = null;
         }
 
-        unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageAddedReceiver);
+        unregisterReceiver(connectivityChangedReceiver);
+        unregisterReceiver(interactiveStateReceiver);
 
         super.onDestroy();
     }

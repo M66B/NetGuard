@@ -3,53 +3,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="4dp"
-    android:orientation="horizontal">
-
-    <ImageView
-        android:id="@+id/ivIcon"
-        android:layout_width="?android:attr/listPreferredItemHeightSmall"
-        android:layout_height="?android:attr/listPreferredItemHeightSmall"
-        android:layout_gravity="center_vertical" />
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/llApplication"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvPackage"
+            <ImageView
+                android:id="@+id/ivIcon"
+                android:layout_width="?android:attr/listPreferredItemHeightSmall"
+                android:layout_height="?android:attr/listPreferredItemHeightSmall"
+                android:layout_gravity="center_vertical" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPackage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ellipsize="start"
+                    android:singleLine="true"
+                    android:textAppearance="@android:style/TextAppearance.Material.Small" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cbWifi"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:ellipsize="start"
-            android:singleLine="true"
-            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:button="@drawable/wifi" />
+
+        <CheckBox
+            android:id="@+id/cbOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:button="@drawable/other" />
+
+        <ImageView
+            android:id="@+id/ivUnused"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/unused" />
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/cbWifi"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/llAttributes"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="12dp"
-        android:button="@drawable/wifi" />
+        android:layout_marginStart="8dp"
+        android:orientation="vertical"
+        android:paddingStart="?android:attr/listPreferredItemHeightSmall"
+        android:paddingTop="0dp"
+        android:visibility="gone">
 
-    <CheckBox
-        android:id="@+id/cbOther"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="12dp"
-        android:button="@drawable/other" />
+        <CheckBox
+            android:id="@+id/cbUnused"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_unused"
+            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+    </LinearLayout>
 </LinearLayout>
