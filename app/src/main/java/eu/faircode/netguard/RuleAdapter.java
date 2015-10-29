@@ -40,9 +40,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public CheckBox cbWifi;
         public CheckBox cbOther;
         public LinearLayout llAttributes;
-        public ImageView ivUnused;
+        public ImageView ivUsing;
         public LinearLayout llConfiguration;
-        public CheckBox cbUnused;
+        public CheckBox cbUsing;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -54,9 +54,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
             cbOther = (CheckBox) itemView.findViewById(R.id.cbOther);
             llAttributes = (LinearLayout) itemView.findViewById(R.id.llAttributes);
-            ivUnused = (ImageView) itemView.findViewById(R.id.ivUnused);
+            ivUsing = (ImageView) itemView.findViewById(R.id.ivUsing);
             llConfiguration = (LinearLayout) itemView.findViewById(R.id.llConfiguration);
-            cbUnused = (CheckBox) itemView.findViewById(R.id.cbUnused);
+            cbUsing = (CheckBox) itemView.findViewById(R.id.cbUsing);
         }
     }
 
@@ -107,9 +107,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     rule.unused = false;
                     SharedPreferences punused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
                     punused.edit().remove(rule.info.packageName).apply();
-                    holder.ivUnused.setVisibility(View.INVISIBLE);
+                    holder.ivUsing.setVisibility(View.INVISIBLE);
                     holder.llConfiguration.setVisibility(View.GONE);
-                    holder.cbUnused.setChecked(false);
+                    holder.cbUsing.setChecked(false);
                 }
 
                 SinkholeService.reload(network, context);
@@ -144,17 +144,17 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.cbOther.setChecked(rule.other_blocked);
         holder.cbOther.setOnCheckedChangeListener(cbListener);
 
-        holder.ivUnused.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
+        holder.ivUsing.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
 
         holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
 
-        holder.cbUnused.setOnCheckedChangeListener(null);
-        holder.cbUnused.setChecked(rule.unused);
+        holder.cbUsing.setOnCheckedChangeListener(null);
+        holder.cbUsing.setChecked(rule.unused);
 
         holder.llApplication.setOnClickListener(llListener);
         holder.llAttributes.setOnClickListener(llListener);
 
-        holder.cbUnused.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.cbUsing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.unused = isChecked;
@@ -163,7 +163,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     punused.edit().putBoolean(rule.info.packageName, true).apply();
                 else
                     punused.edit().remove(rule.info.packageName).apply();
-                holder.ivUnused.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
+                holder.ivUsing.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
 
                 SinkholeService.reload(null, context);
             }
