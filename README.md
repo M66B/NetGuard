@@ -19,6 +19,11 @@ Features
 
 NetGuard doesn't even require the *internet* permission!
 
+Most of these features are the result of sending selected traffic to a sinkhole, instead of filtering all internet traffic.
+This means that advanced features, like address based filtering, traffic logging and on demand configuration, are not possible.
+Routing selected traffic into a sinkhole relies on an API introduced in Android 5.0 (Lollipop),
+so older Android versions can unfortunately not be supported.
+
 Usage
 -----
 
