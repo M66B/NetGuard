@@ -14,12 +14,19 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
     private ParcelFileDescriptor vpn = null;
+    private boolean debug = false;
+    private Thread thread = null;
+
     private static final String EXTRA_COMMAND = "Command";
 
     private enum Command {start, reload, stop}
@@ -37,21 +44,27 @@ public class SinkholeService extends VpnService {
         // Process command
         switch (cmd) {
             case start:
-                if (enabled && vpn == null)
+                if (enabled && vpn == null) {
                     vpn = vpnStart();
+                    receiveStart(vpn);
+                }
                 break;
 
             case reload:
                 // Seamless handover
                 ParcelFileDescriptor prev = vpn;
-                if (enabled)
+                if (enabled) {
                     vpn = vpnStart();
+                    receivedEnd();
+                    receiveStart(vpn);
+                }
                 if (prev != null)
                     vpnStop(prev);
                 break;
 
             case stop:
                 if (vpn != null) {
+                    receivedEnd();
                     vpnStop(vpn);
                     vpn = null;
                 }
@@ -97,6 +110,9 @@ public class SinkholeService extends VpnService {
         PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setConfigureIntent(pi);
 
+        if (debug)
+            builder.setBlocking(true);
+
         // Start VPN service
         try {
             return builder.establish();
@@ -122,6 +138,69 @@ public class SinkholeService extends VpnService {
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
+    }
+
+    private void receiveStart(final ParcelFileDescriptor pfd) {
+        if (!debug)
+            return;
+
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    FileInputStream in = new FileInputStream(pfd.getFileDescriptor());
+                    FileOutputStream out = new FileOutputStream(pfd.getFileDescriptor());
+
+                    ByteBuffer buffer = ByteBuffer.allocate(32767);
+                    buffer.order(ByteOrder.BIG_ENDIAN);
+
+                    Log.i(TAG, "Start receiving");
+                    while (!Thread.currentThread().isInterrupted() &&
+                            pfd.getFileDescriptor() != null &&
+                            pfd.getFileDescriptor().valid())
+                        try {
+                            buffer.clear();
+                            int length = in.read(buffer.array());
+                            if (length > 0) {
+                                buffer.limit(length);
+                                Packet pkt = new Packet(buffer);
+
+                                if (pkt.IPv4.protocol == Packet.IPv4Header.TCP && pkt.TCP.SYN) {
+                                    int uid = pkt.getUid4();
+                                    if (uid < 0)
+                                        Log.w(TAG, "uid not found");
+
+                                    String[] pkg = getPackageManager().getPackagesForUid(uid);
+                                    if (pkg == null)
+                                        pkg = new String[]{uid == 0 ? "root" : "unknown"};
+
+                                    Log.i(TAG, "Connect " + pkt.IPv4.destinationAddress + ":" + pkt.TCP.destinationPort + " uid=" + uid + " pkg=" + pkg[0]);
+
+                                    // Send RST
+                                    pkt.swapAddresses();
+                                    pkt.TCP.clearFlags();
+                                    pkt.TCP.RST = true;
+                                    long ack = pkt.TCP.acknowledgementNumber;
+                                    pkt.TCP.acknowledgementNumber = (pkt.TCP.sequenceNumber + 1) & 0xFFFFFFFFL;
+                                    pkt.TCP.sequenceNumber = (ack + 1) & 0xFFFFFFFFL;
+                                    pkt.send(out);
+                                }
+                            }
+                        } catch (Throwable ex) {
+                            Log.e(TAG, ex.toString());
+                        }
+                    Log.i(TAG, "End receiving");
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void receivedEnd() {
+        if (thread != null)
+            thread.interrupt();
     }
 
     private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
@@ -181,6 +260,7 @@ public class SinkholeService extends VpnService {
         Log.i(TAG, "Destroy");
 
         if (vpn != null) {
+            receivedEnd();
             vpnStop(vpn);
             vpn = null;
         }
@@ -197,6 +277,7 @@ public class SinkholeService extends VpnService {
         Log.i(TAG, "Revoke");
 
         if (vpn != null) {
+            receivedEnd();
             vpnStop(vpn);
             vpn = null;
         }

@@ -31,12 +31,12 @@ public class Packet {
             if (IPv4.protocol == IPv4.UDP) {
                 UDP = new UDPHeader(buffer);
                 UDP.validate();
-                Log.w(TAG, "Unsupported protocol");
+                throw new IOException("UDP not supported");
             } else if (IPv4.protocol == IPv4.TCP) {
                 TCP = new TCP(IPv4.sourceAddress, IPv4.destinationAddress, buffer);
                 TCP.validate();
             } else
-                Log.w(TAG, "Unsupported protocol");
+                throw new IOException("Unsupported protocol=" + IPv4.protocol);
         } catch (IOException ex) {
             throw new IOException(ex.toString() + " " + this);
         }
