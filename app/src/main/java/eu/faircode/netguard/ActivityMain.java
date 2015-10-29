@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,15 +54,20 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         setContentView(R.layout.main);
 
         running = true;
+        boolean enabled = prefs.getBoolean("enabled", false);
 
         // Action bar
         View view = getLayoutInflater().inflate(R.layout.actionbar, null);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(view);
 
+        // Disabled warning
+        TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
+        tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
+
         // On/off switch
         SwitchCompat swEnabled = (SwitchCompat) view.findViewById(R.id.swEnabled);
-        swEnabled.setChecked(prefs.getBoolean("enabled", false));
+        swEnabled.setChecked(enabled);
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -167,6 +173,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if ("enabled".equals(name)) {
             // Get enabled
             boolean enabled = prefs.getBoolean(name, false);
+
+            // Display disabled warning
+            TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
+            tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
 
             // Check switch state
             SwitchCompat swEnabled = (SwitchCompat) getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);

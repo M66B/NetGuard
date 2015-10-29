@@ -16,6 +16,7 @@
     <string name="menu_about">À propos</string>
 
     <string name="msg_sure">Etes-vous sûr ?</string>
+    <string name="msg_disabled">NetGuard is disabled, use the switch above to enable NetGuard</string>
 
     <string name="title_using">Allow when device in use</string>
 </resources>
