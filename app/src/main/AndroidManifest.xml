@@ -23,7 +23,7 @@
         </activity>
 
         <service
-            android:name=".BlackHoleService"
+            android:name=".SinkholeService"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
                 <action android:name="android.net.VpnService" />

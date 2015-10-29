@@ -92,7 +92,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     rules.edit().putBoolean(rule.info.packageName, isChecked).apply();
                 }
 
-                BlackHoleService.reload(network, context);
+                SinkholeService.reload(network, context);
             }
         };
 

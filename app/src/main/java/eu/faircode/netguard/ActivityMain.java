@@ -82,7 +82,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 } else {
                     Log.i(TAG, "Switch off");
                     prefs.edit().putBoolean("enabled", false).apply();
-                    BlackHoleService.stop(ActivityMain.this);
+                    SinkholeService.stop(ActivityMain.this);
                 }
             }
         });
@@ -249,13 +249,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             case R.id.menu_whitelist_wifi:
                 prefs.edit().putBoolean("whitelist_wifi", !prefs.getBoolean("whitelist_wifi", true)).apply();
                 fillApplicationList();
-                BlackHoleService.reload("wifi", this);
+                SinkholeService.reload("wifi", this);
                 return true;
 
             case R.id.menu_whitelist_other:
                 prefs.edit().putBoolean("whitelist_other", !prefs.getBoolean("whitelist_other", true)).apply();
                 fillApplicationList();
-                BlackHoleService.reload("other", this);
+                SinkholeService.reload("other", this);
                 return true;
 
             case R.id.menu_reset_wifi:
@@ -331,7 +331,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             edit.remove(key);
         edit.apply();
         fillApplicationList();
-        BlackHoleService.reload(network, ActivityMain.this);
+        SinkholeService.reload(network, ActivityMain.this);
     }
 
     @Override
@@ -343,7 +343,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             // Start service
             if (resultCode == RESULT_OK)
-                BlackHoleService.start(this);
+                SinkholeService.start(this);
         } else
             super.onActivityResult(requestCode, resultCode, data);
     }

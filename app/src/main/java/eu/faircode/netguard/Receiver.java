@@ -16,6 +16,6 @@ public class Receiver extends BroadcastReceiver {
 
         // Start service
         if (VpnService.prepare(context) == null)
-            BlackHoleService.start(context);
+            SinkholeService.start(context);
     }
 }

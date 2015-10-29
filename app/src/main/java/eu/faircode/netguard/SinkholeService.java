@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-public class BlackHoleService extends VpnService {
+public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
     private ParcelFileDescriptor vpn = null;
@@ -127,7 +127,7 @@ public class BlackHoleService extends VpnService {
             Util.logExtras(TAG, intent);
             if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
                     intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI)
-                reload(null, BlackHoleService.this);
+                reload(null, SinkholeService.this);
         }
     };
 
@@ -136,7 +136,7 @@ public class BlackHoleService extends VpnService {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
-            reload(null, BlackHoleService.this);
+            reload(null, SinkholeService.this);
         }
     };
 
@@ -189,21 +189,21 @@ public class BlackHoleService extends VpnService {
     }
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, BlackHoleService.class);
+        Intent intent = new Intent(context, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         context.startService(intent);
     }
 
     public static void reload(String network, Context context) {
         if (network == null || ("wifi".equals(network) ? Util.isWifiActive(context) : !Util.isWifiActive(context))) {
-            Intent intent = new Intent(context, BlackHoleService.class);
+            Intent intent = new Intent(context, SinkholeService.class);
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             context.startService(intent);
         }
     }
 
     public static void stop(Context context) {
-        Intent intent = new Intent(context, BlackHoleService.class);
+        Intent intent = new Intent(context, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         context.startService(intent);
     }
