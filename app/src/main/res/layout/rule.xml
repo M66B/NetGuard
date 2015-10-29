@@ -65,19 +65,26 @@
             android:layout_marginStart="12dp"
             android:button="@drawable/other" />
 
-        <ImageView
-            android:id="@+id/ivUnused"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="12dp"
-            android:src="@drawable/unused" />
+        <LinearLayout
+            android:id="@+id/llAttributes"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivUnused"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/unused" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llAttributes"
+        android:id="@+id/llConfiguration"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:orientation="vertical"
         android:paddingStart="?android:attr/listPreferredItemHeightSmall"

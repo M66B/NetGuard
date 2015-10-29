@@ -39,8 +39,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public TextView tvPackage;
         public CheckBox cbWifi;
         public CheckBox cbOther;
-        public ImageView ivUnused;
         public LinearLayout llAttributes;
+        public ImageView ivUnused;
+        public LinearLayout llConfiguration;
         public CheckBox cbUnused;
 
         public ViewHolder(View itemView) {
@@ -52,8 +53,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             tvPackage = (TextView) itemView.findViewById(R.id.tvPackage);
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
             cbOther = (CheckBox) itemView.findViewById(R.id.cbOther);
-            ivUnused = (ImageView) itemView.findViewById(R.id.ivUnused);
             llAttributes = (LinearLayout) itemView.findViewById(R.id.llAttributes);
+            ivUnused = (ImageView) itemView.findViewById(R.id.ivUnused);
+            llConfiguration = (LinearLayout) itemView.findViewById(R.id.llConfiguration);
             cbUnused = (CheckBox) itemView.findViewById(R.id.cbUnused);
         }
     }
@@ -106,10 +108,21 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     SharedPreferences punused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
                     punused.edit().remove(rule.info.packageName).apply();
                     holder.ivUnused.setVisibility(View.INVISIBLE);
+                    holder.llConfiguration.setVisibility(View.GONE);
                     holder.cbUnused.setChecked(false);
                 }
 
                 SinkholeService.reload(network, context);
+            }
+        };
+
+        View.OnClickListener llListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (rule.wifi_blocked || rule.other_blocked) {
+                    rule.attributes = !rule.attributes;
+                    holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
+                }
             }
         };
 
@@ -133,20 +146,13 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         holder.ivUnused.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
 
-        holder.llAttributes.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
+        holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
 
         holder.cbUnused.setOnCheckedChangeListener(null);
         holder.cbUnused.setChecked(rule.unused);
 
-        holder.llApplication.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (rule.wifi_blocked || rule.other_blocked) {
-                    rule.attributes = !rule.attributes;
-                    holder.llAttributes.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
-                }
-            }
-        });
+        holder.llApplication.setOnClickListener(llListener);
+        holder.llAttributes.setOnClickListener(llListener);
 
         holder.cbUnused.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
