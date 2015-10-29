@@ -1,6 +1,13 @@
 # NetGuard
 
-NetGuard is possibly the first free and open source no-root firewall for Android.
+*NetGuard* is a simple way to block access to the internet - no root required.
+Applications can individually be allowed or denied access via your Wi-Fi and/or mobile connection.
+
+Blocking access to the internet can help:
+
+* save your data allowance
+* save your battery
+* increase your privacy
 
 <img src="screenshot.png" width="232" height="371" hspace="4"/>
 
@@ -16,8 +23,10 @@ Features
 * No tracking or analytics
 * No ads
 * IPv4/IPv6 TCP/UDP supported
+* Block both system and user applications
 
-NetGuard doesn't even require the *internet* permission!
+NetGuard doesn't even require *internet* permission.
+NetGuard is possibly the first free and open source no-root firewall for Android.
 
 Most of these features are the result of sending selected traffic to a sinkhole, instead of filtering all internet traffic.
 This means that advanced features, like address based filtering, traffic logging and on demand configuration, are not possible.
