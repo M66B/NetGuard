@@ -35,6 +35,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public View view;
         public LinearLayout llApplication;
         public ImageView ivIcon;
+        public ImageView ivExpander;
         public TextView tvName;
         public TextView tvPackage;
         public CheckBox cbWifi;
@@ -49,6 +50,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             view = itemView;
             llApplication = (LinearLayout) itemView.findViewById(R.id.llApplication);
             ivIcon = (ImageView) itemView.findViewById(R.id.ivIcon);
+            ivExpander = (ImageView) itemView.findViewById(R.id.ivExpander);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
             tvPackage = (TextView) itemView.findViewById(R.id.tvPackage);
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
@@ -75,7 +77,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         // Get rule
         final Rule rule = listSelected.get(position);
 
@@ -83,6 +85,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         CompoundButton.OnCheckedChangeListener cbListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Update rule
                 String network;
                 if (buttonView == holder.cbWifi) {
                     network = "wifi";
@@ -93,6 +96,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 }
                 Log.i(TAG, rule.info.packageName + ": " + network + "=" + isChecked);
 
+                // Store rule
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences rules = context.getSharedPreferences(network, Context.MODE_PRIVATE);
                 if (isChecked == prefs.getBoolean("whitelist_" + network, true)) {
@@ -103,15 +107,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     rules.edit().putBoolean(rule.info.packageName, isChecked).apply();
                 }
 
-                if (!(rule.wifi_blocked || rule.other_blocked)) {
-                    rule.unused = false;
-                    SharedPreferences punused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
-                    punused.edit().remove(rule.info.packageName).apply();
-                    holder.ivUsing.setVisibility(View.INVISIBLE);
-                    holder.llConfiguration.setVisibility(View.GONE);
-                    holder.cbUsing.setChecked(false);
-                }
+                // Update UI
+                notifyItemChanged(position);
 
+                // Apply updated rule
                 SinkholeService.reload(network, context);
             }
         };
@@ -119,10 +118,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         View.OnClickListener llListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (rule.wifi_blocked || rule.other_blocked) {
-                    rule.attributes = !rule.attributes;
-                    holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
-                }
+                rule.attributes = !rule.attributes;
+                notifyItemChanged(position);
             }
         };
 
@@ -131,6 +128,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             color = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
 
         holder.ivIcon.setImageDrawable(rule.getIcon(context));
+        holder.ivExpander.setImageResource(rule.attributes ? android.R.drawable.arrow_up_float : android.R.drawable.arrow_down_float);
+        holder.llApplication.setOnClickListener(llListener);
         holder.tvName.setText(rule.name);
         holder.tvName.setTextColor(color);
         holder.tvPackage.setText(rule.info.packageName);
@@ -144,27 +143,29 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.cbOther.setChecked(rule.other_blocked);
         holder.cbOther.setOnCheckedChangeListener(cbListener);
 
-        holder.ivUsing.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
+        holder.llAttributes.setOnClickListener(llListener);
+        holder.ivUsing.setVisibility(rule.unused && (rule.wifi_blocked || rule.other_blocked) ? View.VISIBLE : View.INVISIBLE);
 
         holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
-
         holder.cbUsing.setOnCheckedChangeListener(null);
         holder.cbUsing.setChecked(rule.unused);
-
-        holder.llApplication.setOnClickListener(llListener);
-        holder.llAttributes.setOnClickListener(llListener);
+        holder.cbUsing.setEnabled(rule.wifi_blocked || rule.other_blocked);
 
         holder.cbUsing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Update attribute
                 rule.unused = isChecked;
                 SharedPreferences punused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
                 if (rule.unused)
                     punused.edit().putBoolean(rule.info.packageName, true).apply();
                 else
                     punused.edit().remove(rule.info.packageName).apply();
-                holder.ivUsing.setVisibility(rule.unused ? View.VISIBLE : View.INVISIBLE);
 
+                // Update UI
+                notifyItemChanged(position);
+
+                // Apply updated rule
                 SinkholeService.reload(null, context);
             }
         });
