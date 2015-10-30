@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
+
+    <string name="menu_search">Zoek applicatie</string>
+    <string name="menu_network">Open netwerkinstellingen</string>
+    <string name="menu_refresh">Ververs applicaties</string>
+    <string name="menu_whitelist_wifi">Blokkeer Wi-Fi standaard</string>
+    <string name="menu_whitelist_other">Blokkeer mobiel standaard</string>
+    <string name="menu_dark">Gebruik donker thema</string>
+    <string name="menu_vpn_settings">Open VPN-instellingen</string>
+    <string name="menu_support">Ondersteuning</string>
+    <string name="menu_about">Over</string>
+
+    <string name="msg_sure">Weet u het zeker?</string>
+    <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar bovem om NetGuard aan te zetten</string>
+
+    <string name="title_using">Sta toe als apparaat in gebruik</string>
+</resources>
