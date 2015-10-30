@@ -16,6 +16,6 @@
     <string name="msg_disabled">NetGuard已被禁用, 请使用上方的开关启用NetGuard</string>
     <string name="msg_revoked">NetGuard已被禁用</string>
 
-    <string name="title_using">设备使用时允许</string>
+    <string name="title_using">设备使用时允许运行</string>
     <string name="title_launch">开启应用</string>
 </resources>
