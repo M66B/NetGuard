@@ -16,7 +16,7 @@
     <string name="msg_revoked">NetGuard je vypnutý</string>
 
     <string name="title_using">Povoliť pri používaní zariadenia</string>
-    <string name="title_launch">Start application</string>
-    <string name="title_donate">Donate</string>
-    <string name="title_thanks">Thank you for your donation!</string>
+    <string name="title_launch">Spustiť aplikáciu</string>
+    <string name="title_donate">Prispieť</string>
+    <string name="title_thanks">Ďakujeme vám za váš príspevok!</string>
 </resources>
