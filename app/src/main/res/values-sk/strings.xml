@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name" translatable="false">NetGuard</string>
+    <string name="app_copyright">Autorské práva \u00A9 2015 od M. Bokhorst (M66B)</string>
+
+    <string name="menu_search">Hľadať aplikáciu</string>
+    <string name="menu_network">Otvoriť nastavenia sietí</string>
+    <string name="menu_refresh">Obnoviť zoznam aplikácií</string>
+    <string name="menu_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
+    <string name="menu_whitelist_other">Predvolene blokovať mobilné dáta</string>
+    <string name="menu_dark">Použiť tmavú tému</string>
+    <string name="menu_vpn_settings">Otvoriť nastavenia VPN</string>
+    <string name="menu_support">Podpora</string>
+    <string name="menu_about">O aplikácii</string>
+
+    <string name="msg_sure">Ste si istý?</string>
+    <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>
+
+    <string name="title_using">Povoliť pri používaní zariadenia</string>
+</resources>
