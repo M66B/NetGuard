@@ -15,3 +15,11 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+#Line numbers
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+
+#NetGuard
+-keepnames class eu.faircode.netguard.** { *; }
+-dontwarn android.support.v4.**
