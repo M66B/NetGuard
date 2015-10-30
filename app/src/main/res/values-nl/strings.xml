@@ -1,13 +1,13 @@
 <resources>
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
 
-    <string name="menu_search">Zoek applicatie</string>
+    <string name="menu_search">Zoek naar applicatie</string>
     <string name="menu_network">Open netwerkinstellingen</string>
-    <string name="menu_refresh">Ververs applicaties</string>
+    <string name="menu_refresh">Ververs applicatielijst</string>
     <string name="menu_whitelist_wifi">Blokkeer Wi-Fi standaard</string>
     <string name="menu_whitelist_other">Blokkeer mobiel standaard</string>
     <string name="menu_dark">Gebruik donker thema</string>
-    <string name="menu_vpn_settings">Open VPN-instellingen</string>
+    <string name="menu_vpn_settings">Open Android VPN-instellingen</string>
     <string name="menu_support">Ondersteuning</string>
     <string name="menu_about">Over</string>
 
