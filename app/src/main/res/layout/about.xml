@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="20dp"
+    android:paddingBottom="40dp"
     android:paddingEnd="20dp"
     android:paddingStart="20dp"
     android:paddingTop="20dp">
@@ -44,4 +44,23 @@
         android:layout_marginTop="8dp"
         android:text="@string/app_copyright"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+    <Button
+        android:id="@+id/btnDonate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="@string/title_donate"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvThanks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="@string/title_thanks"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:visibility="gone" />
 </LinearLayout>

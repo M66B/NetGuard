@@ -17,4 +17,6 @@
 
     <string name="title_using">Sta toe als apparaat in gebruik</string>
     <string name="title_launch">Start applicatie</string>
+    <string name="title_donate">Doneer</string>
+    <string name="title_thanks">Bedankt voor uw donatie!</string>
 </resources>

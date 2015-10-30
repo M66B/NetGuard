@@ -17,4 +17,6 @@
 
     <string name="title_using">Permite cand dispozitivul este folosit</string>
     <string name="title_launch">Porneste aplicatia</string>
+    <string name="title_donate">Donate</string>
+    <string name="title_thanks">Thank you for your donation!</string>
 </resources>

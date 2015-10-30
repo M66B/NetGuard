@@ -1,17 +1,23 @@
 package eu.faircode.netguard;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,10 +31,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.vending.billing.IInAppBillingService;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -38,8 +50,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
     private MenuItem menuNetwork = null;
+    private IInAppBillingService billingService = null;
 
     private static final int REQUEST_VPN = 1;
+    private static final int REQUEST_DONATION = 2;
+
+    private static final String SKU_DONATE = "donation"; // android.test.purchased
+    private static final String ACTION_DONATE = "eu.faircode.netguard.DONATE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,15 +126,25 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         intentFilter.addDataScheme("package");
         registerReceiver(packageChangedReceiver, intentFilter);
+
+        // Connect to billing
+        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        serviceIntent.setPackage("com.android.vending");
+        bindService(serviceIntent, billingConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     public void onDestroy() {
         Log.i(TAG, "Destroy");
         running = false;
+
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageChangedReceiver);
+
+        if (billingConnection != null)
+            unbindService(billingConnection);
+
         super.onDestroy();
     }
 
@@ -137,6 +164,20 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
             fillApplicationList();
+        }
+    };
+
+    private ServiceConnection billingConnection = new ServiceConnection() {
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.i(TAG, "Billing disconnected");
+            billingService = null;
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.i(TAG, "Billing connected");
+            billingService = IInAppBillingService.Stub.asInterface(service);
         }
     };
 
@@ -225,8 +266,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         menuNetwork = menu.findItem(R.id.menu_network);
         menuNetwork.setIcon(Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
 
-        MenuItem menuWwifi = menu.findItem(R.id.menu_whitelist_wifi);
-        menuWwifi.setChecked(prefs.getBoolean("whitelist_wifi", true));
+        MenuItem menuWifi = menu.findItem(R.id.menu_whitelist_wifi);
+        menuWifi.setChecked(prefs.getBoolean("whitelist_wifi", true));
 
         MenuItem menuOther = menu.findItem(R.id.menu_whitelist_other);
         menuOther.setChecked(prefs.getBoolean("whitelist_other", true));
@@ -324,10 +365,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private void menu_about() {
+        // Create view
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.about, null);
         TextView tvVersion = (TextView) view.findViewById(R.id.tvVersion);
+        final Button btnDonate = (Button) view.findViewById(R.id.btnDonate);
+        final TextView tvThanks = (TextView) view.findViewById(R.id.tvThanks);
+
+        // Show version
         tvVersion.setText(Util.getSelfVersionName(this));
+
+        // Handle logcat
         view.setOnClickListener(new View.OnClickListener() {
             private short tap = 0;
 
@@ -339,14 +387,124 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 }
             }
         });
+
+        // Handle donate
+        btnDonate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    // adb shell pm clear com.android.vending
+                    Bundle bundle = billingService.getBuyIntent(3, getPackageName(), SKU_DONATE, "inapp", "");
+                    Log.i(TAG, "Billing.getBuyIntent");
+                    Util.logBundle(TAG, bundle);
+                    int response = bundle.getInt("RESPONSE_CODE");
+                    if (response == 0) {
+                        PendingIntent pi = bundle.getParcelable("BUY_INTENT");
+                        startIntentSenderForResult(
+                                pi.getIntentSender(),
+                                REQUEST_DONATION,
+                                new Intent(),
+                                Integer.valueOf(0),
+                                Integer.valueOf(0),
+                                Integer.valueOf(0));
+                    }
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        // Handle donated
+        final BroadcastReceiver onDonated = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                btnDonate.setVisibility(View.GONE);
+                tvThanks.setVisibility(View.VISIBLE);
+            }
+        };
+
+        IntentFilter iff = new IntentFilter(ACTION_DONATE);
+        LocalBroadcastManager.getInstance(this).registerReceiver(onDonated, iff);
+
+        // Show dialog
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
-                .setCancelable(true).create();
+                .setCancelable(true)
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        LocalBroadcastManager.getInstance(ActivityMain.this).unregisterReceiver(onDonated);
+                    }
+                })
+                .create();
         dialog.show();
+
+        // Handle SKUs
+        if (billingService != null)
+            new AsyncTask<Object, Object, Object>() {
+                @Override
+                protected Object doInBackground(Object... objects) {
+                    try {
+                        // Get available SKUs
+                        ArrayList<String> skuList = new ArrayList<String>();
+                        skuList.add(SKU_DONATE);
+                        Bundle query = new Bundle();
+                        query.putStringArrayList("ITEM_ID_LIST", skuList);
+                        Bundle details = billingService.getSkuDetails(3, getPackageName(), "inapp", query);
+                        Log.i(TAG, "Billing.getSkuDetails");
+                        Util.logBundle(TAG, details);
+                        if (details.getInt("RESPONSE_CODE") != 0)
+                            return null;
+
+                        // Check available SKUs
+                        boolean found = false;
+                        for (String item : details.getStringArrayList("DETAILS_LIST")) {
+                            JSONObject object = new JSONObject(item);
+                            if (SKU_DONATE.equals(object.getString("productId"))) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        Log.i(TAG, SKU_DONATE + "=" + found);
+                        if (!found)
+                            return null;
+
+                        // Get purchases
+                        Bundle purchases = billingService.getPurchases(3, getPackageName(), "inapp", null);
+                        Log.i(TAG, "Billing.getPurchases");
+                        Util.logBundle(TAG, purchases);
+                        return (purchases.getInt("RESPONSE_CODE") == 0 ? purchases : null);
+
+                    } catch (Throwable ex) {
+                        return ex;
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(Object result) {
+                    if (result instanceof Throwable) {
+                        // Handle exception
+                        Throwable ex = (Throwable) result;
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
+
+                    } else if (result != null) {
+                        // Show donate/donated
+                        Bundle bundle = (Bundle) result;
+                        ArrayList<String> skus = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+                        btnDonate.setVisibility(skus.contains(SKU_DONATE) ? View.GONE : View.VISIBLE);
+                        tvThanks.setVisibility(skus.contains(SKU_DONATE) ? View.VISIBLE : View.GONE);
+                    }
+                }
+            }.execute();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode);
+        Util.logExtras(TAG, data);
+
         if (requestCode == REQUEST_VPN) {
             // Update enabled state
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -355,7 +513,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             // Start service
             if (resultCode == RESULT_OK)
                 SinkholeService.start(this);
-        } else
+
+        } else if (requestCode == REQUEST_DONATION) {
+            if (resultCode == RESULT_OK) {
+                // Handle donation
+                Intent intent = new Intent(ACTION_DONATE);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            }
+
+        } else {
+            Log.w(TAG, "Unknown activity result request=" + requestCode);
             super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }
