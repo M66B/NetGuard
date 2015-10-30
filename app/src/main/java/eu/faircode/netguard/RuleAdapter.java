@@ -182,7 +182,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 else {
                     query = query.toString().toLowerCase();
                     for (Rule rule : listAll)
-                        if (rule.name.toLowerCase().contains(query))
+                        if (rule.info.packageName.toLowerCase().contains(query) ||
+                                (rule.name != null && rule.name.toLowerCase().contains(query)))
                             listResult.add(rule);
                 }
 
