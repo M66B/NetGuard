@@ -16,4 +16,5 @@
     <string name="msg_revoked">NetGuard je vypnutý</string>
 
     <string name="title_using">Povoliť pri používaní zariadenia</string>
+    <string name="title_launch">Start application</string>
 </resources>

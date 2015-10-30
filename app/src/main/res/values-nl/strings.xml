@@ -16,4 +16,5 @@
     <string name="msg_revoked">NetGuard is uitgezet</string>
 
     <string name="title_using">Sta toe als apparaat in gebruik</string>
+    <string name="title_launch">Start applicatie</string>
 </resources>
