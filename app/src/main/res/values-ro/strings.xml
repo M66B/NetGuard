@@ -13,8 +13,8 @@
 
     <string name="msg_sure">Esti sigur?</string>
     <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a activa NetGuard</string>
-    <string name="msg_revoked">NetGuard has been disabled</string>
+    <string name="msg_revoked">NetGuard a fost dezactivat</string>
 
     <string name="title_using">Permite cand dispozitivul este folosit</string>
-    <string name="title_launch">Start application</string>
+    <string name="title_launch">Porneste aplicatia</string>
 </resources>
