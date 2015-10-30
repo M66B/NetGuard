@@ -12,11 +12,11 @@
     <string name="menu_about">Despre</string>
 
     <string name="msg_sure">Esti sigur?</string>
-    <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a activa NetGuard</string>
+    <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
     <string name="msg_revoked">NetGuard a fost dezactivat</string>
 
     <string name="title_using">Permite cand dispozitivul este folosit</string>
     <string name="title_launch">Porneste aplicatia</string>
-    <string name="title_donate">Donate</string>
-    <string name="title_thanks">Thank you for your donation!</string>
+    <string name="title_donate">Doneaza</string>
+    <string name="title_thanks">Iti multumesc pentru donatie!</string>
 </resources>
