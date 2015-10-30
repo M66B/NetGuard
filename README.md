@@ -29,7 +29,7 @@ NetGuard doesn't even require *internet* permission.
 NetGuard is possibly the first free and open source no-root firewall for Android.
 
 Most of these features are the result of sending selected traffic to a sinkhole, instead of filtering all internet traffic.
-This means that advanced features, like address based filtering, traffic logging and on demand configuration, are not possible.
+This means that advanced features, like address based filtering (needed for ad blocking), traffic logging and on demand configuration, are not possible.
 Routing selected traffic into a sinkhole relies on an API introduced in Android 5.0 (Lollipop),
 so older Android versions can unfortunately not be supported.
 
