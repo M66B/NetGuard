@@ -260,14 +260,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 menu_whitelist_other(prefs);
                 return true;
 
-            case R.id.menu_reset_wifi:
-                menu_reset_wifi();
-                return true;
-
-            case R.id.menu_reset_other:
-                menu_reset_other();
-                return true;
-
             case R.id.menu_theme:
                 menu_theme(prefs);
                 return true;
@@ -308,32 +300,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         prefs.edit().putBoolean("whitelist_other", !prefs.getBoolean("whitelist_other", true)).apply();
         fillApplicationList();
         SinkholeService.reload("other", this);
-    }
-
-    private void menu_reset_wifi() {
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.msg_sure)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        reset("wifi");
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .show();
-    }
-
-    private void menu_reset_other() {
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.msg_sure)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        reset("other");
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .show();
     }
 
     private void menu_theme(SharedPreferences prefs) {
@@ -378,16 +344,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 .setView(view)
                 .setCancelable(true).create();
         dialog.show();
-    }
-
-    private void reset(String network) {
-        SharedPreferences other = getSharedPreferences(network, Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = other.edit();
-        for (String key : other.getAll().keySet())
-            edit.remove(key);
-        edit.apply();
-        fillApplicationList();
-        SinkholeService.reload(network, ActivityMain.this);
     }
 
     @Override

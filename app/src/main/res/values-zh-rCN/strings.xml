@@ -6,8 +6,6 @@
     <string name="menu_refresh">刷新应用</string>
     <string name="menu_whitelist_wifi">默认阻止Wi-Fi网络</string>
     <string name="menu_whitelist_other">默认阻止移动网络</string>
-    <string name="menu_reset_wifi">重置Wi-Fi网络规则</string>
-    <string name="menu_reset_other">重置移动网络规则</string>
     <string name="menu_dark">使用暗色主题</string>
     <string name="menu_vpn_settings">打开VPN设置</string>
     <string name="menu_support">软件支持</string>

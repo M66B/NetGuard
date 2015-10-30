@@ -7,8 +7,6 @@
     <string name="menu_refresh">Refresh applications</string>
     <string name="menu_whitelist_wifi">Default block Wi-Fi</string>
     <string name="menu_whitelist_other">Default block mobile</string>
-    <string name="menu_reset_wifi">Reset Wi-Fi rules</string>
-    <string name="menu_reset_other">Reset mobile rules</string>
     <string name="menu_dark">Use dark theme</string>
     <string name="menu_vpn_settings">Open VPN settings</string>
     <string name="menu_support">Support</string>

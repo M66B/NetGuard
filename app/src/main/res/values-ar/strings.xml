@@ -6,8 +6,6 @@
     <string name="menu_refresh">تحديث التطبيقات</string>
     <string name="menu_whitelist_wifi">حظر الواي فاي بشكل افتراضي</string>
     <string name="menu_whitelist_other">حظر الشبكة بشكل افتراضي</string>
-    <string name="menu_reset_wifi">إعادة تعييت قوانين الواي فاي</string>
-    <string name="menu_reset_other">إعادة تعيين قوانين الجهاز</string>
     <string name="menu_dark">استخدام الثيم الداكن</string>
     <string name="menu_vpn_settings">فتح إعدادات الـVPN</string>
     <string name="menu_support">الدعم</string>
