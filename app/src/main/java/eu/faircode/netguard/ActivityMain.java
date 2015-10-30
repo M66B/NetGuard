@@ -33,7 +33,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +56,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_DONATION = 2;
 
     // adb shell pm clear com.android.vending
-    private static final String SKU_DONATE = "donation"; // "android.test.purchased"
+    private static final String SKU_DONATE = "donation"; // "android.test.purchased";
     private static final String ACTION_DONATE = "eu.faircode.netguard.DONATE";
 
     @Override
@@ -372,7 +371,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         View view = inflater.inflate(R.layout.about, null);
         TextView tvVersion = (TextView) view.findViewById(R.id.tvVersion);
         final Button btnDonate = (Button) view.findViewById(R.id.btnDonate);
-        final ImageView ivBitcoin = (ImageView) view.findViewById(R.id.ivBitcoin);
         final TextView tvThanks = (TextView) view.findViewById(R.id.tvThanks);
 
         // Show version
@@ -391,11 +389,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        // Handle IAB
+        // Handle donate
         btnDonate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
+                    // Start IAB
                     Bundle bundle = billingService.getBuyIntent(3, getPackageName(), SKU_DONATE, "inapp", "");
                     Log.i(TAG, "Billing.getBuyIntent");
                     Util.logBundle(TAG, bundle);
@@ -415,18 +414,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
                 }
-            }
-        });
-
-        // Handle Bitcoin
-        final Intent bitcoin = new Intent(Intent.ACTION_VIEW);
-        bitcoin.setData(Uri.parse("bitcoin:1NTdeAhWXTiQRTMVvusscHXguACok5KQpw?label=M66B"));
-        final boolean hasBitCoin = (bitcoin.resolveActivity(getPackageManager()) != null);
-
-        ivBitcoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(bitcoin);
             }
         });
 
@@ -508,15 +495,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                         Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
 
-                    } else if (result == null)
-                        ivBitcoin.setVisibility(hasBitCoin ? View.VISIBLE : View.GONE);
-
-                    else {
+                    } else if (result != null) {
                         // Show donate/donated
                         Bundle bundle = (Bundle) result;
                         ArrayList<String> skus = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
                         btnDonate.setVisibility(skus.contains(SKU_DONATE) ? View.GONE : View.VISIBLE);
-                        ivBitcoin.setVisibility(hasBitCoin && !skus.contains(SKU_DONATE) ? View.VISIBLE : View.GONE);
                         tvThanks.setVisibility(skus.contains(SKU_DONATE) ? View.VISIBLE : View.GONE);
                     }
                 }

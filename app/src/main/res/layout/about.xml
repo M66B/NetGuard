@@ -45,30 +45,14 @@
         android:text="@string/app_copyright"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btnDonate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp">
-
-        <Button
-            android:id="@+id/btnDonate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/title_donate"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/ivBitcoin"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/bitcoin"
-            android:visibility="gone" />
-
-    </LinearLayout>
+        android:layout_marginTop="16dp"
+        android:text="@string/title_donate"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tvThanks"
