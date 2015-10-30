@@ -13,6 +13,7 @@
 
     <string name="msg_sure">Sei sicuro?</string>
     <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarlo nuovamente</string>
+    <string name="msg_revoked">NetGuard has been disabled</string>
 
     <string name="title_using">Consenti quando il dispositivo è in uso</string>
 </resources>

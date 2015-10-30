@@ -13,6 +13,7 @@
 
     <string name="msg_sure">Ste si istý?</string>
     <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>
+    <string name="msg_revoked">NetGuard has been disabled</string>
 
     <string name="title_using">Povoliť pri používaní zariadenia</string>
 </resources>

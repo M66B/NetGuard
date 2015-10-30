@@ -13,6 +13,7 @@
 
     <string name="msg_sure">هل أنت متأكد؟</string>
     <string name="msg_disabled">التطبيق غير مُفعّل, قم بتفعيل التطبيق من الخيار أعلاه.</string>
+    <string name="msg_revoked">NetGuard has been disabled</string>
 
     <string name="title_using">السماح عند استخدام الجهاز</string>
 </resources>

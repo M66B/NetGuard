@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_copyright" translatable="false">版权所有 \u00A9 2015 by M. Bokhorst (M66B)</string>
+    <string name="app_copyright">版权所有 \u00A9 2015 by M. Bokhorst (M66B)</string>
 
     <string name="menu_search">搜索应用</string>
     <string name="menu_network">打开网络设置</string>
@@ -13,6 +13,7 @@
 
     <string name="msg_sure">是否确认?</string>
     <string name="msg_disabled">NetGuard is disabled, use the switch above to enable NetGuard</string>
+    <string name="msg_revoked">NetGuard has been disabled</string>
 
     <string name="title_using">Allow when device in use</string>
 </resources>
