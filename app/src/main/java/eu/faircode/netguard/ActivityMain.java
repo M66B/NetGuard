@@ -55,7 +55,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_DONATION = 2;
 
-    private static final String SKU_DONATE = "donation"; // android.test.purchased
+    // adb shell pm clear com.android.vending
+    private static final String SKU_DONATE = "donation"; // "android.test.purchased";
     private static final String ACTION_DONATE = "eu.faircode.netguard.DONATE";
 
     @Override
@@ -393,7 +394,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             public void onClick(View view) {
                 try {
-                    // adb shell pm clear com.android.vending
+                    // Start IAB
                     Bundle bundle = billingService.getBuyIntent(3, getPackageName(), SKU_DONATE, "inapp", "");
                     Log.i(TAG, "Billing.getBuyIntent");
                     Util.logBundle(TAG, bundle);
@@ -503,7 +504,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode);
-        Util.logExtras(TAG, data);
+        if (data != null)
+            Util.logExtras(TAG, data);
 
         if (requestCode == REQUEST_VPN) {
             // Update enabled state
