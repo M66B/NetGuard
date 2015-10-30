@@ -400,6 +400,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     Log.i(TAG, "Billing.getBuyIntent");
                     Util.logBundle(TAG, bundle);
                     int response = bundle.getInt("RESPONSE_CODE");
+                    Log.i(TAG, "Billing response=" + getBillingResult(response));
                     if (response == 0) {
                         PendingIntent pi = bundle.getParcelable("BUY_INTENT");
                         startIntentSenderForResult(
@@ -468,7 +469,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         Bundle details = billingService.getSkuDetails(3, getPackageName(), "inapp", query);
                         Log.i(TAG, "Billing.getSkuDetails");
                         Util.logBundle(TAG, details);
-                        if (details.getInt("RESPONSE_CODE") != 0)
+                        int details_response = details.getInt("RESPONSE_CODE");
+                        Log.i(TAG, "Billing response=" + getBillingResult(details_response));
+                        if (details_response != 0)
                             return null;
 
                         // Check available SKUs
@@ -488,7 +491,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         Bundle purchases = billingService.getPurchases(3, getPackageName(), "inapp", null);
                         Log.i(TAG, "Billing.getPurchases");
                         Util.logBundle(TAG, purchases);
-                        return (purchases.getInt("RESPONSE_CODE") == 0 ? purchases : null);
+                        int purchases_response = purchases.getInt("RESPONSE_CODE");
+                        Log.i(TAG, "Billing response=" + getBillingResult(purchases_response));
+                        return (purchases_response == 0 ? purchases : null);
 
                     } catch (Throwable ex) {
                         return ex;
@@ -520,7 +525,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode);
+        Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode + " ok=" + (resultCode == RESULT_OK));
         if (data != null)
             Util.logExtras(TAG, data);
 
@@ -538,11 +543,39 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 // Handle donation
                 Intent intent = new Intent(ACTION_DONATE);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            } else if (data != null) {
+                int response = data.getIntExtra("RESPONSE_CODE", -1);
+                Log.i(TAG, "Billing response=" + getBillingResult(response));
             }
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private static String getBillingResult(int responseCode) {
+        switch (responseCode) {
+            case 0:
+                return "BILLING_RESPONSE_RESULT_OK";
+            case 1:
+                return "BILLING_RESPONSE_RESULT_USER_CANCELED";
+            case 2:
+                return "BILLING_RESPONSE_RESULT_SERVICE_UNAVAILABLE";
+            case 3:
+                return "BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE";
+            case 4:
+                return "BILLING_RESPONSE_RESULT_ITEM_UNAVAILABLE";
+            case 5:
+                return "BILLING_RESPONSE_RESULT_DEVELOPER_ERROR";
+            case 6:
+                return "BILLING_RESPONSE_RESULT_ERROR";
+            case 7:
+                return "BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED";
+            case 8:
+                return "BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED";
+            default:
+                return Integer.toString(responseCode);
         }
     }
 }
