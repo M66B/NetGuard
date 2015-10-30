@@ -1,5 +1,6 @@
 package eu.faircode.netguard;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -268,6 +270,20 @@ public class SinkholeService extends VpnService {
         unregisterReceiver(packageAddedReceiver);
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(interactiveStateReceiver);
+
+        // Display notification
+        Intent riMain = new Intent(this, ActivityMain.class);
+        PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_revoked))
+                .setContentIntent(piMain)
+                .setAutoCancel(true);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notification.build());
 
         super.onDestroy();
     }

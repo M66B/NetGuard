@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
+
+    <string name="menu_search">Cauta aplicatii</string>
+    <string name="menu_network">Deschide setari retea</string>
+    <string name="menu_refresh">Actualizeaza lista de aplicatii</string>
+    <string name="menu_whitelist_wifi">Blocheaza implicit Wi-Fi</string>
+    <string name="menu_whitelist_other">Blocheaza implicit date mobile</string>
+    <string name="menu_dark">Foloseste tema intunecata</string>
+    <string name="menu_vpn_settings">Deschide setari VPN Android</string>
+    <string name="menu_support">Asistenta</string>
+    <string name="menu_about">Despre</string>
+
+    <string name="msg_sure">Esti sigur?</string>
+    <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a activa NetGuard</string>
+    <string name="msg_revoked">NetGuard has been disabled</string>
+
+    <string name="title_using">Permite cand dispozitivul este folosit</string>
+</resources>
