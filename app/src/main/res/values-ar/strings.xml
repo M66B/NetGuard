@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_copyright">الحقوق /u00A9 2015 بواسطة M. Bokhorst (M66B)</string>
+
+    <string name="menu_search">البحث عن تطبيقات</string>
+    <string name="menu_network">فتح إعدادات الشبكة</string>
+    <string name="menu_refresh">تحديث التطبيقات</string>
+    <string name="menu_whitelist_wifi">حظر الواي فاي بشكل افتراضي</string>
+    <string name="menu_whitelist_other">حظر الشبكة بشكل افتراضي</string>
+    <string name="menu_reset_wifi">إعادة تعييت قوانين الواي فاي</string>
+    <string name="menu_reset_other">إعادة تعيين قوانين الجهاز</string>
+    <string name="menu_dark">استخدام الثيم الداكن</string>
+    <string name="menu_vpn_settings">فتح إعدادات الـVPN</string>
+    <string name="menu_support">الدعم</string>
+    <string name="menu_forum">اذهب إلى المنتدى</string>
+    <string name="menu_logcat">إرسال logcat</string>
+    <string name="menu_about">حول</string>
+
+    <string name="msg_sure">هل أنت متأكد؟</string>
+    <string name="msg_disabled">التطبيق غير مُفعّل, قم بتفعيل التطبيق من الخيار أعلاه.</string>
+
+    <string name="title_using">السماح عند استخدام الجهاز</string>
+</resources>
