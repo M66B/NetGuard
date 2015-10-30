@@ -45,8 +45,8 @@ public class SinkholeService extends VpnService {
         switch (cmd) {
             case start:
                 if (enabled && vpn == null) {
-                    vpn = vpnStart();
-                    receiveStart(vpn);
+                    vpn = startVPN();
+                    startDebug(vpn);
                 }
                 break;
 
@@ -54,18 +54,18 @@ public class SinkholeService extends VpnService {
                 // Seamless handover
                 ParcelFileDescriptor prev = vpn;
                 if (enabled) {
-                    vpn = vpnStart();
-                    receivedEnd();
-                    receiveStart(vpn);
+                    vpn = startVPN();
+                    stopDebug();
+                    startDebug(vpn);
                 }
                 if (prev != null)
-                    vpnStop(prev);
+                    stopVPN(prev);
                 break;
 
             case stop:
                 if (vpn != null) {
-                    receivedEnd();
-                    vpnStop(vpn);
+                    stopDebug();
+                    stopVPN(vpn);
                     vpn = null;
                 }
                 stopSelf();
@@ -75,7 +75,7 @@ public class SinkholeService extends VpnService {
         return START_STICKY;
     }
 
-    private ParcelFileDescriptor vpnStart() {
+    private ParcelFileDescriptor startVPN() {
         Log.i(TAG, "Starting");
 
         // Check if Wi-Fi
@@ -131,7 +131,7 @@ public class SinkholeService extends VpnService {
         }
     }
 
-    private void vpnStop(ParcelFileDescriptor pfd) {
+    private void stopVPN(ParcelFileDescriptor pfd) {
         Log.i(TAG, "Stopping");
         try {
             pfd.close();
@@ -140,7 +140,7 @@ public class SinkholeService extends VpnService {
         }
     }
 
-    private void receiveStart(final ParcelFileDescriptor pfd) {
+    private void startDebug(final ParcelFileDescriptor pfd) {
         if (!debug)
             return;
 
@@ -198,7 +198,7 @@ public class SinkholeService extends VpnService {
         thread.start();
     }
 
-    private void receivedEnd() {
+    private void stopDebug() {
         if (thread != null)
             thread.interrupt();
     }
@@ -260,8 +260,8 @@ public class SinkholeService extends VpnService {
         Log.i(TAG, "Destroy");
 
         if (vpn != null) {
-            receivedEnd();
-            vpnStop(vpn);
+            stopDebug();
+            stopVPN(vpn);
             vpn = null;
         }
 
@@ -277,8 +277,8 @@ public class SinkholeService extends VpnService {
         Log.i(TAG, "Revoke");
 
         if (vpn != null) {
-            receivedEnd();
-            vpnStop(vpn);
+            stopDebug();
+            stopVPN(vpn);
             vpn = null;
         }
 

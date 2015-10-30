@@ -29,7 +29,7 @@
         android:id="@+id/menu_reset_other"
         android:title="@string/menu_reset_other" />
     <item
-        android:id="@+id/menu_dark"
+        android:id="@+id/menu_theme"
         android:checkable="true"
         android:title="@string/menu_dark" />
     <item

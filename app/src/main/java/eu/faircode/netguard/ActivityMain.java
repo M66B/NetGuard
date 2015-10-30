@@ -226,14 +226,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         menuNetwork = menu.findItem(R.id.menu_network);
         menuNetwork.setIcon(Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
 
-        MenuItem wifi = menu.findItem(R.id.menu_whitelist_wifi);
-        wifi.setChecked(prefs.getBoolean("whitelist_wifi", true));
+        MenuItem menuWwifi = menu.findItem(R.id.menu_whitelist_wifi);
+        menuWwifi.setChecked(prefs.getBoolean("whitelist_wifi", true));
 
-        MenuItem other = menu.findItem(R.id.menu_whitelist_other);
-        other.setChecked(prefs.getBoolean("whitelist_other", true));
+        MenuItem menuOther = menu.findItem(R.id.menu_whitelist_other);
+        menuOther.setChecked(prefs.getBoolean("whitelist_other", true));
 
-        MenuItem dark = menu.findItem(R.id.menu_dark);
-        dark.setChecked(prefs.getBoolean("dark_theme", false));
+        MenuItem menuTheme = menu.findItem(R.id.menu_theme);
+        menuTheme.setChecked(prefs.getBoolean("dark_theme", false));
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -245,12 +245,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_network:
-                Intent settings = new Intent(Util.isWifiActive(this)
-                        ? Settings.ACTION_WIFI_SETTINGS : Settings.ACTION_WIRELESS_SETTINGS);
-                if (settings.resolveActivity(getPackageManager()) != null)
-                    startActivity(settings);
-                else
-                    Log.w(TAG, settings + " not available");
+                menu_network();
                 return true;
 
             case R.id.menu_refresh:
@@ -258,84 +253,131 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_whitelist_wifi:
-                prefs.edit().putBoolean("whitelist_wifi", !prefs.getBoolean("whitelist_wifi", true)).apply();
-                fillApplicationList();
-                SinkholeService.reload("wifi", this);
+                menu_whitelist_wifi(prefs);
                 return true;
 
             case R.id.menu_whitelist_other:
-                prefs.edit().putBoolean("whitelist_other", !prefs.getBoolean("whitelist_other", true)).apply();
-                fillApplicationList();
-                SinkholeService.reload("other", this);
+                menu_whitelist_other(prefs);
                 return true;
 
             case R.id.menu_reset_wifi:
-                new AlertDialog.Builder(this)
-                        .setMessage(R.string.msg_sure)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                reset("wifi");
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .show();
+                menu_reset_wifi();
                 return true;
 
             case R.id.menu_reset_other:
-                new AlertDialog.Builder(this)
-                        .setMessage(R.string.msg_sure)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                reset("other");
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .show();
+                menu_reset_other();
                 return true;
 
-            case R.id.menu_dark:
-                prefs.edit().putBoolean("dark_theme", !prefs.getBoolean("dark_theme", false)).apply();
-                recreate();
+            case R.id.menu_theme:
+                menu_theme(prefs);
                 return true;
 
             case R.id.menu_vpn_settings:
-                // Open VPN settings
-                Intent vpn = new Intent("android.net.vpn.SETTINGS");
-                if (vpn.resolveActivity(getPackageManager()) != null)
-                    startActivity(vpn);
-                else
-                    Log.w(TAG, vpn + " not available");
+                menu_vpn_settings();
                 return true;
 
             case R.id.menu_support:
-                Intent xda = new Intent(Intent.ACTION_VIEW);
-                xda.setData(Uri.parse("http://forum.xda-developers.com/showthread.php?t=3233012"));
-                if (xda.resolveActivity(getPackageManager()) != null)
-                    startActivity(xda);
-                else
-                    Log.w(TAG, xda + " not available");
-
-
-
+                menu_support();
                 return true;
 
             case R.id.menu_about:
-                // Show about
-                LayoutInflater inflater = LayoutInflater.from(this);
-                View view = inflater.inflate(R.layout.about, null);
-                TextView tvVersion = (TextView) view.findViewById(R.id.tvVersion);
-                tvVersion.setText(Util.getSelfVersionName(this));
-                AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setView(view)
-                        .setCancelable(true).create();
-                dialog.show();
+                menu_about();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void menu_network() {
+        Intent settings = new Intent(Util.isWifiActive(this)
+                ? Settings.ACTION_WIFI_SETTINGS : Settings.ACTION_WIRELESS_SETTINGS);
+        if (settings.resolveActivity(getPackageManager()) != null)
+            startActivity(settings);
+        else
+            Log.w(TAG, settings + " not available");
+    }
+
+    private void menu_whitelist_wifi(SharedPreferences prefs) {
+        prefs.edit().putBoolean("whitelist_wifi", !prefs.getBoolean("whitelist_wifi", true)).apply();
+        fillApplicationList();
+        SinkholeService.reload("wifi", this);
+    }
+
+    private void menu_whitelist_other(SharedPreferences prefs) {
+        prefs.edit().putBoolean("whitelist_other", !prefs.getBoolean("whitelist_other", true)).apply();
+        fillApplicationList();
+        SinkholeService.reload("other", this);
+    }
+
+    private void menu_reset_wifi() {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.msg_sure)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        reset("wifi");
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+    private void menu_reset_other() {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.msg_sure)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        reset("other");
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+    private void menu_theme(SharedPreferences prefs) {
+        prefs.edit().putBoolean("dark_theme", !prefs.getBoolean("dark_theme", false)).apply();
+        recreate();
+    }
+
+    private void menu_vpn_settings() {
+        Intent vpn = new Intent("android.net.vpn.SETTINGS");
+        if (vpn.resolveActivity(getPackageManager()) != null)
+            startActivity(vpn);
+        else
+            Log.w(TAG, vpn + " not available");
+    }
+
+    private void menu_support() {
+        Intent xda = new Intent(Intent.ACTION_VIEW);
+        xda.setData(Uri.parse("http://forum.xda-developers.com/showthread.php?t=3233012"));
+        if (xda.resolveActivity(getPackageManager()) != null)
+            startActivity(xda);
+        else
+            Log.w(TAG, xda + " not available");
+    }
+
+    private void menu_about() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.about, null);
+        TextView tvVersion = (TextView) view.findViewById(R.id.tvVersion);
+        tvVersion.setText(Util.getSelfVersionName(this));
+        view.setOnClickListener(new View.OnClickListener() {
+            private short tap = 0;
+
+            @Override
+            public void onClick(View view) {
+                if (++tap == 7) {
+                    tap = 0;
+                    Util.sendLogcat(TAG, ActivityMain.this);
+                }
+            }
+        });
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .setCancelable(true).create();
+        dialog.show();
     }
 
     private void reset(String network) {
