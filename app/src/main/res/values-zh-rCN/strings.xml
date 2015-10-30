@@ -11,8 +11,6 @@
     <string name="menu_dark">使用暗色主题</string>
     <string name="menu_vpn_settings">打开VPN设置</string>
     <string name="menu_support">软件支持</string>
-    <string name="menu_forum">Go to forum</string>
-    <string name="menu_logcat">Send logcat</string>
     <string name="menu_about">关于</string>
 
     <string name="msg_sure">是否确认?</string>

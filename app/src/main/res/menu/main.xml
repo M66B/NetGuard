@@ -35,16 +35,9 @@
     <item
         android:id="@+id/menu_vpn_settings"
         android:title="@string/menu_vpn_settings" />
-    <item android:title="@string/menu_support">
-        <menu>
-            <item
-                android:id="@+id/menu_forum"
-                android:title="@string/menu_forum" />
-            <item
-                android:id="@+id/menu_logcat"
-                android:title="@string/menu_logcat" />
-        </menu>
-    </item>
+    <item
+        android:id="@+id/menu_support"
+        android:title="@string/menu_support" />
     <item
         android:id="@+id/menu_about"
         android:title="@string/menu_about" />

@@ -310,17 +310,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     Log.w(TAG, vpn + " not available");
                 return true;
 
-            case R.id.menu_forum:
+            case R.id.menu_support:
                 Intent xda = new Intent(Intent.ACTION_VIEW);
                 xda.setData(Uri.parse("http://forum.xda-developers.com/showthread.php?t=3233012"));
                 if (xda.resolveActivity(getPackageManager()) != null)
                     startActivity(xda);
                 else
                     Log.w(TAG, xda + " not available");
-                return true;
 
-            case R.id.menu_logcat:
-                Util.sendLogcat(TAG, this);
+
+
                 return true;
 
             case R.id.menu_about:
