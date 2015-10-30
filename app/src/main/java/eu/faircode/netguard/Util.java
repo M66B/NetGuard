@@ -45,6 +45,16 @@ public class Util {
         return pm.isInteractive();
     }
 
+    public static boolean isPackageInstalled(String packageName, Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            PackageInfo info = pm.getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException ignored) {
+            return false;
+        }
+        return true;
+    }
+
     public static void toast(final String text, final int length, final Context context) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -84,6 +94,7 @@ public class Util {
                 sb.insert(0, "\r\n");
                 sb.insert(0, "Please decribe your problem:\r\n");
                 sb.insert(0, "\r\n");
+                sb.insert(0, String.format("VPN dialogs: %b\r\n", isPackageInstalled("com.android.vpndialogs", context)));
                 sb.insert(0, String.format("Id: %s\r\n", Build.ID));
                 sb.insert(0, String.format("Display: %s\r\n", Build.DISPLAY));
                 sb.insert(0, String.format("Host: %s\r\n", Build.HOST));

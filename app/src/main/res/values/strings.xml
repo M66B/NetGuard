@@ -17,4 +17,5 @@
     <string name="msg_revoked">NetGuard has been disabled</string>
 
     <string name="title_using">Allow when device in use</string>
+    <string name="title_launch">Start application</string>
 </resources>

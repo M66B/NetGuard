@@ -1,7 +1,9 @@
 package eu.faircode.netguard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
@@ -44,6 +47,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public ImageView ivUsing;
         public LinearLayout llConfiguration;
         public CheckBox cbUsing;
+        public Button btnLaunch;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -59,6 +63,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             ivUsing = (ImageView) itemView.findViewById(R.id.ivUsing);
             llConfiguration = (LinearLayout) itemView.findViewById(R.id.llConfiguration);
             cbUsing = (CheckBox) itemView.findViewById(R.id.cbUsing);
+            btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
         }
     }
 
@@ -169,6 +174,16 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 SinkholeService.reload(null, context);
             }
         });
+
+        PackageManager pm = context.getPackageManager();
+        final Intent launch = pm.getLaunchIntentForPackage(rule.info.packageName);
+        holder.btnLaunch.setEnabled(launch != null);
+        holder.btnLaunch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(launch);
+            }
+        });
     }
 
     @Override
@@ -182,7 +197,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 else {
                     query = query.toString().toLowerCase();
                     for (Rule rule : listAll)
-                        if (rule.name.toLowerCase().contains(query))
+                        if (rule.info.packageName.toLowerCase().contains(query) ||
+                                (rule.name != null && rule.name.toLowerCase().contains(query)))
                             listResult.add(rule);
                 }
 
