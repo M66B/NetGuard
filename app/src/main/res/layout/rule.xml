@@ -102,6 +102,7 @@
             android:id="@+id/cbUsing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@string/title_using"
             android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
@@ -109,6 +110,7 @@
             android:id="@+id/btnLaunch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="@string/title_launch" />
     </LinearLayout>
 </LinearLayout>
