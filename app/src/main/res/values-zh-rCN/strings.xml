@@ -17,6 +17,6 @@
 
     <string name="title_using">设备使用时允许运行</string>
     <string name="title_launch">启动应用</string>
-    <string name="title_donate">Donate</string>
-    <string name="title_thanks">Thank you for your donation!</string>
+    <string name="title_donate">捐赠</string>
+    <string name="title_thanks">感谢您的捐赠!</string>
 </resources>
