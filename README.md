@@ -92,6 +92,11 @@ NetGuard is unique, because it doesn't implement a TCP/IP stack and is therefore
 For more advanced use cases while not sacrificing battery usage, rooting and using a iptables based firewall,
 like [AFWall+](https://github.com/ukanth/afwall) might be a better option.
 
+<a name="FAQ6"></a>
+**(6) Will NetGuard send my internet traffic to an external (VPN) server?**
+
+No, it even can't, because NetGuard has no *internet* permission.
+
 Support
 -------
 
