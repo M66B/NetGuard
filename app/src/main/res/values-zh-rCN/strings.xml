@@ -13,9 +13,9 @@
     <string name="menu_about">关于</string>
 
     <string name="msg_sure">是否确认?</string>
-    <string name="msg_disabled">NetGuard已被禁用, 请使用上方的开关启用NetGuard</string>
-    <string name="msg_revoked">NetGuard已被禁用</string>
+    <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
+    <string name="msg_revoked">NetGuard已被停用</string>
 
     <string name="title_using">设备使用时允许运行</string>
-    <string name="title_launch">开启应用</string>
+    <string name="title_launch">启动应用</string>
 </resources>
