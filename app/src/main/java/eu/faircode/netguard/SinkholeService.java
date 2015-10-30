@@ -29,6 +29,7 @@ public class SinkholeService extends VpnService {
     private boolean debug = false;
     private Thread thread = null;
 
+    private static final int NOTIFY_DISABLED = 1;
     private static final String EXTRA_COMMAND = "Command";
 
     private enum Command {start, reload, stop}
@@ -49,6 +50,8 @@ public class SinkholeService extends VpnService {
                 if (enabled && vpn == null) {
                     vpn = startVPN();
                     startDebug(vpn);
+                    NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    nm.cancel(NOTIFY_DISABLED);
                 }
                 break;
 
@@ -271,20 +274,6 @@ public class SinkholeService extends VpnService {
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(interactiveStateReceiver);
 
-        // Display notification
-        Intent riMain = new Intent(this, ActivityMain.class);
-        PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.msg_revoked))
-                .setContentIntent(piMain)
-                .setAutoCancel(true);
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notification.build());
-
         super.onDestroy();
     }
 
@@ -301,6 +290,20 @@ public class SinkholeService extends VpnService {
         // Disable firewall
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("enabled", false).apply();
+
+        // Display notification
+        Intent riMain = new Intent(this, ActivityMain.class);
+        PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_revoked))
+                .setContentIntent(piMain)
+                .setAutoCancel(true);
+
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(NOTIFY_DISABLED, notification.build());
 
         super.onRevoke();
     }
