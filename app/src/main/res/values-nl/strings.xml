@@ -6,6 +6,8 @@
     <string name="menu_whitelist_wifi">Blokkeer Wi-Fi standaard</string>
     <string name="menu_whitelist_other">Blokkeer mobiel standaard</string>
     <string name="menu_system">Beheer systeemapplicaties</string>
+    <string name="menu_export">Exporteer instellingen</string>
+    <string name="menu_import">Importeer instellingen</string>
     <string name="menu_dark">Gebruik donker thema</string>
     <string name="menu_vpn_settings">Open Android VPN-instellingen</string>
     <string name="menu_support">Ondersteuning</string>
