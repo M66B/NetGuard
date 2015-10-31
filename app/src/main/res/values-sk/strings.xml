@@ -5,6 +5,7 @@
     <string name="menu_network">Otvoriť nastavenia sietí</string>
     <string name="menu_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
     <string name="menu_whitelist_other">Predvolene blokovať mobilné dáta</string>
+    <string name="menu_system">Manage system applications</string>
     <string name="menu_dark">Použiť tmavú tému</string>
     <string name="menu_vpn_settings">Otvoriť nastavenia VPN</string>
     <string name="menu_support">Podpora</string>

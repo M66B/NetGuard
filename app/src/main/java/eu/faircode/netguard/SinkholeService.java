@@ -100,7 +100,7 @@ public class SinkholeService extends VpnService {
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
         // Add list of allowed applications
-        for (Rule rule : Rule.getRules(this))
+        for (Rule rule : Rule.getRules(true, this))
             if (!(wifi ? rule.wifi_blocked : rule.other_blocked) || (rule.unused && interactive)) {
                 Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {

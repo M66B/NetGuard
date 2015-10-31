@@ -5,6 +5,7 @@
     <string name="menu_network">네트워크 설정 열기</string>
     <string name="menu_whitelist_wifi">Wi-Fi 차단을 기본 설정으로</string>
     <string name="menu_whitelist_other">모바일 데이터 차단을 기본 설정으로</string>
+    <string name="menu_system">Manage system applications</string>
     <string name="menu_dark">어두운 테마 사용</string>
     <string name="menu_vpn_settings">Android VPN 설정 열기</string>
     <string name="menu_support">지원</string>

@@ -5,6 +5,7 @@
     <string name="menu_network">Ouvrir les paramètres réseaux</string>
     <string name="menu_whitelist_wifi">Blocage Wi-Fi par défaut</string>
     <string name="menu_whitelist_other">Blocage données mobiles par défaut</string>
+    <string name="menu_system">Manage system applications</string>
     <string name="menu_dark">Utiliser le thème sombre</string>
     <string name="menu_vpn_settings">Ouvrir les paramètres VPN</string>
     <string name="menu_support">Support</string>

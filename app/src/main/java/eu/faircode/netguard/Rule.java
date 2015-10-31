@@ -21,43 +21,42 @@ public class Rule implements Comparable<Rule> {
     public boolean other_blocked;
     public boolean unused;
     public boolean changed;
-
     public boolean attributes = false;
 
-    private Rule(PackageInfo info, boolean wifi_blocked, boolean other_blocked, boolean unused, boolean changed, Context context) {
+    private Rule(PackageInfo info, Context context) {
         PackageManager pm = context.getPackageManager();
         this.info = info;
         this.name = info.applicationInfo.loadLabel(pm).toString();
-        this.system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
 
         int setting = pm.getApplicationEnabledSetting(info.packageName);
         if (setting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
             this.disabled = !info.applicationInfo.enabled;
         else
             this.disabled = (setting != PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
-
-        this.wifi_blocked = wifi_blocked;
-        this.other_blocked = other_blocked;
-        this.unused = unused;
-        this.changed = changed;
     }
 
-    public static List<Rule> getRules(Context context) {
+    public static List<Rule> getRules(boolean all, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
-        SharedPreferences punused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
+        SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
 
-        boolean wlWifi = prefs.getBoolean("whitelist_wifi", true);
-        boolean wlOther = prefs.getBoolean("whitelist_other", true);
+        boolean whitelist_wifi = prefs.getBoolean("whitelist_wifi", true);
+        boolean whitelist_other = prefs.getBoolean("whitelist_other", true);
+        boolean manage_system = prefs.getBoolean("manage_system", false);
 
         List<Rule> listRules = new ArrayList<>();
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
-            boolean blWifi = wifi.getBoolean(info.packageName, wlWifi);
-            boolean blOther = other.getBoolean(info.packageName, wlOther);
-            boolean unused = punused.getBoolean(info.packageName, false);
-            boolean changed = (blWifi != wlWifi || blOther != wlOther);
-            listRules.add(new Rule(info, blWifi, blOther, unused, changed, context));
+            boolean system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+            if (!system || manage_system || all) {
+                Rule rule = new Rule(info, context);
+                rule.system = system;
+                rule.wifi_blocked = (system && !manage_system ? false : wifi.getBoolean(info.packageName, whitelist_wifi));
+                rule.other_blocked = (system && !manage_system ? false : other.getBoolean(info.packageName, whitelist_other));
+                rule.unused = unused.getBoolean(info.packageName, false);
+                rule.changed = (rule.wifi_blocked != whitelist_wifi || rule.other_blocked != whitelist_other);
+                listRules.add(rule);
+            }
         }
 
         Collections.sort(listRules);

@@ -215,7 +215,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         new AsyncTask<Object, Object, List<Rule>>() {
             @Override
             protected List<Rule> doInBackground(Object... arg) {
-                return Rule.getRules(ActivityMain.this);
+                return Rule.getRules(false, ActivityMain.this);
             }
 
             @Override
@@ -300,6 +300,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         MenuItem menuOther = menu.findItem(R.id.menu_whitelist_other);
         menuOther.setChecked(prefs.getBoolean("whitelist_other", true));
 
+        MenuItem menuSystem = menu.findItem(R.id.menu_system);
+        menuSystem.setChecked(prefs.getBoolean("manage_system", false));
+
         MenuItem menuTheme = menu.findItem(R.id.menu_theme);
         menuTheme.setChecked(prefs.getBoolean("dark_theme", false));
 
@@ -322,6 +325,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             case R.id.menu_whitelist_other:
                 menu_whitelist_other(prefs);
+                return true;
+
+            case R.id.menu_system:
+                menu_system(prefs);
                 return true;
 
             case R.id.menu_theme:
@@ -364,6 +371,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         prefs.edit().putBoolean("whitelist_other", !prefs.getBoolean("whitelist_other", true)).apply();
         updateApplicationList();
         SinkholeService.reload("other", this);
+    }
+
+    private void menu_system(SharedPreferences prefs) {
+        prefs.edit().putBoolean("manage_system", !prefs.getBoolean("manage_system", true)).apply();
+        updateApplicationList();
+        SinkholeService.reload(null, this);
     }
 
     private void menu_theme(SharedPreferences prefs) {
