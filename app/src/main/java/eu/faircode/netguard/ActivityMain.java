@@ -79,6 +79,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final String SKU_DONATE = "donation"; // "android.test.purchased";
     private static final String ACTION_IAB = "eu.faircode.netguard.IAB";
 
+    private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Create");
@@ -328,6 +330,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         MenuItem menuTheme = menu.findItem(R.id.menu_theme);
         menuTheme.setChecked(prefs.getBoolean("dark_theme", false));
 
+        MenuItem menuVpn = menu.findItem(R.id.menu_vpn_settings);
+        menuVpn.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(getPackageManager()) != null);
+
+        MenuItem menuSupport = menu.findItem(R.id.menu_support);
+        menuSupport.setEnabled(getIntentSupport().resolveActivity(getPackageManager()) != null);
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -366,11 +374,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_vpn_settings:
-                menu_vpn_settings();
+                startActivity(INTENT_VPN_SETTINGS);
                 return true;
 
             case R.id.menu_support:
-                menu_support();
+                startActivity(getIntentSupport());
                 return true;
 
             case R.id.menu_about:
@@ -427,23 +435,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private void menu_theme(SharedPreferences prefs) {
         prefs.edit().putBoolean("dark_theme", !prefs.getBoolean("dark_theme", false)).apply();
         recreate();
-    }
-
-    private void menu_vpn_settings() {
-        Intent vpn = new Intent("android.net.vpn.SETTINGS");
-        if (vpn.resolveActivity(getPackageManager()) != null)
-            startActivity(vpn);
-        else
-            Log.w(TAG, vpn + " not available");
-    }
-
-    private void menu_support() {
-        Intent xda = new Intent(Intent.ACTION_VIEW);
-        xda.setData(Uri.parse("http://forum.xda-developers.com/showthread.php?t=3233012"));
-        if (xda.resolveActivity(getPackageManager()) != null)
-            startActivity(xda);
-        else
-            Log.w(TAG, xda + " not available");
     }
 
     private void menu_about() {
@@ -622,6 +613,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.w(TAG, "Unknown activity result request=" + requestCode);
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private Intent getIntentSupport() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("http://forum.xda-developers.com/showthread.php?t=3233012"));
+        return intent;
     }
 
     private boolean IABvalidate() {
