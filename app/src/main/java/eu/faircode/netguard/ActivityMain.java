@@ -49,10 +49,9 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xmlpull.v1.XmlSerializer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +72,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_DONATION = 2;
+    private static final int REQUEST_EXPORT = 3;
+    private static final int REQUEST_IMPORT = 4;
 
     // adb shell pm clear com.android.vending
     private static final String SKU_DONATE = "donation"; // "android.test.purchased";
@@ -405,26 +406,18 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private void menu_export() {
-        try {
-            File target = new File(getExternalCacheDir(), "netguard.xml");
-            Log.i(TAG, "Writing file=" + target);
-            xmlExport(target);
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-        }
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/xml");
+        intent.putExtra(Intent.EXTRA_TITLE, "netguard.xml");
+        startActivityForResult(intent, REQUEST_EXPORT);
     }
 
     private void menu_import() {
-        try {
-            File target = new File(getExternalCacheDir(), "netguard.xml");
-            Log.i(TAG, "Reading file=" + target);
-            xmlImport(target);
-            recreate();
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-        }
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/xml");
+        startActivityForResult(intent, REQUEST_IMPORT);
     }
 
     private void menu_theme(SharedPreferences prefs) {
@@ -532,7 +525,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode + " ok=" + (resultCode == RESULT_OK));
         if (data != null)
             Util.logExtras(TAG, data);
@@ -555,6 +548,71 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 int response = data.getIntExtra("RESPONSE_CODE", -1);
                 Log.i(TAG, "Billing response=" + getIABResult(response));
             }
+
+        } else if (requestCode == REQUEST_EXPORT) {
+            if (resultCode == RESULT_OK && data != null)
+                new AsyncTask<Object, Object, Throwable>() {
+                    @Override
+                    protected Throwable doInBackground(Object... objects) {
+                        OutputStream out = null;
+                        try {
+                            out = getContentResolver().openOutputStream(data.getData());
+                            Log.i(TAG, "Writing URI=" + data.getData());
+                            xmlExport(out);
+                            return null;
+                        } catch (Throwable ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                            return ex;
+                        } finally {
+                            if (out != null)
+                                try {
+                                    out.close();
+                                } catch (IOException ex) {
+                                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                                }
+                        }
+                    }
+
+                    @Override
+                    protected void onPostExecute(Throwable ex) {
+                        if (ex != null)
+                            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }.execute();
+
+        } else if (requestCode == REQUEST_IMPORT) {
+            if (resultCode == RESULT_OK && data != null)
+                new AsyncTask<Object, Object, Throwable>() {
+                    @Override
+                    protected Throwable doInBackground(Object... objects) {
+                        InputStream in = null;
+                        try {
+                            in = getContentResolver().openInputStream(data.getData());
+                            Log.i(TAG, "Reading URI=" + data.getData());
+                            xmlImport(in);
+                            return null;
+                        } catch (Throwable ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                            return ex;
+                        } finally {
+                            if (in != null)
+                                try {
+                                    in.close();
+                                } catch (IOException ex) {
+                                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                                }
+                        }
+                    }
+
+                    @Override
+                    protected void onPostExecute(Throwable ex) {
+                        if (ex == null) {
+                            SinkholeService.reload(null, ActivityMain.this);
+                            recreate();
+                        } else
+                            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }.execute();
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
@@ -658,40 +716,32 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    private void xmlExport(File target) throws IOException {
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(target);
+    private void xmlExport(OutputStream out) throws IOException {
+        XmlSerializer serializer = Xml.newSerializer();
+        serializer.setOutput(out, "UTF-8");
+        serializer.startDocument(null, Boolean.valueOf(true));
+        serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+        serializer.startTag(null, "netguard");
 
-            XmlSerializer serializer = Xml.newSerializer();
-            serializer.setOutput(out, "UTF-8");
-            serializer.startDocument(null, Boolean.valueOf(true));
-            serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
-            serializer.startTag(null, "netguard");
+        serializer.startTag(null, "application");
+        xmlExport(PreferenceManager.getDefaultSharedPreferences(this), serializer);
+        serializer.endTag(null, "application");
 
-            serializer.startTag(null, "application");
-            xmlExport(PreferenceManager.getDefaultSharedPreferences(this), serializer);
-            serializer.endTag(null, "application");
+        serializer.startTag(null, "wifi");
+        xmlExport(getSharedPreferences("wifi", Context.MODE_PRIVATE), serializer);
+        serializer.endTag(null, "wifi");
 
-            serializer.startTag(null, "wifi");
-            xmlExport(getSharedPreferences("wifi", Context.MODE_PRIVATE), serializer);
-            serializer.endTag(null, "wifi");
+        serializer.startTag(null, "mobile");
+        xmlExport(getSharedPreferences("other", Context.MODE_PRIVATE), serializer);
+        serializer.endTag(null, "mobile");
 
-            serializer.startTag(null, "mobile");
-            xmlExport(getSharedPreferences("other", Context.MODE_PRIVATE), serializer);
-            serializer.endTag(null, "mobile");
+        serializer.startTag(null, "unused");
+        xmlExport(getSharedPreferences("unused", Context.MODE_PRIVATE), serializer);
+        serializer.endTag(null, "unused");
 
-            serializer.startTag(null, "unused");
-            xmlExport(getSharedPreferences("unused", Context.MODE_PRIVATE), serializer);
-            serializer.endTag(null, "unused");
-
-            serializer.endTag(null, "netguard");
-            serializer.endDocument();
-            serializer.flush();
-        } finally {
-            if (out != null)
-                out.close();
-        }
+        serializer.endTag(null, "netguard");
+        serializer.endDocument();
+        serializer.flush();
     }
 
     private void xmlExport(SharedPreferences prefs, XmlSerializer serializer) throws IOException {
@@ -709,25 +759,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
     }
 
+    private void xmlImport(InputStream in) throws IOException, SAXException, ParserConfigurationException {
+        XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+        XmlImportHandler handler = new XmlImportHandler();
+        reader.setContentHandler(handler);
+        reader.parse(new InputSource(in));
 
-    private void xmlImport(File file) throws IOException, SAXException, ParserConfigurationException {
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream(file);
-            XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-            XmlImportHandler handler = new XmlImportHandler();
-            reader.setContentHandler(handler);
-            reader.parse(new InputSource(in));
-
-            xmlImport(handler.application, PreferenceManager.getDefaultSharedPreferences(this));
-            xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
-            xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
-            xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
-
-        } finally {
-            if (in != null)
-                in.close();
-        }
+        xmlImport(handler.application, PreferenceManager.getDefaultSharedPreferences(this));
+        xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
+        xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
+        xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
     }
 
     private void xmlImport(Map<String, Object> settings, SharedPreferences prefs) {
