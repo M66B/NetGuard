@@ -12,7 +12,7 @@
     <string name="menu_about">Over</string>
 
     <string name="msg_sure">Weet u het zeker?</string>
-    <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar bovem om NetGuard aan te zetten</string>
+    <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar boven om NetGuard aan te zetten</string>
     <string name="msg_revoked">NetGuard is uitgezet</string>
 
     <string name="title_using">Sta toe als apparaat in gebruik</string>
