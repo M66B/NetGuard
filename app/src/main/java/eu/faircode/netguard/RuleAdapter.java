@@ -78,13 +78,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
     }
 
-    public void clear() {
-        listAll.clear();
-        listSelected.clear();
-        notifyDataSetChanged();
-    }
-
-    public void addAll(List<Rule> listRule) {
+    public void set(List<Rule> listRule) {
         listAll = listRule;
         listSelected = new ArrayList<>();
         listSelected.addAll(listRule);

@@ -130,12 +130,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 updateApplicationList();
             }
         });
-        swipeRefresh.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefresh.setRefreshing(true);
-            }
-        });
 
         // Fill application list
         updateApplicationList();
@@ -211,8 +205,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private void updateApplicationList() {
 
-        // Get/set application list
         new AsyncTask<Object, Object, List<Rule>>() {
+            @Override
+            protected void onPreExecute() {
+                swipeRefresh.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefresh.setRefreshing(true);
+                    }
+                });
+            }
+
             @Override
             protected List<Rule> doInBackground(Object... arg) {
                 return Rule.getRules(false, ActivityMain.this);
@@ -223,10 +226,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 if (running) {
                     if (menuSearch != null)
                         MenuItemCompat.collapseActionView(menuSearch);
-                    if (adapter != null) {
-                        adapter.clear();
-                        adapter.addAll(result);
-                    }
+                    if (adapter != null)
+                        adapter.set(result);
                     if (swipeRefresh != null)
                         swipeRefresh.setRefreshing(false);
                 }
