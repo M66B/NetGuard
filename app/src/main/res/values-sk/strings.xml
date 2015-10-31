@@ -5,9 +5,9 @@
     <string name="menu_network">Otvoriť nastavenia sietí</string>
     <string name="menu_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
     <string name="menu_whitelist_other">Predvolene blokovať mobilné dáta</string>
-    <string name="menu_system">Manage system applications</string>
-    <string name="menu_export">Export settings</string>
-    <string name="menu_import">Import settings</string>
+    <string name="menu_system">Spravovať systémové aplikácie</string>
+    <string name="menu_export">Exportovať nastavenia</string>
+    <string name="menu_import">Importovať nastavenia</string>
     <string name="menu_dark">Použiť tmavú tému</string>
     <string name="menu_vpn_settings">Otvoriť nastavenia VPN</string>
     <string name="menu_support">Podpora</string>
