@@ -6,6 +6,8 @@
     <string name="menu_whitelist_wifi">حظر الواي فاي بشكل افتراضي</string>
     <string name="menu_whitelist_other">حظر الشبكة بشكل افتراضي</string>
     <string name="menu_system">Manage system applications</string>
+    <string name="menu_export">Export settings</string>
+    <string name="menu_import">Import settings</string>
     <string name="menu_dark">استخدام الثيم الداكن</string>
     <string name="menu_vpn_settings">فتح إعدادات الـVPN</string>
     <string name="menu_support">الدعم</string>
