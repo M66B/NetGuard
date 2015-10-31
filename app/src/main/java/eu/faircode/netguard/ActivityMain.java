@@ -120,10 +120,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         adapter = new RuleAdapter(ActivityMain.this);
         rvApplication.setAdapter(adapter);
 
-        // Fill application list
-        updateApplicationList();
-
-        // Refresh application list
+        // Swipe to refresh
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         swipeRefresh.setColorSchemeColors(Color.WHITE, Color.WHITE, Color.WHITE);
         swipeRefresh.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
@@ -133,6 +130,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 updateApplicationList();
             }
         });
+        swipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefresh.setRefreshing(true);
+            }
+        });
+
+        // Fill application list
+        updateApplicationList();
 
         // Listen for preference changes
         prefs.registerOnSharedPreferenceChangeListener(this);
