@@ -161,13 +161,15 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.cbUsing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Update attribute
+                // Update rule
                 rule.unused = isChecked;
-                SharedPreferences punused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
+
+                // Store rule
+                SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
                 if (rule.unused)
-                    punused.edit().putBoolean(rule.info.packageName, true).apply();
+                    unused.edit().putBoolean(rule.info.packageName, true).apply();
                 else
-                    punused.edit().remove(rule.info.packageName).apply();
+                    unused.edit().remove(rule.info.packageName).apply();
 
                 // Update UI
                 notifyItemChanged(position);
