@@ -13,6 +13,7 @@ Downloads:
 
 * [GitHub](https://github.com/M66B/NetGuard/releases)
 * [Play store](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
+* [F-Droid](https://f-droid.org/repository/browse/?fdfilter=netguard&fdid=eu.faircode.netguard) (unsupported)
 
 <img src="screenshot.png" />
 
