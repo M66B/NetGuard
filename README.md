@@ -9,6 +9,11 @@ Blocking access to the internet can help:
 * save your battery
 * increase your privacy
 
+Downloads:
+
+* [GitHub](https://github.com/M66B/NetGuard/releases)
+* [Play store](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
+
 <img src="screenshot.png" />
 
 Features
