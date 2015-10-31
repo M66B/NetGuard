@@ -398,7 +398,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         btnDonate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (valid)
+                if (valid && billingService != null)
                     IABinitiate();
                 else
                     startActivity(donate);
