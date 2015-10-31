@@ -28,7 +28,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,24 +41,9 @@ import android.widget.Toast;
 import com.android.vending.billing.IInAppBillingService;
 
 import org.json.JSONObject;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xmlpull.v1.XmlSerializer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
 
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Main";
@@ -348,14 +332,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 menu_system(prefs);
                 return true;
 
-            case R.id.menu_export:
-                menu_export();
-                return true;
-
-            case R.id.menu_import:
-                menu_import();
-                return true;
-
             case R.id.menu_theme:
                 menu_theme(prefs);
                 return true;
@@ -402,29 +378,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         prefs.edit().putBoolean("manage_system", !prefs.getBoolean("manage_system", true)).apply();
         updateApplicationList();
         SinkholeService.reload(null, this);
-    }
-
-    private void menu_export() {
-        try {
-            File target = new File(getExternalCacheDir(), "netguard.xml");
-            Log.i(TAG, "Writing file=" + target);
-            xmlExport(target);
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void menu_import() {
-        try {
-            File target = new File(getExternalCacheDir(), "netguard.xml");
-            Log.i(TAG, "Reading file=" + target);
-            xmlImport(target);
-            recreate();
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-        }
     }
 
     private void menu_theme(SharedPreferences prefs) {
@@ -605,7 +558,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
             return false;
         }
     }
@@ -655,138 +607,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return "BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED";
             default:
                 return Integer.toString(responseCode);
-        }
-    }
-
-    private void xmlExport(File target) throws IOException {
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(target);
-
-            XmlSerializer serializer = Xml.newSerializer();
-            serializer.setOutput(out, "UTF-8");
-            serializer.startDocument(null, Boolean.valueOf(true));
-            serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
-            serializer.startTag(null, "netguard");
-
-            serializer.startTag(null, "application");
-            xmlExport(PreferenceManager.getDefaultSharedPreferences(this), serializer);
-            serializer.endTag(null, "application");
-
-            serializer.startTag(null, "wifi");
-            xmlExport(getSharedPreferences("wifi", Context.MODE_PRIVATE), serializer);
-            serializer.endTag(null, "wifi");
-
-            serializer.startTag(null, "mobile");
-            xmlExport(getSharedPreferences("other", Context.MODE_PRIVATE), serializer);
-            serializer.endTag(null, "mobile");
-
-            serializer.startTag(null, "unused");
-            xmlExport(getSharedPreferences("unused", Context.MODE_PRIVATE), serializer);
-            serializer.endTag(null, "unused");
-
-            serializer.endTag(null, "netguard");
-            serializer.endDocument();
-            serializer.flush();
-        } finally {
-            if (out != null)
-                out.close();
-        }
-    }
-
-    private void xmlExport(SharedPreferences prefs, XmlSerializer serializer) throws IOException {
-        Map<String, ?> settings = prefs.getAll();
-        for (String key : settings.keySet()) {
-            Object value = settings.get(key);
-            if (value instanceof Boolean) {
-                serializer.startTag(null, "setting");
-                serializer.attribute(null, "key", key);
-                serializer.attribute(null, "type", "boolean");
-                serializer.attribute(null, "value", value.toString());
-                serializer.endTag(null, "setting");
-            } else
-                Log.e(TAG, "Unknown key=" + key);
-        }
-    }
-
-
-    private void xmlImport(File file) throws IOException, SAXException, ParserConfigurationException {
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream(file);
-            XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-            XmlImportHandler handler = new XmlImportHandler();
-            reader.setContentHandler(handler);
-            reader.parse(new InputSource(in));
-
-            xmlImport(handler.application, PreferenceManager.getDefaultSharedPreferences(this));
-            xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
-            xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
-            xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
-
-        } finally {
-            if (in != null)
-                in.close();
-        }
-    }
-
-    private void xmlImport(Map<String, Object> settings, SharedPreferences prefs) {
-        SharedPreferences.Editor editor = prefs.edit();
-
-        for (String key : prefs.getAll().keySet())
-            editor.remove(key);
-
-        for (String key : settings.keySet()) {
-            Object value = settings.get(key);
-            if (value instanceof Boolean)
-                editor.putBoolean(key, (Boolean) value);
-            else
-                Log.e(TAG, "Unknown type=" + value.getClass());
-        }
-
-        editor.apply();
-    }
-
-    private class XmlImportHandler extends DefaultHandler {
-        public Map<String, Object> application = new HashMap<>();
-        public Map<String, Object> wifi = new HashMap<>();
-        public Map<String, Object> mobile = new HashMap<>();
-        public Map<String, Object> unused = new HashMap<>();
-        private Map<String, Object> current = null;
-
-        @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes) {
-            if (qName.equals("netguard"))
-                ; // Ignore
-
-            else if (qName.equals("application"))
-                current = application;
-
-            else if (qName.equals("wifi"))
-                current = wifi;
-
-            else if (qName.equals("mobile"))
-                current = mobile;
-
-            else if (qName.equals("unused"))
-                current = unused;
-
-            else if (qName.equals("setting")) {
-                String key = attributes.getValue("key");
-                String type = attributes.getValue("type");
-                String value = attributes.getValue("value");
-
-                if (current == null)
-                    Log.e(TAG, "No current key=" + key);
-                else {
-                    if ("boolean".equals(type))
-                        current.put(key, Boolean.parseBoolean(value));
-                    else
-                        Log.e(TAG, "Unknown type key=" + key);
-                }
-
-            } else
-                Log.e(TAG, "Unknown element qname=" + qName);
         }
     }
 }

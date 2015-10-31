@@ -24,12 +24,6 @@
         android:checkable="true"
         android:title="@string/menu_system" />
     <item
-        android:id="@+id/menu_export"
-        android:title="@string/menu_export" />
-    <item
-        android:id="@+id/menu_import"
-        android:title="@string/menu_import" />
-    <item
         android:id="@+id/menu_theme"
         android:checkable="true"
         android:title="@string/menu_dark" />

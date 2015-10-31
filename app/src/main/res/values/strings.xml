@@ -7,8 +7,6 @@
     <string name="menu_whitelist_wifi">Block Wi-Fi by default</string>
     <string name="menu_whitelist_other">Block mobile by default</string>
     <string name="menu_system">Manage system applications</string>
-    <string name="menu_export">Export settings</string>
-    <string name="menu_import">Import settings</string>
     <string name="menu_dark">Use dark theme</string>
     <string name="menu_vpn_settings">Open Android VPN settings</string>
     <string name="menu_support">Support</string>
