@@ -1,9 +1,7 @@
 package eu.faircode.netguard;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
@@ -179,13 +177,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
-        PackageManager pm = context.getPackageManager();
-        final Intent launch = pm.getLaunchIntentForPackage(rule.info.packageName);
-        holder.btnLaunch.setEnabled(launch != null);
+        holder.btnLaunch.setEnabled(rule.intent != null);
         holder.btnLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(launch);
+                context.startActivity(rule.intent);
             }
         });
     }

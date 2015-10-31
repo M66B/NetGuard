@@ -1,6 +1,7 @@
 package eu.faircode.netguard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -21,10 +22,12 @@ public class Rule implements Comparable<Rule> {
     public boolean other_blocked;
     public boolean unused;
     public boolean changed;
+    public Intent intent;
     public boolean attributes = false;
 
     private Rule(PackageInfo info, Context context) {
         PackageManager pm = context.getPackageManager();
+
         this.info = info;
         this.name = info.applicationInfo.loadLabel(pm).toString();
 
@@ -33,6 +36,8 @@ public class Rule implements Comparable<Rule> {
             this.disabled = !info.applicationInfo.enabled;
         else
             this.disabled = (setting != PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
+
+        this.intent = pm.getLaunchIntentForPackage(info.packageName);
     }
 
     public static List<Rule> getRules(boolean all, Context context) {
