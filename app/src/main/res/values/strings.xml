@@ -20,4 +20,6 @@
     <string name="title_launch">Start application</string>
     <string name="title_donate">Donate</string>
     <string name="title_thanks">Thank you for your donation!</string>
+
+    <string name="fingerprint" translatable="false">ef46f813d2c8a064d72c936b9b96d1cccc989378</string>
 </resources>

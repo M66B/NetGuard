@@ -57,7 +57,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     // adb shell pm clear com.android.vending
     private static final String SKU_DONATE = "donation"; // "android.test.purchased";
-    private static final String ACTION_DONATE = "eu.faircode.netguard.DONATE";
+    private static final String ACTION_IAB = "eu.faircode.netguard.IAB";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -366,6 +366,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private void menu_about() {
+        final boolean valid = Util.hasValidFingerprint(TAG, this);
+
         // Create view
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.about, null);
@@ -377,57 +379,42 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         tvVersion.setText(Util.getSelfVersionName(this));
 
         // Handle logcat
-        view.setOnClickListener(new View.OnClickListener() {
-            private short tap = 0;
+        if (valid)
+            view.setOnClickListener(new View.OnClickListener() {
+                private short tap = 0;
 
-            @Override
-            public void onClick(View view) {
-                if (++tap == 7) {
-                    tap = 0;
-                    Util.sendLogcat(TAG, ActivityMain.this);
+                @Override
+                public void onClick(View view) {
+                    if (++tap == 7) {
+                        tap = 0;
+                        Util.sendLogcat(TAG, ActivityMain.this);
+                    }
                 }
-            }
-        });
+            });
 
         // Handle donate
+        final Intent donate = new Intent(Intent.ACTION_VIEW);
+        donate.setData(Uri.parse("http://www.netguard.me/"));
         btnDonate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    // Start IAB
-                    Bundle bundle = billingService.getBuyIntent(3, getPackageName(), SKU_DONATE, "inapp", "");
-                    Log.i(TAG, "Billing.getBuyIntent");
-                    Util.logBundle(TAG, bundle);
-                    int response = bundle.getInt("RESPONSE_CODE");
-                    Log.i(TAG, "Billing response=" + getBillingResult(response));
-                    if (response == 0) {
-                        PendingIntent pi = bundle.getParcelable("BUY_INTENT");
-                        startIntentSenderForResult(
-                                pi.getIntentSender(),
-                                REQUEST_DONATION,
-                                new Intent(),
-                                Integer.valueOf(0),
-                                Integer.valueOf(0),
-                                Integer.valueOf(0));
-                    }
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-                }
+                if (valid)
+                    IABinitiate();
+                else
+                    startActivity(donate);
             }
         });
 
         // Handle donated
-        final BroadcastReceiver onDonated = new BroadcastReceiver() {
+        final BroadcastReceiver onIABsuccess = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 btnDonate.setVisibility(View.GONE);
                 tvThanks.setVisibility(View.VISIBLE);
             }
         };
-
-        IntentFilter iff = new IntentFilter(ACTION_DONATE);
-        LocalBroadcastManager.getInstance(this).registerReceiver(onDonated, iff);
+        IntentFilter iff = new IntentFilter(ACTION_IAB);
+        LocalBroadcastManager.getInstance(this).registerReceiver(onIABsuccess, iff);
 
         // Show dialog
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -436,74 +423,28 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        LocalBroadcastManager.getInstance(ActivityMain.this).unregisterReceiver(onDonated);
+                        LocalBroadcastManager.getInstance(ActivityMain.this).unregisterReceiver(onIABsuccess);
                     }
                 })
                 .create();
         dialog.show();
 
-        // Handle SKUs
-        if (billingService != null)
-            new AsyncTask<Object, Object, Object>() {
+        // Validate IAB
+        if (valid && billingService != null)
+            new AsyncTask<Object, Object, Boolean>() {
                 @Override
-                protected Object doInBackground(Object... objects) {
-                    try {
-                        // Get available SKUs
-                        ArrayList<String> skuList = new ArrayList<String>();
-                        skuList.add(SKU_DONATE);
-                        Bundle query = new Bundle();
-                        query.putStringArrayList("ITEM_ID_LIST", skuList);
-                        Bundle details = billingService.getSkuDetails(3, getPackageName(), "inapp", query);
-                        Log.i(TAG, "Billing.getSkuDetails");
-                        Util.logBundle(TAG, details);
-                        int details_response = details.getInt("RESPONSE_CODE");
-                        Log.i(TAG, "Billing response=" + getBillingResult(details_response));
-                        if (details_response != 0)
-                            return null;
-
-                        // Check available SKUs
-                        boolean found = false;
-                        for (String item : details.getStringArrayList("DETAILS_LIST")) {
-                            JSONObject object = new JSONObject(item);
-                            if (SKU_DONATE.equals(object.getString("productId"))) {
-                                found = true;
-                                break;
-                            }
-                        }
-                        Log.i(TAG, SKU_DONATE + "=" + found);
-                        if (!found)
-                            return null;
-
-                        // Get purchases
-                        Bundle purchases = billingService.getPurchases(3, getPackageName(), "inapp", null);
-                        Log.i(TAG, "Billing.getPurchases");
-                        Util.logBundle(TAG, purchases);
-                        int purchases_response = purchases.getInt("RESPONSE_CODE");
-                        Log.i(TAG, "Billing response=" + getBillingResult(purchases_response));
-                        return (purchases_response == 0 ? purchases : null);
-
-                    } catch (Throwable ex) {
-                        return ex;
-                    }
+                protected Boolean doInBackground(Object... objects) {
+                    return IABvalidate();
                 }
 
                 @Override
-                protected void onPostExecute(Object result) {
-                    if (result instanceof Throwable) {
-                        // Handle exception
-                        Throwable ex = (Throwable) result;
-                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-
-                    } else if (result != null) {
-                        // Show donate/donated
-                        Bundle bundle = (Bundle) result;
-                        ArrayList<String> skus = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
-                        btnDonate.setVisibility(skus.contains(SKU_DONATE) ? View.GONE : View.VISIBLE);
-                        tvThanks.setVisibility(skus.contains(SKU_DONATE) ? View.VISIBLE : View.GONE);
-                    }
+                protected void onPostExecute(Boolean ok) {
+                    btnDonate.setVisibility(ok ? View.GONE : View.VISIBLE);
+                    tvThanks.setVisibility(ok ? View.VISIBLE : View.GONE);
                 }
             }.execute();
+        else
+            btnDonate.setVisibility(donate.resolveActivity(getPackageManager()) == null ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -524,11 +465,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         } else if (requestCode == REQUEST_DONATION) {
             if (resultCode == RESULT_OK) {
                 // Handle donation
-                Intent intent = new Intent(ACTION_DONATE);
+                Intent intent = new Intent(ACTION_IAB);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
             } else if (data != null) {
                 int response = data.getIntExtra("RESPONSE_CODE", -1);
-                Log.i(TAG, "Billing response=" + getBillingResult(response));
+                Log.i(TAG, "Billing response=" + getIABResult(response));
             }
 
         } else {
@@ -537,7 +478,77 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    private static String getBillingResult(int responseCode) {
+    private boolean IABvalidate() {
+        try {
+            // Get available SKUs
+            ArrayList<String> skuList = new ArrayList<>();
+            skuList.add(SKU_DONATE);
+            Bundle query = new Bundle();
+            query.putStringArrayList("ITEM_ID_LIST", skuList);
+            Bundle details = billingService.getSkuDetails(3, getPackageName(), "inapp", query);
+            Log.i(TAG, "Billing.getSkuDetails");
+            Util.logBundle(TAG, details);
+            int details_response = details.getInt("RESPONSE_CODE");
+            Log.i(TAG, "Billing response=" + getIABResult(details_response));
+            if (details_response != 0)
+                return false;
+
+            // Check available SKUs
+            boolean found = false;
+            for (String item : details.getStringArrayList("DETAILS_LIST")) {
+                JSONObject object = new JSONObject(item);
+                if (SKU_DONATE.equals(object.getString("productId"))) {
+                    found = true;
+                    break;
+                }
+            }
+            Log.i(TAG, SKU_DONATE + "=" + found);
+            if (!found)
+                return false;
+
+            // Get purchases
+            Bundle purchases = billingService.getPurchases(3, getPackageName(), "inapp", null);
+            Log.i(TAG, "Billing.getPurchases");
+            Util.logBundle(TAG, purchases);
+            int purchases_response = purchases.getInt("RESPONSE_CODE");
+            Log.i(TAG, "Billing response=" + getIABResult(purchases_response));
+            if (purchases_response != 0)
+                return false;
+
+            // Check purchases
+            ArrayList<String> skus = purchases.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+            return skus.contains(SKU_DONATE);
+
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            return false;
+        }
+    }
+
+    private void IABinitiate() {
+        try {
+            Bundle bundle = billingService.getBuyIntent(3, getPackageName(), SKU_DONATE, "inapp", "");
+            Log.i(TAG, "Billing.getBuyIntent");
+            Util.logBundle(TAG, bundle);
+            int response = bundle.getInt("RESPONSE_CODE");
+            Log.i(TAG, "Billing response=" + getIABResult(response));
+            if (response == 0) {
+                PendingIntent pi = bundle.getParcelable("BUY_INTENT");
+                startIntentSenderForResult(
+                        pi.getIntentSender(),
+                        REQUEST_DONATION,
+                        new Intent(),
+                        Integer.valueOf(0),
+                        Integer.valueOf(0),
+                        Integer.valueOf(0));
+            }
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private static String getIABResult(int responseCode) {
         switch (responseCode) {
             case 0:
                 return "BILLING_RESPONSE_RESULT_OK";
