@@ -3,7 +3,6 @@
 
     <string name="menu_search">Recherche application</string>
     <string name="menu_network">Ouvrir les paramètres réseaux</string>
-    <string name="menu_refresh">Actualiser les applications</string>
     <string name="menu_whitelist_wifi">Blocage Wi-Fi par défaut</string>
     <string name="menu_whitelist_other">Blocage données mobiles par défaut</string>
     <string name="menu_dark">Utiliser le thème sombre</string>

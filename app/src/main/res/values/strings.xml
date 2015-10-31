@@ -4,7 +4,6 @@
 
     <string name="menu_search">Search for application</string>
     <string name="menu_network">Open network settings</string>
-    <string name="menu_refresh">Refresh application list</string>
     <string name="menu_whitelist_wifi">Block Wi-Fi by default</string>
     <string name="menu_whitelist_other">Block mobile by default</string>
     <string name="menu_dark">Use dark theme</string>

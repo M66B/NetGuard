@@ -3,7 +3,6 @@
 
     <string name="menu_search">Hľadať aplikáciu</string>
     <string name="menu_network">Otvoriť nastavenia sietí</string>
-    <string name="menu_refresh">Obnoviť zoznam aplikácií</string>
     <string name="menu_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
     <string name="menu_whitelist_other">Predvolene blokovať mobilné dáta</string>
     <string name="menu_dark">Použiť tmavú tému</string>

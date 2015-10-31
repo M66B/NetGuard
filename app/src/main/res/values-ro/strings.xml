@@ -3,7 +3,6 @@
 
     <string name="menu_search">Cauta aplicatii</string>
     <string name="menu_network">Deschide setari retea</string>
-    <string name="menu_refresh">Actualizeaza lista de aplicatii</string>
     <string name="menu_whitelist_wifi">Blocheaza implicit Wi-Fi</string>
     <string name="menu_whitelist_other">Blocheaza implicit date mobile</string>
     <string name="menu_dark">Foloseste tema intunecata</string>

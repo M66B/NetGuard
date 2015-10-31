@@ -12,9 +12,6 @@
         android:title="@string/menu_network"
         netguard:showAsAction="always" />
     <item
-        android:id="@+id/menu_refresh"
-        android:title="@string/menu_refresh" />
-    <item
         android:id="@+id/menu_whitelist_wifi"
         android:checkable="true"
         android:title="@string/menu_whitelist_wifi" />

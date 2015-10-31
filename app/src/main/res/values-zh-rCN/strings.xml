@@ -3,7 +3,6 @@
 
     <string name="menu_search">搜索应用</string>
     <string name="menu_network">打开网络设置</string>
-    <string name="menu_refresh">刷新应用列表</string>
     <string name="menu_whitelist_wifi">默认阻止Wi-Fi网络</string>
     <string name="menu_whitelist_other">默认阻止移动网络</string>
     <string name="menu_dark">使用暗色主题</string>

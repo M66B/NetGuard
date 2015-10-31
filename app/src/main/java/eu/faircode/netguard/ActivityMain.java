@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.VpnService;
@@ -19,6 +20,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,6 +49,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final String TAG = "NetGuard.Main";
 
     private boolean running = false;
+    private SwipeRefreshLayout swipeRefresh;
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
     private MenuItem menuNetwork = null;
@@ -77,10 +80,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(view);
 
-        // Disabled warning
-        TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
-        tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
-
         // On/off switch
         SwitchCompat swEnabled = (SwitchCompat) view.findViewById(R.id.swEnabled);
         swEnabled.setChecked(enabled);
@@ -110,11 +109,33 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        // Listen for preference changes
-        prefs.registerOnSharedPreferenceChangeListener(this);
+        // Disabled warning
+        TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
+        tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
+
+        // Application list
+        RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
+        rvApplication.setHasFixedSize(true);
+        rvApplication.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RuleAdapter(ActivityMain.this);
+        rvApplication.setAdapter(adapter);
 
         // Fill application list
-        fillApplicationList();
+        updateApplicationList();
+
+        // Refresh application list
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        swipeRefresh.setColorSchemeColors(Color.WHITE, Color.WHITE, Color.WHITE);
+        swipeRefresh.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateApplicationList();
+            }
+        });
+
+        // Listen for preference changes
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Listen for connectivity updates
         IntentFilter ifConnectivity = new IntentFilter();
@@ -164,7 +185,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
-            fillApplicationList();
+            updateApplicationList();
         }
     };
 
@@ -182,11 +203,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
     };
 
-    private void fillApplicationList() {
-        // Get recycler view
-        final RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
-        rvApplication.setHasFixedSize(true);
-        rvApplication.setLayoutManager(new LinearLayoutManager(this));
+    private void updateApplicationList() {
 
         // Get/set application list
         new AsyncTask<Object, Object, List<Rule>>() {
@@ -200,8 +217,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 if (running) {
                     if (menuSearch != null)
                         MenuItemCompat.collapseActionView(menuSearch);
-                    adapter = new RuleAdapter(result, ActivityMain.this);
-                    rvApplication.setAdapter(adapter);
+                    if (adapter != null) {
+                        adapter.clear();
+                        adapter.addAll(result);
+                    }
+                    if (swipeRefresh != null)
+                        swipeRefresh.setRefreshing(false);
                 }
             }
         }.execute();
@@ -289,10 +310,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 menu_network();
                 return true;
 
-            case R.id.menu_refresh:
-                fillApplicationList();
-                return true;
-
             case R.id.menu_whitelist_wifi:
                 menu_whitelist_wifi(prefs);
                 return true;
@@ -333,13 +350,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private void menu_whitelist_wifi(SharedPreferences prefs) {
         prefs.edit().putBoolean("whitelist_wifi", !prefs.getBoolean("whitelist_wifi", true)).apply();
-        fillApplicationList();
+        updateApplicationList();
         SinkholeService.reload("wifi", this);
     }
 
     private void menu_whitelist_other(SharedPreferences prefs) {
         prefs.edit().putBoolean("whitelist_other", !prefs.getBoolean("whitelist_other", true)).apply();
-        fillApplicationList();
+        updateApplicationList();
         SinkholeService.reload("other", this);
     }
 

@@ -31,8 +31,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private Context context;
     private int colorText;
     private int colorAccent;
-    private List<Rule> listAll;
-    private List<Rule> listSelected;
+    private List<Rule> listAll = new ArrayList<>();
+    private List<Rule> listSelected = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -67,7 +67,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
     }
 
-    public RuleAdapter(List<Rule> listRule, Context context) {
+    public RuleAdapter(Context context) {
         this.context = context;
         colorAccent = ContextCompat.getColor(context, R.color.colorAccent);
         TypedArray ta = context.getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
@@ -76,9 +76,19 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         } finally {
             ta.recycle();
         }
+    }
+
+    public void clear() {
+        listAll.clear();
+        listSelected.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Rule> listRule) {
         listAll = listRule;
         listSelected = new ArrayList<>();
         listSelected.addAll(listRule);
+        notifyDataSetChanged();
     }
 
     @Override

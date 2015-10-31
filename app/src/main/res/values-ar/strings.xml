@@ -3,7 +3,6 @@
 
     <string name="menu_search">البحث عن تطبيقات</string>
     <string name="menu_network">فتح إعدادات الشبكة</string>
-    <string name="menu_refresh">تحديث التطبيقات</string>
     <string name="menu_whitelist_wifi">حظر الواي فاي بشكل افتراضي</string>
     <string name="menu_whitelist_other">حظر الشبكة بشكل افتراضي</string>
     <string name="menu_dark">استخدام الثيم الداكن</string>

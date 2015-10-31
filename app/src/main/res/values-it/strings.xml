@@ -3,7 +3,6 @@
 
     <string name="menu_search">Cerca applicazione</string>
     <string name="menu_network">Apri impostazioni di rete</string>
-    <string name="menu_refresh">Aggiorna la lista</string>
     <string name="menu_whitelist_wifi">Blocca Wi-Fi di default</string>
     <string name="menu_whitelist_other">Block rete di dati di default</string>
     <string name="menu_dark">Usa il tema scuro</string>
