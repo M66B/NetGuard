@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <rule
+        blocked="false"
+        package="com.google.android.apps.adm" />
+</resources>
