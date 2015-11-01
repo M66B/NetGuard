@@ -137,19 +137,21 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
                 String network;
+                boolean def;
                 if (buttonView == holder.cbWifi) {
                     network = "wifi";
                     rule.wifi_blocked = isChecked;
+                    def = rule.wifi_default;
                 } else {
                     network = "other";
                     rule.other_blocked = isChecked;
+                    def = rule.other_default;
                 }
                 Log.i(TAG, rule.info.packageName + ": " + network + "=" + isChecked);
 
                 // Store rule
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences rules = context.getSharedPreferences(network, Context.MODE_PRIVATE);
-                if (isChecked == prefs.getBoolean("whitelist_" + network, true)) {
+                if (isChecked == def) {
                     Log.i(TAG, "Removing " + rule.info.packageName + " " + network);
                     rules.edit().remove(rule.info.packageName).apply();
                 } else {
@@ -217,10 +219,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
                 // Store rule
                 SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
-                if (rule.unused)
-                    unused.edit().putBoolean(rule.info.packageName, true).apply();
-                else
+                if (rule.unused == rule.unused_default)
                     unused.edit().remove(rule.info.packageName).apply();
+                else
+                    unused.edit().putBoolean(rule.info.packageName, rule.unused).apply();
 
                 // Update UI
                 notifyItemChanged(position);
@@ -241,9 +243,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 rule.roaming = isChecked;
 
                 // Store rule
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
-                if (rule.roaming == prefs.getBoolean("whitelist_roaming", true))
+                if (rule.roaming == rule.roaming_default)
                     roaming.edit().remove(rule.info.packageName).apply();
                 else
                     roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();

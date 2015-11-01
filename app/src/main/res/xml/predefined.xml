@@ -2,7 +2,8 @@
 <resources>
     <rule
         blocked="false"
-        package="com.google.android.apps.adm" />
+        package="com.google.android.apps.adm"
+        roaming="false" />
     <rule
         blocked="true"
         package="com.android.chrome"

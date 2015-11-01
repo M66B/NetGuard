@@ -24,12 +24,21 @@ public class Rule implements Comparable<Rule> {
     public String name;
     public boolean system;
     public boolean disabled;
+
+    public boolean wifi_default;
+    public boolean other_default;
+    public boolean unused_default;
+    public boolean roaming_default;
+
     public boolean wifi_blocked;
     public boolean other_blocked;
     public boolean unused;
     public boolean roaming;
+
     public boolean changed;
+
     public Intent intent;
+
     public boolean attributes = false;
 
     private Rule(PackageInfo info, Context context) {
@@ -63,6 +72,7 @@ public class Rule implements Comparable<Rule> {
         // Get predefined rules
         Map<String, Boolean> pre_blocked = new HashMap<>();
         Map<String, Boolean> pre_unused = new HashMap<>();
+        Map<String, Boolean> pre_roaming = new HashMap<>();
         try {
             XmlResourceParser xml = context.getResources().getXml(R.xml.predefined);
             int eventType = xml.getEventType();
@@ -71,9 +81,11 @@ public class Rule implements Comparable<Rule> {
                     String pkg = xml.getAttributeValue(null, "package");
                     boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
                     boolean punused = xml.getAttributeBooleanValue(null, "unused", false);
+                    boolean proaming = xml.getAttributeBooleanValue(null, "roaming", whitelist_roaming);
                     pre_blocked.put(pkg, pblocked);
                     pre_unused.put(pkg, punused);
-                    Log.i(tag, "Predefined " + pkg + " blocked=" + pblocked + " unused" + punused);
+                    pre_roaming.put(pkg, proaming);
+                    Log.i(tag, "Predefined " + pkg + " blocked=" + pblocked + " unused=" + unused + " roaming=" + proaming);
                 }
                 eventType = xml.next();
             }
@@ -86,19 +98,25 @@ public class Rule implements Comparable<Rule> {
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
             boolean system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
             if (!system || manage_system || all) {
-                boolean isPreBlocked = pre_blocked.containsKey(info.packageName);
-                boolean isPreUnused = pre_unused.containsKey(info.packageName);
                 Rule rule = new Rule(info, context);
+
                 rule.system = system;
-                rule.wifi_blocked = (system && !manage_system ? false :
-                        wifi.getBoolean(info.packageName, isPreBlocked ? pre_blocked.get(info.packageName) : whitelist_wifi));
-                rule.other_blocked = (system && !manage_system ? false :
-                        other.getBoolean(info.packageName, isPreBlocked ? pre_blocked.get(info.packageName) : whitelist_other));
-                rule.unused = unused.getBoolean(info.packageName, isPreUnused ? pre_unused.get(info.packageName) : false);
-                rule.roaming = roaming.getBoolean(info.packageName, isPreBlocked ? pre_blocked.get(info.packageName) : whitelist_roaming);
+
+                rule.wifi_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : whitelist_wifi);
+                rule.other_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : whitelist_other);
+                rule.unused_default = (pre_unused.containsKey(info.packageName) ? pre_unused.get(info.packageName) : false);
+                rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : whitelist_roaming);
+
+                rule.wifi_blocked = (system && !manage_system ? false : wifi.getBoolean(info.packageName, rule.wifi_default));
+                rule.other_blocked = (system && !manage_system ? false : other.getBoolean(info.packageName, rule.other_default));
+                rule.unused = unused.getBoolean(info.packageName, rule.unused_default);
+                rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
+
                 rule.changed = (rule.wifi_blocked != whitelist_wifi ||
                         rule.other_blocked != whitelist_other ||
-                        (!rule.other_blocked || rule.unused) && rule.roaming != whitelist_roaming);
+                        rule.unused ||
+                        (!rule.other_blocked || rule.unused) && rule.roaming && rule.roaming != whitelist_roaming);
+
                 listRules.add(rule);
             }
         }
