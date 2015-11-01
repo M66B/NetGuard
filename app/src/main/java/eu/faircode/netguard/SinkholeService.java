@@ -38,43 +38,50 @@ public class SinkholeService extends VpnService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Get enabled
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean enabled = prefs.getBoolean("enabled", false);
+        final boolean enabled = prefs.getBoolean("enabled", false);
 
         // Get command
-        Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
+        final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
 
-        // Process command
-        switch (cmd) {
-            case start:
-                if (enabled && vpn == null) {
-                    vpn = startVPN();
-                    startDebug(vpn);
-                    NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    nm.cancel(NOTIFY_DISABLED);
-                }
-                break;
+        synchronized (this) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // Process command
+                    switch (cmd) {
+                        case start:
+                            if (enabled && vpn == null) {
+                                vpn = startVPN();
+                                startDebug(vpn);
+                                NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                nm.cancel(NOTIFY_DISABLED);
+                            }
+                            break;
 
-            case reload:
-                // Seamless handover
-                ParcelFileDescriptor prev = vpn;
-                if (enabled) {
-                    vpn = startVPN();
-                    stopDebug();
-                    startDebug(vpn);
-                }
-                if (prev != null)
-                    stopVPN(prev);
-                break;
+                        case reload:
+                            // Seamless handover
+                            ParcelFileDescriptor prev = vpn;
+                            if (enabled) {
+                                vpn = startVPN();
+                                stopDebug();
+                                startDebug(vpn);
+                            }
+                            if (prev != null)
+                                stopVPN(prev);
+                            break;
 
-            case stop:
-                if (vpn != null) {
-                    stopDebug();
-                    stopVPN(vpn);
-                    vpn = null;
+                        case stop:
+                            if (vpn != null) {
+                                stopDebug();
+                                stopVPN(vpn);
+                                vpn = null;
+                            }
+                            stopSelf();
+                            break;
+                    }
                 }
-                stopSelf();
-                break;
+            }).start();
         }
 
         return START_STICKY;
