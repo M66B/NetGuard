@@ -1,5 +1,6 @@
 <resources>
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
+    <string name="app_license">Door NetGuard te gebruiken, gaat u akkoord met de <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Zoek naar applicatie</string>
     <string name="menu_network">Open netwerkinstellingen</string>

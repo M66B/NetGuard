@@ -27,6 +27,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.Xml;
 import android.view.LayoutInflater;
@@ -446,9 +447,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         TextView tvVersion = (TextView) view.findViewById(R.id.tvVersion);
         final Button btnDonate = (Button) view.findViewById(R.id.btnDonate);
         final TextView tvThanks = (TextView) view.findViewById(R.id.tvThanks);
+        TextView tvLicense = (TextView) view.findViewById(R.id.tvLicense);
 
         // Show version
         tvVersion.setText(Util.getSelfVersionName(this));
+
+        // Handle license
+        tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Handle logcat
         if (valid)
