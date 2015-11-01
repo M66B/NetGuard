@@ -104,13 +104,20 @@ and adding a lot of complex code to do network translation from OSI layer 3 to l
 This is how most (all?) other no root firewalls work.
 NetGuard is unique, because it doesn't implement a TCP/IP stack and is therefore both highly efficient and simple.
 
-For more advanced use cases while not sacrificing battery usage, rooting and using a iptables based firewall,
+For more advanced use cases, while not sacrificing battery usage,
+rooting your device and using a iptables based firewall,
 like [AFWall+](https://github.com/ukanth/afwall) might be a better option.
 
 <a name="FAQ6"></a>
 **(6) Will NetGuard send my internet traffic to an external (VPN) server?**
 
 No, it even can't, because NetGuard has no *internet* permission.
+
+<a name="FAQ7"></a>
+**(7) Why are applications without internet access shown?**
+
+Internet permission can be granted with each application update without user consent.
+Not filtering applications without internet access allows you to block internet access before such an update occurs.
 
 Support
 -------
