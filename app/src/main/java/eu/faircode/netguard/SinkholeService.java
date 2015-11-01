@@ -54,8 +54,7 @@ public class SinkholeService extends VpnService {
                             if (enabled && vpn == null) {
                                 vpn = startVPN();
                                 startDebug(vpn);
-                                NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                                nm.cancel(NOTIFY_DISABLED);
+                                removeDisabledNotification();
                             }
                             break;
 
@@ -298,7 +297,13 @@ public class SinkholeService extends VpnService {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("enabled", false).apply();
 
-        // Display notification
+        // Display warning
+        showDisabledNotification();
+
+        super.onRevoke();
+    }
+
+    private void showDisabledNotification() {
         Intent riMain = new Intent(this, ActivityMain.class);
         PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -311,8 +316,11 @@ public class SinkholeService extends VpnService {
 
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIFY_DISABLED, notification.build());
+    }
 
-        super.onRevoke();
+    private void removeDisabledNotification() {
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancel(NOTIFY_DISABLED);
     }
 
     public static void start(Context context) {
