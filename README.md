@@ -15,7 +15,7 @@ Downloads:
 * [Play store](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
 * [F-Droid](https://f-droid.org/repository/browse/?fdfilter=netguard&fdid=eu.faircode.netguard) (unsupported)
 
-<img src="screenshot.png" />
+<img src="screenshot.png" width="320" height="569" />
 
 Features
 --------
