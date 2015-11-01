@@ -41,28 +41,36 @@
                 android:textAppearance="@android:style/TextAppearance.Material.Medium" />
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/cbWifi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="12dp"
-            android:button="@drawable/wifi" />
+        <RelativeLayout
+            android:layout_width="?android:attr/listPreferredItemHeightSmall"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall">
 
-        <CheckBox
-            android:id="@+id/cbOther"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="12dp"
-            android:button="@drawable/other" />
+            <CheckBox
+                android:id="@+id/cbWifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:button="@drawable/wifi" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="?android:attr/listPreferredItemHeightSmall"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall">
+
+            <CheckBox
+                android:id="@+id/cbOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:button="@drawable/other" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/llAttributes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="4dp"
             android:orientation="vertical">
 
             <ImageView
@@ -79,7 +87,8 @@
                 android:layout_gravity="center_horizontal"
                 android:text="R"
                 android:textAppearance="@android:style/TextAppearance.Material.Small"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorAccent"
+                android:textSize="12dp" />
         </LinearLayout>
     </LinearLayout>
 

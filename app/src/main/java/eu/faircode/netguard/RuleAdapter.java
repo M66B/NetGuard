@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -11,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -77,6 +79,32 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             cbUsing = (CheckBox) itemView.findViewById(R.id.cbUsing);
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
             btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
+
+            final View wifiParent = (View) cbWifi.getParent();
+            wifiParent.post(new Runnable() {
+                public void run() {
+                    Rect rect = new Rect();
+                    cbWifi.getHitRect(rect);
+                    rect.bottom += rect.top;
+                    rect.right += rect.left;
+                    rect.top = 0;
+                    rect.left = 0;
+                    wifiParent.setTouchDelegate(new TouchDelegate(rect, cbWifi));
+                }
+            });
+
+            final View otherParent = (View) cbOther.getParent();
+            otherParent.post(new Runnable() {
+                public void run() {
+                    Rect rect = new Rect();
+                    cbOther.getHitRect(rect);
+                    rect.bottom += rect.top;
+                    rect.right += rect.left;
+                    rect.top = 0;
+                    rect.left = 0;
+                    otherParent.setTouchDelegate(new TouchDelegate(rect, cbOther));
+                }
+            });
         }
     }
 
