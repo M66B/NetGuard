@@ -27,6 +27,7 @@ public class Rule implements Comparable<Rule> {
     public boolean wifi_blocked;
     public boolean other_blocked;
     public boolean unused;
+    public boolean roaming;
     public boolean changed;
     public Intent intent;
     public boolean attributes = false;
@@ -51,13 +52,15 @@ public class Rule implements Comparable<Rule> {
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
         SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
+        SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
 
         // Get settings
         boolean whitelist_wifi = prefs.getBoolean("whitelist_wifi", true);
         boolean whitelist_other = prefs.getBoolean("whitelist_other", true);
+        boolean whitelist_roaming = prefs.getBoolean("whitelist_roaming", true);
         boolean manage_system = prefs.getBoolean("manage_system", false);
 
-        // Get predifined rules
+        // Get predefined rules
         Map<String, Boolean> predefined = new HashMap<>();
         try {
             XmlResourceParser xml = context.getResources().getXml(R.xml.predefined);
@@ -80,18 +83,18 @@ public class Rule implements Comparable<Rule> {
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
             boolean system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
             if (!system || manage_system || all) {
+                boolean isPredefined = predefined.containsKey(info.packageName);
                 Rule rule = new Rule(info, context);
                 rule.system = system;
                 rule.wifi_blocked = (system && !manage_system ? false :
-                        wifi.getBoolean(info.packageName, predefined.containsKey(info.packageName)
-                                ? predefined.get(info.packageName)
-                                : whitelist_wifi));
+                        wifi.getBoolean(info.packageName, isPredefined ? predefined.get(info.packageName) : whitelist_wifi));
                 rule.other_blocked = (system && !manage_system ? false :
-                        other.getBoolean(info.packageName, predefined.containsKey(info.packageName)
-                                ? predefined.get(info.packageName)
-                                : whitelist_other));
+                        other.getBoolean(info.packageName, isPredefined ? predefined.get(info.packageName) : whitelist_other));
                 rule.unused = unused.getBoolean(info.packageName, false);
-                rule.changed = (rule.wifi_blocked != whitelist_wifi || rule.other_blocked != whitelist_other);
+                rule.roaming = roaming.getBoolean(info.packageName, isPredefined ? predefined.get(info.packageName) : whitelist_roaming);
+                rule.changed = (rule.wifi_blocked != whitelist_wifi ||
+                        rule.other_blocked != whitelist_other ||
+                        (!rule.other_blocked || rule.unused) && rule.roaming != whitelist_roaming);
                 listRules.add(rule);
             }
         }

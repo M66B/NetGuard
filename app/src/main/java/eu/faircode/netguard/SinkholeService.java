@@ -25,6 +25,7 @@ import java.nio.ByteOrder;
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
+    private boolean last_roaming;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
     private Thread thread = null;
@@ -52,6 +53,7 @@ public class SinkholeService extends VpnService {
                     switch (cmd) {
                         case start:
                             if (enabled && vpn == null) {
+                                last_roaming = Util.isRoaming(SinkholeService.this);
                                 vpn = startVPN();
                                 startDebug(vpn);
                                 removeDisabledNotification();
@@ -93,6 +95,10 @@ public class SinkholeService extends VpnService {
         boolean wifi = Util.isWifiActive(this);
         Log.i(TAG, "wifi=" + wifi);
 
+        // Check if Wi-Fi
+        boolean roaming = Util.isRoaming(this);
+        Log.i(TAG, "roaming=" + roaming);
+
         // Check if interactive
         boolean interactive = Util.isInteractive(this);
         Log.i(TAG, "interactive=" + interactive);
@@ -106,8 +112,9 @@ public class SinkholeService extends VpnService {
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
         // Add list of allowed applications
-        for (Rule rule : Rule.getRules(true, TAG, this))
-            if (!(wifi ? rule.wifi_blocked : rule.other_blocked) || (rule.unused && interactive)) {
+        for (Rule rule : Rule.getRules(true, TAG, this)) {
+            boolean blocked = (wifi ? rule.wifi_blocked : rule.other_blocked);
+            if ((!blocked || (rule.unused && interactive)) && (wifi || !(rule.roaming && roaming))) {
                 Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
                     builder.addDisallowedApplication(rule.info.packageName);
@@ -115,6 +122,7 @@ public class SinkholeService extends VpnService {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
             }
+        }
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
@@ -228,8 +236,15 @@ public class SinkholeService extends VpnService {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
-            if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
-                    intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI)
+
+            if (last_roaming != Util.isRoaming(SinkholeService.this)) {
+                last_roaming = !last_roaming;
+                Log.i(TAG, "New state roaming=" + last_roaming);
+                reload(null, SinkholeService.this);
+
+            } else if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
+                    intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) ==
+                            ConnectivityManager.TYPE_WIFI)
                 reload(null, SinkholeService.this);
         }
     };

@@ -326,6 +326,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         menu.findItem(R.id.menu_whitelist_wifi).setChecked(prefs.getBoolean("whitelist_wifi", true));
         menu.findItem(R.id.menu_whitelist_other).setChecked(prefs.getBoolean("whitelist_other", true));
+        menu.findItem(R.id.menu_whitelist_roaming).setChecked(prefs.getBoolean("whitelist_roaming", true));
         menu.findItem(R.id.menu_system).setChecked(prefs.getBoolean("manage_system", false));
         menu.findItem(R.id.menu_export).setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
         menu.findItem(R.id.menu_import).setEnabled(getIntentOpenDocument().resolveActivity(getPackageManager()) != null);
@@ -352,6 +353,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             case R.id.menu_whitelist_other:
                 menu_whitelist_other(prefs);
+                return true;
+
+            case R.id.menu_whitelist_roaming:
+                menu_whitelist_roaming(prefs);
                 return true;
 
             case R.id.menu_system:
@@ -404,6 +409,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private void menu_whitelist_other(SharedPreferences prefs) {
         prefs.edit().putBoolean("whitelist_other", !prefs.getBoolean("whitelist_other", true)).apply();
+        updateApplicationList();
+        SinkholeService.reload("other", this);
+    }
+
+    private void menu_whitelist_roaming(SharedPreferences prefs) {
+        prefs.edit().putBoolean("whitelist_roaming", !prefs.getBoolean("whitelist_roaming", true)).apply();
         updateApplicationList();
         SinkholeService.reload("other", this);
     }

@@ -38,6 +38,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
+
         public LinearLayout llApplication;
         public ImageView ivIcon;
         public ImageView ivExpander;
@@ -45,26 +46,36 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public TextView tvPackage;
         public CheckBox cbWifi;
         public CheckBox cbOther;
+
         public LinearLayout llAttributes;
         public ImageView ivUsing;
+        public TextView tvRoaming;
+
         public LinearLayout llConfiguration;
         public CheckBox cbUsing;
+        public CheckBox cbRoaming;
         public Button btnLaunch;
 
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
+
             llApplication = (LinearLayout) itemView.findViewById(R.id.llApplication);
             ivIcon = (ImageView) itemView.findViewById(R.id.ivIcon);
             ivExpander = (ImageView) itemView.findViewById(R.id.ivExpander);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
-            tvPackage = (TextView) itemView.findViewById(R.id.tvPackage);
+
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
             cbOther = (CheckBox) itemView.findViewById(R.id.cbOther);
+
             llAttributes = (LinearLayout) itemView.findViewById(R.id.llAttributes);
             ivUsing = (ImageView) itemView.findViewById(R.id.ivUsing);
+            tvRoaming = (TextView) itemView.findViewById(R.id.tvRoaming);
+
             llConfiguration = (LinearLayout) itemView.findViewById(R.id.llConfiguration);
+            tvPackage = (TextView) itemView.findViewById(R.id.tvPackage);
             cbUsing = (CheckBox) itemView.findViewById(R.id.cbUsing);
+            cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
             btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
         }
     }
@@ -134,9 +145,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         };
 
-        int color = rule.system ? colorAccent : colorText;
-        if (rule.disabled)
-            color = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
+        holder.llApplication.setOnClickListener(llListener);
 
         if (rule.info.applicationInfo.icon == 0)
             Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
@@ -146,11 +155,12 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
 
         holder.ivExpander.setImageResource(rule.attributes ? android.R.drawable.arrow_up_float : android.R.drawable.arrow_down_float);
-        holder.llApplication.setOnClickListener(llListener);
         holder.tvName.setText(rule.name);
+
+        int color = rule.system ? colorAccent : colorText;
+        if (rule.disabled)
+            color = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
         holder.tvName.setTextColor(color);
-        holder.tvPackage.setText(rule.info.packageName);
-        holder.tvPackage.setTextColor(color);
 
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
@@ -162,8 +172,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         holder.llAttributes.setOnClickListener(llListener);
         holder.ivUsing.setVisibility(rule.unused && (rule.wifi_blocked || rule.other_blocked) ? View.VISIBLE : View.INVISIBLE);
+        holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.unused) ? View.VISIBLE : View.INVISIBLE);
 
         holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
+        holder.tvPackage.setText(rule.info.packageName);
+
         holder.cbUsing.setOnCheckedChangeListener(null);
         holder.cbUsing.setChecked(rule.unused);
         holder.cbUsing.setEnabled(rule.wifi_blocked || rule.other_blocked);
@@ -180,6 +193,32 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     unused.edit().putBoolean(rule.info.packageName, true).apply();
                 else
                     unused.edit().remove(rule.info.packageName).apply();
+
+                // Update UI
+                notifyItemChanged(position);
+
+                // Apply updated rule
+                SinkholeService.reload(null, context);
+            }
+        });
+
+        holder.cbRoaming.setOnCheckedChangeListener(null);
+        holder.cbRoaming.setChecked(rule.roaming);
+        holder.cbRoaming.setEnabled(!rule.other_blocked || rule.unused);
+
+        holder.cbRoaming.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Update rule
+                rule.roaming = isChecked;
+
+                // Store rule
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
+                if (rule.roaming == prefs.getBoolean("whitelist_roaming", true))
+                    roaming.edit().remove(rule.info.packageName).apply();
+                else
+                    roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();
 
                 // Update UI
                 notifyItemChanged(position);

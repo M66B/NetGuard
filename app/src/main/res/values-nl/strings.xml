@@ -6,6 +6,7 @@
     <string name="menu_network">Open netwerkinstellingen</string>
     <string name="menu_whitelist_wifi">Blokkeer Wi-Fi standaard</string>
     <string name="menu_whitelist_other">Blokkeer mobiel standaard</string>
+    <string name="menu_whitelist_roaming">Blokkeer roaming standaard</string>
     <string name="menu_system">Beheer systeemapplicaties</string>
     <string name="menu_export">Exporteer instellingen</string>
     <string name="menu_import">Importeer instellingen</string>
@@ -19,6 +20,7 @@
     <string name="msg_revoked">NetGuard is uitgezet</string>
 
     <string name="title_using">Sta toe als apparaat in gebruik</string>
+    <string name="title_roaming">Blokkeer bij roamen</string>
     <string name="title_launch">Start applicatie</string>
     <string name="title_donate">Doneer</string>
     <string name="title_thanks">Bedankt voor uw donatie!</string>

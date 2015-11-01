@@ -20,6 +20,10 @@
         android:checkable="true"
         android:title="@string/menu_whitelist_other" />
     <item
+        android:id="@+id/menu_whitelist_roaming"
+        android:checkable="true"
+        android:title="@string/menu_whitelist_roaming" />
+    <item
         android:id="@+id/menu_system"
         android:checkable="true"
         android:title="@string/menu_system" />

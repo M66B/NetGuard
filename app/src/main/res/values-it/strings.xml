@@ -6,6 +6,7 @@
     <string name="menu_network">Apri impostazioni di rete</string>
     <string name="menu_whitelist_wifi">Blocca Wi-Fi di default</string>
     <string name="menu_whitelist_other">Block rete di dati di default</string>
+    <string name="menu_whitelist_roaming">Block roaming by default</string>
     <string name="menu_system">Manage system applications</string>
     <string name="menu_export">Export settings</string>
     <string name="menu_import">Import settings</string>
@@ -19,6 +20,7 @@
     <string name="msg_revoked">NetGuard has been disabled</string>
 
     <string name="title_using">Consenti quando il dispositivo è in uso</string>
+    <string name="title_roaming">Block when roaming</string>
     <string name="title_launch">Start application</string>
     <string name="title_donate">Donate</string>
     <string name="title_thanks">Thank you for your donation!</string>

@@ -6,6 +6,7 @@
     <string name="menu_network">打开网络设置</string>
     <string name="menu_whitelist_wifi">默认阻止Wi-Fi网络</string>
     <string name="menu_whitelist_other">默认阻止移动网络</string>
+    <string name="menu_whitelist_roaming">Block roaming by default</string>
     <string name="menu_system">管理系统应用</string>
     <string name="menu_export">导出设置</string>
     <string name="menu_import">导入设置</string>
@@ -19,6 +20,7 @@
     <string name="msg_revoked">NetGuard已被停用</string>
 
     <string name="title_using">设备使用时允许运行</string>
+    <string name="title_roaming">Block when roaming</string>
     <string name="title_launch">启动应用</string>
     <string name="title_donate">捐赠</string>
     <string name="title_thanks">感谢您的捐赠!</string>

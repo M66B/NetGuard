@@ -6,6 +6,7 @@
     <string name="menu_network">Otvoriť nastavenia sietí</string>
     <string name="menu_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
     <string name="menu_whitelist_other">Predvolene blokovať mobilné dáta</string>
+    <string name="menu_whitelist_roaming">Block roaming by default</string>
     <string name="menu_system">Spravovať systémové aplikácie</string>
     <string name="menu_export">Exportovať nastavenia</string>
     <string name="menu_import">Importovať nastavenia</string>
@@ -19,6 +20,7 @@
     <string name="msg_revoked">NetGuard je vypnutý</string>
 
     <string name="title_using">Povoliť pri používaní zariadenia</string>
+    <string name="title_roaming">Block when roaming</string>
     <string name="title_launch">Spustiť aplikáciu</string>
     <string name="title_donate">Prispieť</string>
     <string name="title_thanks">Ďakujeme vám za váš príspevok!</string>
