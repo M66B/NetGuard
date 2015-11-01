@@ -316,26 +316,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        menuNetwork = menu.findItem(R.id.menu_network);
-        menuNetwork.setIcon(Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
-
-        MenuItem menuWifi = menu.findItem(R.id.menu_whitelist_wifi);
-        menuWifi.setChecked(prefs.getBoolean("whitelist_wifi", true));
-
-        MenuItem menuOther = menu.findItem(R.id.menu_whitelist_other);
-        menuOther.setChecked(prefs.getBoolean("whitelist_other", true));
-
-        MenuItem menuSystem = menu.findItem(R.id.menu_system);
-        menuSystem.setChecked(prefs.getBoolean("manage_system", false));
-
-        MenuItem menuTheme = menu.findItem(R.id.menu_theme);
-        menuTheme.setChecked(prefs.getBoolean("dark_theme", false));
-
-        MenuItem menuVpn = menu.findItem(R.id.menu_vpn_settings);
-        menuVpn.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(getPackageManager()) != null);
-
-        MenuItem menuSupport = menu.findItem(R.id.menu_support);
-        menuSupport.setEnabled(getIntentSupport().resolveActivity(getPackageManager()) != null);
+        menu.findItem(R.id.menu_network).setIcon(Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
+        menu.findItem(R.id.menu_whitelist_wifi).setChecked(prefs.getBoolean("whitelist_wifi", true));
+        menu.findItem(R.id.menu_whitelist_other).setChecked(prefs.getBoolean("whitelist_other", true));
+        menu.findItem(R.id.menu_system).setChecked(prefs.getBoolean("manage_system", false));
+        menu.findItem(R.id.menu_export).setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
+        menu.findItem(R.id.menu_import).setEnabled(getIntentOpenDocument().resolveActivity(getPackageManager()) != null);
+        menu.findItem(R.id.menu_theme).setChecked(prefs.getBoolean("dark_theme", false));
+        menu.findItem(R.id.menu_vpn_settings).setEnabled(INTENT_VPN_SETTINGS.resolveActivity(getPackageManager()) != null);
+        menu.findItem(R.id.menu_support).setEnabled(getIntentSupport().resolveActivity(getPackageManager()) != null);
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -363,11 +352,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_export:
-                menu_export();
+                startActivityForResult(getIntentCreateDocument(), REQUEST_EXPORT);
                 return true;
 
             case R.id.menu_import:
-                menu_import();
+                startActivityForResult(getIntentOpenDocument(), REQUEST_IMPORT);
                 return true;
 
             case R.id.menu_theme:
@@ -416,21 +405,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         prefs.edit().putBoolean("manage_system", !prefs.getBoolean("manage_system", true)).apply();
         updateApplicationList();
         SinkholeService.reload(null, this);
-    }
-
-    private void menu_export() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/xml");
-        intent.putExtra(Intent.EXTRA_TITLE, "netguard.xml");
-        startActivityForResult(intent, REQUEST_EXPORT);
-    }
-
-    private void menu_import() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/xml");
-        startActivityForResult(intent, REQUEST_IMPORT);
     }
 
     private void menu_theme(SharedPreferences prefs) {
@@ -620,9 +594,24 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    private Intent getIntentSupport() {
+    private static Intent getIntentSupport() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("http://forum.xda-developers.com/showthread.php?t=3233012"));
+        return intent;
+    }
+
+    private static Intent getIntentCreateDocument() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/xml");
+        intent.putExtra(Intent.EXTRA_TITLE, "netguard.xml");
+        return intent;
+    }
+
+    private static Intent getIntentOpenDocument() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/xml");
         return intent;
     }
 
