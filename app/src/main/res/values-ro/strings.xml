@@ -6,8 +6,8 @@
     <string name="menu_network">Deschide setari retea</string>
     <string name="menu_whitelist_wifi">Blocheaza implicit Wi-Fi</string>
     <string name="menu_whitelist_other">Blocheaza implicit date mobile</string>
-    <string name="menu_whitelist_roaming">Block roaming by default</string>
-    <string name="menu_system">Gestionati aplicatii de sistem</string>
+    <string name="menu_whitelist_roaming">Blocheaza implicit in roaming</string>
+    <string name="menu_system">Gestionati aplicatiile de sistem</string>
     <string name="menu_export">Exporta setari</string>
     <string name="menu_import">Importa setari</string>
     <string name="menu_dark">Foloseste tema intunecata</string>
@@ -20,7 +20,7 @@
     <string name="msg_revoked">NetGuard a fost dezactivat</string>
 
     <string name="title_using">Permite cand dispozitivul este folosit</string>
-    <string name="title_roaming">Block when roaming</string>
+    <string name="title_roaming">Blocheaza in roaming</string>
     <string name="title_launch">Porneste aplicatia</string>
     <string name="title_donate">Doneaza</string>
     <string name="title_thanks">Iti multumesc pentru donatie!</string>
