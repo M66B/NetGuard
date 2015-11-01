@@ -3,4 +3,8 @@
     <rule
         blocked="false"
         package="com.google.android.apps.adm" />
+    <rule
+        blocked="true"
+        package="com.android.chrome"
+        unused="true" />
 </resources>

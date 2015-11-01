@@ -61,16 +61,19 @@ public class Rule implements Comparable<Rule> {
         boolean manage_system = prefs.getBoolean("manage_system", false);
 
         // Get predefined rules
-        Map<String, Boolean> predefined = new HashMap<>();
+        Map<String, Boolean> pre_blocked = new HashMap<>();
+        Map<String, Boolean> pre_unused = new HashMap<>();
         try {
             XmlResourceParser xml = context.getResources().getXml(R.xml.predefined);
             int eventType = xml.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 if (eventType == XmlPullParser.START_TAG && "rule".equals(xml.getName())) {
                     String pkg = xml.getAttributeValue(null, "package");
-                    boolean blocked = xml.getAttributeBooleanValue(null, "blocked", false);
-                    predefined.put(pkg, blocked);
-                    Log.i(tag, "Predefined " + pkg + "=" + blocked);
+                    boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
+                    boolean punused = xml.getAttributeBooleanValue(null, "unused", false);
+                    pre_blocked.put(pkg, pblocked);
+                    pre_unused.put(pkg, punused);
+                    Log.i(tag, "Predefined " + pkg + " blocked=" + pblocked + " unused" + punused);
                 }
                 eventType = xml.next();
             }
@@ -83,15 +86,16 @@ public class Rule implements Comparable<Rule> {
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
             boolean system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
             if (!system || manage_system || all) {
-                boolean isPredefined = predefined.containsKey(info.packageName);
+                boolean isPreBlocked = pre_blocked.containsKey(info.packageName);
+                boolean isPreUnused = pre_unused.containsKey(info.packageName);
                 Rule rule = new Rule(info, context);
                 rule.system = system;
                 rule.wifi_blocked = (system && !manage_system ? false :
-                        wifi.getBoolean(info.packageName, isPredefined ? predefined.get(info.packageName) : whitelist_wifi));
+                        wifi.getBoolean(info.packageName, isPreBlocked ? pre_blocked.get(info.packageName) : whitelist_wifi));
                 rule.other_blocked = (system && !manage_system ? false :
-                        other.getBoolean(info.packageName, isPredefined ? predefined.get(info.packageName) : whitelist_other));
-                rule.unused = unused.getBoolean(info.packageName, false);
-                rule.roaming = roaming.getBoolean(info.packageName, isPredefined ? predefined.get(info.packageName) : whitelist_roaming);
+                        other.getBoolean(info.packageName, isPreBlocked ? pre_blocked.get(info.packageName) : whitelist_other));
+                rule.unused = unused.getBoolean(info.packageName, isPreUnused ? pre_unused.get(info.packageName) : false);
+                rule.roaming = roaming.getBoolean(info.packageName, isPreBlocked ? pre_blocked.get(info.packageName) : whitelist_roaming);
                 rule.changed = (rule.wifi_blocked != whitelist_wifi ||
                         rule.other_blocked != whitelist_other ||
                         (!rule.other_blocked || rule.unused) && rule.roaming != whitelist_roaming);
