@@ -13,6 +13,9 @@ import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.telephony.PhoneStateListener;
+import android.telephony.ServiceState;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -96,6 +99,10 @@ public class SinkholeService extends VpnService {
         // Check if interactive
         boolean interactive = Util.isInteractive(this);
         Log.i(TAG, "interactive=" + interactive);
+
+        // Check roaming
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        Log.i(TAG, "roaming=" + tm.isNetworkRoaming());
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -243,6 +250,14 @@ public class SinkholeService extends VpnService {
         }
     };
 
+    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+        @Override
+        public void onServiceStateChanged(ServiceState serviceState) {
+            super.onServiceStateChanged(serviceState);
+            Log.i(TAG, "Service state changed roaming=" + serviceState.getRoaming());
+        }
+    };
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -264,6 +279,10 @@ public class SinkholeService extends VpnService {
         ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
         ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(interactiveStateReceiver, ifInteractive);
+
+        // Listen for service state changes
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        tm.listen(phoneStateListener, PhoneStateListener.LISTEN_SERVICE_STATE);
     }
 
     @Override
@@ -279,6 +298,10 @@ public class SinkholeService extends VpnService {
         unregisterReceiver(packageAddedReceiver);
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(interactiveStateReceiver);
+
+        // Listen for service state changes
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
 
         super.onDestroy();
     }
