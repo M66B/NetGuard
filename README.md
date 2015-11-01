@@ -140,6 +140,13 @@ Translations:
 
 Please note that you agree to the license below by contributing, including the copyright.
 
+Attribution
+-----------
+
+NetGuard uses:
+
+* [Picasso](http://square.github.io/picasso/)
+* [Android Support Library](https://developer.android.com/tools/support-library/index.html)
 
 License
 -------

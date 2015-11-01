@@ -69,10 +69,6 @@ public class Rule implements Comparable<Rule> {
         return listRules;
     }
 
-    public Drawable getIcon(Context context) {
-        return info.applicationInfo.loadIcon(context.getPackageManager());
-    }
-
     @Override
     public int compareTo(Rule other) {
         if ((changed || unused) == (other.changed || other.unused)) {

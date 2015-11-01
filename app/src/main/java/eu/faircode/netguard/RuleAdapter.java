@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +21,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +138,13 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         if (rule.disabled)
             color = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
 
-        holder.ivIcon.setImageDrawable(rule.getIcon(context));
+        if (rule.info.applicationInfo.icon == 0)
+            Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
+        else {
+            Uri uri = Uri.parse("android.resource://" + rule.info.packageName + "/" + rule.info.applicationInfo.icon);
+            Picasso.with(context).load(uri).into(holder.ivIcon);
+        }
+
         holder.ivExpander.setImageResource(rule.attributes ? android.R.drawable.arrow_up_float : android.R.drawable.arrow_down_float);
         holder.llApplication.setOnClickListener(llListener);
         holder.tvName.setText(rule.name);
