@@ -1,11 +1,11 @@
 # NetGuard
 
 *NetGuard* is a simple way to block access to the internet - no root required.
-Applications can individually be allowed or denied access via your Wi-Fi and/or mobile connection.
+Applications can individually be allowed or denied access to your WiFi and/or mobile connection.
 
 Blocking access to the internet can help:
 
-* save your data allowance
+* reduce your data usage
 * save your battery
 * increase your privacy
 
@@ -29,15 +29,15 @@ Features
 * No tracking or analytics
 * No ads
 * IPv4/IPv6 TCP/UDP supported
-* Block both system and user applications
+* Block system and user applications
 
-NetGuard doesn't even require *internet* permission.
+NetGuard does not even require the *internet* permission.
 NetGuard is possibly the first free and open source no-root firewall for Android.
 
 Most of these features are the result of sending selected traffic to a sinkhole, instead of filtering all internet traffic.
-This means that advanced features, like address based filtering (needed for ad blocking), traffic logging and on demand configuration, are not possible.
+This means that advanced features, like address based filtering (needed for ad blocking), traffic logging, and on-demand configuration, are not possible.
 Routing selected traffic into a sinkhole relies on an API introduced in Android 5.0 (Lollipop),
-so older Android versions can unfortunately not be supported.
+therefore older Android versions can unfortunately not be supported.
 
 Usage
 -----
@@ -49,7 +49,7 @@ Permissions
 -----------
 
 * ACCESS_NETWORK_STATE: to check if the device is connected to the internet through WiFi
-* RECEIVE_BOOT_COMPLETED: to start the firewall when starting the device
+* RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
 
 Compatibility
 -------------
@@ -87,8 +87,8 @@ then no, because NetGuard needs to use this service, and Android allows only one
 <a name="FAQ3"></a>
 **(3) Can I use NetGuard on any Android version?**
 
-No, because the method [addDisallowedApplication](http://developer.android.com/reference/android/net/VpnService.Builder.html#addDisallowedApplication(java.lang.String))
-is being used, the minimum required Android version is 5.0 (Lollipop).
+No, because NetGuard uses the  [addDisallowedApplication](http://developer.android.com/reference/android/net/VpnService.Builder.html#addDisallowedApplication(java.lang.String))
+method, the minimum required Android version is 5.0 (Lollipop).
 
 <a name="FAQ4"></a>
 **(4) Will NetGuard use extra battery power?**
@@ -99,25 +99,24 @@ No, unlike most of the similar closed source alternatives.
 **(5) Can you add selective allowing/blocking applications/IP addresses?**
 
 Unfortunately this is not possible without using significant battery power
-and adding a lot of complex code to do network translation from OSI layer 3 to layer 4
+and adding complex code to do network translation from OSI layer 3 to layer 4
 (and thus implementing a TCP/IP stack), which will inevitably introduce bugs as well.
-This is how most (all?) other no root firewalls work.
+This is how most (all?) other no-root firewalls work.
 NetGuard is unique, because it doesn't implement a TCP/IP stack and is therefore both highly efficient and simple.
 
-For more advanced use cases, while not sacrificing battery usage,
-rooting your device and using a iptables based firewall,
-like [AFWall+](https://github.com/ukanth/afwall) might be a better option.
+For more advanced use cases, rooting your device and using an iptables based firewall,
+like [AFWall+](https://github.com/ukanth/afwall) might be a better option, and will not sacrifice any battery power.
 
 <a name="FAQ6"></a>
 **(6) Will NetGuard send my internet traffic to an external (VPN) server?**
 
-No, it even can't, because NetGuard has no *internet* permission.
+No. It cannot even do this, because NetGuard does not even have the *internet* permission.
 
 <a name="FAQ7"></a>
-**(7) Why are applications without internet access shown?**
+**(7) Why are applications without internet permission shown?**
 
 Internet permission can be granted with each application update without user consent.
-Not filtering applications without internet access allows you to block internet access before such an update occurs.
+By showing all applications, NetGuard allows you to block internet access before such an update occurs.
 
 Support
 -------
