@@ -1,0 +1,43 @@
+Play store
+==========
+
+Title
+-----
+NetGuard
+
+
+Short description
+-----------------
+Firewall ce nu necesita root
+
+
+Long description
+----------------
+NetGuard este un mod simplu de a bloca accesul la internet ce nu necesita acces root.
+
+Accesul aplicatiilor la conexiunile Wi-Fi si/sau mobile poate fi permis sau blocat la nivel individual.
+
+Blocarea accesului la internet poate ajuta la:
+
+- reducerea consumului de date mobile
+- reducerea consumului bateriei
+- protejarea mai buna a intimitatii
+
+Caracteristici:
+
+- Nu necesita acces root
+- Simplu de utilizat
+- Gratis
+- Software cu sursa deschisa
+- Nu foloseste baterie in plus
+- Nu transmite datele nicaieri
+- Nu urmareste activitatea si nu a analizeaza
+- Fara reclama
+- Suporta IPv4/IPv6 TCP/UDP
+- Blocheaza atat aplicatiile de sistem cat si cele ale utilizatorului
+
+NetGuard nici macar nu necesita permisiune de acces internet.
+
+NetGuard este poate chiar primul firewall gratis si cu sursa deschisa ce nu necesita acces root pe Android.
+
+Citeste mai multe aici: http://forum.xda-developers.com/showthread.php?t=3233012
