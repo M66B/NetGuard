@@ -40,5 +40,4 @@ NetGuard does not even require the internet permission.
 
 NetGuard is possibly the first free and open source no-root firewall for Android.
 
-More information:
-http://forum.xda-developers.com/showthread.php?t=3233012
+Read more: http://forum.xda-developers.com/showthread.php?t=3233012
