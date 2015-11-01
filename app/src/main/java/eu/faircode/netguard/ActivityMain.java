@@ -96,12 +96,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         boolean enabled = prefs.getBoolean("enabled", false);
 
         // Action bar
-        View view = getLayoutInflater().inflate(R.layout.actionbar, null);
+        View customView = getLayoutInflater().inflate(R.layout.actionbar, null);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setCustomView(view);
+        getSupportActionBar().setCustomView(customView);
 
         // On/off switch
-        SwitchCompat swEnabled = (SwitchCompat) view.findViewById(R.id.swEnabled);
+        SwitchCompat swEnabled = (SwitchCompat) customView.findViewById(R.id.swEnabled);
         swEnabled.setChecked(enabled);
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -317,6 +317,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         menu.findItem(R.id.menu_network).setIcon(Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
+
         menu.findItem(R.id.menu_whitelist_wifi).setChecked(prefs.getBoolean("whitelist_wifi", true));
         menu.findItem(R.id.menu_whitelist_other).setChecked(prefs.getBoolean("whitelist_other", true));
         menu.findItem(R.id.menu_system).setChecked(prefs.getBoolean("manage_system", false));
