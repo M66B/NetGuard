@@ -5,8 +5,8 @@
     <string name="menu_search">Suche nach Apps</string>
     <string name="menu_network">Öffne Netzwerkeinstellungen</string>
     <string name="menu_whitelist_wifi">Blockiere Wi-Fi standardmäßig</string>
-    <string name="menu_whitelist_other">Blockiere mobile standardmäßig</string>
-    <string name="menu_whitelist_roaming">Blockiere roaming standardmäßig</string>
+    <string name="menu_whitelist_other">Blockiere Mobilfunk standardmäßig</string>
+    <string name="menu_whitelist_roaming">Blockiere Roaming standardmäßig</string>
     <string name="menu_system">Zeige System Apps</string>
     <string name="menu_export">Exportiere Einstellungen</string>
     <string name="menu_import">Importiere Einstellungen</string>
