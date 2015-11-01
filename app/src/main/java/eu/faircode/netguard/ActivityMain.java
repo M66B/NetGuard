@@ -420,7 +420,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private void menu_system(SharedPreferences prefs) {
-        prefs.edit().putBoolean("manage_system", !prefs.getBoolean("manage_system", true)).apply();
+        prefs.edit().putBoolean("manage_system", !prefs.getBoolean("manage_system", false)).apply();
         updateApplicationList();
         SinkholeService.reload(null, this);
     }
