@@ -44,11 +44,11 @@ public class SinkholeService extends VpnService {
         final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
 
-        synchronized (this) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    // Process command
+        // Process command
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (SinkholeService.this) {
                     switch (cmd) {
                         case start:
                             if (enabled && vpn == null) {
@@ -80,8 +80,8 @@ public class SinkholeService extends VpnService {
                             break;
                     }
                 }
-            }).start();
-        }
+            }
+        }).start();
 
         return START_STICKY;
     }
