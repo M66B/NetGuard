@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,6 +33,11 @@ public class Util {
         } catch (PackageManager.NameNotFoundException ex) {
             return ex.toString();
         }
+    }
+
+    public static boolean isRoaming(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return tm.isNetworkRoaming();
     }
 
     public static boolean isWifiActive(Context context) {

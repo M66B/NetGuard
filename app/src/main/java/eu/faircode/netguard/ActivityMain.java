@@ -196,7 +196,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
             if (menuNetwork != null)
-                menuNetwork.setIcon(Util.isWifiActive(ActivityMain.this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
+                menuNetwork.setIcon(
+                        Util.isWifiActive(context) ? R.drawable.ic_network_wifi_white_24dp :
+                                Util.isRoaming(context) ? R.drawable.ic_network_cell_white_24px_roaming :
+                                        R.drawable.ic_network_cell_white_24dp);
         }
     };
 
@@ -316,7 +319,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        menu.findItem(R.id.menu_network).setIcon(Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp : R.drawable.ic_network_cell_white_24dp);
+        menu.findItem(R.id.menu_network).setIcon(
+                Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp :
+                        Util.isRoaming(this) ? R.drawable.ic_network_cell_white_24px_roaming :
+                                R.drawable.ic_network_cell_white_24dp);
 
         menu.findItem(R.id.menu_whitelist_wifi).setChecked(prefs.getBoolean("whitelist_wifi", true));
         menu.findItem(R.id.menu_whitelist_other).setChecked(prefs.getBoolean("whitelist_other", true));
