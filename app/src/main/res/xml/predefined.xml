@@ -7,4 +7,7 @@
         blocked="true"
         package="com.android.chrome"
         unused="true" />
+    <rule
+        blocked="false"
+        package="com.fsck.k9" />
 </resources>
