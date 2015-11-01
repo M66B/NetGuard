@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
+    <string name="app_license">Mit der Verwendung von NetGuard, akzeptierst zu die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+
+    <string name="menu_search">Suche nach Apps</string>
+    <string name="menu_network">Öffne Netzwerkeinstellungen</string>
+    <string name="menu_whitelist_wifi">Blockiere Wi-Fi standardmäßig</string>
+    <string name="menu_whitelist_other">Blockiere Mobilfunk standardmäßig</string>
+    <string name="menu_whitelist_roaming">Blockiere Roaming standardmäßig</string>
+    <string name="menu_system">Zeige System Apps</string>
+    <string name="menu_export">Exportiere Einstellungen</string>
+    <string name="menu_import">Importiere Einstellungen</string>
+    <string name="menu_dark">Verwende dunkles Theme</string>
+    <string name="menu_vpn_settings">Öffne Android VPN Einstellungen</string>
+    <string name="menu_support">Hilfe</string>
+    <string name="menu_about">Über</string>
+
+    <string name="msg_sure">Bist du sicher?</string>
+    <string name="msg_disabled">NetGuard ist deaktiviert, verwende die Switch um NetGuard zu aktivieren</string>
+    <string name="msg_revoked">NetGuard wurde deaktiviert</string>
+
+    <string name="title_using">Erlauben wenn Gerät verwendet wird</string>
+    <string name="title_roaming">Blockiere bei Roaming</string>
+    <string name="title_launch">Starte App</string>
+    <string name="title_donate">Spenden</string>
+    <string name="title_thanks">Danke für die Spende!</string>
+</resources>
