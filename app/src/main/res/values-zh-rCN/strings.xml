@@ -19,7 +19,7 @@
     <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
     <string name="msg_revoked">NetGuard已被停用</string>
 
-    <string name="title_using">设备使用时允许运行</string>
+    <string name="title_using">设备使用时允许</string>
     <string name="title_roaming">漫游时阻止</string>
     <string name="title_launch">启动应用</string>
     <string name="title_donate">捐赠</string>
