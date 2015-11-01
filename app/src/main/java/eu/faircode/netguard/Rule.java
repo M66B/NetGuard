@@ -85,7 +85,7 @@ public class Rule implements Comparable<Rule> {
                     pre_blocked.put(pkg, pblocked);
                     pre_unused.put(pkg, punused);
                     pre_roaming.put(pkg, proaming);
-                    Log.i(tag, "Predefined " + pkg + " blocked=" + pblocked + " unused=" + unused + " roaming=" + proaming);
+                    Log.i(tag, "Predefined " + pkg + " blocked=" + pblocked + " unused=" + punused + " roaming=" + proaming);
                 }
                 eventType = xml.next();
             }
