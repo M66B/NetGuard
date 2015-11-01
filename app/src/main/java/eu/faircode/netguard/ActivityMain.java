@@ -249,10 +249,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             protected void onPostExecute(List<Rule> result) {
                 if (running) {
-                    if (menuSearch != null)
-                        MenuItemCompat.collapseActionView(menuSearch);
                     if (adapter != null)
                         adapter.set(result);
+                    if (menuSearch != null)
+                        MenuItemCompat.collapseActionView(menuSearch);
                     if (swipeRefresh != null) {
                         refreshing = false;
                         swipeRefresh.setRefreshing(false);
