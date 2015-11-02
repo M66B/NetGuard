@@ -17,7 +17,6 @@ import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -73,7 +72,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private SwipeRefreshLayout swipeRefresh;
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
-    private IInAppBillingService billingService = null;
+    private IInAppBillingService IABService = null;
 
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_DONATION = 2;
@@ -186,7 +185,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Connect to billing
         Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
         serviceIntent.setPackage("com.android.vending");
-        bindService(serviceIntent, billingConnection, Context.BIND_AUTO_CREATE);
+        bindService(serviceIntent, IABConnection, Context.BIND_AUTO_CREATE);
 
         // First use
         if (!prefs.getBoolean("initialized", false)) {
@@ -228,8 +227,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageChangedReceiver);
 
-        if (billingConnection != null)
-            unbindService(billingConnection);
+        if (IABConnection != null)
+            unbindService(IABConnection);
 
         super.onDestroy();
     }
@@ -272,17 +271,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
     };
 
-    private ServiceConnection billingConnection = new ServiceConnection() {
+    private ServiceConnection IABConnection = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            Log.i(TAG, "Billing disconnected");
-            billingService = null;
+            Log.i(TAG, "IAB disconnected");
+            IABService = null;
         }
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.i(TAG, "Billing connected");
-            billingService = IInAppBillingService.Stub.asInterface(service);
+            Log.i(TAG, "IAB connected");
+            IABService = IInAppBillingService.Stub.asInterface(service);
         }
     };
 
@@ -509,7 +508,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         btnDonate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (valid && billingService != null)
+                if (valid && IABService != null)
                     IABinitiate();
                 else
                     startActivity(donate);
@@ -541,7 +540,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         dialog.show();
 
         // Validate IAB
-        if (valid && billingService != null)
+        if (valid && IABService != null)
             new AsyncTask<Object, Object, Boolean>() {
                 @Override
                 protected Boolean doInBackground(Object... objects) {
@@ -580,7 +579,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
             } else if (data != null) {
                 int response = data.getIntExtra("RESPONSE_CODE", -1);
-                Log.i(TAG, "Billing response=" + getIABResult(response));
+                Log.i(TAG, "IAB response=" + getIABResult(response));
             }
 
         } else if (requestCode == REQUEST_EXPORT) {
@@ -685,11 +684,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             skuList.add(SKU_DONATE);
             Bundle query = new Bundle();
             query.putStringArrayList("ITEM_ID_LIST", skuList);
-            Bundle details = billingService.getSkuDetails(3, getPackageName(), "inapp", query);
-            Log.i(TAG, "Billing.getSkuDetails");
+            Bundle details = IABService.getSkuDetails(3, getPackageName(), "inapp", query);
+            Log.i(TAG, "IAB.getSkuDetails");
             Util.logBundle(TAG, details);
             int details_response = details.getInt("RESPONSE_CODE");
-            Log.i(TAG, "Billing response=" + getIABResult(details_response));
+            Log.i(TAG, "IAB response=" + getIABResult(details_response));
             if (details_response != 0)
                 return false;
 
@@ -707,11 +706,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return false;
 
             // Get purchases
-            Bundle purchases = billingService.getPurchases(3, getPackageName(), "inapp", null);
-            Log.i(TAG, "Billing.getPurchases");
+            Bundle purchases = IABService.getPurchases(3, getPackageName(), "inapp", null);
+            Log.i(TAG, "IAB.getPurchases");
             Util.logBundle(TAG, purchases);
             int purchases_response = purchases.getInt("RESPONSE_CODE");
-            Log.i(TAG, "Billing response=" + getIABResult(purchases_response));
+            Log.i(TAG, "IAB response=" + getIABResult(purchases_response));
             if (purchases_response != 0)
                 return false;
 
@@ -728,11 +727,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private void IABinitiate() {
         try {
-            Bundle bundle = billingService.getBuyIntent(3, getPackageName(), SKU_DONATE, "inapp", "");
-            Log.i(TAG, "Billing.getBuyIntent");
+            Bundle bundle = IABService.getBuyIntent(3, getPackageName(), SKU_DONATE, "inapp", "");
+            Log.i(TAG, "IAB.getBuyIntent");
             Util.logBundle(TAG, bundle);
             int response = bundle.getInt("RESPONSE_CODE");
-            Log.i(TAG, "Billing response=" + getIABResult(response));
+            Log.i(TAG, "IAB response=" + getIABResult(response));
             if (response == 0) {
                 PendingIntent pi = bundle.getParcelable("BUY_INTENT");
                 startIntentSenderForResult(
@@ -752,23 +751,23 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static String getIABResult(int responseCode) {
         switch (responseCode) {
             case 0:
-                return "BILLING_RESPONSE_RESULT_OK";
+                return "OK";
             case 1:
-                return "BILLING_RESPONSE_RESULT_USER_CANCELED";
+                return "USER_CANCELED";
             case 2:
-                return "BILLING_RESPONSE_RESULT_SERVICE_UNAVAILABLE";
+                return "SERVICE_UNAVAILABLE";
             case 3:
-                return "BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE";
+                return "BILLING_UNAVAILABLE";
             case 4:
-                return "BILLING_RESPONSE_RESULT_ITEM_UNAVAILABLE";
+                return "ITEM_UNAVAILABLE";
             case 5:
-                return "BILLING_RESPONSE_RESULT_DEVELOPER_ERROR";
+                return "DEVELOPER_ERROR";
             case 6:
-                return "BILLING_RESPONSE_RESULT_ERROR";
+                return "ERROR";
             case 7:
-                return "BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED";
+                return "ITEM_ALREADY_OWNED";
             case 8:
-                return "BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED";
+                return "ITEM_NOT_OWNED";
             default:
                 return Integer.toString(responseCode);
         }
