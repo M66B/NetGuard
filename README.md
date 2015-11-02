@@ -57,8 +57,9 @@ Compatibility
 Devices / ROMs with a broken VPN implementation:
 
 * [Samsung Galaxy A5 / Android 5.02](https://github.com/M66B/NetGuard/issues/20) (all traffic blocked)
+* Asus ZenFone 2 / Android 5.0.2/5.1.1, reported on XDA (all traffic blocked)
 
-NetGuard will crash when the package *com.android.vpndialogs* has been removed.
+NetGuard will crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 
 Frequently Asked Questions (FAQ)
 --------------------------------
