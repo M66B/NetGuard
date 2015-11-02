@@ -227,7 +227,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageChangedReceiver);
 
-        if (IABConnection != null)
+        if (IABService != null)
             unbindService(IABConnection);
 
         super.onDestroy();
