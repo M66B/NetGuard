@@ -217,7 +217,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            System.exit(0);
+                            finish();
                         }
                     })
                     .setOnDismissListener(new DialogInterface.OnDismissListener() {
