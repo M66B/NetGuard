@@ -76,6 +76,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
     private IInAppBillingService IABService = null;
+    private AlertDialog dialogFirst = null;
+    private AlertDialog dialogAbout = null;
 
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_IAB = 2;
@@ -202,13 +204,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
 
             // Show dialog
-            AlertDialog dialog = new AlertDialog.Builder(this)
+            dialogFirst = new AlertDialog.Builder(this)
                     .setView(view)
                     .setCancelable(false)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            prefs.edit().putBoolean("initialized", true).apply();
+                            if (running)
+                                prefs.edit().putBoolean("initialized", true).apply();
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -217,8 +220,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                             System.exit(0);
                         }
                     })
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            dialogFirst = null;
+                        }
+                    })
                     .create();
-            dialog.show();
+            dialogFirst.show();
         }
     }
 
@@ -235,6 +244,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         if (IABService != null)
             unbindService(IABConnection);
+
+        if (dialogFirst != null)
+            dialogFirst.dismiss();
+        if (dialogAbout != null)
+            dialogAbout.dismiss();
 
         super.onDestroy();
     }
@@ -557,17 +571,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         LocalBroadcastManager.getInstance(this).registerReceiver(onIABsuccess, iff);
 
         // Show dialog
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        dialogAbout = new AlertDialog.Builder(this)
                 .setView(view)
                 .setCancelable(true)
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        LocalBroadcastManager.getInstance(ActivityMain.this).unregisterReceiver(onIABsuccess);
+                        if (running)
+                            LocalBroadcastManager.getInstance(ActivityMain.this).unregisterReceiver(onIABsuccess);
+                        dialogAbout = null;
                     }
                 })
                 .create();
-        dialog.show();
+        dialogAbout.show();
 
         // Check if IAB purchased
         new AsyncTask<Object, Object, Object>() {
