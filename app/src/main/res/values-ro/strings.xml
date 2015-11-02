@@ -3,7 +3,6 @@
     <string name="app_license">Folosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Cauta aplicatii</string>
-    <string name="menu_network">Deschide setari retea</string>
     <string name="menu_whitelist_wifi">Blocheaza implicit Wi-Fi</string>
     <string name="menu_whitelist_other">Blocheaza implicit date mobile</string>
     <string name="menu_whitelist_roaming">Blocheaza implicit in roaming</string>

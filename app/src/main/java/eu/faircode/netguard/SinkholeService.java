@@ -222,7 +222,7 @@ public class SinkholeService extends VpnService {
             thread.interrupt();
     }
 
-    private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
@@ -249,7 +249,7 @@ public class SinkholeService extends VpnService {
         }
     };
 
-    private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
@@ -263,22 +263,22 @@ public class SinkholeService extends VpnService {
         super.onCreate();
         Log.i(TAG, "Create");
 
-        // Listen for added applications
-        IntentFilter ifPackage = new IntentFilter();
-        ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
-        ifPackage.addDataScheme("package");
-        registerReceiver(packageAddedReceiver, ifPackage);
+        // Listen for interactive state changes
+        IntentFilter ifInteractive = new IntentFilter();
+        ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
+        ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(interactiveStateReceiver, ifInteractive);
 
         // Listen for connectivity updates
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangedReceiver, ifConnectivity);
 
-        // Listen for interactive state changes
-        IntentFilter ifInteractive = new IntentFilter();
-        ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
-        ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
-        registerReceiver(interactiveStateReceiver, ifInteractive);
+        // Listen for added applications
+        IntentFilter ifPackage = new IntentFilter();
+        ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
+        ifPackage.addDataScheme("package");
+        registerReceiver(packageAddedReceiver, ifPackage);
     }
 
     @Override
@@ -291,9 +291,9 @@ public class SinkholeService extends VpnService {
             vpn = null;
         }
 
-        unregisterReceiver(packageAddedReceiver);
-        unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(interactiveStateReceiver);
+        unregisterReceiver(connectivityChangedReceiver);
+        unregisterReceiver(packageAddedReceiver);
 
         super.onDestroy();
     }

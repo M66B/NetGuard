@@ -3,7 +3,6 @@
     <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">앱 검색</string>
-    <string name="menu_network">네트워크 설정 열기</string>
     <string name="menu_whitelist_wifi">Wi-Fi 차단을 기본 설정으로</string>
     <string name="menu_whitelist_other">모바일 데이터 차단을 기본 설정으로</string>
     <string name="menu_whitelist_roaming">Block roaming by default</string>

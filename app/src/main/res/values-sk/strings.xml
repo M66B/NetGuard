@@ -3,7 +3,6 @@
     <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Hľadať aplikáciu</string>
-    <string name="menu_network">Otvoriť nastavenia sietí</string>
     <string name="menu_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
     <string name="menu_whitelist_other">Predvolene blokovať mobilné dáta</string>
     <string name="menu_whitelist_roaming">Block roaming by default</string>

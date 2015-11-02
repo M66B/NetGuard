@@ -37,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,10 +66,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final String TAG = "NetGuard.Main";
 
     private boolean running = false;
+    private ImageView ivInteractive;
+    private ImageView ivWifi;
+    private ImageView ivOther;
+    private ImageView ivRoaming;
     private SwipeRefreshLayout swipeRefresh;
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
-    private MenuItem menuNetwork = null;
     private IInAppBillingService billingService = null;
 
     private static final int REQUEST_VPN = 1;
@@ -96,12 +100,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         boolean enabled = prefs.getBoolean("enabled", false);
 
         // Action bar
-        View customView = getLayoutInflater().inflate(R.layout.actionbar, null);
+        View actionView = getLayoutInflater().inflate(R.layout.action, null);
+        SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
+        ivInteractive = (ImageView) actionView.findViewById(R.id.ivInteractive);
+        ivWifi = (ImageView) actionView.findViewById(R.id.ivWifi);
+        ivOther = (ImageView) actionView.findViewById(R.id.ivOther);
+        ivRoaming = (ImageView) actionView.findViewById(R.id.ivRoaming);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setCustomView(customView);
+        getSupportActionBar().setCustomView(actionView);
 
         // On/off switch
-        SwitchCompat swEnabled = (SwitchCompat) customView.findViewById(R.id.swEnabled);
         swEnabled.setChecked(enabled);
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -128,6 +136,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 }
             }
         });
+
+        // Display status
+        ivInteractive.setVisibility(Util.isInteractive(this) ? View.VISIBLE : View.GONE);
+        if (Util.isWifiActive(this))
+            ivWifi.setVisibility(View.VISIBLE);
+        else if (Util.isRoaming(this))
+            ivRoaming.setVisibility(View.VISIBLE);
+        else
+            ivOther.setVisibility(View.VISIBLE);
 
         // Disabled warning
         TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
@@ -157,6 +174,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Listen for preference changes
         prefs.registerOnSharedPreferenceChangeListener(this);
 
+        // Listen for interactive state changes
+        IntentFilter ifInteractive = new IntentFilter();
+        ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
+        ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(interactiveStateReceiver, ifInteractive);
+
         // Listen for connectivity updates
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -181,6 +204,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         running = false;
 
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+
+        unregisterReceiver(interactiveStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageChangedReceiver);
 
@@ -190,16 +215,32 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         super.onDestroy();
     }
 
+    private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(TAG, intent);
+
+            ivInteractive.setVisibility(Intent.ACTION_SCREEN_ON.equals(intent.getAction()) ? View.VISIBLE : View.GONE);
+        }
+    };
+
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
-            if (menuNetwork != null)
-                menuNetwork.setIcon(
-                        Util.isWifiActive(context) ? R.drawable.ic_network_wifi_white_24dp :
-                                Util.isRoaming(context) ? R.drawable.ic_network_cell_white_24px_roaming :
-                                        R.drawable.ic_network_cell_white_24dp);
+
+            ivWifi.setVisibility(View.GONE);
+            ivOther.setVisibility(View.GONE);
+            ivRoaming.setVisibility(View.GONE);
+
+            if (Util.isWifiActive(context))
+                ivWifi.setVisibility(View.VISIBLE);
+            else if (Util.isRoaming(context))
+                ivRoaming.setVisibility(View.VISIBLE);
+            else
+                ivOther.setVisibility(View.VISIBLE);
         }
     };
 
@@ -319,11 +360,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        menu.findItem(R.id.menu_network).setIcon(
-                Util.isWifiActive(this) ? R.drawable.ic_network_wifi_white_24dp :
-                        Util.isRoaming(this) ? R.drawable.ic_network_cell_white_24px_roaming :
-                                R.drawable.ic_network_cell_white_24dp);
-
         menu.findItem(R.id.menu_whitelist_wifi).setChecked(prefs.getBoolean("whitelist_wifi", true));
         menu.findItem(R.id.menu_whitelist_other).setChecked(prefs.getBoolean("whitelist_other", true));
         menu.findItem(R.id.menu_whitelist_roaming).setChecked(prefs.getBoolean("whitelist_roaming", true));
@@ -343,10 +379,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_network:
-                menu_network();
-                return true;
-
             case R.id.menu_whitelist_wifi:
                 menu_whitelist_wifi(prefs);
                 return true;
@@ -390,15 +422,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void menu_network() {
-        Intent settings = new Intent(Util.isWifiActive(this)
-                ? Settings.ACTION_WIFI_SETTINGS : Settings.ACTION_WIRELESS_SETTINGS);
-        if (settings.resolveActivity(getPackageManager()) != null)
-            startActivity(settings);
-        else
-            Log.w(TAG, settings + " not available");
     }
 
     private void menu_whitelist_wifi(SharedPreferences prefs) {

@@ -3,7 +3,6 @@
     <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">搜索应用</string>
-    <string name="menu_network">打开网络设置</string>
     <string name="menu_whitelist_wifi">默认阻止Wi-Fi网络</string>
     <string name="menu_whitelist_other">默认阻止移动网络</string>
     <string name="menu_whitelist_roaming">默认阻止漫游</string>

@@ -3,7 +3,6 @@
     <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">البحث عن تطبيقات</string>
-    <string name="menu_network">فتح إعدادات الشبكة</string>
     <string name="menu_whitelist_wifi">حظر الواي فاي بشكل افتراضي</string>
     <string name="menu_whitelist_other">حظر الشبكة بشكل افتراضي</string>
     <string name="menu_whitelist_roaming">Block roaming by default</string>

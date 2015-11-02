@@ -4,7 +4,6 @@
     <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Search for application</string>
-    <string name="menu_network">Open network settings</string>
     <string name="menu_whitelist_wifi">Block Wi-Fi by default</string>
     <string name="menu_whitelist_other">Block mobile by default</string>
     <string name="menu_whitelist_roaming">Block roaming by default</string>
