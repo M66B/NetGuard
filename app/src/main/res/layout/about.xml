@@ -25,7 +25,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:text="@string/app_name"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
             android:textStyle="bold" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="4dp"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
             android:textStyle="bold" />
     </LinearLayout>
 

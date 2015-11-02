@@ -1,6 +1,11 @@
 <resources>
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
     <string name="app_license">Mit der Verwendung von NetGuard, akzeptierst zu die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee it will work correctly on each and every device.
+NetGuard is known to crash when activated or known to block all traffic on some devices.
+This is caused by bugs in Android, or in the software by the manufacturer, so please don\'t blame NetGuard for this.
+\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Suche nach Apps</string>
     <string name="menu_whitelist_wifi">Blockiere Wi-Fi standardmäßig</string>
@@ -17,6 +22,7 @@
     <string name="msg_sure">Bist du sicher?</string>
     <string name="msg_disabled">NetGuard ist deaktiviert, verwende die Switch um NetGuard zu aktivieren</string>
     <string name="msg_revoked">NetGuard wurde deaktiviert</string>
+    <string name="msg_completed">Action completed</string>
 
     <string name="title_using">Erlauben wenn Gerät verwendet wird</string>
     <string name="title_roaming">Blockiere bei Roaming</string>

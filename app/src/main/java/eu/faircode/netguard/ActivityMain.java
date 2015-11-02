@@ -137,15 +137,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        // Display status
-        ivInteractive.setVisibility(Util.isInteractive(this) ? View.VISIBLE : View.GONE);
-        if (Util.isWifiActive(this))
-            ivWifi.setVisibility(View.VISIBLE);
-        else if (Util.isRoaming(this))
-            ivRoaming.setVisibility(View.VISIBLE);
-        else
-            ivOther.setVisibility(View.VISIBLE);
-
         // Disabled warning
         TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
         tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
@@ -196,6 +187,34 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
         serviceIntent.setPackage("com.android.vending");
         bindService(serviceIntent, billingConnection, Context.BIND_AUTO_CREATE);
+
+        // First use
+        if (!prefs.getBoolean("initialized", false)) {
+            // Create view
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View view = inflater.inflate(R.layout.first, null);
+            TextView tvFirst = (TextView) view.findViewById(R.id.tvFirst);
+            tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
+
+            // Show dialog
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setView(view)
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            prefs.edit().putBoolean("initialized", true).apply();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            System.exit(0);
+                        }
+                    })
+                    .create();
+            dialog.show();
+        }
     }
 
     @Override
@@ -221,7 +240,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
 
-            ivInteractive.setVisibility(Intent.ACTION_SCREEN_ON.equals(intent.getAction()) ? View.VISIBLE : View.GONE);
+            ivInteractive.setVisibility(Intent.ACTION_SCREEN_ON.equals(intent.getAction()) ? View.VISIBLE : View.INVISIBLE);
         }
     };
 
@@ -590,7 +609,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
                     @Override
                     protected void onPostExecute(Throwable ex) {
-                        if (ex != null)
+                        if (ex == null)
+                            Toast.makeText(ActivityMain.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                        else
                             Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
                     }
                 }.execute();
@@ -624,6 +645,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         if (ex == null) {
                             SinkholeService.reload(null, ActivityMain.this);
                             recreate();
+                            Toast.makeText(ActivityMain.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
                         } else
                             Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
                     }

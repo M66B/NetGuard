@@ -1,6 +1,11 @@
 <resources>
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
     <string name="app_license">Door NetGuard te gebruiken, gaat u akkoord met de <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee it will work correctly on each and every device.
+NetGuard is known to crash when activated or known to block all traffic on some devices.
+This is caused by bugs in Android, or in the software by the manufacturer, so please don\'t blame NetGuard for this.
+\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Zoek naar applicatie</string>
     <string name="menu_whitelist_wifi">Blokkeer Wi-Fi standaard</string>
@@ -17,6 +22,7 @@
     <string name="msg_sure">Weet u het zeker?</string>
     <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar boven om NetGuard aan te zetten</string>
     <string name="msg_revoked">NetGuard is uitgezet</string>
+    <string name="msg_completed">Actie uitgevoerd</string>
 
     <string name="title_using">Sta toe als apparaat in gebruik</string>
     <string name="title_roaming">Blokkeer bij roamen</string>
