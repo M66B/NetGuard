@@ -5,13 +5,13 @@
         package="com.google.android.apps.adm"
         roaming="false"
         title="Android Device Manager" />
-    <rule
+    <!--rule
         blocked="true"
         package="com.android.chrome"
         title="Chrome Browser"
-        unused="true" />
-    <rule
+        unused="true" /-->
+    <!--rule
         blocked="false"
         package="com.fsck.k9"
-        title="K-9 Mail" />
+        title="K-9 Mail" /-->
 </predefined>
