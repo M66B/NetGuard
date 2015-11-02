@@ -622,76 +622,84 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         } else if (requestCode == REQUEST_EXPORT) {
             if (resultCode == RESULT_OK && data != null)
-                new AsyncTask<Object, Object, Throwable>() {
-                    @Override
-                    protected Throwable doInBackground(Object... objects) {
-                        OutputStream out = null;
-                        try {
-                            out = getContentResolver().openOutputStream(data.getData());
-                            Log.i(TAG, "Writing URI=" + data.getData());
-                            xmlExport(out);
-                            return null;
-                        } catch (Throwable ex) {
-                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                            return ex;
-                        } finally {
-                            if (out != null)
-                                try {
-                                    out.close();
-                                } catch (IOException ex) {
-                                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                                }
-                        }
-                    }
-
-                    @Override
-                    protected void onPostExecute(Throwable ex) {
-                        if (ex == null)
-                            Toast.makeText(ActivityMain.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }.execute();
+                handleExport(data);
 
         } else if (requestCode == REQUEST_IMPORT) {
             if (resultCode == RESULT_OK && data != null)
-                new AsyncTask<Object, Object, Throwable>() {
-                    @Override
-                    protected Throwable doInBackground(Object... objects) {
-                        InputStream in = null;
-                        try {
-                            in = getContentResolver().openInputStream(data.getData());
-                            Log.i(TAG, "Reading URI=" + data.getData());
-                            xmlImport(in);
-                            return null;
-                        } catch (Throwable ex) {
-                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                            return ex;
-                        } finally {
-                            if (in != null)
-                                try {
-                                    in.close();
-                                } catch (IOException ex) {
-                                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                                }
-                        }
-                    }
-
-                    @Override
-                    protected void onPostExecute(Throwable ex) {
-                        if (ex == null) {
-                            SinkholeService.reload(null, ActivityMain.this);
-                            recreate();
-                            Toast.makeText(ActivityMain.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-                        } else
-                            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }.execute();
+                handleImport(data);
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void handleExport(final Intent data) {
+        new AsyncTask<Object, Object, Throwable>() {
+            @Override
+            protected Throwable doInBackground(Object... objects) {
+                OutputStream out = null;
+                try {
+                    out = getContentResolver().openOutputStream(data.getData());
+                    Log.i(TAG, "Writing URI=" + data.getData());
+                    xmlExport(out);
+                    return null;
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    return ex;
+                } finally {
+                    if (out != null)
+                        try {
+                            out.close();
+                        } catch (IOException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Throwable ex) {
+                if (ex == null)
+                    Toast.makeText(ActivityMain.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+        }.execute();
+    }
+
+    private void handleImport(final Intent data) {
+        new AsyncTask<Object, Object, Throwable>() {
+            @Override
+            protected Throwable doInBackground(Object... objects) {
+                InputStream in = null;
+                try {
+                    in = getContentResolver().openInputStream(data.getData());
+                    Log.i(TAG, "Reading URI=" + data.getData());
+                    xmlImport(in);
+                    return null;
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    return ex;
+                } finally {
+                    if (in != null)
+                        try {
+                            in.close();
+                        } catch (IOException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Throwable ex) {
+                if (ex == null) {
+                    SinkholeService.reload(null, ActivityMain.this);
+                    recreate();
+                    Toast.makeText(ActivityMain.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                } else
+                    Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+        }.execute();
     }
 
     private static Intent getIntentSupport() {
