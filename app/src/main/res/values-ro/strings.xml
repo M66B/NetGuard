@@ -1,11 +1,11 @@
 <resources>
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
     <string name="app_license">Folosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-    <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee it will work correctly on each and every device.
-NetGuard is known to crash when activated or known to block all traffic on some devices.
-This is caused by bugs in Android, or in the software by the manufacturer, so please don\'t blame NetGuard for this.
-\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_first">NetGuard este dezvoltat si testat cu mare atentie si grija, 
+cu toate acestea este imposibil sa se garanteze ca va functiona corect toate dispozitivele.
+NetGuard se poate opri brusc sau poate bloca tot traficul internet atunci cand este activat pe unele dispozitive.
+Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozitie de catre producatorul dispozitivului, va rugam nu dati vina pe NetGuard pentru asta.
+\n\nFolosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Cauta aplicatii</string>
     <string name="menu_whitelist_wifi">Blocheaza implicit Wi-Fi</string>
@@ -22,7 +22,7 @@ This is caused by bugs in Android, or in the software by the manufacturer, so pl
     <string name="msg_sure">Esti sigur?</string>
     <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
     <string name="msg_revoked">NetGuard a fost dezactivat</string>
-    <string name="msg_completed">Action completed</string>
+    <string name="msg_completed">Setari aplicate</string>
 
     <string name="title_using">Permite cand dispozitivul este folosit</string>
     <string name="title_roaming">Blocheaza in roaming</string>
