@@ -80,7 +80,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_IMPORT = 4;
 
     // adb shell pm clear com.android.vending
-    private static final String SKU_DONATE = "donation"; // "android.test.purchased";
+    private static final String SKU_DONATE = "donation";
+    // private static final String SKU_DONATE = "android.test.purchased";
     private static final String ACTION_IAB = "eu.faircode.netguard.IAB";
 
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
@@ -576,8 +577,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 // Handle donation
                 Intent intent = new Intent(ACTION_IAB);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-            } else if (data != null) {
-                int response = data.getIntExtra("RESPONSE_CODE", -1);
+            } else {
+                int response = (data == null ? -1 : data.getIntExtra("RESPONSE_CODE", -1));
                 Log.i(TAG, "IAB response=" + getIABResult(response));
             }
 
@@ -686,20 +687,21 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Bundle details = IABService.getSkuDetails(3, getPackageName(), "inapp", query);
             Log.i(TAG, "IAB.getSkuDetails");
             Util.logBundle(TAG, details);
-            int details_response = details.getInt("RESPONSE_CODE");
+            int details_response = (details == null ? -1 : details.getInt("RESPONSE_CODE", -1));
             Log.i(TAG, "IAB response=" + getIABResult(details_response));
             if (details_response != 0)
                 return false;
 
             // Check available SKUs
             boolean found = false;
-            for (String item : details.getStringArrayList("DETAILS_LIST")) {
-                JSONObject object = new JSONObject(item);
-                if (SKU_DONATE.equals(object.getString("productId"))) {
-                    found = true;
-                    break;
+            if (details.containsKey("DETAILS_LIST"))
+                for (String item : details.getStringArrayList("DETAILS_LIST")) {
+                    JSONObject object = new JSONObject(item);
+                    if (SKU_DONATE.equals(object.getString("productId"))) {
+                        found = true;
+                        break;
+                    }
                 }
-            }
             Log.i(TAG, SKU_DONATE + "=" + found);
             if (!found)
                 return false;
@@ -708,12 +710,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Bundle purchases = IABService.getPurchases(3, getPackageName(), "inapp", null);
             Log.i(TAG, "IAB.getPurchases");
             Util.logBundle(TAG, purchases);
-            int purchases_response = purchases.getInt("RESPONSE_CODE");
+            int purchases_response = (purchases == null ? -1 : purchases.getInt("RESPONSE_CODE", -1));
             Log.i(TAG, "IAB response=" + getIABResult(purchases_response));
             if (purchases_response != 0)
                 return false;
 
             // Check purchases
+            if (!purchases.containsKey("INAPP_PURCHASE_ITEM_LIST"))
+                return false;
             ArrayList<String> skus = purchases.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
             return skus.contains(SKU_DONATE);
 
@@ -729,9 +733,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Bundle bundle = IABService.getBuyIntent(3, getPackageName(), SKU_DONATE, "inapp", "");
             Log.i(TAG, "IAB.getBuyIntent");
             Util.logBundle(TAG, bundle);
-            int response = bundle.getInt("RESPONSE_CODE");
+            int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
             Log.i(TAG, "IAB response=" + getIABResult(response));
-            if (response == 0) {
+            if (response == 0 && bundle.containsKey("BUY_INTENT")) {
                 PendingIntent pi = bundle.getParcelable("BUY_INTENT");
                 startIntentSenderForResult(
                         pi.getIntentSender(),
