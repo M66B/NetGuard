@@ -1,6 +1,6 @@
 <resources>
     <string name="app_copyright">Copyright \u00A9 2015 par M. Bokhorst (M66B)</string>
-    <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_license">En utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
     <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee it will work correctly on each and every device.
 NetGuard is known to crash when activated or known to block all traffic on some devices.
@@ -10,23 +10,23 @@ This is caused by bugs in Android, or in the software by the manufacturer, so pl
     <string name="menu_search">Recherche application</string>
     <string name="menu_whitelist_wifi">Blocage Wi-Fi par défaut</string>
     <string name="menu_whitelist_other">Blocage données mobiles par défaut</string>
-    <string name="menu_whitelist_roaming">Block roaming by default</string>
-    <string name="menu_system">Manage system applications</string>
-    <string name="menu_export">Export settings</string>
-    <string name="menu_import">Import settings</string>
+    <string name="menu_whitelist_roaming">Blocage roaming par défaut</string>
+    <string name="menu_system">Gérer les applications système</string>
+    <string name="menu_export">Exporter paramètres</string>
+    <string name="menu_import">Importer paramètres</string>
     <string name="menu_dark">Utiliser le thème sombre</string>
     <string name="menu_vpn_settings">Ouvrir les paramètres VPN</string>
     <string name="menu_support">Support</string>
     <string name="menu_about">À propos</string>
 
     <string name="msg_sure">Etes-vous sûr ?</string>
-    <string name="msg_disabled">NetGuard is disabled, use the switch above to enable NetGuard</string>
-    <string name="msg_revoked">NetGuard has been disabled</string>
+    <string name="msg_disabled">NetGuard est désactivé, utilisez le bouton ci-dessus pour activer NetGuard</string>
+    <string name="msg_revoked">NetGuard a été désactivé</string>
     <string name="msg_completed">Action completed</string>
 
-    <string name="title_using">Allow when device in use</string>
-    <string name="title_roaming">Block when roaming</string>
-    <string name="title_launch">Start application</string>
-    <string name="title_donate">Donate</string>
-    <string name="title_thanks">Thank you for your donation!</string>
+    <string name="title_using">Permettre quand l\'appareil est utilisé</string>
+    <string name="title_roaming">Bloquer si roaming</string>
+    <string name="title_launch">Lancer l\'application</string>
+    <string name="title_donate">Faire un don</string>
+    <string name="title_thanks">Merci pour votre don !</string>
 </resources>
