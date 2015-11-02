@@ -92,7 +92,8 @@ public class Util {
     }
 
     public static void logExtras(String tag, Intent intent) {
-        logBundle(tag, intent.getExtras());
+        if (intent != null)
+            logBundle(tag, intent.getExtras());
     }
 
     public static void logBundle(String tag, Bundle data) {

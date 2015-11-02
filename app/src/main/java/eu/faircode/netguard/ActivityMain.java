@@ -560,8 +560,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode + " ok=" + (resultCode == RESULT_OK));
-        if (data != null)
-            Util.logExtras(TAG, data);
+        Util.logExtras(TAG, data);
 
         if (requestCode == REQUEST_VPN) {
             // Update enabled state
