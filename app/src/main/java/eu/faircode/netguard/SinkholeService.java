@@ -227,6 +227,13 @@ public class SinkholeService extends VpnService {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
+
+            // Yield system
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ignored) {
+            }
+
             reload(null, SinkholeService.this);
         }
     };
