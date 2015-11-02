@@ -1,11 +1,10 @@
 <resources>
     <string name="app_copyright">版权所有 \u00A9 2015 by M. Bokhorst (M66B)</string>
-    <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-    <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee it will work correctly on each and every device.
-NetGuard is known to crash when activated or known to block all traffic on some devices.
-This is caused by bugs in Android, or in the software by the manufacturer, so please don\'t blame NetGuard for this.
-\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_license">使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
+    <string name="app_first">开发者在开发和测试NetGuard过程中已悉心尽力,
+但开发者无法确保本软件在所有设备上均可正常运行.
+在某些设备上NetGuard已知会在启动时崩溃或完全阻止所有网络通讯.这是由安卓系统或设备厂商软件缺陷所致, 请不要归咎于NetGuard.
+\n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
 
     <string name="menu_search">搜索应用</string>
     <string name="menu_whitelist_wifi">默认阻止Wi-Fi网络</string>
@@ -22,7 +21,7 @@ This is caused by bugs in Android, or in the software by the manufacturer, so pl
     <string name="msg_sure">是否确认?</string>
     <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
     <string name="msg_revoked">NetGuard已被停用</string>
-    <string name="msg_completed">Action completed</string>
+    <string name="msg_completed">操作完成</string>
 
     <string name="title_using">设备使用时允许</string>
     <string name="title_roaming">漫游时阻止</string>
