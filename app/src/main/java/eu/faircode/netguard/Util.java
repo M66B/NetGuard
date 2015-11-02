@@ -1,5 +1,6 @@
 package eu.faircode.netguard;
 
+import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -22,6 +23,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.MessageDigest;
 import java.util.Set;
 
@@ -104,6 +107,36 @@ public class Util {
                 stringBuilder.append(key).append("=").append(data.get(key)).append("\r\n");
             Log.d(tag, stringBuilder.toString());
         }
+    }
+
+    public static void sendCrashReport(Throwable ex, Context context) {
+        ApplicationErrorReport report = new ApplicationErrorReport();
+        report.packageName = report.processName = context.getPackageName();
+        report.time = System.currentTimeMillis();
+        report.type = ApplicationErrorReport.TYPE_CRASH;
+        report.systemApp = false;
+
+        ApplicationErrorReport.CrashInfo crash = new ApplicationErrorReport.CrashInfo();
+        crash.exceptionClassName = ex.getClass().getSimpleName();
+        crash.exceptionMessage = ex.getMessage();
+
+        StringWriter writer = new StringWriter();
+        PrintWriter printer = new PrintWriter(writer);
+        ex.printStackTrace(printer);
+
+        crash.stackTrace = writer.toString();
+
+        StackTraceElement stack = ex.getStackTrace()[0];
+        crash.throwClassName = stack.getClassName();
+        crash.throwFileName = stack.getFileName();
+        crash.throwLineNumber = stack.getLineNumber();
+        crash.throwMethodName = stack.getMethodName();
+
+        report.crashInfo = crash;
+
+        Intent intent = new Intent(Intent.ACTION_APP_ERROR);
+        intent.putExtra(Intent.EXTRA_BUG_REPORT, report);
+        context.startActivity(intent);
     }
 
     public static void sendLogcat(final String tag, final Context context) {
