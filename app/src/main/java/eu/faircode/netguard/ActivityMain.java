@@ -528,9 +528,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     @Override
                     protected void onPostExecute(Object result) {
                         try {
-                            if (result instanceof Throwable)
-                                throw (Throwable) result;
-                            else if (result != null && (Boolean) result && IABService != null) {
+                            if (result instanceof Boolean && (Boolean) result && IABService != null) {
                                 IntentSender sender = IABgetIntent(SKU_DONATE, IABService, ActivityMain.this);
                                 startIntentSenderForResult(sender, REQUEST_IAB, new Intent(), 0, 0, 0);
                             } else {
@@ -571,7 +569,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 .create();
         dialog.show();
 
-        // Validate IAB
+        // Check if IAB purchased
         new AsyncTask<Object, Object, Object>() {
             @Override
             protected Object doInBackground(Object... objects) {
@@ -585,13 +583,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             @Override
             protected void onPostExecute(Object result) {
-                if (result instanceof Throwable)
-                    Toast.makeText(ActivityMain.this, result.toString(), Toast.LENGTH_LONG).show();
-                else {
-                    boolean purchased = (result != null && (Boolean) result);
-                    btnDonate.setVisibility(purchased ? View.GONE : View.VISIBLE);
-                    tvThanks.setVisibility(purchased ? View.VISIBLE : View.GONE);
-                }
+                boolean purchased = (result instanceof Boolean && (Boolean) result);
+                btnDonate.setVisibility(purchased ? View.GONE : View.VISIBLE);
+                tvThanks.setVisibility(purchased ? View.VISIBLE : View.GONE);
             }
         }.execute();
     }
