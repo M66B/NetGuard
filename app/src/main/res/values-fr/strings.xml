@@ -4,7 +4,7 @@
     <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee it will work correctly on each and every device.
 NetGuard is known to crash when activated or known to block all traffic on some devices.
-This is caused by bugs in Android, or in the software by the manufacturer, so please don\'t blame NetGuard for this.
+This is caused by bugs in Android, or in the software provided by the manufacturer, so please don\'t blame NetGuard for this.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Recherche application</string>
