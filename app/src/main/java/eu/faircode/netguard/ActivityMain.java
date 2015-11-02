@@ -184,9 +184,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         registerReceiver(packageChangedReceiver, intentFilter);
 
         // Connect to billing
-        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
-        serviceIntent.setPackage("com.android.vending");
-        bindService(serviceIntent, IABConnection, Context.BIND_AUTO_CREATE);
+        if (Util.hasValidFingerprint(TAG, this)) {
+            Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+            serviceIntent.setPackage("com.android.vending");
+            bindService(serviceIntent, IABConnection, Context.BIND_AUTO_CREATE);
+        }
 
         // First use
         if (!prefs.getBoolean("initialized", false)) {
@@ -473,8 +475,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private void menu_about() {
-        final boolean valid = Util.hasValidFingerprint(TAG, this);
-
         // Create view
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.about, null);
@@ -490,7 +490,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Handle logcat
-        if (valid)
+        if (Util.hasValidFingerprint(TAG, this))
             view.setOnClickListener(new View.OnClickListener() {
                 private short tap = 0;
 
@@ -509,7 +509,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         btnDonate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (valid && IABService != null)
+                if (IABService != null)
                     IABinitiate();
                 else
                     startActivity(donate);
@@ -541,7 +541,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         dialog.show();
 
         // Validate IAB
-        if (valid && IABService != null)
+        if (IABService != null)
             new AsyncTask<Object, Object, Boolean>() {
                 @Override
                 protected Boolean doInBackground(Object... objects) {
