@@ -526,6 +526,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             public void onClick(View view) {
                 new AsyncTask<Object, Object, Object>() {
                     @Override
+                    protected void onPreExecute() {
+                        btnDonate.setEnabled(false);
+                    }
+
+                    @Override
                     protected Object doInBackground(Object... objects) {
                         try {
                             if (IABService == null || !IABisAvailable(SKU_DONATE, IABService, ActivityMain.this))
@@ -553,6 +558,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         } catch (Throwable ex) {
                             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                             Toast.makeText(ActivityMain.this, result.toString(), Toast.LENGTH_LONG).show();
+                        } finally {
+                            btnDonate.setEnabled(true);
                         }
                     }
                 }.execute();
