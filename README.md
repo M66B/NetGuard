@@ -61,6 +61,9 @@ Devices / ROMs with a broken VPN implementation:
 
 NetGuard will crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 
+[Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify) NetGuard will result in rules not being applied
+when connectivity changes from WiFi/mobile, changing from passive to active use and changing from roaming/not roaming.
+
 Frequently Asked Questions (FAQ)
 --------------------------------
 
