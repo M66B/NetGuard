@@ -56,13 +56,12 @@ public class Util {
     }
 
     public static boolean isPackageInstalled(String packageName, Context context) {
-        PackageManager pm = context.getPackageManager();
         try {
-            PackageInfo info = pm.getPackageInfo(packageName, 0);
+            context.getPackageManager().getPackageInfo(packageName, 0);
+            return true;
         } catch (PackageManager.NameNotFoundException ignored) {
             return false;
         }
-        return true;
     }
 
     public static void toast(final String text, final int length, final Context context) {
