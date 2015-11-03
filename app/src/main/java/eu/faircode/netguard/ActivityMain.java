@@ -875,7 +875,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private void xmlExport(OutputStream out) throws IOException {
         XmlSerializer serializer = Xml.newSerializer();
         serializer.setOutput(out, "UTF-8");
-        serializer.startDocument(null, Boolean.valueOf(true));
+        serializer.startDocument(null, true);
         serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
         serializer.startTag(null, "netguard");
 

@@ -22,7 +22,6 @@ package eu.faircode.netguard;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.VpnService;
 import android.util.Log;
 

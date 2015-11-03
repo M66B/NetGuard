@@ -161,7 +161,7 @@ public class Util {
         AsyncTask task = new AsyncTask<Object, Object, Intent>() {
             @Override
             protected Intent doInBackground(Object... objects) {
-                PackageInfo pInfo = null;
+                PackageInfo pInfo;
                 try {
                     pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
                 } catch (PackageManager.NameNotFoundException ex) {
