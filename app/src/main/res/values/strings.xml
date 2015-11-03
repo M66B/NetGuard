@@ -8,6 +8,10 @@ NetGuard is known to crash when activated or known to block all traffic on some 
 This is caused by bugs in Android, or in the software provided by the manufacturer, so please don\'t blame NetGuard for this.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
+    <string name="app_grant">NetGuard uses the VpnService API to route selected traffic either onward to the internet if allowed
+or into a sinkhole if blocked, hence Android will ask your permission to allow the creation of a local only VPN connection.
+Please grant that permission to allow NetGuard to run.</string>
+
     <string name="menu_search">Search for application</string>
     <string name="menu_whitelist_wifi">Block Wi-Fi by default</string>
     <string name="menu_whitelist_other">Block mobile by default</string>
