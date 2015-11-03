@@ -77,6 +77,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private MenuItem menuSearch = null;
     private IInAppBillingService IABService = null;
     private AlertDialog dialogFirst = null;
+    private AlertDialog dialogVpn = null;
     private AlertDialog dialogAbout = null;
 
     private static final int REQUEST_VPN = 1;
@@ -120,19 +121,40 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     Log.i(TAG, "Switch on");
-                    Intent prepare = VpnService.prepare(ActivityMain.this);
+                    final Intent prepare = VpnService.prepare(ActivityMain.this);
                     if (prepare == null) {
                         Log.e(TAG, "Prepare done");
                         onActivityResult(REQUEST_VPN, RESULT_OK, null);
                     } else {
-                        Log.i(TAG, "Start intent=" + prepare);
-                        try {
-                            startActivityForResult(prepare, REQUEST_VPN);
-                        } catch (Throwable ex) {
-                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                            onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
-                            Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-                        }
+                        // Show dialog
+                        LayoutInflater inflater = LayoutInflater.from(ActivityMain.this);
+                        View view = inflater.inflate(R.layout.vpn, null);
+                        dialogVpn = new AlertDialog.Builder(ActivityMain.this)
+                                .setView(view)
+                                .setCancelable(false)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        if (running) {
+                                            Log.i(TAG, "Start intent=" + prepare);
+                                            try {
+                                                startActivityForResult(prepare, REQUEST_VPN);
+                                            } catch (Throwable ex) {
+                                                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                                                onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
+                                                Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    }
+                                })
+                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialogInterface) {
+                                        dialogVpn = null;
+                                    }
+                                })
+                                .create();
+                        dialogVpn.show();
                     }
                 } else {
                     Log.i(TAG, "Switch off");
@@ -242,13 +264,23 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageChangedReceiver);
 
-        if (IABService != null)
+        if (IABService != null) {
             unbindService(IABConnection);
+            IABService = null;
+        }
 
-        if (dialogFirst != null)
+        if (dialogFirst != null) {
             dialogFirst.dismiss();
-        if (dialogAbout != null)
+            dialogFirst = null;
+        }
+        if (dialogVpn != null) {
+            dialogVpn.dismiss();
+            dialogVpn = null;
+        }
+        if (dialogAbout != null) {
             dialogAbout.dismiss();
+            dialogAbout = null;
+        }
 
         super.onDestroy();
     }
