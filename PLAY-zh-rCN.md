@@ -40,4 +40,7 @@ NetGuard自身不要求网络权限.
 
 NetGuard也许是安卓上第一款免费开源且无需root权限的防火墙应用.
 
-更多信息: http://forum.xda-developers.com/showthread.php?t=3233012
+上述大部分功能由重定向特定网络流量所实现, 而非过滤所有网络通讯. 
+因此一些诸如基于网址过滤(用于hosts拦截), 流量记录和按需配置等高级功能无法实现.
+
+查阅最新的设备兼容性列表,疑难解答或其他更多信息, 请访问: http://forum.xda-developers.com/showthread.php?t=3233012
