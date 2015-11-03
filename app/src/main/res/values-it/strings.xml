@@ -1,34 +1,35 @@
 <resources>
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
-    <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-    <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee it will work correctly on each and every device.
-NetGuard is known to crash when activated or known to block all traffic on some devices.
-This is caused by bugs in Android, or in the software provided by the manufacturer, so please don\'t blame NetGuard for this.
-\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_license">Utilizzando NetGuard, acconsenti a quanto contenuto nella seguente licenza: <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_first">Nonostante NetGuard sia stata sviluppanta attentamente,
+        è impossibile garantirne il corretto funzionamento su ciascun dispositivo.
+        È noto infatti che NetGuard si interrompe all\'avvio o blocca tutto il traffico di rete su alcuni dispositivi.
+        Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal produttore del dispositivo, quindi si prega di non attribuirne la colpa a NetGuard.
+        \n\nUtilizzando NetGuard, acconsenti a quanto contenuto nella seguente licenza: <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a>
+    </string>
 
     <string name="menu_search">Cerca applicazione</string>
     <string name="menu_whitelist_wifi">Blocca Wi-Fi di default</string>
-    <string name="menu_whitelist_other">Block rete di dati di default</string>
-    <string name="menu_whitelist_roaming">Block roaming by default</string>
-    <string name="menu_system">Manage system applications</string>
-    <string name="menu_export">Export settings</string>
-    <string name="menu_import">Import settings</string>
+    <string name="menu_whitelist_other">Blocca rete dati di default</string>
+    <string name="menu_whitelist_roaming">Blocca roaming di default</string>
+    <string name="menu_system">Gestisci applicazioni di sistema</string>
+    <string name="menu_export">Esporta impostazioni</string>
+    <string name="menu_import">Importa impostazioni</string>
     <string name="menu_dark">Usa il tema scuro</string>
     <string name="menu_vpn_settings">Apri impostazioni VPN</string>
     <string name="menu_support">Supporto</string>
     <string name="menu_about">Info</string>
 
     <string name="msg_sure">Sei sicuro?</string>
-    <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarlo nuovamente</string>
-    <string name="msg_revoked">NetGuard has been disabled</string>
-    <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic,
-for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
+    <string name="msg_revoked">NetGuard è stata disabilitata</string>
+    <string name="msg_completed">Azione completata</string>
+    <string name="msg_vpn">NetGuard utilizza una VPN locale come pozzo per bloccare il traffico internet,
+        per questo motivo è necessario abilitare la connessione VPN nella schermata successiva</string>
 
     <string name="title_using">Consenti quando il dispositivo è in uso</string>
-    <string name="title_roaming">Block when roaming</string>
-    <string name="title_launch">Start application</string>
-    <string name="title_donate">Donate</string>
-    <string name="title_thanks">Thank you for your donation!</string>
+    <string name="title_roaming">Blocca quando in roaming</string>
+    <string name="title_launch">Avvia applicazione</string>
+    <string name="title_donate">Dona</string>
+    <string name="title_thanks">Grazie della donazione!</string>
 </resources>
