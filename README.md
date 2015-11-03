@@ -50,6 +50,7 @@ Permissions
 
 * ACCESS_NETWORK_STATE: to check if the device is connected to the internet through WiFi
 * RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
+* com.android.vending.BILLING: to use in app billing for donations
 
 Compatibility
 -------------
