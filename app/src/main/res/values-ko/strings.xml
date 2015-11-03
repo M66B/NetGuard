@@ -23,7 +23,8 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="msg_disabled">넷가드가 해제되어 있습니다. 상단 스위치를 사용해 넷가드를 활성화하세요.</string>
     <string name="msg_revoked">넷가드가 해제되었습니다</string>
     <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked traffic, for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic,
+for this reason you should allow a VPN connection in the next dialog</string>
 
     <string name="title_using">기기가 사용중일때 허용</string>
     <string name="title_roaming">Block when roaming</string>

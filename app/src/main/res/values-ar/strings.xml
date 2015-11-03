@@ -23,7 +23,8 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="msg_disabled">التطبيق غير مُفعّل, قم بتفعيل التطبيق من الخيار أعلاه.</string>
     <string name="msg_revoked">NetGuard has been disabled</string>
     <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked traffic, for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic,
+for this reason you should allow a VPN connection in the next dialog</string>
 
     <string name="title_using">السماح عند استخدام الجهاز</string>
     <string name="title_roaming">Block when roaming</string>

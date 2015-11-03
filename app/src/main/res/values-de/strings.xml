@@ -23,7 +23,8 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="msg_disabled">NetGuard ist deaktiviert, verwende die Switch um NetGuard zu aktivieren</string>
     <string name="msg_revoked">NetGuard wurde deaktiviert</string>
     <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked traffic, for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic,
+for this reason you should allow a VPN connection in the next dialog</string>
 
     <string name="title_using">Erlauben wenn Gerät verwendet wird</string>
     <string name="title_roaming">Blockiere bei Roaming</string>
