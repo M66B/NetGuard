@@ -23,6 +23,7 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="msg_disabled">NetGuard est désactivé, utilisez le bouton ci-dessus pour activer NetGuard</string>
     <string name="msg_revoked">NetGuard a été désactivé</string>
     <string name="msg_completed">Action completed</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked traffic, for this reason you should allow a VPN connection in the next dialog</string>
 
     <string name="title_using">Permettre quand l\'appareil est utilisé</string>
     <string name="title_roaming">Bloquer si roaming</string>
