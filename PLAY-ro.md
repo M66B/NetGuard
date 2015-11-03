@@ -40,6 +40,7 @@ NetGuard nici macar nu necesita permisiune de acces internet.
 
 NetGuard este poate chiar primul firewall gratis si cu sursa deschisa ce nu necesita acces root pe Android.
 
-Majoritatea functiilor sunt rezultatul trimiterii traficului selectat intr-o "gaura neagra", in loc sa fie filtrat tot traficul de internet. Acest lucru inseamna ca functii avansate, cum ar fi filtrarea adreselor (necesara pentru blocarea unor gazde), urmarirea traficului si detectarea aplicatiilor la acces, nu sunt posibile. Rutarea traficului selectat intr-o "gaura neagra" se bazează pe API-ul VpnService introdus în Android 5.0 (Lollipop).
+Majoritatea functiilor sunt rezultatul trimiterii traficului selectat intr-o "gaura neagra", in loc sa fie filtrat tot traficul de internet.
+Acest lucru inseamna ca functii avansate, cum ar fi filtrarea adreselor (necesara pentru blocarea unor gazde), urmarirea traficului si detectarea aplicatiilor la acces, nu sunt posibile.
 
 Pentru informatii la zi despre compatibilitatea dispozitivelor, intrebari si raspunsuri va rugam sa cititi mai multe aici: http://forum.xda-developers.com/showthread.php?t=3233012
