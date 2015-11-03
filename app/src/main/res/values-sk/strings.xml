@@ -1,16 +1,16 @@
 <resources>
     <string name="app_copyright">Autorské práva \u00A9 2015 od M. Bokhorst (M66B)</string>
-    <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-    <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee it will work correctly on each and every device.
-NetGuard is known to crash when activated or known to block all traffic on some devices.
-This is caused by bugs in Android, or in the software provided by the manufacturer, so please don\'t blame NetGuard for this.
-\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_license">Používaním aplikácie NetGuard súhlasíte so <a href="http://www.gnu.org/licenses/gpl.txt">Všeobecnou verejnou licenciou GNU, verzia 3</a></string>
+    <string name="app_first">Značné úsilie bolo venované vývoju a testovaniu NetGuard,
+avšak nie je možné zaručiť správne fungovanie na každom zariadení.
+Pri aktivácii NetGuard dochádza k pádu aplikácie alebo sa blokuje všetka sieťová prevádzka na niektorých zariadeniach.
+Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, preto sa nesťažujte kvôli tomu na NetGuard.
+\n\nPoužívaním aplikácie NetGuard súhlasíte so <a href="http://www.gnu.org/licenses/gpl.txt">Všeobecnou verejnou licenciou GNU, verzia 3</a></string>
 
     <string name="menu_search">Hľadať aplikáciu</string>
     <string name="menu_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
     <string name="menu_whitelist_other">Predvolene blokovať mobilné dáta</string>
-    <string name="menu_whitelist_roaming">Block roaming by default</string>
+    <string name="menu_whitelist_roaming">Predvolene blokovať roaming</string>
     <string name="menu_system">Spravovať systémové aplikácie</string>
     <string name="menu_export">Exportovať nastavenia</string>
     <string name="menu_import">Importovať nastavenia</string>
@@ -22,12 +22,12 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="msg_sure">Ste si istý?</string>
     <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>
     <string name="msg_revoked">NetGuard je vypnutý</string>
-    <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic,
-for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_completed">Akcia bola dokončená</string>
+    <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky,
+a preto by ste mali povoliť VPN pripojenie v ďalšom okne</string>
 
     <string name="title_using">Povoliť pri používaní zariadenia</string>
-    <string name="title_roaming">Block when roaming</string>
+    <string name="title_roaming">Blokovať pri roamingu</string>
     <string name="title_launch">Spustiť aplikáciu</string>
     <string name="title_donate">Prispieť</string>
     <string name="title_thanks">Ďakujeme vám za váš príspevok!</string>
