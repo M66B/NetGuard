@@ -90,6 +90,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private View actionView;
     private ImageView ivInteractive;
     private ImageView ivNetwork;
+    private ImageView ivMetered;
     private SwipeRefreshLayout swipeRefresh;
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
@@ -128,6 +129,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
         ivInteractive = (ImageView) actionView.findViewById(R.id.ivInteractive);
         ivNetwork = (ImageView) actionView.findViewById(R.id.ivNetwork);
+        ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(actionView);
 
@@ -319,14 +321,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Util.logExtras(TAG, intent);
 
             ivNetwork.setVisibility(View.VISIBLE);
+            ivMetered.setVisibility(View.VISIBLE);
 
-            if (Util.isMetered(context)) {
+            if (Util.isWifiActive(context))
+                ivNetwork.setImageLevel(1);
+            else {
                 if (Util.isRoaming(context))
                     ivNetwork.setImageLevel(3);
                 else
                     ivNetwork.setImageLevel(2);
-            } else
-                ivNetwork.setImageLevel(1);
+            }
+            ivMetered.setImageLevel(Util.isMetered(context) ? 1 : 0);
 
             actionView.postInvalidate();
         }
