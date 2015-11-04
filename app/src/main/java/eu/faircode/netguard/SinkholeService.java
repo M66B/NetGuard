@@ -19,6 +19,7 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -49,7 +50,10 @@ public class SinkholeService extends VpnService {
     private boolean debug = false;
     private Thread thread = null;
 
-    private static final int NOTIFY_DISABLED = 1;
+    private static final int NOTIFY_STARTED = 1;
+    private static final int NOTIFY_STOPPED = 2;
+    private static final int NOTIFY_DISABLED = 3;
+
     private static final String EXTRA_COMMAND = "Command";
 
     private enum Command {start, reload, stop}
@@ -74,6 +78,8 @@ public class SinkholeService extends VpnService {
                                 last_roaming = Util.isRoaming(SinkholeService.this);
                                 vpn = startVPN();
                                 startDebug(vpn);
+                                startForeground(NOTIFY_STARTED, getForegroundNotification());
+                                removeStoppedNotification();
                                 removeDisabledNotification();
                                 prefs.edit().putBoolean("enabled", true).apply();
                             }
@@ -94,6 +100,8 @@ public class SinkholeService extends VpnService {
                                 stopDebug();
                                 stopVPN(vpn);
                                 vpn = null;
+                                stopForeground(true);
+                                showStoppedNotification();
                             }
                             prefs.edit().putBoolean("enabled", false).apply();
                             stopSelf();
@@ -339,6 +347,49 @@ public class SinkholeService extends VpnService {
         showDisabledNotification();
 
         super.onRevoke();
+    }
+
+    private Notification getForegroundNotification() {
+        Intent riMain = new Intent(this, ActivityMain.class);
+        PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_started))
+                .setContentIntent(piMain);
+
+        Intent intent = new Intent(this, SinkholeService.class);
+        intent.putExtra(EXTRA_COMMAND, Command.stop);
+        PendingIntent pi = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notification.addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.title_stop), pi);
+
+        return notification.build();
+    }
+
+    private void showStoppedNotification() {
+        Intent riMain = new Intent(this, ActivityMain.class);
+        PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_stopped))
+                .setContentIntent(piMain)
+                .setAutoCancel(false);
+
+        Intent intent = new Intent(this, SinkholeService.class);
+        intent.putExtra(EXTRA_COMMAND, Command.start);
+        PendingIntent pi = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notification.addAction(android.R.drawable.ic_media_play, getString(R.string.title_start), pi);
+
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(NOTIFY_STOPPED, notification.build());
+    }
+
+    private void removeStoppedNotification() {
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.cancel(NOTIFY_STOPPED);
     }
 
     private void showDisabledNotification() {
