@@ -154,7 +154,7 @@ Current translations:
 1. German (de)
 1. Italian (it)
 1. Korean (ko)
-1. Romenian (ro)
+1. Romanian (ro)
 1. Slovak (sk)
 1. Spanish (es)
 
