@@ -20,7 +20,6 @@ package eu.faircode.netguard;
 */
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,6 +32,7 @@ import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -390,13 +390,11 @@ public class SinkholeService extends VpnService {
         PendingIntent pi = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         notification.addAction(android.R.drawable.ic_media_play, getString(R.string.title_start), pi);
 
-        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(NOTIFY_STOPPED, notification.build());
+        NotificationManagerCompat.from(this).notify(NOTIFY_STOPPED, notification.build());
     }
 
     private void removeStoppedNotification() {
-        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(NOTIFY_STOPPED);
+        NotificationManagerCompat.from(this).cancel(NOTIFY_STOPPED);
     }
 
     private void showDisabledNotification() {
@@ -413,13 +411,11 @@ public class SinkholeService extends VpnService {
                 .setColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .setAutoCancel(true);
 
-        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(NOTIFY_DISABLED, notification.build());
+        NotificationManagerCompat.from(this).notify(NOTIFY_DISABLED, notification.build());
     }
 
     private void removeDisabledNotification() {
-        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(NOTIFY_DISABLED);
+        NotificationManagerCompat.from(this).cancel(NOTIFY_DISABLED);
     }
 
     public static void start(Context context) {
