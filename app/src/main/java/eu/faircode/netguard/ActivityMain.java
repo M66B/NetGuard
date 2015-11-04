@@ -87,6 +87,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final String TAG = "NetGuard.Main";
 
     private boolean running = false;
+    private View actionView;
     private ImageView ivInteractive;
     private ImageView ivWifi;
     private ImageView ivOther;
@@ -125,7 +126,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         boolean enabled = prefs.getBoolean("enabled", false);
 
         // Action bar
-        View actionView = getLayoutInflater().inflate(R.layout.action, null);
+        actionView = getLayoutInflater().inflate(R.layout.action, null);
         SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
         ivInteractive = (ImageView) actionView.findViewById(R.id.ivInteractive);
         ivWifi = (ImageView) actionView.findViewById(R.id.ivWifi);
@@ -311,6 +312,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Util.logExtras(TAG, intent);
 
             ivInteractive.setVisibility(Intent.ACTION_SCREEN_ON.equals(intent.getAction()) ? View.VISIBLE : View.INVISIBLE);
+            actionView.postInvalidate();
         }
     };
 
@@ -330,6 +332,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 ivRoaming.setVisibility(View.VISIBLE);
             else
                 ivOther.setVisibility(View.VISIBLE);
+
+            actionView.postInvalidate();
         }
     };
 
