@@ -326,12 +326,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             ivOther.setVisibility(View.GONE);
             ivRoaming.setVisibility(View.GONE);
 
-            if (Util.isWifiActive(context))
+            if (Util.isMetered(context)) {
+                if (Util.isRoaming(context))
+                    ivRoaming.setVisibility(View.VISIBLE);
+                else
+                    ivOther.setVisibility(View.VISIBLE);
+            } else
                 ivWifi.setVisibility(View.VISIBLE);
-            else if (Util.isRoaming(context))
-                ivRoaming.setVisibility(View.VISIBLE);
-            else
-                ivOther.setVisibility(View.VISIBLE);
 
             actionView.postInvalidate();
         }

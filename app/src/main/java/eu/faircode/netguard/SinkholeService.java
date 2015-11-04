@@ -110,17 +110,12 @@ public class SinkholeService extends VpnService {
     private ParcelFileDescriptor startVPN() {
         Log.i(TAG, "Starting");
 
-        // Check if Wi-Fi
+        // Check state
+        boolean metered = Util.isMetered(this);
         boolean wifi = Util.isWifiActive(this);
-        Log.i(TAG, "wifi=" + wifi);
-
-        // Check if Wi-Fi
         boolean roaming = Util.isRoaming(this);
-        Log.i(TAG, "roaming=" + roaming);
-
-        // Check if interactive
         boolean interactive = Util.isInteractive(this);
-        Log.i(TAG, "interactive=" + interactive);
+        Log.i(TAG, "metered=" + metered + " wifi=" + wifi + " roaming=" + roaming + " interactive=" + interactive);
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -132,8 +127,8 @@ public class SinkholeService extends VpnService {
 
         // Add list of allowed applications
         for (Rule rule : Rule.getRules(true, TAG, this)) {
-            boolean blocked = (wifi ? rule.wifi_blocked : rule.other_blocked);
-            if ((!blocked || (rule.unused && interactive)) && (wifi || !(rule.roaming && roaming))) {
+            boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
+            if ((!blocked || (rule.unused && interactive)) && (!metered || !(rule.roaming && roaming))) {
                 Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
                     builder.addDisallowedApplication(rule.info.packageName);
@@ -374,7 +369,7 @@ public class SinkholeService extends VpnService {
     }
 
     public static void reload(String network, Context context) {
-        if (network == null || ("wifi".equals(network) ? Util.isWifiActive(context) : !Util.isWifiActive(context))) {
+        if (network == null || ("wifi".equals(network) ? !Util.isMetered(context) : Util.isMetered(context))) {
             Intent intent = new Intent(context, SinkholeService.class);
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             context.startService(intent);

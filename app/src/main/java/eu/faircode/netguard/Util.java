@@ -69,6 +69,11 @@ public class Util {
 
     }
 
+    public static boolean isMetered(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.isActiveNetworkMetered();
+    }
+
     public static boolean isInteractive(Context context) {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         return pm.isInteractive();
