@@ -33,6 +33,7 @@ import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -357,7 +358,10 @@ public class SinkholeService extends VpnService {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_started))
-                .setContentIntent(piMain);
+                .setContentIntent(piMain)
+                .setCategory(Notification.CATEGORY_STATUS)
+                .setVisibility(Notification.VISIBILITY_SECRET)
+                .setColor(ContextCompat.getColor(this, R.color.colorAccent));
 
         Intent intent = new Intent(this, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
@@ -376,6 +380,9 @@ public class SinkholeService extends VpnService {
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_stopped))
                 .setContentIntent(piMain)
+                .setCategory(Notification.CATEGORY_STATUS)
+                .setVisibility(Notification.VISIBILITY_SECRET)
+                .setColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .setAutoCancel(false);
 
         Intent intent = new Intent(this, SinkholeService.class);
@@ -401,6 +408,9 @@ public class SinkholeService extends VpnService {
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_revoked))
                 .setContentIntent(piMain)
+                .setCategory(Notification.CATEGORY_STATUS)
+                .setVisibility(Notification.VISIBILITY_SECRET)
+                .setColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .setAutoCancel(true);
 
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
