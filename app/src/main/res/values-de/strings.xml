@@ -1,11 +1,10 @@
 <resources>
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
-    <string name="app_license">Mit der Verwendung von NetGuard, akzeptierst zu die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-    <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee it will work correctly on each and every device.
-NetGuard is known to crash when activated or known to block all traffic on some devices.
-This is caused by bugs in Android, or in the software provided by the manufacturer, so please don\'t blame NetGuard for this.
-\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_license">Mit der Verwendung von NetGuard, akzeptierst du die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_first">Netguard wurde mit großer Sorgfalt entwickelt, jedoch ist es unmöglich zu garantieren, dass es auf jedem Gerät korrekt arbeitet.
++    Es ist bekannt, dass Netguard zu Abstürzen führen kann und, dass auf manchen Geräten sämtlicher Netzwerkverkehr blockiert wird.
++    Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitte beschuldigen sie bei solchen Fehlern nicht Netguard.
++\n\nMit der Verwendung von NetGuard, akzeptierst du die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Suche nach Apps</string>
     <string name="menu_whitelist_wifi">Blockiere Wi-Fi standardmäßig</string>
@@ -20,11 +19,10 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="menu_about">Über</string>
 
     <string name="msg_sure">Bist du sicher?</string>
-    <string name="msg_disabled">NetGuard ist deaktiviert, verwende die Switch um NetGuard zu aktivieren</string>
+    <string name="msg_disabled">NetGuard ist deaktiviert, verwende den Schalter um NetGuard zu aktivieren</string>
     <string name="msg_revoked">NetGuard wurde deaktiviert</string>
-    <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic,
-for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_completed">Aktion abgeschlossen</string>
+    <string name="msg_vpn">Netguard verwendet ein lokales VPN als Senkgrube für blockierten Netzwerkverkehr, daher muss im nächsten Dialog die VPN Verbindung bestätigt werden.</string>
 
     <string name="title_using">Erlauben wenn Gerät verwendet wird</string>
     <string name="title_roaming">Blockiere bei Roaming</string>
