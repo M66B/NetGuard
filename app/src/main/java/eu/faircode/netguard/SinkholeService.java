@@ -425,11 +425,13 @@ public class SinkholeService extends VpnService {
     }
 
     public static void reload(String network, Context context) {
-        if (network == null || ("wifi".equals(network) ? !Util.isMetered(context) : Util.isMetered(context))) {
-            Intent intent = new Intent(context, SinkholeService.class);
-            intent.putExtra(EXTRA_COMMAND, Command.reload);
-            context.startService(intent);
-        }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (prefs.getBoolean("enabled", false))
+            if (network == null || ("wifi".equals(network) ? !Util.isMetered(context) : Util.isMetered(context))) {
+                Intent intent = new Intent(context, SinkholeService.class);
+                intent.putExtra(EXTRA_COMMAND, Command.reload);
+                context.startService(intent);
+            }
     }
 
     public static void stop(Context context) {
