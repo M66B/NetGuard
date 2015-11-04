@@ -264,14 +264,17 @@ public class SinkholeService extends VpnService {
             Util.logExtras(TAG, intent);
 
             if (last_roaming != Util.isRoaming(SinkholeService.this)) {
+                // Roaming state changed
                 last_roaming = !last_roaming;
                 Log.i(TAG, "New state roaming=" + last_roaming);
                 reload(null, SinkholeService.this);
 
             } else if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
                     intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) ==
-                            ConnectivityManager.TYPE_WIFI)
+                            ConnectivityManager.TYPE_WIFI) {
+                // Wifi connected/disconnected
                 reload(null, SinkholeService.this);
+            }
         }
     };
 
