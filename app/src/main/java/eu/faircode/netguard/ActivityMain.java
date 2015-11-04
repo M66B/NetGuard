@@ -89,9 +89,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private boolean running = false;
     private View actionView;
     private ImageView ivInteractive;
-    private ImageView ivWifi;
-    private ImageView ivOther;
-    private ImageView ivRoaming;
+    private ImageView ivNetwork;
     private SwipeRefreshLayout swipeRefresh;
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
@@ -129,9 +127,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         actionView = getLayoutInflater().inflate(R.layout.action, null);
         SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
         ivInteractive = (ImageView) actionView.findViewById(R.id.ivInteractive);
-        ivWifi = (ImageView) actionView.findViewById(R.id.ivWifi);
-        ivOther = (ImageView) actionView.findViewById(R.id.ivOther);
-        ivRoaming = (ImageView) actionView.findViewById(R.id.ivRoaming);
+        ivNetwork = (ImageView) actionView.findViewById(R.id.ivNetwork);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(actionView);
 
@@ -322,17 +318,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
 
-            ivWifi.setVisibility(View.GONE);
-            ivOther.setVisibility(View.GONE);
-            ivRoaming.setVisibility(View.GONE);
+            ivNetwork.setVisibility(View.VISIBLE);
 
             if (Util.isMetered(context)) {
                 if (Util.isRoaming(context))
-                    ivRoaming.setVisibility(View.VISIBLE);
+                    ivNetwork.setImageLevel(3);
                 else
-                    ivOther.setVisibility(View.VISIBLE);
+                    ivNetwork.setImageLevel(2);
             } else
-                ivWifi.setVisibility(View.VISIBLE);
+                ivNetwork.setImageLevel(1);
 
             actionView.postInvalidate();
         }

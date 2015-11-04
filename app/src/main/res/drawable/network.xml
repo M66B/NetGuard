@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/ic_network_wifi_white_24dp"
+        android:maxLevel="1"
+        android:minLevel="1" />
+    <item
+        android:drawable="@drawable/ic_network_cell_white_24dp"
+        android:maxLevel="2"
+        android:minLevel="2" />
+    <item
+        android:drawable="@drawable/ic_network_cell_white_24px_roaming"
+        android:maxLevel="3"
+        android:minLevel="3" />
+</level-list>
