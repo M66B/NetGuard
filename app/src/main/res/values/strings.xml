@@ -16,6 +16,7 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="menu_export">Export settings</string>
     <string name="menu_import">Import settings</string>
     <string name="menu_dark">Use dark theme</string>
+    <string name="menu_settings">Settings</string>
     <string name="menu_vpn_settings">Open Android VPN settings</string>
     <string name="menu_support">Support</string>
     <string name="menu_about">About</string>

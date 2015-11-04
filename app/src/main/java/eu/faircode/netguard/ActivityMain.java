@@ -362,7 +362,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             SwitchCompat swEnabled = (SwitchCompat) getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
             if (swEnabled.isChecked() != enabled)
                 swEnabled.setChecked(enabled);
-        }
+
+        } else if ("whitelist_wifi".equals(name) ||
+                "whitelist_other".equals(name) ||
+                "whitelist_roaming".equals(name) ||
+                "manage_system".equals(name))
+            updateApplicationList();
+
+        else if ("dark_theme".equals(name))
+            recreate();
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
@@ -490,24 +498,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        menu.findItem(R.id.menu_whitelist_wifi).setChecked(prefs.getBoolean("whitelist_wifi", true));
-        menu.findItem(R.id.menu_whitelist_other).setChecked(prefs.getBoolean("whitelist_other", true));
-        menu.findItem(R.id.menu_whitelist_roaming).setChecked(prefs.getBoolean("whitelist_roaming", true));
-        menu.findItem(R.id.menu_system).setChecked(prefs.getBoolean("manage_system", false));
         menu.findItem(R.id.menu_export).setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
         menu.findItem(R.id.menu_import).setEnabled(getIntentOpenDocument().resolveActivity(getPackageManager()) != null);
-        menu.findItem(R.id.menu_theme).setChecked(prefs.getBoolean("dark_theme", false));
         menu.findItem(R.id.menu_vpn_settings).setEnabled(INTENT_VPN_SETTINGS.resolveActivity(getPackageManager()) != null);
         menu.findItem(R.id.menu_support).setEnabled(getIntentSupport().resolveActivity(getPackageManager()) != null);
 
-        return super.onPrepareOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -516,22 +512,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_whitelist_wifi:
-                menu_whitelist_wifi(prefs);
-                return true;
-
-            case R.id.menu_whitelist_other:
-                menu_whitelist_other(prefs);
-                return true;
-
-            case R.id.menu_whitelist_roaming:
-                menu_whitelist_roaming(prefs);
-                return true;
-
-            case R.id.menu_system:
-                menu_system(prefs);
-                return true;
-
             case R.id.menu_export:
                 startActivityForResult(getIntentCreateDocument(), REQUEST_EXPORT);
                 return true;
@@ -540,8 +520,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 startActivityForResult(getIntentOpenDocument(), REQUEST_IMPORT);
                 return true;
 
-            case R.id.menu_theme:
-                menu_theme(prefs);
+            case R.id.menu_settings:
+                startActivity(new Intent(this, ActivitySettings.class));
                 return true;
 
             case R.id.menu_vpn_settings:
@@ -559,35 +539,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void menu_whitelist_wifi(SharedPreferences prefs) {
-        prefs.edit().putBoolean("whitelist_wifi", !prefs.getBoolean("whitelist_wifi", true)).apply();
-        updateApplicationList();
-        SinkholeService.reload("wifi", this);
-    }
-
-    private void menu_whitelist_other(SharedPreferences prefs) {
-        prefs.edit().putBoolean("whitelist_other", !prefs.getBoolean("whitelist_other", true)).apply();
-        updateApplicationList();
-        SinkholeService.reload("other", this);
-    }
-
-    private void menu_whitelist_roaming(SharedPreferences prefs) {
-        prefs.edit().putBoolean("whitelist_roaming", !prefs.getBoolean("whitelist_roaming", true)).apply();
-        updateApplicationList();
-        SinkholeService.reload("other", this);
-    }
-
-    private void menu_system(SharedPreferences prefs) {
-        prefs.edit().putBoolean("manage_system", !prefs.getBoolean("manage_system", false)).apply();
-        updateApplicationList();
-        SinkholeService.reload(null, this);
-    }
-
-    private void menu_theme(SharedPreferences prefs) {
-        prefs.edit().putBoolean("dark_theme", !prefs.getBoolean("dark_theme", false)).apply();
-        recreate();
     }
 
     private void menu_about() {

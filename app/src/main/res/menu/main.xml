@@ -8,31 +8,14 @@
         netguard:actionViewClass="android.support.v7.widget.SearchView"
         netguard:showAsAction="always|collapseActionView" />
     <item
-        android:id="@+id/menu_whitelist_wifi"
-        android:checkable="true"
-        android:title="@string/menu_whitelist_wifi" />
-    <item
-        android:id="@+id/menu_whitelist_other"
-        android:checkable="true"
-        android:title="@string/menu_whitelist_other" />
-    <item
-        android:id="@+id/menu_whitelist_roaming"
-        android:checkable="true"
-        android:title="@string/menu_whitelist_roaming" />
-    <item
-        android:id="@+id/menu_system"
-        android:checkable="true"
-        android:title="@string/menu_system" />
-    <item
         android:id="@+id/menu_export"
         android:title="@string/menu_export" />
     <item
         android:id="@+id/menu_import"
         android:title="@string/menu_import" />
     <item
-        android:id="@+id/menu_theme"
-        android:checkable="true"
-        android:title="@string/menu_dark" />
+        android:id="@+id/menu_settings"
+        android:title="@string/menu_settings" />
     <item
         android:id="@+id/menu_vpn_settings"
         android:title="@string/menu_vpn_settings" />

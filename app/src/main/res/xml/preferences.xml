@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="whitelist_wifi"
+        android:title="@string/menu_whitelist_wifi" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="whitelist_other"
+        android:title="@string/menu_whitelist_other" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="whitelist_roaming"
+        android:title="@string/menu_whitelist_roaming" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="manage_system"
+        android:title="@string/menu_system" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="dark_theme"
+        android:title="@string/menu_dark" />
+</PreferenceScreen>

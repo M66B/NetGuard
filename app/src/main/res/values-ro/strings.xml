@@ -15,6 +15,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="menu_export">Exporta setari</string>
     <string name="menu_import">Importa setari</string>
     <string name="menu_dark">Foloseste tema intunecata</string>
+    <string name="menu_settings">Setari</string>
     <string name="menu_vpn_settings">Deschide setari VPN Android</string>
     <string name="menu_support">Asistenta</string>
     <string name="menu_about">Despre</string>

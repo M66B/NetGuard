@@ -15,6 +15,7 @@
     <string name="menu_export">导出设置</string>
     <string name="menu_import">导入设置</string>
     <string name="menu_dark">使用暗色主题</string>
+    <string name="menu_settings">Settings</string>
     <string name="menu_vpn_settings">打开安卓VPN设置</string>
     <string name="menu_support">软件支持</string>
     <string name="menu_about">关于</string>

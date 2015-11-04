@@ -15,6 +15,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="menu_export">Exportar configuración</string>
     <string name="menu_import">Importar configuración</string>
     <string name="menu_dark">Usar tema oscuro</string>
+    <string name="menu_settings">Configuración</string>
     <string name="menu_vpn_settings">Abrir configuración VPN de Android</string>
     <string name="menu_support">Soporte</string>
     <string name="menu_about">Acerca de</string>
