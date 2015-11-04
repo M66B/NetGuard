@@ -124,6 +124,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         running = true;
         boolean enabled = prefs.getBoolean("enabled", false);
 
+        if (enabled)
+            SinkholeService.start(this);
+        else
+            SinkholeService.stop(this);
+
         // Action bar
         actionView = getLayoutInflater().inflate(R.layout.action, null);
         SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
