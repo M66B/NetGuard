@@ -156,6 +156,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                                         if (running) {
                                             Log.i(TAG, "Start intent=" + prepare);
                                             try {
+                                                prefs.edit().putBoolean("enabled", true).apply();
                                                 startActivityForResult(prepare, REQUEST_VPN);
                                             } catch (Throwable ex) {
                                                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -176,7 +177,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
                 } else {
                     Log.i(TAG, "Switch off");
-                    prefs.edit().putBoolean("enabled", false).apply();
                     SinkholeService.stop(ActivityMain.this);
                 }
             }
@@ -303,6 +303,63 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         super.onDestroy();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode + " ok=" + (resultCode == RESULT_OK));
+        Util.logExtras(TAG, data);
+
+        if (requestCode == REQUEST_VPN) {
+            // Handle VPN approval
+            if (resultCode == RESULT_OK)
+                SinkholeService.start(this);
+            else {
+                Log.i(TAG, "Dialog cancelled");
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                prefs.edit().putBoolean("enabled", false).apply();
+            }
+
+        } else if (requestCode == REQUEST_IAB) {
+            if (resultCode == RESULT_OK) {
+                // Handle donation
+                Intent intent = new Intent(ACTION_IAB);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            } else {
+                int response = (data == null ? -1 : data.getIntExtra("RESPONSE_CODE", -1));
+                Log.i(TAG, "IAB response=" + getIABResult(response));
+            }
+
+        } else if (requestCode == REQUEST_EXPORT) {
+            if (resultCode == RESULT_OK && data != null)
+                handleExport(data);
+
+        } else if (requestCode == REQUEST_IMPORT) {
+            if (resultCode == RESULT_OK && data != null)
+                handleImport(data);
+
+        } else {
+            Log.w(TAG, "Unknown activity result request=" + requestCode);
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
+        Log.i(TAG, "Preference " + name + "=" + prefs.getAll().get(name));
+        if ("enabled".equals(name)) {
+            // Get enabled
+            boolean enabled = prefs.getBoolean(name, false);
+
+            // Display disabled warning
+            TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
+            tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
+
+            // Check switch state
+            SwitchCompat swEnabled = (SwitchCompat) getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
+            if (swEnabled.isChecked() != enabled)
+                swEnabled.setChecked(enabled);
+        }
+    }
+
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -394,24 +451,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 }
             }
         }.execute();
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
-        Log.i(TAG, "Preference " + name + "=" + prefs.getAll().get(name));
-        if ("enabled".equals(name)) {
-            // Get enabled
-            boolean enabled = prefs.getBoolean(name, false);
-
-            // Display disabled warning
-            TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
-            tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
-
-            // Check switch state
-            SwitchCompat swEnabled = (SwitchCompat) getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
-            if (swEnabled.isChecked() != enabled)
-                swEnabled.setChecked(enabled);
-        }
     }
 
     @Override
@@ -666,44 +705,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 tvThanks.setVisibility(purchased ? View.VISIBLE : View.GONE);
             }
         }.execute();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode + " ok=" + (resultCode == RESULT_OK));
-        Util.logExtras(TAG, data);
-
-        if (requestCode == REQUEST_VPN) {
-            // Update enabled state
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
-
-            // Start service
-            if (resultCode == RESULT_OK)
-                SinkholeService.start(this);
-
-        } else if (requestCode == REQUEST_IAB) {
-            if (resultCode == RESULT_OK) {
-                // Handle donation
-                Intent intent = new Intent(ACTION_IAB);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-            } else {
-                int response = (data == null ? -1 : data.getIntExtra("RESPONSE_CODE", -1));
-                Log.i(TAG, "IAB response=" + getIABResult(response));
-            }
-
-        } else if (requestCode == REQUEST_EXPORT) {
-            if (resultCode == RESULT_OK && data != null)
-                handleExport(data);
-
-        } else if (requestCode == REQUEST_IMPORT) {
-            if (resultCode == RESULT_OK && data != null)
-                handleImport(data);
-
-        } else {
-            Log.w(TAG, "Unknown activity result request=" + requestCode);
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     private void handleExport(final Intent data) {

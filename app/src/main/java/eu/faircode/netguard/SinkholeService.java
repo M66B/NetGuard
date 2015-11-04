@@ -57,12 +57,11 @@ public class SinkholeService extends VpnService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Get enabled
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        final boolean enabled = prefs.getBoolean("enabled", false);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Get command
         final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
-        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
+        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
 
         // Process command
         new Thread(new Runnable() {
@@ -71,22 +70,21 @@ public class SinkholeService extends VpnService {
                 synchronized (SinkholeService.this) {
                     switch (cmd) {
                         case start:
-                            if (enabled && vpn == null) {
+                            if (vpn == null) {
                                 last_roaming = Util.isRoaming(SinkholeService.this);
                                 vpn = startVPN();
                                 startDebug(vpn);
                                 removeDisabledNotification();
+                                prefs.edit().putBoolean("enabled", true).apply();
                             }
                             break;
 
                         case reload:
                             // Seamless handover
                             ParcelFileDescriptor prev = vpn;
-                            if (enabled) {
-                                vpn = startVPN();
-                                stopDebug();
-                                startDebug(vpn);
-                            }
+                            vpn = startVPN();
+                            stopDebug();
+                            startDebug(vpn);
                             if (prev != null)
                                 stopVPN(prev);
                             break;
@@ -97,6 +95,7 @@ public class SinkholeService extends VpnService {
                                 stopVPN(vpn);
                                 vpn = null;
                             }
+                            prefs.edit().putBoolean("enabled", false).apply();
                             stopSelf();
                             break;
                     }

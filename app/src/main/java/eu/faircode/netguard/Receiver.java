@@ -22,7 +22,9 @@ package eu.faircode.netguard;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.VpnService;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class Receiver extends BroadcastReceiver {
@@ -46,8 +48,10 @@ public class Receiver extends BroadcastReceiver {
 
         } else {
             // Start service
-            if (VpnService.prepare(context) == null)
-                SinkholeService.start(context);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            if (prefs.getBoolean("enabled", false))
+                if (VpnService.prepare(context) == null)
+                    SinkholeService.start(context);
         }
     }
 }
