@@ -28,7 +28,7 @@
         <activity
             android:name=".ActivitySettings"
             android:configChanges="orientation|screenSize"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:parentActivityName=".ActivityMain" />
 
         <service
