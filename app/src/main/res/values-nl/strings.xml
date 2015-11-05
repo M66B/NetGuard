@@ -8,17 +8,18 @@ This is caused by bugs in Android, or in the software provided by the manufactur
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Zoek naar applicatie</string>
-    <string name="menu_whitelist_wifi">Blokkeer Wi-Fi standaard</string>
-    <string name="menu_whitelist_other">Blokkeer mobiel standaard</string>
-    <string name="menu_whitelist_roaming">Blokkeer roaming standaard</string>
-    <string name="menu_system">Beheer systeemapplicaties</string>
     <string name="menu_export">Exporteer instellingen</string>
     <string name="menu_import">Importeer instellingen</string>
-    <string name="menu_dark">Gebruik donker thema</string>
     <string name="menu_settings">Instellingen</string>
     <string name="menu_vpn_settings">Open Android VPN-instellingen</string>
     <string name="menu_support">Ondersteuning</string>
     <string name="menu_about">Over</string>
+
+    <string name="setting_whitelist_wifi">Blokkeer Wi-Fi standaard</string>
+    <string name="setting_whitelist_other">Blokkeer mobiel standaard</string>
+    <string name="setting_whitelist_roaming">Blokkeer roaming standaard</string>
+    <string name="setting_system">Beheer systeemapplicaties</string>
+    <string name="setting_dark">Gebruik donker thema</string>
 
     <string name="msg_sure">Weet u het zeker?</string>
     <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar boven om NetGuard aan te zetten</string>

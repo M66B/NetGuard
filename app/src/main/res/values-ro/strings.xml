@@ -8,17 +8,18 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
 \n\nFolosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Cauta aplicatii</string>
-    <string name="menu_whitelist_wifi">Blocheaza implicit Wi-Fi</string>
-    <string name="menu_whitelist_other">Blocheaza implicit date mobile</string>
-    <string name="menu_whitelist_roaming">Blocheaza implicit in roaming</string>
-    <string name="menu_system">Gestionati aplicatiile de sistem</string>
     <string name="menu_export">Exporta setari</string>
     <string name="menu_import">Importa setari</string>
-    <string name="menu_dark">Foloseste tema intunecata</string>
     <string name="menu_settings">Setari</string>
     <string name="menu_vpn_settings">Deschide setari VPN Android</string>
     <string name="menu_support">Asistenta</string>
     <string name="menu_about">Despre</string>
+
+    <string name="setting_whitelist_wifi">Blocheaza implicit Wi-Fi</string>
+    <string name="setting_whitelist_other">Blocheaza implicit date mobile</string>
+    <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
+    <string name="setting_system">Gestionati aplicatiile de sistem</string>
+    <string name="setting_dark">Foloseste tema intunecata</string>
 
     <string name="msg_sure">Esti sigur?</string>
     <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>

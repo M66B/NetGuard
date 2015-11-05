@@ -8,17 +8,18 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
 \n\nPoužívaním aplikácie NetGuard súhlasíte so <a href="http://www.gnu.org/licenses/gpl.txt">Všeobecnou verejnou licenciou GNU, verzia 3</a></string>
 
     <string name="menu_search">Hľadať aplikáciu</string>
-    <string name="menu_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
-    <string name="menu_whitelist_other">Predvolene blokovať mobilné dáta</string>
-    <string name="menu_whitelist_roaming">Predvolene blokovať roaming</string>
-    <string name="menu_system">Spravovať systémové aplikácie</string>
     <string name="menu_export">Exportovať nastavenia</string>
     <string name="menu_import">Importovať nastavenia</string>
-    <string name="menu_dark">Použiť tmavú tému</string>
     <string name="menu_settings">Nastavenia</string>
     <string name="menu_vpn_settings">Otvoriť nastavenia VPN</string>
     <string name="menu_support">Podpora</string>
     <string name="menu_about">O aplikácii</string>
+
+    <string name="setting_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
+    <string name="setting_whitelist_other">Predvolene blokovať mobilné dáta</string>
+    <string name="setting_whitelist_roaming">Predvolene blokovať roaming</string>
+    <string name="setting_system">Spravovať systémové aplikácie</string>
+    <string name="setting_dark">Použiť tmavú tému</string>
 
     <string name="msg_sure">Ste si istý?</string>
     <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>

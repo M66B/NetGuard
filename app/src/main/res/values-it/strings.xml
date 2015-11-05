@@ -9,17 +9,18 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     </string>
 
     <string name="menu_search">Cerca applicazione</string>
-    <string name="menu_whitelist_wifi">Blocca Wi-Fi di default</string>
-    <string name="menu_whitelist_other">Blocca rete dati di default</string>
-    <string name="menu_whitelist_roaming">Blocca roaming di default</string>
-    <string name="menu_system">Gestisci applicazioni di sistema</string>
     <string name="menu_export">Esporta impostazioni</string>
     <string name="menu_import">Importa impostazioni</string>
-    <string name="menu_dark">Usa il tema scuro</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="menu_vpn_settings">Apri impostazioni VPN</string>
     <string name="menu_support">Supporto</string>
     <string name="menu_about">Info</string>
+
+    <string name="setting_whitelist_wifi">Blocca Wi-Fi di default</string>
+    <string name="setting_whitelist_other">Blocca rete dati di default</string>
+    <string name="setting_whitelist_roaming">Blocca roaming di default</string>
+    <string name="setting_system">Gestisci applicazioni di sistema</string>
+    <string name="setting_dark">Usa il tema scuro</string>
 
     <string name="msg_sure">Sei sicuro?</string>
     <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>

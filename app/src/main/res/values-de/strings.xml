@@ -7,17 +7,18 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
 +\n\nMit der Verwendung von NetGuard, akzeptierst du die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Suche nach Apps</string>
-    <string name="menu_whitelist_wifi">Blockiere Wi-Fi standardmäßig</string>
-    <string name="menu_whitelist_other">Blockiere Mobilfunk standardmäßig</string>
-    <string name="menu_whitelist_roaming">Blockiere Roaming standardmäßig</string>
-    <string name="menu_system">Zeige System Apps</string>
     <string name="menu_export">Exportiere Einstellungen</string>
     <string name="menu_import">Importiere Einstellungen</string>
-    <string name="menu_dark">Verwende dunkles Theme</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_vpn_settings">Öffne Android VPN Einstellungen</string>
     <string name="menu_support">Hilfe</string>
     <string name="menu_about">Über</string>
+
+    <string name="setting_whitelist_wifi">Blockiere Wi-Fi standardmäßig</string>
+    <string name="setting_whitelist_other">Blockiere Mobilfunk standardmäßig</string>
+    <string name="setting_whitelist_roaming">Blockiere Roaming standardmäßig</string>
+    <string name="setting_system">Zeige System Apps</string>
+    <string name="setting_dark">Verwende dunkles Theme</string>
 
     <string name="msg_sure">Bist du sicher?</string>
     <string name="msg_disabled">NetGuard ist deaktiviert, verwende den Schalter um NetGuard zu aktivieren</string>

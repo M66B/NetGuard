@@ -8,17 +8,18 @@ This is caused by bugs in Android, or in the software provided by the manufactur
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">البحث عن تطبيقات</string>
-    <string name="menu_whitelist_wifi">حظر الواي فاي بشكل افتراضي</string>
-    <string name="menu_whitelist_other">حظر الشبكة بشكل افتراضي</string>
-    <string name="menu_whitelist_roaming">Block roaming by default</string>
-    <string name="menu_system">Manage system applications</string>
     <string name="menu_export">Export settings</string>
     <string name="menu_import">Import settings</string>
-    <string name="menu_dark">استخدام الثيم الداكن</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_vpn_settings">فتح إعدادات الـVPN</string>
     <string name="menu_support">الدعم</string>
     <string name="menu_about">حول</string>
+
+    <string name="setting_whitelist_wifi">حظر الواي فاي بشكل افتراضي</string>
+    <string name="setting_whitelist_other">حظر الشبكة بشكل افتراضي</string>
+    <string name="setting_whitelist_roaming">Block roaming by default</string>
+    <string name="setting_system">Manage system applications</string>
+    <string name="setting_dark">استخدام الثيم الداكن</string>
 
     <string name="msg_sure">هل أنت متأكد؟</string>
     <string name="msg_disabled">التطبيق غير مُفعّل, قم بتفعيل التطبيق من الخيار أعلاه.</string>
