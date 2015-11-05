@@ -24,6 +24,7 @@ Features
 * Simple to use
 * Free of charge
 * Open source
+* Full internet speed
 * No extra battery usage
 * No calling home
 * No tracking or analytics
