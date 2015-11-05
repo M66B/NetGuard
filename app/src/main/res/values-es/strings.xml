@@ -8,10 +8,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
 \n\nAl utilizar NetGuard, estás aceptando la <a href="http://www.gnu.org/licenses/gpl.txt">Licencia Pública GNU General Public versión 3</a></string>
 
     <string name="menu_search">Buscar aplicación</string>
-    <string name="menu_export">Exportar configuración</string>
-    <string name="menu_import">Importar configuración</string>
     <string name="menu_settings">Configuración</string>
-    <string name="menu_vpn_settings">Abrir configuración VPN de Android</string>
     <string name="menu_support">Soporte</string>
     <string name="menu_about">Acerca de</string>
 
@@ -22,6 +19,9 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_dark">Usar tema oscuro</string>
     <string name="setting_indicators">Show state indicators</string>
     <string name="setting_notification">Show status bar notification</string>
+    <string name="setting_export">Exportar configuración</string>
+    <string name="setting_import">Importar configuración</string>
+    <string name="setting_vpn">Abrir configuración VPN de Android</string>
 
     <string name="msg_sure">¿Estás seguro?</string>
     <string name="msg_started">Enforcing rules</string>

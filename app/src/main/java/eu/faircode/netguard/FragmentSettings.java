@@ -19,13 +19,57 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 public class FragmentSettings extends PreferenceFragment {
+    private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+
+        Preference pref_export = getPreferenceScreen().findPreference("export");
+        pref_export.setEnabled(getIntentCreateDocument().resolveActivity(getActivity().getPackageManager()) != null);
+        pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                getActivity().startActivityForResult(getIntentCreateDocument(), ActivitySettings.REQUEST_EXPORT);
+                return true;
+            }
+        });
+
+        Preference pref_import = getPreferenceScreen().findPreference("import");
+        pref_import.setEnabled(getIntentCreateDocument().resolveActivity(getActivity().getPackageManager()) != null);
+        pref_import.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                getActivity().startActivityForResult(getIntentOpenDocument(), ActivitySettings.REQUEST_IMPORT);
+                return true;
+            }
+        });
+
+        Preference pref_vpn = getPreferenceScreen().findPreference("vpn");
+        pref_vpn.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(getActivity().getPackageManager()) != null);
+        pref_vpn.setIntent(INTENT_VPN_SETTINGS);
+    }
+
+
+    private static Intent getIntentCreateDocument() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/xml");
+        intent.putExtra(Intent.EXTRA_TITLE, "netguard.xml");
+        return intent;
+    }
+
+    private static Intent getIntentOpenDocument() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/xml");
+        return intent;
     }
 }

@@ -28,4 +28,13 @@
         android:defaultValue="false"
         android:key="notification"
         android:title="@string/setting_notification" />
+    <Preference
+        android:key="export"
+        android:title="@string/setting_export" />
+    <Preference
+        android:key="import"
+        android:title="@string/setting_import" />
+    <Preference
+        android:key="vpn"
+        android:title="@string/setting_vpn" />
 </PreferenceScreen>

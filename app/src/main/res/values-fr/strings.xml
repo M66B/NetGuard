@@ -8,10 +8,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
 \n\nEn utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Recherche application</string>
-    <string name="menu_export">Exporter paramètres</string>
-    <string name="menu_import">Importer paramètres</string>
     <string name="menu_settings">Paramètres</string>
-    <string name="menu_vpn_settings">Ouvrir les paramètres VPN</string>
     <string name="menu_support">Support</string>
     <string name="menu_about">À propos</string>
 
@@ -22,6 +19,9 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="setting_dark">Utiliser le thème sombre</string>
     <string name="setting_indicators">Show state indicators</string>
     <string name="setting_notification">Show status bar notification</string>
+    <string name="setting_export">Exporter paramètres</string>
+    <string name="setting_import">Importer paramètres</string>
+    <string name="setting_vpn">Ouvrir les paramètres VPN</string>
 
     <string name="msg_sure">Etes-vous sûr ?</string>
     <string name="msg_started">Enforcing rules</string>

@@ -9,10 +9,7 @@ This is caused by bugs in Android, or in the software provided by the manufactur
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Search for application</string>
-    <string name="menu_export">Export settings</string>
-    <string name="menu_import">Import settings</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_vpn_settings">Open Android VPN settings</string>
     <string name="menu_support">Support</string>
     <string name="menu_about">About</string>
 
@@ -23,6 +20,9 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="setting_dark">Use dark theme</string>
     <string name="setting_indicators">Show state indicators</string>
     <string name="setting_notification">Show status bar notification</string>
+    <string name="setting_export">Export settings</string>
+    <string name="setting_import">Import settings</string>
+    <string name="setting_vpn">Open Android VPN settings</string>
 
     <string name="msg_sure">Are you sure?</string>
     <string name="msg_started">Enforcing rules</string>

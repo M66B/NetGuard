@@ -8,10 +8,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
 \n\nPoužívaním aplikácie NetGuard súhlasíte so <a href="http://www.gnu.org/licenses/gpl.txt">Všeobecnou verejnou licenciou GNU, verzia 3</a></string>
 
     <string name="menu_search">Hľadať aplikáciu</string>
-    <string name="menu_export">Exportovať nastavenia</string>
-    <string name="menu_import">Importovať nastavenia</string>
     <string name="menu_settings">Nastavenia</string>
-    <string name="menu_vpn_settings">Otvoriť nastavenia VPN</string>
     <string name="menu_support">Podpora</string>
     <string name="menu_about">O aplikácii</string>
 
@@ -22,6 +19,9 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="setting_dark">Použiť tmavú tému</string>
     <string name="setting_indicators">Show state indicators</string>
     <string name="setting_notification">Show status bar notification</string>
+    <string name="setting_export">Exportovať nastavenia</string>
+    <string name="setting_import">Importovať nastavenia</string>
+    <string name="setting_vpn">Otvoriť nastavenia VPN</string>
 
     <string name="msg_sure">Ste si istý?</string>
     <string name="msg_started">Enforcing rules</string>

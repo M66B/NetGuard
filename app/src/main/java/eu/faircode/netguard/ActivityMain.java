@@ -49,7 +49,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -66,23 +65,9 @@ import com.android.vending.billing.IInAppBillingService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xmlpull.v1.XmlSerializer;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
 
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Main";
@@ -103,15 +88,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_IAB = 2;
-    private static final int REQUEST_EXPORT = 3;
-    private static final int REQUEST_IMPORT = 4;
 
     // adb shell pm clear com.android.vending
     private static final String SKU_DONATE = "donation";
     // private static final String SKU_DONATE = "android.test.purchased";
     private static final String ACTION_IAB = "eu.faircode.netguard.IAB";
-
-    private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -337,14 +318,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 Log.i(TAG, "IAB response=" + getIABResult(response));
             }
 
-        } else if (requestCode == REQUEST_EXPORT) {
-            if (resultCode == RESULT_OK && data != null)
-                handleExport(data);
-
-        } else if (requestCode == REQUEST_IMPORT) {
-            if (resultCode == RESULT_OK && data != null)
-                handleImport(data);
-
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
             super.onActivityResult(requestCode, resultCode, data);
@@ -505,9 +478,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        menu.findItem(R.id.menu_export).setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
-        menu.findItem(R.id.menu_import).setEnabled(getIntentOpenDocument().resolveActivity(getPackageManager()) != null);
-        menu.findItem(R.id.menu_vpn_settings).setEnabled(INTENT_VPN_SETTINGS.resolveActivity(getPackageManager()) != null);
         menu.findItem(R.id.menu_support).setEnabled(getIntentSupport().resolveActivity(getPackageManager()) != null);
 
         return true;
@@ -519,20 +489,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.menu_export:
-                startActivityForResult(getIntentCreateDocument(), REQUEST_EXPORT);
-                return true;
-
-            case R.id.menu_import:
-                startActivityForResult(getIntentOpenDocument(), REQUEST_IMPORT);
-                return true;
-
             case R.id.menu_settings:
                 startActivity(new Intent(this, ActivitySettings.class));
-                return true;
-
-            case R.id.menu_vpn_settings:
-                startActivity(INTENT_VPN_SETTINGS);
                 return true;
 
             case R.id.menu_support:
@@ -670,92 +628,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }.execute();
     }
 
-    private void handleExport(final Intent data) {
-        new AsyncTask<Object, Object, Throwable>() {
-            @Override
-            protected Throwable doInBackground(Object... objects) {
-                OutputStream out = null;
-                try {
-                    out = getContentResolver().openOutputStream(data.getData());
-                    Log.i(TAG, "Writing URI=" + data.getData());
-                    xmlExport(out);
-                    return null;
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    return ex;
-                } finally {
-                    if (out != null)
-                        try {
-                            out.close();
-                        } catch (IOException ex) {
-                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        }
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Throwable ex) {
-                if (ex == null)
-                    Toast.makeText(ActivityMain.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-            }
-        }.execute();
-    }
-
-    private void handleImport(final Intent data) {
-        new AsyncTask<Object, Object, Throwable>() {
-            @Override
-            protected Throwable doInBackground(Object... objects) {
-                InputStream in = null;
-                try {
-                    in = getContentResolver().openInputStream(data.getData());
-                    Log.i(TAG, "Reading URI=" + data.getData());
-                    xmlImport(in);
-                    return null;
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    return ex;
-                } finally {
-                    if (in != null)
-                        try {
-                            in.close();
-                        } catch (IOException ex) {
-                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        }
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Throwable ex) {
-                if (ex == null) {
-                    SinkholeService.reload(null, ActivityMain.this);
-                    recreate();
-                    Toast.makeText(ActivityMain.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-                } else
-                    Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
-            }
-        }.execute();
-    }
-
     private static Intent getIntentSupport() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("http://forum.xda-developers.com/showthread.php?t=3233012"));
-        return intent;
-    }
-
-    private static Intent getIntentCreateDocument() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/xml");
-        intent.putExtra(Intent.EXTRA_TITLE, "netguard.xml");
-        return intent;
-    }
-
-    private static Intent getIntentOpenDocument() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/xml");
         return intent;
     }
 
@@ -837,121 +712,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return "ITEM_NOT_OWNED";
             default:
                 return Integer.toString(responseCode);
-        }
-    }
-
-    private void xmlExport(OutputStream out) throws IOException {
-        XmlSerializer serializer = Xml.newSerializer();
-        serializer.setOutput(out, "UTF-8");
-        serializer.startDocument(null, true);
-        serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
-        serializer.startTag(null, "netguard");
-
-        serializer.startTag(null, "application");
-        xmlExport(PreferenceManager.getDefaultSharedPreferences(this), serializer);
-        serializer.endTag(null, "application");
-
-        serializer.startTag(null, "wifi");
-        xmlExport(getSharedPreferences("wifi", Context.MODE_PRIVATE), serializer);
-        serializer.endTag(null, "wifi");
-
-        serializer.startTag(null, "mobile");
-        xmlExport(getSharedPreferences("other", Context.MODE_PRIVATE), serializer);
-        serializer.endTag(null, "mobile");
-
-        serializer.startTag(null, "unused");
-        xmlExport(getSharedPreferences("unused", Context.MODE_PRIVATE), serializer);
-        serializer.endTag(null, "unused");
-
-        serializer.endTag(null, "netguard");
-        serializer.endDocument();
-        serializer.flush();
-    }
-
-    private void xmlExport(SharedPreferences prefs, XmlSerializer serializer) throws IOException {
-        Map<String, ?> settings = prefs.getAll();
-        for (String key : settings.keySet()) {
-            Object value = settings.get(key);
-            if (value instanceof Boolean) {
-                serializer.startTag(null, "setting");
-                serializer.attribute(null, "key", key);
-                serializer.attribute(null, "type", "boolean");
-                serializer.attribute(null, "value", value.toString());
-                serializer.endTag(null, "setting");
-            } else
-                Log.e(TAG, "Unknown key=" + key);
-        }
-    }
-
-    private void xmlImport(InputStream in) throws IOException, SAXException, ParserConfigurationException {
-        XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-        XmlImportHandler handler = new XmlImportHandler();
-        reader.setContentHandler(handler);
-        reader.parse(new InputSource(in));
-
-        xmlImport(handler.application, PreferenceManager.getDefaultSharedPreferences(this));
-        xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
-        xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
-        xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
-    }
-
-    private void xmlImport(Map<String, Object> settings, SharedPreferences prefs) {
-        SharedPreferences.Editor editor = prefs.edit();
-
-        for (String key : prefs.getAll().keySet())
-            editor.remove(key);
-
-        for (String key : settings.keySet()) {
-            Object value = settings.get(key);
-            if (value instanceof Boolean)
-                editor.putBoolean(key, (Boolean) value);
-            else
-                Log.e(TAG, "Unknown type=" + value.getClass());
-        }
-
-        editor.apply();
-    }
-
-    private class XmlImportHandler extends DefaultHandler {
-        public Map<String, Object> application = new HashMap<>();
-        public Map<String, Object> wifi = new HashMap<>();
-        public Map<String, Object> mobile = new HashMap<>();
-        public Map<String, Object> unused = new HashMap<>();
-        private Map<String, Object> current = null;
-
-        @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes) {
-            if (qName.equals("netguard"))
-                ; // Ignore
-
-            else if (qName.equals("application"))
-                current = application;
-
-            else if (qName.equals("wifi"))
-                current = wifi;
-
-            else if (qName.equals("mobile"))
-                current = mobile;
-
-            else if (qName.equals("unused"))
-                current = unused;
-
-            else if (qName.equals("setting")) {
-                String key = attributes.getValue("key");
-                String type = attributes.getValue("type");
-                String value = attributes.getValue("value");
-
-                if (current == null)
-                    Log.e(TAG, "No current key=" + key);
-                else {
-                    if ("boolean".equals(type))
-                        current.put(key, Boolean.parseBoolean(value));
-                    else
-                        Log.e(TAG, "Unknown type key=" + key);
-                }
-
-            } else
-                Log.e(TAG, "Unknown element qname=" + qName);
         }
     }
 }

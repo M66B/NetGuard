@@ -9,10 +9,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     </string>
 
     <string name="menu_search">Cerca applicazione</string>
-    <string name="menu_export">Esporta impostazioni</string>
-    <string name="menu_import">Importa impostazioni</string>
     <string name="menu_settings">Impostazioni</string>
-    <string name="menu_vpn_settings">Apri impostazioni VPN</string>
     <string name="menu_support">Supporto</string>
     <string name="menu_about">Info</string>
 
@@ -23,6 +20,9 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="setting_dark">Usa il tema scuro</string>
     <string name="setting_indicators">Show state indicators</string>
     <string name="setting_notification">Show status bar notification</string>
+    <string name="setting_export">Esporta impostazioni</string>
+    <string name="setting_import">Importa impostazioni</string>
+    <string name="setting_vpn">Apri impostazioni VPN</string>
 
     <string name="msg_sure">Sei sicuro?</string>
     <string name="msg_started">Enforcing rules</string>
