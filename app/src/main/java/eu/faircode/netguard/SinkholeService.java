@@ -368,13 +368,13 @@ public class SinkholeService extends VpnService {
         PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_security_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_started))
                 .setContentIntent(piMain)
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_SECRET)
-                .setColor(ContextCompat.getColor(this, R.color.colorAccent));
+                .setColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
         Intent intent = new Intent(this, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
@@ -390,7 +390,7 @@ public class SinkholeService extends VpnService {
         PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_security_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_stopped))
                 .setContentIntent(piMain)
@@ -417,7 +417,7 @@ public class SinkholeService extends VpnService {
         PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_security_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_revoked))
                 .setContentIntent(piMain)
