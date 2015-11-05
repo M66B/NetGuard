@@ -22,12 +22,16 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_dark">Usar tema oscuro</string>
 
     <string name="msg_sure">¿Estás seguro?</string>
+    <string name="msg_started">Enforcing rules</string>
+    <string name="msg_stopped">Not enforcing rules</string>
     <string name="msg_disabled">NetGuard está deshabilitado, utiliza el interruptor de arriba para habilitar a NetGuard</string>
     <string name="msg_revoked">NetGuard ha sido deshabilitado</string>
     <string name="msg_completed">Acción completada</string>
     <string name="msg_vpn">NetGuard utiliza un VPN local como un "sumidero" para conexiones de internet bloqueadas,
 por esta razón debes permitir la conexión VPN en el siguiente diálogo</string>
 
+    <string name="title_start">Start</string>
+    <string name="title_stop">Stop</string>
     <string name="title_using">Permitir cuando el dispositivo esté en uso</string>
     <string name="title_roaming">Bloquear cuando se esté en roaming</string>
     <string name="title_launch">Iniciar aplicación</string>

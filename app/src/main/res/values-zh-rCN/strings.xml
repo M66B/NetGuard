@@ -22,11 +22,15 @@
     <string name="setting_dark">使用暗色主题</string>
 
     <string name="msg_sure">是否确认?</string>
+    <string name="msg_started">Enforcing rules</string>
+    <string name="msg_stopped">Not enforcing rules</string>
     <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
     <string name="msg_revoked">NetGuard已被停用</string>
     <string name="msg_completed">操作完成</string>
     <string name="msg_vpn">NetGuard使用一个本地VPN服务来重定向被阻挡的网络流量, 因此请在下一个对话框中允许建立VPN连接</string>
 
+    <string name="title_start">启动</string>
+    <string name="title_stop">停止</string>
     <string name="title_using">设备使用时允许</string>
     <string name="title_roaming">漫游时阻止</string>
     <string name="title_launch">启动应用</string>

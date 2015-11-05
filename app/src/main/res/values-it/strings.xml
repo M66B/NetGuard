@@ -23,12 +23,16 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="setting_dark">Usa il tema scuro</string>
 
     <string name="msg_sure">Sei sicuro?</string>
+    <string name="msg_started">Enforcing rules</string>
+    <string name="msg_stopped">Not enforcing rules</string>
     <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
     <string name="msg_revoked">NetGuard è stata disabilitata</string>
     <string name="msg_completed">Azione completata</string>
     <string name="msg_vpn">NetGuard utilizza una VPN locale come pozzo per bloccare il traffico internet,
 per questo motivo è necessario abilitare la connessione VPN nella schermata successiva</string>
 
+    <string name="title_start">Start</string>
+    <string name="title_stop">Stop</string>
     <string name="title_using">Consenti quando il dispositivo è in uso</string>
     <string name="title_roaming">Blocca quando in roaming</string>
     <string name="title_launch">Avvia applicazione</string>

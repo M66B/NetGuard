@@ -22,12 +22,16 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="setting_dark">Použiť tmavú tému</string>
 
     <string name="msg_sure">Ste si istý?</string>
+    <string name="msg_started">Enforcing rules</string>
+    <string name="msg_stopped">Not enforcing rules</string>
     <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>
     <string name="msg_revoked">NetGuard je vypnutý</string>
     <string name="msg_completed">Akcia bola dokončená</string>
     <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky,
 a preto by ste mali povoliť VPN pripojenie v ďalšom okne</string>
 
+    <string name="title_start">Start</string>
+    <string name="title_stop">Stop</string>
     <string name="title_using">Povoliť pri používaní zariadenia</string>
     <string name="title_roaming">Blokovať pri roamingu</string>
     <string name="title_launch">Spustiť aplikáciu</string>

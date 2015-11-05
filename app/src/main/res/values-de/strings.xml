@@ -21,11 +21,15 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="setting_dark">Verwende dunkles Theme</string>
 
     <string name="msg_sure">Bist du sicher?</string>
+    <string name="msg_started">Enforcing rules</string>
+    <string name="msg_stopped">Not enforcing rules</string>
     <string name="msg_disabled">NetGuard ist deaktiviert, verwende den Schalter um NetGuard zu aktivieren</string>
     <string name="msg_revoked">NetGuard wurde deaktiviert</string>
     <string name="msg_completed">Aktion abgeschlossen</string>
     <string name="msg_vpn">Netguard verwendet ein lokales VPN als Senkgrube für blockierten Netzwerkverkehr, daher muss im nächsten Dialog die VPN Verbindung bestätigt werden.</string>
 
+    <string name="title_start">Start</string>
+    <string name="title_stop">Stop</string>
     <string name="title_using">Erlauben wenn Gerät verwendet wird</string>
     <string name="title_roaming">Blockiere bei Roaming</string>
     <string name="title_launch">Starte App</string>

@@ -22,12 +22,16 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="setting_dark">Gebruik donker thema</string>
 
     <string name="msg_sure">Weet u het zeker?</string>
+    <string name="msg_started">Regels worden afgedwongen</string>
+    <string name="msg_stopped">Regels worden niet afgedwongen</string>
     <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar boven om NetGuard aan te zetten</string>
     <string name="msg_revoked">NetGuard is uitgezet</string>
     <string name="msg_completed">Actie uitgevoerd</string>
     <string name="msg_vpn">NetGuard gebruikt een lokaal VPN als een sinkhole voor geblokkeerd internetverkeer,
 om deze reden moet u een VPN-verbinding in de volgende dialoog toestaan.</string>
 
+    <string name="title_start">Start</string>
+    <string name="title_stop">Stop</string>
     <string name="title_using">Sta toe als apparaat in gebruik</string>
     <string name="title_roaming">Blokkeer bij roamen</string>
     <string name="title_launch">Start applicatie</string>
