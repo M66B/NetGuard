@@ -15,6 +15,7 @@
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="manage_system"
+        android:summary="@string/summary_system"
         android:title="@string/setting_system" />
     <CheckBoxPreference
         android:defaultValue="false"
@@ -23,6 +24,7 @@
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="indicators"
+        android:summary="@string/summary_indicators"
         android:title="@string/setting_indicators" />
     <Preference
         android:key="export"
