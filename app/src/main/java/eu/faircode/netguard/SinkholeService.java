@@ -51,8 +51,7 @@ public class SinkholeService extends VpnService {
     private boolean debug = false;
     private Thread thread = null;
 
-    private static final int NOTIFY_STATE = 1;
-    private static final int NOTIFY_DISABLED = 2;
+    private static final int NOTIFY_DISABLED = 1;
 
     private static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_UPDATE = "Update";
@@ -87,10 +86,6 @@ public class SinkholeService extends VpnService {
                                 vpn = startVPN();
                                 startDebug(vpn);
                                 removeDisabledNotification();
-                                if (prefs.getBoolean("notification", false))
-                                    showStartedNotification();
-                                else
-                                    removeStateNotification();
                             }
                             break;
 
@@ -102,10 +97,6 @@ public class SinkholeService extends VpnService {
                             startDebug(vpn);
                             if (prev != null)
                                 stopVPN(prev);
-                            if (prefs.getBoolean("notification", false))
-                                showStartedNotification();
-                            else
-                                removeStateNotification();
                             break;
 
                         case stop:
@@ -113,10 +104,6 @@ public class SinkholeService extends VpnService {
                                 stopDebug();
                                 stopVPN(vpn);
                                 vpn = null;
-                                if (prefs.getBoolean("notification", false))
-                                    showStoppedNotification();
-                                else
-                                    removeStateNotification();
                             }
                             stopSelf();
                             break;
@@ -361,55 +348,6 @@ public class SinkholeService extends VpnService {
         showDisabledNotification();
 
         super.onRevoke();
-    }
-
-    private void showStartedNotification() {
-        Intent riMain = new Intent(this, ActivityMain.class);
-        PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_security_white_24dp)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.msg_started))
-                .setContentIntent(piMain)
-                .setCategory(Notification.CATEGORY_STATUS)
-                .setVisibility(Notification.VISIBILITY_SECRET)
-                .setColor(ContextCompat.getColor(this, R.color.colorPrimary));
-
-        Intent intent = new Intent(this, SinkholeService.class);
-        intent.putExtra(EXTRA_COMMAND, Command.stop);
-        intent.putExtra(EXTRA_UPDATE, true);
-        PendingIntent pi = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        notification.addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.title_stop), pi);
-
-        NotificationManagerCompat.from(this).notify(NOTIFY_STATE, notification.build());
-    }
-
-    private void showStoppedNotification() {
-        Intent riMain = new Intent(this, ActivityMain.class);
-        PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_security_white_24dp)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.msg_stopped))
-                .setContentIntent(piMain)
-                .setCategory(Notification.CATEGORY_STATUS)
-                .setVisibility(Notification.VISIBILITY_SECRET)
-                .setColor(ContextCompat.getColor(this, R.color.colorAccent))
-                .setAutoCancel(false);
-
-        Intent intent = new Intent(this, SinkholeService.class);
-        intent.putExtra(EXTRA_COMMAND, Command.start);
-        intent.putExtra(EXTRA_UPDATE, true);
-        PendingIntent pi = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        notification.addAction(android.R.drawable.ic_media_play, getString(R.string.title_start), pi);
-
-        NotificationManagerCompat.from(this).notify(NOTIFY_STATE, notification.build());
-    }
-
-    private void removeStateNotification() {
-        NotificationManagerCompat.from(this).cancel(NOTIFY_STATE);
     }
 
     private void showDisabledNotification() {

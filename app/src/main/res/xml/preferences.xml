@@ -24,10 +24,6 @@
         android:defaultValue="false"
         android:key="indicators"
         android:title="@string/setting_indicators" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="notification"
-        android:title="@string/setting_notification" />
     <Preference
         android:key="export"
         android:title="@string/setting_export" />
