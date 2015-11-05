@@ -20,6 +20,8 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_whitelist_roaming">Bloquear roaming por defecto</string>
     <string name="setting_system">Administrar aplicaciones de sistema</string>
     <string name="setting_dark">Usar tema oscuro</string>
+    <string name="setting_indicators">Show state indicators</string>
+    <string name="setting_notification">Show status bar notification</string>
 
     <string name="msg_sure">¿Estás seguro?</string>
     <string name="msg_started">Enforcing rules</string>

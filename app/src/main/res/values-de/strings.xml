@@ -19,6 +19,8 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="setting_whitelist_roaming">Blockiere Roaming standardmäßig</string>
     <string name="setting_system">Zeige System Apps</string>
     <string name="setting_dark">Verwende dunkles Theme</string>
+    <string name="setting_indicators">Show state indicators</string>
+    <string name="setting_notification">Show status bar notification</string>
 
     <string name="msg_sure">Bist du sicher?</string>
     <string name="msg_started">Enforcing rules</string>

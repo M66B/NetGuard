@@ -20,6 +20,8 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="setting_whitelist_roaming">Blokkeer roaming standaard</string>
     <string name="setting_system">Beheer systeemapplicaties</string>
     <string name="setting_dark">Gebruik donker thema</string>
+    <string name="setting_indicators">Toon staat indicatoren</string>
+    <string name="setting_notification">Toon statusbalk notificatie</string>
 
     <string name="msg_sure">Weet u het zeker?</string>
     <string name="msg_started">Regels worden afgedwongen</string>

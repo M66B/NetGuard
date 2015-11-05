@@ -51,38 +51,46 @@ public class SinkholeService extends VpnService {
     private boolean debug = false;
     private Thread thread = null;
 
-    private static final int NOTIFY_STARTED = 1;
-    private static final int NOTIFY_STOPPED = 2;
-    private static final int NOTIFY_DISABLED = 3;
+    private static final int NOTIFY_STATE = 1;
+    private static final int NOTIFY_DISABLED = 2;
 
     private static final String EXTRA_COMMAND = "Command";
+    private static final String EXTRA_UPDATE = "Update";
 
     private enum Command {start, reload, stop}
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Get enabled
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
 
         // Get command
         final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
+
+        // Update enabled state
+        if (intent != null && intent.getBooleanExtra(EXTRA_UPDATE, false))
+            if (cmd == Command.start)
+                prefs.edit().putBoolean("enabled", true).apply();
+            else if (cmd == Command.stop)
+                prefs.edit().putBoolean("enabled", false).apply();
 
         // Process command
         new Thread(new Runnable() {
             @Override
             public void run() {
                 synchronized (SinkholeService.this) {
+                    Log.i(TAG, "Executing command=" + cmd + " vpn=" + (vpn != null));
                     switch (cmd) {
                         case start:
                             if (vpn == null) {
                                 last_roaming = Util.isRoaming(SinkholeService.this);
                                 vpn = startVPN();
                                 startDebug(vpn);
-                                startForeground(NOTIFY_STARTED, getForegroundNotification());
-                                removeStoppedNotification();
                                 removeDisabledNotification();
-                                prefs.edit().putBoolean("enabled", true).apply();
+                                if (prefs.getBoolean("notification", false))
+                                    showStartedNotification();
+                                else
+                                    removeStateNotification();
                             }
                             break;
 
@@ -94,6 +102,10 @@ public class SinkholeService extends VpnService {
                             startDebug(vpn);
                             if (prev != null)
                                 stopVPN(prev);
+                            if (prefs.getBoolean("notification", false))
+                                showStartedNotification();
+                            else
+                                removeStateNotification();
                             break;
 
                         case stop:
@@ -101,10 +113,11 @@ public class SinkholeService extends VpnService {
                                 stopDebug();
                                 stopVPN(vpn);
                                 vpn = null;
-                                stopForeground(true);
-                                showStoppedNotification();
+                                if (prefs.getBoolean("notification", false))
+                                    showStoppedNotification();
+                                else
+                                    removeStateNotification();
                             }
-                            prefs.edit().putBoolean("enabled", false).apply();
                             stopSelf();
                             break;
                     }
@@ -350,7 +363,7 @@ public class SinkholeService extends VpnService {
         super.onRevoke();
     }
 
-    private Notification getForegroundNotification() {
+    private void showStartedNotification() {
         Intent riMain = new Intent(this, ActivityMain.class);
         PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -365,10 +378,11 @@ public class SinkholeService extends VpnService {
 
         Intent intent = new Intent(this, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
+        intent.putExtra(EXTRA_UPDATE, true);
         PendingIntent pi = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         notification.addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.title_stop), pi);
 
-        return notification.build();
+        NotificationManagerCompat.from(this).notify(NOTIFY_STATE, notification.build());
     }
 
     private void showStoppedNotification() {
@@ -387,14 +401,15 @@ public class SinkholeService extends VpnService {
 
         Intent intent = new Intent(this, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
+        intent.putExtra(EXTRA_UPDATE, true);
         PendingIntent pi = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         notification.addAction(android.R.drawable.ic_media_play, getString(R.string.title_start), pi);
 
-        NotificationManagerCompat.from(this).notify(NOTIFY_STOPPED, notification.build());
+        NotificationManagerCompat.from(this).notify(NOTIFY_STATE, notification.build());
     }
 
-    private void removeStoppedNotification() {
-        NotificationManagerCompat.from(this).cancel(NOTIFY_STOPPED);
+    private void removeStateNotification() {
+        NotificationManagerCompat.from(this).cancel(NOTIFY_STATE);
     }
 
     private void showDisabledNotification() {

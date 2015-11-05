@@ -20,6 +20,8 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
     <string name="setting_system">Gestionati aplicatiile de sistem</string>
     <string name="setting_dark">Foloseste tema intunecata</string>
+    <string name="setting_indicators">Show state indicators</string>
+    <string name="setting_notification">Show status bar notification</string>
 
     <string name="msg_sure">Esti sigur?</string>
     <string name="msg_started">Enforcing rules</string>

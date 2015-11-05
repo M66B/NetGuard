@@ -20,4 +20,12 @@
         android:defaultValue="false"
         android:key="dark_theme"
         android:title="@string/setting_dark" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="indicators"
+        android:title="@string/setting_indicators" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="notification"
+        android:title="@string/setting_notification" />
 </PreferenceScreen>

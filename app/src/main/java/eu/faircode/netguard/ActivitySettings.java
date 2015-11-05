@@ -54,7 +54,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("whitelist_roaming".equals(name))
             SinkholeService.reload("other", this);
 
-        else if ("manage_system".equals(name))
+        else if ("manage_system".equals(name) ||
+                "notification".equals(name))
             SinkholeService.reload(null, this);
 
         else if ("dark_theme".equals(name))

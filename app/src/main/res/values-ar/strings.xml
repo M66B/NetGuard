@@ -20,6 +20,8 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="setting_whitelist_roaming">Block roaming by default</string>
     <string name="setting_system">Manage system applications</string>
     <string name="setting_dark">استخدام الثيم الداكن</string>
+    <string name="setting_indicators">Show state indicators</string>
+    <string name="setting_notification">Show status bar notification</string>
 
     <string name="msg_sure">هل أنت متأكد؟</string>
     <string name="msg_started">Enforcing rules</string>

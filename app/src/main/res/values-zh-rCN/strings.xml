@@ -20,6 +20,8 @@
     <string name="setting_whitelist_roaming">默认阻止漫游</string>
     <string name="setting_system">管理系统应用</string>
     <string name="setting_dark">使用暗色主题</string>
+    <string name="setting_indicators">Show state indicators</string>
+    <string name="setting_notification">Show status bar notification</string>
 
     <string name="msg_sure">是否确认?</string>
     <string name="msg_started">Enforcing rules</string>

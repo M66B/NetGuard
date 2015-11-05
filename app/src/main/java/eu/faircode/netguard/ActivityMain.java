@@ -58,6 +58,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,6 +89,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private boolean running = false;
     private View actionView;
+    private LinearLayout llIndicators;
     private ImageView ivInteractive;
     private ImageView ivNetwork;
     private ImageView ivMetered;
@@ -132,6 +134,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Action bar
         actionView = getLayoutInflater().inflate(R.layout.action, null);
         SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
+        llIndicators = (LinearLayout) actionView.findViewById(R.id.llIndicators);
         ivInteractive = (ImageView) actionView.findViewById(R.id.ivInteractive);
         ivNetwork = (ImageView) actionView.findViewById(R.id.ivNetwork);
         ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
@@ -182,10 +185,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
                 } else {
                     Log.i(TAG, "Switch off");
+                    prefs.edit().putBoolean("enabled", false).apply();
                     SinkholeService.stop(ActivityMain.this);
                 }
             }
         });
+
+        // Indicators
+        llIndicators.setVisibility(prefs.getBoolean("indicators", false) ? View.VISIBLE : View.GONE);
 
         // Disabled warning
         TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
@@ -315,13 +322,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         if (requestCode == REQUEST_VPN) {
             // Handle VPN approval
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
             if (resultCode == RESULT_OK)
                 SinkholeService.start(this);
-            else {
-                Log.i(TAG, "Dialog cancelled");
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                prefs.edit().putBoolean("enabled", false).apply();
-            }
 
         } else if (requestCode == REQUEST_IAB) {
             if (resultCode == RESULT_OK) {
@@ -371,6 +375,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         else if ("dark_theme".equals(name))
             recreate();
+
+        else if ("indicators".equals(name))
+            llIndicators.setVisibility(prefs.getBoolean("indicators", false) ? View.VISIBLE : View.GONE);
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
