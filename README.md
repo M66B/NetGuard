@@ -126,6 +126,16 @@ No. It cannot even do this, because NetGuard does not even have the *internet* p
 Internet permission can be granted with each application update without user consent.
 By showing all applications, NetGuard allows you to block internet access before such an update occurs.
 
+<a name="FAQ8"></a>
+**(8) What do I need to enable for Google PlayStore to work?**
+
+You need 3 things enabled (use search in NetGuard to find them quickly):
+* com.android.vending
+* com.google.android.gms
+* com.android.providers.downloads
+
+Since Google PlayStore has the tendency to check for updates or even download them all by itself (even if no account is associated) one can keep it in check by enabling _"Allow when device in use"_ for all these 3 apps. Click on the down arrow on the left side of an app name and check the option but leave the network icons alone, leave them red (hence blocked). The little human icon will appear for that app, so you can still open PlayStore and update/install/uninstall apps since it will have internet access, but once you close it, it won't use any bandwidth.
+
 Support
 -------
 
