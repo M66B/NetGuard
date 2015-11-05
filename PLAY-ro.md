@@ -30,8 +30,9 @@ Caracteristici:
 - Gratis
 - Software cu sursa deschisa
 - Nu foloseste baterie in plus
+- Nu reduce latimea de banda
 - Nu transmite datele nicaieri
-- Nu urmareste activitatea si nu a analizeaza
+- Nu urmareste activitatea si nici nu o analizeaza
 - Fara reclama
 - Suporta IPv4/IPv6 TCP/UDP
 - Blocheaza atat aplicatiile de sistem cat si cele ale utilizatorului
