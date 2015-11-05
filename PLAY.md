@@ -29,8 +29,8 @@ Features:
 - Simple to use
 - Free of charge
 - Open source
-- Full internet speed
 - No extra battery usage
+- No bandwidth reduction
 - No calling home
 - No tracking or analytics
 - No ads
