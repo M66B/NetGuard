@@ -1,6 +1,6 @@
 # NetGuard
 
-*NetGuard* is a simple way to block access to the internet - no root required.
+*NetGuard* provides a simple way to block access to the internet - no root required.
 Applications can individually be allowed or denied access to your WiFi and/or mobile connection.
 
 Blocking access to the internet can help:
@@ -41,20 +41,20 @@ NetGuard is possibly the first free and open source no-root firewall for Android
 Most of these features are the result of sending selected traffic to a sinkhole, instead of filtering all internet traffic.
 This means that advanced features, like address based filtering (needed for ad blocking), traffic logging, and on-demand configuration, are not possible.
 Routing selected traffic into a sinkhole relies on an API introduced in Android 5.0 (Lollipop),
-therefore older Android versions can unfortunately not be supported.
+therefore older Android versions unfortunately cannot be supported.
 
 Usage
 -----
 
 * Enable the firewall using the switch in the action bar
-* Allow/deny WiFi/mobile internet access using the icons at the right side of the application list
+* Allow/deny WiFi/mobile internet access using the icons along the right side of the application list
 
 Permissions
 -----------
 
 * ACCESS_NETWORK_STATE: to check if the device is connected to the internet through WiFi
 * RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
-* com.android.vending.BILLING: to use in app billing for donations
+* com.android.vending.BILLING: to accept donations via in-app billing
 
 Compatibility
 -------------
@@ -69,7 +69,7 @@ NetGuard will crash when the package *com.android.vpndialogs* has been removed o
 Tethering will not work when NetGuard is enabled due to a bug in Android ([issue](https://github.com/M66B/NetGuard/issues/42)).
 
 [Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify) NetGuard will result in rules not being applied
-when connectivity changes from WiFi/mobile, changing from passive to active use and changing from roaming/not roaming.
+when connectivity changes from WiFi/mobile, passive/active, and roaming/not roaming.
 
 Frequently Asked Questions (FAQ)
 --------------------------------
@@ -93,13 +93,13 @@ Thanks @[pulser](https://github.com/pulser/)
 **(2) Can I use VPN applications while using NetGuard?**
 
 If the VPN application is using the [VPN service](http://developer.android.com/reference/android/net/VpnService.html),
-then no, because NetGuard needs to use this service, and Android allows only one application at a time to use this service.
+then no, because NetGuard needs to use this service. Android allows only one application at a time to use this service.
 
 <a name="FAQ3"></a>
 **(3) Can I use NetGuard on any Android version?**
 
-No, because NetGuard uses the  [addDisallowedApplication](http://developer.android.com/reference/android/net/VpnService.Builder.html#addDisallowedApplication(java.lang.String))
-method, the minimum required Android version is 5.0 (Lollipop).
+No, the minimum required Android version is 5.0 (Lollipop) because NetGuard uses the  [addDisallowedApplication](http://developer.android.com/reference/android/net/VpnService.Builder.html#addDisallowedApplication(java.lang.String))
+method.
 
 <a name="FAQ4"></a>
 **(4) Will NetGuard use extra battery power?**
@@ -109,41 +109,41 @@ No, unlike most of the similar closed source alternatives.
 <a name="FAQ5"></a>
 **(5) Can you add selective allowing/blocking applications/IP addresses?**
 
-Unfortunately this is not possible without using significant battery power
+Unfortunately, this is not possible without using significant battery power
 and adding complex code to do network translation from OSI layer 3 to layer 4
 (and thus implementing a TCP/IP stack), which will inevitably introduce bugs as well.
-This is how most (all?) other no-root firewalls work.
-NetGuard is unique, because it doesn't implement a TCP/IP stack and is therefore both highly efficient and simple.
+This is how most (perhaps all) other no-root firewalls work.
+NetGuard is unique, because it doesn't implement a TCP/IP stack, and is therefore both highly efficient and simple.
 
 For more advanced use cases, rooting your device and using an iptables based firewall,
-like [AFWall+](https://github.com/ukanth/afwall) might be a better option, and will not sacrifice any battery power.
+like [AFWall+](https://github.com/ukanth/afwall), might be a better option and will not sacrifice any battery power.
 
 <a name="FAQ6"></a>
 **(6) Will NetGuard send my internet traffic to an external (VPN) server?**
 
-No. It cannot even do this, because NetGuard does not even have the *internet* permission.
+No. It cannot do this because NetGuard does not even have the *internet* permission.
 
 <a name="FAQ7"></a>
 **(7) Why are applications without internet permission shown?**
 
 Internet permission can be granted with each application update without user consent.
-By showing all applications, NetGuard allows you to block internet access before such an update occurs.
+By showing all applications, NetGuard allows you to block internet access *before* such an update occurs.
 
 <a name="FAQ8"></a>
-**(8) What do I need to enable for Google PlayStore to work?**
+**(8) What do I need to enable for the Google Play Store to work?**
 
-You need 3 things enabled (use search in NetGuard to find them quickly):
+You need 3 processes enabled (use search in NetGuard to find them quickly):
 * com.android.vending
 * com.google.android.gms
 * com.android.providers.downloads
 
-Since Google PlayStore has the tendency to check for updates or even download them all by itself (even if no account is associated) one can keep it in check by enabling _"Allow when device in use"_ for all these 3 apps. Click on the down arrow on the left side of an app name and check the option but leave the network icons alone, leave them red (hence blocked). The little human icon will appear for that app, so you can still open PlayStore and update/install/uninstall apps since it will have internet access, but once you close it, it won't use any bandwidth.
+Since the Google Play Store has a tendency to check for updates or even download them all by itself (even if no account is associated), one can keep it in check by enabling _"Allow when device in use"_ for all 3 of these processes. Click on the down arrow on the left side of an app name and check that option, but leave the network icons set to red (hence blocked). The little human icon will appear for those processes. By doing this, you can still open the Google Play Store and update/install/uninstall apps since it will have internet access, but once you close it, it will not use any bandwidth.
 
 Support
 -------
 
 * Questions: please [use this XDA-Developers forum thread](http://forum.xda-developers.com/showthread.php?t=3233012)
-* Feature requests and bugs: please [report an issue on GitHub](https://github.com/M66B/NetGuard/issues/new)
+* Feature requests and bugs: please [create an issue on GitHub](https://github.com/M66B/NetGuard/issues/new)
 
 Please do not use GitHub for questions.
 
