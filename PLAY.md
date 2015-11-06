@@ -8,7 +8,7 @@ NetGuard
 
 Short description
 -----------------
-No-root firewall
+NetGuard, the first open source no-root firewall for Android
 
 
 Long description
