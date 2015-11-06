@@ -377,6 +377,13 @@ public class SinkholeService extends VpnService {
         context.startService(intent);
     }
 
+    public static PendingIntent getStartIntent(Context context) {
+        Intent intent = new Intent(context, SinkholeService.class);
+        intent.putExtra(EXTRA_COMMAND, Command.start);
+        intent.putExtra(EXTRA_UPDATE, true);
+        return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
     public static void reload(String network, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getBoolean("enabled", false))

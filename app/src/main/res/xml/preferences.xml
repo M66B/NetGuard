@@ -26,6 +26,11 @@
         android:key="indicators"
         android:summary="@string/summary_indicators"
         android:title="@string/setting_indicators" />
+    <EditTextPreference
+        android:defaultValue="5"
+        android:inputType="number"
+        android:key="delay_time"
+        android:summary="@string/summary_delay" />
     <Preference
         android:key="export"
         android:title="@string/setting_export" />

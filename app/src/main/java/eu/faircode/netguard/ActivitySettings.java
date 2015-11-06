@@ -24,7 +24,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Xml;
@@ -49,8 +52,11 @@ import javax.xml.parsers.SAXParserFactory;
 public class ActivitySettings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Settings";
 
-    public static final int REQUEST_EXPORT = 1;
-    public static final int REQUEST_IMPORT = 2;
+    private PreferenceScreen settings;
+
+    private static final int REQUEST_EXPORT = 1;
+    private static final int REQUEST_IMPORT = 2;
+    private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
 
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -59,14 +65,48 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         super.onCreate(savedInstanceState);
 
         getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
-
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onDestroy() {
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
+    }
+
+    public void setup(PreferenceScreen screen) {
+        this.settings = screen;
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        int minutes = Integer.parseInt(prefs.getString("delay_time", "5"));
+        EditTextPreference pref_delay = (EditTextPreference) screen.findPreference("delay_time");
+        pref_delay.setTitle(getString(R.string.setting_delay, minutes));
+
+        Preference pref_export = screen.findPreference("export");
+        pref_export.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
+        pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivityForResult(getIntentCreateDocument(), ActivitySettings.REQUEST_EXPORT);
+                return true;
+            }
+        });
+
+        Preference pref_import = screen.findPreference("import");
+        pref_import.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
+        pref_import.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivityForResult(getIntentOpenDocument(), ActivitySettings.REQUEST_IMPORT);
+                return true;
+            }
+        });
+
+        Preference pref_vpn = screen.findPreference("vpn");
+        pref_vpn.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
+        pref_vpn.setIntent(INTENT_VPN_SETTINGS);
+
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -85,6 +125,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         else if ("dark_theme".equals(name))
             recreate();
+
+        else if ("delay_time".equals(name)) {
+            if (settings != null) {
+                EditTextPreference pref_delay = (EditTextPreference) settings.findPreference("delay_time");
+                pref_delay.setTitle(getString(R.string.setting_delay, Integer.parseInt(prefs.getString(name, "0"))));
+            }
+        }
     }
 
     @Override
@@ -135,6 +182,21 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
         }.execute();
+    }
+
+    private static Intent getIntentCreateDocument() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/xml");
+        intent.putExtra(Intent.EXTRA_TITLE, "netguard.xml");
+        return intent;
+    }
+
+    private static Intent getIntentOpenDocument() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/xml");
+        return intent;
     }
 
     private void handleImport(final Intent data) {
