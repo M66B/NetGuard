@@ -30,6 +30,7 @@ Features:
 - Free of charge
 - Open source
 - No extra battery usage
+- No bandwidth reduction
 - No calling home
 - No tracking or analytics
 - No ads

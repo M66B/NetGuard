@@ -19,7 +19,7 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
-import android.app.NotificationManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -32,6 +32,8 @@ import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -50,28 +52,36 @@ public class SinkholeService extends VpnService {
     private Thread thread = null;
 
     private static final int NOTIFY_DISABLED = 1;
+
     private static final String EXTRA_COMMAND = "Command";
+    private static final String EXTRA_UPDATE = "Update";
 
     private enum Command {start, reload, stop}
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Get enabled
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        final boolean enabled = prefs.getBoolean("enabled", false);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
 
         // Get command
         final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
-        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
+        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
+
+        // Update enabled state
+        if (intent != null && intent.getBooleanExtra(EXTRA_UPDATE, false))
+            if (cmd == Command.start)
+                prefs.edit().putBoolean("enabled", true).apply();
+            else if (cmd == Command.stop)
+                prefs.edit().putBoolean("enabled", false).apply();
 
         // Process command
         new Thread(new Runnable() {
             @Override
             public void run() {
                 synchronized (SinkholeService.this) {
+                    Log.i(TAG, "Executing command=" + cmd + " vpn=" + (vpn != null));
                     switch (cmd) {
                         case start:
-                            if (enabled && vpn == null) {
+                            if (vpn == null) {
                                 last_roaming = Util.isRoaming(SinkholeService.this);
                                 vpn = startVPN();
                                 startDebug(vpn);
@@ -82,11 +92,9 @@ public class SinkholeService extends VpnService {
                         case reload:
                             // Seamless handover
                             ParcelFileDescriptor prev = vpn;
-                            if (enabled) {
-                                vpn = startVPN();
-                                stopDebug();
-                                startDebug(vpn);
-                            }
+                            vpn = startVPN();
+                            stopDebug();
+                            startDebug(vpn);
                             if (prev != null)
                                 stopVPN(prev);
                             break;
@@ -347,19 +355,20 @@ public class SinkholeService extends VpnService {
         PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_security_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_revoked))
                 .setContentIntent(piMain)
+                .setCategory(Notification.CATEGORY_STATUS)
+                .setVisibility(Notification.VISIBILITY_SECRET)
+                .setColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .setAutoCancel(true);
 
-        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(NOTIFY_DISABLED, notification.build());
+        NotificationManagerCompat.from(this).notify(NOTIFY_DISABLED, notification.build());
     }
 
     private void removeDisabledNotification() {
-        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(NOTIFY_DISABLED);
+        NotificationManagerCompat.from(this).cancel(NOTIFY_DISABLED);
     }
 
     public static void start(Context context) {
@@ -369,11 +378,13 @@ public class SinkholeService extends VpnService {
     }
 
     public static void reload(String network, Context context) {
-        if (network == null || ("wifi".equals(network) ? !Util.isMetered(context) : Util.isMetered(context))) {
-            Intent intent = new Intent(context, SinkholeService.class);
-            intent.putExtra(EXTRA_COMMAND, Command.reload);
-            context.startService(intent);
-        }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (prefs.getBoolean("enabled", false))
+            if (network == null || ("wifi".equals(network) ? !Util.isMetered(context) : Util.isMetered(context))) {
+                Intent intent = new Intent(context, SinkholeService.class);
+                intent.putExtra(EXTRA_COMMAND, Command.reload);
+                context.startService(intent);
+            }
     }
 
     public static void stop(Context context) {

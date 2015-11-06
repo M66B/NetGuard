@@ -8,16 +8,22 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
 \n\nAl utilizar NetGuard, estás aceptando la <a href="http://www.gnu.org/licenses/gpl.txt">Licencia Pública GNU General Public versión 3</a></string>
 
     <string name="menu_search">Buscar aplicación</string>
-    <string name="menu_whitelist_wifi">Bloquear Wi-Fi por defecto</string>
-    <string name="menu_whitelist_other">Bloquear red móvil por defecto</string>
-    <string name="menu_whitelist_roaming">Bloquear roaming por defecto</string>
-    <string name="menu_system">Administrar aplicaciones de sistema</string>
-    <string name="menu_export">Exportar configuración</string>
-    <string name="menu_import">Importar configuración</string>
-    <string name="menu_dark">Usar tema oscuro</string>
-    <string name="menu_vpn_settings">Abrir configuración VPN de Android</string>
+    <string name="menu_settings">Configuración</string>
     <string name="menu_support">Soporte</string>
     <string name="menu_about">Acerca de</string>
+
+    <string name="setting_whitelist_wifi">Bloquear Wi-Fi por defecto</string>
+    <string name="setting_whitelist_other">Bloquear red móvil por defecto</string>
+    <string name="setting_whitelist_roaming">Bloquear roaming por defecto</string>
+    <string name="setting_system">Administrar aplicaciones de sistema</string>
+    <string name="setting_dark">Usar tema oscuro</string>
+    <string name="setting_indicators">Show state indicators</string>
+    <string name="setting_export">Exportar configuración</string>
+    <string name="setting_import">Importar configuración</string>
+    <string name="setting_vpn">Abrir configuración VPN de Android</string>
+
+    <string name="summary_system">Define rules for system applications, for experts only</string>
+    <string name="summary_indicators">Display the network type and if the network is metered in the action bar</string>
 
     <string name="msg_sure">¿Estás seguro?</string>
     <string name="msg_disabled">NetGuard está deshabilitado, utiliza el interruptor de arriba para habilitar a NetGuard</string>

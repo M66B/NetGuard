@@ -12,6 +12,7 @@ Blocking access to the internet can help:
 Downloads:
 
 * [GitHub](https://github.com/M66B/NetGuard/releases)
+* [Play store](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
 * [Play store](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
 * [F-Droid](https://f-droid.org/repository/browse/?fdfilter=netguard&fdid=eu.faircode.netguard) (unsupported, often outdated)
 
@@ -25,6 +26,7 @@ Features
 * Free of charge
 * Open source
 * No extra battery usage
+* No bandwidth reduction
 * No calling home
 * No tracking or analytics
 * No ads
@@ -125,6 +127,16 @@ No. It cannot even do this, because NetGuard does not even have the *internet* p
 Internet permission can be granted with each application update without user consent.
 By showing all applications, NetGuard allows you to block internet access before such an update occurs.
 
+<a name="FAQ8"></a>
+**(8) What do I need to enable for Google PlayStore to work?**
+
+You need 3 things enabled (use search in NetGuard to find them quickly):
+* com.android.vending
+* com.google.android.gms
+* com.android.providers.downloads
+
+Since Google PlayStore has the tendency to check for updates or even download them all by itself (even if no account is associated) one can keep it in check by enabling _"Allow when device in use"_ for all these 3 apps. Click on the down arrow on the left side of an app name and check the option but leave the network icons alone, leave them red (hence blocked). The little human icon will appear for that app, so you can still open PlayStore and update/install/uninstall apps since it will have internet access, but once you close it, it won't use any bandwidth.
+
 Support
 -------
 
@@ -140,9 +152,23 @@ Translations:
 
 * Translations to other languages are welcomed
 * Check if the language [is supported by Android](http://stackoverflow.com/questions/7973023/what-is-the-list-of-supported-languages-locales-on-android) and find its locale
-* Copy [this file](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/values/strings.xml) to the correct locale folder
+* Copy [this file](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/values/strings.xml) to the [correct locale folder](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/)
 * Translate the strings in the copied file and omit all lines with **translatable="false"**
 * Create a [pull request on GitHub](https://help.github.com/articles/using-pull-requests) for the new/updated translation
+
+Current translations:
+
+1. Arabic (ar)
+1. Dutch (nl)
+1. Simplified Chinese (zh-rCN)
+1. English
+1. French (fr)
+1. German (de)
+1. Italian (it)
+1. Korean (ko)
+1. Romanian (ro)
+1. Slovak (sk)
+1. Spanish (es)
 
 Please note that you agree to the license below by contributing, including the copyright.
 

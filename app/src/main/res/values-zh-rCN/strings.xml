@@ -8,16 +8,22 @@
 \n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
 
     <string name="menu_search">搜索应用</string>
-    <string name="menu_whitelist_wifi">默认阻止Wi-Fi网络</string>
-    <string name="menu_whitelist_other">默认阻止移动网络</string>
-    <string name="menu_whitelist_roaming">默认阻止漫游</string>
-    <string name="menu_system">管理系统应用</string>
-    <string name="menu_export">导出设置</string>
-    <string name="menu_import">导入设置</string>
-    <string name="menu_dark">使用暗色主题</string>
-    <string name="menu_vpn_settings">打开安卓VPN设置</string>
+    <string name="menu_settings">Settings</string>
     <string name="menu_support">软件支持</string>
     <string name="menu_about">关于</string>
+
+    <string name="setting_whitelist_wifi">默认阻止Wi-Fi网络</string>
+    <string name="setting_whitelist_other">默认阻止移动网络</string>
+    <string name="setting_whitelist_roaming">默认阻止漫游</string>
+    <string name="setting_system">管理系统应用</string>
+    <string name="setting_dark">使用暗色主题</string>
+    <string name="setting_indicators">显示状态指示器</string>
+    <string name="setting_export">导出设置</string>
+    <string name="setting_import">导入设置</string>
+    <string name="setting_vpn">打开安卓VPN设置</string>
+
+    <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
+    <string name="summary_indicators">在状态栏显示网络类型及网络是否按流量计费</string>
 
     <string name="msg_sure">是否确认?</string>
     <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
