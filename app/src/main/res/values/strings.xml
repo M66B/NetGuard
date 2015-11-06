@@ -33,7 +33,7 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic,
 for this reason you should allow a VPN connection in the next dialog</string>
 
-    <string name="title_using">Allow when device in use</string>
+    <string name="title_using">Allow when device is in use</string>
     <string name="title_roaming">Block when roaming</string>
     <string name="title_launch">Start application</string>
     <string name="title_donate">Donate</string>
