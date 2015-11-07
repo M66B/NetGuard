@@ -18,19 +18,21 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="setting_system">Gérer les applications système</string>
     <string name="setting_dark">Utiliser le thème sombre</string>
     <string name="setting_indicators">Show state indicators</string>
+    <string name="setting_delay">Enable again after %d minutes</string>
     <string name="setting_export">Exporter paramètres</string>
     <string name="setting_import">Importer paramètres</string>
     <string name="setting_vpn">Ouvrir les paramètres VPN</string>
 
     <string name="summary_system">Define rules for system applications, for experts only</string>
     <string name="summary_indicators">Display the network type and if the network is metered in the action bar</string>
+    <string name="summary_delay">After disabling, enable again after the set number of minutes; zero means don\'t ask to enable again</string>
 
     <string name="msg_sure">Etes-vous sûr ?</string>
     <string name="msg_disabled">NetGuard est désactivé, utilisez le bouton ci-dessus pour activer NetGuard</string>
     <string name="msg_revoked">NetGuard a été désactivé</string>
     <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic,
-for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic, for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_again">Don\'t ask again</string>
 
     <string name="title_using">Permettre quand l\'appareil est utilisé</string>
     <string name="title_roaming">Bloquer si roaming</string>

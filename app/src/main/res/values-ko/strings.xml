@@ -18,19 +18,21 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="setting_system">Manage system applications</string>
     <string name="setting_dark">어두운 테마 사용</string>
     <string name="setting_indicators">Show state indicators</string>
+    <string name="setting_delay">Enable again after %d minutes</string>
     <string name="setting_export">Export settings</string>
     <string name="setting_import">Import settings</string>
     <string name="setting_vpn">Android VPN 설정 열기</string>
 
     <string name="summary_system">Define rules for system applications, for experts only</string>
     <string name="summary_indicators">Display the network type and if the network is metered in the action bar</string>
+    <string name="summary_delay">After disabling, enable again after the set number of minutes; zero means don\'t ask to enable again</string>
 
     <string name="msg_sure">계속 하시겠습니까?</string>
     <string name="msg_disabled">넷가드가 해제되어 있습니다. 상단 스위치를 사용해 넷가드를 활성화하세요.</string>
     <string name="msg_revoked">넷가드가 해제되었습니다</string>
     <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic,
-for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic, for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_again">Don\'t ask again</string>
 
     <string name="title_using">기기가 사용중일때 허용</string>
     <string name="title_roaming">Block when roaming</string>

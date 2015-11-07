@@ -18,19 +18,21 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="setting_system">Beheer systeemapplicaties</string>
     <string name="setting_dark">Gebruik donker thema</string>
     <string name="setting_indicators">Toon staat indicatoren</string>
+    <string name="setting_delay">Zet na %d minuten weer aan</string>
     <string name="setting_export">Exporteer instellingen</string>
     <string name="setting_import">Importeer instellingen</string>
     <string name="setting_vpn">Open Android VPN-instellingen</string>
 
     <string name="summary_system">Define rules for system applications, for experts only</string>
     <string name="summary_indicators">Display the network type and if the network is metered in the action bar</string>
+    <string name="summary_delay">After disabling, enable again after the set number of minutes; zero means don\'t ask to enable again</string>
 
     <string name="msg_sure">Weet u het zeker?</string>
     <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar boven om NetGuard aan te zetten</string>
     <string name="msg_revoked">NetGuard is uitgezet</string>
     <string name="msg_completed">Actie uitgevoerd</string>
-    <string name="msg_vpn">NetGuard gebruikt een lokaal VPN als een sinkhole voor geblokkeerd internetverkeer,
-om deze reden moet u een VPN-verbinding in de volgende dialoog toestaan.</string>
+    <string name="msg_vpn">NetGuard gebruikt een lokaal VPN als een sinkhole voor geblokkeerd internetverkeer, om deze reden moet u een VPN-verbinding in de volgende dialoog toestaan.</string>
+    <string name="msg_again">Niet meer vragen</string>
 
     <string name="title_using">Sta toe als apparaat in gebruik</string>
     <string name="title_roaming">Blokkeer bij roamen</string>
