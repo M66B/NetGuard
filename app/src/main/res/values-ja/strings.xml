@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name" translatable="false">NetGuard</string>
+    <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
+    <string name="app_license">NetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
+    <string name="app_first">細心の注意で NetGuard を開発およびテストしていますが、
+すべてのデバイス上で正しく動作することを保証することは不可能です。
+一部のデバイスで、起動時に NetGuard がクラッシュすることがわかっています。また、他の一部のデバイスで、すべてのトラフィックをブロックすることが知られています。
+これらの問題は Android のバグ、または製造元が提供するソフトウェアに起因します。そのために NetGuard を非難しないでください。
+\n\nNetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
+
+    <string name="menu_search">アプリケーションの検索</string>
+    <string name="menu_settings">設定</string>
+    <string name="menu_support">サポート</string>
+    <string name="menu_about">アプリについて</string>
+
+    <string name="setting_whitelist_wifi">デフォルトで Wi-Fi をブロック</string>
+    <string name="setting_whitelist_other">デフォルトでモバイル通信をブロック</string>
+    <string name="setting_whitelist_roaming">デフォルトでローミングをブロック</string>
+    <string name="setting_system">システムアプリケーションの管理</string>
+    <string name="setting_dark">ダークテーマを使用する</string>
+    <string name="setting_indicators">状態インジケーターを表示</string>
+    <string name="setting_export">設定をエクスポート</string>
+    <string name="setting_import">設定をインポート</string>
+    <string name="setting_vpn">Android VPN 設定を開く</string>
+
+    <string name="summary_system">システムアプリケーションのルールを定義します (エキスパート向け)</string>
+    <string name="summary_indicators">アクションバーにネットワークの種類と計測しているかどうかを表示します</string>
+
+    <string name="msg_sure">よろしいですか?</string>
+    <string name="msg_disabled">NetGuard は無効です。NetGuard を有効にするには上のスイッチを使用してください</string>
+    <string name="msg_revoked">NetGuard は無効になりました</string>
+    <string name="msg_completed">操作を完了しました</string>
+    <string name="msg_vpn">NetGuard は、インターネットのトラフィックをブロックするために、下水口としてローカルの VPN を使用しています。このため、次のダイアログで VPN 接続を許可してください</string>
+
+    <string name="title_using">デバイスの使用中に許可する</string>
+    <string name="title_roaming">ローミング時にブロック</string>
+    <string name="title_launch">アプリケーションを開始</string>
+    <string name="title_donate">寄付する</string>
+    <string name="title_thanks">寄付をありがとうございます!</string>
+
+    <string name="fingerprint" translatable="false">ef46f813d2c8a064d72c936b9b96d1cccc989378</string>
+</resources>
