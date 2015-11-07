@@ -9,6 +9,7 @@
 
     <string name="menu_search">搜索应用</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_invite">Invite</string>
     <string name="menu_support">软件支持</string>
     <string name="menu_about">关于</string>
 
@@ -30,6 +31,7 @@
     <string name="msg_revoked">NetGuard已被停用</string>
     <string name="msg_completed">操作完成</string>
     <string name="msg_vpn">NetGuard使用一个本地VPN服务来重定向被阻挡的网络流量, 因此请在下一个对话框中允许建立VPN连接</string>
+    <string name="msg_try">Try NetGuard</string>
 
     <string name="title_using">设备使用时允许</string>
     <string name="title_roaming">漫游时阻止</string>

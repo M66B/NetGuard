@@ -8,6 +8,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
 
     <string name="menu_search">Suche nach Apps</string>
     <string name="menu_settings">Einstellungen</string>
+    <string name="menu_invite">Invite</string>
     <string name="menu_support">Hilfe</string>
     <string name="menu_about">Über</string>
 
@@ -29,6 +30,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="msg_revoked">NetGuard wurde deaktiviert</string>
     <string name="msg_completed">Aktion abgeschlossen</string>
     <string name="msg_vpn">Netguard verwendet ein lokales VPN als Senkgrube für blockierten Netzwerkverkehr, daher muss im nächsten Dialog die VPN Verbindung bestätigt werden.</string>
+    <string name="msg_try">Try NetGuard</string>
 
     <string name="title_using">Erlauben wenn Gerät verwendet wird</string>
     <string name="title_roaming">Blockiere bei Roaming</string>

@@ -9,6 +9,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
 
     <string name="menu_search">Buscar aplicación</string>
     <string name="menu_settings">Configuración</string>
+    <string name="menu_invite">Invite</string>
     <string name="menu_support">Soporte</string>
     <string name="menu_about">Acerca de</string>
 
@@ -30,6 +31,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="msg_revoked">NetGuard ha sido deshabilitado</string>
     <string name="msg_completed">Acción completada</string>
     <string name="msg_vpn">NetGuard utiliza un VPN local como un "sumidero" para conexiones de internet bloqueadas, por esta razón debes permitir la conexión VPN en el siguiente diálogo</string>
+    <string name="msg_try">Try NetGuard</string>
 
     <string name="title_using">Permitir cuando el dispositivo esté en uso</string>
     <string name="title_roaming">Bloquear cuando se esté en roaming</string>

@@ -62,6 +62,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,6 +89,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_IAB = 2;
+    private static final int REQUEST_INVITE = 3;
 
     // adb shell pm clear com.android.vending
     private static final String SKU_DONATE = "donation";
@@ -478,6 +480,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        menu.findItem(R.id.menu_invite).setEnabled(
+                Util.hasValidFingerprint(TAG, this) &&
+                        getIntentInvite(this).resolveActivity(getPackageManager()) != null);
         menu.findItem(R.id.menu_support).setEnabled(getIntentSupport().resolveActivity(getPackageManager()) != null);
 
         return true;
@@ -485,12 +490,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_settings:
                 startActivity(new Intent(this, ActivitySettings.class));
+                return true;
+
+            case R.id.menu_invite:
+                startActivityForResult(getIntentInvite(this), REQUEST_INVITE);
                 return true;
 
             case R.id.menu_support:
@@ -626,6 +633,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 tvThanks.setVisibility(purchased ? View.VISIBLE : View.GONE);
             }
         }.execute();
+    }
+
+    private static Intent getIntentInvite(Context context) {
+        return new AppInviteInvitation
+                .IntentBuilder(context.getString(R.string.menu_invite))
+                .setMessage(context.getString(R.string.msg_try))
+                .setDeepLink(Uri.parse("http://www.netguard.me/"))
+                .setCallToActionText(context.getString(R.string.msg_try))
+                .build();
     }
 
     private static Intent getIntentSupport() {

@@ -9,6 +9,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
 
     <string name="menu_search">Hľadať aplikáciu</string>
     <string name="menu_settings">Nastavenia</string>
+    <string name="menu_invite">Invite</string>
     <string name="menu_support">Podpora</string>
     <string name="menu_about">O aplikácii</string>
 
@@ -30,6 +31,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="msg_revoked">NetGuard je vypnutý</string>
     <string name="msg_completed">Akcia bola dokončená</string>
     <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky, a preto by ste mali povoliť VPN pripojenie v ďalšom okne</string>
+    <string name="msg_try">Try NetGuard</string>
 
     <string name="title_using">Povoliť pri používaní zariadenia</string>
     <string name="title_roaming">Blokovať pri roamingu</string>
