@@ -31,7 +31,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="msg_completed">Setari aplicate</string>
     <string name="msg_vpn">NetGuard foloseste o conexiune locala VPN ca o \"gaura neagra\" pentru traficul de internet blocat, din acest motiv la urmatoarea fereastra de dialog trebuie sa acceptati crearea conexiunii VPN.</string>
 
-    <string name="title_using">Permite cand dispozitivul este folosit</string>
+    <string name="title_using">Permite doar cand dispozitivul este folosit</string>
     <string name="title_roaming">Blocheaza in roaming</string>
     <string name="title_launch">Porneste aplicatia</string>
     <string name="title_donate">Doneaza</string>
