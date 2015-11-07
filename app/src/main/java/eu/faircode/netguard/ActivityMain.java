@@ -47,6 +47,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -326,6 +327,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 donate.setData(Uri.parse("http://www.netguard.me/"));
                 if (donate.resolveActivity(getPackageManager()) != null)
                     startActivity(donate);
+            }
+
+        } else if (requestCode == REQUEST_INVITE) {
+            if (resultCode == RESULT_OK) {
+                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                Log.d(TAG, "Invite ID=" + TextUtils.join(",", ids));
             }
 
         } else {
