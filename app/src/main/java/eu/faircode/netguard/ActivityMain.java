@@ -480,10 +480,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        menu.findItem(R.id.menu_invite).setEnabled(
-                Util.hasValidFingerprint(TAG, this) &&
-                        getIntentInvite(this).resolveActivity(getPackageManager()) != null);
-        menu.findItem(R.id.menu_support).setEnabled(getIntentSupport().resolveActivity(getPackageManager()) != null);
+        if (!Util.hasValidFingerprint(TAG, this) || getIntentInvite(this).resolveActivity(getPackageManager()) == null)
+            menu.removeItem(R.id.menu_invite);
+
+        if (getIntentSupport().resolveActivity(getPackageManager()) == null)
+            menu.removeItem(R.id.menu_support);
 
         return true;
     }
