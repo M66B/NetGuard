@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">NetGuard</string>
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
     <string name="app_license">NetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
     <string name="app_first">細心の注意で NetGuard を開発およびテストしていますが、
@@ -10,6 +9,7 @@
 
     <string name="menu_search">アプリケーションの検索</string>
     <string name="menu_settings">設定</string>
+    <string name="menu_invite">Invite</string>
     <string name="menu_support">サポート</string>
     <string name="menu_about">アプリについて</string>
 
@@ -22,6 +22,7 @@
     <string name="setting_export">設定をエクスポート</string>
     <string name="setting_import">設定をインポート</string>
     <string name="setting_vpn">Android VPN 設定を開く</string>
+    <string name="msg_try">Try NetGuard</string>
 
     <string name="summary_system">システムアプリケーションのルールを定義します (エキスパート向け)</string>
     <string name="summary_indicators">アクションバーにネットワークの種類と計測しているかどうかを表示します</string>
@@ -37,6 +38,4 @@
     <string name="title_launch">アプリケーションを開始</string>
     <string name="title_donate">寄付する</string>
     <string name="title_thanks">寄付をありがとうございます!</string>
-
-    <string name="fingerprint" translatable="false">ef46f813d2c8a064d72c936b9b96d1cccc989378</string>
 </resources>
