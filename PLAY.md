@@ -36,7 +36,6 @@ Features:
 - No calling home
 - No tracking or analytics
 - No ads
-- No internet permission required
 - IPv4/IPv6 TCP/UDP supported
 - Block system and user applications
 
