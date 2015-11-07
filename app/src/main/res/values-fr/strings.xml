@@ -37,5 +37,6 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="title_roaming">Bloquer si roaming</string>
     <string name="title_launch">Lancer l\'application</string>
     <string name="title_donate">Faire un don</string>
+    <string name="title_rate">Rate</string>
     <string name="title_thanks">Merci pour votre don !</string>
 </resources>

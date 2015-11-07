@@ -37,5 +37,6 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="title_roaming">Bloquear cuando se esté en roaming</string>
     <string name="title_launch">Iniciar aplicación</string>
     <string name="title_donate">Donar</string>
+    <string name="title_rate">Rate</string>
     <string name="title_thanks">¡Gracias por tu donación!</string>
 </resources>

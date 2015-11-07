@@ -527,6 +527,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.about, null);
         TextView tvVersion = (TextView) view.findViewById(R.id.tvVersion);
+        Button btnRate = (Button) view.findViewById(R.id.btnRate);
         final Button btnDonate = (Button) view.findViewById(R.id.btnDonate);
         final TextView tvThanks = (TextView) view.findViewById(R.id.tvThanks);
         TextView tvLicense = (TextView) view.findViewById(R.id.tvLicense);
@@ -550,6 +551,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
                 }
             });
+
+        // Handle rate
+        btnRate.setVisibility(getIntentRate(this).resolveActivity(getPackageManager()) == null ? View.GONE : View.VISIBLE);
+        btnRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(getIntentRate(ActivityMain.this));
+            }
+        });
 
         // Handle donate
         btnDonate.setOnClickListener(new View.OnClickListener() {
@@ -651,6 +661,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 .setDeepLink(Uri.parse("http://www.netguard.me/"))
                 .setCallToActionText(context.getString(R.string.msg_try))
                 .build();
+    }
+
+    private static Intent getIntentRate(Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + context.getPackageName()));
+        if (intent.resolveActivity(context.getPackageManager()) == null)
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + context.getPackageName()));
+        return intent;
     }
 
     private static Intent getIntentSupport() {

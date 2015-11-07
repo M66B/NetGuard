@@ -37,5 +37,6 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
     <string name="title_roaming">Blokuj gdy roaming</string>
     <string name="title_launch">Start aplikacji</string>
     <string name="title_donate">Wspomóż</string>
+    <string name="title_rate">Rate</string>
     <string name="title_thanks">Dziękuję za wsparcie!</string>
 </resources>

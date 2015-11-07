@@ -37,5 +37,6 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="title_roaming">Blokovať pri roamingu</string>
     <string name="title_launch">Spustiť aplikáciu</string>
     <string name="title_donate">Prispieť</string>
+    <string name="title_rate">Rate</string>
     <string name="title_thanks">Ďakujeme vám za váš príspevok!</string>
 </resources>
