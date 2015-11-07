@@ -320,6 +320,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             } else {
                 int response = (data == null ? -1 : data.getIntExtra("RESPONSE_CODE", -1));
                 Log.i(TAG, "IAB response=" + getIABResult(response));
+
+                // Fail-safe
+                Intent donate = new Intent(Intent.ACTION_VIEW);
+                donate.setData(Uri.parse("http://www.netguard.me/"));
+                if (donate.resolveActivity(getPackageManager()) != null)
+                    startActivity(donate);
             }
 
         } else {
