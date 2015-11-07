@@ -22,5 +22,13 @@
 
 #NetGuard
 -keepnames class eu.faircode.netguard.** { *; }
+
+#Support library
 -keep class android.support.v7.widget.** { *; }
 -dontwarn android.support.v4.**
+
+#Picasso
+-dontwarn com.squareup.okhttp.**
+
+#Play services
+-dontwarn com.google.android.gms.
