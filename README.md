@@ -132,12 +132,18 @@ By showing all applications, NetGuard allows you to block internet access *befor
 <a name="FAQ8"></a>
 **(8) What do I need to enable for the Google Play Store to work?**
 
-You need 3 processes enabled (use search in NetGuard to find them quickly):
+You need 3 packages (applications) enabled (use search in NetGuard to find them quickly):
+
 * com.android.vending
 * com.google.android.gms
 * com.android.providers.downloads
 
-Since the Google Play Store has a tendency to check for updates or even download them all by itself (even if no account is associated), one can keep it in check by enabling _"Allow when device in use"_ for all 3 of these processes. Click on the down arrow on the left side of an app name and check that option, but leave the network icons set to red (hence blocked). The little human icon will appear for those processes. By doing this, you can still open the Google Play Store and update/install/uninstall apps since it will have internet access, but once you close it, it will not use any bandwidth.
+Since the Google Play Store has a tendency to check for updates or even download them all by itself (even if no account is associated),
+one can keep it in check by enabling "*Allow when device in use*" for all 3 of these packages.
+Click on the down arrow on the left side of an application name and check that option,
+but leave the network icons set to red (hence blocked).The little human icon will appear for those packages.
+By doing this, you can still open the Google Play Store and update/install/uninstall applications since it will have internet access,
+but once you close it, it will not use any bandwidth.
 
 Support
 -------
