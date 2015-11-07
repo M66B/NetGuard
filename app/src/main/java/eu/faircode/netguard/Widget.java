@@ -26,6 +26,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.VpnService;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -63,13 +64,17 @@ public class Widget extends AppWidgetProvider {
     private static void update(int[] appWidgetIds, AppWidgetManager appWidgetManager, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean enabled = prefs.getBoolean("enabled", false);
-        Intent intent = new Intent(enabled ? INTENT_OFF : INTENT_ON);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        PendingIntent pi;
+        if (VpnService.prepare(context) == null)
+            pi = PendingIntent.getBroadcast(context, 0, new Intent(enabled ? INTENT_OFF : INTENT_ON), PendingIntent.FLAG_CANCEL_CURRENT);
+        else
+            pi = PendingIntent.getActivity(context, 0, new Intent(context, ActivityMain.class), PendingIntent.FLAG_CANCEL_CURRENT);
 
         for (int id : appWidgetIds) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
             views.setOnClickPendingIntent(R.id.ivEnabled, pi);
-            views.setImageViewResource(R.id.ivEnabled, enabled ? R.mipmap.ic_launcher : R.drawable.ic_security_white_24dp);
+            views.setImageViewResource(R.id.ivEnabled, enabled ? R.mipmap.ic_launcher : R.drawable.ic_security_white_24dp_60);
             appWidgetManager.updateAppWidget(id, views);
         }
     }

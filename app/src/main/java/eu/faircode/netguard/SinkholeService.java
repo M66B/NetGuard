@@ -75,9 +75,9 @@ public class SinkholeService extends VpnService {
                                 last_roaming = Util.isRoaming(SinkholeService.this);
                                 vpn = startVPN();
                                 startDebug(vpn);
-                                removeDisabledNotification();
-                                Widget.updateWidgets(SinkholeService.this);
                             }
+                            removeDisabledNotification();
+                            Widget.updateWidgets(SinkholeService.this);
                             break;
 
                         case reload:
@@ -95,8 +95,8 @@ public class SinkholeService extends VpnService {
                                 stopDebug();
                                 stopVPN(vpn);
                                 vpn = null;
-                                Widget.updateWidgets(SinkholeService.this);
                             }
+                            Widget.updateWidgets(SinkholeService.this);
                             stopSelf();
                             break;
                     }
@@ -159,6 +159,7 @@ public class SinkholeService extends VpnService {
 
             // Feedback
             Util.toast(ex.toString(), Toast.LENGTH_LONG, this);
+            Widget.updateWidgets(this);
 
             return null;
         }
@@ -338,6 +339,7 @@ public class SinkholeService extends VpnService {
 
         // Display warning
         showDisabledNotification();
+        Widget.updateWidgets(this);
 
         super.onRevoke();
     }
