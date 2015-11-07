@@ -360,7 +360,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             recreate();
 
         else if ("indicators".equals(name))
-            llIndicators.setVisibility(prefs.getBoolean("indicators", false) ? View.VISIBLE : View.GONE);
+            llIndicators.setVisibility(prefs.getBoolean(name, false) ? View.VISIBLE : View.GONE);
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
@@ -385,12 +385,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             if (Util.isWifiActive(context))
                 ivNetwork.setImageLevel(1);
-            else {
+            else
                 if (Util.isRoaming(context))
                     ivNetwork.setImageLevel(3);
                 else
                     ivNetwork.setImageLevel(2);
-            }
             ivMetered.setImageLevel(Util.isMetered(context) ? 1 : 0);
 
             actionView.postInvalidate();
