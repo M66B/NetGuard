@@ -173,6 +173,7 @@ Current translations:
 1. French (fr)
 1. German (de)
 1. Italian (it)
+1. Japanese (ja)
 1. Korean (ko)
 1. Romanian (ro)
 1. Slovak (sk)
