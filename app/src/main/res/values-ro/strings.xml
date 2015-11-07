@@ -37,5 +37,6 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="title_roaming">Blocheaza in roaming</string>
     <string name="title_launch">Porneste aplicatia</string>
     <string name="title_donate">Doneaza</string>
+    <string name="title_rate">Rate</string>
     <string name="title_thanks">Iti multumesc pentru donatie!</string>
 </resources>

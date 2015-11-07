@@ -37,5 +37,6 @@
     <string name="title_roaming">漫游时阻止</string>
     <string name="title_launch">启动应用</string>
     <string name="title_donate">捐赠</string>
+    <string name="title_rate">Rate</string>
     <string name="title_thanks">感谢您的捐赠!</string>
 </resources>

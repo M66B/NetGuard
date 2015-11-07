@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_copyright">Prawa autorskie \u00A9 2015 by M. Bokhorst (M66B)</string>
+    <string name="app_license">Używająć NetGuard, zgadzasz się z <a href="//www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+    <string name="app_first">Wiele pracy zostało włożone w stworzenie i testy NetGuard,
+niemniej jednak, niemożliwe jest zagwarantowanie, iż aplikacja będzie działać poprawnie na wszytskich urządzeniach.
+Znane są przypadki gdzie NetGuard wyłącza się po włączeniu na niektórych urządzeniach, a także blokuje cały ruch internetowy na innych.
+Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dostarczonym przez producenta urządzenia, nie jest to wina programu NetGuard.
+\n\nUżywając NetGuard, zgadzasz się z <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+
+    <string name="menu_search">Szukaj aplikacji</string>
+    <string name="menu_settings">Ustawienia</string>
+    <string name="menu_invite">Zaproś</string>
+    <string name="menu_support">Wsparcie</string>
+    <string name="menu_about">O...</string>
+
+    <string name="setting_whitelist_wifi">Domyślnie blokuj Wi-Fi</string>
+    <string name="setting_whitelist_other">Domyślnie blokuj Mobilne</string>
+    <string name="setting_whitelist_roaming">Domyślnie blokuj Roaming</string>
+    <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
+    <string name="setting_dark">Użyj ciemnej skórki</string>
+    <string name="setting_indicators">Pokaż wskaźniki stanu</string>
+    <string name="setting_export">Eksport ustawień</string>
+    <string name="setting_import">Import ustawień</string>
+    <string name="setting_vpn">Otwórz ustawienia VPN w Androidzie</string>
+
+    <string name="summary_system">Stwórz reguły dla aplikacji systemowych(zaawansowane)</string>
+    <string name="summary_indicators">Jeśli sieć jest mierzona, wyświetlaj typ sieci w pasku aplikacji</string>
+
+    <string name="msg_sure">Na pewno?</string>
+    <string name="msg_disabled">NetGuard jest wyłączony, użyj przełącznika u góry by go uruchomić</string>
+    <string name="msg_revoked">NetGuard został wyłączony</string>
+    <string name="msg_completed">Wykonano</string>
+    <string name="msg_vpn">NetGuard używa lokalnego VPNa aby zablokować ruch internetowy. Z tego powodu należy zezwolić na połączenie VPN w następnym kroku.</string>
+    <string name="msg_try">Spróbuj NetGuard</string>
+
+    <string name="title_using">Zezwól gdy urządzenie jest w użyciu</string>
+    <string name="title_roaming">Blokuj gdy roaming</string>
+    <string name="title_launch">Start aplikacji</string>
+    <string name="title_donate">Wspomóż</string>
+    <string name="title_rate">Rate</string>
+    <string name="title_thanks">Dziękuję za wsparcie!</string>
+</resources>

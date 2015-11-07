@@ -37,5 +37,6 @@
     <string name="title_roaming">ローミング時にブロック</string>
     <string name="title_launch">アプリケーションを開始</string>
     <string name="title_donate">寄付する</string>
+    <string name="title_rate">Rate</string>
     <string name="title_thanks">寄付をありがとうございます!</string>
 </resources>

@@ -36,5 +36,6 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="title_roaming">Blockiere bei Roaming</string>
     <string name="title_launch">Starte App</string>
     <string name="title_donate">Spenden</string>
+    <string name="title_rate">Rate</string>
     <string name="title_thanks">Danke für die Spende!</string>
 </resources>

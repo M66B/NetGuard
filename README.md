@@ -175,6 +175,7 @@ Current translations:
 1. Italian (it)
 1. Japanese (ja)
 1. Korean (ko)
+1. Polish (pl)
 1. Romanian (ro)
 1. Slovak (sk)
 1. Spanish (es)
