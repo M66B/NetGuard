@@ -10,7 +10,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
 
     <string name="menu_search">Cerca applicazione</string>
     <string name="menu_settings">Impostazioni</string>
-    <string name="menu_invite">Invite</string>
+    <string name="menu_invite">Invita</string>
     <string name="menu_support">Supporto</string>
     <string name="menu_about">Info</string>
 
@@ -24,7 +24,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="setting_import">Importa impostazioni</string>
     <string name="setting_vpn">Apri impostazioni VPN</string>
 
-    <string name="summary_system">Definisci regole per le applicazioni di sistema, solo per esperti</string>
+    <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
     <string name="summary_indicators">Mostra, nella action bar, il tipo di rete e se la rete è a consumo</string>
 
     <string name="msg_sure">Sei sicuro?</string>
@@ -32,7 +32,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="msg_revoked">NetGuard è stata disabilitata</string>
     <string name="msg_completed">Azione completata</string>
     <string name="msg_vpn">NetGuard utilizza una VPN locale come pozzo per bloccare il traffico internet, per questo motivo è necessario abilitare la connessione VPN nella schermata successiva</string>
-    <string name="msg_try">Try NetGuard</string>
+    <string name="msg_try">Prova NetGuard</string>
 
     <string name="title_using">Consenti quando il dispositivo è in uso</string>
     <string name="title_roaming">Blocca quando in roaming</string>
