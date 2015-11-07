@@ -18,21 +18,18 @@
     <string name="setting_system">管理系统应用</string>
     <string name="setting_dark">使用暗色主题</string>
     <string name="setting_indicators">显示状态指示器</string>
-    <string name="setting_delay">Enable again after %d minutes</string>
     <string name="setting_export">导出设置</string>
     <string name="setting_import">导入设置</string>
     <string name="setting_vpn">打开安卓VPN设置</string>
 
     <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
     <string name="summary_indicators">在状态栏显示网络类型及网络是否按流量计费</string>
-    <string name="summary_delay">After disabling, enable again after the set number of minutes; zero means don\'t ask to enable again</string>
 
     <string name="msg_sure">是否确认?</string>
     <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
     <string name="msg_revoked">NetGuard已被停用</string>
     <string name="msg_completed">操作完成</string>
     <string name="msg_vpn">NetGuard使用一个本地VPN服务来重定向被阻挡的网络流量, 因此请在下一个对话框中允许建立VPN连接</string>
-    <string name="msg_again">Don\'t ask again</string>
 
     <string name="title_using">设备使用时允许</string>
     <string name="title_roaming">漫游时阻止</string>

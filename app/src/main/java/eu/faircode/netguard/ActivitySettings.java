@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -52,8 +51,6 @@ import javax.xml.parsers.SAXParserFactory;
 public class ActivitySettings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Settings";
 
-    private PreferenceScreen settings;
-
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
@@ -74,14 +71,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     public void setup(PreferenceScreen screen) {
-        this.settings = screen;
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        int minutes = Integer.parseInt(prefs.getString("delay_time", "5"));
-        EditTextPreference pref_delay = (EditTextPreference) screen.findPreference("delay_time");
-        pref_delay.setTitle(getString(R.string.setting_delay, minutes));
-
         Preference pref_export = screen.findPreference("export");
         pref_export.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
         pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -125,13 +114,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         else if ("dark_theme".equals(name))
             recreate();
-
-        else if ("delay_time".equals(name)) {
-            if (settings != null) {
-                EditTextPreference pref_delay = (EditTextPreference) settings.findPreference("delay_time");
-                pref_delay.setTitle(getString(R.string.setting_delay, Integer.parseInt(prefs.getString(name, "0"))));
-            }
-        }
     }
 
     @Override

@@ -54,24 +54,14 @@ public class SinkholeService extends VpnService {
     private static final int NOTIFY_DISABLED = 1;
 
     private static final String EXTRA_COMMAND = "Command";
-    private static final String EXTRA_UPDATE = "Update";
 
     private enum Command {start, reload, stop}
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-
         // Get command
         final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
-
-        // Update enabled state
-        if (intent != null && intent.getBooleanExtra(EXTRA_UPDATE, false))
-            if (cmd == Command.start)
-                prefs.edit().putBoolean("enabled", true).apply();
-            else if (cmd == Command.stop)
-                prefs.edit().putBoolean("enabled", false).apply();
 
         // Process command
         new Thread(new Runnable() {
@@ -86,6 +76,7 @@ public class SinkholeService extends VpnService {
                                 vpn = startVPN();
                                 startDebug(vpn);
                                 removeDisabledNotification();
+                                Widget.updateWidgets(SinkholeService.this);
                             }
                             break;
 
@@ -104,6 +95,7 @@ public class SinkholeService extends VpnService {
                                 stopDebug();
                                 stopVPN(vpn);
                                 vpn = null;
+                                Widget.updateWidgets(SinkholeService.this);
                             }
                             stopSelf();
                             break;
@@ -375,13 +367,6 @@ public class SinkholeService extends VpnService {
         Intent intent = new Intent(context, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         context.startService(intent);
-    }
-
-    public static PendingIntent getStartIntent(Context context) {
-        Intent intent = new Intent(context, SinkholeService.class);
-        intent.putExtra(EXTRA_COMMAND, Command.start);
-        intent.putExtra(EXTRA_UPDATE, true);
-        return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static void reload(String network, Context context) {

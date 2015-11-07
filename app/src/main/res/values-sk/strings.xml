@@ -18,21 +18,18 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="setting_system">Spravovať systémové aplikácie</string>
     <string name="setting_dark">Použiť tmavú tému</string>
     <string name="setting_indicators">Show state indicators</string>
-    <string name="setting_delay">Enable again after %d minutes</string>
     <string name="setting_export">Exportovať nastavenia</string>
     <string name="setting_import">Importovať nastavenia</string>
     <string name="setting_vpn">Otvoriť nastavenia VPN</string>
 
     <string name="summary_system">Define rules for system applications, for experts only</string>
     <string name="summary_indicators">Display the network type and if the network is metered in the action bar</string>
-    <string name="summary_delay">After disabling, enable again after the set number of minutes; zero means don\'t ask to enable again</string>
 
     <string name="msg_sure">Ste si istý?</string>
     <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>
     <string name="msg_revoked">NetGuard je vypnutý</string>
     <string name="msg_completed">Akcia bola dokončená</string>
     <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky, a preto by ste mali povoliť VPN pripojenie v ďalšom okne</string>
-    <string name="msg_again">Don\'t ask again</string>
 
     <string name="title_using">Povoliť pri používaní zariadenia</string>
     <string name="title_roaming">Blokovať pri roamingu</string>

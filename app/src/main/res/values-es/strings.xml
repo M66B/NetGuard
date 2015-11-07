@@ -18,21 +18,18 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_system">Administrar aplicaciones de sistema</string>
     <string name="setting_dark">Usar tema oscuro</string>
     <string name="setting_indicators">Show state indicators</string>
-    <string name="setting_delay">Enable again after %d minutes</string>
     <string name="setting_export">Exportar configuración</string>
     <string name="setting_import">Importar configuración</string>
     <string name="setting_vpn">Abrir configuración VPN de Android</string>
 
     <string name="summary_system">Define rules for system applications, for experts only</string>
     <string name="summary_indicators">Display the network type and if the network is metered in the action bar</string>
-    <string name="summary_delay">After disabling, enable again after the set number of minutes; zero means don\'t ask to enable again</string>
 
     <string name="msg_sure">¿Estás seguro?</string>
     <string name="msg_disabled">NetGuard está deshabilitado, utiliza el interruptor de arriba para habilitar a NetGuard</string>
     <string name="msg_revoked">NetGuard ha sido deshabilitado</string>
     <string name="msg_completed">Acción completada</string>
     <string name="msg_vpn">NetGuard utiliza un VPN local como un "sumidero" para conexiones de internet bloqueadas, por esta razón debes permitir la conexión VPN en el siguiente diálogo</string>
-    <string name="msg_again">Don\'t ask again</string>
 
     <string name="title_using">Permitir cuando el dispositivo esté en uso</string>
     <string name="title_roaming">Bloquear cuando se esté en roaming</string>

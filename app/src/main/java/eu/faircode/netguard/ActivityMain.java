@@ -19,7 +19,6 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -38,7 +37,6 @@ import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
@@ -57,7 +55,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -87,7 +84,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private IInAppBillingService IABService = null;
     private AlertDialog dialogFirst = null;
     private AlertDialog dialogVpn = null;
-    private AlertDialog dialogDelay = null;
     private AlertDialog dialogAbout = null;
 
     private static final int REQUEST_VPN = 1;
@@ -130,10 +126,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         swEnabled.setChecked(enabled);
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                final AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                final PendingIntent pi = SinkholeService.getStartIntent(ActivityMain.this);
-                am.cancel(pi);
-
                 if (isChecked) {
                     Log.i(TAG, "Switch on");
                     final Intent prepare = VpnService.prepare(ActivityMain.this);
@@ -176,43 +168,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     Log.i(TAG, "Switch off");
                     prefs.edit().putBoolean("enabled", false).apply();
                     SinkholeService.stop(ActivityMain.this);
-
-                    // Delayed auto enable
-                    final int minutes = Integer.parseInt(prefs.getString("delay_time", "5"));
-                    if (minutes > 0) {
-                        LayoutInflater inflater = LayoutInflater.from(ActivityMain.this);
-                        View view = inflater.inflate(R.layout.delay, null);
-                        TextView tvDelay = (TextView) view.findViewById(R.id.tvDelay);
-                        final CheckBox cbDontAskAgain = (CheckBox) view.findViewById(R.id.cbDontAskAgain);
-
-                        tvDelay.setText(getString(R.string.setting_delay, minutes));
-
-                        dialogDelay = new AlertDialog.Builder(ActivityMain.this)
-                                .setView(view)
-                                .setCancelable(true)
-                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        long time = SystemClock.elapsedRealtime() + minutes * 60 * 1000L;
-                                        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, time, pi);
-                                    }
-                                })
-                                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (cbDontAskAgain.isChecked())
-                                            prefs.edit().putString("delay_time", "0").apply();
-                                    }
-                                })
-                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                    @Override
-                                    public void onDismiss(DialogInterface dialogInterface) {
-                                        dialogDelay = null;
-                                    }
-                                })
-                                .create();
-                        dialogDelay.show();
-                    }
                 }
             }
         });
@@ -332,10 +287,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (dialogVpn != null) {
             dialogVpn.dismiss();
             dialogVpn = null;
-        }
-        if (dialogDelay != null) {
-            dialogDelay.dismiss();
-            dialogDelay = null;
         }
         if (dialogAbout != null) {
             dialogAbout.dismiss();
