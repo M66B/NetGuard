@@ -22,7 +22,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_import">Importar configuración</string>
     <string name="setting_vpn">Abrir configuración VPN de Android</string>
 
-    <string name="summary_system">Define rules for system applications, for experts only</string>
+    <string name="summary_system">Define rules for system applications (for experts)</string>
     <string name="summary_indicators">Display the network type and if the network is metered in the action bar</string>
 
     <string name="msg_sure">¿Estás seguro?</string>

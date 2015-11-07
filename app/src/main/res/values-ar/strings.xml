@@ -2,9 +2,9 @@
     <string name="app_copyright">الحقوق /u00A9 2015 بواسطة M. Bokhorst (M66B)</string>
     <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
     <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee it will work correctly on each and every device.
-NetGuard is known to crash when activated or known to block all traffic on some devices.
-This is caused by bugs in Android, or in the software provided by the manufacturer, so please don\'t blame NetGuard for this.
+however it is impossible to guarantee it will work correctly on every device.
+NetGuard is known to crash when activated on some devices. It is also known to block all traffic on some other devices.
+These issues are caused by bugs in Android, or in the software provided by the manufacturer, so please don\'t blame NetGuard.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">البحث عن تطبيقات</string>
@@ -22,14 +22,14 @@ This is caused by bugs in Android, or in the software provided by the manufactur
     <string name="setting_import">Import settings</string>
     <string name="setting_vpn">فتح إعدادات الـVPN</string>
 
-    <string name="summary_system">Define rules for system applications, for experts only</string>
+    <string name="summary_system">Define rules for system applications (for experts)</string>
     <string name="summary_indicators">Display the network type and if the network is metered in the action bar</string>
 
     <string name="msg_sure">هل أنت متأكد؟</string>
     <string name="msg_disabled">التطبيق غير مُفعّل, قم بتفعيل التطبيق من الخيار أعلاه.</string>
     <string name="msg_revoked">NetGuard has been disabled</string>
     <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole for blocked internet traffic, for this reason you should allow a VPN connection in the next dialog</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic. For this reason, please allow a VPN connection in the next dialog</string>
 
     <string name="title_using">السماح عند استخدام الجهاز</string>
     <string name="title_roaming">Block when roaming</string>
