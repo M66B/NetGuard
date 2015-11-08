@@ -19,8 +19,9 @@
         android:title="@string/setting_system" />
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="dark_theme"
-        android:title="@string/setting_dark" />
+        android:key="foreground"
+        android:summary="@string/summary_foreground"
+        android:title="@string/setting_foreground" />
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="indicators"
@@ -28,9 +29,8 @@
         android:title="@string/setting_indicators" />
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="foreground"
-        android:summary="@string/summary_foreground"
-        android:title="@string/setting_foreground" />
+        android:key="dark_theme"
+        android:title="@string/setting_dark" />
     <Preference
         android:key="export"
         android:title="@string/setting_export" />
