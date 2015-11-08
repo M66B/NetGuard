@@ -9,6 +9,10 @@
         package="com.android.vending"
         related="com.google.android.gms,com.android.providers.downloads"
         title="Google Play Store" />
+    <relation
+        package="com.android.chrome"
+        related="com.android.providers.downloads"
+        title="Chrome" />
     <!--rule
         blocked="true"
         package="com.android.chrome"
