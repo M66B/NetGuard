@@ -5,6 +5,10 @@
         package="com.google.android.apps.adm"
         roaming="false"
         title="Android Device Manager" />
+    <relation
+        package="com.android.vending"
+        related="com.google.android.gms,com.android.providers.downloads"
+        title="Google Play Store" />
     <!--rule
         blocked="true"
         package="com.android.chrome"

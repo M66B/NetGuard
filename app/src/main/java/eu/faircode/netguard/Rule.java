@@ -27,6 +27,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -52,6 +53,8 @@ public class Rule implements Comparable<Rule> {
     public boolean other_blocked;
     public boolean unused;
     public boolean roaming;
+
+    public String[] related = null;
 
     public boolean changed;
 
@@ -91,20 +94,30 @@ public class Rule implements Comparable<Rule> {
         Map<String, Boolean> pre_blocked = new HashMap<>();
         Map<String, Boolean> pre_unused = new HashMap<>();
         Map<String, Boolean> pre_roaming = new HashMap<>();
+        Map<String, String[]> pre_related = new HashMap<>();
         try {
             XmlResourceParser xml = context.getResources().getXml(R.xml.predefined);
             int eventType = xml.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && "rule".equals(xml.getName())) {
-                    String pkg = xml.getAttributeValue(null, "package");
-                    boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
-                    boolean punused = xml.getAttributeBooleanValue(null, "unused", false);
-                    boolean proaming = xml.getAttributeBooleanValue(null, "roaming", whitelist_roaming);
-                    pre_blocked.put(pkg, pblocked);
-                    pre_unused.put(pkg, punused);
-                    pre_roaming.put(pkg, proaming);
-                    Log.i(tag, "Predefined " + pkg + " blocked=" + pblocked + " unused=" + punused + " roaming=" + proaming);
-                }
+                if (eventType == XmlPullParser.START_TAG)
+                    if ("rule".equals(xml.getName())) {
+                        String pkg = xml.getAttributeValue(null, "package");
+                        boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
+                        boolean punused = xml.getAttributeBooleanValue(null, "unused", false);
+                        boolean proaming = xml.getAttributeBooleanValue(null, "roaming", whitelist_roaming);
+                        pre_blocked.put(pkg, pblocked);
+                        pre_unused.put(pkg, punused);
+                        pre_roaming.put(pkg, proaming);
+                        Log.i(tag, "Predefined " + pkg + " blocked=" + pblocked + " unused=" + punused + " roaming=" + proaming);
+
+                    } else if ("relation".equals(xml.getName())) {
+                        String pkg = xml.getAttributeValue(null, "package");
+                        String[] rel = xml.getAttributeValue(null, "related").split(",");
+                        pre_related.put(pkg, rel);
+
+                        Log.i(tag, "Relation " + pkg + " related=" + TextUtils.join(",", rel));
+                    }
+
                 eventType = xml.next();
             }
         } catch (Throwable ex) {
@@ -129,6 +142,9 @@ public class Rule implements Comparable<Rule> {
                 rule.other_blocked = (system && !manage_system ? false : other.getBoolean(info.packageName, rule.other_default));
                 rule.unused = unused.getBoolean(info.packageName, rule.unused_default);
                 rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
+
+                if (pre_related.containsKey(info.packageName))
+                    rule.related = pre_related.get(info.packageName);
 
                 rule.changed = (rule.wifi_blocked != whitelist_wifi ||
                         rule.other_blocked != whitelist_other ||

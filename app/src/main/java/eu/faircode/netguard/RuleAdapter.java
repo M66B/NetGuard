@@ -176,8 +176,38 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     rules.edit().putBoolean(rule.info.packageName, isChecked).apply();
                 }
 
-                // Update UI
-                notifyItemChanged(position);
+                // Related rules
+                if (rule.related == null)
+                    notifyItemChanged(position);
+                else {
+                    for (String related : rule.related)
+                        for (Rule r : listAll)
+                            if (r.info.packageName.equals(related)) {
+                                if ("wifi".equals(network)) {
+                                    r.wifi_blocked = rule.wifi_blocked;
+                                    if (r.wifi_blocked == r.wifi_default) {
+                                        Log.i(TAG, "Removing " + r.info.packageName + " " + network);
+                                        rules.edit().remove(r.info.packageName).apply();
+                                    } else {
+                                        Log.i(TAG, "Setting " + r.info.packageName + " " + network + "=" + isChecked);
+                                        rules.edit().putBoolean(r.info.packageName, isChecked).apply();
+                                    }
+                                }
+
+                                if ("other".equals(network)) {
+                                    r.other_blocked = rule.other_blocked;
+                                    if (r.other_blocked == r.other_default) {
+                                        Log.i(TAG, "Removing " + r.info.packageName + " " + network);
+                                        rules.edit().remove(r.info.packageName).apply();
+                                    } else {
+                                        Log.i(TAG, "Setting " + r.info.packageName + " " + network + "=" + isChecked);
+                                        rules.edit().putBoolean(r.info.packageName, isChecked).apply();
+                                    }
+                                }
+                            }
+
+                    notifyDataSetChanged();
+                }
 
                 // Apply updated rule
                 SinkholeService.reload(network, context);
