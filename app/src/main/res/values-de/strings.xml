@@ -18,14 +18,17 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="setting_system">System Apps anzeigen</string>
     <string name="setting_dark">Verwende dunkles Theme</string>
     <string name="setting_indicators">Zustandsanzeigen</string>
+    <string name="setting_foreground">Start as foreground service</string>
     <string name="setting_export">Exportiere Einstellungen</string>
     <string name="setting_import">Importiere Einstellungen</string>
     <string name="setting_vpn">Öffne Android VPN Einstellungen</string>
 
     <string name="summary_system">Regeln für System Apps definieren, nur für Experten</string>
     <string name="summary_indicators">Netzwerk Typ und ob Netzwerk getaktet ist in Action Bar anzeigen</string>
+    <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
 
     <string name="msg_sure">Bist du sicher?</string>
+    <string name="msg_started">Enforcing rules</string>
     <string name="msg_disabled">NetGuard ist deaktiviert, verwende den Schalter um NetGuard zu aktivieren</string>
     <string name="msg_revoked">NetGuard wurde deaktiviert</string>
     <string name="msg_completed">Aktion abgeschlossen</string>

@@ -20,14 +20,17 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="setting_system">Gestisci applicazioni di sistema</string>
     <string name="setting_dark">Usa il tema scuro</string>
     <string name="setting_indicators">Mostra indicatori di stato</string>
+    <string name="setting_foreground">Start as foreground service</string>
     <string name="setting_export">Esporta impostazioni</string>
     <string name="setting_import">Importa impostazioni</string>
     <string name="setting_vpn">Apri impostazioni VPN</string>
 
     <string name="summary_system">Definisci regole per le applicazioni di sistema, solo per esperti</string>
     <string name="summary_indicators">Mostra, nella action bar, il tipo di rete e se la rete è a consumo</string>
+    <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
 
     <string name="msg_sure">Sei sicuro?</string>
+    <string name="msg_started">Regole applicate</string>
     <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
     <string name="msg_revoked">NetGuard è stata disabilitata</string>
     <string name="msg_completed">Azione completata</string>

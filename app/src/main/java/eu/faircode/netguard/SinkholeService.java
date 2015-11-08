@@ -46,12 +46,14 @@ import java.nio.ByteOrder;
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
+    private boolean foreground;
     private boolean last_roaming;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
     private Thread thread = null;
 
-    private static final int NOTIFY_DISABLED = 1;
+    private static final int NOTIFY_FOREGROUND = 1;
+    private static final int NOTIFY_DISABLED = 2;
 
     private static final String EXTRA_COMMAND = "Command";
 
@@ -59,6 +61,8 @@ public class SinkholeService extends VpnService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         // Get command
         final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
@@ -71,6 +75,10 @@ public class SinkholeService extends VpnService {
                     Log.i(TAG, "Executing command=" + cmd + " vpn=" + (vpn != null));
                     switch (cmd) {
                         case start:
+                            if (prefs.getBoolean("foreground", false)) {
+                                foreground = true;
+                                startForeground(NOTIFY_FOREGROUND, getForegroundNotification());
+                            }
                             if (vpn == null) {
                                 last_roaming = Util.isRoaming(SinkholeService.this);
                                 vpn = startVPN();
@@ -95,6 +103,10 @@ public class SinkholeService extends VpnService {
                                 stopDebug();
                                 stopVPN(vpn);
                                 vpn = null;
+                            }
+                            if (foreground) {
+                                foreground = false;
+                                stopForeground(true);
                             }
                             Widget.updateWidgets(SinkholeService.this);
                             stopSelf();
@@ -344,15 +356,32 @@ public class SinkholeService extends VpnService {
         super.onRevoke();
     }
 
+    private Notification getForegroundNotification() {
+        Intent main = new Intent(this, ActivityMain.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_security_white_24dp)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_started))
+                .setContentIntent(pi)
+                .setCategory(Notification.CATEGORY_STATUS)
+                .setVisibility(Notification.VISIBILITY_SECRET)
+                .setColor(ContextCompat.getColor(this, R.color.colorAccent))
+                .setAutoCancel(true);
+
+        return notification.build();
+    }
+
     private void showDisabledNotification() {
-        Intent riMain = new Intent(this, ActivityMain.class);
-        PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
+        Intent main = new Intent(this, ActivityMain.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_security_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_revoked))
-                .setContentIntent(piMain)
+                .setContentIntent(pi)
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_SECRET)
                 .setColor(ContextCompat.getColor(this, R.color.colorAccent))

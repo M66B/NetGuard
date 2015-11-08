@@ -19,14 +19,17 @@
     <string name="setting_system">管理系统应用</string>
     <string name="setting_dark">使用暗色主题</string>
     <string name="setting_indicators">显示状态指示器</string>
+    <string name="setting_foreground">Start as foreground service</string>
     <string name="setting_export">导出设置</string>
     <string name="setting_import">导入设置</string>
     <string name="setting_vpn">打开安卓VPN设置</string>
 
     <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
     <string name="summary_indicators">在状态栏显示网络类型及网络是否按流量计费</string>
+    <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
 
     <string name="msg_sure">是否确认?</string>
+    <string name="msg_started">Enforcing rules</string>
     <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
     <string name="msg_revoked">NetGuard已被停用</string>
     <string name="msg_completed">操作完成</string>
