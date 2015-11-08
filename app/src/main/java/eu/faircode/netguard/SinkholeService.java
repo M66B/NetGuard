@@ -363,15 +363,15 @@ public class SinkholeService extends VpnService {
     public void onRevoke() {
         Log.i(TAG, "Revoke");
 
+        // Disable firewall
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.edit().putBoolean("enabled", false).apply();
+
         if (vpn != null) {
             stopDebug();
             stopVPN(vpn);
             vpn = null;
         }
-
-        // Disable firewall
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.edit().putBoolean("enabled", false).apply();
 
         // Display warning
         showDisabledNotification();
