@@ -376,7 +376,7 @@ public class SinkholeService extends VpnService {
         msg.obj = intent;
         mServiceHandler.sendMessage(msg);
 
-        return START_STICKY;
+        return (cmd == Command.stop ? START_NOT_STICKY : START_STICKY);
     }
 
     @Override
