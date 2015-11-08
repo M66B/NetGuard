@@ -253,12 +253,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         Map<String, ?> settings = prefs.getAll();
         for (String key : settings.keySet()) {
             Object value = settings.get(key);
+
+            if ("imported".equals(key))
+                continue;
+
             if (value instanceof Boolean) {
                 serializer.startTag(null, "setting");
                 serializer.attribute(null, "key", key);
                 serializer.attribute(null, "type", "boolean");
                 serializer.attribute(null, "value", value.toString());
                 serializer.endTag(null, "setting");
+
             } else
                 Log.e(TAG, "Unknown key=" + key);
         }
@@ -279,6 +284,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
         xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
         xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
+
+        // Refresh UI
+        prefs.edit().putBoolean("imported", true).apply();
     }
 
     private void xmlImport(Map<String, Object> settings, SharedPreferences prefs) {
