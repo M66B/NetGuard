@@ -8,7 +8,7 @@ NetGuard
 
 Short description
 -----------------
-Firewall ce nu necesita root
+Netguard, primul firewall de Android cu sursa deschisa ce nu necesita root 
 
 
 Long description
@@ -36,8 +36,10 @@ Caracteristici:
 - Nu transmite datele nicaieri
 - Nu urmareste activitatea si nici nu o analizeaza
 - Fara reclama
+- Nu necesita acces la internet
 - Suporta IPv4/IPv6 TCP/UDP
 - Blocheaza atat aplicatiile de sistem cat si cele ale utilizatorului
+- Design Material
 
 Majoritatea functiilor sunt rezultatul trimiterii traficului selectat intr-o "gaura neagra", in loc sa fie filtrat tot traficul de internet.
 Acest lucru presupune ca functii avansate, cum ar fi filtrarea adreselor (necesara pentru blocarea unor gazde), urmarirea traficului si detectarea aplicatiilor la acces, nu sunt posibile.
