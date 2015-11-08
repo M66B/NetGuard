@@ -153,59 +153,19 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
-                String network;
-                boolean def;
-                if (buttonView == holder.cbWifi) {
-                    network = "wifi";
-                    rule.wifi_blocked = isChecked;
-                    def = rule.wifi_default;
-                } else {
-                    network = "other";
-                    rule.other_blocked = isChecked;
-                    def = rule.other_default;
-                }
-                Log.i(TAG, rule.info.packageName + ": " + network + "=" + isChecked);
-
-                // Store rule
-                SharedPreferences rules = context.getSharedPreferences(network, Context.MODE_PRIVATE);
-                if (isChecked == def) {
-                    Log.i(TAG, "Removing " + rule.info.packageName + " " + network);
-                    rules.edit().remove(rule.info.packageName).apply();
-                } else {
-                    Log.i(TAG, "Setting " + rule.info.packageName + " " + network + "=" + isChecked);
-                    rules.edit().putBoolean(rule.info.packageName, isChecked).apply();
-                }
+                String network = ((buttonView == holder.cbWifi) ? "wifi" : "other");
+                updateRule(rule, network, isChecked);
 
                 // Related rules
                 if (rule.related == null)
                     notifyItemChanged(position);
                 else {
-                    for (String related : rule.related)
-                        for (Rule r : listAll)
-                            if (r.info.packageName.equals(related)) {
-                                if ("wifi".equals(network)) {
-                                    r.wifi_blocked = rule.wifi_blocked;
-                                    if (r.wifi_blocked == r.wifi_default) {
-                                        Log.i(TAG, "Removing " + r.info.packageName + " " + network);
-                                        rules.edit().remove(r.info.packageName).apply();
-                                    } else {
-                                        Log.i(TAG, "Setting " + r.info.packageName + " " + network + "=" + isChecked);
-                                        rules.edit().putBoolean(r.info.packageName, isChecked).apply();
-                                    }
-                                }
-
-                                if ("other".equals(network)) {
-                                    r.other_blocked = rule.other_blocked;
-                                    if (r.other_blocked == r.other_default) {
-                                        Log.i(TAG, "Removing " + r.info.packageName + " " + network);
-                                        rules.edit().remove(r.info.packageName).apply();
-                                    } else {
-                                        Log.i(TAG, "Setting " + r.info.packageName + " " + network + "=" + isChecked);
-                                        rules.edit().putBoolean(r.info.packageName, isChecked).apply();
-                                    }
-                                }
+                    for (String pkg : rule.related)
+                        for (Rule related : listAll)
+                            if (related.info.packageName.equals(pkg)) {
+                                // TODO: set unused/roaming?
+                                updateRule(related, network, isChecked);
                             }
-
                     notifyDataSetChanged();
                 }
 
@@ -311,6 +271,32 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 context.startActivity(rule.intent);
             }
         });
+    }
+
+    private void updateRule(Rule rule, String network, boolean blocked) {
+        SharedPreferences prefs = context.getSharedPreferences(network, Context.MODE_PRIVATE);
+
+        if ("wifi".equals(network)) {
+            rule.wifi_blocked = blocked;
+            if (rule.wifi_blocked == rule.wifi_default) {
+                Log.i(TAG, "Removing " + rule.info.packageName + " " + network);
+                prefs.edit().remove(rule.info.packageName).apply();
+            } else {
+                Log.i(TAG, "Setting " + rule.info.packageName + " " + network + "=" + blocked);
+                prefs.edit().putBoolean(rule.info.packageName, blocked).apply();
+            }
+        }
+
+        if ("other".equals(network)) {
+            rule.other_blocked = blocked;
+            if (rule.other_blocked == rule.other_default) {
+                Log.i(TAG, "Removing " + rule.info.packageName + " " + network);
+                prefs.edit().remove(rule.info.packageName).apply();
+            } else {
+                Log.i(TAG, "Setting " + rule.info.packageName + " " + network + "=" + blocked);
+                prefs.edit().putBoolean(rule.info.packageName, blocked).apply();
+            }
+        }
     }
 
     @Override
