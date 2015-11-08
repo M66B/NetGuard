@@ -144,6 +144,12 @@ but leave the network icons set to red (hence blocked).The little human icon wil
 By doing this, you can still open the Google Play Store and update/install/uninstall applications since it will have internet access,
 but once you close it, it will not use any bandwidth.
 
+<a name="FAQ9"></a>
+**(9) Why is the VPN service being restart?**
+
+The VPN service will be restarted when you turn the screen on or off and when connectivity changes (WiFi, mobile)
+to apply the rules with the conditions '*Allow when device is in use*' and '*Block when roaming*'.
+
 Support
 -------
 
