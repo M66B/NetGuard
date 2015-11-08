@@ -22,6 +22,7 @@ package eu.faircode.netguard;
 import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -37,6 +38,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -75,7 +77,38 @@ public class Util {
 
     public static boolean isMetered(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.isActiveNetworkMetered();
+        boolean metered = cm.isActiveNetworkMetered();
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (metered && ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            switch (ni.getSubtype()) {
+                case TelephonyManager.NETWORK_TYPE_1xRTT:
+                case TelephonyManager.NETWORK_TYPE_CDMA:
+                case TelephonyManager.NETWORK_TYPE_EDGE:
+                case TelephonyManager.NETWORK_TYPE_GPRS:
+                case TelephonyManager.NETWORK_TYPE_IDEN:
+                    return prefs.getBoolean("metered_2g", true);
+
+                case TelephonyManager.NETWORK_TYPE_EHRPD:
+                case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                case TelephonyManager.NETWORK_TYPE_EVDO_B:
+                case TelephonyManager.NETWORK_TYPE_HSDPA:
+                case TelephonyManager.NETWORK_TYPE_HSPA:
+                case TelephonyManager.NETWORK_TYPE_HSPAP:
+                case TelephonyManager.NETWORK_TYPE_HSUPA:
+                case TelephonyManager.NETWORK_TYPE_UMTS:
+                    return prefs.getBoolean("metered_3g", true);
+
+                case TelephonyManager.NETWORK_TYPE_LTE:
+                    return prefs.getBoolean("metered_4g", true);
+
+                default:
+                    Log.w(Util.class.getName(), "Unknown network subtype=" + ni.getSubtype());
+            }
+        }
+
+        return metered;
     }
 
     public static boolean isInteractive(Context context) {
