@@ -17,17 +17,17 @@
     <string name="setting_system">Управлять системными приложениями</string>
     <string name="setting_dark">Использовать темную тему</string>
     <string name="setting_indicators">Показать индикаторы состояния</string>
-    <string name="setting_foreground">Start as foreground service</string>
+    <string name="setting_foreground">Запустить, как фоновый сервис</string>
     <string name="setting_export">Экспорт настроек</string>
     <string name="setting_import">Импорт настроек</string>
     <string name="setting_vpn">Открыть параметры VPN</string>
 
     <string name="summary_system">Определить правила для системных приложений (для профи)</string>
     <string name="summary_indicators">Отображать измененные сети на панели</string>
-    <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
+    <string name="summary_foreground">Всегда уведомлять в статус-баре, меньше шансов быть убитым Android</string>
 
     <string name="msg_sure">Вы уверены?</string>
-    <string name="msg_started">Enforcing rules</string>
+    <string name="msg_started">Принять правила</string>
     <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
     <string name="msg_revoked">NetGuard был отключен</string>
     <string name="msg_completed">Действие завершено</string>
