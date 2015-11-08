@@ -156,15 +156,16 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 String network = ((buttonView == holder.cbWifi) ? "wifi" : "other");
                 updateRule(rule, network, isChecked);
 
-                // Related rules
+                // Update relations
                 if (rule.related == null)
                     notifyItemChanged(position);
                 else {
                     for (String pkg : rule.related)
                         for (Rule related : listAll)
                             if (related.info.packageName.equals(pkg)) {
-                                // TODO: set unused/roaming?
                                 updateRule(related, network, isChecked);
+                                updateUnused(related, rule.unused);
+                                updateRoaming(related, rule.roaming);
                             }
                     notifyDataSetChanged();
                 }
@@ -222,17 +223,18 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
-                rule.unused = isChecked;
+                updateUnused(rule, isChecked);
 
-                // Store rule
-                SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
-                if (rule.unused == rule.unused_default)
-                    unused.edit().remove(rule.info.packageName).apply();
-                else
-                    unused.edit().putBoolean(rule.info.packageName, rule.unused).apply();
-
-                // Update UI
-                notifyItemChanged(position);
+                // Update relations
+                if (rule.related == null)
+                    notifyItemChanged(position);
+                else {
+                    for (String pkg : rule.related)
+                        for (Rule related : listAll)
+                            if (related.info.packageName.equals(pkg))
+                                updateUnused(related, rule.unused);
+                    notifyDataSetChanged();
+                }
 
                 // Apply updated rule
                 SinkholeService.reload(null, context);
@@ -247,17 +249,18 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
-                rule.roaming = isChecked;
+                updateRoaming(rule, isChecked);
 
-                // Store rule
-                SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
-                if (rule.roaming == rule.roaming_default)
-                    roaming.edit().remove(rule.info.packageName).apply();
-                else
-                    roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();
-
-                // Update UI
-                notifyItemChanged(position);
+                // Update relations
+                if (rule.related == null)
+                    notifyItemChanged(position);
+                else {
+                    for (String pkg : rule.related)
+                        for (Rule related : listAll)
+                            if (related.info.packageName.equals(pkg))
+                                updateRoaming(related, rule.roaming);
+                    notifyDataSetChanged();
+                }
 
                 // Apply updated rule
                 SinkholeService.reload(null, context);
@@ -297,6 +300,24 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 prefs.edit().putBoolean(rule.info.packageName, blocked).apply();
             }
         }
+    }
+
+    private void updateUnused(Rule rule, boolean enabled) {
+        rule.unused = enabled;
+        SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
+        if (rule.unused == rule.unused_default)
+            unused.edit().remove(rule.info.packageName).apply();
+        else
+            unused.edit().putBoolean(rule.info.packageName, rule.unused).apply();
+    }
+
+    private void updateRoaming(Rule rule, boolean enabled) {
+        rule.roaming = enabled;
+        SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
+        if (rule.roaming == rule.roaming_default)
+            roaming.edit().remove(rule.info.packageName).apply();
+        else
+            roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();
     }
 
     @Override
