@@ -77,7 +77,7 @@ public class SinkholeService extends VpnService {
             Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
 
-            Log.i(TAG, "Executing command=" + cmd + " vpn=" + (vpn != null));
+            Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
             switch (cmd) {
                 case start:
                     if (prefs.getBoolean("foreground", false)) {

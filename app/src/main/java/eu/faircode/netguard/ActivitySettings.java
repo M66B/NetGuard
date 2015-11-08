@@ -213,11 +213,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             @Override
             protected void onPostExecute(Throwable ex) {
-                if (ex == null) {
-                    SinkholeService.reload(null, ActivitySettings.this);
-                    recreate();
+                if (ex == null)
                     Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-                } else
+                else
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
         }.execute();
@@ -267,23 +265,31 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     private void xmlImport(InputStream in) throws IOException, SAXException, ParserConfigurationException {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.edit().putBoolean("enabled", false).apply();
+        SinkholeService.stop(this);
+
         XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         XmlImportHandler handler = new XmlImportHandler();
         reader.setContentHandler(handler);
         reader.parse(new InputSource(in));
 
-        xmlImport(handler.application, PreferenceManager.getDefaultSharedPreferences(this));
+        xmlImport(handler.application, prefs);
         xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
         xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
         xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
+        xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
     }
 
     private void xmlImport(Map<String, Object> settings, SharedPreferences prefs) {
         SharedPreferences.Editor editor = prefs.edit();
 
+        // Clear existing setting
         for (String key : prefs.getAll().keySet())
-            editor.remove(key);
+            if (!"enabled".equals(key))
+                editor.remove(key);
 
+        // Apply new settings
         for (String key : settings.keySet()) {
             Object value = settings.get(key);
             if (value instanceof Boolean)
@@ -296,10 +302,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     private class XmlImportHandler extends DefaultHandler {
+        public boolean enabled = false;
         public Map<String, Object> application = new HashMap<>();
         public Map<String, Object> wifi = new HashMap<>();
         public Map<String, Object> mobile = new HashMap<>();
         public Map<String, Object> unused = new HashMap<>();
+        public Map<String, Object> roaming = new HashMap<>();
         private Map<String, Object> current = null;
 
         @Override
@@ -319,6 +327,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else if (qName.equals("unused"))
                 current = unused;
 
+            else if (qName.equals("roaming"))
+                roaming = unused;
+
             else if (qName.equals("setting")) {
                 String key = attributes.getValue("key");
                 String type = attributes.getValue("type");
@@ -327,10 +338,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (current == null)
                     Log.e(TAG, "No current key=" + key);
                 else {
-                    if ("boolean".equals(type))
-                        current.put(key, Boolean.parseBoolean(value));
-                    else
-                        Log.e(TAG, "Unknown type key=" + key);
+                    if ("enabled".equals(key))
+                        enabled = Boolean.parseBoolean(value);
+                    else {
+                        if ("boolean".equals(type))
+                            current.put(key, Boolean.parseBoolean(value));
+                        else
+                            Log.e(TAG, "Unknown type key=" + key);
+                    }
                 }
 
             } else
