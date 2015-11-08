@@ -151,6 +151,12 @@ but once you close it, it will not use any bandwidth.
 The VPN service will be restarted when you turn the screen on or off and when connectivity changes (WiFi, mobile)
 to apply the rules with the conditions '*Allow when device is in use*' and '*Block when roaming*'.
 
+<a name="FAQ10"></a>
+**(10) Will you provide a Tasker plug-in?**
+
+If disabling NetGuard is allowed to Tasker, any application can disabled NetGuard too.
+Allowing to disable a security application from other applications is not a good idea.
+
 Support
 -------
 
