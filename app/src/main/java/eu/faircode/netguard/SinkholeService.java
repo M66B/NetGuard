@@ -114,7 +114,7 @@ public class SinkholeService extends VpnService {
                         stopForeground(true);
                     }
                     Widget.updateWidgets(SinkholeService.this);
-                    stopSelf();
+                    // stopSelf();
                     break;
             }
         }
