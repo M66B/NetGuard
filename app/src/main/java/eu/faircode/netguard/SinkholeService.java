@@ -142,7 +142,8 @@ public class SinkholeService extends VpnService {
         for (Rule rule : Rule.getRules(true, TAG, this)) {
             boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
             if ((!blocked || (rule.unused && interactive)) && (!metered || !(rule.roaming && roaming))) {
-                Log.i(TAG, "Allowing " + rule.info.packageName);
+                if (debug)
+                    Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
                     builder.addDisallowedApplication(rule.info.packageName);
                 } catch (PackageManager.NameNotFoundException ex) {
@@ -269,6 +270,11 @@ public class SinkholeService extends VpnService {
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            // Get network type
+            int networkType = intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY);
+            if (!debug && networkType == ConnectivityManager.TYPE_VPN)
+                return;
+
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
 
@@ -278,9 +284,7 @@ public class SinkholeService extends VpnService {
                 Log.i(TAG, "New state roaming=" + last_roaming);
                 reload(null, SinkholeService.this);
 
-            } else if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
-                    intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) ==
-                            ConnectivityManager.TYPE_WIFI) {
+            } else if (networkType == ConnectivityManager.TYPE_WIFI) {
                 // Wifi connected/disconnected
                 reload(null, SinkholeService.this);
             }
@@ -344,17 +348,17 @@ public class SinkholeService extends VpnService {
     public void onDestroy() {
         Log.i(TAG, "Destroy");
 
-        if (vpn != null) {
-            stopDebug();
-            stopVPN(vpn);
-            vpn = null;
-        }
+        mServiceLooper.quit();
 
         unregisterReceiver(interactiveStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageAddedReceiver);
 
-        mServiceLooper.quit();
+        if (vpn != null) {
+            stopDebug();
+            stopVPN(vpn);
+            vpn = null;
+        }
 
         super.onDestroy();
     }
@@ -363,17 +367,11 @@ public class SinkholeService extends VpnService {
     public void onRevoke() {
         Log.i(TAG, "Revoke");
 
-        // Disable firewall
+        // Disable firewall (will result in stop command)
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("enabled", false).apply();
 
-        if (vpn != null) {
-            stopDebug();
-            stopVPN(vpn);
-            vpn = null;
-        }
-
-        // Display warning
+        // Feedback
         showDisabledNotification();
         Widget.updateWidgets(this);
 
@@ -391,7 +389,7 @@ public class SinkholeService extends VpnService {
                 .setContentIntent(pi)
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_SECRET)
-                .setColor(ContextCompat.getColor(this, R.color.colorAccent))
+                .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setAutoCancel(true);
 
         return notification.build();
@@ -402,7 +400,7 @@ public class SinkholeService extends VpnService {
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_security_white_24dp)
+                .setSmallIcon(R.drawable.ic_error_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_revoked))
                 .setContentIntent(pi)

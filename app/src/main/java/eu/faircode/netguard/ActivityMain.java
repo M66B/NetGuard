@@ -150,7 +150,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                                         if (running) {
                                             Log.i(TAG, "Start intent=" + prepare);
                                             try {
-                                                prefs.edit().putBoolean("enabled", true).apply();
                                                 startActivityForResult(prepare, REQUEST_VPN);
                                             } catch (Throwable ex) {
                                                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -384,6 +383,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            int networkType = intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY);
+            if (networkType == ConnectivityManager.TYPE_VPN)
+                return;
+
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
 
