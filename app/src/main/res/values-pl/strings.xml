@@ -16,17 +16,20 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
     <string name="setting_whitelist_wifi">Domyślnie blokuj Wi-Fi</string>
     <string name="setting_whitelist_other">Domyślnie blokuj Mobilne</string>
     <string name="setting_whitelist_roaming">Domyślnie blokuj Roaming</string>
+    <string name="setting_metered_2g">2G is metered</string>
+    <string name="setting_metered_3g">3G is metered</string>
+    <string name="setting_metered_4g">4G is metered</string>
     <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
     <string name="setting_dark">Użyj ciemnej skórki</string>
     <string name="setting_indicators">Pokaż wskaźniki stanu</string>
-    <string name="setting_foreground">Start as foreground service</string>
+    <string name="setting_foreground">Uruchom jako zadanie w tle</string>
     <string name="setting_export">Eksport ustawień</string>
     <string name="setting_import">Import ustawień</string>
     <string name="setting_vpn">Otwórz ustawienia VPN w Androidzie</string>
 
     <string name="summary_system">Stwórz reguły dla aplikacji systemowych(zaawansowane)</string>
     <string name="summary_indicators">Jeśli sieć jest mierzona, wyświetlaj typ sieci w pasku aplikacji</string>
-    <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
+    <string name="summary_foreground">Zadania w tle pokazywane są w pasku statusu i rzadziej bywają zamknięte przez system Android</string>
 
     <string name="msg_sure">Na pewno?</string>
     <string name="msg_started">Enforcing rules</string>
@@ -39,7 +42,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
     <string name="title_using">Zezwól gdy urządzenie jest w użyciu</string>
     <string name="title_roaming">Blokuj gdy roaming</string>
     <string name="title_launch">Start aplikacji</string>
-    <string name="title_donate">Wspomóż</string>
+    <string name="title_donate">Oceń</string>
     <string name="title_rate">Rate</string>
     <string name="title_thanks">Dziękuję za wsparcie!</string>
 </resources>

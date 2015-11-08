@@ -16,6 +16,9 @@
     <string name="setting_whitelist_wifi">默认阻止Wi-Fi网络</string>
     <string name="setting_whitelist_other">默认阻止移动网络</string>
     <string name="setting_whitelist_roaming">默认阻止漫游</string>
+    <string name="setting_metered_2g">2G is metered</string>
+    <string name="setting_metered_3g">3G is metered</string>
+    <string name="setting_metered_4g">4G is metered</string>
     <string name="setting_system">管理系统应用</string>
     <string name="setting_dark">使用暗色主题</string>
     <string name="setting_indicators">显示状态指示器</string>
