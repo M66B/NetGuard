@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_copyright">Авторское право © 2015 М. Bokhorst (M66B)</string>
+    <string name="app_license">Используя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
+    <string name="app_first">Были приложены большие усилия для разработки и тестирования NetGuard, однако невозможно гарантировать, что оно будет корректно работать на любом устройстве. NetGuard известен сбой при активации на некоторых устройствах. Известно также, что блокируется весь трафик на некоторых устройствах. Эти проблемы вызваны ошибками в Android, или в программном обеспечении, поставляемом изготовителем, поэтому, пожалуйста, не вините NetGuard.
+\n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
+
+    <string name="menu_search">Поиск для приложения</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_invite">Пригласить</string>
+    <string name="menu_support">Поддержка</string>
+    <string name="menu_about">О приложении</string>
+
+    <string name="setting_whitelist_wifi">Блокировать Wi-Fi по умолч.</string>
+    <string name="setting_whitelist_other">Блокировать мобильную сеть по умолч.</string>
+    <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
+    <string name="setting_system">Управлять системными приложениями</string>
+    <string name="setting_dark">Использовать темную тему</string>
+    <string name="setting_indicators">Показать индикаторы состояния</string>
+    <string name="setting_export">Экспорт настроек</string>
+    <string name="setting_import">Импорт настроек</string>
+    <string name="setting_vpn">Открыть параметры VPN</string>
+
+    <string name="summary_system">Определить правила для системных приложений (для профи)</string>
+    <string name="summary_indicators">Отображать измененные сети на панели</string>
+
+    <string name="msg_sure">Вы уверены?</string>
+    <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
+    <string name="msg_revoked">NetGuard был отключен</string>
+    <string name="msg_completed">Действие завершено</string>
+    <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик. По этой причине, пожалуйста, разрешите VPN-подключения в следующем диалоговом окне.</string>
+    <string name="msg_try">Попробовать NetGuard</string>
+
+    <string name="title_using">Разрешить, когда устройство используется</string>
+    <string name="title_roaming">Блокировка при роуминге</string>
+    <string name="title_launch">Запуск приложения</string>
+    <string name="title_donate">Пожертвовать</string>
+    <string name="title_rate">Оценить</string>
+    <string name="title_thanks">Благодарим Вас за ваше пожертвование!</string>
+</resources>

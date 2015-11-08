@@ -182,6 +182,7 @@ Current translations:
 1. Korean (ko)
 1. Polish (pl)
 1. Romanian (ro)
+1. Russian (ru)
 1. Slovak (sk)
 1. Spanish (es)
 
