@@ -183,7 +183,11 @@ public class Util {
             StringBuilder stringBuilder = new StringBuilder();
             for (String key : keys) {
                 Object value = data.get(key);
-                stringBuilder.append(key).append("=").append(value).append(value == null ? "" : " (" + value.getClass() + ")").append("\r\n");
+                stringBuilder.append(key)
+                        .append("=")
+                        .append(value)
+                        .append(value == null ? "" : " (" + value.getClass().getName() + ")")
+                        .append("\r\n");
             }
             Log.d(tag, stringBuilder.toString());
         }
