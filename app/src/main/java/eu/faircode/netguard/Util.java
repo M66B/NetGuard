@@ -150,8 +150,10 @@ public class Util {
         if (data != null) {
             Set<String> keys = data.keySet();
             StringBuilder stringBuilder = new StringBuilder();
-            for (String key : keys)
-                stringBuilder.append(key).append("=").append(data.get(key)).append("\r\n");
+            for (String key : keys) {
+                Object value = data.get(key);
+                stringBuilder.append(key).append("=").append(value).append(value == null ? "" : " (" + value.getClass() + ")").append("\r\n");
+            }
             Log.d(tag, stringBuilder.toString());
         }
     }

@@ -63,9 +63,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
-import com.google.android.gms.appinvite.AppInviteInvitation;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -329,10 +326,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
 
         } else if (requestCode == REQUEST_INVITE) {
-            if (resultCode == RESULT_OK) {
-                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
-                Log.d(TAG, "Invite ID=" + TextUtils.join(",", ids));
-            }
+            // Do nothing
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
@@ -496,9 +490,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        if (!Util.hasValidFingerprint(TAG, this) ||
-                GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) != ConnectionResult.SUCCESS ||
-                getIntentInvite(this).resolveActivity(getPackageManager()) == null)
+        if (!Util.hasValidFingerprint(TAG, this) || getIntentInvite(this).resolveActivity(getPackageManager()) == null)
             menu.removeItem(R.id.menu_invite);
 
         if (getIntentSupport().resolveActivity(getPackageManager()) == null)
@@ -665,12 +657,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private static Intent getIntentInvite(Context context) {
-        return new AppInviteInvitation
-                .IntentBuilder(context.getString(R.string.menu_invite))
-                .setMessage(context.getString(R.string.msg_try))
-                .setDeepLink(Uri.parse("http://www.netguard.me/"))
-                .setCallToActionText(context.getString(R.string.msg_try))
-                .build();
+        Intent intent = new Intent("com.google.android.gms.appinvite.ACTION_APP_INVITE");
+        intent.setPackage("com.google.android.gms");
+        intent.putExtra("com.google.android.gms.appinvite.TITLE", context.getString(R.string.menu_invite));
+        intent.putExtra("com.google.android.gms.appinvite.MESSAGE", context.getString(R.string.msg_try));
+        intent.putExtra("com.google.android.gms.appinvite.BUTTON_TEXT", context.getString(R.string.msg_try));
+        // com.google.android.gms.appinvite.DEEP_LINK_URL
+        return intent;
     }
 
     private static Intent getIntentRate(Context context) {
