@@ -9,6 +9,8 @@ Blocking access to the internet can help:
 * save your battery
 * increase your privacy
 
+NetGuard is possibly the first free and open source no-root firewall for Android.
+
 Downloads:
 
 * [GitHub](https://github.com/M66B/NetGuard/releases)
@@ -32,11 +34,9 @@ Features
 * No calling home
 * No tracking or analytics
 * No ads
+* No internet permission required
 * IPv4/IPv6 TCP/UDP supported
 * Block system and user applications
-
-NetGuard does not even require the *internet* permission.
-NetGuard is possibly the first free and open source no-root firewall for Android.
 
 Most of these features are the result of sending selected traffic to a sinkhole, instead of filtering all internet traffic.
 This means that advanced features, like address based filtering (needed for ad blocking), traffic logging, and on-demand configuration, are not possible.
@@ -145,6 +145,12 @@ but leave the network icons set to red (hence blocked).The little human icon wil
 By doing this, you can still open the Google Play Store and update/install/uninstall applications since it will have internet access,
 but once you close it, it will not use any bandwidth.
 
+<a name="FAQ9"></a>
+**(9) Why is the VPN service being restart?**
+
+The VPN service will be restarted when you turn the screen on or off and when connectivity changes (WiFi, mobile)
+to apply the rules with the conditions '*Allow when device is in use*' and '*Block when roaming*'.
+
 Support
 -------
 
@@ -177,6 +183,7 @@ Current translations:
 1. Korean (ko)
 1. Polish (pl)
 1. Romanian (ro)
+1. Russian (ru)
 1. Slovak (sk)
 1. Spanish (es)
 

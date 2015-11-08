@@ -29,6 +29,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.VpnService;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -46,65 +50,74 @@ import java.nio.ByteOrder;
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
+    private boolean foreground;
     private boolean last_roaming;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
     private Thread thread = null;
 
-    private static final int NOTIFY_DISABLED = 1;
+    private volatile Looper mServiceLooper;
+    private volatile ServiceHandler mServiceHandler;
+
+    private static final int NOTIFY_FOREGROUND = 1;
+    private static final int NOTIFY_DISABLED = 2;
 
     private static final String EXTRA_COMMAND = "Command";
 
     private enum Command {start, reload, stop}
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        // Get command
-        final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
-        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
+    private final class ServiceHandler extends Handler {
+        public ServiceHandler(Looper looper) {
+            super(looper);
+        }
 
-        // Process command
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (SinkholeService.this) {
-                    Log.i(TAG, "Executing command=" + cmd + " vpn=" + (vpn != null));
-                    switch (cmd) {
-                        case start:
-                            if (vpn == null) {
-                                last_roaming = Util.isRoaming(SinkholeService.this);
-                                vpn = startVPN();
-                                startDebug(vpn);
-                            }
-                            removeDisabledNotification();
-                            Widget.updateWidgets(SinkholeService.this);
-                            break;
+        @Override
+        public void handleMessage(Message msg) {
+            Intent intent = (Intent) msg.obj;
+            Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
 
-                        case reload:
-                            // Seamless handover
-                            ParcelFileDescriptor prev = vpn;
-                            vpn = startVPN();
-                            stopDebug();
-                            startDebug(vpn);
-                            if (prev != null)
-                                stopVPN(prev);
-                            break;
-
-                        case stop:
-                            if (vpn != null) {
-                                stopDebug();
-                                stopVPN(vpn);
-                                vpn = null;
-                            }
-                            Widget.updateWidgets(SinkholeService.this);
-                            stopSelf();
-                            break;
+            Log.i(TAG, "Executing command=" + cmd + " vpn=" + (vpn != null));
+            switch (cmd) {
+                case start:
+                    if (prefs.getBoolean("foreground", false)) {
+                        foreground = true;
+                        startForeground(NOTIFY_FOREGROUND, getForegroundNotification());
                     }
-                }
-            }
-        }).start();
+                    if (vpn == null) {
+                        last_roaming = Util.isRoaming(SinkholeService.this);
+                        vpn = startVPN();
+                        startDebug(vpn);
+                    }
+                    removeDisabledNotification();
+                    Widget.updateWidgets(SinkholeService.this);
+                    break;
 
-        return START_STICKY;
+                case reload:
+                    // Seamless handover
+                    ParcelFileDescriptor prev = vpn;
+                    vpn = startVPN();
+                    stopDebug();
+                    startDebug(vpn);
+                    if (prev != null)
+                        stopVPN(prev);
+                    break;
+
+                case stop:
+                    if (vpn != null) {
+                        stopDebug();
+                        stopVPN(vpn);
+                        vpn = null;
+                    }
+                    if (foreground) {
+                        foreground = false;
+                        stopForeground(true);
+                    }
+                    Widget.updateWidgets(SinkholeService.this);
+                    stopSelf();
+                    break;
+            }
+        }
     }
 
     private ParcelFileDescriptor startVPN() {
@@ -129,7 +142,8 @@ public class SinkholeService extends VpnService {
         for (Rule rule : Rule.getRules(true, TAG, this)) {
             boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
             if ((!blocked || (rule.unused && interactive)) && (!metered || !(rule.roaming && roaming))) {
-                Log.i(TAG, "Allowing " + rule.info.packageName);
+                if (debug)
+                    Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
                     builder.addDisallowedApplication(rule.info.packageName);
                 } catch (PackageManager.NameNotFoundException ex) {
@@ -256,6 +270,11 @@ public class SinkholeService extends VpnService {
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            // Get network type
+            int networkType = intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY);
+            if (!debug && networkType == ConnectivityManager.TYPE_VPN)
+                return;
+
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
 
@@ -265,9 +284,7 @@ public class SinkholeService extends VpnService {
                 Log.i(TAG, "New state roaming=" + last_roaming);
                 reload(null, SinkholeService.this);
 
-            } else if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
-                    intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) ==
-                            ConnectivityManager.TYPE_WIFI) {
+            } else if (networkType == ConnectivityManager.TYPE_WIFI) {
                 // Wifi connected/disconnected
                 reload(null, SinkholeService.this);
             }
@@ -288,6 +305,12 @@ public class SinkholeService extends VpnService {
         super.onCreate();
         Log.i(TAG, "Create");
 
+        HandlerThread thread = new HandlerThread(getString(R.string.app_name));
+        thread.start();
+
+        mServiceLooper = thread.getLooper();
+        mServiceHandler = new ServiceHandler(mServiceLooper);
+
         // Listen for interactive state changes
         IntentFilter ifInteractive = new IntentFilter();
         ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
@@ -307,18 +330,35 @@ public class SinkholeService extends VpnService {
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // Get command
+        final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
+        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
+
+        // Queue command
+        Message msg = mServiceHandler.obtainMessage();
+        msg.arg1 = startId;
+        msg.obj = intent;
+        mServiceHandler.sendMessage(msg);
+
+        return START_STICKY;
+    }
+
+    @Override
     public void onDestroy() {
         Log.i(TAG, "Destroy");
+
+        mServiceLooper.quit();
+
+        unregisterReceiver(interactiveStateReceiver);
+        unregisterReceiver(connectivityChangedReceiver);
+        unregisterReceiver(packageAddedReceiver);
 
         if (vpn != null) {
             stopDebug();
             stopVPN(vpn);
             vpn = null;
         }
-
-        unregisterReceiver(interactiveStateReceiver);
-        unregisterReceiver(connectivityChangedReceiver);
-        unregisterReceiver(packageAddedReceiver);
 
         super.onDestroy();
     }
@@ -327,32 +367,43 @@ public class SinkholeService extends VpnService {
     public void onRevoke() {
         Log.i(TAG, "Revoke");
 
-        if (vpn != null) {
-            stopDebug();
-            stopVPN(vpn);
-            vpn = null;
-        }
-
-        // Disable firewall
+        // Disable firewall (will result in stop command)
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("enabled", false).apply();
 
-        // Display warning
+        // Feedback
         showDisabledNotification();
         Widget.updateWidgets(this);
 
         super.onRevoke();
     }
 
-    private void showDisabledNotification() {
-        Intent riMain = new Intent(this, ActivityMain.class);
-        PendingIntent piMain = PendingIntent.getActivity(this, 0, riMain, PendingIntent.FLAG_CANCEL_CURRENT);
+    private Notification getForegroundNotification() {
+        Intent main = new Intent(this, ActivityMain.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_security_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_started))
+                .setContentIntent(pi)
+                .setCategory(Notification.CATEGORY_STATUS)
+                .setVisibility(Notification.VISIBILITY_SECRET)
+                .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .setAutoCancel(true);
+
+        return notification.build();
+    }
+
+    private void showDisabledNotification() {
+        Intent main = new Intent(this, ActivityMain.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_error_white_24dp)
+                .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_revoked))
-                .setContentIntent(piMain)
+                .setContentIntent(pi)
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_SECRET)
                 .setColor(ContextCompat.getColor(this, R.color.colorAccent))

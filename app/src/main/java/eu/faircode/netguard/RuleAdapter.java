@@ -153,31 +153,22 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
-                String network;
-                boolean def;
-                if (buttonView == holder.cbWifi) {
-                    network = "wifi";
-                    rule.wifi_blocked = isChecked;
-                    def = rule.wifi_default;
-                } else {
-                    network = "other";
-                    rule.other_blocked = isChecked;
-                    def = rule.other_default;
-                }
-                Log.i(TAG, rule.info.packageName + ": " + network + "=" + isChecked);
+                String network = ((buttonView == holder.cbWifi) ? "wifi" : "other");
+                updateRule(rule, network, isChecked);
 
-                // Store rule
-                SharedPreferences rules = context.getSharedPreferences(network, Context.MODE_PRIVATE);
-                if (isChecked == def) {
-                    Log.i(TAG, "Removing " + rule.info.packageName + " " + network);
-                    rules.edit().remove(rule.info.packageName).apply();
-                } else {
-                    Log.i(TAG, "Setting " + rule.info.packageName + " " + network + "=" + isChecked);
-                    rules.edit().putBoolean(rule.info.packageName, isChecked).apply();
+                // Update relations
+                if (rule.related == null)
+                    notifyItemChanged(position);
+                else {
+                    for (String pkg : rule.related)
+                        for (Rule related : listAll)
+                            if (related.info.packageName.equals(pkg)) {
+                                updateRule(related, network, isChecked);
+                                updateUnused(related, rule.unused);
+                                updateRoaming(related, rule.roaming);
+                            }
+                    notifyDataSetChanged();
                 }
-
-                // Update UI
-                notifyItemChanged(position);
 
                 // Apply updated rule
                 SinkholeService.reload(network, context);
@@ -232,17 +223,18 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
-                rule.unused = isChecked;
+                updateUnused(rule, isChecked);
 
-                // Store rule
-                SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
-                if (rule.unused == rule.unused_default)
-                    unused.edit().remove(rule.info.packageName).apply();
-                else
-                    unused.edit().putBoolean(rule.info.packageName, rule.unused).apply();
-
-                // Update UI
-                notifyItemChanged(position);
+                // Update relations
+                if (rule.related == null)
+                    notifyItemChanged(position);
+                else {
+                    for (String pkg : rule.related)
+                        for (Rule related : listAll)
+                            if (related.info.packageName.equals(pkg))
+                                updateUnused(related, rule.unused);
+                    notifyDataSetChanged();
+                }
 
                 // Apply updated rule
                 SinkholeService.reload(null, context);
@@ -257,17 +249,18 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
-                rule.roaming = isChecked;
+                updateRoaming(rule, isChecked);
 
-                // Store rule
-                SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
-                if (rule.roaming == rule.roaming_default)
-                    roaming.edit().remove(rule.info.packageName).apply();
-                else
-                    roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();
-
-                // Update UI
-                notifyItemChanged(position);
+                // Update relations
+                if (rule.related == null)
+                    notifyItemChanged(position);
+                else {
+                    for (String pkg : rule.related)
+                        for (Rule related : listAll)
+                            if (related.info.packageName.equals(pkg))
+                                updateRoaming(related, rule.roaming);
+                    notifyDataSetChanged();
+                }
 
                 // Apply updated rule
                 SinkholeService.reload(null, context);
@@ -281,6 +274,50 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 context.startActivity(rule.intent);
             }
         });
+    }
+
+    private void updateRule(Rule rule, String network, boolean blocked) {
+        SharedPreferences prefs = context.getSharedPreferences(network, Context.MODE_PRIVATE);
+
+        if ("wifi".equals(network)) {
+            rule.wifi_blocked = blocked;
+            if (rule.wifi_blocked == rule.wifi_default) {
+                Log.i(TAG, "Removing " + rule.info.packageName + " " + network);
+                prefs.edit().remove(rule.info.packageName).apply();
+            } else {
+                Log.i(TAG, "Setting " + rule.info.packageName + " " + network + "=" + blocked);
+                prefs.edit().putBoolean(rule.info.packageName, blocked).apply();
+            }
+        }
+
+        if ("other".equals(network)) {
+            rule.other_blocked = blocked;
+            if (rule.other_blocked == rule.other_default) {
+                Log.i(TAG, "Removing " + rule.info.packageName + " " + network);
+                prefs.edit().remove(rule.info.packageName).apply();
+            } else {
+                Log.i(TAG, "Setting " + rule.info.packageName + " " + network + "=" + blocked);
+                prefs.edit().putBoolean(rule.info.packageName, blocked).apply();
+            }
+        }
+    }
+
+    private void updateUnused(Rule rule, boolean enabled) {
+        rule.unused = enabled;
+        SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
+        if (rule.unused == rule.unused_default)
+            unused.edit().remove(rule.info.packageName).apply();
+        else
+            unused.edit().putBoolean(rule.info.packageName, rule.unused).apply();
+    }
+
+    private void updateRoaming(Rule rule, boolean enabled) {
+        rule.roaming = enabled;
+        SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
+        if (rule.roaming == rule.roaming_default)
+            roaming.edit().remove(rule.info.packageName).apply();
+        else
+            roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();
     }
 
     @Override

@@ -23,6 +23,8 @@ Blocarea accesului la internet poate ajuta la:
 - reducerea consumului bateriei
 - protejarea mai buna a intimitatii
 
+NetGuard este poate chiar primul firewall gratis si cu sursa deschisa ce nu necesita acces root pe Android.
+
 Caracteristici:
 
 - Nu necesita acces root
@@ -36,10 +38,6 @@ Caracteristici:
 - Fara reclama
 - Suporta IPv4/IPv6 TCP/UDP
 - Blocheaza atat aplicatiile de sistem cat si cele ale utilizatorului
-
-NetGuard nici macar nu necesita permisiune de acces internet.
-
-NetGuard este poate chiar primul firewall gratis si cu sursa deschisa ce nu necesita acces root pe Android.
 
 Majoritatea functiilor sunt rezultatul trimiterii traficului selectat intr-o "gaura neagra", in loc sa fie filtrat tot traficul de internet.
 Acest lucru presupune ca functii avansate, cum ar fi filtrarea adreselor (necesara pentru blocarea unor gazde), urmarirea traficului si detectarea aplicatiilor la acces, nu sunt posibile.

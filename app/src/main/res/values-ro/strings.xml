@@ -19,14 +19,17 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_system">Gestionati aplicatiile de sistem</string>
     <string name="setting_dark">Foloseste tema intunecata</string>
     <string name="setting_indicators">Arata indicatorii de stare</string>
+    <string name="setting_foreground">Start as foreground service</string>
     <string name="setting_export">Exporta setari</string>
     <string name="setting_import">Importa setari</string>
     <string name="setting_vpn">Deschide setari VPN Android</string>
 
     <string name="summary_system">Defineste reguli pentru aplicatiile de sistem, setare expert</string>
     <string name="summary_indicators">Arata tipul retelei conectate precum si daca aceasta este una contorizata</string>
+    <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
 
     <string name="msg_sure">Esti sigur?</string>
+    <string name="msg_started">Limitari activate</string>
     <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
     <string name="msg_revoked">NetGuard a fost dezactivat</string>
     <string name="msg_completed">Setari aplicate</string>

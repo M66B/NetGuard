@@ -29,6 +29,3 @@
 
 #Picasso
 -dontwarn com.squareup.okhttp.**
-
-#Play services
--dontwarn com.google.android.gms.
