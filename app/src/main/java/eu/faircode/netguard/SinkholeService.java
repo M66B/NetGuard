@@ -88,8 +88,6 @@ public class SinkholeService extends VpnService {
                         startForeground(NOTIFY_FOREGROUND, getForegroundNotification());
                     }
                     if (vpn == null) {
-                        last_roaming = Util.isRoaming(SinkholeService.this);
-                        last_generation = Util.getNetworkGeneration(SinkholeService.this);
                         vpn = startVPN();
                         startDebug(vpn);
                     }
@@ -128,19 +126,19 @@ public class SinkholeService extends VpnService {
         Log.i(TAG, "Starting");
 
         // Check state
-        boolean metered = Util.isMetered(this);
         boolean wifi = Util.isWifiActive(this);
-        boolean roaming = Util.isRoaming(this);
+        boolean metered = Util.isMetered(this);
         boolean interactive = Util.isInteractive(this);
-        Log.i(TAG, "metered=" + metered +
-                " wifi=" + wifi +
-                " roaming=" + roaming +
+        Log.i(TAG, "wifi=" + wifi +
+                " metered=" + metered +
+                " roaming=" + last_roaming +
                 " generation=" + last_generation +
                 " interactive=" + interactive);
 
         // Build VPN service
         final Builder builder = new Builder();
         builder.setSession(getString(R.string.app_name));
+        // TODO: make tunnel parameters configurable
         builder.addAddress("10.1.10.1", 32);
         builder.addAddress("fd00:1:fd00:1:fd00:1:fd00:1", 64);
         builder.addRoute("0.0.0.0", 0);
@@ -149,7 +147,7 @@ public class SinkholeService extends VpnService {
         // Add list of allowed applications
         for (Rule rule : Rule.getRules(true, TAG, this)) {
             boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
-            if ((!blocked || (rule.unused && interactive)) && (!metered || !(rule.roaming && roaming))) {
+            if ((!blocked || (rule.unused && interactive)) && (!metered || !(rule.roaming && last_roaming))) {
                 if (debug)
                     Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
@@ -341,6 +339,9 @@ public class SinkholeService extends VpnService {
 
         mServiceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(mServiceLooper);
+
+        last_roaming = Util.isRoaming(SinkholeService.this);
+        last_generation = Util.getNetworkGeneration(SinkholeService.this);
 
         // Listen for interactive state changes
         IntentFilter ifInteractive = new IntentFilter();
