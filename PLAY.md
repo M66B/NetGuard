@@ -39,6 +39,7 @@ Features:
 - No internet permission required
 - IPv4/IPv6 TCP/UDP supported
 - Block system and user applications
+- Material design
 
 Most of these features are the result of sending selected traffic to a VPN sinkhole, instead of filtering all internet traffic.
 This means that advanced features, like address-based filtering (needed for hosts blocking), traffic logging, and on-demand configuration, are not possible.

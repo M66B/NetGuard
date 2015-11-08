@@ -37,6 +37,7 @@ Features
 * No internet permission required
 * IPv4/IPv6 TCP/UDP supported
 * Block system and user applications
+* Material design
 
 Most of these features are the result of sending selected traffic to a sinkhole, instead of filtering all internet traffic.
 This means that advanced features, like address based filtering (needed for ad blocking), traffic logging, and on-demand configuration, are not possible.
