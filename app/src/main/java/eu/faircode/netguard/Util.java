@@ -109,7 +109,7 @@ public class Util {
         if (ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE)
             return getNetworkGeneration(ni.getSubtype());
         else
-            return "?";
+            return "";
     }
 
     public static boolean isMetered(Context context) {

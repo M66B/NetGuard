@@ -302,14 +302,14 @@ public class SinkholeService extends VpnService {
         public void onDataConnectionStateChanged(int state, int networkType) {
             Log.i(TAG, "Data connection changed state=" + state + " network type=" + networkType);
 
-            if (state == TelephonyManager.DATA_CONNECTED) {
-                String networkGeneration = Util.getNetworkGeneration(networkType);
-                if (!last_generation.equals(networkGeneration)) {
-                    // Network generation changed
-                    last_generation = networkGeneration;
-                    Log.i(TAG, "New network generation=" + last_generation);
+            String networkGeneration = (state == TelephonyManager.DATA_CONNECTED ? Util.getNetworkGeneration(networkType) : "");
+            if (!last_generation.equals(networkGeneration)) {
+                // Network generation changed
+                last_generation = networkGeneration;
+                Log.i(TAG, "New network generation=" + last_generation);
 
-                    // Check if reload needed
+                // Check if reload needed
+                if (state == TelephonyManager.DATA_CONNECTED) {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
                     if (!prefs.getBoolean("metered_2g", true) ||
                             !prefs.getBoolean("metered_3g", true) ||
@@ -360,6 +360,7 @@ public class SinkholeService extends VpnService {
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
 
+        // Listen for data connection state changes
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
     }
