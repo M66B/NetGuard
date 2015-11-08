@@ -54,6 +54,7 @@ public class SinkholeService extends VpnService {
 
     private boolean foreground;
     private boolean last_roaming;
+    private String last_generation = null;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
     private Thread thread = null;
@@ -88,6 +89,7 @@ public class SinkholeService extends VpnService {
                     }
                     if (vpn == null) {
                         last_roaming = Util.isRoaming(SinkholeService.this);
+                        last_generation = Util.getNetworkGeneration(SinkholeService.this);
                         vpn = startVPN();
                         startDebug(vpn);
                     }
@@ -130,7 +132,11 @@ public class SinkholeService extends VpnService {
         boolean wifi = Util.isWifiActive(this);
         boolean roaming = Util.isRoaming(this);
         boolean interactive = Util.isInteractive(this);
-        Log.i(TAG, "metered=" + metered + " wifi=" + wifi + " roaming=" + roaming + " interactive=" + interactive);
+        Log.i(TAG, "metered=" + metered +
+                " wifi=" + wifi +
+                " roaming=" + roaming +
+                " generation=" + last_generation +
+                " interactive=" + interactive);
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -296,13 +302,22 @@ public class SinkholeService extends VpnService {
     private PhoneStateListener phoneStateListener = new PhoneStateListener() {
         @Override
         public void onDataConnectionStateChanged(int state, int networkType) {
-            Log.i(TAG, "Data connection state changed state=" + state + " network type=" + networkType);
+            Log.i(TAG, "Data connection changed state=" + state + " network type=" + networkType);
+
             if (state == TelephonyManager.DATA_CONNECTED) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-                if (!prefs.getBoolean("metered_2g", true) ||
-                        !prefs.getBoolean("metered_3g", true) ||
-                        !prefs.getBoolean("metered_4g", true))
-                    reload(null, SinkholeService.this);
+                String networkGeneration = Util.getNetworkGeneration(networkType);
+                if (!last_generation.equals(networkGeneration)) {
+                    // Network generation changed
+                    last_generation = networkGeneration;
+                    Log.i(TAG, "New network generation=" + last_generation);
+
+                    // Check if reload needed
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                    if (!prefs.getBoolean("metered_2g", true) ||
+                            !prefs.getBoolean("metered_3g", true) ||
+                            !prefs.getBoolean("metered_4g", true))
+                        reload(null, SinkholeService.this);
+                }
             }
         }
     };

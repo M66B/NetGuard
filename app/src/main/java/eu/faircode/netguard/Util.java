@@ -75,39 +75,57 @@ public class Util {
 
     }
 
+    public static String getNetworkGeneration(int networkType) {
+        switch (networkType) {
+            case TelephonyManager.NETWORK_TYPE_1xRTT:
+            case TelephonyManager.NETWORK_TYPE_CDMA:
+            case TelephonyManager.NETWORK_TYPE_EDGE:
+            case TelephonyManager.NETWORK_TYPE_GPRS:
+            case TelephonyManager.NETWORK_TYPE_IDEN:
+                return "2G";
+
+            case TelephonyManager.NETWORK_TYPE_EHRPD:
+            case TelephonyManager.NETWORK_TYPE_EVDO_0:
+            case TelephonyManager.NETWORK_TYPE_EVDO_A:
+            case TelephonyManager.NETWORK_TYPE_EVDO_B:
+            case TelephonyManager.NETWORK_TYPE_HSDPA:
+            case TelephonyManager.NETWORK_TYPE_HSPA:
+            case TelephonyManager.NETWORK_TYPE_HSPAP:
+            case TelephonyManager.NETWORK_TYPE_HSUPA:
+            case TelephonyManager.NETWORK_TYPE_UMTS:
+                return "3G";
+
+            case TelephonyManager.NETWORK_TYPE_LTE:
+                return "4G";
+
+            default:
+                return "?G";
+        }
+    }
+
+    public static String getNetworkGeneration(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE)
+            return getNetworkGeneration(ni.getSubtype());
+        else
+            return "?";
+    }
+
     public static boolean isMetered(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         boolean metered = cm.isActiveNetworkMetered();
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (metered && ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            switch (ni.getSubtype()) {
-                case TelephonyManager.NETWORK_TYPE_1xRTT:
-                case TelephonyManager.NETWORK_TYPE_CDMA:
-                case TelephonyManager.NETWORK_TYPE_EDGE:
-                case TelephonyManager.NETWORK_TYPE_GPRS:
-                case TelephonyManager.NETWORK_TYPE_IDEN:
-                    return prefs.getBoolean("metered_2g", true);
-
-                case TelephonyManager.NETWORK_TYPE_EHRPD:
-                case TelephonyManager.NETWORK_TYPE_EVDO_0:
-                case TelephonyManager.NETWORK_TYPE_EVDO_A:
-                case TelephonyManager.NETWORK_TYPE_EVDO_B:
-                case TelephonyManager.NETWORK_TYPE_HSDPA:
-                case TelephonyManager.NETWORK_TYPE_HSPA:
-                case TelephonyManager.NETWORK_TYPE_HSPAP:
-                case TelephonyManager.NETWORK_TYPE_HSUPA:
-                case TelephonyManager.NETWORK_TYPE_UMTS:
-                    return prefs.getBoolean("metered_3g", true);
-
-                case TelephonyManager.NETWORK_TYPE_LTE:
-                    return prefs.getBoolean("metered_4g", true);
-
-                default:
-                    Log.w(Util.class.getName(), "Unknown network subtype=" + ni.getSubtype());
-            }
+            String networkType = getNetworkGeneration(ni.getSubtype());
+            if ("2G".equals(networkType))
+                return prefs.getBoolean("metered_2g", true);
+            if ("3G".equals(networkType))
+                return prefs.getBoolean("metered_3g", true);
+            if ("4G".equals(networkType))
+                return prefs.getBoolean("metered_4g", true);
         }
-
         return metered;
     }
 
