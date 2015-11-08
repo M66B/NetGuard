@@ -16,9 +16,6 @@ These issues are caused by bugs in Android, or in the software provided by the m
     <string name="setting_whitelist_wifi">Wi-Fi 차단을 기본 설정으로</string>
     <string name="setting_whitelist_other">모바일 데이터 차단을 기본 설정으로</string>
     <string name="setting_whitelist_roaming">Block roaming by default</string>
-    <string name="setting_metered_2g">2G is metered</string>
-    <string name="setting_metered_3g">3G is metered</string>
-    <string name="setting_metered_4g">4G is metered</string>
     <string name="setting_system">Manage system applications</string>
     <string name="setting_dark">어두운 테마 사용</string>
     <string name="setting_indicators">Show state indicators</string>

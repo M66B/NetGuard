@@ -38,8 +38,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -54,7 +52,6 @@ public class SinkholeService extends VpnService {
 
     private boolean foreground;
     private boolean last_roaming;
-    private String last_generation = null;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
     private Thread thread = null;
@@ -132,7 +129,6 @@ public class SinkholeService extends VpnService {
         Log.i(TAG, "wifi=" + wifi +
                 " metered=" + metered +
                 " roaming=" + last_roaming +
-                " generation=" + last_generation +
                 " interactive=" + interactive);
 
         // Build VPN service
@@ -297,29 +293,6 @@ public class SinkholeService extends VpnService {
         }
     };
 
-    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
-        @Override
-        public void onDataConnectionStateChanged(int state, int networkType) {
-            Log.i(TAG, "Data connection changed state=" + state + " network type=" + networkType);
-
-            String networkGeneration = (state == TelephonyManager.DATA_CONNECTED ? Util.getNetworkGeneration(networkType) : "");
-            if (!last_generation.equals(networkGeneration)) {
-                // Network generation changed
-                last_generation = networkGeneration;
-                Log.i(TAG, "New network generation=" + last_generation);
-
-                // Check if reload needed
-                if (state == TelephonyManager.DATA_CONNECTED) {
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-                    if (!prefs.getBoolean("metered_2g", true) ||
-                            !prefs.getBoolean("metered_3g", true) ||
-                            !prefs.getBoolean("metered_4g", true))
-                        reload(null, SinkholeService.this);
-                }
-            }
-        }
-    };
-
     private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -341,7 +314,6 @@ public class SinkholeService extends VpnService {
         mServiceHandler = new ServiceHandler(mServiceLooper);
 
         last_roaming = Util.isRoaming(SinkholeService.this);
-        last_generation = Util.getNetworkGeneration(SinkholeService.this);
 
         // Listen for interactive state changes
         IntentFilter ifInteractive = new IntentFilter();
@@ -359,10 +331,6 @@ public class SinkholeService extends VpnService {
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
-
-        // Listen for data connection state changes
-        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
     }
 
     @Override
@@ -389,9 +357,6 @@ public class SinkholeService extends VpnService {
         unregisterReceiver(interactiveStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageAddedReceiver);
-
-        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
 
         if (vpn != null) {
             stopDebug();

@@ -47,8 +47,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -80,7 +78,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private ImageView ivInteractive;
     private ImageView ivNetwork;
     private ImageView ivMetered;
-    private TextView tvGeneration;
     private SwipeRefreshLayout swipeRefresh;
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
@@ -123,7 +120,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         ivInteractive = (ImageView) actionView.findViewById(R.id.ivInteractive);
         ivNetwork = (ImageView) actionView.findViewById(R.id.ivNetwork);
         ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
-        tvGeneration = (TextView) actionView.findViewById(R.id.tvGeneration);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(actionView);
 
@@ -225,10 +221,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         intentFilter.addDataScheme("package");
         registerReceiver(packageChangedReceiver, intentFilter);
 
-        // Listen for data connection state changes
-        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
-
         // Connect to billing
         if (Util.hasValidFingerprint(TAG, this)) {
             Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
@@ -282,9 +274,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         unregisterReceiver(interactiveStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageChangedReceiver);
-
-        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
 
         if (IABService != null) {
             unbindService(IABConnection);
@@ -418,17 +407,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
             updateApplicationList();
-        }
-    };
-
-    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
-        @Override
-        public void onDataConnectionStateChanged(int state, int networkType) {
-            Log.i(TAG, "Data connection changed state=" + state + " network type=" + networkType);
-            if (state == TelephonyManager.DATA_CONNECTED)
-                tvGeneration.setText(Util.getNetworkGeneration(networkType));
-            else
-                tvGeneration.setText("");
         }
     };
 

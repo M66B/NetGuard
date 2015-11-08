@@ -43,13 +43,5 @@
             android:layout_marginStart="4dp"
             android:src="@drawable/metered"
             android:visibility="invisible" />
-
-        <TextView
-            android:id="@+id/tvGeneration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textAppearance="@android:style/TextAppearance.Material.Small"
-            android:textColor="@android:color/white" />
     </LinearLayout>
 </LinearLayout>

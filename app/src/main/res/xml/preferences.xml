@@ -13,18 +13,6 @@
         android:key="whitelist_roaming"
         android:title="@string/setting_whitelist_roaming" />
     <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="metered_2g"
-        android:title="@string/setting_metered_2g" />
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="metered_3g"
-        android:title="@string/setting_metered_3g" />
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="metered_4g"
-        android:title="@string/setting_metered_4g" />
-    <CheckBoxPreference
         android:defaultValue="false"
         android:key="manage_system"
         android:summary="@string/summary_system"

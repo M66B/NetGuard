@@ -22,13 +22,8 @@ package eu.faircode.netguard;
 import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -38,7 +33,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -75,58 +69,9 @@ public class Util {
 
     }
 
-    public static String getNetworkGeneration(int networkType) {
-        switch (networkType) {
-            case TelephonyManager.NETWORK_TYPE_1xRTT:
-            case TelephonyManager.NETWORK_TYPE_CDMA:
-            case TelephonyManager.NETWORK_TYPE_EDGE:
-            case TelephonyManager.NETWORK_TYPE_GPRS:
-            case TelephonyManager.NETWORK_TYPE_IDEN:
-                return "2G";
-
-            case TelephonyManager.NETWORK_TYPE_EHRPD:
-            case TelephonyManager.NETWORK_TYPE_EVDO_0:
-            case TelephonyManager.NETWORK_TYPE_EVDO_A:
-            case TelephonyManager.NETWORK_TYPE_EVDO_B:
-            case TelephonyManager.NETWORK_TYPE_HSDPA:
-            case TelephonyManager.NETWORK_TYPE_HSPA:
-            case TelephonyManager.NETWORK_TYPE_HSPAP:
-            case TelephonyManager.NETWORK_TYPE_HSUPA:
-            case TelephonyManager.NETWORK_TYPE_UMTS:
-                return "3G";
-
-            case TelephonyManager.NETWORK_TYPE_LTE:
-                return "4G";
-
-            default:
-                return "?G";
-        }
-    }
-
-    public static String getNetworkGeneration(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE)
-            return getNetworkGeneration(ni.getSubtype());
-        else
-            return "";
-    }
-
     public static boolean isMetered(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        boolean metered = cm.isActiveNetworkMetered();
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (metered && ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            String networkType = getNetworkGeneration(ni.getSubtype());
-            if ("2G".equals(networkType))
-                return prefs.getBoolean("metered_2g", true);
-            if ("3G".equals(networkType))
-                return prefs.getBoolean("metered_3g", true);
-            if ("4G".equals(networkType))
-                return prefs.getBoolean("metered_4g", true);
-        }
-        return metered;
+        return cm.isActiveNetworkMetered();
     }
 
     public static boolean isInteractive(Context context) {

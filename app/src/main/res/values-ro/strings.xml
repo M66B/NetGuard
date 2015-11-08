@@ -16,9 +16,6 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_whitelist_wifi">Blocheaza implicit Wi-Fi</string>
     <string name="setting_whitelist_other">Blocheaza implicit date mobile</string>
     <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
-    <string name="setting_metered_2g">Conexiune contorizata 2G</string>
-    <string name="setting_metered_3g">Conexiune contorizata 3G</string>
-    <string name="setting_metered_4g">Conexiune contorizata 4G</string>
     <string name="setting_system">Gestionati aplicatiile de sistem</string>
     <string name="setting_dark">Foloseste tema intunecata</string>
     <string name="setting_indicators">Arata indicatorii de stare</string>
