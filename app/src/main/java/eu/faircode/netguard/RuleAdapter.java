@@ -185,7 +185,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         holder.llApplication.setOnClickListener(llListener);
 
-        if (rule.info.applicationInfo.icon == 0)
+        if (rule.info.applicationInfo == null || rule.info.applicationInfo.icon == 0)
             Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
         else {
             Uri uri = Uri.parse("android.resource://" + rule.info.packageName + "/" + rule.info.applicationInfo.icon);
@@ -213,7 +213,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.unused) ? View.VISIBLE : View.INVISIBLE);
 
         holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
-        holder.tvPackage.setText(rule.info.packageName);
+        if (rule.info.applicationInfo == null)
+            holder.tvPackage.setText(rule.info.packageName);
+        else
+            holder.tvPackage.setText(rule.info.applicationInfo.uid + " " + rule.info.packageName);
 
         holder.cbUsing.setOnCheckedChangeListener(null);
         holder.cbUsing.setChecked(rule.unused);
@@ -332,7 +335,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     query = query.toString().toLowerCase();
                     for (Rule rule : listAll)
                         if (rule.info.packageName.toLowerCase().contains(query) ||
-                                (rule.name != null && rule.name.toLowerCase().contains(query)))
+                                (rule.name != null && rule.name.toLowerCase().contains(query)) ||
+                                (rule.info.applicationInfo != null && Integer.toString(rule.info.applicationInfo.uid).contains(query)))
                             listResult.add(rule);
                 }
 
