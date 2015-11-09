@@ -8,7 +8,7 @@ NetGuard
 
 Short description
 -----------------
-Netguard, primul firewall de Android cu sursa deschisa ce nu necesita root 
+Netguard, primul firewall cu sursa deschisa ce nu necesita root 
 
 
 Long description
