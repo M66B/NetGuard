@@ -8,8 +8,8 @@
 \n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
 
     <string name="menu_search">搜索应用</string>
-    <string name="menu_settings">Settings</string>
-    <string name="menu_invite">Invite</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_invite">邀请</string>
     <string name="menu_support">软件支持</string>
     <string name="menu_about">关于</string>
 
@@ -18,26 +18,26 @@
     <string name="setting_whitelist_roaming">默认阻止漫游</string>
     <string name="setting_system">管理系统应用</string>
     <string name="setting_dark">使用暗色主题</string>
-    <string name="setting_foreground">Start as foreground service</string>
+    <string name="setting_foreground">作为前台服务启动</string>
     <string name="setting_export">导出设置</string>
     <string name="setting_import">导入设置</string>
     <string name="setting_vpn">打开安卓VPN设置</string>
 
     <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
-    <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
+    <string name="summary_foreground">前台服务在状态栏显示常驻通知,被系统终止的可能性较低</string>
 
     <string name="msg_sure">是否确认?</string>
-    <string name="msg_started">Enforcing rules</string>
+    <string name="msg_started">规则加载中</string>
     <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
     <string name="msg_revoked">NetGuard已被停用</string>
     <string name="msg_completed">操作完成</string>
     <string name="msg_vpn">NetGuard使用一个本地VPN服务来重定向被阻挡的网络流量, 因此请在下一个对话框中允许建立VPN连接</string>
-    <string name="msg_try">Try NetGuard</string>
+    <string name="msg_try">试用NetGuard</string>
 
     <string name="title_using">设备使用时允许</string>
     <string name="title_roaming">漫游时阻止</string>
     <string name="title_launch">启动应用</string>
     <string name="title_donate">捐赠</string>
-    <string name="title_rate">Rate</string>
+    <string name="title_rate">评分</string>
     <string name="title_thanks">感谢您的捐赠!</string>
 </resources>
