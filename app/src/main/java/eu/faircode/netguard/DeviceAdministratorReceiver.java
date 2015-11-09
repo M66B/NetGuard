@@ -22,6 +22,8 @@ package eu.faircode.netguard;
 import android.app.admin.DeviceAdminReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class DeviceAdministratorReceiver extends DeviceAdminReceiver {
@@ -31,11 +33,15 @@ public class DeviceAdministratorReceiver extends DeviceAdminReceiver {
     public void onEnabled(Context context, Intent intent) {
         super.onEnabled(context, intent);
         Log.i(TAG, "Device admin enabled");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putBoolean("admin", true).apply();
     }
 
     @Override
     public void onDisabled(Context context, Intent intent) {
         super.onDisabled(context, intent);
         Log.i(TAG, "Device admin disabled");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putBoolean("admin", false).apply();
     }
 }
