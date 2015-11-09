@@ -133,7 +133,7 @@ public class Util {
                 stringBuilder.append(key)
                         .append("=")
                         .append(value)
-                        .append(value == null ? "" : " (" + value.getClass().getName() + ")")
+                        .append(value == null ? "" : " (" + value.getClass().getSimpleName() + ")")
                         .append("\r\n");
             }
             Log.d(tag, stringBuilder.toString());
