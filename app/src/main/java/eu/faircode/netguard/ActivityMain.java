@@ -591,21 +591,22 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
                     @Override
                     protected void onPostExecute(Object result) {
-                        try {
-                            if (result instanceof Boolean && (Boolean) result && IABService != null) {
-                                IntentSender sender = IABgetIntent(SKU_DONATE, IABService, ActivityMain.this);
-                                startIntentSenderForResult(sender, REQUEST_IAB, new Intent(), 0, 0, 0);
-                            } else {
-                                Intent donate = new Intent(Intent.ACTION_VIEW);
-                                donate.setData(Uri.parse("http://www.netguard.me/"));
-                                startActivity(donate);
+                        if (running)
+                            try {
+                                if (result instanceof Boolean && (Boolean) result && IABService != null) {
+                                    IntentSender sender = IABgetIntent(SKU_DONATE, IABService, ActivityMain.this);
+                                    startIntentSenderForResult(sender, REQUEST_IAB, new Intent(), 0, 0, 0);
+                                } else {
+                                    Intent donate = new Intent(Intent.ACTION_VIEW);
+                                    donate.setData(Uri.parse("http://www.netguard.me/"));
+                                    startActivity(donate);
+                                }
+                            } catch (Throwable ex) {
+                                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                                Toast.makeText(ActivityMain.this, result.toString(), Toast.LENGTH_LONG).show();
+                            } finally {
+                                btnDonate.setEnabled(true);
                             }
-                        } catch (Throwable ex) {
-                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                            Toast.makeText(ActivityMain.this, result.toString(), Toast.LENGTH_LONG).show();
-                        } finally {
-                            btnDonate.setEnabled(true);
-                        }
                     }
                 }.execute();
             }
@@ -651,9 +652,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             @Override
             protected void onPostExecute(Object result) {
-                boolean purchased = (result instanceof Boolean && (Boolean) result);
-                btnDonate.setVisibility(purchased ? View.GONE : View.VISIBLE);
-                tvThanks.setVisibility(purchased ? View.VISIBLE : View.GONE);
+                if (running) {
+                    boolean purchased = (result instanceof Boolean && (Boolean) result);
+                    btnDonate.setVisibility(purchased ? View.GONE : View.VISIBLE);
+                    tvThanks.setVisibility(purchased ? View.VISIBLE : View.GONE);
+                }
             }
         }.execute();
     }
