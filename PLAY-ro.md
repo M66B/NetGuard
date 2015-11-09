@@ -36,7 +36,9 @@ Caracteristici:
 - Fara reclama
 - Nu necesita acces la internet
 - Suporta IPv4/IPv6 TCP/UDP
-- Blocheaza atat aplicatiile de sistem cat si cele ale utilizatorului
+- Optional permite cand ecranul e pornit
+- Optional blocheaza in roaming
+- Optional blocheaza aplicatiile de sistem
 - Design Material
 
 Majoritatea functiilor sunt rezultatul trimiterii traficului selectat intr-o "gaura neagra", in loc sa fie filtrat tot traficul de internet.
