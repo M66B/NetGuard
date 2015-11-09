@@ -24,7 +24,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_vpn">Abrir configuración VPN de Android</string>
 
     <string name="summary_system">Define rules for system applications (for experts)</string>
-    <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
+    <string name="summary_foreground">Foreground services show an ongoing notification in the status bar and have less chance of being killed by Android</string>
 
     <string name="msg_sure">¿Estás seguro?</string>
     <string name="msg_started">Enforcing rules</string>

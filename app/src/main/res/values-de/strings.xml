@@ -23,7 +23,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="setting_vpn">Öffne Android VPN Einstellungen</string>
 
     <string name="summary_system">Regeln für System Apps definieren, nur für Experten</string>
-    <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
+    <string name="summary_foreground">Foreground services show an ongoing notification in the status bar and have less chance of being killed by Android</string>
 
     <string name="msg_sure">Bist du sicher?</string>
     <string name="msg_started">Enforcing rules</string>

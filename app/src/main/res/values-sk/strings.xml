@@ -24,7 +24,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="setting_vpn">Otvoriť nastavenia VPN</string>
 
     <string name="summary_system">Define rules for system applications (for experts)</string>
-    <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
+    <string name="summary_foreground">Foreground services show an ongoing notification in the status bar and have less chance of being killed by Android</string>
 
     <string name="msg_sure">Ste si istý?</string>
     <string name="msg_started">Enforcing rules</string>
