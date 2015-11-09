@@ -23,7 +23,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_import">Importa setari</string>
     <string name="setting_vpn">Deschide setari VPN Android</string>
 
-    <string name="summary_system">Gestionare aplicatii de sistem (setare expert)</string>
+    <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
     <string name="summary_foreground">Serviciul in prim plan arata o notificare in bara de stare si e mai putin probabil sa fie inchis de sistemul Android</string>
 
     <string name="msg_sure">Esti sigur?</string>
