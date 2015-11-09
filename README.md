@@ -171,7 +171,7 @@ since it is not actually shown there (but manually added VPN connections are) an
 
 Besides that this requires questionable Android permissions,
 it is not possible to implement this, given the way NetGuard works.
-For more details, see question 5.
+For more details, see [question 5](#FAQ5).
 
 Support
 -------
