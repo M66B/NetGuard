@@ -125,11 +125,24 @@
             android:text="@string/title_roaming"
             android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
-        <Button
-            android:id="@+id/btnLaunch"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@string/title_launch" />
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_settings_white_24dp" />
+
+            <Button
+                android:id="@+id/btnLaunch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/title_launch" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

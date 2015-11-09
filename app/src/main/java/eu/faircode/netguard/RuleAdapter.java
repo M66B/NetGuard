@@ -20,6 +20,7 @@ package eu.faircode.netguard;
 */
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -37,6 +38,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -73,6 +75,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public LinearLayout llConfiguration;
         public CheckBox cbUsing;
         public CheckBox cbRoaming;
+        public ImageButton btnSettings;
         public Button btnLaunch;
 
         public ViewHolder(View itemView) {
@@ -95,6 +98,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             tvPackage = (TextView) itemView.findViewById(R.id.tvPackage);
             cbUsing = (CheckBox) itemView.findViewById(R.id.cbUsing);
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
+            btnSettings = (ImageButton) itemView.findViewById(R.id.btnSettings);
             btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
 
             final View wifiParent = (View) cbWifi.getParent();
@@ -270,6 +274,19 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
+        // Launch application settings
+        final Intent settings = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        settings.setData(Uri.parse("package:" + rule.info.packageName));
+        holder.btnSettings.setVisibility(
+                settings.resolveActivity(context.getPackageManager()) == null || !Util.isDebuggable(context) ? View.GONE : View.VISIBLE);
+        holder.btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(settings);
+            }
+        });
+
+        // Launch application
         holder.btnLaunch.setVisibility(rule.intent == null ? View.GONE : View.VISIBLE);
         holder.btnLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
