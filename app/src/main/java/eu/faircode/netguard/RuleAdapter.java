@@ -52,6 +52,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private static final String TAG = "NetGuard.Adapter";
 
     private Context context;
+    private boolean debuggable;
     private int colorText;
     private int colorAccent;
     private List<Rule> listAll = new ArrayList<>();
@@ -131,6 +132,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     public RuleAdapter(Context context) {
         this.context = context;
+        this.debuggable = Util.isDebuggable(context);
         colorAccent = ContextCompat.getColor(context, R.color.colorAccent);
         TypedArray ta = context.getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
         try {
@@ -217,7 +219,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.unused) ? View.VISIBLE : View.INVISIBLE);
 
         holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
-        if (rule.info.applicationInfo == null)
+        if (!debuggable || rule.info.applicationInfo == null)
             holder.tvPackage.setText(rule.info.packageName);
         else
             holder.tvPackage.setText(rule.info.applicationInfo.uid + " " + rule.info.packageName);
@@ -278,7 +280,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         final Intent settings = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         settings.setData(Uri.parse("package:" + rule.info.packageName));
         holder.btnSettings.setVisibility(
-                settings.resolveActivity(context.getPackageManager()) == null || !Util.isDebuggable(context) ? View.GONE : View.VISIBLE);
+                !debuggable || settings.resolveActivity(context.getPackageManager()) == null ? View.GONE : View.VISIBLE);
         holder.btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -287,7 +289,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         });
 
         // Launch application
-        holder.btnLaunch.setVisibility(rule.intent == null ? View.GONE : View.VISIBLE);
+        holder.btnLaunch.setVisibility(!debuggable || rule.intent == null ? View.GONE : View.VISIBLE);
         holder.btnLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -353,7 +355,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     for (Rule rule : listAll)
                         if (rule.info.packageName.toLowerCase().contains(query) ||
                                 (rule.name != null && rule.name.toLowerCase().contains(query)) ||
-                                (rule.info.applicationInfo != null && Integer.toString(rule.info.applicationInfo.uid).contains(query)))
+                                (debuggable && rule.info.applicationInfo != null &&
+                                        Integer.toString(rule.info.applicationInfo.uid).contains(query)))
                             listResult.add(rule);
                 }
 
