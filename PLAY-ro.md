@@ -8,12 +8,12 @@ NetGuard
 
 Short description
 -----------------
-Netguard, primul firewall cu sursa deschisa ce nu necesita root 
+Netguard, primul firewall gratis si cu sursa deschisa ce nu necesita root 
 
 
 Long description
 ----------------
-NetGuard este un mod simplu de a bloca accesul la internet ce nu necesita acces root.
+NetGuard ofera un mod simplu de a bloca accesul la internet ce nu necesita acces root.
 
 Accesul aplicatiilor la conexiunile Wi-Fi si/sau mobile poate fi permis sau blocat la nivel individual.
 
@@ -22,8 +22,6 @@ Blocarea accesului la internet poate ajuta la:
 - reducerea consumului de date mobile
 - reducerea consumului bateriei
 - protejarea mai buna a intimitatii
-
-NetGuard este poate chiar primul firewall gratis si cu sursa deschisa ce nu necesita acces root pe Android.
 
 Caracteristici:
 
