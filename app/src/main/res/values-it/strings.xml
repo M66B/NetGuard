@@ -19,14 +19,12 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="setting_whitelist_roaming">Blocca roaming di default</string>
     <string name="setting_system">Gestisci applicazioni di sistema</string>
     <string name="setting_dark">Usa il tema scuro</string>
-    <string name="setting_indicators">Mostra indicatori di stato</string>
     <string name="setting_foreground">Avvia come servizio in primo piano</string>
     <string name="setting_export">Esporta impostazioni</string>
     <string name="setting_import">Importa impostazioni</string>
     <string name="setting_vpn">Apri impostazioni VPN</string>
 
     <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
-    <string name="summary_indicators">Mostra, nella action bar, il tipo di rete e se la rete è a consumo</string>
     <string name="summary_foreground">I servizi in primo piano mostrano una notifica nella barra di stato e hanno meno probabilitá di essere terminati da Android</string>
 
     <string name="msg_sure">Sei sicuro?</string>

@@ -173,7 +173,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         });
 
         // Indicators
-        llIndicators.setVisibility(prefs.getBoolean("indicators", false) ? View.VISIBLE : View.GONE);
+        llIndicators.setVisibility(Util.isDebuggable(this) ? View.VISIBLE : View.GONE);
 
         // Disabled warning
         TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);

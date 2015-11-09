@@ -18,14 +18,12 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_whitelist_roaming">Bloquear roaming por defecto</string>
     <string name="setting_system">Administrar aplicaciones de sistema</string>
     <string name="setting_dark">Usar tema oscuro</string>
-    <string name="setting_indicators">Show state indicators</string>
     <string name="setting_foreground">Start as foreground service</string>
     <string name="setting_export">Exportar configuración</string>
     <string name="setting_import">Importar configuración</string>
     <string name="setting_vpn">Abrir configuración VPN de Android</string>
 
     <string name="summary_system">Define rules for system applications (for experts)</string>
-    <string name="summary_indicators">Display the network type and if the network is metered in the action bar</string>
     <string name="summary_foreground">Foreground services show on ongoing notification in the status bar and have less chance of being killed by Android</string>
 
     <string name="msg_sure">¿Estás seguro?</string>

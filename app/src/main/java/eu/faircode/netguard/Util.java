@@ -22,6 +22,7 @@ package eu.faircode.netguard;
 import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -86,6 +87,10 @@ public class Util {
         } catch (PackageManager.NameNotFoundException ignored) {
             return false;
         }
+    }
+
+    public static boolean isDebuggable(Context context) {
+        return ((context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
     }
 
     public static void toast(final String text, final int length, final Context context) {

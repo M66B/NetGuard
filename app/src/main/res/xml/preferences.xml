@@ -23,11 +23,6 @@
         android:title="@string/setting_dark" />
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="indicators"
-        android:summary="@string/summary_indicators"
-        android:title="@string/setting_indicators" />
-    <CheckBoxPreference
-        android:defaultValue="false"
         android:key="foreground"
         android:summary="@string/summary_foreground"
         android:title="@string/setting_foreground" />
