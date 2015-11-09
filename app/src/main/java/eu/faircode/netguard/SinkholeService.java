@@ -34,6 +34,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -66,6 +67,17 @@ public class SinkholeService extends VpnService {
 
     private enum Command {start, reload, stop}
 
+    private static volatile PowerManager.WakeLock wlInstance = null;
+
+    synchronized private static PowerManager.WakeLock getLock(Context context) {
+        if (wlInstance == null) {
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            wlInstance = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, context.getString(R.string.app_name));
+            wlInstance.setReferenceCounted(true);
+        }
+        return wlInstance;
+    }
+
     private final class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
             super(looper);
@@ -73,7 +85,20 @@ public class SinkholeService extends VpnService {
 
         @Override
         public void handleMessage(Message msg) {
-            Intent intent = (Intent) msg.obj;
+            try {
+                handleIntent((Intent) msg.obj);
+            } finally {
+                try {
+                    PowerManager.WakeLock wl = getLock(SinkholeService.this);
+                    wl.release();
+                    Log.i(TAG, "wakelock=" + wl.isHeld());
+                } catch (Exception ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+            }
+        }
+
+        private void handleIntent(Intent intent) {
             Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
 
@@ -335,6 +360,11 @@ public class SinkholeService extends VpnService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // Intent redelivery
+        PowerManager.WakeLock wl = getLock(this);
+        if (!wl.isHeld())
+            wl.acquire();
+
         // Get command
         final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
@@ -421,6 +451,7 @@ public class SinkholeService extends VpnService {
     }
 
     public static void start(Context context) {
+        getLock(context).acquire();
         Intent intent = new Intent(context, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         context.startService(intent);
@@ -430,6 +461,7 @@ public class SinkholeService extends VpnService {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getBoolean("enabled", false))
             if (network == null || ("wifi".equals(network) ? !Util.isMetered(context) : Util.isMetered(context))) {
+                getLock(context).acquire();
                 Intent intent = new Intent(context, SinkholeService.class);
                 intent.putExtra(EXTRA_COMMAND, Command.reload);
                 context.startService(intent);
@@ -437,6 +469,7 @@ public class SinkholeService extends VpnService {
     }
 
     public static void stop(Context context) {
+        getLock(context).acquire();
         Intent intent = new Intent(context, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         context.startService(intent);
