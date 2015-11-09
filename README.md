@@ -51,6 +51,7 @@ Usage
 
 * Enable the firewall using the switch in the action bar
 * Allow/deny WiFi/mobile internet access using the icons along the right side of the application list
+* Allow acces only when application is in use by touching the application name and checking '*Allow when device is in use*'
 
 Permissions
 -----------
