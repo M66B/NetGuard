@@ -36,8 +36,8 @@ Features
 * No ads
 * No internet permission required
 * IPv4/IPv6 TCP/UDP supported
-* Optionally block when roaming
 * Optionally allow when screen on
+* Optionally block when roaming
 * Optionally block system applications
 * Material design
 
