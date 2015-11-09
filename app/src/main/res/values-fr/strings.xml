@@ -34,7 +34,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic. For this reason, please allow a VPN connection in the next dialog</string>
     <string name="msg_try">Try NetGuard</string>
 
-    <string name="title_using">Permettre quand l\'appareil est utilisé</string>
+    <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">Bloquer si roaming</string>
     <string name="title_launch">Lancer l\'application</string>
     <string name="title_donate">Faire un don</string>

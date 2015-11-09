@@ -33,7 +33,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="msg_vpn">Netguard verwendet ein lokales VPN als Senkgrube für blockierten Netzwerkverkehr, daher muss im nächsten Dialog die VPN Verbindung bestätigt werden.</string>
     <string name="msg_try">Try NetGuard</string>
 
-    <string name="title_using">Erlauben wenn Gerät verwendet wird</string>
+    <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">Blockiere bei Roaming</string>
     <string name="title_launch">Starte App</string>
     <string name="title_donate">Spenden</string>

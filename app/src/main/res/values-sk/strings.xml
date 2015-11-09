@@ -34,7 +34,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky, a preto by ste mali povoliť VPN pripojenie v ďalšom okne</string>
     <string name="msg_try">Try NetGuard</string>
 
-    <string name="title_using">Povoliť pri používaní zariadenia</string>
+    <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">Blokovať pri roamingu</string>
     <string name="title_launch">Spustiť aplikáciu</string>
     <string name="title_donate">Prispieť</string>

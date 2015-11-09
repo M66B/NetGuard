@@ -34,7 +34,7 @@
     <string name="msg_vpn">NetGuard使用一个本地VPN服务来重定向被阻挡的网络流量, 因此请在下一个对话框中允许建立VPN连接</string>
     <string name="msg_try">试用NetGuard</string>
 
-    <string name="title_using">设备使用时允许</string>
+    <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">漫游时阻止</string>
     <string name="title_launch">启动应用</string>
     <string name="title_donate">捐赠</string>

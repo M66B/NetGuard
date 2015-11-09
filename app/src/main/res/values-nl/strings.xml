@@ -34,7 +34,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
     <string name="msg_vpn">NetGuard gebruikt een lokaal VPN als een sinkhole voor geblokkeerd internetverkeer, om deze reden moet u een VPN-verbinding in de volgende dialoog toestaan.</string>
     <string name="msg_try">Probeer NetGuard</string>
 
-    <string name="title_using">Sta toe als apparaat in gebruik</string>
+    <string name="title_using">Sta toe als scherm aan is</string>
     <string name="title_roaming">Blokkeer bij roamen</string>
     <string name="title_launch">Start applicatie</string>
     <string name="title_donate">Doneer</string>

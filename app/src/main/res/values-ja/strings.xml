@@ -34,7 +34,7 @@
     <string name="msg_completed">操作を完了しました</string>
     <string name="msg_vpn">NetGuard は、インターネットのトラフィックをブロックするために、下水口としてローカルの VPN を使用しています。このため、次のダイアログで VPN 接続を許可してください</string>
 
-    <string name="title_using">デバイスの使用中に許可する</string>
+    <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">ローミング時にブロック</string>
     <string name="title_launch">アプリケーションを開始</string>
     <string name="title_donate">寄付する</string>

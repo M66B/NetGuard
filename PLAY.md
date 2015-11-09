@@ -36,7 +36,9 @@ Features:
 - No ads
 - No internet permission required
 - IPv4/IPv6 TCP/UDP supported
-- Block system and user applications
+- Optionally block when roaming
+- Optionally allow when screen on
+- Optionally block system applications
 - Material design
 
 Most of these features are the result of sending selected traffic to a VPN sinkhole, instead of filtering all internet traffic.
