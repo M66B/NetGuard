@@ -30,7 +30,7 @@
     <string name="msg_revoked">NetGuard был отключен</string>
     <string name="msg_completed">Действие завершено</string>
     <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик. По этой причине, пожалуйста, разрешите VPN-подключения в следующем диалоговом окне.</string>
-    <string name="msg_try">Попробовать NetGuard</string>
+    <string name="msg_try">Попробуйте новый фаервол NetGuard</string>
 
     <string name="title_using">Разрешить, когда устройство используется</string>
     <string name="title_roaming">Блокировать в роуминге</string>
