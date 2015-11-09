@@ -267,7 +267,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
-        holder.btnLaunch.setEnabled(rule.intent != null);
+        holder.btnLaunch.setVisibility(rule.intent == null ? View.GONE : View.VISIBLE);
         holder.btnLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
