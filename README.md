@@ -17,6 +17,7 @@ Downloads:
 * [Play store](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
 * [Play store](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
 * [F-Droid](https://f-droid.org/repository/browse/?fdfilter=netguard&fdid=eu.faircode.netguard) (unsupported, often outdated)
+* [XDA Labs](URL="http://forum.xda-developers.com/android/apps-games/labs-t3241866"]) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
 
 <img src="screenshot1.png" width="320" height="569" />
 
