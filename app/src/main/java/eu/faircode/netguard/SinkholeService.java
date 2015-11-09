@@ -80,7 +80,7 @@ public class SinkholeService extends VpnService {
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
             switch (cmd) {
                 case start:
-                    if (prefs.getBoolean("foreground", false)) {
+                    if (prefs.getBoolean("foreground", true)) {
                         foreground = true;
                         startForeground(NOTIFY_FOREGROUND, getForegroundNotification());
                     }

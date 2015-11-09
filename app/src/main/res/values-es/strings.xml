@@ -17,8 +17,8 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_whitelist_other">Bloquear red móvil por defecto</string>
     <string name="setting_whitelist_roaming">Bloquear roaming por defecto</string>
     <string name="setting_system">Administrar aplicaciones de sistema</string>
-    <string name="setting_dark">Usar tema oscuro</string>
     <string name="setting_foreground">Start as foreground service</string>
+    <string name="setting_dark">Usar tema oscuro</string>
     <string name="setting_export">Exportar configuración</string>
     <string name="setting_import">Importar configuración</string>
     <string name="setting_vpn">Abrir configuración VPN de Android</string>
