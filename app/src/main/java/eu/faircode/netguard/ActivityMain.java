@@ -355,11 +355,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         } else if (requestCode == REQUEST_KEYGUARD) {
             // Handle confirm credentials
-            unlocked = (resultCode == RESULT_OK);
-            if (unlocked)
+            if (unlocked = (resultCode == RESULT_OK))
                 recreate();
-            //else
-            //    finish();
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
