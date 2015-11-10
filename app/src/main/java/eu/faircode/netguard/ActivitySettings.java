@@ -92,8 +92,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         });
 
         Preference pref_vpn = screen.findPreference("vpn");
-        pref_vpn.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
-        pref_vpn.setIntent(INTENT_VPN_SETTINGS);
+        if (Util.isDebuggable(this)) {
+            pref_vpn.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
+            pref_vpn.setIntent(INTENT_VPN_SETTINGS);
+        } else
+            screen.removePreference(pref_vpn);
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }

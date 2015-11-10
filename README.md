@@ -161,14 +161,6 @@ to apply the rules with the conditions '*Allow when device is in use*' and '*Blo
 If disabling NetGuard is allowed to Tasker, any application can disabled NetGuard too.
 Allowing to disable a security application from other applications is not a good idea.
 
-<a name="FAQ11"></a>
-**(11) What's the point of _Open Android VPN settings_?**
-
-It is there to give the user an option to revoke VPN permission from NetGuard, by tapping the settings icon left to revoke.
-Although on some devices / ROMs (eg. Samsung Galaxy A5 5.0.2 or Sony Xperia 5.1.1)
-the software manufacturer did not provide a way to interact with the created VPN connection
-since it is not actually shown there (but manually added VPN connections are) and hence you can't revoke its permissions if you wish so.
-
 <a name="FAQ12"></a>
 **(12) Can you add on demand asking to block/allow access?**
 
