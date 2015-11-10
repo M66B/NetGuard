@@ -416,6 +416,7 @@ public class SinkholeService extends VpnService {
                 .setContentIntent(pi)
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_SECRET)
+                .setPriority(Notification.PRIORITY_MIN)
                 .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setAutoCancel(true);
 
