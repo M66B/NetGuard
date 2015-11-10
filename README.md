@@ -58,6 +58,7 @@ Permissions
 
 * ACCESS_NETWORK_STATE: to check if the device is connected to the internet through WiFi
 * RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
+* WAKE_LOCK: to reliably reload rules in the background on connectivity changes
 * com.android.vending.BILLING: to accept donations via in-app billing
 
 Compatibility
