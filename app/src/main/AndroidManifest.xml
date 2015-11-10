@@ -63,7 +63,6 @@
 
         <receiver
             android:name=".DeviceAdministratorReceiver"
-            android:enabled="false"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data
                 android:name="android.app.device_admin"
