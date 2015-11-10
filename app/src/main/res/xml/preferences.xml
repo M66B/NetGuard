@@ -2,40 +2,32 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_network_wifi_white_24dp"
         android:key="whitelist_wifi"
         android:title="@string/setting_whitelist_wifi" />
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_network_cell_white_24dp"
         android:key="whitelist_other"
         android:title="@string/setting_whitelist_other" />
     <SwitchPreference
         android:defaultValue="true"
-        android:icon="@drawable/ic_network_cell_white_24dp_roaming"
         android:key="whitelist_roaming"
         android:title="@string/setting_whitelist_roaming" />
     <SwitchPreference
         android:defaultValue="false"
-        android:icon="@drawable/ic_settings_white_24dp"
         android:key="manage_system"
         android:summary="@string/summary_system"
         android:title="@string/setting_system" />
     <SwitchPreference
         android:defaultValue="false"
-        android:icon="@drawable/ic_wb_sunny_white_24dp"
         android:key="dark_theme"
         android:title="@string/setting_dark" />
     <Preference
-        android:icon="@drawable/ic_file_upload_white_24dp"
         android:key="export"
         android:title="@string/setting_export" />
     <Preference
-        android:icon="@drawable/ic_file_download_white_24dp"
         android:key="import"
         android:title="@string/setting_import" />
     <Preference
-        android:icon="@drawable/ic_settings_white_24dp"
         android:key="vpn"
         android:title="@string/setting_vpn" />
 </PreferenceScreen>
