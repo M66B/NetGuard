@@ -24,7 +24,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="setting_vpn">Otvoriť nastavenia VPN</string>
 
     <string name="summary_system">Define rules for system applications (for experts)</string>
-    <string name="summary_credentials">Confirm pin, pattern, password, etc on opening the application</string>
+    <string name="summary_credentials">Confirm system pin, pattern, password, etc on opening the application</string>
 
     <string name="msg_sure">Ste si istý?</string>
     <string name="msg_started">Enforcing rules</string>
@@ -33,7 +33,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="msg_completed">Akcia bola dokončená</string>
     <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky, a preto by ste mali povoliť VPN pripojenie v ďalšom okne</string>
     <string name="msg_try">Try NetGuard</string>
-    <string name="msg_admin">Prevent from being uninstalled</string>
+    <string name="msg_admin">Prevent NetGuard from being uninstalled</string>
 
     <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">Blokovať pri roamingu</string>

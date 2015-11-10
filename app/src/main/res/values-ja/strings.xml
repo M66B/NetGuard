@@ -23,10 +23,10 @@
     <string name="setting_import">設定をインポート</string>
     <string name="setting_vpn">Android VPN 設定を開く</string>
     <string name="msg_try">Try NetGuard</string>
-    <string name="msg_admin">Prevent from being uninstalled</string>
+    <string name="msg_admin">Prevent NetGuard from being uninstalled</string>
 
     <string name="summary_system">システムアプリケーションのルールを定義します (エキスパート向け)</string>
-    <string name="summary_credentials">Confirm pin, pattern, password, etc on opening the application</string>
+    <string name="summary_credentials">Confirm system pin, pattern, password, etc on opening the application</string>
 
     <string name="msg_sure">よろしいですか?</string>
     <string name="msg_started">Enforcing rules</string>

@@ -24,7 +24,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_vpn">Deschide setari VPN Android</string>
 
     <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
-    <string name="summary_credentials">Confirm pin, pattern, password, etc on opening the application</string>
+    <string name="summary_credentials">Confirm system pin, pattern, password, etc on opening the application</string>
 
     <string name="msg_sure">Esti sigur?</string>
     <string name="msg_started">Limitari activate</string>
@@ -33,7 +33,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="msg_completed">Setari aplicate</string>
     <string name="msg_vpn">NetGuard foloseste o conexiune locala VPN ca o \"gaura neagra\" pentru traficul de internet blocat, din acest motiv la urmatoarea fereastra de dialog trebuie sa acceptati crearea conexiunii VPN.</string>
     <string name="msg_try">Incearca NetGuard</string>
-    <string name="msg_admin">Prevent from being uninstalled</string>
+    <string name="msg_admin">Prevent NetGuard from being uninstalled</string>
 
     <string name="title_using">Permite doar cand ecranul este pornit</string>
     <string name="title_roaming">Blocheaza in roaming</string>
