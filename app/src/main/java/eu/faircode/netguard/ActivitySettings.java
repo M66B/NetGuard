@@ -140,6 +140,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             if (prefs.getBoolean(name, false) && !dpm.isAdminActive(component)) {
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
                 intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, component);
+                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, getString(R.string.msg_admin));
                 if (intent.resolveActivity(getPackageManager()) != null)
                     startActivity(intent);
             }

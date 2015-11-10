@@ -33,6 +33,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="msg_completed">Acción completada</string>
     <string name="msg_vpn">NetGuard utiliza un VPN local como un "sumidero" para conexiones de internet bloqueadas, por esta razón debes permitir la conexión VPN en el siguiente diálogo</string>
     <string name="msg_try">Try NetGuard</string>
+    <string name="msg_admin">Prevent from being uninstalled</string>
 
     <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">Bloquear cuando se esté en roaming</string>

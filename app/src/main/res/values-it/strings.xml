@@ -34,6 +34,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="msg_completed">Azione completata</string>
     <string name="msg_vpn">NetGuard utilizza una VPN locale come pozzo per bloccare il traffico internet, per questo motivo è necessario abilitare la connessione VPN nella schermata successiva</string>
     <string name="msg_try">Prova NetGuard</string>
+    <string name="msg_admin">Prevent from being uninstalled</string>
 
     <string name="title_using">Permetti quando lo schermo è acceso</string>
     <string name="title_roaming">Blocca quando in roaming</string>
