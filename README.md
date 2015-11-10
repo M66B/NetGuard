@@ -170,13 +170,15 @@ it is not possible to implement this, given the way NetGuard works.
 For more details, see [question 5](#FAQ5).
 
 <a name="FAQ13"></a>
-**(13) How can I remove the ongoing notification in the status bar?**
+**(13) How can I remove the ongoing NetGuard entry in the notification screen?**
 
-* Long click the notification
+* Long click the NetGuard notification
 * Tap the 'i' icon
-* Enable '*Block all*'
+* Depending on your Android version and/or ROMs manufacturer software customisation, you can be directed to either:
+  * the **App Info** screen and you can uncheck '*Show notifications*' and agree to the next dialog
+  * the **App Notifications** screen and you can toggle the '*Block*' slider to on
 
-Note that this will disable any warning notifications as well.
+Note that, whether or not you get a dialog warning to agree upon, this operation will disable any warning notifications from NetGuard as well.
 
 Support
 -------
