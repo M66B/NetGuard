@@ -17,12 +17,14 @@
     <string name="setting_whitelist_other">默认阻止移动网络</string>
     <string name="setting_whitelist_roaming">默认阻止漫游</string>
     <string name="setting_system">管理系统应用</string>
+    <string name="setting_credentials">Require credentials</string>
     <string name="setting_dark">使用暗色主题</string>
     <string name="setting_export">导出设置</string>
     <string name="setting_import">导入设置</string>
     <string name="setting_vpn">打开安卓VPN设置</string>
 
     <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
+    <string name="summary_credentials">Prompt to confirm credentials (pin, pattern or password)</string>
 
     <string name="msg_sure">是否确认?</string>
     <string name="msg_started">规则加载中</string>

@@ -51,6 +51,9 @@ import javax.xml.parsers.SAXParserFactory;
 public class ActivitySettings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Settings";
 
+    private boolean unlocked = false;
+    public static final String EXTRA_UNLOCKED = "unlocked";
+
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
@@ -61,12 +64,15 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         super.onCreate(savedInstanceState);
 
+        unlocked = getIntent().getBooleanExtra(EXTRA_UNLOCKED, false);
+
         getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
     }
 
     @Override
     public void onDestroy() {
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
     }
 
@@ -98,7 +104,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else
             screen.removePreference(pref_vpn);
 
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+        if (!unlocked)
+            for (int i = 0; i < screen.getPreferenceCount(); i++)
+                screen.getPreference(i).setEnabled(false);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override

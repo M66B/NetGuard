@@ -17,12 +17,14 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_whitelist_other">Blocheaza implicit date mobile</string>
     <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
     <string name="setting_system">Gestionati aplicatiile de sistem</string>
+    <string name="setting_credentials">Require credentials</string>
     <string name="setting_dark">Foloseste tema intunecata</string>
     <string name="setting_export">Exporta setari</string>
     <string name="setting_import">Importa setari</string>
     <string name="setting_vpn">Deschide setari VPN Android</string>
 
     <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
+    <string name="summary_credentials">Prompt to confirm credentials (pin, pattern or password)</string>
 
     <string name="msg_sure">Esti sigur?</string>
     <string name="msg_started">Limitari activate</string>

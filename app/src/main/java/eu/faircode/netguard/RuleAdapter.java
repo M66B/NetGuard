@@ -53,6 +53,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     private Context context;
     private boolean debuggable;
+    private boolean unlocked;
     private int colorText;
     private int colorAccent;
     private List<Rule> listAll = new ArrayList<>();
@@ -130,9 +131,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
     }
 
-    public RuleAdapter(Context context) {
+    public RuleAdapter(boolean unlocked, Context context) {
         this.context = context;
         this.debuggable = Util.isDebuggable(context);
+        this.unlocked = unlocked;
         colorAccent = ContextCompat.getColor(context, R.color.colorAccent);
         TypedArray ta = context.getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
         try {
@@ -208,10 +210,12 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
+        holder.cbWifi.setEnabled(unlocked);
         holder.cbWifi.setOnCheckedChangeListener(cbListener);
 
         holder.cbOther.setOnCheckedChangeListener(null);
         holder.cbOther.setChecked(rule.other_blocked);
+        holder.cbOther.setEnabled(unlocked);
         holder.cbOther.setOnCheckedChangeListener(cbListener);
 
         holder.llAttributes.setOnClickListener(llListener);
@@ -226,7 +230,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         holder.cbUsing.setOnCheckedChangeListener(null);
         holder.cbUsing.setChecked(rule.unused);
-        holder.cbUsing.setEnabled(rule.wifi_blocked || rule.other_blocked);
+        holder.cbUsing.setEnabled(unlocked && (rule.wifi_blocked || rule.other_blocked));
 
         holder.cbUsing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -252,7 +256,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         holder.cbRoaming.setOnCheckedChangeListener(null);
         holder.cbRoaming.setChecked(rule.roaming);
-        holder.cbRoaming.setEnabled(!rule.other_blocked || rule.unused);
+        holder.cbRoaming.setEnabled(unlocked && (!rule.other_blocked || rule.unused));
 
         holder.cbRoaming.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
