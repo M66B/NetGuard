@@ -17,14 +17,14 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
     <string name="setting_whitelist_other">Domyślnie blokuj Mobilne</string>
     <string name="setting_whitelist_roaming">Domyślnie blokuj Roaming</string>
     <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
-    <string name="setting_credentials">Require credentials</string>
+    <string name="setting_credentials">Verify credentials</string>
     <string name="setting_dark">Użyj ciemnej skórki</string>
     <string name="setting_export">Eksport ustawień</string>
     <string name="setting_import">Import ustawień</string>
     <string name="setting_vpn">Otwórz ustawienia VPN w Androidzie</string>
 
     <string name="summary_system">Stwórz reguły dla aplikacji systemowych(zaawansowane)</string>
-    <string name="summary_credentials">Prompt to confirm credentials (pin, pattern or password)</string>
+    <string name="summary_credentials">Confirm pin, pattern, password, etc on opening the application</string>
 
     <string name="msg_sure">Na pewno?</string>
     <string name="msg_started">Wymuś Reguły</string>

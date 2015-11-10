@@ -16,14 +16,14 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="setting_whitelist_other">Blockiere Mobilfunk standardmäßig</string>
     <string name="setting_whitelist_roaming">Blockiere Roaming standardmäßig</string>
     <string name="setting_system">System Apps anzeigen</string>
-    <string name="setting_credentials">Require credentials</string>
+    <string name="setting_credentials">Verify credentials</string>
     <string name="setting_dark">Verwende dunkles Theme</string>
     <string name="setting_export">Exportiere Einstellungen</string>
     <string name="setting_import">Importiere Einstellungen</string>
     <string name="setting_vpn">Öffne Android VPN Einstellungen</string>
 
     <string name="summary_system">Regeln für System Apps definieren, nur für Experten</string>
-    <string name="summary_credentials">Prompt to confirm credentials (pin, pattern or password)</string>
+    <string name="summary_credentials">Confirm pin, pattern, password, etc on opening the application</string>
 
     <string name="msg_sure">Bist du sicher?</string>
     <string name="msg_started">Regeln werden angewendet</string>
