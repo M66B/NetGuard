@@ -19,6 +19,7 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.app.KeyguardManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -80,6 +81,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     public void setup(PreferenceScreen screen) {
+        KeyguardManager kgm = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        Preference pref_credentials = screen.findPreference("credentials");
+        pref_credentials.setEnabled(kgm.isKeyguardSecure());
+
         Preference pref_export = screen.findPreference("export");
         pref_export.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
         pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
