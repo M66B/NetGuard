@@ -115,7 +115,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         KeyguardManager kgm = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         Intent intent = kgm.createConfirmDeviceCredentialIntent("NetGuard", null);
-        if (unlocked || !prefs.getBoolean("credentials", false) || !kgm.isKeyguardSecure() || intent == null)
+        if (unlocked ||
+                !prefs.getBoolean("credentials", false) ||
+                !kgm.isKeyguardSecure() ||
+                kgm.isKeyguardLocked() ||
+                intent == null)
             unlocked = true;
         else
             startActivityForResult(intent, REQUEST_KEYGUARD);
