@@ -114,13 +114,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         else if ("dark_theme".equals(name))
             recreate();
-
-        else if ("foreground".equals(name)) {
-            if (prefs.getBoolean("enabled", false)) {
-                SinkholeService.stop(this);
-                SinkholeService.start(this);
-            }
-        }
     }
 
     @Override

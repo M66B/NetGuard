@@ -176,6 +176,15 @@ Besides that this requires questionable Android permissions,
 it is not possible to implement this, given the way NetGuard works.
 For more details, see [question 5](#FAQ5).
 
+<a name="FAQ13"></a>
+**(13) How can I remove the on going notification in the status bar?**
+
+* Long click the notification
+* Tap the 'i' icon
+* Enabled 'Block all'
+
+Note that this will disable any warning notifications as well.
+
 Support
 -------
 

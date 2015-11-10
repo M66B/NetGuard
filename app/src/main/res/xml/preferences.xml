@@ -18,11 +18,6 @@
         android:summary="@string/summary_system"
         android:title="@string/setting_system" />
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="foreground"
-        android:summary="@string/summary_foreground"
-        android:title="@string/setting_foreground" />
-    <SwitchPreference
         android:defaultValue="false"
         android:key="dark_theme"
         android:title="@string/setting_dark" />

@@ -17,14 +17,12 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="setting_whitelist_other">Blocage données mobiles par défaut</string>
     <string name="setting_whitelist_roaming">Blocage roaming par défaut</string>
     <string name="setting_system">Gérer les applications système</string>
-    <string name="setting_foreground">Start as foreground service</string>
     <string name="setting_dark">Utiliser le thème sombre</string>
     <string name="setting_export">Exporter paramètres</string>
     <string name="setting_import">Importer paramètres</string>
     <string name="setting_vpn">Ouvrir les paramètres VPN</string>
 
     <string name="summary_system">Define rules for system applications (for experts)</string>
-    <string name="summary_foreground">Foreground services show an ongoing notification in the status bar and have less chance of being killed by Android</string>
 
     <string name="msg_sure">Etes-vous sûr ?</string>
     <string name="msg_started">Enforcing rules</string>

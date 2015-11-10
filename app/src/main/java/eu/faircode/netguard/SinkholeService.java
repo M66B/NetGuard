@@ -51,7 +51,6 @@ import java.nio.ByteOrder;
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
-    private boolean foreground;
     private boolean last_roaming;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
@@ -105,10 +104,7 @@ public class SinkholeService extends VpnService {
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
             switch (cmd) {
                 case start:
-                    if (prefs.getBoolean("foreground", true)) {
-                        foreground = true;
-                        startForeground(NOTIFY_FOREGROUND, getForegroundNotification());
-                    }
+                    startForeground(NOTIFY_FOREGROUND, getForegroundNotification());
                     if (vpn == null) {
                         vpn = startVPN();
                         startDebug(vpn);
@@ -133,10 +129,7 @@ public class SinkholeService extends VpnService {
                         stopVPN(vpn);
                         vpn = null;
                     }
-                    if (foreground) {
-                        foreground = false;
-                        stopForeground(true);
-                    }
+                    stopForeground(true);
                     Widget.updateWidgets(SinkholeService.this);
                     // stopSelf();
                     break;
