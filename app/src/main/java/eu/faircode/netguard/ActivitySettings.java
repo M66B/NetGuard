@@ -67,6 +67,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         unlocked = getIntent().getBooleanExtra(EXTRA_UNLOCKED, false);
 
         getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
+        getSupportActionBar().setTitle(R.string.menu_settings);
     }
 
     @Override
