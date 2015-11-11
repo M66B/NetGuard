@@ -181,9 +181,9 @@ For more details, see [question 5](#FAQ5).
 Note that, whether or not you get a dialog warning to agree upon, this operation will disable any warning notifications from NetGuard as well.
 
 <a name="FAQ14"></a>
-**(14) Why is the screen briefly flashing when I enable '*Verify credentials*'?**
+**(14) Why can't I select OK to approve the VPN connection request?**
 
-If NetGuard does not have **Device Admin** permission and you toggle '*Verify credentials*' to on, you should be directed to the proper permission screen where you can Agree or Cancel. On some devices and/or ROMs this does not happen, the **Device Admin** permission screen is shown for a split second and then it disappears. You can still enable or disable the **Device Admin** permission for NetGuard in the device settings as you would normally though.
+Please read [here](https://community.f-secure.com/t5/F-Secure/Android-Lollipop-Cannot-select/td-p/64502).
 
 Support
 -------
