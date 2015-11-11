@@ -1,0 +1,44 @@
+<resources>
+<string name="app_copyright">Авторське право \u00A9 2015 M. Bokhorst (M66B)</string>
+<string name="app_license">
+Використовуючи NetGuard, ви погоджуєтесь із
+<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a>
+</string>
+<string name="app_first">
+Було докладено великі зусилля під час розробки та тестування NetGuard, проте, неможливо гарантувати, що воно буде коректно працювати на будь-якому пристрої. NetGuard відомо про збій, під час активації на деяких пристроях. Відомо також, що на деяких пристроях блокується весь трафік. Ці помилки викликані вадами в системі Android, чи програмному забезпеченні від постачальника, тому, будь ласка, не звинувачуйте в цьому NetGuard. \n\nВикористовуючи NetGuard, ви погоджуєтесь із
+<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a>
+</string>
+<string name="menu_search">Пошук додатку</string>
+<string name="menu_settings">Налаштування</string>
+<string name="menu_invite">Запросити</string>
+<string name="menu_support">Підтримка</string>
+<string name="menu_about">Про</string>
+<string name="setting_whitelist_wifi">Блокувати типово у Wi-Fi мережі</string>
+<string name="setting_whitelist_other">Блокувати типово у мобільній мережі</string>
+<string name="setting_whitelist_roaming">Блокувати типово у роумінгу</string>
+<string name="setting_system">Керувати системними додатками</string>
+<string name="setting_dark">Використовувати темну тему</string>
+<string name="setting_export">Експорт налаштувань</string>
+<string name="setting_import">Імпорт налаштувань</string>
+<string name="setting_vpn">Відкрити налаштування Android VPN</string>
+<string name="summary_system">
+Визначити правила для системних додатків (для експертів)
+</string>
+<string name="msg_sure">Ви впевнені?</string>
+<string name="msg_started">Визначити правила</string>
+<string name="msg_disabled">
+NetGuard вимкнено, аби увімкнути, використовуй перемикач, що знаходиться вище
+</string>
+<string name="msg_revoked">NetGuard вимкнено</string>
+<string name="msg_completed">Дію завершено</string>
+<string name="msg_vpn">
+NetGuard використовує локальний VPN в якості понори для блокування трафіку. З цієї причини, дозвольте VPN з\'єднання у наступному діалозі
+</string>
+<string name="msg_try">Спробуйте NetGuard</string>
+<string name="title_using">Дозволити, коли екран увімкнуто</string>
+<string name="title_roaming">Блокувати у роумінгу</string>
+<string name="title_launch">Запуск додатку</string>
+<string name="title_donate">Матеріально подякувати</string>
+<string name="title_rate">Оцінити</string>
+<string name="title_thanks">Дякуємо за підтримку!</string>
+</resources>
