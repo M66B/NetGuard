@@ -19,11 +19,6 @@
         android:title="@string/setting_system" />
     <SwitchPreference
         android:defaultValue="false"
-        android:key="credentials"
-        android:summary="@string/summary_credentials"
-        android:title="@string/setting_credentials" />
-    <SwitchPreference
-        android:defaultValue="false"
         android:key="dark_theme"
         android:title="@string/setting_dark" />
     <Preference

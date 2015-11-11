@@ -20,7 +20,6 @@ package eu.faircode.netguard;
 */
 
 import android.app.AlertDialog;
-import android.app.KeyguardManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -74,7 +73,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final String TAG = "NetGuard.Main";
 
     private boolean running = false;
-    private boolean unlocked = false;
     private View actionView;
     private LinearLayout llIndicators;
     private ImageView ivInteractive;
@@ -91,7 +89,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_IAB = 2;
     private static final int REQUEST_INVITE = 3;
-    private static final int REQUEST_KEYGUARD = 4;
 
     // adb shell pm clear com.android.vending
     private static final String SKU_DONATE = "donation";
@@ -109,21 +106,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         setContentView(R.layout.main);
 
         running = true;
-
-        if (savedInstanceState != null && savedInstanceState.containsKey("unlocked"))
-            unlocked = savedInstanceState.getBoolean("unlocked");
-
-        KeyguardManager kgm = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-        Intent intent = kgm.createConfirmDeviceCredentialIntent("NetGuard", null);
-        if (unlocked ||
-                !prefs.getBoolean("credentials", false) ||
-                !kgm.isKeyguardSecure() ||
-                kgm.isKeyguardLocked() ||
-                intent == null)
-            unlocked = true;
-        else
-            startActivityForResult(intent, REQUEST_KEYGUARD);
-
         boolean enabled = prefs.getBoolean("enabled", false);
 
         if (enabled)
@@ -143,7 +125,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         getSupportActionBar().setCustomView(actionView);
 
         // On/off switch
-        swEnabled.setEnabled(unlocked);
         swEnabled.setChecked(enabled);
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -203,7 +184,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(true);
         rvApplication.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RuleAdapter(unlocked, ActivityMain.this);
+        adapter = new RuleAdapter(ActivityMain.this);
         rvApplication.setAdapter(adapter);
 
         // Swipe to refresh
@@ -285,16 +266,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putBoolean("unlocked", unlocked);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        unlocked = savedInstanceState.getBoolean("unlocked");
-    }
-
-    @Override
     public void onDestroy() {
         Log.i(TAG, "Destroy");
         running = false;
@@ -356,11 +327,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         } else if (requestCode == REQUEST_INVITE) {
             // Do nothing
-
-        } else if (requestCode == REQUEST_KEYGUARD) {
-            // Handle confirm credentials
-            if (unlocked = (resultCode == RESULT_OK))
-                recreate();
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
@@ -541,9 +507,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_settings:
-                Intent settings = new Intent(this, ActivitySettings.class);
-                settings.putExtra(ActivitySettings.EXTRA_UNLOCKED, unlocked);
-                startActivity(settings);
+                startActivity(new Intent(this, ActivitySettings.class));
                 return true;
 
             case R.id.menu_invite:
