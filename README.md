@@ -170,13 +170,20 @@ it is not possible to implement this, given the way NetGuard works.
 For more details, see [question 5](#FAQ5).
 
 <a name="FAQ13"></a>
-**(13) How can I remove the ongoing notification in the status bar?**
+**(13) How can I remove the ongoing NetGuard entry in the notification screen?**
 
-* Long click the notification
+* Long click the NetGuard notification
 * Tap the 'i' icon
-* Enable '*Block all*'
+* Depending on your device and/or ROMs manufacturer software customisations, you can be directed to either:
+  * the **App Info** screen and you can uncheck '*Show notifications*' and agree to the next dialog
+  * the **App Notifications** screen and you can toggle the '*Block*' slider to on
 
-Note that this will disable any warning notifications as well.
+Note that, whether or not you get a dialog warning to agree upon, this operation will disable any warning notifications from NetGuard as well.
+
+<a name="FAQ14"></a>
+**(14) Why is the screen briefly flashing when I enable '*Verify credentials*'?**
+
+If NetGuard does not have **Device Admin** permission and you toggle '*Verify credentials*' to on, you should be directed to the proper permission screen where you can Agree or Cancel. On some devices and/or ROMs this does not happen, the **Device Admin** permission screen is shown for a split second and then it disappears. You can still enable or disable the **Device Admin** permission for NetGuard in the device settings as you would normally though.
 
 Support
 -------
