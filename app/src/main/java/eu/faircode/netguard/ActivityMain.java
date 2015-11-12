@@ -128,6 +128,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         swEnabled.setChecked(enabled);
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                prefs.edit().putBoolean("enabled", isChecked).apply();
+
                 if (isChecked) {
                     Log.i(TAG, "Switch on");
                     final Intent prepare = VpnService.prepare(ActivityMain.this);
