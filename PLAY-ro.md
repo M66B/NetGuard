@@ -3,7 +3,7 @@ Play store
 
 Title
 -----
-NetGuard - firewall ce nu necesita access root
+NetGuard - firewall fara root
 
 
 Short description
