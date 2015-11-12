@@ -3,7 +3,7 @@ Play store
 
 Title
 -----
-NetGuard
+NetGuard - no-root firewall
 
 
 Short description
