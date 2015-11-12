@@ -66,9 +66,9 @@ Compatibility
 
 Devices / ROMs with a broken VPN implementation:
 
-* [Samsung Galaxy A5 / Android 5.02](https://github.com/M66B/NetGuard/issues/20) (all traffic blocked)
-* Asus ZenFone 2 / Android 5.0.2/5.1.1, reported on XDA (all traffic blocked)
-* Lenovo YOGA Tablet Pro-1380L/Yoga Tablet 2 Pro (all traffic blocked)
+* Samsung Galaxy A5 / Android 5.0.2, [reported on Github](https://github.com/M66B/NetGuard/issues/20) (all traffic blocked)
+* Asus ZenFone 2 / Android 5.0.2/5.1.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63619542&postcount=121) (all traffic blocked)
+* Lenovo YOGA Tablet Pro-1380L/Yoga Tablet 2 Pro 5.0.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63784102&postcount=278) (all traffic blocked)
 
 NetGuard will crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 
