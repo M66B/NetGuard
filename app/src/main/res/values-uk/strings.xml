@@ -35,6 +35,7 @@ NetGuard вимкнено, аби увімкнути, використовуй �
 NetGuard використовує локальний VPN в якості понори для блокування трафіку. З цієї причини, дозвольте VPN з\'єднання у наступному діалозі
 </string>
 <string name="msg_try">Спробуйте NetGuard</string>
+    <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
 <string name="title_using">Дозволити, коли екран увімкнуто</string>
 <string name="title_roaming">Блокувати у роумінгу</string>
 <string name="title_launch">Запуск додатку</string>

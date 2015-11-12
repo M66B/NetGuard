@@ -30,6 +30,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="msg_completed">Aktion abgeschlossen</string>
     <string name="msg_vpn">Netguard verwendet ein lokales VPN als Senkgrube für blockierten Netzwerkverkehr, daher muss im nächsten Dialog die VPN Verbindung bestätigt werden.</string>
     <string name="msg_try">Probier NetGuard</string>
+    <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
 
     <string name="title_using">Erlauben wenn Bildschirm an</string>
     <string name="title_roaming">Blockiere bei Roaming</string>

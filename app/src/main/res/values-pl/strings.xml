@@ -31,6 +31,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
     <string name="msg_completed">Wykonano</string>
     <string name="msg_vpn">NetGuard używa lokalnego VPNa aby zablokować ruch internetowy. Z tego powodu należy zezwolić na połączenie VPN w następnym kroku.</string>
     <string name="msg_try">Spróbuj NetGuard</string>
+    <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
 
     <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">Blokuj gdy roaming</string>

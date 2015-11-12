@@ -31,6 +31,7 @@
     <string name="msg_completed">操作完成</string>
     <string name="msg_vpn">NetGuard使用一个本地VPN服务来重定向被阻挡的网络流量, 因此请在下一个对话框中允许建立VPN连接</string>
     <string name="msg_try">试用NetGuard</string>
+    <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
 
     <string name="title_using">亮屏时允许</string>
     <string name="title_roaming">漫游时阻止</string>
