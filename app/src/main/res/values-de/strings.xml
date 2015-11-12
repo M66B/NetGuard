@@ -28,7 +28,9 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="msg_disabled">NetGuard ist deaktiviert, verwende den Schalter um NetGuard zu aktivieren</string>
     <string name="msg_revoked">NetGuard wurde deaktiviert</string>
     <string name="msg_completed">Aktion abgeschlossen</string>
-    <string name="msg_vpn">Netguard verwendet ein lokales VPN als Senkgrube für blockierten Netzwerkverkehr, daher muss im nächsten Dialog die VPN Verbindung bestätigt werden.</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
     <string name="msg_try">Probier NetGuard</string>
     <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
 

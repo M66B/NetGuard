@@ -29,7 +29,9 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="msg_disabled">NetGuard est désactivé, utilisez le bouton ci-dessus pour activer NetGuard</string>
     <string name="msg_revoked">NetGuard a été désactivé</string>
     <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic. For this reason, please allow a VPN connection in the next dialog</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
     <string name="msg_try">Try NetGuard</string>
     <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
 

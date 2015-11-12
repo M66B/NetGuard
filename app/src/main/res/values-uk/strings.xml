@@ -31,7 +31,9 @@ NetGuard вимкнено, аби увімкнути, використовуй �
 </string>
 <string name="msg_revoked">NetGuard вимкнено</string>
 <string name="msg_completed">Дію завершено</string>
-<string name="msg_vpn">
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
 NetGuard використовує локальний VPN в якості понори для блокування трафіку. З цієї причини, дозвольте VPN з\'єднання у наступному діалозі
 </string>
 <string name="msg_try">Спробуйте NetGuard</string>

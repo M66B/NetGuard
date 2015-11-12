@@ -27,7 +27,9 @@
     <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
     <string name="msg_revoked">NetGuard был отключен</string>
     <string name="msg_completed">Действие завершено</string>
-    <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик. По этой причине, пожалуйста, разрешите VPN-подключения в следующем диалоговом окне.</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
     <string name="msg_try">Попробуйте новый фаервол NetGuard</string>
     <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
 

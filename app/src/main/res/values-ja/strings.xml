@@ -31,7 +31,9 @@
     <string name="msg_disabled">NetGuard は無効です。NetGuard を有効にするには上のスイッチを使用してください</string>
     <string name="msg_revoked">NetGuard は無効になりました</string>
     <string name="msg_completed">操作を完了しました</string>
-    <string name="msg_vpn">NetGuard は、インターネットのトラフィックをブロックするために、下水口としてローカルの VPN を使用しています。このため、次のダイアログで VPN 接続を許可してください</string>
+    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
 
     <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">ローミング時にブロック</string>
