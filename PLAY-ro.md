@@ -3,7 +3,7 @@ Play store
 
 Title
 -----
-NetGuard - no-root firewall
+NetGuard - firewall ce nu necesita access root
 
 
 Short description
@@ -44,6 +44,10 @@ Caracteristici:
 Majoritatea functiilor sunt rezultatul trimiterii traficului selectat intr-o "gaura neagra", in loc sa fie filtrat tot traficul de internet.
 Acest lucru presupune ca functii avansate, cum ar fi filtrarea adreselor (necesara pentru blocarea unor gazde), urmarirea traficului si detectarea aplicatiilor la acces, nu sunt posibile.
 
+Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca traficul tau de internet nu este redirectionat nicaieri.
+
 Pentru informatii la zi despre compatibilitatea dispozitivelor, intrebari si raspunsuri va rugam sa cititi mai multe aici: http://forum.xda-developers.com/showthread.php?t=3233012
 
 Daca doriti sa testati caracteristile in dezvoltare ale aplicatiei, va puteti alatura programului de testare: https://play.google.com/apps/testing/eu.faircode.netguard
+
+Codul sursa este disponibil aici: https://github.com/M66B/NetGuard
