@@ -29,12 +29,12 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
     <string name="msg_revoked">NetGuard a fost dezactivat</string>
     <string name="msg_completed">Setari aplicate</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
+    <string name="msg_vpn">NetGuard foloseste o conexiune locala VPN ca o \"gaura neagra\" pentru traficul de internet blocat.
+Din acest motiv la urmatoarea fereastra de dialog trebuie sa acceptati crearea conexiunii VPN.
+Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca traficul tau de internet nu este redirectionat nicaieri.</string>
     <string name="msg_try">Incearca NetGuard</string>
-    <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
-
+    <string name="msg_voluntary">Donatiile sunt voluntare si nu deblocheaza vreo functie ascunsa. Donatiile sunt doar un mod de a iti arata aprecierea pentru munca depusa pentru aceasta aplicatie.</string>
+ 
     <string name="title_using">Permite doar cand ecranul este pornit</string>
     <string name="title_roaming">Blocheaza in roaming</string>
     <string name="title_launch">Porneste aplicatia</string>
