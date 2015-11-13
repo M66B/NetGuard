@@ -214,10 +214,11 @@ public class Util {
     private static StringBuilder getLogcat(String tag) {
         String pid = Integer.toString(android.os.Process.myPid());
         StringBuilder builder = new StringBuilder();
+        Process process = null;
         BufferedReader br = null;
         try {
             String[] command = new String[]{"logcat", "-d", "-v", "threadtime"};
-            Process process = Runtime.getRuntime().exec(command);
+            process = Runtime.getRuntime().exec(command);
             br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = br.readLine()) != null)
@@ -233,6 +234,8 @@ public class Util {
                     br.close();
                 } catch (IOException ignored) {
                 }
+            if (process != null)
+                process.destroy();
         }
         return builder;
     }
