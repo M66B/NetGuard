@@ -45,55 +45,66 @@
         android:text="@string/app_copyright"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnDonate"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/title_donate"
-            android:visibility="gone" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnRate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/title_rate"
-            android:visibility="gone" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:text="@string/msg_voluntary"
-        android:textAppearance="@android:style/TextAppearance.Material.Small"
-        android:textStyle="italic" />
+                <Button
+                    android:id="@+id/btnDonate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/title_donate"
+                    android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/tvThanks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:text="@string/title_thanks"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        android:visibility="gone" />
+                <Button
+                    android:id="@+id/btnRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/title_rate"
+                    android:visibility="gone" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvLicense"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/app_license"
-        android:textAppearance="@android:style/TextAppearance.Material.Small"
-        android:textSize="12sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="@string/msg_voluntary"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textStyle="italic" />
 
+            <TextView
+                android:id="@+id/tvThanks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="@string/title_thanks"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvLicense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/app_license"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
