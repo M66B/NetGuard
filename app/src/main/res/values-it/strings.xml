@@ -30,12 +30,13 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
     <string name="msg_revoked">NetGuard è stata disabilitata</string>
     <string name="msg_completed">Azione completata</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
+    <string name="msg_vpn">Per bloccare il traffico internet, NetGuard utilizza una VPN locale come \"pozzo\".
+        Per questo motivo, abilita la connessione VPN nella prossima schermata.
+        Dato che NetGuard non richede nessun permesso per connettersi ad internet, puoi star certo che il tuo traffico internet non è spedito altrove.
+    </string>
     <string name="msg_try">Prova NetGuard</string>
-    <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
-    <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
+    <string name="msg_voluntary">Le donazioni sono totalmente volontarie e non sbloccano nessuna funzionalitá aggiuntiva. Le donazioni mostrano il tuo apprezzamento per il lavoro svolto.</string>
+    <string name="msg_dimming">Se non riesci a cliccare OK nella prossima schermata, è probabile che un\'altra applicazione (di oscuramento schermo) stia manipolando lo schermo.</string>
 
     <string name="title_using">Permetti quando lo schermo è acceso</string>
     <string name="title_roaming">Blocca quando in roaming</string>
