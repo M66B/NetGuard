@@ -141,10 +141,10 @@ public class SinkholeService extends VpnService {
         Log.i(TAG, "Starting");
 
         // Check state
-        boolean local = Util.isLocalNetwork(this);
+        boolean wifi = Util.isWifiActive(this);
         boolean metered = Util.isMeteredNetwork(this);
         boolean interactive = Util.isInteractive(this);
-        Log.i(TAG, "local=" + local +
+        Log.i(TAG, "wifi=" + wifi +
                 " metered=" + metered +
                 " roaming=" + last_roaming +
                 " interactive=" + interactive);
@@ -304,8 +304,7 @@ public class SinkholeService extends VpnService {
                 Log.i(TAG, "New state roaming=" + last_roaming);
                 reload(null, SinkholeService.this);
 
-            } else if (networkType == ConnectivityManager.TYPE_WIFI ||
-                    networkType == ConnectivityManager.TYPE_ETHERNET) {
+            } else if (networkType == ConnectivityManager.TYPE_WIFI) {
                 // Local network connected/disconnected
                 reload(null, SinkholeService.this);
             }

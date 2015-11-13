@@ -60,11 +60,10 @@ public class Util {
         return tm.isNetworkRoaming();
     }
 
-    public static boolean isLocalNetwork(Context context) {
+    public static boolean isWifiActive(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        return (ni != null && (ni.getType() == ConnectivityManager.TYPE_WIFI || ni.getType() == ConnectivityManager.TYPE_ETHERNET));
-
+        return (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
     }
 
     public static boolean isMeteredNetwork(Context context) {
