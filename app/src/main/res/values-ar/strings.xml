@@ -39,6 +39,8 @@ Since NetGuard has no internet permission, you know your internet traffic is not
 
     <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">Block when roaming</string>
+    <string name="title_disabled">Is disabled</string>
+    <string name="title_internet">Has no internet access</string>
     <string name="title_launch">Start application</string>
     <string name="title_donate">Donate</string>
     <string name="title_rate">Rate</string>

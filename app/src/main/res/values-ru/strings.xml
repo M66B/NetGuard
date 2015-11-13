@@ -37,6 +37,8 @@ Since NetGuard has no internet permission, you know your internet traffic is not
 
     <string name="title_using">Разрешить, когда экран включен</string>
     <string name="title_roaming">Блокировать в роуминге</string>
+    <string name="title_disabled">Is disabled</string>
+    <string name="title_internet">Has no internet access</string>
     <string name="title_launch">Запуск приложения</string>
     <string name="title_donate">Пожертвовать</string>
     <string name="title_rate">Оценить</string>

@@ -39,6 +39,8 @@ Since NetGuard has no internet permission, you know your internet traffic is not
 
     <string name="title_using">亮屏时允许</string>
     <string name="title_roaming">漫游时阻止</string>
+    <string name="title_disabled">Is disabled</string>
+    <string name="title_internet">Has no internet access</string>
     <string name="title_launch">启动应用</string>
     <string name="title_donate">捐赠</string>
     <string name="title_rate">评分</string>

@@ -39,6 +39,8 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
  
     <string name="title_using">Permite doar cand ecranul este pornit</string>
     <string name="title_roaming">Blocheaza in roaming</string>
+    <string name="title_disabled">Is disabled</string>
+    <string name="title_internet">Has no internet access</string>
     <string name="title_launch">Porneste aplicatia</string>
     <string name="title_donate">Doneaza</string>
     <string name="title_rate">Evalueaza aplicatia</string>

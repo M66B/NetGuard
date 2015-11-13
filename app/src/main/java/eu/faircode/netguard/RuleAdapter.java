@@ -65,7 +65,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public ImageView ivIcon;
         public ImageView ivExpander;
         public TextView tvName;
-        public TextView tvPackage;
         public CheckBox cbWifi;
         public CheckBox cbOther;
 
@@ -74,6 +73,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public TextView tvRoaming;
 
         public LinearLayout llConfiguration;
+        public TextView tvPackage;
+        public TextView tvDisabled;
+        public TextView tvInternet;
         public CheckBox cbUsing;
         public CheckBox cbRoaming;
         public ImageButton btnSettings;
@@ -97,6 +99,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
             llConfiguration = (LinearLayout) itemView.findViewById(R.id.llConfiguration);
             tvPackage = (TextView) itemView.findViewById(R.id.tvPackage);
+            tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
+            tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
             cbUsing = (CheckBox) itemView.findViewById(R.id.cbUsing);
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
             btnSettings = (ImageButton) itemView.findViewById(R.id.btnSettings);
@@ -223,6 +227,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             holder.tvPackage.setText(rule.info.packageName);
         else
             holder.tvPackage.setText(rule.info.applicationInfo.uid + " " + rule.info.packageName);
+
+        holder.tvDisabled.setVisibility(rule.disabled ? View.VISIBLE : View.GONE);
+        holder.tvInternet.setVisibility(rule.internet ? View.GONE : View.VISIBLE);
 
         holder.cbUsing.setOnCheckedChangeListener(null);
         holder.cbUsing.setChecked(rule.unused);

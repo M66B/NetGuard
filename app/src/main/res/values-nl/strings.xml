@@ -39,6 +39,8 @@ Since NetGuard has no internet permission, you know your internet traffic is not
 
     <string name="title_using">Sta toe als scherm aan is</string>
     <string name="title_roaming">Blokkeer bij roamen</string>
+    <string name="title_disabled">is uitgezet</string>
+    <string name="title_internet">heeft geen internet toegang</string>
     <string name="title_launch">Start applicatie</string>
     <string name="title_donate">Doneer</string>
     <string name="title_rate">Beoordeel</string>
