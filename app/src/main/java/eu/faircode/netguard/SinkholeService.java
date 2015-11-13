@@ -111,8 +111,10 @@ public class SinkholeService extends VpnService {
                     }
                     if (vpn == null)
                         prefs.edit().putBoolean("enabled", false).apply();
-                    removeDisabledNotification();
-                    Widget.updateWidgets(SinkholeService.this);
+                    else {
+                        removeDisabledNotification();
+                        Widget.updateWidgets(SinkholeService.this);
+                    }
                     break;
 
                 case reload:
