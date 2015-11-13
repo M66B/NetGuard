@@ -75,7 +75,7 @@ NetGuard will crash when the package *com.android.vpndialogs* has been removed o
 Tethering will not work when NetGuard is enabled due to a bug in Android ([issue](https://github.com/M66B/NetGuard/issues/42)).
 
 [Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify) NetGuard will result in rules not being applied
-when connectivity changes from WiFi/mobile, passive/active, and roaming/not roaming.
+when connectivity changes from WiFi/mobile, screen on/off, and roaming/not roaming.
 
 Frequently Asked Questions (FAQ)
 --------------------------------
@@ -191,6 +191,11 @@ Please read [here](https://community.f-secure.com/t5/F-Secure/Android-Lollipop-C
 
 Because F-Droid doesn't support reproducible builds.
 Read [here](https://blog.torproject.org/blog/deterministic-builds-part-one-cyberwar-and-global-compromise) why this is important.
+
+<a name="FAQ16"></a>
+**(16) Why are some applications shown dimmed?**
+
+Disabled applications and applications without internet access are shown dimmed.
 
 Support
 -------
