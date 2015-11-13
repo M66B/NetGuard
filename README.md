@@ -192,6 +192,11 @@ Please read [here](https://community.f-secure.com/t5/F-Secure/Android-Lollipop-C
 Because F-Droid doesn't support reproducible builds.
 Read [here](https://blog.torproject.org/blog/deterministic-builds-part-one-cyberwar-and-global-compromise) why this is important.
 
+<a name="FAQ16"></a>
+**(16) Why are some applications shown dimmed?**
+
+Disabled applications and applications without internet access are shown dimmed.
+
 Support
 -------
 

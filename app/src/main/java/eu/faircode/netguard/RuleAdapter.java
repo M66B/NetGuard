@@ -202,7 +202,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvName.setText(rule.name);
 
         int color = rule.system ? colorAccent : colorText;
-        if (rule.disabled)
+        if (!rule.internet || rule.disabled)
             color = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
         holder.tvName.setTextColor(color);
 

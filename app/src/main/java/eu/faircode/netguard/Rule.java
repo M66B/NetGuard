@@ -42,6 +42,7 @@ public class Rule implements Comparable<Rule> {
     public PackageInfo info;
     public String name;
     public boolean system;
+    public boolean internet;
     public boolean disabled;
 
     public boolean wifi_default;
@@ -67,6 +68,8 @@ public class Rule implements Comparable<Rule> {
 
         this.info = info;
         this.name = info.applicationInfo.loadLabel(pm).toString();
+
+        this.internet = (pm.checkPermission("android.permission.INTERNET", info.packageName) == PackageManager.PERMISSION_GRANTED);
 
         int setting = pm.getApplicationEnabledSetting(info.packageName);
         if (setting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
