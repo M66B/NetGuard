@@ -109,6 +109,26 @@
             android:layout_marginTop="4dp"
             android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
+        <TextView
+            android:id="@+id/tvInternet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/title_internet"
+            android:textAppearance="@android:style/TextAppearance.Material.Small"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvDisabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/title_disabled"
+            android:textAppearance="@android:style/TextAppearance.Material.Small"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
         <CheckBox
             android:id="@+id/cbUsing"
             android:layout_width="wrap_content"

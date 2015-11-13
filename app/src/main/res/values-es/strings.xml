@@ -39,6 +39,8 @@ Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de i
 
     <string name="title_using">Permitir cuando la pantalla esté encendida</string>
     <string name="title_roaming">Bloquear cuando se esté en roaming</string>
+    <string name="title_disabled">Is disabled</string>
+    <string name="title_internet">Has no internet access</string>
     <string name="title_launch">Iniciar aplicación</string>
     <string name="title_donate">Donar</string>
     <string name="title_rate">Calificar</string>
