@@ -2,9 +2,9 @@
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
     <string name="app_license">Folosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
     <string name="app_first">NetGuard este dezvoltat si testat cu mare atentie si grija, 
-cu toate acestea este imposibil sa se garanteze ca va functiona corect toate dispozitivele.
+cu toate acestea este imposibil sa se garanteze ca va functiona corect pe toate dispozitivele.
 NetGuard se poate opri brusc sau poate bloca tot traficul internet atunci cand este activat pe unele dispozitive.
-Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozitie de catre producatorul dispozitivului, va rugam nu dati vina pe NetGuard pentru asta.
+Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozitie de catre producatorul dispozitivului, va rugam sa nu dati vina pe NetGuard pentru asta.
 \n\nFolosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Cauta aplicatii</string>
