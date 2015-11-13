@@ -66,8 +66,9 @@ Compatibility
 
 Devices / ROMs with a broken VPN implementation:
 
-* [Samsung Galaxy A5 / Android 5.02](https://github.com/M66B/NetGuard/issues/20) (all traffic blocked)
-* Asus ZenFone 2 / Android 5.0.2/5.1.1, reported on XDA (all traffic blocked)
+* Samsung Galaxy A5 / Android 5.0.2, [reported on Github](https://github.com/M66B/NetGuard/issues/20) (all traffic blocked)
+* Asus ZenFone 2 / Android 5.0.2/5.1.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63619542&postcount=121) (all traffic blocked)
+* Lenovo YOGA Tablet Pro-1380L/Yoga Tablet 2 Pro 5.0.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63784102&postcount=278) (all traffic blocked)
 
 NetGuard will crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 
@@ -185,6 +186,12 @@ Note that, whether or not you get a dialog warning to agree upon, this operation
 
 Please read [here](https://community.f-secure.com/t5/F-Secure/Android-Lollipop-Cannot-select/td-p/64502).
 
+<a name="FAQ15"></a>
+**(15) Why don't you support F-Droid?**
+
+Because F-Droid doesn't support reproducible builds.
+Read [here](https://blog.torproject.org/blog/deterministic-builds-part-one-cyberwar-and-global-compromise) why this is important.
+
 Support
 -------
 
@@ -203,6 +210,7 @@ Translations:
 * Copy [this file](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/values/strings.xml) to the [correct locale folder](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/)
 * Translate the strings in the copied file and omit all lines with **translatable="false"**
 * Create a [pull request on GitHub](https://help.github.com/articles/using-pull-requests) for the new/updated translation
+* If you don't feel comfortable using GitHub, you can sent the translation to *marcel(plus)netguard(at)faircode.eu*
 
 Current translations:
 

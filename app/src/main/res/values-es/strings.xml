@@ -9,7 +9,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
 
     <string name="menu_search">Buscar aplicación</string>
     <string name="menu_settings">Configuración</string>
-    <string name="menu_invite">Invite</string>
+    <string name="menu_invite">Invitar</string>
     <string name="menu_support">Soporte</string>
     <string name="menu_about">Acerca de</string>
 
@@ -22,20 +22,24 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_import">Importar configuración</string>
     <string name="setting_vpn">Abrir configuración VPN de Android</string>
 
-    <string name="summary_system">Define rules for system applications (for experts)</string>
+    <string name="summary_system">Definir reglas para aplicaciones de sistema (para expertos)</string>
 
     <string name="msg_sure">¿Estás seguro?</string>
-    <string name="msg_started">Enforcing rules</string>
+    <string name="msg_started">Aplicando reglas</string>
     <string name="msg_disabled">NetGuard está deshabilitado, utiliza el interruptor de arriba para habilitar a NetGuard</string>
     <string name="msg_revoked">NetGuard ha sido deshabilitado</string>
     <string name="msg_completed">Acción completada</string>
-    <string name="msg_vpn">NetGuard utiliza un VPN local como un "sumidero" para conexiones de internet bloqueadas, por esta razón debes permitir la conexión VPN en el siguiente diálogo</string>
-    <string name="msg_try">Try NetGuard</string>
+    <string name="msg_vpn">NetGuard utiliza un VPN local como sumidero para bloquear el acceso a internet.
+Por esta razón, por favor permite la conexión VPN en el próximo diálogo.
+Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de internet no está siendo enviado a ninguna parte.</string>
+    <string name="msg_try">Prueba NetGuard</string>
+    <string name="msg_voluntary">Las donaciones son completamente voluntarias y no desbloquean ninguna funcionalidad. Las donaciones son una forma de mostrar tu apreciación por el trabajo hecho.</string>
+    <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
 
-    <string name="title_using">Allow when screen is on</string>
+    <string name="title_using">Permitir cuando la pantalla esté encendida</string>
     <string name="title_roaming">Bloquear cuando se esté en roaming</string>
     <string name="title_launch">Iniciar aplicación</string>
     <string name="title_donate">Donar</string>
-    <string name="title_rate">Rate</string>
+    <string name="title_rate">Calificar</string>
     <string name="title_thanks">¡Gracias por tu donación!</string>
 </resources>

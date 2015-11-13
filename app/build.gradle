@@ -8,8 +8,8 @@ android {
         applicationId "eu.faircode.netguard"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 28
-        versionName "0.28"
+        versionCode 29
+        versionName "0.29"
     }
     buildTypes {
         release {
@@ -34,8 +34,7 @@ def setOutputFile(variant, defaultConfig) {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:recyclerview-v7:23.1.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.support:appcompat-v7:23.1.+'
+    compile 'com.android.support:recyclerview-v7:23.1.+'
+    compile 'com.squareup.picasso:picasso:2.5.+'
 }

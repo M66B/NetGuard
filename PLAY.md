@@ -3,7 +3,7 @@ Play store
 
 Title
 -----
-NetGuard
+NetGuard - no-root firewall
 
 
 Short description
@@ -44,6 +44,10 @@ Features:
 Most of these features are the result of sending selected traffic to a VPN sinkhole, instead of filtering all internet traffic.
 This means that advanced features, like address-based filtering (needed for hosts blocking), traffic logging, and on-demand configuration, are not possible.
 
+Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.
+
 For up to date info on device compatibility, questions and answers please read more here: http://forum.xda-developers.com/showthread.php?t=3233012
 
 If you like to test new features, you can participate in the test program: https://play.google.com/apps/testing/eu.faircode.netguard
+
+The source code is available here: https://github.com/M66B/NetGuard
