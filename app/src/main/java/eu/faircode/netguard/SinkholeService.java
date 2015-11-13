@@ -109,8 +109,12 @@ public class SinkholeService extends VpnService {
                         vpn = startVPN();
                         startDebug(vpn);
                     }
-                    removeDisabledNotification();
-                    Widget.updateWidgets(SinkholeService.this);
+                    if (vpn == null)
+                        prefs.edit().putBoolean("enabled", false).apply();
+                    else {
+                        removeDisabledNotification();
+                        Widget.updateWidgets(SinkholeService.this);
+                    }
                     break;
 
                 case reload:
@@ -209,7 +213,7 @@ public class SinkholeService extends VpnService {
     }
 
     private void startDebug(final ParcelFileDescriptor pfd) {
-        if (!debug)
+        if (pfd == null || !debug)
             return;
 
         thread = new Thread(new Runnable() {
