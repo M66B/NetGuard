@@ -34,7 +34,7 @@ Din acest motiv la urmatoarea fereastra de dialog trebuie sa acceptati crearea c
 Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca traficul tau de internet nu este redirectionat nicaieri.</string>
     <string name="msg_try">Incearca NetGuard</string>
     <string name="msg_voluntary">Donatiile sunt voluntare si nu deblocheaza vreo functie ascunsa. Donatiile sunt doar un mod de a iti arata aprecierea pentru munca depusa pentru aceasta aplicatie.</string>
-    <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
+    <string name="msg_dimming">Daca in urmatoarea fereastra de dialog nu poti apasa OK inseamna ca o aplicatie ce manipuleaza ecranul (luminozitatea sau nuanta) blocheaza interactiunea.</string>
  
     <string name="title_using">Permite doar cand ecranul este pornit</string>
     <string name="title_roaming">Blocheaza in roaming</string>
