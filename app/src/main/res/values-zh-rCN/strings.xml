@@ -15,6 +15,7 @@
 
     <string name="setting_whitelist_wifi">默认阻止Wi-Fi网络</string>
     <string name="setting_whitelist_other">默认阻止移动网络</string>
+    <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">默认阻止漫游</string>
     <string name="setting_system">管理系统应用</string>
     <string name="setting_dark">使用暗色主题</string>

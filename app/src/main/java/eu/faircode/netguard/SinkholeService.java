@@ -163,9 +163,11 @@ public class SinkholeService extends VpnService {
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
         // Add list of allowed applications
+        int allowed = 0;
         for (Rule rule : Rule.getRules(true, TAG, this)) {
             boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
             if ((!blocked || (rule.unused && interactive)) && (!metered || !(rule.roaming && last_roaming))) {
+                allowed++;
                 if (debug)
                     Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
@@ -175,6 +177,7 @@ public class SinkholeService extends VpnService {
                 }
             }
         }
+        Log.i(TAG, "Allowed count=" + allowed);
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);

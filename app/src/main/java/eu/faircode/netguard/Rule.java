@@ -88,9 +88,10 @@ public class Rule implements Comparable<Rule> {
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
 
         // Get settings
-        boolean whitelist_wifi = prefs.getBoolean("whitelist_wifi", true);
-        boolean whitelist_other = prefs.getBoolean("whitelist_other", true);
-        boolean whitelist_roaming = prefs.getBoolean("whitelist_roaming", true);
+        boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
+        boolean default_other = prefs.getBoolean("whitelist_other", true);
+        boolean default_unused = prefs.getBoolean("unused", false);
+        boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
         boolean manage_system = prefs.getBoolean("manage_system", false);
 
         // Get predefined rules
@@ -106,8 +107,8 @@ public class Rule implements Comparable<Rule> {
                     if ("rule".equals(xml.getName())) {
                         String pkg = xml.getAttributeValue(null, "package");
                         boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
-                        boolean punused = xml.getAttributeBooleanValue(null, "unused", false);
-                        boolean proaming = xml.getAttributeBooleanValue(null, "roaming", whitelist_roaming);
+                        boolean punused = xml.getAttributeBooleanValue(null, "unused", default_unused);
+                        boolean proaming = xml.getAttributeBooleanValue(null, "roaming", default_roaming);
                         pre_blocked.put(pkg, pblocked);
                         pre_unused.put(pkg, punused);
                         pre_roaming.put(pkg, proaming);
@@ -136,10 +137,10 @@ public class Rule implements Comparable<Rule> {
 
                 rule.system = system;
 
-                rule.wifi_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : whitelist_wifi);
-                rule.other_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : whitelist_other);
-                rule.unused_default = (pre_unused.containsKey(info.packageName) ? pre_unused.get(info.packageName) : false);
-                rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : whitelist_roaming);
+                rule.wifi_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : default_wifi);
+                rule.other_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : default_other);
+                rule.unused_default = (pre_unused.containsKey(info.packageName) ? pre_unused.get(info.packageName) : default_unused);
+                rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
 
                 rule.wifi_blocked = (system && !manage_system ? false : wifi.getBoolean(info.packageName, rule.wifi_default));
                 rule.other_blocked = (system && !manage_system ? false : other.getBoolean(info.packageName, rule.other_default));
@@ -149,10 +150,10 @@ public class Rule implements Comparable<Rule> {
                 if (pre_related.containsKey(info.packageName))
                     rule.related = pre_related.get(info.packageName);
 
-                rule.changed = (rule.wifi_blocked != whitelist_wifi ||
-                        rule.other_blocked != whitelist_other ||
-                        rule.unused ||
-                        (!rule.other_blocked || rule.unused) && rule.roaming && rule.roaming != whitelist_roaming);
+                rule.changed = (rule.wifi_blocked != default_wifi ||
+                        rule.other_blocked != default_other ||
+                        ((rule.wifi_blocked || rule.other_blocked) && rule.unused != default_unused) ||
+                        ((!rule.other_blocked || rule.unused) && rule.roaming != default_roaming));
 
                 listRules.add(rule);
             }
@@ -166,10 +167,10 @@ public class Rule implements Comparable<Rule> {
 
     @Override
     public int compareTo(Rule other) {
-        if ((changed || unused) == (other.changed || other.unused)) {
+        if (changed == other.changed) {
             int i = name.compareToIgnoreCase(other.name);
             return (i == 0 ? info.packageName.compareTo(other.info.packageName) : i);
         }
-        return (changed || unused ? -1 : 1);
+        return (changed ? -1 : 1);
     }
 }
