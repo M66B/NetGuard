@@ -546,18 +546,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Handle logcat
-        if (Util.hasValidFingerprint(TAG, this))
-            view.setOnClickListener(new View.OnClickListener() {
-                private short tap = 0;
+        view.setOnClickListener(new View.OnClickListener() {
+            private short tap = 0;
 
-                @Override
-                public void onClick(View view) {
-                    if (++tap == 7) {
-                        tap = 0;
-                        Util.sendLogcat(TAG, ActivityMain.this);
-                    }
+            @Override
+            public void onClick(View view) {
+                if (++tap == 7) {
+                    tap = 0;
+                    Util.sendLogcat(TAG, ActivityMain.this);
                 }
-            });
+            }
+        });
 
         // Handle rate
         btnRate.setVisibility(getIntentRate(this).resolveActivity(getPackageManager()) == null ? View.GONE : View.VISIBLE);
