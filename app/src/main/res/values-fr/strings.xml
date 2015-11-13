@@ -15,6 +15,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
 
     <string name="setting_whitelist_wifi">Blocage Wi-Fi par défaut</string>
     <string name="setting_whitelist_other">Blocage données mobiles par défaut</string>
+    <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">Blocage roaming par défaut</string>
     <string name="setting_system">Gérer les applications système</string>
     <string name="setting_dark">Utiliser le thème sombre</string>

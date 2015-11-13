@@ -14,6 +14,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
 
     <string name="setting_whitelist_wifi">Blockiere Wi-Fi standardmäßig</string>
     <string name="setting_whitelist_other">Blockiere Mobilfunk standardmäßig</string>
+    <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">Blockiere Roaming standardmäßig</string>
     <string name="setting_system">System Apps anzeigen</string>
     <string name="setting_dark">Verwende dunkles Theme</string>

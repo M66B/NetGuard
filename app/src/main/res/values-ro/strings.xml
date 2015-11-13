@@ -15,6 +15,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
 
     <string name="setting_whitelist_wifi">Blocheaza implicit Wi-Fi</string>
     <string name="setting_whitelist_other">Blocheaza implicit date mobile</string>
+    <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
     <string name="setting_system">Gestionati aplicatiile de sistem</string>
     <string name="setting_dark">Foloseste tema intunecata</string>

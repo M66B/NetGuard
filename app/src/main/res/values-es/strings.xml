@@ -15,6 +15,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
 
     <string name="setting_whitelist_wifi">Bloquear Wi-Fi por defecto</string>
     <string name="setting_whitelist_other">Bloquear red móvil por defecto</string>
+    <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">Bloquear roaming por defecto</string>
     <string name="setting_system">Administrar aplicaciones de sistema</string>
     <string name="setting_dark">Usar tema oscuro</string>
