@@ -214,18 +214,25 @@ public class Util {
     private static StringBuilder getLogcat(String tag) {
         String pid = Integer.toString(android.os.Process.myPid());
         StringBuilder builder = new StringBuilder();
+        BufferedReader br = null;
         try {
             String[] command = new String[]{"logcat", "-d", "-v", "threadtime"};
             Process process = Runtime.getRuntime().exec(command);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
-            while ((line = bufferedReader.readLine()) != null)
+            while ((line = br.readLine()) != null)
                 if (line.contains(pid)) {
                     builder.append(line);
                     builder.append("\r\n");
                 }
         } catch (IOException ex) {
             Log.e(tag, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        } finally {
+            if (br != null)
+                try {
+                    br.close();
+                } catch (IOException ignored) {
+                }
         }
         return builder;
     }

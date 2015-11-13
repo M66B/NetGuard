@@ -219,9 +219,11 @@ public class SinkholeService extends VpnService {
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                FileInputStream in = null;
+                FileOutputStream out = null;
                 try {
-                    FileInputStream in = new FileInputStream(pfd.getFileDescriptor());
-                    FileOutputStream out = new FileOutputStream(pfd.getFileDescriptor());
+                    in = new FileInputStream(pfd.getFileDescriptor());
+                    out = new FileOutputStream(pfd.getFileDescriptor());
 
                     ByteBuffer buffer = ByteBuffer.allocate(32767);
                     buffer.order(ByteOrder.BIG_ENDIAN);
@@ -264,6 +266,17 @@ public class SinkholeService extends VpnService {
                     Log.i(TAG, "End receiving");
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                } finally {
+                    try {
+                        if (in != null)
+                            in.close();
+                    } catch (IOException ignored) {
+                    }
+                    try {
+                        if (out != null)
+                            out.close();
+                    } catch (IOException ignored) {
+                    }
                 }
             }
         });
