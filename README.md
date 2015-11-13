@@ -233,6 +233,7 @@ Current translations:
 1. Russian (ru)
 1. Slovak (sk)
 1. Spanish (es)
+1. Ukrainian (uk)
 
 Please note that you agree to the license below by contributing, including the copyright.
 
