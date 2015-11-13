@@ -186,6 +186,12 @@ Note that, whether or not you get a dialog warning to agree upon, this operation
 
 Please read [here](https://community.f-secure.com/t5/F-Secure/Android-Lollipop-Cannot-select/td-p/64502).
 
+<a name="FAQ15"></a>
+**(15) Why don't you support F-Droid?**
+
+Because F-Droid doesn't support reproducible builds.
+Read [here](https://blog.torproject.org/blog/deterministic-builds-part-one-cyberwar-and-global-compromise) why this is important.
+
 Support
 -------
 
