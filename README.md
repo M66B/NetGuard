@@ -204,6 +204,7 @@ Translations:
 * Copy [this file](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/values/strings.xml) to the [correct locale folder](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/)
 * Translate the strings in the copied file and omit all lines with **translatable="false"**
 * Create a [pull request on GitHub](https://help.github.com/articles/using-pull-requests) for the new/updated translation
+* If you don't feel comfortable using GitHub, you can sent the translation to *marcel(plus)netguard(at)faircode.eu*
 
 Current translations:
 
