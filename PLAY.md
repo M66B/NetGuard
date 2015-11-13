@@ -45,3 +45,5 @@ Most of these features are the result of sending selected traffic to a VPN sinkh
 This means that advanced features, like address-based filtering (needed for hosts blocking), traffic logging, and on-demand configuration, are not possible.
 
 For up to date info on device compatibility, questions and answers please read more here: http://forum.xda-developers.com/showthread.php?t=3233012
+
+If you like to test new features, you can participate in the test program: https://play.google.com/apps/testing/eu.faircode.netguard

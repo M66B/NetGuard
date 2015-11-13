@@ -17,14 +17,12 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_whitelist_other">Bloquear red móvil por defecto</string>
     <string name="setting_whitelist_roaming">Bloquear roaming por defecto</string>
     <string name="setting_system">Administrar aplicaciones de sistema</string>
-    <string name="setting_credentials">Verify credentials</string>
     <string name="setting_dark">Usar tema oscuro</string>
     <string name="setting_export">Exportar configuración</string>
     <string name="setting_import">Importar configuración</string>
     <string name="setting_vpn">Abrir configuración VPN de Android</string>
 
     <string name="summary_system">Define rules for system applications (for experts)</string>
-    <string name="summary_credentials">Confirm system pin, pattern, password, etc on opening the application</string>
 
     <string name="msg_sure">¿Estás seguro?</string>
     <string name="msg_started">Enforcing rules</string>
@@ -33,7 +31,6 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="msg_completed">Acción completada</string>
     <string name="msg_vpn">NetGuard utiliza un VPN local como un "sumidero" para conexiones de internet bloqueadas, por esta razón debes permitir la conexión VPN en el siguiente diálogo</string>
     <string name="msg_try">Try NetGuard</string>
-    <string name="msg_admin">Prevent NetGuard from being uninstalled</string>
 
     <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">Bloquear cuando se esté en roaming</string>

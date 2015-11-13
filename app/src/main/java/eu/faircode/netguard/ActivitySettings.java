@@ -19,9 +19,6 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
-import android.app.KeyguardManager;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -54,9 +51,6 @@ import javax.xml.parsers.SAXParserFactory;
 public class ActivitySettings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Settings";
 
-    private boolean unlocked = false;
-    public static final String EXTRA_UNLOCKED = "unlocked";
-
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
@@ -66,8 +60,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
-
-        unlocked = getIntent().getBooleanExtra(EXTRA_UNLOCKED, false);
 
         getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
         getSupportActionBar().setTitle(R.string.menu_settings);
@@ -81,10 +73,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     public void setup(PreferenceScreen screen) {
-        KeyguardManager kgm = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-        Preference pref_credentials = screen.findPreference("credentials");
-        pref_credentials.setEnabled(kgm.isKeyguardSecure());
-
         Preference pref_export = screen.findPreference("export");
         pref_export.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
         pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -112,10 +100,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else
             screen.removePreference(pref_vpn);
 
-        if (!unlocked)
-            for (int i = 0; i < screen.getPreferenceCount(); i++)
-                screen.getPreference(i).setEnabled(false);
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
     }
@@ -134,18 +118,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("manage_system".equals(name))
             SinkholeService.reload(null, this);
 
-        else if ("credentials".equals(name)) {
-            ComponentName component = new ComponentName(this, DeviceAdministratorReceiver.class);
-            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-            if (prefs.getBoolean(name, false) && !dpm.isAdminActive(component)) {
-                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, component);
-                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, getString(R.string.msg_admin));
-                if (intent.resolveActivity(getPackageManager()) != null)
-                    startActivity(intent);
-            }
-
-        } else if ("dark_theme".equals(name))
+        else if ("dark_theme".equals(name))
             recreate();
     }
 

@@ -45,3 +45,5 @@ Majoritatea functiilor sunt rezultatul trimiterii traficului selectat intr-o "ga
 Acest lucru presupune ca functii avansate, cum ar fi filtrarea adreselor (necesara pentru blocarea unor gazde), urmarirea traficului si detectarea aplicatiilor la acces, nu sunt posibile.
 
 Pentru informatii la zi despre compatibilitatea dispozitivelor, intrebari si raspunsuri va rugam sa cititi mai multe aici: http://forum.xda-developers.com/showthread.php?t=3233012
+
+Daca doriti sa testati caracteristile in dezvoltare ale aplicatiei, va puteti alatura programului de testare: https://play.google.com/apps/testing/eu.faircode.netguard

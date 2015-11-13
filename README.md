@@ -17,7 +17,7 @@ Downloads:
 * [Play store](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
 * [Play store](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
 * [F-Droid](https://f-droid.org/repository/browse/?fdfilter=netguard&fdid=eu.faircode.netguard) (unsupported, often outdated)
-* [XDA Labs](URL="http://forum.xda-developers.com/android/apps-games/labs-t3241866"]) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
+* [XDA Labs](http://forum.xda-developers.com/android/apps-games/labs-t3241866) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
 
 <img src="screenshot1.png" width="320" height="569" />
 
@@ -58,6 +58,7 @@ Permissions
 
 * ACCESS_NETWORK_STATE: to check if the device is connected to the internet through WiFi
 * RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
+* WAKE_LOCK: to reliably reload rules in the background on connectivity changes
 * com.android.vending.BILLING: to accept donations via in-app billing
 
 Compatibility
@@ -169,13 +170,20 @@ it is not possible to implement this, given the way NetGuard works.
 For more details, see [question 5](#FAQ5).
 
 <a name="FAQ13"></a>
-**(13) How can I remove the ongoing notification in the status bar?**
+**(13) How can I remove the ongoing NetGuard entry in the notification screen?**
 
-* Long click the notification
+* Long click the NetGuard notification
 * Tap the 'i' icon
-* Enable '*Block all*'
+* Depending on your device and/or ROMs manufacturer software customisations, you can be directed to either:
+  * the **App Info** screen and you can uncheck '*Show notifications*' and agree to the next dialog
+  * the **App Notifications** screen and you can toggle the '*Block*' slider to on
 
-Note that this will disable any warning notifications as well.
+Note that, whether or not you get a dialog warning to agree upon, this operation will disable any warning notifications from NetGuard as well.
+
+<a name="FAQ14"></a>
+**(14) Why can't I select OK to approve the VPN connection request?**
+
+Please read [here](https://community.f-secure.com/t5/F-Secure/Android-Lollipop-Cannot-select/td-p/64502).
 
 Support
 -------

@@ -17,14 +17,12 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="setting_whitelist_other">Blocage données mobiles par défaut</string>
     <string name="setting_whitelist_roaming">Blocage roaming par défaut</string>
     <string name="setting_system">Gérer les applications système</string>
-    <string name="setting_credentials">Verify credentials</string>
     <string name="setting_dark">Utiliser le thème sombre</string>
     <string name="setting_export">Exporter paramètres</string>
     <string name="setting_import">Importer paramètres</string>
     <string name="setting_vpn">Ouvrir les paramètres VPN</string>
 
     <string name="summary_system">Define rules for system applications (for experts)</string>
-    <string name="summary_credentials">Confirm system pin, pattern, password, etc on opening the application</string>
 
     <string name="msg_sure">Etes-vous sûr ?</string>
     <string name="msg_started">Enforcing rules</string>
@@ -33,7 +31,6 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="msg_completed">Action completed</string>
     <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic. For this reason, please allow a VPN connection in the next dialog</string>
     <string name="msg_try">Try NetGuard</string>
-    <string name="msg_admin">Prevent NetGuard from being uninstalled</string>
 
     <string name="title_using">Allow when screen is on</string>
     <string name="title_roaming">Bloquer si roaming</string>
