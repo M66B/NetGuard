@@ -60,14 +60,14 @@ public class Util {
         return tm.isNetworkRoaming();
     }
 
-    public static boolean isWifiActive(Context context) {
+    public static boolean isLocalNetwork(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        return (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
+        return (ni != null && (ni.getType() == ConnectivityManager.TYPE_WIFI || ni.getType() == ConnectivityManager.TYPE_ETHERNET));
 
     }
 
-    public static boolean isMetered(Context context) {
+    public static boolean isMeteredNetwork(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.isActiveNetworkMetered();
     }

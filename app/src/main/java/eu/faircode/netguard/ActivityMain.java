@@ -390,7 +390,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             ivNetwork.setVisibility(View.VISIBLE);
             ivMetered.setVisibility(View.VISIBLE);
 
-            if (Util.isWifiActive(context))
+            if (Util.isLocalNetwork(context))
                 ivNetwork.setImageLevel(1);
             else {
                 if (Util.isRoaming(context))
@@ -398,7 +398,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 else
                     ivNetwork.setImageLevel(2);
             }
-            ivMetered.setImageLevel(Util.isMetered(context) ? 1 : 0);
+            ivMetered.setImageLevel(Util.isMeteredNetwork(context) ? 1 : 0);
 
             actionView.postInvalidate();
         }

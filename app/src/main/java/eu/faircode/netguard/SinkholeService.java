@@ -141,10 +141,10 @@ public class SinkholeService extends VpnService {
         Log.i(TAG, "Starting");
 
         // Check state
-        boolean wifi = Util.isWifiActive(this);
-        boolean metered = Util.isMetered(this);
+        boolean local = Util.isLocalNetwork(this);
+        boolean metered = Util.isMeteredNetwork(this);
         boolean interactive = Util.isInteractive(this);
-        Log.i(TAG, "wifi=" + wifi +
+        Log.i(TAG, "local=" + local +
                 " metered=" + metered +
                 " roaming=" + last_roaming +
                 " interactive=" + interactive);
@@ -304,8 +304,9 @@ public class SinkholeService extends VpnService {
                 Log.i(TAG, "New state roaming=" + last_roaming);
                 reload(null, SinkholeService.this);
 
-            } else if (networkType == ConnectivityManager.TYPE_WIFI) {
-                // Wifi connected/disconnected
+            } else if (networkType == ConnectivityManager.TYPE_WIFI ||
+                    networkType == ConnectivityManager.TYPE_ETHERNET) {
+                // Local network connected/disconnected
                 reload(null, SinkholeService.this);
             }
         }
@@ -454,7 +455,7 @@ public class SinkholeService extends VpnService {
     public static void reload(String network, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getBoolean("enabled", false))
-            if (network == null || ("wifi".equals(network) ? !Util.isMetered(context) : Util.isMetered(context))) {
+            if (network == null || ("wifi".equals(network) ? !Util.isMeteredNetwork(context) : Util.isMeteredNetwork(context))) {
                 getLock(context).acquire();
                 Intent intent = new Intent(context, SinkholeService.class);
                 intent.putExtra(EXTRA_COMMAND, Command.reload);
