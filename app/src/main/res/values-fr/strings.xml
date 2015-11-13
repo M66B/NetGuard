@@ -42,7 +42,7 @@ Faire un don est une de façon de montrer votre soutiens aux développeur et vot
     <string name="title_using">Accepter si l\'ecran est allumé</string>
     <string name="title_roaming">Bloquer si roaming</string>
     <string name="title_disabled">Is disabled</string>
-    <string name="title_internet">Has no internet access</string>
+    <string name="title_internet">Does not have internet permission</string>
     <string name="title_launch">Lancer l\'application</string>
     <string name="title_donate">Faire un don</string>
     <string name="title_rate">Rate</string>

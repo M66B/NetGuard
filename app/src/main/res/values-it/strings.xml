@@ -42,7 +42,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="title_using">Permetti quando lo schermo è acceso</string>
     <string name="title_roaming">Blocca quando in roaming</string>
     <string name="title_disabled">Is disabled</string>
-    <string name="title_internet">Has no internet access</string>
+    <string name="title_internet">Does not have internet permission</string>
     <string name="title_launch">Avvia applicazione</string>
     <string name="title_donate">Dona</string>
     <string name="title_rate">Vota</string>
