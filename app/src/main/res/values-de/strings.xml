@@ -38,8 +38,8 @@ Since NetGuard has no internet permission, you know your internet traffic is not
 
     <string name="title_using">Erlauben wenn Bildschirm an</string>
     <string name="title_roaming">Blockiere bei Roaming</string>
-    <string name="title_disabled">Is disabled</string>
-    <string name="title_internet">Has no internet access</string>
+    <string name="title_disabled">is disabled</string>
+    <string name="title_internet">has no internet permission</string>
     <string name="title_launch">Starte App</string>
     <string name="title_donate">Spenden</string>
     <string name="title_rate">Bewerten</string>
