@@ -203,34 +203,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Fill application list
         updateApplicationList();
 
-        // Listen for preference changes
-        prefs.registerOnSharedPreferenceChangeListener(this);
-
-        // Listen for interactive state changes
-        IntentFilter ifInteractive = new IntentFilter();
-        ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
-        ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
-        registerReceiver(interactiveStateReceiver, ifInteractive);
-
-        // Listen for connectivity updates
-        IntentFilter ifConnectivity = new IntentFilter();
-        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(connectivityChangedReceiver, ifConnectivity);
-
-        // Listen for added/removed applications
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
-        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
-        intentFilter.addDataScheme("package");
-        registerReceiver(packageChangedReceiver, intentFilter);
-
-        // Connect to billing
-        if (Util.hasValidFingerprint(TAG, this)) {
-            Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
-            serviceIntent.setPackage("com.android.vending");
-            bindService(serviceIntent, IABConnection, Context.BIND_AUTO_CREATE);
-        }
-
         // First use
         if (!prefs.getBoolean("initialized", false)) {
             // Create view
@@ -268,11 +240,47 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     @Override
-    public void onDestroy() {
-        Log.i(TAG, "Destroy");
-        running = false;
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "Resume");
 
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+        // Listen for preference changes
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
+        // Listen for interactive state changes
+        IntentFilter ifInteractive = new IntentFilter();
+        ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
+        ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(interactiveStateReceiver, ifInteractive);
+
+        // Listen for connectivity updates
+        IntentFilter ifConnectivity = new IntentFilter();
+        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectivityChangedReceiver, ifConnectivity);
+
+        // Listen for added/removed applications
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        intentFilter.addDataScheme("package");
+        registerReceiver(packageChangedReceiver, intentFilter);
+
+        // Connect to billing
+        if (Util.hasValidFingerprint(TAG, this)) {
+            Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+            serviceIntent.setPackage("com.android.vending");
+            bindService(serviceIntent, IABConnection, Context.BIND_AUTO_CREATE);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "Pause");
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
 
         unregisterReceiver(interactiveStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
@@ -282,6 +290,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             unbindService(IABConnection);
             IABService = null;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(TAG, "Destroy");
+
+        running = false;
 
         if (dialogFirst != null) {
             dialogFirst.dismiss();
