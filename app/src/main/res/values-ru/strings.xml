@@ -13,7 +13,7 @@
 
     <string name="setting_whitelist_wifi">Блокировать Wi-Fi по умолч.</string>
     <string name="setting_whitelist_other">Блокировать моб. сеть по умолч.</string>
-    <string name="setting_unused">Default allow when screen is on</string>
+    <string name="setting_unused">Разрешить сети, когда экран включен, по умолч.</string>
     <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
     <string name="setting_system">Управлять сист. приложениями</string>
     <string name="setting_dark">Использовать темную тему</string>
@@ -28,17 +28,17 @@
     <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
     <string name="msg_revoked">NetGuard был отключен</string>
     <string name="msg_completed">Действие завершено</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
+    <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик.
+По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне.
+NetGuard не имеет разрешения доступа в интернет, поэтому вы можете быть уверены, что ваш интернет-трафик никуда не отправляется.</string>
     <string name="msg_try">Попробуйте новый фаервол NetGuard</string>
-    <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
-    <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
+    <string name="msg_voluntary">Пожертвования являются абсолютно добровольными и не добавляют никаких возможностей в программу. Пожертвования предназначены сугубо для того, чтобы выразить вашу признательность за проделанную работу.</string>
+    <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>
 
-    <string name="title_using">Разрешить, когда экран включен</string>
+    <string name="title_using">Разрешить сети, когда экран включен</string>
     <string name="title_roaming">Блокировать в роуминге</string>
-    <string name="title_disabled">is disabled</string>
-    <string name="title_internet">has no internet permission</string>
+    <string name="title_disabled">отключено</string>
+    <string name="title_internet">не имеет доступа в интернет</string>
     <string name="title_launch">Запуск приложения</string>
     <string name="title_donate">Пожертвовать</string>
     <string name="title_rate">Оценить</string>
