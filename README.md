@@ -209,6 +209,14 @@ It isn't, NetGuard doesn't allocate any memory, except a little for displaying t
 It appeared that on some Android variants the Play store connection, using almost 150 MB and needed for in-app donations,
 is incorrectly attributed to NetGuard instead to the Play store.
 
+<a name="FAQ18"></a>
+**(18) Why can I not find NetGuard in the Play store?**
+
+NetGuard requires at least Android 5.0, so it is not available in the Play store for devices running older Android versions.
+
+Some devices have an Android variant with a bug in the services NetGuard requires.
+These devices are black listed for the Play store. See also about [compatibility](#compatibility).
+
 Support
 -------
 
