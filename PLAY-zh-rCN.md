@@ -44,4 +44,11 @@ NetGuard是一款简洁的网络权限管理应用 - 无需root权限.
 上述大部分功能由重定向特定网络流量所实现, 而非过滤所有网络通讯. 
 因此一些诸如基于网址过滤(用于hosts拦截), 流量记录和按需配置等高级功能无法实现.
 
+NetGuard不具有网络访问权限, 因此您无需担心您的网络流量被导向第三方.
+
 查阅最新的设备兼容性列表,疑难解答或其他更多信息, 请访问: http://forum.xda-developers.com/showthread.php?t=3233012
+
+如果您希望试用最新功能, 可以加入测试项目: 
+https://play.google.com/apps/testing/eu.faircode.netguard
+
+源码请见: https://github.com/M66B/NetGuard
