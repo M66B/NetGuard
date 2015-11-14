@@ -542,6 +542,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Show version
         tvVersion.setText(Util.getSelfVersionName(this));
+        if (!Util.hasValidFingerprint(TAG, this))
+            tvVersion.setTextColor(Color.GRAY);
 
         // Handle license
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());

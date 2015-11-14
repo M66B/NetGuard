@@ -164,6 +164,7 @@ public class Util {
                 sb.append(String.format("Host: %s\r\n", Build.HOST));
                 sb.append(String.format("Display: %s\r\n", Build.DISPLAY));
                 sb.append(String.format("Id: %s\r\n", Build.ID));
+                sb.append(String.format("Fingerprint: %b\r\n", hasValidFingerprint(tag, context)));
                 sb.append(String.format("VPN dialogs: %b\r\n", isPackageInstalled("com.android.vpndialogs", context)));
 
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
