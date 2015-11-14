@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/title_donate"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <Button
                     android:id="@+id/btnRate"
