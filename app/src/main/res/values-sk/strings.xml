@@ -30,7 +30,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>
     <string name="msg_revoked">NetGuard je vypnutý</string>
     <string name="msg_completed">Akcia bola dokončená</string>
-    <string name="msg_vpn"NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky,
+    <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky,
 a preto by ste mali povoliť VPN pripojenie v ďalšom okne.
 Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemôže byť nikde odosielaná.</string>
     <string name="msg_try">Skúsiť NetGuard</string>
