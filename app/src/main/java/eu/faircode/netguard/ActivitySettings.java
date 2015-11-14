@@ -22,6 +22,8 @@ package eu.faircode.netguard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.Network;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -97,6 +99,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         if (Util.isDebuggable(this)) {
             pref_vpn.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
             pref_vpn.setIntent(INTENT_VPN_SETTINGS);
+
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            StringBuilder sb = new StringBuilder();
+            for (Network network : cm.getAllNetworks())
+                sb.append(cm.getNetworkInfo(network)).append("\n");
+            pref_vpn.setSummary(sb.toString());
         } else
             screen.removePreference(pref_vpn);
 
