@@ -54,7 +54,7 @@ public class SinkholeService extends VpnService {
     private boolean last_roaming;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
-    private Thread thread = null;
+    private Thread debugThread = null;
 
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
@@ -71,7 +71,7 @@ public class SinkholeService extends VpnService {
     synchronized private static PowerManager.WakeLock getLock(Context context) {
         if (wlInstance == null) {
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            wlInstance = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, context.getString(R.string.app_name));
+            wlInstance = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, context.getString(R.string.app_name) + " wakelock");
             wlInstance.setReferenceCounted(true);
         }
         return wlInstance;
@@ -155,7 +155,7 @@ public class SinkholeService extends VpnService {
 
         // Build VPN service
         final Builder builder = new Builder();
-        builder.setSession(getString(R.string.app_name));
+        builder.setSession(getString(R.string.app_name) + " session");
         // TODO: make tunnel parameters configurable
         builder.addAddress("10.1.10.1", 32);
         builder.addAddress("fd00:1:fd00:1:fd00:1:fd00:1", 64);
@@ -219,7 +219,7 @@ public class SinkholeService extends VpnService {
         if (pfd == null || !debug)
             return;
 
-        thread = new Thread(new Runnable() {
+        debugThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 FileInputStream in = null;
@@ -282,13 +282,13 @@ public class SinkholeService extends VpnService {
                     }
                 }
             }
-        });
-        thread.start();
+        }, getString(R.string.app_name) + " debug");
+        debugThread.start();
     }
 
     private void stopDebug() {
-        if (thread != null)
-            thread.interrupt();
+        if (debugThread != null)
+            debugThread.interrupt();
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
@@ -345,7 +345,7 @@ public class SinkholeService extends VpnService {
         super.onCreate();
         Log.i(TAG, "Create");
 
-        HandlerThread thread = new HandlerThread(getString(R.string.app_name));
+        HandlerThread thread = new HandlerThread(getString(R.string.app_name) + " handler");
         thread.start();
 
         mServiceLooper = thread.getLooper();
