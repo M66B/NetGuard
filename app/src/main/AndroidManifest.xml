@@ -18,7 +18,7 @@
         <activity
             android:name=".ActivityMain"
             android:configChanges="orientation|screenSize"
-            android:label="Main"
+            android:label="NetGuard"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
