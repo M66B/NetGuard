@@ -197,6 +197,13 @@ Read [here](https://blog.torproject.org/blog/deterministic-builds-part-one-cyber
 
 Disabled applications and applications without internet access are shown dimmed. See also [question 7](#FAQ7).
 
+<a name="FAQ17"></a>
+**(17) Why is NetGuard using so much memory?**
+
+It isn't, NetGuard doesn't allocate any memory, except a little for displaying the user interface elements.
+It appeared that on some Android variants the Play store connection, using almost 150 MB and needed for in-app donations,
+is incorrectly attributed to NetGuard instead to the Play store.
+
 Support
 -------
 
