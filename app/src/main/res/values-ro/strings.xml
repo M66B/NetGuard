@@ -2,9 +2,9 @@
     <string name="app_copyright">Copyright \u00A9 2015 by M. Bokhorst (M66B)</string>
     <string name="app_license">Folosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
     <string name="app_first">NetGuard este dezvoltat si testat cu mare atentie si grija, 
-cu toate acestea este imposibil sa se garanteze ca va functiona corect toate dispozitivele.
+cu toate acestea este imposibil sa se garanteze ca va functiona corect pe toate dispozitivele.
 NetGuard se poate opri brusc sau poate bloca tot traficul internet atunci cand este activat pe unele dispozitive.
-Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozitie de catre producatorul dispozitivului, va rugam nu dati vina pe NetGuard pentru asta.
+Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozitie de catre producatorul dispozitivului, va rugam sa nu dati vina pe NetGuard pentru asta.
 \n\nFolosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
 
     <string name="menu_search">Cauta aplicatii</string>
@@ -15,7 +15,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
 
     <string name="setting_whitelist_wifi">Blocheaza implicit Wi-Fi</string>
     <string name="setting_whitelist_other">Blocheaza implicit date mobile</string>
-    <string name="setting_unused">Default allow when screen is on</string>
+    <string name="setting_unused">Permite implicit cand ecranul este pornit</string>
     <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
     <string name="setting_system">Gestionati aplicatiile de sistem</string>
     <string name="setting_dark">Foloseste tema intunecata</string>
@@ -34,13 +34,13 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
 Din acest motiv la urmatoarea fereastra de dialog trebuie sa acceptati crearea conexiunii VPN.
 Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca traficul tau de internet nu este redirectionat nicaieri.</string>
     <string name="msg_try">Incearca NetGuard</string>
-    <string name="msg_voluntary">Donatiile sunt voluntare si nu deblocheaza vreo functie ascunsa. Donatiile sunt doar un mod de a iti arata aprecierea pentru munca depusa pentru aceasta aplicatie.</string>
+    <string name="msg_voluntary">Donatiile sunt voluntare si nu deblocheaza vreo functie ascunsa. Donatiile sunt doar un mod de a iti arata aprecierea pentru munca depusa la aceasta aplicatie.</string>
     <string name="msg_dimming">Daca in urmatoarea fereastra de dialog nu poti apasa OK inseamna ca o aplicatie ce manipuleaza ecranul (luminozitatea sau nuanta) blocheaza interactiunea.</string>
  
     <string name="title_using">Permite doar cand ecranul este pornit</string>
     <string name="title_roaming">Blocheaza in roaming</string>
-    <string name="title_disabled">Is disabled</string>
-    <string name="title_internet">Has no internet access</string>
+    <string name="title_disabled">Este dezactivata</string>
+    <string name="title_internet">Nu are permisiunea de a accesa internetul</string>
     <string name="title_launch">Porneste aplicatia</string>
     <string name="title_donate">Doneaza</string>
     <string name="title_rate">Evalueaza aplicatia</string>

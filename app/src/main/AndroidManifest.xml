@@ -18,28 +18,36 @@
         <activity
             android:name=".ActivityMain"
             android:configChanges="orientation|screenSize"
+            android:label="Main"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".ActivitySettings"
             android:configChanges="orientation|screenSize"
+            android:label="Settings"
             android:parentActivityName=".ActivityMain" />
 
         <service
             android:name=".SinkholeService"
+            android:label="Service"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
                 <action android:name="android.net.VpnService" />
             </intent-filter>
         </service>
 
-        <receiver android:name=".Receiver">
+        <receiver
+            android:name=".Receiver"
+            android:label="Receiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
@@ -50,7 +58,9 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".Widget">
+        <receiver
+            android:name=".Widget"
+            android:label="Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="eu.faircode.netguard.APPWIDGET_ON" />

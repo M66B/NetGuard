@@ -25,6 +25,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -152,21 +153,35 @@ public class Util {
                 }
 
                 StringBuilder sb = new StringBuilder();
-                sb.insert(0, "\r\n");
-                sb.insert(0, "Please decribe your problem:\r\n");
-                sb.insert(0, "\r\n");
-                sb.insert(0, String.format("VPN dialogs: %b\r\n", isPackageInstalled("com.android.vpndialogs", context)));
-                sb.insert(0, String.format("Id: %s\r\n", Build.ID));
-                sb.insert(0, String.format("Display: %s\r\n", Build.DISPLAY));
-                sb.insert(0, String.format("Host: %s\r\n", Build.HOST));
-                sb.insert(0, String.format("Device: %s\r\n", Build.DEVICE));
-                sb.insert(0, String.format("Product: %s\r\n", Build.PRODUCT));
-                sb.insert(0, String.format("Model: %s\r\n", Build.MODEL));
-                sb.insert(0, String.format("Manufacturer: %s\r\n", Build.MANUFACTURER));
-                sb.insert(0, String.format("Brand: %s\r\n", Build.BRAND));
-                sb.insert(0, "\r\n");
-                sb.insert(0, String.format("Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
-                sb.insert(0, String.format("NetGuard: %s\r\n", pInfo.versionName + "/" + pInfo.versionCode));
+                sb.append(String.format("NetGuard: %s\r\n", pInfo.versionName + "/" + pInfo.versionCode));
+                sb.append(String.format("Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
+                sb.append("\r\n");
+                sb.append(String.format("Brand: %s\r\n", Build.BRAND));
+                sb.append(String.format("Manufacturer: %s\r\n", Build.MANUFACTURER));
+                sb.append(String.format("Model: %s\r\n", Build.MODEL));
+                sb.append(String.format("Product: %s\r\n", Build.PRODUCT));
+                sb.append(String.format("Device: %s\r\n", Build.DEVICE));
+                sb.append(String.format("Host: %s\r\n", Build.HOST));
+                sb.append(String.format("Display: %s\r\n", Build.DISPLAY));
+                sb.append(String.format("Id: %s\r\n", Build.ID));
+                sb.append(String.format("Fingerprint: %b\r\n", hasValidFingerprint(tag, context)));
+                sb.append(String.format("VPN dialogs: %b\r\n", isPackageInstalled("com.android.vpndialogs", context)));
+
+                ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                for (Network network : cm.getAllNetworks()) {
+                    NetworkInfo ni = cm.getNetworkInfo(network);
+                    sb.append("Network: ")
+                            .append(ni.getTypeName())
+                            .append("/")
+                            .append(ni.getSubtypeName())
+                            .append("=")
+                            .append(ni.getDetailedState())
+                            .append("\r\n");
+                }
+
+                sb.append("\r\n");
+                sb.append("Please describe your problem:\r\n");
+                sb.append("\r\n");
 
                 Intent sendEmail = new Intent(Intent.ACTION_SEND);
                 sendEmail.setType("message/rfc822");

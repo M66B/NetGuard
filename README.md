@@ -127,7 +127,7 @@ like [AFWall+](https://github.com/ukanth/afwall), might be a better option and w
 <a name="FAQ6"></a>
 **(6) Will NetGuard send my internet traffic to an external (VPN) server?**
 
-No. It cannot do this because NetGuard does not even have the *internet* permission.
+No. It cannot even do this because NetGuard does not even have *internet* permission.
 
 <a name="FAQ7"></a>
 **(7) Why are applications without internet permission shown?**
@@ -155,7 +155,7 @@ but once you close it, it will not use any bandwidth.
 **(9) Why is the VPN service being restart?**
 
 The VPN service will be restarted when you turn the screen on or off and when connectivity changes (WiFi, mobile)
-to apply the rules with the conditions '*Allow when device is in use*' and '*Block when roaming*'.
+to apply the rules with the conditions '*Allow when screen is on*' and '*Block when roaming*'.
 
 <a name="FAQ10"></a>
 **(10) Will you provide a Tasker plug-in?**
@@ -195,7 +195,7 @@ Read [here](https://blog.torproject.org/blog/deterministic-builds-part-one-cyber
 <a name="FAQ16"></a>
 **(16) Why are some applications shown dimmed?**
 
-Disabled applications and applications without internet access are shown dimmed.
+Disabled applications and applications without internet access are shown dimmed. See also [question 7](#FAQ7).
 
 Support
 -------
@@ -233,6 +233,7 @@ Current translations:
 1. Russian (ru)
 1. Slovak (sk)
 1. Spanish (es)
+1. Ukrainian (uk)
 
 Please note that you agree to the license below by contributing, including the copyright.
 

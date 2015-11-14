@@ -15,7 +15,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
 
     <string name="setting_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
     <string name="setting_whitelist_other">Predvolene blokovať mobilné dáta</string>
-    <string name="setting_unused">Default allow when screen is on</string>
+    <string name="setting_unused">Predvolene povoliť pri zapnutej obrazovke</string>
     <string name="setting_whitelist_roaming">Predvolene blokovať roaming</string>
     <string name="setting_system">Spravovať systémové aplikácie</string>
     <string name="setting_dark">Použiť tmavú tému</string>
@@ -30,17 +30,17 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>
     <string name="msg_revoked">NetGuard je vypnutý</string>
     <string name="msg_completed">Akcia bola dokončená</string>
-    <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
+    <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky,
+a preto by ste mali povoliť VPN pripojenie v ďalšom okne.
+Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemôže byť nikde odosielaná.</string>
     <string name="msg_try">Skúsiť NetGuard</string>
-    <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
-    <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
+    <string name="msg_voluntary">Dary sú úplne dobrovoľné a neodomknú žiadne funkcie. Dary sú určené ako spôsob, akým možete prejaviť vašu vďačnosť za vykonanú prácu.</string>
+    <string name="msg_dimming">Ak nemôžete stlačiť tlačidlo OK na ďalšom okne, tak iná aplikácia (na ovladanie jasu) prekrýva obrazovkou.</string>
 
     <string name="title_using">Povoliť pri zapnutej obrazovke</string>
     <string name="title_roaming">Blokovať pri roamingu</string>
-    <string name="title_disabled">Is disabled</string>
-    <string name="title_internet">Has no internet access</string>
+    <string name="title_disabled">Zakázané</string>
+    <string name="title_internet">Nemá prístup k internetu</string>
     <string name="title_launch">Spustiť aplikáciu</string>
     <string name="title_donate">Prispieť</string>
     <string name="title_rate">Ohodnotiť</string>
