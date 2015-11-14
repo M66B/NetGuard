@@ -19,11 +19,14 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -53,6 +56,8 @@ import javax.xml.parsers.SAXParserFactory;
 public class ActivitySettings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Settings";
 
+    private Preference pref_vpn = null;
+
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
@@ -68,10 +73,27 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     @Override
-    public void onDestroy() {
+    protected void onResume() {
+        super.onResume();
+
+        // Listen for preference changes
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
+        // Listen for connectivity updates
+        IntentFilter ifConnectivity = new IntentFilter();
+        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectivityChangedReceiver, ifConnectivity);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.unregisterOnSharedPreferenceChangeListener(this);
-        super.onDestroy();
+
+        unregisterReceiver(connectivityChangedReceiver);
     }
 
     public void setup(PreferenceScreen screen) {
@@ -95,21 +117,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
         });
 
-        Preference pref_vpn = screen.findPreference("vpn");
+        pref_vpn = screen.findPreference("vpn");
         if (Util.isDebuggable(this)) {
             pref_vpn.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
             pref_vpn.setIntent(INTENT_VPN_SETTINGS);
-
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            StringBuilder sb = new StringBuilder();
-            for (Network network : cm.getAllNetworks())
-                sb.append(cm.getNetworkInfo(network)).append("\n");
-            pref_vpn.setSummary(sb.toString());
+            updateNetworkSummary();
         } else
             screen.removePreference(pref_vpn);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -129,6 +143,29 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         else if ("dark_theme".equals(name))
             recreate();
+    }
+
+    private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateNetworkSummary();
+        }
+    };
+
+    private void updateNetworkSummary() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        StringBuilder sb = new StringBuilder();
+        for (Network network : cm.getAllNetworks()) {
+            NetworkInfo ni = cm.getNetworkInfo(network);
+            sb.append("Network: ")
+                    .append(ni.getTypeName())
+                    .append("/")
+                    .append(ni.getSubtypeName())
+                    .append("=")
+                    .append(ni.getDetailedState())
+                    .append("\r\n");
+        }
+        pref_vpn.setSummary(sb.toString());
     }
 
     @Override

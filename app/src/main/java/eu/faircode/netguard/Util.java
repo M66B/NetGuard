@@ -168,8 +168,16 @@ public class Util {
                 sb.append(String.format("VPN dialogs: %b\r\n", isPackageInstalled("com.android.vpndialogs", context)));
 
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                for (Network network : cm.getAllNetworks())
-                    sb.append("Network: ").append(cm.getNetworkInfo(network)).append("\r\n");
+                for (Network network : cm.getAllNetworks()) {
+                    NetworkInfo ni = cm.getNetworkInfo(network);
+                    sb.append("Network: ")
+                            .append(ni.getTypeName())
+                            .append("/")
+                            .append(ni.getSubtypeName())
+                            .append("=")
+                            .append(ni.getDetailedState())
+                            .append("\r\n");
+                }
 
                 sb.append("\r\n");
                 sb.append("Please describe your problem:\r\n");
