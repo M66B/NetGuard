@@ -237,16 +237,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     .create();
             dialogFirst.show();
         }
+
+        // Listen for preference changes
+        prefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.i(TAG, "Resume");
-
-        // Listen for preference changes
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Listen for interactive state changes
         IntentFilter ifInteractive = new IntentFilter();
@@ -279,9 +278,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         super.onPause();
         Log.i(TAG, "Pause");
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.unregisterOnSharedPreferenceChangeListener(this);
-
         unregisterReceiver(interactiveStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageChangedReceiver);
@@ -297,6 +293,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Log.i(TAG, "Destroy");
 
         running = false;
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
 
         if (dialogFirst != null) {
             dialogFirst.dismiss();
