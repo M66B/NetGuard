@@ -184,6 +184,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     .append(ni.isRoaming() ? " ROAMING" : "")
                     .append("\r\n");
         }
+        sb.append(String.format("WiFi %B\r\n", Util.isWifiActive(this)));
         sb.append(String.format("Metered %B\r\n", Util.isMeteredNetwork(this)));
         pref_technical.setSummary(sb.toString());
     }
