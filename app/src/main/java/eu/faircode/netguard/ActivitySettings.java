@@ -138,6 +138,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             SinkholeService.reload("other", this);
 
         else if ("unused".equals(name) ||
+                "use_metered".equals(name) ||
                 "manage_system".equals(name))
             SinkholeService.reload(null, this);
 

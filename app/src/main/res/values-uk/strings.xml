@@ -13,6 +13,7 @@
     <string name="setting_whitelist_other">Блокувати типово у мобільній мережі</string>
     <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">Блокувати типово у роумінгу</string>
+    <string name="setting_metered">Use metered indication</string>
     <string name="setting_system">Керувати системними додатками</string>
     <string name="setting_dark">Використовувати темну тему</string>
     <string name="setting_export">Експорт налаштувань</string>
@@ -20,6 +21,7 @@
     <string name="setting_vpn">Відкрити налаштування Android VPN</string>
 
     <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
+    <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>
 
     <string name="msg_sure">Ви впевнені?</string>
     <string name="msg_started">Визначити правила</string>

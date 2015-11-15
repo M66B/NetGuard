@@ -142,16 +142,20 @@ public class SinkholeService extends VpnService {
     }
 
     private ParcelFileDescriptor startVPN() {
-        Log.i(TAG, "Starting");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Check state
         boolean wifi = Util.isWifiActive(this);
         boolean metered = Util.isMeteredNetwork(this);
         boolean interactive = Util.isInteractive(this);
-        Log.i(TAG, "wifi=" + wifi +
-                " metered=" + metered +
+        boolean useMetered = prefs.getBoolean("use_metered", false);
+        Log.i(TAG, "Starting wifi=" + wifi +
+                " metered=" + metered + "/" + useMetered +
                 " roaming=" + last_roaming +
                 " interactive=" + interactive);
+
+        if (!useMetered)
+            metered = false;
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -195,7 +199,6 @@ public class SinkholeService extends VpnService {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
             // Disable firewall
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", false).apply();
 
             // Feedback
@@ -473,13 +476,17 @@ public class SinkholeService extends VpnService {
 
     public static void reload(String network, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (prefs.getBoolean("enabled", false))
-            if (network == null || ("wifi".equals(network) ? !Util.isMeteredNetwork(context) : Util.isMeteredNetwork(context))) {
+        if (prefs.getBoolean("enabled", false)) {
+            boolean metered = Util.isMeteredNetwork(context);
+            if (!prefs.getBoolean("use_metered", false))
+                metered = false;
+            if (network == null || ("wifi".equals(network) ? !metered : metered)) {
                 getLock(context).acquire();
                 Intent intent = new Intent(context, SinkholeService.class);
                 intent.putExtra(EXTRA_COMMAND, Command.reload);
                 context.startService(intent);
             }
+        }
     }
 
     public static void stop(Context context) {

@@ -15,6 +15,7 @@
     <string name="setting_whitelist_other">Блокировать моб. сеть по умолч.</string>
     <string name="setting_unused">Разрешить сети, когда экран включен, по умолч.</string>
     <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
+    <string name="setting_metered">Use metered indication</string>
     <string name="setting_system">Управлять сист. приложениями</string>
     <string name="setting_dark">Использовать темную тему</string>
     <string name="setting_export">Экспорт настроек</string>
@@ -22,6 +23,7 @@
     <string name="setting_vpn">Открыть параметры VPN</string>
 
     <string name="summary_system">Определить правила для системных приложений (для профи)</string>
+    <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>
 
     <string name="msg_sure">Вы уверены?</string>
     <string name="msg_started">Определить правила</string>
