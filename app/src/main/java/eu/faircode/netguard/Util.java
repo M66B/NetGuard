@@ -21,6 +21,7 @@ package eu.faircode.netguard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -34,6 +35,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -44,6 +46,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
+import java.util.Map;
 import java.util.Set;
 
 public class Util {
@@ -181,6 +184,11 @@ public class Util {
                             .append(ni.isRoaming() ? " R" : "")
                             .append("\r\n");
                 }
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                Map<String, ?> all = prefs.getAll();
+                for (String key : all.keySet())
+                    sb.append("Setting: ").append(key).append('=').append(all.get(key)).append("\r\n");
 
                 sb.append("\r\n");
                 sb.append("Please describe your problem:\r\n");
