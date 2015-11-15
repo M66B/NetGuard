@@ -28,7 +28,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="msg_sure">¿Estás seguro?</string>
     <string name="msg_started">Aplicando reglas</string>
     <string name="msg_disabled">NetGuard está deshabilitado, utiliza el interruptor de arriba para habilitar a NetGuard</string>
-    <string name="msg_revoked">NetGuard ha sido deshabilitado</string>
+    <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
     <string name="msg_completed">Acción completada</string>
     <string name="msg_vpn">NetGuard utiliza un VPN local como sumidero para bloquear el acceso a internet.
 Por esta razón, por favor permite la conexión VPN en el próximo diálogo.

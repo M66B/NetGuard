@@ -24,7 +24,7 @@
     <string name="msg_sure">Ви впевнені?</string>
     <string name="msg_started">Визначити правила</string>
     <string name="msg_disabled">NetGuard вимкнено, аби увімкнути, використовуй перемикач, що знаходиться вище</string>
-    <string name="msg_revoked">NetGuard вимкнено</string>
+    <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
     <string name="msg_completed">Дію завершено</string>
     <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
 For this reason, please allow a VPN connection in the next dialog.

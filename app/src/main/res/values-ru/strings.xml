@@ -26,7 +26,7 @@
     <string name="msg_sure">Вы уверены?</string>
     <string name="msg_started">Определить правила</string>
     <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
-    <string name="msg_revoked">NetGuard был отключен</string>
+    <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
     <string name="msg_completed">Действие завершено</string>
     <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик.
 По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне.

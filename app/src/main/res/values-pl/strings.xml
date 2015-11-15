@@ -28,7 +28,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
     <string name="msg_sure">Na pewno?</string>
     <string name="msg_started">Wymuś Reguły</string>
     <string name="msg_disabled">NetGuard jest wyłączony, użyj przełącznika u góry by go uruchomić</string>
-    <string name="msg_revoked">NetGuard został wyłączony</string>
+    <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
     <string name="msg_completed">Wykonano</string>
     <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
 For this reason, please allow a VPN connection in the next dialog.

@@ -28,7 +28,7 @@
     <string name="msg_sure">是否确认?</string>
     <string name="msg_started">规则加载中</string>
     <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
-    <string name="msg_revoked">NetGuard已被停用</string>
+    <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
     <string name="msg_completed">操作完成</string>
     <string name="msg_vpn">NetGuard使用一个本地VPN来重定向被阻止的网络流量.
 因此请在下一个对话框中允许建立VPN连接.
