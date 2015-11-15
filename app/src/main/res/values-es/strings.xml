@@ -17,7 +17,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_whitelist_other">Bloquear red móvil por defecto</string>
     <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">Bloquear roaming por defecto</string>
-    <string name="setting_metered">Use metered indication</string>
+    <string name="setting_metered">Handle metered WiFi networks</string>
     <string name="setting_system">Administrar aplicaciones de sistema</string>
     <string name="setting_dark">Usar tema oscuro</string>
     <string name="setting_export">Exportar configuración</string>
@@ -25,7 +25,7 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Definir reglas para aplicaciones de sistema (para expertos)</string>
-    <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>
+    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) WiFi networks</string>
 
     <string name="msg_sure">¿Estás seguro?</string>
     <string name="msg_started">Aplicando reglas</string>

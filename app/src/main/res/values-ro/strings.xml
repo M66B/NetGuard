@@ -17,7 +17,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_whitelist_other">Blocheaza implicit date mobile</string>
     <string name="setting_unused">Permite implicit cand ecranul este pornit</string>
     <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
-    <string name="setting_metered">Arata indicatorul de contorizare</string>
+    <string name="setting_metered">Handle metered WiFi networks</string>
     <string name="setting_system">Gestionati aplicatiile de sistem</string>
     <string name="setting_dark">Foloseste tema intunecata</string>
     <string name="setting_export">Exporta setari</string>
@@ -25,7 +25,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
-    <string name="summary_metered">Considera conexiunile Wi-Fi contorizate (cu plata, hot-spot) drept date mobile</string>
+    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) WiFi networks</string>
 
     <string name="msg_sure">Esti sigur?</string>
     <string name="msg_started">Limitari activate</string>

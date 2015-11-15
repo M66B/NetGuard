@@ -17,7 +17,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="setting_whitelist_other">Predvolene blokovať mobilné dáta</string>
     <string name="setting_unused">Predvolene povoliť pri zapnutej obrazovke</string>
     <string name="setting_whitelist_roaming">Predvolene blokovať roaming</string>
-    <string name="setting_metered">Use metered indication</string>
+    <string name="setting_metered">Handle metered WiFi networks</string>
     <string name="setting_system">Spravovať systémové aplikácie</string>
     <string name="setting_dark">Použiť tmavú tému</string>
     <string name="setting_export">Exportovať nastavenia</string>
@@ -25,7 +25,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Určiť pravidlá pre systémové pravidlá (pre expertov)</string>
-    <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>
+    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) WiFi networks</string>
 
     <string name="msg_sure">Ste si istý?</string>
     <string name="msg_started">Pravidlá vynútenia</string>

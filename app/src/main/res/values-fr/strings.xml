@@ -17,7 +17,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="setting_whitelist_other">Blocage données mobiles par défaut</string>
     <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">Blocage roaming par défaut</string>
-    <string name="setting_metered">Use metered indication</string>
+    <string name="setting_metered">Handle metered WiFi networks</string>
     <string name="setting_system">Gérer les applications système</string>
     <string name="setting_dark">Utiliser le thème sombre</string>
     <string name="setting_export">Exporter paramètres</string>
@@ -25,7 +25,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Definisé les regeles pour les applications du système (Pour experts)</string>
-    <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>
+    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) WiFi networks</string>
 
     <string name="msg_sure">Etes-vous sûr ?</string>
     <string name="msg_started">Enforcing rules</string>

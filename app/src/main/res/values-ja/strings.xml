@@ -17,7 +17,7 @@
     <string name="setting_whitelist_other">デフォルトでモバイル通信をブロック</string>
     <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">デフォルトでローミングをブロック</string>
-    <string name="setting_metered">Use metered indication</string>
+    <string name="setting_metered">Handle metered WiFi networks</string>
     <string name="setting_system">システムアプリケーションの管理</string>
     <string name="setting_dark">ダークテーマを使用する</string>
     <string name="setting_export">設定をエクスポート</string>
@@ -28,7 +28,7 @@
     <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
 
     <string name="summary_system">システムアプリケーションのルールを定義します (エキスパート向け)</string>
-    <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>
+    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) WiFi networks</string>
 
     <string name="msg_sure">よろしいですか?</string>
     <string name="msg_started">Enforcing rules</string>
