@@ -17,7 +17,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_whitelist_other">Blocheaza implicit date mobile</string>
     <string name="setting_unused">Permite implicit cand ecranul este pornit</string>
     <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
-    <string name="setting_metered">Use metered indication</string>
+    <string name="setting_metered">Arata indicatorul de contorizare</string>
     <string name="setting_system">Gestionati aplicatiile de sistem</string>
     <string name="setting_dark">Foloseste tema intunecata</string>
     <string name="setting_export">Exporta setari</string>
@@ -25,12 +25,12 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_vpn">Deschide setari VPN Android</string>
 
     <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
-    <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>
+    <string name="summary_metered">Considera conexiunile Wi-Fi contorizate (cu plata, hot-spot) drept date mobile</string>
 
     <string name="msg_sure">Esti sigur?</string>
     <string name="msg_started">Limitari activate</string>
     <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
-    <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
+    <string name="msg_revoked">NetGuard a fost dezactivat, probabil de o alta aplicatie ce foloseste o conexiune VPN</string>
     <string name="msg_completed">Setari aplicate</string>
     <string name="msg_vpn">NetGuard foloseste o conexiune locala VPN ca o \"gaura neagra\" pentru traficul de internet blocat.
 Din acest motiv la urmatoarea fereastra de dialog trebuie sa acceptati crearea conexiunii VPN.
