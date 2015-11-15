@@ -15,22 +15,22 @@
 
     <string name="setting_whitelist_wifi">默认阻止Wi-Fi网络</string>
     <string name="setting_whitelist_other">默认阻止移动网络</string>
-    <string name="setting_unused">Default allow when screen is on</string>
+    <string name="setting_unused">默认亮屏时允许</string>
     <string name="setting_whitelist_roaming">默认阻止漫游</string>
-    <string name="setting_metered">Handle metered Wi-Fi networks</string>
+    <string name="setting_metered">控制按流量计费Wi-Fi网络</string>
     <string name="setting_system">管理系统应用</string>
     <string name="setting_dark">使用暗色主题</string>
     <string name="setting_export">导出设置</string>
     <string name="setting_import">导入设置</string>
-    <string name="setting_technical">Technical information</string>
+    <string name="setting_technical">技术信息</string>
 
     <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
-    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
+    <string name="summary_metered">将移动网络规则应用于按流量计费的 (付费, 共享) Wi-Fi网络</string>
 
     <string name="msg_sure">是否确认?</string>
     <string name="msg_started">规则加载中</string>
     <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
-    <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
+    <string name="msg_revoked">NetGuard已被停用, 可能是由于您启动了另一个基于VPN的应用</string>
     <string name="msg_completed">操作完成</string>
     <string name="msg_vpn">NetGuard使用一个本地VPN来重定向被阻止的网络流量.
 因此请在下一个对话框中允许建立VPN连接.
