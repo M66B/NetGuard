@@ -18,7 +18,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="setting_whitelist_other">Blocca rete dati di default</string>
     <string name="setting_unused">Permetti di default quando lo schermo è acceso</string>
     <string name="setting_whitelist_roaming">Blocca roaming di default</string>
-    <string name="setting_metered">Use metered indication</string>
+    <string name="setting_metered">Usa indicazione per reti a consumo</string>
     <string name="setting_system">Gestisci applicazioni di sistema</string>
     <string name="setting_dark">Usa il tema scuro</string>
     <string name="setting_export">Esporta impostazioni</string>
@@ -26,12 +26,12 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="setting_vpn">Apri impostazioni VPN</string>
 
     <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
-    <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>
+    <string name="summary_metered">Considera le reti WiFi a consumo (a pagamento, condivise) come reti cellulari</string>
 
     <string name="msg_sure">Sei sicuro?</string>
     <string name="msg_started">Regole applicate</string>
     <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
-    <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
+    <string name="msg_revoked">NetGuard è stata disabilitata, probabilmente a causa di un\'altra applicazione che usa il servizio VPN</string>
     <string name="msg_completed">Azione completata</string>
     <string name="msg_vpn">Per bloccare il traffico internet, NetGuard utilizza una VPN locale come \"pozzo\".
         Per questo motivo, abilita la connessione VPN nella prossima schermata.
