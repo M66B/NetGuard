@@ -70,6 +70,7 @@ Devices / ROMs with a broken VPN implementation:
 * Asus™ ZenFone 2 / Android 5.0.2/5.1.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63619542&postcount=121) (all traffic blocked)
 * Lenovo™ Yoga Tablet Pro-1380L / Yoga Tablet 2 Pro / Android 5.0.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63784102&postcount=278) (all traffic blocked)
 * Xperia™ M4 Aqua Dual / Android 5.0 (reported in the Play store) (all traffic blocked)
+* BQ™ Aquaris M5 / Android 5.0 (reported in the Play store) (all traffic blocked)
 
 Unfortunately this cannot be worked around.
 
