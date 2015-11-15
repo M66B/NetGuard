@@ -13,9 +13,4 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
-
-    <style name="smallButton" parent="android:Widget.Button.Small">
-        <item name="android:minHeight">0dp</item>
-        <item name="android:minWidth">0dp</item>
-    </style>
 </resources>
