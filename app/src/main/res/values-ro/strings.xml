@@ -17,15 +17,15 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_whitelist_other">Blocheaza implicit date mobile</string>
     <string name="setting_unused">Permite implicit cand ecranul este pornit</string>
     <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
-    <string name="setting_metered">Handle metered WiFi networks</string>
+    <string name="setting_metered">Gestionati conexiunile Wi-Fi contorizate</string>
     <string name="setting_system">Gestionati aplicatiile de sistem</string>
     <string name="setting_dark">Foloseste tema intunecata</string>
     <string name="setting_export">Exporta setari</string>
     <string name="setting_import">Importa setari</string>
-    <string name="setting_technical">Technical information</string>
+    <string name="setting_technical">Informatii tehnice</string>
 
     <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
-    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) WiFi networks</string>
+    <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
 
     <string name="msg_sure">Esti sigur?</string>
     <string name="msg_started">Limitari activate</string>
