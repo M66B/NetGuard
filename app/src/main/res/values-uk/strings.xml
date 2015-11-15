@@ -13,7 +13,7 @@
     <string name="setting_whitelist_other">Блокувати типово у мобільній мережі</string>
     <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">Блокувати типово у роумінгу</string>
-    <string name="setting_metered">Handle metered WiFi networks</string>
+    <string name="setting_metered">Handle metered Wi-Fi networks</string>
     <string name="setting_system">Керувати системними додатками</string>
     <string name="setting_dark">Використовувати темну тему</string>
     <string name="setting_export">Експорт налаштувань</string>
@@ -21,7 +21,7 @@
     <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
-    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) WiFi networks</string>
+    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
 
     <string name="msg_sure">Ви впевнені?</string>
     <string name="msg_started">Визначити правила</string>

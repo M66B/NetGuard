@@ -1,7 +1,7 @@
 # NetGuard
 
 *NetGuard* provides a simple way to block access to the internet - no root required.
-Applications can individually be allowed or denied access to your WiFi and/or mobile connection.
+Applications can individually be allowed or denied access to your Wi-Fi and/or mobile connection.
 
 Blocking access to the internet can help:
 
@@ -51,12 +51,12 @@ Usage
 -----
 
 * Enable the firewall using the switch in the action bar
-* Allow/deny WiFi/mobile internet access using the icons along the right side of the application list
+* Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
 
 Permissions
 -----------
 
-* ACCESS_NETWORK_STATE: to check if the device is connected to the internet through WiFi
+* ACCESS_NETWORK_STATE: to check if the device is connected to the internet through Wi-Fi
 * RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
 * WAKE_LOCK: to reliably reload rules in the background on connectivity changes
 * com.android.vending.BILLING: to accept donations via in-app billing
@@ -81,7 +81,7 @@ Tethering will not work when NetGuard is enabled due to a bug in Android ([issue
 Unfortunately this cannot be worked around.
 
 [Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify) NetGuard will result in rules not being applied
-when connectivity changes from WiFi/mobile, screen on/off, and roaming/not roaming.
+when connectivity changes from Wi-Fi/mobile, screen on/off, and roaming/not roaming.
 
 Frequently Asked Questions (FAQ)
 --------------------------------
@@ -96,7 +96,7 @@ The firewall can only start when Android "allows" it to start,
 so it will not offer protection during early boot-up (although your network may not be loaded at that time).
 It will, however, be much better than nothing, especially if you are not rebooting often.
 
-If you want to protect yourself more, you can (at least in theory) disable WiFi and mobile data before rebooting,
+If you want to protect yourself more, you can (at least in theory) disable Wi-Fi and mobile data before rebooting,
 and only enable them on reboot, after the firewall service has started (and the small key icon is visible in the status bar).
 
 Thanks @[pulser](https://github.com/pulser/)
@@ -160,7 +160,7 @@ but once you close it, it will not use any bandwidth.
 <a name="FAQ9"></a>
 **(9) Why is the VPN service being restart?**
 
-The VPN service will be restarted when you turn the screen on or off and when connectivity changes (WiFi, mobile)
+The VPN service will be restarted when you turn the screen on or off and when connectivity changes (Wi-Fi, mobile)
 to apply the rules with the conditions '*Allow when screen is on*' and '*Block when roaming*'.
 
 <a name="FAQ10"></a>

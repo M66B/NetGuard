@@ -15,7 +15,7 @@ Long description
 ----------------
 NetGuard provides a simple way to block access to the internet - no root required.
 
-Applications can individually be allowed or denied access to your WiFi and/or mobile connection.
+Applications can individually be allowed or denied access to your Wi-Fi and/or mobile connection.
 
 Blocking access to the internet can help:
 

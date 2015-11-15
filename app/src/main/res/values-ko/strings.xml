@@ -17,7 +17,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
     <string name="setting_whitelist_other">모바일 데이터 차단을 기본 설정으로</string>
     <string name="setting_unused">Default allow when screen is on</string>
     <string name="setting_whitelist_roaming">Block roaming by default</string>
-    <string name="setting_metered">Handle metered WiFi networks</string>
+    <string name="setting_metered">Handle metered Wi-Fi networks</string>
     <string name="setting_system">Manage system applications</string>
     <string name="setting_dark">어두운 테마 사용</string>
     <string name="setting_export">Export settings</string>
@@ -25,7 +25,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
     <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Define rules for system applications (for experts)</string>
-    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) WiFi networks</string>
+    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
 
     <string name="msg_sure">계속 하시겠습니까?</string>
     <string name="msg_started">Enforcing rules</string>
