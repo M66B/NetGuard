@@ -42,6 +42,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,6 +68,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private ImageView ivInteractive;
     private ImageView ivNetwork;
     private ImageView ivMetered;
+    private LinearLayout llSearch = null;
     private SwipeRefreshLayout swipeRefresh;
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
@@ -164,6 +166,35 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Disabled warning
         TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
         tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
+
+        // Lexicographic filtering
+        llSearch = (LinearLayout) findViewById(R.id.llSearch);
+        final Button btnA = (Button) findViewById(R.id.btnA);
+        final Button btnG = (Button) findViewById(R.id.btnG);
+        final Button btnM = (Button) findViewById(R.id.btnM);
+        final Button btnS = (Button) findViewById(R.id.btnS);
+
+        View.OnClickListener lexicographic = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (adapter != null)
+                    if (view == btnA)
+                        adapter.getFilter().filter("^[a-f].*$");
+                    else if (view == btnG)
+                        adapter.getFilter().filter("^[g-l].*$");
+                    else if (view == btnM)
+                        adapter.getFilter().filter("^[m-r].*$");
+                    else if (view == btnS)
+                        adapter.getFilter().filter("^[s-z|\\W].*$");
+                if (menuSearch != null)
+                    MenuItemCompat.collapseActionView(menuSearch);
+            }
+        };
+
+        btnA.setOnClickListener(lexicographic);
+        btnG.setOnClickListener(lexicographic);
+        btnM.setOnClickListener(lexicographic);
+        btnS.setOnClickListener(lexicographic);
 
         // Application list
         RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
@@ -408,8 +439,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             protected void onPostExecute(List<Rule> result) {
                 if (running) {
-                    if (adapter != null)
+                    if (adapter != null) {
                         adapter.set(result);
+                        adapter.getFilter().filter(null);
+                    }
                     if (menuSearch != null)
                         MenuItemCompat.collapseActionView(menuSearch);
                     if (swipeRefresh != null) {
@@ -429,26 +462,34 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Search
         menuSearch = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (adapter != null)
-                    adapter.getFilter().filter(query);
+                    adapter.getFilter().filter("^.*" + query + ".*$");
+                if (llSearch != null)
+                    llSearch.setVisibility(TextUtils.isEmpty(query) ? View.VISIBLE : View.GONE);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (adapter != null)
-                    adapter.getFilter().filter(newText);
+                    adapter.getFilter().filter("^.*" + newText + ".*$");
+                if (llSearch != null)
+                    llSearch.setVisibility(TextUtils.isEmpty(newText) ? View.VISIBLE : View.GONE);
                 return true;
             }
         });
+
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 if (adapter != null)
                     adapter.getFilter().filter(null);
+                if (llSearch != null)
+                    llSearch.setVisibility(View.VISIBLE);
                 return true;
             }
         });

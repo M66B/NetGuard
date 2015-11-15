@@ -47,6 +47,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.Adapter";
@@ -358,12 +359,13 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 if (query == null)
                     listResult.addAll(listAll);
                 else {
-                    query = query.toString().toLowerCase();
+                    boolean lexicographic = ((String) query).startsWith("^[");
+                    Pattern regex = Pattern.compile((String) query, Pattern.CASE_INSENSITIVE);
                     for (Rule rule : listAll)
-                        if (rule.info.packageName.toLowerCase().contains(query) ||
-                                (rule.name != null && rule.name.toLowerCase().contains(query)) ||
-                                (debuggable && rule.info.applicationInfo != null &&
-                                        Integer.toString(rule.info.applicationInfo.uid).contains(query)))
+                        if ((!lexicographic && regex.matcher(rule.info.packageName).matches()) ||
+                                (rule.name != null && regex.matcher(rule.name).matches()) ||
+                                (debuggable && !lexicographic && rule.info.applicationInfo != null &&
+                                        regex.matcher(Integer.toString(rule.info.applicationInfo.uid)).matches()))
                             listResult.add(rule);
                 }
 
