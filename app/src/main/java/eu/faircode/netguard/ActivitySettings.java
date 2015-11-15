@@ -56,7 +56,7 @@ import javax.xml.parsers.SAXParserFactory;
 public class ActivitySettings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Settings";
 
-    private Preference pref_vpn = null;
+    private Preference pref_technical = null;
 
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
@@ -80,6 +80,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
 
+        // Listen for interactive state changes
+        IntentFilter ifInteractive = new IntentFilter();
+        ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
+        ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(interactiveStateReceiver, ifInteractive);
+
         // Listen for connectivity updates
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -93,6 +99,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.unregisterOnSharedPreferenceChangeListener(this);
 
+        unregisterReceiver(interactiveStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
     }
 
@@ -117,13 +124,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
         });
 
-        pref_vpn = screen.findPreference("vpn");
+        pref_technical = screen.findPreference("technical");
         if (Util.isDebuggable(this)) {
-            pref_vpn.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
-            pref_vpn.setIntent(INTENT_VPN_SETTINGS);
-            updateNetworkSummary();
-        } else
-            screen.removePreference(pref_vpn);
+            pref_technical.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
+            pref_technical.setIntent(INTENT_VPN_SETTINGS);
+        }
+        updateTechinicalInfo();
     }
 
     @Override
@@ -146,27 +152,40 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             recreate();
     }
 
-    private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            updateNetworkSummary();
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(TAG, intent);
+            updateTechinicalInfo();
         }
     };
 
-    private void updateNetworkSummary() {
+    private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(TAG, intent);
+            updateTechinicalInfo();
+        }
+    };
+
+    private void updateTechinicalInfo() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Interactive %B\r\n", Util.isInteractive(this)));
         for (Network network : cm.getAllNetworks()) {
             NetworkInfo ni = cm.getNetworkInfo(network);
-            sb.append("Network: ")
-                    .append(ni.getTypeName())
+            sb.append(ni.getTypeName())
                     .append("/")
                     .append(ni.getSubtypeName())
-                    .append("=")
+                    .append(" ")
                     .append(ni.getDetailedState())
+                    .append(ni.isRoaming() ? " ROAMING" : "")
                     .append("\r\n");
         }
-        pref_vpn.setSummary(sb.toString());
+        sb.append(String.format("Metered %B\r\n", Util.isMeteredNetwork(this)));
+        pref_technical.setSummary(sb.toString());
     }
 
     @Override

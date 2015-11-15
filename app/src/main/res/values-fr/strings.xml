@@ -22,7 +22,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="setting_dark">Utiliser le thème sombre</string>
     <string name="setting_export">Exporter paramètres</string>
     <string name="setting_import">Importer paramètres</string>
-    <string name="setting_vpn">Ouvrir les paramètres VPN</string>
+    <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Definisé les regeles pour les applications du système (Pour experts)</string>
     <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>

@@ -166,6 +166,8 @@ public class Util {
                 sb.append(String.format("Id: %s\r\n", Build.ID));
                 sb.append(String.format("Fingerprint: %b\r\n", hasValidFingerprint(tag, context)));
                 sb.append(String.format("VPN dialogs: %b\r\n", isPackageInstalled("com.android.vpndialogs", context)));
+                sb.append(String.format("Interactive: %b\r\n", Util.isInteractive(context)));
+                sb.append(String.format("Metered: %b\r\n", Util.isMeteredNetwork(context)));
 
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 for (Network network : cm.getAllNetworks()) {
@@ -174,8 +176,9 @@ public class Util {
                             .append(ni.getTypeName())
                             .append("/")
                             .append(ni.getSubtypeName())
-                            .append("=")
+                            .append(" ")
                             .append(ni.getDetailedState())
+                            .append(ni.isRoaming() ? " R" : "")
                             .append("\r\n");
                 }
 

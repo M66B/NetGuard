@@ -21,7 +21,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
     <string name="setting_dark">Dunkles Thema verwenden</string>
     <string name="setting_export">Einstellungen exportieren</string>
     <string name="setting_import">Einstellungen importieren</string>
-    <string name="setting_vpn">Android VPN-Einstellungen öffnen</string>
+    <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
     <string name="summary_metered">Betrachte gemessenes (bezahltes, angebundenes) WLAN-Netzwerke als Mobil-Netzwerk</string>

@@ -37,6 +37,6 @@
         android:key="import"
         android:title="@string/setting_import" />
     <Preference
-        android:key="vpn"
-        android:title="@string/setting_vpn" />
+        android:key="technical"
+        android:title="@string/setting_technical" />
 </PreferenceScreen>

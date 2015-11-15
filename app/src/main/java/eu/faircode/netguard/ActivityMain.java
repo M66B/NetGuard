@@ -28,7 +28,6 @@ import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
@@ -51,8 +50,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,11 +59,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final String TAG = "NetGuard.Main";
 
     private boolean running = false;
-    private View actionView;
-    private LinearLayout llIndicators;
-    private ImageView ivInteractive;
-    private ImageView ivNetwork;
-    private ImageView ivMetered;
     private SwipeRefreshLayout swipeRefresh;
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
@@ -97,12 +89,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             SinkholeService.stop(this);
 
         // Action bar
-        actionView = getLayoutInflater().inflate(R.layout.action, null);
+        View actionView = getLayoutInflater().inflate(R.layout.action, null);
         SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
-        llIndicators = (LinearLayout) actionView.findViewById(R.id.llIndicators);
-        ivInteractive = (ImageView) actionView.findViewById(R.id.ivInteractive);
-        ivNetwork = (ImageView) actionView.findViewById(R.id.ivNetwork);
-        ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(actionView);
@@ -158,9 +146,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        // Indicators
-        llIndicators.setVisibility(Util.isDebuggable(this) ? View.VISIBLE : View.GONE);
-
         // Disabled warning
         TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
         tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
@@ -188,17 +173,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Listen for preference changes
         prefs.registerOnSharedPreferenceChangeListener(this);
-
-        // Listen for interactive state changes
-        IntentFilter ifInteractive = new IntentFilter();
-        ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
-        ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
-        registerReceiver(interactiveStateReceiver, ifInteractive);
-
-        // Listen for connectivity updates
-        IntentFilter ifConnectivity = new IntentFilter();
-        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(connectivityChangedReceiver, ifConnectivity);
 
         // Listen for added/removed applications
         IntentFilter intentFilter = new IntentFilter();
@@ -250,8 +224,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 
-        unregisterReceiver(interactiveStateReceiver);
-        unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageChangedReceiver);
 
         if (dialogFirst != null) {
@@ -333,48 +305,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         else if ("dark_theme".equals(name))
             recreate();
-
-        else if ("indicators".equals(name))
-            llIndicators.setVisibility(prefs.getBoolean(name, false) ? View.VISIBLE : View.GONE);
     }
-
-    private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
-
-            ivInteractive.setVisibility(Intent.ACTION_SCREEN_ON.equals(intent.getAction()) ? View.VISIBLE : View.INVISIBLE);
-            actionView.postInvalidate();
-        }
-    };
-
-    private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int networkType = intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY);
-            if (networkType == ConnectivityManager.TYPE_VPN)
-                return;
-
-            Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
-
-            ivNetwork.setVisibility(View.VISIBLE);
-            ivMetered.setVisibility(View.VISIBLE);
-
-            if (Util.isWifiActive(context))
-                ivNetwork.setImageLevel(1);
-            else {
-                if (Util.isRoaming(context))
-                    ivNetwork.setImageLevel(3);
-                else
-                    ivNetwork.setImageLevel(2);
-            }
-            ivMetered.setImageLevel(Util.isMeteredNetwork(context) ? 1 : 0);
-
-            actionView.postInvalidate();
-        }
-    };
 
     private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
         @Override

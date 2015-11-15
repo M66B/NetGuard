@@ -22,7 +22,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="setting_dark">Foloseste tema intunecata</string>
     <string name="setting_export">Exporta setari</string>
     <string name="setting_import">Importa setari</string>
-    <string name="setting_vpn">Deschide setari VPN Android</string>
+    <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
     <string name="summary_metered">Considera conexiunile Wi-Fi contorizate (cu plata, hot-spot) drept date mobile</string>

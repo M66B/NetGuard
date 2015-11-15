@@ -22,7 +22,7 @@
     <string name="setting_dark">使用暗色主题</string>
     <string name="setting_export">导出设置</string>
     <string name="setting_import">导入设置</string>
-    <string name="setting_vpn">打开安卓VPN设置</string>
+    <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
     <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>

@@ -20,7 +20,7 @@
     <string name="setting_dark">Использовать темную тему</string>
     <string name="setting_export">Экспорт настроек</string>
     <string name="setting_import">Импорт настроек</string>
-    <string name="setting_vpn">Открыть параметры VPN</string>
+    <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Определить правила для системных приложений (для профи)</string>
     <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>

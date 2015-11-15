@@ -11,37 +11,4 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="12dp"
         android:saveEnabled="false" />
-
-    <LinearLayout
-        android:id="@+id/llIndicators"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/ivInteractive"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="12dp"
-            android:src="@drawable/ic_perm_identity_white_24dp"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/ivNetwork"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="4dp"
-            android:src="@drawable/network"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/ivMetered"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="4dp"
-            android:src="@drawable/metered"
-            android:visibility="invisible" />
-    </LinearLayout>
 </LinearLayout>

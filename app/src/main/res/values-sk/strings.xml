@@ -22,7 +22,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
     <string name="setting_dark">Použiť tmavú tému</string>
     <string name="setting_export">Exportovať nastavenia</string>
     <string name="setting_import">Importovať nastavenia</string>
-    <string name="setting_vpn">Otvoriť nastavenia VPN</string>
+    <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Určiť pravidlá pre systémové pravidlá (pre expertov)</string>
     <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>

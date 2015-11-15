@@ -18,7 +18,7 @@
     <string name="setting_dark">Використовувати темну тему</string>
     <string name="setting_export">Експорт налаштувань</string>
     <string name="setting_import">Імпорт налаштувань</string>
-    <string name="setting_vpn">Відкрити налаштування Android VPN</string>
+    <string name="setting_technical">Technical information</string>
 
     <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
     <string name="summary_metered">Consider metered (paid, tethered) WiFi networks as mobile network</string>
