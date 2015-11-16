@@ -14,12 +14,12 @@ NetGuard is possibly the first free and open source no-root firewall for Android
 Downloads:
 --------
 
-<a href="https://github.com/M66B/NetGuard/releases"><img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png" align="left" height="32" ></a> (stable)
-
-[![Google Play](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)  
-
-[![Google Play](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)  
-
+<a href="https://github.com/M66B/NetGuard/releases"><img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png" align="left" height="32" ></a> (stable)  <br />  
+  <br />
+<a href="https://play.google.com/store/apps/details?id=eu.faircode.netguard"><img src="http://developer.android.com/images/brand/en_generic_rgb_wo_60.png" align="left" height="60" ></a> (stable)  <br />  
+  <br />
+<a href="https://play.google.com/apps/testing/eu.faircode.netguard"><img src="http://developer.android.com/images/brand/en_generic_rgb_wo_60.png" align="left" height="60" ></a> (beta)  <br />  
+  <br />
 <a href="https://f-droid.org/repository/browse/?fdid=eu.faircode.netguard"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Get_it_on_F-Droid.svg/320px-Get_it_on_F-Droid.svg.png"  align="left" height="60" ></a>  (unsupported, often outdated)  <br />  
   <br />
 <a href="https://labs.xda-developers.com/store/app/eu.faircode.netguard"><img src="https://cdn1.xda-developers.com/images/2015/xda-logo.svg"  align="left" height="32" ></a> ( [XDA app](http://forum.xda-developers.com/android/apps-games/labs-t3241866) )
