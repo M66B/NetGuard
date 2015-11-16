@@ -15,20 +15,20 @@
     <string name="setting_whitelist_other">Блокировать моб. сеть по умолч.</string>
     <string name="setting_unused">Разрешить сети, когда экран включен, по умолч.</string>
     <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
-    <string name="setting_metered">Handle metered Wi-Fi networks</string>
+    <string name="setting_metered">Регулировать огранич. Wi-Fi сети</string>
     <string name="setting_system">Управлять сист. приложениями</string>
     <string name="setting_dark">Использовать темную тему</string>
     <string name="setting_export">Экспорт настроек</string>
     <string name="setting_import">Импорт настроек</string>
-    <string name="setting_technical">Technical information</string>
+    <string name="setting_technical">Техническая информация</string>
 
     <string name="summary_system">Определить правила для системных приложений (для профи)</string>
-    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
+    <string name="summary_metered">Применить правила для лимитированных (платных, ограниченных) Wi-Fi сетей</string>
 
     <string name="msg_sure">Вы уверены?</string>
     <string name="msg_started">Определить правила</string>
     <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
-    <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
+    <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>
     <string name="msg_completed">Действие завершено</string>
     <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик.
 По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне.
