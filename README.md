@@ -16,7 +16,7 @@ Downloads:
 
 <a href="https://github.com/M66B/NetGuard/releases"><img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png" align="left" height="32" ></a> (stable)
 
-[![Google Play](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=eu.faircode.netguard&referrer=utm_source%3Dgithub) (stable)  
+[![Google Play](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)  
 
 [![Google Play](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)  
 
