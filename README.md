@@ -12,12 +12,16 @@ Blocking access to the internet can help:
 NetGuard is possibly the first free and open source no-root firewall for Android.
 
 Downloads:
+--------
 
 * [GitHub](https://github.com/M66B/NetGuard/releases)
 * [Play store](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
 * [Play store](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
 * [F-Droid](https://f-droid.org/repository/browse/?fdfilter=netguard&fdid=eu.faircode.netguard) (unsupported, often outdated)
-* [XDA Labs](http://forum.xda-developers.com/android/apps-games/labs-t3241866) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
+* [XDA Labs App](http://forum.xda-developers.com/android/apps-games/labs-t3241866) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
+
+Screenshots:
+--------
 
 <img src="screenshot1.png" width="320" height="569" />
 
