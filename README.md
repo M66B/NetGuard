@@ -201,7 +201,7 @@ Read [here](https://blog.torproject.org/blog/deterministic-builds-part-one-cyber
 <a name="FAQ16"></a>
 **(16) Why are some applications shown dimmed?**
 
-Disabled applications and applications without internet access are shown dimmed. See also [question 7](#FAQ7).
+Disabled applications and applications without internet permission are shown dimmed.
 
 <a name="FAQ17"></a>
 **(17) Why is NetGuard using so much memory?**
