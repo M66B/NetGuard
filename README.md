@@ -218,6 +218,13 @@ NetGuard requires at least Android 5.0, so it is not available in the Play store
 Some devices have an Android variant with a bug in the services NetGuard requires.
 These devices are black listed for the Play store. See also about [compatibility](#compatibility).
 
+<a name="FAQ19"></a>
+**(19) Why does aplication xyz still have internet access?**
+
+If you block internet access for an application, there is no way around it.
+However, applications could access the internet through other applications, like Google Play services.
+You can prevent this by blocking internet access for the other application as well.
+
 Support
 -------
 
