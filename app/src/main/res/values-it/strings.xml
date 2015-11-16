@@ -18,15 +18,15 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="setting_whitelist_other">Blocca rete dati di default</string>
     <string name="setting_unused">Permetti di default quando lo schermo è acceso</string>
     <string name="setting_whitelist_roaming">Blocca roaming di default</string>
-    <string name="setting_metered">Handle metered Wi-Fi networks</string>
+    <string name="setting_metered">Gestisci reti Wi-Fi a consumo</string>
     <string name="setting_system">Gestisci applicazioni di sistema</string>
     <string name="setting_dark">Usa il tema scuro</string>
     <string name="setting_export">Esporta impostazioni</string>
     <string name="setting_import">Importa impostazioni</string>
-    <string name="setting_technical">Technical information</string>
+    <string name="setting_technical">Informazioni tecniche</string>
 
     <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
-    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
+    <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
 
     <string name="msg_sure">Sei sicuro?</string>
     <string name="msg_started">Regole applicate</string>

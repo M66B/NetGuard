@@ -154,7 +154,7 @@ public class SinkholeService extends VpnService {
                 " roaming=" + last_roaming +
                 " interactive=" + interactive);
 
-        if (!useMetered)
+        if (wifi && !useMetered)
             metered = false;
 
         // Build VPN service
