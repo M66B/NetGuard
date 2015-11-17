@@ -80,7 +80,7 @@ Frequently Asked Questions (FAQ)
 [**(1) Can NetGuard completely protect my privacy?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ1)
 
 <a name="FAQ2"></a>
-[**(2) Can I use VPN applications while using NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ2)
+[**(2) Can I use another VPN application while using NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ2)
 
 <a name="FAQ3"></a>
 [**(3) Can I use NetGuard on any Android version?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ3)
@@ -101,7 +101,7 @@ Frequently Asked Questions (FAQ)
 [**(8) What do I need to enable for the Google Play Store to work?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ8)
 
 <a name="FAQ9"></a>
-[**(9) Why is the VPN service being restart?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ9)
+[**(9) Why is the VPN service being restarted?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ9)
 
 <a name="FAQ10"></a>
 [**(10) Will you provide a Tasker plug-in?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ10)
@@ -116,7 +116,7 @@ Frequently Asked Questions (FAQ)
 [**(14) Why can't I select OK to approve the VPN connection request?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ14)
 
 <a name="FAQ15"></a>
-[**(15) Why don't you support F-Droid?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ15)
+[**(15) Why won't you support the F-Droid builds?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ15)
 
 <a name="FAQ16"></a>
 [**(16) Why are some applications shown dimmed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ16)
@@ -125,13 +125,13 @@ Frequently Asked Questions (FAQ)
 [**(17) Why is NetGuard using so much memory?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ17)
 
 <a name="FAQ18"></a>
-[**(18) Why can I not find NetGuard in the Play store?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ18)
+[**(18) Why can't I find NetGuard in the Google Play Store?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ18)
 
 <a name="FAQ19"></a>
-[**(19) Why does aplication xyz still have internet access?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ19)
+[**(19) Why does aplication XYZ still have internet access?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ19)
 
 <a name="FAQ20"></a>
-[**(20) Can I Greenify NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ20)
+[**(20) Can I Greenify/hibernate NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ20)
 
 Permissions
 -----------
