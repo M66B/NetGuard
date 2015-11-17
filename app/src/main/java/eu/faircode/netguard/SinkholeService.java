@@ -477,8 +477,9 @@ public class SinkholeService extends VpnService {
     public static void reload(String network, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getBoolean("enabled", false)) {
+            boolean wifi = Util.isWifiActive(context);
             boolean metered = Util.isMeteredNetwork(context);
-            if (!prefs.getBoolean("use_metered", false))
+            if (wifi && !prefs.getBoolean("use_metered", false))
                 metered = false;
             if (network == null || ("wifi".equals(network) ? !metered : metered)) {
                 getLock(context).acquire();
