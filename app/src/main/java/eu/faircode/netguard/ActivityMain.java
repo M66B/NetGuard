@@ -64,6 +64,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private MenuItem menuSearch = null;
     private AlertDialog dialogFirst = null;
     private AlertDialog dialogVpn = null;
+    private AlertDialog dialogSupport = null;
     private AlertDialog dialogAbout = null;
 
     private static final int REQUEST_VPN = 1;
@@ -234,6 +235,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             dialogVpn.dismiss();
             dialogVpn = null;
         }
+        if (dialogSupport != null) {
+            dialogSupport.dismiss();
+            dialogSupport = null;
+        }
         if (dialogAbout != null) {
             dialogAbout.dismiss();
             dialogAbout = null;
@@ -387,6 +392,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (!Util.hasValidFingerprint(TAG, this) || getIntentInvite(this).resolveActivity(getPackageManager()) == null)
             menu.removeItem(R.id.menu_invite);
 
+        if (getIntentFAQ().resolveActivity(getPackageManager()) == null)
+            menu.removeItem(R.id.menu_faq);
+
         if (getIntentSupport().resolveActivity(getPackageManager()) == null)
             menu.removeItem(R.id.menu_support);
 
@@ -405,8 +413,39 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 startActivityForResult(getIntentInvite(this), REQUEST_INVITE);
                 return true;
 
+            case R.id.menu_faq:
+                startActivity(getIntentFAQ());
+                return true;
+
             case R.id.menu_support:
-                startActivity(getIntentSupport());
+                if (getIntentFAQ().resolveActivity(getPackageManager()) == null)
+                    startActivity(getIntentSupport());
+                else {
+                    dialogSupport = new AlertDialog.Builder(this)
+                            .setMessage(R.string.msg_faq)
+                            .setCancelable(true)
+                            .setPositiveButton(R.string.msg_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(getIntentSupport());
+                                }
+                            })
+                            .setNegativeButton(R.string.msg_no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(getIntentFAQ());
+                                }
+                            })
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialogInterface) {
+                                    dialogSupport = null;
+                                }
+                            })
+                            .create();
+                    dialogSupport.show();
+                }
+
                 return true;
 
             case R.id.menu_about:
@@ -547,4 +586,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         return intent;
     }
 
+    private static Intent getIntentFAQ() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://github.com/M66B/NetGuard/blob/master/FAQ.md"));
+        return intent;
+    }
 }

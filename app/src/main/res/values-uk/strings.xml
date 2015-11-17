@@ -6,6 +6,7 @@
     <string name="menu_search">Пошук додатку</string>
     <string name="menu_settings">Налаштування</string>
     <string name="menu_invite">Запросити</string>
+    <string name="menu_faq">FAQ</string>
     <string name="menu_support">Підтримка</string>
     <string name="menu_about">Про</string>
 
@@ -24,6 +25,9 @@
     <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
 
     <string name="msg_sure">Ви впевнені?</string>
+    <string name="msg_faq">Did you check the FAQ?</string>
+    <string name="msg_yes">Yes</string>
+    <string name="msg_no">No</string>
     <string name="msg_started">Визначити правила</string>
     <string name="msg_disabled">NetGuard вимкнено, аби увімкнути, використовуй перемикач, що знаходиться вище</string>
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>

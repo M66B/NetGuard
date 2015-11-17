@@ -10,6 +10,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
     <string name="menu_search">Zoek naar applicatie</string>
     <string name="menu_settings">Instellingen</string>
     <string name="menu_invite">Uitnodigen</string>
+    <string name="menu_faq">FAQ</string>
     <string name="menu_support">Ondersteuning</string>
     <string name="menu_about">Over</string>
 
@@ -28,6 +29,9 @@ These issues are caused by bugs in Android, or in the software provided by the m
     <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
 
     <string name="msg_sure">Weet u het zeker?</string>
+    <string name="msg_faq">Heeft u in de FAQ gekeken?</string>
+    <string name="msg_yes">Ja</string>
+    <string name="msg_no">Nee</string>
     <string name="msg_started">Regels worden afgedwongen</string>
     <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar boven om NetGuard aan te zetten</string>
     <string name="msg_revoked">NetGuard is uitgezet, waarschijnlijk door een andere VPN applicatie</string>
