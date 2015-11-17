@@ -176,13 +176,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         sb.append(String.format("Interactive %B\r\n", Util.isInteractive(this)));
         for (Network network : cm.getAllNetworks()) {
             NetworkInfo ni = cm.getNetworkInfo(network);
-            sb.append(ni.getTypeName())
-                    .append("/")
-                    .append(ni.getSubtypeName())
-                    .append(" ")
-                    .append(ni.getDetailedState())
-                    .append(ni.isRoaming() ? " ROAMING" : "")
-                    .append("\r\n");
+            if (ni != null)
+                sb.append(ni.getTypeName())
+                        .append("/")
+                        .append(ni.getSubtypeName())
+                        .append(" ")
+                        .append(ni.getDetailedState())
+                        .append(ni.isRoaming() ? " ROAMING" : "")
+                        .append("\r\n");
         }
         sb.append(String.format("WiFi %B\r\n", Util.isWifiActive(this)));
         sb.append(String.format("Metered %B\r\n", Util.isMeteredNetwork(this)));

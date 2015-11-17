@@ -176,14 +176,15 @@ public class Util {
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 for (Network network : cm.getAllNetworks()) {
                     NetworkInfo ni = cm.getNetworkInfo(network);
-                    sb.append("Network: ")
-                            .append(ni.getTypeName())
-                            .append("/")
-                            .append(ni.getSubtypeName())
-                            .append(" ")
-                            .append(ni.getDetailedState())
-                            .append(ni.isRoaming() ? " R" : "")
-                            .append("\r\n");
+                    if (ni != null)
+                        sb.append("Network: ")
+                                .append(ni.getTypeName())
+                                .append("/")
+                                .append(ni.getSubtypeName())
+                                .append(" ")
+                                .append(ni.getDetailedState())
+                                .append(ni.isRoaming() ? " R" : "")
+                                .append("\r\n");
                 }
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
