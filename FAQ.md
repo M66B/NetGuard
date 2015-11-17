@@ -20,7 +20,7 @@ and only enable them on reboot, after the firewall service has started (and the 
 Thanks @[pulser](https://github.com/pulser/)
 
 <a name="FAQ2"></a>
-**(2) Can I use VPN applications while using NetGuard?**
+**(2)  Can I use another VPN application while using NetGuard**
 
 If the VPN application is using the [VPN service](http://developer.android.com/reference/android/net/VpnService.html),
 then no, because NetGuard needs to use this service. Android allows only one application at a time to use this service.
@@ -76,7 +76,7 @@ By doing this, you can still open the Google Play Store and update/install/unins
 but once you close it, it will not use any bandwidth.
 
 <a name="FAQ9"></a>
-**(9) Why is the VPN service being restart?**
+**(9) Why is the VPN service being restarted?**
 
 The VPN service will be restarted when you turn the screen on or off and when connectivity changes (Wi-Fi, mobile)
 to apply the rules with the conditions '*Allow when screen is on*' and '*Block when roaming*'.
@@ -113,7 +113,7 @@ Some known (screen dimming) applications which can cause this are Lux Brightness
 To avoid this problem, at least temporary, close all applications and/or services which may be running in the background.
 
 <a name="FAQ15"></a>
-**(15) Why don't you support F-Droid?**
+**(15) Why won't you support the F-Droid builds?**
 
 Because F-Droid doesn't support reproducible builds.
 Read [here](https://blog.torproject.org/blog/deterministic-builds-part-one-cyberwar-and-global-compromise) why this is important.
@@ -131,7 +131,7 @@ It appeared that on some Android variants the Play store connection, using almos
 is incorrectly attributed to NetGuard instead to the Play store.
 
 <a name="FAQ18"></a>
-**(18) Why can I not find NetGuard in the Play store?**
+**(18) Why can't I find NetGuard in the Google Play Store?**
 
 NetGuard requires at least Android 5.0, so it is not available in the Play store for devices running older Android versions.
 
@@ -139,14 +139,14 @@ Some devices have an Android variant with a bug in the services NetGuard require
 These devices are black listed for the Play store. See also about [compatibility](#compatibility).
 
 <a name="FAQ19"></a>
-**(19) Why does aplication xyz still have internet access?**
+**(19) Why does aplication XYZ still have internet access?**
 
 If you block internet access for an application, there is no way around it.
 However, applications could access the internet through other applications, like Google Play services.
 You can prevent this by blocking internet access for the other application as well.
 
 <a name="FAQ20"></a>
-**(20) Can I Greenify NetGuard?**
+**(20) Can I Greenify/hibernate NetGuard?**
 
 No. [Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify)
 or otherwise hibernating NetGuard will result in rules not being applied
