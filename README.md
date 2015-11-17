@@ -12,6 +12,7 @@ Blocking access to the internet can help:
 NetGuard is possibly the first free and open source no-root firewall for Android.
 
 Features:
+--------------------------------
 
 * No root required
 * Simple to use
@@ -37,6 +38,7 @@ therefore older Android versions unfortunately cannot be supported.
 Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.
 
 Downloads:
+--------------------------------
 
 * [GitHub](https://github.com/M66B/NetGuard/releases)
 * [Play store](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
@@ -45,9 +47,13 @@ Downloads:
 * [XDA Labs App](http://forum.xda-developers.com/android/apps-games/labs-t3241866) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
 
 Usage:
+--------------------------------
 
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
+
+Screenshots:
+--------------------------------
 
 <img src="screenshot1.png" width="320" height="569" />
 
@@ -180,7 +186,7 @@ Note that, whether or not you get a dialog warning to agree upon, this operation
 <a name="FAQ14"></a>
 **(14) Why can't I select OK to approve the VPN connection request?**
 
-Please read [here](https://community.f-secure.com/t5/F-Secure/Android-Lollipop-Cannot-select/td-p/64502).
+There might be another app on top of the dialog. Some known (screen dimming) apps that can cause this are Lux Brightness, Night Mode, and Twilight. To avoid this problem, at least temporary, close all apps and/or services that may be running in the background.
 
 <a name="FAQ15"></a>
 **(15) Why don't you support F-Droid?**
@@ -218,8 +224,7 @@ You can prevent this by blocking internet access for the other application as we
 <a name="FAQ20"></a>
 **(20) Can I Greenify NetGuard?**
 
-[Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify) NetGuard will result in rules not being applied
-when connectivity changes from Wi-Fi/mobile, screen on/off, and roaming/not roaming.
+No. [Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify) or otherwise hibernating NetGuard will result in rules not being applied when connectivity changes from Wi-Fi/mobile, screen on/off and roaming/not roaming.
 
 Permissions
 -----------
