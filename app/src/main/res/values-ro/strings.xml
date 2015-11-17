@@ -10,7 +10,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="menu_search">Cauta aplicatii</string>
     <string name="menu_settings">Setari</string>
     <string name="menu_invite">Invita</string>
-    <string name="menu_faq">FAQ</string>
+    <string name="menu_faq">Intrebari frecvente</string>
     <string name="menu_support">Asistenta</string>
     <string name="menu_about">Despre</string>
 
@@ -29,9 +29,9 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
     <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
 
     <string name="msg_sure">Esti sigur?</string>
-    <string name="msg_faq">Did you check the FAQ?</string>
-    <string name="msg_yes">Yes</string>
-    <string name="msg_no">No</string>
+    <string name="msg_faq">Ai verificat si in "Intrebari frecvente"?</string>
+    <string name="msg_yes">Da</string>
+    <string name="msg_no">Nu</string>
     <string name="msg_started">Limitari activate</string>
     <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
     <string name="msg_revoked">NetGuard a fost dezactivat, probabil de o alta aplicatie ce foloseste o conexiune VPN</string>
