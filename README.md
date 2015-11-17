@@ -38,7 +38,6 @@ therefore older Android versions unfortunately cannot be supported.
 Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.
 
 Downloads:
---------------------------------
 
 * [GitHub](https://github.com/M66B/NetGuard/releases)
 * [Play store](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
@@ -47,13 +46,10 @@ Downloads:
 * [XDA Labs App](http://forum.xda-developers.com/android/apps-games/labs-t3241866) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
 
 Usage:
---------------------------------
+
 
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
-
-Screenshots:
---------------------------------
 
 <img src="screenshot1.png" width="320" height="569" />
 
