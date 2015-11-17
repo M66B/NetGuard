@@ -125,7 +125,7 @@ Frequently Asked Questions (FAQ)
 [**(17) Why is NetGuard using so much memory?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ17)
 
 <a name="FAQ18"></a>
-[**(18) Why can't I find NetGuard in the Play store?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ18)
+[**(18) Why can't I find NetGuard in the Google Play Store?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ18)
 
 <a name="FAQ19"></a>
 [**(19) Why does aplication XYZ still have internet access?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ19)
