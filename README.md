@@ -47,7 +47,6 @@ Downloads:
 
 Usage:
 
-
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
 
