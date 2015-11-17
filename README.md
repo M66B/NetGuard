@@ -66,13 +66,11 @@ Devices / ROMs with a broken VPN implementation:
 * Samsung™ Galaxy A5 / Android 5.0.2, [reported on Github](https://github.com/M66B/NetGuard/issues/20) (all traffic blocked)
 * Sony™ Xperia™ M4 Aqua Dual / Android 5.0 (reported in the Play store) (all traffic blocked)
 
-Unfortunately this cannot be worked around.
-
 NetGuard will crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
-Unfortunately this cannot be worked around.
 
 Tethering will not work when NetGuard is enabled due to a bug in Android ([issue](https://github.com/M66B/NetGuard/issues/42)).
-Unfortunately this cannot be worked around.
+
+Unfortunately it is not possible to workaround any of these problems.
 
 <a name="FAQ"></a>
 Frequently Asked Questions (FAQ)
