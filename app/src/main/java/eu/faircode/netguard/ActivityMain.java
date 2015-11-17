@@ -543,7 +543,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private static Intent getIntentSupport() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("http://forum.xda-developers.com/showthread.php?t=3233012"));
+        intent.setData(Uri.parse("https://github.com/M66B/NetGuard/blob/master/FAQ.md"));
         return intent;
     }
 

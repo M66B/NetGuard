@@ -151,3 +151,5 @@ You can prevent this by blocking internet access for the other application as we
 No. [Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify)
 or otherwise hibernating NetGuard will result in rules not being applied
 when connectivity changes from Wi-Fi/mobile, screen on/off and roaming/not roaming.
+
+**If you didn't found the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
