@@ -10,7 +10,6 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="menu_search">Buscar aplicación</string>
     <string name="menu_settings">Configuración</string>
     <string name="menu_invite">Invitar</string>
-    <string name="menu_faq">FAQ</string>
     <string name="menu_support">Soporte</string>
     <string name="menu_about">Acerca de</string>
 
@@ -29,9 +28,6 @@ Esto es causado por errores en Android, o por el software proporcionado por el f
     <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
 
     <string name="msg_sure">¿Estás seguro?</string>
-    <string name="msg_faq">Did you check the FAQ?</string>
-    <string name="msg_yes">Yes</string>
-    <string name="msg_no">No</string>
     <string name="msg_started">Aplicando reglas</string>
     <string name="msg_disabled">NetGuard está deshabilitado, utiliza el interruptor de arriba para habilitar a NetGuard</string>
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>

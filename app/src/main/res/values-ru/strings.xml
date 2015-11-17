@@ -8,7 +8,6 @@
     <string name="menu_search">Поиск приложения</string>
     <string name="menu_settings">Настройки</string>
     <string name="menu_invite">Пригласить</string>
-    <string name="menu_faq">FAQ</string>
     <string name="menu_support">Поддержка</string>
     <string name="menu_about">О приложении</string>
 
@@ -27,9 +26,6 @@
     <string name="summary_metered">Применить правила для лимитированных (платных, ограниченных) Wi-Fi сетей</string>
 
     <string name="msg_sure">Вы уверены?</string>
-    <string name="msg_faq">Did you check the FAQ?</string>
-    <string name="msg_yes">Yes</string>
-    <string name="msg_no">No</string>
     <string name="msg_started">Определить правила</string>
     <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
     <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>

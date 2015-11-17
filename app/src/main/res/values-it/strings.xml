@@ -11,7 +11,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="menu_search">Cerca applicazione</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="menu_invite">Invita</string>
-    <string name="menu_faq">FAQ</string>
     <string name="menu_support">Supporto</string>
     <string name="menu_about">Info</string>
 
@@ -30,9 +29,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
 
     <string name="msg_sure">Sei sicuro?</string>
-    <string name="msg_faq">Did you check the FAQ?</string>
-    <string name="msg_yes">Yes</string>
-    <string name="msg_no">No</string>
     <string name="msg_started">Regole applicate</string>
     <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
     <string name="msg_revoked">NetGuard è stata disabilitata, probabilmente a causa di un\'altra applicazione che usa il servizio VPN</string>

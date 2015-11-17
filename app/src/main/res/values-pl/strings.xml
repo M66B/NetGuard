@@ -10,7 +10,6 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
     <string name="menu_search">Szukaj aplikacji</string>
     <string name="menu_settings">Ustawienia</string>
     <string name="menu_invite">Zaproś</string>
-    <string name="menu_faq">FAQ</string>
     <string name="menu_support">Wsparcie</string>
     <string name="menu_about">O...</string>
 
@@ -29,9 +28,6 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
     <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
 
     <string name="msg_sure">Na pewno?</string>
-    <string name="msg_faq">Did you check the FAQ?</string>
-    <string name="msg_yes">Yes</string>
-    <string name="msg_no">No</string>
     <string name="msg_started">Wymuś Reguły</string>
     <string name="msg_disabled">NetGuard jest wyłączony, użyj przełącznika u góry by go uruchomić</string>
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>

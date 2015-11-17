@@ -10,7 +10,6 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="menu_search">Recherche application</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_invite">Invité</string>
-    <string name="menu_faq">FAQ</string>
     <string name="menu_support">Support</string>
     <string name="menu_about">À propos</string>
 
@@ -29,9 +28,6 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
     <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
 
     <string name="msg_sure">Etes-vous sûr ?</string>
-    <string name="msg_faq">Did you check the FAQ?</string>
-    <string name="msg_yes">Yes</string>
-    <string name="msg_no">No</string>
     <string name="msg_started">Enforcing rules</string>
     <string name="msg_disabled">NetGuard est désactivé, utilisez le bouton ci-dessus pour activer NetGuard</string>
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>

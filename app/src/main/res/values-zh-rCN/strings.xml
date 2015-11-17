@@ -10,7 +10,6 @@
     <string name="menu_search">搜索应用</string>
     <string name="menu_settings">设置</string>
     <string name="menu_invite">邀请</string>
-    <string name="menu_faq">FAQ</string>
     <string name="menu_support">软件支持</string>
     <string name="menu_about">关于</string>
 
@@ -29,9 +28,6 @@
     <string name="summary_metered">将移动网络规则应用于按流量计费的 (付费, 共享) Wi-Fi网络</string>
 
     <string name="msg_sure">是否确认?</string>
-    <string name="msg_faq">Did you check the FAQ?</string>
-    <string name="msg_yes">Yes</string>
-    <string name="msg_no">No</string>
     <string name="msg_started">规则加载中</string>
     <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
     <string name="msg_revoked">NetGuard已被停用, 可能是由于您启动了另一个基于VPN的应用</string>
