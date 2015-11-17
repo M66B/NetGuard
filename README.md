@@ -11,24 +11,7 @@ Blocking access to the internet can help:
 
 NetGuard is possibly the first free and open source no-root firewall for Android.
 
-Downloads:
---------
-
-* [GitHub](https://github.com/M66B/NetGuard/releases)
-* [Play store](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
-* [Play store](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
-* [F-Droid](https://f-droid.org/repository/browse/?fdfilter=netguard&fdid=eu.faircode.netguard) (unsupported, often outdated)
-* [XDA Labs App](http://forum.xda-developers.com/android/apps-games/labs-t3241866) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
-
-Screenshots:
---------
-
-<img src="screenshot1.png" width="320" height="569" />
-
-<img src="screenshot2.png" width="320" height="569" />
-
-Features
---------
+Features:
 
 * No root required
 * Simple to use
@@ -51,19 +34,24 @@ This means that advanced features, like address based filtering (needed for ad b
 Routing selected traffic into a sinkhole relies on an API introduced in Android 5.0 (Lollipop),
 therefore older Android versions unfortunately cannot be supported.
 
-Usage
------
+Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.
+
+Downloads:
+
+* [GitHub](https://github.com/M66B/NetGuard/releases)
+* [Play store](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
+* [Play store](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
+* [F-Droid](https://f-droid.org/repository/browse/?fdfilter=netguard&fdid=eu.faircode.netguard) (unsupported, often outdated)
+* [XDA Labs App](http://forum.xda-developers.com/android/apps-games/labs-t3241866) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
+
+Usage:
 
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
 
-Permissions
------------
+<img src="screenshot1.png" width="320" height="569" />
 
-* ACCESS_NETWORK_STATE: to check if the device is connected to the internet through Wi-Fi
-* RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
-* WAKE_LOCK: to reliably reload rules in the background on connectivity changes
-* com.android.vending.BILLING: to accept donations via in-app billing
+<img src="screenshot2.png" width="320" height="569" />
 
 Compatibility
 -------------
@@ -74,7 +62,7 @@ Devices / ROMs with a broken VPN implementation:
 * Asus™ ZenFone 2 / Android 5.0.2/5.1.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63619542&postcount=121) (all traffic blocked)
 * Asus™ ZenFone 4 / Android 5.0 (reported in the Play store) (all traffic blocked)
 * BQ™ Aquaris M5 / Android 5.0 (reported in the Play store) (all traffic blocked)
-* Lenovo™ Yoga Tablet Pro-1380L / Yoga Tablet 2 Pro / Android 5.0.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63784102&postcount=278) (all traffic blocked)
+* Lenovo™ Yoga Tablet Pro-1380L / 2 Pro / Android 5.0.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63784102&postcount=278) (all traffic blocked)
 * Samsung™ Galaxy A5 / Android 5.0.2, [reported on Github](https://github.com/M66B/NetGuard/issues/20) (all traffic blocked)
 * Sony™ Xperia™ M4 Aqua Dual / Android 5.0 (reported in the Play store) (all traffic blocked)
 
@@ -89,6 +77,7 @@ Unfortunately this cannot be worked around.
 [Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify) NetGuard will result in rules not being applied
 when connectivity changes from Wi-Fi/mobile, screen on/off, and roaming/not roaming.
 
+<a name="FAQ"></a>
 Frequently Asked Questions (FAQ)
 --------------------------------
 
@@ -230,6 +219,14 @@ These devices are black listed for the Play store. See also about [compatibility
 If you block internet access for an application, there is no way around it.
 However, applications could access the internet through other applications, like Google Play services.
 You can prevent this by blocking internet access for the other application as well.
+
+Permissions
+-----------
+
+* ACCESS_NETWORK_STATE: to check if the device is connected to the internet through Wi-Fi
+* RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
+* WAKE_LOCK: to reliably reload rules in the background on connectivity changes
+* com.android.vending.BILLING: to accept donations via in-app billing
 
 Support
 -------
