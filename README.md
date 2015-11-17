@@ -74,9 +74,6 @@ Unfortunately this cannot be worked around.
 Tethering will not work when NetGuard is enabled due to a bug in Android ([issue](https://github.com/M66B/NetGuard/issues/42)).
 Unfortunately this cannot be worked around.
 
-[Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify) NetGuard will result in rules not being applied
-when connectivity changes from Wi-Fi/mobile, screen on/off, and roaming/not roaming.
-
 <a name="FAQ"></a>
 Frequently Asked Questions (FAQ)
 --------------------------------
@@ -219,6 +216,12 @@ These devices are black listed for the Play store. See also about [compatibility
 If you block internet access for an application, there is no way around it.
 However, applications could access the internet through other applications, like Google Play services.
 You can prevent this by blocking internet access for the other application as well.
+
+<a name="FAQ20"></a>
+**(20) Can I Greenify NetGuard?**
+
+[Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.greenify) NetGuard will result in rules not being applied
+when connectivity changes from Wi-Fi/mobile, screen on/off, and roaming/not roaming.
 
 Permissions
 -----------
