@@ -153,3 +153,5 @@ or otherwise hibernating NetGuard will result in rules not being applied
 when connectivity changes from Wi-Fi/mobile, screen on/off and roaming/not roaming.
 
 **If you didn't found the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
+
+If you want to request a new feature or want to report a bug, please [create an issue on GitHub](https://github.com/M66B/NetGuard/issues/new).
