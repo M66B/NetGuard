@@ -168,9 +168,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        // Fill application list
-        updateApplicationList();
-
         // Listen for preference changes
         prefs.registerOnSharedPreferenceChangeListener(this);
 
@@ -182,7 +179,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         registerReceiver(packageChangedReceiver, intentFilter);
 
         // First use
-        if (!prefs.getBoolean("initialized", false)) {
+        boolean initialized = prefs.getBoolean("initialized", false);
+        if (!initialized) {
             // Create view
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.first, null);
@@ -215,6 +213,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     .create();
             dialogFirst.show();
         }
+
+        // Upgrade
+        Receiver.upgrade(initialized, this);
+
+        // Fill application list
+        updateApplicationList();
     }
 
     @Override

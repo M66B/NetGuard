@@ -331,6 +331,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 serializer.attribute(null, "value", value.toString());
                 serializer.endTag(null, "setting");
 
+            } else if (value instanceof Integer) {
+                serializer.startTag(null, "setting");
+                serializer.attribute(null, "key", key);
+                serializer.attribute(null, "type", "integer");
+                serializer.attribute(null, "value", value.toString());
+                serializer.endTag(null, "setting");
+
             } else
                 Log.e(TAG, "Unknown key=" + key);
         }
@@ -369,6 +376,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             Object value = settings.get(key);
             if (value instanceof Boolean)
                 editor.putBoolean(key, (Boolean) value);
+            else if (value instanceof Integer)
+                editor.putInt(key, (Integer) value);
             else
                 Log.e(TAG, "Unknown type=" + value.getClass());
         }
@@ -418,6 +427,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     else {
                         if ("boolean".equals(type))
                             current.put(key, Boolean.parseBoolean(value));
+                        else if ("integer".equals(type))
+                            current.put(key, Integer.parseInt(value));
                         else
                             Log.e(TAG, "Unknown type key=" + key);
                     }

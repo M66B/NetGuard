@@ -47,11 +47,28 @@ public class Receiver extends BroadcastReceiver {
             }
 
         } else {
+            upgrade(true, context);
+
             // Start service
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             if (prefs.getBoolean("enabled", false))
                 if (VpnService.prepare(context) == null)
                     SinkholeService.start(context);
         }
+    }
+
+    public static void upgrade(boolean initialized, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        int oldVersion = prefs.getInt("version", -1);
+        int newVersion = Util.getSelfVersionCode(context);
+        Log.i(TAG, "Upgrading from version " + oldVersion + " to " + newVersion);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        if (!initialized) {
+            editor.putBoolean("whitelist_wifi", false);
+            editor.putBoolean("whitelist_other", false);
+        }
+        editor.putInt("version", newVersion);
+        editor.apply();
     }
 }

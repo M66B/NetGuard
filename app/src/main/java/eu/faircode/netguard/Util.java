@@ -59,6 +59,15 @@ public class Util {
         }
     }
 
+    public static int getSelfVersionCode(Context context) {
+        try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException ex) {
+            return -1;
+        }
+    }
+
     public static boolean isRoaming(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm.isNetworkRoaming();
