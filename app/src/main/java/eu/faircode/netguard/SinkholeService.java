@@ -20,6 +20,7 @@ package eu.faircode.netguard;
 */
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -104,7 +105,7 @@ public class SinkholeService extends VpnService {
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
             switch (cmd) {
                 case start:
-                    startForeground(NOTIFY_FOREGROUND, getForegroundNotification());
+                    startForeground(NOTIFY_FOREGROUND, getForegroundNotification(0, 0));
                     if (vpn == null) {
                         vpn = startVPN();
                         startDebug(vpn);
@@ -163,11 +164,12 @@ public class SinkholeService extends VpnService {
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
         // Add list of allowed applications
-        int allowed = 0;
+        int nAllowed = 0;
+        int nBlocked = 0;
         for (Rule rule : Rule.getRules(true, TAG, this)) {
             boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
             if ((!blocked || (rule.unused && interactive)) && (!metered || !(rule.roaming && last_roaming))) {
-                allowed++;
+                nAllowed++;
                 if (debug)
                     Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
@@ -175,9 +177,15 @@ public class SinkholeService extends VpnService {
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
-            }
+            } else
+                nBlocked++;
         }
-        Log.i(TAG, "Allowed count=" + allowed);
+        Log.i(TAG, "Allowed=" + nAllowed + " blocked=" + nBlocked);
+
+        // Update notification
+        Notification notification = getForegroundNotification(nAllowed, nBlocked);
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.notify(NOTIFY_FOREGROUND, notification);
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
@@ -427,11 +435,11 @@ public class SinkholeService extends VpnService {
         super.onRevoke();
     }
 
-    private Notification getForegroundNotification() {
+    private Notification getForegroundNotification(int allowed, int blocked) {
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_security_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_started))
@@ -442,7 +450,13 @@ public class SinkholeService extends VpnService {
                 .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setAutoCancel(true);
 
-        return notification.build();
+        if (allowed > 0 || blocked > 0) {
+            NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
+            notification.bigText(getString(R.string.msg_started));
+            notification.setSummaryText(getString(R.string.msg_packages, allowed, blocked));
+            return notification.build();
+        } else
+            return builder.build();
     }
 
     private void showDisabledNotification() {

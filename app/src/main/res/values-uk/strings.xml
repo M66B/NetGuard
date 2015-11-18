@@ -25,6 +25,7 @@
 
     <string name="msg_sure">Ви впевнені?</string>
     <string name="msg_started">Визначити правила</string>
+    <string name="msg_packages">%1$d allowed, %2$d blocked</string>
     <string name="msg_disabled">NetGuard вимкнено, аби увімкнути, використовуй перемикач, що знаходиться вище</string>
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
     <string name="msg_completed">Дію завершено</string>

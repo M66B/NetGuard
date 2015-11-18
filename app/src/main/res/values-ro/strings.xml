@@ -29,6 +29,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
 
     <string name="msg_sure">Esti sigur?</string>
     <string name="msg_started">Limitari activate</string>
+    <string name="msg_packages">%1$d allowed, %2$d blocked</string>
     <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
     <string name="msg_revoked">NetGuard a fost dezactivat, probabil de o alta aplicatie ce foloseste o conexiune VPN</string>
     <string name="msg_completed">Setari aplicate</string>
