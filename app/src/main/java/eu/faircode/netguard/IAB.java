@@ -45,6 +45,7 @@ public class IAB implements ServiceConnection {
     private boolean available = false;
     private IInAppBillingService service = null;
 
+    private static final int IAB_VERSION = 3;
     // adb shell pm clear com.android.vending
     // adb shell am start -n eu.faircode.netguard/eu.faircode.netguard.ActivityMain
     private static final String SKU_DONATE = "donation";
@@ -104,7 +105,7 @@ public class IAB implements ServiceConnection {
         skuList.add(sku);
         Bundle query = new Bundle();
         query.putStringArrayList("ITEM_ID_LIST", skuList);
-        Bundle bundle = service.getSkuDetails(3, context.getPackageName(), "inapp", query);
+        Bundle bundle = service.getSkuDetails(IAB_VERSION, context.getPackageName(), "inapp", query);
         Log.i(TAG, "getSkuDetails");
         Util.logBundle(TAG, bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
@@ -130,7 +131,7 @@ public class IAB implements ServiceConnection {
 
     private boolean IABisPurchased(String sku) throws RemoteException {
         // Get purchases
-        Bundle bundle = service.getPurchases(3, context.getPackageName(), "inapp", null);
+        Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), "inapp", null);
         Log.i(TAG, "getPurchases");
         Util.logBundle(TAG, bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
@@ -144,7 +145,7 @@ public class IAB implements ServiceConnection {
     }
 
     private IntentSender IABgetIntent(String sku) throws RemoteException {
-        Bundle bundle = service.getBuyIntent(3, context.getPackageName(), sku, "inapp", "");
+        Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "");
         Log.i(TAG, "getBuyIntent");
         Util.logBundle(TAG, bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));

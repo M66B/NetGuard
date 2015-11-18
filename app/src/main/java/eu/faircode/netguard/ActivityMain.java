@@ -550,5 +550,4 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         intent.setData(Uri.parse("https://github.com/M66B/NetGuard/blob/master/FAQ.md"));
         return intent;
     }
-
 }
