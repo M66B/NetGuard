@@ -109,12 +109,8 @@ public class SinkholeService extends VpnService {
                         vpn = startVPN();
                         startDebug(vpn);
                     }
-                    if (vpn == null)
-                        prefs.edit().putBoolean("enabled", false).apply();
-                    else {
-                        removeDisabledNotification();
-                        Widget.updateWidgets(SinkholeService.this);
-                    }
+                    removeDisabledNotification();
+                    Widget.updateWidgets(SinkholeService.this);
                     break;
 
                 case reload:
@@ -193,7 +189,10 @@ public class SinkholeService extends VpnService {
 
         // Start VPN service
         try {
-            return builder.establish();
+            ParcelFileDescriptor result = builder.establish();
+            if (result == null)
+                throw new IllegalStateException("VpnService.Builder.establish returned unexpectedly NULL");
+            return result;
 
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
