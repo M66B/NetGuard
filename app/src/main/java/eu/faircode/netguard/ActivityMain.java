@@ -463,7 +463,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         });
 
         // In-app billing
-        final IAB iab = new IAB(ActivityMain.this);
+        final IAB iab = new IAB(this);
 
         // Handle donate
         btnDonate.setOnClickListener(new View.OnClickListener() {
