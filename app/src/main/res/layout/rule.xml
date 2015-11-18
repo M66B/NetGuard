@@ -103,11 +103,26 @@
         android:visibility="gone">
 
         <TextView
+            android:id="@+id/tvUid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+        <TextView
             android:id="@+id/tvPackage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Small"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvInternet"

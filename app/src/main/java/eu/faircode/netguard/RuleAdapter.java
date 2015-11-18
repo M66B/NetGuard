@@ -73,7 +73,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public TextView tvRoaming;
 
         public LinearLayout llConfiguration;
+        public TextView tvUid;
         public TextView tvPackage;
+        public TextView tvVersion;
         public TextView tvDisabled;
         public TextView tvInternet;
         public CheckBox cbUsing;
@@ -98,7 +100,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             tvRoaming = (TextView) itemView.findViewById(R.id.tvRoaming);
 
             llConfiguration = (LinearLayout) itemView.findViewById(R.id.llConfiguration);
+            tvUid = (TextView) itemView.findViewById(R.id.tvUid);
             tvPackage = (TextView) itemView.findViewById(R.id.tvPackage);
+            tvVersion = (TextView) itemView.findViewById(R.id.tvVersion);
             tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
             tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
             cbUsing = (CheckBox) itemView.findViewById(R.id.cbUsing);
@@ -223,10 +227,14 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.unused) ? View.VISIBLE : View.INVISIBLE);
 
         holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
-        if (!debuggable || rule.info.applicationInfo == null)
-            holder.tvPackage.setText(rule.info.packageName);
-        else
-            holder.tvPackage.setText(rule.info.applicationInfo.uid + " " + rule.info.packageName);
+
+        holder.tvUid.setVisibility(debuggable ? View.VISIBLE : View.GONE);
+        holder.tvUid.setText(rule.info.applicationInfo == null ? "?" : Integer.toString(rule.info.applicationInfo.uid));
+
+        holder.tvPackage.setText(rule.info.packageName);
+
+        holder.tvVersion.setVisibility(debuggable ? View.VISIBLE : View.GONE);
+        holder.tvVersion.setText(rule.info.versionName + '/' + rule.info.versionCode);
 
         holder.tvDisabled.setVisibility(rule.disabled ? View.VISIBLE : View.GONE);
         holder.tvInternet.setVisibility(rule.internet ? View.GONE : View.VISIBLE);
