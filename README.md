@@ -9,7 +9,7 @@ Blocking access to the internet can help:
 * save your battery
 * increase your privacy
 
-NetGuard is possibly the first free and open source no-root firewall for Android.
+NetGuard is the first free and open source no-root firewall for Android.
 
 Features:
 
