@@ -19,6 +19,7 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
@@ -50,7 +51,7 @@ public class IAB implements ServiceConnection {
     // adb shell am start -n eu.faircode.netguard/eu.faircode.netguard.ActivityMain
     private static final String SKU_DONATE = "donation";
     // private static final String SKU_DONATE = "android.test.purchased";
-    public static final String ACTION_PURCHASED = "eu.faircode.netguard.IAB";
+    public static final String ACTION_IAB = "eu.faircode.netguard.IAB";
 
     public IAB(Context context) {
         this.context = context;
@@ -63,8 +64,8 @@ public class IAB implements ServiceConnection {
         context.bindService(serviceIntent, this, Context.BIND_AUTO_CREATE);
     }
 
-    public IntentSender getIntentSender() throws RemoteException {
-        return (service != null && available ? IABgetIntent(SKU_DONATE) : null);
+    public PendingIntent getIntentSender() throws RemoteException {
+        return (service != null && available ? IABgetBuyIntent(SKU_DONATE) : null);
     }
 
     public void unbind() {
@@ -82,7 +83,8 @@ public class IAB implements ServiceConnection {
             service = IInAppBillingService.Stub.asInterface(binder);
 
             if (IABisPurchased(SKU_DONATE)) {
-                Intent intent = new Intent(ACTION_PURCHASED);
+                Intent intent = new Intent(ACTION_IAB);
+                intent.putExtra("RESULT_CODE", Activity.RESULT_OK);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
             } else
                 available = (service != null && IABisAvailable(SKU_DONATE));
@@ -144,16 +146,15 @@ public class IAB implements ServiceConnection {
         return (skus != null && skus.contains(sku));
     }
 
-    private IntentSender IABgetIntent(String sku) throws RemoteException {
-        Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "");
+    private PendingIntent IABgetBuyIntent(String sku) throws RemoteException {
+        Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "netguard");
         Log.i(TAG, "getBuyIntent");
         Util.logBundle(TAG, bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
         Log.i(TAG, "Response=" + getIABResult(response));
         if (response != 0 || !bundle.containsKey("BUY_INTENT"))
             return null;
-        PendingIntent pi = bundle.getParcelable("BUY_INTENT");
-        return (pi == null ? null : pi.getIntentSender());
+        return bundle.getParcelable("BUY_INTENT");
     }
 
     public static String getIABResult(int responseCode) {

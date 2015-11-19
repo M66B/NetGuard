@@ -20,6 +20,7 @@ package eu.faircode.netguard;
 */
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -259,20 +260,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 SinkholeService.start(this);
 
         } else if (requestCode == REQUEST_IAB) {
-            if (resultCode == RESULT_OK) {
-                // Handle donation
-                Intent intent = new Intent(IAB.ACTION_PURCHASED);
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-            } else {
-                int response = (data == null ? -1 : data.getIntExtra("RESPONSE_CODE", -1));
-                Log.i(TAG, "IAB response=" + IAB.getIABResult(response));
-
-                // Fail-safe
-                Intent donate = new Intent(Intent.ACTION_VIEW);
-                donate.setData(Uri.parse("http://www.netguard.me/"));
-                if (donate.resolveActivity(getPackageManager()) != null)
-                    startActivity(donate);
-            }
+            // Handle IAB result
+            Intent intent = new Intent(IAB.ACTION_IAB);
+            intent.putExtra("RESULT_CODE", resultCode);
+            if (data != null)
+                intent.putExtra("RESPONSE_CODE", data.getIntExtra("RESPONSE_CODE", -1));
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
         } else if (requestCode == REQUEST_INVITE) {
             // Do nothing
@@ -470,15 +463,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             public void onClick(View view) {
                 try {
-                    IntentSender sender = iab.getIntentSender();
-                    if (sender == null) {
+                    PendingIntent pi = iab.getIntentSender();
+                    if (pi == null) {
                         Log.i(TAG, "Donate");
                         Intent donate = new Intent(Intent.ACTION_VIEW);
                         donate.setData(Uri.parse("http://www.netguard.me/"));
                         startActivity(donate);
                     } else {
+                        btnDonate.setEnabled(false);
                         Log.i(TAG, "IAB donate");
-                        startIntentSenderForResult(sender, REQUEST_IAB, new Intent(), 0, 0, 0);
+                        startIntentSenderForResult(pi.getIntentSender(), REQUEST_IAB, new Intent(), 0, 0, 0);
                     }
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -486,24 +480,36 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        // Handle donated
-        final BroadcastReceiver onIABPurchased = new BroadcastReceiver() {
+        // Handle IAB result
+        final BroadcastReceiver onIABResult = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.i(TAG, "IAB donated");
+                int resultCode = intent.getIntExtra("RESULT_CODE", RESULT_CANCELED);
+                int responseCode = intent.getIntExtra("RESPONSE_CODE", -1);
+                final boolean ok = (resultCode == RESULT_OK);
+                Log.i(TAG, "IAB result ok=" + ok + " response=" + IAB.getIABResult(responseCode));
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (running) {
-                            btnDonate.setVisibility(View.GONE);
-                            tvThanks.setVisibility(View.VISIBLE);
+                            btnDonate.setEnabled(true);
+                            if (ok) {
+                                btnDonate.setVisibility(View.GONE);
+                                tvThanks.setVisibility(View.VISIBLE);
+                            } else {
+                                Intent donate = new Intent(Intent.ACTION_VIEW);
+                                donate.setData(Uri.parse("http://www.netguard.me/"));
+                                if (donate.resolveActivity(getPackageManager()) != null)
+                                    startActivity(donate);
+                            }
                         }
                     }
                 });
             }
         };
-        IntentFilter iff = new IntentFilter(IAB.ACTION_PURCHASED);
-        LocalBroadcastManager.getInstance(this).registerReceiver(onIABPurchased, iff);
+        IntentFilter iff = new IntentFilter(IAB.ACTION_IAB);
+        LocalBroadcastManager.getInstance(this).registerReceiver(onIABResult, iff);
 
         // Show dialog
         dialogAbout = new AlertDialog.Builder(this)
@@ -513,7 +519,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
                         if (running)
-                            LocalBroadcastManager.getInstance(ActivityMain.this).unregisterReceiver(onIABPurchased);
+                            LocalBroadcastManager.getInstance(ActivityMain.this).unregisterReceiver(onIABResult);
 
                         iab.unbind();
 
