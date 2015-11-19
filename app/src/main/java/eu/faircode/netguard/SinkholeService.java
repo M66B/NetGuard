@@ -105,13 +105,13 @@ public class SinkholeService extends VpnService {
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
             switch (cmd) {
                 case start:
-                    startForeground(NOTIFY_FOREGROUND, getForegroundNotification(0, 0));
                     if (vpn == null) {
+                        startForeground(NOTIFY_FOREGROUND, getForegroundNotification(0, 0));
                         vpn = startVPN();
                         startDebug(vpn);
+                        removeDisabledNotification();
+                        Widget.updateWidgets(SinkholeService.this);
                     }
-                    removeDisabledNotification();
-                    Widget.updateWidgets(SinkholeService.this);
                     break;
 
                 case reload:
@@ -129,10 +129,10 @@ public class SinkholeService extends VpnService {
                         stopDebug();
                         stopVPN(vpn);
                         vpn = null;
+                        stopForeground(true);
+                        Widget.updateWidgets(SinkholeService.this);
+                        // Don't call stopSelf, since a start can follow
                     }
-                    stopForeground(true);
-                    Widget.updateWidgets(SinkholeService.this);
-                    // stopSelf();
                     break;
             }
         }
