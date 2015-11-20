@@ -436,12 +436,18 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Handle logcat
         view.setOnClickListener(new View.OnClickListener() {
             private short tap = 0;
+            private Toast toast = Toast.makeText(ActivityMain.this, "", Toast.LENGTH_SHORT);
 
             @Override
             public void onClick(View view) {
-                if (++tap == 7) {
+                tap++;
+                if (tap == 7) {
                     tap = 0;
+                    toast.cancel();
                     Util.sendLogcat(null, ActivityMain.this);
+                } else if (tap > 3) {
+                    toast.setText(Integer.toString(7 - tap));
+                    toast.show();
                 }
             }
         });
