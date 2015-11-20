@@ -126,6 +126,7 @@ public class Rule implements Comparable<Rule> {
             }
         } catch (Throwable ex) {
             Log.e(tag, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Util.sendCrashReport(ex, context);
         }
 
         // Build rule list

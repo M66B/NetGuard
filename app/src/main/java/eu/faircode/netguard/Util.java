@@ -19,7 +19,10 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.app.AlertDialog;
+import android.app.ApplicationErrorReport;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -38,6 +41,9 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -45,6 +51,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.MessageDigest;
 import java.util.Map;
 import java.util.Set;
@@ -102,15 +110,6 @@ public class Util {
         return ((context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
     }
 
-    public static void toast(final String text, final int length, final Context context) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, text, length).show();
-            }
-        });
-    }
-
     public static boolean hasValidFingerprint(String tag, Context context) {
         try {
             PackageManager pm = context.getPackageManager();
@@ -149,6 +148,55 @@ public class Util {
                         .append("\r\n");
             }
             Log.d(tag, stringBuilder.toString());
+        }
+    }
+
+    public static boolean sendCrashReport(Throwable ex, final Context context) {
+        ApplicationErrorReport report = new ApplicationErrorReport();
+        report.packageName = report.processName = context.getPackageName();
+        report.time = System.currentTimeMillis();
+        report.type = ApplicationErrorReport.TYPE_CRASH;
+        report.systemApp = false;
+
+        ApplicationErrorReport.CrashInfo crash = new ApplicationErrorReport.CrashInfo();
+        crash.exceptionClassName = ex.getClass().getSimpleName();
+        crash.exceptionMessage = ex.getMessage();
+
+        StringWriter writer = new StringWriter();
+        PrintWriter printer = new PrintWriter(writer);
+        ex.printStackTrace(printer);
+
+        crash.stackTrace = writer.toString();
+
+        StackTraceElement stack = ex.getStackTrace()[0];
+        crash.throwClassName = stack.getClassName();
+        crash.throwFileName = stack.getFileName();
+        crash.throwLineNumber = stack.getLineNumber();
+        crash.throwMethodName = stack.getMethodName();
+
+        report.crashInfo = crash;
+
+        final Intent bug = new Intent(Intent.ACTION_APP_ERROR);
+        bug.putExtra(Intent.EXTRA_BUG_REPORT, report);
+        if (bug.resolveActivity(context.getPackageManager()) == null) {
+            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show();
+            return false;
+        } else {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(R.layout.bug, null);
+            TextView tvBug = (TextView) view.findViewById(R.id.tvBug);
+            tvBug.setText(ex.toString());
+            new AlertDialog.Builder(context)
+                    .setView(view)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            context.startActivity(bug);
+                        }
+                    })
+                    .create()
+                    .show();
+            return true;
         }
     }
 

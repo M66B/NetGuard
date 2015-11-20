@@ -91,6 +91,7 @@ public class IAB implements ServiceConnection {
 
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Util.sendCrashReport(ex, context);
         }
     }
 

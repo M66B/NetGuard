@@ -94,6 +94,7 @@ public class SinkholeService extends VpnService {
                     Log.i(TAG, "wakelock=" + wl.isHeld());
                 } catch (Exception ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, SinkholeService.this);
                 }
             }
         }
@@ -176,6 +177,7 @@ public class SinkholeService extends VpnService {
                     builder.addDisallowedApplication(rule.info.packageName);
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, this);
                 }
             } else
                 nBlocked++;
@@ -209,7 +211,7 @@ public class SinkholeService extends VpnService {
             prefs.edit().putBoolean("enabled", false).apply();
 
             // Feedback
-            Util.toast(ex.toString(), Toast.LENGTH_LONG, this);
+            Util.sendCrashReport(ex, this);
             Widget.updateWidgets(this);
 
             return null;
@@ -222,6 +224,7 @@ public class SinkholeService extends VpnService {
             pfd.close();
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Util.sendCrashReport(ex, this);
         }
     }
 
@@ -275,10 +278,12 @@ public class SinkholeService extends VpnService {
                             }
                         } catch (Throwable ex) {
                             Log.e(TAG, ex.toString());
+                            Util.sendCrashReport(ex, SinkholeService.this);
                         }
                     Log.i(TAG, "End receiving");
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, SinkholeService.this);
                 } finally {
                     try {
                         if (in != null)

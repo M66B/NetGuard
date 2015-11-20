@@ -39,6 +39,7 @@ Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemô�
     <string name="msg_try">Skúsiť NetGuard</string>
     <string name="msg_voluntary">Dary sú úplne dobrovoľné a neodomknú žiadne funkcie. Dary sú určené ako spôsob, akým možete prejaviť vašu vďačnosť za vykonanú prácu.</string>
     <string name="msg_dimming">Ak nemôžete stlačiť tlačidlo OK na ďalšom okne, tak iná aplikácia (na ovladanie jasu) prekrýva obrazovkou.</string>
+    <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
 
     <string name="title_using">Povoliť pri zapnutej obrazovke</string>
     <string name="title_roaming">Blokovať pri roamingu</string>

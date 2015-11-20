@@ -124,8 +124,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                                                 startActivityForResult(prepare, REQUEST_VPN);
                                             } catch (Throwable ex) {
                                                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                                                Util.sendCrashReport(ex, ActivityMain.this);
                                                 onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
-                                                Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     }
@@ -476,6 +476,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, ActivityMain.this);
                 }
             }
         });

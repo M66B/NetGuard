@@ -40,6 +40,7 @@ Netguard n\'a pas access a internet,vous savez que votre trafic Internet n\'est 
     <string name="msg_try">Essayer NetGuard</string>
     <string name="msg_voluntary">Les dons sont completement a votre volonté et ils ne débloqueront aucune nouvelle fonctionalitée.
     <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
+    <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
 Faire un don est une de façon de montrer votre soutiens aux développeur et votre appréciation pour le travail accompli.</string>
 
     <string name="title_using">Accepter si l\'ecran est allumé</string>
