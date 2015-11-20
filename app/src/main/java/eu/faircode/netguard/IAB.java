@@ -110,7 +110,7 @@ public class IAB implements ServiceConnection {
         query.putStringArrayList("ITEM_ID_LIST", skuList);
         Bundle bundle = service.getSkuDetails(IAB_VERSION, context.getPackageName(), "inapp", query);
         Log.i(TAG, "getSkuDetails");
-        Util.logBundle(TAG, bundle);
+        Util.logBundle(bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
         Log.i(TAG, "Response=" + getIABResult(response));
         if (response != 0)
@@ -136,7 +136,7 @@ public class IAB implements ServiceConnection {
         // Get purchases
         Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), "inapp", null);
         Log.i(TAG, "getPurchases");
-        Util.logBundle(TAG, bundle);
+        Util.logBundle(bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
         Log.i(TAG, "Response=" + getIABResult(response));
         if (response != 0)
@@ -150,7 +150,7 @@ public class IAB implements ServiceConnection {
     private PendingIntent IABgetBuyIntent(String sku) throws RemoteException {
         Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "netguard");
         Log.i(TAG, "getBuyIntent");
-        Util.logBundle(TAG, bundle);
+        Util.logBundle(bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
         Log.i(TAG, "Response=" + getIABResult(response));
         if (response != 0 || !bundle.containsKey("BUY_INTENT"))

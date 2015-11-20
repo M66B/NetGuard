@@ -250,7 +250,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode + " ok=" + (resultCode == RESULT_OK));
-        Util.logExtras(TAG, data);
+        Util.logExtras(data);
 
         if (requestCode == REQUEST_VPN) {
             // Handle VPN approval
@@ -308,7 +308,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            Util.logExtras(intent);
             updateApplicationList();
         }
     };
@@ -381,7 +381,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        if (!Util.hasValidFingerprint(TAG, this) || getIntentInvite(this).resolveActivity(getPackageManager()) == null)
+        if (!Util.hasValidFingerprint(this) || getIntentInvite(this).resolveActivity(getPackageManager()) == null)
             menu.removeItem(R.id.menu_invite);
 
         if (getIntentSupport().resolveActivity(getPackageManager()) == null)
@@ -427,7 +427,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Show version
         tvVersion.setText(Util.getSelfVersionName(this));
-        if (!Util.hasValidFingerprint(TAG, this))
+        if (!Util.hasValidFingerprint(this))
             tvVersion.setTextColor(Color.GRAY);
 
         // Handle license
@@ -441,7 +441,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             public void onClick(View view) {
                 if (++tap == 7) {
                     tap = 0;
-                    Util.sendLogcat(TAG, ActivityMain.this);
+                    Util.sendLogcat(ActivityMain.this);
                 }
             }
         });
@@ -531,7 +531,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         dialogAbout.show();
 
         // Connect to billing
-        if (Util.hasValidFingerprint(TAG, this))
+        if (Util.hasValidFingerprint(this))
             iab.bind();
     }
 

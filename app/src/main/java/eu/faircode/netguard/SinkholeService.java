@@ -310,7 +310,7 @@ public class SinkholeService extends VpnService {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            Util.logExtras(intent);
 
             // Yield system
             try {
@@ -331,7 +331,7 @@ public class SinkholeService extends VpnService {
                 return;
 
             Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            Util.logExtras(intent);
 
             if (last_roaming != Util.isRoaming(SinkholeService.this)) {
                 // Roaming state changed
@@ -350,7 +350,7 @@ public class SinkholeService extends VpnService {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            Util.logExtras(intent);
             reload(null, SinkholeService.this);
         }
     };

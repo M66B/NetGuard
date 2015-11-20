@@ -47,7 +47,7 @@ public class Widget extends AppWidgetProvider {
         super.onReceive(context, intent);
 
         Log.i(TAG, "Received " + intent);
-        Util.logExtras(TAG, intent);
+        Util.logExtras(intent);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 

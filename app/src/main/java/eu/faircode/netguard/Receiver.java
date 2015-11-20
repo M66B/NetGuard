@@ -33,7 +33,7 @@ public class Receiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
         Log.i(TAG, "Received " + intent);
-        Util.logExtras(TAG, intent);
+        Util.logExtras(intent);
 
         if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
             // Remove settings

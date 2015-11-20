@@ -156,7 +156,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            Util.logExtras(intent);
             updateTechinicalInfo();
         }
     };
@@ -165,7 +165,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            Util.logExtras(intent);
             updateTechinicalInfo();
         }
     };
