@@ -441,7 +441,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             public void onClick(View view) {
                 if (++tap == 7) {
                     tap = 0;
-                    Util.sendLogcat(ActivityMain.this);
+                    Util.sendLogcat(null, ActivityMain.this);
                 }
             }
         });

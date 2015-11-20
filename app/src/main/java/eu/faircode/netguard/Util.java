@@ -153,7 +153,7 @@ public class Util {
         }
     }
 
-    public static boolean sendCrashReport(Throwable ex, final Context context) {
+    public static void sendCrashReport(Throwable ex, final Context context) {
         ApplicationErrorReport report = new ApplicationErrorReport();
         report.packageName = report.processName = context.getPackageName();
         report.time = System.currentTimeMillis();
@@ -180,10 +180,9 @@ public class Util {
 
         final Intent bug = new Intent(Intent.ACTION_APP_ERROR);
         bug.putExtra(Intent.EXTRA_BUG_REPORT, report);
-        if (bug.resolveActivity(context.getPackageManager()) == null) {
-            Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show();
-            return false;
-        } else {
+        if (bug.resolveActivity(context.getPackageManager()) == null)
+            sendLogcat(ex.toString() + "\n" + Log.getStackTraceString(ex), context);
+        else {
             LayoutInflater inflater = LayoutInflater.from(context);
             View view = inflater.inflate(R.layout.bug, null);
             TextView tvBug = (TextView) view.findViewById(R.id.tvBug);
@@ -198,11 +197,10 @@ public class Util {
                     })
                     .create()
                     .show();
-            return true;
         }
     }
 
-    public static void sendLogcat(final Context context) {
+    public static void sendLogcat(final String message, final Context context) {
         AsyncTask task = new AsyncTask<Object, Object, Intent>() {
             @Override
             protected Intent doInBackground(Object... objects) {
@@ -250,6 +248,9 @@ public class Util {
                 Map<String, ?> all = prefs.getAll();
                 for (String key : all.keySet())
                     sb.append("Setting: ").append(key).append('=').append(all.get(key)).append("\r\n");
+
+                if (message != null)
+                    sb.append(message).append("\r\n");
 
                 sb.append("\r\n");
                 sb.append("Please describe your problem:\r\n");
