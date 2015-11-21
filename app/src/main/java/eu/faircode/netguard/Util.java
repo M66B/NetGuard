@@ -19,7 +19,10 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.app.AlertDialog;
+import android.app.ApplicationErrorReport;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -38,6 +41,9 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -45,11 +51,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.MessageDigest;
 import java.util.Map;
 import java.util.Set;
 
 public class Util {
+    private static final String TAG = "NetGuard.Util";
+
     public static String getSelfVersionName(Context context) {
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -102,16 +112,7 @@ public class Util {
         return ((context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
     }
 
-    public static void toast(final String text, final int length, final Context context) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, text, length).show();
-            }
-        });
-    }
-
-    public static boolean hasValidFingerprint(String tag, Context context) {
+    public static boolean hasValidFingerprint(Context context) {
         try {
             PackageManager pm = context.getPackageManager();
             String pkg = context.getPackageName();
@@ -126,17 +127,17 @@ public class Util {
             String expected = context.getString(R.string.fingerprint);
             return calculated.equals(expected);
         } catch (Throwable ex) {
-            Log.e(tag, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             return false;
         }
     }
 
-    public static void logExtras(String tag, Intent intent) {
+    public static void logExtras(Intent intent) {
         if (intent != null)
-            logBundle(tag, intent.getExtras());
+            logBundle(intent.getExtras());
     }
 
-    public static void logBundle(String tag, Bundle data) {
+    public static void logBundle(Bundle data) {
         if (data != null) {
             Set<String> keys = data.keySet();
             StringBuilder stringBuilder = new StringBuilder();
@@ -148,11 +149,58 @@ public class Util {
                         .append(value == null ? "" : " (" + value.getClass().getSimpleName() + ")")
                         .append("\r\n");
             }
-            Log.d(tag, stringBuilder.toString());
+            Log.d(TAG, stringBuilder.toString());
         }
     }
 
-    public static void sendLogcat(final String tag, final Context context) {
+    public static void sendCrashReport(Throwable ex, final Context context) {
+        ApplicationErrorReport report = new ApplicationErrorReport();
+        report.packageName = report.processName = context.getPackageName();
+        report.time = System.currentTimeMillis();
+        report.type = ApplicationErrorReport.TYPE_CRASH;
+        report.systemApp = false;
+
+        ApplicationErrorReport.CrashInfo crash = new ApplicationErrorReport.CrashInfo();
+        crash.exceptionClassName = ex.getClass().getSimpleName();
+        crash.exceptionMessage = ex.getMessage();
+
+        StringWriter writer = new StringWriter();
+        PrintWriter printer = new PrintWriter(writer);
+        ex.printStackTrace(printer);
+
+        crash.stackTrace = writer.toString();
+
+        StackTraceElement stack = ex.getStackTrace()[0];
+        crash.throwClassName = stack.getClassName();
+        crash.throwFileName = stack.getFileName();
+        crash.throwLineNumber = stack.getLineNumber();
+        crash.throwMethodName = stack.getMethodName();
+
+        report.crashInfo = crash;
+
+        final Intent bug = new Intent(Intent.ACTION_APP_ERROR);
+        bug.putExtra(Intent.EXTRA_BUG_REPORT, report);
+        if (bug.resolveActivity(context.getPackageManager()) == null)
+            sendLogcat(ex.toString() + "\n" + Log.getStackTraceString(ex), context);
+        else {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(R.layout.bug, null);
+            TextView tvBug = (TextView) view.findViewById(R.id.tvBug);
+            tvBug.setText(ex.toString());
+            new AlertDialog.Builder(context)
+                    .setView(view)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            context.startActivity(bug);
+                        }
+                    })
+                    .create()
+                    .show();
+        }
+    }
+
+    public static void sendLogcat(final String message, final Context context) {
         AsyncTask task = new AsyncTask<Object, Object, Intent>() {
             @Override
             protected Intent doInBackground(Object... objects) {
@@ -160,7 +208,7 @@ public class Util {
                 try {
                     pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
                 } catch (PackageManager.NameNotFoundException ex) {
-                    Log.e(tag, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     return null;
                 }
 
@@ -176,7 +224,7 @@ public class Util {
                 sb.append(String.format("Host: %s\r\n", Build.HOST));
                 sb.append(String.format("Display: %s\r\n", Build.DISPLAY));
                 sb.append(String.format("Id: %s\r\n", Build.ID));
-                sb.append(String.format("Fingerprint: %b\r\n", hasValidFingerprint(tag, context)));
+                sb.append(String.format("Fingerprint: %b\r\n", hasValidFingerprint(context)));
                 sb.append(String.format("VPN dialogs: %b\r\n", isPackageInstalled("com.android.vpndialogs", context)));
                 sb.append(String.format("Interactive: %b\r\n", isInteractive(context)));
                 sb.append(String.format("WiFi: %b\r\n", isWifiActive(context)));
@@ -201,6 +249,9 @@ public class Util {
                 for (String key : all.keySet())
                     sb.append("Setting: ").append(key).append('=').append(all.get(key)).append("\r\n");
 
+                if (message != null)
+                    sb.append(message).append("\r\n");
+
                 sb.append("\r\n");
                 sb.append("Please describe your problem:\r\n");
                 sb.append("\r\n");
@@ -214,13 +265,13 @@ public class Util {
                 File logcatFolder = context.getExternalCacheDir();
                 logcatFolder.mkdirs();
                 File logcatFile = new File(logcatFolder, "logcat.txt");
-                Log.i(tag, "Writing " + logcatFile);
+                Log.i(TAG, "Writing " + logcatFile);
                 FileOutputStream fos = null;
                 try {
                     fos = new FileOutputStream(logcatFile);
-                    fos.write(getLogcat(tag).toString().getBytes());
+                    fos.write(getLogcat().toString().getBytes());
                 } catch (Throwable ex) {
-                    Log.e(tag, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 } finally {
                     if (fos != null)
                         try {
@@ -241,14 +292,14 @@ public class Util {
                     try {
                         context.startActivity(sendEmail);
                     } catch (Throwable ex) {
-                        Log.e(tag, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     }
             }
         };
         task.execute();
     }
 
-    private static StringBuilder getLogcat(String tag) {
+    private static StringBuilder getLogcat() {
         String pid = Integer.toString(android.os.Process.myPid());
         StringBuilder builder = new StringBuilder();
         Process process = null;
@@ -264,7 +315,7 @@ public class Util {
                     builder.append("\r\n");
                 }
         } catch (IOException ex) {
-            Log.e(tag, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         } finally {
             if (br != null)
                 try {

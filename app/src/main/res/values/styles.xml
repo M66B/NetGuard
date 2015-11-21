@@ -1,10 +1,12 @@
 <resources>
+    <attr name="expander" format="reference" />
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDisablePreview">true</item>
+        <item name="expander">@drawable/expander_black</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat">
@@ -12,5 +14,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDisablePreview">true</item>
+        <item name="expander">@drawable/expander_white</item>
     </style>
 </resources>

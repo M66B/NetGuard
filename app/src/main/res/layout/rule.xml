@@ -25,16 +25,15 @@
 
             <ImageView
                 android:id="@+id/ivExpander"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="4dp" />
+                android:src="?attr/expander" />
 
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="4dp"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
@@ -42,7 +41,7 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="?android:attr/listPreferredItemHeightSmall"
+            android:layout_width="wrap_content"
             android:layout_height="?android:attr/listPreferredItemHeightSmall">
 
             <CheckBox
@@ -53,9 +52,31 @@
                 android:button="@drawable/wifi" />
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/llAttributesWifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivScreenWifi"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/screen_on" />
+
+            <View
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible" />
+        </LinearLayout>
+
         <RelativeLayout
-            android:layout_width="?android:attr/listPreferredItemHeightSmall"
-            android:layout_height="?android:attr/listPreferredItemHeightSmall">
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall"
+            android:layout_marginStart="8dp">
 
             <CheckBox
                 android:id="@+id/cbOther"
@@ -66,25 +87,25 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/llAttributes"
+            android:id="@+id/llAttributesOther"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="4dp"
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/ivUsing"
+                android:id="@+id/ivScreenOther"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/using" />
+                android:src="@drawable/screen_on" />
 
             <TextView
                 android:id="@+id/tvRoaming"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
                 android:text="R"
                 android:textAppearance="@android:style/TextAppearance.Material.Small"
                 android:textColor="@color/colorAccent"
@@ -96,7 +117,7 @@
         android:id="@+id/llConfiguration"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:orientation="vertical"
         android:paddingStart="?android:attr/listPreferredItemHeightSmall"
         android:paddingTop="0dp"
@@ -144,21 +165,69 @@
             android:textStyle="italic"
             android:visibility="gone" />
 
-        <CheckBox
-            android:id="@+id/cbUsing"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@string/title_using"
-            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+            android:orientation="horizontal">
 
-        <CheckBox
-            android:id="@+id/cbRoaming"
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/screen_on" />
+
+            <CheckBox
+                android:id="@+id/cbScreenWifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_screen_wifi"
+                android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@string/title_roaming"
-            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/screen_on" />
+
+            <CheckBox
+                android:id="@+id/cbScreenOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_screen_other"
+                android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:text="R"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textColor="@color/colorAccent"
+                android:textSize="12dp" />
+
+            <CheckBox
+                android:id="@+id/cbRoaming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_roaming"
+                android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

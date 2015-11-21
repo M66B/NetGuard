@@ -94,6 +94,7 @@ public class SinkholeService extends VpnService {
                     Log.i(TAG, "wakelock=" + wl.isHeld());
                 } catch (Exception ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, SinkholeService.this);
                 }
             }
         }
@@ -168,7 +169,8 @@ public class SinkholeService extends VpnService {
         int nBlocked = 0;
         for (Rule rule : Rule.getRules(true, TAG, this)) {
             boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
-            if ((!blocked || (rule.unused && interactive)) && (!metered || !(rule.roaming && last_roaming))) {
+            boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
+            if ((!blocked || (screen && interactive)) && (!metered || !(rule.roaming && last_roaming))) {
                 nAllowed++;
                 if (debug)
                     Log.i(TAG, "Allowing " + rule.info.packageName);
@@ -176,6 +178,7 @@ public class SinkholeService extends VpnService {
                     builder.addDisallowedApplication(rule.info.packageName);
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, this);
                 }
             } else
                 nBlocked++;
@@ -209,7 +212,7 @@ public class SinkholeService extends VpnService {
             prefs.edit().putBoolean("enabled", false).apply();
 
             // Feedback
-            Util.toast(ex.toString(), Toast.LENGTH_LONG, this);
+            Util.sendCrashReport(ex, this);
             Widget.updateWidgets(this);
 
             return null;
@@ -222,6 +225,7 @@ public class SinkholeService extends VpnService {
             pfd.close();
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Util.sendCrashReport(ex, this);
         }
     }
 
@@ -275,10 +279,12 @@ public class SinkholeService extends VpnService {
                             }
                         } catch (Throwable ex) {
                             Log.e(TAG, ex.toString());
+                            Util.sendCrashReport(ex, SinkholeService.this);
                         }
                     Log.i(TAG, "End receiving");
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, SinkholeService.this);
                 } finally {
                     try {
                         if (in != null)
@@ -305,7 +311,7 @@ public class SinkholeService extends VpnService {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            Util.logExtras(intent);
 
             // Yield system
             try {
@@ -326,7 +332,7 @@ public class SinkholeService extends VpnService {
                 return;
 
             Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            Util.logExtras(intent);
 
             if (last_roaming != Util.isRoaming(SinkholeService.this)) {
                 // Roaming state changed
@@ -345,7 +351,7 @@ public class SinkholeService extends VpnService {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            Util.logExtras(intent);
             reload(null, SinkholeService.this);
         }
     };

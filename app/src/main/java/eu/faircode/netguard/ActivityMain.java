@@ -83,6 +83,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         running = true;
         boolean enabled = prefs.getBoolean("enabled", false);
+        boolean initialized = prefs.getBoolean("initialized", false);
+
+        // Upgrade
+        Receiver.upgrade(initialized, this);
 
         if (enabled)
             SinkholeService.start(this);
@@ -124,8 +128,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                                                 startActivityForResult(prepare, REQUEST_VPN);
                                             } catch (Throwable ex) {
                                                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                                                Util.sendCrashReport(ex, ActivityMain.this);
                                                 onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
-                                                Toast.makeText(ActivityMain.this, ex.toString(), Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     }
@@ -180,7 +184,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         registerReceiver(packageChangedReceiver, intentFilter);
 
         // First use
-        boolean initialized = prefs.getBoolean("initialized", false);
         if (!initialized) {
             // Create view
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -215,9 +218,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             dialogFirst.show();
         }
 
-        // Upgrade
-        Receiver.upgrade(initialized, this);
-
         // Fill application list
         updateApplicationList();
     }
@@ -250,7 +250,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode + " ok=" + (resultCode == RESULT_OK));
-        Util.logExtras(TAG, data);
+        Util.logExtras(data);
 
         if (requestCode == REQUEST_VPN) {
             // Handle VPN approval
@@ -294,7 +294,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         } else if ("whitelist_wifi".equals(name) ||
                 "whitelist_other".equals(name) ||
-                "unused".equals(name) ||
+                "screen_wifi".equals(name) ||
+                "screen_other".equals(name) ||
                 "whitelist_roaming".equals(name) ||
                 "manage_system".equals(name) ||
                 "imported".equals(name))
@@ -308,7 +309,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            Util.logExtras(intent);
             updateApplicationList();
         }
     };
@@ -381,7 +382,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        if (!Util.hasValidFingerprint(TAG, this) || getIntentInvite(this).resolveActivity(getPackageManager()) == null)
+        if (!Util.hasValidFingerprint(this) || getIntentInvite(this).resolveActivity(getPackageManager()) == null)
             menu.removeItem(R.id.menu_invite);
 
         if (getIntentSupport().resolveActivity(getPackageManager()) == null)
@@ -427,7 +428,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Show version
         tvVersion.setText(Util.getSelfVersionName(this));
-        if (!Util.hasValidFingerprint(TAG, this))
+        if (!Util.hasValidFingerprint(this))
             tvVersion.setTextColor(Color.GRAY);
 
         // Handle license
@@ -436,12 +437,18 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Handle logcat
         view.setOnClickListener(new View.OnClickListener() {
             private short tap = 0;
+            private Toast toast = Toast.makeText(ActivityMain.this, "", Toast.LENGTH_SHORT);
 
             @Override
             public void onClick(View view) {
-                if (++tap == 7) {
+                tap++;
+                if (tap == 7) {
                     tap = 0;
-                    Util.sendLogcat(TAG, ActivityMain.this);
+                    toast.cancel();
+                    Util.sendLogcat(null, ActivityMain.this);
+                } else if (tap > 3) {
+                    toast.setText(Integer.toString(7 - tap));
+                    toast.show();
                 }
             }
         });
@@ -476,6 +483,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, ActivityMain.this);
                 }
             }
         });
@@ -530,7 +538,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         dialogAbout.show();
 
         // Connect to billing
-        if (Util.hasValidFingerprint(TAG, this))
+        if (Util.hasValidFingerprint(this))
             iab.bind();
     }
 
