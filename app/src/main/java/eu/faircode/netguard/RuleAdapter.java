@@ -206,7 +206,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             Picasso.with(context).load(uri).into(holder.ivIcon);
         }
 
-        holder.ivExpander.setImageResource(rule.attributes ? android.R.drawable.arrow_up_float : android.R.drawable.arrow_down_float);
+        holder.ivExpander.setImageLevel(rule.attributes ? 1 : 0);
         holder.tvName.setText(rule.name);
 
         int color = rule.system ? colorAccent : colorText;
