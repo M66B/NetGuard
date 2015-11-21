@@ -8,7 +8,7 @@
 È noto infatti che NetGuard si interrompe all\'avvio o blocca tutto il traffico di rete su alcuni dispositivi.
 Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal produttore del dispositivo, quindi si prega di non attribuirne la colpa a NetGuard.
 \n\nUtilizzando NetGuard, acconsenti a quanto contenuto nella seguente licenza: <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a>
-    </string>
+  </string>
   <string name="menu_search">Cerca applicazione</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_invite">Invita</string>
@@ -16,8 +16,8 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="menu_about">Info</string>
   <string name="setting_whitelist_wifi">Blocca Wi-Fi di default</string>
   <string name="setting_whitelist_other">Blocca rete dati di default</string>
-  <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
-  <string name="setting_screen_other">Default allow mobile when screen is on</string>
+  <string name="setting_screen_wifi">Permetti il Wi-Fi di default quando lo schermo è accesso</string>
+  <string name="setting_screen_other">Permetti reti mobili di default quando lo schermo è accesso</string>
   <string name="setting_whitelist_roaming">Blocca roaming di default</string>
   <string name="setting_metered">Gestisci reti Wi-Fi a consumo</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
@@ -29,7 +29,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
   <string name="msg_sure">Sei sicuro?</string>
   <string name="msg_started">Regole applicate</string>
-  <string name="msg_packages">%1$d allowed, %2$d blocked</string>
+  <string name="msg_packages">%1$d permesse, %2$d bloccate</string>
   <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
   <string name="msg_revoked">NetGuard è stata disabilitata, probabilmente a causa di un\'altra applicazione che usa il servizio VPN</string>
   <string name="msg_completed">Azione completata</string>
@@ -41,8 +41,8 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="msg_voluntary">Le donazioni sono totalmente volontarie e non sbloccano nessuna funzionalitá aggiuntiva. Le donazioni mostrano il tuo apprezzamento per il lavoro svolto.</string>
   <string name="msg_dimming">Se non riesci a cliccare OK nella prossima schermata, è probabile che un\'altra applicazione (di oscuramento schermo) stia manipolando lo schermo.</string>
   <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
-  <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
-  <string name="title_screen_other">Allow mobile when screen is on</string>
+  <string name="title_screen_wifi">Permetti il Wi-Fi quando lo schermo è accesso</string>
+  <string name="title_screen_other">Permetti le reti mobili quando lo schermo è accesso</string>
   <string name="title_roaming">Blocca quando in roaming</string>
   <string name="title_disabled">è disabilitata</string>
   <string name="title_internet">non ha accesso a internet</string>
