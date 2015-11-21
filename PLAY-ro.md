@@ -48,7 +48,7 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
 
 Pentru informatii la zi despre compatibilitatea dispozitivelor, intrebari si raspunsuri va rugam sa cititi mai multe aici: http://forum.xda-developers.com/showthread.php?t=3233012
 
-Daca vrei sa ii ajuti pe cei ce nu vorbesc limba engleza, poti ajuta la traducerea NetGuard in limba ta materna: http://translate.netguard.me/
+Daca vrei sa ii ajuti pe cei ce nu vorbesc limba engleza, poti ajuta la traducerea NetGuard in limba ta materna: https://crowdin.com/project/netguard/
 
 Daca doriti sa testati caracteristile in dezvoltare ale aplicatiei, va puteti alatura programului de testare: https://play.google.com/apps/testing/eu.faircode.netguard
 

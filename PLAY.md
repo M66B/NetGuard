@@ -48,7 +48,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
 
 For up to date info on device compatibility, questions and answers please read more here: http://forum.xda-developers.com/showthread.php?t=3233012
 
-If you like to help people less fluent in English, you can help translate NetGuard in your language: http://translate.netguard.me/
+If you like to help people less fluent in English, you can help translate NetGuard in your language: https://crowdin.com/project/netguard/
 
 If you like to test new features, you can participate in the test program: https://play.google.com/apps/testing/eu.faircode.netguard
 
