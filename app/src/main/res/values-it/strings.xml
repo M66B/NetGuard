@@ -8,7 +8,7 @@
 È noto infatti che NetGuard si interrompe all\'avvio o blocca tutto il traffico di rete su alcuni dispositivi.
 Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal produttore del dispositivo, quindi si prega di non attribuirne la colpa a NetGuard.
 \n\nUtilizzando NetGuard, acconsenti a quanto contenuto nella seguente licenza: <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a>
-  </string>
+    </string>
   <string name="menu_search">Cerca applicazione</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_invite">Invita</string>
@@ -40,9 +40,9 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="msg_try">Prova NetGuard</string>
   <string name="msg_voluntary">Le donazioni sono totalmente volontarie e non sbloccano nessuna funzionalitá aggiuntiva. Le donazioni mostrano il tuo apprezzamento per il lavoro svolto.</string>
   <string name="msg_dimming">Se non riesci a cliccare OK nella prossima schermata, è probabile che un\'altra applicazione (di oscuramento schermo) stia manipolando lo schermo.</string>
-  <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
-  <string name="title_screen_wifi">Permetti il Wi-Fi quando lo schermo è accesso</string>
-  <string name="title_screen_other">Permetti le reti mobili quando lo schermo è accesso</string>
+  <string name="msg_bug">Qualcosa è andato storto, si prega di descrivere nella schermata successiva cosa stavi facendo, così da contribuire a migliorare NetGuard</string>
+  <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
+  <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>
   <string name="title_roaming">Blocca quando in roaming</string>
   <string name="title_disabled">è disabilitata</string>
   <string name="title_internet">non ha accesso a internet</string>
