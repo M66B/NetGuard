@@ -14,8 +14,8 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="menu_about">Über</string>
   <string name="setting_whitelist_wifi">WLAN standardmäßig blockieren</string>
   <string name="setting_whitelist_other">Mobilfunk standardmäßig blockieren</string>
-    <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
-    <string name="setting_screen_other">Default allow mobile when screen is on</string>
+  <string name="setting_screen_wifi">WLAN immer erlauben, wenn Bildschirm eingeschaltet ist</string>
+  <string name="setting_screen_other">Mobilfunk immer erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="setting_whitelist_roaming">Roaming standardmäßig blockieren</string>
   <string name="setting_metered">Gemessenes WLAN-Netzwerk handhaben</string>
   <string name="setting_system">System-Apps anzeigen</string>
@@ -27,7 +27,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="summary_metered">Mobilfunk-Regeln gemessenen (bezahlten, tethered) WLAN-Netzwerken anwenden</string>
   <string name="msg_sure">Sind Sie sicher?</string>
   <string name="msg_started">Regeln werden angewendet</string>
-  <string name="msg_packages">%1$d allowed, %2$d blocked</string>
+  <string name="msg_packages">%1$d erlaubt, %2$d blockiert</string>
   <string name="msg_disabled">NetGuard ist deaktiviert. Verwenden Sie den Schalter, um NetGuard zu aktivieren</string>
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer VPN-Anwendung</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
@@ -36,8 +36,8 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_voluntary">Spenden sind vollkommen freiwillig und schalten keine Funktionen frei. Spenden helfen, die App weiterzuentwickeln und stellen eine Anerkennung für die Arbeit dar.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
   <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
-    <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
-    <string name="title_screen_other">Allow mobile when screen is on</string>
+  <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
+  <string name="title_screen_other">Allow mobile when screen is on</string>
   <string name="title_roaming">Bei Roaming blockieren</string>
   <string name="title_disabled">ist deaktiviert</string>
   <string name="title_internet">hat keine Internet-Berechtigung</string>

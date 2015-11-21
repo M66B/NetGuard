@@ -12,8 +12,8 @@
   <string name="menu_about">О приложении</string>
   <string name="setting_whitelist_wifi">Блокировать Wi-Fi по умолч.</string>
   <string name="setting_whitelist_other">Блокировать моб. сеть по умолч.</string>
-    <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
-    <string name="setting_screen_other">Default allow mobile when screen is on</string>
+  <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
+  <string name="setting_screen_other">Default allow mobile when screen is on</string>
   <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
   <string name="setting_metered">Регулировать огранич. Wi-Fi сети</string>
   <string name="setting_system">Управлять сист. приложениями</string>
@@ -36,8 +36,8 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="msg_voluntary">Пожертвования являются абсолютно добровольными и не добавляют никаких возможностей в программу. Пожертвования предназначены сугубо для того, чтобы выразить вашу признательность за проделанную работу.</string>
   <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>
   <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
-    <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
-    <string name="title_screen_other">Allow mobile when screen is on</string>
+  <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
+  <string name="title_screen_other">Allow mobile when screen is on</string>
   <string name="title_roaming">Блокировать в роуминге</string>
   <string name="title_disabled">отключено</string>
   <string name="title_internet">не имеет доступа в интернет</string>

@@ -15,8 +15,8 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="menu_about">O aplikácii</string>
   <string name="setting_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
   <string name="setting_whitelist_other">Predvolene blokovať mobilné dáta</string>
-    <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
-    <string name="setting_screen_other">Default allow mobile when screen is on</string>
+  <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
+  <string name="setting_screen_other">Default allow mobile when screen is on</string>
   <string name="setting_whitelist_roaming">Predvolene blokovať roaming</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
   <string name="setting_system">Spravovať systémové aplikácie</string>
@@ -39,8 +39,8 @@ Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemô�
   <string name="msg_voluntary">Dary sú úplne dobrovoľné a neodomknú žiadne funkcie. Dary sú určené ako spôsob, akým možete prejaviť vašu vďačnosť za vykonanú prácu.</string>
   <string name="msg_dimming">Ak nemôžete stlačiť tlačidlo OK na ďalšom okne, tak iná aplikácia (na ovladanie jasu) prekrýva obrazovkou.</string>
   <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
-    <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
-    <string name="title_screen_other">Allow mobile when screen is on</string>
+  <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
+  <string name="title_screen_other">Allow mobile when screen is on</string>
   <string name="title_roaming">Blokovať pri roamingu</string>
   <string name="title_disabled">Zakázané</string>
   <string name="title_internet">Nemá prístup k internetu</string>
