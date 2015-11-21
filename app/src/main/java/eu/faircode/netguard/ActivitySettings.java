@@ -143,7 +143,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("whitelist_roaming".equals(name))
             SinkholeService.reload("other", this);
 
-        else if ("unused".equals(name) ||
+        else if ("screen_wifi".equals(name) ||
+                "screen_other".equals(name) ||
                 "use_metered".equals(name) ||
                 "manage_system".equals(name))
             SinkholeService.reload(null, this);
@@ -309,9 +310,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlExport(getSharedPreferences("other", Context.MODE_PRIVATE), serializer);
         serializer.endTag(null, "mobile");
 
-        serializer.startTag(null, "unused");
-        xmlExport(getSharedPreferences("unused", Context.MODE_PRIVATE), serializer);
-        serializer.endTag(null, "unused");
+        serializer.startTag(null, "screen_wifi");
+        xmlExport(getSharedPreferences("screen_wifi", Context.MODE_PRIVATE), serializer);
+        serializer.endTag(null, "screen_wifi");
+
+        serializer.startTag(null, "screen_other");
+        xmlExport(getSharedPreferences("screen_other", Context.MODE_PRIVATE), serializer);
+        serializer.endTag(null, "screen_other");
 
         serializer.endTag(null, "netguard");
         serializer.endDocument();
@@ -358,7 +363,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlImport(handler.application, prefs);
         xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
         xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
-        xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
+        if (handler.unused.size() > 0) {
+            xmlImport(handler.unused, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
+            xmlImport(handler.unused, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
+        } else {
+            xmlImport(handler.screen_wifi, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
+            xmlImport(handler.screen_other, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
+        }
         xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
 
         // Refresh UI
@@ -377,7 +388,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         for (String key : settings.keySet()) {
             Object value = settings.get(key);
             if (value instanceof Boolean)
-                editor.putBoolean(key, (Boolean) value);
+                if ("unused".equals(key)) {
+                    editor.putBoolean("screen_wifi", (Boolean) value);
+                    editor.putBoolean("screen_other", (Boolean) value);
+                } else
+                    editor.putBoolean(key, (Boolean) value);
             else if (value instanceof Integer)
                 editor.putInt(key, (Integer) value);
             else
@@ -393,6 +408,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         public Map<String, Object> wifi = new HashMap<>();
         public Map<String, Object> mobile = new HashMap<>();
         public Map<String, Object> unused = new HashMap<>();
+        public Map<String, Object> screen_wifi = new HashMap<>();
+        public Map<String, Object> screen_other = new HashMap<>();
         public Map<String, Object> roaming = new HashMap<>();
         private Map<String, Object> current = null;
 
@@ -413,8 +430,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else if (qName.equals("unused"))
                 current = unused;
 
+            else if (qName.equals("screen_wifi"))
+                current = screen_wifi;
+
+            else if (qName.equals("screen_other"))
+                current = screen_other;
+
             else if (qName.equals("roaming"))
-                roaming = unused;
+                current = roaming;
 
             else if (qName.equals("setting")) {
                 String key = attributes.getValue("key");

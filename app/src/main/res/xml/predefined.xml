@@ -13,13 +13,4 @@
         package="com.android.chrome"
         related="com.android.providers.downloads"
         title="Chrome" />
-    <!--rule
-        blocked="true"
-        package="com.android.chrome"
-        title="Chrome Browser"
-        unused="true" /-->
-    <!--rule
-        blocked="false"
-        package="com.fsck.k9"
-        title="K-9 Mail" /-->
 </predefined>

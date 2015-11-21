@@ -14,7 +14,8 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="menu_about">Über</string>
   <string name="setting_whitelist_wifi">WLAN standardmäßig blockieren</string>
   <string name="setting_whitelist_other">Mobilfunk standardmäßig blockieren</string>
-  <string name="setting_unused">Standardmäßig erlauben, wenn Bildschirm an</string>
+    <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
+    <string name="setting_screen_other">Default allow mobile when screen is on</string>
   <string name="setting_whitelist_roaming">Roaming standardmäßig blockieren</string>
   <string name="setting_metered">Gemessenes WLAN-Netzwerk handhaben</string>
   <string name="setting_system">System-Apps anzeigen</string>
@@ -35,7 +36,8 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_voluntary">Spenden sind vollkommen freiwillig und schalten keine Funktionen frei. Spenden helfen, die App weiterzuentwickeln und stellen eine Anerkennung für die Arbeit dar.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
   <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
-  <string name="title_using">Erlauben, wenn Bildschirm an</string>
+    <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
+    <string name="title_screen_other">Allow mobile when screen is on</string>
   <string name="title_roaming">Bei Roaming blockieren</string>
   <string name="title_disabled">ist deaktiviert</string>
   <string name="title_internet">hat keine Internet-Berechtigung</string>

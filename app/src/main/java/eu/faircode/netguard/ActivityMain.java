@@ -294,7 +294,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         } else if ("whitelist_wifi".equals(name) ||
                 "whitelist_other".equals(name) ||
-                "unused".equals(name) ||
+                "screen_wifi".equals(name) ||
+                "screen_other".equals(name) ||
                 "whitelist_roaming".equals(name) ||
                 "manage_system".equals(name) ||
                 "imported".equals(name))

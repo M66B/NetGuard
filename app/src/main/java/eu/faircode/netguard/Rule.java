@@ -47,12 +47,14 @@ public class Rule implements Comparable<Rule> {
 
     public boolean wifi_default;
     public boolean other_default;
-    public boolean unused_default;
+    public boolean screen_wifi_default;
+    public boolean screen_other_default;
     public boolean roaming_default;
 
     public boolean wifi_blocked;
     public boolean other_blocked;
-    public boolean unused;
+    public boolean screen_wifi;
+    public boolean screen_other;
     public boolean roaming;
 
     public String[] related = null;
@@ -84,19 +86,20 @@ public class Rule implements Comparable<Rule> {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
-        SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
+        SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
+        SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
 
         // Get settings
         boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
         boolean default_other = prefs.getBoolean("whitelist_other", true);
-        boolean default_unused = prefs.getBoolean("unused", false);
+        boolean default_screen_wifi = prefs.getBoolean("screen_wifi", true);
+        boolean default_screen_other = prefs.getBoolean("screen_other", true);
         boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
         boolean manage_system = prefs.getBoolean("manage_system", false);
 
         // Get predefined rules
         Map<String, Boolean> pre_blocked = new HashMap<>();
-        Map<String, Boolean> pre_unused = new HashMap<>();
         Map<String, Boolean> pre_roaming = new HashMap<>();
         Map<String, String[]> pre_related = new HashMap<>();
         try {
@@ -107,19 +110,17 @@ public class Rule implements Comparable<Rule> {
                     if ("rule".equals(xml.getName())) {
                         String pkg = xml.getAttributeValue(null, "package");
                         boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
-                        boolean punused = xml.getAttributeBooleanValue(null, "unused", default_unused);
                         boolean proaming = xml.getAttributeBooleanValue(null, "roaming", default_roaming);
                         pre_blocked.put(pkg, pblocked);
-                        pre_unused.put(pkg, punused);
                         pre_roaming.put(pkg, proaming);
-                        Log.i(tag, "Predefined " + pkg + " blocked=" + pblocked + " unused=" + punused + " roaming=" + proaming);
+                        Log.d(tag, "Predefined " + pkg + " blocked=" + pblocked + " roaming=" + proaming);
 
                     } else if ("relation".equals(xml.getName())) {
                         String pkg = xml.getAttributeValue(null, "package");
                         String[] rel = xml.getAttributeValue(null, "related").split(",");
                         pre_related.put(pkg, rel);
 
-                        Log.i(tag, "Relation " + pkg + " related=" + TextUtils.join(",", rel));
+                        Log.d(tag, "Relation " + pkg + " related=" + TextUtils.join(",", rel));
                     }
 
                 eventType = xml.next();
@@ -140,12 +141,14 @@ public class Rule implements Comparable<Rule> {
 
                 rule.wifi_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : default_wifi);
                 rule.other_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : default_other);
-                rule.unused_default = (pre_unused.containsKey(info.packageName) ? pre_unused.get(info.packageName) : default_unused);
+                rule.screen_wifi_default = default_screen_wifi;
+                rule.screen_other_default = default_screen_other;
                 rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
 
                 rule.wifi_blocked = (system && !manage_system ? false : wifi.getBoolean(info.packageName, rule.wifi_default));
                 rule.other_blocked = (system && !manage_system ? false : other.getBoolean(info.packageName, rule.other_default));
-                rule.unused = unused.getBoolean(info.packageName, rule.unused_default);
+                rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default);
+                rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
                 rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
 
                 if (pre_related.containsKey(info.packageName))
@@ -153,8 +156,9 @@ public class Rule implements Comparable<Rule> {
 
                 rule.changed = (rule.wifi_blocked != default_wifi ||
                         rule.other_blocked != default_other ||
-                        ((rule.wifi_blocked || rule.other_blocked) && rule.unused != default_unused) ||
-                        ((!rule.other_blocked || rule.unused) && rule.roaming != default_roaming));
+                        (rule.wifi_blocked && rule.screen_wifi != rule.screen_wifi_default) ||
+                        (rule.other_blocked && rule.screen_other != rule.screen_other_default) ||
+                        ((!rule.other_blocked || rule.screen_other) && rule.roaming != default_roaming));
 
                 listRules.add(rule);
             }

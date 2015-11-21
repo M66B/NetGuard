@@ -68,8 +68,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public CheckBox cbWifi;
         public CheckBox cbOther;
 
-        public LinearLayout llAttributes;
-        public ImageView ivUsing;
+        public LinearLayout llAttributesWifi;
+        public ImageView ivScreenWifi;
+
+        public LinearLayout llAttributesOther;
+        public ImageView ivScreenOther;
         public TextView tvRoaming;
 
         public LinearLayout llConfiguration;
@@ -78,7 +81,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public TextView tvVersion;
         public TextView tvDisabled;
         public TextView tvInternet;
-        public CheckBox cbUsing;
+        public CheckBox cbScreenWifi;
+        public CheckBox cbScreenOther;
         public CheckBox cbRoaming;
         public ImageButton btnSettings;
         public Button btnLaunch;
@@ -95,8 +99,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
             cbOther = (CheckBox) itemView.findViewById(R.id.cbOther);
 
-            llAttributes = (LinearLayout) itemView.findViewById(R.id.llAttributes);
-            ivUsing = (ImageView) itemView.findViewById(R.id.ivUsing);
+            llAttributesWifi = (LinearLayout) itemView.findViewById(R.id.llAttributesWifi);
+            ivScreenWifi = (ImageView) itemView.findViewById(R.id.ivScreenWifi);
+
+            llAttributesOther = (LinearLayout) itemView.findViewById(R.id.llAttributesOther);
+            ivScreenOther = (ImageView) itemView.findViewById(R.id.ivScreenOther);
             tvRoaming = (TextView) itemView.findViewById(R.id.tvRoaming);
 
             llConfiguration = (LinearLayout) itemView.findViewById(R.id.llConfiguration);
@@ -105,7 +112,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             tvVersion = (TextView) itemView.findViewById(R.id.tvVersion);
             tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
             tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
-            cbUsing = (CheckBox) itemView.findViewById(R.id.cbUsing);
+            cbScreenWifi = (CheckBox) itemView.findViewById(R.id.cbScreenWifi);
+            cbScreenOther = (CheckBox) itemView.findViewById(R.id.cbScreenOther);
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
             btnSettings = (ImageButton) itemView.findViewById(R.id.btnSettings);
             btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
@@ -178,7 +186,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                         for (Rule related : listAll)
                             if (related.info.packageName.equals(pkg)) {
                                 updateRule(related, network, isChecked);
-                                updateUnused(related, rule.unused);
+                                updateScreenWifi(related, rule.screen_wifi);
+                                updateScreenOther(related, rule.screen_other);
                                 updateRoaming(related, rule.roaming);
                             }
                     notifyDataSetChanged();
@@ -222,9 +231,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.cbOther.setChecked(rule.other_blocked);
         holder.cbOther.setOnCheckedChangeListener(cbListener);
 
-        holder.llAttributes.setOnClickListener(llListener);
-        holder.ivUsing.setVisibility(rule.unused && (rule.wifi_blocked || rule.other_blocked) ? View.VISIBLE : View.INVISIBLE);
-        holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.unused) ? View.VISIBLE : View.INVISIBLE);
+        holder.llAttributesWifi.setOnClickListener(llListener);
+        holder.ivScreenWifi.setVisibility(rule.screen_wifi && rule.wifi_blocked ? View.VISIBLE : View.INVISIBLE);
+        holder.llAttributesOther.setOnClickListener(llListener);
+        holder.ivScreenOther.setVisibility(rule.screen_other && rule.other_blocked ? View.VISIBLE : View.INVISIBLE);
+        holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.screen_other) ? View.VISIBLE : View.INVISIBLE);
 
         holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
 
@@ -239,15 +250,15 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvDisabled.setVisibility(rule.disabled ? View.VISIBLE : View.GONE);
         holder.tvInternet.setVisibility(rule.internet ? View.GONE : View.VISIBLE);
 
-        holder.cbUsing.setOnCheckedChangeListener(null);
-        holder.cbUsing.setChecked(rule.unused);
-        holder.cbUsing.setEnabled(rule.wifi_blocked || rule.other_blocked);
+        holder.cbScreenWifi.setOnCheckedChangeListener(null);
+        holder.cbScreenWifi.setChecked(rule.screen_wifi);
+        holder.cbScreenWifi.setEnabled(rule.wifi_blocked);
 
-        holder.cbUsing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.cbScreenWifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
-                updateUnused(rule, isChecked);
+                updateScreenWifi(rule, isChecked);
 
                 // Update relations
                 if (rule.related == null)
@@ -256,7 +267,33 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     for (String pkg : rule.related)
                         for (Rule related : listAll)
                             if (related.info.packageName.equals(pkg))
-                                updateUnused(related, rule.unused);
+                                updateScreenWifi(related, rule.screen_wifi);
+                    notifyDataSetChanged();
+                }
+
+                // Apply updated rule
+                SinkholeService.reload(null, context);
+            }
+        });
+
+        holder.cbScreenOther.setOnCheckedChangeListener(null);
+        holder.cbScreenOther.setChecked(rule.screen_other);
+        holder.cbScreenOther.setEnabled(rule.other_blocked);
+
+        holder.cbScreenOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Update rule
+                updateScreenOther(rule, isChecked);
+
+                // Update relations
+                if (rule.related == null)
+                    notifyItemChanged(position);
+                else {
+                    for (String pkg : rule.related)
+                        for (Rule related : listAll)
+                            if (related.info.packageName.equals(pkg))
+                                updateScreenOther(related, rule.screen_other);
                     notifyDataSetChanged();
                 }
 
@@ -267,7 +304,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         holder.cbRoaming.setOnCheckedChangeListener(null);
         holder.cbRoaming.setChecked(rule.roaming);
-        holder.cbRoaming.setEnabled(!rule.other_blocked || rule.unused);
+        holder.cbRoaming.setEnabled(!rule.other_blocked || rule.screen_other);
 
         holder.cbRoaming.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -339,13 +376,22 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
     }
 
-    private void updateUnused(Rule rule, boolean enabled) {
-        rule.unused = enabled;
-        SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
-        if (rule.unused == rule.unused_default)
-            unused.edit().remove(rule.info.packageName).apply();
+    private void updateScreenWifi(Rule rule, boolean enabled) {
+        rule.screen_wifi = enabled;
+        SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
+        if (rule.screen_wifi == rule.screen_wifi_default)
+            screen_wifi.edit().remove(rule.info.packageName).apply();
         else
-            unused.edit().putBoolean(rule.info.packageName, rule.unused).apply();
+            screen_wifi.edit().putBoolean(rule.info.packageName, rule.screen_wifi).apply();
+    }
+
+    private void updateScreenOther(Rule rule, boolean enabled) {
+        rule.screen_other = enabled;
+        SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
+        if (rule.screen_other == rule.screen_other_default)
+            screen_other.edit().remove(rule.info.packageName).apply();
+        else
+            screen_other.edit().putBoolean(rule.info.packageName, rule.screen_other).apply();
     }
 
     private void updateRoaming(Rule rule, boolean enabled) {

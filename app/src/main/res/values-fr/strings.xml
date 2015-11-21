@@ -15,7 +15,8 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="menu_about">À propos</string>
   <string name="setting_whitelist_wifi">Blocage Wi-Fi par défaut</string>
   <string name="setting_whitelist_other">Blocage données mobiles par défaut</string>
-  <string name="setting_unused">Default allow when screen is on</string>
+    <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
+    <string name="setting_screen_other">Default allow mobile when screen is on</string>
   <string name="setting_whitelist_roaming">Blocage roaming par défaut</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
   <string name="setting_system">Gérer les applications système</string>
@@ -39,7 +40,8 @@ Netguard n\'a pas access a internet,vous savez que votre trafic Internet n\'est 
 Faire un don est une de façon de montrer votre soutiens aux développeur et votre appréciation pour le travail accompli.</string>
   <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
   <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
-  <string name="title_using">Accepter si l\'ecran est allumé</string>
+    <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
+    <string name="title_screen_other">Allow mobile when screen is on</string>
   <string name="title_roaming">Bloquer si roaming</string>
   <string name="title_disabled">is disabled</string>
   <string name="title_internet">has no internet permission</string>

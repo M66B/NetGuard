@@ -169,7 +169,8 @@ public class SinkholeService extends VpnService {
         int nBlocked = 0;
         for (Rule rule : Rule.getRules(true, TAG, this)) {
             boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
-            if ((!blocked || (rule.unused && interactive)) && (!metered || !(rule.roaming && last_roaming))) {
+            boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
+            if ((!blocked || (screen && interactive)) && (!metered || !(rule.roaming && last_roaming))) {
                 nAllowed++;
                 if (debug)
                     Log.i(TAG, "Allowing " + rule.info.packageName);

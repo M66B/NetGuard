@@ -8,8 +8,8 @@ android {
         applicationId "eu.faircode.netguard"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 37
-        versionName "0.37"
+        versionCode 38
+        versionName "0.38"
     }
     buildTypes {
         release {

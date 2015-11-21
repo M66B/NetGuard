@@ -1,8 +1,16 @@
 #!/bin/bash
 
-grep -RIl "\<string name=\"msg_bug" app/src/main/res | xargs sed -i -e '/msg_bug/d'
-grep -RIl "\<string name=\"msg_dimming" app/src/main/res | xargs sed -i -e '/msg_dimming/a\
-\ \ \ \ <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>'
+#grep -RIl "\<string name=\"title_using" app/src/main/res | xargs sed -i -e '/title_using/a\
+#\ \ \ \ <string name="title_screen_other">Allow mobile when screen is on</string>'
+#grep -RIl "\<string name=\"title_using" app/src/main/res | xargs sed -i -e '/title_using/a\
+#\ \ \ \ <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>'
+#grep -RIl "\<string name=\"title_using" app/src/main/res | xargs sed -i -e '/title_using/d'
+
+grep -RIl "\<string name=\"setting_unused" app/src/main/res | xargs sed -i -e '/setting_unused/a\
+\ \ \ \ <string name="setting_screen_other">Default allow mobile when screen is on</string>'
+grep -RIl "\<string name=\"setting_unused" app/src/main/res | xargs sed -i -e '/setting_unused/a\
+\ \ \ \ <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>'
+grep -RIl "\<string name=\"setting_unused" app/src/main/res | xargs sed -i -e '/setting_unused/d'
 
 #grep -RIl "\<string name=\"title_disabled" app/src/main/res | xargs sed -i -e 's/Is disabled/is disabled/g'
 #grep -RIl "\<string name=\"title_internet" app/src/main/res | xargs sed -i -e 's/Has no internet access/has no internet permission/g'
