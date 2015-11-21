@@ -83,6 +83,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         running = true;
         boolean enabled = prefs.getBoolean("enabled", false);
+        boolean initialized = prefs.getBoolean("initialized", false);
+
+        // Upgrade
+        Receiver.upgrade(initialized, this);
 
         if (enabled)
             SinkholeService.start(this);
@@ -180,7 +184,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         registerReceiver(packageChangedReceiver, intentFilter);
 
         // First use
-        boolean initialized = prefs.getBoolean("initialized", false);
         if (!initialized) {
             // Create view
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -214,9 +217,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     .create();
             dialogFirst.show();
         }
-
-        // Upgrade
-        Receiver.upgrade(initialized, this);
 
         // Fill application list
         updateApplicationList();

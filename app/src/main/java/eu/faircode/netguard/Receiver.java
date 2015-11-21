@@ -62,42 +62,44 @@ public class Receiver extends BroadcastReceiver {
     }
 
     public static void upgrade(boolean initialized, Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int oldVersion = prefs.getInt("version", -1);
-        int newVersion = Util.getSelfVersionCode(context);
-        Log.i(TAG, "Upgrading from version " + oldVersion + " to " + newVersion);
+        synchronized (context.getApplicationContext()) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            int oldVersion = prefs.getInt("version", -1);
+            int newVersion = Util.getSelfVersionCode(context);
+            Log.i(TAG, "Upgrading from version " + oldVersion + " to " + newVersion);
 
-        SharedPreferences.Editor editor = prefs.edit();
-        if (initialized) {
-            if (oldVersion < 38) {
-                Log.i(TAG, "Converting screen wifi/mobile");
-                SharedPreferences.Editor edit = prefs.edit();
-                edit.putBoolean("screen_wifi", prefs.getBoolean("unused", false));
-                edit.putBoolean("screen_other", prefs.getBoolean("unused", false));
-                edit.remove("unused");
-                edit.apply();
+            SharedPreferences.Editor editor = prefs.edit();
+            if (initialized) {
+                if (oldVersion < 38) {
+                    Log.i(TAG, "Converting screen wifi/mobile");
+                    SharedPreferences.Editor edit = prefs.edit();
+                    edit.putBoolean("screen_wifi", prefs.getBoolean("unused", false));
+                    edit.putBoolean("screen_other", prefs.getBoolean("unused", false));
+                    edit.remove("unused");
+                    edit.apply();
 
-                SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
-                SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
-                SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
+                    SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
+                    SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
+                    SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
 
-                Map<String, ?> punused = unused.getAll();
-                SharedPreferences.Editor edit_screen_wifi = screen_wifi.edit();
-                SharedPreferences.Editor edit_screen_other = screen_other.edit();
-                for (String key : punused.keySet()) {
-                    edit_screen_wifi.putBoolean(key, (Boolean) punused.get(key));
-                    edit_screen_other.putBoolean(key, (Boolean) punused.get(key));
+                    Map<String, ?> punused = unused.getAll();
+                    SharedPreferences.Editor edit_screen_wifi = screen_wifi.edit();
+                    SharedPreferences.Editor edit_screen_other = screen_other.edit();
+                    for (String key : punused.keySet()) {
+                        edit_screen_wifi.putBoolean(key, (Boolean) punused.get(key));
+                        edit_screen_other.putBoolean(key, (Boolean) punused.get(key));
+                    }
+                    edit_screen_wifi.apply();
+                    edit_screen_other.apply();
+
+                    // TODO: delete unused
                 }
-                edit_screen_wifi.apply();
-                edit_screen_other.apply();
-
-                // TODO: delete unused
+            } else {
+                editor.putBoolean("whitelist_wifi", false);
+                editor.putBoolean("whitelist_other", false);
             }
-        } else {
-            editor.putBoolean("whitelist_wifi", false);
-            editor.putBoolean("whitelist_other", false);
+            editor.putInt("version", newVersion);
+            editor.apply();
         }
-        editor.putInt("version", newVersion);
-        editor.apply();
     }
 }
