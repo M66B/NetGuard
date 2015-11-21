@@ -1,34 +1,24 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.model.application'
 
-android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+model {
+    android {
+        compileSdkVersion = 23
+        buildToolsVersion = "23.0.2"
 
-    defaultConfig {
-        applicationId "eu.faircode.netguard"
-        minSdkVersion 21
-        targetSdkVersion 23
-        versionCode 38
-        versionName "0.38"
-    }
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationVariants.all { variant ->
-                setOutputFile(variant, defaultConfig)
-            }
+        defaultConfig.with {
+            applicationId = "eu.faircode.netguard"
+            minSdkVersion.apiLevel = 21
+            targetSdkVersion.apiLevel = 23
+            versionCode = 38
+            versionName = "0.38"
+            archivesBaseName = "NetGuard-v$versionName"
         }
     }
-}
-
-def setOutputFile(variant, defaultConfig) {
-    variant.outputs.each { output ->
-        def fileName = "NetGuard-v" + defaultConfig.versionName + ".apk"
-        if (output.zipAlign)
-            output.outputFile = new File(output.outputFile.parent, fileName)
-        else
-            output.packageApplication.outputFile = new File(output.packageApplication.outputFile.parent, fileName)
+    android.buildTypes {
+        release {
+            isMinifyEnabled = true
+            proguardFiles += file('proguard-rules.pro')
+        }
     }
 }
 

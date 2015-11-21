@@ -36,34 +36,34 @@
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/debug" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/debug" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/debug" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/generated/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/debug" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/generated/androidTest/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/assets" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/aidl" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/debug/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/debug/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/debug/renderscript" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/assets" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/aidl" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/renderscript" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/assets" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/aidl" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/renderscript" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes-proguard" />
@@ -75,6 +75,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/proguard-rules" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/release" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/resources" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
