@@ -66,6 +66,8 @@ public class Receiver extends BroadcastReceiver {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             int oldVersion = prefs.getInt("version", -1);
             int newVersion = Util.getSelfVersionCode(context);
+            if (oldVersion == newVersion)
+                return;
             Log.i(TAG, "Upgrading from version " + oldVersion + " to " + newVersion);
 
             SharedPreferences.Editor editor = prefs.edit();
