@@ -38,8 +38,8 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="msg_try">Incearca NetGuard</string>
   <string name="msg_voluntary">Donatiile sunt voluntare si nu deblocheaza vreo functie ascunsa. Donatiile sunt doar un mod de a iti arata aprecierea pentru munca depusa la aceasta aplicatie.</string>
   <string name="msg_dimming">Daca in urmatoarea fereastra de dialog nu poti apasa OK inseamna ca o aplicatie ce manipuleaza ecranul (luminozitatea sau nuanta) blocheaza interactiunea.</string>
-  <string name="title_screen_wifi">Permite Wi-Fi atunci cand ecranul este pornit</string>
-  <string name="title_screen_other">Permite date mobile atunci cand ecranul este pornit</string>
+  <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
+  <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>
   <string name="title_roaming">Blocheaza in roaming</string>
   <string name="title_disabled">Este dezactivata</string>
   <string name="title_internet">Nu are permisiunea de a accesa internetul</string>
