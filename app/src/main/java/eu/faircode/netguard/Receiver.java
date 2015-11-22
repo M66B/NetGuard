@@ -56,8 +56,13 @@ public class Receiver extends BroadcastReceiver {
             // Start service
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             if (prefs.getBoolean("enabled", false))
-                if (VpnService.prepare(context) == null)
-                    SinkholeService.start(context);
+                try {
+                    if (VpnService.prepare(context) == null)
+                        SinkholeService.start(context);
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, context);
+                }
         }
     }
 

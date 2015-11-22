@@ -108,40 +108,45 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
                 if (isChecked) {
                     Log.i(TAG, "Switch on");
-                    final Intent prepare = VpnService.prepare(ActivityMain.this);
-                    if (prepare == null) {
-                        Log.e(TAG, "Prepare done");
-                        onActivityResult(REQUEST_VPN, RESULT_OK, null);
-                    } else {
-                        // Show dialog
-                        LayoutInflater inflater = LayoutInflater.from(ActivityMain.this);
-                        View view = inflater.inflate(R.layout.vpn, null);
-                        dialogVpn = new AlertDialog.Builder(ActivityMain.this)
-                                .setView(view)
-                                .setCancelable(false)
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (running) {
-                                            Log.i(TAG, "Start intent=" + prepare);
-                                            try {
-                                                startActivityForResult(prepare, REQUEST_VPN);
-                                            } catch (Throwable ex) {
-                                                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                                                Util.sendCrashReport(ex, ActivityMain.this);
-                                                onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
+                    try {
+                        final Intent prepare = VpnService.prepare(ActivityMain.this);
+                        if (prepare == null) {
+                            Log.e(TAG, "Prepare done");
+                            onActivityResult(REQUEST_VPN, RESULT_OK, null);
+                        } else {
+                            // Show dialog
+                            LayoutInflater inflater = LayoutInflater.from(ActivityMain.this);
+                            View view = inflater.inflate(R.layout.vpn, null);
+                            dialogVpn = new AlertDialog.Builder(ActivityMain.this)
+                                    .setView(view)
+                                    .setCancelable(false)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (running) {
+                                                Log.i(TAG, "Start intent=" + prepare);
+                                                try {
+                                                    startActivityForResult(prepare, REQUEST_VPN);
+                                                } catch (Throwable ex) {
+                                                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                                                    Util.sendCrashReport(ex, ActivityMain.this);
+                                                    onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
+                                                }
                                             }
                                         }
-                                    }
-                                })
-                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                    @Override
-                                    public void onDismiss(DialogInterface dialogInterface) {
-                                        dialogVpn = null;
-                                    }
-                                })
-                                .create();
-                        dialogVpn.show();
+                                    })
+                                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                        @Override
+                                        public void onDismiss(DialogInterface dialogInterface) {
+                                            dialogVpn = null;
+                                        }
+                                    })
+                                    .create();
+                            dialogVpn.show();
+                        }
+                    } catch (Throwable ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        Util.sendCrashReport(ex, ActivityMain.this);
                     }
                 } else {
                     Log.i(TAG, "Switch off");
