@@ -12,8 +12,8 @@
   <string name="menu_about">О приложении</string>
   <string name="setting_whitelist_wifi">Блокировать Wi-Fi по умолч.</string>
   <string name="setting_whitelist_other">Блокировать моб. сеть по умолч.</string>
-  <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
-  <string name="setting_screen_other">Default allow mobile when screen is on</string>
+  <string name="setting_screen_wifi">Default allow Wi-Fi when screen on</string>
+  <string name="setting_screen_other">Default allow mobile when screen on</string>
   <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
   <string name="setting_metered">Регулировать огранич. Wi-Fi сети</string>
   <string name="setting_system">Управлять сист. приложениями</string>

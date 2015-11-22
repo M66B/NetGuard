@@ -15,8 +15,8 @@
   <string name="menu_about">アプリについて</string>
   <string name="setting_whitelist_wifi">デフォルトで Wi-Fi をブロック</string>
   <string name="setting_whitelist_other">デフォルトでモバイル通信をブロック</string>
-  <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
-  <string name="setting_screen_other">Default allow mobile when screen is on</string>
+  <string name="setting_screen_wifi">Default allow Wi-Fi when screen on</string>
+  <string name="setting_screen_other">Default allow mobile when screen on</string>
   <string name="setting_whitelist_roaming">デフォルトでローミングをブロック</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
   <string name="setting_system">システムアプリケーションの管理</string>

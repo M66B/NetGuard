@@ -15,8 +15,8 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="menu_about">O...</string>
   <string name="setting_whitelist_wifi">Domyślnie blokuj Wi-Fi</string>
   <string name="setting_whitelist_other">Domyślnie blokuj Mobilne</string>
-  <string name="setting_screen_wifi">Default allow Wi-Fi when screen is on</string>
-  <string name="setting_screen_other">Default allow mobile when screen is on</string>
+  <string name="setting_screen_wifi">Default allow Wi-Fi when screen on</string>
+  <string name="setting_screen_other">Default allow mobile when screen on</string>
   <string name="setting_whitelist_roaming">Domyślnie blokuj Roaming</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
   <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
