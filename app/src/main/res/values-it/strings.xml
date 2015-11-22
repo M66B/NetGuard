@@ -40,7 +40,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="msg_try">Prova NetGuard</string>
   <string name="msg_voluntary">Le donazioni sono totalmente volontarie e non sbloccano nessuna funzionalitá aggiuntiva. Le donazioni mostrano il tuo apprezzamento per il lavoro svolto.</string>
   <string name="msg_dimming">Se non riesci a cliccare OK nella prossima schermata, è probabile che un\'altra applicazione (di oscuramento schermo) stia manipolando lo schermo.</string>
-  <string name="msg_bug">Qualcosa è andato storto, si prega di descrivere nella schermata successiva cosa stavi facendo, così da contribuire a migliorare NetGuard</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
   <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>
   <string name="title_roaming">Blocca quando in roaming</string>

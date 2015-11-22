@@ -19,10 +19,8 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
-import android.app.AlertDialog;
 import android.app.ApplicationErrorReport;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -35,16 +33,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -182,22 +174,8 @@ public class Util {
         bug.putExtra(Intent.EXTRA_BUG_REPORT, report);
         if (bug.resolveActivity(context.getPackageManager()) == null)
             sendLogcat(ex.toString() + "\n" + Log.getStackTraceString(ex), context);
-        else {
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View view = inflater.inflate(R.layout.bug, null);
-            TextView tvBug = (TextView) view.findViewById(R.id.tvBug);
-            tvBug.setText(ex.toString());
-            new AlertDialog.Builder(context)
-                    .setView(view)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            context.startActivity(bug);
-                        }
-                    })
-                    .create()
-                    .show();
-        }
+        else
+            context.startActivity(bug);
     }
 
     public static void sendLogcat(final String message, final Context context) {

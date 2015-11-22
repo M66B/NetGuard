@@ -41,7 +41,6 @@ Since NetGuard has no internet permission, you know your internet traffic is not
     <string name="msg_try">Try NetGuard</string>
     <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
     <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
-    <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
 
     <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
     <string name="title_screen_other">Allow mobile when screen is on</string>

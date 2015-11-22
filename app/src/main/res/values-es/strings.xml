@@ -38,7 +38,6 @@ Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de i
   <string name="msg_try">Prueba NetGuard</string>
   <string name="msg_voluntary">Las donaciones son completamente voluntarias y no desbloquean ninguna funcionalidad. Las donaciones son una forma de mostrar tu apreciación por el trabajo hecho.</string>
   <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
-  <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
   <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
   <string name="title_screen_other">Allow mobile when screen is on</string>
   <string name="title_roaming">Bloquear cuando se esté en roaming</string>

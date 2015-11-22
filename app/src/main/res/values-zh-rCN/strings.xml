@@ -38,7 +38,6 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="msg_try">试用NetGuard</string>
   <string name="msg_voluntary">捐赠完全出于自愿并且不会解锁任何功能. 捐赠仅作为您对开发者付出劳动的感谢.</string>
   <string name="msg_dimming">如果您在下一个对话框中无法点击确定, 可能是另一个应用正在控制屏幕(如屏幕亮度调节软件).</string>
-  <string name="msg_bug">程序发生错误, 请在下一个对话框中描述您刚才的操作过程以便帮助我们改进NetGuard</string>
   <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>
   <string name="title_screen_other">亮屏时允许移动网络</string>
   <string name="title_roaming">漫游时阻止</string>

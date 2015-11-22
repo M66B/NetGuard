@@ -35,7 +35,6 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="msg_try">Попробуйте новый фаервол NetGuard</string>
   <string name="msg_voluntary">Пожертвования являются абсолютно добровольными и не добавляют никаких возможностей в программу. Пожертвования предназначены сугубо для того, чтобы выразить вашу признательность за проделанную работу.</string>
   <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>
-  <string name="msg_bug">Something has gone wrong, please describe in the next dialog what you were doing to help improve NetGuard</string>
   <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
   <string name="title_screen_other">Allow mobile when screen is on</string>
   <string name="title_roaming">Блокировать в роуминге</string>
