@@ -101,8 +101,6 @@ public class SinkholeService extends VpnService {
 
         private void handleIntent(Intent intent) {
             Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
             switch (cmd) {
                 case start:
