@@ -172,6 +172,7 @@ public class Util {
 
         final Intent bug = new Intent(Intent.ACTION_APP_ERROR);
         bug.putExtra(Intent.EXTRA_BUG_REPORT, report);
+        bug.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (bug.resolveActivity(context.getPackageManager()) == null)
             sendLogcat(ex.toString() + "\n" + Log.getStackTraceString(ex), context);
         else
