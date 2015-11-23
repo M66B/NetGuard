@@ -109,6 +109,8 @@ public class SinkholeService extends VpnService {
                     if (vpn == null) {
                         startForeground(NOTIFY_FOREGROUND, getForegroundNotification(0, 0));
                         vpn = startVPN();
+                        if (vpn == null)
+                            throw new IllegalStateException("VPN failed to start");
                         startDebug(vpn);
                         removeDisabledNotification();
                         Widget.updateWidgets(SinkholeService.this);

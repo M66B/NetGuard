@@ -175,9 +175,13 @@ Current translations:
 1. Polish (pl)
 1. Romanian (ro)
 1. Russian (ru)
+1. Portuguese/Brazilian (pt-rBR)
 1. Slovak (sk)
 1. Spanish (es)
+1. Turkish (tr)
 1. Ukrainian (uk)
+
+You can see the actual status of all translations [here](https://crowdin.com/project/netguard).
 
 Please note that you agree to the license below by contributing, including the copyright.
 
