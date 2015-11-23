@@ -102,50 +102,64 @@ public class SinkholeService extends VpnService {
         }
 
         private void handleIntent(Intent intent) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+
             Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
-            switch (cmd) {
-                case start:
-                    if (vpn == null) {
-                        startForeground(NOTIFY_FOREGROUND, getForegroundNotification(0, 0));
+
+            try {
+                switch (cmd) {
+                    case start:
+                        if (vpn == null) {
+                            startForeground(NOTIFY_FOREGROUND, getForegroundNotification(0, 0));
+                            vpn = startVPN();
+                            if (vpn == null)
+                                throw new IllegalStateException("VPN start failed");
+                            startDebug(vpn);
+                            removeDisabledNotification();
+                            Widget.updateWidgets(SinkholeService.this);
+                        }
+                        break;
+
+                    case reload:
+                        // Seamless handover
+                        ParcelFileDescriptor prev = vpn;
                         vpn = startVPN();
-                        if (vpn == null)
-                            throw new IllegalStateException("VPN failed to start");
+                        if (prev != null && vpn == null) {
+                            Log.w(TAG, "Handover failed");
+                            stopDebug();
+                            stopVPN(prev);
+                            prev = null;
+                            vpn = startVPN();
+                            if (vpn == null)
+                                throw new IllegalStateException("Handover failed");
+                        }
+                        stopDebug();
                         startDebug(vpn);
-                        removeDisabledNotification();
-                        Widget.updateWidgets(SinkholeService.this);
-                    }
-                    break;
+                        if (prev != null)
+                            stopVPN(prev);
+                        break;
 
-                case reload:
-                    // Seamless handover
-                    ParcelFileDescriptor prev = vpn;
-                    vpn = startVPN();
-                    if (prev != null && vpn == null) {
-                        Log.w(TAG, "Handover failed");
-                        stopDebug();
-                        stopVPN(prev);
-                        prev = null;
-                        vpn = startVPN();
-                        if (vpn == null)
-                            throw new IllegalStateException("Handover failed");
-                    }
-                    stopDebug();
-                    startDebug(vpn);
-                    if (prev != null)
-                        stopVPN(prev);
-                    break;
+                    case stop:
+                        if (vpn != null) {
+                            stopDebug();
+                            stopVPN(vpn);
+                            vpn = null;
+                            stopForeground(true);
+                            Widget.updateWidgets(SinkholeService.this);
+                            // Don't call stopSelf, since a start can follow
+                        }
+                        break;
+                }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
-                case stop:
-                    if (vpn != null) {
-                        stopDebug();
-                        stopVPN(vpn);
-                        vpn = null;
-                        stopForeground(true);
-                        Widget.updateWidgets(SinkholeService.this);
-                        // Don't call stopSelf, since a start can follow
-                    }
-                    break;
+                // Disable firewall
+                prefs.edit().putBoolean("enabled", false).apply();
+                Widget.updateWidgets(SinkholeService.this);
+
+                // Report exception
+                Util.sendCrashReport(ex, SinkholeService.this);
             }
         }
     }
@@ -210,21 +224,7 @@ public class SinkholeService extends VpnService {
             builder.setBlocking(true);
 
         // Start VPN service
-        try {
-            return builder.establish();
-
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-
-            // Disable firewall
-            prefs.edit().putBoolean("enabled", false).apply();
-
-            // Feedback
-            Util.sendCrashReport(ex, this);
-            Widget.updateWidgets(this);
-
-            return null;
-        }
+        return builder.establish();
     }
 
     private void stopVPN(ParcelFileDescriptor pfd) {
