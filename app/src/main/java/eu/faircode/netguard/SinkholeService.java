@@ -86,6 +86,9 @@ public class SinkholeService extends VpnService {
         public void handleMessage(Message msg) {
             try {
                 handleIntent((Intent) msg.obj);
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                Util.sendCrashReport(ex, SinkholeService.this);
             } finally {
                 try {
                     PowerManager.WakeLock wl = getLock(SinkholeService.this);
@@ -116,6 +119,15 @@ public class SinkholeService extends VpnService {
                     // Seamless handover
                     ParcelFileDescriptor prev = vpn;
                     vpn = startVPN();
+                    if (prev != null && vpn == null) {
+                        Log.w(TAG, "Handover failed");
+                        stopDebug();
+                        stopVPN(prev);
+                        prev = null;
+                        vpn = startVPN();
+                        if (vpn == null)
+                            throw new IllegalStateException("Handover failed");
+                    }
                     stopDebug();
                     startDebug(vpn);
                     if (prev != null)
@@ -197,10 +209,7 @@ public class SinkholeService extends VpnService {
 
         // Start VPN service
         try {
-            ParcelFileDescriptor result = builder.establish();
-            if (result == null)
-                throw new IllegalStateException("VpnService.Builder.establish returned unexpectedly NULL");
-            return result;
+            return builder.establish();
 
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
