@@ -322,13 +322,6 @@ public class SinkholeService extends VpnService {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-
-            // Yield system
-            try {
-                Thread.sleep(2500);
-            } catch (InterruptedException ignored) {
-            }
-
             reload(null, SinkholeService.this);
         }
     };
@@ -342,12 +335,6 @@ public class SinkholeService extends VpnService {
 
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             Log.i(TAG, "device idle=" + pm.isDeviceIdleMode());
-
-            // Yield system
-            try {
-                Thread.sleep(2500);
-            } catch (InterruptedException ignored) {
-            }
 
             // Reload rules when comming from idle mode
             if (!pm.isDeviceIdleMode())
