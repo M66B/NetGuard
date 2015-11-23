@@ -169,6 +169,8 @@ Android settings > Battery > three dot menu > Battery optimizations > Dropdown >
 
 This cannot be done from the application, because NetGuard is not an application type allowed to do this.
 
+<br />
+
 **If you didn't found the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
 
 If you want to request a new feature or want to report a bug, please [create an issue on GitHub](https://github.com/M66B/NetGuard/issues/new).
