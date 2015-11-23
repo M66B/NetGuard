@@ -111,7 +111,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     try {
                         final Intent prepare = VpnService.prepare(ActivityMain.this);
                         if (prepare == null) {
-                            Log.e(TAG, "Prepare done");
+                            Log.i(TAG, "Prepare done");
                             onActivityResult(REQUEST_VPN, RESULT_OK, null);
                         } else {
                             // Show dialog
