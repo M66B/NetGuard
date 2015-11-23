@@ -154,6 +154,21 @@ No. [Greenifying](https://play.google.com/store/apps/details?id=com.oasisfeng.gr
 or otherwise hibernating NetGuard will result in rules not being applied
 when connectivity changes from Wi-Fi/mobile, screen on/off and roaming/not roaming.
 
+<a name="FAQ21"></a>
+**(21) Does doze mode affect NetGuard?**
+
+I am not sure, because the [doze mode documentation](http://developer.android.com/training/monitoring-device-state/doze-standby.html)
+is not clear if broadcast receivers will be disabled in doze mode.
+If broadcast receivers are being disabled, then the rules might not be reloaded at the correct time or not at all
+when connectivity changes from Wi-Fi to mobile or the other way around.
+To be sure you can disable battery optimizations for NetGuard manually like this:
+
+```
+Android settings > Battery > three dot menu > Battery optimizations > Dropdown > All apps > NetGuard > Don't optimize > Done
+```
+
+This cannot be done from the application, because NetGuard is not an application type allowed to do this.
+
 **If you didn't found the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
 
 If you want to request a new feature or want to report a bug, please [create an issue on GitHub](https://github.com/M66B/NetGuard/issues/new).
