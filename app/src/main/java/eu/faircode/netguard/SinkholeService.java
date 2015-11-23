@@ -19,6 +19,7 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -30,6 +31,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.VpnService;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -331,6 +333,28 @@ public class SinkholeService extends VpnService {
         }
     };
 
+    private BroadcastReceiver idleStateReceiver = new BroadcastReceiver() {
+        @Override
+        @TargetApi(Build.VERSION_CODES.M)
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(intent);
+
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            Log.i(TAG, "device idle=" + pm.isDeviceIdleMode());
+
+            // Yield system
+            try {
+                Thread.sleep(2500);
+            } catch (InterruptedException ignored) {
+            }
+
+            // Reload rules when comming from idle mode
+            if (!pm.isDeviceIdleMode())
+                reload(null, SinkholeService.this);
+        }
+    };
+
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -383,6 +407,13 @@ public class SinkholeService extends VpnService {
         ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(interactiveStateReceiver, ifInteractive);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Listen for idle mode state changes
+            IntentFilter ifIdle = new IntentFilter();
+            ifIdle.addAction(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED);
+            registerReceiver(idleStateReceiver, ifIdle);
+        }
+
         // Listen for connectivity updates
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -422,6 +453,8 @@ public class SinkholeService extends VpnService {
         mServiceLooper.quit();
 
         unregisterReceiver(interactiveStateReceiver);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            unregisterReceiver(idleStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageAddedReceiver);
 
