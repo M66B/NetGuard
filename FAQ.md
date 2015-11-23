@@ -169,6 +169,12 @@ Android settings > Battery > three dot menu > Battery optimizations > Dropdown >
 
 This cannot be done from the application, because NetGuard is not an application type allowed to do this.
 
+<a name="FAQ22"></a>
+**(22) Can I tether while using NetGuard?**
+
+Due to a bug in Android this is not possible.
+See [here](https://github.com/M66B/NetGuard/issues/42) for more information.
+
 <br />
 
 **If you didn't found the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
