@@ -164,8 +164,8 @@ Translations:
 Current translations:
 
 1. Arabic (ar)
-1. Dutch (nl)
 1. Simplified Chinese (zh-rCN)
+1. Dutch (nl)
 1. English
 1. French (fr)
 1. German (de)
@@ -173,9 +173,9 @@ Current translations:
 1. Japanese (ja)
 1. Korean (ko)
 1. Polish (pl)
+1. Portuguese/Brazilian (pt-rBR)
 1. Romanian (ro)
 1. Russian (ru)
-1. Portuguese/Brazilian (pt-rBR)
 1. Slovak (sk)
 1. Spanish (es)
 1. Turkish (tr)
