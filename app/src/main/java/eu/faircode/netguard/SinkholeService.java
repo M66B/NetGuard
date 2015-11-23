@@ -323,7 +323,7 @@ public class SinkholeService extends VpnService {
 
             // Yield system
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2500);
             } catch (InterruptedException ignored) {
             }
 
