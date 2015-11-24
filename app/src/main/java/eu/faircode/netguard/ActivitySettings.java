@@ -363,14 +363,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlImport(handler.application, prefs);
         xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
         xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
-        if (handler.unused.size() > 0) {
-            xmlImport(handler.unused, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
-            xmlImport(handler.unused, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
-        } else {
-            xmlImport(handler.screen_wifi, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
-            xmlImport(handler.screen_other, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
-        }
+        xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
+        xmlImport(handler.screen_wifi, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
+        xmlImport(handler.screen_other, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
         xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
+
+        // Upgrade imported settings
+        Receiver.upgrade(true, this);
 
         // Refresh UI
         prefs.edit().putBoolean("imported", true).apply();
@@ -388,11 +387,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         for (String key : settings.keySet()) {
             Object value = settings.get(key);
             if (value instanceof Boolean)
-                if ("unused".equals(key)) {
-                    editor.putBoolean("screen_wifi", (Boolean) value);
-                    editor.putBoolean("screen_other", (Boolean) value);
-                } else
-                    editor.putBoolean(key, (Boolean) value);
+                editor.putBoolean(key, (Boolean) value);
             else if (value instanceof Integer)
                 editor.putInt(key, (Integer) value);
             else

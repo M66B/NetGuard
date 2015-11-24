@@ -79,11 +79,9 @@ public class Receiver extends BroadcastReceiver {
             if (initialized) {
                 if (oldVersion < 38) {
                     Log.i(TAG, "Converting screen wifi/mobile");
-                    SharedPreferences.Editor edit = prefs.edit();
-                    edit.putBoolean("screen_wifi", prefs.getBoolean("unused", false));
-                    edit.putBoolean("screen_other", prefs.getBoolean("unused", false));
-                    edit.remove("unused");
-                    edit.apply();
+                    editor.putBoolean("screen_wifi", prefs.getBoolean("unused", false));
+                    editor.putBoolean("screen_other", prefs.getBoolean("unused", false));
+                    editor.remove("unused");
 
                     SharedPreferences unused = context.getSharedPreferences("unused", Context.MODE_PRIVATE);
                     SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
