@@ -27,14 +27,14 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="summary_system">Definir regras para aplicativos do sistema (usuários experientes)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi compartilhadas (pagas, limitadas)</string>
   <string name="msg_sure">Tem certeza?</string>
-  <string name="msg_started">Forçar regras</string>
+  <string name="msg_started">Impondo regras</string>
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
   <string name="msg_disabled">NetGuard desativado, use o interruptor acima para ativar o NetGuard</string>
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>
   <string name="msg_completed">Ação concluída</string>
-  <string name="msg_vpn">NetGuard usa uma VPN local como um sumidouro para bloquear o trafego de dados.
+  <string name="msg_vpn">NetGuard usa uma VPN local como um sumidouro para bloquear o tráfego de dados.
 Por essa razão, por favor, permita a conexão VPN na tela a seguir.
-Como o NetGuard não possui permissão de acesso a internet, o trafego de dados não é enviado a lugar algum.</string>
+Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados não é enviado a lugar algum.</string>
   <string name="msg_try">Testar NetGuard</string>
   <string name="msg_voluntary">Doações são completamente voluntárias e não desbloqueiam nenhum recurso extra. Doações são uma forma de demonstrar sua satisfação pelo trabalho realizado.</string>
   <string name="msg_dimming">Caso não consiga pressionar OK no dialogo a seguir, então provavelmente algum aplicativo (screen dimming) esta manipulando a tela.</string>
