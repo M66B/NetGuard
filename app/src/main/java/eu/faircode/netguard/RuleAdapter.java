@@ -26,6 +26,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -53,6 +54,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     private Context context;
     private boolean debuggable;
+    private boolean dark;
     private int colorText;
     private int colorAccent;
     private List<Rule> listAll = new ArrayList<>();
@@ -149,6 +151,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     public RuleAdapter(Context context) {
         this.context = context;
         this.debuggable = Util.isDebuggable(context);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        dark = prefs.getBoolean("dark_theme", false);
+
         colorAccent = ContextCompat.getColor(context, R.color.colorAccent);
         TypedArray ta = context.getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
         try {
@@ -177,6 +183,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 // Update rule
                 String network = ((buttonView == holder.cbWifi) ? "wifi" : "other");
                 updateRule(rule, network, isChecked);
+                rule.updateChanged(context);
 
                 // Update relations
                 if (rule.related == null)
@@ -189,6 +196,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                                 updateScreenWifi(related, rule.screen_wifi);
                                 updateScreenOther(related, rule.screen_other);
                                 updateRoaming(related, rule.roaming);
+                                related.updateChanged(context);
                             }
                     notifyDataSetChanged();
                 }
@@ -205,6 +213,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 notifyItemChanged(position);
             }
         };
+
+        holder.itemView.setBackgroundColor(rule.changed ? Color.TRANSPARENT : dark ? Color.DKGRAY : Color.LTGRAY);
 
         holder.llApplication.setOnClickListener(llListener);
 
@@ -259,6 +269,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
                 updateScreenWifi(rule, isChecked);
+                rule.updateChanged(context);
 
                 // Update relations
                 if (rule.related == null)
@@ -266,8 +277,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 else {
                     for (String pkg : rule.related)
                         for (Rule related : listAll)
-                            if (related.info.packageName.equals(pkg))
+                            if (related.info.packageName.equals(pkg)) {
                                 updateScreenWifi(related, rule.screen_wifi);
+                                related.updateChanged(context);
+                            }
                     notifyDataSetChanged();
                 }
 
@@ -285,6 +298,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
                 updateScreenOther(rule, isChecked);
+                rule.updateChanged(context);
 
                 // Update relations
                 if (rule.related == null)
@@ -292,8 +306,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 else {
                     for (String pkg : rule.related)
                         for (Rule related : listAll)
-                            if (related.info.packageName.equals(pkg))
+                            if (related.info.packageName.equals(pkg)) {
                                 updateScreenOther(related, rule.screen_other);
+                                related.updateChanged(context);
+                            }
                     notifyDataSetChanged();
                 }
 
@@ -311,6 +327,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
                 updateRoaming(rule, isChecked);
+                rule.updateChanged(context);
 
                 // Update relations
                 if (rule.related == null)
@@ -318,8 +335,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 else {
                     for (String pkg : rule.related)
                         for (Rule related : listAll)
-                            if (related.info.packageName.equals(pkg))
+                            if (related.info.packageName.equals(pkg)) {
                                 updateRoaming(related, rule.roaming);
+                                related.updateChanged(context);
+                            }
                     notifyDataSetChanged();
                 }
 

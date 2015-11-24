@@ -154,11 +154,7 @@ public class Rule implements Comparable<Rule> {
                 if (pre_related.containsKey(info.packageName))
                     rule.related = pre_related.get(info.packageName);
 
-                rule.changed = (rule.wifi_blocked != default_wifi ||
-                        rule.other_blocked != default_other ||
-                        (rule.wifi_blocked && rule.screen_wifi != rule.screen_wifi_default) ||
-                        (rule.other_blocked && rule.screen_other != rule.screen_other_default) ||
-                        ((!rule.other_blocked || rule.screen_other) && rule.roaming != default_roaming));
+                rule.updateChanged(default_wifi, default_other, default_roaming);
 
                 listRules.add(rule);
             }
@@ -168,6 +164,22 @@ public class Rule implements Comparable<Rule> {
         Collections.sort(listRules);
 
         return listRules;
+    }
+
+    private void updateChanged(boolean default_wifi, boolean default_other, boolean default_roaming) {
+        changed = (wifi_blocked != default_wifi ||
+                other_blocked != default_other ||
+                (wifi_blocked && screen_wifi != screen_wifi_default) ||
+                (other_blocked && screen_other != screen_other_default) ||
+                ((!other_blocked || screen_other) && roaming != default_roaming));
+    }
+
+    public void updateChanged(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
+        boolean default_other = prefs.getBoolean("whitelist_other", true);
+        boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
+        updateChanged(default_wifi, default_other, default_roaming);
     }
 
     @Override
