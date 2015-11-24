@@ -11,34 +11,34 @@
   <string name="menu_about">Про</string>
   <string name="setting_whitelist_wifi">Блокувати типово у Wi-Fi мережі</string>
   <string name="setting_whitelist_other">Блокувати типово у мобільній мережі</string>
-  <string name="setting_screen_wifi">Default allow Wi-Fi when screen on</string>
-  <string name="setting_screen_other">Default allow mobile when screen on</string>
+  <string name="setting_screen_wifi">Дозволити типово Wi-Fi коли екран активний</string>
+  <string name="setting_screen_other">Дозволити типово мобільні мережі, коли екран активний</string>
   <string name="setting_whitelist_roaming">Блокувати типово у роумінгу</string>
-  <string name="setting_metered">Handle metered Wi-Fi networks</string>
+  <string name="setting_metered">Регулювати лімітовані Wi-Fi мережі</string>
   <string name="setting_system">Керувати системними додатками</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_export">Експорт налаштувань</string>
   <string name="setting_import">Імпорт налаштувань</string>
-  <string name="setting_technical">Technical information</string>
+  <string name="setting_technical">Технічна інформація</string>
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
-  <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
+  <string name="summary_metered">Застосувати правила до лімітованих (платних, обмежених) Wi-Fi мереж</string>
   <string name="msg_sure">Ви впевнені?</string>
   <string name="msg_started">Визначити правила</string>
-  <string name="msg_packages">%1$d allowed, %2$d blocked</string>
+  <string name="msg_packages">%1$d дозволено, %2$d заблоковано</string>
   <string name="msg_disabled">NetGuard вимкнено, аби увімкнути, використовуй перемикач, що знаходиться вище</string>
-  <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
+  <string name="msg_revoked">NetGuard було вимкнено, скоріш за все через використання іншого VPN-підключення</string>
   <string name="msg_completed">Дію завершено</string>
-  <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
+  <string name="msg_vpn">NetGuard використовує локальний VPN, аби заблокувати інтернет трафік.
+Через це, будь ласка, дозвольте VPN-підключення в наступному діалоговому вікні.
+NetGuard не має дозволу до інтернет доступу, тому ви можете бути впевнені, що ваш інтернет трафік нікуди не відправляється.</string>
   <string name="msg_try">Спробуйте NetGuard</string>
-  <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
-  <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
-  <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
-  <string name="title_screen_other">Allow mobile when screen is on</string>
+  <string name="msg_voluntary">Матеріальна подяка є абсолютно добровільною і не додає жодних можливостей програми. Подяка призначена лише в якості вираження Вашої вдячності за виконану роботу.</string>
+  <string name="msg_dimming">Якщо Вам не вдається натиснути Гаразд у наступному діалоговому вікні (затемнення екрану), то скоріш за все, якийсь інший додаток використовує екран.</string>
+  <string name="title_screen_wifi">Дозволено Wi-Fi, коли екран активний</string>
+  <string name="title_screen_other">Дозволено мобільні мережі, коли екран активний</string>
   <string name="title_roaming">Блокувати у роумінгу</string>
-  <string name="title_disabled">is disabled</string>
-  <string name="title_internet">has no internet permission</string>
+  <string name="title_disabled">вимкнено</string>
+  <string name="title_internet">немає доступу до інтернету</string>
   <string name="title_launch">Запуск додатку</string>
   <string name="title_donate">Матеріально подякувати</string>
   <string name="title_rate">Оцінити</string>
