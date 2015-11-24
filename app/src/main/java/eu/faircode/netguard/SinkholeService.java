@@ -444,6 +444,21 @@ public class SinkholeService extends VpnService {
     }
 
     @Override
+    public void onRevoke() {
+        Log.i(TAG, "Revoke");
+
+        // Disable firewall (will result in stop command)
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.edit().putBoolean("enabled", false).apply();
+
+        // Feedback
+        showDisabledNotification();
+        Widget.updateWidgets(this);
+
+        super.onRevoke();
+    }
+
+    @Override
     public void onDestroy() {
         Log.i(TAG, "Destroy");
 
@@ -469,21 +484,6 @@ public class SinkholeService extends VpnService {
         }
 
         super.onDestroy();
-    }
-
-    @Override
-    public void onRevoke() {
-        Log.i(TAG, "Revoke");
-
-        // Disable firewall (will result in stop command)
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.edit().putBoolean("enabled", false).apply();
-
-        // Feedback
-        showDisabledNotification();
-        Widget.updateWidgets(this);
-
-        super.onRevoke();
     }
 
     private Notification getForegroundNotification(int allowed, int blocked) {
