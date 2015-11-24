@@ -54,9 +54,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     private Context context;
     private boolean debuggable;
-    private boolean dark;
     private int colorText;
     private int colorAccent;
+    private int colorChanged;
     private List<Rule> listAll = new ArrayList<>();
     private List<Rule> listSelected = new ArrayList<>();
 
@@ -153,7 +153,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         this.debuggable = Util.isDebuggable(context);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        dark = prefs.getBoolean("dark_theme", false);
+        if (prefs.getBoolean("dark_theme", false))
+            colorChanged = Color.argb(128, Color.red(Color.DKGRAY), Color.green(Color.DKGRAY), Color.blue(Color.DKGRAY));
+        else
+            colorChanged = Color.argb(128, Color.red(Color.LTGRAY), Color.green(Color.LTGRAY), Color.blue(Color.LTGRAY));
 
         colorAccent = ContextCompat.getColor(context, R.color.colorAccent);
         TypedArray ta = context.getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
@@ -214,7 +217,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         };
 
-        holder.itemView.setBackgroundColor(rule.changed ? Color.TRANSPARENT : dark ? Color.DKGRAY : Color.LTGRAY);
+        holder.itemView.setBackgroundColor(rule.changed ? colorChanged : Color.TRANSPARENT);
 
         holder.llApplication.setOnClickListener(llListener);
 

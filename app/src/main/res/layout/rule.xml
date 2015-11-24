@@ -22,7 +22,8 @@
                 android:id="@+id/ivIcon"
                 android:layout_width="?android:attr/listPreferredItemHeightSmall"
                 android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="4dp" />
 
             <ImageView
                 android:id="@+id/ivExpander"
