@@ -106,7 +106,7 @@ public class SinkholeService extends VpnService {
         private void handleIntent(Intent intent) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
 
-            Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
+            Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
 
             try {
@@ -336,7 +336,7 @@ public class SinkholeService extends VpnService {
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             Log.i(TAG, "device idle=" + pm.isDeviceIdleMode());
 
-            // Reload rules when comming from idle mode
+            // Reload rules when coming from idle mode
             if (!pm.isDeviceIdleMode())
                 reload(null, SinkholeService.this);
         }
@@ -420,8 +420,18 @@ public class SinkholeService extends VpnService {
         if (!wl.isHeld())
             wl.acquire();
 
-        // Get command
-        final Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
+        // Handle service restart
+        if (intent == null) {
+            // Get enabled
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean enabled = prefs.getBoolean("enabled", false);
+
+            // Recreate intent
+            intent = new Intent(this, SinkholeService.class);
+            intent.putExtra(EXTRA_COMMAND, enabled ? Command.start : Command.stop);
+        }
+
+        Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
 
         // Queue command
@@ -430,7 +440,7 @@ public class SinkholeService extends VpnService {
         msg.obj = intent;
         mServiceHandler.sendMessage(msg);
 
-        return (cmd == Command.stop ? START_NOT_STICKY : START_STICKY);
+        return START_STICKY;
     }
 
     @Override
@@ -449,6 +459,13 @@ public class SinkholeService extends VpnService {
             stopDebug();
             stopVPN(vpn);
             vpn = null;
+        }
+
+        // Make sure wakelock is released
+        PowerManager.WakeLock wl = getLock(this);
+        while (wl.isHeld()) {
+            Log.w(TAG, "Wakelock held");
+            wl.release();
         }
 
         super.onDestroy();
