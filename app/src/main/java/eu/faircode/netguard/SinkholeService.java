@@ -417,11 +417,15 @@ public class SinkholeService extends VpnService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Intent redelivery
         PowerManager.WakeLock wl = getLock(this);
-        if (!wl.isHeld())
+        if (!wl.isHeld()) {
+            Log.w(TAG, "Wakelock not held");
             wl.acquire();
+        }
 
         // Handle service restart
         if (intent == null) {
+            Log.i(TAG, "Restart");
+
             // Get enabled
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             boolean enabled = prefs.getBoolean("enabled", false);
