@@ -56,8 +56,10 @@ public class Widget extends AppWidgetProvider {
             SinkholeService.stop(context);
 
         } else if (INTENT_ON.equals(intent.getAction())) {
-            prefs.edit().putBoolean("enabled", true).apply();
-            SinkholeService.start(context);
+            if (VpnService.prepare(context) == null) {
+                prefs.edit().putBoolean("enabled", true).apply();
+                SinkholeService.start(context);
+            }
         }
     }
 
