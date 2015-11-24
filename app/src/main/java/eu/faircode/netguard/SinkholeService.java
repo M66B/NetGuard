@@ -480,13 +480,6 @@ public class SinkholeService extends VpnService {
             vpn = null;
         }
 
-        // Make sure wakelock is released
-        PowerManager.WakeLock wl = getLock(this);
-        while (wl.isHeld()) {
-            Log.w(TAG, "Wakelock held");
-            wl.release();
-        }
-
         super.onDestroy();
     }
 
