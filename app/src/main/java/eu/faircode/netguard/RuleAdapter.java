@@ -242,18 +242,22 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             color = Color.argb(128, Color.red(color), Color.green(color), Color.blue(color));
         holder.tvName.setTextColor(color);
 
-        holder.cbWifi.setAlpha(wifiActive ? 1 : 0.4f);
+        holder.cbWifi.setAlpha(wifiActive ? 1 : 0.5f);
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
         holder.cbWifi.setOnCheckedChangeListener(cbListener);
 
-        holder.cbOther.setAlpha(otherActive ? 1 : 0.4f);
+        holder.ivScreenWifi.setAlpha(wifiActive ? 1 : 0.5f);
+        holder.ivScreenWifi.setVisibility(rule.screen_wifi && rule.wifi_blocked ? View.VISIBLE : View.INVISIBLE);
+
+        holder.cbOther.setAlpha(otherActive ? 1 : 0.5f);
         holder.cbOther.setOnCheckedChangeListener(null);
         holder.cbOther.setChecked(rule.other_blocked);
         holder.cbOther.setOnCheckedChangeListener(cbListener);
 
-        holder.ivScreenWifi.setVisibility(rule.screen_wifi && rule.wifi_blocked ? View.VISIBLE : View.INVISIBLE);
+        holder.ivScreenOther.setAlpha(otherActive ? 1 : 0.5f);
         holder.ivScreenOther.setVisibility(rule.screen_other && rule.other_blocked ? View.VISIBLE : View.INVISIBLE);
+        holder.tvRoaming.setAlpha(otherActive ? 1 : 0.5f);
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.screen_other) ? View.VISIBLE : View.INVISIBLE);
 
         holder.llConfiguration.setVisibility(rule.expanded ? View.VISIBLE : View.GONE);
