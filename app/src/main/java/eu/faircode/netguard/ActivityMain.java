@@ -71,6 +71,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_IAB = 2;
     private static final int REQUEST_INVITE = 3;
 
+    public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Create");
@@ -181,6 +183,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Listen for preference changes
         prefs.registerOnSharedPreferenceChangeListener(this);
 
+        // Listen for rule set changes
+        IntentFilter iff = new IntentFilter(ACTION_RULES_CHANGED);
+        LocalBroadcastManager.getInstance(this).registerReceiver(onRulesetChanged, iff);
+
         // Listen for added/removed applications
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
@@ -234,6 +240,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(onRulesetChanged);
         unregisterReceiver(packageChangedReceiver);
 
         if (dialogFirst != null) {
@@ -309,6 +316,20 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         else if ("dark_theme".equals(name))
             recreate();
     }
+
+    private BroadcastReceiver onRulesetChanged = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(intent);
+
+            if (adapter != null)
+                if (intent.getBooleanExtra("metered", false))
+                    adapter.setMobileActive();
+                else
+                    adapter.setWifiActive();
+        }
+    };
 
     private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
         @Override

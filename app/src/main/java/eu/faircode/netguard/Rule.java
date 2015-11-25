@@ -63,7 +63,7 @@ public class Rule implements Comparable<Rule> {
 
     public Intent intent;
 
-    public boolean attributes = false;
+    public boolean expanded = false;
 
     private Rule(PackageInfo info, Context context) {
         PackageManager pm = context.getPackageManager();

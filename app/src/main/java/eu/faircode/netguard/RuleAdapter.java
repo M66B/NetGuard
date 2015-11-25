@@ -57,6 +57,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private int colorText;
     private int colorAccent;
     private int colorChanged;
+    private boolean wifiActive = true;
+    private boolean otherActive = true;
     private List<Rule> listAll = new ArrayList<>();
     private List<Rule> listSelected = new ArrayList<>();
 
@@ -70,10 +72,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public CheckBox cbWifi;
         public CheckBox cbOther;
 
-        public LinearLayout llAttributesWifi;
         public ImageView ivScreenWifi;
-
-        public LinearLayout llAttributesOther;
         public ImageView ivScreenOther;
         public TextView tvRoaming;
 
@@ -101,10 +100,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
             cbOther = (CheckBox) itemView.findViewById(R.id.cbOther);
 
-            llAttributesWifi = (LinearLayout) itemView.findViewById(R.id.llAttributesWifi);
             ivScreenWifi = (ImageView) itemView.findViewById(R.id.ivScreenWifi);
-
-            llAttributesOther = (LinearLayout) itemView.findViewById(R.id.llAttributesOther);
             ivScreenOther = (ImageView) itemView.findViewById(R.id.ivScreenOther);
             tvRoaming = (TextView) itemView.findViewById(R.id.tvRoaming);
 
@@ -174,6 +170,18 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         notifyDataSetChanged();
     }
 
+    public void setWifiActive() {
+        wifiActive = true;
+        otherActive = false;
+        notifyDataSetChanged();
+    }
+
+    public void setMobileActive() {
+        wifiActive = false;
+        otherActive = true;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         // Get rule
@@ -209,17 +217,15 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         };
 
-        View.OnClickListener llListener = new View.OnClickListener() {
+        holder.llApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rule.attributes = !rule.attributes;
+                rule.expanded = !rule.expanded;
                 notifyItemChanged(position);
             }
-        };
+        });
 
         holder.itemView.setBackgroundColor(rule.changed ? colorChanged : Color.TRANSPARENT);
-
-        holder.llApplication.setOnClickListener(llListener);
 
         if (rule.info.applicationInfo == null || rule.info.applicationInfo.icon == 0)
             Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
@@ -228,7 +234,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             Picasso.with(context).load(uri).into(holder.ivIcon);
         }
 
-        holder.ivExpander.setImageLevel(rule.attributes ? 1 : 0);
+        holder.ivExpander.setImageLevel(rule.expanded ? 1 : 0);
         holder.tvName.setText(rule.name);
 
         int color = rule.system ? colorAccent : colorText;
@@ -236,21 +242,21 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             color = Color.argb(128, Color.red(color), Color.green(color), Color.blue(color));
         holder.tvName.setTextColor(color);
 
+        holder.cbWifi.setAlpha(wifiActive ? 1 : 0.4f);
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
         holder.cbWifi.setOnCheckedChangeListener(cbListener);
 
+        holder.cbOther.setAlpha(otherActive ? 1 : 0.4f);
         holder.cbOther.setOnCheckedChangeListener(null);
         holder.cbOther.setChecked(rule.other_blocked);
         holder.cbOther.setOnCheckedChangeListener(cbListener);
 
-        holder.llAttributesWifi.setOnClickListener(llListener);
         holder.ivScreenWifi.setVisibility(rule.screen_wifi && rule.wifi_blocked ? View.VISIBLE : View.INVISIBLE);
-        holder.llAttributesOther.setOnClickListener(llListener);
         holder.ivScreenOther.setVisibility(rule.screen_other && rule.other_blocked ? View.VISIBLE : View.INVISIBLE);
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.screen_other) ? View.VISIBLE : View.INVISIBLE);
 
-        holder.llConfiguration.setVisibility(rule.attributes ? View.VISIBLE : View.GONE);
+        holder.llConfiguration.setVisibility(rule.expanded ? View.VISIBLE : View.GONE);
 
         holder.tvUid.setVisibility(debuggable ? View.VISIBLE : View.GONE);
         holder.tvUid.setText(rule.info.applicationInfo == null ? "?" : Integer.toString(rule.info.applicationInfo.uid));

@@ -56,7 +56,6 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/llAttributesWifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -90,7 +89,6 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/llAttributesOther"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

@@ -42,6 +42,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.io.FileInputStream;
@@ -53,6 +54,7 @@ import java.nio.ByteOrder;
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
+    private boolean last_metered;
     private boolean last_roaming;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
@@ -120,6 +122,11 @@ public class SinkholeService extends VpnService {
                             startDebug(vpn);
                             removeDisabledNotification();
                             Widget.updateWidgets(SinkholeService.this);
+
+                        } else {
+                            Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+                            ruleset.putExtra("metered", last_metered);
+                            LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
                         }
                         break;
 
@@ -143,7 +150,11 @@ public class SinkholeService extends VpnService {
                         break;
 
                     case stop:
-                        if (vpn != null) {
+                        if (vpn == null) {
+                            Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+                            ruleset.putExtra("metered", last_metered);
+                            LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
+                        } else {
                             stopDebug();
                             stopVPN(vpn);
                             vpn = null;
@@ -174,13 +185,22 @@ public class SinkholeService extends VpnService {
         boolean metered = Util.isMeteredNetwork(this);
         boolean interactive = Util.isInteractive(this);
         boolean useMetered = prefs.getBoolean("use_metered", false);
+
+        // Update roaming state
+        if (last_roaming != Util.isRoaming(SinkholeService.this)) {
+            last_roaming = !last_roaming;
+            Log.i(TAG, "New state roaming=" + last_roaming);
+        }
+
         Log.i(TAG, "Starting wifi=" + wifi +
                 " metered=" + metered + "/" + useMetered +
                 " roaming=" + last_roaming +
                 " interactive=" + interactive);
 
+        // Update metered state
         if (wifi && !useMetered)
             metered = false;
+        last_metered = metered;
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -224,6 +244,10 @@ public class SinkholeService extends VpnService {
 
         if (debug)
             builder.setBlocking(true);
+
+        Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+        ruleset.putExtra("metered", metered);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(ruleset);
 
         // Start VPN service
         return builder.establish();
@@ -345,24 +369,15 @@ public class SinkholeService extends VpnService {
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Get network type
+            // Filter VPN connectivity changes
             int networkType = intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY);
             if (!debug && networkType == ConnectivityManager.TYPE_VPN)
                 return;
 
+            // Reload rules
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-
-            if (last_roaming != Util.isRoaming(SinkholeService.this)) {
-                // Roaming state changed
-                last_roaming = !last_roaming;
-                Log.i(TAG, "New state roaming=" + last_roaming);
-                reload(null, SinkholeService.this);
-
-            } else if (networkType == ConnectivityManager.TYPE_WIFI) {
-                // Local network connected/disconnected
-                reload(null, SinkholeService.this);
-            }
+            reload(null, SinkholeService.this);
         }
     };
 
@@ -386,7 +401,8 @@ public class SinkholeService extends VpnService {
         mServiceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(mServiceLooper);
 
-        last_roaming = Util.isRoaming(SinkholeService.this);
+        last_metered = Util.isMeteredNetwork(this);
+        last_roaming = Util.isRoaming(this);
 
         // Listen for interactive state changes
         IntentFilter ifInteractive = new IntentFilter();
