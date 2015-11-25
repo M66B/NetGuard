@@ -30,7 +30,7 @@
             android:id="@+id/rvApplication"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbarStyle="outsideOverlay"
+            android:scrollbarStyle="insideOverlay"
             android:scrollbars="vertical" />
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
