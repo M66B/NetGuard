@@ -113,10 +113,8 @@ public class IAB implements ServiceConnection {
         Util.logBundle(bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
         Log.i(TAG, "Response=" + getIABResult(response));
-        if (response != 0) {
-            Util.sendCrashReport(new IllegalStateException(getIABResult(response)), context);
+        if (response != 0)
             return false;
-        }
 
         // Check available SKUs
         boolean found = false;
@@ -141,10 +139,8 @@ public class IAB implements ServiceConnection {
         Util.logBundle(bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
         Log.i(TAG, "Response=" + getIABResult(response));
-        if (response != 0) {
-            Util.sendCrashReport(new IllegalStateException(getIABResult(response)), context);
+        if (response != 0)
             return false;
-        }
 
         // Check purchases
         ArrayList<String> skus = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
