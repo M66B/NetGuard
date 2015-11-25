@@ -182,6 +182,12 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         notifyDataSetChanged();
     }
 
+    public void setDisconnected() {
+        wifiActive = false;
+        otherActive = false;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         // Get rule

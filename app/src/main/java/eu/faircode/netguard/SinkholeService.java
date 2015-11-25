@@ -54,6 +54,7 @@ import java.nio.ByteOrder;
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
+    private boolean last_connected;
     private boolean last_metered;
     private boolean last_roaming;
     private ParcelFileDescriptor vpn = null;
@@ -125,6 +126,7 @@ public class SinkholeService extends VpnService {
 
                         } else {
                             Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+                            ruleset.putExtra("connected", last_connected);
                             ruleset.putExtra("metered", last_metered);
                             LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
                         }
@@ -152,6 +154,7 @@ public class SinkholeService extends VpnService {
                     case stop:
                         if (vpn == null) {
                             Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+                            ruleset.putExtra("connected", last_connected);
                             ruleset.putExtra("metered", last_metered);
                             LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
                         } else {
@@ -186,21 +189,25 @@ public class SinkholeService extends VpnService {
         boolean interactive = Util.isInteractive(this);
         boolean useMetered = prefs.getBoolean("use_metered", false);
 
+        // Update connected state
+        last_connected = Util.isConnected(SinkholeService.this);
+
+        // Update metered state
+        if (wifi && !useMetered)
+            metered = false;
+        last_metered = metered;
+
         // Update roaming state
         if (last_roaming != Util.isRoaming(SinkholeService.this)) {
             last_roaming = !last_roaming;
             Log.i(TAG, "New state roaming=" + last_roaming);
         }
 
-        Log.i(TAG, "Starting wifi=" + wifi +
-                " metered=" + metered + "/" + useMetered +
+        Log.i(TAG, "Starting connected=" + last_connected +
+                " wifi=" + wifi +
+                " metered=" + metered +
                 " roaming=" + last_roaming +
                 " interactive=" + interactive);
-
-        // Update metered state
-        if (wifi && !useMetered)
-            metered = false;
-        last_metered = metered;
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -246,6 +253,7 @@ public class SinkholeService extends VpnService {
             builder.setBlocking(true);
 
         Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+        ruleset.putExtra("connected", last_connected);
         ruleset.putExtra("metered", metered);
         LocalBroadcastManager.getInstance(this).sendBroadcast(ruleset);
 
@@ -401,6 +409,7 @@ public class SinkholeService extends VpnService {
         mServiceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(mServiceLooper);
 
+        last_connected = Util.isConnected(this);
         last_metered = Util.isMeteredNetwork(this);
         last_roaming = Util.isRoaming(this);
 

@@ -70,9 +70,10 @@ public class Util {
         }
     }
 
-    public static boolean isRoaming(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.isNetworkRoaming();
+    public static boolean isConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return (ni != null && ni.isConnected());
     }
 
     public static boolean isWifiActive(Context context) {
@@ -84,6 +85,11 @@ public class Util {
     public static boolean isMeteredNetwork(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.isActiveNetworkMetered();
+    }
+
+    public static boolean isRoaming(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return tm.isNetworkRoaming();
     }
 
     public static boolean isInteractive(Context context) {

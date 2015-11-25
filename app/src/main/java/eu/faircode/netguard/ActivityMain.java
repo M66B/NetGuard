@@ -324,10 +324,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Util.logExtras(intent);
 
             if (adapter != null)
-                if (intent.getBooleanExtra("metered", false))
-                    adapter.setMobileActive();
+                if (intent.getBooleanExtra("connected", false))
+                    if (intent.getBooleanExtra("metered", false))
+                        adapter.setMobileActive();
+                    else
+                        adapter.setWifiActive();
                 else
-                    adapter.setWifiActive();
+                    adapter.setDisconnected();
         }
     };
 
