@@ -124,11 +124,6 @@ public class SinkholeService extends VpnService {
                             removeDisabledNotification();
                             Widget.updateWidgets(SinkholeService.this);
 
-                        } else {
-                            Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
-                            ruleset.putExtra("connected", last_connected);
-                            ruleset.putExtra("metered", last_metered);
-                            LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
                         }
                         break;
 
@@ -152,12 +147,7 @@ public class SinkholeService extends VpnService {
                         break;
 
                     case stop:
-                        if (vpn == null) {
-                            Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
-                            ruleset.putExtra("connected", last_connected);
-                            ruleset.putExtra("metered", last_metered);
-                            LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
-                        } else {
+                        if (vpn != null) {
                             stopDebug();
                             stopVPN(vpn);
                             vpn = null;
@@ -167,6 +157,12 @@ public class SinkholeService extends VpnService {
                         }
                         break;
                 }
+
+                Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+                ruleset.putExtra("connected", last_connected);
+                ruleset.putExtra("metered", last_metered);
+                LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
+
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
@@ -251,11 +247,6 @@ public class SinkholeService extends VpnService {
 
         if (debug)
             builder.setBlocking(true);
-
-        Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
-        ruleset.putExtra("connected", last_connected);
-        ruleset.putExtra("metered", metered);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(ruleset);
 
         // Start VPN service
         return builder.establish();
