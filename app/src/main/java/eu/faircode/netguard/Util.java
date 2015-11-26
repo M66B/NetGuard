@@ -39,10 +39,9 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.MessageDigest;
@@ -180,29 +179,21 @@ public class Util {
             final Intent bug = new Intent(Intent.ACTION_APP_ERROR);
             bug.putExtra(Intent.EXTRA_BUG_REPORT, report);
             bug.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (bug.resolveActivity(context.getPackageManager()) == null)
-                sendLogcat(ex.toString() + "\n" + Log.getStackTraceString(ex), context);
-            else
+            if (bug.resolveActivity(context.getPackageManager()) != null)
                 context.startActivity(bug);
         } catch (Throwable exex) {
             Log.e(TAG, exex.toString() + "\n" + Log.getStackTraceString(exex));
         }
     }
 
-    public static void sendLogcat(final String message, final Context context) {
+    public static void sendLogcat(final Uri uri, final Context context) {
         AsyncTask task = new AsyncTask<Object, Object, Intent>() {
             @Override
             protected Intent doInBackground(Object... objects) {
-                PackageInfo pInfo;
-                try {
-                    pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-                } catch (PackageManager.NameNotFoundException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    return null;
-                }
-
+                // Get device info
                 StringBuilder sb = new StringBuilder();
-                sb.append(String.format("NetGuard: %s\r\n", pInfo.versionName + "/" + pInfo.versionCode));
+                String version = getSelfVersionName(context);
+                sb.append(String.format("NetGuard: %s\r\n", version));
                 sb.append(String.format("Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
                 sb.append("\r\n");
                 sb.append(String.format("Brand: %s\r\n", Build.BRAND));
@@ -219,6 +210,7 @@ public class Util {
                 sb.append(String.format("WiFi: %b\r\n", isWifiActive(context)));
                 sb.append(String.format("Metered: %b\r\n", isMeteredNetwork(context)));
 
+                // Get connectivity info
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
                 for (Network network : cm.getAllNetworks()) {
                     NetworkInfo ni = cm.getNetworkInfo(network);
@@ -233,45 +225,41 @@ public class Util {
                                 .append("\r\n");
                 }
 
+                // Get settings
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 Map<String, ?> all = prefs.getAll();
                 for (String key : all.keySet())
                     sb.append("Setting: ").append(key).append('=').append(all.get(key)).append("\r\n");
 
-                if (message != null)
-                    sb.append(message).append("\r\n");
+                // Write logcat
+                OutputStream out = null;
+                try {
+                    Log.i(TAG, "Writing logcat URI=" + uri);
+                    out = context.getContentResolver().openOutputStream(uri);
+                    out.write(getLogcat().toString().getBytes());
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    sb.append(ex.toString()).append("\r\n").append(Log.getStackTraceString(ex)).append("\r\n");
+                } finally {
+                    if (out != null)
+                        try {
+                            out.close();
+                        } catch (IOException ignored) {
+                        }
+                }
 
+                // Finalize message
                 sb.append("\r\n");
                 sb.append("Please describe your problem:\r\n");
                 sb.append("\r\n");
 
+                // Build intent
                 Intent sendEmail = new Intent(Intent.ACTION_SEND);
                 sendEmail.setType("message/rfc822");
                 sendEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{"marcel+netguard@faircode.eu"});
-                sendEmail.putExtra(Intent.EXTRA_SUBJECT, "NetGuard " + pInfo.versionName + " logcat");
+                sendEmail.putExtra(Intent.EXTRA_SUBJECT, "NetGuard " + version + " logcat");
                 sendEmail.putExtra(Intent.EXTRA_TEXT, sb.toString());
-
-                File logcatFolder = context.getExternalCacheDir();
-                logcatFolder.mkdirs();
-                File logcatFile = new File(logcatFolder, "logcat.txt");
-                Log.i(TAG, "Writing " + logcatFile);
-                FileOutputStream fos = null;
-                try {
-                    fos = new FileOutputStream(logcatFile);
-                    fos.write(getLogcat().toString().getBytes());
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                } finally {
-                    if (fos != null)
-                        try {
-                            fos.close();
-                        } catch (IOException ignored) {
-                        }
-                }
-                logcatFile.setReadable(true);
-
-                sendEmail.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(logcatFile));
-
+                sendEmail.putExtra(Intent.EXTRA_STREAM, uri);
                 return sendEmail;
             }
 
@@ -299,10 +287,8 @@ public class Util {
             br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = br.readLine()) != null)
-                if (line.contains(pid)) {
-                    builder.append(line);
-                    builder.append("\r\n");
-                }
+                if (line.toLowerCase().contains("netguard"))
+                    builder.append(line).append("\r\n");
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         } finally {

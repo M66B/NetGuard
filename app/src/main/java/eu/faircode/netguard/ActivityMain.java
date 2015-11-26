@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
@@ -70,6 +69,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_IAB = 2;
     private static final int REQUEST_INVITE = 3;
+    private static final int REQUEST_LOGCAT = 4;
 
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
 
@@ -282,6 +282,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         } else if (requestCode == REQUEST_INVITE) {
             // Do nothing
 
+        } else if (requestCode == REQUEST_LOGCAT) {
+            // Send logcat by e-mail
+            Util.sendLogcat(data.getData(), this);
+
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
             super.onActivityResult(requestCode, resultCode, data);
@@ -474,7 +478,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 if (tap == 7) {
                     tap = 0;
                     toast.cancel();
-                    Util.sendLogcat(null, ActivityMain.this);
+
+                    Intent intent = getIntentLogcat();
+                    if (intent.resolveActivity(getPackageManager()) != null)
+                        startActivityForResult(intent, REQUEST_LOGCAT, null);
+
                 } else if (tap > 3) {
                     toast.setText(Integer.toString(7 - tap));
                     toast.show();
@@ -571,6 +579,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             iab.bind();
     }
 
+
     private static Intent getIntentInvite(Context context) {
         Intent intent = new Intent("com.google.android.gms.appinvite.ACTION_APP_INVITE");
         intent.setPackage("com.google.android.gms");
@@ -591,6 +600,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static Intent getIntentSupport() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("https://github.com/M66B/NetGuard/blob/master/FAQ.md"));
+        return intent;
+    }
+
+    private Intent getIntentLogcat() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TITLE, "logcat.txt");
         return intent;
     }
 }
