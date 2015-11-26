@@ -58,10 +58,15 @@ public class IAB implements ServiceConnection {
     }
 
     public void bind() {
-        Log.i(TAG, "Bind");
-        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
-        serviceIntent.setPackage("com.android.vending");
-        context.bindService(serviceIntent, this, Context.BIND_AUTO_CREATE);
+        try {
+            Log.i(TAG, "Bind");
+            Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+            serviceIntent.setPackage("com.android.vending");
+            context.bindService(serviceIntent, this, Context.BIND_AUTO_CREATE);
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Util.sendCrashReport(ex, context);
+        }
     }
 
     public PendingIntent getIntentSender() throws RemoteException {
@@ -69,11 +74,15 @@ public class IAB implements ServiceConnection {
     }
 
     public void unbind() {
-        if (service != null) {
-            Log.i(TAG, "Unbind");
-            context.unbindService(this);
-            service = null;
-        }
+        if (service != null)
+            try {
+                Log.i(TAG, "Unbind");
+                context.unbindService(this);
+                service = null;
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                Util.sendCrashReport(ex, context);
+            }
     }
 
     @Override
@@ -103,61 +112,79 @@ public class IAB implements ServiceConnection {
     }
 
     private boolean IABisAvailable(String sku) throws RemoteException, JSONException {
-        // Get available SKUs
-        ArrayList<String> skuList = new ArrayList<>();
-        skuList.add(sku);
-        Bundle query = new Bundle();
-        query.putStringArrayList("ITEM_ID_LIST", skuList);
-        Bundle bundle = service.getSkuDetails(IAB_VERSION, context.getPackageName(), "inapp", query);
-        Log.i(TAG, "getSkuDetails");
-        Util.logBundle(bundle);
-        int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
-        Log.i(TAG, "Response=" + getIABResult(response));
-        if (response != 0)
-            return false;
+        try {
+            // Get available SKUs
+            ArrayList<String> skuList = new ArrayList<>();
+            skuList.add(sku);
+            Bundle query = new Bundle();
+            query.putStringArrayList("ITEM_ID_LIST", skuList);
+            Bundle bundle = service.getSkuDetails(IAB_VERSION, context.getPackageName(), "inapp", query);
+            Log.i(TAG, "getSkuDetails");
+            Util.logBundle(bundle);
+            int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
+            Log.i(TAG, "Response=" + getIABResult(response));
+            if (response != 0)
+                return false;
 
-        // Check available SKUs
-        boolean found = false;
-        ArrayList<String> details = bundle.getStringArrayList("DETAILS_LIST");
-        if (details != null)
-            for (String item : details) {
-                JSONObject object = new JSONObject(item);
-                if (sku.equals(object.getString("productId"))) {
-                    found = true;
-                    break;
+            // Check available SKUs
+            boolean found = false;
+            ArrayList<String> details = bundle.getStringArrayList("DETAILS_LIST");
+            if (details != null)
+                for (String item : details) {
+                    JSONObject object = new JSONObject(item);
+                    if (sku.equals(object.getString("productId"))) {
+                        found = true;
+                        break;
+                    }
                 }
-            }
-        Log.i(TAG, sku + "=" + found);
+            Log.i(TAG, sku + "=" + found);
 
-        return found;
+            return found;
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Util.sendCrashReport(ex, context);
+            return false;
+        }
     }
 
     private boolean IABisPurchased(String sku) throws RemoteException {
-        // Get purchases
-        Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), "inapp", null);
-        Log.i(TAG, "getPurchases");
-        Util.logBundle(bundle);
-        int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
-        Log.i(TAG, "Response=" + getIABResult(response));
-        if (response != 0)
-            return false;
+        try {
+            // Get purchases
+            Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), "inapp", null);
+            Log.i(TAG, "getPurchases");
+            Util.logBundle(bundle);
+            int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
+            Log.i(TAG, "Response=" + getIABResult(response));
+            if (response != 0)
+                return false;
 
-        // Check purchases
-        ArrayList<String> skus = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
-        return (skus != null && skus.contains(sku));
+            // Check purchases
+            ArrayList<String> skus = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+            return (skus != null && skus.contains(sku));
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Util.sendCrashReport(ex, context);
+            return false;
+        }
     }
 
     private PendingIntent IABgetBuyIntent(String sku) throws RemoteException {
-        Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "netguard");
-        Log.i(TAG, "getBuyIntent");
-        Util.logBundle(bundle);
-        int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
-        Log.i(TAG, "Response=" + getIABResult(response));
-        if (response != 0 || !bundle.containsKey("BUY_INTENT")) {
-            Util.sendCrashReport(new IllegalStateException(getIABResult(response)), context);
+        try {
+            Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "netguard");
+            Log.i(TAG, "getBuyIntent");
+            Util.logBundle(bundle);
+            int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
+            Log.i(TAG, "Response=" + getIABResult(response));
+            if (response != 0 || !bundle.containsKey("BUY_INTENT")) {
+                Util.sendCrashReport(new IllegalStateException(getIABResult(response)), context);
+                return null;
+            }
+            return bundle.getParcelable("BUY_INTENT");
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Util.sendCrashReport(ex, context);
             return null;
         }
-        return bundle.getParcelable("BUY_INTENT");
     }
 
     public static String getIABResult(int responseCode) {
