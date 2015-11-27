@@ -55,12 +55,16 @@ public class Widget extends AppWidgetProvider {
             prefs.edit().putBoolean("enabled", false).apply();
             SinkholeService.stop(context);
 
-        } else if (INTENT_ON.equals(intent.getAction())) {
-            if (VpnService.prepare(context) == null) {
-                prefs.edit().putBoolean("enabled", true).apply();
-                SinkholeService.start(context);
+        } else if (INTENT_ON.equals(intent.getAction()))
+            try {
+                if (VpnService.prepare(context) == null) {
+                    prefs.edit().putBoolean("enabled", true).apply();
+                    SinkholeService.start(context);
+                }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                Util.sendCrashReport(ex, context);
             }
-        }
     }
 
     private static void update(int[] appWidgetIds, AppWidgetManager appWidgetManager, Context context) {
