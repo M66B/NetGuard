@@ -31,6 +31,7 @@
   <string name="msg_packages">%1$d allowed, %2$d blocked</string>
   <string name="msg_disabled">NetGuard は無効です。NetGuard を有効にするには上のスイッチを使用してください</string>
   <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
+  <string name="msg_installed">%1$s installed</string>
   <string name="msg_completed">操作を完了しました</string>
   <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
 For this reason, please allow a VPN connection in the next dialog.

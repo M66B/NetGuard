@@ -28,6 +28,7 @@
   <string name="msg_packages">%1$d разрешен, %2$d заблокирован</string>
   <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
   <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>
+  <string name="msg_installed">%1$s installed</string>
   <string name="msg_completed">Действие завершено</string>
   <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик.
 По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне.

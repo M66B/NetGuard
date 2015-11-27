@@ -71,6 +71,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_INVITE = 3;
     private static final int REQUEST_LOGCAT = 4;
 
+    public static final String EXTRA_PACKAGE_NAME = "package";
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
 
     @Override
