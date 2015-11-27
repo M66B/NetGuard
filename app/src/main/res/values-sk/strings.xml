@@ -31,7 +31,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="msg_packages">%1$d allowed, %2$d blocked</string>
   <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>
   <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
-  <string name="msg_installed">%1$s installed</string>
+  <string name="msg_installed">%1$s installed, touch to configure</string>
   <string name="msg_completed">Akcia bola dokončená</string>
   <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky,
 a preto by ste mali povoliť VPN pripojenie v ďalšom okne.

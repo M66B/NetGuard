@@ -31,7 +31,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="msg_packages">%1$d allowed, %2$d blocked</string>
   <string name="msg_disabled">NetGuard is disabled, use the switch above to enable NetGuard</string>
   <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
-  <string name="msg_installed">%1$s installed</string>
+  <string name="msg_installed">%1$s installed, touch to configure</string>
   <string name="msg_completed">Action completed</string>
   <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
 For this reason, please allow a VPN connection in the next dialog.

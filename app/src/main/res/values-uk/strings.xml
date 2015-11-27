@@ -27,7 +27,7 @@
   <string name="msg_packages">%1$d дозволено, %2$d заблоковано</string>
   <string name="msg_disabled">NetGuard вимкнено, аби увімкнути, використовуй перемикач, що знаходиться вище</string>
   <string name="msg_revoked">NetGuard було вимкнено, скоріш за все через використання іншого VPN-підключення</string>
-  <string name="msg_installed">%1$s installed</string>
+  <string name="msg_installed">%1$s installed, touch to configure</string>
   <string name="msg_completed">Дію завершено</string>
   <string name="msg_vpn">NetGuard використовує локальний VPN, аби заблокувати інтернет трафік.
 Через це, будь ласка, дозвольте VPN-підключення в наступному діалоговому вікні.
