@@ -97,8 +97,11 @@ public class SinkholeService extends VpnService {
             } finally {
                 try {
                     PowerManager.WakeLock wl = getLock(SinkholeService.this);
-                    wl.release();
-                    Log.i(TAG, "wakelock=" + wl.isHeld());
+                    if (wl.isHeld())
+                        wl.release();
+                    else
+                        Log.w(TAG, "Wakelock under-locked");
+                    Log.i(TAG, "Messages=" + hasMessages(0) + " wakelock=" + wlInstance.isHeld());
                 } catch (Exception ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     Util.sendCrashReport(ex, SinkholeService.this);
@@ -460,6 +463,7 @@ public class SinkholeService extends VpnService {
         Message msg = mServiceHandler.obtainMessage();
         msg.arg1 = startId;
         msg.obj = intent;
+        msg.what = 0;
         mServiceHandler.sendMessage(msg);
 
         return START_STICKY;
