@@ -122,8 +122,6 @@ public class SinkholeService extends VpnService {
                                 throw new IllegalStateException("VPN start failed");
                             startDebug(vpn);
                             removeDisabledNotification();
-                            Widget.updateWidgets(SinkholeService.this);
-
                         }
                         break;
 
@@ -152,16 +150,18 @@ public class SinkholeService extends VpnService {
                             stopVPN(vpn);
                             vpn = null;
                             stopForeground(true);
-                            Widget.updateWidgets(SinkholeService.this);
-                            // Don't call stopSelf, since a start can follow
                         }
                         break;
                 }
 
+                // Update main view
                 Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
                 ruleset.putExtra("connected", last_connected);
                 ruleset.putExtra("metered", last_metered);
                 LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
+
+                // Update widgets
+                Widget.updateWidgets(SinkholeService.this);
 
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
