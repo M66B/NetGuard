@@ -133,6 +133,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                                                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                                                     Util.sendCrashReport(ex, ActivityMain.this);
                                                     onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
+                                                    prefs.edit().putBoolean("enabled", false).apply();
                                                 }
                                             }
                                         }
@@ -147,9 +148,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                             dialogVpn.show();
                         }
                     } catch (Throwable ex) {
+                        // Prepare failed
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                         Util.sendCrashReport(ex, ActivityMain.this);
+                        prefs.edit().putBoolean("enabled", false).apply();
                     }
+
                 } else {
                     Log.i(TAG, "Switch off");
                     prefs.edit().putBoolean("enabled", false).apply();
