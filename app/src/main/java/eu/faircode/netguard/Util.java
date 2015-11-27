@@ -194,7 +194,7 @@ public class Util {
                 // Get device info
                 StringBuilder sb = new StringBuilder();
                 String version = getSelfVersionName(context);
-                sb.append(String.format("NetGuard: %s\r\n", version));
+                sb.append(String.format("NetGuard: %s/%d\r\n", version, getSelfVersionCode(context)));
                 sb.append(String.format("Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
                 sb.append("\r\n");
                 sb.append(String.format("Brand: %s\r\n", Build.BRAND));
