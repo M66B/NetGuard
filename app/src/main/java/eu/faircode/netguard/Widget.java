@@ -72,11 +72,14 @@ public class Widget extends AppWidgetProvider {
         boolean enabled = prefs.getBoolean("enabled", false);
 
         try {
-            PendingIntent pi;
-            if (VpnService.prepare(context) == null)
-                pi = PendingIntent.getBroadcast(context, 0, new Intent(enabled ? INTENT_OFF : INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
-            else
-                pi = PendingIntent.getActivity(context, 0, new Intent(context, ActivityMain.class), PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pi = PendingIntent.getActivity(context, 0, new Intent(context, ActivityMain.class), PendingIntent.FLAG_UPDATE_CURRENT);
+            try {
+                if (VpnService.prepare(context) == null)
+                    pi = PendingIntent.getBroadcast(context, 0, new Intent(enabled ? INTENT_OFF : INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                Util.sendCrashReport(ex, context);
+            }
 
             for (int id : appWidgetIds) {
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
