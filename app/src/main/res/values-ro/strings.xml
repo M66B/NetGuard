@@ -31,7 +31,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="msg_packages">%1$d permise, %2$d blocate</string>
   <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
   <string name="msg_revoked">NetGuard a fost dezactivat, probabil de o alta aplicatie ce foloseste o conexiune VPN</string>
-  <string name="msg_installed">%1$s installed</string>
+  <string name="msg_installed">%1$s installed, touch to configure</string>
   <string name="msg_completed">Actiune realizata</string>
   <string name="msg_vpn">NetGuard foloseste o conexiune locala VPN ca o \"gaura neagra\" pentru traficul de internet blocat.
 Din acest motiv la urmatoarea fereastra de dialog trebuie sa acceptati crearea conexiunii VPN.
