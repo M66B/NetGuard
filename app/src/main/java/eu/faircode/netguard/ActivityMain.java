@@ -284,7 +284,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         } else if (requestCode == REQUEST_LOGCAT) {
             // Send logcat by e-mail
-            Util.sendLogcat(data.getData(), this);
+            if (resultCode == RESULT_OK)
+                Util.sendLogcat(data.getData(), this);
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
