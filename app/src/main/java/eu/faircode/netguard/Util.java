@@ -30,6 +30,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -206,6 +207,11 @@ public class Util {
                 sb.append(String.format("Id: %s\r\n", Build.ID));
                 sb.append(String.format("Fingerprint: %b\r\n", hasValidFingerprint(context)));
                 sb.append(String.format("VPN dialogs: %b\r\n", isPackageInstalled("com.android.vpndialogs", context)));
+                try {
+                    sb.append(String.format("Prepared: %b\r\n", VpnService.prepare(context) == null));
+                } catch (Throwable ex) {
+                    sb.append("Prepared: ").append((ex.toString())).append("\r\n").append(Log.getStackTraceString(ex));
+                }
                 sb.append(String.format("Interactive: %b\r\n", isInteractive(context)));
                 sb.append(String.format("WiFi: %b\r\n", isWifiActive(context)));
                 sb.append(String.format("Metered: %b\r\n", isMeteredNetwork(context)));
