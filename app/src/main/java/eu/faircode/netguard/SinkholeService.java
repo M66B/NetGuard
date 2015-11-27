@@ -191,6 +191,8 @@ public class SinkholeService extends VpnService {
         // Update metered state
         if (wifi && !useMetered)
             metered = false;
+        if (!last_connected)
+            metered = true;
         last_metered = metered;
 
         // Update roaming state
