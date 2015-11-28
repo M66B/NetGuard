@@ -436,12 +436,8 @@ public class SinkholeService extends VpnService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Intent redelivery
-        PowerManager.WakeLock wl = getLock(this);
-        if (!wl.isHeld()) {
-            Log.w(TAG, "Wakelock not held");
-            wl.acquire();
-        }
+        // Keep awake
+        getLock(this).acquire();
 
         // Handle service restart
         if (intent == null) {
@@ -551,7 +547,6 @@ public class SinkholeService extends VpnService {
     }
 
     public static void start(Context context) {
-        getLock(context).acquire();
         Intent intent = new Intent(context, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         context.startService(intent);
@@ -565,7 +560,6 @@ public class SinkholeService extends VpnService {
             if (wifi && !prefs.getBoolean("use_metered", false))
                 metered = false;
             if (network == null || ("wifi".equals(network) ? !metered : metered)) {
-                getLock(context).acquire();
                 Intent intent = new Intent(context, SinkholeService.class);
                 intent.putExtra(EXTRA_COMMAND, Command.reload);
                 context.startService(intent);
@@ -574,7 +568,6 @@ public class SinkholeService extends VpnService {
     }
 
     public static void stop(Context context) {
-        getLock(context).acquire();
         Intent intent = new Intent(context, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         context.startService(intent);
