@@ -32,7 +32,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="msg_packages">%1$d permesse, %2$d bloccate</string>
   <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
   <string name="msg_revoked">NetGuard è stata disabilitata, probabilmente a causa di un\'altra applicazione che usa il servizio VPN</string>
-  <string name="msg_installed">%1$s installed</string>
   <string name="msg_completed">Azione completata</string>
   <string name="msg_vpn">Per bloccare il traffico internet, NetGuard utilizza una VPN locale come \"pozzo\".
         Per questo motivo, abilita la connessione VPN nella prossima schermata.

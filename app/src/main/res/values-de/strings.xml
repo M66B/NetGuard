@@ -30,7 +30,6 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_packages">%1$d erlaubt, %2$d blockiert</string>
   <string name="msg_disabled">NetGuard ist deaktiviert. Verwenden Sie den Schalter, um NetGuard zu aktivieren</string>
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer VPN-Anwendung</string>
-  <string name="msg_installed">%1$s installed</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
   <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um einen Internet-Verkehr zu blockieren. Deshalb erlauben Sie eine VPN-Verbindung im nächsten Fenster. Da NetGuard keine Internet-Berechtigung hat, wird der Internet-Verkehr auch nirgendwo weitergeleitet.</string>
   <string name="msg_try">NetGuard ausprobieren</string>

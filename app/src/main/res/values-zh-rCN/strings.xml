@@ -31,7 +31,6 @@
   <string name="msg_packages">%1$d 已允许, %2$d 已拦截</string>
   <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
   <string name="msg_revoked">NetGuard已被停用, 可能是由于您启动了另一个基于VPN的应用</string>
-  <string name="msg_installed">%1$s installed</string>
   <string name="msg_completed">操作完成</string>
   <string name="msg_vpn">NetGuard使用一个本地VPN来重定向被阻止的网络流量.
 因此请在下一个对话框中允许建立VPN连接.
