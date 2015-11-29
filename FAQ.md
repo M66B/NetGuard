@@ -6,6 +6,17 @@ Please scroll down if you want to ask a question, request a feature or report a 
 Frequently Asked Questions (FAQ)
 --------------------------------
 
+<a name="FAQ0"></a>
+**(0) How do I use NetGuard**
+
+* Enable the firewall using the switch in the action bar
+* Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
+
+* Orange = denied internet access
+* Green = allowed internet access
+
+You can use the settings menu to change from black list to white list mode.
+
 <a name="FAQ1"></a>
 **(1) Can NetGuard completely protect my privacy?**
 
@@ -174,6 +185,18 @@ This cannot be done from the application, because NetGuard is not an application
 
 Due to a bug in Android this is not possible.
 See [here](https://github.com/M66B/NetGuard/issues/42) for more information.
+
+<a name="FAQ24"></a>
+**(24) Can you remove the notification from the status bar?**
+
+Android can kill background services at any time.
+This can only be prevented by turning a background service into a foreground service.
+Android requires an ongoing notification in the status bar for all foreground services
+to make you aware of potential battery ussage.
+So, the notification cannot be removed without causing instability.
+However, the notification is being marked as low priority,
+which should result in moving it to the bottom of the list
+and should remove the icon from the status bar in most cases.
 
 <br />
 

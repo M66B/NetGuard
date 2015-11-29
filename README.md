@@ -49,6 +49,11 @@ Usage:
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
 
+* Orange = denied internet access
+* Green = allowed internet access
+
+You can use the settings menu to change from black list to white list mode.
+
 <img src="screenshot1.png" width="320" height="569" />
 
 <img src="screenshot2.png" width="320" height="569" />
