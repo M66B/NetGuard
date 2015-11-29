@@ -31,6 +31,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
@@ -71,11 +72,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_INVITE = 3;
     private static final int REQUEST_LOGCAT = 4;
 
+    private static final int MIN_SDK = Build.VERSION_CODES.LOLLIPOP;
+
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Create");
+
+        if (Build.VERSION.SDK_INT < MIN_SDK) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.android);
+            return;
+        }
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
@@ -240,6 +249,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     public void onDestroy() {
         Log.i(TAG, "Destroy");
+
+        if (Build.VERSION.SDK_INT < MIN_SDK) {
+            super.onDestroy();
+            return;
+        }
+
         running = false;
 
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
@@ -390,6 +405,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (Build.VERSION.SDK_INT < MIN_SDK)
+            return false;
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
