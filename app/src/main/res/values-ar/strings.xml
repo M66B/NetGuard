@@ -46,6 +46,6 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_internet">has no internet permission</string>
   <string name="title_launch">Start application</string>
   <string name="title_donate">Donate</string>
-  <string name="title_rate">Rate</string>
-  <string name="title_thanks">Thank you for your donation!</string>
+  <string name="title_rate">ﺗﻘﻴﻴﻢ</string>
+  <string name="title_thanks">شكرا لتبرعك!</string>
 </resources>
