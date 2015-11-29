@@ -42,8 +42,8 @@ Since NetGuard has no internet permission, you know your internet traffic is not
 Downloads:
 
 * [GitHub](https://github.com/M66B/NetGuard/releases)
-* [Play store](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
-* [Play store](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
+* [On Google Play](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
+* [On Google Play](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
 * [F-Droid](https://f-droid.org/repository/browse/?fdfilter=netguard&fdid=eu.faircode.netguard) (unsupported, often outdated)
 * [XDA Labs App](http://forum.xda-developers.com/android/apps-games/labs-t3241866) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
 
@@ -67,18 +67,18 @@ Compatibility
 Devices / ROMs with a broken VPN implementation:
 
 * Asus™ ZenFone 2 / Android 5.0.2, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63619542&postcount=121) (all traffic blocked)
-* Asus™ ZenFone 4 / Android 5.0 (reported in the Play store) (all traffic blocked)
-* Asus™ ZenFone 5 / Android 5.0 (reported through Play store feedback) (prepare fails)
+* Asus™ ZenFone 4 / Android 5.0 (reported in the Google Play™ store app) (all traffic blocked)
+* Asus™ ZenFone 5 / Android 5.0 (reported through Google Play™ store app feedback) (prepare fails)
 * Asus™ ZenPad S 8.0 / Android 5.0, [reported on Github](https://github.com/M66B/NetGuard/issues/168) (all traffic blocked)
-* BQ™ Aquaris E5/M5 / Android 5.0.2/5.0 (reported in the Play store) (all traffic blocked)
+* BQ™ Aquaris E5/M5 / Android 5.0.2/5.0 (reported in the Google Play™ store app) (all traffic blocked)
 * Lenovo™ Yoga Tablet Pro-1380L / 2 Pro / Android 5.0.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63784102&postcount=278) (all traffic blocked)
 * LGE G2 Mini (D620) / Android 5.0.2, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63987178&postcount=437) (prepare fails)
 * Samsung™ Galaxy A5 / Android 5.0.2, [reported on Github](https://github.com/M66B/NetGuard/issues/20) (all traffic blocked)
-* Samsung™ Galaxy Note3 / Android 5.0 (reported through Play store feedback) (prepare fails)
-* Sony™ Xperia™ M4 Aqua Dual / Android 5.0 (reported in the Play store) (all traffic blocked)
+* Samsung™ Galaxy Note3 / Android 5.0 (reported through Google Play™ store app feedback) (prepare fails)
+* Sony™ Xperia™ M4 Aqua Dual / Android 5.0 (reported in the Google Play™ store app) (all traffic blocked)
 * Symphony Teleca™ / Micromax™ Canvas Knight 2 E471 / Android 5.0.2 (reported by e-mail) (VPN establish fails)
-* TCT Mobile Limited™ (Alcatel) 6039Y / Android / Android 5.0 (reported in the Play store) (all traffic blocked)
-* TCT Mobile Limited™ (Alcatel) OneTouch Idol 3 / Android 5.0.2 (reported in the Play store) (all traffic blocked)
+* TCT Mobile Limited™ (Alcatel) 6039Y / Android / Android 5.0 (reported in the Google Play™ store app) (all traffic blocked)
+* TCT Mobile Limited™ (Alcatel) OneTouch Idol 3 / Android 5.0.2 (reported in the Google Play™ store app) (all traffic blocked)
 
 NetGuard will crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 
@@ -115,7 +115,7 @@ Frequently Asked Questions (FAQ)
 [**(7) Why are applications without internet permission shown?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ7)
 
 <a name="FAQ8"></a>
-[**(8) What do I need to enable for the Google Play Store to work?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ8)
+[**(8) What do I need to enable for the Google Play™ store app to work?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ8)
 
 <a name="FAQ9"></a>
 [**(9) Why is the VPN service being restarted?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ9)
@@ -142,7 +142,7 @@ Frequently Asked Questions (FAQ)
 [**(17) Why is NetGuard using so much memory?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ17)
 
 <a name="FAQ18"></a>
-[**(18) Why can't I find NetGuard in the Google Play Store?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ18)
+[**(18) Why can't I find NetGuard in the Google Play™ store app?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ18)
 
 <a name="FAQ19"></a>
 [**(19) Why does aplication XYZ still have internet access?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ19)
@@ -239,3 +239,5 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with NetGuard. If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
+
+*Android is a trademark of Google Inc. Google Play is a trademark of Google Inc*

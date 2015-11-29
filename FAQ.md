@@ -12,7 +12,7 @@ Frequently Asked Questions (FAQ)
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
 
-You can use the settings menu to change from black list to white list mode.
+You can use the settings menu to change from blacklist mode (allow all in *Settings* but block unwanted applications in list) to whitelist mode (block all in *Settings* but allow favorite applications in list).
 
 * Orange = denied internet access
 * Green = allowed internet access
@@ -70,10 +70,10 @@ No. It cannot even do this because NetGuard does not even have *internet* permis
 **(7) Why are applications without internet permission shown?**
 
 Internet permission can be granted with each application update without user consent.
-By showing all applications, NetGuard allows you to block internet access *before* such an update occurs.
+By showing all applications, NetGuard allows you to control internet access even *before* such an update occurs.
 
 <a name="FAQ8"></a>
-**(8) What do I need to enable for the Google Play Store to work?**
+**(8) What do I need to enable for the Google Play™ store app to work?**
 
 You need 3 packages (applications) enabled (use search in NetGuard to find them quickly):
 
@@ -81,12 +81,10 @@ You need 3 packages (applications) enabled (use search in NetGuard to find them 
 * com.google.android.gms
 * com.android.providers.downloads
 
-Since the Google Play Store has a tendency to check for updates or even download them all by itself (even if no account is associated),
+Since the Google Play™ store app has a tendency to check for updates or even download them all by itself (even if no account is associated),
 one can keep it in check by enabling "*Allow when device in use*" for all 3 of these packages.
 Click on the down arrow on the left side of an application name and check that option,
 but leave the network icons set to red (hence blocked).The little human icon will appear for those packages.
-By doing this, you can still open the Google Play Store and update/install/uninstall applications since it will have internet access,
-but once you close it, it will not use any bandwidth.
 
 <a name="FAQ9"></a>
 **(9) Why is the VPN service being restarted?**
@@ -118,13 +116,13 @@ For more details, see [question 5](#FAQ5).
 
 Note that, whether or not you get a dialog warning to agree upon, this operation will disable any warning notifications from NetGuard as well.
 
-If you know why the notification is shown, see [question 24](#FAQ24).
+To read about the need for the notification in the first place, see [question 24](#FAQ24).
 
 <a name="FAQ14"></a>
 **(14) Why can't I select OK to approve the VPN connection request?**
 
 There might be another application on top of the VPN connection request dialog.
-Some known (screen dimming) applications which can cause this are Lux Brightness, Night Mode, and Twilight.
+Some known (screen dimming) applications which can cause this are *Lux Brightness*, *Night Mode* and *Twilight*.
 To avoid this problem, at least temporary, close all applications and/or services which may be running in the background.
 
 <a name="FAQ15"></a>
@@ -142,16 +140,16 @@ Disabled applications and applications without internet permission are shown dim
 **(17) Why is NetGuard using so much memory?**
 
 It isn't, NetGuard doesn't allocate any memory, except a little for displaying the user interface elements.
-It appeared that on some Android variants the Play store connection, using almost 150 MB and needed for in-app donations,
-is incorrectly attributed to NetGuard instead to the Play store.
+It appeared that on some Android variants the Google Play™ store app connection, using almost 150 MB and needed for in-app donations,
+is incorrectly attributed to NetGuard instead to the Google Play™ store app.
 
 <a name="FAQ18"></a>
-**(18) Why can't I find NetGuard in the Google Play Store?**
+**(18) Why can't I find NetGuard in the Google Play™ store app?**
 
-NetGuard requires at least Android 5.0, so it is not available in the Play store for devices running older Android versions.
+NetGuard requires at least Android 5.0, so it is not available in the Google Play™ store app for devices running older Android versions.
 
-Some devices have an Android variant with a bug in the services NetGuard requires.
-These devices are black listed for the Play store. See also about [compatibility](https://github.com/M66B/NetGuard#compatibility).
+Some devices have an Android version with a bug in the services NetGuard depends upon.
+These devices are blacklisted in the Google Play™ store app. Read about them in the [compatibility section](https://github.com/M66B/NetGuard#compatibility).
 
 <a name="FAQ19"></a>
 **(19) Why does aplication XYZ still have internet access?**
@@ -193,12 +191,11 @@ See [here](https://github.com/M66B/NetGuard/issues/42) for more information.
 
 Android can kill background services at any time.
 This can only be prevented by turning a background service into a foreground service.
-Android requires an ongoing notification in the status bar for all foreground services
+Android requires an ongoing notification for all foreground services
 to make you aware of potential battery ussage.
 So, the notification cannot be removed without causing instability.
 However, the notification is being marked as low priority,
-which should result in moving it to the bottom of the list
-and should remove the icon from the status bar in most cases.
+which should result in moving it to the bottom of the list.
 
 <br />
 
