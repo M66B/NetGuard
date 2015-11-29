@@ -12,7 +12,7 @@ Frequently Asked Questions (FAQ)
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
 
-You can use the settings menu to change from blacklist mode ( allow all in *Settings* but block unwanted applications in list ) to whitelist mode ( block all in *Settings* but allow favorite applications in list ).
+You can use the settings menu to change from blacklist mode (allow all in *Settings* but block unwanted applications in list) to whitelist mode (block all in *Settings* but allow favorite applications in list).
 
 * Orange = denied internet access
 * Green = allowed internet access
