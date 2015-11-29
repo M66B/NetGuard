@@ -157,7 +157,7 @@ Frequently Asked Questions (FAQ)
 [**(22) Can I tether while using NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ22)
 
 <a name="FAQ24"></a>
-[**(24) Can you remove the notification from the notification screen**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ24)
+[**(24) Can you remove the notification from the status bar?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ24)
 
 Permissions
 -----------
