@@ -129,7 +129,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             pref_technical.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
             pref_technical.setIntent(INTENT_VPN_SETTINGS);
         }
-        updateTechinicalInfo();
+        updateTechnicalInfo();
 
         if (!Util.hasTelephony(this)) {
             screen.removePreference(screen.findPreference("whitelist_other"));
@@ -163,7 +163,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            updateTechinicalInfo();
+            updateTechnicalInfo();
         }
     };
 
@@ -172,11 +172,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            updateTechinicalInfo();
+            updateTechnicalInfo();
         }
     };
 
-    private void updateTechinicalInfo() {
+    private void updateTechnicalInfo() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("Interactive %B\r\n", Util.isInteractive(this)));
