@@ -29,6 +29,9 @@ Features:
 * Optionally block system applications
 * Material design
 
+There is no other no-root firewall offering all these features.
+Most other firewall solutions will use extra battery and reduce the overall network speed.
+
 Most of these features are the result of sending selected traffic to a sinkhole, instead of filtering all internet traffic.
 This means that advanced features, like address based filtering (needed for ad blocking), traffic logging, and on-demand configuration, are not possible.
 Routing selected traffic into a sinkhole relies on an API introduced in Android 5.0 (Lollipop),
