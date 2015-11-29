@@ -19,27 +19,30 @@ Accesul aplicatiilor la conexiunile Wi-Fi si/sau mobile poate fi permis sau bloc
 
 Blocarea accesului la internet poate ajuta la:
 
-- reducerea consumului de date mobile
-- reducerea consumului bateriei
-- protejarea mai buna a intimitatii
+&bull; reducerea consumului de date mobile
+&bull; reducerea consumului bateriei
+&bull; protejarea mai buna a intimitatii
 
 Caracteristici:
 
-- Nu necesita acces root
-- Simplu de utilizat
-- Gratis
-- Software cu sursa deschisa
-- Nu foloseste baterie in plus
-- Nu reduce latimea de banda
-- Nu transmite datele nicaieri
-- Nu urmareste activitatea si nici nu o analizeaza
-- Fara reclama
-- Nu necesita acces la internet
-- Suporta IPv4/IPv6 TCP/UDP
-- Optional permite cand ecranul e pornit
-- Optional blocheaza in roaming
-- Optional blocheaza aplicatiile de sistem
-- Design Material
+&bull; Nu necesita acces root
+&bull; Simplu de utilizat
+&bull; Gratis
+&bull; Software cu sursa deschisa
+&bull; Nu foloseste baterie in plus
+&bull; Nu reduce latimea de banda
+&bull; Nu transmite datele nicaieri
+&bull; Nu urmareste activitatea si nici nu o analizeaza
+&bull; Fara reclama
+&bull; Nu necesita acces la internet
+&bull; Suporta IPv4/IPv6 TCP/UDP
+&bull; Optional permite cand ecranul e pornit
+&bull; Optional blocheaza in roaming
+&bull; Optional blocheaza aplicatiile de sistem
+&bull; Design Material
+
+Nu există nici un alt firewall, ce nu necesita root, care sa ofere toate aceste caracteristici.
+Majoritatea celorlalte solutii firewall consuma bateria in plus si reduc viteza de ansamblu a conexiunilor.
 
 Majoritatea functiilor sunt rezultatul trimiterii traficului selectat intr-o "gaura neagra", in loc sa fie filtrat tot traficul de internet.
 Acest lucru presupune ca functii avansate, cum ar fi filtrarea adreselor (necesara pentru blocarea unor gazde), urmarirea traficului si detectarea aplicatiilor la acces, nu sunt posibile.
