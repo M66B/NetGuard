@@ -130,6 +130,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             pref_technical.setIntent(INTENT_VPN_SETTINGS);
         }
         updateTechinicalInfo();
+
+        if (!Util.hasTelephony(this)) {
+            screen.removePreference(screen.findPreference("whitelist_other"));
+            screen.removePreference(screen.findPreference("screen_other"));
+            screen.removePreference(screen.findPreference("whitelist_roaming"));
+            screen.removePreference(screen.findPreference("use_metered"));
+        }
     }
 
     @Override
@@ -137,10 +144,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         if ("whitelist_wifi".equals(name))
             SinkholeService.reload("wifi", this);
 
-        else if ("whitelist_other".equals(name))
-            SinkholeService.reload("other", this);
-
-        else if ("whitelist_roaming".equals(name))
+        else if ("whitelist_other".equals(name) ||
+                "whitelist_roaming".equals(name))
             SinkholeService.reload("other", this);
 
         else if ("screen_wifi".equals(name) ||

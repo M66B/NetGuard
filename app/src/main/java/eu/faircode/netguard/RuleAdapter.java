@@ -53,6 +53,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private static final String TAG = "NetGuard.Adapter";
 
     private Context context;
+    private boolean telephony;
     private boolean debuggable;
     private int colorText;
     private int colorAccent;
@@ -69,7 +70,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public ImageView ivIcon;
         public ImageView ivExpander;
         public TextView tvName;
+
         public CheckBox cbWifi;
+        public LinearLayout llOther;
         public CheckBox cbOther;
 
         public ImageView ivScreenWifi;
@@ -83,6 +86,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public TextView tvDisabled;
         public TextView tvInternet;
         public CheckBox cbScreenWifi;
+        public LinearLayout llOtherAttr;
         public CheckBox cbScreenOther;
         public CheckBox cbRoaming;
         public ImageButton btnSettings;
@@ -98,6 +102,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             tvName = (TextView) itemView.findViewById(R.id.tvName);
 
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
+            llOther = (LinearLayout) itemView.findViewById(R.id.llOther);
             cbOther = (CheckBox) itemView.findViewById(R.id.cbOther);
 
             ivScreenWifi = (ImageView) itemView.findViewById(R.id.ivScreenWifi);
@@ -111,6 +116,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
             tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
             cbScreenWifi = (CheckBox) itemView.findViewById(R.id.cbScreenWifi);
+            llOtherAttr = (LinearLayout) itemView.findViewById(R.id.llOtherAttr);
             cbScreenOther = (CheckBox) itemView.findViewById(R.id.cbScreenOther);
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
             btnSettings = (ImageButton) itemView.findViewById(R.id.btnSettings);
@@ -146,6 +152,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     public RuleAdapter(Context context) {
         this.context = context;
+        this.telephony = Util.hasTelephony(context);
         this.debuggable = Util.isDebuggable(context);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -256,6 +263,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.ivScreenWifi.setAlpha(wifiActive ? 1 : 0.5f);
         holder.ivScreenWifi.setVisibility(rule.screen_wifi && rule.wifi_blocked ? View.VISIBLE : View.INVISIBLE);
 
+        holder.llOther.setVisibility(telephony ? View.VISIBLE : View.GONE);
+
         holder.cbOther.setAlpha(otherActive ? 1 : 0.5f);
         holder.cbOther.setOnCheckedChangeListener(null);
         holder.cbOther.setChecked(rule.other_blocked);
@@ -307,6 +316,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 SinkholeService.reload(null, context);
             }
         });
+
+        holder.llOtherAttr.setVisibility(telephony ? View.VISIBLE : View.GONE);
 
         holder.cbScreenOther.setOnCheckedChangeListener(null);
         holder.cbScreenOther.setChecked(rule.screen_other);

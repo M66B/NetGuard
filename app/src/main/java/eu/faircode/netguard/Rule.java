@@ -99,6 +99,7 @@ public class Rule implements Comparable<Rule> {
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
 
         // Get settings
+        boolean telephony = Util.hasTelephony(context);
         boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
         boolean default_other = prefs.getBoolean("whitelist_other", true);
         boolean default_screen_wifi = prefs.getBoolean("screen_wifi", true);
@@ -158,6 +159,11 @@ public class Rule implements Comparable<Rule> {
                 rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default);
                 rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
                 rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
+
+                if (!telephony) {
+                    rule.other_blocked = true;
+                    rule.screen_other = false;
+                }
 
                 if (pre_related.containsKey(info.packageName))
                     rule.related = pre_related.get(info.packageName);

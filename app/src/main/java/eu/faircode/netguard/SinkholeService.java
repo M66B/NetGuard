@@ -185,14 +185,15 @@ public class SinkholeService extends VpnService {
         // Check state
         boolean wifi = Util.isWifiActive(this);
         boolean metered = Util.isMeteredNetwork(this);
-        boolean interactive = Util.isInteractive(this);
         boolean useMetered = prefs.getBoolean("use_metered", false);
+        boolean interactive = Util.isInteractive(this);
+        boolean telephony = Util.hasTelephony(this);
 
         // Update connected state
         last_connected = Util.isConnected(SinkholeService.this);
 
         // Update metered state
-        if (wifi && !useMetered)
+        if (wifi && (!useMetered || !telephony))
             metered = false;
         if (!last_connected)
             metered = true;
@@ -207,6 +208,7 @@ public class SinkholeService extends VpnService {
         Log.i(TAG, "Starting connected=" + last_connected +
                 " wifi=" + wifi +
                 " metered=" + metered +
+                " telephony=" + telephony +
                 " roaming=" + last_roaming +
                 " interactive=" + interactive);
 

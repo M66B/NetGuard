@@ -70,6 +70,11 @@ public class Util {
         }
     }
 
+    public static boolean hasTelephony(Context context) {
+        PackageManager pm = context.getPackageManager();
+        return pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY);
+    }
+
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -215,6 +220,7 @@ public class Util {
                 sb.append(String.format("Interactive: %b\r\n", isInteractive(context)));
                 sb.append(String.format("WiFi: %b\r\n", isWifiActive(context)));
                 sb.append(String.format("Metered: %b\r\n", isMeteredNetwork(context)));
+                sb.append(String.format("Telephony: %b\r\n", hasTelephony(context)));
 
                 // Get connectivity info
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
