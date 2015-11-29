@@ -73,7 +73,7 @@ Internet permission can be granted with each application update without user con
 By showing all applications, NetGuard allows you to control internet access even *before* such an update occurs.
 
 <a name="FAQ8"></a>
-**(8) What do I need to enable for the Google Play Store to work?**
+**(8) What do I need to enable for the Google Play™ store app to work?**
 
 You need 3 packages (applications) enabled (use search in NetGuard to find them quickly):
 
@@ -81,7 +81,7 @@ You need 3 packages (applications) enabled (use search in NetGuard to find them 
 * com.google.android.gms
 * com.android.providers.downloads
 
-Since the Google Play Store has a tendency to check for updates or even download them all by itself (even if no account is associated),
+Since the Google Play™ store app has a tendency to check for updates or even download them all by itself (even if no account is associated),
 one can keep it in check by enabling "*Allow when device in use*" for all 3 of these packages.
 Click on the down arrow on the left side of an application name and check that option,
 but leave the network icons set to red (hence blocked).The little human icon will appear for those packages.
@@ -140,16 +140,16 @@ Disabled applications and applications without internet permission are shown dim
 **(17) Why is NetGuard using so much memory?**
 
 It isn't, NetGuard doesn't allocate any memory, except a little for displaying the user interface elements.
-It appeared that on some Android variants the Play Store connection, using almost 150 MB and needed for in-app donations,
-is incorrectly attributed to NetGuard instead to the Play Store.
+It appeared that on some Android variants the Google Play™ store app connection, using almost 150 MB and needed for in-app donations,
+is incorrectly attributed to NetGuard instead to the Google Play™ store app.
 
 <a name="FAQ18"></a>
-**(18) Why can't I find NetGuard in the Google Play Store?**
+**(18) Why can't I find NetGuard in the Google Play™ store app?**
 
-NetGuard requires at least Android 5.0, so it is not available in the Play Store for devices running older Android versions.
+NetGuard requires at least Android 5.0, so it is not available in the Google Play™ store app for devices running older Android versions.
 
 Some devices have an Android version with a bug in the services NetGuard depends upon.
-These devices are blacklisted for the Play Store. Read about them in the [compatibility section](https://github.com/M66B/NetGuard#compatibility).
+These devices are blacklisted for the Google Play™ store app. Read about them in the [compatibility section](https://github.com/M66B/NetGuard#compatibility).
 
 <a name="FAQ19"></a>
 **(19) Why does aplication XYZ still have internet access?**
