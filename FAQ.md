@@ -149,7 +149,7 @@ is incorrectly attributed to NetGuard instead to the Google Play™ store app.
 NetGuard requires at least Android 5.0, so it is not available in the Google Play™ store app for devices running older Android versions.
 
 Some devices have an Android version with a bug in the services NetGuard depends upon.
-These devices are blacklisted for the Google Play™ store app. Read about them in the [compatibility section](https://github.com/M66B/NetGuard#compatibility).
+These devices are blacklisted in the Google Play™ store app. Read about them in the [compatibility section](https://github.com/M66B/NetGuard#compatibility).
 
 <a name="FAQ19"></a>
 **(19) Why does aplication XYZ still have internet access?**
