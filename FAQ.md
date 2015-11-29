@@ -187,7 +187,7 @@ Due to a bug in Android this is not possible.
 See [here](https://github.com/M66B/NetGuard/issues/42) for more information.
 
 <a name="FAQ24"></a>
-**(24) Can you remove the notification from the notification screen?**
+**(24) Can you remove the notification from the status bar?**
 
 Android can kill background services at any time.
 This can only be prevented by turning a background service into a foreground service.
