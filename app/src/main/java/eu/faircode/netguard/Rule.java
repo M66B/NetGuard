@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Rule implements Comparable<Rule> {
+    private static final String TAG = "NetGuard.Rule";
+
     public PackageInfo info;
     public String name;
     public boolean system;
@@ -73,7 +75,13 @@ public class Rule implements Comparable<Rule> {
 
         this.internet = (pm.checkPermission("android.permission.INTERNET", info.packageName) == PackageManager.PERMISSION_GRANTED);
 
-        int setting = pm.getApplicationEnabledSetting(info.packageName);
+        int setting;
+        try {
+            setting = pm.getApplicationEnabledSetting(info.packageName);
+        } catch (IllegalArgumentException ex) {
+            setting = PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
+            Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
         if (setting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
             this.disabled = !info.applicationInfo.enabled;
         else
