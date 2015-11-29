@@ -7,15 +7,15 @@ Frequently Asked Questions (FAQ)
 --------------------------------
 
 <a name="FAQ0"></a>
-**(0) How do I use NetGuard**
+**(0) How do I use NetGuard?**
 
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
 
+You can use the settings menu to change from black list to white list mode.
+
 * Orange = denied internet access
 * Green = allowed internet access
-
-You can use the settings menu to change from black list to white list mode.
 
 <a name="FAQ1"></a>
 **(1) Can NetGuard completely protect my privacy?**
@@ -118,6 +118,8 @@ For more details, see [question 5](#FAQ5).
 
 Note that, whether or not you get a dialog warning to agree upon, this operation will disable any warning notifications from NetGuard as well.
 
+If you know why the notification is shown, see [question 24](#FAQ24).
+
 <a name="FAQ14"></a>
 **(14) Why can't I select OK to approve the VPN connection request?**
 
@@ -149,7 +151,7 @@ is incorrectly attributed to NetGuard instead to the Play store.
 NetGuard requires at least Android 5.0, so it is not available in the Play store for devices running older Android versions.
 
 Some devices have an Android variant with a bug in the services NetGuard requires.
-These devices are black listed for the Play store. See also about [compatibility](#compatibility).
+These devices are black listed for the Play store. See also about [compatibility](https://github.com/M66B/NetGuard#compatibility).
 
 <a name="FAQ19"></a>
 **(19) Why does aplication XYZ still have internet access?**

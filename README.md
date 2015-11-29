@@ -49,10 +49,10 @@ Usage:
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
 
+You can use the settings menu to change from black list to white list mode.
+
 * Orange = denied internet access
 * Green = allowed internet access
-
-You can use the settings menu to change from black list to white list mode.
 
 <img src="screenshot1.png" width="320" height="569" />
 
@@ -86,6 +86,9 @@ Unfortunately it is not possible to workaround any of these Android problems.
 <a name="FAQ"></a>
 Frequently Asked Questions (FAQ)
 --------------------------------
+
+<a name="FAQ0"></a>
+[**(0) How do I use NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ0)
 
 <a name="FAQ1"></a>
 [**(1) Can NetGuard completely protect my privacy?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ1)
@@ -143,6 +146,15 @@ Frequently Asked Questions (FAQ)
 
 <a name="FAQ20"></a>
 [**(20) Can I Greenify/hibernate NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ20)
+
+<a name="FAQ21"></a>
+[**(21) Does doze mode affect NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ21)
+
+<a name="FAQ22"></a>
+[**(22) Can I tether while using NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ22)
+
+<a name="FAQ24"></a>
+[**(24) Can you remove the notification from the status bar?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ24)
 
 Permissions
 -----------
