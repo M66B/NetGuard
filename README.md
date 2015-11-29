@@ -239,3 +239,5 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with NetGuard. If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
+
+*Android is a trademark of Google Inc. Google Play is a trademark of Google Inc*
