@@ -20,6 +20,7 @@
   <string name="setting_screen_other">Default allow mobile when screen on</string>
   <string name="setting_whitelist_roaming">デフォルトでローミングをブロック</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">システムアプリケーションの管理</string>
   <string name="setting_dark">ダークテーマを使用する</string>
   <string name="setting_export">設定をエクスポート</string>

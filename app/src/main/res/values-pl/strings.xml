@@ -20,6 +20,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_screen_other">Domyślnie zezwól na mobilne przy włączonym ekranie</string>
   <string name="setting_whitelist_roaming">Domyślnie blokuj roaming</string>
   <string name="setting_metered">Obsługuj taryfowe sieci Wi-Fi</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
   <string name="setting_dark">Użyj ciemnej skórki</string>
   <string name="setting_export">Eksport ustawień</string>

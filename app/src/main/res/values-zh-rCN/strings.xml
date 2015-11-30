@@ -20,6 +20,7 @@
   <string name="setting_screen_other">亮屏时默认允许移动网络</string>
   <string name="setting_whitelist_roaming">默认阻止漫游</string>
   <string name="setting_metered">控制按流量计费Wi-Fi网络</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">管理系统应用</string>
   <string name="setting_dark">使用暗色主题</string>
   <string name="setting_export">导出设置</string>

@@ -19,6 +19,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_screen_other">Mobilfunk immer erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="setting_whitelist_roaming">Roaming standardmäßig blockieren</string>
   <string name="setting_metered">Gemessenes WLAN-Netzwerk handhaben</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_dark">Dunkles Thema verwenden</string>
   <string name="setting_export">Einstellungen exportieren</string>

@@ -17,6 +17,7 @@
   <string name="setting_screen_other">Разрешить моб. сеть при вкл. экране по умолч.</string>
   <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
   <string name="setting_metered">Регулировать огранич. Wi-Fi сети</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">Управлять сист. приложениями</string>
   <string name="setting_dark">Использовать темную тему</string>
   <string name="setting_export">Экспорт настроек</string>

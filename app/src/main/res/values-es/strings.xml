@@ -20,6 +20,7 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="setting_screen_other">Por defecto permitir red móvil cuando la pantalla está encendida</string>
   <string name="setting_whitelist_roaming">Bloquear roaming por defecto</string>
   <string name="setting_metered">Manejo de redes Wi-Fi de uso medido</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">Administrar aplicaciones de sistema</string>
   <string name="setting_dark">Usar tema oscuro</string>
   <string name="setting_export">Exportar configuración</string>

@@ -16,6 +16,7 @@
   <string name="setting_screen_other">Дозволити типово мобільні мережі, коли екран активний</string>
   <string name="setting_whitelist_roaming">Блокувати типово у роумінгу</string>
   <string name="setting_metered">Регулювати лімітовані Wi-Fi мережі</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">Керувати системними додатками</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_export">Експорт налаштувань</string>

@@ -27,6 +27,10 @@
         android:title="@string/setting_metered" />
     <SwitchPreference
         android:defaultValue="false"
+        android:key="national_roaming"
+        android:title="@string/setting_national_roaming" />
+    <SwitchPreference
+        android:defaultValue="false"
         android:key="manage_system"
         android:summary="@string/summary_system"
         android:title="@string/setting_system" />

@@ -21,6 +21,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_screen_other">Permetti reti mobili di default quando lo schermo è accesso</string>
   <string name="setting_whitelist_roaming">Blocca roaming di default</string>
   <string name="setting_metered">Gestisci reti Wi-Fi a consumo</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
   <string name="setting_dark">Usa il tema scuro</string>
   <string name="setting_export">Esporta impostazioni</string>

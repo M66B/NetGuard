@@ -20,6 +20,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_screen_other">Por padrão, ao ligar a tela, permitir Dados Móveis</string>
   <string name="setting_whitelist_roaming">Por padrão, bloquear Roaming</string>
   <string name="setting_metered">Manipular redes Wi-Fi Limitadas</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">Administrar aplicativos do sistema</string>
   <string name="setting_dark">Ativa tema escuro</string>
   <string name="setting_export">Exportar configurações</string>

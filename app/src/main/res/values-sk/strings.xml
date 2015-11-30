@@ -20,6 +20,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="setting_screen_other">Default allow mobile when screen on</string>
   <string name="setting_whitelist_roaming">Predvolene blokovať roaming</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">Spravovať systémové aplikácie</string>
   <string name="setting_dark">Použiť tmavú tému</string>
   <string name="setting_export">Exportovať nastavenia</string>

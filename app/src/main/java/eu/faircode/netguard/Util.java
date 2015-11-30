@@ -94,7 +94,17 @@ public class Util {
 
     public static boolean isRoaming(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.isNetworkRoaming();
+        if (tm.isNetworkRoaming()) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            if (prefs.getBoolean("national_roaming", false)) {
+                // Ignore national roaming
+                Log.i(TAG, "SIM country=" + tm.getSimCountryIso());
+                Log.i(TAG, "Network country=" + tm.getNetworkCountryIso());
+                return (tm.getNetworkCountryIso() == null ? true : !tm.getNetworkCountryIso().equals(tm.getSimCountryIso()));
+            } else
+                return true;
+        } else
+            return false;
     }
 
     public static boolean isInteractive(Context context) {

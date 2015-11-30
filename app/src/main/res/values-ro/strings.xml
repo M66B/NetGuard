@@ -20,6 +20,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_screen_other">Permite date mobile cu ecranul pornit</string>
   <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
   <string name="setting_metered">Gestionati conexiunile Wi-Fi contorizate</string>
+  <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_export">Exporta setari</string>
