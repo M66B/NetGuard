@@ -20,7 +20,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_screen_other">Permite date mobile cu ecranul pornit</string>
   <string name="setting_whitelist_roaming">Blocheaza implicit in roaming</string>
   <string name="setting_metered">Gestionati conexiunile Wi-Fi contorizate</string>
-  <string name="setting_national_roaming">Ignore national roaming</string>
+  <string name="setting_national_roaming">Ignora roamingul national</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_export">Exporta setari</string>
@@ -39,7 +39,7 @@ Din acest motiv la urmatoarea fereastra de dialog trebuie sa acceptati crearea c
 Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca traficul tau de internet nu este redirectionat nicaieri.</string>
   <string name="msg_try">Incearca NetGuard</string>
   <string name="msg_voluntary">Donatiile sunt voluntare si nu deblocheaza vreo functie ascunsa. Donatiile sunt doar un mod de a iti arata aprecierea pentru munca depusa la aceasta aplicatie.</string>
-  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
+  <string name="msg_terms">Donand esti de acord cu <a href="http://www.netguard.me/#terms">termenii si conditiile</a></string>
   <string name="msg_dimming">Daca in urmatoarea fereastra de dialog nu poti apasa OK inseamna ca o aplicatie ce manipuleaza ecranul (luminozitatea sau nuanta) blocheaza interactiunea.</string>
   <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
   <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>
