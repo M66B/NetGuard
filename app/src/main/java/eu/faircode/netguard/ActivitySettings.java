@@ -33,6 +33,7 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
@@ -179,6 +180,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private void updateTechnicalInfo() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("Interactive %B\r\n", Util.isInteractive(this)));
         for (Network network : cm.getAllNetworks()) {
@@ -194,6 +196,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         }
         sb.append(String.format("WiFi %B\r\n", Util.isWifiActive(this)));
         sb.append(String.format("Metered %B\r\n", Util.isMeteredNetwork(this)));
+        sb.append(String.format("Network %s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName()));
+        if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
+            sb.append(String.format("SIM %s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName()));
+
         pref_technical.setSummary(sb.toString());
     }
 

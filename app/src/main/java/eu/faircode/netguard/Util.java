@@ -94,17 +94,12 @@ public class Util {
 
     public static boolean isRoaming(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (tm.isNetworkRoaming()) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            if (prefs.getBoolean("national_roaming", false)) {
-                // Ignore national roaming
-                Log.i(TAG, "SIM country=" + tm.getSimCountryIso());
-                Log.i(TAG, "Network country=" + tm.getNetworkCountryIso());
-                return (tm.getNetworkCountryIso() == null ? true : !tm.getNetworkCountryIso().equals(tm.getSimCountryIso()));
-            } else
-                return true;
-        } else
-            return false;
+        return tm.isNetworkRoaming();
+    }
+
+    public static boolean isInternational(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return (tm.getNetworkCountryIso() == null ? true : !tm.getNetworkCountryIso().equals(tm.getSimCountryIso()));
     }
 
     public static boolean isInteractive(Context context) {
@@ -231,6 +226,11 @@ public class Util {
                 sb.append(String.format("WiFi: %b\r\n", isWifiActive(context)));
                 sb.append(String.format("Metered: %b\r\n", isMeteredNetwork(context)));
                 sb.append(String.format("Telephony: %b\r\n", hasTelephony(context)));
+
+                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                sb.append(String.format("Network %s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName()));
+                if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
+                    sb.append(String.format("SIM %s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName()));
 
                 // Get connectivity info
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
