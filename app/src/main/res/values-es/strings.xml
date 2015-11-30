@@ -39,6 +39,7 @@ Por esta razón, por favor permite la conexión VPN en el próximo diálogo.
 Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de internet no está siendo enviado a ninguna parte.</string>
   <string name="msg_try">Prueba NetGuard</string>
   <string name="msg_voluntary">Las donaciones son completamente voluntarias y no desbloquean ninguna funcionalidad. Las donaciones son una forma de mostrar tu apreciación por el trabajo hecho.</string>
+  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">Si no puedes pulsar OK en el próximo diálogo, otra aplicación (de atenuación de pantalla) probablemente esté manipulando la pantalla.</string>
   <string name="title_screen_wifi">Permitir Wi-Fi cuando la pantalla está encendida</string>
   <string name="title_screen_other">Permitir red móvil cuando la pantalla está encendida</string>

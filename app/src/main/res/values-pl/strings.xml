@@ -39,6 +39,7 @@ Z tego powodu w następnym oknie dialogowym zezwól na połączenie VPN.
 Ponieważ NetGuard nie ma zezwolenia na dostęp do internetu, masz pewność, że Twój ruch internetowy nigdzie nie jest wysyłany.</string>
   <string name="msg_try">Spróbuj NetGuard</string>
   <string name="msg_voluntary">Darowizny są całkowicie dobrowolne i nie odblokowują jakiejkolwiek funkcji. Dotacje te są przeznaczone jako sposób na okazanie swojego uznania dla wykonanej pracy.</string>
+  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">Jeśli nie możesz nacisnąć OK w następnym oknie dialogowym, inna aplikacja prawdopodobnie zarządza ekranem (przygaszanie ekranu).</string>
   <string name="title_screen_wifi">Zezwól na Wi-Fi przy włączonym ekranie</string>
   <string name="title_screen_other">Zezwól na mobilne przy włączonym ekranie</string>

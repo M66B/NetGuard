@@ -39,6 +39,7 @@ For this reason, please allow a VPN connection in the next dialog.
 Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
   <string name="msg_try">NetGuard\'ı deneyin</string>
   <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
+  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
   <string name="title_screen_wifi">Ekran açıkken Wİ-Fİ ye izin ver</string>
   <string name="title_screen_other">Ekran açıkken mobile izin ver</string>

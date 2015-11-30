@@ -481,6 +481,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Button btnRate = (Button) view.findViewById(R.id.btnRate);
         final Button btnDonate = (Button) view.findViewById(R.id.btnDonate);
         final TextView tvThanks = (TextView) view.findViewById(R.id.tvThanks);
+        TextView tvTerms = (TextView) view.findViewById(R.id.tvTerms);
         TextView tvLicense = (TextView) view.findViewById(R.id.tvLicense);
 
         // Show version
@@ -488,7 +489,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (!Util.hasValidFingerprint(this))
             tvVersion.setTextColor(Color.GRAY);
 
-        // Handle license
+        // Handle terms/license
+        tvTerms.setMovementMethod(LinkMovementMethod.getInstance());
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Handle logcat

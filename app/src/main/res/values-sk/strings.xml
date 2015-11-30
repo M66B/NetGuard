@@ -39,6 +39,7 @@ a preto by ste mali povoliť VPN pripojenie v ďalšom okne.
 Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemôže byť nikde odosielaná.</string>
   <string name="msg_try">Skúsiť NetGuard</string>
   <string name="msg_voluntary">Dary sú úplne dobrovoľné a neodomknú žiadne funkcie. Dary sú určené ako spôsob, akým možete prejaviť vašu vďačnosť za vykonanú prácu.</string>
+  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">Ak nemôžete stlačiť tlačidlo OK na ďalšom okne, tak iná aplikácia (na ovladanie jasu) prekrýva obrazovkou.</string>
   <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
   <string name="title_screen_other">Allow mobile when screen is on</string>

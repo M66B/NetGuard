@@ -36,6 +36,7 @@
 NetGuard не имеет разрешения доступа в интернет, поэтому вы можете быть уверены, что ваш интернет-трафик никуда не отправляется.</string>
   <string name="msg_try">Попробуйте новый фаервол NetGuard</string>
   <string name="msg_voluntary">Пожертвования являются абсолютно добровольными и не добавляют никаких возможностей в программу. Пожертвования предназначены сугубо для того, чтобы выразить вашу признательность за проделанную работу.</string>
+  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>

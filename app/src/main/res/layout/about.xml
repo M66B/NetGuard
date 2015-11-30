@@ -88,6 +88,16 @@
                 android:textStyle="italic" />
 
             <TextView
+                android:id="@+id/tvTerms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="@string/msg_terms"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textStyle="italic" />
+
+            <TextView
                 android:id="@+id/tvThanks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

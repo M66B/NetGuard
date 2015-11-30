@@ -36,6 +36,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um einen Internet-Verkehr zu blockieren. Deshalb erlauben Sie eine VPN-Verbindung im nächsten Fenster. Da NetGuard keine Internet-Berechtigung hat, wird der Internet-Verkehr auch nirgendwo weitergeleitet.</string>
   <string name="msg_try">NetGuard ausprobieren</string>
   <string name="msg_voluntary">Spenden sind vollkommen freiwillig und schalten keine Funktionen frei. Spenden helfen, die App weiterzuentwickeln und stellen eine Anerkennung für die Arbeit dar.</string>
+  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
