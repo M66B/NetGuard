@@ -141,16 +141,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
-        if ("whitelist_wifi".equals(name))
+        if ("whitelist_wifi".equals(name) ||
+                "screen_wifi".equals(name))
             SinkholeService.reload("wifi", this);
 
         else if ("whitelist_other".equals(name) ||
-                "whitelist_roaming".equals(name))
+                "screen_other".equals(name) ||
+                "whitelist_roaming".equals(name) ||
+                "national_roaming".equals(name))
             SinkholeService.reload("other", this);
 
-        else if ("screen_wifi".equals(name) ||
-                "screen_other".equals(name) ||
-                "use_metered".equals(name) ||
+        else if ("use_metered".equals(name) ||
                 "manage_system".equals(name))
             SinkholeService.reload(null, this);
 

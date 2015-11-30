@@ -330,8 +330,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 swEnabled.setChecked(enabled);
 
         } else if ("whitelist_wifi".equals(name) ||
-                "whitelist_other".equals(name) ||
                 "screen_wifi".equals(name) ||
+                "whitelist_other".equals(name) ||
                 "screen_other".equals(name) ||
                 "whitelist_roaming".equals(name) ||
                 "manage_system".equals(name) ||
