@@ -25,9 +25,13 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_dark">Użyj ciemnej skórki</string>
   <string name="setting_export">Eksport ustawień</string>
   <string name="setting_import">Import ustawień</string>
+  <string name="setting_defaults">Defaults</string>
+  <string name="setting_options">Options</string>
+  <string name="setting_backup">Backup</string>
   <string name="setting_technical">Informacje techniczne</string>
   <string name="summary_system">Stwórz reguły dla aplikacji systemowych (zaawansowane)</string>
   <string name="summary_metered">Zastosuj reguły z danych mobilnych, do taryfowych sieci Wi-FI (tetrgering, prepaid)</string>
+  <string name="summary_national_roaming">Do not apply the roaming rules when the SIM and mobile network country are the same</string>
   <string name="msg_sure">Na pewno?</string>
   <string name="msg_started">Wymuś Reguły</string>
   <string name="msg_packages">%1$d dozwolone, %2$d zablokowane</string>

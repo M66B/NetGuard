@@ -25,9 +25,13 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="setting_dark">Usar tema oscuro</string>
   <string name="setting_export">Exportar configuración</string>
   <string name="setting_import">Importar configuración</string>
+  <string name="setting_defaults">Defaults</string>
+  <string name="setting_options">Options</string>
+  <string name="setting_backup">Backup</string>
   <string name="setting_technical">Información técnica</string>
   <string name="summary_system">Definir reglas para aplicaciones de sistema (para expertos)</string>
   <string name="summary_metered">Aplicar reglas de red móvil a redes Wi-Fi de uso medido (pagas, por anclaje)</string>
+  <string name="summary_national_roaming">Do not apply the roaming rules when the SIM and mobile network country are the same</string>
   <string name="msg_sure">¿Estás seguro?</string>
   <string name="msg_started">Aplicando reglas</string>
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>

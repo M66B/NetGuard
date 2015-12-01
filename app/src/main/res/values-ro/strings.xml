@@ -25,9 +25,13 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_export">Exporta setari</string>
   <string name="setting_import">Importa setari</string>
+  <string name="setting_defaults">Defaults</string>
+  <string name="setting_options">Options</string>
+  <string name="setting_backup">Backup</string>
   <string name="setting_technical">Informatii tehnice</string>
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
+  <string name="summary_national_roaming">Do not apply the roaming rules when the SIM and mobile network country are the same</string>
   <string name="msg_sure">Esti sigur?</string>
   <string name="msg_started">Limitari activate</string>
   <string name="msg_packages">%1$d permise, %2$d blocate</string>
