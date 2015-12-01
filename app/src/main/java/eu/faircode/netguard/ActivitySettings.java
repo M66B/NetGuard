@@ -38,7 +38,10 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneStateListener;
+import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
@@ -62,6 +65,7 @@ import javax.xml.parsers.SAXParserFactory;
 public class ActivitySettings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Settings";
 
+    private boolean phone_state = false;
     private Preference pref_technical = null;
 
     private static final int REQUEST_EXPORT = 1;
@@ -108,6 +112,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangedReceiver, ifConnectivity);
+
+        if (Util.hasPhoneStatePermission(this)) {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_SERVICE_STATE);
+            phone_state = true;
+        }
     }
 
     @Override
@@ -119,6 +129,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         unregisterReceiver(interactiveStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
+
+        if (phone_state) {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+            phone_state = false;
+        }
     }
 
     public void setup(PreferenceScreen screen) {
@@ -208,7 +224,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
             updateTechnicalInfo();
         }
@@ -217,8 +232,15 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
+            updateTechnicalInfo();
+        }
+    };
+
+    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+        @Override
+        public void onServiceStateChanged(ServiceState serviceState) {
+            super.onServiceStateChanged(serviceState);
             updateTechnicalInfo();
         }
     };
@@ -245,13 +267,42 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 sb.append(ni.getTypeName())
                         .append("/")
                         .append(ni.getSubtypeName())
-                        .append(" ")
-                        .append(ni.getDetailedState())
-                        .append(ni.isRoaming() ? " ROAMING" : "")
+                        .append(" ").append(ni.getDetailedState())
+                        .append(TextUtils.isEmpty(ni.getExtraInfo()) ? "" : " " + ni.getExtraInfo())
+                        .append(ni.getType() == ConnectivityManager.TYPE_MOBILE ? " " + getNetworkGeneration(ni.getSubtype()) : "")
+                        .append(ni.isRoaming() ? " R" : "")
                         .append("\r\n");
         }
 
         pref_technical.setSummary(sb.toString());
+    }
+
+    public static String getNetworkGeneration(int networkType) {
+        switch (networkType) {
+            case TelephonyManager.NETWORK_TYPE_1xRTT:
+            case TelephonyManager.NETWORK_TYPE_CDMA:
+            case TelephonyManager.NETWORK_TYPE_EDGE:
+            case TelephonyManager.NETWORK_TYPE_GPRS:
+            case TelephonyManager.NETWORK_TYPE_IDEN:
+                return "2G";
+
+            case TelephonyManager.NETWORK_TYPE_EHRPD:
+            case TelephonyManager.NETWORK_TYPE_EVDO_0:
+            case TelephonyManager.NETWORK_TYPE_EVDO_A:
+            case TelephonyManager.NETWORK_TYPE_EVDO_B:
+            case TelephonyManager.NETWORK_TYPE_HSDPA:
+            case TelephonyManager.NETWORK_TYPE_HSPA:
+            case TelephonyManager.NETWORK_TYPE_HSPAP:
+            case TelephonyManager.NETWORK_TYPE_HSUPA:
+            case TelephonyManager.NETWORK_TYPE_UMTS:
+                return "3G";
+
+            case TelephonyManager.NETWORK_TYPE_LTE:
+                return "4G";
+
+            default:
+                return "?G";
+        }
     }
 
     @Override
