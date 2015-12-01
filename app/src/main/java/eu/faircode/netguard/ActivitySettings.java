@@ -62,7 +62,6 @@ import javax.xml.parsers.SAXParserFactory;
 public class ActivitySettings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Settings";
 
-    private SwitchPreference pref_national_roaming = null;
     private Preference pref_technical = null;
 
     private static final int REQUEST_EXPORT = 1;
@@ -73,10 +72,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
-
-        // Check if permission was revoked
-        if (prefs.getBoolean("national_roaming", false) && !Util.hasPhoneStatePermission(this))
-            prefs.edit().putBoolean("national_roaming", false).apply();
 
         super.onCreate(savedInstanceState);
 
@@ -92,8 +87,15 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     protected void onResume() {
         super.onResume();
 
-        // Listen for preference changes
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Check if permission was revoked
+        if (prefs.getBoolean("national_roaming", false) && !Util.hasPhoneStatePermission(this)) {
+            prefs.edit().putBoolean("national_roaming", false).apply();
+            refreshScreen();
+        }
+
+        // Listen for preference changes
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Listen for interactive state changes
@@ -120,8 +122,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     public void setup(PreferenceScreen screen) {
-        pref_national_roaming = (SwitchPreference) screen.findPreference("national_roaming");
-
         Preference pref_export = screen.findPreference("export");
         pref_export.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
         pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -201,7 +201,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 prefs.edit().putBoolean("national_roaming", false).apply();
-                pref_national_roaming.setChecked(false);
+                refreshScreen();
             }
     }
 
