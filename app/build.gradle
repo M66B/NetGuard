@@ -9,8 +9,8 @@ model {
             applicationId = "eu.faircode.netguard"
             minSdkVersion.apiLevel = 21
             targetSdkVersion.apiLevel = 23
-            versionCode = 2015112902
-            versionName = "0.46"
+            versionCode = 2015120101
+            versionName = "0.47"
             archivesBaseName = "NetGuard-v$versionName-$versionCode"
         }
     }
