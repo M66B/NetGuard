@@ -22,13 +22,13 @@
   <string name="setting_dark">Использовать темную тему</string>
   <string name="setting_export">Экспорт настроек</string>
   <string name="setting_import">Импорт настроек</string>
-  <string name="setting_defaults">Defaults</string>
-  <string name="setting_options">Options</string>
-  <string name="setting_backup">Backup</string>
+  <string name="setting_defaults">По умолчанию</string>
+  <string name="setting_options">Опции</string>
+  <string name="setting_backup">Резервное копирование</string>
   <string name="setting_technical">Техническая информация</string>
   <string name="summary_system">Определить правила для системных приложений (для профи)</string>
   <string name="summary_metered">Применить правила для лимитированных (платных, ограниченных) Wi-Fi сетей</string>
-  <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
+  <string name="summary_national_roaming">Не применять правила роуминга, если SIM-карта и мобильная сеть из одной страны</string>
   <string name="msg_sure">Вы уверены?</string>
   <string name="msg_started">Определить правила</string>
   <string name="msg_packages">%1$d разрешен, %2$d заблокирован</string>
