@@ -19,19 +19,24 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -57,15 +62,21 @@ import javax.xml.parsers.SAXParserFactory;
 public class ActivitySettings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Settings";
 
+    private SwitchPreference pref_national_roaming = null;
     private Preference pref_technical = null;
 
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
+    private static final int REQUEST_READ_PHONE_STATE = 3;
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
 
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
+
+        // Check if permission was revoked
+        if (prefs.getBoolean("national_roaming", false) && !Util.hasPhoneStatePermission(this))
+            prefs.edit().putBoolean("national_roaming", false).apply();
 
         super.onCreate(savedInstanceState);
 
@@ -105,6 +116,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     public void setup(PreferenceScreen screen) {
+        pref_national_roaming = (SwitchPreference) screen.findPreference("national_roaming");
+
         Preference pref_export = screen.findPreference("export");
         pref_export.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
         pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -148,6 +161,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     @Override
+    @TargetApi(Build.VERSION_CODES.M)
     public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
         if ("whitelist_wifi".equals(name) ||
                 "screen_wifi".equals(name))
@@ -155,16 +169,36 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         else if ("whitelist_other".equals(name) ||
                 "screen_other".equals(name) ||
-                "whitelist_roaming".equals(name) ||
-                "national_roaming".equals(name))
+                "whitelist_roaming".equals(name))
             SinkholeService.reload("other", this);
 
-        else if ("use_metered".equals(name) ||
+        else if ("national_roaming".equals(name)) {
+            if (prefs.getBoolean(name, false)) {
+                if (Util.hasPhoneStatePermission(this))
+                    SinkholeService.reload("other", this);
+                else
+                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+            } else
+                SinkholeService.reload("other", this);
+
+        } else if ("use_metered".equals(name) ||
                 "manage_system".equals(name))
             SinkholeService.reload(null, this);
 
         else if ("dark_theme".equals(name))
             recreate();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_READ_PHONE_STATE)
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                SinkholeService.reload("other", this);
+            else {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                prefs.edit().putBoolean("national_roaming", false).apply();
+                pref_national_roaming.setChecked(false);
+            }
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {

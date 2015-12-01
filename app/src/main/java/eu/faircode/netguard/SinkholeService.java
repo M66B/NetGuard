@@ -43,6 +43,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.telephony.PhoneStateListener;
+import android.telephony.ServiceState;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import java.io.FileInputStream;
@@ -56,6 +59,7 @@ public class SinkholeService extends VpnService {
 
     private boolean last_connected;
     private boolean last_metered;
+    private boolean phone_state = false;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
     private Thread debugThread = null;
@@ -386,6 +390,15 @@ public class SinkholeService extends VpnService {
         }
     };
 
+    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+        @Override
+        public void onServiceStateChanged(ServiceState serviceState) {
+            super.onServiceStateChanged(serviceState);
+            Log.i(TAG, "Service state=" + serviceState);
+            reload(null, SinkholeService.this);
+        }
+    };
+
     private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -429,6 +442,13 @@ public class SinkholeService extends VpnService {
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
+
+        if (Util.hasPhoneStatePermission(this)) {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_SERVICE_STATE);
+            phone_state = true;
+            Log.i(TAG, "Listening to service state changes");
+        }
     }
 
     @Override
@@ -488,6 +508,11 @@ public class SinkholeService extends VpnService {
             unregisterReceiver(idleStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageAddedReceiver);
+
+        if (phone_state) {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+        }
 
         if (vpn != null) {
             stopDebug();

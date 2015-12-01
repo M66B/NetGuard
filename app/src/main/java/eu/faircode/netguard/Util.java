@@ -19,6 +19,7 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.Manifest;
 import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +37,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -101,6 +101,13 @@ public class Util {
     public static boolean isInternational(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return (tm.getSimCountryIso() == null ? true : !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
+    }
+
+    public static boolean hasPhoneStatePermission(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            return (context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
+        else
+            return true;
     }
 
     public static boolean isInteractive(Context context) {

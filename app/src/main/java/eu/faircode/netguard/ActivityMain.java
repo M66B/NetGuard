@@ -19,7 +19,6 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -28,8 +27,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.net.VpnService;
@@ -45,7 +42,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
-import android.telephony.TelephonyManager;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,7 +54,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -76,7 +71,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_IAB = 2;
     private static final int REQUEST_INVITE = 3;
     private static final int REQUEST_LOGCAT = 4;
-    private static final int REQUEST_PERMISSIONS = 5;
 
     private static final int MIN_SDK = Build.VERSION_CODES.LOLLIPOP;
 
@@ -250,36 +244,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Fill application list
         updateApplicationList();
-
-        // Check runtime permissions
-        checkRuntimePermissions();
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    private void checkRuntimePermissions() {
-        List<String> listPermission = new ArrayList<String>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) try {
-            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_PERMISSIONS);
-            for (String permission : info.requestedPermissions) {
-                boolean granted = (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
-                Log.i(TAG, permission + '=' + granted);
-                if (!granted)
-                    listPermission.add(permission);
-            }
-        } catch (PackageManager.NameNotFoundException ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
-
-        // Request runtime permissions
-        if (!listPermission.isEmpty())
-            requestPermissions(listPermission.toArray(new String[0]), REQUEST_PERMISSIONS);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Log.i(TAG, "onRequestPermissionsResult");
-        for (int i = 0; i < permissions.length; i++)
-            Log.i(TAG, permissions[i] + '=' + (grantResults[i] == PackageManager.PERMISSION_GRANTED));
     }
 
     @Override
