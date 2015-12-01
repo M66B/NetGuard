@@ -168,7 +168,7 @@ public class Rule implements Comparable<Rule> {
                 if (pre_related.containsKey(info.packageName))
                     rule.related = pre_related.get(info.packageName);
 
-                rule.updateChanged(default_wifi, default_other, default_roaming);
+                rule.updateChanged(default_wifi, default_other, default_roaming, telephony);
 
                 listRules.add(rule);
             }
@@ -180,12 +180,12 @@ public class Rule implements Comparable<Rule> {
         return listRules;
     }
 
-    private void updateChanged(boolean default_wifi, boolean default_other, boolean default_roaming) {
+    private void updateChanged(boolean default_wifi, boolean default_other, boolean default_roaming, boolean telephony) {
         changed = (wifi_blocked != default_wifi ||
-                other_blocked != default_other ||
+                (telephony && other_blocked != default_other) ||
                 (wifi_blocked && screen_wifi != screen_wifi_default) ||
-                (other_blocked && screen_other != screen_other_default) ||
-                ((!other_blocked || screen_other) && roaming != default_roaming));
+                (telephony && other_blocked && screen_other != screen_other_default) ||
+                (telephony && (!other_blocked || screen_other) && roaming != default_roaming));
     }
 
     public void updateChanged(Context context) {
@@ -193,7 +193,8 @@ public class Rule implements Comparable<Rule> {
         boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
         boolean default_other = prefs.getBoolean("whitelist_other", true);
         boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
-        updateChanged(default_wifi, default_other, default_roaming);
+        boolean telephony = Util.hasTelephony(context);
+        updateChanged(default_wifi, default_other, default_roaming, telephony);
     }
 
     @Override
