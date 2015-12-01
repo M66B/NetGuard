@@ -130,6 +130,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             pref_technical.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
             pref_technical.setIntent(INTENT_VPN_SETTINGS);
         }
+        pref_technical.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                updateTechnicalInfo();
+                return true;
+            }
+        });
         updateTechnicalInfo();
 
         if (!Util.hasTelephony(this)) {
@@ -183,6 +190,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("Interactive %B\r\n", Util.isInteractive(this)));
+        sb.append(String.format("Telephony %B\r\n", Util.hasTelephony(this)));
+        sb.append(String.format("Connected %B\r\n", Util.isConnected(this)));
+        sb.append(String.format("WiFi %B\r\n", Util.isWifiActive(this)));
+        sb.append(String.format("Metered %B\r\n", Util.isMeteredNetwork(this)));
+        sb.append(String.format("Roaming %B\r\n", Util.isRoaming(this)));
+
+        if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
+            sb.append(String.format("SIM %s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName()));
+        if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
+            sb.append(String.format("Network %s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName()));
+
         for (Network network : cm.getAllNetworks()) {
             NetworkInfo ni = cm.getNetworkInfo(network);
             if (ni != null)
@@ -194,11 +212,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         .append(ni.isRoaming() ? " ROAMING" : "")
                         .append("\r\n");
         }
-        sb.append(String.format("WiFi %B\r\n", Util.isWifiActive(this)));
-        sb.append(String.format("Metered %B\r\n", Util.isMeteredNetwork(this)));
-        sb.append(String.format("Network %s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName()));
-        if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
-            sb.append(String.format("SIM %s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName()));
 
         pref_technical.setSummary(sb.toString());
     }

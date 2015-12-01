@@ -36,6 +36,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -99,7 +100,7 @@ public class Util {
 
     public static boolean isInternational(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return (tm.getNetworkCountryIso() == null ? true : !tm.getNetworkCountryIso().equals(tm.getSimCountryIso()));
+        return (tm.getSimCountryIso() == null ? true : !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
     }
 
     public static boolean isInteractive(Context context) {
@@ -223,14 +224,17 @@ public class Util {
                     sb.append("Prepared: ").append((ex.toString())).append("\r\n").append(Log.getStackTraceString(ex));
                 }
                 sb.append(String.format("Interactive: %b\r\n", isInteractive(context)));
+                sb.append(String.format("Telephony: %b\r\n", hasTelephony(context)));
+                sb.append(String.format("Connected: %b\r\n", isConnected(context)));
                 sb.append(String.format("WiFi: %b\r\n", isWifiActive(context)));
                 sb.append(String.format("Metered: %b\r\n", isMeteredNetwork(context)));
-                sb.append(String.format("Telephony: %b\r\n", hasTelephony(context)));
+                sb.append(String.format("Roaming: %b\r\n", isRoaming(context)));
 
                 TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-                sb.append(String.format("Network %s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName()));
                 if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
                     sb.append(String.format("SIM %s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName()));
+                if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
+                    sb.append(String.format("Network %s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName()));
 
                 // Get connectivity info
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
