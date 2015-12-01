@@ -118,6 +118,14 @@ public class SinkholeService extends VpnService {
             Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
 
+            // Check phone state listener
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            if (!phone_state && Util.hasPhoneStatePermission(SinkholeService.this)) {
+                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_SERVICE_STATE);
+                phone_state = true;
+                Log.i(TAG, "Listening to service state changes");
+            }
+
             try {
                 switch (cmd) {
                     case start:
@@ -395,7 +403,8 @@ public class SinkholeService extends VpnService {
         public void onServiceStateChanged(ServiceState serviceState) {
             super.onServiceStateChanged(serviceState);
             Log.i(TAG, "Service state=" + serviceState);
-            reload(null, SinkholeService.this);
+            if (serviceState.getState() == ServiceState.STATE_IN_SERVICE)
+                reload(null, SinkholeService.this);
         }
     };
 
@@ -442,13 +451,6 @@ public class SinkholeService extends VpnService {
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
-
-        if (Util.hasPhoneStatePermission(this)) {
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_SERVICE_STATE);
-            phone_state = true;
-            Log.i(TAG, "Listening to service state changes");
-        }
     }
 
     @Override
