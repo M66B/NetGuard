@@ -80,8 +80,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         super.onCreate(savedInstanceState);
 
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
+        refreshScreen();
         getSupportActionBar().setTitle(R.string.menu_settings);
+    }
+
+    private void refreshScreen() {
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
     }
 
     @Override
@@ -342,9 +346,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             @Override
             protected void onPostExecute(Throwable ex) {
-                if (ex == null)
+                if (ex == null) {
+                    refreshScreen();
                     Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-                else
+                } else
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
         }.execute();
