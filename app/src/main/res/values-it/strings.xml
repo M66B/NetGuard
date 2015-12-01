@@ -21,7 +21,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_screen_other">Permetti reti mobili di default quando lo schermo è accesso</string>
   <string name="setting_whitelist_roaming">Blocca roaming di default</string>
   <string name="setting_metered">Gestisci reti Wi-Fi a consumo</string>
-  <string name="setting_national_roaming">Ignore national roaming</string>
+  <string name="setting_national_roaming">Ignora roaming nazionale</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
   <string name="setting_dark">Usa il tema scuro</string>
   <string name="setting_export">Esporta impostazioni</string>
@@ -41,7 +41,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     </string>
   <string name="msg_try">Prova NetGuard</string>
   <string name="msg_voluntary">Le donazioni sono totalmente volontarie e non sbloccano nessuna funzionalitá aggiuntiva. Le donazioni mostrano il tuo apprezzamento per il lavoro svolto.</string>
-  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
+  <string name="msg_terms">Donando accetti i <a href="http://www.netguard.me/#terms"> termini e le condizioni</a></string>
   <string name="msg_dimming">Se non riesci a cliccare OK nella prossima schermata, è probabile che un\'altra applicazione (di oscuramento schermo) stia manipolando lo schermo.</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
   <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>

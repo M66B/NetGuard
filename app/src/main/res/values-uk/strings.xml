@@ -16,7 +16,7 @@
   <string name="setting_screen_other">Дозволити типово мобільні мережі, коли екран активний</string>
   <string name="setting_whitelist_roaming">Блокувати типово у роумінгу</string>
   <string name="setting_metered">Регулювати лімітовані Wi-Fi мережі</string>
-  <string name="setting_national_roaming">Ignore national roaming</string>
+  <string name="setting_national_roaming">Ігнорувати національний роумінг</string>
   <string name="setting_system">Керувати системними додатками</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_export">Експорт налаштувань</string>
@@ -35,7 +35,7 @@
 NetGuard не має дозволу до інтернет доступу, тому ви можете бути впевнені, що ваш інтернет трафік нікуди не відправляється.</string>
   <string name="msg_try">Спробуйте NetGuard</string>
   <string name="msg_voluntary">Матеріальна подяка є абсолютно добровільною і не додає жодних можливостей програми. Подяка призначена лише в якості вираження Вашої вдячності за виконану роботу.</string>
-  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
+  <string name="msg_terms">Здійснюючи пожертвування, ви погоджуєтесь із <a href="http://www.netguard.me/#terms">умовами &amp; положення</a></string>
   <string name="msg_dimming">Якщо Вам не вдається натиснути Гаразд у наступному діалоговому вікні (затемнення екрану), то скоріш за все, якийсь інший додаток використовує екран.</string>
   <string name="title_screen_wifi">Дозволено Wi-Fi, коли екран активний</string>
   <string name="title_screen_other">Дозволено мобільні мережі, коли екран активний</string>
