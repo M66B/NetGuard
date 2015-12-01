@@ -24,13 +24,13 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_dark">Dunkles Thema verwenden</string>
   <string name="setting_export">Einstellungen exportieren</string>
   <string name="setting_import">Einstellungen importieren</string>
-  <string name="setting_defaults">Defaults</string>
-  <string name="setting_options">Options</string>
-  <string name="setting_backup">Backup</string>
+  <string name="setting_defaults">Standards</string>
+  <string name="setting_options">Optionen</string>
+  <string name="setting_backup">Sicherung</string>
   <string name="setting_technical">Technische information</string>
   <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
   <string name="summary_metered">Mobilfunk-Regeln gemessenen (bezahlten, tethered) WLAN-Netzwerken anwenden</string>
-  <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
+  <string name="summary_national_roaming">Roaming-Regeln nicht anwenden, wenn die Nationalität für SIM und mobiles Netzwerk identisch sind</string>
   <string name="msg_sure">Sind Sie sicher?</string>
   <string name="msg_started">Regeln werden angewendet</string>
   <string name="msg_packages">%1$d erlaubt, %2$d blockiert</string>
