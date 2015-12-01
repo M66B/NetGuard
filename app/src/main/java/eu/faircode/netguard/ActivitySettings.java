@@ -34,6 +34,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
@@ -173,10 +174,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         updateTechnicalInfo();
 
         if (!Util.hasTelephony(this)) {
-            screen.removePreference(screen.findPreference("whitelist_other"));
-            screen.removePreference(screen.findPreference("screen_other"));
-            screen.removePreference(screen.findPreference("whitelist_roaming"));
-            screen.removePreference(screen.findPreference("use_metered"));
+            PreferenceCategory defaults = (PreferenceCategory)screen.findPreference("defaults");
+            defaults.removePreference(screen.findPreference("whitelist_other"));
+            defaults.removePreference(screen.findPreference("screen_other"));
+            defaults.removePreference(screen.findPreference("whitelist_roaming"));
+
+            PreferenceCategory options = (PreferenceCategory)screen.findPreference("options");
+            options.removePreference(screen.findPreference("use_metered"));
+            options.removePreference(screen.findPreference("national_roaming"));
         }
     }
 
@@ -277,7 +282,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_technical.setSummary(sb.toString());
     }
 
-    public static String getNetworkGeneration(int networkType) {
+    private static String getNetworkGeneration(int networkType) {
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
             case TelephonyManager.NETWORK_TYPE_CDMA:
