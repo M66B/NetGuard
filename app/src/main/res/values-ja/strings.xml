@@ -31,7 +31,7 @@
   <string name="setting_technical">Technical information</string>
   <string name="summary_system">システムアプリケーションのルールを定義します (エキスパート向け)</string>
   <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
-  <string name="summary_national_roaming">Do not apply the roaming rules when the SIM and mobile network country are the same</string>
+  <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
   <string name="msg_sure">よろしいですか?</string>
   <string name="msg_started">Enforcing rules</string>
   <string name="msg_packages">%1$d allowed, %2$d blocked</string>

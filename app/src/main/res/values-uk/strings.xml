@@ -27,7 +27,7 @@
   <string name="setting_technical">Технічна інформація</string>
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
   <string name="summary_metered">Застосувати правила до лімітованих (платних, обмежених) Wi-Fi мереж</string>
-  <string name="summary_national_roaming">Do not apply the roaming rules when the SIM and mobile network country are the same</string>
+  <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
   <string name="msg_sure">Ви впевнені?</string>
   <string name="msg_started">Визначити правила</string>
   <string name="msg_packages">%1$d дозволено, %2$d заблоковано</string>

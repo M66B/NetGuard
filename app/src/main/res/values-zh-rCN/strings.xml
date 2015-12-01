@@ -31,7 +31,7 @@
   <string name="setting_technical">技术信息</string>
   <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
   <string name="summary_metered">将移动网络规则应用于按流量计费的 (付费, 共享) Wi-Fi网络</string>
-  <string name="summary_national_roaming">Do not apply the roaming rules when the SIM and mobile network country are the same</string>
+  <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
   <string name="msg_sure">是否确认?</string>
   <string name="msg_started">规则加载中</string>
   <string name="msg_packages">%1$d 已允许, %2$d 已拦截</string>
