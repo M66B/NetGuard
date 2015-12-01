@@ -25,13 +25,13 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_dark">Ativa tema escuro</string>
   <string name="setting_export">Exportar configurações</string>
   <string name="setting_import">Importar configurações</string>
-  <string name="setting_defaults">Defaults</string>
-  <string name="setting_options">Options</string>
+  <string name="setting_defaults">Padrões</string>
+  <string name="setting_options">Opções</string>
   <string name="setting_backup">Backup</string>
   <string name="setting_technical">Informações técnicas</string>
   <string name="summary_system">Definir regras para aplicativos do sistema (usuários experientes)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi compartilhadas (pagas, limitadas)</string>
-  <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
+  <string name="summary_national_roaming">Não aplicar regras de Roaming quando o chip SIM e a rede móvel forem do mesmo país</string>
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo regras</string>
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
