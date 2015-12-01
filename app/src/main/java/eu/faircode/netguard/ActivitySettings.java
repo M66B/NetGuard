@@ -174,12 +174,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         updateTechnicalInfo();
 
         if (!Util.hasTelephony(this)) {
-            PreferenceCategory defaults = (PreferenceCategory)screen.findPreference("defaults");
+            PreferenceCategory defaults = (PreferenceCategory) screen.findPreference("category_defaults");
             defaults.removePreference(screen.findPreference("whitelist_other"));
             defaults.removePreference(screen.findPreference("screen_other"));
             defaults.removePreference(screen.findPreference("whitelist_roaming"));
 
-            PreferenceCategory options = (PreferenceCategory)screen.findPreference("options");
+            PreferenceCategory options = (PreferenceCategory) screen.findPreference("category_options");
             options.removePreference(screen.findPreference("use_metered"));
             options.removePreference(screen.findPreference("national_roaming"));
         }

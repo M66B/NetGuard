@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:key="defaults"
+        android:key="category_defaults"
         android:title="@string/setting_defaults">
         <SwitchPreference
             android:defaultValue="true"
@@ -25,7 +25,7 @@
             android:title="@string/setting_whitelist_roaming" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="options"
+        android:key="category_options"
         android:title="@string/setting_options">
         <SwitchPreference
             android:defaultValue="false"
@@ -48,7 +48,7 @@
             android:title="@string/setting_national_roaming" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="backup"
+        android:key="category_backup"
         android:title="@string/setting_backup">
         <Preference
             android:key="export"
@@ -58,7 +58,7 @@
             android:title="@string/setting_import" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="technical"
+        android:key="category_technical"
         android:title="@string/setting_technical">
         <Preference android:key="technical" />
     </PreferenceCategory>
