@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.net.VpnService;
@@ -71,6 +72,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_IAB = 2;
     private static final int REQUEST_INVITE = 3;
     private static final int REQUEST_LOGCAT = 4;
+    public static final int REQUEST_ROAMING = 5;
 
     private static final int MIN_SDK = Build.VERSION_CODES.LOLLIPOP;
 
@@ -310,6 +312,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.w(TAG, "Unknown activity result request=" + requestCode);
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_ROAMING)
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                SinkholeService.reload("other", this);
     }
 
     @Override

@@ -19,6 +19,9 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +29,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -52,7 +56,7 @@ import java.util.List;
 public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.Adapter";
 
-    private Context context;
+    private Activity context;
     private boolean telephony;
     private boolean debuggable;
     private int colorText;
@@ -150,7 +154,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
     }
 
-    public RuleAdapter(Context context) {
+    public RuleAdapter(Activity context) {
         this.context = context;
         this.telephony = Util.hasTelephony(context);
         this.debuggable = Util.isDebuggable(context);
@@ -354,6 +358,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         holder.cbRoaming.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
+            @TargetApi(Build.VERSION_CODES.M)
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Update rule
                 updateRoaming(rule, isChecked);
@@ -374,6 +379,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
                 // Apply updated rule
                 SinkholeService.reload(null, context);
+
+                // Request permissions
+                if (isChecked && !Util.hasPhoneStatePermission(context))
+                    context.requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, ActivityMain.REQUEST_ROAMING);
             }
         });
 

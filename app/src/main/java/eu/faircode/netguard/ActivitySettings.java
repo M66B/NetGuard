@@ -37,7 +37,6 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
@@ -71,7 +70,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
-    private static final int REQUEST_READ_PHONE_STATE = 3;
+    private static final int REQUEST_ROAMING_NATIONAL = 3;
+    private static final int REQUEST_ROAMING_INTERNATIONAL = 4;
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,16 +193,24 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             SinkholeService.reload("wifi", this);
 
         else if ("whitelist_other".equals(name) ||
-                "screen_other".equals(name) ||
-                "whitelist_roaming".equals(name))
+                "screen_other".equals(name))
             SinkholeService.reload("other", this);
 
-        else if ("national_roaming".equals(name)) {
+        else if ("whitelist_roaming".equals(name)) {
             if (prefs.getBoolean(name, false)) {
                 if (Util.hasPhoneStatePermission(this))
                     SinkholeService.reload("other", this);
                 else
-                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_INTERNATIONAL);
+            } else
+                SinkholeService.reload("other", this);
+
+        } else if ("national_roaming".equals(name)) {
+            if (prefs.getBoolean(name, false)) {
+                if (Util.hasPhoneStatePermission(this))
+                    SinkholeService.reload("other", this);
+                else
+                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_NATIONAL);
             } else
                 SinkholeService.reload("other", this);
 
@@ -216,12 +224,21 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == REQUEST_READ_PHONE_STATE)
+        if (requestCode == REQUEST_ROAMING_NATIONAL)
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 SinkholeService.reload("other", this);
             else {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 prefs.edit().putBoolean("national_roaming", false).apply();
+                refreshScreen();
+            }
+
+        else if (requestCode == REQUEST_ROAMING_INTERNATIONAL)
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                SinkholeService.reload("other", this);
+            else {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                prefs.edit().putBoolean("whitelist_roaming", false).apply();
                 refreshScreen();
             }
     }
