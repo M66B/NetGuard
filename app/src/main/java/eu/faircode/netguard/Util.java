@@ -239,9 +239,9 @@ public class Util {
 
                 TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                 if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
-                    sb.append(String.format("SIM %s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName()));
+                    sb.append(String.format("SIM %s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperator()));
                 if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
-                    sb.append(String.format("Network %s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName()));
+                    sb.append(String.format("Network %s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperator()));
 
                 // Get connectivity info
                 ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
