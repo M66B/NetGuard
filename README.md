@@ -164,6 +164,7 @@ Permissions
 -----------
 
 * ACCESS_NETWORK_STATE: to check if the device is connected to the internet through Wi-Fi
+* READ_PHONE_STATE: to detect mobile network changes, see [here](http://forum.xda-developers.com/showpost.php?p=64107371&postcount=489) for more details
 * RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
 * WAKE_LOCK: to reliably reload rules in the background on connectivity changes
 * com.android.vending.BILLING: to accept donations via in-app billing
