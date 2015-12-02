@@ -432,8 +432,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             @Override
             protected void onPostExecute(Throwable ex) {
                 if (ex == null) {
-                    refreshScreen();
                     Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                    recreate();
                 } else
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
