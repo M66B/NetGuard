@@ -230,7 +230,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 }
 
                 // Apply updated rule
-                SinkholeService.reload(network, context);
+                SinkholeService.reload(network, "rule changed", context);
             }
         };
 
@@ -317,7 +317,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 }
 
                 // Apply updated rule
-                SinkholeService.reload(null, context);
+                SinkholeService.reload(null, "rule changed", context);
             }
         });
 
@@ -348,7 +348,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 }
 
                 // Apply updated rule
-                SinkholeService.reload(null, context);
+                SinkholeService.reload(null, "rule changed", context);
             }
         });
 
@@ -378,7 +378,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 }
 
                 // Apply updated rule
-                SinkholeService.reload(null, context);
+                SinkholeService.reload(null, "rule changed", context);
 
                 // Request permissions
                 if (isChecked && !Util.hasPhoneStatePermission(context))

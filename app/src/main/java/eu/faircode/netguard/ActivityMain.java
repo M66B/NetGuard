@@ -102,9 +102,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Receiver.upgrade(initialized, this);
 
         if (enabled)
-            SinkholeService.start(this);
+            SinkholeService.start("UI", this);
         else
-            SinkholeService.stop(this);
+            SinkholeService.stop("UI", this);
 
         // Action bar
         View actionView = getLayoutInflater().inflate(R.layout.action, null);
@@ -168,7 +168,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 } else {
                     Log.i(TAG, "Switch off");
                     prefs.edit().putBoolean("enabled", false).apply();
-                    SinkholeService.stop(ActivityMain.this);
+                    SinkholeService.stop("switch off", ActivityMain.this);
                 }
             }
         });
@@ -290,7 +290,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
             if (resultCode == RESULT_OK)
-                SinkholeService.start(this);
+                SinkholeService.start("prepared", this);
 
         } else if (requestCode == REQUEST_IAB) {
             // Handle IAB result
@@ -318,7 +318,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == REQUEST_ROAMING)
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                SinkholeService.reload("other", this);
+                SinkholeService.reload("other", "permission granted", this);
     }
 
     @Override

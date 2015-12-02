@@ -57,10 +57,9 @@ import java.nio.ByteOrder;
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
-    private boolean last_connected;
-    private boolean last_metered;
+    private boolean last_connected = false;
+    private boolean last_metered = true;
     private boolean phone_state = false;
-    private String last_operator = null;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
     private Thread debugThread = null;
@@ -72,6 +71,7 @@ public class SinkholeService extends VpnService {
     private static final int NOTIFY_DISABLED = 2;
 
     private static final String EXTRA_COMMAND = "Command";
+    private static final String EXTRA_REASON = "Reason";
 
     private enum Command {start, reload, stop}
 
@@ -117,12 +117,13 @@ public class SinkholeService extends VpnService {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
 
             Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
-            Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
+            String reason = intent.getStringExtra(EXTRA_REASON);
+            Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason + " vpn=" + (vpn != null));
 
             // Check phone state listener
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             if (!phone_state && Util.hasPhoneStatePermission(SinkholeService.this)) {
-                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_SERVICE_STATE);
+                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE | PhoneStateListener.LISTEN_SERVICE_STATE);
                 phone_state = true;
                 Log.i(TAG, "Listening to service state changes");
             }
@@ -198,6 +199,10 @@ public class SinkholeService extends VpnService {
         boolean wifi = Util.isWifiActive(this);
         boolean metered = Util.isMeteredNetwork(this);
         boolean useMetered = prefs.getBoolean("use_metered", false);
+        String generation = Util.getNetworkGeneration(this);
+        boolean metered_2g = prefs.getBoolean("metered_2g", true);
+        boolean metered_3g = prefs.getBoolean("metered_3g", true);
+        boolean metered_4g = prefs.getBoolean("metered_4g", true);
         boolean roaming = Util.isRoaming(SinkholeService.this);
         boolean national = prefs.getBoolean("national_roaming", false);
         boolean interactive = Util.isInteractive(this);
@@ -208,6 +213,12 @@ public class SinkholeService extends VpnService {
 
         // Update metered state
         if (wifi && (!useMetered || !telephony))
+            metered = false;
+        if (!metered_2g && "2G".equals(generation))
+            metered = false;
+        if (!metered_3g && "3G".equals(generation))
+            metered = false;
+        if (!metered_4g && "4G".equals(generation))
             metered = false;
         if (!last_connected)
             metered = true;
@@ -221,6 +232,7 @@ public class SinkholeService extends VpnService {
                 " wifi=" + wifi +
                 " metered=" + metered +
                 " telephony=" + telephony +
+                " generation=" + generation +
                 " roaming=" + roaming +
                 " interactive=" + interactive);
 
@@ -364,7 +376,7 @@ public class SinkholeService extends VpnService {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            reload(null, SinkholeService.this);
+            reload(null, "interactive state changed", SinkholeService.this);
         }
     };
 
@@ -380,7 +392,7 @@ public class SinkholeService extends VpnService {
 
             // Reload rules when coming from idle mode
             if (!pm.isDeviceIdleMode())
-                reload(null, SinkholeService.this);
+                reload(null, "idle state changed", SinkholeService.this);
         }
     };
 
@@ -395,20 +407,47 @@ public class SinkholeService extends VpnService {
             // Reload rules
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            reload(null, SinkholeService.this);
+            reload(null, "connectivity changed", SinkholeService.this);
         }
     };
 
     private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+        private String last_generation = null;
+        private String last_operator = null;
+
+        @Override
+        public void onDataConnectionStateChanged(int state, int networkType) {
+            if (state == TelephonyManager.DATA_CONNECTED) {
+                String current_generation = Util.getNetworkGeneration(networkType);
+                Log.i(TAG, "Data connected type=" + Util.getNetworkType(networkType) + " generation=" + current_generation);
+
+                if (last_generation == null || !last_generation.equals(current_generation)) {
+                    Log.i(TAG, "New network generation=" + current_generation);
+                    last_generation = current_generation;
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                    if (!prefs.getBoolean("metered_2g", true) ||
+                            !prefs.getBoolean("metered_3g", true) ||
+                            !prefs.getBoolean("metered_4g", true))
+                        reload("other", "data connection state changed", SinkholeService.this);
+                }
+            }
+        }
+
         @Override
         public void onServiceStateChanged(ServiceState serviceState) {
             if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
                 TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                 String current_operator = tm.getNetworkOperator();
+                Log.i(TAG, "In service country=" + tm.getNetworkCountryIso() + " operator=" + current_operator);
+
                 if (last_operator == null || !last_operator.equals(current_operator)) {
                     Log.i(TAG, "New network operator=" + current_operator);
                     last_operator = current_operator;
-                    reload(null, SinkholeService.this);
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                    if (prefs.getBoolean("national_roaming", false))
+                        reload(null, "service state changed", SinkholeService.this);
                 }
             }
         }
@@ -419,7 +458,7 @@ public class SinkholeService extends VpnService {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            reload(null, SinkholeService.this);
+            reload(null, "package added", SinkholeService.this);
         }
     };
 
@@ -478,7 +517,8 @@ public class SinkholeService extends VpnService {
         }
 
         Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
-        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " vpn=" + (vpn != null));
+        String reason = intent.getStringExtra(EXTRA_REASON);
+        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " reason=" + reason + " vpn=" + (vpn != null));
 
         // Queue command
         Message msg = mServiceHandler.obtainMessage();
@@ -576,13 +616,14 @@ public class SinkholeService extends VpnService {
         NotificationManagerCompat.from(this).cancel(NOTIFY_DISABLED);
     }
 
-    public static void start(Context context) {
+    public static void start(String reason, Context context) {
         Intent intent = new Intent(context, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
+        intent.putExtra(EXTRA_REASON, reason);
         context.startService(intent);
     }
 
-    public static void reload(String network, Context context) {
+    public static void reload(String network, String reason, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getBoolean("enabled", false)) {
             boolean wifi = Util.isWifiActive(context);
@@ -592,14 +633,16 @@ public class SinkholeService extends VpnService {
             if (network == null || ("wifi".equals(network) ? !metered : metered)) {
                 Intent intent = new Intent(context, SinkholeService.class);
                 intent.putExtra(EXTRA_COMMAND, Command.reload);
+                intent.putExtra(EXTRA_REASON, reason);
                 context.startService(intent);
             }
         }
     }
 
-    public static void stop(Context context) {
+    public static void stop(String reason, Context context) {
         Intent intent = new Intent(context, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
+        intent.putExtra(EXTRA_REASON, reason);
         context.startService(intent);
     }
 }

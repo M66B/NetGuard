@@ -58,7 +58,7 @@ public class Receiver extends BroadcastReceiver {
             if (prefs.getBoolean("enabled", false))
                 try {
                     if (VpnService.prepare(context) == null)
-                        SinkholeService.start(context);
+                        SinkholeService.start("receiver", context);
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     Util.sendCrashReport(ex, context);

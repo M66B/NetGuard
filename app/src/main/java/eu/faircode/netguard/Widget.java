@@ -53,13 +53,13 @@ public class Widget extends AppWidgetProvider {
 
         if (INTENT_OFF.equals(intent.getAction())) {
             prefs.edit().putBoolean("enabled", false).apply();
-            SinkholeService.stop(context);
+            SinkholeService.stop("widget", context);
 
         } else if (INTENT_ON.equals(intent.getAction()))
             try {
                 if (VpnService.prepare(context) == null) {
                     prefs.edit().putBoolean("enabled", true).apply();
-                    SinkholeService.start(context);
+                    SinkholeService.start("widget", context);
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));

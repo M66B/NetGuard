@@ -20,6 +20,9 @@
   <string name="setting_screen_other">亮屏时默认允许移动网络</string>
   <string name="setting_whitelist_roaming">默认阻止漫游</string>
   <string name="setting_metered">控制按流量计费Wi-Fi网络</string>
+  <string name="setting_metered_2g">Consider 2G metered</string>
+  <string name="setting_metered_3g">Consider 3G metered</string>
+  <string name="setting_metered_4g">Consider LTE metered</string>
   <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">管理系统应用</string>
   <string name="setting_dark">使用暗色主题</string>
@@ -31,6 +34,9 @@
   <string name="setting_technical">技术信息</string>
   <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
   <string name="summary_metered">将移动网络规则应用于按流量计费的 (付费, 共享) Wi-Fi网络</string>
+  <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections when turned off</string>
+  <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections when turned off</string>
+  <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections when turned off</string>
   <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
   <string name="msg_sure">是否确认?</string>
   <string name="msg_started">规则加载中</string>
