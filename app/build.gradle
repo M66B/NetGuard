@@ -16,8 +16,8 @@ model {
     }
     android.buildTypes {
         release {
-            isMinifyEnabled = true
-            proguardFiles += file('proguard-rules.pro')
+            minifyEnabled = true
+            proguardFiles.add(file('proguard-rules.pro'))
         }
     }
 }
