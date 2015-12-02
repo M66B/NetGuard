@@ -200,9 +200,9 @@ public class SinkholeService extends VpnService {
         boolean metered = Util.isMeteredNetwork(this);
         boolean useMetered = prefs.getBoolean("use_metered", false);
         String generation = Util.getNetworkGeneration(this);
-        boolean metered_2g = prefs.getBoolean("metered_2g", true);
-        boolean metered_3g = prefs.getBoolean("metered_3g", true);
-        boolean metered_4g = prefs.getBoolean("metered_4g", true);
+        boolean unmetered_2g = prefs.getBoolean("unmetered_2g", false);
+        boolean unmetered_3g = prefs.getBoolean("unmetered_3g", false);
+        boolean unmetered_4g = prefs.getBoolean("unmetered_4g", false);
         boolean roaming = Util.isRoaming(SinkholeService.this);
         boolean national = prefs.getBoolean("national_roaming", false);
         boolean interactive = Util.isInteractive(this);
@@ -214,11 +214,11 @@ public class SinkholeService extends VpnService {
         // Update metered state
         if (wifi && (!useMetered || !telephony))
             metered = false;
-        if (!metered_2g && "2G".equals(generation))
+        if (unmetered_2g && "2G".equals(generation))
             metered = false;
-        if (!metered_3g && "3G".equals(generation))
+        if (unmetered_3g && "3G".equals(generation))
             metered = false;
-        if (!metered_4g && "4G".equals(generation))
+        if (unmetered_4g && "4G".equals(generation))
             metered = false;
         if (!last_connected)
             metered = true;
@@ -426,9 +426,9 @@ public class SinkholeService extends VpnService {
                     last_generation = current_generation;
 
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-                    if (!prefs.getBoolean("metered_2g", true) ||
-                            !prefs.getBoolean("metered_3g", true) ||
-                            !prefs.getBoolean("metered_4g", true))
+                    if (prefs.getBoolean("unmetered_2g", false) ||
+                            prefs.getBoolean("unmetered_3g", false) ||
+                            prefs.getBoolean("unmetered_4g", false))
                         reload("other", "data connection state changed", SinkholeService.this);
                 }
             }

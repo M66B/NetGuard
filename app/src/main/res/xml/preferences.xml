@@ -42,19 +42,19 @@
             android:summary="@string/summary_metered"
             android:title="@string/setting_metered" />
         <SwitchPreference
-            android:defaultValue="true"
-            android:key="metered_2g"
+            android:defaultValue="false"
+            android:key="unmetered_2g"
             android:summary="@string/summary_metered_2g"
             android:title="@string/setting_metered_2g" />
         <SwitchPreference
-            android:defaultValue="true"
-            android:key="metered_3g"
+            android:defaultValue="false"
+            android:key="unmetered_3g"
             android:summary="@string/summary_metered_3g"
             android:title="@string/setting_metered_3g" />
         <SwitchPreference
-            android:defaultValue="true"
-            android:key="metered_4g"
-            android:summary="@string/summary_metered_3g"
+            android:defaultValue="false"
+            android:key="unmetered_4g"
+            android:summary="@string/summary_metered_4g"
             android:title="@string/setting_metered_4g" />
         <SwitchPreference
             android:defaultValue="false"

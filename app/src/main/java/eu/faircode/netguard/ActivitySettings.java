@@ -81,11 +81,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         super.onCreate(savedInstanceState);
 
-        refreshScreen();
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
         getSupportActionBar().setTitle(R.string.menu_settings);
     }
 
     private void refreshScreen() {
+        // TODO: better solution
         getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
     }
 
@@ -96,13 +97,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Check if permission was revoked
-        if (!prefs.getBoolean("metered_2g", true) ||
-                !prefs.getBoolean("metered_3g", true) ||
-                !prefs.getBoolean("metered_4g", true))
+        if (prefs.getBoolean("unmetered_2g", false) ||
+                prefs.getBoolean("unmetered_3g", false) ||
+                prefs.getBoolean("unmetered_4g", false))
             if (!Util.hasPhoneStatePermission(this)) {
-                prefs.edit().putBoolean("metered_2g", true).apply();
-                prefs.edit().putBoolean("metered_3g", true).apply();
-                prefs.edit().putBoolean("metered_4g", true).apply();
+                prefs.edit().putBoolean("unmetered_2g", false).apply();
+                prefs.edit().putBoolean("unmetered_3g", false).apply();
+                prefs.edit().putBoolean("unmetered_4g", false).apply();
                 refreshScreen();
             }
 
@@ -218,17 +219,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             } else
                 SinkholeService.reload("other", "setting changed", this);
 
-        } else if ("metered_2g".equals(name) ||
-                "metered_3g".equals(name) ||
-                "metered_4g".equals(name)) {
-            if (prefs.getBoolean(name, true))
-                SinkholeService.reload("other", "setting changed", this);
-            else {
+        } else if ("unmetered_2g".equals(name) ||
+                "unmetered_3g".equals(name) ||
+                "unmetered_4g".equals(name)) {
+            if (prefs.getBoolean(name, false)) {
                 if (Util.hasPhoneStatePermission(this))
                     SinkholeService.reload("other", "setting changed", this);
                 else
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED);
-            }
+            } else
+                SinkholeService.reload("other", "setting changed", this);
 
         } else if ("national_roaming".equals(name)) {
             if (prefs.getBoolean(name, false)) {
@@ -254,9 +254,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 SinkholeService.reload("other", "permission granted", this);
             else {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                prefs.edit().putBoolean("metered_2g", true).apply();
-                prefs.edit().putBoolean("metered_3g", true).apply();
-                prefs.edit().putBoolean("metered_4g", true).apply();
+                prefs.edit().putBoolean("unmetered_2g", false).apply();
+                prefs.edit().putBoolean("unmetered_3g", false).apply();
+                prefs.edit().putBoolean("unmetered_4g", false).apply();
                 refreshScreen();
             }
 

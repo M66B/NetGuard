@@ -20,9 +20,9 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="setting_screen_other">Allow mobile when screen on</string>
   <string name="setting_whitelist_roaming">Predvolene blokovať roaming</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
-  <string name="setting_metered_2g">Consider 2G metered</string>
-  <string name="setting_metered_3g">Consider 3G metered</string>
-  <string name="setting_metered_4g">Consider LTE metered</string>
+  <string name="setting_metered_2g">Consider 2G unmetered</string>
+  <string name="setting_metered_3g">Consider 3G unmetered</string>
+  <string name="setting_metered_4g">Consider LTE unmetered</string>
   <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_system">Spravovať systémové aplikácie</string>
   <string name="setting_dark">Použiť tmavú tému</string>
@@ -34,9 +34,9 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="setting_technical">Technical information</string>
   <string name="summary_system">Určiť pravidlá pre systémové pravidlá (pre expertov)</string>
   <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
-  <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections when turned off</string>
-  <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections when turned off</string>
-  <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections when turned off</string>
+  <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections</string>
+  <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections</string>
+  <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections</string>
   <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
   <string name="msg_sure">Ste si istý?</string>
   <string name="msg_started">Pravidlá vynútenia</string>

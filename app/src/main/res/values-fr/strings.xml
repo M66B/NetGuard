@@ -20,9 +20,9 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="setting_screen_other">Autoriser données mobiles si écran allumé</string>
   <string name="setting_whitelist_roaming">Bloquer itinérance par défaut</string>
   <string name="setting_metered">Gérer les réseaux Wi-Fi mesurés</string>
-  <string name="setting_metered_2g">Consider 2G metered</string>
-  <string name="setting_metered_3g">Consider 3G metered</string>
-  <string name="setting_metered_4g">Consider LTE metered</string>
+  <string name="setting_metered_2g">Consider 2G unmetered</string>
+  <string name="setting_metered_3g">Consider 3G unmetered</string>
+  <string name="setting_metered_4g">Consider LTE unmetered</string>
   <string name="setting_national_roaming">Ignorer l\'itinérance nationale</string>
   <string name="setting_system">Gérer les applications système</string>
   <string name="setting_dark">Utiliser le thème sombre</string>
@@ -34,9 +34,9 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="setting_technical">Informations techniques</string>
   <string name="summary_system">Définir les règles pour les applications système (Pour experts)</string>
   <string name="summary_metered">Appliquer les règles de réseaux mobiles aux réseaux Wi-Fi mesurés (payants, partagés)</string>
-  <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections when turned off</string>
-  <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections when turned off</string>
-  <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections when turned off</string>
+  <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections</string>
+  <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections</string>
+  <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections</string>
   <string name="summary_national_roaming">Ne pas appliquer les règles d\'itinérance lorsque la SIM et le réseau mobile du pays sont les mêmes</string>
   <string name="msg_sure">Êtes-vous sûr ?</string>
   <string name="msg_started">Application des règles</string>

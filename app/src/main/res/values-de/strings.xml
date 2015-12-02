@@ -19,9 +19,9 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_screen_other">Mobilfunk immer erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="setting_whitelist_roaming">Roaming standardmäßig blockieren</string>
   <string name="setting_metered">Gemessenes WLAN-Netzwerk handhaben</string>
-  <string name="setting_metered_2g">Consider 2G metered</string>
-  <string name="setting_metered_3g">Consider 3G metered</string>
-  <string name="setting_metered_4g">Consider LTE metered</string>
+  <string name="setting_metered_2g">Consider 2G unmetered</string>
+  <string name="setting_metered_3g">Consider 3G unmetered</string>
+  <string name="setting_metered_4g">Consider LTE unmetered</string>
   <string name="setting_national_roaming">Nationales Roaming ignorieren</string>
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_dark">Dunkles Thema verwenden</string>
@@ -33,9 +33,9 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_technical">Technische information</string>
   <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
   <string name="summary_metered">Mobilfunk-Regeln gemessenen (bezahlten, tethered) WLAN-Netzwerken anwenden</string>
-  <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections when turned off</string>
-  <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections when turned off</string>
-  <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections when turned off</string>
+  <string name="summary_metered_2g">WLAN-Netzwerk-Regeln für 2G-Datenverbindungen anwenden</string>
+  <string name="summary_metered_3g">WLAN-Netzwerk-Regeln für 3G-Datenverbindungen anwenden</string>
+  <string name="summary_metered_4g">WLAN-Netzwerk-Regeln für LTE-Datenverbindungen anwenden</string>
   <string name="summary_national_roaming">Roaming-Regeln nicht anwenden, wenn die Nationalität für SIM und mobiles Netzwerk identisch sind</string>
   <string name="msg_sure">Sind Sie sicher?</string>
   <string name="msg_started">Regeln werden angewendet</string>

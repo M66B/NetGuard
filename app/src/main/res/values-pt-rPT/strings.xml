@@ -20,9 +20,9 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_screen_other">Por padrão, ao ligar a tela, permitir Dados Móveis</string>
   <string name="setting_whitelist_roaming">Por padrão, bloquear Roaming</string>
   <string name="setting_metered">Manipular redes Wi-Fi Limitadas</string>
-  <string name="setting_metered_2g">Consider 2G metered</string>
-  <string name="setting_metered_3g">Consider 3G metered</string>
-  <string name="setting_metered_4g">Consider LTE metered</string>
+  <string name="setting_metered_2g">Consider 2G unmetered</string>
+  <string name="setting_metered_3g">Consider 3G unmetered</string>
+  <string name="setting_metered_4g">Consider LTE unmetered</string>
   <string name="setting_national_roaming">Ignorar Roaming nacional</string>
   <string name="setting_system">Administrar aplicativos do sistema</string>
   <string name="setting_dark">Ativa tema escuro</string>
@@ -34,9 +34,9 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_technical">Informações técnicas</string>
   <string name="summary_system">Definir regras para aplicativos do sistema (usuários experientes)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi compartilhadas (pagas, limitadas)</string>
-  <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections when turned off</string>
-  <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections when turned off</string>
-  <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections when turned off</string>
+  <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections</string>
+  <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections</string>
+  <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections</string>
   <string name="summary_national_roaming">Não aplicar regras de Roaming quando o chip SIM e a rede móvel forem do mesmo país</string>
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo regras</string>
