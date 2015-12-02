@@ -20,7 +20,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_screen_other">Domyślnie zezwól na mobilne przy włączonym ekranie</string>
   <string name="setting_whitelist_roaming">Domyślnie blokuj roaming</string>
   <string name="setting_metered">Obsługuj taryfowe sieci Wi-Fi</string>
-  <string name="setting_national_roaming">Ignore national roaming</string>
+  <string name="setting_national_roaming">Ignoruj roaming krajowy</string>
   <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
   <string name="setting_dark">Użyj ciemnej skórki</string>
   <string name="setting_export">Eksport ustawień</string>
@@ -30,7 +30,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_backup">Backup</string>
   <string name="setting_technical">Informacje techniczne</string>
   <string name="summary_system">Stwórz reguły dla aplikacji systemowych (zaawansowane)</string>
-  <string name="summary_metered">Zastosuj reguły z danych mobilnych, do taryfowych sieci Wi-FI (tetrgering, prepaid)</string>
+  <string name="summary_metered">Zastosuj reguły z danych mobilnych, do taryfowych sieci Wi-FI (tethering, prepaid)</string>
   <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
   <string name="msg_sure">Na pewno?</string>
   <string name="msg_started">Wymuś Reguły</string>
@@ -43,7 +43,7 @@ Z tego powodu w następnym oknie dialogowym zezwól na połączenie VPN.
 Ponieważ NetGuard nie ma zezwolenia na dostęp do internetu, masz pewność, że Twój ruch internetowy nigdzie nie jest wysyłany.</string>
   <string name="msg_try">Spróbuj NetGuard</string>
   <string name="msg_voluntary">Darowizny są całkowicie dobrowolne i nie odblokowują jakiejkolwiek funkcji. Dotacje te są przeznaczone jako sposób na okazanie swojego uznania dla wykonanej pracy.</string>
-  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
+  <string name="msg_terms">Przekazując darowiznę wyrażam zgodę na <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">Jeśli nie możesz nacisnąć OK w następnym oknie dialogowym, inna aplikacja prawdopodobnie zarządza ekranem (przygaszanie ekranu).</string>
   <string name="title_screen_wifi">Zezwól na Wi-Fi przy włączonym ekranie</string>
   <string name="title_screen_other">Zezwól na mobilne przy włączonym ekranie</string>
