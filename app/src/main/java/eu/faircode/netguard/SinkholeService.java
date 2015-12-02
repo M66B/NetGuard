@@ -60,6 +60,7 @@ public class SinkholeService extends VpnService {
     private boolean last_connected;
     private boolean last_metered;
     private boolean phone_state = false;
+    private String last_operator = null;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
     private Thread debugThread = null;
@@ -401,10 +402,15 @@ public class SinkholeService extends VpnService {
     private PhoneStateListener phoneStateListener = new PhoneStateListener() {
         @Override
         public void onServiceStateChanged(ServiceState serviceState) {
-            super.onServiceStateChanged(serviceState);
-            Log.i(TAG, "Service state=" + serviceState);
-            if (serviceState.getState() == ServiceState.STATE_IN_SERVICE)
-                reload(null, SinkholeService.this);
+            if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
+                TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                String current_operator = tm.getNetworkOperator();
+                if (last_operator == null || !last_operator.equals(current_operator)) {
+                    Log.i(TAG, "New network operator=" + current_operator);
+                    last_operator = current_operator;
+                    reload(null, SinkholeService.this);
+                }
+            }
         }
     };
 
