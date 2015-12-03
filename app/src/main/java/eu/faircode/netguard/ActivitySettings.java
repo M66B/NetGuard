@@ -87,11 +87,19 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         getSupportActionBar().setTitle(R.string.menu_settings);
     }
 
+    private PreferenceScreen getPreferenceScreen() {
+        return ((PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content)).getPreferenceScreen();
+    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
-        PreferenceScreen screen = frag.getPreferenceScreen();
+        PreferenceScreen screen = getPreferenceScreen();
+
+        // Handle auto enable
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Preference pref_auto_enable = screen.findPreference("auto_enable");
+        pref_auto_enable.setTitle(getString(R.string.setting_auto, prefs.getString("auto_enable", "0")));
 
         // Handle export
         Preference pref_export = screen.findPreference("export");
@@ -150,6 +158,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     protected void onResume() {
         super.onResume();
 
+        PreferenceScreen screen = getPreferenceScreen();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // TODO: check permision for whitelist_roaming
@@ -163,19 +172,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 prefs.edit().putBoolean("unmetered_3g", false).apply();
                 prefs.edit().putBoolean("unmetered_4g", false).apply();
 
-                PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
-                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_2g")).setChecked(false);
-                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_3g")).setChecked(false);
-                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_4g")).setChecked(false);
+                ((SwitchPreference) screen.findPreference("unmetered_2g")).setChecked(false);
+                ((SwitchPreference) screen.findPreference("unmetered_3g")).setChecked(false);
+                ((SwitchPreference) screen.findPreference("unmetered_4g")).setChecked(false);
             }
 
         // Check if permission was revoked
         if (prefs.getBoolean("national_roaming", false))
             if (!Util.hasPhoneStatePermission(this)) {
                 prefs.edit().putBoolean("national_roaming", false).apply();
-
-                PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
-                ((SwitchPreference) frag.getPreferenceScreen().findPreference("national_roaming")).setChecked(false);
+                ((SwitchPreference) screen.findPreference("national_roaming")).setChecked(false);
             }
 
         // Listen for preference changes
@@ -236,7 +242,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             } else
                 SinkholeService.reload("other", "setting changed", this);
 
-        } else if ("unmetered_2g".equals(name) ||
+        } else if ("auto_enable".equals(name))
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
+
+
+        else if ("unmetered_2g".equals(name) ||
                 "unmetered_3g".equals(name) ||
                 "unmetered_4g".equals(name)) {
             if (prefs.getBoolean(name, false)) {
@@ -266,6 +276,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        PreferenceScreen screen = getPreferenceScreen();
+
         if (requestCode == REQUEST_METERED)
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 SinkholeService.reload("other", "permission granted", this);
@@ -274,11 +286,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 prefs.edit().putBoolean("unmetered_2g", false).apply();
                 prefs.edit().putBoolean("unmetered_3g", false).apply();
                 prefs.edit().putBoolean("unmetered_4g", false).apply();
-
-                PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
-                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_2g")).setChecked(false);
-                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_3g")).setChecked(false);
-                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_4g")).setChecked(false);
+                ((SwitchPreference) screen.findPreference("unmetered_2g")).setChecked(false);
+                ((SwitchPreference) screen.findPreference("unmetered_3g")).setChecked(false);
+                ((SwitchPreference) screen.findPreference("unmetered_4g")).setChecked(false);
             }
 
         else if (requestCode == REQUEST_ROAMING_NATIONAL)
@@ -287,9 +297,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 prefs.edit().putBoolean("national_roaming", false).apply();
-
-                PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
-                ((SwitchPreference) frag.getPreferenceScreen().findPreference("national_roaming")).setChecked(false);
+                ((SwitchPreference) screen.findPreference("national_roaming")).setChecked(false);
             }
 
         else if (requestCode == REQUEST_ROAMING_INTERNATIONAL)
@@ -298,9 +306,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 prefs.edit().putBoolean("whitelist_roaming", false).apply();
-
-                PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
-                ((SwitchPreference) frag.getPreferenceScreen().findPreference("whitelist_roaming")).setChecked(false);
+                ((SwitchPreference) screen.findPreference("whitelist_roaming")).setChecked(false);
             }
     }
 
@@ -519,6 +525,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 serializer.attribute(null, "value", value.toString());
                 serializer.endTag(null, "setting");
 
+            } else if (value instanceof String) {
+                serializer.startTag(null, "setting");
+                serializer.attribute(null, "key", key);
+                serializer.attribute(null, "type", "string");
+                serializer.attribute(null, "value", value.toString());
+                serializer.endTag(null, "setting");
+
             } else
                 Log.e(TAG, "Unknown key=" + key);
         }
@@ -564,6 +577,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 editor.putBoolean(key, (Boolean) value);
             else if (value instanceof Integer)
                 editor.putInt(key, (Integer) value);
+            else if (value instanceof String)
+                editor.putString(key, (String) value);
             else
                 Log.e(TAG, "Unknown type=" + value.getClass());
         }
@@ -623,6 +638,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                             current.put(key, Boolean.parseBoolean(value));
                         else if ("integer".equals(type))
                             current.put(key, Integer.parseInt(value));
+                        else if ("string".equals(type))
+                            current.put(key, value);
                         else
                             Log.e(TAG, "Unknown type key=" + key);
                     }

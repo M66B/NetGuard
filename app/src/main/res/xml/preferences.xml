@@ -32,6 +32,11 @@
             android:key="manage_system"
             android:summary="@string/summary_system"
             android:title="@string/setting_system" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:inputType="number"
+            android:key="auto_enable"
+            android:summary="@string/summary_auto" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="dark_theme"

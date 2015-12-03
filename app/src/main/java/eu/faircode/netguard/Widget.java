@@ -19,6 +19,7 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -30,6 +31,8 @@ import android.net.VpnService;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import java.util.Date;
 
 public class Widget extends AppWidgetProvider {
     private static final String TAG = "NetGuard.Widget";
@@ -51,9 +54,21 @@ public class Widget extends AppWidgetProvider {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
+        // Cancel set alarm
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
+        am.cancel(pi);
+
         if (INTENT_OFF.equals(intent.getAction())) {
             prefs.edit().putBoolean("enabled", false).apply();
             SinkholeService.stop("widget", context);
+
+            // Auto enable
+            int auto = Integer.parseInt(prefs.getString("auto_enable", "0"));
+            if (auto > 0) {
+                Log.i(TAG, "Scheduling enabled after minutes=" + auto);
+                am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + auto * 60 * 1000L, pi);
+            }
 
         } else if (INTENT_ON.equals(intent.getAction()))
             try {
