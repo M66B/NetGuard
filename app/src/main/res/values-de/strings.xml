@@ -19,9 +19,9 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_screen_other">Mobilfunk immer erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="setting_whitelist_roaming">Roaming standardmäßig blockieren</string>
   <string name="setting_metered">Gemessenes WLAN-Netzwerk handhaben</string>
-  <string name="setting_metered_2g">Consider 2G unmetered</string>
-  <string name="setting_metered_3g">Consider 3G unmetered</string>
-  <string name="setting_metered_4g">Consider LTE unmetered</string>
+  <string name="setting_metered_2g">2G gebührenfrei betrachten</string>
+  <string name="setting_metered_3g">3G gebührenfrei betrachten</string>
+  <string name="setting_metered_4g">LTE gebührenfrei betrachten</string>
   <string name="setting_national_roaming">Nationales Roaming ignorieren</string>
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_dark">Dunkles Thema verwenden</string>

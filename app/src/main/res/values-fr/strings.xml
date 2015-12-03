@@ -14,15 +14,15 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="menu_invite">Inviter</string>
   <string name="menu_support">Aide</string>
   <string name="menu_about">À propos</string>
-  <string name="setting_whitelist_wifi">Bloquer Wi-Fi par défaut</string>
-  <string name="setting_whitelist_other">Bloquer données mobiles par défaut</string>
+  <string name="setting_whitelist_wifi">Bloquer Wi-Fi</string>
+  <string name="setting_whitelist_other">Bloquer données mobiles</string>
   <string name="setting_screen_wifi">Autoriser Wi-Fi si écran allumé</string>
   <string name="setting_screen_other">Autoriser données mobiles si écran allumé</string>
-  <string name="setting_whitelist_roaming">Bloquer itinérance par défaut</string>
+  <string name="setting_whitelist_roaming">Bloquer itinérance</string>
   <string name="setting_metered">Gérer les réseaux Wi-Fi mesurés</string>
-  <string name="setting_metered_2g">Consider 2G unmetered</string>
-  <string name="setting_metered_3g">Consider 3G unmetered</string>
-  <string name="setting_metered_4g">Consider LTE unmetered</string>
+  <string name="setting_metered_2g">Considérer 2G non-mesuré</string>
+  <string name="setting_metered_3g">Considérer 3G non-mesuré</string>
+  <string name="setting_metered_4g">Considérer LTE non-mesuré</string>
   <string name="setting_national_roaming">Ignorer l\'itinérance nationale</string>
   <string name="setting_system">Gérer les applications système</string>
   <string name="setting_dark">Utiliser le thème sombre</string>
@@ -34,9 +34,9 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="setting_technical">Informations techniques</string>
   <string name="summary_system">Définir les règles pour les applications système (Pour experts)</string>
   <string name="summary_metered">Appliquer les règles de réseaux mobiles aux réseaux Wi-Fi mesurés (payants, partagés)</string>
-  <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections</string>
-  <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections</string>
-  <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections</string>
+  <string name="summary_metered_2g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 2G</string>
+  <string name="summary_metered_3g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 3G</string>
+  <string name="summary_metered_4g">Appliquer les règles de réseau Wi-Fi pour les connexions de données LTE</string>
   <string name="summary_national_roaming">Ne pas appliquer les règles d\'itinérance lorsque la SIM et le réseau mobile du pays sont les mêmes</string>
   <string name="msg_sure">Êtes-vous sûr ?</string>
   <string name="msg_started">Application des règles</string>
@@ -44,9 +44,9 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="msg_disabled">NetGuard est désactivé, utilisez le bouton ci-dessus pour activer NetGuard</string>
   <string name="msg_revoked">NetGuard a été désactivé, probablement en utilisant une autre application VPN</string>
   <string name="msg_completed">Action réalisée</string>
-  <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Netguard n\'a pas access a internet,vous savez que votre trafic Internet n\'est pas envoyée partout.</string>
+  <string name="msg_vpn">NetGuard utilise un VPN local comme un gouffre pour bloquer le trafic internet.
+Pour cette raison, veuillez autoriser une connexion VPN dans la fenêtre suivante.
+Netguard n\'a pas accès a internet, vous savez que votre trafic Internet n\'est pas envoyé partout.</string>
   <string name="msg_try">Essayer NetGuard</string>
   <string name="msg_voluntary">Les dons sont complétement selon votre volonté et ils ne débloqueront aucune nouvelle fonctionnalité.
 Faire un don est une de façon de montrer votre soutien au développeur et votre appréciation pour le travail accompli.</string>
@@ -54,7 +54,7 @@ Faire un don est une de façon de montrer votre soutien au développeur et votre
   <string name="msg_dimming">Si vous ne pouvez pas appuyer sur OK dans la fenêtre suivante, une autre application (filtre de luminosité) manipule probablement l\'écran.</string>
   <string name="title_screen_wifi">Autoriser Wi-Fi si écran allumé</string>
   <string name="title_screen_other">Autoriser données mobiles si écran allumé</string>
-  <string name="title_roaming">Bloquer si roaming</string>
+  <string name="title_roaming">Bloquer si itinérance</string>
   <string name="title_disabled">est désactivé</string>
   <string name="title_internet">n\'a aucune autorisation internet</string>
   <string name="title_launch">Lancer l\'application</string>
