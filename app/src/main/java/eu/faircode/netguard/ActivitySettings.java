@@ -200,6 +200,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             PreferenceCategory options = (PreferenceCategory) screen.findPreference("category_options");
             options.removePreference(screen.findPreference("use_metered"));
+            options.removePreference(screen.findPreference("unmetered_2g"));
+            options.removePreference(screen.findPreference("unmetered_3g"));
+            options.removePreference(screen.findPreference("unmetered_4g"));
             options.removePreference(screen.findPreference("national_roaming"));
         }
     }
