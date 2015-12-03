@@ -88,6 +88,65 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
+        PreferenceScreen screen = frag.getPreferenceScreen();
+
+        // Handle export
+        Preference pref_export = screen.findPreference("export");
+        pref_export.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
+        pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivityForResult(getIntentCreateDocument(), ActivitySettings.REQUEST_EXPORT);
+                return true;
+            }
+        });
+
+        // Handle import
+        Preference pref_import = screen.findPreference("import");
+        pref_import.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
+        pref_import.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivityForResult(getIntentOpenDocument(), ActivitySettings.REQUEST_IMPORT);
+                return true;
+            }
+        });
+
+        // Handle technical info
+        pref_technical = screen.findPreference("technical");
+        if (Util.isDebuggable(this)) {
+            pref_technical.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
+            pref_technical.setIntent(INTENT_VPN_SETTINGS);
+        }
+        pref_technical.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                updateTechnicalInfo();
+                return true;
+            }
+        });
+        updateTechnicalInfo();
+
+        // Handle devices without telephony
+        if (!Util.hasTelephony(this)) {
+            PreferenceCategory defaults = (PreferenceCategory) screen.findPreference("category_defaults");
+            defaults.removePreference(screen.findPreference("whitelist_other"));
+            defaults.removePreference(screen.findPreference("screen_other"));
+            defaults.removePreference(screen.findPreference("whitelist_roaming"));
+
+            PreferenceCategory options = (PreferenceCategory) screen.findPreference("category_options");
+            options.removePreference(screen.findPreference("use_metered"));
+            options.removePreference(screen.findPreference("unmetered_2g"));
+            options.removePreference(screen.findPreference("unmetered_3g"));
+            options.removePreference(screen.findPreference("unmetered_4g"));
+            options.removePreference(screen.findPreference("national_roaming"));
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -154,56 +213,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
             phone_state = false;
-        }
-    }
-
-    public void setup(PreferenceScreen screen) {
-        Preference pref_export = screen.findPreference("export");
-        pref_export.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
-        pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                startActivityForResult(getIntentCreateDocument(), ActivitySettings.REQUEST_EXPORT);
-                return true;
-            }
-        });
-
-        Preference pref_import = screen.findPreference("import");
-        pref_import.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
-        pref_import.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                startActivityForResult(getIntentOpenDocument(), ActivitySettings.REQUEST_IMPORT);
-                return true;
-            }
-        });
-
-        pref_technical = screen.findPreference("technical");
-        if (Util.isDebuggable(this)) {
-            pref_technical.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
-            pref_technical.setIntent(INTENT_VPN_SETTINGS);
-        }
-        pref_technical.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                updateTechnicalInfo();
-                return true;
-            }
-        });
-        updateTechnicalInfo();
-
-        if (!Util.hasTelephony(this)) {
-            PreferenceCategory defaults = (PreferenceCategory) screen.findPreference("category_defaults");
-            defaults.removePreference(screen.findPreference("whitelist_other"));
-            defaults.removePreference(screen.findPreference("screen_other"));
-            defaults.removePreference(screen.findPreference("whitelist_roaming"));
-
-            PreferenceCategory options = (PreferenceCategory) screen.findPreference("category_options");
-            options.removePreference(screen.findPreference("use_metered"));
-            options.removePreference(screen.findPreference("unmetered_2g"));
-            options.removePreference(screen.findPreference("unmetered_3g"));
-            options.removePreference(screen.findPreference("unmetered_4g"));
-            options.removePreference(screen.findPreference("national_roaming"));
         }
     }
 
