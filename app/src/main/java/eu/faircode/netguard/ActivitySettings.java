@@ -35,8 +35,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
@@ -85,16 +87,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         getSupportActionBar().setTitle(R.string.menu_settings);
     }
 
-    private void refreshScreen() {
-        // TODO: better solution
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // TODO: check permision for whitelist_roaming
 
         // Check if permission was revoked
         if (prefs.getBoolean("unmetered_2g", false) ||
@@ -104,14 +103,20 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 prefs.edit().putBoolean("unmetered_2g", false).apply();
                 prefs.edit().putBoolean("unmetered_3g", false).apply();
                 prefs.edit().putBoolean("unmetered_4g", false).apply();
-                refreshScreen();
+
+                PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
+                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_2g")).setChecked(false);
+                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_3g")).setChecked(false);
+                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_4g")).setChecked(false);
             }
 
         // Check if permission was revoked
         if (prefs.getBoolean("national_roaming", false))
             if (!Util.hasPhoneStatePermission(this)) {
                 prefs.edit().putBoolean("national_roaming", false).apply();
-                refreshScreen();
+
+                PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
+                ((SwitchPreference) frag.getPreferenceScreen().findPreference("national_roaming")).setChecked(false);
             }
 
         // Listen for preference changes
@@ -257,7 +262,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 prefs.edit().putBoolean("unmetered_2g", false).apply();
                 prefs.edit().putBoolean("unmetered_3g", false).apply();
                 prefs.edit().putBoolean("unmetered_4g", false).apply();
-                refreshScreen();
+
+                PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
+                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_2g")).setChecked(false);
+                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_3g")).setChecked(false);
+                ((SwitchPreference) frag.getPreferenceScreen().findPreference("unmetered_4g")).setChecked(false);
             }
 
         else if (requestCode == REQUEST_ROAMING_NATIONAL)
@@ -266,7 +275,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 prefs.edit().putBoolean("national_roaming", false).apply();
-                refreshScreen();
+
+                PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
+                ((SwitchPreference) frag.getPreferenceScreen().findPreference("national_roaming")).setChecked(false);
             }
 
         else if (requestCode == REQUEST_ROAMING_INTERNATIONAL)
@@ -275,7 +286,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 prefs.edit().putBoolean("whitelist_roaming", false).apply();
-                refreshScreen();
+
+                PreferenceFragment frag = (PreferenceFragment) getFragmentManager().findFragmentById(android.R.id.content);
+                ((SwitchPreference) frag.getPreferenceScreen().findPreference("whitelist_roaming")).setChecked(false);
             }
     }
 
