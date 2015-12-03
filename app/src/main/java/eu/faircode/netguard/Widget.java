@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.VpnService;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -67,7 +68,10 @@ public class Widget extends AppWidgetProvider {
             int auto = Integer.parseInt(prefs.getString("auto_enable", "0"));
             if (auto > 0) {
                 Log.i(TAG, "Scheduling enabled after minutes=" + auto);
-                am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + auto * 60 * 1000L, pi);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+                    am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + auto * 60 * 1000L, pi);
+                else
+                    am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, new Date().getTime() + auto * 60 * 1000L, pi);
             }
 
         } else if (INTENT_ON.equals(intent.getAction()))
