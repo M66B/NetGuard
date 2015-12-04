@@ -18,7 +18,7 @@
   <string name="setting_whitelist_roaming">Блокувати типово у роумінгу</string>
   <string name="setting_options">Опції</string>
   <string name="setting_system">Керувати системними додатками</string>
-  <string name="setting_auto">Auto enable after %1$s minutes</string>
+  <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_metered">Регулювати лімітовані Wi-Fi мережі</string>
   <string name="setting_metered_2g">Consider 2G unmetered</string>
@@ -32,9 +32,9 @@
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes\nEnter zero to disable this option</string>
   <string name="summary_metered">Застосувати правила до лімітованих (платних, обмежених) Wi-Fi мереж</string>
-  <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections</string>
-  <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections</string>
-  <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections</string>
+  <string name="summary_metered_2g">Застосувати правила Wi-Fi мережі до 2G з\'єднання</string>
+  <string name="summary_metered_3g">Застосувати правила Wi-Fi мережі до 3G з\'єднання</string>
+  <string name="summary_metered_4g">Застосувати правила Wi-Fi мережі до LTE з\'єднання</string>
   <string name="summary_national_roaming">Не застосовувати правила роумінгу, якщо SIM-карта з однієї країни</string>
   <string name="msg_sure">Ви впевнені?</string>
   <string name="msg_started">Визначити правила</string>
