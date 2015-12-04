@@ -80,6 +80,14 @@
     <PreferenceCategory
         android:key="category_technical"
         android:title="@string/setting_technical">
-        <Preference android:key="technical" />
+        <Preference
+            android:key="technical_info"
+            android:title="General" />
+        <Preference
+            android:key="technical_network"
+            android:title="Networks" />
+        <Preference
+            android:key="technical_subscription"
+            android:title="Subscriptions" />
     </PreferenceCategory>
 </PreferenceScreen>

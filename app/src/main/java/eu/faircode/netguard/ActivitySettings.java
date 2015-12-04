@@ -42,6 +42,8 @@ import android.preference.SwitchPreference;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -68,7 +70,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private static final String TAG = "NetGuard.Settings";
 
     private boolean phone_state = false;
-    private Preference pref_technical = null;
 
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
@@ -124,12 +125,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         });
 
         // Handle technical info
-        pref_technical = screen.findPreference("technical");
+        Preference pref_technical_info = screen.findPreference("technical_info");
         if (Util.isDebuggable(this)) {
-            pref_technical.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
-            pref_technical.setIntent(INTENT_VPN_SETTINGS);
+            pref_technical_info.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
+            pref_technical_info.setIntent(INTENT_VPN_SETTINGS);
         }
-        pref_technical.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        pref_technical_info.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 updateTechnicalInfo();
@@ -339,6 +340,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     };
 
     private void updateTechnicalInfo() {
+        PreferenceScreen screen = getPreferenceScreen();
+        Preference pref_technical_info = screen.findPreference("technical_info");
+        Preference pref_technical_network = screen.findPreference("technical_network");
+        Preference pref_technical_subscription = screen.findPreference("technical_subscription");
+
+        // General
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         StringBuilder sb = new StringBuilder();
@@ -354,20 +361,52 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
             sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
 
+        if (sb.length() > 2)
+            sb.setLength(sb.length() - 2);
+        pref_technical_info.setSummary(sb.toString());
+
+        // Networks
+        sb = new StringBuilder();
         for (Network network : cm.getAllNetworks()) {
             NetworkInfo ni = cm.getNetworkInfo(network);
             if (ni != null)
                 sb.append(ni.getTypeName())
-                        .append("/")
+                        .append('/')
                         .append(ni.getSubtypeName())
-                        .append(" ").append(ni.getDetailedState())
+                        .append(' ').append(ni.getDetailedState())
                         .append(TextUtils.isEmpty(ni.getExtraInfo()) ? "" : " " + ni.getExtraInfo())
                         .append(ni.getType() == ConnectivityManager.TYPE_MOBILE ? " " + Util.getNetworkGeneration(ni.getSubtype()) : "")
                         .append(ni.isRoaming() ? " R" : "")
                         .append("\r\n");
         }
 
-        pref_technical.setSummary(sb.toString());
+        if (sb.length() > 2)
+            sb.setLength(sb.length() - 2);
+        pref_technical_network.setSummary(sb.toString());
+
+        // Subscriptions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            sb = new StringBuilder();
+            SubscriptionManager sm = SubscriptionManager.from(this);
+            sb.append("Slots ")
+                    .append(sm.getActiveSubscriptionInfoCount())
+                    .append('/')
+                    .append(sm.getActiveSubscriptionInfoCountMax())
+                    .append("\r\n");
+            for (SubscriptionInfo si : sm.getActiveSubscriptionInfoList())
+                sb.append("Subscription: ")
+                        .append(si.getCountryIso())
+                        .append('/')
+                        .append(si.getMcc()).append(':').append(si.getMnc())
+                        .append(' ')
+                        .append(si.getCarrierName())
+                        .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
+                        .append("\r\n");
+
+            if (sb.length() > 2)
+                sb.setLength(sb.length() - 2);
+            pref_technical_subscription.setSummary(sb.toString());
+        }
     }
 
     @Override
