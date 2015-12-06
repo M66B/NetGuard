@@ -93,6 +93,9 @@ public class Util {
         return cm.isActiveNetworkMetered();
     }
 
+    private static final int NETWORK_TYPE_TD_SCDMA = 17;
+    private static final int NETWORK_TYPE_IWLAN = 18;
+
     public static String getNetworkGeneration(int networkType) {
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
@@ -111,9 +114,11 @@ public class Util {
             case TelephonyManager.NETWORK_TYPE_HSPAP:
             case TelephonyManager.NETWORK_TYPE_HSUPA:
             case TelephonyManager.NETWORK_TYPE_UMTS:
+            case NETWORK_TYPE_TD_SCDMA:
                 return "3G";
 
             case TelephonyManager.NETWORK_TYPE_LTE:
+            case NETWORK_TYPE_IWLAN:
                 return "4G";
 
             default:
@@ -155,13 +160,32 @@ public class Util {
                 return "HSUPA";
             case TelephonyManager.NETWORK_TYPE_UMTS:
                 return "UMTS";
+            case NETWORK_TYPE_TD_SCDMA:
+                return "TD_SCDMA";
 
             // 4G
             case TelephonyManager.NETWORK_TYPE_LTE:
                 return "LTE";
+            case NETWORK_TYPE_IWLAN:
+                return "IWLAN";
 
             default:
                 return Integer.toString(networkType);
+        }
+    }
+
+    public static String getPhoneTypeName(int phoneType) {
+        switch (phoneType) {
+            case TelephonyManager.PHONE_TYPE_NONE:
+                return "None";
+            case TelephonyManager.PHONE_TYPE_GSM:
+                return "GSM";
+            case TelephonyManager.PHONE_TYPE_CDMA:
+                return "CDMA";
+            case TelephonyManager.PHONE_TYPE_SIP:
+                return "SIP";
+            default:
+                return "Unknown";
         }
     }
 
@@ -172,8 +196,9 @@ public class Util {
     }
 
     public static boolean isRoaming(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.isNetworkRoaming();
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return (ni != null && ni.isRoaming());
     }
 
     public static boolean isInternational(Context context) {

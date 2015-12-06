@@ -60,6 +60,8 @@ import org.xmlpull.v1.XmlSerializer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -362,10 +364,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         sb.append(String.format("Metered %B\r\n", Util.isMeteredNetwork(this)));
         sb.append(String.format("Roaming %B\r\n", Util.isRoaming(this)));
 
-        if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
-            sb.append(String.format("SIM %s/%s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName(), tm.getSimOperator()));
-        if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
-            sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
+        sb.append(String.format("Type %s\r\n", Util.getPhoneTypeName(tm.getPhoneType())));
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
+                sb.append(String.format("SIM %s/%s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName(), tm.getSimOperator()));
+            if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
+                sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
+        }
 
         if (sb.length() > 2)
             sb.setLength(sb.length() - 2);
@@ -373,6 +379,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Networks
         sb = new StringBuilder();
+
+        NetworkInfo ani = cm.getActiveNetworkInfo();
+        sb.append("Active ").append(ani == null ? "" : ani.getTypeName() + "/" + ani.getSubtypeName()).append("\r\n");
+
         for (Network network : cm.getAllNetworks()) {
             NetworkInfo ni = cm.getNetworkInfo(network);
             if (ni != null)
@@ -390,6 +400,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             sb.setLength(sb.length() - 2);
         pref_technical_network.setSummary(sb.toString());
 
+
         // Subscriptions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             sb = new StringBuilder();
@@ -399,15 +410,63 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     .append('/')
                     .append(sm.getActiveSubscriptionInfoCountMax())
                     .append("\r\n");
-            for (SubscriptionInfo si : sm.getActiveSubscriptionInfoList())
-                sb.append("Subscription: ")
+
+            Method getNetworkCountryIso = null;
+            Method getNetworkOperator = null;
+            Method getNetworkOperatorName = null;
+            Method getDataEnabled = null;
+            Method isNetworkRoaming = null;
+            try {
+                getNetworkCountryIso = tm.getClass().getMethod("getNetworkCountryIsoForSubscription", int.class);
+                getNetworkOperator = tm.getClass().getMethod("getNetworkOperatorForSubscription", int.class);
+                getNetworkOperatorName = tm.getClass().getMethod("getNetworkOperatorName", int.class);
+                getDataEnabled = tm.getClass().getMethod("getDataEnabled", int.class);
+                isNetworkRoaming = tm.getClass().getMethod("isNetworkRoaming", int.class);
+
+                getNetworkCountryIso.setAccessible(true);
+                getNetworkOperator.setAccessible(true);
+                getNetworkOperatorName.setAccessible(true);
+                getDataEnabled.setAccessible(true);
+                isNetworkRoaming.setAccessible(true);
+            } catch (NoSuchMethodException ex) {
+                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+
+            for (SubscriptionInfo si : sm.getActiveSubscriptionInfoList()) {
+                sb.append("SIM ")
+                        .append(si.getSimSlotIndex() + 1)
+                        .append('/')
+                        .append(si.getSubscriptionId())
+                        .append(' ')
                         .append(si.getCountryIso())
                         .append('/')
-                        .append(si.getMcc()).append(':').append(si.getMnc())
+                        .append(si.getMcc()).append(si.getMnc())
                         .append(' ')
                         .append(si.getCarrierName())
                         .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
                         .append("\r\n");
+                if (getNetworkCountryIso != null && getNetworkOperator != null && getNetworkOperatorName != null && isNetworkRoaming != null)
+                    try {
+                        sb.append("Network ")
+                                .append(si.getSimSlotIndex() + 1)
+                                .append('/')
+                                .append(si.getSubscriptionId())
+                                .append(' ')
+                                .append(getNetworkCountryIso.invoke(tm, si.getSubscriptionId()))
+                                .append('/')
+                                .append(getNetworkOperator.invoke(tm, si.getSubscriptionId()))
+                                .append(' ')
+                                .append(getNetworkOperatorName.invoke(tm, si.getSubscriptionId()))
+                                .append((boolean) isNetworkRoaming.invoke(tm, si.getSubscriptionId()) ? " R" : "")
+                                .append(' ')
+                                .append(String.format("%B", getDataEnabled.invoke(tm, si.getSubscriptionId())))
+                                .append("\r\n");
+                    } catch (IllegalAccessException ex) {
+                        Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    } catch (InvocationTargetException ex) {
+                        Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    }
+            }
 
             if (sb.length() > 2)
                 sb.setLength(sb.length() - 2);
