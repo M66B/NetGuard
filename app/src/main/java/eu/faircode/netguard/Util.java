@@ -124,7 +124,12 @@ public class Util {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            int dataSubId = Settings.Global.getInt(context.getContentResolver(), "multi_sim_data_call", -1);
+            int dataSubId;
+            try {
+                dataSubId = Settings.Global.getInt(context.getContentResolver(), "multi_sim_data_call", -1);
+            } catch (Throwable ignored) {
+                dataSubId = -1;
+            }
             if (dataSubId >= 0) {
                 SubscriptionManager sm = SubscriptionManager.from(context);
                 SubscriptionInfo si = sm.getActiveSubscriptionInfo(dataSubId);
@@ -406,7 +411,12 @@ public class Util {
                 .append(sm.getActiveSubscriptionInfoCountMax())
                 .append("\r\n");
 
-        int dataSubId = Settings.Global.getInt(context.getContentResolver(), "multi_sim_data_call", -1);
+        int dataSubId;
+        try {
+            dataSubId = Settings.Global.getInt(context.getContentResolver(), "multi_sim_data_call", -1);
+        } catch (Throwable ignored) {
+            dataSubId = -1;
+        }
 
         Method getNetworkCountryIso = null;
         Method getNetworkOperator = null;
@@ -443,7 +453,11 @@ public class Util {
                     .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
                     .append(si.getSubscriptionId() == dataSubId ? " *" : "")
                     .append("\r\n");
-            if (getNetworkCountryIso != null && getNetworkOperator != null && getNetworkOperatorName != null && isNetworkRoaming != null)
+            if (getNetworkCountryIso != null &&
+                    getNetworkOperator != null &&
+                    getNetworkOperatorName != null &&
+                    getDataEnabled != null &&
+                    isNetworkRoaming != null)
                 try {
                     sb.append("Network ")
                             .append(si.getSimSlotIndex() + 1)
