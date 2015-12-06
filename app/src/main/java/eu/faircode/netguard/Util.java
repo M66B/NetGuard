@@ -20,6 +20,7 @@ package eu.faircode.netguard;
 */
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.Intent;
@@ -37,7 +38,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -46,11 +50,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.util.Map;
 import java.util.Set;
 
 public class Util {
+    private static final int NETWORK_TYPE_TD_SCDMA = 17;
+    private static final int NETWORK_TYPE_IWLAN = 18;
     private static final String TAG = "NetGuard.Util";
 
     public static String getSelfVersionName(Context context) {
@@ -92,9 +100,6 @@ public class Util {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.isActiveNetworkMetered();
     }
-
-    private static final int NETWORK_TYPE_TD_SCDMA = 17;
-    private static final int NETWORK_TYPE_IWLAN = 18;
 
     public static String getNetworkGeneration(int networkType) {
         switch (networkType) {
@@ -308,6 +313,136 @@ public class Util {
         }
     }
 
+    public static String getGeneralInfo(Context context) {
+        StringBuilder sb = new StringBuilder();
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+        sb.append(String.format("Interactive %B\r\n", isInteractive(context)));
+        sb.append(String.format("Telephony %B\r\n", hasTelephony(context)));
+        sb.append(String.format("Connected %B\r\n", isConnected(context)));
+        sb.append(String.format("WiFi %B\r\n", isWifiActive(context)));
+        sb.append(String.format("Metered %B\r\n", isMeteredNetwork(context)));
+        sb.append(String.format("Roaming %B\r\n", isRoaming(context)));
+
+        sb.append(String.format("Type %s\r\n", getPhoneTypeName(tm.getPhoneType())));
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
+                sb.append(String.format("SIM %s/%s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName(), tm.getSimOperator()));
+            if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
+                sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
+        }
+
+        if (sb.length() > 2)
+            sb.setLength(sb.length() - 2);
+
+        return sb.toString();
+    }
+
+    public static String getNetworkInfo(Context context) {
+        StringBuilder sb = new StringBuilder();
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo ani = cm.getActiveNetworkInfo();
+        sb.append("Active ").append(ani == null ? "" : ani.getTypeName() + "/" + ani.getSubtypeName()).append("\r\n");
+
+        for (Network network : cm.getAllNetworks()) {
+            NetworkInfo ni = cm.getNetworkInfo(network);
+            if (ni != null)
+                sb.append(ni.getTypeName())
+                        .append('/')
+                        .append(ni.getSubtypeName())
+                        .append(' ').append(ni.getDetailedState())
+                        .append(TextUtils.isEmpty(ni.getExtraInfo()) ? "" : " " + ni.getExtraInfo())
+                        .append(ni.getType() == ConnectivityManager.TYPE_MOBILE ? " " + Util.getNetworkGeneration(ni.getSubtype()) : "")
+                        .append(ni.isRoaming() ? " R" : "")
+                        .append("\r\n");
+        }
+
+        if (sb.length() > 2)
+            sb.setLength(sb.length() - 2);
+
+        return sb.toString();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+    public static String getSubscriptionInfo(Context context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1)
+            return "";
+
+        StringBuilder sb = new StringBuilder();
+        SubscriptionManager sm = SubscriptionManager.from(context);
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+        sb.append("Slots ")
+                .append(sm.getActiveSubscriptionInfoCount())
+                .append('/')
+                .append(sm.getActiveSubscriptionInfoCountMax())
+                .append("\r\n");
+
+        Method getNetworkCountryIso = null;
+        Method getNetworkOperator = null;
+        Method getNetworkOperatorName = null;
+        Method getDataEnabled = null;
+        Method isNetworkRoaming = null;
+        try {
+            getNetworkCountryIso = tm.getClass().getMethod("getNetworkCountryIsoForSubscription", int.class);
+            getNetworkOperator = tm.getClass().getMethod("getNetworkOperatorForSubscription", int.class);
+            getNetworkOperatorName = tm.getClass().getMethod("getNetworkOperatorName", int.class);
+            getDataEnabled = tm.getClass().getMethod("getDataEnabled", int.class);
+            isNetworkRoaming = tm.getClass().getMethod("isNetworkRoaming", int.class);
+
+            getNetworkCountryIso.setAccessible(true);
+            getNetworkOperator.setAccessible(true);
+            getNetworkOperatorName.setAccessible(true);
+            getDataEnabled.setAccessible(true);
+            isNetworkRoaming.setAccessible(true);
+        } catch (NoSuchMethodException ex) {
+            Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
+
+        for (SubscriptionInfo si : sm.getActiveSubscriptionInfoList()) {
+            sb.append("SIM ")
+                    .append(si.getSimSlotIndex() + 1)
+                    .append('/')
+                    .append(si.getSubscriptionId())
+                    .append(' ')
+                    .append(si.getCountryIso())
+                    .append('/')
+                    .append(si.getMcc()).append(si.getMnc())
+                    .append(' ')
+                    .append(si.getCarrierName())
+                    .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
+                    .append("\r\n");
+            if (getNetworkCountryIso != null && getNetworkOperator != null && getNetworkOperatorName != null && isNetworkRoaming != null)
+                try {
+                    sb.append("Network ")
+                            .append(si.getSimSlotIndex() + 1)
+                            .append('/')
+                            .append(si.getSubscriptionId())
+                            .append(' ')
+                            .append(getNetworkCountryIso.invoke(tm, si.getSubscriptionId()))
+                            .append('/')
+                            .append(getNetworkOperator.invoke(tm, si.getSubscriptionId()))
+                            .append(' ')
+                            .append(getNetworkOperatorName.invoke(tm, si.getSubscriptionId()))
+                            .append((boolean) isNetworkRoaming.invoke(tm, si.getSubscriptionId()) ? " R" : "")
+                            .append(' ')
+                            .append(String.format("%B", getDataEnabled.invoke(tm, si.getSubscriptionId())))
+                            .append("\r\n");
+                } catch (IllegalAccessException ex) {
+                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                } catch (InvocationTargetException ex) {
+                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+        }
+
+        if (sb.length() > 2)
+            sb.setLength(sb.length() - 2);
+
+        return sb.toString();
+    }
+
     public static void sendLogcat(final Uri uri, final Context context) {
         AsyncTask task = new AsyncTask<Object, Object, Intent>() {
             @Override
@@ -318,6 +453,7 @@ public class Util {
                 sb.append(String.format("NetGuard: %s/%d\r\n", version, getSelfVersionCode(context)));
                 sb.append(String.format("Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
                 sb.append("\r\n");
+
                 sb.append(String.format("Brand: %s\r\n", Build.BRAND));
                 sb.append(String.format("Manufacturer: %s\r\n", Build.MANUFACTURER));
                 sb.append(String.format("Model: %s\r\n", Build.MODEL));
@@ -326,46 +462,34 @@ public class Util {
                 sb.append(String.format("Host: %s\r\n", Build.HOST));
                 sb.append(String.format("Display: %s\r\n", Build.DISPLAY));
                 sb.append(String.format("Id: %s\r\n", Build.ID));
-                sb.append(String.format("Fingerprint: %b\r\n", hasValidFingerprint(context)));
-                sb.append(String.format("VPN dialogs: %b\r\n", isPackageInstalled("com.android.vpndialogs", context)));
+                sb.append(String.format("Fingerprint: %B\r\n", hasValidFingerprint(context)));
+                sb.append("\r\n");
+
+                sb.append(String.format("VPN dialogs: %B\r\n", isPackageInstalled("com.android.vpndialogs", context)));
                 try {
-                    sb.append(String.format("Prepared: %b\r\n", VpnService.prepare(context) == null));
+                    sb.append(String.format("Prepared: %B\r\n", VpnService.prepare(context) == null));
                 } catch (Throwable ex) {
                     sb.append("Prepared: ").append((ex.toString())).append("\r\n").append(Log.getStackTraceString(ex));
                 }
-                sb.append(String.format("Interactive: %b\r\n", isInteractive(context)));
-                sb.append(String.format("Telephony: %b\r\n", hasTelephony(context)));
-                sb.append(String.format("Connected: %b\r\n", isConnected(context)));
-                sb.append(String.format("WiFi: %b\r\n", isWifiActive(context)));
-                sb.append(String.format("Metered: %b\r\n", isMeteredNetwork(context)));
-                sb.append(String.format("Roaming: %b\r\n", isRoaming(context)));
+                sb.append("\r\n");
 
-                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-                if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
-                    sb.append(String.format("SIM %s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperator()));
-                if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
-                    sb.append(String.format("Network %s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperator()));
-
-                // Get connectivity info
-                ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                for (Network network : cm.getAllNetworks()) {
-                    NetworkInfo ni = cm.getNetworkInfo(network);
-                    if (ni != null)
-                        sb.append("Network: ")
-                                .append(ni.getTypeName())
-                                .append("/")
-                                .append(ni.getSubtypeName())
-                                .append(" ")
-                                .append(ni.getDetailedState())
-                                .append(ni.isRoaming() ? " R" : "")
-                                .append("\r\n");
-                }
+                sb.append(getGeneralInfo(context));
+                sb.append("\r\n\r\n");
+                sb.append(getNetworkInfo(context));
+                sb.append("\r\n\r\n");
+                sb.append(getSubscriptionInfo(context));
+                sb.append("\r\n\r\n");
 
                 // Get settings
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 Map<String, ?> all = prefs.getAll();
                 for (String key : all.keySet())
                     sb.append("Setting: ").append(key).append('=').append(all.get(key)).append("\r\n");
+                sb.append("\r\n");
+
+                // Finalize message
+                sb.append("Please describe your problem:\r\n");
+                sb.append("\r\n");
 
                 // Write logcat
                 OutputStream out = null;
@@ -383,11 +507,6 @@ public class Util {
                         } catch (IOException ignored) {
                         }
                 }
-
-                // Finalize message
-                sb.append("\r\n");
-                sb.append("Please describe your problem:\r\n");
-                sb.append("\r\n");
 
                 // Build intent
                 Intent sendEmail = new Intent(Intent.ACTION_SEND);

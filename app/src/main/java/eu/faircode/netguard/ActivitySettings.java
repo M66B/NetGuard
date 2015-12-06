@@ -28,8 +28,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,10 +40,7 @@ import android.preference.SwitchPreference;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
-import android.telephony.SubscriptionInfo;
-import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
@@ -60,8 +55,6 @@ import org.xmlpull.v1.XmlSerializer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -353,125 +346,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         Preference pref_technical_network = screen.findPreference("technical_network");
         Preference pref_technical_subscription = screen.findPreference("technical_subscription");
 
-        // General
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Interactive %B\r\n", Util.isInteractive(this)));
-        sb.append(String.format("Telephony %B\r\n", Util.hasTelephony(this)));
-        sb.append(String.format("Connected %B\r\n", Util.isConnected(this)));
-        sb.append(String.format("WiFi %B\r\n", Util.isWifiActive(this)));
-        sb.append(String.format("Metered %B\r\n", Util.isMeteredNetwork(this)));
-        sb.append(String.format("Roaming %B\r\n", Util.isRoaming(this)));
-
-        sb.append(String.format("Type %s\r\n", Util.getPhoneTypeName(tm.getPhoneType())));
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
-                sb.append(String.format("SIM %s/%s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName(), tm.getSimOperator()));
-            if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
-                sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
-        }
-
-        if (sb.length() > 2)
-            sb.setLength(sb.length() - 2);
-        pref_technical_info.setSummary(sb.toString());
-
-        // Networks
-        sb = new StringBuilder();
-
-        NetworkInfo ani = cm.getActiveNetworkInfo();
-        sb.append("Active ").append(ani == null ? "" : ani.getTypeName() + "/" + ani.getSubtypeName()).append("\r\n");
-
-        for (Network network : cm.getAllNetworks()) {
-            NetworkInfo ni = cm.getNetworkInfo(network);
-            if (ni != null)
-                sb.append(ni.getTypeName())
-                        .append('/')
-                        .append(ni.getSubtypeName())
-                        .append(' ').append(ni.getDetailedState())
-                        .append(TextUtils.isEmpty(ni.getExtraInfo()) ? "" : " " + ni.getExtraInfo())
-                        .append(ni.getType() == ConnectivityManager.TYPE_MOBILE ? " " + Util.getNetworkGeneration(ni.getSubtype()) : "")
-                        .append(ni.isRoaming() ? " R" : "")
-                        .append("\r\n");
-        }
-
-        if (sb.length() > 2)
-            sb.setLength(sb.length() - 2);
-        pref_technical_network.setSummary(sb.toString());
-
-
-        // Subscriptions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            sb = new StringBuilder();
-            SubscriptionManager sm = SubscriptionManager.from(this);
-            sb.append("Slots ")
-                    .append(sm.getActiveSubscriptionInfoCount())
-                    .append('/')
-                    .append(sm.getActiveSubscriptionInfoCountMax())
-                    .append("\r\n");
-
-            Method getNetworkCountryIso = null;
-            Method getNetworkOperator = null;
-            Method getNetworkOperatorName = null;
-            Method getDataEnabled = null;
-            Method isNetworkRoaming = null;
-            try {
-                getNetworkCountryIso = tm.getClass().getMethod("getNetworkCountryIsoForSubscription", int.class);
-                getNetworkOperator = tm.getClass().getMethod("getNetworkOperatorForSubscription", int.class);
-                getNetworkOperatorName = tm.getClass().getMethod("getNetworkOperatorName", int.class);
-                getDataEnabled = tm.getClass().getMethod("getDataEnabled", int.class);
-                isNetworkRoaming = tm.getClass().getMethod("isNetworkRoaming", int.class);
-
-                getNetworkCountryIso.setAccessible(true);
-                getNetworkOperator.setAccessible(true);
-                getNetworkOperatorName.setAccessible(true);
-                getDataEnabled.setAccessible(true);
-                isNetworkRoaming.setAccessible(true);
-            } catch (NoSuchMethodException ex) {
-                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
-
-            for (SubscriptionInfo si : sm.getActiveSubscriptionInfoList()) {
-                sb.append("SIM ")
-                        .append(si.getSimSlotIndex() + 1)
-                        .append('/')
-                        .append(si.getSubscriptionId())
-                        .append(' ')
-                        .append(si.getCountryIso())
-                        .append('/')
-                        .append(si.getMcc()).append(si.getMnc())
-                        .append(' ')
-                        .append(si.getCarrierName())
-                        .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
-                        .append("\r\n");
-                if (getNetworkCountryIso != null && getNetworkOperator != null && getNetworkOperatorName != null && isNetworkRoaming != null)
-                    try {
-                        sb.append("Network ")
-                                .append(si.getSimSlotIndex() + 1)
-                                .append('/')
-                                .append(si.getSubscriptionId())
-                                .append(' ')
-                                .append(getNetworkCountryIso.invoke(tm, si.getSubscriptionId()))
-                                .append('/')
-                                .append(getNetworkOperator.invoke(tm, si.getSubscriptionId()))
-                                .append(' ')
-                                .append(getNetworkOperatorName.invoke(tm, si.getSubscriptionId()))
-                                .append((boolean) isNetworkRoaming.invoke(tm, si.getSubscriptionId()) ? " R" : "")
-                                .append(' ')
-                                .append(String.format("%B", getDataEnabled.invoke(tm, si.getSubscriptionId())))
-                                .append("\r\n");
-                    } catch (IllegalAccessException ex) {
-                        Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    } catch (InvocationTargetException ex) {
-                        Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    }
-            }
-
-            if (sb.length() > 2)
-                sb.setLength(sb.length() - 2);
-            pref_technical_subscription.setSummary(sb.toString());
-        }
+        pref_technical_info.setSummary(Util.getGeneralInfo(this));
+        pref_technical_network.setSummary(Util.getNetworkInfo(this));
+        pref_technical_subscription.setSummary(Util.getSubscriptionInfo(this));
     }
 
     @Override
