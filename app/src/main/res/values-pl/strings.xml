@@ -22,7 +22,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_whitelist_roaming">Domyślnie blokuj roaming</string>
   <string name="setting_options">Opcje</string>
   <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
-  <string name="setting_auto">Auto enable after %1$s minutes</string>
+  <string name="setting_auto">Automatyczne włączenie po %1$s min</string>
   <string name="setting_dark">Użyj ciemnej skórki</string>
   <string name="setting_metered">Obsługuj taryfowe sieci Wi-Fi</string>
   <string name="setting_metered_2g">Przyjmuj 2G za nietaryfowe</string>
@@ -34,7 +34,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_import">Import ustawień</string>
   <string name="setting_technical">Informacje techniczne</string>
   <string name="summary_system">Stwórz reguły dla aplikacji systemowych (zaawansowane)</string>
-  <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes\nEnter zero to disable this option</string>
+  <string name="summary_auto">Po wyłączeniu poprzez widget, automatycznie włącz NetGuard po podanej liczbie minut\nWprowadzenie zera wyłącza tą opcję</string>
   <string name="summary_metered">Zastosuj reguły z danych mobilnych, do taryfowych sieci Wi-FI (tethering, prepaid)</string>
   <string name="summary_metered_2g">Zastosuj reguły sieci Wi-Fi do połączeń 2G</string>
   <string name="summary_metered_3g">Zastosuj reguły sieci Wi-Fi do połączeń 3G</string>
