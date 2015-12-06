@@ -125,18 +125,24 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         });
 
         // Handle technical info
-        Preference pref_technical_info = screen.findPreference("technical_info");
-        if (Util.isDebuggable(this)) {
-            pref_technical_info.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
-            pref_technical_info.setIntent(INTENT_VPN_SETTINGS);
-        }
-        pref_technical_info.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 updateTechnicalInfo();
                 return true;
             }
-        });
+        };
+
+        Preference pref_technical_info = screen.findPreference("technical_info");
+        Preference pref_technical_network = screen.findPreference("technical_network");
+        Preference pref_technical_subscription = screen.findPreference("technical_subscription");
+        if (Util.isDebuggable(this)) {
+            pref_technical_info.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
+            pref_technical_info.setIntent(INTENT_VPN_SETTINGS);
+        }
+        pref_technical_info.setOnPreferenceClickListener(listener);
+        pref_technical_network.setOnPreferenceClickListener(listener);
+        pref_technical_subscription.setOnPreferenceClickListener(listener);
         updateTechnicalInfo();
 
         // Handle devices without telephony
