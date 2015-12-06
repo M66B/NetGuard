@@ -38,6 +38,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
@@ -101,6 +102,49 @@ public class Util {
         return cm.isActiveNetworkMetered();
     }
 
+    public static int getNetworkType(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return (ni == null ? TelephonyManager.NETWORK_TYPE_UNKNOWN : ni.getSubtype());
+    }
+
+    public static String getNetworkGeneration(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return (ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE ? getNetworkGeneration(ni.getSubtype()) : null);
+    }
+
+    public static boolean isRoaming(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return (ni != null && ni.isRoaming());
+    }
+
+    public static boolean isInternational(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            int dataSubId = Settings.Global.getInt(context.getContentResolver(), "multi_sim_data_call", -1);
+            if (dataSubId >= 0) {
+                SubscriptionManager sm = SubscriptionManager.from(context);
+                SubscriptionInfo si = sm.getActiveSubscriptionInfo(dataSubId);
+                if (si != null && si.getCountryIso() != null)
+                    try {
+                        Method getNetworkCountryIso = tm.getClass().getMethod("getNetworkCountryIsoForSubscription", int.class);
+                        getNetworkCountryIso.setAccessible(true);
+                        String networkCountryIso = (String) getNetworkCountryIso.invoke(tm, dataSubId);
+                        Log.d(TAG, "SIM=" + si.getCountryIso() + " network=" + networkCountryIso);
+                        return !si.getCountryIso().equals(networkCountryIso);
+                    } catch (Throwable ex) {
+                        Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        sendCrashReport(ex, context);
+                    }
+            }
+        }
+
+        return (tm.getSimCountryIso() == null ? true : !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
+    }
+
     public static String getNetworkGeneration(int networkType) {
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
@@ -131,8 +175,7 @@ public class Util {
         }
     }
 
-
-    public static String getNetworkType(int networkType) {
+    public static String getNetworkTypeName(int networkType) {
         switch (networkType) {
             // 2G
             case TelephonyManager.NETWORK_TYPE_1xRTT:
@@ -192,23 +235,6 @@ public class Util {
             default:
                 return "Unknown";
         }
-    }
-
-    public static String getNetworkGeneration(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        return (ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE ? getNetworkGeneration(ni.getSubtype()) : null);
-    }
-
-    public static boolean isRoaming(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        return (ni != null && ni.isRoaming());
-    }
-
-    public static boolean isInternational(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return (tm.getSimCountryIso() == null ? true : !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
     }
 
     public static boolean hasPhoneStatePermission(Context context) {
@@ -380,6 +406,8 @@ public class Util {
                 .append(sm.getActiveSubscriptionInfoCountMax())
                 .append("\r\n");
 
+        int dataSubId = Settings.Global.getInt(context.getContentResolver(), "multi_sim_data_call", -1);
+
         Method getNetworkCountryIso = null;
         Method getNetworkOperator = null;
         Method getNetworkOperatorName = null;
@@ -413,6 +441,7 @@ public class Util {
                     .append(' ')
                     .append(si.getCarrierName())
                     .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
+                    .append(si.getSubscriptionId() == dataSubId ? " *" : "")
                     .append("\r\n");
             if (getNetworkCountryIso != null && getNetworkOperator != null && getNetworkOperatorName != null && isNetworkRoaming != null)
                 try {

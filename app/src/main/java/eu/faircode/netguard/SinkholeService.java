@@ -411,15 +411,24 @@ public class SinkholeService extends VpnService {
         }
     };
 
+    private BroadcastReceiver dataSIMChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(intent);
+            reload(null, "SIM changed", SinkholeService.this);
+        }
+    };
+
     private PhoneStateListener phoneStateListener = new PhoneStateListener() {
         private String last_generation = null;
-        private String last_operator = null;
+        private int last_international = -1;
 
         @Override
         public void onDataConnectionStateChanged(int state, int networkType) {
             if (state == TelephonyManager.DATA_CONNECTED) {
-                String current_generation = Util.getNetworkGeneration(networkType);
-                Log.i(TAG, "Data connected type=" + Util.getNetworkType(networkType) + " generation=" + current_generation);
+                String current_generation = Util.getNetworkGeneration(SinkholeService.this);
+                Log.i(TAG, "Data connected generation=" + current_generation);
 
                 if (last_generation == null || !last_generation.equals(current_generation)) {
                     Log.i(TAG, "New network generation=" + current_generation);
@@ -437,13 +446,12 @@ public class SinkholeService extends VpnService {
         @Override
         public void onServiceStateChanged(ServiceState serviceState) {
             if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
-                TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                String current_operator = tm.getNetworkOperator();
-                Log.i(TAG, "In service country=" + tm.getNetworkCountryIso() + " operator=" + current_operator);
+                int current_international = (Util.isInternational(SinkholeService.this) ? 1 : 0);
+                Log.i(TAG, "In service international=" + current_international);
 
-                if (last_operator == null || !last_operator.equals(current_operator)) {
-                    Log.i(TAG, "New network operator=" + current_operator);
-                    last_operator = current_operator;
+                if (last_international != current_international) {
+                    Log.i(TAG, "New international=" + current_international);
+                    last_international = current_international;
 
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
                     if (prefs.getBoolean("national_roaming", false))
@@ -490,6 +498,11 @@ public class SinkholeService extends VpnService {
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangedReceiver, ifConnectivity);
+
+        // Listen for data SIM changes
+        IntentFilter ifSIM = new IntentFilter();
+        ifSIM.addAction("android.intent.action.ACTION_DEFAULT_DATA_SUBSCRIPTION_CHANGED");
+        registerReceiver(dataSIMChangedReceiver, ifSIM);
 
         // Listen for added applications
         IntentFilter ifPackage = new IntentFilter();
@@ -555,6 +568,7 @@ public class SinkholeService extends VpnService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             unregisterReceiver(idleStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
+        unregisterReceiver(dataSIMChangedReceiver);
         unregisterReceiver(packageAddedReceiver);
 
         if (phone_state) {
