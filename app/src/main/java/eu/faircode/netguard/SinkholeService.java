@@ -45,6 +45,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
+import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -54,6 +55,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+@TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
@@ -411,12 +413,11 @@ public class SinkholeService extends VpnService {
         }
     };
 
-    private BroadcastReceiver dataSIMChangedReceiver = new BroadcastReceiver() {
+    private SubscriptionManager.OnSubscriptionsChangedListener subscriptionsChangedListener = new SubscriptionManager.OnSubscriptionsChangedListener() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
-            Util.logExtras(intent);
-            reload(null, "SIM changed", SinkholeService.this);
+        public void onSubscriptionsChanged() {
+            Log.i(TAG, "Subscriptions changed");
+            reload(null, "Subscriptions changed", SinkholeService.this);
         }
     };
 
@@ -500,9 +501,10 @@ public class SinkholeService extends VpnService {
         registerReceiver(connectivityChangedReceiver, ifConnectivity);
 
         // Listen for data SIM changes
-        IntentFilter ifSIM = new IntentFilter();
-        ifSIM.addAction("android.intent.action.ACTION_DEFAULT_DATA_SUBSCRIPTION_CHANGED");
-        registerReceiver(dataSIMChangedReceiver, ifSIM);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            SubscriptionManager sm = SubscriptionManager.from(this);
+            sm.addOnSubscriptionsChangedListener(subscriptionsChangedListener);
+        }
 
         // Listen for added applications
         IntentFilter ifPackage = new IntentFilter();
@@ -568,7 +570,10 @@ public class SinkholeService extends VpnService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             unregisterReceiver(idleStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
-        unregisterReceiver(dataSIMChangedReceiver);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            SubscriptionManager sm = SubscriptionManager.from(this);
+            sm.removeOnSubscriptionsChangedListener(subscriptionsChangedListener);
+        }
         unregisterReceiver(packageAddedReceiver);
 
         if (phone_state) {
