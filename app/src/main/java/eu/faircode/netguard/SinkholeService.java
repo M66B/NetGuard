@@ -62,6 +62,7 @@ public class SinkholeService extends VpnService {
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean phone_state = false;
+    private boolean subscription_state = false;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
     private Thread debugThread = null;
@@ -122,12 +123,23 @@ public class SinkholeService extends VpnService {
             String reason = intent.getStringExtra(EXTRA_REASON);
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason + " vpn=" + (vpn != null));
 
-            // Check phone state listener
+            // Listen for phone state changes
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            if (!phone_state && Util.hasPhoneStatePermission(SinkholeService.this)) {
+            if (!phone_state &&
+                    Util.hasPhoneStatePermission(SinkholeService.this)) {
                 tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE | PhoneStateListener.LISTEN_SERVICE_STATE);
                 phone_state = true;
                 Log.i(TAG, "Listening to service state changes");
+            }
+
+            // Listen for data SIM changes
+            if (!subscription_state &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 &&
+                    Util.hasPhoneStatePermission(SinkholeService.this)) {
+                SubscriptionManager sm = SubscriptionManager.from(SinkholeService.this);
+                sm.addOnSubscriptionsChangedListener(subscriptionsChangedListener);
+                subscription_state = true;
+                Log.i(TAG, "Listening to subscription changes");
             }
 
             try {
@@ -500,12 +512,6 @@ public class SinkholeService extends VpnService {
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangedReceiver, ifConnectivity);
 
-        // Listen for data SIM changes
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            SubscriptionManager sm = SubscriptionManager.from(this);
-            sm.addOnSubscriptionsChangedListener(subscriptionsChangedListener);
-        }
-
         // Listen for added applications
         IntentFilter ifPackage = new IntentFilter();
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
@@ -570,15 +576,18 @@ public class SinkholeService extends VpnService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             unregisterReceiver(idleStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            SubscriptionManager sm = SubscriptionManager.from(this);
-            sm.removeOnSubscriptionsChangedListener(subscriptionsChangedListener);
-        }
         unregisterReceiver(packageAddedReceiver);
 
         if (phone_state) {
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+            phone_state = false;
+        }
+
+        if (subscription_state) {
+            SubscriptionManager sm = SubscriptionManager.from(this);
+            sm.removeOnSubscriptionsChangedListener(subscriptionsChangedListener);
+            subscription_state = false;
         }
 
         if (vpn != null) {
