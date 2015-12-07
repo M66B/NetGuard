@@ -54,6 +54,7 @@ import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -123,7 +124,8 @@ public class Util {
     public static boolean isInternational(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
+                && hasPhoneStatePermission(context)) {
             int dataSubId;
             try {
                 dataSubId = Settings.Global.getInt(context.getContentResolver(), "multi_sim_data_call", -1);
@@ -357,7 +359,8 @@ public class Util {
 
         sb.append(String.format("Type %s\r\n", getPhoneTypeName(tm.getPhoneType())));
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1
+                || !hasPhoneStatePermission(context)) {
             if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
                 sb.append(String.format("SIM %s/%s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName(), tm.getSimOperator()));
             if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
@@ -399,7 +402,9 @@ public class Util {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     public static String getSubscriptionInfo(Context context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1)
-            return "";
+            return "Not supported";
+        if (!hasPhoneStatePermission(context))
+            return "No permission";
 
         StringBuilder sb = new StringBuilder();
         SubscriptionManager sm = SubscriptionManager.from(context);
@@ -439,46 +444,48 @@ public class Util {
             Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
 
-        for (SubscriptionInfo si : sm.getActiveSubscriptionInfoList()) {
-            sb.append("SIM ")
-                    .append(si.getSimSlotIndex() + 1)
-                    .append('/')
-                    .append(si.getSubscriptionId())
-                    .append(' ')
-                    .append(si.getCountryIso())
-                    .append('/')
-                    .append(si.getMcc()).append(si.getMnc())
-                    .append(' ')
-                    .append(si.getCarrierName())
-                    .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
-                    .append(si.getSubscriptionId() == dataSubId ? " *" : "")
-                    .append("\r\n");
-            if (getNetworkCountryIso != null &&
-                    getNetworkOperator != null &&
-                    getNetworkOperatorName != null &&
-                    getDataEnabled != null &&
-                    isNetworkRoaming != null)
-                try {
-                    sb.append("Network ")
-                            .append(si.getSimSlotIndex() + 1)
-                            .append('/')
-                            .append(si.getSubscriptionId())
-                            .append(' ')
-                            .append(getNetworkCountryIso.invoke(tm, si.getSubscriptionId()))
-                            .append('/')
-                            .append(getNetworkOperator.invoke(tm, si.getSubscriptionId()))
-                            .append(' ')
-                            .append(getNetworkOperatorName.invoke(tm, si.getSubscriptionId()))
-                            .append((boolean) isNetworkRoaming.invoke(tm, si.getSubscriptionId()) ? " R" : "")
-                            .append(' ')
-                            .append(String.format("%B", getDataEnabled.invoke(tm, si.getSubscriptionId())))
-                            .append("\r\n");
-                } catch (IllegalAccessException ex) {
-                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                } catch (InvocationTargetException ex) {
-                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-        }
+        List<SubscriptionInfo> subscriptions = sm.getActiveSubscriptionInfoList();
+        if (subscriptions != null)
+            for (SubscriptionInfo si : subscriptions) {
+                sb.append("SIM ")
+                        .append(si.getSimSlotIndex() + 1)
+                        .append('/')
+                        .append(si.getSubscriptionId())
+                        .append(' ')
+                        .append(si.getCountryIso())
+                        .append('/')
+                        .append(si.getMcc()).append(si.getMnc())
+                        .append(' ')
+                        .append(si.getCarrierName())
+                        .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
+                        .append(si.getSubscriptionId() == dataSubId ? " *" : "")
+                        .append("\r\n");
+                if (getNetworkCountryIso != null &&
+                        getNetworkOperator != null &&
+                        getNetworkOperatorName != null &&
+                        getDataEnabled != null &&
+                        isNetworkRoaming != null)
+                    try {
+                        sb.append("Network ")
+                                .append(si.getSimSlotIndex() + 1)
+                                .append('/')
+                                .append(si.getSubscriptionId())
+                                .append(' ')
+                                .append(getNetworkCountryIso.invoke(tm, si.getSubscriptionId()))
+                                .append('/')
+                                .append(getNetworkOperator.invoke(tm, si.getSubscriptionId()))
+                                .append(' ')
+                                .append(getNetworkOperatorName.invoke(tm, si.getSubscriptionId()))
+                                .append((boolean) isNetworkRoaming.invoke(tm, si.getSubscriptionId()) ? " R" : "")
+                                .append(' ')
+                                .append(String.format("%B", getDataEnabled.invoke(tm, si.getSubscriptionId())))
+                                .append("\r\n");
+                    } catch (IllegalAccessException ex) {
+                        Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    } catch (InvocationTargetException ex) {
+                        Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    }
+            }
 
         if (sb.length() > 2)
             sb.setLength(sb.length() - 2);
@@ -514,6 +521,7 @@ public class Util {
                 } catch (Throwable ex) {
                     sb.append("Prepared: ").append((ex.toString())).append("\r\n").append(Log.getStackTraceString(ex));
                 }
+                sb.append(String.format("Permission: %B\r\n", hasPhoneStatePermission(context)));
                 sb.append("\r\n");
 
                 sb.append(getGeneralInfo(context));
