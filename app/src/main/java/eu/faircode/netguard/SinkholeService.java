@@ -55,14 +55,13 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean phone_state = false;
-    private boolean subscription_state = false;
+    private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
     private boolean debug = false;
     private Thread debugThread = null;
@@ -133,12 +132,18 @@ public class SinkholeService extends VpnService {
             }
 
             // Listen for data SIM changes
-            if (!subscription_state &&
+            if (subscriptionsChangedListener == null &&
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 &&
                     Util.hasPhoneStatePermission(SinkholeService.this)) {
                 SubscriptionManager sm = SubscriptionManager.from(SinkholeService.this);
-                sm.addOnSubscriptionsChangedListener(subscriptionsChangedListener);
-                subscription_state = true;
+                subscriptionsChangedListener = subscriptionsChangedListener = new SubscriptionManager.OnSubscriptionsChangedListener() {
+                    @Override
+                    public void onSubscriptionsChanged() {
+                        Log.i(TAG, "Subscriptions changed");
+                        reload(null, "Subscriptions changed", SinkholeService.this);
+                    }
+                };
+                sm.addOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
                 Log.i(TAG, "Listening to subscription changes");
             }
 
@@ -425,14 +430,6 @@ public class SinkholeService extends VpnService {
         }
     };
 
-    private SubscriptionManager.OnSubscriptionsChangedListener subscriptionsChangedListener = new SubscriptionManager.OnSubscriptionsChangedListener() {
-        @Override
-        public void onSubscriptionsChanged() {
-            Log.i(TAG, "Subscriptions changed");
-            reload(null, "Subscriptions changed", SinkholeService.this);
-        }
-    };
-
     private PhoneStateListener phoneStateListener = new PhoneStateListener() {
         private String last_generation = null;
         private int last_international = -1;
@@ -584,10 +581,11 @@ public class SinkholeService extends VpnService {
             phone_state = false;
         }
 
-        if (subscription_state) {
+        if (subscriptionsChangedListener != null &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             SubscriptionManager sm = SubscriptionManager.from(this);
-            sm.removeOnSubscriptionsChangedListener(subscriptionsChangedListener);
-            subscription_state = false;
+            sm.removeOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
+            subscriptionsChangedListener = null;
         }
 
         if (vpn != null) {
