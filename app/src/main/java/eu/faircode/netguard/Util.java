@@ -378,8 +378,6 @@ public class Util {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo ani = cm.getActiveNetworkInfo();
-        sb.append("Active ").append(ani == null ? "" : ani.getTypeName() + "/" + ani.getSubtypeName()).append("\r\n");
-
         for (Network network : cm.getAllNetworks()) {
             NetworkInfo ni = cm.getNetworkInfo(network);
             if (ni != null)
@@ -390,6 +388,7 @@ public class Util {
                         .append(TextUtils.isEmpty(ni.getExtraInfo()) ? "" : " " + ni.getExtraInfo())
                         .append(ni.getType() == ConnectivityManager.TYPE_MOBILE ? " " + Util.getNetworkGeneration(ni.getSubtype()) : "")
                         .append(ni.isRoaming() ? " R" : "")
+                        .append(ani != null && ni.getType() == ani.getType() && ni.getSubtype() == ani.getSubtype() ? " *" : "")
                         .append("\r\n");
         }
 
