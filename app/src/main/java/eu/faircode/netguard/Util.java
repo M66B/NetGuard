@@ -426,19 +426,16 @@ public class Util {
         Method getNetworkOperator = null;
         Method getNetworkOperatorName = null;
         Method getDataEnabled = null;
-        Method isNetworkRoaming = null;
         try {
             getNetworkCountryIso = tm.getClass().getMethod("getNetworkCountryIsoForSubscription", int.class);
             getNetworkOperator = tm.getClass().getMethod("getNetworkOperatorForSubscription", int.class);
             getNetworkOperatorName = tm.getClass().getMethod("getNetworkOperatorName", int.class);
             getDataEnabled = tm.getClass().getMethod("getDataEnabled", int.class);
-            isNetworkRoaming = tm.getClass().getMethod("isNetworkRoaming", int.class);
 
             getNetworkCountryIso.setAccessible(true);
             getNetworkOperator.setAccessible(true);
             getNetworkOperatorName.setAccessible(true);
             getDataEnabled.setAccessible(true);
-            isNetworkRoaming.setAccessible(true);
         } catch (NoSuchMethodException ex) {
             Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
@@ -462,8 +459,7 @@ public class Util {
                 if (getNetworkCountryIso != null &&
                         getNetworkOperator != null &&
                         getNetworkOperatorName != null &&
-                        getDataEnabled != null &&
-                        isNetworkRoaming != null)
+                        getDataEnabled != null)
                     try {
                         sb.append("Network ")
                                 .append(si.getSimSlotIndex() + 1)
@@ -475,7 +471,7 @@ public class Util {
                                 .append(getNetworkOperator.invoke(tm, si.getSubscriptionId()))
                                 .append(' ')
                                 .append(getNetworkOperatorName.invoke(tm, si.getSubscriptionId()))
-                                .append((boolean) isNetworkRoaming.invoke(tm, si.getSubscriptionId()) ? " R" : "")
+                                .append(sm.isNetworkRoaming(si.getSubscriptionId()) ? " R" : "")
                                 .append(' ')
                                 .append(String.format("%B", getDataEnabled.invoke(tm, si.getSubscriptionId())))
                                 .append("\r\n");
