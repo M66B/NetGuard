@@ -28,9 +28,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -55,7 +58,10 @@ import org.xmlpull.v1.XmlSerializer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -91,9 +97,21 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         PreferenceScreen screen = getPreferenceScreen();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        ListPreference wifi_home_pref = (ListPreference) screen.findPreference("wifi_home");
+        String ssid = prefs.getString("wifi_home", "");
+        wifi_home_pref.setTitle(getString(R.string.setting_wifi_home, ssid));
+
+        WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        List<CharSequence> listSSID = new ArrayList<>();
+        listSSID.add("");
+        for (WifiConfiguration config : wm.getConfiguredNetworks())
+            listSSID.add(config.SSID);
+        wifi_home_pref.setEntries(listSSID.toArray(new CharSequence[0]));
+        wifi_home_pref.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
         // Handle auto enable
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Preference pref_auto_enable = screen.findPreference("auto_enable");
         pref_auto_enable.setTitle(getString(R.string.setting_auto, prefs.getString("auto_enable", "0")));
 
@@ -247,8 +265,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
 
+        else if ("wifi_home".equals(name)) {
+            ListPreference pref_wifi_home = (ListPreference) getPreferenceScreen().findPreference(name);
+            pref_wifi_home.setTitle(getString(R.string.setting_wifi_home, prefs.getString(name, "")));
+            SinkholeService.reload(null, "setting changed", this);
 
-        else if ("unmetered_2g".equals(name) ||
+        } else if ("unmetered_2g".equals(name) ||
                 "unmetered_3g".equals(name) ||
                 "unmetered_4g".equals(name)) {
             if (prefs.getBoolean(name, false)) {

@@ -218,6 +218,8 @@ public class SinkholeService extends VpnService {
         boolean wifi = Util.isWifiActive(this);
         boolean metered = Util.isMeteredNetwork(this);
         boolean useMetered = prefs.getBoolean("use_metered", false);
+        String ssidHome = prefs.getString("wifi_home", "");
+        String ssidNetwork = Util.getWifiSSID(this);
         String generation = Util.getNetworkGeneration(this);
         boolean unmetered_2g = prefs.getBoolean("unmetered_2g", false);
         boolean unmetered_3g = prefs.getBoolean("unmetered_3g", false);
@@ -233,6 +235,8 @@ public class SinkholeService extends VpnService {
         // Update metered state
         if (wifi && (!useMetered || !telephony))
             metered = false;
+        if (wifi && !ssidHome.equals("") && !ssidHome.equals(ssidNetwork))
+            metered = true;
         if (unmetered_2g && "2G".equals(generation))
             metered = false;
         if (unmetered_3g && "3G".equals(generation))

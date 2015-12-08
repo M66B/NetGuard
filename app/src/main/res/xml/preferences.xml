@@ -41,6 +41,9 @@
             android:defaultValue="false"
             android:key="dark_theme"
             android:title="@string/setting_dark" />
+        <ListPreference
+            android:key="wifi_home"
+            android:summary="@string/summary_wifi_home" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="use_metered"
