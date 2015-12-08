@@ -105,10 +105,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         List<CharSequence> listSSID = new ArrayList<>();
-        listSSID.add("");
-        for (WifiConfiguration config : wm.getConfiguredNetworks())
-            listSSID.add(config.SSID);
+        List<WifiConfiguration> configs = wm.getConfiguredNetworks();
+        if (configs != null)
+            for (WifiConfiguration config : configs)
+                listSSID.add(config.SSID);
+        listSSID.add(0, getString(R.string.title_all));
         wifi_home_pref.setEntries(listSSID.toArray(new CharSequence[0]));
+        listSSID.remove(0);
+        listSSID.add(0, "");
         wifi_home_pref.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
         // Handle auto enable

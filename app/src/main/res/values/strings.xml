@@ -62,6 +62,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
     <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
     <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
 
+    <string name="title_all">All</string>
     <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
     <string name="title_screen_other">Allow mobile when screen is on</string>
     <string name="title_roaming">Block when roaming</string>
