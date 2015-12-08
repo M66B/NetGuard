@@ -14,16 +14,16 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="menu_support">Hilfe</string>
   <string name="menu_about">Über</string>
   <string name="setting_defaults">Standards</string>
-  <string name="setting_whitelist_wifi">WLAN standardmäßig blockieren</string>
-  <string name="setting_whitelist_other">Mobilfunk standardmäßig blockieren</string>
-  <string name="setting_screen_wifi">WLAN immer erlauben, wenn Bildschirm eingeschaltet ist</string>
-  <string name="setting_screen_other">Mobilfunk immer erlauben, wenn Bildschirm eingeschaltet ist</string>
-  <string name="setting_whitelist_roaming">Roaming standardmäßig blockieren</string>
+  <string name="setting_whitelist_wifi">WLAN blockieren</string>
+  <string name="setting_whitelist_other">Mobilfunk blockieren</string>
+  <string name="setting_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
+  <string name="setting_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
+  <string name="setting_whitelist_roaming">Roaming blockieren</string>
   <string name="setting_options">Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_dark">Dunkles Thema verwenden</string>
-  <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
+  <string name="setting_wifi_home">WLAN-Heimnetzwerk: %1$s</string>
   <string name="setting_metered">Gemessenes WLAN-Netzwerk handhaben</string>
   <string name="setting_metered_2g">2G gebührenfrei betrachten</string>
   <string name="setting_metered_3g">3G gebührenfrei betrachten</string>
@@ -35,7 +35,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_technical">Technische information</string>
   <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert\nNull eingeben zum Deaktivieren dieser Option</string>
-  <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
+  <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
   <string name="summary_metered">Mobilfunk-Regeln gemessenen (bezahlten, tethered) WLAN-Netzwerken anwenden</string>
   <string name="summary_metered_2g">WLAN-Netzwerk-Regeln für 2G-Datenverbindungen anwenden</string>
   <string name="summary_metered_3g">WLAN-Netzwerk-Regeln für 3G-Datenverbindungen anwenden</string>
@@ -52,6 +52,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_voluntary">Spenden sind vollkommen freiwillig und schalten keine Funktionen frei. Spenden helfen, die App weiterzuentwickeln und stellen eine Anerkennung für die Arbeit dar.</string>
   <string name="msg_terms">Durch eine Spende stimmen Sie der <a href="http://www.netguard.me/#terms">AGB</a> zu.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
+  <string name="title_all">All</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_roaming">Bei Roaming blockieren</string>

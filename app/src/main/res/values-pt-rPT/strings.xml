@@ -55,6 +55,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="msg_voluntary">Doações são completamente voluntárias e não desbloqueiam nenhum recurso extra. Doações são uma forma de demonstrar sua satisfação pelo trabalho realizado.</string>
   <string name="msg_terms">Doando, você concorda com os <a href="http://www.netguard.me/#terms">termos &amp; condições</a></string>
   <string name="msg_dimming">Caso não consiga pressionar OK no dialogo a seguir, então provavelmente algum aplicativo (screen dimming) esta manipulando a tela.</string>
+  <string name="title_all">All</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
   <string name="title_roaming">Bloquear quando em Roaming</string>
