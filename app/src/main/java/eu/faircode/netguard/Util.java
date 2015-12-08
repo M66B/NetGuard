@@ -87,6 +87,11 @@ public class Util {
         return pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY);
     }
 
+    public static boolean hasWifi(Context context) {
+        PackageManager pm = context.getPackageManager();
+        return pm.hasSystemFeature(PackageManager.FEATURE_WIFI);
+    }
+
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();

@@ -57,6 +57,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private static final String TAG = "NetGuard.Adapter";
 
     private Activity context;
+    private boolean wifi;
     private boolean telephony;
     private boolean debuggable;
     private int colorText;
@@ -75,11 +76,12 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public ImageView ivExpander;
         public TextView tvName;
 
+        public LinearLayout llWifi;
         public CheckBox cbWifi;
+        public ImageView ivScreenWifi;
+
         public LinearLayout llOther;
         public CheckBox cbOther;
-
-        public ImageView ivScreenWifi;
         public ImageView ivScreenOther;
         public TextView tvRoaming;
 
@@ -89,10 +91,14 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public TextView tvVersion;
         public TextView tvDisabled;
         public TextView tvInternet;
+
+        public LinearLayout llWifiAttr;
         public CheckBox cbScreenWifi;
+
         public LinearLayout llOtherAttr;
         public CheckBox cbScreenOther;
         public CheckBox cbRoaming;
+
         public ImageButton btnSettings;
         public Button btnLaunch;
 
@@ -105,11 +111,12 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             ivExpander = (ImageView) itemView.findViewById(R.id.ivExpander);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
 
+            llWifi = (LinearLayout) itemView.findViewById(R.id.llWifi);
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
+            ivScreenWifi = (ImageView) itemView.findViewById(R.id.ivScreenWifi);
+
             llOther = (LinearLayout) itemView.findViewById(R.id.llOther);
             cbOther = (CheckBox) itemView.findViewById(R.id.cbOther);
-
-            ivScreenWifi = (ImageView) itemView.findViewById(R.id.ivScreenWifi);
             ivScreenOther = (ImageView) itemView.findViewById(R.id.ivScreenOther);
             tvRoaming = (TextView) itemView.findViewById(R.id.tvRoaming);
 
@@ -119,10 +126,14 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             tvVersion = (TextView) itemView.findViewById(R.id.tvVersion);
             tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
             tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
+
+            llWifiAttr = (LinearLayout) itemView.findViewById(R.id.llWifiAttr);
             cbScreenWifi = (CheckBox) itemView.findViewById(R.id.cbScreenWifi);
+
             llOtherAttr = (LinearLayout) itemView.findViewById(R.id.llOtherAttr);
             cbScreenOther = (CheckBox) itemView.findViewById(R.id.cbScreenOther);
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
+
             btnSettings = (ImageButton) itemView.findViewById(R.id.btnSettings);
             btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
 
@@ -156,6 +167,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     public RuleAdapter(Activity context) {
         this.context = context;
+        this.wifi = Util.hasWifi(context);
         this.telephony = Util.hasTelephony(context);
         this.debuggable = Util.isDebuggable(context);
 
@@ -259,6 +271,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             color = Color.argb(128, Color.red(color), Color.green(color), Color.blue(color));
         holder.tvName.setTextColor(color);
 
+        holder.llWifi.setVisibility(wifi ? View.VISIBLE : View.GONE);
+
         holder.cbWifi.setAlpha(wifiActive ? 1 : 0.5f);
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
@@ -295,6 +309,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.cbScreenWifi.setOnCheckedChangeListener(null);
         holder.cbScreenWifi.setChecked(rule.screen_wifi);
         holder.cbScreenWifi.setEnabled(rule.wifi_blocked);
+
+        holder.llWifiAttr.setVisibility(wifi ? View.VISIBLE : View.GONE);
 
         holder.cbScreenWifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
