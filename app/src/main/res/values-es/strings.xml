@@ -24,6 +24,7 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="setting_system">Administrar aplicaciones de sistema</string>
   <string name="setting_auto">Auto enable after %1$s minutes</string>
   <string name="setting_dark">Usar tema oscuro</string>
+  <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
   <string name="setting_metered">Manejo de redes Wi-Fi de uso medido</string>
   <string name="setting_metered_2g">Considerar 2G ilimitado</string>
   <string name="setting_metered_3g">Considerar 3G ilimitado</string>
@@ -35,6 +36,7 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="setting_technical">Información técnica</string>
   <string name="summary_system">Definir reglas para aplicaciones de sistema (para expertos)</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes\nEnter zero to disable this option</string>
+  <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">Aplicar reglas de red móvil a redes Wi-Fi de uso medido (pagas, por anclaje)</string>
   <string name="summary_metered_2g">Aplicar reglas de red Wi-Fi para conexiones de datos 2G</string>
   <string name="summary_metered_3g">Aplicar reglas de red Wi-Fi para conexiones de datos 3G</string>

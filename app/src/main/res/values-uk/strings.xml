@@ -20,6 +20,7 @@
   <string name="setting_system">Керувати системними додатками</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_dark">Використовувати темну тему</string>
+  <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
   <string name="setting_metered">Регулювати лімітовані Wi-Fi мережі</string>
   <string name="setting_metered_2g">Не враховувати 2G</string>
   <string name="setting_metered_3g">Не враховувати 3G</string>
@@ -31,6 +32,7 @@
   <string name="setting_technical">Технічна інформація</string>
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
   <string name="summary_auto">При відключені через віджет, NetGuard буде автоматично увімкнуто через вказану кількість хвилин\nВведіть 0, аби відключити цю функцію</string>
+  <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">Застосувати правила до лімітованих (платних, обмежених) Wi-Fi мереж</string>
   <string name="summary_metered_2g">Застосувати правила Wi-Fi мережі до 2G з\'єднання</string>
   <string name="summary_metered_3g">Застосувати правила Wi-Fi мережі до 3G з\'єднання</string>

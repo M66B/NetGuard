@@ -24,6 +24,7 @@
   <string name="setting_system">システムアプリケーションの管理</string>
   <string name="setting_auto">Auto enable after %1$s minutes</string>
   <string name="setting_dark">ダークテーマを使用する</string>
+  <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
   <string name="setting_metered_2g">Consider 2G unmetered</string>
   <string name="setting_metered_3g">Consider 3G unmetered</string>
@@ -35,6 +36,7 @@
   <string name="setting_technical">Technical information</string>
   <string name="summary_system">システムアプリケーションのルールを定義します (エキスパート向け)</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes\nEnter zero to disable this option</string>
+  <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
   <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections</string>
   <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections</string>

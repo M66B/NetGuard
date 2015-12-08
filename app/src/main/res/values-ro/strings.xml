@@ -24,6 +24,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
+  <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
   <string name="setting_metered">Gestionati conexiunile Wi-Fi contorizate</string>
   <string name="setting_metered_2g">Considera 2G ne contorizat</string>
   <string name="setting_metered_3g">Considera 3G ne contorizat</string>
@@ -34,7 +35,8 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_import">Importa setari</string>
   <string name="setting_technical">Informatii tehnice</string>
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
-  <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minutes\nValoarea zero dezactiveaza optiunea</string>
+  <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute\nValoarea zero dezactiveaza optiunea</string>
+  <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
   <string name="summary_metered_2g">Aplica regulile Wi-Fi pentru conexiuni 2G</string>
   <string name="summary_metered_3g">Aplica regulile Wi-Fi pentru conexiuni 3G</string>

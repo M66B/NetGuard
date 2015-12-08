@@ -24,6 +24,7 @@
   <string name="setting_system">管理系统应用</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
   <string name="setting_dark">使用暗色主题</string>
+  <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
   <string name="setting_metered">控制按流量计费Wi-Fi网络</string>
   <string name="setting_metered_2g">2G非按流量计费</string>
   <string name="setting_metered_3g">3G非按流量计费</string>
@@ -35,6 +36,7 @@
   <string name="setting_technical">技术信息</string>
   <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
   <string name="summary_auto">禁用小部件后, 在设定分钟后自动再次启用NetGuard\n输入零以禁用此选项</string>
+  <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">将移动网络规则应用于按流量计费的 (付费, 共享) Wi-Fi网络</string>
   <string name="summary_metered_2g">将Wi-Fi网络规则应用于2G数据连接</string>
   <string name="summary_metered_3g">将Wi-Fi网络规则应用于3G数据连接</string>
