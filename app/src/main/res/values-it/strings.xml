@@ -23,6 +23,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_whitelist_roaming">Blocca roaming di default</string>
   <string name="setting_options">Impostazioni opzionali</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
+  <string name="setting_stats">Show speed notification</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_dark">Usa il tema scuro</string>
   <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
@@ -36,6 +37,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_import">Importa impostazioni</string>
   <string name="setting_technical">Informazioni tecniche</string>
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
+  <string name="summary_stats">Show network speed graph in status bar notification</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>

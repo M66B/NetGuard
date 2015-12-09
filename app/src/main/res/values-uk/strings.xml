@@ -18,6 +18,7 @@
   <string name="setting_whitelist_roaming">Блокувати типово у роумінгу</string>
   <string name="setting_options">Опції</string>
   <string name="setting_system">Керувати системними додатками</string>
+  <string name="setting_stats">Show speed notification</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
@@ -31,6 +32,7 @@
   <string name="setting_import">Імпорт налаштувань</string>
   <string name="setting_technical">Технічна інформація</string>
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
+  <string name="summary_stats">Show network speed graph in status bar notification</string>
   <string name="summary_auto">При відключені через віджет, NetGuard буде автоматично увімкнуто через вказану кількість хвилин\nВведіть 0, аби відключити цю функцію</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">Застосувати правила до лімітованих (платних, обмежених) Wi-Fi мереж</string>

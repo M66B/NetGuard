@@ -22,6 +22,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_whitelist_roaming">Por padrão, bloquear Roaming</string>
   <string name="setting_options">Opções</string>
   <string name="setting_system">Administrar aplicativos do sistema</string>
+  <string name="setting_stats">Show speed notification</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_dark">Ativa tema escuro</string>
   <string name="setting_wifi_home">Rede Wi-Fi Doméstica: %1$s</string>
@@ -35,6 +36,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_import">Importar configurações</string>
   <string name="setting_technical">Informações técnicas</string>
   <string name="summary_system">Definir regras para aplicativos do sistema (usuários experientes)</string>
+  <string name="summary_stats">Show network speed graph in status bar notification</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis à outras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi limitadas (pagas, compartilhadas)</string>

@@ -22,6 +22,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_whitelist_roaming">Blocheaza in roaming</string>
   <string name="setting_options">Optiuni</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
+  <string name="setting_stats">Show speed notification</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
@@ -35,6 +36,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_import">Importa setari</string>
   <string name="setting_technical">Informatii tehnice</string>
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
+  <string name="summary_stats">Show network speed graph in status bar notification</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute\nValoarea zero dezactiveaza optiunea</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>

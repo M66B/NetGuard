@@ -19,6 +19,7 @@
   <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
   <string name="setting_options">Опции</string>
   <string name="setting_system">Управлять сист. приложениями</string>
+  <string name="setting_stats">Show speed notification</string>
   <string name="setting_auto">Автоматическое включение через %1$s минут(ы)</string>
   <string name="setting_dark">Использовать темную тему</string>
   <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
@@ -32,6 +33,7 @@
   <string name="setting_import">Импорт настроек</string>
   <string name="setting_technical">Техническая информация</string>
   <string name="summary_system">Определить правила для системных приложений (для профи)</string>
+  <string name="summary_stats">Show network speed graph in status bar notification</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут.\nВведите ноль, чтобы отключить эту опцию</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">Применить правила для лимитированных (платных, ограниченных) Wi-Fi сетей</string>
