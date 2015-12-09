@@ -281,9 +281,7 @@ public class SinkholeService extends VpnService {
                 return;
 
             // Schedule next update
-            Message msg = new Message();
-            msg.what = MSG_STATS_UPDATE;
-            mServiceHandler.sendMessageDelayed(msg, 1000);
+            mServiceHandler.sendEmptyMessageDelayed(MSG_STATS_UPDATE, 1000);
 
             // Cleanup
             while (gt.size() >= 100) {
@@ -314,7 +312,6 @@ public class SinkholeService extends VpnService {
             // Create bitmap
             int height = Util.dips2pixels(96, SinkholeService.this);
             int width = Util.dips2pixels(96 * 5, SinkholeService.this);
-            Log.i(TAG, "h=" + height + " w=" + width);
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
             // Create canvas
@@ -376,11 +373,11 @@ public class SinkholeService extends VpnService {
             RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
             remoteViews.setImageViewBitmap(R.id.ivTraffic, bitmap);
             if (txsec < 1024 && rxsec < 1024)
-                remoteViews.setTextViewText(R.id.tvTraffic, String.format("%.0f / %.0f B/sec", txsec, rxsec));
+                remoteViews.setTextViewText(R.id.tvTraffic, String.format("▲ %.0f ▼ %.0f B/sec", txsec, rxsec));
             else if (txsec < 1024 * 1024 && rxsec < 1024 * 1024)
-                remoteViews.setTextViewText(R.id.tvTraffic, String.format("%.1f / %.1f KiB/sec", txsec / 1024, rxsec / 1024));
+                remoteViews.setTextViewText(R.id.tvTraffic, String.format("▲ %.1f ▼ %.1f KiB/sec", txsec / 1024, rxsec / 1024));
             else
-                remoteViews.setTextViewText(R.id.tvTraffic, String.format("%.1f / %.1f MiB/sec", txsec / 1024 / 1024, rxsec / 1024 / 1024));
+                remoteViews.setTextViewText(R.id.tvTraffic, String.format("▲ %.1f ▼ %.1f MiB/sec", txsec / 1024 / 1024, rxsec / 1024 / 1024));
 
             // Show notification
             Intent main = new Intent(SinkholeService.this, ActivityMain.class);
@@ -591,9 +588,7 @@ public class SinkholeService extends VpnService {
 
             // Start/stop stats
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            Message msg = new Message();
-            msg.what = pm.isInteractive() ? MSG_STATS_START : MSG_STATS_STOP;
-            mServiceHandler.sendMessage(msg);
+            mServiceHandler.sendEmptyMessage(pm.isInteractive() ? MSG_STATS_START : MSG_STATS_STOP);
         }
     };
 
