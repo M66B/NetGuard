@@ -371,12 +371,15 @@ public class SinkholeService extends VpnService {
             // Update remote view
             RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
             remoteViews.setImageViewBitmap(R.id.ivTraffic, bitmap);
-            if (txsec < 1024 && rxsec < 1024)
-                remoteViews.setTextViewText(R.id.tvTraffic, String.format("▲ %.0f ▼ %.0f B/sec", txsec, rxsec));
-            else if (txsec < 1024 * 1024 && rxsec < 1024 * 1024)
-                remoteViews.setTextViewText(R.id.tvTraffic, String.format("▲ %.1f ▼ %.1f KiB/sec", txsec / 1024, rxsec / 1024));
+            if (txsec < 1000 * 1000)
+                remoteViews.setTextViewText(R.id.tvTx, getString(R.string.msg_kbsec, txsec / 1000));
             else
-                remoteViews.setTextViewText(R.id.tvTraffic, String.format("▲ %.1f ▼ %.1f MiB/sec", txsec / 1024 / 1024, rxsec / 1024 / 1024));
+                remoteViews.setTextViewText(R.id.tvTx, getString(R.string.msg_mbsec, txsec / 1000 / 1000));
+
+            if (rxsec < 1000 * 1000)
+                remoteViews.setTextViewText(R.id.tvRx, getString(R.string.msg_kbsec, rxsec / 1000));
+            else
+                remoteViews.setTextViewText(R.id.tvRx, getString(R.string.msg_mbsec, rxsec / 1000 / 1000));
 
             // Show notification
             Intent main = new Intent(SinkholeService.this, ActivityMain.class);
