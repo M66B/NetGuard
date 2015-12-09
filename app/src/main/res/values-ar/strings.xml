@@ -4,8 +4,11 @@
   <string name="app_copyright">الحقوق 2015 \u00A9 بواسطة (M. Bokhorst (M66B</string>
   <string name="app_android">يـــتــــطـــلـــب NetGuard أنـــدرويـــت 5.0 أوأحـــدث</string>
   <string name="app_license">باستخدام NetGuard، يمكنك الموافقة على <a href="http://www.gnu.org/licenses/gpl.txt"> رخصة جنو العمومية الإصدار 3</a></string>
-  <string name="app_first">اتخذت عناية كبيرة لتطوير واختبار NetGuard، لكن من المستحيل أن نضمن أنه سوف يعمل بشكل صحيح على كل جهاز. ومن المعروف تعطل NetGuard عند تنشيطه على بعض الأجهزة. ومن المعروف أيضا حظر كافة الاتصالات على بعض الأجهزة الأخرى. هذه القضايا هي خلل في الاندرويد، أو في البرامج التي توفرها الشركة المصنعة، فرجاءاً لا تلمنا. 
-\n\nBy باستخدام NetGuard، يمكنك الموافقة على <a href="http://www.gnu.org/licenses/<a gpl.txt"> رخصة جنو العمومية الإصدار 3</a></string>
+  <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee it will work correctly on every device.
+NetGuard is known to crash when activated on some devices. It is also known to block all traffic on some other devices.
+These issues are caused by bugs in Android, or in the software provided by the manufacturer, so please don\'t blame NetGuard.
+\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">البحث عن تطبيقات</string>
   <string name="menu_settings">الإعدادات</string>
   <string name="menu_invite">دعوة الأصدقاء</string>
