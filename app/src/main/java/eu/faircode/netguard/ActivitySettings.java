@@ -101,6 +101,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         ListPreference wifi_home_pref = (ListPreference) screen.findPreference("wifi_home");
         String ssid = prefs.getString("wifi_home", "");
+        if ("".equals(ssid))
+            ssid = getString(R.string.title_all);
         wifi_home_pref.setTitle(getString(R.string.setting_wifi_home, ssid));
 
         WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -282,7 +284,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         else if ("wifi_home".equals(name)) {
             ListPreference pref_wifi_home = (ListPreference) getPreferenceScreen().findPreference(name);
-            pref_wifi_home.setTitle(getString(R.string.setting_wifi_home, prefs.getString(name, "")));
+            String ssid = prefs.getString(name, "");
+            if ("".equals(ssid))
+                ssid = getString(R.string.title_all);
+            pref_wifi_home.setTitle(getString(R.string.setting_wifi_home, ssid));
             SinkholeService.reload(null, "setting changed", this);
 
         } else if ("unmetered_2g".equals(name) ||
