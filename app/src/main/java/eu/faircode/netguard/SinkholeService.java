@@ -319,9 +319,12 @@ public class SinkholeService extends VpnService {
             Canvas canvas = new Canvas(bitmap);
             canvas.drawColor(Color.TRANSPARENT);
 
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            float base = Integer.parseInt(prefs.getString("stats_base", "5")) * 1024f;
+
             // Determine max
             long xmax = 0;
-            float ymax = 1024;
+            float ymax = base * 1.1f;
             for (int i = 0; i < gt.size(); i++) {
                 long t = gt.get(i);
                 float tx = gtx.get(i);
@@ -364,7 +367,7 @@ public class SinkholeService extends VpnService {
             // Draw 1 KiB line
             paint.setStrokeWidth(0);
             paint.setColor(Color.GRAY);
-            float y = height - height * 1024f / ymax;
+            float y = height - height * base / ymax;
             canvas.drawLine(0, y, width, y, paint);
 
             // Update remote view

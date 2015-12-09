@@ -33,6 +33,7 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
@@ -99,6 +100,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         PreferenceScreen screen = getPreferenceScreen();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        // Stats base speed
+        EditTextPreference pref_stats_base = (EditTextPreference) screen.findPreference("stats_base");
+        pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
+
+        // Wi-Fi home
         ListPreference wifi_home_pref = (ListPreference) screen.findPreference("wifi_home");
         String ssid = prefs.getString("wifi_home", "");
         if ("".equals(ssid))
@@ -279,7 +285,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             } else
                 SinkholeService.reload("other", "setting changed", this);
 
-        } else if ("auto_enable".equals(name))
+        } else if ("stats_base".equals(name))
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_base, prefs.getString(name, "5")));
+
+        else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
 
         else if ("wifi_home".equals(name)) {

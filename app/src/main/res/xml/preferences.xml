@@ -38,6 +38,10 @@
             android:summary="@string/summary_stats"
             android:title="@string/setting_stats" />
         <EditTextPreference
+            android:defaultValue="5"
+            android:inputType="number"
+            android:key="stats_base" />
+        <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"
             android:key="auto_enable"
