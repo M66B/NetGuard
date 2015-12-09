@@ -23,6 +23,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_options">Opcje</string>
   <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
   <string name="setting_stats">Show speed notification</string>
+  <string name="setting_stats_base">Speed baseline: %s KiB/sec</string>
   <string name="setting_auto">Automatyczne włączenie po %1$s min</string>
   <string name="setting_dark">Użyj ciemnej skórki</string>
   <string name="setting_wifi_home">Gniazdo sieci Wi-Fi: %1$s</string>

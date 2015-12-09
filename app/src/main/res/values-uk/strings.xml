@@ -19,6 +19,7 @@
   <string name="setting_options">Опції</string>
   <string name="setting_system">Керувати системними додатками</string>
   <string name="setting_stats">Show speed notification</string>
+  <string name="setting_stats_base">Speed baseline: %s KiB/sec</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>

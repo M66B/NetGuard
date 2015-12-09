@@ -23,6 +23,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_options">Optiuni</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_stats">Show speed notification</string>
+  <string name="setting_stats_base">Speed baseline: %s KiB/sec</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>

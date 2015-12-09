@@ -20,6 +20,7 @@
   <string name="setting_options">Опции</string>
   <string name="setting_system">Управлять сист. приложениями</string>
   <string name="setting_stats">Show speed notification</string>
+  <string name="setting_stats_base">Speed baseline: %s KiB/sec</string>
   <string name="setting_auto">Автоматическое включение через %1$s минут(ы)</string>
   <string name="setting_dark">Использовать темную тему</string>
   <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>

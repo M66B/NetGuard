@@ -23,6 +23,7 @@
   <string name="setting_options">选项:</string>
   <string name="setting_system">管理系统应用</string>
   <string name="setting_stats">Show speed notification</string>
+  <string name="setting_stats_base">Speed baseline: %s KiB/sec</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
   <string name="setting_dark">使用暗色主题</string>
   <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
