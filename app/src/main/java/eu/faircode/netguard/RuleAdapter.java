@@ -28,8 +28,10 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Build;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -50,7 +52,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> implements Filterable {
@@ -102,6 +107,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public ImageButton btnSettings;
         public Button btnLaunch;
 
+        public TextView tvStatistics;
+
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
@@ -136,6 +143,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
             btnSettings = (ImageButton) itemView.findViewById(R.id.btnSettings);
             btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
+
+            tvStatistics = (TextView) itemView.findViewById(R.id.tvStatistics);
 
             final View wifiParent = (View) cbWifi.getParent();
             wifiParent.post(new Runnable() {
@@ -422,6 +431,16 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 context.startActivity(rule.intent);
             }
         });
+
+        // Traffic statistics
+        holder.tvStatistics.setVisibility(debuggable ? View.VISIBLE : View.GONE);
+        if (debuggable)
+            holder.tvStatistics.setText(context.getString(R.string.msg_traffic,
+                    TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid) / 1024f,
+                    TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid) / 1024f,
+                    SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT)
+                            .format(new Date(System.currentTimeMillis() - SystemClock.elapsedRealtime()))
+            ));
     }
 
     private void updateRule(Rule rule, String network, boolean blocked) {
