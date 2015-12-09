@@ -210,10 +210,6 @@ public class SinkholeService extends VpnService {
                         startDebug(vpn);
                         if (prev != null)
                             stopVPN(prev);
-
-                        // Restart stats
-                        stopStats();
-                        startStats();
                         break;
 
                     case stop:
@@ -316,8 +312,9 @@ public class SinkholeService extends VpnService {
             rx = rtx;
 
             // Create bitmap
-            int height = Util.dips2pixels(96 - 2 * 4, SinkholeService.this);
-            int width = Util.dips2pixels(96 * 5, SinkholeService.this);
+            int height = Util.dips2pixels(96, SinkholeService.this);
+            int width = getResources().getDisplayMetrics().widthPixels;
+            Log.i(TAG, "h=" + height + " w=" + width);
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
             // Create canvas

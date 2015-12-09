@@ -286,7 +286,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 SinkholeService.reload("other", "setting changed", this);
 
         } else if ("show_stats".equals(name))
-            SinkholeService.reload(null, "setting changed", this);
+            ;
 
         else if ("stats_base".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_base, prefs.getString(name, "5")));
