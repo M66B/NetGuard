@@ -210,6 +210,10 @@ public class SinkholeService extends VpnService {
                         startDebug(vpn);
                         if (prev != null)
                             stopVPN(prev);
+
+                        // Restart stats
+                        stopStats();
+                        startStats();
                         break;
 
                     case stop:
@@ -272,6 +276,7 @@ public class SinkholeService extends VpnService {
         private void stopStats() {
             Log.i(TAG, "Stats stop");
             stats = false;
+            mServiceHandler.removeMessages(MSG_STATS_UPDATE);
             NotificationManagerCompat.from(SinkholeService.this).cancel(NOTIFY_TRAFFIC);
         }
 
@@ -297,14 +302,14 @@ public class SinkholeService extends VpnService {
             long ct = SystemClock.elapsedRealtime();
             long ctx = TrafficStats.getTotalTxBytes();
             long rtx = TrafficStats.getTotalRxBytes();
-            if (ct > 0 && (rx > 0 || tx > 0)) {
+            if (t > 0 && tx > 0 && rx > 0) {
                 float dt = (ct - t) / 1000f;
                 txsec = (ctx - tx) / dt;
                 rxsec = (rtx - rx) / dt;
-                Log.i(TAG, "tx=" + txsec + " rx=" + rxsec);
                 gt.add(ct);
                 gtx.add(txsec);
                 grx.add(rxsec);
+                Log.i(TAG, "tx=" + txsec + " rx=" + rxsec);
             }
             t = ct;
             tx = ctx;
@@ -373,7 +378,12 @@ public class SinkholeService extends VpnService {
             // Update remote view
             RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
             remoteViews.setImageViewBitmap(R.id.ivTraffic, bitmap);
-            remoteViews.setTextViewText(R.id.tvTraffic, String.format("%.0f/%.0f B/sec", txsec, rxsec));
+            if (txsec < 1024 && rxsec < 1024)
+                remoteViews.setTextViewText(R.id.tvTraffic, String.format("%.0f / %.0f B/sec", txsec, rxsec));
+            else if (txsec < 1024 * 1024 && rxsec < 1024 * 1024)
+                remoteViews.setTextViewText(R.id.tvTraffic, String.format("%.1f / %.1f KiB/sec", txsec / 1024, rxsec / 1024));
+            else
+                remoteViews.setTextViewText(R.id.tvTraffic, String.format("%.1f / %.1f MiB/sec", txsec / 1024 / 1024, rxsec / 1024 / 1024));
 
             // Show notification
             Intent main = new Intent(SinkholeService.this, ActivityMain.class);
