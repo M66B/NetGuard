@@ -29,7 +29,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.net.ConnectivityManager;
+import android.net.TrafficStats;
 import android.net.VpnService;
 import android.os.Build;
 import android.os.Handler;
@@ -38,6 +44,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -48,12 +55,15 @@ import android.telephony.ServiceState;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
@@ -71,9 +81,15 @@ public class SinkholeService extends VpnService {
 
     private static final int NOTIFY_FOREGROUND = 1;
     private static final int NOTIFY_DISABLED = 2;
+    private static final int NOTIFY_TRAFFIC = 3;
 
     private static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
+
+    private static final int MSG_SERVICE_INTENT = 0;
+    private static final int MSG_STATS_START = 1;
+    private static final int MSG_STATS_STOP = 2;
+    private static final int MSG_STATS_UPDATE = 3;
 
     private enum Command {start, reload, stop}
 
@@ -96,22 +112,39 @@ public class SinkholeService extends VpnService {
         @Override
         public void handleMessage(Message msg) {
             try {
-                handleIntent((Intent) msg.obj);
+                switch (msg.what) {
+                    case MSG_SERVICE_INTENT:
+                        handleIntent((Intent) msg.obj);
+                        break;
+
+                    case MSG_STATS_START:
+                        startStats();
+                        break;
+
+                    case MSG_STATS_STOP:
+                        stopStats();
+                        break;
+
+                    case MSG_STATS_UPDATE:
+                        updateStats();
+                        break;
+                }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 Util.sendCrashReport(ex, SinkholeService.this);
             } finally {
-                try {
-                    PowerManager.WakeLock wl = getLock(SinkholeService.this);
-                    if (wl.isHeld())
-                        wl.release();
-                    else
-                        Log.w(TAG, "Wakelock under-locked");
-                    Log.i(TAG, "Messages=" + hasMessages(0) + " wakelock=" + wlInstance.isHeld());
-                } catch (Exception ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, SinkholeService.this);
-                }
+                if (msg.what == MSG_SERVICE_INTENT)
+                    try {
+                        PowerManager.WakeLock wl = getLock(SinkholeService.this);
+                        if (wl.isHeld())
+                            wl.release();
+                        else
+                            Log.w(TAG, "Wakelock under-locked");
+                        Log.i(TAG, "Messages=" + hasMessages(0) + " wakelock=" + wlInstance.isHeld());
+                    } catch (Exception ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        Util.sendCrashReport(ex, SinkholeService.this);
+                    }
             }
         }
 
@@ -208,6 +241,151 @@ public class SinkholeService extends VpnService {
                 // Report exception
                 Util.sendCrashReport(ex, SinkholeService.this);
             }
+        }
+
+        private boolean stats = false;
+
+        private long t = -1;
+        private long tx = -1;
+        private long rx = -1;
+
+        private List<Long> gt = new ArrayList<>();
+        private List<Float> gtx = new ArrayList<>();
+        private List<Float> grx = new ArrayList<>();
+
+        private void startStats() {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            boolean enabled = prefs.getBoolean("show_stats", false);
+            Log.i(TAG, "Stats start enabled=" + enabled);
+            if (enabled) {
+                t = -1;
+                tx = -1;
+                rx = -1;
+                gt.clear();
+                gtx.clear();
+                grx.clear();
+                stats = true;
+                updateStats();
+            }
+        }
+
+        private void stopStats() {
+            Log.i(TAG, "Stats stop");
+            stats = false;
+            NotificationManagerCompat.from(SinkholeService.this).cancel(NOTIFY_TRAFFIC);
+        }
+
+        private void updateStats() {
+            if (!stats)
+                return;
+
+            // Schedule next update
+            Message msg = new Message();
+            msg.what = MSG_STATS_UPDATE;
+            mServiceHandler.sendMessageDelayed(msg, 1000);
+
+            // Cleanup
+            while (gt.size() >= 100) {
+                gt.remove(0);
+                gtx.remove(0);
+                grx.remove(0);
+            }
+
+            // Calculate stats
+            float txsec = 0;
+            float rxsec = 0;
+            long ct = SystemClock.elapsedRealtime();
+            long ctx = TrafficStats.getTotalTxBytes();
+            long rtx = TrafficStats.getTotalRxBytes();
+            if (ct > 0 && (rx > 0 || tx > 0)) {
+                float dt = (ct - t) / 1000f;
+                txsec = (ctx - tx) / dt;
+                rxsec = (rtx - rx) / dt;
+                Log.i(TAG, "tx=" + txsec + " rx=" + rxsec);
+                gt.add(ct);
+                gtx.add(txsec);
+                grx.add(rxsec);
+            }
+            t = ct;
+            tx = ctx;
+            rx = rtx;
+
+            // Create bitmap
+            int height = Util.dips2pixels(96 - 2 * 4, SinkholeService.this);
+            int width = Util.dips2pixels(96 * 5, SinkholeService.this);
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+            // Create canvas
+            Canvas canvas = new Canvas(bitmap);
+            canvas.drawColor(Color.TRANSPARENT);
+
+            // Determine max
+            long xmax = 0;
+            float ymax = 1024;
+            for (int i = 0; i < gt.size(); i++) {
+                long t = gt.get(i);
+                float tx = gtx.get(i);
+                float rx = grx.get(i);
+                if (t > xmax)
+                    xmax = t;
+                if (tx > ymax)
+                    ymax = tx;
+                if (rx > ymax)
+                    ymax = rx;
+            }
+
+            // Build paths
+            Path ptx = new Path();
+            Path prx = new Path();
+            for (int i = 0; i < gtx.size(); i++) {
+                float x = width * (xmax - gt.get(i)) / 1000f / 100f;
+                float ytx = height - height * gtx.get(i) / ymax;
+                float yrx = height - height * grx.get(i) / ymax;
+                if (i == 0) {
+                    ptx.moveTo(x, ytx);
+                    prx.moveTo(x, yrx);
+                } else {
+                    ptx.lineTo(x, ytx);
+                    prx.lineTo(x, yrx);
+                }
+            }
+
+            // Build paint
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(Util.dips2pixels(3, SinkholeService.this));
+
+            // Draw paths
+            paint.setColor(Color.MAGENTA);
+            canvas.drawPath(ptx, paint);
+            paint.setColor(Color.BLUE);
+            canvas.drawPath(prx, paint);
+
+            // Draw 1 KiB line
+            paint.setStrokeWidth(0);
+            paint.setColor(Color.GRAY);
+            float y = height - height * 1024f / ymax;
+            canvas.drawLine(0, y, width, y, paint);
+
+            // Update remote view
+            RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
+            remoteViews.setImageViewBitmap(R.id.ivTraffic, bitmap);
+            remoteViews.setTextViewText(R.id.tvTraffic, String.format("%.0f/%.0f B/sec", txsec, rxsec));
+
+            // Show notification
+            Intent main = new Intent(SinkholeService.this, ActivityMain.class);
+            PendingIntent pi = PendingIntent.getActivity(SinkholeService.this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(SinkholeService.this)
+                    .setSmallIcon(R.drawable.ic_equalizer_white_24dp)
+                    .setContent(remoteViews)
+                    .setContentIntent(pi)
+                    .setCategory(Notification.CATEGORY_STATUS)
+                    .setVisibility(Notification.VISIBILITY_SECRET)
+                    .setPriority(Notification.PRIORITY_DEFAULT)
+                    .setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorPrimary))
+                    .setAutoCancel(true);
+            NotificationManagerCompat.from(SinkholeService.this).notify(NOTIFY_TRAFFIC, builder.build());
         }
     }
 
@@ -400,6 +578,12 @@ public class SinkholeService extends VpnService {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
             reload(null, "interactive state changed", SinkholeService.this);
+
+            // Start/stop stats
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            Message msg = new Message();
+            msg.what = pm.isInteractive() ? MSG_STATS_START : MSG_STATS_STOP;
+            mServiceHandler.sendMessage(msg);
         }
     };
 
@@ -546,7 +730,7 @@ public class SinkholeService extends VpnService {
         Message msg = mServiceHandler.obtainMessage();
         msg.arg1 = startId;
         msg.obj = intent;
-        msg.what = 0;
+        msg.what = MSG_SERVICE_INTENT;
         mServiceHandler.sendMessage(msg);
 
         return START_STICKY;
@@ -613,8 +797,7 @@ public class SinkholeService extends VpnService {
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_SECRET)
                 .setPriority(Notification.PRIORITY_MIN)
-                .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                .setAutoCancel(true);
+                .setColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
         if (allowed > 0 || blocked > 0) {
             NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);

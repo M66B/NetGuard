@@ -300,6 +300,10 @@ public class Util {
         }
     }
 
+    public static int dips2pixels(int dips, Context context) {
+        return Math.round(dips * context.getResources().getDisplayMetrics().density + 0.5f);
+    }
+
     public static void logExtras(Intent intent) {
         if (intent != null)
             logBundle(intent.getExtras());
