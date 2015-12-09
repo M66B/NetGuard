@@ -313,7 +313,7 @@ public class SinkholeService extends VpnService {
 
             // Create bitmap
             int height = Util.dips2pixels(96, SinkholeService.this);
-            int width = getResources().getDisplayMetrics().widthPixels;
+            int width = Util.dips2pixels(96 * 5, SinkholeService.this);
             Log.i(TAG, "h=" + height + " w=" + width);
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
@@ -391,10 +391,10 @@ public class SinkholeService extends VpnService {
                     .setContent(remoteViews)
                     .setContentIntent(pi)
                     .setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_SECRET)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setPriority(Notification.PRIORITY_DEFAULT)
                     .setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorPrimary))
-                    .setAutoCancel(true);
+                    .setOngoing(true);
             NotificationManagerCompat.from(SinkholeService.this).notify(NOTIFY_TRAFFIC, builder.build());
         }
     }
