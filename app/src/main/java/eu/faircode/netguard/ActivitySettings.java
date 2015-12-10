@@ -61,7 +61,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -108,9 +107,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
 
         // Wi-Fi home
-        MultiSelectListPreference wifi_homes_pref = (MultiSelectListPreference) screen.findPreference("wifi_homes");
+        MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) screen.findPreference("wifi_homes");
         Set<String> ssid = prefs.getStringSet("wifi_homes", new HashSet<String>());
-        wifi_homes_pref.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
+        if (ssid.size() > 0)
+            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
+        else
+            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
 
         WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         List<CharSequence> listSSID = new ArrayList<>();
@@ -118,8 +120,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         if (configs != null)
             for (WifiConfiguration config : configs)
                 listSSID.add(config.SSID);
-        wifi_homes_pref.setEntries(listSSID.toArray(new CharSequence[0]));
-        wifi_homes_pref.setEntryValues(listSSID.toArray(new CharSequence[0]));
+        pref_wifi_homes.setEntries(listSSID.toArray(new CharSequence[0]));
+        pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
@@ -295,7 +297,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("wifi_homes".equals(name)) {
             MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) getPreferenceScreen().findPreference(name);
             Set<String> ssid = prefs.getStringSet(name, new HashSet<String>());
-            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
+            if (ssid.size() > 0)
+                pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
+            else
+                pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
             SinkholeService.reload(null, "setting changed", this);
 
         } else if ("unmetered_2g".equals(name) ||
@@ -683,7 +688,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                             current.put(key, value);
                         else if ("set".equals(type)) {
                             Set<String> set = new HashSet<>();
-                            for (String s : ((String) value).split("\n"))
+                            for (String s : value.split("\n"))
                                 set.add(s);
                             current.put(key, set);
                         } else
