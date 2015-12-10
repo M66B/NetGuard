@@ -23,7 +23,7 @@
   <string name="setting_stats_base">Speed baseline: %s KB/s</string>
   <string name="setting_auto">Автоматическое включение через %1$s минут(ы)</string>
   <string name="setting_dark">Использовать темную тему</string>
-  <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
+  <string name="setting_wifi_home">Wi-Fi home networks: %1$s</string>
   <string name="setting_metered">Регулировать огранич. Wi-Fi сети</string>
   <string name="setting_metered_2g">Не учитывать 2G</string>
   <string name="setting_metered_3g">Не учитывать 3G</string>

@@ -27,7 +27,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_stats_base">Speed baseline: %s KB/s</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_dark">Usa il tema scuro</string>
-  <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
+  <string name="setting_wifi_home">Wi-Fi home networks: %1$s</string>
   <string name="setting_metered">Gestisci reti Wi-Fi a consumo</string>
   <string name="setting_metered_2g">Considera il 2G non al consumo</string>
   <string name="setting_metered_3g">Considera il 3G non al consumo</string>
