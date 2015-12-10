@@ -318,7 +318,7 @@ public class SinkholeService extends VpnService {
             canvas.drawColor(Color.TRANSPARENT);
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            float base = Integer.parseInt(prefs.getString("stats_base", "5")) * 1024f;
+            float base = Integer.parseInt(prefs.getString("stats_base", "5")) * 1000f;
 
             // Determine max
             long xmax = 0;
@@ -339,7 +339,7 @@ public class SinkholeService extends VpnService {
             Path ptx = new Path();
             Path prx = new Path();
             for (int i = 0; i < gtx.size(); i++) {
-                float x = width * (xmax - gt.get(i)) / 1000f / 100f;
+                float x = width - width * (xmax - gt.get(i)) / 1000f / 100f;
                 float ytx = height - height * gtx.get(i) / ymax;
                 float yrx = height - height * grx.get(i) / ymax;
                 if (i == 0) {
@@ -354,7 +354,7 @@ public class SinkholeService extends VpnService {
             // Build paint
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(Util.dips2pixels(3, SinkholeService.this));
+            paint.setStrokeWidth(Util.dips2pixels(2, SinkholeService.this));
 
             // Draw paths
             paint.setColor(Color.MAGENTA);
@@ -362,8 +362,8 @@ public class SinkholeService extends VpnService {
             paint.setColor(Color.BLUE);
             canvas.drawPath(prx, paint);
 
-            // Draw 1 KiB line
-            paint.setStrokeWidth(0);
+            // Draw base line
+            paint.setStrokeWidth(Util.dips2pixels(1, SinkholeService.this));
             paint.setColor(Color.GRAY);
             float y = height - height * base / ymax;
             canvas.drawLine(0, y, width, y, paint);
