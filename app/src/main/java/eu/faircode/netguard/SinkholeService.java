@@ -63,7 +63,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
@@ -405,7 +407,7 @@ public class SinkholeService extends VpnService {
         boolean wifi = Util.isWifiActive(this);
         boolean metered = Util.isMeteredNetwork(this);
         boolean useMetered = prefs.getBoolean("use_metered", false);
-        String ssidHome = prefs.getString("wifi_home", "");
+        Set<String> ssidHomes = prefs.getStringSet("wifi_homes", new HashSet<String>());
         String ssidNetwork = Util.getWifiSSID(this);
         String generation = Util.getNetworkGeneration(this);
         boolean unmetered_2g = prefs.getBoolean("unmetered_2g", false);
@@ -422,7 +424,7 @@ public class SinkholeService extends VpnService {
         // Update metered state
         if (wifi && (!useMetered || !telephony))
             metered = false;
-        if (wifi && !ssidHome.equals("") && !ssidHome.equals(ssidNetwork))
+        if (wifi && ssidHomes.size() > 0 && !ssidHomes.contains(ssidNetwork))
             metered = true;
         if (unmetered_2g && "2G".equals(generation))
             metered = false;

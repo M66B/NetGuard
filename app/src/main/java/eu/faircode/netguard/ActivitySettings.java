@@ -34,7 +34,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
-import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -45,6 +45,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
@@ -62,8 +63,10 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
@@ -105,11 +108,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
 
         // Wi-Fi home
-        ListPreference wifi_home_pref = (ListPreference) screen.findPreference("wifi_home");
-        String ssid = prefs.getString("wifi_home", "");
-        if ("".equals(ssid))
-            ssid = getString(R.string.title_all);
-        wifi_home_pref.setTitle(getString(R.string.setting_wifi_home, ssid));
+        MultiSelectListPreference wifi_homes_pref = (MultiSelectListPreference) screen.findPreference("wifi_homes");
+        Set<String> ssid = prefs.getStringSet("wifi_homes", new HashSet<String>());
+        wifi_homes_pref.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
 
         WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         List<CharSequence> listSSID = new ArrayList<>();
@@ -117,11 +118,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         if (configs != null)
             for (WifiConfiguration config : configs)
                 listSSID.add(config.SSID);
-        listSSID.add(0, getString(R.string.title_all));
-        wifi_home_pref.setEntries(listSSID.toArray(new CharSequence[0]));
-        listSSID.remove(0);
-        listSSID.add(0, "");
-        wifi_home_pref.setEntryValues(listSSID.toArray(new CharSequence[0]));
+        wifi_homes_pref.setEntries(listSSID.toArray(new CharSequence[0]));
+        wifi_homes_pref.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
@@ -177,7 +175,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             defaults.removePreference(screen.findPreference("screen_wifi"));
 
             PreferenceCategory options = (PreferenceCategory) screen.findPreference("category_options");
-            options.removePreference(screen.findPreference("wifi_home"));
+            options.removePreference(screen.findPreference("wifi_homes"));
             options.removePreference(screen.findPreference("use_metered"));
         }
 
@@ -294,12 +292,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
 
-        else if ("wifi_home".equals(name)) {
-            ListPreference pref_wifi_home = (ListPreference) getPreferenceScreen().findPreference(name);
-            String ssid = prefs.getString(name, "");
-            if ("".equals(ssid))
-                ssid = getString(R.string.title_all);
-            pref_wifi_home.setTitle(getString(R.string.setting_wifi_home, ssid));
+        else if ("wifi_homes".equals(name)) {
+            MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) getPreferenceScreen().findPreference(name);
+            Set<String> ssid = prefs.getStringSet(name, new HashSet<String>());
+            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
             SinkholeService.reload(null, "setting changed", this);
 
         } else if ("unmetered_2g".equals(name) ||
@@ -567,6 +563,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 serializer.attribute(null, "value", value.toString());
                 serializer.endTag(null, "setting");
 
+            } else if (value instanceof Set) {
+                Set<String> set = (Set<String>) value;
+                serializer.startTag(null, "setting");
+                serializer.attribute(null, "key", key);
+                serializer.attribute(null, "type", "set");
+                serializer.attribute(null, "value", TextUtils.join("\n", set));
+                serializer.endTag(null, "setting");
+
             } else
                 Log.e(TAG, "Unknown key=" + key);
         }
@@ -614,6 +618,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 editor.putInt(key, (Integer) value);
             else if (value instanceof String)
                 editor.putString(key, (String) value);
+            else if (value instanceof Set)
+                editor.putStringSet(key, (Set<String>) value);
             else
                 Log.e(TAG, "Unknown type=" + value.getClass());
         }
@@ -675,7 +681,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                             current.put(key, Integer.parseInt(value));
                         else if ("string".equals(type))
                             current.put(key, value);
-                        else
+                        else if ("set".equals(type)) {
+                            Set<String> set = new HashSet<>();
+                            for (String s : ((String) value).split("\n"))
+                                set.add(s);
+                            current.put(key, set);
+                        } else
                             Log.e(TAG, "Unknown type key=" + key);
                     }
                 }
