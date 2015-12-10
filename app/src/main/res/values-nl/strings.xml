@@ -58,6 +58,8 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
   <string name="msg_terms">Door te doneren gaat u akkoord met de <a href="http://www.netguard.me/#terms">voorwaarden</a></string>
   <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
+  <string name="msg_kbsec">%7.3f KB/s</string>
+  <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_all">Allemaal</string>
   <string name="title_screen_wifi">Sta Wi-Fi toe als het scherm aan is</string>
   <string name="title_screen_other">Sta mobiel toe als het scherm aan is</string>

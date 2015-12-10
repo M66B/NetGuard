@@ -54,6 +54,8 @@ NetGuard не має дозволу до інтернет доступу, том
   <string name="msg_voluntary">Матеріальна подяка є абсолютно добровільною і не додає жодних можливостей програми. Подяка призначена лише в якості вираження Вашої вдячності за виконану роботу.</string>
   <string name="msg_terms">Здійснюючи пожертвування, ви погоджуєтесь із <a href="http://www.netguard.me/#terms">умовами &amp; положення</a></string>
   <string name="msg_dimming">Якщо Вам не вдається натиснути Гаразд у наступному діалоговому вікні (затемнення екрану), то скоріш за все, якийсь інший додаток використовує екран.</string>
+  <string name="msg_kbsec">%7.3f KB/s</string>
+  <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_all">All</string>
   <string name="title_screen_wifi">Дозволено Wi-Fi, коли екран активний</string>
   <string name="title_screen_other">Дозволено мобільні мережі, коли екран активний</string>

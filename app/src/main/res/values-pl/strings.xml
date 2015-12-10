@@ -58,6 +58,8 @@ Ponieważ NetGuard nie ma zezwolenia na dostęp do internetu, masz pewność, ż
   <string name="msg_voluntary">Darowizny są całkowicie dobrowolne i nie odblokowują jakiejkolwiek funkcji. Dotacje te są przeznaczone jako sposób na okazanie swojego uznania dla wykonanej pracy.</string>
   <string name="msg_terms">Przekazując darowiznę wyrażam zgodę na <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">Jeśli nie możesz nacisnąć OK w następnym oknie dialogowym, inna aplikacja prawdopodobnie zarządza ekranem (przygaszanie ekranu).</string>
+  <string name="msg_kbsec">%7.3f KB/s</string>
+  <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_all">Wszystkie</string>
   <string name="title_screen_wifi">Zezwól na Wi-Fi przy włączonym ekranie</string>
   <string name="title_screen_other">Zezwól na mobilne przy włączonym ekranie</string>

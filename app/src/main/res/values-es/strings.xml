@@ -58,6 +58,8 @@ Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de i
   <string name="msg_voluntary">Las donaciones son completamente voluntarias y no desbloquean ninguna funcionalidad. Las donaciones son una forma de mostrar tu apreciación por el trabajo hecho.</string>
   <string name="msg_terms">Al donar aceptas los <a href="http://www.netguard.me/#terms"> términos y condiciones</a></string>
   <string name="msg_dimming">Si no puedes pulsar OK en el próximo diálogo, otra aplicación (de atenuación de pantalla) probablemente esté manipulando la pantalla.</string>
+  <string name="msg_kbsec">%7.3f KB/s</string>
+  <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_all">Todas</string>
   <string name="title_screen_wifi">Permitir Wi-Fi cuando la pantalla está encendida</string>
   <string name="title_screen_other">Permitir red móvil cuando la pantalla está encendida</string>
