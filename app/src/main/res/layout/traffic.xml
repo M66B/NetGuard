@@ -33,7 +33,7 @@
             android:alpha="0.5"
             android:text="▲"
             android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
-            android:textColor="#ffff00ff" />
+            android:textColor="@color/colorSend" />
 
         <TextView
             android:id="@+id/tvRx"
@@ -50,6 +50,6 @@
             android:alpha="0.5"
             android:text="▼"
             android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
-            android:textColor="#ff0000ff" />
+            android:textColor="@color/colorReceive" />
     </LinearLayout>
 </RelativeLayout>

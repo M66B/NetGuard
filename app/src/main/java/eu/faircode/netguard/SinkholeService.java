@@ -324,7 +324,7 @@ public class SinkholeService extends VpnService {
 
             // Determine max
             long xmax = 0;
-            float ymax = base * 1.1f;
+            float ymax = base * 1.5f;
             for (int i = 0; i < gt.size(); i++) {
                 long t = gt.get(i);
                 float tx = gtx.get(i);
@@ -359,9 +359,9 @@ public class SinkholeService extends VpnService {
             paint.setStrokeWidth(Util.dips2pixels(2, SinkholeService.this));
 
             // Draw paths
-            paint.setColor(Color.MAGENTA);
+            paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorSend));
             canvas.drawPath(ptx, paint);
-            paint.setColor(Color.BLUE);
+            paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorReceive));
             canvas.drawPath(prx, paint);
 
             // Draw base line

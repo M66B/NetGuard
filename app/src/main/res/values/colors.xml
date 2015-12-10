@@ -6,4 +6,7 @@
     <color name="colorPrimaryDark">#00796B</color>
     <!-- Deep orange A200 -->
     <color name="colorAccent">#FF5722</color>
+
+    <color name="colorSend">#FF5722</color>
+    <color name="colorReceive">#009688</color>
 </resources>
