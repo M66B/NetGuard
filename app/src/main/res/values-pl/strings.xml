@@ -22,8 +22,8 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_whitelist_roaming">Domyślnie blokuj roaming</string>
   <string name="setting_options">Opcje</string>
   <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
-  <string name="setting_stats">Show speed notification</string>
-  <string name="setting_stats_base">Speed baseline: %s KiB/sec</string>
+  <string name="setting_stats">Pokazuj  wskaźnik prędkości</string>
+  <string name="setting_stats_base">Prędkość na linii bazowej: %s KB/s</string>
   <string name="setting_auto">Automatyczne włączenie po %1$s min</string>
   <string name="setting_dark">Użyj ciemnej skórki</string>
   <string name="setting_wifi_home">Gniazdo sieci Wi-Fi: %1$s</string>
@@ -37,7 +37,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_import">Import ustawień</string>
   <string name="setting_technical">Informacje techniczne</string>
   <string name="summary_system">Stwórz reguły dla aplikacji systemowych (zaawansowane)</string>
-  <string name="summary_stats">Show network speed graph in status bar notification</string>
+  <string name="summary_stats">Pokazuj wykres prędkości sieci w powiadomieniach aplikacji</string>
   <string name="summary_auto">Po wyłączeniu poprzez widget, automatycznie włącz NetGuard po podanej liczbie minut\nWprowadzenie zera wyłącza tą opcję</string>
   <string name="summary_wifi_home">Zastosuj reguły sieci Wi-Fi tylko do zaznaczonej sieci (do pozostałych sieci Wi-Fi zastosowane zostaną reguły mobilne)</string>
   <string name="summary_metered">Zastosuj reguły z danych mobilnych, do taryfowych sieci Wi-FI (tethering, prepaid)</string>

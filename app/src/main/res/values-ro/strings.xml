@@ -22,11 +22,11 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_whitelist_roaming">Blocheaza in roaming</string>
   <string name="setting_options">Optiuni</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
-  <string name="setting_stats">Show speed notification</string>
-  <string name="setting_stats_base">Speed baseline: %s KiB/sec</string>
+  <string name="setting_stats">Arata viteza in notificare</string>
+  <string name="setting_stats_base">Viteza de baza: %s KB/s</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
-  <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
+  <string name="setting_wifi_home">Retea Wi-Fi de domiciliu: %1$s</string>
   <string name="setting_metered">Gestionati conexiunile Wi-Fi contorizate</string>
   <string name="setting_metered_2g">Considera 2G ne contorizat</string>
   <string name="setting_metered_3g">Considera 3G ne contorizat</string>
@@ -37,9 +37,9 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_import">Importa setari</string>
   <string name="setting_technical">Informatii tehnice</string>
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
-  <string name="summary_stats">Show network speed graph in status bar notification</string>
+  <string name="summary_stats">Arata graficul vitezei retelei in notificare</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute\nValoarea zero dezactiveaza optiunea</string>
-  <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
+  <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (aplica reguli de date mobile pentru alte retele Wi-Fi)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
   <string name="summary_metered_2g">Aplica regulile Wi-Fi pentru conexiuni 2G</string>
   <string name="summary_metered_3g">Aplica regulile Wi-Fi pentru conexiuni 3G</string>
@@ -58,7 +58,7 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="msg_voluntary">Donatiile sunt voluntare si nu deblocheaza vreo functie ascunsa. Donatiile sunt doar un mod de a iti arata aprecierea pentru munca depusa la aceasta aplicatie.</string>
   <string name="msg_terms">Donand esti de acord cu <a href="http://www.netguard.me/#terms">termenii si conditiile</a></string>
   <string name="msg_dimming">Daca in urmatoarea fereastra de dialog nu poti apasa OK inseamna ca o aplicatie ce manipuleaza ecranul (luminozitatea sau nuanta) blocheaza interactiunea.</string>
-  <string name="title_all">All</string>
+  <string name="title_all">Toate</string>
   <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
   <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>
   <string name="title_roaming">Blocheaza in roaming</string>

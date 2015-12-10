@@ -3,7 +3,7 @@
 <resources>
   <string name="app_copyright">الحقوق 2015 \u00A9 بواسطة (M. Bokhorst (M66B</string>
   <string name="app_android">يـــتــــطـــلـــب NetGuard أنـــدرويـــت 5.0 أوأحـــدث</string>
-  <string name="app_license">باستخدام NetGuard، يمكنك الموافقة على <a href="http://www.gnu.org/licenses/gpl.txt"> رخصة جنو العمومية الإصدار 3</a></string>
+  <string name="app_license">بــإســتــخــدام NetGuard، مــعــنــاه أنــك مــوافــق عــلـى <a href="http://www.gnu.org/licenses/gpl.txt"> رخــصــة BNU الــعــمــومــيــة الــعــامــة الإصــدار 3</a></string>
   <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee it will work correctly on every device.
 NetGuard is known to crash when activated on some devices. It is also known to block all traffic on some other devices.
@@ -22,8 +22,8 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="setting_whitelist_roaming">صـــد الـــتـــجـــوال</string>
   <string name="setting_options">خيارات</string>
   <string name="setting_system">إدارة تطبيقات النظام</string>
-  <string name="setting_stats">Show speed notification</string>
-  <string name="setting_stats_base">Speed baseline: %s KiB/sec</string>
+  <string name="setting_stats">تــظــهــر ســرعــة الــعــرض</string>
+  <string name="setting_stats_base">سرعة خط الأساس: %s كيلوبايت/ثانية</string>
   <string name="setting_auto">تمكين التلقائي بعد دقائق %1$s</string>
   <string name="setting_dark">استخدام الثيم الداكن</string>
   <string name="setting_wifi_home">شبكة اتصال لاسلكي: %1$s</string>
@@ -37,7 +37,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="setting_import">استيراد الإعدادات</string>
   <string name="setting_technical">المعلومات التقنية</string>
   <string name="summary_system">تـــحـــديـــد قـــواعـــد لـــتـــطـــبــــيـــقـــات الـــنـــظـــام (لـــلـــخـــبـــراء)</string>
-  <string name="summary_stats">Show network speed graph in status bar notification</string>
+  <string name="summary_stats">تــظــهــر ســرعــة الــشــبــكــة فـي الــرســم الــبــيــانـي فـي إعـلام شــريــط الــحــالات</string>
   <string name="summary_auto">بعد تعطيل استخدام الويدجت، تلقائياً يعمل NetGuard مرة أخرى بعد عدد محدد من الدقائف \n ادخل صفر لتعطيل هذا الخيار</string>
   <string name="summary_wifi_home">تطبيق قواعد شبكة اللاسلكية للشبكة المحددة فقط (تطبيق قواعد شبكة الجوال لباقي شبكات Wi-fi)</string>
   <string name="summary_metered">تـــطـــبـــيـــق قـــواعـــد شـــبـــكـــة الـــجـــوال لـــشـــبـــكـــات لاســـلـــكـــي (مـــربـــوطــة، مـــدفـــوعـــة) مـــقـــنـــنـــة</string>
@@ -56,7 +56,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="msg_voluntary">الـتـبـرعـات هـي طـوعـيـة تـمـامـا ولا تـوقـف أي إسـتـخـدامـات مـسـتـقـبـلـيـة. هـي فـقـط تـعـنـى تـقـديـرك لـلـعـمـل الـمـنـجـز.</string>
   <string name="msg_terms">بالــتـبـرع مـعـنـاه مـوافـقـتـك عـلـى الأحـكـام والـشـروط. <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">إن لـم تـسـتـطـع الـضـغـط عـلـى مـوافـق مـعـنـى ذلـك ( تـعـتـيـم الـشـاشـة) أن تـطـبـيـق آخـر مـتـحـكـم فـي الـشـاشـة.</string>
-  <string name="title_all">All</string>
+  <string name="title_all">الكل</string>
   <string name="title_screen_wifi">تسمح خدمة الواي فـاي عند تشغيل الشاشة</string>
   <string name="title_screen_other">يسمح المحمول عند تشغيل الشاشة</string>
   <string name="title_roaming">مـنـع خـدمـة الـجـوال</string>

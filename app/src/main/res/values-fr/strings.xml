@@ -23,7 +23,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="setting_options">Options</string>
   <string name="setting_system">Gérer les applications système</string>
   <string name="setting_stats">Show speed notification</string>
-  <string name="setting_stats_base">Speed baseline: %s KiB/sec</string>
+  <string name="setting_stats_base">Speed baseline: %s KB/s</string>
   <string name="setting_auto">Activer automatiquement après %1$s minutes</string>
   <string name="setting_dark">Utiliser le thème sombre</string>
   <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>

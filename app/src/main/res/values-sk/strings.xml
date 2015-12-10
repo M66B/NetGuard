@@ -23,7 +23,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="setting_options">Možnosti</string>
   <string name="setting_system">Spravovať systémové aplikácie</string>
   <string name="setting_stats">Show speed notification</string>
-  <string name="setting_stats_base">Speed baseline: %s KiB/sec</string>
+  <string name="setting_stats_base">Speed baseline: %s KB/s</string>
   <string name="setting_auto">Automaticky zapnúť po %1$s minútach</string>
   <string name="setting_dark">Použiť tmavú tému</string>
   <string name="setting_wifi_home">Wi-Fi home network: %1$s</string>
