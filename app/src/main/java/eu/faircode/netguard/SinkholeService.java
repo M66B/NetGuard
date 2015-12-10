@@ -426,6 +426,8 @@ public class SinkholeService extends VpnService {
             metered = false;
         if (wifi && ssidHomes.size() > 0 && !ssidHomes.contains(ssidNetwork))
             metered = true;
+        if (wifi && ssidHomes.size() > 0 && ssidHomes.contains(ssidNetwork))
+            metered = false;
         if (unmetered_2g && "2G".equals(generation))
             metered = false;
         if (unmetered_3g && "3G".equals(generation))
