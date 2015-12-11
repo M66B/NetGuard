@@ -18,8 +18,8 @@
   <string name="setting_whitelist_roaming">Блокувати типово у роумінгу</string>
   <string name="setting_options">Опції</string>
   <string name="setting_system">Керувати системними додатками</string>
-  <string name="setting_stats">Show speed notification</string>
-  <string name="setting_stats_base">Speed baseline: %s KB/s</string>
+  <string name="setting_stats">Показувати сповіщення о швидкості</string>
+  <string name="setting_stats_base">Базова швидкість: %s КБ/с</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_wifi_home">Домашня Wi-Fi мережа: %1$s</string>
@@ -33,7 +33,7 @@
   <string name="setting_import">Імпорт налаштувань</string>
   <string name="setting_technical">Технічна інформація</string>
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
-  <string name="summary_stats">Show network speed graph in status bar notification</string>
+  <string name="summary_stats">Показувати графік швидкості мережі у панелі сповіщень</string>
   <string name="summary_auto">При відключені через віджет, NetGuard буде автоматично увімкнуто через вказану кількість хвилин\nВведіть 0, аби відключити цю функцію</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">Застосувати правила до лімітованих (платних, обмежених) Wi-Fi мереж</string>
@@ -56,7 +56,6 @@ NetGuard не має дозволу до інтернет доступу, том
   <string name="msg_dimming">Якщо Вам не вдається натиснути Гаразд у наступному діалоговому вікні (затемнення екрану), то скоріш за все, якийсь інший додаток використовує екран.</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="title_all">All</string>
   <string name="title_screen_wifi">Дозволено Wi-Fi, коли екран активний</string>
   <string name="title_screen_other">Дозволено мобільні мережі, коли екран активний</string>
   <string name="title_roaming">Блокувати у роумінгу</string>

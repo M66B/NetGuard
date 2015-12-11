@@ -60,7 +60,6 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="title_all">All</string>
   <string name="title_screen_wifi">Ekran açıkken Wİ-Fİ ye izin ver</string>
   <string name="title_screen_other">Ekran açıkken mobile izin ver</string>
   <string name="title_roaming">Dolaşımda blokla</string>

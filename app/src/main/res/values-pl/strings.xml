@@ -60,7 +60,6 @@ Ponieważ NetGuard nie ma zezwolenia na dostęp do internetu, masz pewność, ż
   <string name="msg_dimming">Jeśli nie możesz nacisnąć OK w następnym oknie dialogowym, inna aplikacja prawdopodobnie zarządza ekranem (przygaszanie ekranu).</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="title_all">Wszystkie</string>
   <string name="title_screen_wifi">Zezwól na Wi-Fi przy włączonym ekranie</string>
   <string name="title_screen_other">Zezwól na mobilne przy włączonym ekranie</string>
   <string name="title_roaming">Blokuj gdy roaming</string>
