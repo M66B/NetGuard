@@ -285,8 +285,6 @@ public class SinkholeService extends VpnService {
         private void stopStats() {
             Log.i(TAG, "Stats stop");
             stats = false;
-            mServiceHandler.removeMessages(MSG_STATS_START);
-            mServiceHandler.removeMessages(MSG_STATS_STOP);
             mServiceHandler.removeMessages(MSG_STATS_UPDATE);
             NotificationManagerCompat.from(SinkholeService.this).cancel(NOTIFY_TRAFFIC);
         }
