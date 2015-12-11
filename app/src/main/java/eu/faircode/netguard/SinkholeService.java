@@ -265,6 +265,9 @@ public class SinkholeService extends VpnService {
 
         private HashMap<ApplicationInfo, Long> app = new HashMap<>();
 
+        private final static int STATS_POINTS = 100;
+        private final static int STATS_FREQUENCY = 1000;
+
         private void startStats() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean enabled = (!stats && prefs.getBoolean("show_stats", false));
@@ -291,12 +294,12 @@ public class SinkholeService extends VpnService {
 
         private void updateStats() {
             // Schedule next update
-            mServiceHandler.sendEmptyMessageDelayed(MSG_STATS_UPDATE, 1000);
+            mServiceHandler.sendEmptyMessageDelayed(MSG_STATS_UPDATE, STATS_FREQUENCY);
 
             RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
 
             // Cleanup
-            while (gt.size() >= 100) {
+            while (gt.size() >= STATS_POINTS) {
                 gt.remove(0);
                 gtx.remove(0);
                 grx.remove(0);
@@ -387,7 +390,7 @@ public class SinkholeService extends VpnService {
             Path ptx = new Path();
             Path prx = new Path();
             for (int i = 0; i < gtx.size(); i++) {
-                float x = width - width * (xmax - gt.get(i)) / 1000f / 100f;
+                float x = width - width * (xmax - gt.get(i)) / 1000f / STATS_POINTS;
                 float ytx = height - height * gtx.get(i) / ymax;
                 float yrx = height - height * grx.get(i) / ymax;
                 if (i == 0) {
