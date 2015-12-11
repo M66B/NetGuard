@@ -71,6 +71,7 @@ Devices / ROMs with a broken VPN implementation:
 * Asus™ ZenPad S 8.0 / Android 5.0, [reported on Github](https://github.com/M66B/NetGuard/issues/168) (all traffic blocked)
 * BQ™ Aquaris E5/M5 / Android 5.0.2/5.0 (reported in the Google Play™ store app) (all traffic blocked)
 * Lenovo™ Yoga Tablet Pro-1380L / 2 Pro / Android 5.0.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63784102&postcount=278) (all traffic blocked)
+* Lenovo™ A7000 / Android 5.0 (reported through Google Play™ store app feedback) (does not block anything)
 * LGE G Vista / Android 5.0 (reported through Google Play™ store app feedback) (VPN establish fails)
 * LGE G2 Mini (D620) / Android 5.0.2, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63987178&postcount=437) (VPN prepare fails)
 * Samsung™ Galaxy A3 / Android 5.0.2, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=64142621&postcount=509) (all traffic blocked)
