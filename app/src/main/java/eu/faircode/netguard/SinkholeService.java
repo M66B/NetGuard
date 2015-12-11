@@ -93,7 +93,7 @@ public class SinkholeService extends VpnService {
     private static final int MSG_STATS_STOP = 2;
     private static final int MSG_STATS_UPDATE = 3;
 
-    private enum Command {start, reload, stop}
+    private enum Command {start, reload, stop, stats}
 
     private static volatile PowerManager.WakeLock wlInstance = null;
 
@@ -221,6 +221,11 @@ public class SinkholeService extends VpnService {
                             vpn = null;
                             stopForeground(true);
                         }
+                        break;
+
+                    case stats:
+                        stopStats();
+                        startStats();
                         break;
                 }
 
@@ -864,6 +869,13 @@ public class SinkholeService extends VpnService {
     public static void stop(String reason, Context context) {
         Intent intent = new Intent(context, SinkholeService.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
+        intent.putExtra(EXTRA_REASON, reason);
+        context.startService(intent);
+    }
+
+    public static void reloadStats(String reason, Context context) {
+        Intent intent = new Intent(context, SinkholeService.class);
+        intent.putExtra(EXTRA_COMMAND, Command.stats);
         intent.putExtra(EXTRA_REASON, reason);
         context.startService(intent);
     }

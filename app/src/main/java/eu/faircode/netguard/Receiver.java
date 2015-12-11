@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.VpnService;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -63,6 +64,10 @@ public class Receiver extends BroadcastReceiver {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     Util.sendCrashReport(ex, context);
                 }
+
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            if (pm.isInteractive())
+                SinkholeService.reloadStats("receiver", context);
         }
     }
 
