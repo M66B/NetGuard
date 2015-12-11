@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -63,9 +64,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
@@ -260,6 +263,8 @@ public class SinkholeService extends VpnService {
         private List<Float> gtx = new ArrayList<>();
         private List<Float> grx = new ArrayList<>();
 
+        private HashMap<ApplicationInfo, Long> app = new HashMap<>();
+
         private void startStats() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean enabled = (!stats && prefs.getBoolean("show_stats", false));
@@ -271,6 +276,7 @@ public class SinkholeService extends VpnService {
                 gt.clear();
                 gtx.clear();
                 grx.clear();
+                app.clear();
                 stats = true;
                 updateStats();
             }
@@ -289,6 +295,8 @@ public class SinkholeService extends VpnService {
             // Schedule next update
             mServiceHandler.sendEmptyMessageDelayed(MSG_STATS_UPDATE, 1000);
 
+            RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
+
             // Cleanup
             while (gt.size() >= 100) {
                 gt.remove(0);
@@ -296,7 +304,7 @@ public class SinkholeService extends VpnService {
                 grx.remove(0);
             }
 
-            // Calculate stats
+            // Calculate network speed
             float txsec = 0;
             float rxsec = 0;
             long ct = SystemClock.elapsedRealtime();
@@ -309,8 +317,43 @@ public class SinkholeService extends VpnService {
                 gt.add(ct);
                 gtx.add(txsec);
                 grx.add(rxsec);
-                Log.i(TAG, "tx=" + txsec + " rx=" + rxsec);
             }
+
+            // Calculate application speeds
+            if (app.size() == 0)
+                for (ApplicationInfo ainfo : getPackageManager().getInstalledApplications(0))
+                    app.put(ainfo, TrafficStats.getUidTxBytes(ainfo.uid) + TrafficStats.getUidRxBytes(ainfo.uid));
+
+            else if (t > 0) {
+                TreeMap<Float, ApplicationInfo> mapSpeed = new TreeMap<>();
+                float dt = (ct - t) / 1000f;
+                for (ApplicationInfo aInfo : app.keySet()) {
+                    long bytes = TrafficStats.getUidTxBytes(aInfo.uid) + TrafficStats.getUidRxBytes(aInfo.uid);
+                    float speed = (bytes - app.get(aInfo)) / dt;
+                    if (speed > 0) {
+                        mapSpeed.put(speed, aInfo);
+                        app.put(aInfo, bytes);
+                    }
+                }
+
+                StringBuilder sb = new StringBuilder();
+                int i = 0;
+                for (float s : mapSpeed.keySet()) {
+                    if (i++ >= 3)
+                        break;
+                    if (s < 1000 * 1000)
+                        sb.append(getString(R.string.msg_kbsec, s / 1000));
+                    else
+                        sb.append(getString(R.string.msg_mbsec, s / 1000 / 1000));
+                    sb.append(' ');
+                    sb.append(getPackageManager().getApplicationLabel(mapSpeed.get(s)).toString());
+                    sb.append("\r\n");
+                }
+                if (sb.length() > 0)
+                    sb.setLength(sb.length() - 2);
+                remoteViews.setTextViewText(R.id.tvTop, sb.toString());
+            }
+
             t = ct;
             tx = ctx;
             rx = rtx;
@@ -376,7 +419,6 @@ public class SinkholeService extends VpnService {
             canvas.drawLine(0, y, width, y, paint);
 
             // Update remote view
-            RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
             remoteViews.setImageViewBitmap(R.id.ivTraffic, bitmap);
             if (txsec < 1000 * 1000)
                 remoteViews.setTextViewText(R.id.tvTx, getString(R.string.msg_kbsec, txsec / 1000));
