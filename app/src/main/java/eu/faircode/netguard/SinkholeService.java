@@ -405,19 +405,19 @@ public class SinkholeService extends VpnService {
             // Build paint
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(Util.dips2pixels(2, SinkholeService.this));
-
-            // Draw paths
-            paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorSend));
-            canvas.drawPath(ptx, paint);
-            paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorReceive));
-            canvas.drawPath(prx, paint);
 
             // Draw base line
             paint.setStrokeWidth(Util.dips2pixels(1, SinkholeService.this));
             paint.setColor(Color.GRAY);
             float y = height - height * base / ymax;
             canvas.drawLine(0, y, width, y, paint);
+
+            // Draw paths
+            paint.setStrokeWidth(Util.dips2pixels(2, SinkholeService.this));
+            paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorSend));
+            canvas.drawPath(ptx, paint);
+            paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorReceive));
+            canvas.drawPath(prx, paint);
 
             // Update remote view
             remoteViews.setImageViewBitmap(R.id.ivTraffic, bitmap);

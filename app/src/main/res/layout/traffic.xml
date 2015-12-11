@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:padding="4dp">
 
-    <ImageView
-        android:id="@+id/ivTraffic"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:scaleType="fitXY" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,4 +53,12 @@
         android:singleLine="false"
         android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
         android:textSize="10sp" />
+
+    <ImageView
+        android:id="@+id/ivTraffic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY" />
 </RelativeLayout>
