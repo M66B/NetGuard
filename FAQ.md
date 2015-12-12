@@ -41,8 +41,8 @@ then no, because NetGuard needs to use this service. Android allows only one app
 <a name="FAQ3"></a>
 **(3) Can I use NetGuard on any Android version?**
 
-No, the minimum required Android version is 5.0 (Lollipop) because NetGuard uses the  [addDisallowedApplication](http://developer.android.com/reference/android/net/VpnService.Builder.html#addDisallowedApplication(java.lang.String))
-method.
+No, the minimum required Android version is 5.0 (Lollipop)
+because NetGuard uses the [addDisallowedApplication](http://developer.android.com/reference/android/net/VpnService.Builder.html#addDisallowedApplication(java.lang.String)) method.
 
 <a name="FAQ4"></a>
 **(4) Will NetGuard use extra battery power?**
@@ -50,6 +50,8 @@ method.
 No, unlike most of the similar closed source alternatives.
 
 <a name="FAQ5"></a>
+**(5) Can you add usage statistics?**<br />
+**(5) Can you add popups to allow/block applications?**<br />
 **(5) Can you add selective allowing/blocking applications/IP addresses?**
 
 Unfortunately, this is not possible without using significant battery power

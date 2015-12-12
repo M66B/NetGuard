@@ -109,6 +109,8 @@ Frequently Asked Questions (FAQ)
 [**(4) Will NetGuard use extra battery power?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ4)
 
 <a name="FAQ5"></a>
+[**(5) Can you add usage statistics?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ5)<br />
+[**(5) Can you add popups to allow/block applications?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ5)<br />
 [**(5) Can you add selective allowing/blocking applications/IP addresses?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ5)
 
 <a name="FAQ6"></a>
