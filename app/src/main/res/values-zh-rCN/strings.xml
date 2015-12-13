@@ -24,6 +24,7 @@
   <string name="setting_system">管理系统应用</string>
   <string name="setting_stats">显示网速通知</string>
   <string name="setting_stats_base">网速基准: %s KB/秒</string>
+  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
   <string name="setting_dark">使用暗色主题</string>
   <string name="setting_wifi_home">Wi-Fi 家庭网络: %1$s</string>

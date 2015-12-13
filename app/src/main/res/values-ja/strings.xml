@@ -24,6 +24,7 @@
   <string name="setting_system">システムアプリケーションの管理</string>
   <string name="setting_stats">Show speed notification</string>
   <string name="setting_stats_base">Speed baseline: %s KB/s</string>
+  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Auto enable after %1$s minutes</string>
   <string name="setting_dark">ダークテーマを使用する</string>
   <string name="setting_wifi_home">Wi-Fi home networks: %1$s</string>

@@ -23,6 +23,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_stats">Netzwerkgeschwindigkeit anzeigen</string>
   <string name="setting_stats_base">Geschwindigkeit: %s KB/s</string>
+  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_dark">Dunkles Thema verwenden</string>
   <string name="setting_wifi_home">WLAN-Heimnetzwerk: %1$s</string>

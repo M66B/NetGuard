@@ -24,6 +24,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_stats">Arata viteza in notificare</string>
   <string name="setting_stats_base">Viteza de baza: %s KB/s</string>
+  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_wifi_home">Retea Wi-Fi de domiciliu: %1$s</string>

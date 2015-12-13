@@ -25,6 +25,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_system">Gestisci applicazioni di sistema</string>
   <string name="setting_stats">Visualizza velocità tra le notifiche</string>
   <string name="setting_stats_base">Velocità di riferimento: %s KB/s</string>
+  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_dark">Usa il tema scuro</string>
   <string name="setting_wifi_home">Reti Wi-Fi domestiche: %1$s</string>

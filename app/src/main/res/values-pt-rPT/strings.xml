@@ -24,6 +24,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_system">Administrar aplicativos do sistema</string>
   <string name="setting_stats">Mostrar notificação de velocidade</string>
   <string name="setting_stats_base">Velocidade de referência: %s KB/s</string>
+  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_dark">Ativa tema escuro</string>
   <string name="setting_wifi_home">Rede Wi-Fi Doméstica: %1$s</string>
