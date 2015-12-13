@@ -64,6 +64,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -328,7 +329,12 @@ public class SinkholeService extends VpnService {
                         app.put(ainfo, TrafficStats.getUidTxBytes(ainfo.uid) + TrafficStats.getUidRxBytes(ainfo.uid));
 
                 else if (t > 0) {
-                    TreeMap<Float, ApplicationInfo> mapSpeed = new TreeMap<>();
+                    TreeMap<Float, ApplicationInfo> mapSpeed = new TreeMap<>(new Comparator<Float>() {
+                        @Override
+                        public int compare(Float value, Float other) {
+                            return -value.compareTo(other);
+                        }
+                    });
                     float dt = (ct - t) / 1000f;
                     for (ApplicationInfo aInfo : app.keySet()) {
                         long bytes = TrafficStats.getUidTxBytes(aInfo.uid) + TrafficStats.getUidRxBytes(aInfo.uid);
