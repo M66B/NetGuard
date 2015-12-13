@@ -39,10 +39,12 @@
             android:title="@string/setting_stats" />
         <EditTextPreference
             android:defaultValue="5"
+            android:dependency="show_stats"
             android:inputType="number"
             android:key="stats_base" />
         <SwitchPreference
             android:defaultValue="false"
+            android:dependency="show_stats"
             android:key="show_top"
             android:title="@string/setting_stats_top" />
         <EditTextPreference
