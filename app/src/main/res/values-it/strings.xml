@@ -23,9 +23,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_whitelist_roaming">Blocca roaming di default</string>
   <string name="setting_options">Impostazioni opzionali</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
-  <string name="setting_stats">Visualizza velocità tra le notifiche</string>
-  <string name="setting_stats_base">Velocità di riferimento: %s KB/s</string>
-  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_dark">Usa il tema scuro</string>
   <string name="setting_wifi_home">Reti Wi-Fi domestiche: %1$s</string>
@@ -34,6 +31,12 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_metered_3g">Considera il 3G non al consumo</string>
   <string name="setting_metered_4g">Considera LTE non al consumo</string>
   <string name="setting_national_roaming">Ignora roaming nazionale</string>
+  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats">Visualizza velocità tra le notifiche</string>
+  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_base">Velocità di riferimento: %s KB/s</string>
+  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
+  <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Backup</string>
   <string name="setting_export">Esporta impostazioni</string>
   <string name="setting_import">Importa impostazioni</string>

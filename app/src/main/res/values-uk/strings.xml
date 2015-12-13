@@ -18,9 +18,6 @@
   <string name="setting_whitelist_roaming">Блокувати типово у роумінгу</string>
   <string name="setting_options">Опції</string>
   <string name="setting_system">Керувати системними додатками</string>
-  <string name="setting_stats">Показувати сповіщення о швидкості</string>
-  <string name="setting_stats_base">Базова швидкість: %s КБ/с</string>
-  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_wifi_home">Домашня Wi-Fi мережа: %1$s</string>
@@ -29,6 +26,12 @@
   <string name="setting_metered_3g">Не враховувати 3G</string>
   <string name="setting_metered_4g">Не враховувати LTE</string>
   <string name="setting_national_roaming">Ігнорувати національний роумінг</string>
+  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats">Показувати сповіщення о швидкості</string>
+  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_base">Базова швидкість: %s КБ/с</string>
+  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
+  <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Резервне копіювання</string>
   <string name="setting_export">Експорт налаштувань</string>
   <string name="setting_import">Імпорт налаштувань</string>

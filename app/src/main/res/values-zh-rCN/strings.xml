@@ -22,9 +22,6 @@
   <string name="setting_whitelist_roaming">默认阻止漫游</string>
   <string name="setting_options">选项:</string>
   <string name="setting_system">管理系统应用</string>
-  <string name="setting_stats">显示网速通知</string>
-  <string name="setting_stats_base">网速基准: %s KB/秒</string>
-  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
   <string name="setting_dark">使用暗色主题</string>
   <string name="setting_wifi_home">Wi-Fi 家庭网络: %1$s</string>
@@ -33,6 +30,12 @@
   <string name="setting_metered_3g">3G非按流量计费</string>
   <string name="setting_metered_4g">LTE非按流量计费</string>
   <string name="setting_national_roaming">忽略全国漫游</string>
+  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats">显示网速通知</string>
+  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_base">网速基准: %s KB/秒</string>
+  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
+  <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">备份</string>
   <string name="setting_export">导出设置</string>
   <string name="setting_import">导入设置</string>

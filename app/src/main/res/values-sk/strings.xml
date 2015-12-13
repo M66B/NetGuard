@@ -22,9 +22,6 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="setting_whitelist_roaming">Predvolene blokovať roaming</string>
   <string name="setting_options">Možnosti</string>
   <string name="setting_system">Spravovať systémové aplikácie</string>
-  <string name="setting_stats">Show speed notification</string>
-  <string name="setting_stats_base">Speed baseline: %s KB/s</string>
-  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Automaticky zapnúť po %1$s minútach</string>
   <string name="setting_dark">Použiť tmavú tému</string>
   <string name="setting_wifi_home">Wi-Fi home networks: %1$s</string>
@@ -33,6 +30,12 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="setting_metered_3g">Consider 3G unmetered</string>
   <string name="setting_metered_4g">Consider LTE unmetered</string>
   <string name="setting_national_roaming">Ignore national roaming</string>
+  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats">Show speed notification</string>
+  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_base">Speed baseline: %s KB/s</string>
+  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
+  <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Zálohovať</string>
   <string name="setting_export">Exportovať nastavenia</string>
   <string name="setting_import">Importovať nastavenia</string>

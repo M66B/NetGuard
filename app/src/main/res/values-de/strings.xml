@@ -21,9 +21,6 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_whitelist_roaming">Roaming blockieren</string>
   <string name="setting_options">Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
-  <string name="setting_stats">Netzwerkgeschwindigkeit anzeigen</string>
-  <string name="setting_stats_base">Geschwindigkeit: %s KB/s</string>
-  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_dark">Dunkles Thema verwenden</string>
   <string name="setting_wifi_home">WLAN-Heimnetzwerk: %1$s</string>
@@ -32,6 +29,12 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_metered_3g">3G gebührenfrei betrachten</string>
   <string name="setting_metered_4g">LTE gebührenfrei betrachten</string>
   <string name="setting_national_roaming">Nationales Roaming ignorieren</string>
+  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats">Netzwerkgeschwindigkeit anzeigen</string>
+  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_base">Geschwindigkeit: %s KB/s</string>
+  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
+  <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Sicherung</string>
   <string name="setting_export">Einstellungen exportieren</string>
   <string name="setting_import">Einstellungen importieren</string>

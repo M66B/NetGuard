@@ -19,9 +19,6 @@
   <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
   <string name="setting_options">Опции</string>
   <string name="setting_system">Управлять сист. приложениями</string>
-  <string name="setting_stats">Показать скорость в статус-баре</string>
-  <string name="setting_stats_base">Скорость сети: %s KB/s</string>
-  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
   <string name="setting_dark">Использовать темную тему</string>
   <string name="setting_wifi_home">Домашняя сеть Wi-Fi: %1$s</string>
@@ -30,6 +27,12 @@
   <string name="setting_metered_3g">Не учитывать 3G</string>
   <string name="setting_metered_4g">Не учитывать LTE</string>
   <string name="setting_national_roaming">Игнорировать роуминг внутри страны</string>
+  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats">Показать скорость в статус-баре</string>
+  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_base">Скорость сети: %s KB/s</string>
+  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
+  <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Резервное копирование</string>
   <string name="setting_export">Экспорт настроек</string>
   <string name="setting_import">Импорт настроек</string>

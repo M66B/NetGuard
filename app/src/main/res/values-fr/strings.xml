@@ -22,9 +22,6 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="setting_whitelist_roaming">Bloquer itinérance</string>
   <string name="setting_options">Options</string>
   <string name="setting_system">Gérer les applications système</string>
-  <string name="setting_stats">Show speed notification</string>
-  <string name="setting_stats_base">Speed baseline: %s KB/s</string>
-  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Activer automatiquement après %1$s minutes</string>
   <string name="setting_dark">Utiliser le thème sombre</string>
   <string name="setting_wifi_home">Wi-Fi home networks: %1$s</string>
@@ -33,6 +30,12 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="setting_metered_3g">Considérer 3G illimités</string>
   <string name="setting_metered_4g">Considérer LTE illimités</string>
   <string name="setting_national_roaming">Ignorer l\'itinérance nationale</string>
+  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats">Show speed notification</string>
+  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_base">Speed baseline: %s KB/s</string>
+  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
+  <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Sauvegarde</string>
   <string name="setting_export">Exporter paramètres</string>
   <string name="setting_import">Importer paramètres</string>

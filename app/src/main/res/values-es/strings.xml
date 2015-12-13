@@ -22,9 +22,6 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="setting_whitelist_roaming">Bloquear roaming por defecto</string>
   <string name="setting_options">Opciones</string>
   <string name="setting_system">Administrar aplicaciones de sistema</string>
-  <string name="setting_stats">Mostrar notificación de velocidad</string>
-  <string name="setting_stats_base">Velocidad de referencia: %s KB/s</string>
-  <string name="setting_stats_top">Show top network using applications</string>
   <string name="setting_auto">Activar automáticamente después de %1$s minutos</string>
   <string name="setting_dark">Usar tema oscuro</string>
   <string name="setting_wifi_home">Red Wi-Fi hogareña: %1$s</string>
@@ -33,6 +30,12 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="setting_metered_3g">Considerar 3G ilimitado</string>
   <string name="setting_metered_4g">Considerar LTE ilimitado</string>
   <string name="setting_national_roaming">Ignorar roaming nacional</string>
+  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats">Mostrar notificación de velocidad</string>
+  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_base">Velocidad de referencia: %s KB/s</string>
+  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
+  <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Copia de seguridad</string>
   <string name="setting_export">Exportar configuración</string>
   <string name="setting_import">Importar configuración</string>
