@@ -106,6 +106,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         EditTextPreference pref_stats_base = (EditTextPreference) screen.findPreference("stats_base");
         pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
 
+        EditTextPreference pref_stats_frequency = (EditTextPreference) screen.findPreference("stats_frequency");
+        pref_stats_frequency.setTitle(getString(R.string.setting_stats_frequency, prefs.getString("stats_frequency", "1000")));
+
+        EditTextPreference pref_stats_samples = (EditTextPreference) screen.findPreference("stats_samples");
+        pref_stats_samples.setTitle(getString(R.string.setting_stats_samples, prefs.getString("stats_samples", "90")));
+
         // Wi-Fi home
         MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) screen.findPreference("wifi_homes");
         Set<String> ssid = prefs.getStringSet("wifi_homes", new HashSet<String>());
@@ -290,6 +296,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         else if ("stats_base".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_base, prefs.getString(name, "5")));
+
+        else if ("stats_frequency".equals(name))
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_frequency, prefs.getString(name, "1000")));
+
+        else if ("stats_samples".equals(name))
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
 
         else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));

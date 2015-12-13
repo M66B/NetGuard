@@ -266,9 +266,6 @@ public class SinkholeService extends VpnService {
 
         private HashMap<ApplicationInfo, Long> app = new HashMap<>();
 
-        private final static int STATS_POINTS = 100;
-        private final static int STATS_FREQUENCY = 1000;
-
         private void startStats() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean enabled = (!stats && prefs.getBoolean("show_stats", false));
@@ -296,12 +293,17 @@ public class SinkholeService extends VpnService {
         private void updateStats() {
             RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            int frequency = Integer.parseInt(prefs.getString("stats_frequency", "1000"));
+            int samples = Integer.parseInt(prefs.getString("stats_samples", "90"));
+            float base = Integer.parseInt(prefs.getString("stats_base", "5")) * 1000f;
 
             // Schedule next update
-            mServiceHandler.sendEmptyMessageDelayed(MSG_STATS_UPDATE, STATS_FREQUENCY);
+            mServiceHandler.sendEmptyMessageDelayed(MSG_STATS_UPDATE, frequency);
+
+            long ct = SystemClock.elapsedRealtime();
 
             // Cleanup
-            while (gt.size() >= STATS_POINTS) {
+            while (gt.size() > 0 && ct - gt.get(0) > samples * 1000) {
                 gt.remove(0);
                 gtx.remove(0);
                 grx.remove(0);
@@ -310,7 +312,6 @@ public class SinkholeService extends VpnService {
             // Calculate network speed
             float txsec = 0;
             float rxsec = 0;
-            long ct = SystemClock.elapsedRealtime();
             long ctx = TrafficStats.getTotalTxBytes();
             long rtx = TrafficStats.getTotalRxBytes();
             if (t > 0 && tx > 0 && rx > 0) {
@@ -377,8 +378,6 @@ public class SinkholeService extends VpnService {
             Canvas canvas = new Canvas(bitmap);
             canvas.drawColor(Color.TRANSPARENT);
 
-            float base = Integer.parseInt(prefs.getString("stats_base", "5")) * 1000f;
-
             // Determine max
             long xmax = 0;
             float ymax = base * 1.5f;
@@ -398,7 +397,7 @@ public class SinkholeService extends VpnService {
             Path ptx = new Path();
             Path prx = new Path();
             for (int i = 0; i < gtx.size(); i++) {
-                float x = width - width * (xmax - gt.get(i)) / 1000f / STATS_POINTS;
+                float x = width - width * (xmax - gt.get(i)) / 1000f / samples;
                 float ytx = height - height * gtx.get(i) / ymax;
                 float yrx = height - height * grx.get(i) / ymax;
                 if (i == 0) {
