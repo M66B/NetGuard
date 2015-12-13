@@ -293,10 +293,11 @@ public class SinkholeService extends VpnService {
         }
 
         private void updateStats() {
+            RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+
             // Schedule next update
             mServiceHandler.sendEmptyMessageDelayed(MSG_STATS_UPDATE, STATS_FREQUENCY);
-
-            RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
 
             // Cleanup
             while (gt.size() >= STATS_POINTS) {
@@ -321,38 +322,40 @@ public class SinkholeService extends VpnService {
             }
 
             // Calculate application speeds
-            if (app.size() == 0)
-                for (ApplicationInfo ainfo : getPackageManager().getInstalledApplications(0))
-                    app.put(ainfo, TrafficStats.getUidTxBytes(ainfo.uid) + TrafficStats.getUidRxBytes(ainfo.uid));
+            if (prefs.getBoolean("show_top", false)) {
+                if (app.size() == 0)
+                    for (ApplicationInfo ainfo : getPackageManager().getInstalledApplications(0))
+                        app.put(ainfo, TrafficStats.getUidTxBytes(ainfo.uid) + TrafficStats.getUidRxBytes(ainfo.uid));
 
-            else if (t > 0) {
-                TreeMap<Float, ApplicationInfo> mapSpeed = new TreeMap<>();
-                float dt = (ct - t) / 1000f;
-                for (ApplicationInfo aInfo : app.keySet()) {
-                    long bytes = TrafficStats.getUidTxBytes(aInfo.uid) + TrafficStats.getUidRxBytes(aInfo.uid);
-                    float speed = (bytes - app.get(aInfo)) / dt;
-                    if (speed > 0) {
-                        mapSpeed.put(speed, aInfo);
-                        app.put(aInfo, bytes);
+                else if (t > 0) {
+                    TreeMap<Float, ApplicationInfo> mapSpeed = new TreeMap<>();
+                    float dt = (ct - t) / 1000f;
+                    for (ApplicationInfo aInfo : app.keySet()) {
+                        long bytes = TrafficStats.getUidTxBytes(aInfo.uid) + TrafficStats.getUidRxBytes(aInfo.uid);
+                        float speed = (bytes - app.get(aInfo)) / dt;
+                        if (speed > 0) {
+                            mapSpeed.put(speed, aInfo);
+                            app.put(aInfo, bytes);
+                        }
                     }
-                }
 
-                StringBuilder sb = new StringBuilder();
-                int i = 0;
-                for (float s : mapSpeed.keySet()) {
-                    if (i++ >= 3)
-                        break;
-                    if (s < 1000 * 1000)
-                        sb.append(getString(R.string.msg_kbsec, s / 1000));
-                    else
-                        sb.append(getString(R.string.msg_mbsec, s / 1000 / 1000));
-                    sb.append(' ');
-                    sb.append(getPackageManager().getApplicationLabel(mapSpeed.get(s)).toString());
-                    sb.append("\r\n");
+                    StringBuilder sb = new StringBuilder();
+                    int i = 0;
+                    for (float s : mapSpeed.keySet()) {
+                        if (i++ >= 3)
+                            break;
+                        if (s < 1000 * 1000)
+                            sb.append(getString(R.string.msg_kbsec, s / 1000));
+                        else
+                            sb.append(getString(R.string.msg_mbsec, s / 1000 / 1000));
+                        sb.append(' ');
+                        sb.append(getPackageManager().getApplicationLabel(mapSpeed.get(s)).toString());
+                        sb.append("\r\n");
+                    }
+                    if (sb.length() > 0)
+                        sb.setLength(sb.length() - 2);
+                    remoteViews.setTextViewText(R.id.tvTop, sb.toString());
                 }
-                if (sb.length() > 0)
-                    sb.setLength(sb.length() - 2);
-                remoteViews.setTextViewText(R.id.tvTop, sb.toString());
             }
 
             t = ct;
@@ -368,7 +371,6 @@ public class SinkholeService extends VpnService {
             Canvas canvas = new Canvas(bitmap);
             canvas.drawColor(Color.TRANSPARENT);
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             float base = Integer.parseInt(prefs.getString("stats_base", "5")) * 1000f;
 
             // Determine max

@@ -41,6 +41,10 @@
             android:defaultValue="5"
             android:inputType="number"
             android:key="stats_base" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="show_top"
+            android:title="@string/setting_stats_top" />
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"
