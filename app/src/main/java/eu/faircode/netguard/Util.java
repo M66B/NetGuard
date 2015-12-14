@@ -111,7 +111,8 @@ public class Util {
 
     public static String getWifiSSID(Context context) {
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        return wm.getConnectionInfo().getSSID();
+        String ssid = wm.getConnectionInfo().getSSID();
+        return (ssid == null ? "NULL" : ssid);
     }
 
     public static int getNetworkType(Context context) {
