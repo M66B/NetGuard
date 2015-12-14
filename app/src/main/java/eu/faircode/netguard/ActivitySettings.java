@@ -102,14 +102,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         PreferenceScreen screen = getPreferenceScreen();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // Stats base speed
+        // Stats
         EditTextPreference pref_stats_base = (EditTextPreference) screen.findPreference("stats_base");
-        pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
-
         EditTextPreference pref_stats_frequency = (EditTextPreference) screen.findPreference("stats_frequency");
-        pref_stats_frequency.setTitle(getString(R.string.setting_stats_frequency, prefs.getString("stats_frequency", "1000")));
-
         EditTextPreference pref_stats_samples = (EditTextPreference) screen.findPreference("stats_samples");
+        pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
+        pref_stats_frequency.setTitle(getString(R.string.setting_stats_frequency, prefs.getString("stats_frequency", "1000")));
         pref_stats_samples.setTitle(getString(R.string.setting_stats_samples, prefs.getString("stats_samples", "90")));
 
         // Wi-Fi home
