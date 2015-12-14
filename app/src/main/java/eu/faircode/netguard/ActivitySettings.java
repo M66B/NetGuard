@@ -102,14 +102,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         PreferenceScreen screen = getPreferenceScreen();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // Stats
-        EditTextPreference pref_stats_base = (EditTextPreference) screen.findPreference("stats_base");
-        EditTextPreference pref_stats_frequency = (EditTextPreference) screen.findPreference("stats_frequency");
-        EditTextPreference pref_stats_samples = (EditTextPreference) screen.findPreference("stats_samples");
-        pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
-        pref_stats_frequency.setTitle(getString(R.string.setting_stats_frequency, prefs.getString("stats_frequency", "1000")));
-        pref_stats_samples.setTitle(getString(R.string.setting_stats_samples, prefs.getString("stats_samples", "90")));
-
         // Wi-Fi home
         MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) screen.findPreference("wifi_homes");
         Set<String> ssid = prefs.getStringSet("wifi_homes", new HashSet<String>());
@@ -130,6 +122,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
         pref_auto_enable.setTitle(getString(R.string.setting_auto, prefs.getString("auto_enable", "0")));
+
+        // Handle stats
+        EditTextPreference pref_stats_base = (EditTextPreference) screen.findPreference("stats_base");
+        EditTextPreference pref_stats_frequency = (EditTextPreference) screen.findPreference("stats_frequency");
+        EditTextPreference pref_stats_samples = (EditTextPreference) screen.findPreference("stats_samples");
+        pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
+        pref_stats_frequency.setTitle(getString(R.string.setting_stats_frequency, prefs.getString("stats_frequency", "1000")));
+        pref_stats_samples.setTitle(getString(R.string.setting_stats_samples, prefs.getString("stats_samples", "90")));
 
         // Handle export
         Preference pref_export = screen.findPreference("export");

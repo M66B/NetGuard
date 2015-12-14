@@ -72,7 +72,7 @@
             android:title="@string/setting_national_roaming" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="category_options"
+        android:key="category_stats"
         android:title="@string/setting_stats_category">
         <SwitchPreference
             android:defaultValue="false"
