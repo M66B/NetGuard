@@ -29,12 +29,12 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_metered_3g">3G gebührenfrei betrachten</string>
   <string name="setting_metered_4g">LTE gebührenfrei betrachten</string>
   <string name="setting_national_roaming">Nationales Roaming ignorieren</string>
-  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats_category">Geschwindigkeitsbenachrichtigung</string>
   <string name="setting_stats">Netzwerkgeschwindigkeit anzeigen</string>
-  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_top">Top-Anwendungen anzeigen</string>
   <string name="setting_stats_base">Geschwindigkeit: %s KB/s</string>
-  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
-  <string name="setting_stats_samples">Number of samples: %s s</string>
+  <string name="setting_stats_frequency">Abtastfrequenz: %s ms</string>
+  <string name="setting_stats_samples">Abtastanzahl: %s s</string>
   <string name="setting_backup">Sicherung</string>
   <string name="setting_export">Einstellungen exportieren</string>
   <string name="setting_import">Einstellungen importieren</string>

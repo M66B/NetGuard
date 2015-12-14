@@ -30,12 +30,12 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_metered_3g">Considera 3G ne contorizat</string>
   <string name="setting_metered_4g">Considera 4G/LTE ne contorizat</string>
   <string name="setting_national_roaming">Ignora roamingul national</string>
-  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats_category">Notificare viteza conexiune</string>
   <string name="setting_stats">Arata viteza in notificare</string>
-  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_top">Arata aplicatiile consumatoare</string>
   <string name="setting_stats_base">Viteza de baza: %s KB/s</string>
-  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
-  <string name="setting_stats_samples">Number of samples: %s s</string>
+  <string name="setting_stats_frequency">Frecventa de esantionare: %s ms</string>
+  <string name="setting_stats_samples">Numar de mostre: %s s</string>
   <string name="setting_backup">Copie de siguranta</string>
   <string name="setting_export">Exporta setari</string>
   <string name="setting_import">Importa setari</string>
