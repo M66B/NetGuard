@@ -49,6 +49,10 @@ because NetGuard uses the [addDisallowedApplication](http://developer.android.co
 
 No, unlike most of the similar closed source alternatives.
 
+However, the network speed graph notification will use extra battery power.
+This is why the notification is shown only when the screen is on.
+You can decrease the update frequency using the settings to reduce the battery usage.
+
 <a name="FAQ5"></a>
 **(5) Can you add usage statistics?**<br />
 **(5) Can you add popups to allow/block applications?**<br />
