@@ -130,6 +130,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
         pref_stats_frequency.setTitle(getString(R.string.setting_stats_frequency, prefs.getString("stats_frequency", "1000")));
         pref_stats_samples.setTitle(getString(R.string.setting_stats_samples, prefs.getString("stats_samples", "90")));
+        PreferenceCategory stats = (PreferenceCategory) screen.findPreference("category_stats");
+        if (Util.isPlayStoreInstall(this))
+            screen.removePreference(stats);
 
         // Handle export
         Preference pref_export = screen.findPreference("export");

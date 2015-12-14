@@ -281,6 +281,10 @@ public class Util {
         return ((context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
     }
 
+    public static boolean isPlayStoreInstall(Context context) {
+        return "com.android.vending".equals(context.getPackageManager().getInstallerPackageName(context.getPackageName()));
+    }
+
     public static boolean hasValidFingerprint(Context context) {
         try {
             PackageManager pm = context.getPackageManager();
