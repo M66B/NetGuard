@@ -175,7 +175,7 @@ public class SinkholeService extends VpnService {
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 &&
                     Util.hasPhoneStatePermission(SinkholeService.this)) {
                 SubscriptionManager sm = SubscriptionManager.from(SinkholeService.this);
-                subscriptionsChangedListener = subscriptionsChangedListener = new SubscriptionManager.OnSubscriptionsChangedListener() {
+                subscriptionsChangedListener = new SubscriptionManager.OnSubscriptionsChangedListener() {
                     @Override
                     public void onSubscriptionsChanged() {
                         Log.i(TAG, "Subscriptions changed");
@@ -294,9 +294,9 @@ public class SinkholeService extends VpnService {
         private void updateStats() {
             RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            int frequency = Integer.parseInt(prefs.getString("stats_frequency", "1000"));
-            int samples = Integer.parseInt(prefs.getString("stats_samples", "90"));
-            float base = Integer.parseInt(prefs.getString("stats_base", "5")) * 1000f;
+            long frequency = Long.parseLong(prefs.getString("stats_frequency", "1000"));
+            long samples = Long.parseLong(prefs.getString("stats_samples", "90"));
+            float base = Long.parseLong(prefs.getString("stats_base", "5")) * 1000f;
 
             // Schedule next update
             mServiceHandler.sendEmptyMessageDelayed(MSG_STATS_UPDATE, frequency);
