@@ -27,12 +27,12 @@
   <string name="setting_metered_3g">Не учитывать 3G</string>
   <string name="setting_metered_4g">Не учитывать LTE</string>
   <string name="setting_national_roaming">Игнорировать роуминг внутри страны</string>
-  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats_category">Скорость в статус-баре</string>
   <string name="setting_stats">Показать скорость в статус-баре</string>
-  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_top">Показать топовое приложение</string>
   <string name="setting_stats_base">Скорость сети: %s KB/s</string>
-  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
-  <string name="setting_stats_samples">Number of samples: %s s</string>
+  <string name="setting_stats_frequency">Частота замеров: %s ms</string>
+  <string name="setting_stats_samples">Число замеров: %s s</string>
   <string name="setting_backup">Резервное копирование</string>
   <string name="setting_export">Экспорт настроек</string>
   <string name="setting_import">Импорт настроек</string>

@@ -34,7 +34,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="setting_stats">Show speed notification</string>
   <string name="setting_stats_top">Show top applications</string>
   <string name="setting_stats_base">Speed baseline: %s KB/s</string>
-  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
+  <string name="setting_stats_frequency">Sample interval: %s ms</string>
   <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Zálohovať</string>
   <string name="setting_export">Exportovať nastavenia</string>

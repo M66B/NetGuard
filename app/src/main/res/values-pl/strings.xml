@@ -30,12 +30,12 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_metered_3g">Przyjmuj 3G za nietaryfowe</string>
   <string name="setting_metered_4g">Przyjmuj LTE za nietaryfowe</string>
   <string name="setting_national_roaming">Ignoruj roaming krajowy</string>
-  <string name="setting_stats_category">Speed notification</string>
-  <string name="setting_stats">Pokazuj  wskaźnik prędkości</string>
-  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_category">Wskaźnik prędkości</string>
+  <string name="setting_stats">Pokazuj wskaźnik prędkości</string>
+  <string name="setting_stats_top">Pokaż aplikacje z najwyższym transferem</string>
   <string name="setting_stats_base">Prędkość na linii bazowej: %s KB/s</string>
-  <string name="setting_stats_frequency">Sample frequency: %s ms</string>
-  <string name="setting_stats_samples">Number of samples: %s s</string>
+  <string name="setting_stats_frequency">Częstotliwość próbkowania: %s ms</string>
+  <string name="setting_stats_samples">Ilość próbek: %s s</string>
   <string name="setting_backup">Kopia zapasowa</string>
   <string name="setting_export">Eksport ustawień</string>
   <string name="setting_import">Import ustawień</string>
