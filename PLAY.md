@@ -39,7 +39,6 @@ Features:
 &bull; Optionally allow when screen on
 &bull; Optionally block when roaming
 &bull; Optionally block system applications
-&bull; Graphical network speed display
 &bull; Material design
 
 There is no other no-root firewall offering all these features.
