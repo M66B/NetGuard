@@ -84,7 +84,7 @@ Devices / ROMs with a broken VPN implementation:
 
 NetGuard will crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 
-Tethering will not work when NetGuard is enabled due to a bug in Android ([issue](https://github.com/M66B/NetGuard/issues/42)).
+Wi-Fi/USB tethering and Wi-Fi will not work when NetGuard is enabled due to a bug in Android ([issue](https://github.com/M66B/NetGuard/issues/42)).
 
 Unfortunately it is not possible to workaround any of these Android problems.
 
