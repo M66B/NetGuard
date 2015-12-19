@@ -84,7 +84,11 @@ public class Util {
 
     public static boolean hasTelephony(Context context) {
         PackageManager pm = context.getPackageManager();
-        return pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY);
+        if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY))
+            return true;
+        // Workaround
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return (tm != null && tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN);
     }
 
     public static boolean hasWifi(Context context) {
@@ -94,30 +98,30 @@ public class Util {
 
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
+        NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
         return (ni != null && ni.isConnected());
     }
 
     public static boolean isWifiActive(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
+        NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
         return (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
     }
 
     public static boolean isMeteredNetwork(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.isActiveNetworkMetered();
+        return (cm != null && cm.isActiveNetworkMetered());
     }
 
     public static String getWifiSSID(Context context) {
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        String ssid = wm.getConnectionInfo().getSSID();
+        String ssid = (wm == null ? null : wm.getConnectionInfo().getSSID());
         return (ssid == null ? "NULL" : ssid);
     }
 
     public static int getNetworkType(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
+        NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
         return (ni == null ? TelephonyManager.NETWORK_TYPE_UNKNOWN : ni.getSubtype());
     }
 
@@ -129,7 +133,7 @@ public class Util {
 
     public static boolean isRoaming(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
+        NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
         return (ni != null && ni.isRoaming());
     }
 
@@ -161,7 +165,7 @@ public class Util {
             }
         }
 
-        return (tm.getSimCountryIso() == null ? true : !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
+        return (tm == null || tm.getSimCountryIso() == null ? true : !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
     }
 
     public static String getNetworkGeneration(int networkType) {
@@ -265,7 +269,7 @@ public class Util {
 
     public static boolean isInteractive(Context context) {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        return pm.isInteractive();
+        return (pm != null && pm.isInteractive());
     }
 
     public static boolean isPackageInstalled(String packageName, Context context) {

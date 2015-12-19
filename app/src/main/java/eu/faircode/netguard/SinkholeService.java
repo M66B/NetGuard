@@ -163,7 +163,7 @@ public class SinkholeService extends VpnService {
 
             // Listen for phone state changes
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            if (!phone_state &&
+            if (tm != null && !phone_state &&
                     Util.hasPhoneStatePermission(SinkholeService.this)) {
                 tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE | PhoneStateListener.LISTEN_SERVICE_STATE);
                 phone_state = true;
@@ -830,8 +830,10 @@ public class SinkholeService extends VpnService {
 
         if (phone_state) {
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
-            phone_state = false;
+            if (tm != null) {
+                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+                phone_state = false;
+            }
         }
 
         if (subscriptionsChangedListener != null &&
