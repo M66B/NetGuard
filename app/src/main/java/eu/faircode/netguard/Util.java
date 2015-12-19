@@ -84,7 +84,9 @@ public class Util {
 
     public static boolean hasTelephony(Context context) {
         PackageManager pm = context.getPackageManager();
-        return pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY);
+        return pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY) ||
+                ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getNetworkType()!=
+                TelephonyManager.NETWORK_TYPE_UNKNOWN;
     }
 
     public static boolean hasWifi(Context context) {
