@@ -76,6 +76,7 @@ Devices / ROMs with a broken VPN implementation:
 * Samsung™ Galaxy A3 / Android 5.0.2, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=64142621&postcount=509) (all traffic blocked)
 * Samsung™ Galaxy A5 / Android 5.0.2, [reported on Github](https://github.com/M66B/NetGuard/issues/20) (all traffic blocked)
 * Samsung™ Galaxy Note3 / Android 5.0 (reported through Google Play™ store app feedback) (VPN prepare fails)
+* Samsung™ Galaxy Note4 / Android 5.1.1 (reported through Google Play™ store app feedback and on XDA) (telephone unresponsive)
 * Samsung™ Galaxy Note5 / Android ? (reported through Google Play™ store app feedback and on XDA) (?)
 * Sony™ Xperia™ M4 Aqua Dual / Android 5.0 (reported in the Google Play™ store app) (all traffic blocked)
 * Symphony Teleca™ / Micromax™ Canvas Knight 2 E471 / Android 5.0.2 (reported by e-mail) (VPN establish fails)
