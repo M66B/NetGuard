@@ -34,7 +34,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_stats">Arata viteza in notificare</string>
   <string name="setting_stats_top">Arata aplicatiile consumatoare</string>
   <string name="setting_stats_base">Viteza de baza: %s KB/s</string>
-  <string name="setting_stats_frequency">Frecventa de esantionare: %s ms</string>
+  <string name="setting_stats_frequency">Interval de esantionare: %s ms</string>
   <string name="setting_stats_samples">Numar de mostre: %s s</string>
   <string name="setting_backup">Copie de siguranta</string>
   <string name="setting_export">Exporta setari</string>

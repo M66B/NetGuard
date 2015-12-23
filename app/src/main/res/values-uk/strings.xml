@@ -26,12 +26,12 @@
   <string name="setting_metered_3g">Не враховувати 3G</string>
   <string name="setting_metered_4g">Не враховувати LTE</string>
   <string name="setting_national_roaming">Ігнорувати національний роумінг</string>
-  <string name="setting_stats_category">Speed notification</string>
+  <string name="setting_stats_category">Швидкість в сповіщенні</string>
   <string name="setting_stats">Показувати сповіщення о швидкості</string>
-  <string name="setting_stats_top">Show top applications</string>
+  <string name="setting_stats_top">Показати топові додатки</string>
   <string name="setting_stats_base">Базова швидкість: %s КБ/с</string>
-  <string name="setting_stats_frequency">Sample interval: %s ms</string>
-  <string name="setting_stats_samples">Number of samples: %s s</string>
+  <string name="setting_stats_frequency">Частота замірів: %s мс</string>
+  <string name="setting_stats_samples">Число замірів: %s s</string>
   <string name="setting_backup">Резервне копіювання</string>
   <string name="setting_export">Експорт налаштувань</string>
   <string name="setting_import">Імпорт налаштувань</string>
@@ -39,7 +39,7 @@
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
   <string name="summary_stats">Показувати графік швидкості мережі у панелі сповіщень</string>
   <string name="summary_auto">При відключені через віджет, NetGuard буде автоматично увімкнуто через вказану кількість хвилин\nВведіть 0, аби відключити цю функцію</string>
-  <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
+  <string name="summary_wifi_home">Застосувати правила Wi-Fi мережі лише для обраної (для інших застосовуються правила мобільної мережі)</string>
   <string name="summary_metered">Застосувати правила до лімітованих (платних, обмежених) Wi-Fi мереж</string>
   <string name="summary_metered_2g">Застосувати правила Wi-Fi мережі до 2G з\'єднання</string>
   <string name="summary_metered_3g">Застосувати правила Wi-Fi мережі до 3G з\'єднання</string>
