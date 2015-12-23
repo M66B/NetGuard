@@ -51,7 +51,8 @@
 
             <RelativeLayout
                 android:layout_width="24dp"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall">
+                android:layout_height="?android:attr/listPreferredItemHeightSmall"
+                android:layout_marginStart="8dp">
 
                 <CheckBox
                     android:id="@+id/cbWifi"
