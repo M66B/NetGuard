@@ -191,6 +191,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                SinkholeService.reload(null, "pull", ActivityMain.this);
                 updateApplicationList();
             }
         });
