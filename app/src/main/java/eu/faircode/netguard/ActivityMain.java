@@ -77,6 +77,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int MIN_SDK = Build.VERSION_CODES.LOLLIPOP;
 
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
+    public static final String EXTRA_SEARCH = "Search";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +193,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             public void onRefresh() {
                 SinkholeService.reload(null, "pull", ActivityMain.this);
-                updateApplicationList();
+                updateApplicationList(null);
             }
         });
 
@@ -246,7 +247,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
 
         // Fill application list
-        updateApplicationList();
+        updateApplicationList(getIntent().getStringExtra(EXTRA_SEARCH));
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.i(TAG, "New intent");
+        super.onNewIntent(intent);
+        updateApplicationList(intent.getStringExtra(EXTRA_SEARCH));
     }
 
     @Override
@@ -345,7 +353,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 "whitelist_roaming".equals(name) ||
                 "manage_system".equals(name) ||
                 "imported".equals(name))
-            updateApplicationList();
+            updateApplicationList(null);
 
         else if ("dark_theme".equals(name))
             recreate();
@@ -367,7 +375,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     else
                         adapter.setDisconnected();
                 else
-                    updateApplicationList();
+                    updateApplicationList(null);
         }
     };
 
@@ -376,11 +384,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            updateApplicationList();
+            updateApplicationList(null);
         }
     };
 
-    private void updateApplicationList() {
+    private void updateApplicationList(final String search) {
+        Log.i(TAG, "Update search=" + search);
         new AsyncTask<Object, Object, List<Rule>>() {
             private boolean refreshing = true;
 
@@ -406,7 +415,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     if (adapter != null)
                         adapter.set(result);
                     if (menuSearch != null)
-                        MenuItemCompat.collapseActionView(menuSearch);
+                        if (search == null)
+                            MenuItemCompat.collapseActionView(menuSearch);
+                        else {
+                            MenuItemCompat.expandActionView(menuSearch);
+                            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+                            searchView.setQuery(search, true);
+                        }
                     if (swipeRefresh != null) {
                         refreshing = false;
                         swipeRefresh.setRefreshing(false);

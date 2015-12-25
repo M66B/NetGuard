@@ -110,7 +110,8 @@ public class Receiver extends BroadcastReceiver {
 
             // Build notification
             Intent main = new Intent(context, ActivityMain.class);
-            PendingIntent pi = PendingIntent.getActivity(context, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
+            main.putExtra(ActivityMain.EXTRA_SEARCH, name);
+            PendingIntent pi = PendingIntent.getActivity(context, 999, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_security_white_24dp)
