@@ -54,6 +54,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="msg_packages">%1$d autorisée(s), %2$d bloquée(s)</string>
   <string name="msg_disabled">NetGuard est désactivé, utilisez le bouton ci-dessus pour activer NetGuard</string>
   <string name="msg_revoked">NetGuard a été désactivé, probablement en utilisant une autre application VPN</string>
+  <string name="msg_installed">\'%1$s\' installed</string>
   <string name="msg_completed">Action réalisée</string>
   <string name="msg_vpn">NetGuard utilise un VPN local comme un gouffre pour bloquer le trafic internet.
 Pour cette raison, veuillez autoriser une connexion VPN dans la fenêtre suivante.
@@ -74,4 +75,6 @@ Faire un don est une de façon de montrer votre soutien au développeur et votre
   <string name="title_donate">Faire un don</string>
   <string name="title_rate">Évaluer</string>
   <string name="title_thanks">Merci pour votre don !</string>
+  <string name="title_allow">Allow</string>
+  <string name="title_block">Block</string>
 </resources>

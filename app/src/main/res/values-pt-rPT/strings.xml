@@ -54,6 +54,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
   <string name="msg_disabled">NetGuard desativado, use o interruptor acima para ativar o NetGuard</string>
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>
+  <string name="msg_installed">\'%1$s\' installed</string>
   <string name="msg_completed">Ação concluída</string>
   <string name="msg_vpn">NetGuard usa uma VPN local como um sumidouro para bloquear o tráfego de dados.
 Por essa razão, por favor, permita a conexão VPN na tela a seguir.
@@ -73,4 +74,6 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_donate">Doar</string>
   <string name="title_rate">Avaliar</string>
   <string name="title_thanks">Obrigado por sua doação!</string>
+  <string name="title_allow">Allow</string>
+  <string name="title_block">Block</string>
 </resources>

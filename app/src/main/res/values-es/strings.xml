@@ -54,6 +54,7 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
   <string name="msg_disabled">NetGuard está deshabilitado, utiliza el interruptor de arriba para habilitar a NetGuard</string>
   <string name="msg_revoked">NetGuard ha sido desactivado, probablemente por usar otra aplicación de VPN</string>
+  <string name="msg_installed">\'%1$s\' installed</string>
   <string name="msg_completed">Acción completada</string>
   <string name="msg_vpn">NetGuard utiliza una VPN local como un pozo ciego para bloquear el tráfico de internet.
 Por esta razón, por favor permite la conexión VPN en el próximo diálogo.
@@ -73,4 +74,6 @@ Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de i
   <string name="title_donate">Donar</string>
   <string name="title_rate">Calificar</string>
   <string name="title_thanks">¡Gracias por tu donación!</string>
+  <string name="title_allow">Allow</string>
+  <string name="title_block">Block</string>
 </resources>
