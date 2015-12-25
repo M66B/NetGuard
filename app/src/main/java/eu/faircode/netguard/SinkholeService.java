@@ -471,7 +471,7 @@ public class SinkholeService extends VpnService {
             boolean blocked = intent.getBooleanExtra(EXTRA_BLOCKED, false);
             Log.i(TAG, "Set " + pkg + " " + network + "=" + blocked);
 
-            // Get defailts
+            // Get defaults
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean default_wifi = settings.getBoolean("whitelist_wifi", true);
             boolean default_other = settings.getBoolean("whitelist_other", true);
@@ -483,8 +483,8 @@ public class SinkholeService extends VpnService {
             else
                 prefs.edit().putBoolean(pkg, blocked).apply();
 
-            // Remove notification
-            NotificationManagerCompat.from(SinkholeService.this).cancel(uid);
+            // Update notification
+            Receiver.notifyApplication(uid, SinkholeService.this);
 
             // Update UI
             Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
