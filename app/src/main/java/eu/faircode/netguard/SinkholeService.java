@@ -89,15 +89,19 @@ public class SinkholeService extends VpnService {
     private static final int NOTIFY_DISABLED = 2;
     private static final int NOTIFY_TRAFFIC = 3;
 
-    private static final String EXTRA_COMMAND = "Command";
+    public static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
+    public static final String EXTRA_NETWORK = "Network";
+    public static final String EXTRA_UID = "UID";
+    public static final String EXTRA_PACKAGE = "Package";
+    public static final String EXTRA_BLOCKED = "Blocked";
 
     private static final int MSG_SERVICE_INTENT = 0;
     private static final int MSG_STATS_START = 1;
     private static final int MSG_STATS_STOP = 2;
     private static final int MSG_STATS_UPDATE = 3;
 
-    private enum Command {start, reload, stop, stats}
+    public enum Command {start, reload, stop, stats, set}
 
     private static volatile PowerManager.WakeLock wlInstance = null;
 
@@ -231,6 +235,10 @@ public class SinkholeService extends VpnService {
                     case stats:
                         stopStats();
                         startStats();
+                        break;
+
+                    case set:
+                        set(intent);
                         break;
                 }
 
@@ -453,6 +461,34 @@ public class SinkholeService extends VpnService {
                     .setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorPrimary))
                     .setOngoing(true);
             NotificationManagerCompat.from(SinkholeService.this).notify(NOTIFY_TRAFFIC, builder.build());
+        }
+
+        private void set(Intent intent) {
+            // Get arguments
+            int uid = intent.getIntExtra(EXTRA_UID, 0);
+            String network = intent.getStringExtra(EXTRA_NETWORK);
+            String pkg = intent.getStringExtra(EXTRA_PACKAGE);
+            boolean blocked = intent.getBooleanExtra(EXTRA_BLOCKED, false);
+            Log.i(TAG, "Set " + pkg + " " + network + "=" + blocked);
+
+            // Get defailts
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            boolean default_wifi = settings.getBoolean("whitelist_wifi", true);
+            boolean default_other = settings.getBoolean("whitelist_other", true);
+
+            // Update setting
+            SharedPreferences prefs = getSharedPreferences(network, Context.MODE_PRIVATE);
+            if (blocked == ("wifi".equals(network) ? default_wifi : default_other))
+                prefs.edit().remove(pkg).apply();
+            else
+                prefs.edit().putBoolean(pkg, blocked).apply();
+
+            // Remove notification
+            NotificationManagerCompat.from(SinkholeService.this).cancel(uid);
+
+            // Update UI
+            Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+            LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
         }
     }
 

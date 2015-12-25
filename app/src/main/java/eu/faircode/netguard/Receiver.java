@@ -19,13 +19,19 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.VpnService;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import java.util.Map;
@@ -38,9 +44,78 @@ public class Receiver extends BroadcastReceiver {
         Log.i(TAG, "Received " + intent);
         Util.logExtras(intent);
 
-        if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
-            // Remove settings
+        if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
+            // Application added
+            if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false))
+                // Show notification
+                try {
+                    // Get package info
+                    int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
+                    PackageManager pm = context.getPackageManager();
+                    String[] packages = pm.getPackagesForUid(uid);
+                    if (packages.length < 1)
+                        throw new PackageManager.NameNotFoundException(Integer.toString(uid));
+                    String name = (String) pm.getApplicationLabel(pm.getApplicationInfo(packages[0], 0));
+
+                    // Build notification
+                    Intent main = new Intent(context, ActivityMain.class);
+                    PendingIntent pi = PendingIntent.getActivity(context, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
+                            .setSmallIcon(R.drawable.ic_security_white_24dp)
+                            .setContentTitle(context.getString(R.string.app_name))
+                            .setContentText(context.getString(R.string.msg_installed, name))
+                            .setContentIntent(pi)
+                            .setCategory(Notification.CATEGORY_STATUS)
+                            .setVisibility(Notification.VISIBILITY_SECRET)
+                            .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                            .setAutoCancel(true);
+
+                    // Get defaults
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
+                    boolean default_other = prefs.getBoolean("whitelist_other", true);
+
+                    // Build Wi-Fi action
+                    Intent riWifi = new Intent(context, SinkholeService.class);
+                    riWifi.putExtra(SinkholeService.EXTRA_COMMAND, SinkholeService.Command.set);
+                    riWifi.putExtra(SinkholeService.EXTRA_NETWORK, "wifi");
+                    riWifi.putExtra(SinkholeService.EXTRA_UID, uid);
+                    riWifi.putExtra(SinkholeService.EXTRA_PACKAGE, packages[0]);
+                    riWifi.putExtra(SinkholeService.EXTRA_BLOCKED, !default_wifi);
+
+                    PendingIntent piWifi = PendingIntent.getService(context, 0, riWifi, PendingIntent.FLAG_UPDATE_CURRENT);
+                    notification.addAction(
+                            default_wifi ? R.drawable.wifi_on : R.drawable.wifi_off,
+                            context.getString(default_wifi ? R.string.title_allow : R.string.title_block),
+                            piWifi
+                    );
+
+                    // Build mobile action
+                    Intent riOther = new Intent(context, SinkholeService.class);
+                    riOther.putExtra(SinkholeService.EXTRA_COMMAND, SinkholeService.Command.set);
+                    riOther.putExtra(SinkholeService.EXTRA_NETWORK, "other");
+                    riOther.putExtra(SinkholeService.EXTRA_UID, uid);
+                    riOther.putExtra(SinkholeService.EXTRA_PACKAGE, packages[0]);
+                    riOther.putExtra(SinkholeService.EXTRA_BLOCKED, !default_other);
+                    PendingIntent piOther = PendingIntent.getService(context, 1, riOther, PendingIntent.FLAG_UPDATE_CURRENT);
+                    notification.addAction(
+                            default_other ? R.drawable.other_on : R.drawable.other_off,
+                            context.getString(default_other ? R.string.title_allow : R.string.title_block),
+                            piOther
+                    );
+
+                    // Show notification
+                    NotificationManagerCompat.from(context).notify(uid, notification.build());
+
+                } catch (PackageManager.NameNotFoundException ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+
+        } else if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
+            // Application removed
             if (intent.getBooleanExtra(Intent.EXTRA_DATA_REMOVED, false)) {
+                // Remove settings
                 String packageName = intent.getData().getSchemeSpecificPart();
                 Log.i(TAG, "Deleting settings package=" + packageName);
                 context.getSharedPreferences("wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
@@ -48,6 +123,10 @@ public class Receiver extends BroadcastReceiver {
                 context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences("screen_other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences("roaming", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+
+                int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
+                if (uid > 0)
+                    NotificationManagerCompat.from(context).cancel(uid);
             }
 
         } else {
