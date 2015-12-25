@@ -435,11 +435,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         // Traffic statistics
         holder.tvStatistics.setVisibility(debuggable ? View.VISIBLE : View.GONE);
         if (debuggable)
-            holder.tvStatistics.setText(context.getString(R.string.msg_traffic,
-                    TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid) / 1024f,
-                    TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid) / 1024f,
-                    SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT)
-                            .format(new Date(System.currentTimeMillis() - SystemClock.elapsedRealtime()))
+            holder.tvStatistics.setText(context.getString(R.string.msg_kbday,
+                    TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid) / 1024f * 24 * 3600 * 1000L / SystemClock.elapsedRealtime(),
+                    TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid) / 1024f * 24 * 3600 * 1000L / SystemClock.elapsedRealtime()
             ));
     }
 
