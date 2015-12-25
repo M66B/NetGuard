@@ -53,10 +53,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> implements Filterable {
@@ -434,12 +431,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         });
 
         // Traffic statistics
-        holder.tvStatistics.setVisibility(debuggable ? View.VISIBLE : View.GONE);
-        if (debuggable)
-            holder.tvStatistics.setText(context.getString(R.string.msg_kbday,
-                    TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid) / 1024f * 24 * 3600 * 1000L / SystemClock.elapsedRealtime(),
-                    TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid) / 1024f * 24 * 3600 * 1000L / SystemClock.elapsedRealtime()
-            ));
+        holder.tvStatistics.setText(context.getString(R.string.msg_kbday,
+                TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid) / 1024f * 24 * 3600 * 1000L / SystemClock.elapsedRealtime(),
+                TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid) / 1024f * 24 * 3600 * 1000L / SystemClock.elapsedRealtime()
+        ));
     }
 
     private void updateRule(Rule rule, String network, boolean blocked) {
