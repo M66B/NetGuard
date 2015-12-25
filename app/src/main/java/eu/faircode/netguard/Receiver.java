@@ -136,7 +136,7 @@ public class Receiver extends BroadcastReceiver {
             riWifi.putExtra(SinkholeService.EXTRA_PACKAGE, packages[0]);
             riWifi.putExtra(SinkholeService.EXTRA_BLOCKED, !wifi);
 
-            PendingIntent piWifi = PendingIntent.getService(context, 0, riWifi, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent piWifi = PendingIntent.getService(context, uid, riWifi, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.addAction(
                     wifi ? R.drawable.wifi_on : R.drawable.wifi_off,
                     context.getString(wifi ? R.string.title_allow : R.string.title_block),
@@ -150,7 +150,7 @@ public class Receiver extends BroadcastReceiver {
             riOther.putExtra(SinkholeService.EXTRA_UID, uid);
             riOther.putExtra(SinkholeService.EXTRA_PACKAGE, packages[0]);
             riOther.putExtra(SinkholeService.EXTRA_BLOCKED, !other);
-            PendingIntent piOther = PendingIntent.getService(context, 1, riOther, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent piOther = PendingIntent.getService(context, uid + 10000, riOther, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.addAction(
                     other ? R.drawable.other_on : R.drawable.other_off,
                     context.getString(other ? R.string.title_allow : R.string.title_block),
