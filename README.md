@@ -159,7 +159,7 @@ Frequently Asked Questions (FAQ)
 [**(21) Does doze mode affect NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ21)
 
 <a name="FAQ22"></a>
-[**(22) Can I tether while using NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ22)
+[**(22) Can I tether / use Wi-Fi calling while using NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ22)
 
 <a name="FAQ24"></a>
 [**(24) Can you remove the notification from the status bar?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ24)
