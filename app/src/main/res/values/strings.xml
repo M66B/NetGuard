@@ -72,7 +72,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
     <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
     <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
     <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
-    <string name="msg_kbday">&#177; %1$1.0f&#9650; %2$1.0f&#9660; KB/day</string>
+    <string name="msg_mbday">&#177; %1$.3f&#9650; %2$.3f&#9660; MB/day</string>
     <string name="msg_kbsec">%7.3f KB/s</string>
     <string name="msg_mbsec">%7.3f MB/s</string>
 

@@ -53,14 +53,14 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_packages">%1$d erlaubt, %2$d blockiert</string>
   <string name="msg_disabled">NetGuard ist deaktiviert. Verwenden Sie den Schalter, um NetGuard zu aktivieren</string>
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer VPN-Anwendung</string>
-  <string name="msg_installed">\'%1$s\' installed</string>
+  <string name="msg_installed">\'%1$s\' installiert</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
   <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um einen Internet-Verkehr zu blockieren. Deshalb erlauben Sie eine VPN-Verbindung im nächsten Fenster. Da NetGuard keine Internet-Berechtigung hat, wird der Internet-Verkehr auch nirgendwo weitergeleitet.</string>
   <string name="msg_try">NetGuard ausprobieren</string>
   <string name="msg_voluntary">Spenden sind vollkommen freiwillig und schalten keine Funktionen frei. Spenden helfen, die App weiterzuentwickeln und stellen eine Anerkennung für die Arbeit dar.</string>
   <string name="msg_terms">Durch eine Spende stimmen Sie der <a href="http://www.netguard.me/#terms">AGB</a> zu.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
-  <string name="msg_kbday">± %1$1.0f▲ %2$1.0f▼ KB/day</string>
+  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
@@ -72,6 +72,6 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="title_donate">Spenden</string>
   <string name="title_rate">Bewerten</string>
   <string name="title_thanks">Danke für die Spende!</string>
-  <string name="title_allow">Allow</string>
-  <string name="title_block">Block</string>
+  <string name="title_allow">Erlauben</string>
+  <string name="title_block">Sperren</string>
 </resources>

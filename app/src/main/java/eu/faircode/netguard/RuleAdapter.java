@@ -431,9 +431,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         });
 
         // Traffic statistics
-        holder.tvStatistics.setText(context.getString(R.string.msg_kbday,
-                TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid) / 1024f * 24 * 3600 * 1000L / SystemClock.elapsedRealtime(),
-                TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid) / 1024f * 24 * 3600 * 1000L / SystemClock.elapsedRealtime()
+        holder.tvStatistics.setText(context.getString(R.string.msg_mbday,
+                TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid) * 24 * 3600 * 1000L / 1024f / 1024f / SystemClock.elapsedRealtime(),
+                TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid) * 24 * 3600 * 1000L / 1024f / 1024f / SystemClock.elapsedRealtime()
         ));
     }
 

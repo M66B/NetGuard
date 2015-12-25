@@ -63,7 +63,7 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="msg_voluntary">寄付は完全に任意で、何の機能もロック解除しません。寄付は、仕事に感謝の気持ちを示す意味のものです。</string>
   <string name="msg_terms">寄付によって <a href="http://www.netguard.me/#terms">利用規約</a> に同意します</string>
   <string name="msg_dimming">次のダイアログ ボックスで OK を押すことができない場合、別の (画面調光) アプリケーションが画面を操作している可能性があります。</string>
-  <string name="msg_kbday">± %1$1.0f▲ %2$1.0f▼ KB/day</string>
+  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
