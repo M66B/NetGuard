@@ -60,6 +60,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="msg_voluntary">Пожертвования являются абсолютно добровольными и не добавляют никаких возможностей в программу. Пожертвования предназначены сугубо для того, чтобы выразить вашу признательность за проделанную работу.</string>
   <string name="msg_terms">Делая пожертвование, Вы соглашаетесь с <a href="http://www.netguard.me/#terms">условиями &amp; положениями</a></string>
   <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>
+  <string name="msg_kbday">± %1$1.0f▲ %2$1.0f▼ KB/day</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>

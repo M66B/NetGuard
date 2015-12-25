@@ -64,6 +64,7 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
 Faire un don est une de façon de montrer votre soutien au développeur et votre appréciation pour le travail accompli.</string>
   <string name="msg_terms">En faisant un don vous acceptez les <a href="http://www.netguard.me/#terms">termes et conditions</a></string>
   <string name="msg_dimming">Si vous ne pouvez pas appuyer sur OK dans la fenêtre suivante, une autre application (filtre de luminosité) manipule probablement l\'écran.</string>
+  <string name="msg_kbday">± %1$1.0f▲ %2$1.0f▼ KB/day</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_screen_wifi">Autoriser Wi-Fi si écran allumé</string>
