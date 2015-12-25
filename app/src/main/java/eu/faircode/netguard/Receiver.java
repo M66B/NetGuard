@@ -25,6 +25,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.VpnService;
 import android.os.PowerManager;
@@ -91,12 +92,21 @@ public class Receiver extends BroadcastReceiver {
     }
 
     public static void notifyApplication(int uid, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
+            // Get application info
             PackageManager pm = context.getPackageManager();
             String[] packages = pm.getPackagesForUid(uid);
             if (packages.length < 1)
                 throw new PackageManager.NameNotFoundException(Integer.toString(uid));
-            String name = (String) pm.getApplicationLabel(pm.getApplicationInfo(packages[0], 0));
+            ApplicationInfo info = pm.getApplicationInfo(packages[0], 0);
+            String name = (String) pm.getApplicationLabel(info);
+
+            // Check system application
+            boolean system = ((info.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0);
+            boolean manage_system = prefs.getBoolean("manage_system", false);
+            if (system && !manage_system)
+                return;
 
             // Build notification
             Intent main = new Intent(context, ActivityMain.class);
@@ -113,7 +123,6 @@ public class Receiver extends BroadcastReceiver {
                     .setAutoCancel(true);
 
             // Get defaults
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences prefs_wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
             SharedPreferences prefs_other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
             boolean wifi = prefs_wifi.getBoolean(packages[0], prefs.getBoolean("whitelist_wifi", true));
