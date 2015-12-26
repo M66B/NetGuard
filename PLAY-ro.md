@@ -8,7 +8,7 @@ NetGuard - firewall fara root
 
 Short description
 -----------------
-Netguard, primul firewall gratis si cu sursa deschisa ce nu necesita root 
+Un mod simplu de a bloca accesul aplicatiilor la internet
 
 
 Long description
@@ -42,7 +42,7 @@ Caracteristici:
 &bull; Design Material
 
 Nu există nici un alt firewall, ce nu necesita root, care sa ofere toate aceste caracteristici.
-Majoritatea celorlalte solutii firewall consuma bateria in plus si reduc viteza de ansamblu a conexiunilor.
+Majoritatea celorlalte solutii firewall sunt proprietare cu sursa inchisa, vor consuma bateria in plus si vor reduce viteza de ansamblu a conexiunilor.
 
 Majoritatea functiilor sunt rezultatul trimiterii traficului selectat intr-o "gaura neagra", in loc sa fie filtrat tot traficul de internet.
 Acest lucru presupune ca functii avansate, cum ar fi filtrarea adreselor (necesara pentru blocarea unor gazde), urmarirea traficului si detectarea aplicatiilor la acces, nu sunt posibile.
