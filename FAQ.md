@@ -203,6 +203,13 @@ So, the notification cannot be removed without causing instability.
 However, the notification is being marked as low priority,
 which should result in moving it to the bottom of the list.
 
+<a name="FAQ25"></a>
+**(25) Can you add a 'select all'?**
+
+There is no need for a select all function,
+because you can switch from black list to white list mode using the settings.
+See also [question 0](#FAQ0).
+
 <br />
 
 **If you didn't found the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.

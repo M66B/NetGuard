@@ -165,6 +165,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ24"></a>
 [**(24) Can you remove the notification from the status bar?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ24)
 
+<a name="FAQ25"></a>
+[**(25) Can you add a 'select all'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ25)
+
 Permissions
 -----------
 
