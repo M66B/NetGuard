@@ -351,11 +351,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 "whitelist_other".equals(name) ||
                 "screen_other".equals(name) ||
                 "whitelist_roaming".equals(name) ||
-                "manage_system".equals(name) ||
+                "show_user".equals(name) ||
+                "show_system".equals(name) ||
                 "imported".equals(name))
             updateApplicationList(null);
 
-        else if ("dark_theme".equals(name))
+        else if ("manage_system".equals(name)) {
+            invalidateOptionsMenu();
+            updateApplicationList(null);
+
+        } else if ("dark_theme".equals(name))
             recreate();
     }
 
@@ -476,9 +481,31 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean("manage_system", false)) {
+            menu.findItem(R.id.menu_app_user).setChecked(prefs.getBoolean("show_user", true));
+            menu.findItem(R.id.menu_app_system).setChecked(prefs.getBoolean("show_system", true));
+        } else
+            menu.removeItem(R.id.menu_filter);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         switch (item.getItemId()) {
+            case R.id.menu_app_user:
+                item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("show_user", item.isChecked()).apply();
+                return true;
+
+            case R.id.menu_app_system:
+                item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("show_system", item.isChecked()).apply();
+                return true;
+
             case R.id.menu_settings:
                 startActivity(new Intent(this, ActivitySettings.class));
                 return true;

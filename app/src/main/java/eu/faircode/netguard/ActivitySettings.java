@@ -320,7 +320,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
             SinkholeService.reload(null, "setting changed", this);
 
-        } else if ("unmetered_2g".equals(name) ||
+        } else if ("use_metered".equals(name))
+            SinkholeService.reload(null, "setting changed", this);
+
+        else if ("unmetered_2g".equals(name) ||
                 "unmetered_3g".equals(name) ||
                 "unmetered_4g".equals(name)) {
             if (prefs.getBoolean(name, false)) {
@@ -340,11 +343,19 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             } else
                 SinkholeService.reload("other", "setting changed", this);
 
-        } else if ("use_metered".equals(name) ||
-                "manage_system".equals(name))
+        } else if ("manage_system".equals(name)) {
+            SharedPreferences.Editor editor = prefs.edit();
+            if (prefs.getBoolean(name, false)) {
+                editor.putBoolean("show_user", true);
+                editor.putBoolean("show_system", true);
+            } else {
+                editor.putBoolean("show_user", true);
+                editor.putBoolean("show_system", false);
+            }
+            editor.apply();
             SinkholeService.reload(null, "setting changed", this);
 
-        else if ("dark_theme".equals(name))
+        } else if ("dark_theme".equals(name))
             recreate();
     }
 

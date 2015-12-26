@@ -8,6 +8,22 @@
         netguard:actionViewClass="android.support.v7.widget.SearchView"
         netguard:showAsAction="always|collapseActionView" />
     <item
+        android:id="@+id/menu_filter"
+        android:icon="@drawable/ic_filter_list_white_24dp"
+        android:title="@string/menu_filter"
+        netguard:showAsAction="always|collapseActionView">
+        <menu>
+            <item
+                android:id="@+id/menu_app_user"
+                android:checkable="true"
+                android:title="@string/menu_app_user" />
+            <item
+                android:id="@+id/menu_app_system"
+                android:checkable="true"
+                android:title="@string/menu_app_system" />
+        </menu>
+    </item>
+    <item
         android:id="@+id/menu_settings"
         android:title="@string/menu_settings" />
     <item

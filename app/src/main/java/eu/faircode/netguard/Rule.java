@@ -107,6 +107,8 @@ public class Rule implements Comparable<Rule> {
         boolean default_screen_other = prefs.getBoolean("screen_other", true);
         boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
         boolean manage_system = prefs.getBoolean("manage_system", false);
+        boolean show_user = prefs.getBoolean("show_user", true);
+        boolean show_system = prefs.getBoolean("show_system", true);
 
         // Get predefined rules
         Map<String, Boolean> pre_blocked = new HashMap<>();
@@ -144,7 +146,7 @@ public class Rule implements Comparable<Rule> {
         List<Rule> listRules = new ArrayList<>();
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
             boolean system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
-            if (!system || manage_system || all) {
+            if (all || (system ? manage_system && show_system : show_user)) {
                 Rule rule = new Rule(info, context);
 
                 rule.system = system;
