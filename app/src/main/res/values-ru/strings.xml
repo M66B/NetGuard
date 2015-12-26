@@ -7,6 +7,9 @@
   <string name="app_first">Были приложены большие усилия для разработки и тестирования NetGuard, однако невозможно гарантировать, что оно будет корректно работать на любом устройстве. NetGuard известен сбой при активации на некоторых устройствах. Известно также, что блокируется весь трафик на некоторых устройствах. Эти проблемы вызваны ошибками в Android, или в программном обеспечении, поставляемом изготовителем, поэтому, пожалуйста, не вините NetGuard.
 \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="menu_search">Поиск приложения</string>
+  <string name="menu_filter">Filter applications</string>
+  <string name="menu_app_user">Show user applications</string>
+  <string name="menu_app_system">Show system applications</string>
   <string name="menu_settings">Настройки</string>
   <string name="menu_invite">Пригласить</string>
   <string name="menu_support">Поддержка</string>

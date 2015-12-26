@@ -10,6 +10,9 @@ NetGuard pode fechar inesperadamente ao ser ativado e também poder bloquear tod
 Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecido pelo fabricante, então por favor não culpem o NetGuard.
 \n\nAo usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Buscar aplicativo</string>
+  <string name="menu_filter">Filter applications</string>
+  <string name="menu_app_user">Show user applications</string>
+  <string name="menu_app_system">Show system applications</string>
   <string name="menu_settings">Configurações</string>
   <string name="menu_invite">Convite</string>
   <string name="menu_support">Suporte</string>

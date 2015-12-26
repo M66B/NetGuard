@@ -6,6 +6,9 @@
   <string name="app_license">Використовуючи NetGuard, ви погоджуєтесь із <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Було докладено великі зусилля під час розробки та тестування NetGuard, проте, неможливо гарантувати, що воно буде коректно працювати на будь-якому пристрої. NetGuard відомо про збій, під час активації на деяких пристроях. Відомо також, що на деяких пристроях блокується весь трафік. Ці помилки викликані вадами в системі Android, чи програмному забезпеченні від постачальника, тому, будь ласка, не звинувачуйте в цьому NetGuard. \n\nВикористовуючи NetGuard, ви погоджуєтесь із <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Пошук додатку</string>
+  <string name="menu_filter">Filter applications</string>
+  <string name="menu_app_user">Show user applications</string>
+  <string name="menu_app_system">Show system applications</string>
   <string name="menu_settings">Налаштування</string>
   <string name="menu_invite">Запросити</string>
   <string name="menu_support">Підтримка</string>

@@ -10,6 +10,9 @@ NetGuard puede dar un fallo al activarse en algunos dispositivos. Es posible tam
 Estos problemas son causados por errores en Android, o en el software provisto por el fabricante, así que por favor no culpes a NetGuard.
 \n\nAl utilizar NetGuard, estás aceptando la <a href="http://www.gnu.org/licenses/gpl.txt">Licencia Pública GNU General Public versión 3</a></string>
   <string name="menu_search">Buscar aplicación</string>
+  <string name="menu_filter">Filter applications</string>
+  <string name="menu_app_user">Show user applications</string>
+  <string name="menu_app_system">Show system applications</string>
   <string name="menu_settings">Configuración</string>
   <string name="menu_invite">Invitar</string>
   <string name="menu_support">Soporte</string>

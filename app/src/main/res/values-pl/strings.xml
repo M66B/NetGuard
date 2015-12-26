@@ -10,6 +10,9 @@ Znane są przypadki gdzie NetGuard wyłącza się po włączeniu na niektórych 
 Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dostarczonym przez producenta urządzenia, nie jest to wina programu NetGuard.
 \n\nUżywając NetGuard, zgadzasz się z <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Szukaj aplikacji</string>
+  <string name="menu_filter">Filter applications</string>
+  <string name="menu_app_user">Show user applications</string>
+  <string name="menu_app_system">Show system applications</string>
   <string name="menu_settings">Ustawienia</string>
   <string name="menu_invite">Zaproś</string>
   <string name="menu_support">Wsparcie</string>

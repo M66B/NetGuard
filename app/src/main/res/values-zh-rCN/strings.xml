@@ -10,6 +10,9 @@
 这是由安卓系统或设备厂商软件缺陷所致, 请不要归咎于NetGuard.
 \n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
   <string name="menu_search">搜索应用</string>
+  <string name="menu_filter">Filter applications</string>
+  <string name="menu_app_user">Show user applications</string>
+  <string name="menu_app_system">Show system applications</string>
   <string name="menu_settings">设置</string>
   <string name="menu_invite">邀请</string>
   <string name="menu_support">软件支持</string>
@@ -54,7 +57,7 @@
   <string name="msg_packages">%1$d 已允许, %2$d 已拦截</string>
   <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
   <string name="msg_revoked">NetGuard已被停用, 可能是由于您启动了另一个基于VPN的应用</string>
-  <string name="msg_installed">\'%1$s\' installed</string>
+  <string name="msg_installed">\'%1$s\' 已安装</string>
   <string name="msg_completed">操作完成</string>
   <string name="msg_vpn">NetGuard使用一个本地VPN来重定向被阻止的网络流量.
 因此请在下一个对话框中允许建立VPN连接.
@@ -63,7 +66,7 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="msg_voluntary">捐赠完全出于自愿并且不会解锁任何功能. 捐赠仅作为您对开发者付出劳动的感谢.</string>
   <string name="msg_terms">捐赠即表明您同意 <a href="http://www.netguard.me/#terms">条款与条件</a></string>
   <string name="msg_dimming">如果您在下一个对话框中无法点击确定, 可能是另一个应用正在控制屏幕(如屏幕亮度调节软件).</string>
-  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
+  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/天</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>
@@ -75,6 +78,6 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="title_donate">捐赠</string>
   <string name="title_rate">评分</string>
   <string name="title_thanks">感谢您的捐赠!</string>
-  <string name="title_allow">Allow</string>
-  <string name="title_block">Block</string>
+  <string name="title_allow">允许</string>
+  <string name="title_block">阻止</string>
 </resources>

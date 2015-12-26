@@ -10,6 +10,9 @@ NetGuard est connu pour planter lorsqu\'il est activé ou pour bloquer tout le t
 Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le constructeur, alors veuillez ne pas en vouloir à NetGuard.
 \n\nEn utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">Licence GNU General Public version 3</a></string>
   <string name="menu_search">Rechercher application</string>
+  <string name="menu_filter">Filter applications</string>
+  <string name="menu_app_user">Show user applications</string>
+  <string name="menu_app_system">Show system applications</string>
   <string name="menu_settings">Paramètres</string>
   <string name="menu_invite">Inviter</string>
   <string name="menu_support">Aide</string>

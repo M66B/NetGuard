@@ -10,6 +10,9 @@ NetGuard se poate opri brusc sau poate bloca tot traficul internet atunci cand e
 Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozitie de catre producatorul dispozitivului, va rugam sa nu dati vina pe NetGuard pentru asta.
 \n\nFolosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Cauta aplicatii</string>
+  <string name="menu_filter">Filter applications</string>
+  <string name="menu_app_user">Show user applications</string>
+  <string name="menu_app_system">Show system applications</string>
   <string name="menu_settings">Setari</string>
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Asistenta</string>

@@ -11,6 +11,9 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
 \n\nUtilizzando NetGuard, acconsenti a quanto contenuto nella seguente licenza: <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a>
     </string>
   <string name="menu_search">Cerca applicazione</string>
+  <string name="menu_filter">Filter applications</string>
+  <string name="menu_app_user">Show user applications</string>
+  <string name="menu_app_system">Show system applications</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Supporto</string>
