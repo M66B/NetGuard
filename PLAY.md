@@ -8,7 +8,7 @@ NetGuard - no-root firewall
 
 Short description
 -----------------
-NetGuard, the first free and open source no-root firewall for Android
+A simple way to block access to the internet per application
 
 
 Long description
@@ -42,7 +42,7 @@ Features:
 &bull; Material design
 
 There is no other no-root firewall offering all these features.
-Most other firewall solutions will use extra battery and reduce the overall network speed.
+Most other firewall solutions are closed source, will use extra battery and will reduce the overall network speed.
 
 Most of these features are the result of sending selected traffic to a VPN sinkhole, instead of filtering all internet traffic.
 This means that advanced features, like address-based filtering (needed for hosts blocking), traffic logging, and on-demand configuration, are not possible.
