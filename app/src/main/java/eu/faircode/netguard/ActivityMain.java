@@ -60,7 +60,6 @@ import java.util.List;
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Main";
 
-    private boolean pro = false;
     private boolean running = false;
     private SwipeRefreshLayout swipeRefresh;
     private RuleAdapter adapter = null;
@@ -249,14 +248,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Fill application list
         updateApplicationList(getIntent().getStringExtra(EXTRA_SEARCH));
-
-        // Check if donated
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                pro = new IAB(ActivityMain.this).hasPro();
-            }
-        }).start();
     }
 
     @Override
@@ -519,20 +510,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        int id = item.getItemId();
-
-        if (!pro &&
-                (id == R.id.menu_app_user ||
-                        id == R.id.menu_app_system ||
-                        id == R.id.menu_app_nointernet ||
-                        id == R.id.menu_app_disabled) &&
-                item.isChecked()) {
-            Toast.makeText(this, getString(R.string.msg_pro), Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.menu_app_user:
                 item.setChecked(!item.isChecked());
                 prefs.edit().putBoolean("show_user", item.isChecked()).apply();
@@ -554,9 +532,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_settings:
-                Intent settings = new Intent(this, ActivitySettings.class);
-                settings.putExtra(ActivitySettings.EXTRA_PRO, pro);
-                startActivity(settings);
+                startActivity(new Intent(this, ActivitySettings.class));
                 return true;
 
             case R.id.menu_invite:
@@ -705,7 +681,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Connect to billing
         if (Util.hasValidFingerprint(this))
-            iab.bind(null);
+            iab.bind();
     }
 
 
