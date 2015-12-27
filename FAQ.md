@@ -210,6 +210,12 @@ There is no need for a select all function,
 because you can switch from black list to white list mode using the settings.
 See also [question 0](#FAQ0).
 
+<a name="FAQ26"></a>
+**(26) Can you make the colors configurable?**
+
+NetGuard is not an application you will use regularly once you have setup the rules,
+so IMHO it is not worth the effort to make the colors configurable.
+
 <br />
 
 **If you didn't found the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.

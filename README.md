@@ -168,6 +168,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ25"></a>
 [**(25) Can you add a 'select all'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ25)
 
+<a name="FAQ26"></a>
+[**(26) Can you make the colors configurable?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ26)
+
 Permissions
 -----------
 
