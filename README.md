@@ -11,6 +11,8 @@ Blocking access to the internet can help:
 
 NetGuard is the first free and open source no-root firewall for Android.
 
+It works in Android 5.0 (Lollipop) and later.
+
 Features:
 
 * No root required
@@ -38,7 +40,7 @@ This means that advanced features, like address based filtering (needed for ad b
 Routing selected traffic into a sinkhole relies on an API introduced in Android 5.0 (Lollipop),
 therefore older Android versions unfortunately cannot be supported.
 
-Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.
+Since NetGuard has no internet permission, you know it is not spying on you.
 
 Requirements:
 
