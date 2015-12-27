@@ -40,6 +40,11 @@ therefore older Android versions unfortunately cannot be supported.
 
 Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.
 
+Requirements:
+
+* Android 5.0 or later
+* A [compatible device](#Compatibility)
+
 Downloads:
 
 * [GitHub](https://github.com/M66B/NetGuard/releases)
