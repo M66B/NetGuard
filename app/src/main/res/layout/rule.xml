@@ -260,9 +260,16 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/btnClear"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@android:drawable/ic_menu_delete" />
+
+            <ImageButton
                 android:id="@+id/btnSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/ic_settings_white_24dp" />
 
             <Button

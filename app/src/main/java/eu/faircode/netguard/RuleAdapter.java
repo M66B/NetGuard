@@ -102,6 +102,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public CheckBox cbScreenOther;
         public CheckBox cbRoaming;
 
+        public ImageButton btnClear;
         public ImageButton btnSettings;
         public Button btnLaunch;
 
@@ -139,6 +140,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             cbScreenOther = (CheckBox) itemView.findViewById(R.id.cbScreenOther);
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
 
+            btnClear = (ImageButton) itemView.findViewById(R.id.btnClear);
             btnSettings = (ImageButton) itemView.findViewById(R.id.btnSettings);
             btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
 
@@ -406,6 +408,18 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 // Request permissions
                 if (isChecked && !Util.hasPhoneStatePermission(context))
                     context.requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, ActivityMain.REQUEST_ROAMING);
+            }
+        });
+
+        // Reset rule
+        holder.btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.cbWifi.setChecked(rule.wifi_default);
+                holder.cbOther.setChecked(rule.other_default);
+                holder.cbScreenWifi.setChecked(rule.screen_wifi_default);
+                holder.cbScreenOther.setChecked(rule.screen_other_default);
+                holder.cbRoaming.setChecked(rule.roaming_default);
             }
         });
 
