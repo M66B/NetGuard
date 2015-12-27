@@ -10,9 +10,11 @@ NetGuard pode fechar inesperadamente ao ser ativado e também poder bloquear tod
 Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecido pelo fabricante, então por favor não culpem o NetGuard.
 \n\nAo usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Buscar aplicativo</string>
-  <string name="menu_filter">Filter applications</string>
-  <string name="menu_app_user">Show user applications</string>
-  <string name="menu_app_system">Show system applications</string>
+  <string name="menu_filter">Filtrar aplicativos</string>
+  <string name="menu_app_user">Mostrar apps do usuário</string>
+  <string name="menu_app_system">Mostrar apps do sistema</string>
+  <string name="menu_app_nointernet">Show applications without internet</string>
+  <string name="menu_app_disabled">Show disabled applications</string>
   <string name="menu_settings">Configurações</string>
   <string name="menu_invite">Convite</string>
   <string name="menu_support">Suporte</string>
@@ -57,7 +59,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
   <string name="msg_disabled">NetGuard desativado, use o interruptor acima para ativar o NetGuard</string>
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>
-  <string name="msg_installed">\'%1$s\' installed</string>
+  <string name="msg_installed">\'%1$s\' instalado</string>
   <string name="msg_completed">Ação concluída</string>
   <string name="msg_vpn">NetGuard usa uma VPN local como um sumidouro para bloquear o tráfego de dados.
 Por essa razão, por favor, permita a conexão VPN na tela a seguir.
@@ -66,7 +68,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="msg_voluntary">Doações são completamente voluntárias e não desbloqueiam nenhum recurso extra. Doações são uma forma de demonstrar sua satisfação pelo trabalho realizado.</string>
   <string name="msg_terms">Doando, você concorda com os <a href="http://www.netguard.me/#terms">termos &amp; condições</a></string>
   <string name="msg_dimming">Caso não consiga pressionar OK no dialogo a seguir, então provavelmente algum aplicativo (screen dimming) esta manipulando a tela.</string>
-  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
+  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dia</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
@@ -78,6 +80,6 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_donate">Doar</string>
   <string name="title_rate">Avaliar</string>
   <string name="title_thanks">Obrigado por sua doação!</string>
-  <string name="title_allow">Allow</string>
-  <string name="title_block">Block</string>
+  <string name="title_allow">Permitir</string>
+  <string name="title_block">Bloquear</string>
 </resources>

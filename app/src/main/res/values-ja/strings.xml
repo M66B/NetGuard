@@ -10,9 +10,11 @@
 これらの問題は Android のバグ、または製造元が提供するソフトウェアに起因します。そのために NetGuard を非難しないでください。
 \n\nNetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
   <string name="menu_search">アプリケーションの検索</string>
-  <string name="menu_filter">Filter applications</string>
-  <string name="menu_app_user">Show user applications</string>
-  <string name="menu_app_system">Show system applications</string>
+  <string name="menu_filter">アプリケーションをフィルター</string>
+  <string name="menu_app_user">ユーザー アプリケーションを表示</string>
+  <string name="menu_app_system">システム アプリケーションを表示</string>
+  <string name="menu_app_nointernet">Show applications without internet</string>
+  <string name="menu_app_disabled">Show disabled applications</string>
   <string name="menu_settings">設定</string>
   <string name="menu_invite">招待</string>
   <string name="menu_support">サポート</string>

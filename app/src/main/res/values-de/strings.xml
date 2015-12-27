@@ -9,9 +9,11 @@ Es ist bekannt, dass Netguard zu Abstürzen führen kann und, dass auf manchen G
 Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitte beschuldigen Sie bei solchen Fehlern nicht Netguard.
 \n\nMit der Verwendung von NetGuard, akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Nach Apps suchen</string>
-  <string name="menu_filter">Filter applications</string>
-  <string name="menu_app_user">Show user applications</string>
-  <string name="menu_app_system">Show system applications</string>
+  <string name="menu_filter">Anwendungsfilter</string>
+  <string name="menu_app_user">Benutzeranwendungen anzeigen</string>
+  <string name="menu_app_system">Systemanwendungen anzeigen</string>
+  <string name="menu_app_nointernet">Show applications without internet</string>
+  <string name="menu_app_disabled">Show disabled applications</string>
   <string name="menu_settings">Einstellungen</string>
   <string name="menu_invite">Einladung</string>
   <string name="menu_support">Hilfe</string>
@@ -63,7 +65,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_voluntary">Spenden sind vollkommen freiwillig und schalten keine Funktionen frei. Spenden helfen, die App weiterzuentwickeln und stellen eine Anerkennung für die Arbeit dar.</string>
   <string name="msg_terms">Durch eine Spende stimmen Sie der <a href="http://www.netguard.me/#terms">AGB</a> zu.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
-  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
+  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/Tag</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>

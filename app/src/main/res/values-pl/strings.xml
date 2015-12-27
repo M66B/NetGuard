@@ -10,9 +10,11 @@ Znane są przypadki gdzie NetGuard wyłącza się po włączeniu na niektórych 
 Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dostarczonym przez producenta urządzenia, nie jest to wina programu NetGuard.
 \n\nUżywając NetGuard, zgadzasz się z <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Szukaj aplikacji</string>
-  <string name="menu_filter">Filter applications</string>
-  <string name="menu_app_user">Show user applications</string>
-  <string name="menu_app_system">Show system applications</string>
+  <string name="menu_filter">Filtruj aplikacje</string>
+  <string name="menu_app_user">Pokaż aplikacje użytkownika</string>
+  <string name="menu_app_system">Pokaż aplikacje systemowe</string>
+  <string name="menu_app_nointernet">Show applications without internet</string>
+  <string name="menu_app_disabled">Show disabled applications</string>
   <string name="menu_settings">Ustawienia</string>
   <string name="menu_invite">Zaproś</string>
   <string name="menu_support">Wsparcie</string>
@@ -36,7 +38,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_stats_category">Wskaźnik prędkości</string>
   <string name="setting_stats">Pokazuj wskaźnik prędkości</string>
   <string name="setting_stats_top">Pokaż aplikacje z najwyższym transferem</string>
-  <string name="setting_stats_base">Prędkość na linii bazowej: %s KB/s</string>
+  <string name="setting_stats_base">Prędkość odniesienia: %s KB/s</string>
   <string name="setting_stats_frequency">Częstotliwość próbkowania: %s ms</string>
   <string name="setting_stats_samples">Ilość próbek: %s s</string>
   <string name="setting_backup">Kopia zapasowa</string>
@@ -66,7 +68,7 @@ Ponieważ NetGuard nie ma zezwolenia na dostęp do internetu, masz pewność, ż
   <string name="msg_voluntary">Darowizny są całkowicie dobrowolne i nie odblokowują jakiejkolwiek funkcji. Dotacje te są przeznaczone jako sposób na okazanie swojego uznania dla wykonanej pracy.</string>
   <string name="msg_terms">Przekazując darowiznę wyrażam zgodę na <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">Jeśli nie możesz nacisnąć OK w następnym oknie dialogowym, inna aplikacja prawdopodobnie zarządza ekranem (przygaszanie ekranu).</string>
-  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
+  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dzień</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_screen_wifi">Zezwól na Wi-Fi przy włączonym ekranie</string>
@@ -78,6 +80,6 @@ Ponieważ NetGuard nie ma zezwolenia na dostęp do internetu, masz pewność, ż
   <string name="title_donate">Wspomóż</string>
   <string name="title_rate">Oceń</string>
   <string name="title_thanks">Dziękuję za wsparcie!</string>
-  <string name="title_allow">Allow</string>
-  <string name="title_block">Block</string>
+  <string name="title_allow">Zezwól</string>
+  <string name="title_block">Blokuj</string>
 </resources>

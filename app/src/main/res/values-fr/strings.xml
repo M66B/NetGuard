@@ -13,6 +13,8 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="menu_filter">Filter applications</string>
   <string name="menu_app_user">Show user applications</string>
   <string name="menu_app_system">Show system applications</string>
+  <string name="menu_app_nointernet">Show applications without internet</string>
+  <string name="menu_app_disabled">Show disabled applications</string>
   <string name="menu_settings">Paramètres</string>
   <string name="menu_invite">Inviter</string>
   <string name="menu_support">Aide</string>

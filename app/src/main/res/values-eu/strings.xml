@@ -13,6 +13,8 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="menu_filter">Filter applications</string>
   <string name="menu_app_user">Show user applications</string>
   <string name="menu_app_system">Show system applications</string>
+  <string name="menu_app_nointernet">Show applications without internet</string>
+  <string name="menu_app_disabled">Show disabled applications</string>
   <string name="menu_settings">Settings</string>
   <string name="menu_invite">Invite</string>
   <string name="menu_support">Support</string>

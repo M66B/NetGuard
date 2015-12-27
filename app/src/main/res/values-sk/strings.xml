@@ -13,6 +13,8 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="menu_filter">Filter applications</string>
   <string name="menu_app_user">Show user applications</string>
   <string name="menu_app_system">Show system applications</string>
+  <string name="menu_app_nointernet">Show applications without internet</string>
+  <string name="menu_app_disabled">Show disabled applications</string>
   <string name="menu_settings">Nastavenia</string>
   <string name="menu_invite">Pozvať</string>
   <string name="menu_support">Podpora</string>

@@ -10,9 +10,11 @@
 这是由安卓系统或设备厂商软件缺陷所致, 请不要归咎于NetGuard.
 \n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
   <string name="menu_search">搜索应用</string>
-  <string name="menu_filter">Filter applications</string>
-  <string name="menu_app_user">Show user applications</string>
-  <string name="menu_app_system">Show system applications</string>
+  <string name="menu_filter">筛选应用</string>
+  <string name="menu_app_user">显示用户应用</string>
+  <string name="menu_app_system">显示系统应用</string>
+  <string name="menu_app_nointernet">Show applications without internet</string>
+  <string name="menu_app_disabled">Show disabled applications</string>
   <string name="menu_settings">设置</string>
   <string name="menu_invite">邀请</string>
   <string name="menu_support">软件支持</string>

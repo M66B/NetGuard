@@ -7,9 +7,11 @@
   <string name="app_first">Были приложены большие усилия для разработки и тестирования NetGuard, однако невозможно гарантировать, что оно будет корректно работать на любом устройстве. NetGuard известен сбой при активации на некоторых устройствах. Известно также, что блокируется весь трафик на некоторых устройствах. Эти проблемы вызваны ошибками в Android, или в программном обеспечении, поставляемом изготовителем, поэтому, пожалуйста, не вините NetGuard.
 \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="menu_search">Поиск приложения</string>
-  <string name="menu_filter">Filter applications</string>
-  <string name="menu_app_user">Show user applications</string>
-  <string name="menu_app_system">Show system applications</string>
+  <string name="menu_filter">Фильтр приложений</string>
+  <string name="menu_app_user">Показать пользовательские приложения</string>
+  <string name="menu_app_system">Показать системные приложения</string>
+  <string name="menu_app_nointernet">Show applications without internet</string>
+  <string name="menu_app_disabled">Show disabled applications</string>
   <string name="menu_settings">Настройки</string>
   <string name="menu_invite">Пригласить</string>
   <string name="menu_support">Поддержка</string>
@@ -54,7 +56,7 @@
   <string name="msg_packages">%1$d разрешен, %2$d заблокирован</string>
   <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
   <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>
-  <string name="msg_installed">\'%1$s\' installed</string>
+  <string name="msg_installed">\'%1$s\' установлен</string>
   <string name="msg_completed">Действие завершено</string>
   <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик.
 По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне.
@@ -63,7 +65,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="msg_voluntary">Пожертвования являются абсолютно добровольными и не добавляют никаких возможностей в программу. Пожертвования предназначены сугубо для того, чтобы выразить вашу признательность за проделанную работу.</string>
   <string name="msg_terms">Делая пожертвование, Вы соглашаетесь с <a href="http://www.netguard.me/#terms">условиями &amp; положениями</a></string>
   <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>
-  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
+  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ МБ/день</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
@@ -75,6 +77,6 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_donate">Пожертвовать</string>
   <string name="title_rate">Оценить</string>
   <string name="title_thanks">Благодарим Вас за ваше пожертвование!</string>
-  <string name="title_allow">Allow</string>
-  <string name="title_block">Block</string>
+  <string name="title_allow">Разрешить</string>
+  <string name="title_block">Блокировать</string>
 </resources>
