@@ -291,25 +291,23 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_INTERNATIONAL);
             } else
                 SinkholeService.reload("other", "setting changed", this);
-
-        } else if ("show_stats".equals(name)) {
-            if (!Util.isPlayStoreInstall(this))
-                SinkholeService.reloadStats("setting changed", this);
-
-        } else if ("stats_base".equals(name)) {
-            if (!Util.isPlayStoreInstall(this))
-                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_base, prefs.getString(name, "5")));
-
-        } else if ("stats_frequency".equals(name)) {
-            if (!Util.isPlayStoreInstall(this))
-                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_frequency, prefs.getString(name, "1000")));
-
-        } else if ("stats_samples".equals(name)) {
-            if (!Util.isPlayStoreInstall(this))
-                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
+        } else if ("manage_system".equals(name)) {
+            SharedPreferences.Editor editor = prefs.edit();
+            if (prefs.getBoolean(name, false)) {
+                editor.putBoolean("show_system", true);
+                editor.putBoolean("show_user", true);
+            } else {
+                editor.putBoolean("show_user", true);
+                editor.putBoolean("show_system", false);
+            }
+            editor.apply();
+            SinkholeService.reload(null, "setting changed", this);
 
         } else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
+
+        else if ("dark_theme".equals(name))
+            recreate();
 
         else if ("wifi_homes".equals(name)) {
             MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) getPreferenceScreen().findPreference(name);
@@ -343,20 +341,22 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             } else
                 SinkholeService.reload("other", "setting changed", this);
 
-        } else if ("manage_system".equals(name)) {
-            SharedPreferences.Editor editor = prefs.edit();
-            if (prefs.getBoolean(name, false)) {
-                editor.putBoolean("show_system", true);
-                editor.putBoolean("show_user", true);
-            } else {
-                editor.putBoolean("show_user", true);
-                editor.putBoolean("show_system", false);
-            }
-            editor.apply();
-            SinkholeService.reload(null, "setting changed", this);
+        } else if ("show_stats".equals(name)) {
+            if (!Util.isPlayStoreInstall(this))
+                SinkholeService.reloadStats("setting changed", this);
 
-        } else if ("dark_theme".equals(name))
-            recreate();
+        } else if ("stats_base".equals(name)) {
+            if (!Util.isPlayStoreInstall(this))
+                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_base, prefs.getString(name, "5")));
+
+        } else if ("stats_frequency".equals(name)) {
+            if (!Util.isPlayStoreInstall(this))
+                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_frequency, prefs.getString(name, "1000")));
+
+        } else if ("stats_samples".equals(name)) {
+            if (!Util.isPlayStoreInstall(this))
+                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
+        }
     }
 
     @Override
