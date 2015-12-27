@@ -25,6 +25,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -37,26 +38,35 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.CountDownLatch;
 
 public class IAB implements ServiceConnection {
     private static final String TAG = "Netguard.IAB";
 
     private Context context;
+    private Event event;
     private boolean available = false;
     private IInAppBillingService service = null;
 
     private static final int IAB_VERSION = 3;
     // adb shell pm clear com.android.vending
     // adb shell am start -n eu.faircode.netguard/eu.faircode.netguard.ActivityMain
+    private static final String SKU_PRO = "pro";
     private static final String SKU_DONATE = "donation";
     // private static final String SKU_DONATE = "android.test.purchased";
     public static final String ACTION_IAB = "eu.faircode.netguard.IAB";
+
+    public interface Event {
+        void bound();
+    }
 
     public IAB(Context context) {
         this.context = context;
     }
 
-    public void bind() {
+    public void bind(Event event) {
+        this.event = event;
         try {
             Log.i(TAG, "Bind");
             Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
@@ -87,20 +97,23 @@ public class IAB implements ServiceConnection {
     @Override
     public void onServiceConnected(ComponentName name, IBinder binder) {
         Log.i(TAG, "Connected");
-        try {
-            service = IInAppBillingService.Stub.asInterface(binder);
+        service = IInAppBillingService.Stub.asInterface(binder);
 
-            if (isPurchased(SKU_DONATE)) {
-                Intent intent = new Intent(ACTION_IAB);
-                intent.putExtra("RESULT_CODE", Activity.RESULT_OK);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-            } else
-                available = (service != null && isAvailable(SKU_DONATE));
+        if (this.event == null)
+            try {
+                if (isPurchased(SKU_DONATE)) {
+                    Intent intent = new Intent(ACTION_IAB);
+                    intent.putExtra("RESULT_CODE", Activity.RESULT_OK);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                } else
+                    available = (service != null && isAvailable(SKU_DONATE));
 
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Util.sendCrashReport(ex, context);
-        }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                Util.sendCrashReport(ex, context);
+            }
+        else
+            event.bound();
     }
 
     @Override
@@ -145,6 +158,61 @@ public class IAB implements ServiceConnection {
             return false;
         }
     }
+
+    public boolean hasPro() {
+        boolean pro = false;
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        if (Util.isDebuggable(context))
+            return true;
+
+        bind(new Event() {
+            @Override
+            public void bound() {
+                try {
+                    SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
+                    boolean pro = false;
+                    long now = new Date().getTime();
+                    long refreshed = prefs.getLong("refreshed", 0);
+
+                    if (!prefs.getBoolean("pro", false) || refreshed < now - 3 * 24 * 3600 * 1000L) {
+                        Log.i(TAG, "Refreshing pro");
+                        try {
+                            pro = isPurchased(SKU_PRO);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putBoolean("pro", pro);
+                            editor.putLong("refreshed", now);
+                            editor.apply();
+                            Log.i(TAG, "Refreshed pro=" + pro);
+                        } catch (RemoteException ignored) {
+                            if (refreshed >= now - 5 * 24 * 3600 * 1000L) {
+                                pro = prefs.getBoolean("pro", false);
+                                Log.i(TAG, "Grace pro=" + pro);
+                            } else {
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.remove("pro");
+                                editor.remove("refreshed");
+                                editor.apply();
+                                Log.i(TAG, "Cache expired");
+                            }
+                        }
+                    } else {
+                        pro = prefs.getBoolean("pro", false);
+                        Log.i(TAG, "Cached pro=" + pro);
+                    }
+                } finally {
+                    try {
+                        latch.await();
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+            }
+        });
+
+        latch.countDown();
+        return pro;
+    }
+
 
     private boolean isPurchased(String sku) throws RemoteException {
         try {
