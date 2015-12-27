@@ -637,7 +637,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 int resultCode = intent.getIntExtra("RESULT_CODE", RESULT_CANCELED);
                 int responseCode = intent.getIntExtra("RESPONSE_CODE", -1);
                 final boolean ok = (resultCode == RESULT_OK);
-                Log.i(TAG, "IAB result ok=" + ok + " response=" + IAB.getIABResult(responseCode));
+                Log.i(TAG, "IAB result ok=" + ok + " response=" + IAB.getResult(responseCode));
 
                 runOnUiThread(new Runnable() {
                     @Override

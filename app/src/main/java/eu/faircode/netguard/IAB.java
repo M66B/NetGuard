@@ -24,7 +24,6 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -70,7 +69,7 @@ public class IAB implements ServiceConnection {
     }
 
     public PendingIntent getIntentSender() throws RemoteException {
-        return (service != null && available ? IABgetBuyIntent(SKU_DONATE) : null);
+        return (service != null && available ? getBuyIntent(SKU_DONATE) : null);
     }
 
     public void unbind() {
@@ -91,12 +90,12 @@ public class IAB implements ServiceConnection {
         try {
             service = IInAppBillingService.Stub.asInterface(binder);
 
-            if (IABisPurchased(SKU_DONATE)) {
+            if (isPurchased(SKU_DONATE)) {
                 Intent intent = new Intent(ACTION_IAB);
                 intent.putExtra("RESULT_CODE", Activity.RESULT_OK);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
             } else
-                available = (service != null && IABisAvailable(SKU_DONATE));
+                available = (service != null && isAvailable(SKU_DONATE));
 
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -111,7 +110,7 @@ public class IAB implements ServiceConnection {
         available = false;
     }
 
-    private boolean IABisAvailable(String sku) throws RemoteException, JSONException {
+    private boolean isAvailable(String sku) throws RemoteException, JSONException {
         try {
             // Get available SKUs
             ArrayList<String> skuList = new ArrayList<>();
@@ -122,7 +121,7 @@ public class IAB implements ServiceConnection {
             Log.i(TAG, "getSkuDetails");
             Util.logBundle(bundle);
             int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
-            Log.i(TAG, "Response=" + getIABResult(response));
+            Log.i(TAG, "Response=" + getResult(response));
             if (response != 0)
                 return false;
 
@@ -147,14 +146,14 @@ public class IAB implements ServiceConnection {
         }
     }
 
-    private boolean IABisPurchased(String sku) throws RemoteException {
+    private boolean isPurchased(String sku) throws RemoteException {
         try {
             // Get purchases
             Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), "inapp", null);
             Log.i(TAG, "getPurchases");
             Util.logBundle(bundle);
             int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
-            Log.i(TAG, "Response=" + getIABResult(response));
+            Log.i(TAG, "Response=" + getResult(response));
             if (response != 0)
                 return false;
 
@@ -168,15 +167,15 @@ public class IAB implements ServiceConnection {
         }
     }
 
-    private PendingIntent IABgetBuyIntent(String sku) throws RemoteException {
+    private PendingIntent getBuyIntent(String sku) throws RemoteException {
         try {
             Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "netguard");
             Log.i(TAG, "getBuyIntent");
             Util.logBundle(bundle);
             int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
-            Log.i(TAG, "Response=" + getIABResult(response));
+            Log.i(TAG, "Response=" + getResult(response));
             if (response != 0 || !bundle.containsKey("BUY_INTENT")) {
-                Util.sendCrashReport(new IllegalStateException(getIABResult(response)), context);
+                Util.sendCrashReport(new IllegalStateException(getResult(response)), context);
                 return null;
             }
             return bundle.getParcelable("BUY_INTENT");
@@ -187,7 +186,7 @@ public class IAB implements ServiceConnection {
         }
     }
 
-    public static String getIABResult(int responseCode) {
+    public static String getResult(int responseCode) {
         switch (responseCode) {
             case 0:
                 return "OK";
