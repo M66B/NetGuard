@@ -276,7 +276,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvName.setText(rule.name);
 
         int color = rule.system ? colorAccent : colorText;
-        if (!rule.internet || rule.disabled)
+        if (!rule.internet || !rule.enabled)
             color = Color.argb(128, Color.red(color), Color.green(color), Color.blue(color));
         holder.tvName.setTextColor(color);
 
@@ -312,7 +312,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvVersion.setVisibility(debuggable ? View.VISIBLE : View.GONE);
         holder.tvVersion.setText(rule.info.versionName + '/' + rule.info.versionCode);
 
-        holder.tvDisabled.setVisibility(rule.disabled ? View.VISIBLE : View.GONE);
+        holder.tvDisabled.setVisibility(rule.enabled ? View.GONE : View.VISIBLE);
         holder.tvInternet.setVisibility(rule.internet ? View.GONE : View.VISIBLE);
 
         holder.cbScreenWifi.setOnCheckedChangeListener(null);

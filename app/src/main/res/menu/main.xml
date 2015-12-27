@@ -21,6 +21,14 @@
                 android:id="@+id/menu_app_system"
                 android:checkable="true"
                 android:title="@string/menu_app_system" />
+            <item
+                android:id="@+id/menu_app_nointernet"
+                android:checkable="true"
+                android:title="@string/menu_app_nointernet" />
+            <item
+                android:id="@+id/menu_app_disabled"
+                android:checkable="true"
+                android:title="@string/menu_app_disabled" />
         </menu>
     </item>
     <item

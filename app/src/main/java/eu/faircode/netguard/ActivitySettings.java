@@ -346,8 +346,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("manage_system".equals(name)) {
             SharedPreferences.Editor editor = prefs.edit();
             if (prefs.getBoolean(name, false)) {
-                editor.putBoolean("show_user", true);
                 editor.putBoolean("show_system", true);
+                editor.putBoolean("show_user", true);
             } else {
                 editor.putBoolean("show_user", true);
                 editor.putBoolean("show_system", false);

@@ -45,7 +45,7 @@ public class Rule implements Comparable<Rule> {
     public String name;
     public boolean system;
     public boolean internet;
-    public boolean disabled;
+    public boolean enabled;
 
     public boolean wifi_default;
     public boolean other_default;
@@ -72,7 +72,7 @@ public class Rule implements Comparable<Rule> {
 
         this.info = info;
         this.name = info.applicationInfo.loadLabel(pm).toString();
-
+        this.system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
         this.internet = (pm.checkPermission("android.permission.INTERNET", info.packageName) == PackageManager.PERMISSION_GRANTED);
 
         int setting;
@@ -83,9 +83,9 @@ public class Rule implements Comparable<Rule> {
             Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
         if (setting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
-            this.disabled = !info.applicationInfo.enabled;
+            this.enabled = info.applicationInfo.enabled;
         else
-            this.disabled = (setting != PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
+            this.enabled = (setting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
 
         this.intent = pm.getLaunchIntentForPackage(info.packageName);
     }
@@ -109,6 +109,8 @@ public class Rule implements Comparable<Rule> {
         boolean manage_system = prefs.getBoolean("manage_system", false);
         boolean show_user = prefs.getBoolean("show_user", true);
         boolean show_system = prefs.getBoolean("show_system", true);
+        boolean show_nointernet = prefs.getBoolean("show_nointernet", true);
+        boolean show_disabled = prefs.getBoolean("show_disabled", true);
 
         // Get predefined rules
         Map<String, Boolean> pre_blocked = new HashMap<>();
@@ -145,11 +147,11 @@ public class Rule implements Comparable<Rule> {
         // Build rule list
         List<Rule> listRules = new ArrayList<>();
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
-            boolean system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
-            if (all || (system ? manage_system && show_system : show_user)) {
-                Rule rule = new Rule(info, context);
-
-                rule.system = system;
+            Rule rule = new Rule(info, context);
+            if (all ||
+                    ((rule.system ? show_system : show_user) &&
+                            (show_nointernet ? true : rule.internet) &&
+                            (show_disabled ? true : rule.enabled))) {
 
                 rule.wifi_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : default_wifi);
                 rule.other_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : default_other);
@@ -157,8 +159,8 @@ public class Rule implements Comparable<Rule> {
                 rule.screen_other_default = default_screen_other;
                 rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
 
-                rule.wifi_blocked = (system && !manage_system ? false : wifi.getBoolean(info.packageName, rule.wifi_default));
-                rule.other_blocked = (system && !manage_system ? false : other.getBoolean(info.packageName, rule.other_default));
+                rule.wifi_blocked = (rule.system && !manage_system ? false : wifi.getBoolean(info.packageName, rule.wifi_default));
+                rule.other_blocked = (rule.system && !manage_system ? false : other.getBoolean(info.packageName, rule.other_default));
                 rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default);
                 rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
                 rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
