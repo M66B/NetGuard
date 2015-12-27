@@ -355,12 +355,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 "show_system".equals(name) ||
                 "show_nointernet".equals(name) ||
                 "show_disabled".equals(name) ||
-                "imported".equals(name))
-            updateApplicationList(null);
+                "imported".equals(name)) {
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+            updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
 
-        else if ("manage_system".equals(name)) {
+        } else if ("manage_system".equals(name)) {
             invalidateOptionsMenu();
-            updateApplicationList(null);
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+            updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
 
         } else if ("dark_theme".equals(name))
             recreate();
@@ -381,8 +383,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                             adapter.setWifiActive();
                     else
                         adapter.setDisconnected();
-                else
-                    updateApplicationList(null);
+                else {
+                    SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+                    updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
+                }
         }
     };
 
@@ -391,7 +395,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            updateApplicationList(null);
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+            updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
         }
     };
 
