@@ -15,9 +15,9 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="menu_app_system">Pokaż aplikacje systemowe</string>
   <string name="menu_app_nointernet">Pokaż aplikacje bez Internetu</string>
   <string name="menu_app_disabled">Pokaż aplikacje wyłączone</string>
-  <string name="menu_sort">Sort applications</string>
-  <string name="menu_sort_name">Sort on name</string>
-  <string name="menu_sort_data">Sort on data usage</string>
+  <string name="menu_sort">Sortuj aplikacje</string>
+  <string name="menu_sort_name">Sortuj wg nazwy</string>
+  <string name="menu_sort_data">Sortuj wg użycia danych</string>
   <string name="menu_settings">Ustawienia</string>
   <string name="menu_invite">Zaproś</string>
   <string name="menu_support">Wsparcie</string>

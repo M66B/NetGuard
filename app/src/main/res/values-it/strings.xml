@@ -16,9 +16,9 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="menu_app_system">Mostra applicazioni di sistema</string>
   <string name="menu_app_nointernet">Visualizza applicazioni senza permesso internet</string>
   <string name="menu_app_disabled">Visualizza applicazioni disabilitate</string>
-  <string name="menu_sort">Sort applications</string>
-  <string name="menu_sort_name">Sort on name</string>
-  <string name="menu_sort_data">Sort on data usage</string>
+  <string name="menu_sort">Ordina applicazioni</string>
+  <string name="menu_sort_name">Ordina per nome</string>
+  <string name="menu_sort_data">Ordina per utilizzo dati</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Supporto</string>
