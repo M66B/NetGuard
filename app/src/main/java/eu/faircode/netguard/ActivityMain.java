@@ -355,6 +355,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 "show_system".equals(name) ||
                 "show_nointernet".equals(name) ||
                 "show_disabled".equals(name) ||
+                "sort".equals(name) ||
                 "imported".equals(name)) {
             SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
             updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
@@ -503,6 +504,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         menu.findItem(R.id.menu_app_nointernet).setChecked(prefs.getBoolean("show_nointernet", true));
         menu.findItem(R.id.menu_app_disabled).setChecked(prefs.getBoolean("show_disabled", true));
 
+        String sort = prefs.getString("sort", "name");
+        menu.findItem(R.id.menu_sort_name).setChecked("name".equals(sort));
+        menu.findItem(R.id.menu_sort_data).setChecked("data".equals(sort));
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -529,6 +534,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             case R.id.menu_app_disabled:
                 item.setChecked(!item.isChecked());
                 prefs.edit().putBoolean("show_disabled", item.isChecked()).apply();
+                return true;
+
+            case R.id.menu_sort_name:
+                item.setChecked(true);
+                prefs.edit().putString("sort", "name").apply();
+                return true;
+
+            case R.id.menu_sort_data:
+                item.setChecked(true);
+                prefs.edit().putString("sort", "data").apply();
                 return true;
 
             case R.id.menu_settings:

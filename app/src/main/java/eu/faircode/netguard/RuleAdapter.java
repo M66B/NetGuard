@@ -28,10 +28,8 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Build;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
@@ -445,10 +443,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         });
 
         // Traffic statistics
-        holder.tvStatistics.setText(context.getString(R.string.msg_mbday,
-                (float) TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid) * 24 * 3600 * 1000 / 1024f / 1024f / SystemClock.elapsedRealtime(),
-                (float) TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid) * 24 * 3600 * 1000 / 1024f / 1024f / SystemClock.elapsedRealtime()
-        ));
+        holder.tvStatistics.setText(context.getString(R.string.msg_mbday, rule.upspeed, rule.downspeed));
     }
 
     private void updateRule(Rule rule, String network, boolean blocked) {

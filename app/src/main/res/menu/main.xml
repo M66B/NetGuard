@@ -32,6 +32,22 @@
         </menu>
     </item>
     <item
+        android:id="@+id/menu_sort"
+        android:icon="@drawable/ic_sort_white_24dp"
+        android:title="@string/menu_sort"
+        netguard:showAsAction="always|collapseActionView">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_sort_name"
+                    android:title="@string/menu_sort_name" />
+                <item
+                    android:id="@+id/menu_sort_data"
+                    android:title="@string/menu_sort_data" />
+            </group>
+        </menu>
+    </item>
+    <item
         android:id="@+id/menu_settings"
         android:title="@string/menu_settings" />
     <item

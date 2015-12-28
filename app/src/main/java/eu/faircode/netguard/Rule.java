@@ -26,6 +26,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
+import android.net.TrafficStats;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,11 +36,12 @@ import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Rule implements Comparable<Rule> {
+public class Rule {
     private static final String TAG = "NetGuard.Rule";
 
     public PackageInfo info;
@@ -60,6 +63,10 @@ public class Rule implements Comparable<Rule> {
     public boolean roaming;
 
     public String[] related = null;
+
+    public float upspeed;
+    public float downspeed;
+    public float totalbytes;
 
     public boolean changed;
 
@@ -111,6 +118,8 @@ public class Rule implements Comparable<Rule> {
         boolean show_system = prefs.getBoolean("show_system", true);
         boolean show_nointernet = prefs.getBoolean("show_nointernet", true);
         boolean show_disabled = prefs.getBoolean("show_disabled", true);
+
+        long now = SystemClock.elapsedRealtime();
 
         // Get predefined rules
         Map<String, Boolean> pre_blocked = new HashMap<>();
@@ -178,6 +187,12 @@ public class Rule implements Comparable<Rule> {
                 if (pre_related.containsKey(info.packageName))
                     rule.related = pre_related.get(info.packageName);
 
+                long up = TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid);
+                long down = TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid);
+                rule.totalbytes = up + down;
+                rule.upspeed = (float) up * 24 * 3600 * 1000 / 1024f / 1024f / now;
+                rule.downspeed = (float) down * 24 * 3600 * 1000 / 1024f / 1024f / now;
+
                 rule.updateChanged(default_wifi, default_other, default_roaming, haswifi, hastelephony);
 
                 listRules.add(rule);
@@ -185,7 +200,30 @@ public class Rule implements Comparable<Rule> {
         }
 
         // Sort rule list
-        Collections.sort(listRules);
+        String sort = prefs.getString("sort", "name");
+        if ("data".equals(sort))
+            Collections.sort(listRules, new Comparator<Rule>() {
+                @Override
+                public int compare(Rule rule, Rule other) {
+                    if (rule.totalbytes < other.totalbytes)
+                        return 1;
+                    else if (rule.totalbytes > other.totalbytes)
+                        return -1;
+                    else
+                        return 0;
+                }
+            });
+        else
+            Collections.sort(listRules, new Comparator<Rule>() {
+                @Override
+                public int compare(Rule rule, Rule other) {
+                    if (rule.changed == other.changed) {
+                        int i = rule.name.compareToIgnoreCase(other.name);
+                        return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+                    }
+                    return (rule.changed ? -1 : 1);
+                }
+            });
 
         return listRules;
     }
@@ -206,14 +244,5 @@ public class Rule implements Comparable<Rule> {
         boolean wifi = Util.hasWifi(context);
         boolean telephony = Util.hasTelephony(context);
         updateChanged(default_wifi, default_other, default_roaming, wifi, telephony);
-    }
-
-    @Override
-    public int compareTo(Rule other) {
-        if (changed == other.changed) {
-            int i = name.compareToIgnoreCase(other.name);
-            return (i == 0 ? info.packageName.compareTo(other.info.packageName) : i);
-        }
-        return (changed ? -1 : 1);
     }
 }
