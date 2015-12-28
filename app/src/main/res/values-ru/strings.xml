@@ -12,6 +12,9 @@
   <string name="menu_app_system">Показать системные приложения</string>
   <string name="menu_app_nointernet">Show applications without internet</string>
   <string name="menu_app_disabled">Show disabled applications</string>
+  <string name="menu_sort">Sort applications</string>
+  <string name="menu_sort_name">Sort on name</string>
+  <string name="menu_sort_data">Sort on data usage</string>
   <string name="menu_settings">Настройки</string>
   <string name="menu_invite">Пригласить</string>
   <string name="menu_support">Поддержка</string>

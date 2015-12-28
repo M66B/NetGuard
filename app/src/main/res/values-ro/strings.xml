@@ -13,8 +13,11 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="menu_filter">Filtreaza aplicatiile</string>
   <string name="menu_app_user">Arata aplicatiile utilizatorului</string>
   <string name="menu_app_system">Arata aplicatiile de sistem</string>
-  <string name="menu_app_nointernet">Show applications without internet</string>
-  <string name="menu_app_disabled">Show disabled applications</string>
+  <string name="menu_app_nointernet">Arata aplicatiile fara permisiuni internet</string>
+  <string name="menu_app_disabled">Arata aplicatiile dezactivate</string>
+  <string name="menu_sort">Sort applications</string>
+  <string name="menu_sort_name">Sort on name</string>
+  <string name="menu_sort_data">Sort on data usage</string>
   <string name="menu_settings">Setari</string>
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Asistenta</string>

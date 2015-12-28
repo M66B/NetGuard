@@ -9,8 +9,11 @@
   <string name="menu_filter">Фільтр додатків</string>
   <string name="menu_app_user">Додатки користувача</string>
   <string name="menu_app_system">Системні додатки</string>
-  <string name="menu_app_nointernet">Show applications without internet</string>
-  <string name="menu_app_disabled">Show disabled applications</string>
+  <string name="menu_app_nointernet">Додатки без інтернету</string>
+  <string name="menu_app_disabled">Вимкнені додатки</string>
+  <string name="menu_sort">Sort applications</string>
+  <string name="menu_sort_name">Sort on name</string>
+  <string name="menu_sort_data">Sort on data usage</string>
   <string name="menu_settings">Налаштування</string>
   <string name="menu_invite">Запросити</string>
   <string name="menu_support">Підтримка</string>

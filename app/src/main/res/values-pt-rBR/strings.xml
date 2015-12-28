@@ -13,8 +13,11 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="menu_filter">Filtrar aplicativos</string>
   <string name="menu_app_user">Mostrar apps do usuário</string>
   <string name="menu_app_system">Mostrar apps do sistema</string>
-  <string name="menu_app_nointernet">Show applications without internet</string>
-  <string name="menu_app_disabled">Show disabled applications</string>
+  <string name="menu_app_nointernet">Mostrar apps sem internet</string>
+  <string name="menu_app_disabled">Mostrar apps desabilitados</string>
+  <string name="menu_sort">Sort applications</string>
+  <string name="menu_sort_name">Sort on name</string>
+  <string name="menu_sort_data">Sort on data usage</string>
   <string name="menu_settings">Configurações</string>
   <string name="menu_invite">Convite</string>
   <string name="menu_support">Suporte</string>
