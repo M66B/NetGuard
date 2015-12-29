@@ -15,9 +15,9 @@
   <string name="menu_app_system">显示系统应用</string>
   <string name="menu_app_nointernet">显示非联网应用</string>
   <string name="menu_app_disabled">显示已禁用应用</string>
-  <string name="menu_sort">Sort applications</string>
-  <string name="menu_sort_name">Sort on name</string>
-  <string name="menu_sort_data">Sort on data usage</string>
+  <string name="menu_sort">应用排序</string>
+  <string name="menu_sort_name">按名称排序</string>
+  <string name="menu_sort_data">按数据使用量排序</string>
   <string name="menu_settings">设置</string>
   <string name="menu_invite">邀请</string>
   <string name="menu_support">软件支持</string>

@@ -13,11 +13,11 @@
   <string name="menu_filter">アプリケーションをフィルター</string>
   <string name="menu_app_user">ユーザー アプリケーションを表示</string>
   <string name="menu_app_system">システム アプリケーションを表示</string>
-  <string name="menu_app_nointernet">Show applications without internet</string>
-  <string name="menu_app_disabled">Show disabled applications</string>
-  <string name="menu_sort">Sort applications</string>
-  <string name="menu_sort_name">Sort on name</string>
-  <string name="menu_sort_data">Sort on data usage</string>
+  <string name="menu_app_nointernet">インターネットなしのアプリケーションを表示</string>
+  <string name="menu_app_disabled">無効になっているアプリケーションを表示</string>
+  <string name="menu_sort">アプリケーションの並び替え</string>
+  <string name="menu_sort_name">名前で並べ替え</string>
+  <string name="menu_sort_data">データ使用状況で並べ替え</string>
   <string name="menu_settings">設定</string>
   <string name="menu_invite">招待</string>
   <string name="menu_support">サポート</string>

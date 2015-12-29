@@ -10,11 +10,11 @@
   <string name="menu_filter">Фильтр приложений</string>
   <string name="menu_app_user">Показать пользовательские приложения</string>
   <string name="menu_app_system">Показать системные приложения</string>
-  <string name="menu_app_nointernet">Show applications without internet</string>
-  <string name="menu_app_disabled">Show disabled applications</string>
-  <string name="menu_sort">Sort applications</string>
-  <string name="menu_sort_name">Sort on name</string>
-  <string name="menu_sort_data">Sort on data usage</string>
+  <string name="menu_app_nointernet">Показать приложения без интернета</string>
+  <string name="menu_app_disabled">Показать отключенные приложения</string>
+  <string name="menu_sort">Сортировка приложений</string>
+  <string name="menu_sort_name">Сортировать по имени</string>
+  <string name="menu_sort_data">Сортировать по использованным данным</string>
   <string name="menu_settings">Настройки</string>
   <string name="menu_invite">Пригласить</string>
   <string name="menu_support">Поддержка</string>

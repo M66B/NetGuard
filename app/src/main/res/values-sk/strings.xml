@@ -10,14 +10,14 @@ Pri aktivácii NetGuard dochádza k pádu aplikácie alebo sa blokuje všetka si
 Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, preto sa nesťažujte kvôli tomu na NetGuard.
 \n\nPoužívaním aplikácie NetGuard súhlasíte so <a href="http://www.gnu.org/licenses/gpl.txt">Všeobecnou verejnou licenciou GNU, verzia 3</a></string>
   <string name="menu_search">Hľadať aplikáciu</string>
-  <string name="menu_filter">Filter applications</string>
-  <string name="menu_app_user">Show user applications</string>
-  <string name="menu_app_system">Show system applications</string>
-  <string name="menu_app_nointernet">Show applications without internet</string>
-  <string name="menu_app_disabled">Show disabled applications</string>
-  <string name="menu_sort">Sort applications</string>
-  <string name="menu_sort_name">Sort on name</string>
-  <string name="menu_sort_data">Sort on data usage</string>
+  <string name="menu_filter">Filtrovať aplikácie</string>
+  <string name="menu_app_user">Zobraziť používateľské aplikácie</string>
+  <string name="menu_app_system">Zobraziť systémové aplikácie</string>
+  <string name="menu_app_nointernet">Zobraziť aplikácie bez internetu</string>
+  <string name="menu_app_disabled">Zobraziť zakázané aplikácie</string>
+  <string name="menu_sort">Zoradiť aplikácie</string>
+  <string name="menu_sort_name">Zoradenie podľa názvu</string>
+  <string name="menu_sort_data">Zoradiť na využitia dát</string>
   <string name="menu_settings">Nastavenia</string>
   <string name="menu_invite">Pozvať</string>
   <string name="menu_support">Podpora</string>
@@ -38,12 +38,12 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="setting_metered_3g">Consider 3G unmetered</string>
   <string name="setting_metered_4g">Consider LTE unmetered</string>
   <string name="setting_national_roaming">Ignore national roaming</string>
-  <string name="setting_stats_category">Speed notification</string>
-  <string name="setting_stats">Show speed notification</string>
+  <string name="setting_stats_category">Oznámenie o rýchlosti</string>
+  <string name="setting_stats">Zobraziť oznámenie o rýchlosti</string>
   <string name="setting_stats_top">Show top applications</string>
   <string name="setting_stats_base">Speed baseline: %s KB/s</string>
   <string name="setting_stats_frequency">Sample interval: %s ms</string>
-  <string name="setting_stats_samples">Number of samples: %s s</string>
+  <string name="setting_stats_samples">Počet vzoriek: %s s</string>
   <string name="setting_backup">Zálohovať</string>
   <string name="setting_export">Exportovať nastavenia</string>
   <string name="setting_import">Importovať nastavenia</string>
@@ -69,13 +69,13 @@ a preto by ste mali povoliť VPN pripojenie v ďalšom okne.
 Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemôže byť nikde odosielaná.</string>
   <string name="msg_try">Skúsiť NetGuard</string>
   <string name="msg_voluntary">Dary sú úplne dobrovoľné a neodomknú žiadne funkcie. Dary sú určené ako spôsob, akým možete prejaviť vašu vďačnosť za vykonanú prácu.</string>
-  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
+  <string name="msg_terms">Darovaním súhlasíte s <a href="http://www.netguard.me/#terms">podmienkami služby</a></string>
   <string name="msg_dimming">Ak nemôžete stlačiť tlačidlo OK na ďalšom okne, tak iná aplikácia (na ovladanie jasu) prekrýva obrazovkou.</string>
-  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
+  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/deň</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
-  <string name="title_screen_other">Allow mobile when screen is on</string>
+  <string name="title_screen_wifi">Povoliť Wi-Fi pri zapnutej obrazovke</string>
+  <string name="title_screen_other">Povoliť mobilné dáta pri zapnutej obrazovke</string>
   <string name="title_roaming">Blokovať pri roamingu</string>
   <string name="title_disabled">Zakázané</string>
   <string name="title_internet">Nemá prístup k internetu</string>
@@ -83,6 +83,6 @@ Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemô�
   <string name="title_donate">Prispieť</string>
   <string name="title_rate">Ohodnotiť</string>
   <string name="title_thanks">Ďakujeme vám za váš príspevok!</string>
-  <string name="title_allow">Allow</string>
-  <string name="title_block">Block</string>
+  <string name="title_allow">Povoliť</string>
+  <string name="title_block">Blokovať</string>
 </resources>
