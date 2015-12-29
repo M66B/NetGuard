@@ -459,7 +459,8 @@ public class SinkholeService extends VpnService {
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setPriority(Notification.PRIORITY_DEFAULT)
                     .setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorPrimary))
-                    .setOngoing(true);
+                    .setOngoing(true)
+                    .setAutoCancel(false);
             NotificationManagerCompat.from(SinkholeService.this).notify(NOTIFY_TRAFFIC, builder.build());
         }
 
@@ -900,7 +901,9 @@ public class SinkholeService extends VpnService {
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_SECRET)
                 .setPriority(Notification.PRIORITY_MIN)
-                .setColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .setOngoing(true)
+                .setAutoCancel(false);
 
         if (allowed > 0 || blocked > 0) {
             NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
@@ -923,6 +926,7 @@ public class SinkholeService extends VpnService {
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_SECRET)
                 .setColor(ContextCompat.getColor(this, R.color.colorAccent))
+                .setOngoing(false)
                 .setAutoCancel(true);
 
         NotificationManagerCompat.from(this).notify(NOTIFY_DISABLED, notification.build());
