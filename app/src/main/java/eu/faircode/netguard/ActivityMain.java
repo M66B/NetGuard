@@ -505,8 +505,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         menu.findItem(R.id.menu_app_disabled).setChecked(prefs.getBoolean("show_disabled", true));
 
         String sort = prefs.getString("sort", "name");
-        menu.findItem(R.id.menu_sort_name).setChecked("name".equals(sort));
-        menu.findItem(R.id.menu_sort_data).setChecked("data".equals(sort));
+        if ("data".equals(sort))
+            menu.findItem(R.id.menu_sort_data).setChecked(true);
+        else
+            menu.findItem(R.id.menu_sort_name).setChecked(true);
 
         return super.onPrepareOptionsMenu(menu);
     }
