@@ -82,4 +82,12 @@ Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemô�
   <string name="title_rate">Ohodnotiť</string>
   <string name="title_allow">Povoliť</string>
   <string name="title_block">Blokovať</string>
+  <string name="title_pro">Pro features</string>
+  <string name="title_pro_select">Search, filter, sort</string>
+  <string name="title_pro_defaults">Rule defaults</string>
+  <string name="title_pro_theme">Theme</string>
+  <string name="title_pro_speed">Speed notification graph</string>
+  <string name="title_pro_backup">Export/import</string>
+  <string name="title_pro_buy">Details</string>
+  <string name="title_pro_bought">Enabled</string>
 </resources>
