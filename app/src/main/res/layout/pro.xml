@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_weight="3"
+                        android:gravity="center_vertical"
+                        android:text="@string/title_pro_select"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                    <Button
+                        android:id="@+id/btnSelect"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/title_pro_buy"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvSelect"
+                        android:layout_width="0dp"
+                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/title_pro_bought"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_weight="3"
+                        android:gravity="center_vertical"
+                        android:text="@string/title_pro_defaults"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                    <Button
+                        android:id="@+id/btnDefaults"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:text="@string/title_pro_buy"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvDefaults"
+                        android:layout_width="0dp"
+                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/title_pro_bought"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_weight="3"
+                        android:gravity="center_vertical"
+                        android:text="@string/title_pro_theme"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                    <Button
+                        android:id="@+id/btnTheme"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:text="@string/title_pro_buy"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvTheme"
+                        android:layout_width="0dp"
+                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/title_pro_bought"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_weight="3"
+                        android:gravity="center_vertical"
+                        android:text="@string/title_pro_speed"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                    <Button
+                        android:id="@+id/btnSpeed"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:text="@string/title_pro_buy"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvSpeed"
+                        android:layout_width="0dp"
+                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/title_pro_bought"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_weight="3"
+                        android:gravity="center_vertical"
+                        android:text="@string/title_pro_backup"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                    <Button
+                        android:id="@+id/btnBackup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:enabled="false"
+                        android:text="@string/title_pro_buy"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvBackup"
+                        android:layout_width="0dp"
+                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/title_pro_bought"
+                        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

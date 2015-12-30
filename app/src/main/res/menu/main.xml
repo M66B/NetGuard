@@ -51,6 +51,9 @@
         android:id="@+id/menu_settings"
         android:title="@string/menu_settings" />
     <item
+        android:id="@+id/menu_pro"
+        android:title="@string/title_pro" />
+    <item
         android:id="@+id/menu_invite"
         android:title="@string/menu_invite" />
     <item

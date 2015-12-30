@@ -19,12 +19,12 @@ package eu.faircode.netguard;
     Copyright 2015 by Marcel Bokhorst (M66B)
 */
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -45,14 +45,9 @@ public class IAB implements ServiceConnection {
     private IInAppBillingService service = null;
 
     private static final int IAB_VERSION = 3;
-    // adb shell pm clear com.android.vending
-    // adb shell am start -n eu.faircode.netguard/eu.faircode.netguard.ActivityMain
-    private static final String SKU_PRO = "pro";
-    private static final String SKU_DONATE = "donation";
-    // private static final String SKU_DONATE = "android.test.purchased";
 
     public interface Delegate {
-        void onReady();
+        void onReady(IAB iab);
     }
 
     public IAB(Delegate delegate, Context context) {
@@ -61,39 +56,25 @@ public class IAB implements ServiceConnection {
     }
 
     public void bind() {
-        try {
-            Log.i(TAG, "Bind");
-            Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
-            serviceIntent.setPackage("com.android.vending");
-            context.bindService(serviceIntent, this, Context.BIND_AUTO_CREATE);
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Util.sendCrashReport(ex, context);
-        }
+        Log.i(TAG, "Bind");
+        Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        serviceIntent.setPackage("com.android.vending");
+        context.bindService(serviceIntent, this, Context.BIND_AUTO_CREATE);
     }
 
     public void unbind() {
-        if (service != null)
-            try {
-                Log.i(TAG, "Unbind");
-                context.unbindService(this);
-                service = null;
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, context);
-            }
+        if (service != null) {
+            Log.i(TAG, "Unbind");
+            context.unbindService(this);
+            service = null;
+        }
     }
 
     @Override
     public void onServiceConnected(ComponentName name, IBinder binder) {
         Log.i(TAG, "Connected");
-        try {
-            service = IInAppBillingService.Stub.asInterface(binder);
-            delegate.onReady();
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Util.sendCrashReport(ex, context);
-        }
+        service = IInAppBillingService.Stub.asInterface(binder);
+        delegate.onReady(this);
     }
 
     @Override
@@ -144,6 +125,17 @@ public class IAB implements ServiceConnection {
 
         // Check purchases
         ArrayList<String> skus = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+
+        if (skus != null) {
+            SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            for (String product : prefs.getAll().keySet())
+                editor.remove(product);
+            for (String product : skus)
+                editor.putBoolean(product, true);
+            editor.apply();
+        }
+
         return (skus != null && skus.contains(sku));
     }
 
@@ -158,6 +150,17 @@ public class IAB implements ServiceConnection {
         if (!bundle.containsKey("BUY_INTENT"))
             throw new IllegalArgumentException("BUY_INTENT missing");
         return bundle.getParcelable("BUY_INTENT");
+    }
+
+    public static void setBought(String sku, Context context) {
+        Log.i(TAG, "Bought " + sku);
+        SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
+        prefs.edit().putBoolean(sku, true).apply();
+    }
+
+    public static boolean isPurchased(String sku, Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
+        return prefs.getBoolean(sku, false);
     }
 
     public static String getResult(int responseCode) {

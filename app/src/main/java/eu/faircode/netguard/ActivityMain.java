@@ -246,6 +246,25 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Fill application list
         updateApplicationList(getIntent().getStringExtra(EXTRA_SEARCH));
+
+        // Update IAB SKUs
+        try {
+            new IAB(new IAB.Delegate() {
+                @Override
+                public void onReady(IAB iab) {
+                    try {
+                        iab.isPurchased(ActivityPro.SKU_DONATION);
+                        iab.unbind();
+                    } catch (Throwable ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        Util.sendCrashReport(ex, ActivityMain.this);
+                    }
+                }
+            }, this).bind();
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Util.sendCrashReport(ex, ActivityMain.this);
+        }
     }
 
     @Override
@@ -448,15 +467,21 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (adapter != null)
-                    adapter.getFilter().filter(query);
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                    if (adapter != null)
+                        adapter.getFilter().filter(query);
+                } else
+                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (adapter != null)
-                    adapter.getFilter().filter(newText);
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                    if (adapter != null)
+                        adapter.getFilter().filter(newText);
+                } else
+                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
                 return true;
             }
         });
@@ -509,37 +534,59 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         switch (item.getItemId()) {
             case R.id.menu_app_user:
-                item.setChecked(!item.isChecked());
-                prefs.edit().putBoolean("show_user", item.isChecked()).apply();
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                    item.setChecked(!item.isChecked());
+                    prefs.edit().putBoolean("show_user", item.isChecked()).apply();
+                } else
+                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
                 return true;
 
             case R.id.menu_app_system:
-                item.setChecked(!item.isChecked());
-                prefs.edit().putBoolean("show_system", item.isChecked()).apply();
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                    item.setChecked(!item.isChecked());
+                    prefs.edit().putBoolean("show_system", item.isChecked()).apply();
+                } else
+                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
                 return true;
 
             case R.id.menu_app_nointernet:
-                item.setChecked(!item.isChecked());
-                prefs.edit().putBoolean("show_nointernet", item.isChecked()).apply();
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                    item.setChecked(!item.isChecked());
+                    prefs.edit().putBoolean("show_nointernet", item.isChecked()).apply();
+                } else
+                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
                 return true;
 
             case R.id.menu_app_disabled:
-                item.setChecked(!item.isChecked());
-                prefs.edit().putBoolean("show_disabled", item.isChecked()).apply();
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                    item.setChecked(!item.isChecked());
+                    prefs.edit().putBoolean("show_disabled", item.isChecked()).apply();
+                } else
+                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
                 return true;
 
             case R.id.menu_sort_name:
-                item.setChecked(true);
-                prefs.edit().putString("sort", "name").apply();
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                    item.setChecked(true);
+                    prefs.edit().putString("sort", "name").apply();
+                } else
+                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
                 return true;
 
             case R.id.menu_sort_data:
-                item.setChecked(true);
-                prefs.edit().putString("sort", "data").apply();
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                    item.setChecked(true);
+                    prefs.edit().putString("sort", "data").apply();
+                } else
+                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
                 return true;
 
             case R.id.menu_settings:
                 startActivity(new Intent(this, ActivitySettings.class));
+                return true;
+
+            case R.id.menu_pro:
+                startActivity(new Intent(ActivityMain.this, ActivityPro.class));
                 return true;
 
             case R.id.menu_invite:

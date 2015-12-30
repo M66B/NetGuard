@@ -140,7 +140,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                startActivityForResult(getIntentCreateDocument(), ActivitySettings.REQUEST_EXPORT);
+                if (IAB.isPurchased(ActivityPro.SKU_BACKUP, ActivitySettings.this))
+                    startActivityForResult(getIntentCreateDocument(), ActivitySettings.REQUEST_EXPORT);
+                else
+                    startActivity(new Intent(ActivitySettings.this, ActivityPro.class));
                 return true;
             }
         });
@@ -151,7 +154,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_import.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                startActivityForResult(getIntentOpenDocument(), ActivitySettings.REQUEST_IMPORT);
+                if (IAB.isPurchased(ActivityPro.SKU_BACKUP, ActivitySettings.this))
+                    startActivityForResult(getIntentOpenDocument(), ActivitySettings.REQUEST_IMPORT);
+                else
+                    startActivity(new Intent(ActivitySettings.this, ActivityPro.class));
                 return true;
             }
         });
@@ -275,6 +281,33 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     @Override
     @TargetApi(Build.VERSION_CODES.M)
     public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
+        if ("whitelist_wifi".equals(name) ||
+                "screen_wifi".equals(name) ||
+                "whitelist_other".equals(name) ||
+                "screen_other".equals(name) ||
+                "whitelist_roaming".equals(name)) {
+            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_DEFAULTS, this)) {
+                prefs.edit().putBoolean(name, false).apply();
+                ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
+                startActivity(new Intent(this, ActivityPro.class));
+                return;
+            }
+        } else if ("dark_theme".equals(name)) {
+            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_THEME, this)) {
+                prefs.edit().putBoolean(name, false).apply();
+                ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
+                startActivity(new Intent(this, ActivityPro.class));
+                return;
+            }
+        } else if ("show_stats".equals(name)) {
+            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_SPEED, this)) {
+                prefs.edit().putBoolean(name, false).apply();
+                ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
+                startActivity(new Intent(this, ActivityPro.class));
+                return;
+            }
+        }
+
         if ("whitelist_wifi".equals(name) ||
                 "screen_wifi".equals(name))
             SinkholeService.reload("wifi", "setting changed", this);

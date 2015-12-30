@@ -335,6 +335,9 @@ public class Util {
     }
 
     public static void sendCrashReport(Throwable ex, final Context context) {
+        if (!isPlayStoreInstall(context))
+            return;
+
         try {
             ApplicationErrorReport report = new ApplicationErrorReport();
             report.packageName = report.processName = context.getPackageName();
