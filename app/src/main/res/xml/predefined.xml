@@ -13,4 +13,10 @@
         package="com.android.chrome"
         related="com.android.providers.downloads"
         title="Chrome" />
+    <type
+        package="com.facebook.katana"
+        system="false" />
+    <type
+        package="com.google.android.youtube"
+        system="false" />
 </predefined>
