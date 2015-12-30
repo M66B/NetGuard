@@ -24,7 +24,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="?android:attr/listPreferredItemHeight"
-                        android:layout_weight="3"
+                        android:layout_weight="2"
                         android:gravity="center_vertical"
                         android:text="@string/title_pro_select"
                         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
@@ -56,7 +56,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="?android:attr/listPreferredItemHeight"
-                        android:layout_weight="3"
+                        android:layout_weight="2"
                         android:gravity="center_vertical"
                         android:text="@string/title_pro_defaults"
                         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
@@ -88,7 +88,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="?android:attr/listPreferredItemHeight"
-                        android:layout_weight="3"
+                        android:layout_weight="2"
                         android:gravity="center_vertical"
                         android:text="@string/title_pro_theme"
                         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
@@ -120,7 +120,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="?android:attr/listPreferredItemHeight"
-                        android:layout_weight="3"
+                        android:layout_weight="2"
                         android:gravity="center_vertical"
                         android:text="@string/title_pro_speed"
                         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
@@ -152,7 +152,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="?android:attr/listPreferredItemHeight"
-                        android:layout_weight="3"
+                        android:layout_weight="2"
                         android:gravity="center_vertical"
                         android:text="@string/title_pro_backup"
                         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
