@@ -160,7 +160,7 @@ public class IAB implements ServiceConnection {
 
     public static boolean isPurchased(String sku, Context context) {
         SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
-        return prefs.getBoolean(sku, false);
+        return (prefs.getBoolean(sku, false) || prefs.getBoolean(ActivityPro.SKU_DONATION, false) || Util.isDebuggable(context));
     }
 
     public static String getResult(int responseCode) {

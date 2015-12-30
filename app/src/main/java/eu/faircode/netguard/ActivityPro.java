@@ -172,18 +172,16 @@ public class ActivityPro extends AppCompatActivity {
         TextView tvSpeed = (TextView) findViewById(R.id.tvSpeed);
         TextView tvBackup = (TextView) findViewById(R.id.tvBackup);
 
-        boolean donated = (IAB.isPurchased(SKU_DONATION, this) || Util.isDebuggable(this));
+        btnSelect.setVisibility(IAB.isPurchased(SKU_SELECT, this) ? View.GONE : View.VISIBLE);
+        btnDefaults.setVisibility(IAB.isPurchased(SKU_DEFAULTS, this) ? View.GONE : View.VISIBLE);
+        btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
+        btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
+        btnBackup.setVisibility(IAB.isPurchased(SKU_BACKUP, this) ? View.GONE : View.VISIBLE);
 
-        btnSelect.setVisibility(donated || IAB.isPurchased(SKU_SELECT, this) ? View.GONE : View.VISIBLE);
-        btnDefaults.setVisibility(donated || IAB.isPurchased(SKU_DEFAULTS, this) ? View.GONE : View.VISIBLE);
-        btnTheme.setVisibility(donated || IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
-        btnSpeed.setVisibility(donated || IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
-        btnBackup.setVisibility(donated || IAB.isPurchased(SKU_BACKUP, this) ? View.GONE : View.VISIBLE);
-
-        tvSelect.setVisibility(donated || IAB.isPurchased(SKU_SELECT, this) ? View.VISIBLE : View.GONE);
-        tvDefaults.setVisibility(donated || IAB.isPurchased(SKU_DEFAULTS, this) ? View.VISIBLE : View.GONE);
-        tvTheme.setVisibility(donated || IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
-        tvSpeed.setVisibility(donated || IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
-        tvBackup.setVisibility(donated || IAB.isPurchased(SKU_BACKUP, this) ? View.VISIBLE : View.GONE);
+        tvSelect.setVisibility(IAB.isPurchased(SKU_SELECT, this) ? View.VISIBLE : View.GONE);
+        tvDefaults.setVisibility(IAB.isPurchased(SKU_DEFAULTS, this) ? View.VISIBLE : View.GONE);
+        tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
+        tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
+        tvBackup.setVisibility(IAB.isPurchased(SKU_BACKUP, this) ? View.VISIBLE : View.GONE);
     }
 }
