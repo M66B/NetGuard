@@ -68,7 +68,6 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
 Din acest motiv la urmatoarea fereastra de dialog trebuie sa acceptati crearea conexiunii VPN.
 Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca traficul tau de internet nu este redirectionat nicaieri.</string>
   <string name="msg_try">Incearca NetGuard</string>
-  <string name="msg_voluntary">Donatiile sunt voluntare si nu deblocheaza vreo functie ascunsa. Donatiile sunt doar un mod de a iti arata aprecierea pentru munca depusa la aceasta aplicatie.</string>
   <string name="msg_terms">Donand esti de acord cu <a href="http://www.netguard.me/#terms">termenii si conditiile</a></string>
   <string name="msg_dimming">Daca in urmatoarea fereastra de dialog nu poti apasa OK inseamna ca o aplicatie ce manipuleaza ecranul (luminozitatea sau nuanta) blocheaza interactiunea.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/zi</string>
@@ -80,9 +79,7 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="title_disabled">Este dezactivata</string>
   <string name="title_internet">Nu are permisiunea de a accesa internetul</string>
   <string name="title_launch">Porneste aplicatia</string>
-  <string name="title_donate">Doneaza</string>
   <string name="title_rate">Evalueaza aplicatia</string>
-  <string name="title_thanks">Iti multumesc pentru donatie!</string>
   <string name="title_allow">Permite</string>
   <string name="title_block">Blocheaza</string>
 </resources>

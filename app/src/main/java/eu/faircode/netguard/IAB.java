@@ -28,7 +28,6 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.android.vending.billing.IInAppBillingService;
@@ -42,18 +41,23 @@ public class IAB implements ServiceConnection {
     private static final String TAG = "Netguard.IAB";
 
     private Context context;
-    private boolean available = false;
+    private Delegate delegate;
     private IInAppBillingService service = null;
 
     private static final int IAB_VERSION = 3;
     // adb shell pm clear com.android.vending
     // adb shell am start -n eu.faircode.netguard/eu.faircode.netguard.ActivityMain
+    private static final String SKU_PRO = "pro";
     private static final String SKU_DONATE = "donation";
     // private static final String SKU_DONATE = "android.test.purchased";
-    public static final String ACTION_IAB = "eu.faircode.netguard.IAB";
 
-    public IAB(Context context) {
+    public interface Delegate {
+        void onReady();
+    }
+
+    public IAB(Delegate delegate, Context context) {
         this.context = context;
+        this.delegate = delegate;
     }
 
     public void bind() {
@@ -66,10 +70,6 @@ public class IAB implements ServiceConnection {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             Util.sendCrashReport(ex, context);
         }
-    }
-
-    public PendingIntent getIntentSender() throws RemoteException {
-        return (service != null && available ? getBuyIntent(SKU_DONATE) : null);
     }
 
     public void unbind() {
@@ -89,14 +89,7 @@ public class IAB implements ServiceConnection {
         Log.i(TAG, "Connected");
         try {
             service = IInAppBillingService.Stub.asInterface(binder);
-
-            if (isPurchased(SKU_DONATE)) {
-                Intent intent = new Intent(ACTION_IAB);
-                intent.putExtra("RESULT_CODE", Activity.RESULT_OK);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-            } else
-                available = (service != null && isAvailable(SKU_DONATE));
-
+            delegate.onReady();
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             Util.sendCrashReport(ex, context);
@@ -107,83 +100,64 @@ public class IAB implements ServiceConnection {
     public void onServiceDisconnected(ComponentName name) {
         Log.i(TAG, "Disconnected");
         service = null;
-        available = false;
     }
 
-    private boolean isAvailable(String sku) throws RemoteException, JSONException {
-        try {
-            // Get available SKUs
-            ArrayList<String> skuList = new ArrayList<>();
-            skuList.add(sku);
-            Bundle query = new Bundle();
-            query.putStringArrayList("ITEM_ID_LIST", skuList);
-            Bundle bundle = service.getSkuDetails(IAB_VERSION, context.getPackageName(), "inapp", query);
-            Log.i(TAG, "getSkuDetails");
-            Util.logBundle(bundle);
-            int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
-            Log.i(TAG, "Response=" + getResult(response));
-            if (response != 0)
-                return false;
+    public boolean isAvailable(String sku) throws RemoteException, JSONException {
+        // Get available SKUs
+        ArrayList<String> skuList = new ArrayList<>();
+        skuList.add(sku);
+        Bundle query = new Bundle();
+        query.putStringArrayList("ITEM_ID_LIST", skuList);
+        Bundle bundle = service.getSkuDetails(IAB_VERSION, context.getPackageName(), "inapp", query);
+        Log.i(TAG, "getSkuDetails");
+        Util.logBundle(bundle);
+        int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
+        Log.i(TAG, "Response=" + getResult(response));
+        if (response != 0)
+            throw new IllegalArgumentException(getResult(response));
 
-            // Check available SKUs
-            boolean found = false;
-            ArrayList<String> details = bundle.getStringArrayList("DETAILS_LIST");
-            if (details != null)
-                for (String item : details) {
-                    JSONObject object = new JSONObject(item);
-                    if (sku.equals(object.getString("productId"))) {
-                        found = true;
-                        break;
-                    }
+        // Check available SKUs
+        boolean found = false;
+        ArrayList<String> details = bundle.getStringArrayList("DETAILS_LIST");
+        if (details != null)
+            for (String item : details) {
+                JSONObject object = new JSONObject(item);
+                if (sku.equals(object.getString("productId"))) {
+                    found = true;
+                    break;
                 }
-            Log.i(TAG, sku + "=" + found);
-
-            return found;
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Util.sendCrashReport(ex, context);
-            return false;
-        }
-    }
-
-    private boolean isPurchased(String sku) throws RemoteException {
-        try {
-            // Get purchases
-            Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), "inapp", null);
-            Log.i(TAG, "getPurchases");
-            Util.logBundle(bundle);
-            int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
-            Log.i(TAG, "Response=" + getResult(response));
-            if (response != 0)
-                return false;
-
-            // Check purchases
-            ArrayList<String> skus = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
-            return (skus != null && skus.contains(sku));
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Util.sendCrashReport(ex, context);
-            return false;
-        }
-    }
-
-    private PendingIntent getBuyIntent(String sku) throws RemoteException {
-        try {
-            Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "netguard");
-            Log.i(TAG, "getBuyIntent");
-            Util.logBundle(bundle);
-            int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
-            Log.i(TAG, "Response=" + getResult(response));
-            if (response != 0 || !bundle.containsKey("BUY_INTENT")) {
-                Util.sendCrashReport(new IllegalStateException(getResult(response)), context);
-                return null;
             }
-            return bundle.getParcelable("BUY_INTENT");
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Util.sendCrashReport(ex, context);
-            return null;
-        }
+        Log.i(TAG, sku + "=" + found);
+
+        return found;
+    }
+
+    public boolean isPurchased(String sku) throws RemoteException {
+        // Get purchases
+        Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), "inapp", null);
+        Log.i(TAG, "getPurchases");
+        Util.logBundle(bundle);
+        int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
+        Log.i(TAG, "Response=" + getResult(response));
+        if (response != 0)
+            throw new IllegalArgumentException(getResult(response));
+
+        // Check purchases
+        ArrayList<String> skus = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+        return (skus != null && skus.contains(sku));
+    }
+
+    public PendingIntent getBuyIntent(String sku) throws RemoteException {
+        Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "netguard");
+        Log.i(TAG, "getBuyIntent");
+        Util.logBundle(bundle);
+        int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
+        Log.i(TAG, "Response=" + getResult(response));
+        if (response != 0)
+            throw new IllegalArgumentException(getResult(response));
+        if (!bundle.containsKey("BUY_INTENT"))
+            throw new IllegalArgumentException("BUY_INTENT missing");
+        return bundle.getParcelable("BUY_INTENT");
     }
 
     public static String getResult(int responseCode) {

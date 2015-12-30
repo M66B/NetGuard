@@ -20,7 +20,6 @@ package eu.faircode.netguard;
 */
 
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -69,10 +68,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private AlertDialog dialogAbout = null;
 
     private static final int REQUEST_VPN = 1;
-    private static final int REQUEST_IAB = 2;
-    private static final int REQUEST_INVITE = 3;
-    private static final int REQUEST_LOGCAT = 4;
-    public static final int REQUEST_ROAMING = 5;
+    private static final int REQUEST_INVITE = 2;
+    private static final int REQUEST_LOGCAT = 3;
+    public static final int REQUEST_ROAMING = 4;
 
     private static final int MIN_SDK = Build.VERSION_CODES.LOLLIPOP;
 
@@ -300,14 +298,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
             if (resultCode == RESULT_OK)
                 SinkholeService.start("prepared", this);
-
-        } else if (requestCode == REQUEST_IAB) {
-            // Handle IAB result
-            Intent intent = new Intent(IAB.ACTION_IAB);
-            intent.putExtra("RESULT_CODE", resultCode);
-            if (data != null)
-                intent.putExtra("RESPONSE_CODE", data.getIntExtra("RESPONSE_CODE", -1));
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
         } else if (requestCode == REQUEST_INVITE) {
             // Do nothing
@@ -575,9 +565,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         View view = inflater.inflate(R.layout.about, null);
         TextView tvVersion = (TextView) view.findViewById(R.id.tvVersion);
         Button btnRate = (Button) view.findViewById(R.id.btnRate);
-        final Button btnDonate = (Button) view.findViewById(R.id.btnDonate);
-        final TextView tvThanks = (TextView) view.findViewById(R.id.tvThanks);
-        TextView tvTerms = (TextView) view.findViewById(R.id.tvTerms);
         TextView tvLicense = (TextView) view.findViewById(R.id.tvLicense);
 
         // Show version
@@ -585,8 +572,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (!Util.hasValidFingerprint(this))
             tvVersion.setTextColor(Color.GRAY);
 
-        // Handle terms/license
-        tvTerms.setMovementMethod(LinkMovementMethod.getInstance());
+        // Handle license
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Handle logcat
@@ -621,63 +607,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        // In-app billing
-        final IAB iab = new IAB(this);
-
-        // Handle donate
-        btnDonate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    PendingIntent pi = iab.getIntentSender();
-                    if (pi == null) {
-                        Log.i(TAG, "Donate");
-                        Intent donate = new Intent(Intent.ACTION_VIEW);
-                        donate.setData(Uri.parse("http://www.netguard.me/"));
-                        startActivity(donate);
-                    } else {
-                        btnDonate.setEnabled(false);
-                        Log.i(TAG, "IAB donate");
-                        startIntentSenderForResult(pi.getIntentSender(), REQUEST_IAB, new Intent(), 0, 0, 0);
-                    }
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, ActivityMain.this);
-                }
-            }
-        });
-
-        // Handle IAB result
-        final BroadcastReceiver onIABResult = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                int resultCode = intent.getIntExtra("RESULT_CODE", RESULT_CANCELED);
-                int responseCode = intent.getIntExtra("RESPONSE_CODE", -1);
-                final boolean ok = (resultCode == RESULT_OK);
-                Log.i(TAG, "IAB result ok=" + ok + " response=" + IAB.getResult(responseCode));
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (running) {
-                            btnDonate.setEnabled(true);
-                            if (ok) {
-                                btnDonate.setVisibility(View.GONE);
-                                tvThanks.setVisibility(View.VISIBLE);
-                            } else {
-                                Intent donate = new Intent(Intent.ACTION_VIEW);
-                                donate.setData(Uri.parse("http://www.netguard.me/"));
-                                if (donate.resolveActivity(getPackageManager()) != null)
-                                    startActivity(donate);
-                            }
-                        }
-                    }
-                });
-            }
-        };
-        IntentFilter iff = new IntentFilter(IAB.ACTION_IAB);
-        LocalBroadcastManager.getInstance(this).registerReceiver(onIABResult, iff);
-
         // Show dialog
         dialogAbout = new AlertDialog.Builder(this)
                 .setView(view)
@@ -685,20 +614,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        if (running)
-                            LocalBroadcastManager.getInstance(ActivityMain.this).unregisterReceiver(onIABResult);
-
-                        iab.unbind();
-
                         dialogAbout = null;
                     }
                 })
                 .create();
         dialogAbout.show();
-
-        // Connect to billing
-        if (Util.hasValidFingerprint(this))
-            iab.bind();
     }
 
 

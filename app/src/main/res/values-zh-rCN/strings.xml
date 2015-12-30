@@ -68,7 +68,6 @@
 因此请在下一个对话框中允许建立VPN连接.
 NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被发送至任何第三方.</string>
   <string name="msg_try">试用NetGuard</string>
-  <string name="msg_voluntary">捐赠完全出于自愿并且不会解锁任何功能. 捐赠仅作为您对开发者付出劳动的感谢.</string>
   <string name="msg_terms">捐赠即表明您同意 <a href="http://www.netguard.me/#terms">条款与条件</a></string>
   <string name="msg_dimming">如果您在下一个对话框中无法点击确定, 可能是另一个应用正在控制屏幕(如屏幕亮度调节软件).</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/天</string>
@@ -80,9 +79,7 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="title_disabled">已禁用</string>
   <string name="title_internet">无网络访问权限</string>
   <string name="title_launch">启动应用</string>
-  <string name="title_donate">捐赠</string>
   <string name="title_rate">评分</string>
-  <string name="title_thanks">感谢您的捐赠!</string>
   <string name="title_allow">允许</string>
   <string name="title_block">阻止</string>
 </resources>

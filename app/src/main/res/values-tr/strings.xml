@@ -68,7 +68,6 @@ These issues are caused by bugs in Android, or in the software provided by the m
 For this reason, please allow a VPN connection in the next dialog.
 Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
   <string name="msg_try">NetGuard\'ı deneyin</string>
-  <string name="msg_voluntary">Donations are completely voluntary and do not unlock any feature. Donations are meant as a way to show your appreciation for the work done.</string>
   <string name="msg_terms">Bağış yaparak <a href="http://www.netguard.me/#terms"> şartlar &amp; koşulları</a> kabul etmiş sayılırsınız</string>
   <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/gün</string>
@@ -80,9 +79,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_disabled">devre dışı</string>
   <string name="title_internet">İnternet izni yok</string>
   <string name="title_launch">Uygulamayı başlat</string>
-  <string name="title_donate">Bağış yap</string>
   <string name="title_rate">Oyla</string>
-  <string name="title_thanks">Bağış için teşekkür ederiz!</string>
   <string name="title_allow">İzin Ver</string>
   <string name="title_block">Engelle</string>
 </resources>

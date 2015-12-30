@@ -68,7 +68,6 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
 a preto by ste mali povoliť VPN pripojenie v ďalšom okne.
 Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemôže byť nikde odosielaná.</string>
   <string name="msg_try">Skúsiť NetGuard</string>
-  <string name="msg_voluntary">Dary sú úplne dobrovoľné a neodomknú žiadne funkcie. Dary sú určené ako spôsob, akým možete prejaviť vašu vďačnosť za vykonanú prácu.</string>
   <string name="msg_terms">Darovaním súhlasíte s <a href="http://www.netguard.me/#terms">podmienkami služby</a></string>
   <string name="msg_dimming">Ak nemôžete stlačiť tlačidlo OK na ďalšom okne, tak iná aplikácia (na ovladanie jasu) prekrýva obrazovkou.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/deň</string>
@@ -80,9 +79,7 @@ Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemô�
   <string name="title_disabled">Zakázané</string>
   <string name="title_internet">Nemá prístup k internetu</string>
   <string name="title_launch">Spustiť aplikáciu</string>
-  <string name="title_donate">Prispieť</string>
   <string name="title_rate">Ohodnotiť</string>
-  <string name="title_thanks">Ďakujeme vám za váš príspevok!</string>
   <string name="title_allow">Povoliť</string>
   <string name="title_block">Blokovať</string>
 </resources>

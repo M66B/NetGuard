@@ -68,7 +68,6 @@
 このため、次のダイアログ ボックスで VPN 接続を許可してください。
 NetGuard にインターネット アクセス許可がないと、インター ネット トラフィックはどこにも送信されません。</string>
   <string name="msg_try">NetGuard を試してください</string>
-  <string name="msg_voluntary">寄付は完全に任意で、何の機能もロック解除しません。寄付は、仕事に感謝の気持ちを示す意味のものです。</string>
   <string name="msg_terms">寄付によって <a href="http://www.netguard.me/#terms">利用規約</a> に同意します</string>
   <string name="msg_dimming">次のダイアログ ボックスで OK を押すことができない場合、別の (画面調光) アプリケーションが画面を操作している可能性があります。</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/日</string>
@@ -80,9 +79,7 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_disabled">無効</string>
   <string name="title_internet">インターネット アクセス許可がありません</string>
   <string name="title_launch">アプリケーションを開始</string>
-  <string name="title_donate">寄付する</string>
   <string name="title_rate">評価</string>
-  <string name="title_thanks">寄付をありがとうございます!</string>
   <string name="title_allow">許可</string>
   <string name="title_block">ブロック</string>
 </resources>

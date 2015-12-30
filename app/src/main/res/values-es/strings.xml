@@ -68,7 +68,6 @@ Estos problemas son causados por errores en Android, o en el software provisto p
 Por esta razón, por favor permite la conexión VPN en el próximo diálogo.
 Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de internet no está siendo enviado a ninguna parte.</string>
   <string name="msg_try">Prueba NetGuard</string>
-  <string name="msg_voluntary">Las donaciones son completamente voluntarias y no desbloquean ninguna funcionalidad. Las donaciones son una forma de mostrar tu apreciación por el trabajo hecho.</string>
   <string name="msg_terms">Al donar aceptas los <a href="http://www.netguard.me/#terms"> términos y condiciones</a></string>
   <string name="msg_dimming">Si no puedes pulsar OK en el próximo diálogo, otra aplicación (de atenuación de pantalla) probablemente esté manipulando la pantalla.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
@@ -80,9 +79,7 @@ Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de i
   <string name="title_disabled">está deshabilitado</string>
   <string name="title_internet">no tiene permiso a internet</string>
   <string name="title_launch">Iniciar aplicación</string>
-  <string name="title_donate">Donar</string>
   <string name="title_rate">Calificar</string>
-  <string name="title_thanks">¡Gracias por tu donación!</string>
   <string name="title_allow">Allow</string>
   <string name="title_block">Block</string>
 </resources>

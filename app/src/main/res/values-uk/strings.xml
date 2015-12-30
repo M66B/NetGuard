@@ -64,7 +64,6 @@
 Через це, будь ласка, дозвольте VPN-підключення в наступному діалоговому вікні.
 NetGuard не має дозволу до інтернет доступу, тому ви можете бути впевнені, що ваш інтернет трафік нікуди не відправляється.</string>
   <string name="msg_try">Спробуйте NetGuard</string>
-  <string name="msg_voluntary">Матеріальна подяка є абсолютно добровільною і не додає жодних можливостей програми. Подяка призначена лише в якості вираження Вашої вдячності за виконану роботу.</string>
   <string name="msg_terms">Здійснюючи пожертвування, ви погоджуєтесь із <a href="http://www.netguard.me/#terms">умовами &amp; положення</a></string>
   <string name="msg_dimming">Якщо Вам не вдається натиснути Гаразд у наступному діалоговому вікні (затемнення екрану), то скоріш за все, якийсь інший додаток використовує екран.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ МБ/день</string>
@@ -76,9 +75,7 @@ NetGuard не має дозволу до інтернет доступу, том
   <string name="title_disabled">вимкнено</string>
   <string name="title_internet">немає доступу до інтернету</string>
   <string name="title_launch">Запуск додатку</string>
-  <string name="title_donate">Матеріально подякувати</string>
   <string name="title_rate">Оцінити</string>
-  <string name="title_thanks">Дякуємо за підтримку!</string>
   <string name="title_allow">Дозволити</string>
   <string name="title_block">Блокувати</string>
 </resources>

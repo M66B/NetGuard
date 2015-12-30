@@ -66,7 +66,6 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="msg_completed">اكتمل الإجراء</string>
   <string name="msg_vpn">يـسـتـخـدم NetGuard عـلـى VPN مـحـلـي بـاعـتـبـارة الـمـجـرى لـمـنـع حـركـة الـمـرور عـلـى الإنـتـرنـت. لـهـذا الـسـبـب، يـرجـى أن تـسـمـحـوا إتـصـال VPN فـي الـحـوار الـتـالـي. ولأن NetGuard لا يـوجـد لـديـه إذن الإنـتـرنـت، كـمـا تـعـلـمـون، لـذا لا يـتـم إرسـال حـركـة الـمـرور عـلـى الإنـتـرنـت إلـى أي مـكـان.</string>
   <string name="msg_try">جـرّب حـارس الـشـبـكـة (NetGuard)</string>
-  <string name="msg_voluntary">الـتـبـرعـات هـي طـوعـيـة تـمـامـا ولا تـوقـف أي إسـتـخـدامـات مـسـتـقـبـلـيـة. هـي فـقـط تـعـنـى تـقـديـرك لـلـعـمـل الـمـنـجـز.</string>
   <string name="msg_terms">بالــتـبـرع مـعـنـاه مـوافـقـتـك عـلـى الأحـكـام والـشـروط. <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">إن لـم تـسـتـطـع الـضـغـط عـلـى مـوافـق مـعـنـى ذلـك ( تـعـتـيـم الـشـاشـة) أن تـطـبـيـق آخـر مـتـحـكـم فـي الـشـاشـة.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
@@ -78,9 +77,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="title_disabled">يتم تعطيل</string>
   <string name="title_internet">لـيـس لـديـة إذن الإنـتـرنـت</string>
   <string name="title_launch">بدء التطبيق</string>
-  <string name="title_donate">التبرع</string>
   <string name="title_rate">ﺗﻘﻴﻴﻢ</string>
-  <string name="title_thanks">شكرا لتبرعك!</string>
   <string name="title_allow">Allow</string>
   <string name="title_block">Block</string>
 </resources>
