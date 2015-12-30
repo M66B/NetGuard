@@ -277,7 +277,7 @@ public class SinkholeService extends VpnService {
 
         private void startStats() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            boolean enabled = (!stats && prefs.getBoolean("show_stats", false) && !Util.isPlayStoreInstall(SinkholeService.this));
+            boolean enabled = (!stats && prefs.getBoolean("show_stats", false));
             Log.i(TAG, "Stats start enabled=" + enabled);
             if (enabled) {
                 t = -1;

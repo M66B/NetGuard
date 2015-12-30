@@ -131,8 +131,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_stats_frequency.setTitle(getString(R.string.setting_stats_frequency, prefs.getString("stats_frequency", "1000")));
         pref_stats_samples.setTitle(getString(R.string.setting_stats_samples, prefs.getString("stats_samples", "90")));
         PreferenceCategory stats = (PreferenceCategory) screen.findPreference("category_stats");
-        if (Util.isPlayStoreInstall(this))
-            screen.removePreference(stats);
 
         // Handle export
         Preference pref_export = screen.findPreference("export");
@@ -375,20 +373,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 SinkholeService.reload("other", "setting changed", this);
 
         } else if ("show_stats".equals(name)) {
-            if (!Util.isPlayStoreInstall(this))
-                SinkholeService.reloadStats("setting changed", this);
+            SinkholeService.reloadStats("setting changed", this);
 
         } else if ("stats_base".equals(name)) {
-            if (!Util.isPlayStoreInstall(this))
-                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_base, prefs.getString(name, "5")));
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_base, prefs.getString(name, "5")));
 
         } else if ("stats_frequency".equals(name)) {
-            if (!Util.isPlayStoreInstall(this))
-                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_frequency, prefs.getString(name, "1000")));
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_frequency, prefs.getString(name, "1000")));
 
         } else if ("stats_samples".equals(name)) {
-            if (!Util.isPlayStoreInstall(this))
-                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
         }
     }
 
