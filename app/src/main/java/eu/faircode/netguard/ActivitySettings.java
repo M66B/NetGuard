@@ -625,7 +625,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         SinkholeService.stop("import", this);
 
         XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-        XmlImportHandler handler = new XmlImportHandler();
+        XmlImportHandler handler = new XmlImportHandler(this);
         reader.setContentHandler(handler);
         reader.parse(new InputSource(in));
 
@@ -671,6 +671,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     private class XmlImportHandler extends DefaultHandler {
+        private Context context;
         public boolean enabled = false;
         public Map<String, Object> application = new HashMap<>();
         public Map<String, Object> wifi = new HashMap<>();
@@ -680,6 +681,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         public Map<String, Object> screen_other = new HashMap<>();
         public Map<String, Object> roaming = new HashMap<>();
         private Map<String, Object> current = null;
+
+        public XmlImportHandler(Context context) {
+            this.context = context;
+        }
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) {
@@ -718,6 +723,24 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     if ("enabled".equals(key))
                         enabled = Boolean.parseBoolean(value);
                     else {
+                        // Pro features
+                        if (current == application) {
+                            if ("show_user".equals(key) ||
+                                    "show_system".equals(key) ||
+                                    "show_nointernet".equals(key) ||
+                                    "show_disabled".equals(key) ||
+                                    "sort".equals(key)) {
+                                if (!IAB.isPurchased(ActivityPro.SKU_SELECT, context))
+                                    return;
+                            } else if ("dark_theme".equals(key)) {
+                                if (!IAB.isPurchased(ActivityPro.SKU_THEME, context))
+                                    return;
+                            } else if ("show_stats".equals(key)) {
+                                if (!IAB.isPurchased(ActivityPro.SKU_SPEED, context))
+                                    return;
+                            }
+                        }
+
                         if ("boolean".equals(type))
                             current.put(key, Boolean.parseBoolean(value));
                         else if ("integer".equals(type))
