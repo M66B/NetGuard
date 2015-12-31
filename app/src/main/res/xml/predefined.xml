@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <predefined>
-    <rule
+    <wifi
+        blocked="false"
+        package="com.google.android.apps.adm" />
+    <other
         blocked="false"
         package="com.google.android.apps.adm"
-        roaming="false"
-        title="Android Device Manager" />
+        roaming="false" />
+
+    <wifi
+        blocked="false"
+        package="com.google.android.backuptransport" />
+
+    <wifi
+        blocked="false"
+        package="com.google.android.apps.gcs" />
+    <other
+        blocked="false"
+        package="com.google.android.apps.gcs"
+        roaming="false" />
+
     <relation
         package="com.android.vending"
-        related="com.google.android.gms,com.android.providers.downloads"
-        title="Google Play Store" />
+        related="com.google.android.gms,com.android.providers.downloads" />
     <relation
         package="com.android.chrome"
-        related="com.android.providers.downloads"
-        title="Chrome" />
+        related="com.android.providers.downloads" />
+
     <type
         package="com.facebook.katana"
         system="false" />

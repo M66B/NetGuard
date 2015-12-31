@@ -122,7 +122,8 @@ public class Rule {
         long now = SystemClock.elapsedRealtime();
 
         // Get predefined rules
-        Map<String, Boolean> pre_blocked = new HashMap<>();
+        Map<String, Boolean> pre_wifi_blocked = new HashMap<>();
+        Map<String, Boolean> pre_other_blocked = new HashMap<>();
         Map<String, Boolean> pre_roaming = new HashMap<>();
         Map<String, String[]> pre_related = new HashMap<>();
         Map<String, Boolean> pre_system = new HashMap<>();
@@ -131,13 +132,19 @@ public class Rule {
             int eventType = xml.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 if (eventType == XmlPullParser.START_TAG)
-                    if ("rule".equals(xml.getName())) {
+                    if ("wifi".equals(xml.getName())) {
+                        String pkg = xml.getAttributeValue(null, "package");
+                        boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
+                        pre_wifi_blocked.put(pkg, pblocked);
+                        Log.d(tag, "Wifi " + pkg + " blocked=" + pblocked);
+
+                    } else if ("other".equals(xml.getName())) {
                         String pkg = xml.getAttributeValue(null, "package");
                         boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
                         boolean proaming = xml.getAttributeBooleanValue(null, "roaming", default_roaming);
-                        pre_blocked.put(pkg, pblocked);
+                        pre_other_blocked.put(pkg, pblocked);
                         pre_roaming.put(pkg, proaming);
-                        Log.d(tag, "Predefined " + pkg + " blocked=" + pblocked + " roaming=" + proaming);
+                        Log.d(tag, "Other " + pkg + " blocked=" + pblocked + " roaming=" + proaming);
 
                     } else if ("relation".equals(xml.getName())) {
                         String pkg = xml.getAttributeValue(null, "package");
@@ -171,8 +178,8 @@ public class Rule {
                             (show_nointernet ? true : rule.internet) &&
                             (show_disabled ? true : rule.enabled))) {
 
-                rule.wifi_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : default_wifi);
-                rule.other_default = (pre_blocked.containsKey(info.packageName) ? pre_blocked.get(info.packageName) : default_other);
+                rule.wifi_default = (pre_wifi_blocked.containsKey(info.packageName) ? pre_wifi_blocked.get(info.packageName) : default_wifi);
+                rule.other_default = (pre_other_blocked.containsKey(info.packageName) ? pre_other_blocked.get(info.packageName) : default_other);
                 rule.screen_wifi_default = default_screen_wifi;
                 rule.screen_other_default = default_screen_other;
                 rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
