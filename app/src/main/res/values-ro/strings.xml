@@ -83,14 +83,16 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="title_allow">Permite</string>
   <string name="title_block">Blocheaza</string>
   <string name="title_pro">Caracteristici versiune Pro</string>
-  <string name="title_pro_description">You can buy the following convenience features:</string>
-  <string name="title_pro_select">Cautare, filtrare, sortare</string>
-  <string name="title_pro_notify">New application notification</string>
-  <string name="title_pro_theme">Tema</string>
-  <string name="title_pro_speed">Graficul de notificare viteza</string>
-  <string name="title_pro_backup">Export/Import</string>
+  <string name="title_pro_trial_until">Pro features trial until %1$s</string>
+  <string name="title_pro_trial_ended">Pro features trial period ended</string>
+  <string name="title_pro_description">The following convenience features are available:</string>
+  <string name="title_pro_select">Search, filter, sort applications</string>
+  <string name="title_pro_notify">New application reminders</string>
+  <string name="title_pro_theme">Appearance (theme)</string>
+  <string name="title_pro_speed">Network speed graph</string>
+  <string name="title_pro_backup">Export/import (backup)</string>
   <string name="title_pro_buy">Detalii</string>
   <string name="title_pro_bought">Activat</string>
-  <string name="title_pro_challenge">Challenge</string>
-  <string name="title_pro_reponse">Response</string>
+  <string name="title_pro_challenge">Intrebare de verificare</string>
+  <string name="title_pro_reponse">Raspuns</string>
 </resources>

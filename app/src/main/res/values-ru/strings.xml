@@ -80,14 +80,16 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_allow">Разрешить</string>
   <string name="title_block">Блокировать</string>
   <string name="title_pro">Pro опции</string>
-  <string name="title_pro_description">You can buy the following convenience features:</string>
-  <string name="title_pro_select">Поиск, фильтрация, сортировка</string>
-  <string name="title_pro_notify">New application notification</string>
-  <string name="title_pro_theme">Тема</string>
-  <string name="title_pro_speed">Скорость уведомления графика</string>
-  <string name="title_pro_backup">Экспорт/импорт</string>
+  <string name="title_pro_trial_until">Pro features trial until %1$s</string>
+  <string name="title_pro_trial_ended">Pro features trial period ended</string>
+  <string name="title_pro_description">The following convenience features are available:</string>
+  <string name="title_pro_select">Search, filter, sort applications</string>
+  <string name="title_pro_notify">New application reminders</string>
+  <string name="title_pro_theme">Appearance (theme)</string>
+  <string name="title_pro_speed">Network speed graph</string>
+  <string name="title_pro_backup">Export/import (backup)</string>
   <string name="title_pro_buy">Подробнее</string>
   <string name="title_pro_bought">Включено</string>
-  <string name="title_pro_challenge">Challenge</string>
-  <string name="title_pro_reponse">Response</string>
+  <string name="title_pro_challenge">Задание</string>
+  <string name="title_pro_reponse">Ответ</string>
 </resources>

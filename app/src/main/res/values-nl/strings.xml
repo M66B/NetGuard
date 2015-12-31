@@ -82,15 +82,17 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_rate">Beoordeel</string>
   <string name="title_allow">Toestaan</string>
   <string name="title_block">Blokkeren</string>
-  <string name="title_pro">Pro features</string>
-  <string name="title_pro_description">The following convenience features are available:</string>
-  <string name="title_pro_select">Search, filter, sort applications</string>
-  <string name="title_pro_notify">New application reminders</string>
-  <string name="title_pro_theme">Appearance (theme)</string>
-  <string name="title_pro_speed">Network speed graph</string>
-  <string name="title_pro_backup">Export/import (backup)</string>
+  <string name="title_pro">Pro functies</string>
+  <string name="title_pro_trial_until">Pro functies op proef tot %1$s</string>
+  <string name="title_pro_trial_ended">Pro functies proefperiode is beëindigd</string>
+  <string name="title_pro_description">De volgende gemaksfuncties zijn beschikbaar:</string>
+  <string name="title_pro_select">Zoek, filter, sorteer toepassingen</string>
+  <string name="title_pro_notify">Nieuwe toepassing herinneringen</string>
+  <string name="title_pro_theme">Uiterlijk (thema)</string>
+  <string name="title_pro_speed">Netwerk snelheid grafiek</string>
+  <string name="title_pro_backup">Export/import (back-up)</string>
   <string name="title_pro_buy">Details</string>
-  <string name="title_pro_bought">Enabled</string>
-  <string name="title_pro_challenge">Challenge</string>
-  <string name="title_pro_reponse">Response</string>
+  <string name="title_pro_bought">Ingeschakeld</string>
+  <string name="title_pro_challenge">Uitdaging</string>
+  <string name="title_pro_reponse">Reactie</string>
 </resources>

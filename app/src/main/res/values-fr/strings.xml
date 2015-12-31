@@ -83,14 +83,16 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
   <string name="title_allow">Autoriser</string>
   <string name="title_block">Bloquer</string>
   <string name="title_pro">Fonctionnalités Pro</string>
-  <string name="title_pro_description">You can buy the following convenience features:</string>
-  <string name="title_pro_select">Rechercher, filtrer, trier</string>
-  <string name="title_pro_notify">New application notification</string>
-  <string name="title_pro_theme">Thème</string>
-  <string name="title_pro_speed">Notification graphique de vitesse</string>
-  <string name="title_pro_backup">Exporter/importer</string>
+  <string name="title_pro_trial_until">Pro features trial until %1$s</string>
+  <string name="title_pro_trial_ended">Pro features trial period ended</string>
+  <string name="title_pro_description">The following convenience features are available:</string>
+  <string name="title_pro_select">Search, filter, sort applications</string>
+  <string name="title_pro_notify">New application reminders</string>
+  <string name="title_pro_theme">Appearance (theme)</string>
+  <string name="title_pro_speed">Network speed graph</string>
+  <string name="title_pro_backup">Export/import (backup)</string>
   <string name="title_pro_buy">Détails</string>
   <string name="title_pro_bought">Activé</string>
-  <string name="title_pro_challenge">Challenge</string>
-  <string name="title_pro_reponse">Response</string>
+  <string name="title_pro_challenge">Défier</string>
+  <string name="title_pro_reponse">Répondre</string>
 </resources>
