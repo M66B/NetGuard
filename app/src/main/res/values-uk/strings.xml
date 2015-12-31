@@ -11,9 +11,9 @@
   <string name="menu_app_system">Системні додатки</string>
   <string name="menu_app_nointernet">Додатки без інтернету</string>
   <string name="menu_app_disabled">Вимкнені додатки</string>
-  <string name="menu_sort">Sort applications</string>
-  <string name="menu_sort_name">Sort on name</string>
-  <string name="menu_sort_data">Sort on data usage</string>
+  <string name="menu_sort">Впорядкування додатків</string>
+  <string name="menu_sort_name">За назвою</string>
+  <string name="menu_sort_data">За використанням даних</string>
   <string name="menu_settings">Налаштування</string>
   <string name="menu_invite">Запросити</string>
   <string name="menu_support">Підтримка</string>
@@ -78,12 +78,15 @@ NetGuard не має дозволу до інтернет доступу, том
   <string name="title_rate">Оцінити</string>
   <string name="title_allow">Дозволити</string>
   <string name="title_block">Блокувати</string>
-  <string name="title_pro">Pro features</string>
-  <string name="title_pro_select">Search, filter, sort</string>
-  <string name="title_pro_defaults">Rule defaults</string>
-  <string name="title_pro_theme">Theme</string>
-  <string name="title_pro_speed">Speed notification graph</string>
-  <string name="title_pro_backup">Export/import</string>
-  <string name="title_pro_buy">Details</string>
-  <string name="title_pro_bought">Enabled</string>
+  <string name="title_pro">Pro можливості</string>
+  <string name="title_pro_description">You can buy the following convenience features:</string>
+  <string name="title_pro_select">Пошук, фільтр, впорядкування</string>
+  <string name="title_pro_notify">New application notification</string>
+  <string name="title_pro_theme">Тема</string>
+  <string name="title_pro_speed">Графік швидкості у сповіщенні</string>
+  <string name="title_pro_backup">Експорт/Імпорт</string>
+  <string name="title_pro_buy">Деталі</string>
+  <string name="title_pro_bought">Увімкнено</string>
+  <string name="title_pro_challenge">Challenge</string>
+  <string name="title_pro_reponse">Response</string>
 </resources>

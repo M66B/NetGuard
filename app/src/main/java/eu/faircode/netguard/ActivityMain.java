@@ -42,6 +42,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -467,7 +468,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                if (TextUtils.isEmpty(query) || IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
                     if (adapter != null)
                         adapter.getFilter().filter(query);
                 } else
@@ -477,7 +478,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                if (TextUtils.isEmpty(newText) || IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
                     if (adapter != null)
                         adapter.getFilter().filter(newText);
                 } else
@@ -530,6 +531,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.i(TAG, "Menu=" + item.getTitle());
+
         // Handle item selection
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         switch (item.getItemId()) {

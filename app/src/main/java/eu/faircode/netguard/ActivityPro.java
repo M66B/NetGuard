@@ -53,6 +53,7 @@ public class ActivityPro extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "Create");
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
 
@@ -154,6 +155,7 @@ public class ActivityPro extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Log.i(TAG, "Destroy");
         iab.unbind();
         super.onDestroy();
     }

@@ -83,11 +83,14 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_allow">Toestaan</string>
   <string name="title_block">Blokkeren</string>
   <string name="title_pro">Pro functies</string>
+  <string name="title_pro_description">You can buy the following convenience features:</string>
   <string name="title_pro_select">Zoeken, filteren, sorteren</string>
-  <string name="title_pro_defaults">Regel standaardwaarden</string>
+  <string name="title_pro_notify">Nieuwe applicatie melding</string>
   <string name="title_pro_theme">Thema</string>
   <string name="title_pro_speed">Snelheidsmelding grafiek</string>
-  <string name="title_pro_backup">Exporteren/Importeren</string>
+  <string name="title_pro_backup">Exporteren/importeren</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Ingeschakeld</string>
+  <string name="title_pro_challenge">Challenge</string>
+  <string name="title_pro_reponse">Response</string>
 </resources>
