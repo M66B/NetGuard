@@ -52,9 +52,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -512,6 +514,17 @@ public class Util {
         if (sb.length() > 2)
             sb.setLength(sb.length() - 2);
 
+        return sb.toString();
+    }
+
+    public static String sha256(String text, String salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] bytes = (text + salt).getBytes("UTF-8");
+        digest.update(bytes, 0, bytes.length);
+        bytes = digest.digest();
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes)
+            sb.append(String.format("%02X", b));
         return sb.toString();
     }
 

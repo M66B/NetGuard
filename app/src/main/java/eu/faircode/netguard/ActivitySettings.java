@@ -279,18 +279,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     @Override
     @TargetApi(Build.VERSION_CODES.M)
     public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
-        if ("whitelist_wifi".equals(name) ||
-                "screen_wifi".equals(name) ||
-                "whitelist_other".equals(name) ||
-                "screen_other".equals(name) ||
-                "whitelist_roaming".equals(name)) {
-            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_DEFAULTS, this)) {
-                prefs.edit().putBoolean(name, false).apply();
-                ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
-                startActivity(new Intent(this, ActivityPro.class));
-                return;
-            }
-        } else if ("dark_theme".equals(name)) {
+        // Pro features
+        if ("dark_theme".equals(name)) {
             if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_THEME, this)) {
                 prefs.edit().putBoolean(name, false).apply();
                 ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
@@ -322,16 +312,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_INTERNATIONAL);
             } else
                 SinkholeService.reload("other", "setting changed", this);
+
         } else if ("manage_system".equals(name)) {
-            SharedPreferences.Editor editor = prefs.edit();
-            if (prefs.getBoolean(name, false)) {
-                editor.putBoolean("show_system", true);
-                editor.putBoolean("show_user", true);
-            } else {
-                editor.putBoolean("show_user", true);
-                editor.putBoolean("show_system", false);
-            }
-            editor.apply();
+            prefs.edit().putBoolean("show_system", prefs.getBoolean(name, false)).apply();
             SinkholeService.reload(null, "setting changed", this);
 
         } else if ("auto_enable".equals(name))

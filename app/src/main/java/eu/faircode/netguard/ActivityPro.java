@@ -22,13 +22,19 @@ package eu.faircode.netguard;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ActivityPro extends AppCompatActivity {
@@ -38,12 +44,12 @@ public class ActivityPro extends AppCompatActivity {
 
     // adb shell pm clear com.android.vending
     public static final String SKU_SELECT = "select";
-    public static final String SKU_DEFAULTS = "defaults";
+    //public static final String SKU_NOTIFY = "notify";
     public static final String SKU_THEME = "theme";
     public static final String SKU_SPEED = "speed";
     public static final String SKU_BACKUP = "backup";
     public static final String SKU_DONATION = "donation";
-    //public static final String SKU_DEFAULTS = "android.test.purchased";
+    public static final String SKU_NOTIFY = "android.test.purchased";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +62,36 @@ public class ActivityPro extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.title_pro);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         updateState();
+
+        TextView tvChallenge = (TextView) findViewById(R.id.tvChallenge);
+        tvChallenge.setText(Build.SERIAL);
+        EditText etResponse = (EditText) findViewById(R.id.etResponse);
+        etResponse.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Do nothing
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                try {
+                    if (Util.sha256(Build.SERIAL, "").equals(editable.toString())) {
+                        IAB.setBought(SKU_DONATION, ActivityPro.this);
+                        updateState();
+                    }
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+            }
+        });
 
         try {
             iab = new IAB(new IAB.Delegate() {
@@ -67,7 +102,7 @@ public class ActivityPro extends AppCompatActivity {
                         iab.isPurchased(SKU_DONATION);
 
                         final Button btnSelect = (Button) findViewById(R.id.btnSelect);
-                        final Button btnDefaults = (Button) findViewById(R.id.btnDefaults);
+                        final Button btnNotify = (Button) findViewById(R.id.btnNotify);
                         final Button btnTheme = (Button) findViewById(R.id.btnTheme);
                         final Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
                         final Button btnBackup = (Button) findViewById(R.id.btnBackup);
@@ -78,8 +113,8 @@ public class ActivityPro extends AppCompatActivity {
                                 try {
                                     if (view == btnSelect)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_SELECT).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
-                                    else if (view == btnDefaults)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_DEFAULTS).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                    else if (view == btnNotify)
+                                        startIntentSenderForResult(iab.getBuyIntent(SKU_NOTIFY).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                     else if (view == btnTheme)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_THEME).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                     else if (view == btnSpeed)
@@ -94,13 +129,13 @@ public class ActivityPro extends AppCompatActivity {
                         };
 
                         btnSelect.setOnClickListener(listener);
-                        btnDefaults.setOnClickListener(listener);
+                        btnNotify.setOnClickListener(listener);
                         btnTheme.setOnClickListener(listener);
                         btnSpeed.setOnClickListener(listener);
                         btnBackup.setOnClickListener(listener);
 
                         btnSelect.setEnabled(true);
-                        btnDefaults.setEnabled(true);
+                        btnNotify.setEnabled(true);
                         btnTheme.setEnabled(true);
                         btnSpeed.setEnabled(true);
                         btnBackup.setEnabled(true);
@@ -140,8 +175,8 @@ public class ActivityPro extends AppCompatActivity {
                     IAB.setBought(SKU_SELECT, this);
                     updateState();
                     break;
-                case R.id.btnDefaults:
-                    IAB.setBought(SKU_DEFAULTS, this);
+                case R.id.btnNotify:
+                    IAB.setBought(SKU_NOTIFY, this);
                     updateState();
                     break;
                 case R.id.btnTheme:
@@ -162,26 +197,29 @@ public class ActivityPro extends AppCompatActivity {
 
     private void updateState() {
         Button btnSelect = (Button) findViewById(R.id.btnSelect);
-        Button btnDefaults = (Button) findViewById(R.id.btnDefaults);
+        Button btnNotify = (Button) findViewById(R.id.btnNotify);
         Button btnTheme = (Button) findViewById(R.id.btnTheme);
         Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
         Button btnBackup = (Button) findViewById(R.id.btnBackup);
         TextView tvSelect = (TextView) findViewById(R.id.tvSelect);
-        TextView tvDefaults = (TextView) findViewById(R.id.tvDefaults);
+        TextView tvNotify = (TextView) findViewById(R.id.tvNotify);
         TextView tvTheme = (TextView) findViewById(R.id.tvTheme);
         TextView tvSpeed = (TextView) findViewById(R.id.tvSpeed);
         TextView tvBackup = (TextView) findViewById(R.id.tvBackup);
+        LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
 
         btnSelect.setVisibility(IAB.isPurchased(SKU_SELECT, this) ? View.GONE : View.VISIBLE);
-        btnDefaults.setVisibility(IAB.isPurchased(SKU_DEFAULTS, this) ? View.GONE : View.VISIBLE);
+        btnNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.GONE : View.VISIBLE);
         btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
         btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
         btnBackup.setVisibility(IAB.isPurchased(SKU_BACKUP, this) ? View.GONE : View.VISIBLE);
 
         tvSelect.setVisibility(IAB.isPurchased(SKU_SELECT, this) ? View.VISIBLE : View.GONE);
-        tvDefaults.setVisibility(IAB.isPurchased(SKU_DEFAULTS, this) ? View.VISIBLE : View.GONE);
+        tvNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.VISIBLE : View.GONE);
         tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
         tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
         tvBackup.setVisibility(IAB.isPurchased(SKU_BACKUP, this) ? View.VISIBLE : View.GONE);
+
+        llChallenge.setVisibility(IAB.isPurchased(SKU_DONATION, this) ? View.GONE : View.VISIBLE);
     }
 }

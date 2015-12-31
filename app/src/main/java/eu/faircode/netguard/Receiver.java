@@ -49,8 +49,10 @@ public class Receiver extends BroadcastReceiver {
             // Application added
             if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
                 // Show notification
-                int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
-                notifyApplication(uid, context);
+                if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context)) {
+                    int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
+                    notifyApplication(uid, context);
+                }
             }
 
         } else if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
@@ -110,7 +112,8 @@ public class Receiver extends BroadcastReceiver {
 
             // Build notification
             Intent main = new Intent(context, ActivityMain.class);
-            main.putExtra(ActivityMain.EXTRA_SEARCH, name);
+            if (IAB.isPurchased(ActivityPro.SKU_SELECT, context))
+                main.putExtra(ActivityMain.EXTRA_SEARCH, name);
             PendingIntent pi = PendingIntent.getActivity(context, 999, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notification = new NotificationCompat.Builder(context)

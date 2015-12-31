@@ -542,7 +542,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_app_system:
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                boolean manage = prefs.getBoolean("manage_system", false);
+                if (manage == !item.isChecked() || IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
                     item.setChecked(!item.isChecked());
                     prefs.edit().putBoolean("show_system", item.isChecked()).apply();
                 } else

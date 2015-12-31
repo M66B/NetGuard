@@ -15,19 +15,29 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_pro_description"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
-                <TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
                         android:text="@string/title_pro_select"
-                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                        android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
                     <Button
                         android:id="@+id/btnSelect"
@@ -42,7 +52,7 @@
                     <TextView
                         android:id="@+id/tvSelect"
                         android:layout_width="0dp"
-                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/title_pro_bought"
@@ -51,30 +61,33 @@
                         android:visibility="gone" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
-                        android:text="@string/title_pro_defaults"
-                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                        android:text="@string/title_pro_notify"
+                        android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
                     <Button
-                        android:id="@+id/btnDefaults"
+                        android:id="@+id/btnNotify"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:enabled="false"
+                        android:gravity="center_vertical|center_horizontal"
                         android:text="@string/title_pro_buy"
                         android:visibility="gone" />
 
                     <TextView
-                        android:id="@+id/tvDefaults"
+                        android:id="@+id/tvNotify"
                         android:layout_width="0dp"
-                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/title_pro_bought"
@@ -83,30 +96,33 @@
                         android:visibility="gone" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
                         android:text="@string/title_pro_theme"
-                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                        android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
                     <Button
                         android:id="@+id/btnTheme"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:enabled="false"
+                        android:gravity="center_vertical|center_horizontal"
                         android:text="@string/title_pro_buy"
                         android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tvTheme"
                         android:layout_width="0dp"
-                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/title_pro_bought"
@@ -115,30 +131,33 @@
                         android:visibility="gone" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
                         android:text="@string/title_pro_speed"
-                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                        android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
                     <Button
                         android:id="@+id/btnSpeed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:enabled="false"
+                        android:gravity="center_vertical|center_horizontal"
                         android:text="@string/title_pro_buy"
                         android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tvSpeed"
                         android:layout_width="0dp"
-                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/title_pro_bought"
@@ -147,30 +166,33 @@
                         android:visibility="gone" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
                         android:text="@string/title_pro_backup"
-                        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                        android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
                     <Button
                         android:id="@+id/btnBackup"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:enabled="false"
+                        android:gravity="center_vertical|center_horizontal"
                         android:text="@string/title_pro_buy"
                         android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tvBackup"
                         android:layout_width="0dp"
-                        android:layout_height="?android:attr/listPreferredItemHeight"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/title_pro_bought"
@@ -179,6 +201,40 @@
                         android:visibility="gone" />
                 </TableRow>
             </TableLayout>
+
+            <LinearLayout
+                android:id="@+id/llChallenge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/title_pro_challenge"
+                    android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                <TextView
+                    android:id="@+id/tvChallenge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_pro_challenge"
+                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/title_pro_reponse"
+                    android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                <EditText
+                    android:id="@+id/etResponse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
