@@ -229,7 +229,6 @@ public class SinkholeService extends VpnService {
                             vpn = null;
                             stopForeground(true);
                         }
-                        stopStats();
                         break;
 
                     case stats:
