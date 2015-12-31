@@ -517,11 +517,9 @@ public class Util {
         return sb.toString();
     }
 
-    public static String sha256(String text, String salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] bytes = (text + salt).getBytes("UTF-8");
-        digest.update(bytes, 0, bytes.length);
-        bytes = digest.digest();
+    public static String md5(String text, String salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        // MD5
+        byte[] bytes = MessageDigest.getInstance("MD5").digest((text + salt).getBytes("UTF-8"));
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes)
             sb.append(String.format("%02X", b));

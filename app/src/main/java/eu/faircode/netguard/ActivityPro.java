@@ -65,34 +65,39 @@ public class ActivityPro extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        // Initial state
         updateState();
 
+        // Challenge
         TextView tvChallenge = (TextView) findViewById(R.id.tvChallenge);
         tvChallenge.setText(Build.SERIAL);
-        EditText etResponse = (EditText) findViewById(R.id.etResponse);
-        etResponse.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Do nothing
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Do nothing
-            }
+        // Response
+        try {
+            final String response = Util.md5(Build.SERIAL, "NetGuard");
+            EditText etResponse = (EditText) findViewById(R.id.etResponse);
+            etResponse.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    // Do nothing
+                }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                try {
-                    if (Util.sha256(Build.SERIAL, "").equals(editable.toString())) {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // Do nothing
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (response.equals(editable.toString().toUpperCase())) {
                         IAB.setBought(SKU_DONATION, ActivityPro.this);
                         updateState();
                     }
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
-            }
-        });
+            });
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
 
         try {
             iab = new IAB(new IAB.Delegate() {
@@ -100,7 +105,8 @@ public class ActivityPro extends AppCompatActivity {
                 public void onReady(final IAB iab) {
                     Log.i(TAG, "IAB ready");
                     try {
-                        iab.isPurchased(SKU_DONATION);
+                        iab.updatePurchases();
+                        updateState();
 
                         final Button btnSelect = (Button) findViewById(R.id.btnSelect);
                         final Button btnNotify = (Button) findViewById(R.id.btnNotify);

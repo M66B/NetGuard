@@ -254,7 +254,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 @Override
                 public void onReady(IAB iab) {
                     try {
-                        iab.isPurchased(ActivityPro.SKU_DONATION);
+                        iab.updatePurchases();
                         iab.unbind();
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));

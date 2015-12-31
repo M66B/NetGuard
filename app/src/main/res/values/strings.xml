@@ -94,7 +94,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
     <string name="title_block">Block</string>
 
     <string name="title_pro">Pro features</string>
-    <string name="title_pro_description">You can buy the following convenience features:</string>
+    <string name="title_pro_description">The following convenience features are available:</string>
     <string name="title_pro_select">Search, filter, sort</string>
     <string name="title_pro_notify">New application notification</string>
     <string name="title_pro_theme">Theme</string>

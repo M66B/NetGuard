@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class IAB implements ServiceConnection {
     private static final String TAG = "Netguard.IAB";
@@ -113,7 +114,27 @@ public class IAB implements ServiceConnection {
         return found;
     }
 
+    public void updatePurchases() throws RemoteException {
+        // Get purchases
+        List<String> skus = getPurchases();
+
+        SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        for (String product : prefs.getAll().keySet())
+            //if (!ActivityPro.SKU_DONATION.equals(product))
+            editor.remove(product);
+        for (String sku : skus) {
+            Log.i(TAG, "SKU=" + sku);
+            editor.putBoolean(sku, true);
+        }
+        editor.apply();
+    }
+
     public boolean isPurchased(String sku) throws RemoteException {
+        return getPurchases().contains(sku);
+    }
+
+    public List<String> getPurchases() throws RemoteException {
         // Get purchases
         Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), "inapp", null);
         Log.i(TAG, "getPurchases");
@@ -123,20 +144,8 @@ public class IAB implements ServiceConnection {
         if (response != 0)
             throw new IllegalArgumentException(getResult(response));
 
-        // Check purchases
-        ArrayList<String> skus = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
-
-        if (skus != null) {
-            SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            for (String product : prefs.getAll().keySet())
-                editor.remove(product);
-            for (String product : skus)
-                editor.putBoolean(product, true);
-            editor.apply();
-        }
-
-        return (skus != null && skus.contains(sku));
+        ArrayList<String> details = bundle.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+        return (details == null ? new ArrayList<String>() : details);
     }
 
     public PendingIntent getBuyIntent(String sku) throws RemoteException {
