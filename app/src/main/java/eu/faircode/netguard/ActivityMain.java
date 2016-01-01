@@ -55,6 +55,9 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -89,6 +92,25 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Pro trial
+        long now = new Date().getTime();
+        long trial = IAB.getTrialEnd(this);
+        if (now < trial) {
+            DateFormat df = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+            Toast.makeText(this, getString(R.string.title_pro_trial_until, df.format(trial)), Toast.LENGTH_LONG).show();
+        } else {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("show_user", true);
+            editor.putBoolean("show_system", prefs.getBoolean("manage_system", false));
+            editor.putBoolean("show_nointernet", true);
+            editor.putBoolean("show_disabled", true);
+            editor.putString("sort", "name");
+            editor.putBoolean("dark_theme", false);
+            editor.putBoolean("show_stats", false);
+            editor.apply();
+        }
+
         setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
@@ -468,7 +490,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (TextUtils.isEmpty(query) || IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                if (TextUtils.isEmpty(query) || IAB.isPurchased(ActivityPro.SKU_SELECT, true, ActivityMain.this)) {
                     if (adapter != null)
                         adapter.getFilter().filter(query);
                 } else
@@ -478,7 +500,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (TextUtils.isEmpty(newText) || IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                if (TextUtils.isEmpty(newText) || IAB.isPurchased(ActivityPro.SKU_SELECT, true, ActivityMain.this)) {
                     if (adapter != null)
                         adapter.getFilter().filter(newText);
                 } else
@@ -537,7 +559,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         switch (item.getItemId()) {
             case R.id.menu_app_user:
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, true, ActivityMain.this)) {
                     item.setChecked(!item.isChecked());
                     prefs.edit().putBoolean("show_user", item.isChecked()).apply();
                 } else
@@ -546,7 +568,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             case R.id.menu_app_system:
                 boolean manage = prefs.getBoolean("manage_system", false);
-                if (manage == !item.isChecked() || IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                if (manage == !item.isChecked() || IAB.isPurchased(ActivityPro.SKU_SELECT, true, ActivityMain.this)) {
                     item.setChecked(!item.isChecked());
                     prefs.edit().putBoolean("show_system", item.isChecked()).apply();
                 } else
@@ -554,7 +576,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_app_nointernet:
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, true, ActivityMain.this)) {
                     item.setChecked(!item.isChecked());
                     prefs.edit().putBoolean("show_nointernet", item.isChecked()).apply();
                 } else
@@ -562,7 +584,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_app_disabled:
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, true, ActivityMain.this)) {
                     item.setChecked(!item.isChecked());
                     prefs.edit().putBoolean("show_disabled", item.isChecked()).apply();
                 } else
@@ -570,15 +592,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_sort_name:
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
-                    item.setChecked(true);
-                    prefs.edit().putString("sort", "name").apply();
-                } else
-                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+                item.setChecked(true);
+                prefs.edit().putString("sort", "name").apply();
                 return true;
 
             case R.id.menu_sort_data:
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
+                if (IAB.isPurchased(ActivityPro.SKU_SELECT, true, ActivityMain.this)) {
                     item.setChecked(true);
                     prefs.edit().putString("sort", "data").apply();
                 } else

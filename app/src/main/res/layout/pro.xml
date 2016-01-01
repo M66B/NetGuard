@@ -19,7 +19,6 @@
                 android:id="@+id/tvTrial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_pro_trial_ended"
                 android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
             <TextView

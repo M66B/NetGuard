@@ -37,6 +37,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ActivityPro extends AppCompatActivity {
     private static final String TAG = "NetGuard.Pro";
 
@@ -64,6 +68,16 @@ public class ActivityPro extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        // Trial
+        long now = new Date().getTime();
+        long trial = IAB.getTrialEnd(this);
+        TextView tvTrial = (TextView) findViewById(R.id.tvTrial);
+        if (now < trial) {
+            DateFormat df = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+            tvTrial.setText(getString(R.string.title_pro_trial_until, df.format(trial)));
+        } else
+            tvTrial.setText(getString(R.string.title_pro_trial_ended));
 
         // Initial state
         updateState();
@@ -216,18 +230,18 @@ public class ActivityPro extends AppCompatActivity {
         TextView tvBackup = (TextView) findViewById(R.id.tvBackup);
         LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
 
-        btnSelect.setVisibility(IAB.isPurchased(SKU_SELECT, this) ? View.GONE : View.VISIBLE);
-        btnNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.GONE : View.VISIBLE);
-        btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
-        btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
-        btnBackup.setVisibility(IAB.isPurchased(SKU_BACKUP, this) ? View.GONE : View.VISIBLE);
+        btnSelect.setVisibility(IAB.isPurchased(SKU_SELECT, false, this) ? View.GONE : View.VISIBLE);
+        btnNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, false, this) ? View.GONE : View.VISIBLE);
+        btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, false, this) ? View.GONE : View.VISIBLE);
+        btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, false, this) ? View.GONE : View.VISIBLE);
+        btnBackup.setVisibility(IAB.isPurchased(SKU_BACKUP, false, this) ? View.GONE : View.VISIBLE);
 
-        tvSelect.setVisibility(IAB.isPurchased(SKU_SELECT, this) ? View.VISIBLE : View.GONE);
-        tvNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.VISIBLE : View.GONE);
-        tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
-        tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
-        tvBackup.setVisibility(IAB.isPurchased(SKU_BACKUP, this) ? View.VISIBLE : View.GONE);
+        tvSelect.setVisibility(IAB.isPurchased(SKU_SELECT, false, this) ? View.VISIBLE : View.GONE);
+        tvNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, false, this) ? View.VISIBLE : View.GONE);
+        tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, false, this) ? View.VISIBLE : View.GONE);
+        tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, false, this) ? View.VISIBLE : View.GONE);
+        tvBackup.setVisibility(IAB.isPurchased(SKU_BACKUP, false, this) ? View.VISIBLE : View.GONE);
 
-        llChallenge.setVisibility(IAB.isPurchased(SKU_DONATION, this) ? View.GONE : View.VISIBLE);
+        llChallenge.setVisibility(IAB.isPurchased(SKU_DONATION, false, this) ? View.GONE : View.VISIBLE);
     }
 }
