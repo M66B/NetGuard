@@ -52,7 +52,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="summary_system">Stwórz reguły dla aplikacji systemowych (zaawansowane)</string>
   <string name="summary_stats">Pokazuj wykres prędkości sieci w powiadomieniach aplikacji</string>
   <string name="summary_auto">Po wyłączeniu poprzez widget, automatycznie włącz NetGuard po podanej liczbie minut\nWprowadzenie zera wyłącza tą opcję</string>
-  <string name="summary_delay">Delay applying when screen on rules for the selected number of minutes after turning the screen off (enter zero to disable this option)</string>
+  <string name="summary_delay">After screen off keep screen on rules active for this number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Zastosuj reguły sieci Wi-Fi tylko do zaznaczonej sieci (do pozostałych sieci Wi-Fi zastosowane zostaną reguły mobilne)</string>
   <string name="summary_metered">Zastosuj reguły z danych mobilnych, do taryfowych sieci Wi-FI (tethering, prepaid)</string>
   <string name="summary_metered_2g">Zastosuj reguły sieci Wi-Fi do połączeń 2G</string>

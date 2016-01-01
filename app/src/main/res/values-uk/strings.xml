@@ -48,7 +48,7 @@
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
   <string name="summary_stats">Показувати графік швидкості мережі у панелі сповіщень</string>
   <string name="summary_auto">При відключені через віджет, NetGuard буде автоматично увімкнуто через вказану кількість хвилин\nВведіть 0, аби відключити цю функцію</string>
-  <string name="summary_delay">Delay applying when screen on rules for the selected number of minutes after turning the screen off (enter zero to disable this option)</string>
+  <string name="summary_delay">After screen off keep screen on rules active for this number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Застосувати правила Wi-Fi мережі лише для обраної (для інших застосовуються правила мобільної мережі)</string>
   <string name="summary_metered">Застосувати правила до лімітованих (платних, обмежених) Wi-Fi мереж</string>
   <string name="summary_metered_2g">Застосувати правила Wi-Fi мережі до 2G з\'єднання</string>
