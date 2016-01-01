@@ -36,7 +36,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class IAB implements ServiceConnection {
@@ -47,7 +46,6 @@ public class IAB implements ServiceConnection {
     private IInAppBillingService service = null;
 
     private static final int IAB_VERSION = 3;
-    private static final long TRIAL_DURATION = 3 * 24 * 3600 * 1000L;
 
     public interface Delegate {
         void onReady(IAB iab);
@@ -169,20 +167,9 @@ public class IAB implements ServiceConnection {
         prefs.edit().putBoolean(sku, true).apply();
     }
 
-    public static long getTrialEnd(Context context) {
+    public static boolean isPurchased(String sku, Context context) {
         SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
-        long until = prefs.getLong("trial", 0);
-        if (until == 0) {
-            until = new Date().getTime() + TRIAL_DURATION;
-        }
-        return until;
-    }
-
-    public static boolean isPurchased(String sku, boolean trial, Context context) {
-        long now = new Date().getTime();
-        long end = IAB.getTrialEnd(context);
-        SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
-        return ((trial && now < end) || prefs.getBoolean(sku, false) || prefs.getBoolean(ActivityPro.SKU_DONATION, false));
+        return (prefs.getBoolean(sku, false) || prefs.getBoolean(ActivityPro.SKU_DONATION, false));
     }
 
     public static String getResult(int responseCode) {

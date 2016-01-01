@@ -141,7 +141,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                if (IAB.isPurchased(ActivityPro.SKU_BACKUP, true, ActivitySettings.this))
+                if (IAB.isPurchased(ActivityPro.SKU_BACKUP, ActivitySettings.this))
                     startActivityForResult(getIntentCreateDocument(), ActivitySettings.REQUEST_EXPORT);
                 else
                     startActivity(new Intent(ActivitySettings.this, ActivityPro.class));
@@ -155,7 +155,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_import.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                if (IAB.isPurchased(ActivityPro.SKU_BACKUP, true, ActivitySettings.this))
+                if (IAB.isPurchased(ActivityPro.SKU_BACKUP, ActivitySettings.this))
                     startActivityForResult(getIntentOpenDocument(), ActivitySettings.REQUEST_IMPORT);
                 else
                     startActivity(new Intent(ActivitySettings.this, ActivityPro.class));
@@ -284,14 +284,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
         // Pro features
         if ("dark_theme".equals(name)) {
-            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_THEME, true, this)) {
+            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_THEME, this)) {
                 prefs.edit().putBoolean(name, false).apply();
                 ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
                 startActivity(new Intent(this, ActivityPro.class));
                 return;
             }
         } else if ("show_stats".equals(name)) {
-            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_SPEED, true, this)) {
+            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_SPEED, this)) {
                 prefs.edit().putBoolean(name, false).apply();
                 ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
                 startActivity(new Intent(this, ActivityPro.class));
@@ -736,13 +736,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                     "show_nointernet".equals(key) ||
                                     "show_disabled".equals(key) ||
                                     "sort".equals(key)) {
-                                if (!IAB.isPurchased(ActivityPro.SKU_SELECT, true, context))
+                                if (!IAB.isPurchased(ActivityPro.SKU_SELECT, context))
                                     return;
                             } else if ("dark_theme".equals(key)) {
-                                if (!IAB.isPurchased(ActivityPro.SKU_THEME, true, context))
+                                if (!IAB.isPurchased(ActivityPro.SKU_THEME, context))
                                     return;
                             } else if ("show_stats".equals(key)) {
-                                if (!IAB.isPurchased(ActivityPro.SKU_SPEED, true, context))
+                                if (!IAB.isPurchased(ActivityPro.SKU_SPEED, context))
                                     return;
                             }
                         }
