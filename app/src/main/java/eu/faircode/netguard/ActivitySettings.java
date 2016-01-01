@@ -123,6 +123,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         Preference pref_auto_enable = screen.findPreference("auto_enable");
         pref_auto_enable.setTitle(getString(R.string.setting_auto, prefs.getString("auto_enable", "0")));
 
+        // Handle screen delay
+        Preference pref_screen_delay = screen.findPreference("screen_delay");
+        pref_screen_delay.setTitle(getString(R.string.setting_delay, prefs.getString("screen_delay", "0")));
+
         // Handle stats
         EditTextPreference pref_stats_base = (EditTextPreference) screen.findPreference("stats_base");
         EditTextPreference pref_stats_frequency = (EditTextPreference) screen.findPreference("stats_frequency");
@@ -130,7 +134,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
         pref_stats_frequency.setTitle(getString(R.string.setting_stats_frequency, prefs.getString("stats_frequency", "1000")));
         pref_stats_samples.setTitle(getString(R.string.setting_stats_samples, prefs.getString("stats_samples", "90")));
-        PreferenceCategory stats = (PreferenceCategory) screen.findPreference("category_stats");
 
         // Handle export
         Preference pref_export = screen.findPreference("export");
@@ -319,6 +322,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
+
+        else if ("screen_delay".equals(name))
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_delay, prefs.getString(name, "0")));
 
         else if ("dark_theme".equals(name))
             recreate();

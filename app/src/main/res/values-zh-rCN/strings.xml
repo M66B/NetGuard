@@ -31,6 +31,7 @@
   <string name="setting_options">选项:</string>
   <string name="setting_system">管理系统应用</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
+  <string name="setting_delay">Delay screen off %1$s minutes</string>
   <string name="setting_dark">使用暗色主题</string>
   <string name="setting_wifi_home">Wi-Fi 家庭网络: %1$s</string>
   <string name="setting_metered">控制按流量计费Wi-Fi网络</string>
@@ -51,6 +52,7 @@
   <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
   <string name="summary_auto">禁用小部件后, 在设定分钟后自动再次启用NetGuard\n输入零以禁用此选项</string>
+  <string name="summary_delay">Delay applying when screen on rules for the selected number of minutes after turning the screen off (enter zero to disable this option)</string>
   <string name="summary_wifi_home">仅将Wi-Fi网络规则应用于所选定的网络 (将移动网络规则应用于其他Wi-Fi网络)</string>
   <string name="summary_metered">将移动网络规则应用于按流量计费的 (付费, 共享) Wi-Fi网络</string>
   <string name="summary_metered_2g">将Wi-Fi网络规则应用于2G数据连接</string>

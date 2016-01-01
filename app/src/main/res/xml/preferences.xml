@@ -37,6 +37,11 @@
             android:inputType="number"
             android:key="auto_enable"
             android:summary="@string/summary_auto" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:inputType="number"
+            android:key="screen_delay"
+            android:summary="@string/summary_delay" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="dark_theme"

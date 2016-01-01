@@ -27,6 +27,7 @@
   <string name="setting_options">Опції</string>
   <string name="setting_system">Керувати системними додатками</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
+  <string name="setting_delay">Delay screen off %1$s minutes</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_wifi_home">Домашня Wi-Fi мережа: %1$s</string>
   <string name="setting_metered">Регулювати лімітовані Wi-Fi мережі</string>
@@ -47,6 +48,7 @@
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
   <string name="summary_stats">Показувати графік швидкості мережі у панелі сповіщень</string>
   <string name="summary_auto">При відключені через віджет, NetGuard буде автоматично увімкнуто через вказану кількість хвилин\nВведіть 0, аби відключити цю функцію</string>
+  <string name="summary_delay">Delay applying when screen on rules for the selected number of minutes after turning the screen off (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Застосувати правила Wi-Fi мережі лише для обраної (для інших застосовуються правила мобільної мережі)</string>
   <string name="summary_metered">Застосувати правила до лімітованих (платних, обмежених) Wi-Fi мереж</string>
   <string name="summary_metered_2g">Застосувати правила Wi-Fi мережі до 2G з\'єднання</string>

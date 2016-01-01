@@ -31,6 +31,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_options">Optiuni</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
+  <string name="setting_delay">Delay screen off %1$s minutes</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_wifi_home">Retea Wi-Fi de domiciliu: %1$s</string>
   <string name="setting_metered">Gestionati conexiunile Wi-Fi contorizate</string>
@@ -51,6 +52,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
   <string name="summary_stats">Arata graficul vitezei retelei in notificare</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute\nValoarea zero dezactiveaza optiunea</string>
+  <string name="summary_delay">Delay applying when screen on rules for the selected number of minutes after turning the screen off (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (aplica reguli de date mobile pentru alte retele Wi-Fi)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
   <string name="summary_metered_2g">Aplica regulile Wi-Fi pentru conexiuni 2G</string>

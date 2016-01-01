@@ -20,6 +20,7 @@ package eu.faircode.netguard;
 */
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -65,6 +66,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -76,6 +78,7 @@ public class SinkholeService extends VpnService {
 
     private boolean last_connected = false;
     private boolean last_metered = true;
+    private boolean last_interactive = false;
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
@@ -104,6 +107,8 @@ public class SinkholeService extends VpnService {
     public enum Command {start, reload, stop, stats, set}
 
     private static volatile PowerManager.WakeLock wlInstance = null;
+
+    private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
 
     synchronized private static PowerManager.WakeLock getLock(Context context) {
         if (wlInstance == null) {
@@ -507,7 +512,6 @@ public class SinkholeService extends VpnService {
         boolean unmetered_4g = prefs.getBoolean("unmetered_4g", false);
         boolean roaming = Util.isRoaming(SinkholeService.this);
         boolean national = prefs.getBoolean("national_roaming", false);
-        boolean interactive = Util.isInteractive(this);
         boolean telephony = Util.hasTelephony(this);
 
         // Update connected state
@@ -538,7 +542,7 @@ public class SinkholeService extends VpnService {
                 " telephony=" + telephony +
                 " generation=" + generation +
                 " roaming=" + roaming +
-                " interactive=" + interactive);
+                " interactive=" + last_interactive);
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -555,7 +559,7 @@ public class SinkholeService extends VpnService {
         for (Rule rule : Rule.getRules(true, TAG, this)) {
             boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
             boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
-            if ((!blocked || (screen && interactive)) && (!metered || !(rule.roaming && roaming))) {
+            if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming))) {
                 nAllowed++;
                 if (debug)
                     Log.i(TAG, "Allowing " + rule.info.packageName);
@@ -680,7 +684,29 @@ public class SinkholeService extends VpnService {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            reload(null, "interactive state changed", SinkholeService.this);
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            int delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
+            boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
+
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_SCREEN_OFF_DELAYED), PendingIntent.FLAG_UPDATE_CURRENT);
+            am.cancel(pi);
+
+            if (interactive || delay == 0) {
+                last_interactive = interactive;
+                reload(null, "interactive state changed", SinkholeService.this);
+            } else {
+                if (ACTION_SCREEN_OFF_DELAYED.equals(intent.getAction())) {
+                    last_interactive = interactive;
+                    reload(null, "interactive state changed", SinkholeService.this);
+                } else {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+                        am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
+                    else
+                        am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
+                }
+            }
 
             // Start/stop stats
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -781,9 +807,11 @@ public class SinkholeService extends VpnService {
         mServiceHandler = new ServiceHandler(mServiceLooper);
 
         // Listen for interactive state changes
+        last_interactive = Util.isInteractive(this);
         IntentFilter ifInteractive = new IntentFilter();
         ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
         ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
+        ifInteractive.addAction(ACTION_SCREEN_OFF_DELAYED);
         registerReceiver(interactiveStateReceiver, ifInteractive);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

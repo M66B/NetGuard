@@ -31,6 +31,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_options">Opções</string>
   <string name="setting_system">Administrar aplicativos do sistema</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
+  <string name="setting_delay">Delay screen off %1$s minutes</string>
   <string name="setting_dark">Ativa tema escuro</string>
   <string name="setting_wifi_home">Rede Wi-Fi Doméstica: %1$s</string>
   <string name="setting_metered">Manipular redes Wi-Fi Limitadas</string>
@@ -51,6 +52,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="summary_system">Definir regras para aplicativos do sistema (usuários experientes)</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
+  <string name="summary_delay">Delay applying when screen on rules for the selected number of minutes after turning the screen off (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis à outras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi limitadas (pagas, compartilhadas)</string>
   <string name="summary_metered_2g">Aplicar regras Wi-Fi para conexões 2G</string>
@@ -82,17 +84,17 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
-  <string name="title_pro">Funcionalidades da versão PRO</string>
-  <string name="title_pro_trial_until">Pro features trial until %1$s</string>
-  <string name="title_pro_trial_ended">Pro features trial period ended</string>
-  <string name="title_pro_description">The following convenience features are available:</string>
-  <string name="title_pro_select">Search, filter, sort applications</string>
-  <string name="title_pro_notify">New application reminders</string>
-  <string name="title_pro_theme">Appearance (theme)</string>
-  <string name="title_pro_speed">Network speed graph</string>
-  <string name="title_pro_backup">Export/import (backup)</string>
+  <string name="title_pro">Recursos da versão PRO</string>
+  <string name="title_pro_trial_until">Recursos da versão PRO disponíveis até %1$s</string>
+  <string name="title_pro_trial_ended">O período de testes terminou</string>
+  <string name="title_pro_description">Os seguintes recursos estão disponíveis:</string>
+  <string name="title_pro_select">Buscar, filtrar, ordenar aplicativos</string>
+  <string name="title_pro_notify">Novos lembretes de aplicativos</string>
+  <string name="title_pro_theme">Aparência (tema)</string>
+  <string name="title_pro_speed">Gráfico de velocidade de rede</string>
+  <string name="title_pro_backup">Exportar/Importar (backup)</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
-  <string name="title_pro_challenge">Challenge</string>
+  <string name="title_pro_challenge">Pergunta</string>
   <string name="title_pro_reponse">Resposta</string>
 </resources>
