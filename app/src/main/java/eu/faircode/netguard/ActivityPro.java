@@ -69,16 +69,6 @@ public class ActivityPro extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        // Trial
-        long now = new Date().getTime();
-        long trial = IAB.getTrialEnd(this);
-        TextView tvTrial = (TextView) findViewById(R.id.tvTrial);
-        if (now < trial) {
-            DateFormat df = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-            tvTrial.setText(getString(R.string.title_pro_trial_until, df.format(trial)));
-        } else
-            tvTrial.setText(getString(R.string.title_pro_trial_ended));
-
         // Initial state
         updateState();
 
@@ -171,6 +161,17 @@ public class ActivityPro extends AppCompatActivity {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             Util.sendCrashReport(ex, ActivityPro.this);
         }
+
+        // Trial
+        long now = new Date().getTime();
+        long trial = IAB.getTrialEnd(this);
+        TextView tvTrial = (TextView) findViewById(R.id.tvTrial);
+        if (now < trial) {
+            DateFormat df = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+            tvTrial.setText(getString(R.string.title_pro_trial_until, df.format(trial)));
+        } else
+            tvTrial.setText(getString(R.string.title_pro_trial_ended));
+
     }
 
     @Override

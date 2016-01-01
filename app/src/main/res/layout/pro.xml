@@ -16,15 +16,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvTrial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:text="@string/title_pro_description"
                 android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
@@ -242,6 +235,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvTrial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
