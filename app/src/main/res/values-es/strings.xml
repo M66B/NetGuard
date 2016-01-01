@@ -52,7 +52,7 @@ Estos problemas son causados por errores en Android o en el software provisto po
   <string name="summary_system">Definir reglas para aplicaciones de sistema (para expertos)</string>
   <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>
   <string name="summary_auto">Después de desactivar NetGuard mediante el widget, activarlo automáticamente de nuevo después del número de minutos seleccionado.\nIngresar cero para deshabilitar esta opción</string>
-  <string name="summary_delay">After screen off keep screen on rules active for this number of minutes (enter zero to disable this option)</string>
+  <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Aplicar reglas de red Wi-Fi para la red seleccionada solamente (aplicar reglas de red móvil para otras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar reglas de red móvil a redes Wi-Fi limitadas, como redes por anclaje de datos o zona Wi-Fi</string>
   <string name="summary_metered_2g">Aplicar reglas de red Wi-Fi para conexiones de datos 2G</string>

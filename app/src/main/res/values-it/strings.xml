@@ -53,7 +53,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
-  <string name="summary_delay">After screen off keep screen on rules active for this number of minutes (enter zero to disable this option)</string>
+  <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
   <string name="summary_metered_2g">Applica le regole valide per il Wi-Fi alle connessioni 2G</string>
