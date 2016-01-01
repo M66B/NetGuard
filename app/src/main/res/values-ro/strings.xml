@@ -52,7 +52,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
   <string name="summary_stats">Arata graficul vitezei retelei in notificare</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute\nValoarea zero dezactiveaza optiunea</string>
-  <string name="summary_delay">Delay applying when screen on rules for the selected number of minutes after turning the screen off (enter zero to disable this option)</string>
+  <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (aplica reguli de date mobile pentru alte retele Wi-Fi)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
   <string name="summary_metered_2g">Aplica regulile Wi-Fi pentru conexiuni 2G</string>

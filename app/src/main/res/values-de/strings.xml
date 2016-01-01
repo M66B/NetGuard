@@ -51,7 +51,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert\nNull eingeben zum Deaktivieren dieser Option</string>
-  <string name="summary_delay">Delay applying when screen on rules for the selected number of minutes after turning the screen off (enter zero to disable this option)</string>
+  <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
   <string name="summary_metered">Mobilfunk-Regeln gemessenen (bezahlten, tethered) WLAN-Netzwerken anwenden</string>
   <string name="summary_metered_2g">WLAN-Netzwerk-Regeln für 2G-Datenverbindungen anwenden</string>
