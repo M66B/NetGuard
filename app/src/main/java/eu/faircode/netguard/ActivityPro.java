@@ -49,11 +49,11 @@ public class ActivityPro extends AppCompatActivity {
     // adb shell pm clear com.android.vending
     public static final String SKU_SELECT = "select";
     //public static final String SKU_NOTIFY = "notify";
+    public static final String SKU_NOTIFY = "android.test.purchased";
     public static final String SKU_THEME = "theme";
     public static final String SKU_SPEED = "speed";
     public static final String SKU_BACKUP = "backup";
     public static final String SKU_DONATION = "donation";
-    public static final String SKU_NOTIFY = "android.test.purchased";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

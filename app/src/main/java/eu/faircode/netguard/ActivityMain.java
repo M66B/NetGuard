@@ -97,8 +97,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         long now = new Date().getTime();
         long trial = IAB.getTrialEnd(this);
         if (now < trial) {
-            DateFormat df = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-            Toast.makeText(this, getString(R.string.title_pro_trial_until, df.format(trial)), Toast.LENGTH_LONG).show();
+            if (!IAB.isPurchased(ActivityPro.SKU_SELECT, false, this) ||
+                    !IAB.isPurchased(ActivityPro.SKU_NOTIFY, false, this) ||
+                    !IAB.isPurchased(ActivityPro.SKU_THEME, false, this) ||
+                    !IAB.isPurchased(ActivityPro.SKU_SPEED, false, this) ||
+                    !IAB.isPurchased(ActivityPro.SKU_BACKUP, false, this)) {
+                DateFormat df = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+                Toast.makeText(this, getString(R.string.title_pro_trial_until, df.format(trial)), Toast.LENGTH_LONG).show();
+            }
         } else {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("show_user", true);
