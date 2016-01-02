@@ -471,21 +471,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (TextUtils.isEmpty(query) || IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
-                    if (adapter != null)
-                        adapter.getFilter().filter(query);
-                } else
-                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+                if (adapter != null)
+                    adapter.getFilter().filter(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (TextUtils.isEmpty(newText) || IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
-                    if (adapter != null)
-                        adapter.getFilter().filter(newText);
-                } else
-                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+                if (adapter != null)
+                    adapter.getFilter().filter(newText);
                 return true;
             }
         });
@@ -540,36 +534,24 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         switch (item.getItemId()) {
             case R.id.menu_app_user:
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
-                    item.setChecked(!item.isChecked());
-                    prefs.edit().putBoolean("show_user", item.isChecked()).apply();
-                } else
-                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+                item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("show_user", item.isChecked()).apply();
                 return true;
 
             case R.id.menu_app_system:
                 boolean manage = prefs.getBoolean("manage_system", false);
-                if (manage == !item.isChecked() || IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
-                    item.setChecked(!item.isChecked());
-                    prefs.edit().putBoolean("show_system", item.isChecked()).apply();
-                } else
-                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+                item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("show_system", item.isChecked()).apply();
                 return true;
 
             case R.id.menu_app_nointernet:
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
-                    item.setChecked(!item.isChecked());
-                    prefs.edit().putBoolean("show_nointernet", item.isChecked()).apply();
-                } else
-                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+                item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("show_nointernet", item.isChecked()).apply();
                 return true;
 
             case R.id.menu_app_disabled:
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
-                    item.setChecked(!item.isChecked());
-                    prefs.edit().putBoolean("show_disabled", item.isChecked()).apply();
-                } else
-                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+                item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("show_disabled", item.isChecked()).apply();
                 return true;
 
             case R.id.menu_sort_name:
@@ -578,11 +560,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_sort_data:
-                if (IAB.isPurchased(ActivityPro.SKU_SELECT, ActivityMain.this)) {
-                    item.setChecked(true);
-                    prefs.edit().putString("sort", "data").apply();
-                } else
-                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+                item.setChecked(true);
+                prefs.edit().putString("sort", "data").apply();
                 return true;
 
             case R.id.menu_settings:

@@ -43,12 +43,10 @@ public class ActivityPro extends AppCompatActivity {
     private IAB iab;
 
     // adb shell pm clear com.android.vending
-    public static final String SKU_SELECT = "select";
     //public static final String SKU_NOTIFY = "notify";
     public static final String SKU_NOTIFY = "android.test.purchased";
     public static final String SKU_THEME = "theme";
     public static final String SKU_SPEED = "speed";
-    public static final String SKU_BACKUP = "backup";
     public static final String SKU_DONATION = "donation";
 
     @Override
@@ -108,26 +106,20 @@ public class ActivityPro extends AppCompatActivity {
                         iab.updatePurchases();
                         updateState();
 
-                        final Button btnSelect = (Button) findViewById(R.id.btnSelect);
                         final Button btnNotify = (Button) findViewById(R.id.btnNotify);
                         final Button btnTheme = (Button) findViewById(R.id.btnTheme);
                         final Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
-                        final Button btnBackup = (Button) findViewById(R.id.btnBackup);
 
                         View.OnClickListener listener = new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 try {
-                                    if (view == btnSelect)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_SELECT).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
-                                    else if (view == btnNotify)
+                                    if (view == btnNotify)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_NOTIFY).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                     else if (view == btnTheme)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_THEME).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                     else if (view == btnSpeed)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_SPEED).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
-                                    else if (view == btnBackup)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_BACKUP).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                 } catch (Throwable ex) {
                                     Log.i(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                                     Util.sendCrashReport(ex, ActivityPro.this);
@@ -135,17 +127,13 @@ public class ActivityPro extends AppCompatActivity {
                             }
                         };
 
-                        btnSelect.setOnClickListener(listener);
                         btnNotify.setOnClickListener(listener);
                         btnTheme.setOnClickListener(listener);
                         btnSpeed.setOnClickListener(listener);
-                        btnBackup.setOnClickListener(listener);
 
-                        btnSelect.setEnabled(true);
                         btnNotify.setEnabled(true);
                         btnTheme.setEnabled(true);
                         btnSpeed.setEnabled(true);
-                        btnBackup.setEnabled(true);
 
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -179,10 +167,6 @@ public class ActivityPro extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case R.id.btnSelect:
-                    IAB.setBought(SKU_SELECT, this);
-                    updateState();
-                    break;
                 case R.id.btnNotify:
                     IAB.setBought(SKU_NOTIFY, this);
                     updateState();
@@ -195,38 +179,26 @@ public class ActivityPro extends AppCompatActivity {
                     IAB.setBought(SKU_SPEED, this);
                     updateState();
                     break;
-                case R.id.btnBackup:
-                    IAB.setBought(SKU_BACKUP, this);
-                    updateState();
-                    break;
             }
         }
     }
 
     private void updateState() {
-        Button btnSelect = (Button) findViewById(R.id.btnSelect);
         Button btnNotify = (Button) findViewById(R.id.btnNotify);
         Button btnTheme = (Button) findViewById(R.id.btnTheme);
         Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
-        Button btnBackup = (Button) findViewById(R.id.btnBackup);
-        TextView tvSelect = (TextView) findViewById(R.id.tvSelect);
         TextView tvNotify = (TextView) findViewById(R.id.tvNotify);
         TextView tvTheme = (TextView) findViewById(R.id.tvTheme);
         TextView tvSpeed = (TextView) findViewById(R.id.tvSpeed);
-        TextView tvBackup = (TextView) findViewById(R.id.tvBackup);
         LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
 
-        btnSelect.setVisibility(IAB.isPurchased(SKU_SELECT, this) ? View.GONE : View.VISIBLE);
         btnNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.GONE : View.VISIBLE);
         btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
         btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
-        btnBackup.setVisibility(IAB.isPurchased(SKU_BACKUP, this) ? View.GONE : View.VISIBLE);
 
-        tvSelect.setVisibility(IAB.isPurchased(SKU_SELECT, this) ? View.VISIBLE : View.GONE);
         tvNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.VISIBLE : View.GONE);
         tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
         tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
-        tvBackup.setVisibility(IAB.isPurchased(SKU_BACKUP, this) ? View.VISIBLE : View.GONE);
 
         llChallenge.setVisibility(IAB.isPurchased(SKU_DONATION, this) ? View.GONE : View.VISIBLE);
     }

@@ -113,8 +113,7 @@ public class Receiver extends BroadcastReceiver {
 
             // Build notification
             Intent main = new Intent(context, ActivityMain.class);
-            if (IAB.isPurchased(ActivityPro.SKU_SELECT, context))
-                main.putExtra(ActivityMain.EXTRA_SEARCH, name);
+            main.putExtra(ActivityMain.EXTRA_SEARCH, name);
             PendingIntent pi = PendingIntent.getActivity(context, 999, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
             TypedValue tv = new TypedValue();

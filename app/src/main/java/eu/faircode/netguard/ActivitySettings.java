@@ -141,10 +141,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                if (IAB.isPurchased(ActivityPro.SKU_BACKUP, ActivitySettings.this))
-                    startActivityForResult(getIntentCreateDocument(), ActivitySettings.REQUEST_EXPORT);
-                else
-                    startActivity(new Intent(ActivitySettings.this, ActivityPro.class));
+                startActivityForResult(getIntentCreateDocument(), ActivitySettings.REQUEST_EXPORT);
                 return true;
             }
         });
@@ -155,10 +152,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_import.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                if (IAB.isPurchased(ActivityPro.SKU_BACKUP, ActivitySettings.this))
-                    startActivityForResult(getIntentOpenDocument(), ActivitySettings.REQUEST_IMPORT);
-                else
-                    startActivity(new Intent(ActivitySettings.this, ActivityPro.class));
+                startActivityForResult(getIntentOpenDocument(), ActivitySettings.REQUEST_IMPORT);
                 return true;
             }
         });
@@ -731,14 +725,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     else {
                         // Pro features
                         if (current == application) {
-                            if ("show_user".equals(key) ||
-                                    "show_system".equals(key) ||
-                                    "show_nointernet".equals(key) ||
-                                    "show_disabled".equals(key) ||
-                                    "sort".equals(key)) {
-                                if (!IAB.isPurchased(ActivityPro.SKU_SELECT, context))
-                                    return;
-                            } else if ("dark_theme".equals(key)) {
+                            if ("dark_theme".equals(key)) {
                                 if (!IAB.isPurchased(ActivityPro.SKU_THEME, context))
                                     return;
                             } else if ("show_stats".equals(key)) {
