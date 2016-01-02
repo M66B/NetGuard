@@ -116,8 +116,8 @@ public class Receiver extends BroadcastReceiver {
             main.putExtra(ActivityMain.EXTRA_SEARCH, name);
             PendingIntent pi = PendingIntent.getActivity(context, 999, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            Util.setTheme(context);
             TypedValue tv = new TypedValue();
-            context.setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
             context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
             NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_security_white_24dp)

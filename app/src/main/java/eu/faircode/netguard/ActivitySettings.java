@@ -34,6 +34,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
@@ -83,11 +84,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
 
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
-
+        Util.setTheme(this);
         super.onCreate(savedInstanceState);
-
         getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
         getSupportActionBar().setTitle(R.string.menu_settings);
     }
@@ -126,6 +124,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Handle screen delay
         Preference pref_screen_delay = screen.findPreference("screen_delay");
         pref_screen_delay.setTitle(getString(R.string.setting_delay, prefs.getString("screen_delay", "0")));
+
+        // Handle theme
+        Preference pref_screen_theme = screen.findPreference("theme");
+        String theme = prefs.getString("theme", "teal");
+        String[] themeNames = getResources().getStringArray(R.array.themeNames);
+        String[] themeValues = getResources().getStringArray(R.array.themeValues);
+        for (int i = 0; i < themeNames.length; i++)
+            if (theme.equals(themeValues[i])) {
+                pref_screen_theme.setTitle(getString(R.string.setting_theme, themeNames[i]));
+                break;
+            }
 
         // Handle stats
         EditTextPreference pref_stats_base = (EditTextPreference) screen.findPreference("stats_base");
@@ -277,10 +286,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     @TargetApi(Build.VERSION_CODES.M)
     public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
         // Pro features
-        if ("dark_theme".equals(name)) {
-            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_THEME, this)) {
-                prefs.edit().putBoolean(name, false).apply();
-                ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
+        if ("theme".equals(name)) {
+            if (!"teal".equals(prefs.getString(name, "teal")) && !IAB.isPurchased(ActivityPro.SKU_THEME, this)) {
+                prefs.edit().putString(name, "teal").apply();
+                ((ListPreference) getPreferenceScreen().findPreference(name)).setValue("teal");
                 startActivity(new Intent(this, ActivityPro.class));
                 return;
             }
@@ -320,10 +329,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("screen_delay".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_delay, prefs.getString(name, "0")));
 
-        else if ("dark_theme".equals(name))
+        else if ("theme".equals(name) || "dark_theme".equals(name)) {
+            SinkholeService.setTheme(this);
             recreate();
 
-        else if ("wifi_homes".equals(name)) {
+        } else if ("wifi_homes".equals(name)) {
             MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) getPreferenceScreen().findPreference(name);
             Set<String> ssid = prefs.getStringSet(name, new HashSet<String>());
             if (ssid.size() > 0)
@@ -725,7 +735,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     else {
                         // Pro features
                         if (current == application) {
-                            if ("dark_theme".equals(key)) {
+                            if ("theme".equals(key)) {
                                 if (!IAB.isPurchased(ActivityPro.SKU_THEME, context))
                                     return;
                             } else if ("show_stats".equals(key)) {

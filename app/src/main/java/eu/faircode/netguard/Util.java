@@ -311,6 +311,16 @@ public class Util {
         }
     }
 
+    public static void setTheme(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean dark = prefs.getBoolean("dark_theme", false);
+        String theme = prefs.getString("theme", "teal");
+        if (theme.equals("teal"))
+            context.setTheme(dark ? R.style.AppThemeTealDark : R.style.AppThemeTeal);
+        else if (theme.equals("blue"))
+            context.setTheme(dark ? R.style.AppThemeBlueDark : R.style.AppThemeBlue);
+    }
+
     public static int dips2pixels(int dips, Context context) {
         return Math.round(dips * context.getResources().getDisplayMetrics().density + 0.5f);
     }

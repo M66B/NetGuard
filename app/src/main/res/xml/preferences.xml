@@ -42,6 +42,11 @@
             android:inputType="number"
             android:key="screen_delay"
             android:summary="@string/summary_delay" />
+        <ListPreference
+            android:defaultValue="teal"
+            android:entries="@array/themeNames"
+            android:entryValues="@array/themeValues"
+            android:key="theme" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="dark_theme"

@@ -105,7 +105,7 @@ public class SinkholeService extends VpnService {
     private static final int MSG_STATS_STOP = 2;
     private static final int MSG_STATS_UPDATE = 3;
 
-    public enum Command {start, reload, stop, stats, set}
+    public enum Command {start, reload, stop, stats, set, theme}
 
     private static volatile PowerManager.WakeLock wlInstance = null;
 
@@ -244,6 +244,10 @@ public class SinkholeService extends VpnService {
 
                     case set:
                         set(intent);
+                        break;
+
+                    case theme:
+                        setTheme(intent);
                         break;
                 }
 
@@ -498,6 +502,12 @@ public class SinkholeService extends VpnService {
             Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
             LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
         }
+    }
+
+    private void setTheme(Intent intent) {
+        Util.setTheme(this);
+        stopForeground(true);
+        startForeground(NOTIFY_FOREGROUND, getForegroundNotification(0, 0));
     }
 
     private ParcelFileDescriptor startVPN() {
@@ -800,11 +810,9 @@ public class SinkholeService extends VpnService {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         Log.i(TAG, "Create");
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
+        Util.setTheme(this);
+        super.onCreate();
 
         HandlerThread thread = new HandlerThread(getString(R.string.app_name) + " handler");
         thread.start();
@@ -1001,6 +1009,15 @@ public class SinkholeService extends VpnService {
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         intent.putExtra(EXTRA_REASON, reason);
         context.startService(intent);
+    }
+
+    public static void setTheme(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (prefs.getBoolean("enabled", false)) {
+            Intent intent = new Intent(context, SinkholeService.class);
+            intent.putExtra(EXTRA_COMMAND, Command.theme);
+            context.startService(intent);
+        }
     }
 
     public static void reloadStats(String reason, Context context) {

@@ -89,13 +89,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             return;
         }
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
-
+        Util.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         running = true;
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enabled = prefs.getBoolean("enabled", false);
         boolean initialized = prefs.getBoolean("initialized", false);
 
@@ -378,7 +378,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
             updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
 
-        } else if ("dark_theme".equals(name))
+        } else if ("theme".equals(name) || "dark_theme".equals(name))
             recreate();
     }
 
