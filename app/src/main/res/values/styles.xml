@@ -1,19 +1,25 @@
 <resources>
+    <attr name="colorOn" format="reference" />
+    <attr name="colorOff" format="reference" />
     <attr name="expander" format="reference" />
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowDisablePreview">true</item>
+        <item name="colorPrimary">@color/colorDefaultPrimary</item>
+        <item name="colorPrimaryDark">@color/colorDefaultPrimaryDark</item>
+        <item name="colorAccent">@color/colorDefaultAccent</item>
+        <item name="colorOn">@color/colorDefaultOn</item>
+        <item name="colorOff">@color/colorDefaultOff</item>
         <item name="expander">@drawable/expander_black</item>
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowDisablePreview">true</item>
+        <item name="colorPrimary">@color/colorDefaultPrimary</item>
+        <item name="colorPrimaryDark">@color/colorDefaultPrimaryDark</item>
+        <item name="colorAccent">@color/colorDefaultAccent</item>
+        <item name="colorOn">@color/colorDefaultOn</item>
+        <item name="colorOff">@color/colorDefaultOff</item>
         <item name="expander">@drawable/expander_white</item>
+        <item name="android:windowDisablePreview">true</item>
     </style>
 </resources>

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Teal 500 -->
-    <color name="colorPrimary">#009688</color>
+    <color name="colorDefaultPrimary">#009688</color>
     <!-- Teal 600-->
-    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorDefaultPrimaryDark">#00796B</color>
     <!-- Deep orange A200 -->
-    <color name="colorAccent">#FF5722</color>
+    <color name="colorDefaultAccent">#FF5722</color>
+
+    <color name="colorDefaultOn">#009688</color>
+    <color name="colorDefaultOff">#FF5722</color>
 
     <color name="colorSend">#FF5722</color>
     <color name="colorReceive">#009688</color>

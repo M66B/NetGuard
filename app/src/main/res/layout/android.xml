@@ -45,6 +45,6 @@
         android:layout_marginTop="16dp"
         android:text="@string/app_android"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        android:textColor="@color/colorAccent"
+        android:textColor="?attr/colorAccent"
         android:textStyle="bold" />
 </LinearLayout>

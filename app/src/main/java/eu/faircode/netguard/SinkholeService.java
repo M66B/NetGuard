@@ -57,6 +57,7 @@ import android.telephony.ServiceState;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import java.io.FileInputStream;
@@ -455,6 +456,8 @@ public class SinkholeService extends VpnService {
             Intent main = new Intent(SinkholeService.this, ActivityMain.class);
             PendingIntent pi = PendingIntent.getActivity(SinkholeService.this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            TypedValue tv = new TypedValue();
+            getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(SinkholeService.this)
                     .setSmallIcon(R.drawable.ic_equalizer_white_24dp)
                     .setContent(remoteViews)
@@ -462,7 +465,7 @@ public class SinkholeService extends VpnService {
                     .setCategory(Notification.CATEGORY_STATUS)
                     .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setPriority(Notification.PRIORITY_DEFAULT)
-                    .setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorPrimary))
+                    .setColor(tv.data)
                     .setOngoing(true)
                     .setAutoCancel(false);
             NotificationManagerCompat.from(SinkholeService.this).notify(NOTIFY_TRAFFIC, builder.build());
@@ -800,6 +803,9 @@ public class SinkholeService extends VpnService {
         super.onCreate();
         Log.i(TAG, "Create");
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
+
         HandlerThread thread = new HandlerThread(getString(R.string.app_name) + " handler");
         thread.start();
 
@@ -920,6 +926,8 @@ public class SinkholeService extends VpnService {
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_security_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
@@ -928,7 +936,7 @@ public class SinkholeService extends VpnService {
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_SECRET)
                 .setPriority(Notification.PRIORITY_MIN)
-                .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .setColor(tv.data)
                 .setOngoing(true)
                 .setAutoCancel(false);
 
@@ -945,6 +953,8 @@ public class SinkholeService extends VpnService {
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_error_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
@@ -952,7 +962,7 @@ public class SinkholeService extends VpnService {
                 .setContentIntent(pi)
                 .setCategory(Notification.CATEGORY_STATUS)
                 .setVisibility(Notification.VISIBILITY_SECRET)
-                .setColor(ContextCompat.getColor(this, R.color.colorAccent))
+                .setColor(tv.data)
                 .setOngoing(false)
                 .setAutoCancel(true);
 

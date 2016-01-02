@@ -35,6 +35,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -184,13 +185,16 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         else
             colorChanged = Color.argb(128, Color.red(Color.LTGRAY), Color.green(Color.LTGRAY), Color.blue(Color.LTGRAY));
 
-        colorAccent = ContextCompat.getColor(context, R.color.colorAccent);
         TypedArray ta = context.getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
         try {
             colorText = ta.getColor(0, 0);
         } finally {
             ta.recycle();
         }
+
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
+        colorAccent = tv.data;
     }
 
     public void set(List<Rule> listRule) {

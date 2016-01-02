@@ -34,6 +34,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.util.TypedValue;
 
 import java.util.Map;
 
@@ -116,6 +117,9 @@ public class Receiver extends BroadcastReceiver {
                 main.putExtra(ActivityMain.EXTRA_SEARCH, name);
             PendingIntent pi = PendingIntent.getActivity(context, 999, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            TypedValue tv = new TypedValue();
+            context.setTheme(prefs.getBoolean("dark_theme", false) ? R.style.AppThemeDark : R.style.AppTheme);
+            context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
             NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_security_white_24dp)
                     .setContentTitle(context.getString(R.string.app_name))
@@ -123,7 +127,7 @@ public class Receiver extends BroadcastReceiver {
                     .setContentIntent(pi)
                     .setCategory(Notification.CATEGORY_STATUS)
                     .setVisibility(Notification.VISIBILITY_SECRET)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(tv.data)
                     .setAutoCancel(true);
 
             // Get defaults

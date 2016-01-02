@@ -45,6 +45,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -185,9 +186,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         rvApplication.setAdapter(adapter);
 
         // Swipe to refresh
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         swipeRefresh.setColorSchemeColors(Color.WHITE, Color.WHITE, Color.WHITE);
-        swipeRefresh.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
+        swipeRefresh.setProgressBackgroundColorSchemeColor(tv.data);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
