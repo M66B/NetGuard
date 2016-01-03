@@ -734,7 +734,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         enabled = Boolean.parseBoolean(value);
                     else {
                         // Pro features
-                        if (current == application) {
+                        if (current == application)
                             if ("theme".equals(key)) {
                                 if (!IAB.isPurchased(ActivityPro.SKU_THEME, context))
                                     return;
@@ -742,7 +742,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                 if (!IAB.isPurchased(ActivityPro.SKU_SPEED, context))
                                     return;
                             }
-                        }
 
                         if ("boolean".equals(type))
                             current.put(key, Boolean.parseBoolean(value));

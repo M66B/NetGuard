@@ -319,6 +319,12 @@ public class Util {
             context.setTheme(dark ? R.style.AppThemeTealDark : R.style.AppThemeTeal);
         else if (theme.equals("blue"))
             context.setTheme(dark ? R.style.AppThemeBlueDark : R.style.AppThemeBlue);
+        else if (theme.equals("purple"))
+            context.setTheme(dark ? R.style.AppThemePurpleDark : R.style.AppThemePurple);
+        else if (theme.equals("amber"))
+            context.setTheme(dark ? R.style.AppThemeAmberDark : R.style.AppThemeAmber);
+        else if (theme.equals("orange"))
+            context.setTheme(dark ? R.style.AppThemeOrangeDark : R.style.AppThemeOrange);
     }
 
     public static int dips2pixels(int dips, Context context) {

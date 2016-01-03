@@ -258,6 +258,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 public void onReady(IAB iab) {
                     try {
                         iab.updatePurchases();
+
+                        if (!IAB.isPurchased(ActivityPro.SKU_THEME, ActivityMain.this)) {
+                            if (!"teal".equals(prefs.getString("theme", "teal")))
+                                prefs.edit().putString("theme", "teal").apply();
+                        }
+                        if (!IAB.isPurchased(ActivityPro.SKU_SPEED, ActivityMain.this))
+                            prefs.edit().putBoolean("show_stats", false).apply();
+
                         iab.unbind();
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));

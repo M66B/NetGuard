@@ -14,8 +14,8 @@ Frequently Asked Questions (FAQ)
 
 You can use the settings menu to change from blacklist mode (allow all in *Settings* but block unwanted applications in list) to whitelist mode (block all in *Settings* but allow favorite applications in list).
 
-* Orange = denied internet access
-* Green = allowed internet access
+* Red/orange/yellow/amber = internet access denied
+* Teal/blue/purple/grey = internet access allowd
 
 <a name="FAQ1"></a>
 **(1) Can NetGuard completely protect my privacy?**
@@ -164,6 +164,12 @@ If you block internet access for an application, there is no way around it.
 However, applications could access the internet through other applications, like Google Play services.
 You can prevent this by blocking internet access for the other application as well.
 
+Note that some applications keep trying to access the internet,
+which is done by sending a connection request packet.
+This packet goes into the VPN sinkhole when internet access for the application is blocked.
+This packet consists of less than 100 bytes and is counted as outgoing traffic
+and will be visible in the speed graph notification as well.
+
 <a name="FAQ20"></a>
 **(20) Can I Greenify/hibernate NetGuard?**
 
@@ -209,12 +215,6 @@ which should result in moving it to the bottom of the list.
 There is no need for a select all function,
 because you can switch from black list to white list mode using the settings.
 See also [question 0](#FAQ0).
-
-<a name="FAQ26"></a>
-**(26) Can you make the colors configurable?**
-
-NetGuard is not an application you will use regularly once you have setup the rules,
-so IMHO it is not worth the effort to make the colors configurable.
 
 <br />
 
