@@ -105,7 +105,7 @@ public class SinkholeService extends VpnService {
     private static final int MSG_STATS_STOP = 2;
     private static final int MSG_STATS_UPDATE = 3;
 
-    public enum Command {start, reload, stop, stats, set, theme}
+    public enum Command {run, start, reload, stop, stats, set, theme}
 
     private static volatile PowerManager.WakeLock wlInstance = null;
 
@@ -198,6 +198,10 @@ public class SinkholeService extends VpnService {
 
             try {
                 switch (cmd) {
+                    case run:
+                        // Do nothing
+                        break;
+
                     case start:
                         if (vpn == null) {
                             startForeground(NOTIFY_FOREGROUND, getForegroundNotification(0, 0));
@@ -979,6 +983,13 @@ public class SinkholeService extends VpnService {
 
     private void removeDisabledNotification() {
         NotificationManagerCompat.from(this).cancel(NOTIFY_DISABLED);
+    }
+
+    public static void run(String reason, Context context) {
+        Intent intent = new Intent(context, SinkholeService.class);
+        intent.putExtra(EXTRA_COMMAND, Command.run);
+        intent.putExtra(EXTRA_REASON, reason);
+        context.startService(intent);
     }
 
     public static void start(String reason, Context context) {

@@ -74,6 +74,9 @@ public class Receiver extends BroadcastReceiver {
             }
 
         } else {
+            // Boot completed
+            // My package replaced
+
             // Upgrade settings
             upgrade(true, context);
 
@@ -82,7 +85,10 @@ public class Receiver extends BroadcastReceiver {
             if (prefs.getBoolean("enabled", false))
                 try {
                     if (VpnService.prepare(context) == null)
-                        SinkholeService.start("receiver", context);
+                        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()))
+                            SinkholeService.run("receiver", context);
+                        else
+                            SinkholeService.start("receiver", context);
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     Util.sendCrashReport(ex, context);
