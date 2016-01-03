@@ -66,7 +66,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer VPN-Anwendung</string>
   <string name="msg_installed">\'%1$s\' installiert</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
-  <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um einen Internet-Verkehr zu blockieren. Deshalb erlauben Sie eine VPN-Verbindung im nächsten Fenster. Da NetGuard keine Internet-Berechtigung hat, wird der Internet-Verkehr auch nirgendwo weitergeleitet.</string>
+  <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um den Internet-Verkehr zu blockieren. Deshalb erlauben Sie eine VPN-Verbindung im nächsten Fenster. Da NetGuard keine Internet-Berechtigung hat, wird der Internet-Verkehr auch nirgendwo weitergeleitet.</string>
   <string name="msg_try">NetGuard ausprobieren</string>
   <string name="msg_terms">Durch eine Spende stimmen Sie der <a href="http://www.netguard.me/#terms">AGB</a> zu.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
@@ -86,9 +86,9 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="title_pro_trial_until">Pro-Funktionen-Testzeitraum bis %1$s</string>
   <string name="title_pro_trial_ended">Pro-Funktionen-Testzeitraum abgelaufen</string>
   <string name="title_pro_description">Folgende Annehmlichkeiten stehen zur Verfügung:</string>
-  <string name="title_pro_notify">New application notifications</string>
-  <string name="title_pro_theme">Appearance (theme, colors)</string>
-  <string name="title_pro_speed">Network speed graph notification</string>
+  <string name="title_pro_notify">Neue App Benachrichtigung</string>
+  <string name="title_pro_theme">Aussehen (Themes, Farben)</string>
+  <string name="title_pro_speed">Netzwerkgeschwindigkeit Benachrichtigung</string>
   <string name="title_pro_buy">Detailinformationen</string>
   <string name="title_pro_bought">Aktiviert</string>
   <string name="title_pro_challenge">Challenge</string>
