@@ -45,4 +45,13 @@
     <type
         package="com.whatsapp"
         system="false" />
+    <type
+        package="com.google.android.apps.plus"
+        system="false" />
+    <type
+        package="com.google.android.apps.maps"
+        system="false" />
+        <type
+        package="com.google.android.street"
+        system="false" />    
 </predefined>
