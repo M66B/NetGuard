@@ -51,7 +51,28 @@
     <type
         package="com.google.android.apps.maps"
         system="false" />
-        <type
+    <type
         package="com.google.android.street"
-        system="false" />    
+        system="false" />
+    <type
+        package="com.google.android.apps.walletnfcrel"
+        system="false" />
+    <type
+        package="com.google.android.apps.docs.editors.slides"
+        system="false" />
+    <type
+        package="com.google.android.apps.docs.editors.sheets"
+        system="false" />
+    <type
+        package="com.google.android.apps.photos"
+        system="false" />
+    <type
+        package="com.google.android.apps.messaging"
+        system="false" />
+    <type
+        package="com.google.android.music"
+        system="false" />
+    <type
+        package="com.google.android.apps.docs"
+        system="false" />
 </predefined>
