@@ -32,7 +32,6 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -101,6 +100,9 @@ public class Receiver extends BroadcastReceiver {
     }
 
     public static void notifyApplication(int uid, Context context) {
+        if (uid < 0)
+            return;
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
             // Get application info
@@ -210,6 +212,13 @@ public class Receiver extends BroadcastReceiver {
                     edit_screen_other.apply();
 
                     // TODO: delete unused
+                } else if (oldVersion < 2016010307) {
+                    notifyApplication(Util.getSystemUid("com.facebook.katana", context), context);
+                    notifyApplication(Util.getSystemUid("com.facebook.orca", context), context);
+                    notifyApplication(Util.getSystemUid("com.google.android.youtube", context), context);
+                    notifyApplication(Util.getSystemUid("com.skype.raider", context), context);
+                    notifyApplication(Util.getSystemUid("com.twitter.android", context), context);
+                    notifyApplication(Util.getSystemUid("com.whatsapp", context), context);
                 }
             } else {
                 editor.putBoolean("whitelist_wifi", false);
