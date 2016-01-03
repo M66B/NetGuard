@@ -32,7 +32,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
   <string name="setting_auto">Automatyczne włączenie po %1$s min</string>
   <string name="setting_delay">Opóźnienie wyłączenia reguł ekranu %1$s min</string>
-  <string name="setting_theme">Theme: %1$s</string>
+  <string name="setting_theme">Motyw: %1$s</string>
   <string name="setting_dark">Użyj ciemnej skórki</string>
   <string name="setting_wifi_home">Gniazdo sieci Wi-Fi: %1$s</string>
   <string name="setting_metered">Obsługuj taryfowe sieci Wi-Fi</string>
@@ -40,7 +40,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_metered_3g">Przyjmuj 3G za nietaryfowe</string>
   <string name="setting_metered_4g">Przyjmuj LTE za nietaryfowe</string>
   <string name="setting_national_roaming">Ignoruj roaming krajowy</string>
-  <string name="setting_stats_category">Wskaźnik prędkości</string>
+  <string name="setting_stats_category">Wykres prędkości</string>
   <string name="setting_stats">Pokazuj wskaźnik prędkości</string>
   <string name="setting_stats_top">Pokaż aplikacje z najwyższym transferem</string>
   <string name="setting_stats_base">Prędkość odniesienia: %s KB/s</string>
@@ -89,13 +89,13 @@ Ponieważ NetGuard nie ma zezwolenia na dostęp do Internetu, masz pewność, ż
   <string name="title_pro_trial_until">Okres próbny funkcji Pro %1$s</string>
   <string name="title_pro_trial_ended">Okres próbny funkcji Pro zakończony</string>
   <string name="title_pro_description">Następujące dogodne funkcje są dostępne:</string>
-  <string name="title_pro_notify">New application notifications</string>
-  <string name="title_pro_theme">Appearance (theme, colors)</string>
-  <string name="title_pro_speed">Network speed graph notification</string>
+  <string name="title_pro_notify">Powiadomienia z nowych aplikacji</string>
+  <string name="title_pro_theme">Wygląd (motyw, kolor)</string>
+  <string name="title_pro_speed">Wykres prędkości sieci w powiadomieniach</string>
   <string name="title_pro_buy">Detale</string>
   <string name="title_pro_bought">Włączone</string>
   <string name="title_pro_challenge">Wezwanie</string>
-  <string name="title_pro_reponse">Odpowiedz</string>
+  <string name="title_pro_reponse">Odpowiedź</string>
   <string-array name="themeNames">
     <item>teal/orange</item>
     <item>blue/orange</item>

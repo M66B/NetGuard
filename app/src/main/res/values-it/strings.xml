@@ -32,8 +32,8 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_options">Impostazioni opzionali</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
-  <string name="setting_delay">Delay screen off %1$s minutes</string>
-  <string name="setting_theme">Theme: %1$s</string>
+  <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
+  <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Usa il tema scuro</string>
   <string name="setting_wifi_home">Reti Wi-Fi domestiche: %1$s</string>
   <string name="setting_metered">Gestisci reti Wi-Fi a consumo</string>
@@ -54,7 +54,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
-  <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
+  <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo é acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
   <string name="summary_metered_2g">Applica le regole valide per il Wi-Fi alle connessioni 2G</string>
@@ -87,22 +87,22 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="title_rate">Vota</string>
   <string name="title_allow">Permetti</string>
   <string name="title_block">Blocca</string>
-  <string name="title_pro">Pro features</string>
-  <string name="title_pro_trial_until">Pro features trial until %1$s</string>
-  <string name="title_pro_trial_ended">Pro features trial period ended</string>
-  <string name="title_pro_description">The following convenience features are available:</string>
-  <string name="title_pro_notify">New application notifications</string>
-  <string name="title_pro_theme">Appearance (theme, colors)</string>
-  <string name="title_pro_speed">Network speed graph notification</string>
-  <string name="title_pro_buy">Details</string>
-  <string name="title_pro_bought">Enabled</string>
-  <string name="title_pro_challenge">Challenge</string>
-  <string name="title_pro_reponse">Response</string>
+  <string name="title_pro">Funzionalità a pagamento</string>
+  <string name="title_pro_trial_until">Funzionalità a pagamento in prova fino a %1$s</string>
+  <string name="title_pro_trial_ended">Periodo di prova delle funzionalità a pagamento terminato</string>
+  <string name="title_pro_description">Sono disponibili le seguenti funzionalità aggiuntive:</string>
+  <string name="title_pro_notify">Notifiche nuove applicazioni</string>
+  <string name="title_pro_theme">Aspetto (tema, colori)</string>
+  <string name="title_pro_speed">Grafico della velocità di rete nelle notifiche</string>
+  <string name="title_pro_buy">Dettagli</string>
+  <string name="title_pro_bought">Abilitato</string>
+  <string name="title_pro_challenge">Domanda di verifica</string>
+  <string name="title_pro_reponse">Risposta</string>
   <string-array name="themeNames">
-    <item>teal/orange</item>
-    <item>blue/orange</item>
-    <item>purple/red</item>
-    <item>amber/blue</item>
-    <item>orange/grey</item>
+    <item>foglia di tè/arancione</item>
+    <item>blu/arancione</item>
+    <item>viola/rosso</item>
+    <item>ambra/blu</item>
+    <item>arancione/grigio</item>
   </string-array>
 </resources>

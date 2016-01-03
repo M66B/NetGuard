@@ -32,7 +32,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_system">Administrar aplicativos do sistema</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
-  <string name="setting_theme">Theme: %1$s</string>
+  <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Ativa tema escuro</string>
   <string name="setting_wifi_home">Rede Wi-Fi Doméstica: %1$s</string>
   <string name="setting_metered">Manipular redes Wi-Fi Limitadas</string>
@@ -63,7 +63,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo regras</string>
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
-  <string name="msg_disabled">NetGuard desativado, use o interruptor acima para ativar o NetGuard</string>
+  <string name="msg_disabled">NetGuard desativado, use o interruptor acima para ativá-lo</string>
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>
   <string name="msg_installed">\'%1$s\' instalado</string>
   <string name="msg_completed">Ação concluída</string>
@@ -89,18 +89,18 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_pro_trial_until">Recursos da versão PRO disponíveis até %1$s</string>
   <string name="title_pro_trial_ended">O período de testes terminou</string>
   <string name="title_pro_description">Os seguintes recursos estão disponíveis:</string>
-  <string name="title_pro_notify">New application notifications</string>
-  <string name="title_pro_theme">Appearance (theme, colors)</string>
-  <string name="title_pro_speed">Network speed graph notification</string>
+  <string name="title_pro_notify">Notificação de novos aplicativos</string>
+  <string name="title_pro_theme">Aparência (tema, cores)</string>
+  <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Pergunta</string>
   <string name="title_pro_reponse">Resposta</string>
   <string-array name="themeNames">
-    <item>teal/orange</item>
-    <item>blue/orange</item>
-    <item>purple/red</item>
-    <item>amber/blue</item>
-    <item>orange/grey</item>
+    <item>verde-azulado/laranja</item>
+    <item>azul/laranja</item>
+    <item>roxo/vermelho</item>
+    <item>âmbar/azul</item>
+    <item>laranja/cinza</item>
   </string-array>
 </resources>

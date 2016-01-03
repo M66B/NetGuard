@@ -31,7 +31,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
-  <string name="setting_theme">Theme: %1$s</string>
+  <string name="setting_theme">Design: %1$s</string>
   <string name="setting_dark">Dunkles Thema verwenden</string>
   <string name="setting_wifi_home">WLAN-Heimnetzwerk: %1$s</string>
   <string name="setting_metered">Gemessenes WLAN-Netzwerk handhaben</string>
@@ -86,18 +86,18 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="title_pro_trial_until">Pro-Funktionen-Testzeitraum bis %1$s</string>
   <string name="title_pro_trial_ended">Pro-Funktionen-Testzeitraum abgelaufen</string>
   <string name="title_pro_description">Folgende Annehmlichkeiten stehen zur Verfügung:</string>
-  <string name="title_pro_notify">New application notifications</string>
-  <string name="title_pro_theme">Appearance (theme, colors)</string>
-  <string name="title_pro_speed">Network speed graph notification</string>
+  <string name="title_pro_notify">Benachrichtigung über neue Anwendung</string>
+  <string name="title_pro_theme">Aussehen (Design, Farben)</string>
+  <string name="title_pro_speed">Netzwerkgeschwindigkeitsgraph</string>
   <string name="title_pro_buy">Detailinformationen</string>
   <string name="title_pro_bought">Aktiviert</string>
   <string name="title_pro_challenge">Challenge</string>
   <string name="title_pro_reponse">Antwort</string>
   <string-array name="themeNames">
-    <item>teal/orange</item>
-    <item>blue/orange</item>
-    <item>purple/red</item>
-    <item>amber/blue</item>
-    <item>orange/grey</item>
+    <item>Blaugrün/Orange</item>
+    <item>Blau/Orange</item>
+    <item>Lila/Rot</item>
+    <item>Gelb/Blau</item>
+    <item>Orange/Grau</item>
   </string-array>
 </resources>
