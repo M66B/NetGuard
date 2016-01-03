@@ -31,7 +31,8 @@
   <string name="setting_options">オプション</string>
   <string name="setting_system">システムアプリケーションの管理</string>
   <string name="setting_auto">%1$s 分後に自動的に有効にする</string>
-  <string name="setting_delay">Delay screen off %1$s minutes</string>
+  <string name="setting_delay">%1$s 分、画面オフを遅延</string>
+  <string name="setting_theme">Theme: %1$s</string>
   <string name="setting_dark">ダークテーマを使用する</string>
   <string name="setting_wifi_home">Wi-Fi ホームネットワーク: %1$s</string>
   <string name="setting_metered">従量制の Wi-Fi ネットワークを扱う</string>
@@ -52,7 +53,7 @@
   <string name="summary_system">システムアプリケーションのルールを定義 (上級者向け)</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
-  <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
+  <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>
   <string name="summary_metered">従量制 (有料、テザリング) Wi-Fi ネットワークにモバイル ネットワーク ルールを適用します</string>
   <string name="summary_metered_2g">2G データ接続の Wi-Fi ネットワーク ルールを適用します</string>
@@ -88,13 +89,18 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_pro_trial_until">プロ版機能の試用は %1$s まで</string>
   <string name="title_pro_trial_ended">プロ版機能の試用期間は終了しました</string>
   <string name="title_pro_description">次の便利な機能が利用できます:</string>
-  <string name="title_pro_select">アプリケーションの検索、フィルター、並べ替え</string>
-  <string name="title_pro_notify">新しいアプリケーション リマインダー</string>
-  <string name="title_pro_theme">外観 (テーマ)</string>
-  <string name="title_pro_speed">ネットワーク速度のグラフ</string>
-  <string name="title_pro_backup">エクスポート/インポート (バックアップ)</string>
+  <string name="title_pro_notify">New application notifications</string>
+  <string name="title_pro_theme">Appearance (theme, colors)</string>
+  <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_buy">詳細</string>
   <string name="title_pro_bought">有効</string>
-  <string name="title_pro_challenge">挑戦します</string>
+  <string name="title_pro_challenge">チャレンジ</string>
   <string name="title_pro_reponse">応答</string>
+  <string-array name="themeNames">
+    <item>teal/orange</item>
+    <item>blue/orange</item>
+    <item>purple/red</item>
+    <item>amber/blue</item>
+    <item>orange/grey</item>
+  </string-array>
 </resources>

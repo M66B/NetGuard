@@ -29,6 +29,7 @@
   <string name="setting_system">Управлять сист. приложениями</string>
   <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
+  <string name="setting_theme">Theme: %1$s</string>
   <string name="setting_dark">Использовать темную тему</string>
   <string name="setting_wifi_home">Домашняя сеть Wi-Fi: %1$s</string>
   <string name="setting_metered">Регулировать огранич. Wi-Fi сети</string>
@@ -85,13 +86,18 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>
   <string name="title_pro_description">The following convenience features are available:</string>
-  <string name="title_pro_select">Search, filter, sort applications</string>
-  <string name="title_pro_notify">New application reminders</string>
-  <string name="title_pro_theme">Appearance (theme)</string>
-  <string name="title_pro_speed">Network speed graph</string>
-  <string name="title_pro_backup">Export/import (backup)</string>
+  <string name="title_pro_notify">New application notifications</string>
+  <string name="title_pro_theme">Appearance (theme, colors)</string>
+  <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_buy">Подробнее</string>
   <string name="title_pro_bought">Включено</string>
   <string name="title_pro_challenge">Задание</string>
   <string name="title_pro_reponse">Ответ</string>
+  <string-array name="themeNames">
+    <item>teal/orange</item>
+    <item>blue/orange</item>
+    <item>purple/red</item>
+    <item>amber/blue</item>
+    <item>orange/grey</item>
+  </string-array>
 </resources>

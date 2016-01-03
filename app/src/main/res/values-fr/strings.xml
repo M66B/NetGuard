@@ -32,6 +32,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="setting_system">Gérer les applications système</string>
   <string name="setting_auto">Activer automatiquement après %1$s minutes</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
+  <string name="setting_theme">Theme: %1$s</string>
   <string name="setting_dark">Utiliser le thème sombre</string>
   <string name="setting_wifi_home">Réseaux Wi-Fi domicile : %1$s</string>
   <string name="setting_metered">Gérer les réseaux Wi-Fi limités</string>
@@ -88,13 +89,18 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>
   <string name="title_pro_description">The following convenience features are available:</string>
-  <string name="title_pro_select">Search, filter, sort applications</string>
-  <string name="title_pro_notify">New application reminders</string>
-  <string name="title_pro_theme">Appearance (theme)</string>
-  <string name="title_pro_speed">Network speed graph</string>
-  <string name="title_pro_backup">Export/import (backup)</string>
+  <string name="title_pro_notify">New application notifications</string>
+  <string name="title_pro_theme">Appearance (theme, colors)</string>
+  <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_buy">Détails</string>
   <string name="title_pro_bought">Activé</string>
   <string name="title_pro_challenge">Défier</string>
   <string name="title_pro_reponse">Répondre</string>
+  <string-array name="themeNames">
+    <item>teal/orange</item>
+    <item>blue/orange</item>
+    <item>purple/red</item>
+    <item>amber/blue</item>
+    <item>orange/grey</item>
+  </string-array>
 </resources>

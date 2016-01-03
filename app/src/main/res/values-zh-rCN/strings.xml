@@ -32,6 +32,7 @@
   <string name="setting_system">管理系统应用</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
+  <string name="setting_theme">Theme: %1$s</string>
   <string name="setting_dark">使用暗色主题</string>
   <string name="setting_wifi_home">Wi-Fi 家庭网络: %1$s</string>
   <string name="setting_metered">控制按流量计费Wi-Fi网络</string>
@@ -88,13 +89,18 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>
   <string name="title_pro_description">The following convenience features are available:</string>
-  <string name="title_pro_select">Search, filter, sort applications</string>
-  <string name="title_pro_notify">New application reminders</string>
-  <string name="title_pro_theme">Appearance (theme)</string>
-  <string name="title_pro_speed">Network speed graph</string>
-  <string name="title_pro_backup">Export/import (backup)</string>
+  <string name="title_pro_notify">New application notifications</string>
+  <string name="title_pro_theme">Appearance (theme, colors)</string>
+  <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_buy">详细信息</string>
   <string name="title_pro_bought">已启用</string>
   <string name="title_pro_challenge">验证口令</string>
   <string name="title_pro_reponse">验证应答</string>
+  <string-array name="themeNames">
+    <item>teal/orange</item>
+    <item>blue/orange</item>
+    <item>purple/red</item>
+    <item>amber/blue</item>
+    <item>orange/grey</item>
+  </string-array>
 </resources>

@@ -32,6 +32,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="setting_system">Spravovať systémové aplikácie</string>
   <string name="setting_auto">Automaticky zapnúť po %1$s minútach</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
+  <string name="setting_theme">Theme: %1$s</string>
   <string name="setting_dark">Použiť tmavú tému</string>
   <string name="setting_wifi_home">Wi-Fi home networks: %1$s</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
@@ -88,13 +89,18 @@ Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemô�
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>
   <string name="title_pro_description">The following convenience features are available:</string>
-  <string name="title_pro_select">Search, filter, sort applications</string>
-  <string name="title_pro_notify">New application reminders</string>
-  <string name="title_pro_theme">Appearance (theme)</string>
-  <string name="title_pro_speed">Network speed graph</string>
-  <string name="title_pro_backup">Export/import (backup)</string>
+  <string name="title_pro_notify">New application notifications</string>
+  <string name="title_pro_theme">Appearance (theme, colors)</string>
+  <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Enabled</string>
   <string name="title_pro_challenge">Challenge</string>
   <string name="title_pro_reponse">Response</string>
+  <string-array name="themeNames">
+    <item>teal/orange</item>
+    <item>blue/orange</item>
+    <item>purple/red</item>
+    <item>amber/blue</item>
+    <item>orange/grey</item>
+  </string-array>
 </resources>

@@ -32,6 +32,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_delay">Pastreza regulile ecran pornit active %1$s minute</string>
+  <string name="setting_theme">Theme: %1$s</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_wifi_home">Retea Wi-Fi de domiciliu: %1$s</string>
   <string name="setting_metered">Gestionati conexiunile Wi-Fi contorizate</string>
@@ -88,13 +89,18 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="title_pro_trial_until">Perioada de testare a caracteristicilor versiunii Pro pana pe %1$s</string>
   <string name="title_pro_trial_ended">Perioada de testare a caracteristicilor versiunii Pro s-a incheiat</string>
   <string name="title_pro_description">Aveti la dispozitie urmatoarele caracteristici comode:</string>
-  <string name="title_pro_select">Cautare, filtrare, sortare aplicatii</string>
-  <string name="title_pro_notify">Notificare aplicatii noi</string>
-  <string name="title_pro_theme">Aspect (tema)</string>
-  <string name="title_pro_speed">Graficul de viteza a conexiunii</string>
-  <string name="title_pro_backup">Export/Import reguli (copii de rezerva)</string>
+  <string name="title_pro_notify">New application notifications</string>
+  <string name="title_pro_theme">Appearance (theme, colors)</string>
+  <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_buy">Detalii</string>
   <string name="title_pro_bought">Activat</string>
   <string name="title_pro_challenge">Intrebare de verificare</string>
   <string name="title_pro_reponse">Raspuns</string>
+  <string-array name="themeNames">
+    <item>teal/orange</item>
+    <item>blue/orange</item>
+    <item>purple/red</item>
+    <item>amber/blue</item>
+    <item>orange/grey</item>
+  </string-array>
 </resources>

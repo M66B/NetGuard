@@ -32,6 +32,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="setting_system">Beheer systeemapplicaties</string>
   <string name="setting_auto">Zet weer aan na %1$s minuten</string>
   <string name="setting_delay">Vertraag scherm uit %1$s minuten</string>
+  <string name="setting_theme">Thema: %1$s</string>
   <string name="setting_dark">Gebruik donker thema</string>
   <string name="setting_wifi_home">Wi-Fi thuisnetwerk: %1$s</string>
   <string name="setting_metered">Behandel gemeten Wi-Fi netwerken</string>
@@ -88,13 +89,18 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_pro_trial_until">Pro functies op proef tot %1$s</string>
   <string name="title_pro_trial_ended">Pro functies proefperiode is beëindigd</string>
   <string name="title_pro_description">De volgende gemaksfuncties zijn beschikbaar:</string>
-  <string name="title_pro_select">Zoek, filter, sorteer toepassingen</string>
-  <string name="title_pro_notify">Nieuwe toepassing herinneringen</string>
-  <string name="title_pro_theme">Uiterlijk (thema)</string>
-  <string name="title_pro_speed">Netwerk snelheid grafiek</string>
-  <string name="title_pro_backup">Export/import (back-up)</string>
+  <string name="title_pro_notify">Nieuwe applicatie meldingen</string>
+  <string name="title_pro_theme">Uiterlijk (thema, kleuren)</string>
+  <string name="title_pro_speed">Netwerk snelheid grafiek melding</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Ingeschakeld</string>
   <string name="title_pro_challenge">Uitdaging</string>
   <string name="title_pro_reponse">Reactie</string>
+  <string-array name="themeNames">
+    <item>groen/oranje</item>
+    <item>blauw/oranje</item>
+    <item>paars/rood</item>
+    <item>amber/blauw</item>
+    <item>oranje/grijs</item>
+  </string-array>
 </resources>
