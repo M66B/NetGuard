@@ -148,6 +148,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/title_pro_challenge"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textIsSelectable="true"
                     android:textStyle="bold" />
 
                 <TextView
