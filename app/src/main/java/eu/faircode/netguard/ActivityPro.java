@@ -43,8 +43,8 @@ public class ActivityPro extends AppCompatActivity {
     private IAB iab;
 
     // adb shell pm clear com.android.vending
-    //public static final String SKU_NOTIFY = "notify";
-    public static final String SKU_NOTIFY = "android.test.purchased";
+    // android.test.purchased
+    public static final String SKU_NOTIFY = "notify";
     public static final String SKU_THEME = "theme";
     public static final String SKU_SPEED = "speed";
     public static final String SKU_DONATION = "donation";
