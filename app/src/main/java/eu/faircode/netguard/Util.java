@@ -87,7 +87,10 @@ public class Util {
     public static int getSystemUid(String packageName, Context context) {
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(packageName, 0);
-            return ((pInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0 ? -1 : pInfo.applicationInfo.uid);
+            if ((pInfo.applicationInfo.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0)
+                return pInfo.applicationInfo.uid;
+            else
+                return -1;
         } catch (PackageManager.NameNotFoundException ex) {
             return -1;
         }

@@ -500,7 +500,7 @@ public class SinkholeService extends VpnService {
                 prefs.edit().putBoolean(pkg, blocked).apply();
 
             // Update notification
-            Receiver.notifyApplication(uid, SinkholeService.this);
+            Receiver.notifyNewApplication(uid, SinkholeService.this);
 
             // Update UI
             Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);

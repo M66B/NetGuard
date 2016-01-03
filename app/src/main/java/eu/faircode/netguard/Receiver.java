@@ -50,8 +50,8 @@ public class Receiver extends BroadcastReceiver {
             if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
                 // Show notification
                 if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context)) {
-                    int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
-                    notifyApplication(uid, context);
+                    int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
+                    notifyNewApplication(uid, context);
                 }
             }
 
@@ -99,7 +99,7 @@ public class Receiver extends BroadcastReceiver {
         }
     }
 
-    public static void notifyApplication(int uid, Context context) {
+    public static void notifyNewApplication(int uid, Context context) {
         if (uid < 0)
             return;
 
@@ -112,12 +112,6 @@ public class Receiver extends BroadcastReceiver {
                 throw new PackageManager.NameNotFoundException(Integer.toString(uid));
             ApplicationInfo info = pm.getApplicationInfo(packages[0], 0);
             String name = (String) pm.getApplicationLabel(info);
-
-            // Check system application
-            boolean system = ((info.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0);
-            boolean manage_system = prefs.getBoolean("manage_system", false);
-            if (system && !manage_system)
-                return;
 
             // Build notification
             Intent main = new Intent(context, ActivityMain.class);
@@ -213,12 +207,12 @@ public class Receiver extends BroadcastReceiver {
 
                     // TODO: delete unused
                 } else if (oldVersion < 2016010307) {
-                    notifyApplication(Util.getSystemUid("com.facebook.katana", context), context);
-                    notifyApplication(Util.getSystemUid("com.facebook.orca", context), context);
-                    notifyApplication(Util.getSystemUid("com.google.android.youtube", context), context);
-                    notifyApplication(Util.getSystemUid("com.skype.raider", context), context);
-                    notifyApplication(Util.getSystemUid("com.twitter.android", context), context);
-                    notifyApplication(Util.getSystemUid("com.whatsapp", context), context);
+                    notifyNewApplication(Util.getSystemUid("com.facebook.katana", context), context);
+                    notifyNewApplication(Util.getSystemUid("com.facebook.orca", context), context);
+                    notifyNewApplication(Util.getSystemUid("com.google.android.youtube", context), context);
+                    notifyNewApplication(Util.getSystemUid("com.skype.raider", context), context);
+                    notifyNewApplication(Util.getSystemUid("com.twitter.android", context), context);
+                    notifyNewApplication(Util.getSystemUid("com.whatsapp", context), context);
                 }
             } else {
                 editor.putBoolean("whitelist_wifi", false);

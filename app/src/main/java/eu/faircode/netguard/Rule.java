@@ -79,7 +79,7 @@ public class Rule {
 
         this.info = info;
         this.name = info.applicationInfo.loadLabel(pm).toString();
-        this.system = ((info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+        this.system = ((info.applicationInfo.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0);
         this.internet = (pm.checkPermission("android.permission.INTERNET", info.packageName) == PackageManager.PERMISSION_GRANTED);
 
         int setting;
