@@ -31,6 +31,18 @@
         package="com.facebook.katana"
         system="false" />
     <type
+        package="com.facebook.orca"
+        system="false" />
+    <type
         package="com.google.android.youtube"
+        system="false" />
+    <type
+        package="com.skype.raider"
+        system="false" />
+    <type
+        package="com.twitter.android"
+        system="false" />
+    <type
+        package="com.whatsapp"
         system="false" />
 </predefined>
