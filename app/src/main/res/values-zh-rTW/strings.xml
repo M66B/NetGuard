@@ -62,6 +62,7 @@
   <string name="msg_sure">你確定?</string>
   <string name="msg_started">執行規則</string>
   <string name="msg_packages">%1$d 允許, %2$d 被阻擋</string>
+  <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">網路守門人未啟用,請把上面的開關打開以啟用網路守門人</string>
   <string name="msg_revoked">網路守門人未啟用,原因似乎是有其他App開啟了VPN</string>
   <string name="msg_installed">\'%1$s\' 已安裝</string>

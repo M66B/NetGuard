@@ -32,7 +32,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_delay">Pastreza regulile ecran pornit active %1$s minute</string>
-  <string name="setting_theme">Theme: %1$s</string>
+  <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_wifi_home">Retea Wi-Fi de domiciliu: %1$s</string>
   <string name="setting_metered">Gestionati conexiunile Wi-Fi contorizate</string>
@@ -63,6 +63,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="msg_sure">Esti sigur(a)?</string>
   <string name="msg_started">Limitari activate</string>
   <string name="msg_packages">%1$d permise, %2$d blocate</string>
+  <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
   <string name="msg_revoked">NetGuard a fost dezactivat, probabil de o alta aplicatie ce foloseste o conexiune VPN</string>
   <string name="msg_installed">\'%1$s\' instalat</string>
@@ -89,18 +90,18 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="title_pro_trial_until">Perioada de testare a caracteristicilor versiunii Pro pana pe %1$s</string>
   <string name="title_pro_trial_ended">Perioada de testare a caracteristicilor versiunii Pro s-a incheiat</string>
   <string name="title_pro_description">Aveti la dispozitie urmatoarele caracteristici comode:</string>
-  <string name="title_pro_notify">New application notifications</string>
-  <string name="title_pro_theme">Appearance (theme, colors)</string>
-  <string name="title_pro_speed">Network speed graph notification</string>
+  <string name="title_pro_notify">Notificare aplicatie nou instalata</string>
+  <string name="title_pro_theme">Tema, culori configurabile</string>
+  <string name="title_pro_speed">Notificare cu grafic viteza conexiune</string>
   <string name="title_pro_buy">Detalii</string>
   <string name="title_pro_bought">Activat</string>
   <string name="title_pro_challenge">Intrebare de verificare</string>
   <string name="title_pro_reponse">Raspuns</string>
   <string-array name="themeNames">
-    <item>teal/orange</item>
-    <item>blue/orange</item>
-    <item>purple/red</item>
-    <item>amber/blue</item>
-    <item>orange/grey</item>
+    <item>verde albastrui/portocaliu</item>
+    <item>albastru/portocaliu</item>
+    <item>mov/rosu</item>
+    <item>culoarea chihlimbarului/albastru</item>
+    <item>portocaliu/gri</item>
   </string-array>
 </resources>

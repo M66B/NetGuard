@@ -60,6 +60,7 @@
   <string name="msg_sure">Вы уверены?</string>
   <string name="msg_started">Определить правила</string>
   <string name="msg_packages">%1$d разрешен, %2$d заблокирован</string>
+  <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
   <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>
   <string name="msg_installed">\'%1$s\' установлен</string>

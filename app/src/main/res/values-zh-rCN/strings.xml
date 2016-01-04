@@ -63,6 +63,7 @@
   <string name="msg_sure">是否确认?</string>
   <string name="msg_started">规则加载中</string>
   <string name="msg_packages">%1$d 已允许, %2$d 已拦截</string>
+  <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
   <string name="msg_revoked">NetGuard已被停用, 可能是由于您启动了另一个基于VPN的应用</string>
   <string name="msg_installed">\'%1$s\' 已安装</string>

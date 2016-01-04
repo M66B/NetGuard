@@ -63,6 +63,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="msg_sure">Ste si istý?</string>
   <string name="msg_started">Pravidlá vynútenia</string>
   <string name="msg_packages">Povolené: %1$d, blokované: %2$d</string>
+  <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>
   <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
   <string name="msg_installed">\'%1$s\' installed</string>

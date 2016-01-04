@@ -63,6 +63,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="msg_sure">Na pewno?</string>
   <string name="msg_started">Wymuś Reguły</string>
   <string name="msg_packages">%1$d dozwolone, %2$d zablokowane</string>
+  <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard jest wyłączony, użyj przełącznika u góry by go uruchomić</string>
   <string name="msg_revoked">NetGuard został wyłączony, prawdopodobnie za pomocą innej aplikacji używającej VPN</string>
   <string name="msg_installed">\'%1$s\' installed</string>

@@ -63,6 +63,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="msg_sure">Êtes-vous sûr ?</string>
   <string name="msg_started">Application des règles</string>
   <string name="msg_packages">%1$d autorisée(s), %2$d bloquée(s)</string>
+  <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard est désactivé, utilisez le bouton ci-dessus pour activer NetGuard</string>
   <string name="msg_revoked">NetGuard a été désactivé, probablement en utilisant une autre application VPN</string>
   <string name="msg_installed">%1$s installé</string>

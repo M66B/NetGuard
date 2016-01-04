@@ -63,6 +63,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo regras</string>
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
+  <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard desativado, use o interruptor acima para ativá-lo</string>
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>
   <string name="msg_installed">\'%1$s\' instalado</string>
