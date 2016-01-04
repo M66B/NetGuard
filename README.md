@@ -15,7 +15,6 @@ Features:
 
 * No root required
 * Simple to use
-* Free of charge
 * Open source
 * No extra battery usage
 * No bandwidth reduction

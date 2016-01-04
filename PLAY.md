@@ -27,7 +27,6 @@ Features:
 
 &bull; No root required
 &bull; Simple to use
-&bull; Free of charge
 &bull; Open source
 &bull; No extra battery usage
 &bull; No bandwidth reduction

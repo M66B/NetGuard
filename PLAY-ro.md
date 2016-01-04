@@ -27,7 +27,6 @@ Caracteristici:
 
 &bull; Nu necesita acces root
 &bull; Simplu de utilizat
-&bull; Gratis
 &bull; Software cu sursa deschisa
 &bull; Nu foloseste baterie in plus
 &bull; Nu reduce latimea de banda
