@@ -77,6 +77,7 @@ import java.util.TreeMap;
 public class SinkholeService extends VpnService {
     private static final String TAG = "NetGuard.Service";
 
+    private State state = State.none;
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
@@ -89,9 +90,10 @@ public class SinkholeService extends VpnService {
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
 
-    private static final int NOTIFY_FOREGROUND = 1;
-    private static final int NOTIFY_DISABLED = 2;
-    private static final int NOTIFY_TRAFFIC = 3;
+    private static final int NOTIFY_ENFORCING = 1;
+    private static final int NOTIFY_WAITING = 2;
+    private static final int NOTIFY_DISABLED = 3;
+    private static final int NOTIFY_TRAFFIC = 4;
 
     public static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
@@ -104,6 +106,8 @@ public class SinkholeService extends VpnService {
     private static final int MSG_STATS_START = 1;
     private static final int MSG_STATS_STOP = 2;
     private static final int MSG_STATS_UPDATE = 3;
+
+    private enum State {none, waiting, enforcing, stats}
 
     public enum Command {run, start, reload, stop, stats, set, theme}
 
@@ -199,12 +203,23 @@ public class SinkholeService extends VpnService {
             try {
                 switch (cmd) {
                     case run:
-                        // Do nothing
+                        if (state == State.none) {
+                            startForeground(NOTIFY_WAITING, getWaitingNotification());
+                            state = State.waiting;
+                            Log.d(TAG, "Start foreground state=" + state.toString());
+                        }
                         break;
 
                     case start:
                         if (vpn == null) {
-                            startForeground(NOTIFY_FOREGROUND, getForegroundNotification(0, 0));
+                            if (state != State.none) {
+                                Log.d(TAG, "Stop foreground state=" + state.toString());
+                                stopForeground(true);
+                            }
+                            startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
+                            state = State.enforcing;
+                            Log.d(TAG, "Start foreground state=" + state.toString());
+
                             vpn = startVPN();
                             if (vpn == null)
                                 throw new IllegalStateException("VPN start failed");
@@ -214,6 +229,16 @@ public class SinkholeService extends VpnService {
                         break;
 
                     case reload:
+                        if (state != State.enforcing) {
+                            if (state != State.none) {
+                                Log.d(TAG, "Stop foreground state=" + state.toString());
+                                stopForeground(true);
+                            }
+                            startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
+                            state = State.enforcing;
+                            Log.d(TAG, "Start foreground state=" + state.toString());
+                        }
+
                         // Seamless handover
                         ParcelFileDescriptor prev = vpn;
                         vpn = startVPN();
@@ -237,7 +262,13 @@ public class SinkholeService extends VpnService {
                             stopDebug();
                             stopVPN(vpn);
                             vpn = null;
-                            stopForeground(true);
+                            if (state == State.enforcing) {
+                                Log.d(TAG, "Stop foreground state=" + state.toString());
+                                stopForeground(true);
+                                startForeground(NOTIFY_WAITING, getWaitingNotification());
+                                state = State.waiting;
+                                Log.d(TAG, "Start foreground state=" + state.toString());
+                            }
                         }
                         break;
 
@@ -309,7 +340,14 @@ public class SinkholeService extends VpnService {
             Log.i(TAG, "Stats stop");
             stats = false;
             mServiceHandler.removeMessages(MSG_STATS_UPDATE);
-            NotificationManagerCompat.from(SinkholeService.this).cancel(NOTIFY_TRAFFIC);
+            if (state == State.stats) {
+                Log.d(TAG, "Stop foreground state=" + state.toString());
+                stopForeground(true);
+                startForeground(NOTIFY_WAITING, getWaitingNotification());
+                state = State.waiting;
+                Log.d(TAG, "Start foreground state=" + state.toString());
+            } else
+                NotificationManagerCompat.from(SinkholeService.this).cancel(NOTIFY_TRAFFIC);
         }
 
         private void updateStats() {
@@ -476,7 +514,17 @@ public class SinkholeService extends VpnService {
                     .setColor(tv.data)
                     .setOngoing(true)
                     .setAutoCancel(false);
-            NotificationManagerCompat.from(SinkholeService.this).notify(NOTIFY_TRAFFIC, builder.build());
+
+            if (state == State.none || state == State.waiting) {
+                if (state != State.none) {
+                    Log.d(TAG, "Stop foreground state=" + state.toString());
+                    stopForeground(true);
+                }
+                startForeground(NOTIFY_TRAFFIC, builder.build());
+                state = State.stats;
+                Log.d(TAG, "Start foreground state=" + state.toString());
+            } else
+                NotificationManagerCompat.from(SinkholeService.this).notify(NOTIFY_TRAFFIC, builder.build());
         }
 
         private void set(Intent intent) {
@@ -510,8 +558,17 @@ public class SinkholeService extends VpnService {
 
     private void setTheme(Intent intent) {
         Util.setTheme(this);
-        stopForeground(true);
-        startForeground(NOTIFY_FOREGROUND, getForegroundNotification(0, 0));
+        if (state != State.none) {
+            Log.d(TAG, "Stop foreground state=" + state.toString());
+            stopForeground(true);
+        }
+        if (state == State.enforcing)
+            startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
+        else {
+            startForeground(NOTIFY_WAITING, getWaitingNotification());
+            state = State.waiting;
+        }
+        Log.d(TAG, "Start foreground state=" + state.toString());
     }
 
     private ParcelFileDescriptor startVPN() {
@@ -592,9 +649,9 @@ public class SinkholeService extends VpnService {
         Log.i(TAG, "Allowed=" + nAllowed + " blocked=" + nBlocked);
 
         // Update notification
-        Notification notification = getForegroundNotification(nAllowed, nBlocked);
+        Notification notification = getEnforcingNotification(nAllowed, nBlocked);
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(NOTIFY_FOREGROUND, notification);
+        nm.notify(NOTIFY_ENFORCING, notification);
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
@@ -934,7 +991,7 @@ public class SinkholeService extends VpnService {
         super.onDestroy();
     }
 
-    private Notification getForegroundNotification(int allowed, int blocked) {
+    private Notification getEnforcingNotification(int allowed, int blocked) {
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -959,6 +1016,26 @@ public class SinkholeService extends VpnService {
             return notification.build();
         } else
             return builder.build();
+    }
+
+    private Notification getWaitingNotification() {
+        Intent main = new Intent(this, ActivityMain.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_security_white_24dp)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_waiting))
+                .setContentIntent(pi)
+                .setCategory(Notification.CATEGORY_STATUS)
+                .setVisibility(Notification.VISIBILITY_SECRET)
+                .setPriority(Notification.PRIORITY_MIN)
+                .setColor(tv.data)
+                .setOngoing(true)
+                .setAutoCancel(false);
+        return builder.build();
     }
 
     private void showDisabledNotification() {
