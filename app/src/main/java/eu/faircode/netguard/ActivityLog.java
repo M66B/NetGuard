@@ -22,6 +22,8 @@ package eu.faircode.netguard;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -31,7 +33,7 @@ public class ActivityLog extends AppCompatActivity {
 
     private DatabaseHelper.LogChangedListener listener = new DatabaseHelper.LogChangedListener() {
         @Override
-        public void onAdded() {
+        public void onChanged() {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -67,10 +69,21 @@ public class ActivityLog extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.log, menu);
+
+        return true;
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.menu_clear:
+                dh.clear();
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -74,7 +74,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         for (LogChangedListener listener : logChangedListeners)
             try {
-                listener.onAdded();
+                listener.onChanged();
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+
+        return this;
+    }
+
+    public DatabaseHelper clear() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete("log", null, new String[]{});
+
+        for (LogChangedListener listener : logChangedListeners)
+            try {
+                listener.onChanged();
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
@@ -98,6 +112,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public interface LogChangedListener {
-        void onAdded();
+        void onChanged();
     }
 }
