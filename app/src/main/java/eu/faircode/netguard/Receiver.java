@@ -73,25 +73,27 @@ public class Receiver extends BroadcastReceiver {
             }
 
         } else {
-            // Boot completed
-            // My package replaced
-
             // Upgrade settings
             upgrade(true, context);
 
             // Start service
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            if (prefs.getBoolean("enabled", false))
-                try {
-                    if (VpnService.prepare(context) == null)
-                        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()))
-                            SinkholeService.run("receiver", context);
-                        else
+            try {
+                if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+                    if (prefs.getBoolean("enabled", false) || prefs.getBoolean("show_stats", false))
+                        SinkholeService.run("receiver", context);
+
+                } else if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
+                    if (prefs.getBoolean("enabled", false)) {
+                        if (VpnService.prepare(context) == null)
                             SinkholeService.start("receiver", context);
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, context);
+                    } else if (prefs.getBoolean("show_stats", false))
+                        SinkholeService.run("receiver", context);
                 }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                Util.sendCrashReport(ex, context);
+            }
 
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             if (pm.isInteractive())

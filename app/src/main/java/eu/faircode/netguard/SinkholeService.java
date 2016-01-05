@@ -268,9 +268,12 @@ public class SinkholeService extends VpnService {
                             if (state == State.enforcing) {
                                 Log.d(TAG, "Stop foreground state=" + state.toString());
                                 stopForeground(true);
-                                startForeground(NOTIFY_WAITING, getWaitingNotification());
-                                state = State.waiting;
-                                Log.d(TAG, "Start foreground state=" + state.toString());
+                                if (prefs.getBoolean("show_stats", false)) {
+                                    startForeground(NOTIFY_WAITING, getWaitingNotification());
+                                    state = State.waiting;
+                                    Log.d(TAG, "Start foreground state=" + state.toString());
+                                } else
+                                    state = State.none;
                             }
                         }
                         break;
@@ -346,9 +349,7 @@ public class SinkholeService extends VpnService {
             if (state == State.stats) {
                 Log.d(TAG, "Stop foreground state=" + state.toString());
                 stopForeground(true);
-                startForeground(NOTIFY_WAITING, getWaitingNotification());
-                state = State.waiting;
-                Log.d(TAG, "Start foreground state=" + state.toString());
+                state = State.none;
             } else
                 NotificationManagerCompat.from(SinkholeService.this).cancel(NOTIFY_TRAFFIC);
         }
@@ -567,10 +568,8 @@ public class SinkholeService extends VpnService {
         }
         if (state == State.enforcing)
             startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
-        else {
+        else if (state != State.none)
             startForeground(NOTIFY_WAITING, getWaitingNotification());
-            state = State.waiting;
-        }
         Log.d(TAG, "Start foreground state=" + state.toString());
     }
 
