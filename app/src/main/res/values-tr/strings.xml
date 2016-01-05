@@ -18,6 +18,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="menu_sort">Sort applications</string>
   <string name="menu_sort_name">Sort on name</string>
   <string name="menu_sort_data">Sort on data usage</string>
+  <string name="menu_log">Show log</string>
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_invite">Davet et</string>
   <string name="menu_support">Destek</string>
@@ -30,6 +31,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="setting_whitelist_roaming">Varsayılan olarak dolaşımı blokla</string>
   <string name="setting_options">Seçenekler</string>
   <string name="setting_system">Sistem uygulamaları yönet</string>
+  <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">Otomatik etkinleştirme %1$s dakika sonra</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
   <string name="setting_theme">Theme: %1$s</string>
@@ -51,6 +53,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="setting_import">Ayarları İçe Aktar</string>
   <string name="setting_technical">Teknik bilgiler</string>
   <string name="summary_system">Sistem uygulamaları kuralları tanımlayın (uzman için)</string>
+  <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_stats">Show network speed graph in status bar notification</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
@@ -86,6 +89,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_rate">Oyla</string>
   <string name="title_allow">İzin Ver</string>
   <string name="title_block">Engelle</string>
+  <string name="title_log">Blocked traffic</string>
   <string name="title_pro">Pro features</string>
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>
@@ -93,6 +97,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_pro_notify">New application notifications</string>
   <string name="title_pro_theme">Appearance (theme, colors)</string>
   <string name="title_pro_speed">Network speed graph notification</string>
+  <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Enabled</string>
   <string name="title_pro_challenge">Challenge</string>

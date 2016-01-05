@@ -19,6 +19,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="menu_sort">Ordina applicazioni</string>
   <string name="menu_sort_name">Ordina per nome</string>
   <string name="menu_sort_data">Ordina per utilizzo dati</string>
+  <string name="menu_log">Show log</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Supporto</string>
@@ -31,6 +32,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_whitelist_roaming">Blocca roaming di default</string>
   <string name="setting_options">Impostazioni opzionali</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
+  <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
   <string name="setting_theme">Tema: %1$s</string>
@@ -52,6 +54,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_import">Importa impostazioni</string>
   <string name="setting_technical">Informazioni tecniche</string>
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
+  <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo é acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
@@ -88,6 +91,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="title_rate">Vota</string>
   <string name="title_allow">Permetti</string>
   <string name="title_block">Blocca</string>
+  <string name="title_log">Blocked traffic</string>
   <string name="title_pro">Funzionalità a pagamento</string>
   <string name="title_pro_trial_until">Funzionalità a pagamento in prova fino a %1$s</string>
   <string name="title_pro_trial_ended">Periodo di prova delle funzionalità a pagamento terminato</string>
@@ -95,6 +99,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="title_pro_notify">Notifiche nuove applicazioni</string>
   <string name="title_pro_theme">Aspetto (tema, colori)</string>
   <string name="title_pro_speed">Grafico della velocità di rete nelle notifiche</string>
+  <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_buy">Dettagli</string>
   <string name="title_pro_bought">Abilitato</string>
   <string name="title_pro_challenge">Domanda di verifica</string>

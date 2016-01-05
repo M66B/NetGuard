@@ -18,6 +18,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="menu_sort">Sorteaza aplicatiile</string>
   <string name="menu_sort_name">Sortare dupa nume</string>
   <string name="menu_sort_data">Sortare dupa datele utilizate</string>
+  <string name="menu_log">Show log</string>
   <string name="menu_settings">Setari</string>
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Asistenta</string>
@@ -30,6 +31,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_whitelist_roaming">Blocheaza in roaming</string>
   <string name="setting_options">Optiuni</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
+  <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_delay">Pastreza regulile ecran pornit active %1$s minute</string>
   <string name="setting_theme">Tema: %1$s</string>
@@ -51,6 +53,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_import">Importa setari</string>
   <string name="setting_technical">Informatii tehnice</string>
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (setare expert)</string>
+  <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_stats">Arata graficul vitezei retelei in notificare</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute\nValoarea zero dezactiveaza optiunea</string>
   <string name="summary_delay">Dupa oprirea ecranului, pastreza regulile ecran pornit pentru numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
@@ -86,6 +89,7 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="title_rate">Evalueaza aplicatia</string>
   <string name="title_allow">Permite</string>
   <string name="title_block">Blocheaza</string>
+  <string name="title_log">Blocked traffic</string>
   <string name="title_pro">Caracteristici versiune Pro</string>
   <string name="title_pro_trial_until">Perioada de testare a caracteristicilor versiunii Pro pana pe %1$s</string>
   <string name="title_pro_trial_ended">Perioada de testare a caracteristicilor versiunii Pro s-a incheiat</string>
@@ -93,6 +97,7 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="title_pro_notify">Notificare aplicatie nou instalata</string>
   <string name="title_pro_theme">Tema, culori configurabile</string>
   <string name="title_pro_speed">Notificare cu grafic viteza conexiune</string>
+  <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_buy">Detalii</string>
   <string name="title_pro_bought">Activat</string>
   <string name="title_pro_challenge">Intrebare de verificare</string>

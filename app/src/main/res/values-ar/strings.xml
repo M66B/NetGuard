@@ -18,6 +18,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="menu_sort">Sort applications</string>
   <string name="menu_sort_name">Sort on name</string>
   <string name="menu_sort_data">Sort on data usage</string>
+  <string name="menu_log">Show log</string>
   <string name="menu_settings">الإعدادات</string>
   <string name="menu_invite">دعوة الأصدقاء</string>
   <string name="menu_support">الدعم</string>
@@ -30,6 +31,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="setting_whitelist_roaming">صـــد الـــتـــجـــوال</string>
   <string name="setting_options">خيارات</string>
   <string name="setting_system">إدارة تطبيقات النظام</string>
+  <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">تمكين التلقائي بعد دقائق %1$s</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
   <string name="setting_theme">Theme: %1$s</string>
@@ -51,6 +53,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="setting_import">استيراد الإعدادات</string>
   <string name="setting_technical">المعلومات التقنية</string>
   <string name="summary_system">تـــحـــديـــد قـــواعـــد لـــتـــطـــبــــيـــقـــات الـــنـــظـــام (لـــلـــخـــبـــراء)</string>
+  <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_stats">تــظــهــر ســرعــة الــشــبــكــة فـي الــرســم الــبــيــانـي فـي إعـلام شــريــط الــحــالات</string>
   <string name="summary_auto">بعد تعطيل استخدام الويدجت، تلقائياً يعمل NetGuard مرة أخرى بعد عدد محدد من الدقائف \n ادخل صفر لتعطيل هذا الخيار</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
@@ -84,6 +87,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="title_rate">ﺗﻘﻴﻴﻢ</string>
   <string name="title_allow">Allow</string>
   <string name="title_block">Block</string>
+  <string name="title_log">Blocked traffic</string>
   <string name="title_pro">Pro features</string>
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>
@@ -91,6 +95,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="title_pro_notify">New application notifications</string>
   <string name="title_pro_theme">Appearance (theme, colors)</string>
   <string name="title_pro_speed">Network speed graph notification</string>
+  <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Enabled</string>
   <string name="title_pro_challenge">Challenge</string>

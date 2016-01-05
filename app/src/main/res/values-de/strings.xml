@@ -17,6 +17,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="menu_sort">Anwendungen sortieren</string>
   <string name="menu_sort_name">Nach Name sortieren</string>
   <string name="menu_sort_data">Nach Datennutzung sortieren</string>
+  <string name="menu_log">Show log</string>
   <string name="menu_settings">Einstellungen</string>
   <string name="menu_invite">Einladung</string>
   <string name="menu_support">Hilfe</string>
@@ -29,6 +30,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_whitelist_roaming">Roaming blockieren</string>
   <string name="setting_options">Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
+  <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
   <string name="setting_theme">Design: %1$s</string>
@@ -50,6 +52,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_import">Einstellungen importieren</string>
   <string name="setting_technical">Technische information</string>
   <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
+  <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert\nNull eingeben zum Deaktivieren dieser Option</string>
   <string name="summary_delay">Nachdem Ausschalten des Bildschirms, diesen aufgrund der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren)</string>
@@ -62,7 +65,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_sure">Sind Sie sicher?</string>
   <string name="msg_started">Regeln werden angewendet</string>
   <string name="msg_packages">%1$d erlaubt, %2$d blockiert</string>
-  <string name="msg_waiting">Waiting for event</string>
+  <string name="msg_waiting">Auf Ereignis warten</string>
   <string name="msg_disabled">NetGuard ist deaktiviert. Verwenden Sie den Schalter, um NetGuard zu aktivieren</string>
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer VPN-Anwendung</string>
   <string name="msg_installed">\'%1$s\' installiert</string>
@@ -83,6 +86,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="title_rate">Bewerten</string>
   <string name="title_allow">Erlauben</string>
   <string name="title_block">Sperren</string>
+  <string name="title_log">Blocked traffic</string>
   <string name="title_pro">Pro-Funktionen</string>
   <string name="title_pro_trial_until">Pro-Funktionen-Testzeitraum bis %1$s</string>
   <string name="title_pro_trial_ended">Pro-Funktionen-Testzeitraum abgelaufen</string>
@@ -90,6 +94,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="title_pro_notify">Benachrichtigung über neue App</string>
   <string name="title_pro_theme">Aussehen (Themes, Farben)</string>
   <string name="title_pro_speed">Netzwerkgeschwindigkeit Benachrichtigung</string>
+  <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_buy">Detailinformationen</string>
   <string name="title_pro_bought">Aktiviert</string>
   <string name="title_pro_challenge">Challenge</string>

@@ -15,6 +15,7 @@
   <string name="menu_sort">Сортировка приложений</string>
   <string name="menu_sort_name">Сортировать по имени</string>
   <string name="menu_sort_data">Сортировать по исп. данным</string>
+  <string name="menu_log">Show log</string>
   <string name="menu_settings">Настройки</string>
   <string name="menu_invite">Пригласить</string>
   <string name="menu_support">Поддержка</string>
@@ -27,6 +28,7 @@
   <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
   <string name="setting_options">Опции</string>
   <string name="setting_system">Управлять сист. приложениями</string>
+  <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
   <string name="setting_theme">Theme: %1$s</string>
@@ -48,6 +50,7 @@
   <string name="setting_import">Импорт настроек</string>
   <string name="setting_technical">Техническая информация</string>
   <string name="summary_system">Определить правила для системных приложений (для профи)</string>
+  <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут.\nВведите ноль, чтобы отключить эту опцию</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
@@ -83,6 +86,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_rate">Оценить</string>
   <string name="title_allow">Разрешить</string>
   <string name="title_block">Блокировать</string>
+  <string name="title_log">Blocked traffic</string>
   <string name="title_pro">Pro опции</string>
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>
@@ -90,6 +94,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_pro_notify">New application notifications</string>
   <string name="title_pro_theme">Appearance (theme, colors)</string>
   <string name="title_pro_speed">Network speed graph notification</string>
+  <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_buy">Подробнее</string>
   <string name="title_pro_bought">Включено</string>
   <string name="title_pro_challenge">Задание</string>

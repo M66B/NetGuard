@@ -18,6 +18,7 @@
   <string name="menu_sort">アプリケーションの並び替え</string>
   <string name="menu_sort_name">名前で並べ替え</string>
   <string name="menu_sort_data">データ使用状況で並べ替え</string>
+  <string name="menu_log">Show log</string>
   <string name="menu_settings">設定</string>
   <string name="menu_invite">招待</string>
   <string name="menu_support">サポート</string>
@@ -30,6 +31,7 @@
   <string name="setting_whitelist_roaming">デフォルトでローミングをブロック</string>
   <string name="setting_options">オプション</string>
   <string name="setting_system">システムアプリケーションの管理</string>
+  <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">%1$s 分後に自動的に有効にする</string>
   <string name="setting_delay">%1$s 分、画面オフを遅延</string>
   <string name="setting_theme">テーマ: %1$s</string>
@@ -51,6 +53,7 @@
   <string name="setting_import">設定をインポート</string>
   <string name="setting_technical">技術情報</string>
   <string name="summary_system">システムアプリケーションのルールを定義 (上級者向け)</string>
+  <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
@@ -86,6 +89,7 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_rate">評価</string>
   <string name="title_allow">許可</string>
   <string name="title_block">ブロック</string>
+  <string name="title_log">Blocked traffic</string>
   <string name="title_pro">Pro版の機能</string>
   <string name="title_pro_trial_until">プロ版機能の試用は %1$s まで</string>
   <string name="title_pro_trial_ended">プロ版機能の試用期間は終了しました</string>
@@ -93,6 +97,7 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_pro_notify">新しいアプリケーションの通知</string>
   <string name="title_pro_theme">外観 (テーマ、色)</string>
   <string name="title_pro_speed">ネットワーク速度グラフ通知</string>
+  <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_buy">詳細</string>
   <string name="title_pro_bought">有効</string>
   <string name="title_pro_challenge">チャレンジ</string>
