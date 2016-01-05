@@ -63,6 +63,9 @@ import android.widget.RemoteViews;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -84,8 +87,7 @@ public class SinkholeService extends VpnService {
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
-    private boolean debug = false;
-    private Thread debugThread = null;
+    private Thread receiveThread = null;
 
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
@@ -223,7 +225,8 @@ public class SinkholeService extends VpnService {
                             vpn = startVPN();
                             if (vpn == null)
                                 throw new IllegalStateException("VPN start failed");
-                            startDebug(vpn);
+                            if (prefs.getBoolean("log", false))
+                                startReceiving(vpn);
                             removeDisabledNotification();
                         }
                         break;
@@ -244,22 +247,22 @@ public class SinkholeService extends VpnService {
                         vpn = startVPN();
                         if (prev != null && vpn == null) {
                             Log.w(TAG, "Handover failed");
-                            stopDebug();
                             stopVPN(prev);
                             prev = null;
                             vpn = startVPN();
                             if (vpn == null)
                                 throw new IllegalStateException("Handover failed");
                         }
-                        stopDebug();
-                        startDebug(vpn);
+                        stopReceiving();
+                        if (prefs.getBoolean("log", false))
+                            startReceiving(vpn);
                         if (prev != null)
                             stopVPN(prev);
                         break;
 
                     case stop:
                         if (vpn != null) {
-                            stopDebug();
+                            stopReceiving();
                             stopVPN(vpn);
                             vpn = null;
                             if (state == State.enforcing) {
@@ -635,7 +638,7 @@ public class SinkholeService extends VpnService {
             boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
             if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming))) {
                 nAllowed++;
-                if (debug)
+                if (Util.isDebuggable(this))
                     Log.i(TAG, "Allowing " + rule.info.packageName);
                 try {
                     builder.addDisallowedApplication(rule.info.packageName);
@@ -658,8 +661,7 @@ public class SinkholeService extends VpnService {
         PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setConfigureIntent(pi);
 
-        if (debug)
-            builder.setBlocking(true);
+        builder.setBlocking(true);
 
         // Start VPN service
         return builder.establish();
@@ -675,11 +677,8 @@ public class SinkholeService extends VpnService {
         }
     }
 
-    private void startDebug(final ParcelFileDescriptor pfd) {
-        if (pfd == null || !debug)
-            return;
-
-        debugThread = new Thread(new Runnable() {
+    private void startReceiving(final ParcelFileDescriptor pfd) {
+        receiveThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 FileInputStream in = null;
@@ -700,27 +699,23 @@ public class SinkholeService extends VpnService {
                             int length = in.read(buffer.array());
                             if (length > 0) {
                                 buffer.limit(length);
-                                Packet pkt = new Packet(buffer);
 
-                                if (pkt.IPv4.protocol == Packet.IPv4Header.TCP && pkt.TCP.SYN) {
-                                    int uid = pkt.getUid4();
-                                    if (uid < 0)
-                                        Log.w(TAG, "uid not found");
+                                byte version = (byte) (buffer.get() >> 4);
+                                if (version == 4) {
+                                    buffer.position(16);
+                                    byte[] addressBytes = new byte[4];
+                                    buffer.get(addressBytes, 0, 4);
+                                    InetAddress ina = Inet4Address.getByAddress(addressBytes);
+                                    Log.i(TAG, "Packet to " + ina);
+                                    new DatabaseHelper(SinkholeService.this).insertLog(ina.toString()).close();
 
-                                    String[] pkg = getPackageManager().getPackagesForUid(uid);
-                                    if (pkg == null)
-                                        pkg = new String[]{uid == 0 ? "root" : "unknown"};
-
-                                    Log.i(TAG, "Connect " + pkt.IPv4.destinationAddress + ":" + pkt.TCP.destinationPort + " uid=" + uid + " pkg=" + pkg[0]);
-
-                                    // Send RST
-                                    pkt.swapAddresses();
-                                    pkt.TCP.clearFlags();
-                                    pkt.TCP.RST = true;
-                                    long ack = pkt.TCP.acknowledgementNumber;
-                                    pkt.TCP.acknowledgementNumber = (pkt.TCP.sequenceNumber + 1) & 0xFFFFFFFFL;
-                                    pkt.TCP.sequenceNumber = (ack + 1) & 0xFFFFFFFFL;
-                                    pkt.send(out);
+                                } else if (version == 6) {
+                                    buffer.position(24);
+                                    byte[] addressBytes = new byte[16];
+                                    buffer.get(addressBytes, 0, 16);
+                                    InetAddress ina = Inet6Address.getByAddress(addressBytes);
+                                    Log.i(TAG, "Packet to " + ina);
+                                    new DatabaseHelper(SinkholeService.this).insertLog(ina.toString()).close();
                                 }
                             }
                         } catch (Throwable ex) {
@@ -729,8 +724,12 @@ public class SinkholeService extends VpnService {
                         }
                     Log.i(TAG, "End receiving");
                 } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, SinkholeService.this);
+                    if (!Thread.currentThread().isInterrupted() &&
+                            pfd.getFileDescriptor() != null &&
+                            pfd.getFileDescriptor().valid()) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        Util.sendCrashReport(ex, SinkholeService.this);
+                    }
                 } finally {
                     try {
                         if (in != null)
@@ -745,12 +744,12 @@ public class SinkholeService extends VpnService {
                 }
             }
         }, getString(R.string.app_name) + " debug");
-        debugThread.start();
+        receiveThread.start();
     }
 
-    private void stopDebug() {
-        if (debugThread != null)
-            debugThread.interrupt();
+    private void stopReceiving() {
+        if (receiveThread != null)
+            receiveThread.interrupt();
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
@@ -809,7 +808,7 @@ public class SinkholeService extends VpnService {
         public void onReceive(Context context, Intent intent) {
             // Filter VPN connectivity changes
             int networkType = intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY);
-            if (!debug && networkType == ConnectivityManager.TYPE_VPN)
+            if (networkType == ConnectivityManager.TYPE_VPN)
                 return;
 
             // Reload rules
@@ -983,7 +982,7 @@ public class SinkholeService extends VpnService {
         }
 
         if (vpn != null) {
-            stopDebug();
+            stopReceiving();
             stopVPN(vpn);
             vpn = null;
         }

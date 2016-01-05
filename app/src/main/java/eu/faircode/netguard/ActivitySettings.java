@@ -323,7 +323,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             prefs.edit().putBoolean("show_system", prefs.getBoolean(name, false)).apply();
             SinkholeService.reload(null, "setting changed", this);
 
-        } else if ("auto_enable".equals(name))
+        } else if ("log".equals(name))
+            SinkholeService.reload(null, "setting changed", this);
+
+        else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
 
         else if ("screen_delay".equals(name))

@@ -50,9 +50,14 @@
             android:parentActivityName=".ActivityMain" />
 
         <activity
+            android:name=".ActivityLog"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_log" />
+
+        <activity
             android:name=".ActivityPro"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_name" />
+            android:label="@string/title_pro" />
 
         <service
             android:name=".SinkholeService"

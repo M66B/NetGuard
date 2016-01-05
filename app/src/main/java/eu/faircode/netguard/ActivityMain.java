@@ -182,7 +182,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(true);
         rvApplication.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RuleAdapter(ActivityMain.this);
+        adapter = new RuleAdapter(this);
         rvApplication.setAdapter(adapter);
 
         // Swipe to refresh
@@ -570,6 +570,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             case R.id.menu_sort_data:
                 item.setChecked(true);
                 prefs.edit().putString("sort", "data").apply();
+                return true;
+
+            case R.id.menu_log:
+                if (IAB.isPurchased(ActivityPro.SKU_LOG, this))
+                    startActivity(new Intent(this, ActivityLog.class));
+                else
+                    startActivity(new Intent(this, ActivityPro.class));
                 return true;
 
             case R.id.menu_settings:
