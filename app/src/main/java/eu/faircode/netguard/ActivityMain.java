@@ -269,7 +269,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         iab.unbind();
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        Util.sendCrashReport(ex, ActivityMain.this);
                     }
                 }
             }, this).bind();
