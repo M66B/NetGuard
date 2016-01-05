@@ -21,6 +21,7 @@
   <string name="menu_invite">邀請</string>
   <string name="menu_support">支援</string>
   <string name="menu_about">關於</string>
+  <string name="menu_clear">Clear</string>
   <string name="setting_defaults">預設</string>
   <string name="setting_whitelist_wifi">阻擋Wi-Fi</string>
   <string name="setting_whitelist_other">阻擋行動網路</string>

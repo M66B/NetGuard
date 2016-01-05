@@ -23,6 +23,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="menu_invite">Pozvať</string>
   <string name="menu_support">Podpora</string>
   <string name="menu_about">O aplikácii</string>
+  <string name="menu_clear">Clear</string>
   <string name="setting_defaults">Predvolené nastavenia</string>
   <string name="setting_whitelist_wifi">Predvolene blokovať Wi-Fi</string>
   <string name="setting_whitelist_other">Predvolene blokovať mobilné dáta</string>

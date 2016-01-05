@@ -18,11 +18,12 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="menu_sort">Ordenar aplicativos</string>
   <string name="menu_sort_name">Ordenar por nome</string>
   <string name="menu_sort_data">Ordenar por uso de dados</string>
-  <string name="menu_log">Show log</string>
+  <string name="menu_log">Mostrar registro</string>
   <string name="menu_settings">Configurações</string>
   <string name="menu_invite">Convite</string>
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
+  <string name="menu_clear">Clear</string>
   <string name="setting_defaults">Padrões</string>
   <string name="setting_whitelist_wifi">Por padrão, bloquear Wi-Fi</string>
   <string name="setting_whitelist_other">Por padrão, bloquear Dados Móveis</string>
@@ -31,7 +32,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_whitelist_roaming">Por padrão, bloquear Roaming</string>
   <string name="setting_options">Opções</string>
   <string name="setting_system">Administrar aplicativos do sistema</string>
-  <string name="setting_log">Log blocked traffic</string>
+  <string name="setting_log">Registrar de tráfego bloqueado</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
   <string name="setting_theme">Tema: %1$s</string>
@@ -53,7 +54,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_import">Importar configurações</string>
   <string name="setting_technical">Informações técnicas</string>
   <string name="summary_system">Definir regras para aplicativos do sistema (usuários experientes)</string>
-  <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
+  <string name="summary_log">Registrar endereços de pacotes de IP direcionados à VPN. Isso pode resultar no uso extra de bateria.</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
@@ -89,7 +90,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
-  <string name="title_log">Blocked traffic</string>
+  <string name="title_log">Tráfego bloqueado</string>
   <string name="title_pro">Recursos da versão PRO</string>
   <string name="title_pro_trial_until">Recursos da versão PRO disponíveis até %1$s</string>
   <string name="title_pro_trial_ended">O período de testes terminou</string>
@@ -97,7 +98,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_pro_notify">Notificação de novos aplicativos</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
-  <string name="title_pro_log">View blocked traffic log</string>
+  <string name="title_pro_log">Visualizar registro de tráfego bloqueado</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>

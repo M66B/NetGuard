@@ -23,6 +23,7 @@ Estos problemas son causados por errores en Android o en el software provisto po
   <string name="menu_invite">Invitar</string>
   <string name="menu_support">Ayuda</string>
   <string name="menu_about">Acerca de</string>
+  <string name="menu_clear">Clear</string>
   <string name="setting_defaults">Valores por defecto</string>
   <string name="setting_whitelist_wifi">Bloquear Wi-Fi por defecto</string>
   <string name="setting_whitelist_other">Bloquear red móvil por defecto</string>
