@@ -320,7 +320,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 SinkholeService.reload("other", "setting changed", this);
 
         } else if ("manage_system".equals(name)) {
-            prefs.edit().putBoolean("show_system", prefs.getBoolean(name, false)).apply();
+            boolean manage = prefs.getBoolean(name, false);
+            if (!manage)
+                prefs.edit().putBoolean("show_user", true).apply();
+            prefs.edit().putBoolean("show_system", manage).apply();
             SinkholeService.reload(null, "setting changed", this);
 
         } else if ("log".equals(name)) {
