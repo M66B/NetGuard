@@ -71,6 +71,7 @@ Compatibility
 
 Devices / ROMs with a broken VPN implementation:
 
+* Allwinner™ bt1077 / Android ? (reported in the Google Play™ store app) (all traffic blocked)
 * Asus™ ZenFone 2 / Android 5.0.2, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63619542&postcount=121) (all traffic blocked)
 * Asus™ ZenFone 4 / Android 5.0 (reported in the Google Play™ store app) (all traffic blocked)
 * Asus™ ZenFone 5 / Android 5.0 (reported through Google Play™ store app feedback) (VPN prepare fails)
