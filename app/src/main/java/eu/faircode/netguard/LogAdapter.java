@@ -1,7 +1,10 @@
 package eu.faircode.netguard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +35,8 @@ public class LogAdapter extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
         // Get values
-        final long time = cursor.getLong(colTime);
-        final String ip = cursor.getString(colIP);
+        long time = cursor.getLong(colTime);
+        String ip = cursor.getString(colIP);
 
         // Get views
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
@@ -42,5 +45,17 @@ public class LogAdapter extends CursorAdapter {
         // Set values
         tvTime.setText(SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.MEDIUM).format(time));
         tvIP.setText(ip);
+
+        final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
+        tvIP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(whois)) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://whois.domaintools.com/" + whois));
+                    if (context.getPackageManager().resolveActivity(intent, 0) != null)
+                        context.startActivity(intent);
+                }
+            }
+        });
     }
 }
