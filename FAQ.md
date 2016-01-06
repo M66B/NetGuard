@@ -120,7 +120,9 @@ For more details, see [question 5](#FAQ5).
   * the **App Info** screen and you can uncheck '*Show notifications*' and agree to the next dialog
   * the **App Notifications** screen and you can toggle the '*Block*' slider to on
 
-Note that, whether or not you get a dialog warning to agree upon, this operation will disable any warning notifications from NetGuard as well.
+Note that, whether or not you get a dialog warning to agree upon,
+this operation will disable any information or warning notifications from NetGuard as well,
+like the new application installed notification.
 
 To read about the need for the notification in the first place, see [question 24](#FAQ24).
 
