@@ -14,15 +14,11 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 
 public class LogAdapter extends CursorAdapter {
-    private static final String TAG = "Netguard.Log";
-
-    private Context mContext;
     private int colTime;
     private int colIP;
 
     public LogAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
-        mContext = context;
         colTime = cursor.getColumnIndex("time");
         colIP = cursor.getColumnIndex("ip");
     }
