@@ -114,10 +114,11 @@ public class Receiver extends BroadcastReceiver {
                 throw new PackageManager.NameNotFoundException(Integer.toString(uid));
             ApplicationInfo info = pm.getApplicationInfo(packages[0], 0);
             String name = (String) pm.getApplicationLabel(info);
+            boolean internet = (pm.checkPermission("android.permission.INTERNET", info.packageName) == PackageManager.PERMISSION_GRANTED);
 
             // Build notification
             Intent main = new Intent(context, ActivityMain.class);
-            main.putExtra(ActivityMain.EXTRA_SEARCH, name);
+            main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(info.uid));
             PendingIntent pi = PendingIntent.getActivity(context, 999, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
             Util.setTheme(context);
@@ -169,7 +170,14 @@ public class Receiver extends BroadcastReceiver {
             );
 
             // Show notification
-            NotificationManagerCompat.from(context).notify(uid, notification.build());
+            if (internet)
+                NotificationManagerCompat.from(context).notify(uid, notification.build());
+            else {
+                NotificationCompat.BigTextStyle expanded = new NotificationCompat.BigTextStyle(notification);
+                expanded.bigText(context.getString(R.string.msg_installed, name));
+                expanded.setSummaryText(context.getString(R.string.title_internet));
+                NotificationManagerCompat.from(context).notify(uid, expanded.build());
+            }
 
         } catch (PackageManager.NameNotFoundException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));

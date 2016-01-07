@@ -701,12 +701,14 @@ public class SinkholeService extends VpnService {
 
                                 byte version = (byte) (buffer.get() >> 4);
                                 if (version == 4) {
-                                    buffer.position(16);
-                                    byte[] addressBytes = new byte[4];
-                                    buffer.get(addressBytes, 0, 4);
-                                    InetAddress ina = Inet4Address.getByAddress(addressBytes);
-                                    Log.i(TAG, "Packet to " + ina);
-                                    new DatabaseHelper(SinkholeService.this).insertLog(ina.toString()).close();
+                                    buffer.position(0);
+                                    Packet pkt = new Packet(buffer);
+                                    Log.i(TAG, "Packet to " + pkt.IPv4.destinationAddress.toString());
+                                    new DatabaseHelper(SinkholeService.this).insertLog(
+                                            version,
+                                            pkt.IPv4.destinationAddress.toString(),
+                                            pkt.IPv4.protocol,
+                                            pkt.getUid4()).close();
 
                                 } else if (version == 6) {
                                     buffer.position(24);
@@ -714,7 +716,9 @@ public class SinkholeService extends VpnService {
                                     buffer.get(addressBytes, 0, 16);
                                     InetAddress ina = Inet6Address.getByAddress(addressBytes);
                                     Log.i(TAG, "Packet to " + ina);
-                                    new DatabaseHelper(SinkholeService.this).insertLog(ina.toString()).close();
+                                    new DatabaseHelper(SinkholeService.this).insertLog(
+                                            version,
+                                            ina.toString(), -1, -1).close();
                                 }
                             }
                         } catch (Throwable ex) {

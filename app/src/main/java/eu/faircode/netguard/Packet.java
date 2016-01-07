@@ -50,7 +50,6 @@ public class Packet {
             if (IPv4.protocol == IPv4.UDP) {
                 UDP = new UDPHeader(buffer);
                 UDP.validate();
-                throw new IOException("UDP not supported");
             } else if (IPv4.protocol == IPv4.TCP) {
                 TCP = new TCP(IPv4.sourceAddress, IPv4.destinationAddress, buffer);
                 TCP.validate();
@@ -494,15 +493,18 @@ public class Packet {
     }
 
     public int getUid4() {
-        String addr = "";
+        if (this.TCP == null)
+            return -1;
+
+        StringBuilder addr = new StringBuilder();
         byte[] b = this.IPv4.sourceAddress.getAddress();
         for (int i = b.length - 1; i >= 0; i--)
-            addr += String.format("%02X", b[i]);
-        addr += ":" + String.format("%04X", this.TCP.sourcePort);
+            addr.append(String.format("%02X", b[i]));
+        addr.append(':').append(String.format("%04X", this.TCP.sourcePort));
 
-        int uid = scanUid("0000000000000000FFFF0000" + addr, "/proc/net/tcp6");
+        int uid = scanUid("0000000000000000FFFF0000" + addr.toString(), "/proc/net/tcp6");
         if (uid < 0)
-            uid = scanUid(addr, "/proc/net/tcp");
+            uid = scanUid(addr.toString(), "/proc/net/tcp");
         return uid;
     }
 

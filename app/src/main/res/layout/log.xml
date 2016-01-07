@@ -6,16 +6,29 @@
 
     <TextView
         android:id="@+id/tvTime"
-        android:layout_width="0dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+    <TextView
+        android:id="@+id/tvProtocol"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+    <TextView
+        android:id="@+id/tvUid"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
     <TextView
         android:id="@+id/tvIP"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
         android:textAppearance="@android:style/TextAppearance.Material.Small"
         android:textIsSelectable="true" />
 </LinearLayout>

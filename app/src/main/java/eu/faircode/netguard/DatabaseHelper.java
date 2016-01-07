@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     private static List<LogChangedListener> logChangedListeners = new ArrayList<LogChangedListener>();
 
@@ -37,7 +37,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE log (" +
                 " ID INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ", time INTEGER NOT NULL" +
+                ", version INTEGER NULL" +
                 ", ip TEXT" +
+                ", protocol INTEGER NULL" +
+                ", uid INTEGER NULL" +
                 ");");
         db.execSQL("CREATE INDEX idx_log_time ON log(time)");
     }
@@ -48,6 +51,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.beginTransaction();
         try {
+            if (oldVersion < 2) {
+                db.execSQL("ALTER TABLE log ADD COLUMN version INTEGER NULL");
+                db.execSQL("ALTER TABLE log ADD COLUMN protocol INTEGER NULL");
+                db.execSQL("ALTER TABLE log ADD COLUMN uid INTEGER NULL");
+                oldVersion = 2;
+            }
+
             db.setVersion(DB_VERSION);
 
             db.setTransactionSuccessful();
@@ -60,13 +70,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Location
 
-    public DatabaseHelper insertLog(String ip) {
+    public DatabaseHelper insertLog(int version, String ip, int protocol, int uid) {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
             cv.put("time", new Date().getTime());
+            cv.put("version", version);
             cv.put("ip", ip);
+
+            if (protocol < 0)
+                cv.putNull("protocol");
+            else
+                cv.put("protocol", protocol);
+
+            if (uid < 0)
+                cv.putNull("uid");
+            else
+                cv.put("uid", uid);
 
             if (db.insert("log", null, cv) == -1)
                 Log.e(TAG, "Insert log failed");

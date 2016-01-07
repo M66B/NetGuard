@@ -306,12 +306,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         holder.llConfiguration.setVisibility(rule.expanded ? View.VISIBLE : View.GONE);
 
-        holder.tvUid.setVisibility(debuggable ? View.VISIBLE : View.GONE);
         holder.tvUid.setText(rule.info.applicationInfo == null ? "?" : Integer.toString(rule.info.applicationInfo.uid));
-
         holder.tvPackage.setText(rule.info.packageName);
-
-        holder.tvVersion.setVisibility(debuggable ? View.VISIBLE : View.GONE);
         holder.tvVersion.setText(rule.info.versionName + '/' + rule.info.versionCode);
 
         holder.tvDisabled.setVisibility(rule.enabled ? View.GONE : View.VISIBLE);
@@ -518,8 +514,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     for (Rule rule : listAll)
                         if (rule.info.packageName.toLowerCase().contains(query) ||
                                 (rule.name != null && rule.name.toLowerCase().contains(query)) ||
-                                (debuggable && rule.info.applicationInfo != null &&
-                                        Integer.toString(rule.info.applicationInfo.uid).contains(query)))
+                                (rule.info.applicationInfo != null && Integer.toString(rule.info.applicationInfo.uid).contains(query)))
                             listResult.add(rule);
                 }
 
