@@ -79,9 +79,6 @@ public class ActivityLog extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
             case R.id.menu_clear:
                 dh.clear();
                 return true;

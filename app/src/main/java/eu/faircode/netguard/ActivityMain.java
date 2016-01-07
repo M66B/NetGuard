@@ -425,6 +425,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private void updateApplicationList(final String search) {
         Log.i(TAG, "Update search=" + search);
+
         new AsyncTask<Object, Object, List<Rule>>() {
             private boolean refreshing = true;
 

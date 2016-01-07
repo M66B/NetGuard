@@ -52,7 +52,8 @@
         <activity
             android:name=".ActivityLog"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_log" />
+            android:label="@string/title_log"
+            android:parentActivityName=".ActivityMain" />
 
         <activity
             android:name=".ActivityPro"
