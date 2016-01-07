@@ -27,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,6 +68,10 @@ public class ActivityPro extends AppCompatActivity {
         // Challenge
         TextView tvChallenge = (TextView) findViewById(R.id.tvChallenge);
         tvChallenge.setText(Build.SERIAL);
+
+        // Donate
+        TextView tvDonate = (TextView) findViewById(R.id.tvDonate);
+        tvDonate.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Response
         try {
