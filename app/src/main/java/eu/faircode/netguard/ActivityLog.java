@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ActivityLog extends AppCompatActivity {
     private ListView lvLog;
@@ -60,6 +61,8 @@ public class ActivityLog extends AppCompatActivity {
         lvLog.setAdapter(adapter);
 
         DatabaseHelper.addLogChangedListener(listener);
+
+        Toast.makeText(this, getString(R.string.title_log_info), Toast.LENGTH_SHORT).show();
     }
 
     @Override
