@@ -29,7 +29,7 @@ import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.Scanner;
 
-public class Packet {
+public class IPv4Packet {
     private static final String TAG = "NetGuard.Packet";
 
     private ByteBuffer packet;
@@ -37,10 +37,10 @@ public class Packet {
     public UDPHeader UDP = null;
     public TCP TCP = null;
 
-    private Packet() {
+    private IPv4Packet() {
     }
 
-    public Packet(ByteBuffer buffer) throws IOException {
+    public IPv4Packet(ByteBuffer buffer) throws IOException {
         packet = buffer;
 
         try {

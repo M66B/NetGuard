@@ -57,11 +57,11 @@ public class LogAdapter extends CursorAdapter {
         tvIP.setText(whois);
 
         if (version == 4)
-            if (protocol == Packet.IPv4Header.ICMP)
+            if (protocol == IPv4Packet.IPv4Header.ICMP)
                 tvProtocol.setText("ICMP");
-            else if (protocol == Packet.IPv4Header.TCP)
+            else if (protocol == IPv4Packet.IPv4Header.TCP)
                 tvProtocol.setText("TCP");
-            else if (protocol == Packet.IPv4Header.UDP)
+            else if (protocol == IPv4Packet.IPv4Header.UDP)
                 tvProtocol.setText("UDP");
             else
                 tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));

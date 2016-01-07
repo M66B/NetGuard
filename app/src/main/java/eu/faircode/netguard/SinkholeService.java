@@ -701,7 +701,7 @@ public class SinkholeService extends VpnService {
                                 byte version = (byte) (buffer.get() >> 4);
                                 if (version == 4) {
                                     buffer.position(0);
-                                    Packet pkt = new Packet(buffer);
+                                    IPv4Packet pkt = new IPv4Packet(buffer);
                                     Log.i(TAG, "Packet to " + pkt.IPv4.destinationAddress.toString());
                                     new DatabaseHelper(SinkholeService.this).insertLog(
                                             version,
