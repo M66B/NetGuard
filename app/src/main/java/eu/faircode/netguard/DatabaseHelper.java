@@ -83,8 +83,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public DatabaseHelper clear() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        db.delete("log", null, new String[]{});
+        synchronized (mContext.getApplicationContext()) {
+            SQLiteDatabase db = this.getReadableDatabase();
+            db.delete("log", null, new String[]{});
+        }
 
         for (LogChangedListener listener : logChangedListeners)
             try {
