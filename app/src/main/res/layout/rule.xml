@@ -123,7 +123,7 @@
                     android:gravity="center_horizontal"
                     android:text="R"
                     android:textAppearance="@android:style/TextAppearance.Material.Small"
-                    android:textColor="?attr/colorAccent"
+                    android:textColor="?attr/colorOff"
                     android:textSize="12dp" />
             </LinearLayout>
         </LinearLayout>
@@ -240,7 +240,7 @@
                     android:gravity="center_horizontal"
                     android:text="R"
                     android:textAppearance="@android:style/TextAppearance.Material.Small"
-                    android:textColor="?attr/colorAccent"
+                    android:textColor="?attr/colorOff"
                     android:textSize="12dp" />
 
                 <CheckBox
