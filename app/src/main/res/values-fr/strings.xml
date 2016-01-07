@@ -18,7 +18,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="menu_sort">Trier applications</string>
   <string name="menu_sort_name">Trier par nom</string>
   <string name="menu_sort_data">Trier par utilisation des données</string>
-  <string name="menu_log">Show log</string>
+  <string name="menu_log">Afficher journal</string>
   <string name="menu_settings">Paramètres</string>
   <string name="menu_invite">Inviter</string>
   <string name="menu_support">Aide</string>
@@ -32,10 +32,10 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="setting_whitelist_roaming">Bloquer itinérance</string>
   <string name="setting_options">Options</string>
   <string name="setting_system">Gérer les applications système</string>
-  <string name="setting_log">Log blocked traffic</string>
+  <string name="setting_log">Enregistrer le trafic bloqué</string>
   <string name="setting_auto">Activer automatiquement après %1$s minutes</string>
-  <string name="setting_delay">Delay screen off %1$s minutes</string>
-  <string name="setting_theme">Theme: %1$s</string>
+  <string name="setting_delay">Délai écran étaint de %1$s minutes</string>
+  <string name="setting_theme">Thème : %1$s</string>
   <string name="setting_dark">Utiliser le thème sombre</string>
   <string name="setting_wifi_home">Réseaux Wi-Fi domicile : %1$s</string>
   <string name="setting_metered">Gérer les réseaux Wi-Fi limités</string>
@@ -94,21 +94,21 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
   <string name="title_pro">Fonctionnalités Pro</string>
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>
-  <string name="title_pro_description">The following convenience features are available:</string>
-  <string name="title_pro_notify">New application notifications</string>
-  <string name="title_pro_theme">Appearance (theme, colors)</string>
-  <string name="title_pro_speed">Network speed graph notification</string>
-  <string name="title_pro_log">View blocked traffic log</string>
+  <string name="title_pro_description">Les fonctionnalités pratiques suivantes sont disponibles :</string>
+  <string name="title_pro_notify">Notifications des nouvelles applications</string>
+  <string name="title_pro_theme">Apparence (thème, couleurs)</string>
+  <string name="title_pro_speed">Notification d'un graphique de la vitesse</string>
+  <string name="title_pro_log">Voir le journal du trafic bloqué</string>
   <string name="title_pro_buy">Détails</string>
   <string name="title_pro_bought">Activé</string>
   <string name="title_pro_challenge">Défier</string>
   <string name="title_pro_reponse">Répondre</string>
   <string-array name="themeNames">
-    <item>teal/orange</item>
-    <item>blue/orange</item>
-    <item>purple/red</item>
-    <item>amber/blue</item>
-    <item>orange/grey</item>
-    <item>green</item>
+    <item>bleu sarcelle/orange</item>
+    <item>bleu/orange</item>
+    <item>violet/rouge</item>
+    <item>ambre/bleu</item>
+    <item>orange/gris</item>
+    <item>vert</item>
   </string-array>
 </resources>
