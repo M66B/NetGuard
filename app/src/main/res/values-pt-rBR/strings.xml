@@ -91,6 +91,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
   <string name="title_log">Tráfego bloqueado</string>
+  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Recursos da versão PRO</string>
   <string name="title_pro_trial_until">Recursos da versão PRO disponíveis até %1$s</string>
   <string name="title_pro_trial_ended">O período de testes terminou</string>
@@ -103,6 +104,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>
   <string name="title_pro_reponse">Resposta</string>
+  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>verde-azulado/laranja</item>
     <item>azul/laranja</item>

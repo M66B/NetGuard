@@ -93,6 +93,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="title_allow">Permetti</string>
   <string name="title_block">Blocca</string>
   <string name="title_log">Traffico bloccato</string>
+  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Funzionalità a pagamento</string>
   <string name="title_pro_trial_until">Funzionalità a pagamento in prova fino a %1$s</string>
   <string name="title_pro_trial_ended">Periodo di prova delle funzionalità a pagamento terminato</string>
@@ -105,6 +106,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="title_pro_bought">Abilitato</string>
   <string name="title_pro_challenge">Domanda di verifica</string>
   <string name="title_pro_reponse">Risposta</string>
+  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>foglia di tè/arancione</item>
     <item>blu/arancione</item>

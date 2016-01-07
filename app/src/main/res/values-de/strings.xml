@@ -88,6 +88,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="title_allow">Erlauben</string>
   <string name="title_block">Sperren</string>
   <string name="title_log">Blockierter Verkehr</string>
+  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Pro-Funktionen</string>
   <string name="title_pro_trial_until">Pro-Funktionen-Testzeitraum bis %1$s</string>
   <string name="title_pro_trial_ended">Pro-Funktionen-Testzeitraum abgelaufen</string>
@@ -100,12 +101,13 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="title_pro_bought">Aktiviert</string>
   <string name="title_pro_challenge">Challenge</string>
   <string name="title_pro_reponse">Antwort</string>
+  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>Blaugrün/Orange</item>
     <item>Blau/Orange</item>
     <item>Lila/Rot</item>
     <item>Gelb/Blau</item>
     <item>Orange/Grau</item>
-    <item>green</item>
+    <item>Grün</item>
   </string-array>
 </resources>

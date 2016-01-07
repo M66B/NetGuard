@@ -88,6 +88,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_allow">Разрешить</string>
   <string name="title_block">Блокировать</string>
   <string name="title_log">Заблокированный трафик</string>
+  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Pro-функции</string>
   <string name="title_pro_trial_until">Pro-функции пробного периода до %1$s</string>
   <string name="title_pro_trial_ended">Pro-функции пробного периода закончились</string>
@@ -100,12 +101,13 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_pro_bought">Куплено</string>
   <string name="title_pro_challenge">Задание</string>
   <string name="title_pro_reponse">Ответ</string>
+  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>бирюзовый/оранжевый</item>
     <item>синий/оранжевый</item>
     <item>фиолетовый/красный</item>
     <item>янтарный/синий</item>
     <item>оранжевый/серый</item>
-    <item>green</item>
+    <item>зеленый</item>
   </string-array>
 </resources>
