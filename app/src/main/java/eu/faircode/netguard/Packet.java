@@ -511,11 +511,17 @@ public class Packet {
         byte[] b = this.IPv4.sourceAddress.getAddress();
         for (int i = b.length - 1; i >= 0; i--)
             addr.append(String.format("%02X", b[i]));
-        addr.append(':').append(String.format("%04X", this.TCP == null ? this.UDP.sourcePort : this.TCP.sourcePort));
 
-        int uid = scanUid("0000000000000000FFFF0000" + addr.toString(), "/proc/net/tcp6");
+        String port = String.format("%04X", this.TCP == null ? this.UDP.sourcePort : this.TCP.sourcePort);
+
+        int uid = scanUid("0000000000000000FFFF0000" + addr.toString() + ":" + port, this.TCP == null ? "/proc/net/udp6" : "/proc/net/tcp6");
         if (uid < 0)
-            uid = scanUid(addr.toString(), "/proc/net/tcp");
+            uid = scanUid(addr.toString() + ":" + port, this.TCP == null ? "/proc/net/udp" : "/proc/net/tcp");
+        if (uid < 0 && this.UDP != null)
+            uid = scanUid("00000000:" + port, "/proc/net/udp");
+
+        // IPv6 5014002A010C13400000000084000000 = 2a00:1450:4013:c01::84
+
         return uid;
     }
 
