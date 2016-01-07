@@ -23,7 +23,7 @@
   <string name="menu_invite">招待</string>
   <string name="menu_support">サポート</string>
   <string name="menu_about">アプリについて</string>
-  <string name="menu_clear">Clear</string>
+  <string name="menu_clear">クリア</string>
   <string name="setting_defaults">デフォルト</string>
   <string name="setting_whitelist_wifi">デフォルトで Wi-Fi をブロック</string>
   <string name="setting_whitelist_other">デフォルトでモバイル通信をブロック</string>
@@ -109,5 +109,6 @@ NetGuard にインターネット アクセス許可がないと、インター 
     <item>パープル/レッド</item>
     <item>アンバー/ブルー</item>
     <item>オレンジ/グレー</item>
+    <item>green</item>
   </string-array>
 </resources>

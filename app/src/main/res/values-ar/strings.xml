@@ -107,5 +107,6 @@ These issues are caused by bugs in Android, or in the software provided by the m
     <item>purple/red</item>
     <item>amber/blue</item>
     <item>orange/grey</item>
+    <item>green</item>
   </string-array>
 </resources>

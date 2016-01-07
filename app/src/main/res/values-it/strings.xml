@@ -111,5 +111,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <item>viola/rosso</item>
     <item>ambra/blu</item>
     <item>arancione/grigio</item>
+    <item>green</item>
   </string-array>
 </resources>

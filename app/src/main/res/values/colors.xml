@@ -32,6 +32,12 @@
     <color name="colorOrangeOn">#607D8B</color>
     <color name="colorOrangeOff">#FF5722</color>
 
+    <color name="colorGreenPrimary">#4CAF50</color>
+    <color name="colorGreenPrimaryDark">#388E3C</color>
+    <color name="colorGreenAccent">#8BC34A</color>
+    <color name="colorGreenOn">#8BC34A</color>
+    <color name="colorGreenOff">#F44336</color>
+
     <color name="colorSend">#FF0000</color>
     <color name="colorReceive">#0000FF</color>
 </resources>

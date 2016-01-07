@@ -23,7 +23,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="menu_invite">Convite</string>
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
-  <string name="menu_clear">Clear</string>
+  <string name="menu_clear">Limpar</string>
   <string name="setting_defaults">Padrões</string>
   <string name="setting_whitelist_wifi">Por padrão, bloquear Wi-Fi</string>
   <string name="setting_whitelist_other">Por padrão, bloquear Dados Móveis</string>
@@ -109,5 +109,6 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
     <item>roxo/vermelho</item>
     <item>âmbar/azul</item>
     <item>laranja/cinza</item>
+    <item>green</item>
   </string-array>
 </resources>

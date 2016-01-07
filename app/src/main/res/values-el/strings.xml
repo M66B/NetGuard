@@ -105,5 +105,6 @@ Since NetGuard has no internet permission, you know your internet traffic is not
     <item>purple/red</item>
     <item>amber/blue</item>
     <item>orange/grey</item>
+    <item>green</item>
   </string-array>
 </resources>

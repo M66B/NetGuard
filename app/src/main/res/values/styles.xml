@@ -102,4 +102,24 @@
         <item name="expander">@drawable/expander_white</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
+
+    <style name="AppThemeGreen" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorGreenPrimary</item>
+        <item name="colorPrimaryDark">@color/colorGreenPrimaryDark</item>
+        <item name="colorAccent">@color/colorGreenAccent</item>
+        <item name="colorOn">@color/colorGreenOn</item>
+        <item name="colorOff">@color/colorGreenOff</item>
+        <item name="expander">@drawable/expander_black</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <style name="AppThemeGreenDark" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorGreenPrimary</item>
+        <item name="colorPrimaryDark">@color/colorGreenPrimaryDark</item>
+        <item name="colorAccent">@color/colorGreenAccent</item>
+        <item name="colorOn">@color/colorGreenOn</item>
+        <item name="colorOff">@color/colorGreenOff</item>
+        <item name="expander">@drawable/expander_white</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
 </resources>

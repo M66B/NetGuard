@@ -105,5 +105,6 @@ NetGuard не має дозволу до інтернет доступу, том
     <item>purple/red</item>
     <item>amber/blue</item>
     <item>orange/grey</item>
+    <item>green</item>
   </string-array>
 </resources>

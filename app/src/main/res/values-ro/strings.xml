@@ -23,7 +23,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Asistenta</string>
   <string name="menu_about">Despre</string>
-  <string name="menu_clear">Clear</string>
+  <string name="menu_clear">Elimina</string>
   <string name="setting_defaults">Setari implicite</string>
   <string name="setting_whitelist_wifi">Blocheaza Wi-Fi</string>
   <string name="setting_whitelist_other">Blocheaza date mobile</string>
@@ -109,5 +109,6 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
     <item>mov/rosu</item>
     <item>culoarea chihlimbarului/albastru</item>
     <item>portocaliu/gri</item>
+    <item>green</item>
   </string-array>
 </resources>

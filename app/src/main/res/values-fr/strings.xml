@@ -109,5 +109,6 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
     <item>purple/red</item>
     <item>amber/blue</item>
     <item>orange/grey</item>
+    <item>green</item>
   </string-array>
 </resources>
