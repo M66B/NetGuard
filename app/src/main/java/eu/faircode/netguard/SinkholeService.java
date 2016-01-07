@@ -723,7 +723,6 @@ public class SinkholeService extends VpnService {
                             }
                         } catch (Throwable ex) {
                             Log.e(TAG, ex.toString());
-                            Util.sendCrashReport(ex, SinkholeService.this);
                         }
                     Log.i(TAG, "End receiving");
                 } catch (Throwable ex) {
