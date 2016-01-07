@@ -63,7 +63,6 @@ import android.widget.RemoteViews;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
@@ -708,7 +707,7 @@ public class SinkholeService extends VpnService {
                                             version,
                                             pkt.IPv4.destinationAddress.toString(),
                                             pkt.IPv4.protocol,
-                                            pkt.getUid4()).close();
+                                            pkt.getUid()).close();
 
                                 } else if (version == 6) {
                                     buffer.position(24);

@@ -273,7 +273,18 @@ public class Packet {
 
     // https://en.wikipedia.org/wiki/User_Datagram_Protocol
     public class UDPHeader {
+        public int sourcePort;
+        public int destinationPort;
+        public int length;
+        public int checksum;
+
         public UDPHeader(ByteBuffer buffer) {
+            int pos = buffer.position();
+
+            this.sourcePort = buffer.getShort() & 0xFFFF;
+            this.destinationPort = buffer.getShort() & 0xFFFF;
+            this.length = buffer.getShort() & 0xFFFF;
+            this.checksum = buffer.getShort() & 0xFFFF;
         }
 
         public void validate() throws IOException {
@@ -492,15 +503,15 @@ public class Packet {
         }
     }
 
-    public int getUid4() {
-        if (this.TCP == null)
+    public int getUid() {
+        if (this.TCP == null && this.UDP == null)
             return -1;
 
         StringBuilder addr = new StringBuilder();
         byte[] b = this.IPv4.sourceAddress.getAddress();
         for (int i = b.length - 1; i >= 0; i--)
             addr.append(String.format("%02X", b[i]));
-        addr.append(':').append(String.format("%04X", this.TCP.sourcePort));
+        addr.append(':').append(String.format("%04X", this.TCP == null ? this.UDP.sourcePort : this.TCP.sourcePort));
 
         int uid = scanUid("0000000000000000FFFF0000" + addr.toString(), "/proc/net/tcp6");
         if (uid < 0)
