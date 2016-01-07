@@ -45,16 +45,24 @@ public class Packet {
 
         try {
             IPv4 = new IPv4Header(buffer);
-            IPv4.validate();
-
-            if (IPv4.protocol == IPv4.UDP) {
+            if (IPv4.protocol == IPv4.UDP)
                 UDP = new UDPHeader(buffer);
-                UDP.validate();
-            } else if (IPv4.protocol == IPv4.TCP) {
+            else if (IPv4.protocol == IPv4.TCP)
                 TCP = new TCP(IPv4.sourceAddress, IPv4.destinationAddress, buffer);
-                TCP.validate();
-            } else
+            else
                 throw new IOException("Unsupported protocol=" + IPv4.protocol);
+        } catch (IOException ex) {
+            throw new IOException(ex.toString() + " " + this);
+        }
+    }
+
+    public void validate() throws IOException {
+        try {
+            IPv4.validate();
+            if (this.UDP != null)
+                this.UDP.validate();
+            if (this.TCP != null)
+                this.TCP.validate();
         } catch (IOException ex) {
             throw new IOException(ex.toString() + " " + this);
         }
