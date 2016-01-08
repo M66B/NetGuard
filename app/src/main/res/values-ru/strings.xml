@@ -20,6 +20,7 @@
   <string name="menu_invite">Пригласить</string>
   <string name="menu_support">Поддержка</string>
   <string name="menu_about">О приложении</string>
+  <string name="menu_enabled">Enabled</string>
   <string name="menu_clear">Очистить</string>
   <string name="setting_defaults">По умолчанию</string>
   <string name="setting_whitelist_wifi">Блокировать Wi-Fi по умолч.</string>

@@ -23,6 +23,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="menu_invite">Inviter</string>
   <string name="menu_support">Aide</string>
   <string name="menu_about">À propos</string>
+  <string name="menu_enabled">Enabled</string>
   <string name="menu_clear">Effacer</string>
   <string name="setting_defaults">Par défaut</string>
   <string name="setting_whitelist_wifi">Bloquer Wi-Fi</string>
@@ -101,8 +102,8 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
   <string name="title_pro_log">Voir le journal du trafic bloqué</string>
   <string name="title_pro_buy">Détails</string>
   <string name="title_pro_bought">Activé</string>
-  <string name="title_pro_challenge">Défier</string>
-  <string name="title_pro_reponse">Répondre</string>
+  <string name="title_pro_challenge">Code</string>
+  <string name="title_pro_reponse">Réponse</string>
   <string-array name="themeNames">
     <item>bleu sarcelle/orange</item>
     <item>bleu/orange</item>

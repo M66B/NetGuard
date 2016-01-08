@@ -23,6 +23,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="menu_invite">Zaproś</string>
   <string name="menu_support">Wsparcie</string>
   <string name="menu_about">O...</string>
+  <string name="menu_enabled">Enabled</string>
   <string name="menu_clear">Clear</string>
   <string name="setting_defaults">Domyślne</string>
   <string name="setting_whitelist_wifi">Domyślnie blokuj Wi-Fi</string>

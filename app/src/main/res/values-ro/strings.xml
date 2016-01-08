@@ -23,6 +23,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Asistenta</string>
   <string name="menu_about">Despre</string>
+  <string name="menu_enabled">Enabled</string>
   <string name="menu_clear">Elimina</string>
   <string name="setting_defaults">Setari implicite</string>
   <string name="setting_whitelist_wifi">Blocheaza Wi-Fi</string>

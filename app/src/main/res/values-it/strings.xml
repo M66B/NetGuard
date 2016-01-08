@@ -24,6 +24,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Supporto</string>
   <string name="menu_about">Info</string>
+  <string name="menu_enabled">Enabled</string>
   <string name="menu_clear">Clear</string>
   <string name="setting_defaults">Impostazioni predefinite</string>
   <string name="setting_whitelist_wifi">Blocca Wi-Fi di default</string>
