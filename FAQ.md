@@ -218,6 +218,38 @@ There is no need for a select all function,
 because you can switch from black list to white list mode using the settings.
 See also [question 0](#FAQ0).
 
+<a name="FAQ27"></a>
+**(27) How do I read the blocked traffic log?**
+
+The columns have the following meaning:
+
+1. Day of month
+1. Time
+1. Protocol
+1. Port
+1. Packet flags
+1. Application icon
+1. Application uid
+1. Wi-Fi / mobile icon
+1. IP address
+
+Protocols:
+
+* I = ICMP
+* T = TCP
+* U = UDP
+* Number = one of the protocols on [this list](https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)
+
+Packet flags:
+
+* S = SYN
+* A = ACK
+* P = PSH
+* F = FIN
+* R = RST
+
+For a detailed explanation see [here](https://en.wikipedia.org/wiki/Transmission_Control_Protocol).
+
 <br />
 
 **If you didn't found the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.

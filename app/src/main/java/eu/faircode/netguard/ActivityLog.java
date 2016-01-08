@@ -158,6 +158,12 @@ public class ActivityLog extends AppCompatActivity {
             case R.id.menu_clear:
                 dh.clear();
                 return true;
+            case R.id.menu_support:
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ27"));
+                if (getPackageManager().resolveActivity(intent, 0) != null)
+                    startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
