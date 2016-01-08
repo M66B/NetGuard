@@ -561,6 +561,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (ex == null) {
                     Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
                     recreate();
+                    SinkholeService.setTheme(ActivitySettings.this);
                 } else
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
