@@ -763,8 +763,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                             current.put(key, value);
                         else if ("set".equals(type)) {
                             Set<String> set = new HashSet<>();
-                            for (String s : value.split("\n"))
-                                set.add(s);
+                            if (!TextUtils.isEmpty(value))
+                                for (String s : value.split("\n"))
+                                    set.add(s);
                             current.put(key, set);
                         } else
                             Log.e(TAG, "Unknown type key=" + key);
