@@ -81,7 +81,7 @@ public class Receiver extends BroadcastReceiver {
             try {
                 if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
                     if (prefs.getBoolean("enabled", false) || prefs.getBoolean("show_stats", false))
-                        SinkholeService.run("receiver", context);
+                        SinkholeService.start("receiver", context);
 
                 } else if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
                     if (prefs.getBoolean("enabled", false)) {

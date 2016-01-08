@@ -264,16 +264,16 @@ public class SinkholeService extends VpnService {
                             stopReceiving();
                             stopVPN(vpn);
                             vpn = null;
-                            if (state == State.enforcing) {
-                                Log.d(TAG, "Stop foreground state=" + state.toString());
-                                stopForeground(true);
-                                if (prefs.getBoolean("show_stats", false)) {
-                                    startForeground(NOTIFY_WAITING, getWaitingNotification());
-                                    state = State.waiting;
-                                    Log.d(TAG, "Start foreground state=" + state.toString());
-                                } else
-                                    state = State.none;
-                            }
+                        }
+                        if (state == State.enforcing) {
+                            Log.d(TAG, "Stop foreground state=" + state.toString());
+                            stopForeground(true);
+                            if (prefs.getBoolean("show_stats", false)) {
+                                startForeground(NOTIFY_WAITING, getWaitingNotification());
+                                state = State.waiting;
+                                Log.d(TAG, "Start foreground state=" + state.toString());
+                            } else
+                                state = State.none;
                         }
                         break;
 
@@ -303,12 +303,14 @@ public class SinkholeService extends VpnService {
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
-                // Disable firewall
-                prefs.edit().putBoolean("enabled", false).apply();
-                Widget.updateWidgets(SinkholeService.this);
+                if (Util.isConnected(SinkholeService.this)) {
+                    // Disable firewall
+                    prefs.edit().putBoolean("enabled", false).apply();
+                    Widget.updateWidgets(SinkholeService.this);
 
-                // Report exception
-                Util.sendCrashReport(ex, SinkholeService.this);
+                    // Report exception
+                    Util.sendCrashReport(ex, SinkholeService.this);
+                }
             }
         }
 
