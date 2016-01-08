@@ -2,6 +2,8 @@ package eu.faircode.netguard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -9,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 
@@ -52,12 +57,29 @@ public class LogAdapter extends CursorAdapter {
         final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
 
         // Get views
+        ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
         TextView tvIP = (TextView) view.findViewById(R.id.tvIP);
         TextView tvProtocol = (TextView) view.findViewById(R.id.tvProtocol);
         TextView tvPort = (TextView) view.findViewById(R.id.tvPort);
         TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
+
+        // Application icon
+        ApplicationInfo info = null;
+        PackageManager pm = context.getPackageManager();
+        String[] pkg = pm.getPackagesForUid(uid);
+        if (pkg != null && pkg.length > 0)
+            try {
+                info = pm.getApplicationInfo(pkg[0], 0);
+            } catch (PackageManager.NameNotFoundException ignored) {
+            }
+        if (info == null || info.icon == 0)
+            Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
+        else {
+            Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
+            Picasso.with(context).load(uri).into(ivIcon);
+        }
 
         // Set values
         tvTime.setText(new SimpleDateFormat("dd").format(time) + " " +

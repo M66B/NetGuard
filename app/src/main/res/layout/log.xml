@@ -6,10 +6,17 @@
     android:orientation="horizontal"
     tools:context=".ActivityLog">
 
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="16dip"
+        android:layout_height="16dip"
+        android:layout_gravity="center_vertical" />
+
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
     <TextView
