@@ -107,6 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getReadableDatabase();
             db.delete("log", null, new String[]{});
+            db.execSQL("VACUUM");
         }
 
         for (LogChangedListener listener : logChangedListeners)
