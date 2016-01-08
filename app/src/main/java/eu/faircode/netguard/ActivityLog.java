@@ -79,6 +79,7 @@ public class ActivityLog extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) adapter.getItem(position);
                 String ip = cursor.getString(cursor.getColumnIndex("ip"));
+                final int port = (cursor.isNull(cursor.getColumnIndex("port")) ? -1 : cursor.getInt(cursor.getColumnIndex("port")));
                 final int uid = (cursor.isNull(cursor.getColumnIndex("uid")) ? -1 : cursor.getInt(cursor.getColumnIndex("uid")));
                 final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
 
@@ -92,12 +93,17 @@ public class ActivityLog extends AppCompatActivity {
                     } catch (PackageManager.NameNotFoundException ignored) {
                     }
 
+                final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + whois));
+                final Intent lookupPort = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.speedguide.net/port.php?port=" + port));
+
                 PopupMenu popup = new PopupMenu(ActivityLog.this, findViewById(R.id.vwPopupAnchor), Gravity.CENTER);
 
                 if (uid > 0)
                     popup.getMenu().add(Menu.NONE, 1, 1, name == null ? Integer.toString(uid) : name);
-                if (!TextUtils.isEmpty(whois))
+                if (!TextUtils.isEmpty(whois) && getPackageManager().resolveActivity(lookupIP, 0) != null)
                     popup.getMenu().add(Menu.NONE, 2, 2, "Whois " + whois);
+                if (port > 0 && getPackageManager().resolveActivity(lookupPort, 0) != null)
+                    popup.getMenu().add(Menu.NONE, 3, 3, "Port " + port);
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -106,11 +112,10 @@ public class ActivityLog extends AppCompatActivity {
                             Intent main = new Intent(ActivityLog.this, ActivityMain.class);
                             main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
                             startActivity(main);
-                        } else if (menuItem.getItemId() == 2) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + whois));
-                            if (getPackageManager().resolveActivity(intent, 0) != null)
-                                startActivity(intent);
-                        }
+                        } else if (menuItem.getItemId() == 2)
+                            startActivity(lookupIP);
+                        else if (menuItem.getItemId() == 3)
+                            startActivity(lookupPort);
                         return false;
                     }
                 });
