@@ -708,6 +708,7 @@ public class SinkholeService extends VpnService {
                                         "/" + pkt.getDestinationPort() +
                                         " " + pkt.getFlags() +
                                         " " + pkt.getProtocol());
+
                                 int connection;
                                 if (last_connected)
                                     if (last_metered)
@@ -716,6 +717,17 @@ public class SinkholeService extends VpnService {
                                         connection = 1;
                                 else
                                     connection = 0;
+
+                                int tries = 0;
+                                int uid = pkt.getUid();
+                                while (uid < 0 && tries < 10) {
+                                    Thread.sleep(10);
+                                    tries++;
+                                    uid = pkt.getUid();
+                                    if (uid >= 0)
+                                        Log.w(TAG, "Uid found after try=" + tries);
+                                }
+
                                 new DatabaseHelper(SinkholeService.this).insertLog(
                                         pkt.version,
                                         pkt.getDestinationAddress().toString(),

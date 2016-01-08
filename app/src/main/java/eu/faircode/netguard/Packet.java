@@ -652,6 +652,22 @@ public class Packet {
         return -1;
     }
 
+    private void dump(String name) {
+        File file = new File(name);
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                Log.d(TAG, scanner.nextLine());
+            }
+        } catch (FileNotFoundException ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        } finally {
+            if (scanner != null)
+                scanner.close();
+        }
+    }
+
     public static class Util {
         private static final char[] hex = "0123456789ABCDEF".toCharArray();
 
