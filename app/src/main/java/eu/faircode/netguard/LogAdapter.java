@@ -80,8 +80,7 @@ public class LogAdapter extends CursorAdapter {
         }
 
         // Set values
-        tvTime.setText(new SimpleDateFormat("dd").format(time) + " " +
-                SimpleDateFormat.getTimeInstance(SimpleDateFormat.MEDIUM).format(time));
+        tvTime.setText(new SimpleDateFormat("dd HH:mm:ss").format(time));
 
         tvIP.setText(whois);
 
