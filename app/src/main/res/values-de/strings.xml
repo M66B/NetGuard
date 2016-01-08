@@ -22,7 +22,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="menu_invite">Einladung</string>
   <string name="menu_support">Hilfe</string>
   <string name="menu_about">Über</string>
-  <string name="menu_enabled">Enabled</string>
+  <string name="menu_enabled">Aktiviert</string>
   <string name="menu_clear">Bereinigen</string>
   <string name="setting_defaults">Standards</string>
   <string name="setting_whitelist_wifi">WLAN blockieren</string>
@@ -89,7 +89,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="title_allow">Erlauben</string>
   <string name="title_block">Sperren</string>
   <string name="title_log">Blockierter Verkehr</string>
-  <string name="title_log_whois">Whois %1$s</string>
+  <string name="title_log_whois">Wer ist %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Pro-Funktionen</string>
   <string name="title_pro_trial_until">Pro-Funktionen-Testzeitraum bis %1$s</string>

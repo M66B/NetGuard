@@ -23,7 +23,7 @@
   <string name="menu_invite">招待</string>
   <string name="menu_support">サポート</string>
   <string name="menu_about">アプリについて</string>
-  <string name="menu_enabled">Enabled</string>
+  <string name="menu_enabled">有効</string>
   <string name="menu_clear">クリア</string>
   <string name="setting_defaults">デフォルト</string>
   <string name="setting_whitelist_wifi">デフォルトで Wi-Fi をブロック</string>
@@ -93,7 +93,7 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_block">ブロック</string>
   <string name="title_log">ブロックされたトラフィック</string>
   <string name="title_log_whois">Whois %1$s</string>
-  <string name="title_log_port">Port %1$d</string>
+  <string name="title_log_port">ポート %1$d</string>
   <string name="title_pro">Pro版の機能</string>
   <string name="title_pro_trial_until">プロ版機能の試用は %1$s まで</string>
   <string name="title_pro_trial_ended">プロ版機能の試用期間は終了しました</string>
