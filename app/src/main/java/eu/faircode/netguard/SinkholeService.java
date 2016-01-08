@@ -56,6 +56,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
@@ -595,8 +596,10 @@ public class SinkholeService extends VpnService {
         // Update metered state
         if (wifi && (!useMetered || !telephony))
             metered = false;
-        if (wifi && ssidHomes.size() > 0 && !ssidHomes.contains(ssidNetwork))
+        if (wifi && ssidHomes.size() > 0 && !ssidHomes.contains(ssidNetwork)) {
             metered = true;
+            Log.i(TAG, "Not at home");
+        }
         if (unmetered_2g && "2G".equals(generation))
             metered = false;
         if (unmetered_3g && "3G".equals(generation))
@@ -613,6 +616,8 @@ public class SinkholeService extends VpnService {
 
         Log.i(TAG, "Starting connected=" + last_connected +
                 " wifi=" + wifi +
+                " home=" + TextUtils.join(",", ssidHomes) +
+                " network=" + ssidNetwork +
                 " metered=" + metered +
                 " telephony=" + telephony +
                 " generation=" + generation +
@@ -703,13 +708,22 @@ public class SinkholeService extends VpnService {
                                         "/" + pkt.getDestinationPort() +
                                         " " + pkt.getFlags() +
                                         " " + pkt.getProtocol());
+                                int connection;
+                                if (last_connected)
+                                    if (last_metered)
+                                        connection = 2;
+                                    else
+                                        connection = 1;
+                                else
+                                    connection = 0;
                                 new DatabaseHelper(SinkholeService.this).insertLog(
                                         pkt.version,
                                         pkt.getDestinationAddress().toString(),
                                         pkt.getProtocol(),
                                         pkt.getDestinationPort(),
                                         pkt.getFlags(),
-                                        pkt.getUid()).close();
+                                        pkt.getUid(),
+                                        connection).close();
                             }
                         } catch (Throwable ex) {
                             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));

@@ -24,6 +24,7 @@ public class LogAdapter extends CursorAdapter {
     private int colPort;
     private int colFlags;
     private int colUid;
+    private int colConnection;
 
     public LogAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
@@ -34,6 +35,7 @@ public class LogAdapter extends CursorAdapter {
         colPort = cursor.getColumnIndex("port");
         colFlags = cursor.getColumnIndex("flags");
         colUid = cursor.getColumnIndex("uid");
+        colConnection = cursor.getColumnIndex("connection");
     }
 
     @Override
@@ -51,6 +53,7 @@ public class LogAdapter extends CursorAdapter {
         int port = (cursor.isNull(colPort) ? -1 : cursor.getInt(colPort));
         String flags = cursor.getString(colFlags);
         final int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
+        int connection = cursor.getInt(colConnection);
 
         final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
 
@@ -62,6 +65,7 @@ public class LogAdapter extends CursorAdapter {
         TextView tvPort = (TextView) view.findViewById(R.id.tvPort);
         TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
+        ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
 
         // Application icon
         ApplicationInfo info = null;
@@ -95,5 +99,10 @@ public class LogAdapter extends CursorAdapter {
         tvPort.setText(port < 0 ? "" : Integer.toString(port));
         tvFlags.setText(flags);
         tvUid.setText(uid < 0 ? "" : uid == 0 ? "root" : Integer.toString(uid % 100000));
+
+        if (connection == 0)
+            ivConnection.setImageDrawable(null);
+        else
+            ivConnection.setImageResource(connection == 1 ? R.drawable.wifi : R.drawable.other);
     }
 }
