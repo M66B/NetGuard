@@ -105,7 +105,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="title_pro_bought">Abilitato</string>
   <string name="title_pro_challenge">Domanda di verifica</string>
   <string name="title_pro_reponse">Risposta</string>
-  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>foglia di tè/arancione</item>
     <item>blu/arancione</item>

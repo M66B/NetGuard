@@ -100,7 +100,6 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_pro_bought">Куплено</string>
   <string name="title_pro_challenge">Задание</string>
   <string name="title_pro_reponse">Ответ</string>
-  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>бирюзовый/оранжевый</item>
     <item>синий/оранжевый</item>

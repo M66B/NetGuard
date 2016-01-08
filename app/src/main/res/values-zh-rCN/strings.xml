@@ -103,7 +103,6 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="title_pro_bought">已启用</string>
   <string name="title_pro_challenge">验证口令</string>
   <string name="title_pro_reponse">验证应答</string>
-  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>蓝绿色/橙色</item>
     <item>蓝色/橙色</item>

@@ -103,7 +103,6 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="title_pro_bought">Activat</string>
   <string name="title_pro_challenge">Intrebare de verificare</string>
   <string name="title_pro_reponse">Raspuns</string>
-  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>verde albastrui/portocaliu</item>
     <item>albastru/portocaliu</item>

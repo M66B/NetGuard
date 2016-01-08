@@ -103,7 +103,6 @@ Ponieważ NetGuard nie ma zezwolenia na dostęp do Internetu, masz pewność, ż
   <string name="title_pro_bought">Włączone</string>
   <string name="title_pro_challenge">Wezwanie</string>
   <string name="title_pro_reponse">Odpowiedź</string>
-  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>teal/orange</item>
     <item>blue/orange</item>

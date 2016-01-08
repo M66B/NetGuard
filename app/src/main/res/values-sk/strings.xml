@@ -103,7 +103,6 @@ Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemô�
   <string name="title_pro_bought">Enabled</string>
   <string name="title_pro_challenge">Challenge</string>
   <string name="title_pro_reponse">Response</string>
-  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>teal/orange</item>
     <item>blue/orange</item>

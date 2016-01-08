@@ -103,7 +103,6 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>
   <string name="title_pro_reponse">Resposta</string>
-  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>verde-azulado/laranja</item>
     <item>azul/laranja</item>

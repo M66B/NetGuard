@@ -103,7 +103,6 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_pro_bought">有効</string>
   <string name="title_pro_challenge">チャレンジ</string>
   <string name="title_pro_reponse">応答</string>
-  <string name="title_pro_donate">See <a href="http://www.netguard.me/">here</a> for other ways to get the pro features</string>
   <string-array name="themeNames">
     <item>ティール/オレンジ</item>
     <item>ブルー/オレンジ</item>
