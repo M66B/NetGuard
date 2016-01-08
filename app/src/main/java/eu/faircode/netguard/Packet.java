@@ -25,32 +25,62 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.Scanner;
 
-public class IPv4Packet {
+public class Packet {
     private static final String TAG = "NetGuard.Packet";
 
     private ByteBuffer packet;
+
+    public int version;
     public IPv4Header IPv4;
-    public UDPHeader UDP = null;
+    public IPv6Header IPv6;
+    public Packet.UDP UDP = null;
     public TCP TCP = null;
 
-    private IPv4Packet() {
+    public static class Protocol {
+        // https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
+        public static final int HOPOPT = 0; // IPv6 Hop-by-Hop Option
+        public static final int ICMP = 1; // Internet Control Message Protocol
+        public static final int IGMP = 2; // Internet Group Management Protocol
+        public static final int TCP = 6; // Transmission Control Protocol
+        public static final int UDP = 17; // User Packet Protocol
+        public static final int ENCAP = 41; // IPv6 encapsulation
+        public static final int OSPF = 89; // Open Shortest Path First
+        public static final int SCTP = 132; // Stream Control Transmission Protocol
     }
 
-    public IPv4Packet(ByteBuffer buffer) throws IOException {
+    private Packet() {
+    }
+
+    public Packet(ByteBuffer buffer) throws IOException {
         packet = buffer;
 
         try {
-            IPv4 = new IPv4Header(buffer);
-            if (IPv4.protocol == IPv4.UDP)
-                UDP = new UDPHeader(buffer);
-            else if (IPv4.protocol == IPv4.TCP)
-                TCP = new TCP(IPv4.sourceAddress, IPv4.destinationAddress, buffer);
-            else
-                throw new IOException("Unsupported protocol=" + IPv4.protocol);
+            // Peek version
+            int pos = buffer.position();
+            this.version = (buffer.get() >> 4);
+            buffer.position(pos);
+
+            if (this.version == 4) {
+                IPv4 = new IPv4Header(buffer);
+                if (IPv4.protocol == Protocol.UDP)
+                    UDP = new UDP(buffer);
+                else if (IPv4.protocol == Protocol.TCP)
+                    TCP = new TCP(this.version, IPv4.sourceAddress, IPv4.destinationAddress, buffer);
+
+            } else if (this.version == 6) {
+                IPv6 = new IPv6Header(buffer);
+                if (IPv6.nextHeader == Protocol.UDP)
+                    UDP = new UDP(buffer);
+                else if (IPv6.nextHeader == Protocol.TCP)
+                    TCP = new TCP(this.version, IPv6.sourceAddress, IPv6.destinationAddress, buffer);
+
+            } else
+                throw new IOException("Unknown version=" + this.version);
         } catch (IOException ex) {
             throw new IOException(ex.toString() + " " + this);
         }
@@ -58,7 +88,11 @@ public class IPv4Packet {
 
     public void validate() throws IOException {
         try {
-            IPv4.validate();
+            if (version == 4)
+                IPv4.validate();
+            else if (version == 6)
+                IPv6.validate();
+
             if (this.UDP != null)
                 this.UDP.validate();
             if (this.TCP != null)
@@ -89,6 +123,45 @@ public class IPv4Packet {
         byte[] r = new byte[this.packet.limit()];
         this.packet.get(r);
         out.write(r);
+    }
+
+    public InetAddress getDestinationAddress() {
+        if (this.version == 4)
+            return this.IPv4.destinationAddress;
+        else
+            return this.IPv6.destinationAddress;
+    }
+
+    public int getProtocol() {
+        if (this.version == 4)
+            return this.IPv4.protocol;
+        else
+            return this.IPv6.nextHeader;
+    }
+
+    public int getDestinationPort() {
+        if (this.TCP != null)
+            return this.TCP.destinationPort;
+        else if (this.UDP != null)
+            return this.UDP.destinationPort;
+        return -1;
+    }
+
+    public String getFlags() {
+        String flags = "";
+        if (this.TCP != null) {
+            if (this.TCP.SYN)
+                flags += "S";
+            if (this.TCP.ACK)
+                flags += "A";
+            if (this.TCP.PSH)
+                flags += "P";
+            if (this.TCP.FIN)
+                flags += "F";
+            if (this.TCP.RST)
+                flags += "R";
+        }
+        return flags;
     }
 
     public String toShortString() {
@@ -150,14 +223,6 @@ public class IPv4Packet {
         public byte[] options;
 
         public int calculatedHeaderChecksum;
-
-        public static final int ICMP = 1; // Internet Control Message Protocol
-        public static final int IGMP = 2; // Internet Group Management Protocol
-        public static final int TCP = 6; // Transmission Control Protocol
-        public static final int UDP = 17; // User Packet Protocol
-        public static final int ENCAP = 41; // IPv6 encapsulation
-        public static final int OSPF = 89; // Open Shortest Path First
-        public static final int SCTP = 132; // Stream Control Transmission Protocol
 
         private IPv4Header(int protocol, InetAddress sourceAddress, InetAddress destinationAddress) {
             this.version = 4;
@@ -279,14 +344,40 @@ public class IPv4Packet {
         }
     }
 
+    // https://en.wikipedia.org/wiki/IPv6_packet
+    public static class IPv6Header {
+        public int nextHeader;
+        public InetAddress sourceAddress;
+        public InetAddress destinationAddress;
+
+        public IPv6Header(ByteBuffer buffer) throws IOException {
+            int pos = buffer.position();
+            buffer.position(pos + 6);
+            nextHeader = buffer.get() & 0xFF;
+
+            buffer.position(pos + 8);
+            byte[] sourceBytes = new byte[16];
+            buffer.get(sourceBytes, 0, 16);
+            sourceAddress = Inet6Address.getByAddress(sourceBytes);
+
+            buffer.position(pos + 24);
+            byte[] destinationBytes = new byte[16];
+            buffer.get(destinationBytes, 0, 16);
+            destinationAddress = Inet6Address.getByAddress(destinationBytes);
+        }
+
+        public void validate() throws IOException {
+        }
+    }
+
     // https://en.wikipedia.org/wiki/User_Datagram_Protocol
-    public class UDPHeader {
+    public static class UDP {
         public int sourcePort;
         public int destinationPort;
         public int length;
         public int checksum;
 
-        public UDPHeader(ByteBuffer buffer) {
+        public UDP(ByteBuffer buffer) {
             int pos = buffer.position();
 
             this.sourcePort = buffer.getShort() & 0xFFFF;
@@ -334,7 +425,7 @@ public class IPv4Packet {
             this.options = new byte[0];
         }
 
-        public TCP(InetAddress source, InetAddress destination, ByteBuffer buffer) {
+        public TCP(int version, InetAddress source, InetAddress destination, ByteBuffer buffer) {
             int pos = buffer.position();
 
             this.sourcePort = buffer.getShort() & 0xFFFF;
@@ -370,17 +461,19 @@ public class IPv4Packet {
             buffer.putShort(pos + 16, (short) 0);
 
             // pseudo header
-            ByteBuffer cc = ByteBuffer.allocate(12 + buffer.position() - pos);
-            cc.put(source.getAddress());
-            cc.put(destination.getAddress());
-            cc.put((byte) 0);
-            cc.put((byte) 6);
-            cc.putShort((short) (buffer.position() - pos));
-            // TODO: combine two checksums
-            for (int i = pos; i < buffer.position(); i++)
-                cc.put(buffer.get(i));
+            if (version == 4) {
+                ByteBuffer cc = ByteBuffer.allocate(12 + buffer.position() - pos);
+                cc.put(source.getAddress());
+                cc.put(destination.getAddress());
+                cc.put((byte) 0);
+                cc.put((byte) 6);
+                cc.putShort((short) (buffer.position() - pos));
+                // TODO: combine two checksums
+                for (int i = pos; i < buffer.position(); i++)
+                    cc.put(buffer.get(i));
 
-            this.calculatedChecksum = Util.getChecksum(cc, 0, cc.limit());
+                this.calculatedChecksum = Util.getChecksum(cc, 0, cc.limit());
+            }
         }
 
         private int getFlagValue() {
@@ -516,19 +609,21 @@ public class IPv4Packet {
             return -1;
 
         StringBuilder addr = new StringBuilder();
-        byte[] b = this.IPv4.sourceAddress.getAddress();
+        byte[] b = (this.version == 4 ? this.IPv4.sourceAddress.getAddress() : this.IPv6.sourceAddress.getAddress());
         for (int i = b.length - 1; i >= 0; i--)
             addr.append(String.format("%02X", b[i]));
 
         String port = String.format("%04X", this.TCP == null ? this.UDP.sourcePort : this.TCP.sourcePort);
 
-        int uid = scanUid("0000000000000000FFFF0000" + addr.toString() + ":" + port, this.TCP == null ? "/proc/net/udp6" : "/proc/net/tcp6");
-        if (uid < 0)
-            uid = scanUid(addr.toString() + ":" + port, this.TCP == null ? "/proc/net/udp" : "/proc/net/tcp");
-        if (uid < 0 && this.UDP != null)
-            uid = scanUid("00000000:" + port, "/proc/net/udp");
-
-        // IPv6 5014002A010C13400000000084000000 = 2a00:1450:4013:c01::84
+        int uid = 0;
+        if (this.version == 4) {
+            uid = scanUid("0000000000000000FFFF0000" + addr.toString() + ":" + port, this.TCP == null ? "/proc/net/udp6" : "/proc/net/tcp6");
+            if (uid < 0)
+                uid = scanUid(addr.toString() + ":" + port, this.TCP == null ? "/proc/net/udp" : "/proc/net/tcp");
+            if (uid < 0 && this.UDP != null)
+                uid = scanUid("00000000:" + port, "/proc/net/udp");
+        } else
+            uid = scanUid(addr.toString() + ":" + port, this.TCP == null ? "/proc/net/udp6" : "/proc/net/tcp6");
 
         return uid;
     }

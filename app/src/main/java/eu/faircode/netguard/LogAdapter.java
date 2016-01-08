@@ -81,23 +81,19 @@ public class LogAdapter extends CursorAdapter {
 
         // Set values
         tvTime.setText(new SimpleDateFormat("dd HH:mm:ss").format(time));
-
         tvIP.setText(whois);
 
-        if (version == 4)
-            if (protocol == IPv4Packet.IPv4Header.ICMP)
-                tvProtocol.setText("I");
-            else if (protocol == IPv4Packet.IPv4Header.TCP)
-                tvProtocol.setText("T");
-            else if (protocol == IPv4Packet.IPv4Header.UDP)
-                tvProtocol.setText("U");
-            else
-                tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
+        if (protocol == Packet.Protocol.ICMP)
+            tvProtocol.setText("I");
+        else if (protocol == Packet.Protocol.TCP)
+            tvProtocol.setText("T");
+        else if (protocol == Packet.Protocol.UDP)
+            tvProtocol.setText("U");
         else
-            tvProtocol.setText("");
+            tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
 
         tvPort.setText(port < 0 ? "" : Integer.toString(port));
         tvFlags.setText(flags);
-        tvUid.setText(uid < 0 ? "" : Integer.toString(uid % 100000));
+        tvUid.setText(uid < 0 ? "" : uid == 0 ? "root" : Integer.toString(uid % 100000));
     }
 }
