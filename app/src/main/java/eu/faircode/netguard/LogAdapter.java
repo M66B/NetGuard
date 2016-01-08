@@ -58,14 +58,29 @@ public class LogAdapter extends CursorAdapter {
         final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
 
         // Get views
-        ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
-        TextView tvIP = (TextView) view.findViewById(R.id.tvIP);
         TextView tvProtocol = (TextView) view.findViewById(R.id.tvProtocol);
         TextView tvPort = (TextView) view.findViewById(R.id.tvPort);
         TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
+        ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
         ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
+        TextView tvIP = (TextView) view.findViewById(R.id.tvIP);
+
+        // Set values
+        tvTime.setText(new SimpleDateFormat("dd HH:mm:ss").format(time));
+
+        if (protocol == Packet.Protocol.ICMP)
+            tvProtocol.setText("I");
+        else if (protocol == Packet.Protocol.TCP)
+            tvProtocol.setText("T");
+        else if (protocol == Packet.Protocol.UDP)
+            tvProtocol.setText("U");
+        else
+            tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
+
+        tvPort.setText(port < 0 ? "" : Integer.toString(port));
+        tvFlags.setText(flags);
 
         // Application icon
         ApplicationInfo info = null;
@@ -83,26 +98,13 @@ public class LogAdapter extends CursorAdapter {
             Picasso.with(context).load(uri).into(ivIcon);
         }
 
-        // Set values
-        tvTime.setText(new SimpleDateFormat("dd HH:mm:ss").format(time));
-        tvIP.setText(whois);
-
-        if (protocol == Packet.Protocol.ICMP)
-            tvProtocol.setText("I");
-        else if (protocol == Packet.Protocol.TCP)
-            tvProtocol.setText("T");
-        else if (protocol == Packet.Protocol.UDP)
-            tvProtocol.setText("U");
-        else
-            tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
-
-        tvPort.setText(port < 0 ? "" : Integer.toString(port));
-        tvFlags.setText(flags);
         tvUid.setText(uid < 0 ? "" : uid == 0 ? "root" : Integer.toString(uid % 100000));
 
         if (connection == 0)
             ivConnection.setImageDrawable(null);
         else
             ivConnection.setImageResource(connection == 1 ? R.drawable.wifi : R.drawable.other);
+
+        tvIP.setText(whois);
     }
 }
