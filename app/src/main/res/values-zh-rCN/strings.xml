@@ -23,7 +23,7 @@
   <string name="menu_invite">邀请</string>
   <string name="menu_support">软件支持</string>
   <string name="menu_about">关于</string>
-  <string name="menu_enabled">Enabled</string>
+  <string name="menu_enabled">已启用</string>
   <string name="menu_clear">清除</string>
   <string name="setting_defaults">默认</string>
   <string name="setting_whitelist_wifi">默认阻止Wi-Fi网络</string>
@@ -93,7 +93,7 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="title_block">阻止</string>
   <string name="title_log">被拦截流量</string>
   <string name="title_log_whois">Whois %1$s</string>
-  <string name="title_log_port">Port %1$d</string>
+  <string name="title_log_port">端口 %1$d</string>
   <string name="title_pro">专业版功能</string>
   <string name="title_pro_trial_until">专业版功能试用截止至 %1$s</string>
   <string name="title_pro_trial_ended">专业版试用期已结束</string>
