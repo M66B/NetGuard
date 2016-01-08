@@ -88,6 +88,8 @@ NetGuard не має дозволу до інтернет доступу, том
   <string name="title_allow">Дозволити</string>
   <string name="title_block">Блокувати</string>
   <string name="title_log">Blocked traffic</string>
+  <string name="title_log_whois">Whois %1$s</string>
+  <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Pro можливості</string>
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>

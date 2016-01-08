@@ -101,9 +101,9 @@ public class ActivityLog extends AppCompatActivity {
                 if (uid > 0)
                     popup.getMenu().add(Menu.NONE, 1, 1, name == null ? Integer.toString(uid) : name);
                 if (!TextUtils.isEmpty(whois) && getPackageManager().resolveActivity(lookupIP, 0) != null)
-                    popup.getMenu().add(Menu.NONE, 2, 2, "Whois " + whois);
+                    popup.getMenu().add(Menu.NONE, 2, 2, getString(R.string.title_log_whois, whois));
                 if (port > 0 && getPackageManager().resolveActivity(lookupPort, 0) != null)
-                    popup.getMenu().add(Menu.NONE, 3, 3, "Port " + port);
+                    popup.getMenu().add(Menu.NONE, 3, 3, getString(R.string.title_log_port, port));
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
