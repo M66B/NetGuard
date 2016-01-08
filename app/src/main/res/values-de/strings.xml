@@ -88,7 +88,6 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="title_allow">Erlauben</string>
   <string name="title_block">Sperren</string>
   <string name="title_log">Blockierter Verkehr</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Pro-Funktionen</string>
   <string name="title_pro_trial_until">Pro-Funktionen-Testzeitraum bis %1$s</string>
   <string name="title_pro_trial_ended">Pro-Funktionen-Testzeitraum abgelaufen</string>

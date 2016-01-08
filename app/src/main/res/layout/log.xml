@@ -16,42 +16,47 @@
         android:id="@+id/tvTime"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="4dp"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
     <TextView
         android:id="@+id/tvProtocol"
-        android:layout_width="30dp"
+        android:layout_width="8dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
     <TextView
         android:id="@+id/tvPort"
-        android:layout_width="45dp"
+        android:layout_width="44dp"
         android:layout_height="wrap_content"
-        android:textAlignment="textEnd"
+        android:layout_gravity="center_vertical"
+        android:gravity="end"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
     <TextView
         android:id="@+id/tvFlags"
-        android:layout_width="30dp"
+        android:layout_width="32dp"
         android:layout_height="wrap_content"
-        android:textAlignment="textEnd"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="4dp"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
     <TextView
         android:id="@+id/tvUid"
-        android:layout_width="45dp"
+        android:layout_width="44dp"
         android:layout_height="wrap_content"
-        android:textAlignment="textEnd"
+        android:layout_gravity="center_vertical"
+        android:gravity="end"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
     <TextView
         android:id="@+id/tvIP"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginStart="8dp"
         android:layout_weight="1"
-        android:textAppearance="@android:style/TextAppearance.Material.Small"
-        android:textIsSelectable="true" />
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
 </LinearLayout>

@@ -24,6 +24,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
     <string name="menu_support">Support</string>
     <string name="menu_about">About</string>
 
+    <string name="menu_enabled">Enabled</string>
     <string name="menu_clear">Clear</string>
 
     <string name="setting_defaults">Defaults</string>
@@ -103,7 +104,6 @@ Since NetGuard has no internet permission, you know your internet traffic is not
     <string name="title_block">Block</string>
 
     <string name="title_log">Blocked traffic</string>
-    <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
 
     <string name="title_pro">Pro features</string>
     <string name="title_pro_trial_until">Pro features trial until %1$s</string>

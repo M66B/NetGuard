@@ -91,7 +91,6 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_allow">許可</string>
   <string name="title_block">ブロック</string>
   <string name="title_log">ブロックされたトラフィック</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Pro版の機能</string>
   <string name="title_pro_trial_until">プロ版機能の試用は %1$s まで</string>
   <string name="title_pro_trial_ended">プロ版機能の試用期間は終了しました</string>

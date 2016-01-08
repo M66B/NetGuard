@@ -91,7 +91,6 @@ Ponieważ NetGuard nie ma zezwolenia na dostęp do Internetu, masz pewność, ż
   <string name="title_allow">Zezwól</string>
   <string name="title_block">Blokuj</string>
   <string name="title_log">Blocked traffic</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Funkcje Pro</string>
   <string name="title_pro_trial_until">Okres próbny funkcji Pro %1$s</string>
   <string name="title_pro_trial_ended">Okres próbny funkcji Pro zakończony</string>

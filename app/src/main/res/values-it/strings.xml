@@ -93,7 +93,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="title_allow">Permetti</string>
   <string name="title_block">Blocca</string>
   <string name="title_log">Traffico bloccato</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Funzionalità a pagamento</string>
   <string name="title_pro_trial_until">Funzionalità a pagamento in prova fino a %1$s</string>
   <string name="title_pro_trial_ended">Periodo di prova delle funzionalità a pagamento terminato</string>

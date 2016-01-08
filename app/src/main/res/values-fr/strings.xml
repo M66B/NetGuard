@@ -91,7 +91,6 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
   <string name="title_allow">Autoriser</string>
   <string name="title_block">Bloquer</string>
   <string name="title_log">Trafic bloqué</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Fonctionnalités Pro</string>
   <string name="title_pro_trial_until">Essai des fonctionnalités Pro jusqu\'à %1$s</string>
   <string name="title_pro_trial_ended">Fin de la période d\'essai des fonctionnalités Pro</string>

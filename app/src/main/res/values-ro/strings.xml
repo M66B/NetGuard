@@ -91,7 +91,6 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="title_allow">Permite</string>
   <string name="title_block">Blocheaza</string>
   <string name="title_log">Trafic blocat</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Caracteristici versiune Pro</string>
   <string name="title_pro_trial_until">Perioada de testare a caracteristicilor versiunii Pro pana pe %1$s</string>
   <string name="title_pro_trial_ended">Perioada de testare a caracteristicilor versiunii Pro s-a incheiat</string>

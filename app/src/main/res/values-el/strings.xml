@@ -87,7 +87,6 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_allow">Allow</string>
   <string name="title_block">Block</string>
   <string name="title_log">Blocked traffic</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Pro features</string>
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>

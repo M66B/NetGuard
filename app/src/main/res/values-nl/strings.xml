@@ -91,7 +91,6 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_allow">Toestaan</string>
   <string name="title_block">Blokkeren</string>
   <string name="title_log">Geblokkeerd verkeer</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Pro functies</string>
   <string name="title_pro_trial_until">Pro functies op proef tot %1$s</string>
   <string name="title_pro_trial_ended">Pro functies proefperiode is beëindigd</string>

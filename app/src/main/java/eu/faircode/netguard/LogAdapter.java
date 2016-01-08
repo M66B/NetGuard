@@ -1,12 +1,10 @@
 package eu.faircode.netguard;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +73,7 @@ public class LogAdapter extends CursorAdapter {
             } catch (PackageManager.NameNotFoundException ignored) {
             }
         if (info == null || info.icon == 0)
-            Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
+            ivIcon.setImageDrawable(null);
         else {
             Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
             Picasso.with(context).load(uri).into(ivIcon);
@@ -89,11 +87,11 @@ public class LogAdapter extends CursorAdapter {
 
         if (version == 4)
             if (protocol == IPv4Packet.IPv4Header.ICMP)
-                tvProtocol.setText("ICMP");
+                tvProtocol.setText("I");
             else if (protocol == IPv4Packet.IPv4Header.TCP)
-                tvProtocol.setText("TCP");
+                tvProtocol.setText("T");
             else if (protocol == IPv4Packet.IPv4Header.UDP)
-                tvProtocol.setText("UDP");
+                tvProtocol.setText("U");
             else
                 tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
         else
@@ -102,27 +100,5 @@ public class LogAdapter extends CursorAdapter {
         tvPort.setText(port < 0 ? "" : Integer.toString(port));
         tvFlags.setText(flags);
         tvUid.setText(uid < 0 ? "" : Integer.toString(uid % 100000));
-
-        tvIP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!TextUtils.isEmpty(whois)) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://whois.domaintools.com/" + whois));
-                    if (context.getPackageManager().resolveActivity(intent, 0) != null)
-                        context.startActivity(intent);
-                }
-            }
-        });
-
-        tvUid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (uid > 0) {
-                    Intent main = new Intent(context, ActivityMain.class);
-                    main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
-                    context.startActivity(main);
-                }
-            }
-        });
     }
 }

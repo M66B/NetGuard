@@ -88,7 +88,6 @@
   <string name="title_allow">允許</string>
   <string name="title_block">阻擋</string>
   <string name="title_log">Blocked traffic</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">專業版功能</string>
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>

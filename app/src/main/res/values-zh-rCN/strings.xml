@@ -91,7 +91,6 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="title_allow">允许</string>
   <string name="title_block">阻止</string>
   <string name="title_log">被拦截流量</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">专业版功能</string>
   <string name="title_pro_trial_until">专业版功能试用截止至 %1$s</string>
   <string name="title_pro_trial_ended">专业版试用期已结束</string>

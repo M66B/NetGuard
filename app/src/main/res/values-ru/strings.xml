@@ -88,7 +88,6 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_allow">Разрешить</string>
   <string name="title_block">Блокировать</string>
   <string name="title_log">Заблокированный трафик</string>
-  <string name="title_log_info">Tap on the uid to view the application details\nTap on the IP address to lookup the IP address</string>
   <string name="title_pro">Pro-функции</string>
   <string name="title_pro_trial_until">Pro-функции пробного периода до %1$s</string>
   <string name="title_pro_trial_ended">Pro-функции пробного периода закончились</string>

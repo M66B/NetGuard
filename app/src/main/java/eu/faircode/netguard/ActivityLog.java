@@ -20,16 +20,29 @@ package eu.faircode.netguard;
 */
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 public class ActivityLog extends AppCompatActivity {
     private ListView lvLog;
+    private LogAdapter adapter;
     private DatabaseHelper dh;
 
     private DatabaseHelper.LogChangedListener listener = new DatabaseHelper.LogChangedListener() {
@@ -38,7 +51,7 @@ public class ActivityLog extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    LogAdapter adapter = new LogAdapter(ActivityLog.this, dh.getLog());
+                    adapter = new LogAdapter(ActivityLog.this, dh.getLog());
                     lvLog.setAdapter(adapter);
                 }
             });
@@ -57,12 +70,56 @@ public class ActivityLog extends AppCompatActivity {
         dh = new DatabaseHelper(this);
 
         lvLog = (ListView) findViewById(R.id.lvLog);
-        LogAdapter adapter = new LogAdapter(this, dh.getLog());
+
+        adapter = new LogAdapter(this, dh.getLog());
         lvLog.setAdapter(adapter);
 
-        DatabaseHelper.addLogChangedListener(listener);
+        lvLog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor cursor = (Cursor) adapter.getItem(position);
+                String ip = cursor.getString(cursor.getColumnIndex("ip"));
+                final int uid = (cursor.isNull(cursor.getColumnIndex("uid")) ? -1 : cursor.getInt(cursor.getColumnIndex("uid")));
+                final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
 
-        Toast.makeText(this, getString(R.string.title_log_info), Toast.LENGTH_SHORT).show();
+                String name = null;
+                PackageManager pm = getPackageManager();
+                String[] pkg = pm.getPackagesForUid(uid);
+                if (pkg != null && pkg.length > 0)
+                    try {
+                        ApplicationInfo info = pm.getApplicationInfo(pkg[0], 0);
+                        name = pm.getApplicationLabel(info).toString();
+                    } catch (PackageManager.NameNotFoundException ignored) {
+                    }
+
+                PopupMenu popup = new PopupMenu(ActivityLog.this, findViewById(R.id.vwPopupAnchor), Gravity.CENTER);
+
+                if (uid > 0)
+                    popup.getMenu().add(Menu.NONE, 1, 1, name == null ? Integer.toString(uid) : name);
+                if (!TextUtils.isEmpty(whois))
+                    popup.getMenu().add(Menu.NONE, 2, 2, "Whois " + whois);
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if (menuItem.getItemId() == 1) {
+                            Intent main = new Intent(ActivityLog.this, ActivityMain.class);
+                            main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
+                            startActivity(main);
+                        } else if (menuItem.getItemId() == 2) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://whois.domaintools.com/" + whois));
+                            if (getPackageManager().resolveActivity(intent, 0) != null)
+                                startActivity(intent);
+                        }
+                        return false;
+                    }
+                });
+
+                popup.show();
+            }
+        });
+
+        DatabaseHelper.addLogChangedListener(listener);
     }
 
     @Override
@@ -76,12 +133,23 @@ public class ActivityLog extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.log, menu);
-
         return true;
+    }
+
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        menu.findItem(R.id.menu_enabled).setChecked(prefs.getBoolean("log", true));
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_enabled:
+                item.setChecked(!item.isChecked());
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                prefs.edit().putBoolean("log", item.isChecked()).apply();
+                SinkholeService.reload(null, "setting changed", this);
+                return true;
             case R.id.menu_clear:
                 dh.clear();
                 return true;
