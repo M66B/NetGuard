@@ -205,6 +205,9 @@ public class Packet {
 
     // https://en.wikipedia.org/wiki/IPv4#Packet_structure
     public static class IPv4Header {
+        private ByteBuffer buf;
+        private int pos;
+
         public byte version;
         public byte IHL; // 32-bit words
         public byte DSCP; //  Type of service
@@ -243,7 +246,8 @@ public class Packet {
         }
 
         public IPv4Header(ByteBuffer buffer) throws IOException {
-            int pos = buffer.position();
+            this.buf = buffer;
+            this.pos = buffer.position();
 
             int b = buffer.get();
             this.version = (byte) (b >> 4);
@@ -281,9 +285,6 @@ public class Packet {
             this.options = new byte[optionsLength];
             if (optionsLength > 0)
                 buffer.get(this.options);
-
-            buffer.putShort(pos + 10, (short) 0);
-            this.calculatedHeaderChecksum = Util.getChecksum(buffer, pos, buffer.position() - pos);
         }
 
         private int getFlags() {
@@ -316,6 +317,9 @@ public class Packet {
                 throw new IOException("IP: Invalid total length");
             if (this.reserved != 0)
                 throw new IOException("IP: Reserved not zero");
+
+            this.buf.putShort(this.pos + 10, (short) 0);
+            this.calculatedHeaderChecksum = Util.getChecksum(this.buf, this.pos, this.buf.position() - this.pos);
             if (this.headerChecksum != this.calculatedHeaderChecksum)
                 throw new IOException(("IP: Invalid header checksum"));
         }
@@ -346,21 +350,28 @@ public class Packet {
 
     // https://en.wikipedia.org/wiki/IPv6_packet
     public static class IPv6Header {
+        private ByteBuffer buf;
+        private int pos;
+
         public int nextHeader;
         public InetAddress sourceAddress;
         public InetAddress destinationAddress;
 
         public IPv6Header(ByteBuffer buffer) throws IOException {
-            int pos = buffer.position();
-            buffer.position(pos + 6);
+            this.buf = buffer;
+            this.pos = buffer.position();
+
+            // Quick & dirty implementation
+
+            buffer.position(this.pos + 6);
             nextHeader = buffer.get() & 0xFF;
 
-            buffer.position(pos + 8);
+            buffer.position(this.pos + 8);
             byte[] sourceBytes = new byte[16];
             buffer.get(sourceBytes, 0, 16);
             sourceAddress = Inet6Address.getByAddress(sourceBytes);
 
-            buffer.position(pos + 24);
+            buffer.position(this.pos + 24);
             byte[] destinationBytes = new byte[16];
             buffer.get(destinationBytes, 0, 16);
             destinationAddress = Inet6Address.getByAddress(destinationBytes);
@@ -372,13 +383,17 @@ public class Packet {
 
     // https://en.wikipedia.org/wiki/User_Datagram_Protocol
     public static class UDP {
+        private ByteBuffer buf;
+        private int pos;
+
         public int sourcePort;
         public int destinationPort;
         public int length;
         public int checksum;
 
         public UDP(ByteBuffer buffer) {
-            int pos = buffer.position();
+            this.buf = buffer;
+            this.pos = buffer.position();
 
             this.sourcePort = buffer.getShort() & 0xFFFF;
             this.destinationPort = buffer.getShort() & 0xFFFF;
@@ -392,6 +407,12 @@ public class Packet {
 
     // https://en.wikipedia.org/wiki/Transmission_Control_Protocol
     public static class TCP {
+        private int version;
+        private InetAddress source;
+        private InetAddress destination;
+        private ByteBuffer buf;
+        private int pos;
+
         public int sourcePort;
         public int destinationPort;
         public long sequenceNumber;
@@ -426,7 +447,11 @@ public class Packet {
         }
 
         public TCP(int version, InetAddress source, InetAddress destination, ByteBuffer buffer) {
-            int pos = buffer.position();
+            this.version = version;
+            this.source = source;
+            this.destination = destination;
+            this.buf = buffer;
+            this.pos = buffer.position();
 
             this.sourcePort = buffer.getShort() & 0xFFFF;
             this.destinationPort = buffer.getShort() & 0xFFFF;
@@ -457,23 +482,6 @@ public class Packet {
 
             this.data = new byte[buffer.limit() - buffer.position()];
             buffer.get(this.data);
-
-            buffer.putShort(pos + 16, (short) 0);
-
-            // pseudo header
-            if (version == 4) {
-                ByteBuffer cc = ByteBuffer.allocate(12 + buffer.position() - pos);
-                cc.put(source.getAddress());
-                cc.put(destination.getAddress());
-                cc.put((byte) 0);
-                cc.put((byte) 6);
-                cc.putShort((short) (buffer.position() - pos));
-                // TODO: combine two checksums
-                for (int i = pos; i < buffer.position(); i++)
-                    cc.put(buffer.get(i));
-
-                this.calculatedChecksum = Util.getChecksum(cc, 0, cc.limit());
-            }
         }
 
         private int getFlagValue() {
@@ -515,8 +523,8 @@ public class Packet {
             buffer.put(this.data);
 
             ByteBuffer cc = ByteBuffer.allocate(12 + buffer.position() - pos);
-            cc.put(source.getAddress());
-            cc.put(destination.getAddress());
+            cc.put(this.source.getAddress());
+            cc.put(this.destination.getAddress());
             cc.put((byte) 0); // reserved
             cc.put((byte) 6); // protocol=TCP
             cc.putShort((short) (buffer.position() - pos));
@@ -533,6 +541,23 @@ public class Packet {
                 throw new IOException("TCP: Invalid data offset");
             if (this.reserved != 0)
                 throw new IOException("TCP: Reserved not zero");
+
+            // pseudo header
+            if (version == 4) {
+                this.buf.putShort(this.pos + 16, (short) 0);
+
+                ByteBuffer cc = ByteBuffer.allocate(12 + this.buf.position() - this.pos);
+                cc.put(source.getAddress());
+                cc.put(destination.getAddress());
+                cc.put((byte) 0);
+                cc.put((byte) 6);
+                cc.putShort((short) (this.buf.position() - this.pos));
+                // TODO: combine two checksums
+                for (int i = this.pos; i < this.buf.position(); i++)
+                    cc.put(this.buf.get(i));
+
+                this.calculatedChecksum = Util.getChecksum(cc, 0, cc.limit());
+            }
             if (this.checksum != this.calculatedChecksum)
                 throw new IOException(("TCP: Invalid checksum"));
         }
@@ -652,7 +677,7 @@ public class Packet {
         return -1;
     }
 
-    private void dump(String name) {
+    private void dumpProc(String name) {
         File file = new File(name);
         Scanner scanner = null;
         try {
