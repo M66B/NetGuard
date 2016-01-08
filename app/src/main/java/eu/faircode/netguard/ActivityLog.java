@@ -107,7 +107,7 @@ public class ActivityLog extends AppCompatActivity {
                             main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
                             startActivity(main);
                         } else if (menuItem.getItemId() == 2) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://whois.domaintools.com/" + whois));
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + whois));
                             if (getPackageManager().resolveActivity(intent, 0) != null)
                                 startActivity(intent);
                         }
