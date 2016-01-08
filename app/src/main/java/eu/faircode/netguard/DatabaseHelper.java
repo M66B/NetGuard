@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     private static List<LogChangedListener> logChangedListeners = new ArrayList<LogChangedListener>();
 
@@ -40,6 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", version INTEGER NULL" +
                 ", ip TEXT" +
                 ", protocol INTEGER NULL" +
+                ", port INTEGER NULL" +
+                ", flags TEXT" +
                 ", uid INTEGER NULL" +
                 ");");
         db.execSQL("CREATE INDEX idx_log_time ON log(time)");
@@ -57,6 +59,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("ALTER TABLE log ADD COLUMN uid INTEGER NULL");
                 oldVersion = 2;
             }
+            if (oldVersion < 3) {
+                db.execSQL("ALTER TABLE log ADD COLUMN port INTEGER NULL");
+                db.execSQL("ALTER TABLE log ADD COLUMN flags TEXT");
+                oldVersion = 3;
+            }
 
             db.setVersion(DB_VERSION);
 
@@ -70,7 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Location
 
-    public DatabaseHelper insertLog(int version, String ip, int protocol, int uid) {
+    public DatabaseHelper insertLog(int version, String ip, int protocol, int port, String flags, int uid) {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
@@ -83,6 +90,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cv.putNull("protocol");
             else
                 cv.put("protocol", protocol);
+
+            if (port < 0)
+                cv.putNull("port");
+            else
+                cv.put("port", port);
+
+            cv.put("flags", flags);
 
             if (uid < 0)
                 cv.putNull("uid");

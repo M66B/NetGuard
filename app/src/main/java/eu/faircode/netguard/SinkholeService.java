@@ -699,28 +699,7 @@ public class SinkholeService extends VpnService {
                             int length = in.read(buffer.array());
                             if (length > 0) {
                                 buffer.limit(length);
-
-                                byte version = (byte) (buffer.get() >> 4);
-                                if (version == 4) {
-                                    buffer.position(0);
-                                    IPv4Packet pkt = new IPv4Packet(buffer);
-                                    Log.i(TAG, "Packet to " + pkt.IPv4.destinationAddress.toString());
-                                    new DatabaseHelper(SinkholeService.this).insertLog(
-                                            version,
-                                            pkt.IPv4.destinationAddress.toString(),
-                                            pkt.IPv4.protocol,
-                                            pkt.getUid()).close();
-
-                                } else if (version == 6) {
-                                    buffer.position(24);
-                                    byte[] addressBytes = new byte[16];
-                                    buffer.get(addressBytes, 0, 16);
-                                    InetAddress ina = Inet6Address.getByAddress(addressBytes);
-                                    Log.i(TAG, "Packet to " + ina);
-                                    new DatabaseHelper(SinkholeService.this).insertLog(
-                                            version,
-                                            ina.toString(), -1, -1).close();
-                                }
+                                processPacket(buffer);
                             }
                         } catch (Throwable ex) {
                             Log.e(TAG, ex.toString());
@@ -748,6 +727,57 @@ public class SinkholeService extends VpnService {
             }
         }, getString(R.string.app_name) + " debug");
         receiveThread.start();
+    }
+
+    private void processPacket(ByteBuffer buffer) throws IOException {
+        byte version = (byte) (buffer.get() >> 4);
+        if (version == 4) {
+            buffer.position(0);
+            IPv4Packet pkt = new IPv4Packet(buffer);
+
+            int port = -1;
+            if (pkt.TCP != null)
+                port = pkt.TCP.destinationPort;
+            else if (pkt.UDP != null)
+                port = pkt.UDP.destinationPort;
+
+            String flags = "";
+            if (pkt.TCP != null) {
+                if (pkt.TCP.SYN)
+                    flags += "S";
+                if (pkt.TCP.ACK)
+                    flags += "A";
+                if (pkt.TCP.PSH)
+                    flags += "P";
+                if (pkt.TCP.FIN)
+                    flags += "F";
+                if (pkt.TCP.RST)
+                    flags += "R";
+            }
+
+            Log.i(TAG, "Packet to " + pkt.IPv4.destinationAddress.toString() + ":" + port + " " + flags);
+            new DatabaseHelper(SinkholeService.this).insertLog(
+                    version,
+                    pkt.IPv4.destinationAddress.toString(),
+                    pkt.IPv4.protocol,
+                    port,
+                    flags,
+                    pkt.getUid()).close();
+
+        } else if (version == 6) {
+            buffer.position(24);
+            byte[] addressBytes = new byte[16];
+            buffer.get(addressBytes, 0, 16);
+            InetAddress ina = Inet6Address.getByAddress(addressBytes);
+            Log.i(TAG, "Packet to " + ina);
+            new DatabaseHelper(SinkholeService.this).insertLog(
+                    version,
+                    ina.toString(),
+                    -1,
+                    -1,
+                    "",
+                    -1).close();
+        }
     }
 
     private void stopReceiving() {

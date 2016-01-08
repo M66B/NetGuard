@@ -18,6 +18,8 @@ public class LogAdapter extends CursorAdapter {
     private int colVersion;
     private int colIP;
     private int colProtocol;
+    private int colPort;
+    private int colFlags;
     private int colUid;
 
     public LogAdapter(Context context, Cursor cursor) {
@@ -26,6 +28,8 @@ public class LogAdapter extends CursorAdapter {
         colVersion = cursor.getColumnIndex("version");
         colIP = cursor.getColumnIndex("ip");
         colProtocol = cursor.getColumnIndex("protocol");
+        colPort = cursor.getColumnIndex("port");
+        colFlags = cursor.getColumnIndex("flags");
         colUid = cursor.getColumnIndex("uid");
     }
 
@@ -41,13 +45,18 @@ public class LogAdapter extends CursorAdapter {
         int version = (cursor.isNull(colVersion) ? -1 : cursor.getInt(colVersion));
         String ip = cursor.getString(colIP);
         int protocol = (cursor.isNull(colProtocol) ? -1 : cursor.getInt(colProtocol));
+        int port = (cursor.isNull(colPort) ? -1 : cursor.getInt(colPort));
+        String flags = cursor.getString(colFlags);
         final int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
+
         final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
 
         // Get views
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
         TextView tvIP = (TextView) view.findViewById(R.id.tvIP);
         TextView tvProtocol = (TextView) view.findViewById(R.id.tvProtocol);
+        TextView tvPort = (TextView) view.findViewById(R.id.tvPort);
+        TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
 
         // Set values
@@ -68,6 +77,8 @@ public class LogAdapter extends CursorAdapter {
         else
             tvProtocol.setText("");
 
+        tvPort.setText(port < 0 ? "" : Integer.toString(port));
+        tvFlags.setText(flags);
         tvUid.setText(uid < 0 ? "" : Integer.toString(uid % 100000));
 
         tvIP.setOnClickListener(new View.OnClickListener() {

@@ -14,13 +14,27 @@
 
     <TextView
         android:id="@+id/tvProtocol"
-        android:layout_width="35dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
     <TextView
+        android:id="@+id/tvPort"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+    <TextView
+        android:id="@+id/tvFlags"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+    <TextView
         android:id="@+id/tvUid"
-        android:layout_width="50dp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:textAlignment="textEnd"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
