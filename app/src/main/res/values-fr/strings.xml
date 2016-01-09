@@ -23,7 +23,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="menu_invite">Inviter</string>
   <string name="menu_support">Aide</string>
   <string name="menu_about">À propos</string>
-  <string name="menu_enabled">Enabled</string>
+  <string name="menu_enabled">Activé</string>
   <string name="menu_clear">Effacer</string>
   <string name="setting_defaults">Par défaut</string>
   <string name="setting_whitelist_wifi">Bloquer Wi-Fi</string>
