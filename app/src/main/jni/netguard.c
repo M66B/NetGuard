@@ -1,4 +1,5 @@
 #include <jni.h>
+#include <stdio.h>
 #include <stddef.h>
 #include <malloc.h>
 #include <unistd.h>
@@ -13,6 +14,8 @@
 #define MAXPKT 32768
 
 void decode(JNIEnv *env, jobject instance, jbyte *, int);
+
+void scanproc6(const char *);
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
@@ -108,6 +111,7 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
 
     __android_log_print(ANDROID_LOG_INFO, TAG, "Packet v%d %s/%d -> %s/%d proto %d flags %s",
                         version, source, sport, dest, dport, protocol, flags);
+    //scanproc6("/proc/net/tcp6");
 
     jclass cls = (*env)->GetObjectClass(env, instance);
     jmethodID mid = (*env)->GetMethodID(env, cls, "logPacket",
@@ -119,4 +123,28 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
         (*env)->CallVoidMethod(env, instance, mid,
                                version, jsource, sport, jdest, dport, protocol, jflags);
     }
+}
+
+void scanproc6(const char *file) {
+    char line[500];
+    struct in6_addr *saddr = malloc(sizeof(struct in6_addr));
+    char source[40];
+    int sport;
+    int uid;
+    FILE *fd = fopen(file, "r");
+    if (fd != NULL) {
+        int i = 0;
+        while (fgets(line, 500, fd) != NULL) {
+            if (i++) {
+                sscanf(line,
+                       "%*d: %8X%8X%8X%8X:%X %*X:%*X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld ",
+                       saddr, ((void *) saddr) + 4, ((void *) saddr) + 8, ((void *) saddr) + 12,
+                       &sport, &uid);
+                inet_ntop(AF_INET6, saddr, source, sizeof(source));
+                __android_log_print(ANDROID_LOG_INFO, TAG, "proc %s/%d %d", source, sport, uid);
+            }
+        }
+        fclose(fd);
+    }
+    free(saddr);
 }
