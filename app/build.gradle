@@ -14,10 +14,28 @@ model {
             archivesBaseName = "NetGuard-v$versionName-$versionCode"
         }
     }
+    android.ndk {
+        moduleName = "netguard"
+        toolchain = "clang"
+        ldLibs.add("log")
+    }
+    android.sources {
+        main {
+            jni {
+                source {
+                    srcDir "src/main/jni"
+                }
+            }
+        }
+    }
     android.buildTypes {
         release {
             minifyEnabled = true
             proguardFiles.add(file('proguard-rules.pro'))
+        }
+    }
+    android.productFlavors {
+        create("all") {
         }
     }
 }

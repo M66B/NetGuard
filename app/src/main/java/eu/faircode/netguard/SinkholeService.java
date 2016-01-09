@@ -115,6 +115,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
 
+    private native void jni_init();
+
+    private native void jni_decode(byte[] buffer);
+
+    static {
+        System.loadLibrary("netguard");
+    }
+
     synchronized private static PowerManager.WakeLock getLock(Context context) {
         if (wlInstance == null) {
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -675,6 +683,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
                     ByteBuffer buffer = ByteBuffer.allocate(32767);
                     buffer.order(ByteOrder.BIG_ENDIAN);
+                    byte[] bytes = new byte[buffer.limit()];
 
                     Log.i(TAG, "Start receiving");
                     while (!Thread.currentThread().isInterrupted() &&
@@ -682,8 +691,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             pfd.getFileDescriptor().valid())
                         try {
                             buffer.clear();
-                            int length = in.read(buffer.array());
+                            int length = in.read(bytes);
                             if (length > 0) {
+                                buffer.put(bytes, 0, length);
+                                buffer.position(0);
                                 buffer.limit(length);
 
                                 Packet pkt = new Packet(buffer);
@@ -691,6 +702,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                                         "/" + pkt.getDestinationPort() +
                                         " " + pkt.getFlags() +
                                         " " + pkt.getProtocol());
+                                jni_decode(bytes);
 
                                 int connection;
                                 if (last_connected)
@@ -911,6 +923,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
+
+        // Native
+        jni_init();
     }
 
     @Override
