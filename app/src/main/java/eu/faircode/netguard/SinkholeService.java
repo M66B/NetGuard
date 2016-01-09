@@ -599,8 +599,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             metered = false;
         if (unmetered_4g && "4G".equals(generation))
             metered = false;
-        if (!last_connected)
-            metered = true;
         last_metered = metered;
 
         // Update roaming state
@@ -629,22 +627,23 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         // Add list of allowed applications
         int nAllowed = 0;
         int nBlocked = 0;
-        for (Rule rule : Rule.getRules(true, TAG, this)) {
-            boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
-            boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
-            if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming))) {
-                nAllowed++;
-                if (Util.isDebuggable(this))
-                    Log.i(TAG, "Allowing " + rule.info.packageName);
-                try {
-                    builder.addDisallowedApplication(rule.info.packageName);
-                } catch (PackageManager.NameNotFoundException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, this);
-                }
-            } else
-                nBlocked++;
-        }
+        if (last_connected)
+            for (Rule rule : Rule.getRules(true, TAG, this)) {
+                boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
+                boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
+                if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming))) {
+                    nAllowed++;
+                    if (Util.isDebuggable(this))
+                        Log.i(TAG, "Allowing " + rule.info.packageName);
+                    try {
+                        builder.addDisallowedApplication(rule.info.packageName);
+                    } catch (PackageManager.NameNotFoundException ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        Util.sendCrashReport(ex, this);
+                    }
+                } else
+                    nBlocked++;
+            }
         Log.i(TAG, "Allowed=" + nAllowed + " blocked=" + nBlocked);
 
         // Update notification
@@ -1053,13 +1052,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 .setOngoing(true)
                 .setAutoCancel(false);
 
-        if (allowed > 0 || blocked > 0) {
-            NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
-            notification.bigText(getString(R.string.msg_started));
-            notification.setSummaryText(getString(R.string.msg_packages, allowed, blocked));
-            return notification.build();
-        } else
-            return builder.build();
+        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
+        notification.bigText(getString(R.string.msg_started));
+        notification.setSummaryText(getString(R.string.msg_packages, allowed, blocked));
+        return notification.build();
     }
 
     private Notification getWaitingNotification() {
