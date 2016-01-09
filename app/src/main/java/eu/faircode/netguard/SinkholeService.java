@@ -75,7 +75,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class SinkholeService extends VpnService {
+public class SinkholeService extends VpnService implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Service";
 
     private State state = State.none;
@@ -109,7 +109,7 @@ public class SinkholeService extends VpnService {
 
     private enum State {none, waiting, enforcing, stats}
 
-    public enum Command {run, start, reload, stop, stats, set, theme}
+    public enum Command {run, start, reload, stop, stats, set}
 
     private static volatile PowerManager.WakeLock wlInstance = null;
 
@@ -283,10 +283,6 @@ public class SinkholeService extends VpnService {
 
                     case set:
                         set(intent);
-                        break;
-
-                    case theme:
-                        setTheme(intent);
                         break;
                 }
 
@@ -558,19 +554,6 @@ public class SinkholeService extends VpnService {
             Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
             LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
         }
-    }
-
-    private void setTheme(Intent intent) {
-        Util.setTheme(this);
-        if (state != State.none) {
-            Log.d(TAG, "Stop foreground state=" + state.toString());
-            stopForeground(true);
-        }
-        if (state == State.enforcing)
-            startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
-        else if (state != State.none)
-            startForeground(NOTIFY_WAITING, getWaitingNotification());
-        Log.d(TAG, "Start foreground state=" + state.toString());
     }
 
     private ParcelFileDescriptor startVPN() {
@@ -890,6 +873,10 @@ public class SinkholeService extends VpnService {
     @Override
     public void onCreate() {
         Log.i(TAG, "Create");
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
         Util.setTheme(this);
         super.onCreate();
 
@@ -924,6 +911,23 @@ public class SinkholeService extends VpnService {
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
+        if ("theme".equals(name)) {
+            Log.i(TAG, "Theme changed");
+            Util.setTheme(this);
+            if (state != State.none) {
+                Log.d(TAG, "Stop foreground state=" + state.toString());
+                stopForeground(true);
+            }
+            if (state == State.enforcing)
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
+            else if (state != State.none)
+                startForeground(NOTIFY_WAITING, getWaitingNotification());
+            Log.d(TAG, "Start foreground state=" + state.toString());
+        }
     }
 
     @Override
@@ -1005,6 +1009,9 @@ public class SinkholeService extends VpnService {
             stopVPN(vpn);
             vpn = null;
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
 
         super.onDestroy();
     }
@@ -1115,15 +1122,6 @@ public class SinkholeService extends VpnService {
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         intent.putExtra(EXTRA_REASON, reason);
         context.startService(intent);
-    }
-
-    public static void setTheme(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (prefs.getBoolean("enabled", false)) {
-            Intent intent = new Intent(context, SinkholeService.class);
-            intent.putExtra(EXTRA_COMMAND, Command.theme);
-            context.startService(intent);
-        }
     }
 
     public static void reloadStats(String reason, Context context) {
