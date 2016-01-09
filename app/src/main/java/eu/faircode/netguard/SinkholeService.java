@@ -119,6 +119,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_decode(byte[] buffer);
 
+    private native void jni_receive(int fd);
+
     static {
         System.loadLibrary("netguard");
     }
@@ -686,6 +688,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     byte[] bytes = new byte[buffer.limit()];
 
                     Log.i(TAG, "Start receiving");
+                    //jni_receive(pfd.getFd());
+
                     while (!Thread.currentThread().isInterrupted() &&
                             pfd.getFileDescriptor() != null &&
                             pfd.getFileDescriptor().valid())
