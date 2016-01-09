@@ -42,7 +42,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
@@ -582,6 +581,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_settings:
+                if (menuSearch != null)
+                    MenuItemCompat.collapseActionView(menuSearch);
                 startActivity(new Intent(this, ActivitySettings.class));
                 return true;
 
