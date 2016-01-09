@@ -61,7 +61,9 @@ import org.xmlpull.v1.XmlSerializer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -521,7 +523,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("text/xml");
-        intent.putExtra(Intent.EXTRA_TITLE, "netguard.xml");
+        intent.putExtra(Intent.EXTRA_TITLE, "netguard_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".xml");
         return intent;
     }
 
