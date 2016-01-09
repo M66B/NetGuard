@@ -250,6 +250,20 @@ Packet flags:
 
 For a detailed explanation see [here](https://en.wikipedia.org/wiki/Transmission_Control_Protocol).
 
+<a name="FAQ28"></a>
+**(28) Why is Google connectivity services allowed internet access by default?**
+
+The Google connectivity services system application checks if the current network is really connected to the internet.
+This is probably done by briefly connecting to some Google server.
+
+If this is not the case, there will be an '!' in the Wi-Fi or mobile icon in the system status bar.
+
+Recent Android versions seem not to switch connectivity from mobile to Wi-Fi when the Wi-Fi network is not really connected,
+even though there is a connection to the Wi-Fi network (or the other way around).
+To prevent a bad user experience there is a predefined rule to default allow the Google connectivity services.
+
+You can find all predefined rules [here](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/xml/predefined.xml).
+
 <br />
 
 **If you didn't found the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.

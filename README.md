@@ -178,6 +178,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ27"></a>
 [**(27) How do I read the blocked traffic log?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ27)
 
+<a name="FAQ28"></a>
+[**(28) Why is Google connectivity services allowed internet access by default?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ28)
+
 Permissions
 -----------
 
