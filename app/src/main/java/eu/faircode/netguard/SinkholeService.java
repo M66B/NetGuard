@@ -61,17 +61,19 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -117,7 +119,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init();
 
-    private native void jni_decode(byte[] buffer);
+    private native void jni_decode(byte[] buffer, int length);
 
     private native void jni_receive(int fd);
 
@@ -682,9 +684,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     in = new FileInputStream(pfd.getFileDescriptor());
                     out = new FileOutputStream(pfd.getFileDescriptor());
 
-                    ByteBuffer buffer = ByteBuffer.allocate(32767);
-                    buffer.order(ByteOrder.BIG_ENDIAN);
-                    byte[] bytes = new byte[buffer.limit()];
+                    byte[] bytes = new byte[32768];
 
                     Log.i(TAG, "Start receiving");
                     //jni_receive(pfd.getFd());
@@ -693,49 +693,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             pfd.getFileDescriptor() != null &&
                             pfd.getFileDescriptor().valid())
                         try {
-                            buffer.clear();
                             int length = in.read(bytes);
-                            if (length > 0) {
-                                buffer.put(bytes, 0, length);
-                                buffer.position(0);
-                                buffer.limit(length);
-
-                                Packet pkt = new Packet(buffer);
-                                Log.i(TAG, "Packet to " + pkt.getDestinationAddress().toString() +
-                                        "/" + pkt.getDestinationPort() +
-                                        " " + pkt.getFlags() +
-                                        " " + pkt.getProtocol());
-                                jni_decode(bytes);
-
-                                int connection;
-                                if (last_connected)
-                                    if (last_metered)
-                                        connection = 2;
-                                    else
-                                        connection = 1;
-                                else
-                                    connection = 0;
-
-                                int tries = 0;
-                                int uid = pkt.getUid();
-                                while (uid < 0 && tries < 10) {
-                                    Thread.sleep(10);
-                                    tries++;
-                                    uid = pkt.getUid();
-                                    if (uid >= 0)
-                                        Log.w(TAG, "Uid found after try=" + tries);
-                                }
-
-                                new DatabaseHelper(SinkholeService.this).insertLog(
-                                        pkt.version,
-                                        pkt.getDestinationAddress().toString(),
-                                        pkt.getProtocol(),
-                                        pkt.getDestinationPort(),
-                                        pkt.getFlags(),
-                                        pkt.getUid(),
-                                        connection,
-                                        last_interactive).close();
-                            }
+                            if (length > 0)
+                                jni_decode(bytes, length);
                         } catch (Throwable ex) {
                             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                         }
@@ -762,6 +722,89 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
         }, getString(R.string.app_name) + " debug");
         receiveThread.start();
+    }
+
+    private void logPacket(int version, String saddr, int sport, String daddr, int dport, int protocol, String flags) {
+        try {
+            int connection;
+            if (last_connected)
+                if (last_metered)
+                    connection = 2;
+                else
+                    connection = 1;
+            else
+                connection = 0;
+
+            int tries = 0;
+            int uid = getUid(version, InetAddress.getByName(saddr), sport, protocol);
+            while (uid < 0 && tries < 10) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ignored) {
+                }
+                tries++;
+                uid = getUid(version, InetAddress.getByName(saddr), sport, protocol);
+                if (uid >= 0)
+                    Log.w(TAG, "Uid found after try=" + tries);
+            }
+
+            new DatabaseHelper(SinkholeService.this).insertLog(
+                    version,
+                    daddr,
+                    protocol,
+                    dport,
+                    flags,
+                    uid,
+                    connection,
+                    last_interactive).close();
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
+    }
+
+    public int getUid(int version, InetAddress source, int sport, int protocol) {
+        StringBuilder addr = new StringBuilder();
+        byte[] b = source.getAddress();
+        for (int i = b.length - 1; i >= 0; i--)
+            addr.append(String.format("%02X", b[i]));
+
+        String port = String.format("%04X", sport);
+
+        int uid = -1;
+        if (version == 4) {
+            uid = scanUid("0000000000000000FFFF0000" + addr.toString() + ":" + port, protocol == 6 ? "/proc/net/tcp6" : "/proc/net/udp6");
+            if (uid < 0)
+                uid = scanUid(addr.toString() + ":" + port, protocol == 6 ? "/proc/net/tcp" : "/proc/net/udp");
+            if (uid < 0 && protocol == 17)
+                uid = scanUid("00000000:" + port, "/proc/net/udp");
+        } else
+            uid = scanUid(addr.toString() + ":" + port, protocol == 6 ? "/proc/net/tcp6" : "/proc/net/udp6");
+
+        return uid;
+    }
+
+    private static int scanUid(String addr, String name) {
+        File file = new File(name);
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim();
+                if (line.startsWith("sl"))
+                    continue;
+
+                String[] field = line.split("\\s+");
+                if (addr.equals(field[1]))
+                    return Integer.parseInt(field[7]);
+            }
+        } catch (FileNotFoundException ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        } finally {
+            if (scanner != null)
+                scanner.close();
+        }
+
+        return -1;
     }
 
     private void stopReceiving() {

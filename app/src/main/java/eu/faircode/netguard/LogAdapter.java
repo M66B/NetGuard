@@ -84,11 +84,11 @@ public class LogAdapter extends CursorAdapter {
         else
             ivInteractive.setImageResource(R.drawable.screen_on);
 
-        if (protocol == Packet.Protocol.ICMP)
+        if (protocol == 1) // ICMP
             tvProtocol.setText("I");
-        else if (protocol == Packet.Protocol.TCP)
+        else if (protocol == 6) // TCP
             tvProtocol.setText("T");
-        else if (protocol == Packet.Protocol.UDP)
+        else if (protocol == 17) // UDP
             tvProtocol.setText("U");
         else
             tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
