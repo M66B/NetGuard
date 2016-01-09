@@ -223,22 +223,22 @@ See also [question 0](#FAQ0).
 
 The columns have the following meaning:
 
-1. Day of month
-1. Time
-1. Protocol
-1. Port
-1. Packet flags
-1. Application icon
+1. Time (tap on a log entry to see the date)
+1. Wi-Fi / mobile connection
+1. Interactive state (screen on)
+1. Protocol (see below)
+1. Port (tap on a log entry to lookup a port)
+1. Packet flags (see below)
+1. Application icon (tap on a log entry to see the application name)
 1. Application uid
-1. Wi-Fi / mobile icon
-1. IP address
+1. IPv4 or IPv6 address (tap on a log entry to lookup an IP address)
 
 Protocols:
 
 * I = ICMP
 * T = TCP
 * U = UDP
-* Number = one of the protocols on [this list](https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)
+* Number = one of the protocols in [this list](https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)
 
 Packet flags:
 

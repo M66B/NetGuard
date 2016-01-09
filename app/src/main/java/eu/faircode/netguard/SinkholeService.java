@@ -735,7 +735,8 @@ public class SinkholeService extends VpnService {
                                         pkt.getDestinationPort(),
                                         pkt.getFlags(),
                                         pkt.getUid(),
-                                        connection).close();
+                                        connection,
+                                        last_interactive).close();
                             }
                         } catch (Throwable ex) {
                             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));

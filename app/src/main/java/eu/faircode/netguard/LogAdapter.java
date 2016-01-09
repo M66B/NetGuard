@@ -25,6 +25,7 @@ public class LogAdapter extends CursorAdapter {
     private int colFlags;
     private int colUid;
     private int colConnection;
+    private int colInteractive;
 
     public LogAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
@@ -36,6 +37,7 @@ public class LogAdapter extends CursorAdapter {
         colFlags = cursor.getColumnIndex("flags");
         colUid = cursor.getColumnIndex("uid");
         colConnection = cursor.getColumnIndex("connection");
+        colInteractive = cursor.getColumnIndex("interactive");
     }
 
     @Override
@@ -53,22 +55,34 @@ public class LogAdapter extends CursorAdapter {
         int port = (cursor.isNull(colPort) ? -1 : cursor.getInt(colPort));
         String flags = cursor.getString(colFlags);
         final int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
-        int connection = cursor.getInt(colConnection);
+        int connection = (cursor.isNull(colConnection) ? -1 : cursor.getInt(colConnection));
+        int interactive = (cursor.isNull(colInteractive) ? -1 : cursor.getInt(colInteractive));
 
         final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
 
         // Get views
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
+        ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
+        ImageView ivInteractive = (ImageView) view.findViewById(R.id.ivInteractive);
         TextView tvProtocol = (TextView) view.findViewById(R.id.tvProtocol);
         TextView tvPort = (TextView) view.findViewById(R.id.tvPort);
         TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
         ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
-        ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
         TextView tvIP = (TextView) view.findViewById(R.id.tvIP);
 
         // Set values
-        tvTime.setText(new SimpleDateFormat("dd HH:mm:ss").format(time));
+        tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
+
+        if (connection <= 0)
+            ivConnection.setImageDrawable(null);
+        else
+            ivConnection.setImageResource(connection == 1 ? R.drawable.wifi_off : R.drawable.other_off);
+
+        if (interactive <= 0)
+            ivInteractive.setImageDrawable(null);
+        else
+            ivInteractive.setImageResource(R.drawable.screen_on);
 
         if (protocol == Packet.Protocol.ICMP)
             tvProtocol.setText("I");
@@ -99,11 +113,6 @@ public class LogAdapter extends CursorAdapter {
         }
 
         tvUid.setText(uid < 0 ? "" : uid == 0 ? "root" : Integer.toString(uid % 100000));
-
-        if (connection == 0)
-            ivConnection.setImageDrawable(null);
-        else
-            ivConnection.setImageResource(connection == 1 ? R.drawable.wifi : R.drawable.other);
 
         tvIP.setText(whois);
     }

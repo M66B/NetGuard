@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
     private static List<LogChangedListener> logChangedListeners = new ArrayList<LogChangedListener>();
 
@@ -44,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", flags TEXT" +
                 ", uid INTEGER NULL" +
                 ", connection INTEGER NULL" +
+                ", interactive INTEGER NULL" +
                 ");");
         db.execSQL("CREATE INDEX idx_log_time ON log(time)");
     }
@@ -69,6 +70,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("ALTER TABLE log ADD COLUMN connection INTEGER NULL");
                 oldVersion = 4;
             }
+            if (oldVersion < 5) {
+                db.execSQL("ALTER TABLE log ADD COLUMN interactive INTEGER NULL");
+                oldVersion = 5;
+            }
 
             db.setVersion(DB_VERSION);
 
@@ -82,7 +87,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Location
 
-    public DatabaseHelper insertLog(int version, String ip, int protocol, int port, String flags, int uid, int connection) {
+    public DatabaseHelper insertLog(
+            int version, String ip, int protocol, int port, String flags,
+            int uid, int connection, boolean interactive) {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
@@ -109,6 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cv.put("uid", uid);
 
             cv.put("connection", connection);
+            cv.put("interactive", interactive ? 1 : 0);
 
             if (db.insert("log", null, cv) == -1)
                 Log.e(TAG, "Insert log failed");

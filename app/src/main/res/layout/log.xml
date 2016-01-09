@@ -8,11 +8,22 @@
 
     <TextView
         android:id="@+id/tvTime"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="4dp"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+    <ImageView
+        android:id="@+id/ivConnection"
+        android:layout_width="16dip"
+        android:layout_height="16dip"
+        android:layout_gravity="center_vertical" />
+
+    <ImageView
+        android:id="@+id/ivInteractive"
+        android:layout_width="16dip"
+        android:layout_height="16dip"
+        android:layout_gravity="center_vertical" />
 
     <TextView
         android:id="@+id/tvProtocol"
@@ -52,17 +63,12 @@
         android:gravity="end"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
-    <ImageView
-        android:id="@+id/ivConnection"
-        android:layout_width="16dip"
-        android:layout_height="16dip"
-        android:layout_gravity="center_vertical" />
-
     <TextView
         android:id="@+id/tvIP"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="4dp"
         android:layout_weight="1"
         android:textAppearance="@android:style/TextAppearance.Material.Small" />
 </LinearLayout>

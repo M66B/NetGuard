@@ -40,6 +40,8 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+
 public class ActivityLog extends AppCompatActivity {
     private ListView lvLog;
     private LogAdapter adapter;
@@ -78,6 +80,7 @@ public class ActivityLog extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) adapter.getItem(position);
+                long time = cursor.getLong(cursor.getColumnIndex("time"));
                 String ip = cursor.getString(cursor.getColumnIndex("ip"));
                 final int port = (cursor.isNull(cursor.getColumnIndex("port")) ? -1 : cursor.getInt(cursor.getColumnIndex("port")));
                 final int uid = (cursor.isNull(cursor.getColumnIndex("uid")) ? -1 : cursor.getInt(cursor.getColumnIndex("uid")));
@@ -104,6 +107,7 @@ public class ActivityLog extends AppCompatActivity {
                     popup.getMenu().add(Menu.NONE, 2, 2, getString(R.string.title_log_whois, whois));
                 if (port > 0 && getPackageManager().resolveActivity(lookupPort, 0) != null)
                     popup.getMenu().add(Menu.NONE, 3, 3, getString(R.string.title_log_port, port));
+                popup.getMenu().add(Menu.NONE, 4, 4, SimpleDateFormat.getDateTimeInstance().format(time)).setEnabled(false);
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
