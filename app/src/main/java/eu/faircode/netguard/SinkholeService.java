@@ -718,17 +718,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         receiveThread.start();
     }
 
+    // Called from native code
     private void logPacket(int version, String saddr, int sport, String daddr, int dport, int protocol, String flags, int uid) {
         try {
-            int connection;
-            if (last_connected)
-                if (last_metered)
-                    connection = 2;
-                else
-                    connection = 1;
-            else
-                connection = 0;
-
             new DatabaseHelper(SinkholeService.this).insertLog(
                     version,
                     daddr,
@@ -736,7 +728,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     dport,
                     flags,
                     uid,
-                    connection,
+                    (last_connected ? last_metered ? 2 : 1 : 0),
                     last_interactive).close();
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
