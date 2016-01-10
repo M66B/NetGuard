@@ -54,7 +54,7 @@ public class LogAdapter extends CursorAdapter {
         int protocol = (cursor.isNull(colProtocol) ? -1 : cursor.getInt(colProtocol));
         int port = (cursor.isNull(colPort) ? -1 : cursor.getInt(colPort));
         String flags = cursor.getString(colFlags);
-        final int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
+        int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
         int connection = (cursor.isNull(colConnection) ? -1 : cursor.getInt(colConnection));
         int interactive = (cursor.isNull(colInteractive) ? -1 : cursor.getInt(colInteractive));
 
@@ -114,10 +114,19 @@ public class LogAdapter extends CursorAdapter {
             Picasso.with(context).load(uri).into(ivIcon);
         }
 
-        tvUid.setText(uid < 0 ? "" : uid == 0 ? "root" : Integer.toString(uid % 100000));
+        // https://android.googlesource.com/platform/system/core/+/master/include/private/android_filesystem_config.h
+        uid = uid % 100000; // strip off user ID
+        if (uid == -1)
+            tvUid.setText("");
+        else if (uid == 0)
+            tvUid.setText("root");
+        else if (uid == 9999)
+            tvUid.setText("-"); // nobody
+        else
+            tvUid.setText(Integer.toString(uid));
 
         // tvProtocol.setText("99");
-        // tvPort.setText("65535");
+        // tvPort.setText("88888");
         // tvFlags.setText("+APFR");
         // tvUid.setText("18888");
 
