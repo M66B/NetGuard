@@ -105,8 +105,10 @@ public class LogAdapter extends CursorAdapter {
                 info = pm.getApplicationInfo(pkg[0], 0);
             } catch (PackageManager.NameNotFoundException ignored) {
             }
-        if (info == null || info.icon == 0)
+        if (info == null)
             ivIcon.setImageDrawable(null);
+        else if (info.icon == 0)
+            Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
         else {
             Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
             Picasso.with(context).load(uri).into(ivIcon);
