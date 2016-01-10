@@ -14,7 +14,7 @@
 
 void decode(JNIEnv *env, jobject instance, jbyte *, int);
 
-int getUid(int protocol, int version, const char *psaddr, int psport);
+int getUid(int, int, void *, int);
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
@@ -49,6 +49,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1receive(JNIEnv *env, jobject inst
 
 void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
     jbyte protocol;
+    void *saddr;
+    void *daddr;
     char source[40];
     char dest[40];
     char flags[10];
@@ -61,8 +63,8 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
         struct iphdr *ip4hdr = buffer;
 
         protocol = ip4hdr->protocol;
-        inet_ntop(AF_INET, &ip4hdr->saddr, source, sizeof(source));
-        inet_ntop(AF_INET, &ip4hdr->daddr, dest, sizeof(dest));
+        saddr = &ip4hdr->saddr;
+        daddr = &ip4hdr->daddr;
 
         if (ip4hdr->frag_off & IP_MF)
             flags[flen++] = '+';
@@ -76,8 +78,8 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
         struct ip6_hdr *ip6hdr = buffer;
 
         protocol = ip6hdr->ip6_nxt;
-        inet_ntop(AF_INET6, &ip6hdr->ip6_src, source, sizeof(source));
-        inet_ntop(AF_INET6, &ip6hdr->ip6_dst, dest, sizeof(dest));
+        saddr = &ip6hdr->ip6_src;
+        daddr = &ip6hdr->ip6_dst;
 
         payload = buffer + 40 * sizeof(jbyte);
     }
@@ -114,8 +116,10 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
 
     flags[flen] = 0;
 
-    __android_log_print(ANDROID_LOG_INFO, TAG, "Packet v%d %s/%d -> %s/%d proto %d flags %s",
-                        version, source, sport, dest, dport, protocol, flags);
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, saddr, source, sizeof(source));
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, daddr, dest, sizeof(dest));
+    // __android_log_print(ANDROID_LOG_INFO, TAG, "Packet v%d %s/%d -> %s/%d proto %d flags %s",
+    //                     version, source, sport, dest, dport, protocol, flags);
 
     // Get uid
     int uid = -1;
@@ -127,18 +131,14 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
         nanosleep(&tim, &tim2);
 
         // Lookup uid
-        uid = getUid(protocol, version, source, sport);
+        uid = getUid(protocol, version, saddr, sport);
         if (uid < 0 && version == 4) {
-            int8_t addr128[16];
-            char source6[40];
-
-            memset(addr128, 0, 10);
-            addr128[10] = 0xFF;
-            addr128[11] = 0xFF;
-
-            inet_pton(AF_INET, source, addr128 + 12);
-            inet_ntop(AF_INET6, &addr128, source6, sizeof(source6));
-            uid = getUid(protocol, 6, source6, sport);
+            int8_t saddr128[16];
+            memset(saddr128, 0, 10);
+            saddr128[10] = 0xFF;
+            saddr128[11] = 0xFF;
+            memcpy(saddr128 + 12, saddr, 4);
+            uid = getUid(protocol, 6, saddr128, sport);
         }
     }
 
@@ -158,12 +158,11 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
     }
 }
 
-int getUid(int protocol, int version, const char *saddr, int sport) {
+int getUid(int protocol, int version, void *saddr, int sport) {
     char line[250];
     int fields;
     int32_t addr32;
     int8_t addr128[16];
-    char addr[40];
     int port;
     int uid = -1;
 
@@ -201,17 +200,20 @@ int getUid(int protocol, int version, const char *saddr, int sport) {
                 break;
             }
 
-            if (version == 4)
-                inet_ntop(AF_INET, &addr32, addr, sizeof(addr));
-            else
-                inet_ntop(AF_INET6, addr128, addr, sizeof(addr));
-
-            if (port == sport && strcmp(addr, saddr) == 0)
-                break;
+            if (port == sport) {
+                if (version == 4) {
+                    if (addr32 == *((int32_t *) saddr))
+                        return uid;
+                }
+                else {
+                    if (memcmp(addr128, saddr, (size_t) 16) == 0)
+                        return uid;
+                }
+            }
         }
     }
 
     fclose(fd);
 
-    return uid;
+    return -1;
 }
