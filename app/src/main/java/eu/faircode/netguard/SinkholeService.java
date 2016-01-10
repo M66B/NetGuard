@@ -312,7 +312,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     Widget.updateWidgets(SinkholeService.this);
 
                     // Report exception
-                    Util.sendCrashReport(ex, SinkholeService.this);
+                    if (!(ex instanceof IllegalStateException))
+                        Util.sendCrashReport(ex, SinkholeService.this);
                 }
             }
         }
