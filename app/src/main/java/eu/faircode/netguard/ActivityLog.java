@@ -46,6 +46,7 @@ public class ActivityLog extends AppCompatActivity {
     private ListView lvLog;
     private LogAdapter adapter;
     private DatabaseHelper dh;
+    private boolean live;
 
     private DatabaseHelper.LogChangedListener listener = new DatabaseHelper.LogChangedListener() {
         @Override
@@ -134,12 +135,14 @@ public class ActivityLog extends AppCompatActivity {
             }
         });
 
+        live = true;
         DatabaseHelper.addLogChangedListener(listener);
     }
 
     @Override
     protected void onDestroy() {
-        DatabaseHelper.removeLocationChangedListener(listener);
+        if (live)
+            DatabaseHelper.removeLocationChangedListener(listener);
         dh.close();
         super.onDestroy();
     }
@@ -165,16 +168,35 @@ public class ActivityLog extends AppCompatActivity {
                 prefs.edit().putBoolean("log", item.isChecked()).apply();
                 SinkholeService.reload(null, "setting changed", this);
                 return true;
+
+            case R.id.menu_live:
+                item.setChecked(!item.isChecked());
+                live = item.isChecked();
+                if (live) {
+                    adapter = new LogAdapter(this, dh.getLog());
+                    lvLog.setAdapter(adapter);
+                    DatabaseHelper.addLogChangedListener(listener);
+                } else
+                    DatabaseHelper.removeLocationChangedListener(listener);
+                return true;
+
             case R.id.menu_clear:
                 dh.clear();
+                if (!live) {
+                    adapter = new LogAdapter(this, dh.getLog());
+                    lvLog.setAdapter(adapter);
+                }
                 return true;
+
             case R.id.menu_support:
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ27"));
                 if (getPackageManager().resolveActivity(intent, 0) != null)
                     startActivity(intent);
                 return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -22,6 +22,7 @@
   <string name="menu_support">支援</string>
   <string name="menu_about">關於</string>
   <string name="menu_enabled">Enabled</string>
+  <string name="menu_live">Live updates</string>
   <string name="menu_clear">清除</string>
   <string name="setting_defaults">預設</string>
   <string name="setting_whitelist_wifi">阻擋Wi-Fi</string>

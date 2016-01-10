@@ -24,6 +24,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="menu_support">Podpora</string>
   <string name="menu_about">O aplikácii</string>
   <string name="menu_enabled">Enabled</string>
+  <string name="menu_live">Live updates</string>
   <string name="menu_clear">Clear</string>
   <string name="setting_defaults">Predvolené nastavenia</string>
   <string name="setting_whitelist_wifi">Predvolene blokovať Wi-Fi</string>

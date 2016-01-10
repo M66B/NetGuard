@@ -24,6 +24,7 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="menu_support">Soporte</string>
   <string name="menu_about">Acerca de</string>
   <string name="menu_enabled">Enabled</string>
+  <string name="menu_live">Live updates</string>
   <string name="menu_clear">Clear</string>
   <string name="setting_defaults">Valores por defecto</string>
   <string name="setting_whitelist_wifi">Bloquear Wi-Fi por defecto</string>

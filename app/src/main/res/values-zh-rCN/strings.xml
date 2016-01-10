@@ -24,6 +24,7 @@
   <string name="menu_support">软件支持</string>
   <string name="menu_about">关于</string>
   <string name="menu_enabled">已启用</string>
+  <string name="menu_live">Live updates</string>
   <string name="menu_clear">清除</string>
   <string name="setting_defaults">默认</string>
   <string name="setting_whitelist_wifi">默认阻止Wi-Fi网络</string>
@@ -112,6 +113,6 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
     <item>紫色/红色</item>
     <item>琥珀色/蓝色</item>
     <item>橙色/灰色</item>
-    <item>green</item>
+    <item>绿色</item>
   </string-array>
 </resources>

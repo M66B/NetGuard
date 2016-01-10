@@ -24,8 +24,9 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Supporto</string>
   <string name="menu_about">Info</string>
-  <string name="menu_enabled">Enabled</string>
-  <string name="menu_clear">Clear</string>
+  <string name="menu_enabled">Abilitato</string>
+  <string name="menu_live">Live updates</string>
+  <string name="menu_clear">Pulisci</string>
   <string name="setting_defaults">Impostazioni predefinite</string>
   <string name="setting_whitelist_wifi">Blocca Wi-Fi di default</string>
   <string name="setting_whitelist_other">Blocca rete dati di default</string>
@@ -94,8 +95,8 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="title_allow">Permetti</string>
   <string name="title_block">Blocca</string>
   <string name="title_log">Traffico bloccato</string>
-  <string name="title_log_whois">Whois %1$s</string>
-  <string name="title_log_port">Port %1$d</string>
+  <string name="title_log_whois">Identità %1$s</string>
+  <string name="title_log_port">Porta %1$d</string>
   <string name="title_pro">Funzionalità a pagamento</string>
   <string name="title_pro_trial_until">Funzionalità a pagamento in prova fino a %1$s</string>
   <string name="title_pro_trial_ended">Periodo di prova delle funzionalità a pagamento terminato</string>
@@ -114,6 +115,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
     <item>viola/rosso</item>
     <item>ambra/blu</item>
     <item>arancione/grigio</item>
-    <item>green</item>
+    <item>verde</item>
   </string-array>
 </resources>

@@ -20,6 +20,7 @@
   <string name="menu_support">Підтримка</string>
   <string name="menu_about">Про</string>
   <string name="menu_enabled">Enabled</string>
+  <string name="menu_live">Live updates</string>
   <string name="menu_clear">Clear</string>
   <string name="setting_defaults">Типові</string>
   <string name="setting_whitelist_wifi">Блокувати типово у Wi-Fi мережі</string>

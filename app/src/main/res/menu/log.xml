@@ -5,6 +5,11 @@
         android:checkable="true"
         android:title="@string/menu_enabled" />
     <item
+        android:id="@+id/menu_live"
+        android:checkable="true"
+        android:checked="true"
+        android:title="@string/menu_live" />
+    <item
         android:id="@+id/menu_clear"
         android:title="@string/menu_clear" />
     <item
