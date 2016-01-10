@@ -345,6 +345,15 @@ public class Util {
         return Math.round(dips * context.getResources().getDisplayMetrics().density + 0.5f);
     }
 
+    public static String md5(String text, String salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        // MD5
+        byte[] bytes = MessageDigest.getInstance("MD5").digest((text + salt).getBytes("UTF-8"));
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes)
+            sb.append(String.format("%02X", b));
+        return sb.toString();
+    }
+
     public static void logExtras(Intent intent) {
         if (intent != null)
             logBundle(intent.getExtras());
@@ -547,15 +556,6 @@ public class Util {
         return sb.toString();
     }
 
-    public static String md5(String text, String salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        // MD5
-        byte[] bytes = MessageDigest.getInstance("MD5").digest((text + salt).getBytes("UTF-8"));
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes)
-            sb.append(String.format("%02X", b));
-        return sb.toString();
-    }
-
     public static void sendLogcat(final Uri uri, final Context context) {
         AsyncTask task = new AsyncTask<Object, Object, Intent>() {
             @Override
@@ -576,6 +576,14 @@ public class Util {
                 sb.append(String.format("Display: %s\r\n", Build.DISPLAY));
                 sb.append(String.format("Id: %s\r\n", Build.ID));
                 sb.append(String.format("Fingerprint: %B\r\n", hasValidFingerprint(context)));
+
+                String abi;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+                    abi = Build.CPU_ABI;
+                else
+                    abi = (Build.SUPPORTED_ABIS.length > 0 ? Build.SUPPORTED_ABIS[0] : "?");
+                sb.append(String.format("ABI: %s\r\n", abi));
+
                 sb.append("\r\n");
 
                 sb.append(String.format("VPN dialogs: %B\r\n", isPackageInstalled("com.android.vpndialogs", context)));
