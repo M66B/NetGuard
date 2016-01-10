@@ -155,6 +155,13 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
         (*env)->DeleteLocalRef(env, jsource);
         (*env)->DeleteLocalRef(env, jdest);
         (*env)->DeleteLocalRef(env, jflags);
+
+        jthrowable ex = (*env)->ExceptionOccurred(env);
+        if (ex) {
+            (*env)->ExceptionDescribe(env);
+            (*env)->ExceptionClear(env);
+            (*env)->DeleteLocalRef(env, ex);
+        }
     }
 }
 
