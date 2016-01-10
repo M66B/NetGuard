@@ -116,7 +116,7 @@ For more details, see [question 5](#FAQ5).
 
 * Long click the NetGuard notification
 * Tap the 'i' icon
-* Depending on your device and/or ROMs manufacturer software customisations, you can be directed to either:
+* Depending on your device and/or ROMs manufacturer software customizations, you can be directed to either:
   * the **App Info** screen and you can uncheck '*Show notifications*' and agree to the next dialog
   * the **App Notifications** screen and you can toggle the '*Block*' slider to on
 
@@ -206,7 +206,7 @@ See [here](https://github.com/M66B/NetGuard/issues/42) for more information.
 Android can kill background services at any time.
 This can only be prevented by turning a background service into a foreground service.
 Android requires an ongoing notification for all foreground services
-to make you aware of potential battery ussage.
+to make you aware of potential battery usage.
 So, the notification cannot be removed without causing instability.
 However, the notification is being marked as low priority,
 which should result in moving it to the bottom of the list.
@@ -266,6 +266,6 @@ You can find all predefined rules [here](https://github.com/M66B/NetGuard/blob/m
 
 <br />
 
-**If you didn't found the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
+**If you didn't find the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
 
 If you want to request a new feature or want to report a bug, please [create an issue on GitHub](https://github.com/M66B/NetGuard/issues/new).
