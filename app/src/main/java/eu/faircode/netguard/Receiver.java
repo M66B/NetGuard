@@ -84,10 +84,9 @@ public class Receiver extends BroadcastReceiver {
                         SinkholeService.start("receiver", context);
 
                 } else if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
-                    if (prefs.getBoolean("enabled", false)) {
-                        if (VpnService.prepare(context) == null)
-                            SinkholeService.start("receiver", context);
-                    } else if (prefs.getBoolean("show_stats", false))
+                    if (prefs.getBoolean("enabled", false))
+                        SinkholeService.start("receiver", context);
+                    else if (prefs.getBoolean("show_stats", false))
                         SinkholeService.run("receiver", context);
                 }
             } catch (Throwable ex) {

@@ -183,6 +183,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             String reason = intent.getStringExtra(EXTRA_REASON);
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason + " vpn=" + (vpn != null));
 
+            // Check if prepared
+            if (cmd == Command.start || cmd == Command.reload)
+                if (VpnService.prepare(SinkholeService.this) != null) {
+                    Log.w(TAG, "VPN not prepared");
+                    return;
+                }
+
             // Listen for phone state changes
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             if (tm != null && !phone_state &&
@@ -306,14 +313,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
-                if (Util.isConnected(SinkholeService.this)) {
+                if (!(ex instanceof IllegalStateException)) {
                     // Disable firewall
                     prefs.edit().putBoolean("enabled", false).apply();
                     Widget.updateWidgets(SinkholeService.this);
 
                     // Report exception
-                    if (!(ex instanceof IllegalStateException))
-                        Util.sendCrashReport(ex, SinkholeService.this);
+                    Util.sendCrashReport(ex, SinkholeService.this);
                 }
             }
         }
