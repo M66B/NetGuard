@@ -680,11 +680,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     in = new FileInputStream(pfd.getFileDescriptor());
                     out = new FileOutputStream(pfd.getFileDescriptor());
 
-                    byte[] bytes = new byte[32768];
 
                     Log.i(TAG, "Start receiving");
-                    //jni_receive(pfd.getFd());
-
+                    byte[] bytes = new byte[32768];
                     while (!Thread.currentThread().isInterrupted() &&
                             pfd.getFileDescriptor() != null &&
                             pfd.getFileDescriptor().valid())
