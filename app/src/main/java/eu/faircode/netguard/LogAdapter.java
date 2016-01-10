@@ -114,6 +114,11 @@ public class LogAdapter extends CursorAdapter {
 
         tvUid.setText(uid < 0 ? "" : uid == 0 ? "root" : Integer.toString(uid % 100000));
 
+        // tvProtocol.setText("99");
+        // tvPort.setText("65535");
+        // tvFlags.setText("+APFR");
+        // tvUid.setText("18888");
+
         tvIP.setText(whois);
     }
 }

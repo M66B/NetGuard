@@ -8,10 +8,11 @@
 
     <TextView
         android:id="@+id/tvTime"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/ivConnection"
@@ -31,23 +32,26 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="end"
-        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvPort"
-        android:layout_width="44dp"
+        android:layout_width="36dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="end"
-        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvFlags"
-        android:layout_width="32dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="4dp"
-        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/ivIcon"
@@ -57,11 +61,12 @@
 
     <TextView
         android:id="@+id/tvUid"
-        android:layout_width="44dp"
+        android:layout_width="36dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="end"
-        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvIP"
@@ -70,5 +75,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="4dp"
         android:layout_weight="1"
-        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="12sp" />
 </LinearLayout>

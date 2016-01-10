@@ -64,6 +64,9 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
         inet_ntop(AF_INET, &ip4hdr->saddr, source, sizeof(source));
         inet_ntop(AF_INET, &ip4hdr->daddr, dest, sizeof(dest));
 
+        if (ip4hdr->frag_off & IP_MF)
+            flags[flen++] = '+';
+
         jbyte optlen = 0;
         if (ip4hdr->ihl > 5)
             optlen = buffer[20];
