@@ -23,7 +23,9 @@ model {
         main {
             jni {
                 source {
-                    srcDir "src/main/jni"
+                    srcDir "src/main/jni/netguard"
+                }
+                exportedHeaders {
                 }
             }
         }
