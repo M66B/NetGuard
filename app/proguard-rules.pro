@@ -23,9 +23,9 @@
 #NetGuard
 -keepnames class eu.faircode.netguard.** { *; }
 
-# logPacket(int version, String saddr, int sport, String daddr, int dport, int protocol, String flags)
+# logPacket(int version, String saddr, int sport, String daddr, int dport, int protocol, String flags, int uid)
 -keep class eu.faircode.netguard.SinkholeService {
-    void logPacket(int, java.lang.String, int, java.lang.String, int, int, java.lang.String);
+    void logPacket(int, java.lang.String, int, java.lang.String, int, int, java.lang.String, int);
 }
 
 #Support library
