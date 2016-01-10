@@ -21,7 +21,7 @@
   <string name="menu_support">Поддержка</string>
   <string name="menu_about">О приложении</string>
   <string name="menu_enabled">Разрешено</string>
-  <string name="menu_live">Live updates</string>
+  <string name="menu_live">Обновления в реальном времени</string>
   <string name="menu_clear">Очистить</string>
   <string name="setting_defaults">По умолчанию</string>
   <string name="setting_whitelist_wifi">Блокировать Wi-Fi по умолч.</string>
@@ -100,8 +100,8 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_pro_theme">Внешний вид (темы, цвета)</string>
   <string name="title_pro_speed">График скорости сети</string>
   <string name="title_pro_log">Просмотр журнала заблокированного трафика</string>
-  <string name="title_pro_buy">Купить</string>
-  <string name="title_pro_bought">Куплено</string>
+  <string name="title_pro_buy">Добавить</string>
+  <string name="title_pro_bought">Добавлено</string>
   <string name="title_pro_challenge">Задание</string>
   <string name="title_pro_reponse">Ответ</string>
   <string-array name="themeNames">
