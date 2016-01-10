@@ -42,7 +42,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
 Requirements:
 
 * Android 5.0 or later
-* A [compatible device](#Compatibility)
+* A [compatible device](#compatibility)
 
 Downloads:
 
