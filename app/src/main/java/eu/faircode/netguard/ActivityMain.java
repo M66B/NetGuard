@@ -117,10 +117,18 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         swEnabled.setChecked(enabled);
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.i(TAG, "Switch=" + isChecked);
                 prefs.edit().putBoolean("enabled", isChecked).apply();
 
                 if (isChecked) {
-                    Log.i(TAG, "Switch on");
+                    // Check if secondary user
+                    if (android.os.Process.myUid() / 100000 != 0 &&
+                            !IAB.isPurchased(ActivityPro.SKU_MULTI, ActivityMain.this)) {
+                        prefs.edit().putBoolean("enabled", false).apply();
+                        startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+                        return;
+                    }
+
                     try {
                         final Intent prepare = VpnService.prepare(ActivityMain.this);
                         if (prepare == null) {
@@ -165,11 +173,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         prefs.edit().putBoolean("enabled", false).apply();
                     }
 
-                } else {
-                    Log.i(TAG, "Switch off");
-                    prefs.edit().putBoolean("enabled", false).apply();
+                } else
                     SinkholeService.stop("switch off", ActivityMain.this);
-                }
             }
         });
 

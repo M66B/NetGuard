@@ -45,6 +45,7 @@ public class ActivityPro extends AppCompatActivity {
     public static final String SKU_THEME = "theme";
     public static final String SKU_SPEED = "speed";
     public static final String SKU_LOG = "log";
+    public static final String SKU_MULTI = "multi";
     public static final String SKU_DONATION = "donation";
 
     @Override
@@ -106,6 +107,7 @@ public class ActivityPro extends AppCompatActivity {
                         final Button btnTheme = (Button) findViewById(R.id.btnTheme);
                         final Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
                         final Button btnLog = (Button) findViewById(R.id.btnLog);
+                        final Button btnMulti = (Button) findViewById(R.id.btnMulti);
 
                         View.OnClickListener listener = new View.OnClickListener() {
                             @Override
@@ -119,6 +121,8 @@ public class ActivityPro extends AppCompatActivity {
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_SPEED).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                     else if (view == btnLog)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_LOG).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                    else if (view == btnMulti)
+                                        startIntentSenderForResult(iab.getBuyIntent(SKU_MULTI).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                 } catch (Throwable ex) {
                                     Log.i(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                                     Util.sendCrashReport(ex, ActivityPro.this);
@@ -130,11 +134,13 @@ public class ActivityPro extends AppCompatActivity {
                         btnTheme.setOnClickListener(listener);
                         btnSpeed.setOnClickListener(listener);
                         btnLog.setOnClickListener(listener);
+                        btnMulti.setOnClickListener(listener);
 
                         btnNotify.setEnabled(true);
                         btnTheme.setEnabled(true);
                         btnSpeed.setEnabled(true);
                         btnLog.setEnabled(true);
+                        btnMulti.setEnabled(true);
 
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -183,6 +189,10 @@ public class ActivityPro extends AppCompatActivity {
                     IAB.setBought(SKU_LOG, this);
                     updateState();
                     break;
+                case R.id.btnMulti:
+                    IAB.setBought(SKU_MULTI, this);
+                    updateState();
+                    break;
             }
         }
     }
@@ -192,21 +202,25 @@ public class ActivityPro extends AppCompatActivity {
         Button btnTheme = (Button) findViewById(R.id.btnTheme);
         Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
         Button btnLog = (Button) findViewById(R.id.btnLog);
+        Button btnMulti = (Button) findViewById(R.id.btnMulti);
         TextView tvNotify = (TextView) findViewById(R.id.tvNotify);
         TextView tvTheme = (TextView) findViewById(R.id.tvTheme);
         TextView tvSpeed = (TextView) findViewById(R.id.tvSpeed);
         TextView tvLog = (TextView) findViewById(R.id.tvLog);
+        TextView tvMulti = (TextView) findViewById(R.id.tvMulti);
         LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
 
         btnNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.GONE : View.VISIBLE);
         btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
         btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
         btnLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.GONE : View.VISIBLE);
+        btnMulti.setVisibility(IAB.isPurchased(SKU_MULTI, this) ? View.GONE : View.VISIBLE);
 
         tvNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.VISIBLE : View.GONE);
         tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
         tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
         tvLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.VISIBLE : View.GONE);
+        tvMulti.setVisibility(IAB.isPurchased(SKU_MULTI, this) ? View.VISIBLE : View.GONE);
 
         llChallenge.setVisibility(IAB.isPurchased(SKU_DONATION, this) ? View.GONE : View.VISIBLE);
     }
