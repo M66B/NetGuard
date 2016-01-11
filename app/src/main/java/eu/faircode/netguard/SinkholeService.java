@@ -800,8 +800,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             if (user_foreground) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-                if (prefs.getBoolean("enabled", false))
+                if (prefs.getBoolean("enabled", false)) {
+                    // Allow service of background user to stop
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ignored) {
+                    }
+
                     start("foreground", SinkholeService.this);
+                }
             } else
                 stop("background", SinkholeService.this);
         }
