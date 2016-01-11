@@ -103,6 +103,7 @@ Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de i
   <string name="title_pro_theme">Appearance (theme, colors)</string>
   <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_log">View blocked traffic log</string>
+  <string name="title_pro_multi">Multi user support</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Enabled</string>
   <string name="title_pro_challenge">Challenge</string>

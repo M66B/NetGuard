@@ -24,7 +24,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
   <string name="menu_enabled">Ativado</string>
-  <string name="menu_live">Live updates</string>
+  <string name="menu_live">Atualizações ao vivo</string>
   <string name="menu_clear">Limpar</string>
   <string name="setting_defaults">Padrões</string>
   <string name="setting_whitelist_wifi">Por padrão, bloquear Wi-Fi</string>
@@ -103,6 +103,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_pro_theme">Aparência (tema, cores)</string>
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_log">Visualizar registro de tráfego bloqueado</string>
+  <string name="title_pro_multi">Multi user support</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>

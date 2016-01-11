@@ -105,6 +105,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="title_pro_theme">Aspetto (tema, colori)</string>
   <string name="title_pro_speed">Grafico della velocità di rete nelle notifiche</string>
   <string name="title_pro_log">Mostra il registro contenente il traffico bloccato</string>
+  <string name="title_pro_multi">Multi user support</string>
   <string name="title_pro_buy">Dettagli</string>
   <string name="title_pro_bought">Abilitato</string>
   <string name="title_pro_challenge">Domanda di verifica</string>

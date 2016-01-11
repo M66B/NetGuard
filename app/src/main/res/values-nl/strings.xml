@@ -103,6 +103,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_pro_theme">Uiterlijk (thema, kleuren)</string>
   <string name="title_pro_speed">Netwerk snelheid grafiek melding</string>
   <string name="title_pro_log">Weergave van geblokkeerd verkeer</string>
+  <string name="title_pro_multi">Multi user support</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Ingeschakeld</string>
   <string name="title_pro_challenge">Uitdaging</string>
