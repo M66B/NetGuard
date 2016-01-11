@@ -144,7 +144,6 @@ public class ActivityPro extends AppCompatActivity {
             iab.bind();
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Util.sendCrashReport(ex, ActivityPro.this);
         }
     }
 

@@ -275,7 +275,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }, this).bind();
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Util.sendCrashReport(ex, ActivityMain.this);
         }
     }
 
