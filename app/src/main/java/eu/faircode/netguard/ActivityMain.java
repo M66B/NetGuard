@@ -271,6 +271,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         }
                         if (!IAB.isPurchased(ActivityPro.SKU_SPEED, ActivityMain.this))
                             prefs.edit().putBoolean("show_stats", false).apply();
+                        if (!IAB.isPurchased(ActivityPro.SKU_MULTI, ActivityMain.this)) {
+                            if (android.os.Process.myUid() / 100000 != 0)
+                                prefs.edit().putBoolean("enabled", false).apply();
+                        }
 
                         iab.unbind();
                     } catch (Throwable ex) {
