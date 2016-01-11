@@ -64,6 +64,7 @@ import android.widget.RemoteViews;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -747,6 +748,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 uid,
                 (last_connected ? last_metered ? 2 : 1 : 0),
                 last_interactive).close();
+    }
+
+    private void protectSocket(int socket) {
+        try {
+            if (!protect(socket))
+                Log.e(TAG, "Failed to protect socket");
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
     }
 
     private void stopReceiving() {

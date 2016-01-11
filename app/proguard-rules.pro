@@ -26,6 +26,7 @@
 # logPacket(int version, String saddr, int sport, String daddr, int dport, int protocol, String flags, int uid)
 -keep class eu.faircode.netguard.SinkholeService {
     void logPacket(int, java.lang.String, int, java.lang.String, int, int, java.lang.String, int);
+    void protectSocket(int);
 }
 
 #Support library
