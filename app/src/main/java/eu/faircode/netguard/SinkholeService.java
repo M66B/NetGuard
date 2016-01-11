@@ -671,7 +671,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         builder.setBlocking(true);
 
         // Start VPN service
-        return builder.establish();
+        try {
+            return builder.establish();
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            return null;
+        }
     }
 
     private void stopVPN(ParcelFileDescriptor pfd) {
