@@ -77,6 +77,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private static final String TAG = "NetGuard.Service";
 
     private State state = State.none;
+    private boolean user_foreground = true;
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
@@ -181,13 +182,20 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
             String reason = intent.getStringExtra(EXTRA_REASON);
-            Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason + " vpn=" + (vpn != null));
+            Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason +
+                    " vpn=" + (vpn != null) + " user=" + (android.os.Process.myUid() / 100000));
 
             // Check if prepared
             if (cmd == Command.start || cmd == Command.reload)
                 if (VpnService.prepare(SinkholeService.this) != null) {
                     Log.w(TAG, "VPN not prepared");
                     return;
+                }
+
+            // Check if foreground
+            if (cmd != Command.stop)
+                if (!user_foreground) {
+                    Log.i(TAG, "Command " + cmd + "ignored for background user");
                 }
 
             // Listen for phone state changes
@@ -638,8 +646,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
                 if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming))) {
                     nAllowed++;
-                    if (Util.isDebuggable(this))
-                        Log.i(TAG, "Allowing " + rule.info.packageName);
+                    // Log.i(TAG, "Allowing " + rule.info.packageName);
                     try {
                         builder.addDisallowedApplication(rule.info.packageName);
                     } catch (PackageManager.NameNotFoundException ex) {
@@ -782,6 +789,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
+
+            user_foreground = Intent.ACTION_USER_FOREGROUND.equals(intent.getAction());
+            Log.i(TAG, "User foreground=" + user_foreground + " user=" + (android.os.Process.myUid() / 100000));
+
+            if (user_foreground) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                if (prefs.getBoolean("enabled", false))
+                    start("foreground", SinkholeService.this);
+            } else
+                stop("background", SinkholeService.this);
         }
     };
 
@@ -955,7 +972,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
         String reason = intent.getStringExtra(EXTRA_REASON);
-        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " reason=" + reason + " vpn=" + (vpn != null));
+        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " reason=" + reason +
+                " vpn=" + (vpn != null) + " user=" + (android.os.Process.myUid() / 100000));
 
         // Queue command
         Message msg = mServiceHandler.obtainMessage();
