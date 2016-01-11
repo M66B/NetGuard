@@ -777,6 +777,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     };
 
+    private BroadcastReceiver userReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(intent);
+        }
+    };
+
     private BroadcastReceiver idleStateReceiver = new BroadcastReceiver() {
         @Override
         @TargetApi(Build.VERSION_CODES.M)
@@ -882,6 +890,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         ifInteractive.addAction(ACTION_SCREEN_OFF_DELAYED);
         registerReceiver(interactiveStateReceiver, ifInteractive);
 
+        // Listen for user switches
+        IntentFilter ifUser = new IntentFilter();
+        ifUser.addAction(Intent.ACTION_USER_BACKGROUND);
+        ifUser.addAction(Intent.ACTION_USER_FOREGROUND);
+        registerReceiver(userReceiver, ifUser);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Listen for idle mode state changes
             IntentFilter ifIdle = new IntentFilter();
@@ -975,6 +989,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         mServiceLooper.quit();
 
         unregisterReceiver(interactiveStateReceiver);
+        unregisterReceiver(userReceiver);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             unregisterReceiver(idleStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
