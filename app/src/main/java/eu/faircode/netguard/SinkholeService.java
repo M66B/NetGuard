@@ -85,6 +85,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
     private Thread receiveThread = null;
+    private Thread pollThread = null;
 
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
@@ -120,7 +121,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_decode(byte[] buffer, int length);
 
-    private native void jni_receive(int fd);
+    private native void jni_poll();
 
     static {
         System.loadLibrary("netguard");
@@ -728,8 +729,22 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     }
                 }
             }
-        }, getString(R.string.app_name) + " debug");
+        }, getString(R.string.app_name) + " receive");
         receiveThread.start();
+
+        pollThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!Thread.currentThread().isInterrupted())
+                    try {
+                        Thread.sleep(5000);
+                        jni_poll();
+                    } catch (InterruptedException ignore) {
+                        break;
+                    }
+            }
+        }, getString(R.string.app_name) + " poll");
+        pollThread.start();
     }
 
     // Called from native code
@@ -748,6 +763,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void stopReceiving() {
         if (receiveThread != null)
             receiveThread.interrupt();
+        if (pollThread != null)
+            pollThread.interrupt();
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {

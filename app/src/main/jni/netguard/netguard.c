@@ -8,6 +8,7 @@
 #include <netinet/ip6.h>
 #include <netinet/udp.h>
 #include <netinet/tcp.h>
+#include <pthread.h>
 
 // This should go into a header file later
 
@@ -47,12 +48,18 @@ char *hex(jbyte *, int);
 
 int tun;
 struct connection *connection = NULL;
+pthread_mutex_t poll_lock;
 
 // JNI interface
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
     __android_log_print(ANDROID_LOG_INFO, TAG, "Init");
+
+    if (pthread_mutex_init(&poll_lock, NULL) != 0)
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Mutex init error %d: %s",
+                            errno, strerror(errno));
+    // TODO pthread_mutex_destroy
 }
 
 JNIEXPORT void JNICALL
@@ -70,26 +77,17 @@ Java_eu_faircode_netguard_SinkholeService_jni_1decode(JNIEnv *env, jobject insta
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1receive(JNIEnv *env, jobject instance, jint fd) {
-    int len;
-    jbyte buffer[MAXPKT];
-    while (1) {
-        len = read(fd, buffer, sizeof(buffer));
-        if (len < 0) {
-            __android_log_print(ANDROID_LOG_WARN, TAG, "Receive error=%d", len);
-            return;
-
-        } else if (len > 0)
-            decode(env, instance, buffer, len);
-
-        else
-            __android_log_print(ANDROID_LOG_WARN, TAG, "Nothing received");
-    }
+Java_eu_faircode_netguard_SinkholeService_jni_1poll(JNIEnv *env, jobject instance) {
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Poll");
+    poll();
 }
-
 // Private functions
 
 void poll() {
+    if (pthread_mutex_lock(&poll_lock) != 0)
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Mutex lock error %d: %s",
+                            errno, strerror(errno));
+
     time_t now = time(NULL);
 
     struct connection *last = NULL;
@@ -207,9 +205,8 @@ void poll() {
 
                     // Send packet
                     __android_log_print(ANDROID_LOG_DEBUG, TAG,
-                                        "Sending SYN+ACK to tun %s/%u ack %u len %d %s",
-                                        to, ntohs(tcp->dest), ntohl(tcp->ack_seq), len,
-                                        hex(buffer, len));
+                                        "Sending SYN+ACK to tun %s/%u ack %u",
+                                        to, ntohs(tcp->dest), ntohl(tcp->ack_seq));
                     if (write(tun, buffer, len) < 0) {
                         // TODO
                         __android_log_print(ANDROID_LOG_ERROR, TAG, "write error %d: %s",
@@ -228,6 +225,10 @@ void poll() {
 
         cur = cur->next;
     }
+
+    if (pthread_mutex_unlock(&poll_lock) != 0)
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "Mutex unlock error %d: %s",
+                            errno, strerror(errno));
 }
 
 void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int len) {
@@ -237,7 +238,7 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int len) {
         return;
 
     // Copy buffer
-    jbyte *copy = malloc(len); // TODO free
+    jbyte *copy = malloc(len); // TODO check/free
     memcpy(copy, buffer, len);
 
     // Get headers
@@ -263,7 +264,7 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int len) {
                                 ntohs(tcphdr->dest), ntohl(tcphdr->seq));
 
             // Register connection
-            struct connection *syn = malloc(sizeof(struct connection));
+            struct connection *syn = malloc(sizeof(struct connection)); // TODO check/free
             syn->time = time(NULL);
             syn->remote_seq = ntohl(tcphdr->seq);
             syn->local_seq = 123;  // TODO randomize
