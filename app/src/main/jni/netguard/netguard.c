@@ -20,6 +20,12 @@
 #define TIMEOUTPKT 30
 #define TTL 64
 
+struct data {
+    __be32 seq;
+    jbyte *data;
+    struct data *next;
+};
+
 struct connection {
     time_t time;
     __be32 remote_seq; // host notation
@@ -31,6 +37,8 @@ struct connection {
     int state;
     int socket;
     int lport; // host notation
+    struct data *received;
+    struct data *sent;
     struct connection *next;
 };
 
@@ -107,6 +115,25 @@ void poll() {
                 connection = cur->next;
             else
                 last->next = cur->next;
+
+            struct data *prev;
+            struct data *received = cur->received;
+            while (received != NULL) {
+                prev = received;
+                received = received->next;
+                if (prev->data != NULL)
+                    free(prev->data);
+                free(prev);
+            }
+
+            struct data *sent = cur->sent;
+            while (sent != NULL) {
+                prev = sent;
+                sent = sent->next;
+                if (prev->data != NULL)
+                    free(prev->data);
+                free(prev);
+            }
 
             free(cur);
 
@@ -205,8 +232,9 @@ void poll() {
 
                     // Send packet
                     __android_log_print(ANDROID_LOG_DEBUG, TAG,
-                                        "Sending SYN+ACK to tun %s/%u ack %u",
-                                        to, ntohs(tcp->dest), ntohl(tcp->ack_seq));
+                                        "Sending SYN+ACK to tun %s/%u seq %u ack %u",
+                                        to, ntohs(tcp->dest),
+                                        ntohl(tcp->seq), ntohl(tcp->ack_seq));
                     if (write(tun, buffer, len) < 0) {
                         // TODO
                         __android_log_print(ANDROID_LOG_ERROR, TAG, "write error %d: %s",
@@ -231,25 +259,34 @@ void poll() {
                             errno, strerror(errno));
 }
 
-void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int len) {
+void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
     // Check version
     jbyte version = (*buffer) >> 4;
     if (version != 4)
         return;
 
-    // Copy buffer
-    jbyte *copy = malloc(len); // TODO check/free
-    memcpy(copy, buffer, len);
-
     // Get headers
-    struct iphdr *iphdr = copy;
-    jbyte optlen = (iphdr->ihl > 5 ? copy[20] : 0);
-    struct tcphdr *tcphdr = buffer + (20 + optlen) * sizeof(jbyte);
+    struct iphdr *iphdr = buffer;
+    jbyte optlen = (iphdr->ihl > 5 ? buffer[sizeof(struct iphdr)] : 0);
+    struct tcphdr *tcphdr = buffer + sizeof(struct iphdr) + optlen;
+
+    if (ntohs(iphdr->tot_len) != length)
+        __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid length %u/%d", iphdr->tot_len, length);
+
+    // Get data
+    int dataoff = sizeof(struct iphdr) + optlen + sizeof(struct tcphdr);
+    int datalen = length - dataoff;
+    struct data *data = malloc(sizeof(struct data));
+    data->seq = ntohl(tcphdr->seq);
+    data->data = malloc(datalen); // TODO free
+    data->next = NULL;
+    if (datalen)
+        memcpy(data->data, buffer + dataoff, datalen);
 
     // Search connection
     struct connection *last = NULL;
     struct connection *cur = connection;
-    while (cur != NULL && !(cur->saddr == iphdr->saddr && cur->source != tcphdr->source)) {
+    while (cur != NULL && !(cur->saddr == iphdr->saddr && cur->source == tcphdr->source)) {
         last = cur;
         cur = cur->next;
     }
@@ -257,11 +294,14 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int len) {
     // Log
     char dest[20];
     inet_ntop(AF_INET, &(iphdr->daddr), dest, sizeof(dest));
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "%s/%u seq %u ack %u data %d",
+                        dest, ntohs(tcphdr->dest),
+                        ntohl(tcphdr->seq), ntohl(tcphdr->ack_seq),
+                        datalen);
 
     if (cur == NULL) {
         if (tcphdr->syn) {
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "SYN %s/%u seq %u", dest,
-                                ntohs(tcphdr->dest), ntohl(tcphdr->seq));
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "New SYN");
 
             // Register connection
             struct connection *syn = malloc(sizeof(struct connection)); // TODO check/free
@@ -273,6 +313,8 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int len) {
             syn->daddr = iphdr->daddr;
             syn->dest = tcphdr->dest;
             syn->state = TCP_SYN_RECV;
+            syn->received = data;
+            syn->sent = NULL;
             syn->next = NULL;
 
             if (last == NULL)
@@ -352,17 +394,20 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int len) {
     }
     else {
         cur->time = time(NULL);
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Existing connection lport %u", cur->lport);
 
         if (tcphdr->syn) {
             // TODO
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "SYNx2 %s/%u", dest, ntohs(tcphdr->dest));
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Repeated SYN");
         }
         else if (tcphdr->ack) {
             // TODO
             // check seq
             // check ack
-            if (cur->state == TCP_SYN_SENT)
+            if (cur->state == TCP_SYN_SENT) {
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established");
                 cur->state = TCP_ESTABLISHED;
+            }
         }
 
         shutdown(cur->socket, SHUT_RDWR);
