@@ -64,7 +64,6 @@ import android.widget.RemoteViews;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -116,6 +115,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
 
     private native void jni_init();
+
+    private native void jni_tun(int fd);
 
     private native void jni_decode(byte[] buffer, int length);
 
@@ -695,10 +696,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             @Override
             public void run() {
                 FileInputStream in = null;
-                FileOutputStream out = null;
                 try {
                     in = new FileInputStream(pfd.getFileDescriptor());
-                    out = new FileOutputStream(pfd.getFileDescriptor());
+                    jni_tun(pfd.getFd());
 
                     Log.i(TAG, "Start receiving");
                     byte[] bytes = new byte[32768];
@@ -724,11 +724,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     try {
                         if (in != null)
                             in.close();
-                    } catch (IOException ignored) {
-                    }
-                    try {
-                        if (out != null)
-                            out.close();
                     } catch (IOException ignored) {
                     }
                 }

@@ -11,43 +11,54 @@
 
 // This should go into a header file later
 
+// https://www.gasmi.net/hpd/
+// Ethernet frame: 0800 2086 354b 00e0 f726 3fe9 0800
+
 #define TAG "NetGuard.JNI"
 #define MAXPKT 32768
 #define TIMEOUTPKT 30
-
-struct packet {
-    void *data;
-    struct packet *next;
-};
+#define TTL 64
 
 struct connection {
     time_t time;
-    int32_t saddr;
-    __be16 source;
-    int32_t daddr;
-    __be16 dest;
+    __be32 remote_seq; // host notation
+    __be32 local_seq; // host notation
+    int32_t saddr; // network notation
+    __be16 source; // network notation
+    int32_t daddr; // network notation
+    __be16 dest; // network notation
     int state;
     int socket;
-    int lport;
-    struct packet *packet;
+    int lport; // host notation
     struct connection *next;
 };
 
-struct connection *connection = NULL;
+void poll();
+
+void handle_tcp(JNIEnv *, jobject, jbyte *, int);
 
 void decode(JNIEnv *env, jobject instance, jbyte *, int);
 
 int getUid(int, int, void *, int);
 
-void handle_tcp(JNIEnv *, jobject, jbyte *, int);
+unsigned short checksum(unsigned short *, int);
 
-void poll();
+char *hex(jbyte *, int);
+
+int tun;
+struct connection *connection = NULL;
 
 // JNI interface
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
     __android_log_print(ANDROID_LOG_INFO, TAG, "Init");
+}
+
+JNIEXPORT void JNICALL
+Java_eu_faircode_netguard_SinkholeService_jni_1tun(JNIEnv *env, jobject instance, jint fd) {
+    __android_log_print(ANDROID_LOG_INFO, TAG, "tun");
+    tun = fd;
 }
 
 JNIEXPORT void JNICALL
@@ -89,7 +100,7 @@ void poll() {
         inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
 
         if (cur->state == TCP_CLOSE || cur->time + TIMEOUTPKT < now) {
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Close/timeout %s/%d lport=%d",
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Close/timeout %s/%u lport=%u",
                                 dest, ntohs(cur->dest), cur->lport);
 
             shutdown(cur->socket, SHUT_RDWR);
@@ -99,12 +110,11 @@ void poll() {
             else
                 last->next = cur->next;
 
-            free(cur->packet);
             free(cur);
 
         } else {
             if (cur->state == TCP_SYN_RECV) {
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Poll %s/%d lport=%d",
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Poll %s/%u lport=%u",
                                     dest, ntohs(cur->dest), cur->lport);
 
                 // Check connection state
@@ -144,7 +154,71 @@ void poll() {
                     }
 
                     // Send ACK
-                    cur->state = TCP_ESTABLISHED;
+                    // -> SYN seq=x
+                    // <- SYN-ACK ack=x+1 seq=y
+                    // -> ACK=y+1 seq=x+1
+
+                    // Build packet
+                    int len = sizeof(struct iphdr) + sizeof(struct tcphdr); // no data
+                    jbyte *buffer = calloc(len, 1); // TODO free
+                    struct iphdr *ip = buffer;
+                    struct tcphdr *tcp = buffer + sizeof(struct iphdr);
+
+                    // Build IP header
+                    ip->version = 4;
+                    ip->ihl = sizeof(struct iphdr) >> 2;
+                    ip->tot_len = htons(len);
+                    ip->ttl = TTL;
+                    ip->protocol = IPPROTO_TCP;
+                    ip->saddr = cur->daddr;
+                    ip->daddr = cur->saddr;
+
+                    // Calculate IP checksum
+                    ip->check = checksum(ip, sizeof(struct iphdr));
+
+                    // Build TCP header
+                    tcp->source = cur->dest;
+                    tcp->dest = cur->source;
+                    tcp->seq = htonl(cur->local_seq);
+                    tcp->ack_seq = htonl(cur->remote_seq + 1); // TODO proper wrap around
+                    tcp->doff = sizeof(struct tcphdr) >> 2;
+                    tcp->syn = 1;
+                    tcp->ack = 1;
+
+                    // Calculate TCP checksum
+                    int clen = sizeof(struct ippseudo) + sizeof(struct tcphdr);
+                    jbyte csum[clen];
+
+                    // Build pseudo header
+                    struct ippseudo *pseudo = csum;
+                    pseudo->ippseudo_src.s_addr = ip->saddr;
+                    pseudo->ippseudo_dst.s_addr = ip->daddr;
+                    pseudo->ippseudo_pad = 0;
+                    pseudo->ippseudo_p = ip->protocol;
+                    pseudo->ippseudo_len = htons(sizeof(struct tcphdr)); // no data
+
+                    // Copy TCP header
+                    memcpy(csum + sizeof(struct ippseudo), tcp, sizeof(struct tcphdr));
+
+                    tcp->check = checksum(csum, clen);
+
+                    char to[20];
+                    inet_ntop(AF_INET, &(ip->daddr), to, sizeof(to));
+
+                    // Send packet
+                    __android_log_print(ANDROID_LOG_DEBUG, TAG,
+                                        "Sending SYN+ACK to tun %s/%u ack %u len %d %s",
+                                        to, ntohs(tcp->dest), ntohl(tcp->ack_seq), len,
+                                        hex(buffer, len));
+                    if (write(tun, buffer, len) < 0) {
+                        // TODO
+                        __android_log_print(ANDROID_LOG_ERROR, TAG, "write error %d: %s",
+                                            errno, strerror(errno));
+                    }
+
+                    free(buffer);
+
+                    cur->state = TCP_SYN_SENT;
                 } else {
                     // TODO
                     __android_log_print(ANDROID_LOG_ERROR, TAG, "Connecting ready=%d", ready);
@@ -185,19 +259,19 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int len) {
 
     if (cur == NULL) {
         if (tcphdr->syn) {
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "SYN %s/%d", dest, ntohs(tcphdr->dest));
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "SYN %s/%u seq %u", dest,
+                                ntohs(tcphdr->dest), ntohl(tcphdr->seq));
 
             // Register connection
             struct connection *syn = malloc(sizeof(struct connection));
             syn->time = time(NULL);
+            syn->remote_seq = ntohl(tcphdr->seq);
+            syn->local_seq = 123;  // TODO randomize
             syn->saddr = iphdr->saddr;
             syn->source = tcphdr->source;
             syn->daddr = iphdr->daddr;
             syn->dest = tcphdr->dest;
             syn->state = TCP_SYN_RECV;
-            syn->packet = malloc(sizeof(struct packet));  // TODO free
-            syn->packet->data = copy;
-            syn->packet->next = NULL;
             syn->next = NULL;
 
             if (last == NULL)
@@ -271,7 +345,7 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int len) {
             else
                 syn->lport = ntohs(sin.sin_port);
 
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Connecting to %s/%d lport=%d",
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Connecting to %s/%u lport %u",
                                 dest, ntohs(tcphdr->dest), syn->lport);
         }
     }
@@ -280,8 +354,17 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int len) {
 
         if (tcphdr->syn) {
             // TODO
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "SYNx2 %s/%d", dest, ntohs(tcphdr->dest));
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "SYNx2 %s/%u", dest, ntohs(tcphdr->dest));
         }
+        else if (tcphdr->ack) {
+            // TODO
+            // check seq
+            // check ack
+            if (cur->state == TCP_SYN_SENT)
+                cur->state = TCP_ESTABLISHED;
+        }
+
+        shutdown(cur->socket, SHUT_RDWR);
     }
 }
 
@@ -309,6 +392,12 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
 
         jbyte optlen = (ip4hdr->ihl > 5 ? buffer[20] : 0);
         payload = buffer + 20 + optlen;
+
+        uint16_t csum = checksum(ip4hdr, sizeof(struct iphdr));
+        if (csum != 0) {
+            // TODO checksum
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid IP checksum");
+        }
     }
     else if (version == 6) {
         struct ip6_hdr *ip6hdr = buffer;
@@ -318,9 +407,11 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
         daddr = &ip6hdr->ip6_dst;
 
         payload = buffer + 40;
+
+        // TODO checksum
     }
     else {
-        __android_log_print(ANDROID_LOG_WARN, TAG, "Unknown version=%d", version);
+        __android_log_print(ANDROID_LOG_WARN, TAG, "Unknown version %d", version);
         return;
     }
 
@@ -346,11 +437,15 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
             flags[flen++] = 'F';
         if (tcp->fin)
             flags[flen++] = 'R';
+
+        // TODO checksum
     } else if (protocol == IPPROTO_UDP) {
         struct udphdr *udp = payload;
 
         sport = ntohs(udp->source);
         dport = ntohs(udp->dest);
+
+        // TODO checksum
     }
     flags[flen] = 0;
 
@@ -375,7 +470,8 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
         }
     }
 
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Packet v%d %s/%d -> %s/%d proto %d flags %s uid %d",
+    __android_log_print(ANDROID_LOG_DEBUG, TAG,
+                        "Packet v%d %s/%u -> %s/%u proto %d flags %s uid %d",
                         version, source, sport, dest, dport, protocol, flags, uid);
     poll();
     if (protocol == IPPROTO_TCP)
@@ -464,4 +560,50 @@ int getUid(int protocol, int version, void *saddr, int sport) {
     fclose(fd);
 
     return -1;
+}
+
+unsigned short checksum(unsigned short *addr, int len) {
+    register int sum = 0;
+    u_short answer = 0;
+    register u_short *w = addr;
+    register int nleft = len;
+
+    /*
+    * Our algorithm is simple, using a 32-bit accumulator (sum),
+    * we add sequential 16-bit words to it, and at the end, fold back
+    * all the carry bits from the top 16 bits into the lower 16 bits.
+    */
+
+    while (nleft > 1) {
+        sum += *w++;
+        nleft -= 2;
+    }
+
+    /* mop up an odd byte, if necessary */
+    if (nleft == 1) {
+        *(u_char *) (&answer) = *(u_char *) w;
+        sum += answer;
+    }
+
+    /* add back carry outs from top 16 bits to low 16 bits */
+    sum = (sum >> 16) + (sum & 0xffff); /* add hi 16 to low 16 */
+    sum += (sum >> 16); /* add carry */
+    answer = ~sum; /* truncate to 16 bits */
+    return (answer);
+}
+
+char *hex(jbyte *data, int len) {
+    char hex_str[] = "0123456789abcdef";
+
+    char *out;
+    out = (char *) malloc(len * 2 + 1);
+    (out)[len * 2] = 0;
+
+    if (!len) return NULL;
+
+    for (size_t i = 0; i < len; i++) {
+        (out)[i * 2 + 0] = hex_str[(data[i] >> 4) & 0x0F];
+        (out)[i * 2 + 1] = hex_str[(data[i]) & 0x0F];
+    }
+    return out;
 }
