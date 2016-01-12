@@ -750,15 +750,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 last_interactive).close();
     }
 
-    private void protectSocket(int socket) {
-        try {
-            if (!protect(socket))
-                Log.e(TAG, "Failed to protect socket");
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
-    }
-
     private void stopReceiving() {
         if (receiveThread != null)
             receiveThread.interrupt();
