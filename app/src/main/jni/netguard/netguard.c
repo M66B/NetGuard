@@ -16,27 +16,26 @@
 // Ethernet frame: 0800 2086 354b 00e0 f726 3fe9 0800
 
 #define TAG "NetGuard.JNI"
-#define MAXPKT 32768
 #define TIMEOUTPKT 30
 #define TTL 64
 
 struct data {
-    __be32 seq;
+    uint32_t seq; // host notation
     jbyte *data;
     struct data *next;
 };
 
 struct connection {
     time_t time;
-    __be32 remote_seq; // host notation
-    __be32 local_seq; // host notation
+    uint32_t remote_seq; // host notation
+    uint32_t local_seq; // host notation
     int32_t saddr; // network notation
     __be16 source; // network notation
     int32_t daddr; // network notation
     __be16 dest; // network notation
-    int state;
-    int socket;
-    int lport; // host notation
+    uint8_t state;
+    jint socket;
+    uint32_t lport; // host notation
     struct data *received;
     struct data *sent;
     struct connection *next;
@@ -44,17 +43,17 @@ struct connection {
 
 void poll();
 
-void handle_tcp(JNIEnv *, jobject, jbyte *, int);
+void handle_tcp(JNIEnv *, jobject, uint8_t *, uint16_t);
 
-void decode(JNIEnv *env, jobject instance, jbyte *, int);
+void decode(JNIEnv *env, jobject instance, uint8_t *, uint16_t);
 
-int getUid(int, int, void *, int);
+jint getUid(int, int, void *, uint16_t);
 
 unsigned short checksum(unsigned short *, int);
 
-char *hex(jbyte *, int);
+char *hex(u_int8_t *, u_int16_t);
 
-int tun;
+jint tun;
 struct connection *connection = NULL;
 pthread_mutex_t poll_lock;
 
@@ -89,6 +88,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1poll(JNIEnv *env, jobject instanc
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Poll");
     poll();
 }
+
 // Private functions
 
 void poll() {
@@ -162,7 +162,7 @@ void poll() {
                     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established ready=%d", ready);
 
                     int serr;
-                    int optlen = sizeof(serr);
+                    socklen_t optlen = sizeof(serr);
                     if (getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen) < 0) {
                         // TODO
                         __android_log_print(ANDROID_LOG_ERROR, TAG, "getsockopt error %d: %s",
@@ -184,8 +184,8 @@ void poll() {
                     // -> ACK=y+1 seq=x+1
 
                     // Build packet
-                    int len = sizeof(struct iphdr) + sizeof(struct tcphdr); // no data
-                    jbyte *buffer = calloc(len, 1); // TODO free
+                    uint16_t len = sizeof(struct iphdr) + sizeof(struct tcphdr); // no data
+                    u_int8_t *buffer = calloc(len, 1); // TODO free
                     struct iphdr *ip = buffer;
                     struct tcphdr *tcp = buffer + sizeof(struct iphdr);
 
@@ -211,7 +211,7 @@ void poll() {
                     tcp->ack = 1;
 
                     // Calculate TCP checksum
-                    int clen = sizeof(struct ippseudo) + sizeof(struct tcphdr);
+                    uint16_t clen = sizeof(struct ippseudo) + sizeof(struct tcphdr);
                     jbyte csum[clen];
 
                     // Build pseudo header
@@ -259,7 +259,7 @@ void poll() {
                             errno, strerror(errno));
 }
 
-void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
+void handle_tcp(JNIEnv *env, jobject instance, uint8_t *buffer, uint16_t length) {
     // Check version
     jbyte version = (*buffer) >> 4;
     if (version != 4)
@@ -267,15 +267,15 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
 
     // Get headers
     struct iphdr *iphdr = buffer;
-    jbyte optlen = (iphdr->ihl > 5 ? buffer[sizeof(struct iphdr)] : 0);
+    uint8_t optlen = (iphdr->ihl - 5) * 4;
     struct tcphdr *tcphdr = buffer + sizeof(struct iphdr) + optlen;
 
     if (ntohs(iphdr->tot_len) != length)
         __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid length %u/%d", iphdr->tot_len, length);
 
     // Get data
-    int dataoff = sizeof(struct iphdr) + optlen + sizeof(struct tcphdr);
-    int datalen = length - dataoff;
+    uint16_t dataoff = sizeof(struct iphdr) + optlen + sizeof(struct tcphdr);
+    uint16_t datalen = length - dataoff;
     struct data *data = malloc(sizeof(struct data));
     data->seq = ntohl(tcphdr->seq);
     data->data = malloc(datalen); // TODO free
@@ -332,7 +332,7 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
             }
 
             // Set non blocking
-            int flags = fcntl(syn->socket, F_GETFL, 0);
+            uint8_t flags = fcntl(syn->socket, F_GETFL, 0);
             if (flags < 0 || fcntl(syn->socket, F_SETFL, flags | O_NONBLOCK) < 0) {
                 // TODO
                 __android_log_print(ANDROID_LOG_ERROR, TAG, "fcntl error %d: %s",
@@ -414,15 +414,15 @@ void handle_tcp(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
     }
 }
 
-void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
-    jbyte protocol;
+void decode(JNIEnv *env, jobject instance, uint8_t *buffer, uint16_t length) {
+    uint8_t protocol;
     void *saddr;
     void *daddr;
     char source[40];
     char dest[40];
     char flags[10];
     int flen = 0;
-    jbyte *payload;
+    uint8_t *payload;
 
     // Get protocol, addresses & payload
     jbyte version = (*buffer) >> 4;
@@ -436,7 +436,7 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
         if (ip4hdr->frag_off & IP_MF)
             flags[flen++] = '+';
 
-        jbyte optlen = (ip4hdr->ihl > 5 ? buffer[20] : 0);
+        uint8_t optlen = (ip4hdr->ihl - 5) * 4;
         payload = buffer + 20 + optlen;
 
         uint16_t csum = checksum(ip4hdr, sizeof(struct iphdr));
@@ -465,8 +465,8 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
     inet_ntop(version == 4 ? AF_INET : AF_INET6, daddr, dest, sizeof(dest));
 
     // Get ports & flags
-    int sport = -1;
-    int dport = -1;
+    uint16_t sport = -1;
+    uint16_t dport = -1;
     if (protocol == IPPROTO_TCP) {
         struct tcphdr *tcp = payload;
 
@@ -496,7 +496,7 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
     flags[flen] = 0;
 
     // Get uid
-    int uid = -1;
+    jint uid = -1;
     if (protocol == IPPROTO_TCP || protocol == IPPROTO_UDP) {
         // Sleep 10 ms
         struct timespec tim, tim2;
@@ -548,13 +548,13 @@ void decode(JNIEnv *env, jobject instance, jbyte *buffer, int length) {
     }
 }
 
-int getUid(int protocol, int version, void *saddr, int sport) {
+jint getUid(int protocol, int version, void *saddr, uint16_t sport) {
     char line[250];
     int fields;
     int32_t addr32;
     int8_t addr128[16];
-    int port;
-    int uid = -1;
+    uint16_t port;
+    jint uid = -1;
 
     // Get proc file name
     char *fn = NULL;
@@ -608,6 +608,8 @@ int getUid(int protocol, int version, void *saddr, int sport) {
     return -1;
 }
 
+// TODO data types
+// TODO endianess
 unsigned short checksum(unsigned short *addr, int len) {
     register int sum = 0;
     u_short answer = 0;
@@ -638,7 +640,7 @@ unsigned short checksum(unsigned short *addr, int len) {
     return (answer);
 }
 
-char *hex(jbyte *data, int len) {
+char *hex(u_int8_t *data, u_int16_t len) {
     char hex_str[] = "0123456789abcdef";
 
     char *out;
