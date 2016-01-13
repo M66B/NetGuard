@@ -78,7 +78,6 @@ char *hex(const u_int8_t *, const u_int16_t);
 
 static JavaVM *jvm;
 int running = 0;
-int stopped = 1;
 pthread_t thread_id;
 struct connection *connection = NULL;
 
@@ -92,25 +91,29 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
     if (rs != JNI_OK)
         __android_log_print(ANDROID_LOG_ERROR, TAG, "GetJavaVM failed");
 
-    running = 1;
     struct arguments *args = malloc(sizeof(struct arguments));
     args->instance = (*env)->NewGlobalRef(env, instance);
     args->tun = tun;
-    if (pthread_create(&thread_id, NULL, handle_events, args) != 0) {
-        running = 0;
+    if (pthread_create(&thread_id, NULL, handle_events, args) != 0)
         __android_log_print(ANDROID_LOG_ERROR, TAG, "pthread_create error %d: %s",
                             errno, strerror(errno));
-    }
+    else
+        running = 1;
 }
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance, jint tun) {
-    running = 0;
-    while (!stopped) {
-        // TODO interrupt thread
-        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopping");
-        nsleep(1000 * 1000L * 1000L);
-    }
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stop");
+    if (running) {
+        int err = pthread_kill(thread_id, SIGUSR1);
+        if (err != 0)
+            __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_kill error %d", err);
+        pthread_join(thread_id, NULL);
+        if (err != 0)
+            __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_join error %d", err);
+        running = 0;
+    } else
+        __android_log_print(ANDROID_LOG_WARN, TAG, "Notrunning");
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped");
 }
 
@@ -123,6 +126,10 @@ Java_eu_faircode_netguard_SinkholeService_jni_1reload(JNIEnv *env, jobject insta
 }
 
 // Private functions
+
+void sig_handler(int sig, siginfo_t *info, void *context) {
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Signal %d", sig);
+}
 
 void *handle_events(void *a) {
     struct arguments *args = (struct arguments *) a;
@@ -137,11 +144,25 @@ void *handle_events(void *a) {
     fd_set rfds;
     fd_set wfds;
     fd_set efds;
-    struct timeval tv;
+    struct timespec ts;
     char dest[20];
+    sigset_t blockset;
+    sigset_t emptyset;
+    struct sigaction sa;
 
-    stopped = 0;
-    while (running) {
+    // Block SIGUSR1
+    sigemptyset(&blockset);
+    sigaddset(&blockset, SIGUSR1);
+    sigprocmask(SIG_BLOCK, &blockset, NULL);
+
+    /// Handle SIGUSR1
+    sa.sa_sigaction = sig_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART;
+    sigaction(SIGUSR1, &sa, NULL);
+
+    // Loop
+    while (1) {
         time_t now = time(NULL);
         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Select");
 
@@ -213,14 +234,20 @@ void *handle_events(void *a) {
             cur = cur->next;
         }
 
-        tv.tv_sec = 10;
-        tv.tv_usec = 0;
-        int ready = select(max + 1, &rfds, &wfds, &efds, &tv);
+        ts.tv_sec = 10;
+        ts.tv_nsec = 0;
+        sigemptyset(&emptyset);
+        int ready = pselect(max + 1, &rfds, &wfds, &efds, &ts, &emptyset);
         if (ready < 0) {
-            __android_log_print(ANDROID_LOG_ERROR, TAG, "select error %d: %s",
-                                errno, strerror(errno));
-            nsleep(1000 * 1000L * 1000L);
-            continue;
+            if (errno == EINTR) {
+                __android_log_print(ANDROID_LOG_INFO, TAG, "pselect interrupted");
+                break;
+            } else {
+                __android_log_print(ANDROID_LOG_ERROR, TAG, "select error %d: %s",
+                                    errno, strerror(errno));
+                nsleep(1000 * 1000L * 1000L);
+                continue;
+            }
         }
 
         if (ready == 0)
@@ -229,7 +256,6 @@ void *handle_events(void *a) {
             // Check tun
             if (FD_ISSET(args->tun, &efds)) {
                 __android_log_print(ANDROID_LOG_ERROR, TAG, "tun exception");
-                running = 0;
                 break;
             }
 
@@ -239,13 +265,14 @@ void *handle_events(void *a) {
                 if (length < 0) {
                     __android_log_print(ANDROID_LOG_ERROR, TAG, "tun read error %d: %s",
                                         errno, strerror(errno));
-                    running = 0;
                     break;
                 }
                 if (length > 0)
                     decode(env, args->instance, buffer, length);
-                else
-                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "tun empty read");
+                else {
+                    __android_log_print(ANDROID_LOG_ERROR, TAG, "tun empty read");
+                    break;
+                }
             }
 
             // Check sockets
@@ -324,7 +351,6 @@ void *handle_events(void *a) {
         __android_log_print(ANDROID_LOG_ERROR, TAG, "DetachCurrentThread failed");
     free(args);
 
-    stopped = 1;
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped events tun=%d", args->tun);
 }
 

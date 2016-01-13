@@ -665,6 +665,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setConfigureIntent(pi);
 
+        builder.setBlocking(true);
+
         // Start VPN service
         try {
             return builder.establish();
