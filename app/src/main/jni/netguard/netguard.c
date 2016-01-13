@@ -62,7 +62,7 @@ void handle_tcp(JNIEnv *, jobject, const uint8_t *, const uint16_t);
 
 int openSocket(JNIEnv *, jobject, const struct sockaddr_in *);
 
-int sendSYN(const struct connection *, const int);
+int writeSYN(const struct connection *, const int);
 
 void decode(JNIEnv *, jobject, const uint8_t *, const uint16_t);
 
@@ -161,7 +161,7 @@ void *handle_events(void *a) {
             if (cur->time + TIMEOUTPKT < now) {
                 // Log
                 inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Idle %s/%u lport=%u",
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Idle %s/%u lport %u",
                                     dest, ntohs(cur->dest), cur->lport);
 
                 // TODO check if open
@@ -199,6 +199,11 @@ void *handle_events(void *a) {
                 if (cur->state == TCP_SYN_RECV) {
                     // TODO check if tun writable?
                     FD_SET(cur->socket, &wfds);
+                    if (cur->socket > max)
+                        max = cur->socket;
+                }
+                else if (cur->state == TCP_ESTABLISHED) {
+                    FD_SET(cur->socket, &rfds);
                     if (cur->socket > max)
                         max = cur->socket;
                 }
@@ -251,14 +256,12 @@ void *handle_events(void *a) {
                     int serr;
                     socklen_t optlen = sizeof(serr);
                     if (getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen) < 0) {
-                        // TODO
                         __android_log_print(ANDROID_LOG_ERROR, TAG, "getsockopt error %d: %s",
                                             errno, strerror(errno));
                         cur->state = TCP_CLOSE;
                         continue;
                     }
                     if (serr) {
-                        // TODO
                         __android_log_print(ANDROID_LOG_ERROR, TAG, "SO_ERROR %d: %s",
                                             serr, strerror(serr));
                         cur->state = TCP_CLOSE;
@@ -272,14 +275,44 @@ void *handle_events(void *a) {
                         // Log
                         char dest[20];
                         inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
-                        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established %s/%u lport=%u",
+                        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established %s/%u lport %u",
                                             dest, ntohs(cur->dest), cur->lport);
-                        if (sendSYN(cur, args->tun) < 0)
+
+                        // Set blocking
+                        uint8_t flags = fcntl(cur->socket, F_GETFL, 0);
+                        if (flags < 0 || fcntl(cur->socket, F_SETFL, flags & ~O_NONBLOCK) < 0) {
+                            __android_log_print(ANDROID_LOG_ERROR, TAG, "fcntl error %d: %s",
+                                                errno, strerror(errno));
+                            return -1;
+                        }
+
+                        if (writeSYN(cur, args->tun) < 0)
                             cur->state = TCP_CLOSE;
                         else
                             cur->state = TCP_SYN_SENT;
                     }
                 }
+
+                // Check incoming data
+                if (cur->state == TCP_ESTABLISHED) {
+                    if (FD_ISSET(cur->socket, &rfds)) {
+                        uint8_t buffer[MAXPKT];
+                        ssize_t bytes = recv(cur->socket, buffer, MAXPKT, MSG_DONTWAIT);
+                        if (bytes < 0) {
+                            __android_log_print(ANDROID_LOG_ERROR, TAG, "recv error %d: %s",
+                                                errno, strerror(errno));
+                            cur->state = TCP_CLOSE;
+                        }
+                        else if (bytes == 0) {
+                            __android_log_print(ANDROID_LOG_ERROR, TAG, "recv socket closed");
+                            cur->state = TCP_CLOSE;
+                        } else {
+                            __android_log_print(ANDROID_LOG_DEBUG, TAG, "recv lport %u bytes %d",
+                                                cur->lport, bytes);
+                        }
+                    }
+                }
+
                 cur = cur->next;
             }
         }
@@ -412,14 +445,6 @@ int openSocket(JNIEnv *env, jobject instance, const struct sockaddr_in *daddr) {
         return -1;
     }
 
-    // Set non blocking
-    uint8_t flags = fcntl(sock, F_GETFL, 0);
-    if (flags < 0 || fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) {
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "fcntl error %d: %s",
-                            errno, strerror(errno));
-        return -1;
-    }
-
     // Protect
     jclass cls = (*env)->GetObjectClass(env, instance);
     jmethodID mid = (*env)->GetMethodID(env, cls, "protect", "(I)Z");
@@ -438,6 +463,14 @@ int openSocket(JNIEnv *env, jobject instance, const struct sockaddr_in *daddr) {
             (*env)->ExceptionClear(env);
             (*env)->DeleteLocalRef(env, ex);
         }
+    }
+
+    // Set non blocking
+    uint8_t flags = fcntl(sock, F_GETFL, 0);
+    if (flags < 0 || fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "fcntl error %d: %s",
+                            errno, strerror(errno));
+        return -1;
     }
 
     // Initiate connect
@@ -462,7 +495,7 @@ int getLocalPort(const int sock) {
         return ntohs(sin.sin_port);
 }
 
-int sendSYN(const struct connection *cur, int tun) {
+int writeSYN(const struct connection *cur, int tun) {
     // Build packet
     uint16_t len = sizeof(struct iphdr) + sizeof(struct tcphdr); // no data
     u_int8_t *buffer = calloc(len, 1);
