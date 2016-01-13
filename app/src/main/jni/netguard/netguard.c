@@ -60,15 +60,17 @@ void *handle_events(void *);
 
 void handle_tcp(JNIEnv *, jobject, const uint8_t *, const uint16_t);
 
-void sendSYN(const struct connection *cur, int tun);
+int openSocket(JNIEnv *, jobject, const struct sockaddr_in *);
 
-void decode(JNIEnv *env, jobject, const uint8_t *, const uint16_t);
+int sendSYN(const struct connection *, const int);
+
+void decode(JNIEnv *, jobject, const uint8_t *, const uint16_t);
 
 jint getUid(const int, const int, const void *, const uint16_t);
 
 unsigned short checksum(unsigned short *, int);
 
-void nsleep(long);
+void nsleep(const long);
 
 char *hex(const u_int8_t *, const u_int16_t);
 
@@ -87,9 +89,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Starting tun=%d", tun);
 
     jint rs = (*env)->GetJavaVM(env, &jvm);
-    if (rs == JNI_OK)
-        __android_log_print(ANDROID_LOG_DEBUG, TAG, "GetJavaVM OK");
-    else
+    if (rs != JNI_OK)
         __android_log_print(ANDROID_LOG_ERROR, TAG, "GetJavaVM failed");
 
     running = 1;
@@ -107,8 +107,9 @@ JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance, jint tun) {
     running = 0;
     while (!stopped) {
+        // TODO interrupt thread
         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopping");
-        nsleep(100 * 1000L * 1000L);
+        nsleep(1000 * 1000L * 1000L);
     }
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped");
 }
@@ -129,17 +130,13 @@ void *handle_events(void *a) {
 
     JNIEnv *env;
     jint rs = (*jvm)->AttachCurrentThread(jvm, &env, NULL);
-    if (rs == JNI_OK)
-        __android_log_print(ANDROID_LOG_DEBUG, TAG, "AttachCurrentThread OK");
-    else
+    if (rs != JNI_OK)
         __android_log_print(ANDROID_LOG_ERROR, TAG, "AttachCurrentThread failed");
 
     int max;
-    int out;
     fd_set rfds;
     fd_set wfds;
     fd_set efds;
-    fd_set swfds;
     struct timeval tv;
     char dest[20];
 
@@ -158,7 +155,6 @@ void *handle_events(void *a) {
 
         max = args->tun;
 
-        out = 0;
         struct connection *last = NULL;
         struct connection *cur = connection;
         while (cur != NULL) {
@@ -201,6 +197,7 @@ void *handle_events(void *a) {
 
             } else {
                 if (cur->state == TCP_SYN_RECV) {
+                    // TODO check if tun writable?
                     FD_SET(cur->socket, &wfds);
                     if (cur->socket > max)
                         max = cur->socket;
@@ -209,12 +206,6 @@ void *handle_events(void *a) {
 
             last = cur;
             cur = cur->next;
-        }
-
-        if (out) {
-            FD_SET(args->tun, &wfds);
-            if (args->tun > max)
-                max = args->tun;
         }
 
         tv.tv_sec = 10;
@@ -252,10 +243,6 @@ void *handle_events(void *a) {
                     __android_log_print(ANDROID_LOG_DEBUG, TAG, "tun empty read");
             }
 
-            if (FD_ISSET(args->tun, &wfds)) {
-                // TODO: send buffered packets
-            }
-
             // Check sockets
             struct connection *cur = connection;
             while (cur != NULL) {
@@ -287,8 +274,10 @@ void *handle_events(void *a) {
                         inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
                         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established %s/%u lport=%u",
                                             dest, ntohs(cur->dest), cur->lport);
-                        sendSYN(cur, args->tun);
-                        cur->state = TCP_SYN_SENT;
+                        if (sendSYN(cur, args->tun) < 0)
+                            cur->state = TCP_CLOSE;
+                        else
+                            cur->state = TCP_SYN_SENT;
                     }
                 }
                 cur = cur->next;
@@ -298,9 +287,7 @@ void *handle_events(void *a) {
 
     (*env)->DeleteGlobalRef(env, args->instance);
     rs = (*jvm)->DetachCurrentThread(jvm);
-    if (rs == JNI_OK)
-        __android_log_print(ANDROID_LOG_DEBUG, TAG, "DetachCurrentThread OK");
-    else
+    if (rs != JNI_OK)
         __android_log_print(ANDROID_LOG_ERROR, TAG, "DetachCurrentThread failed");
     free(args);
 
@@ -365,80 +352,30 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
             syn->received = data;
             syn->sent = NULL;
             syn->next = NULL;
+            // TODO handle data
+
+            // Build target address
+            struct sockaddr_in daddr;
+            memset(&daddr, 0, sizeof(struct sockaddr_in));
+            daddr.sin_family = AF_INET;
+            daddr.sin_port = tcphdr->dest;
+            daddr.sin_addr.s_addr = iphdr->daddr;
+
+            // Open socket
+            syn->socket = openSocket(env, instance, &daddr);
+            if (syn->socket < 0)
+                syn->state = TCP_CLOSE;
+            else {
+                syn->lport = getLocalPort(syn->socket);
+
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Connecting to %s/%u lport %u",
+                                    dest, ntohs(tcphdr->dest), syn->lport);
+            }
 
             if (last == NULL)
                 connection = syn;
             else
                 last->next = syn;
-
-            // Get TCP socket
-            if ((syn->socket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-                // TODO
-                __android_log_print(ANDROID_LOG_ERROR, TAG, "socket error %d: %s",
-                                    errno, strerror(errno));
-                syn->state = TCP_CLOSE;
-                return;
-            }
-
-            // Set non blocking
-            uint8_t flags = fcntl(syn->socket, F_GETFL, 0);
-            if (flags < 0 || fcntl(syn->socket, F_SETFL, flags | O_NONBLOCK) < 0) {
-                // TODO
-                __android_log_print(ANDROID_LOG_ERROR, TAG, "fcntl error %d: %s",
-                                    errno, strerror(errno));
-                syn->state = TCP_CLOSE;
-                return;
-            }
-
-            // Protect
-            jclass cls = (*env)->GetObjectClass(env, instance);
-            jmethodID mid = (*env)->GetMethodID(env, cls, "protect", "(I)Z");
-            if (mid == 0) {
-                __android_log_print(ANDROID_LOG_ERROR, TAG, "protect not found");
-                syn->state = TCP_CLOSE;
-                return;
-            }
-            else {
-                jboolean isProtected = (*env)->CallBooleanMethod(env, instance, mid, syn->socket);
-                if (!isProtected)
-                    __android_log_print(ANDROID_LOG_ERROR, TAG, "protect failed");
-
-                jthrowable ex = (*env)->ExceptionOccurred(env);
-                if (ex) {
-                    (*env)->ExceptionDescribe(env);
-                    (*env)->ExceptionClear(env);
-                    (*env)->DeleteLocalRef(env, ex);
-                }
-            }
-
-            // Build target address
-            struct sockaddr_in a;
-            memset(&a, 0, sizeof(struct sockaddr_in));
-            a.sin_family = AF_INET;
-            a.sin_port = tcphdr->dest;
-            a.sin_addr.s_addr = iphdr->daddr;
-
-            // Initiate connect
-            int err = connect(syn->socket, &a, sizeof(struct sockaddr_in));
-            if (err < 0 && errno != EINPROGRESS) {
-                // TODO
-                __android_log_print(ANDROID_LOG_ERROR, TAG, "connect error %d: %s",
-                                    errno, strerror(errno));
-                syn->state = TCP_CLOSE;
-                return;
-            }
-
-            // Get local port
-            struct sockaddr_in sin;
-            int sinlen = sizeof(sin);
-            if (getsockname(syn->socket, &sin, &sinlen) < 0)
-                __android_log_print(ANDROID_LOG_ERROR, TAG, "getsockname error %d: %s",
-                                    errno, strerror(errno));
-            else
-                syn->lport = ntohs(sin.sin_port);
-
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Connecting to %s/%u lport %u",
-                                dest, ntohs(tcphdr->dest), syn->lport);
         }
     }
     else {
@@ -462,12 +399,70 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
                 }
             }
         }
-
-        shutdown(cur->socket, SHUT_RDWR);
     }
 }
 
-void sendSYN(const struct connection *cur, int tun) {
+int openSocket(JNIEnv *env, jobject instance, const struct sockaddr_in *daddr) {
+    int sock = -1;
+
+    // Get TCP socket
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "socket error %d: %s",
+                            errno, strerror(errno));
+        return -1;
+    }
+
+    // Set non blocking
+    uint8_t flags = fcntl(sock, F_GETFL, 0);
+    if (flags < 0 || fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "fcntl error %d: %s",
+                            errno, strerror(errno));
+        return -1;
+    }
+
+    // Protect
+    jclass cls = (*env)->GetObjectClass(env, instance);
+    jmethodID mid = (*env)->GetMethodID(env, cls, "protect", "(I)Z");
+    if (mid == 0) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "protect not found");
+        return -1;
+    }
+    else {
+        jboolean isProtected = (*env)->CallBooleanMethod(env, instance, mid, sock);
+        if (!isProtected)
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "protect failed");
+
+        jthrowable ex = (*env)->ExceptionOccurred(env);
+        if (ex) {
+            (*env)->ExceptionDescribe(env);
+            (*env)->ExceptionClear(env);
+            (*env)->DeleteLocalRef(env, ex);
+        }
+    }
+
+    // Initiate connect
+    int err = connect(sock, daddr, sizeof(struct sockaddr_in));
+    if (err < 0 && errno != EINPROGRESS) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "connect error %d: %s",
+                            errno, strerror(errno));
+        return -1;
+    }
+
+    return sock;
+}
+
+int getLocalPort(const int sock) {
+    struct sockaddr_in sin;
+    int len = sizeof(sin);
+    if (getsockname(sock, &sin, &len) < 0) {
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "getsockname error %d: %s",
+                            errno, strerror(errno));
+        return -1;
+    } else
+        return ntohs(sin.sin_port);
+}
+
+int sendSYN(const struct connection *cur, int tun) {
     // Build packet
     uint16_t len = sizeof(struct iphdr) + sizeof(struct tcphdr); // no data
     u_int8_t *buffer = calloc(len, 1);
@@ -520,13 +515,14 @@ void sendSYN(const struct connection *cur, int tun) {
                         "Sending SYN+ACK to tun %s/%u seq %u ack %u",
                         to, ntohs(tcp->dest),
                         ntohl(tcp->seq), ntohl(tcp->ack_seq));
-    if (write(tun, buffer, len) < 0) {
-        // TODO
+    int res = write(tun, buffer, len);
+    if (res < 0)
         __android_log_print(ANDROID_LOG_ERROR, TAG, "write error %d: %s",
                             errno, strerror(errno));
-    }
 
     free(buffer);
+
+    return res;
 }
 
 void decode(JNIEnv *env, jobject instance, const uint8_t *buffer, const uint16_t length) {
@@ -760,7 +756,7 @@ unsigned short checksum(unsigned short *addr, int len) {
     return (answer);
 }
 
-void nsleep(long ns) {
+void nsleep(const long ns) {
     struct timespec tim, tim2;
     tim.tv_sec = ns / 1000000000L;
     tim.tv_nsec = ns % 1000000000L;
