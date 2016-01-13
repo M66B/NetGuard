@@ -37,6 +37,7 @@ struct arguments {
 struct data {
     uint32_t seq; // host notation
     jbyte *data;
+    uint32_t len;
     struct data *next;
 };
 
@@ -109,9 +110,11 @@ JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance, jint tun) {
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stop");
     if (running) {
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Kill");
         int err = pthread_kill(thread_id, SIGUSR1);
         if (err != 0)
             __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_kill error %d", err);
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Join");
         pthread_join(thread_id, NULL);
         if (err != 0)
             __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_join error %d", err);
@@ -190,9 +193,11 @@ void *handle_events(void *a) {
                                     dest, ntohs(cur->dest), cur->lport);
 
                 // TODO check if open
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Shutdown");
                 shutdown(cur->socket, SHUT_RDWR);
                 // TODO check for errors
 
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Unlink");
                 if (last == NULL)
                     connection = cur->next;
                 else
@@ -200,6 +205,7 @@ void *handle_events(void *a) {
 
                 struct data *prev;
 
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Free received");
                 struct data *received = cur->received;
                 while (received != NULL) {
                     prev = received;
@@ -209,6 +215,7 @@ void *handle_events(void *a) {
                     free(prev);
                 }
 
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Free send");
                 struct data *sent = cur->sent;
                 while (sent != NULL) {
                     prev = sent;
@@ -218,6 +225,7 @@ void *handle_events(void *a) {
                     free(prev);
                 }
 
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Free");
                 free(cur);
 
             } else {
@@ -373,6 +381,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
     data->next = NULL;
     if (datalen)
         memcpy(data->data, buffer + dataoff, datalen);
+    data->len = datalen;
 
     // Search connection
     struct connection *last = NULL;
@@ -385,10 +394,10 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
     // Log
     char dest[20];
     inet_ntop(AF_INET, &(iphdr->daddr), dest, sizeof(dest));
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "%s/%u seq %u ack %u data %d",
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "%s/%u seq %u ack %u data %d %s",
                         dest, ntohs(tcphdr->dest),
                         ntohl(tcphdr->seq), ntohl(tcphdr->ack_seq),
-                        datalen);
+                        datalen, hex(data->data, data->len));
 
     if (cur == NULL) {
         if (tcphdr->syn) {
@@ -407,7 +416,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
             syn->received = data;
             syn->sent = NULL;
             syn->next = NULL;
-            // TODO handle data
+            syn->received = data;
 
             // Build target address
             struct sockaddr_in daddr;
@@ -443,11 +452,15 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
             cur->time = time(NULL);
 
             if (cur->state == TCP_SYN_SENT) {
-                // TODO check seq
                 if (ntohl(tcphdr->ack_seq) == cur->local_seq + 1 &&
-                    ntohl(tcphdr->seq) == cur->remote_seq + 1) {
-                    cur->local_seq++;
-                    cur->remote_seq++;
+                    ntohl(tcphdr->seq) == cur->remote_seq + cur->received->len + 1) {
+                    cur->local_seq += 1;
+                    cur->remote_seq += cur->received->len + 1;
+
+                    if (cur->received->data != NULL)
+                        free(cur->received->data);
+                    free(cur->received);
+                    cur->received = NULL;
 
                     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established");
                     cur->state = TCP_ESTABLISHED;
@@ -557,7 +570,7 @@ int writeSYN(const struct connection *cur, int tun) {
     tcp->source = cur->dest;
     tcp->dest = cur->source;
     tcp->seq = htonl(cur->local_seq);
-    tcp->ack_seq = htonl(cur->remote_seq + 1); // TODO proper wrap around
+    tcp->ack_seq = htonl(cur->remote_seq + cur->received->len + 1); // TODO proper wrap around
     tcp->doff = sizeof(struct tcphdr) >> 2;
     tcp->syn = 1;
     tcp->ack = 1;
@@ -835,18 +848,19 @@ void nsleep(const long ns) {
     nanosleep(&tim, &tim2);
 }
 
+char hexout[250];
+
 char *hex(const u_int8_t *data, const u_int16_t len) {
     char hex_str[] = "0123456789ABCDEF";
 
-    char *out;
-    out = (char *) malloc(len * 2 + 1); // TODO free
-    (out)[len * 2] = 0;
-
-    if (!len) return NULL;
+    //char *out;
+    //out = (char *) malloc(len * 3 + 1); // TODO free
+    hexout[len * 3] = 0;
 
     for (size_t i = 0; i < len; i++) {
-        (out)[i * 2 + 0] = hex_str[(data[i] >> 4) & 0x0F];
-        (out)[i * 2 + 1] = hex_str[(data[i]) & 0x0F];
+        hexout[i * 3 + 0] = hex_str[(data[i] >> 4) & 0x0F];
+        hexout[i * 3 + 1] = hex_str[(data[i]) & 0x0F];
+        hexout[i * 3 + 2] = ' ';
     }
-    return out;
+    return hexout;
 }
