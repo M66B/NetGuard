@@ -84,8 +84,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
-    private Thread receiveThread = null;
-    private Thread pollThread = null;
 
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
@@ -115,13 +113,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
 
-    private native void jni_init();
+    private native void jni_start(int tun);
 
-    private native void jni_tun(int fd);
+    private native void jni_stop(int tun);
 
-    private native void jni_decode(byte[] buffer, int length);
-
-    private native void jni_poll();
+    private native void jni_reload(int tun);
 
     static {
         System.loadLibrary("netguard");
@@ -250,7 +246,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             if (vpn == null)
                                 throw new IllegalStateException("VPN start failed");
                             if (prefs.getBoolean("log", false))
-                                startReceiving(vpn);
+                                jni_start(vpn.getFd());
                             removeDisabledNotification();
                         }
                         break;
@@ -277,16 +273,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             if (vpn == null)
                                 throw new IllegalStateException("Handover failed");
                         }
-                        stopReceiving();
-                        if (prefs.getBoolean("log", false))
-                            startReceiving(vpn);
+                        jni_reload(vpn.getFd());
                         if (prev != null)
                             stopVPN(prev);
                         break;
 
                     case stop:
                         if (vpn != null) {
-                            stopReceiving();
+                            jni_stop(vpn.getFd());
                             stopVPN(vpn);
                             vpn = null;
                         }
@@ -671,8 +665,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setConfigureIntent(pi);
 
-        builder.setBlocking(true);
-
         // Start VPN service
         try {
             return builder.establish();
@@ -692,64 +684,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    private void startReceiving(final ParcelFileDescriptor pfd) {
-        receiveThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                FileInputStream in = null;
-                try {
-                    in = new FileInputStream(pfd.getFileDescriptor());
-                    jni_tun(pfd.getFd());
-
-                    // TODO read native
-                    Log.i(TAG, "Start receiving");
-                    byte[] bytes = new byte[32768];
-                    while (!Thread.currentThread().isInterrupted() &&
-                            pfd.getFileDescriptor() != null &&
-                            pfd.getFileDescriptor().valid())
-                        try {
-                            int length = in.read(bytes);
-                            if (length > 0)
-                                jni_decode(bytes, length);
-                        } catch (Throwable ex) {
-                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        }
-                    Log.i(TAG, "End receiving");
-                } catch (Throwable ex) {
-                    if (!Thread.currentThread().isInterrupted() &&
-                            pfd.getFileDescriptor() != null &&
-                            pfd.getFileDescriptor().valid()) {
-                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        Util.sendCrashReport(ex, SinkholeService.this);
-                    }
-                } finally {
-                    try {
-                        if (in != null)
-                            in.close();
-                    } catch (IOException ignored) {
-                    }
-                }
-            }
-        }, getString(R.string.app_name) + " receive");
-        receiveThread.start();
-
-        pollThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!Thread.currentThread().isInterrupted())
-                    try {
-                        Thread.sleep(5000);
-                        jni_poll();
-                    } catch (InterruptedException ignore) {
-                        break;
-                    }
-            }
-        }, getString(R.string.app_name) + " poll");
-        pollThread.start();
-    }
-
     // Called from native code
-    private void logPacket(int version, String saddr, int sport, String daddr, int dport, int protocol, String flags, int uid) {
+    private void logPacket(
+            int version,
+            String saddr, int sport,
+            String daddr, int dport,
+            int protocol, String flags,
+            int uid, boolean allowed) {
         new DatabaseHelper(SinkholeService.this).insertLog(
                 version,
                 daddr,
@@ -759,13 +700,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 uid,
                 (last_connected ? last_metered ? 2 : 1 : 0),
                 last_interactive).close();
-    }
-
-    private void stopReceiving() {
-        if (receiveThread != null)
-            receiveThread.interrupt();
-        if (pollThread != null)
-            pollThread.interrupt();
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
@@ -956,9 +890,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
-
-        // Native
-        jni_init();
     }
 
     @Override
@@ -1055,7 +986,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         if (vpn != null) {
-            stopReceiving();
+            jni_stop(vpn.getFd());
             stopVPN(vpn);
             vpn = null;
         }

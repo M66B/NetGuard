@@ -1,14 +1,16 @@
 #include <jni.h>
+#include <android/log.h>
+
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
-#include <android/log.h>
+#include <pthread.h>
+
 #include <arpa/inet.h>
 #include <netinet/ip.h>
 #include <netinet/ip6.h>
 #include <netinet/udp.h>
 #include <netinet/tcp.h>
-#include <pthread.h>
 
 // 3 way handshake
 // -> SYN seq=x
@@ -23,8 +25,14 @@
 // TODO header file
 
 #define TAG "NetGuard.JNI"
+#define MAXPKT 32678
 #define TIMEOUTPKT 30
 #define TTL 64
+
+struct arguments {
+    jobject instance;
+    int tun;
+};
 
 struct data {
     uint32_t seq; // host notation
@@ -48,131 +56,211 @@ struct connection {
     struct connection *next;
 };
 
-void poll();
+void *handle_events(void *);
 
 void handle_tcp(JNIEnv *, jobject, const uint8_t *, const uint16_t);
 
-void sendSYN(const struct connection *cur);
+void sendSYN(const struct connection *cur, int tun);
 
-void decode(JNIEnv *env, jobject instance, const uint8_t *, const uint16_t);
+void decode(JNIEnv *env, jobject, const uint8_t *, const uint16_t);
 
 jint getUid(const int, const int, const void *, const uint16_t);
 
 unsigned short checksum(unsigned short *, int);
 
+void nsleep(long);
+
 char *hex(const u_int8_t *, const u_int16_t);
 
 // Global variables
 
-jint tun;
+static JavaVM *jvm;
+int running = 0;
+int stopped = 1;
+pthread_t thread_id;
 struct connection *connection = NULL;
-pthread_mutex_t poll_lock;
 
-// JNI interface
+// JNI
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
-    __android_log_print(ANDROID_LOG_INFO, TAG, "Init");
+Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instance, jint tun) {
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Starting tun=%d", tun);
 
-    if (pthread_mutex_init(&poll_lock, NULL) != 0)
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "Mutex init error %d: %s",
+    jint rs = (*env)->GetJavaVM(env, &jvm);
+    if (rs == JNI_OK)
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "GetJavaVM OK");
+    else
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "GetJavaVM failed");
+
+    running = 1;
+    struct arguments *args = malloc(sizeof(struct arguments));
+    args->instance = (*env)->NewGlobalRef(env, instance);
+    args->tun = tun;
+    if (pthread_create(&thread_id, NULL, handle_events, args) != 0) {
+        running = 0;
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "pthread_create error %d: %s",
                             errno, strerror(errno));
-    // TODO pthread_mutex_destroy
+    }
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1tun(JNIEnv *env, jobject instance, jint fd) {
-    __android_log_print(ANDROID_LOG_INFO, TAG, "tun");
-    tun = fd;
+Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance, jint tun) {
+    running = 0;
+    while (!stopped) {
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopping");
+        nsleep(100 * 1000L * 1000L);
+    }
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped");
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1decode(JNIEnv *env, jobject instance,
-                                                      jbyteArray buffer_, jint length) {
-    jbyte *buffer = (*env)->GetByteArrayElements(env, buffer_, NULL);
-    decode(env, instance, buffer, length);
-    (*env)->ReleaseByteArrayElements(env, buffer_, buffer, 0);
-}
-
-JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1poll(JNIEnv *env, jobject instance) {
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Poll");
-    poll();
+Java_eu_faircode_netguard_SinkholeService_jni_1reload(JNIEnv *env, jobject instance, jint tun) {
+    // TODO seamless handover
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Reload tun=%d", tun);
+    Java_eu_faircode_netguard_SinkholeService_jni_1stop(env, instance, tun);
+    Java_eu_faircode_netguard_SinkholeService_jni_1start(env, instance, tun);
 }
 
 // Private functions
 
-void poll() {
-    // TODO timers
-    if (pthread_mutex_lock(&poll_lock) != 0)
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "Mutex lock error %d: %s",
-                            errno, strerror(errno));
+void *handle_events(void *a) {
+    struct arguments *args = (struct arguments *) a;
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Start events tun=%d", args->tun);
 
-    time_t now = time(NULL);
+    JNIEnv *env;
+    jint rs = (*jvm)->AttachCurrentThread(jvm, &env, NULL);
+    if (rs == JNI_OK)
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "AttachCurrentThread OK");
+    else
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "AttachCurrentThread failed");
 
-    struct connection *last = NULL;
-    struct connection *cur = connection;
-    while (cur != NULL) {
-        // Log
-        char dest[20];
-        inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+    int max;
+    int out;
+    fd_set rfds;
+    fd_set wfds;
+    fd_set efds;
+    fd_set swfds;
+    struct timeval tv;
+    char dest[20];
 
-        if (cur->state == TCP_CLOSE || cur->time + TIMEOUTPKT < now) {
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Close/timeout %s/%u lport=%u",
-                                dest, ntohs(cur->dest), cur->lport);
+    stopped = 0;
+    while (running) {
+        time_t now = time(NULL);
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Select");
 
-            shutdown(cur->socket, SHUT_RDWR);
+        // Select
+        FD_ZERO(&rfds);
+        FD_ZERO(&wfds);
+        FD_ZERO(&efds);
 
-            if (last == NULL)
-                connection = cur->next;
-            else
-                last->next = cur->next;
+        FD_SET(args->tun, &rfds);
+        FD_SET(args->tun, &efds);
 
-            struct data *prev;
-            struct data *received = cur->received;
-            while (received != NULL) {
-                prev = received;
-                received = received->next;
-                if (prev->data != NULL)
-                    free(prev->data);
-                free(prev);
-            }
+        max = args->tun;
 
-            struct data *sent = cur->sent;
-            while (sent != NULL) {
-                prev = sent;
-                sent = sent->next;
-                if (prev->data != NULL)
-                    free(prev->data);
-                free(prev);
-            }
-
-            free(cur);
-
-        } else {
-            if (cur->state == TCP_SYN_RECV) {
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Poll %s/%u lport=%u",
+        out = 0;
+        struct connection *last = NULL;
+        struct connection *cur = connection;
+        while (cur != NULL) {
+            if (cur->time + TIMEOUTPKT < now) {
+                // Log
+                inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Idle %s/%u lport=%u",
                                     dest, ntohs(cur->dest), cur->lport);
 
-                // Check connection state
-                fd_set wfds;
-                FD_ZERO(&wfds);
-                FD_SET(cur->socket, &wfds);
-                struct timeval tv;
-                tv.tv_sec = 0;
-                tv.tv_usec = 0;
-                int ready = select(cur->socket + 1, NULL, &wfds, NULL, &tv);
-                if (ready < 0) {
-                    // TODO
-                    __android_log_print(ANDROID_LOG_ERROR, TAG, "select error %d: %s",
-                                        errno, strerror(errno));
-                    continue;
+                // TODO check if open
+                shutdown(cur->socket, SHUT_RDWR);
+                // TODO check for errors
+
+                if (last == NULL)
+                    connection = cur->next;
+                else
+                    last->next = cur->next;
+
+                struct data *prev;
+
+                struct data *received = cur->received;
+                while (received != NULL) {
+                    prev = received;
+                    received = received->next;
+                    if (prev->data != NULL)
+                        free(prev->data);
+                    free(prev);
                 }
 
-                // Connected
-                if (ready == 1) {
-                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established ready=%d", ready);
+                struct data *sent = cur->sent;
+                while (sent != NULL) {
+                    prev = sent;
+                    sent = sent->next;
+                    if (prev->data != NULL)
+                        free(prev->data);
+                    free(prev);
+                }
 
+                free(cur);
+
+            } else {
+                if (cur->state == TCP_SYN_RECV) {
+                    FD_SET(cur->socket, &wfds);
+                    if (cur->socket > max)
+                        max = cur->socket;
+                }
+            }
+
+            last = cur;
+            cur = cur->next;
+        }
+
+        if (out) {
+            FD_SET(args->tun, &wfds);
+            if (args->tun > max)
+                max = args->tun;
+        }
+
+        tv.tv_sec = 10;
+        tv.tv_usec = 0;
+        int ready = select(max + 1, &rfds, &wfds, &efds, &tv);
+        if (ready < 0) {
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "select error %d: %s",
+                                errno, strerror(errno));
+            nsleep(1000 * 1000L * 1000L);
+            continue;
+        }
+
+        if (ready == 0)
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Yield");
+        else {
+            // Check tun
+            if (FD_ISSET(args->tun, &efds)) {
+                __android_log_print(ANDROID_LOG_ERROR, TAG, "tun exception");
+                running = 0;
+                break;
+            }
+
+            if (FD_ISSET(args->tun, &rfds)) {
+                uint8_t buffer[MAXPKT];
+                ssize_t length = read(args->tun, buffer, MAXPKT);
+                if (length < 0) {
+                    __android_log_print(ANDROID_LOG_ERROR, TAG, "tun read error %d: %s",
+                                        errno, strerror(errno));
+                    running = 0;
+                    break;
+                }
+                if (length > 0)
+                    decode(env, args->instance, buffer, length);
+                else
+                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "tun empty read");
+            }
+
+            if (FD_ISSET(args->tun, &wfds)) {
+                // TODO: send buffered packets
+            }
+
+            // Check sockets
+            struct connection *cur = connection;
+            while (cur != NULL) {
+                // Check exceptions
+                if (FD_ISSET(cur->socket, &efds)) {
                     int serr;
                     socklen_t optlen = sizeof(serr);
                     if (getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen) < 0) {
@@ -189,23 +277,35 @@ void poll() {
                         cur->state = TCP_CLOSE;
                         continue;
                     }
-
-                    sendSYN(cur);
-
-                    cur->state = TCP_SYN_SENT;
-                } else {
-                    // TODO
-                    __android_log_print(ANDROID_LOG_ERROR, TAG, "Connecting ready=%d", ready);
                 }
+
+                // Check connects
+                if (cur->state == TCP_SYN_RECV) {
+                    if (FD_ISSET(cur->socket, &wfds)) {
+                        // Log
+                        char dest[20];
+                        inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+                        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established %s/%u lport=%u",
+                                            dest, ntohs(cur->dest), cur->lport);
+                        sendSYN(cur, args->tun);
+                        cur->state = TCP_SYN_SENT;
+                    }
+                }
+                cur = cur->next;
             }
         }
-
-        cur = cur->next;
     }
 
-    if (pthread_mutex_unlock(&poll_lock) != 0)
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "Mutex unlock error %d: %s",
-                            errno, strerror(errno));
+    (*env)->DeleteGlobalRef(env, args->instance);
+    rs = (*jvm)->DetachCurrentThread(jvm);
+    if (rs == JNI_OK)
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "DetachCurrentThread OK");
+    else
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "DetachCurrentThread failed");
+    free(args);
+
+    stopped = 1;
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped events tun=%d", args->tun);
 }
 
 void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t length) {
@@ -344,10 +444,9 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
     else {
         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Existing connection lport %u", cur->lport);
 
-        if (tcphdr->syn) {
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Repeated SYN");
-            sendSYN(cur);
-        }
+        if (tcphdr->syn)
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Ignoring repeated SYN");
+
         else if (tcphdr->ack) {
             cur->time = time(NULL);
 
@@ -368,7 +467,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
     }
 }
 
-void sendSYN(const struct connection *cur) {
+void sendSYN(const struct connection *cur, int tun) {
     // Build packet
     uint16_t len = sizeof(struct iphdr) + sizeof(struct tcphdr); // no data
     u_int8_t *buffer = calloc(len, 1);
@@ -535,22 +634,27 @@ void decode(JNIEnv *env, jobject instance, const uint8_t *buffer, const uint16_t
     __android_log_print(ANDROID_LOG_DEBUG, TAG,
                         "Packet v%d %s/%u -> %s/%u proto %d flags %s uid %d",
                         version, source, sport, dest, dport, protocol, flags, uid);
-    poll();
+
     if (protocol == IPPROTO_TCP)
         handle_tcp(env, instance, buffer, length);
 
     // Call back
     jclass cls = (*env)->GetObjectClass(env, instance);
     jmethodID mid = (*env)->GetMethodID(env, cls, "logPacket",
-                                        "(ILjava/lang/String;ILjava/lang/String;IILjava/lang/String;I)V");
+                                        "(ILjava/lang/String;ILjava/lang/String;IILjava/lang/String;IZ)V");
     if (mid == 0)
         __android_log_print(ANDROID_LOG_ERROR, TAG, "logPacket not found");
     else {
+        jboolean allowed = 0;
         jstring jsource = (*env)->NewStringUTF(env, source);
         jstring jdest = (*env)->NewStringUTF(env, dest);
         jstring jflags = (*env)->NewStringUTF(env, flags);
         (*env)->CallVoidMethod(env, instance, mid,
-                               version, jsource, sport, jdest, dport, protocol, jflags, uid);
+                               version,
+                               jsource, sport,
+                               jdest, dport,
+                               protocol, jflags,
+                               uid, allowed);
         (*env)->DeleteLocalRef(env, jsource);
         (*env)->DeleteLocalRef(env, jdest);
         (*env)->DeleteLocalRef(env, jflags);
@@ -654,6 +758,13 @@ unsigned short checksum(unsigned short *addr, int len) {
     sum += (sum >> 16); /* add carry */
     answer = ~sum; /* truncate to 16 bits */
     return (answer);
+}
+
+void nsleep(long ns) {
+    struct timespec tim, tim2;
+    tim.tv_sec = ns / 1000000000L;
+    tim.tv_nsec = ns % 1000000000L;
+    nanosleep(&tim, &tim2);
 }
 
 char *hex(const u_int8_t *data, const u_int16_t len) {
