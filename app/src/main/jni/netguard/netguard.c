@@ -82,8 +82,8 @@ char *hex(const u_int8_t *, const u_int16_t);
 // Global variables
 
 static JavaVM *jvm;
-int running = 0;
 pthread_t thread_id;
+int signaled = 0;
 struct connection *connection = NULL;
 
 // JNI
@@ -92,36 +92,42 @@ JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instance, jint tun) {
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Starting tun=%d", tun);
 
-    jint rs = (*env)->GetJavaVM(env, &jvm);
-    if (rs != JNI_OK)
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "GetJavaVM failed");
+    if (pthread_kill(thread_id, 0) == 0)
+        __android_log_print(ANDROID_LOG_WARN, TAG, "Already running thread %u", thread_id);
+    else {
+        jint rs = (*env)->GetJavaVM(env, &jvm);
+        if (rs != JNI_OK)
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "GetJavaVM failed");
 
-    struct arguments *args = malloc(sizeof(struct arguments));
-    args->instance = (*env)->NewGlobalRef(env, instance);
-    args->tun = tun;
-    if (pthread_create(&thread_id, NULL, handle_events, args) != 0)
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "pthread_create error %d: %s",
-                            errno, strerror(errno));
-    else
-        running = 1;
+        struct arguments *args = malloc(sizeof(struct arguments));
+        args->instance = (*env)->NewGlobalRef(env, instance);
+        args->tun = tun;
+        int err = pthread_create(&thread_id, NULL, handle_events, args);
+        if (err != 0)
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "pthread_create error %d: %s",
+                                err, strerror(err));
+    }
 }
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance, jint tun) {
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stop");
-    if (running) {
-        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Kill");
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stop thread %u", thread_id);
+    if (pthread_kill(thread_id, 0) == 0) {
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Kill thread %u", thread_id);
         int err = pthread_kill(thread_id, SIGUSR1);
         if (err != 0)
-            __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_kill error %d", err);
-        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Join");
-        pthread_join(thread_id, NULL);
-        if (err != 0)
-            __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_join error %d", err);
-        running = 0;
+            __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_kill error %d: %s",
+                                err, strerror(err));
+        else {
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Join thread %u", thread_id);
+            pthread_join(thread_id, NULL);
+            if (err != 0)
+                __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_join error %d: %s",
+                                    err, strerror(err));
+        }
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped");
     } else
-        __android_log_print(ANDROID_LOG_WARN, TAG, "Notrunning");
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped");
+        __android_log_print(ANDROID_LOG_WARN, TAG, "Not running");
 }
 
 JNIEXPORT void JNICALL
@@ -136,11 +142,13 @@ Java_eu_faircode_netguard_SinkholeService_jni_1reload(JNIEnv *env, jobject insta
 
 void sig_handler(int sig, siginfo_t *info, void *context) {
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Signal %d", sig);
+    signaled = 1;
 }
 
 void *handle_events(void *a) {
     struct arguments *args = (struct arguments *) a;
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Start events tun=%d", args->tun);
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Start events tun=%d thread %u", args->tun,
+                        thread_id);
 
     JNIEnv *env;
     jint rs = (*jvm)->AttachCurrentThread(jvm, &env, NULL);
@@ -168,10 +176,12 @@ void *handle_events(void *a) {
     sa.sa_flags = SA_RESTART;
     sigaction(SIGUSR1, &sa, NULL);
 
+    signaled = 0;
+
     // Loop
     while (1) {
         time_t now = time(NULL);
-        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Select");
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Select thread %u", thread_id);
 
         // Select
         FD_ZERO(&rfds);
@@ -252,13 +262,17 @@ void *handle_events(void *a) {
         int ready = pselect(max + 1, &rfds, &wfds, &efds, &ts, &emptyset);
         if (ready < 0) {
             if (errno == EINTR) {
-                __android_log_print(ANDROID_LOG_INFO, TAG, "pselect interrupted");
-                break;
+                if (signaled) { ;
+                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "pselect signaled");
+                    break;
+                } else {
+                    __android_log_print(ANDROID_LOG_WARN, TAG, "pselect interrupted");
+                    continue;
+                }
             } else {
                 __android_log_print(ANDROID_LOG_ERROR, TAG, "select error %d: %s",
                                     errno, strerror(errno));
-                nsleep(1000 * 1000L * 1000L);
-                continue;
+                break;
             }
         }
 
@@ -335,7 +349,7 @@ void *handle_events(void *a) {
                             cur->state = TCP_CLOSE;
                         }
                         else if (bytes == 0) {
-                            __android_log_print(ANDROID_LOG_ERROR, TAG, "recv socket closed");
+                            __android_log_print(ANDROID_LOG_ERROR, TAG, "recv empty");
                             cur->state = TCP_CLOSE;
                         } else {
                             __android_log_print(ANDROID_LOG_DEBUG, TAG, "recv lport %u bytes %d",
@@ -355,7 +369,8 @@ void *handle_events(void *a) {
         __android_log_print(ANDROID_LOG_ERROR, TAG, "DetachCurrentThread failed");
     free(args);
 
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped events tun=%d", args->tun);
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped events tun=%d thread %u",
+                        args->tun, thread_id);
 }
 
 void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t length) {
