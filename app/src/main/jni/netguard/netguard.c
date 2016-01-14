@@ -888,6 +888,7 @@ void decode(JNIEnv *env, jobject instance, const struct arguments *args,
             (*env)->DeleteLocalRef(env, ex);
         }
     }
+    (*env)->DeleteLocalRef(env, cls);
 }
 
 jint getUid(const int protocol, const int version, const void *saddr, const uint16_t sport) {
