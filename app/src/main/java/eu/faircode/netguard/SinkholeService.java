@@ -275,7 +275,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             if (vpn == null)
                                 throw new IllegalStateException("Handover failed");
                         }
-                        jni_reload(vpn.getFd());
+                        if (prefs.getBoolean("log", false))
+                            jni_reload(vpn.getFd());
                         if (prev != null)
                             stopVPN(prev);
                         break;
