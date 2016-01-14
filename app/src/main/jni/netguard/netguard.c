@@ -67,7 +67,7 @@ int canWrite(const int);
 
 int writeSYN(const struct connection *, const int);
 
-int writeACK(const struct connection *, struct data *, uint16_t confirm, int);
+int writeACK(const struct connection *, struct data *, uint16_t, int, int);
 
 void decode(JNIEnv *, jobject, const struct arguments *args, const uint8_t *, const uint16_t);
 
@@ -358,7 +358,8 @@ void *handle_events(void *a) {
                             data->data = malloc(bytes);
                             memcpy(data->data, buffer, bytes);
                             // canWrite(args->tun)
-                            writeACK(cur, data, 0, args->tun);
+                            writeACK(cur, data, 0, 0, args->tun);
+                            // TODO check result
                             // TODO retransmits
                             free(data->data);
                             free(data);
@@ -480,7 +481,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
         if (tcphdr->syn)
             __android_log_print(ANDROID_LOG_DEBUG, TAG, "Ignoring repeated SYN");
 
-        else if (tcphdr->ack) {
+        if (tcphdr->ack) {
             cur->time = time(NULL);
 
             if (cur->state == TCP_SYN_SENT) {
@@ -515,16 +516,38 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                             __android_log_print(ANDROID_LOG_ERROR, TAG, "send error %d: %s",
                                                 errno, strerror(errno));
                         else {
-                            if (writeACK(cur, NULL, data->len, args->tun))
+                            if (writeACK(cur, NULL, data->len, 0, args->tun))
                                 cur->remote_seq += data->len;
                         }
                     }
                 }
             }
 
+            else if (cur->state == TCP_LAST_ACK) {
+                // TODO check seq/ack
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Full close");
+                cur->state = TCP_CLOSE;
+            }
+
             else {
                 __android_log_print(ANDROID_LOG_WARN, TAG, "Ignored state %d", cur->state);
             }
+        }
+
+        if (tcphdr->fin) {
+            if (cur->state == TCP_ESTABLISHED) {
+                // TODO close socket
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Partial close");
+                if (writeACK(cur, NULL, 1, 1, args->tun) >= 0) {
+                    cur->local_seq += 1;
+                    cur->remote_seq += 1;
+                    cur->state = TCP_LAST_ACK;
+                }
+            }
+        }
+
+        if (tcphdr->rst) {
+            cur->state = TCP_CLOSE;
         }
     }
 }
@@ -673,7 +696,7 @@ int writeSYN(const struct connection *cur, int tun) {
     return res;
 }
 
-int writeACK(const struct connection *cur, struct data *data, uint16_t confirm, int tun) {
+int writeACK(const struct connection *cur, struct data *data, uint16_t confirm, int fin, int tun) {
     // Build packet
     uint16_t datalen = (data == NULL ? 0 : data->len);
     uint16_t len = sizeof(struct iphdr) + sizeof(struct tcphdr) + datalen; // no data
@@ -702,6 +725,7 @@ int writeACK(const struct connection *cur, struct data *data, uint16_t confirm, 
     tcp->ack_seq = htonl(cur->remote_seq + confirm); // TODO proper wrap around
     tcp->doff = sizeof(struct tcphdr) >> 2;
     tcp->ack = 1;
+    tcp->fin = fin;
     tcp->window = htons(2048);
 
     // Calculate TCP checksum
@@ -728,8 +752,8 @@ int writeACK(const struct connection *cur, struct data *data, uint16_t confirm, 
 
     // Send packet
     __android_log_print(ANDROID_LOG_DEBUG, TAG,
-                        "Sending ACK to tun %s/%u seq %u ack %u data %u confirm %u",
-                        to, ntohs(tcp->dest),
+                        "Sending ACK%s to tun %s/%u seq %u ack %u data %u confirm %u",
+                        (fin ? "/FIN" : ""), to, ntohs(tcp->dest),
                         ntohl(tcp->seq), ntohl(tcp->ack_seq), datalen, confirm);
     int res = write(tun, buffer, len);
     if (res < 0) {
