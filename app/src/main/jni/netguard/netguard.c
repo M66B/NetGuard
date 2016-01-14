@@ -203,11 +203,9 @@ void *handle_events(void *a) {
                                     dest, ntohs(cur->dest), cur->lport);
 
                 // TODO check if open
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Shutdown");
                 shutdown(cur->socket, SHUT_RDWR);
                 // TODO check for errors
 
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Unlink");
                 if (last == NULL)
                     connection = cur->next;
                 else
@@ -215,7 +213,6 @@ void *handle_events(void *a) {
 
                 struct data *prev;
 
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Free received");
                 struct data *received = cur->received;
                 while (received != NULL) {
                     prev = received;
@@ -225,7 +222,6 @@ void *handle_events(void *a) {
                     free(prev);
                 }
 
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Free send");
                 struct data *sent = cur->sent;
                 while (sent != NULL) {
                     prev = sent;
@@ -235,7 +231,6 @@ void *handle_events(void *a) {
                     free(prev);
                 }
 
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Free");
                 free(cur);
 
             } else {
@@ -344,6 +339,7 @@ void *handle_events(void *a) {
                         uint8_t buffer[MAXPKT];
                         ssize_t bytes = recv(cur->socket, buffer, MAXPKT, MSG_DONTWAIT);
                         if (bytes < 0) {
+                            // TODO handle EINTR
                             __android_log_print(ANDROID_LOG_ERROR, TAG, "recv error %d: %s",
                                                 errno, strerror(errno));
                             cur->state = TCP_CLOSE;
@@ -409,10 +405,9 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
     // Log
     char dest[20];
     inet_ntop(AF_INET, &(iphdr->daddr), dest, sizeof(dest));
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "%s/%u seq %u ack %u data %d %s",
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "%s/%u seq %u ack %u data %d",
                         dest, ntohs(tcphdr->dest),
-                        ntohl(tcphdr->seq), ntohl(tcphdr->ack_seq),
-                        datalen, hex(data->data, data->len));
+                        ntohl(tcphdr->seq), ntohl(tcphdr->ack_seq), datalen);
 
     if (cur == NULL) {
         if (tcphdr->syn) {
@@ -428,10 +423,14 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
             syn->daddr = iphdr->daddr;
             syn->dest = tcphdr->dest;
             syn->state = TCP_SYN_RECV;
-            syn->received = data;
+            syn->received = NULL;
             syn->sent = NULL;
             syn->next = NULL;
-            syn->received = data;
+
+            // Ignore data
+            if (data->data != NULL)
+                free(data->data);
+            free(data);
 
             // Build target address
             struct sockaddr_in daddr;
@@ -456,6 +455,8 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
             else
                 last->next = syn;
         }
+        else
+            __android_log_print(ANDROID_LOG_WARN, TAG, "Unknown connection");
     }
     else {
         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Existing connection lport %u", cur->lport);
@@ -467,19 +468,28 @@ void handle_tcp(JNIEnv *env, jobject instance, const uint8_t *buffer, uint16_t l
             cur->time = time(NULL);
 
             if (cur->state == TCP_SYN_SENT) {
+                // TODO proper warp around
                 if (ntohl(tcphdr->ack_seq) == cur->local_seq + 1 &&
-                    ntohl(tcphdr->seq) == cur->remote_seq + cur->received->len + 1) {
+                    ntohl(tcphdr->seq) == cur->remote_seq + 1) {
                     cur->local_seq += 1;
-                    cur->remote_seq += cur->received->len + 1;
-
-                    if (cur->received->data != NULL)
-                        free(cur->received->data);
-                    free(cur->received);
-                    cur->received = NULL;
+                    cur->remote_seq += 1;
 
                     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established");
                     cur->state = TCP_ESTABLISHED;
                 }
+                else
+                    __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid seq/ack");
+            }
+
+            else if (cur->state == TCP_ESTABLISHED) {
+                if (ntohl(tcphdr->seq) + 1 == cur->remote_seq)
+                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Keep alive");
+                else
+                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Data");
+            }
+
+            else {
+                __android_log_print(ANDROID_LOG_WARN, TAG, "Ignored");
             }
         }
     }
@@ -489,6 +499,7 @@ int openSocket(JNIEnv *env, jobject instance, const struct sockaddr_in *daddr) {
     int sock = -1;
 
     // Get TCP socket
+    // TODO socket options (SO_REUSEADDR, etc)
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         __android_log_print(ANDROID_LOG_ERROR, TAG, "socket error %d: %s",
                             errno, strerror(errno));
@@ -585,7 +596,7 @@ int writeSYN(const struct connection *cur, int tun) {
     tcp->source = cur->dest;
     tcp->dest = cur->source;
     tcp->seq = htonl(cur->local_seq);
-    tcp->ack_seq = htonl(cur->remote_seq + cur->received->len + 1); // TODO proper wrap around
+    tcp->ack_seq = htonl(cur->remote_seq + 1); // TODO proper wrap around
     tcp->doff = sizeof(struct tcphdr) >> 2;
     tcp->syn = 1;
     tcp->ack = 1;
@@ -616,9 +627,11 @@ int writeSYN(const struct connection *cur, int tun) {
                         to, ntohs(tcp->dest),
                         ntohl(tcp->seq), ntohl(tcp->ack_seq));
     int res = write(tun, buffer, len);
-    if (res < 0)
+    if (res < 0) {
+        // TODO handle EINTR
         __android_log_print(ANDROID_LOG_ERROR, TAG, "write error %d: %s",
                             errno, strerror(errno));
+    }
 
     free(buffer);
 
@@ -650,10 +663,16 @@ void decode(JNIEnv *env, jobject instance, const uint8_t *buffer, const uint16_t
         uint8_t optlen = (ip4hdr->ihl - 5) * 4;
         payload = buffer + 20 + optlen;
 
+        if (ntohs(ip4hdr->tot_len) != length) {
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid length %u header length %u",
+                                length, ntohs(ip4hdr->tot_len));
+            return;
+        }
+
         uint16_t csum = checksum(ip4hdr, sizeof(struct iphdr));
         if (csum != 0) {
-            // TODO checksum
             __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid IP checksum");
+            return;
         }
     }
     else if (version == 6) {
@@ -665,6 +684,7 @@ void decode(JNIEnv *env, jobject instance, const uint8_t *buffer, const uint16_t
 
         payload = buffer + 40;
 
+        // TODO check length
         // TODO checksum
     }
     else {
