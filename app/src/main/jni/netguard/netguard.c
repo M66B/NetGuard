@@ -2,6 +2,7 @@
 #include <android/log.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 #include <pthread.h>
@@ -493,7 +494,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             struct connection *syn = malloc(sizeof(struct connection)); // TODO check/free
             syn->time = time(NULL);
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
-            syn->local_seq = 123; // ISN local TODO randomize
+            syn->local_seq = rand(); // ISN local
             syn->saddr = iphdr->saddr;
             syn->source = tcphdr->source;
             syn->daddr = iphdr->daddr;
