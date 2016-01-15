@@ -20,14 +20,19 @@
 // https://www.gasmi.net/hpd/
 // Ethernet frame: 0800 2086 354b 00e0 f726 3fe9 0800
 
+// http://blog.netherlabs.nl/articles/2009/01/18/the-ultimate-so_linger-page-or-why-is-my-tcp-not-reliable
+
 // TODO TCP fragmentation
 // TODO TCP push
 // TODO header file
+// TODO debug switches
 
 #define TAG "NetGuard.JNI"
 #define MAXPKT 32678
-#define TIMEOUTPKT 30
-#define TTL 64
+// TODO TCP parameters
+#define TCPTIMEOUT 30
+#define TCPTTL 64
+#define TCPWINDOW 2048
 
 struct arguments {
     jobject instance;
@@ -91,6 +96,11 @@ struct connection *connection = NULL;
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Init");
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "TCP_SYN_RECV %d", TCP_SYN_RECV);
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "TCP_ESTABLISHED %d", TCP_ESTABLISHED);
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "TCP_CLOSE_WAIT %d", TCP_CLOSE_WAIT);
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "TCP_LAST_ACK %d", TCP_LAST_ACK);
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "TCP_CLOSE %d", TCP_CLOSE);
     connection = NULL;
 }
 
@@ -202,16 +212,27 @@ void *handle_events(void *a) {
         struct connection *last = NULL;
         struct connection *cur = connection;
         while (cur != NULL) {
-            if (cur->time + TIMEOUTPKT < now) {
+            if (cur->time + TCPTIMEOUT < now) {
                 // Log
                 inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Idle %s/%u lport %u",
-                                    dest, ntohs(cur->dest), cur->lport);
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Idle %s/%u lport %u open %d",
+                                    dest, ntohs(cur->dest), cur->lport,
+                                    (cur->state != TCP_CLOSE));
 
-
-                // TODO check if open
-                shutdown(cur->socket, SHUT_RDWR);
-                // TODO check for errors
+                if (cur->state == TCP_CLOSE) {
+                    int serr;
+                    socklen_t optlen = sizeof(serr);
+                    if (getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen) < 0)
+                        __android_log_print(ANDROID_LOG_WARN, TAG, "getsockopt error %d: %s",
+                                            errno, strerror(errno));
+                    if (serr)
+                        __android_log_print(ANDROID_LOG_WARN, TAG, "SO_ERROR %d: %s",
+                                            serr, strerror(serr));
+                    else
+                        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Socket was properly closed");
+                }
+                else
+                    shutdown(cur->socket, SHUT_RDWR);
 
                 struct data *prev;
                 struct data *sent = cur->sent;
@@ -233,13 +254,13 @@ void *handle_events(void *a) {
                 free(c);
                 continue;
 
-            } else {
+            } else if (cur->state != TCP_CLOSE) {
                 if (cur->state == TCP_SYN_RECV) {
                     FD_SET(cur->socket, &wfds);
                     if (cur->socket > max)
                         max = cur->socket;
                 }
-                else if (cur->state == TCP_ESTABLISHED) {
+                else if (cur->state == TCP_ESTABLISHED || cur->state == TCP_CLOSE_WAIT) {
                     FD_SET(cur->socket, &rfds);
                     if (cur->socket > max)
                         max = cur->socket;
@@ -306,6 +327,8 @@ void *handle_events(void *a) {
                     if (getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen) < 0) {
                         __android_log_print(ANDROID_LOG_ERROR, TAG, "getsockopt error %d: %s",
                                             errno, strerror(errno));
+                        // TODO initiate finish
+                        shutdown(cur->socket, SHUT_RDWR);
                         cur->state = TCP_CLOSE;
                         cur = cur->next;
                         continue;
@@ -313,6 +336,8 @@ void *handle_events(void *a) {
                     if (serr) {
                         __android_log_print(ANDROID_LOG_ERROR, TAG, "SO_ERROR %d: %s",
                                             serr, strerror(serr));
+                        // TODO initiate FIN
+                        shutdown(cur->socket, SHUT_RDWR);
                         cur->state = TCP_CLOSE;
                         cur = cur->next;
                         continue;
@@ -328,14 +353,16 @@ void *handle_events(void *a) {
                         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established %s/%u lport %u",
                                             dest, ntohs(cur->dest), cur->lport);
 
-                        if (writeSYN(cur, args->tun) < 0)
+                        if (writeSYN(cur, args->tun) < 0) {
+                            // Remote will retry
+                            shutdown(cur->socket, SHUT_RDWR);
                             cur->state = TCP_CLOSE;
-                        else
+                        } else
                             cur->state = TCP_SYN_SENT;
                     }
                 }
 
-                else if (cur->state == TCP_ESTABLISHED) {
+                else if (cur->state == TCP_ESTABLISHED || cur->state == TCP_CLOSE_WAIT) {
                     // Check socket read
                     if (FD_ISSET(cur->socket, &rfds)) {
                         uint8_t buffer[MAXPKT];
@@ -343,12 +370,28 @@ void *handle_events(void *a) {
                         if (bytes < 0) {
                             __android_log_print(ANDROID_LOG_ERROR, TAG, "recv socket error %d: %s",
                                                 errno, strerror(errno));
-                            if (errno != EINTR)
+                            if (errno != EINTR) {
+                                // TODO initiate FIN
+                                shutdown(cur->socket, SHUT_RDWR);
                                 cur->state = TCP_CLOSE;
+                                cur = cur->next;
+                                continue;
+                            }
                         }
                         else if (bytes == 0) {
-                            __android_log_print(ANDROID_LOG_ERROR, TAG, "recv socket empty");
-                            cur->state = TCP_CLOSE;
+                            if (cur->state == TCP_ESTABLISHED) {
+                                __android_log_print(ANDROID_LOG_WARN, TAG, "recv socket empty");
+                                // TODO initiate FIN
+                            }
+                            else if (cur->state == TCP_CLOSE_WAIT) {
+                                if (writeACK(cur, NULL, 1, 1, args->tun) >= 0) {
+                                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Half close");
+                                    cur->state = TCP_LAST_ACK;
+                                }
+                            }
+                            else
+                                __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid state %d",
+                                                    cur->state);
                         } else {
                             __android_log_print(ANDROID_LOG_DEBUG, TAG,
                                                 "recv socket lport %u bytes %d",
@@ -358,15 +401,21 @@ void *handle_events(void *a) {
                             data->data = malloc(bytes);
                             memcpy(data->data, buffer, bytes);
                             // canWrite(args->tun)
-                            writeACK(cur, data, 0, 0, args->tun);
-                            // TODO check result
+                            if (writeACK(cur, data, 0, 0, args->tun) >= 0)
+                                cur->local_seq += bytes;
                             // TODO retransmits
                             free(data->data);
                             free(data);
-                            cur->local_seq += bytes;
                         }
                     }
                 }
+
+                else if (cur->state == TCP_CLOSE) {
+                    // Happens after full close
+                }
+
+                else
+                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Unknown state %d", cur->state);
 
                 cur = cur->next;
             }
@@ -394,7 +443,8 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
     struct iphdr *iphdr = buffer;
     uint8_t optlen = (iphdr->ihl - 5) * 4;
     struct tcphdr *tcphdr = buffer + sizeof(struct iphdr) + optlen;
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "optlen %d", optlen);
+    if (optlen)
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "optlen %d", optlen);
 
     if (ntohs(iphdr->tot_len) != length)
         __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid length %u/%d", iphdr->tot_len, length);
@@ -458,19 +508,21 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
 
             // Open socket
             syn->socket = openSocket(env, instance, &daddr);
-            if (syn->socket < 0)
+            if (syn->socket < 0) {
                 syn->state = TCP_CLOSE;
+                // Remote will retry
+                free(syn);
+            }
             else {
                 syn->lport = getLocalPort(syn->socket);
 
                 __android_log_print(ANDROID_LOG_DEBUG, TAG, "Connecting to %s/%u lport %u",
                                     dest, ntohs(tcphdr->dest), syn->lport);
+                if (last == NULL)
+                    connection = syn;
+                else
+                    last->next = syn;
             }
-
-            if (last == NULL)
-                connection = syn;
-            else
-                last->next = syn;
         }
         else
             __android_log_print(ANDROID_LOG_WARN, TAG, "Unknown connection");
@@ -485,12 +537,12 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             cur->time = time(NULL);
 
             if (cur->state == TCP_SYN_SENT) {
-                // TODO proper warp around
+                // TODO proper wrap around
                 if (ntohl(tcphdr->ack_seq) == cur->local_seq + 1 &&
                     ntohl(tcphdr->seq) >= cur->remote_seq + 1) {
-                    cur->local_seq += 1;
-                    cur->remote_seq += 1;
-                    // TODO process data
+                    cur->local_seq += 1; // local SYN
+                    cur->remote_seq += 1; // remote SYN
+                    // TODO process data?
 
                     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established");
                     cur->state = TCP_ESTABLISHED;
@@ -524,29 +576,38 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             }
 
             else if (cur->state == TCP_LAST_ACK) {
-                // TODO check seq/ack
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Full close");
-                cur->state = TCP_CLOSE;
+                if (ntohl(tcphdr->ack_seq) == cur->local_seq + 1 &&
+                    ntohl(tcphdr->seq) >= cur->remote_seq + 1) {
+                    cur->local_seq += 1; // local SYN
+                    cur->remote_seq += 1; // remote SYN
+
+                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Full close");
+                    // socket has been shutdown already
+                    cur->state = TCP_CLOSE;
+                }
+                else
+                    __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid seq/ack");
             }
 
-            else {
-                __android_log_print(ANDROID_LOG_WARN, TAG, "Ignored state %d", cur->state);
-            }
+            else
+                __android_log_print(ANDROID_LOG_WARN, TAG, "ACK Invalid state %d", cur->state);
         }
 
         if (tcphdr->fin) {
             if (cur->state == TCP_ESTABLISHED) {
-                // TODO close socket
-                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Partial close");
-                if (writeACK(cur, NULL, 1, 1, args->tun) >= 0) {
-                    cur->local_seq += 1;
-                    cur->remote_seq += 1;
-                    cur->state = TCP_LAST_ACK;
-                }
+                if (shutdown(cur->socket, SHUT_RDWR))
+                    __android_log_print(ANDROID_LOG_ERROR, TAG, "shutdown error %d: %s",
+                                        errno, strerror(errno));
+                else
+                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Shutdown socket");
+                cur->state = TCP_CLOSE_WAIT;
             }
+            else
+                __android_log_print(ANDROID_LOG_WARN, TAG, "FIN Invalid state %d", cur->state);
         }
 
         if (tcphdr->rst) {
+            shutdown(cur->socket, SHUT_RDWR);
             cur->state = TCP_CLOSE;
         }
     }
@@ -641,7 +702,7 @@ int writeSYN(const struct connection *cur, int tun) {
     ip->version = 4;
     ip->ihl = sizeof(struct iphdr) >> 2;
     ip->tot_len = htons(len);
-    ip->ttl = TTL;
+    ip->ttl = TCPTTL;
     ip->protocol = IPPROTO_TCP;
     ip->saddr = cur->daddr;
     ip->daddr = cur->saddr;
@@ -657,7 +718,7 @@ int writeSYN(const struct connection *cur, int tun) {
     tcp->doff = sizeof(struct tcphdr) >> 2;
     tcp->syn = 1;
     tcp->ack = 1;
-    tcp->window = htons(2048);
+    tcp->window = htons(TCPWINDOW);
 
     // Calculate TCP checksum
     uint16_t clen = sizeof(struct ippseudo) + sizeof(struct tcphdr);
@@ -710,7 +771,7 @@ int writeACK(const struct connection *cur, struct data *data, uint16_t confirm, 
     ip->version = 4;
     ip->ihl = sizeof(struct iphdr) >> 2;
     ip->tot_len = htons(len);
-    ip->ttl = TTL;
+    ip->ttl = TCPTTL;
     ip->protocol = IPPROTO_TCP;
     ip->saddr = cur->daddr;
     ip->daddr = cur->saddr;
@@ -726,7 +787,7 @@ int writeACK(const struct connection *cur, struct data *data, uint16_t confirm, 
     tcp->doff = sizeof(struct tcphdr) >> 2;
     tcp->ack = 1;
     tcp->fin = fin;
-    tcp->window = htons(2048);
+    tcp->window = htons(TCPWINDOW);
 
     // Calculate TCP checksum
     uint16_t clen = sizeof(struct ippseudo) + sizeof(struct tcphdr) + datalen;
