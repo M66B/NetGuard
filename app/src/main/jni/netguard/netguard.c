@@ -22,10 +22,11 @@
 #define TAG "NetGuard.JNI"
 #define MAXPKT 32678
 // TODO TCP parameters
-#define SELECTWAIT 10
-#define TCPTIMEOUT 30
+#define SELECTWAIT 10 // seconds
+#define TCPTIMEOUT 30 // seconds
 #define TCPTTL 64
 #define TCPWINDOW 2048
+#define UIDDELAY 10 // milliseconds
 
 struct arguments {
     jobject instance;
@@ -72,8 +73,6 @@ void handle_ip(JNIEnv *, jobject, const struct arguments *, const uint8_t *, con
 jint getUid(const int, const int, const void *, const uint16_t);
 
 unsigned short checksum(unsigned short *, int);
-
-void nsleep(const long);
 
 char *hex(const u_int8_t *, const u_int16_t);
 
@@ -451,7 +450,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
     if (datalen > 0) {
         data = malloc(sizeof(struct data));
         data->len = datalen;
-        data->data = malloc(datalen); // TODO free
+        data->data = malloc(datalen);
         memcpy(data->data, buffer + dataoff, datalen);
         data->next = NULL;
     }
@@ -476,7 +475,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             __android_log_print(ANDROID_LOG_DEBUG, TAG, "New SYN");
 
             // Register connection
-            struct connection *syn = malloc(sizeof(struct connection)); // TODO free
+            struct connection *syn = malloc(sizeof(struct connection));
             syn->time = time(NULL);
             syn->uid = uid;
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
@@ -489,11 +488,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             syn->sent = NULL;
             syn->next = NULL;
 
-            // Ignore data
-            if (data != NULL) {
-                free(data->data);
-                free(data);
-            }
+            // TODO handle SYN data?
 
             // Build target address
             struct sockaddr_in daddr;
@@ -629,6 +624,11 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
         if (tcphdr->rst) {
             cur->state = TCP_CLOSE;
         }
+    }
+
+    if (data != NULL) {
+        free(data->data);
+        free(data);
     }
 }
 
@@ -878,12 +878,9 @@ void handle_ip(JNIEnv *env, jobject instance, const struct arguments *args,
 
     // Get uid
     jint uid = -1;
-    if (protocol == IPPROTO_TCP || protocol == IPPROTO_UDP) {
+    if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
         // Sleep 10 ms
-        struct timespec tim, tim2;
-        tim.tv_sec = 0;
-        tim.tv_nsec = 10000000L;
-        nanosleep(&tim, &tim2);
+        usleep(1000 * UIDDELAY);
 
         // Lookup uid
         uid = getUid(protocol, version, saddr, sport);
@@ -952,44 +949,47 @@ jint getUid(const int protocol, const int version, const void *saddr, const uint
     else if (protocol == IPPROTO_UDP)
         fn = (version == 4 ? "/proc/net/udp" : "/proc/net/udp6");
     else
-        return -1;
+        return uid;
 
     // Open proc file
     FILE *fd = fopen(fn, "r");
     if (fd == NULL) {
         __android_log_print(ANDROID_LOG_ERROR, TAG, "fopen %s error %d: %s",
                             fn, errno, strerror(errno));
-        return -1;
+        return uid;
     }
 
     // Scan proc file
+    jint u;
     int i = 0;
     while (fgets(line, sizeof(line), fd) != NULL) {
         if (i++) {
             if (version == 4)
                 fields = sscanf(line,
                                 "%*d: %X:%X %*X:%*X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld ",
-                                &addr32, &port, &uid);
+                                &addr32, &port, &u);
             else
                 fields = sscanf(line,
                                 "%*d: %8X%8X%8X%8X:%X %*X:%*X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld ",
-                                addr128, addr128 + 4, addr128 + 8, addr128 + 12, &port, &uid);
+                                addr128, addr128 + 4, addr128 + 8, addr128 + 12, &port, &u);
 
-            if (fields < 3) {
+            if (fields == (version == 4 ? 3 : 6)) {
+                if (port == sport) {
+                    if (version == 4) {
+                        if (addr32 == *((int32_t *) saddr)) {
+                            uid = u;
+                            break;
+                        }
+                    }
+                    else {
+                        if (memcmp(addr128, saddr, (size_t) 16) == 0) {
+                            uid = u;
+                            break;
+                        }
+                    }
+                }
+            } else
                 __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid field #%d: %s", fields, line);
-                break;
-            }
-
-            if (port == sport) {
-                if (version == 4) {
-                    if (addr32 == *((int32_t *) saddr))
-                        return uid;
-                }
-                else {
-                    if (memcmp(addr128, saddr, (size_t) 16) == 0)
-                        return uid;
-                }
-            }
         }
     }
 
@@ -997,7 +997,7 @@ jint getUid(const int protocol, const int version, const void *saddr, const uint
         __android_log_print(ANDROID_LOG_ERROR, TAG, "fclose %s error %d: %s",
                             fn, errno, strerror(errno));
 
-    return -1;
+    return uid;
 }
 
 // TODO data types
@@ -1032,21 +1032,11 @@ unsigned short checksum(unsigned short *addr, int len) {
     return (answer);
 }
 
-void nsleep(const long ns) {
-    struct timespec tim, tim2;
-    tim.tv_sec = ns / 1000000000L;
-    tim.tv_nsec = ns % 1000000000L;
-    nanosleep(&tim, &tim2);
-}
-
-char hexout[250];
-
 char *hex(const u_int8_t *data, const u_int16_t len) {
     char hex_str[] = "0123456789ABCDEF";
 
-    //char *out;
-    //out = (char *) malloc(len * 3 + 1); // TODO free
-    hexout[len * 3] = 0;
+    char *hexout;
+    hexout = (char *) malloc(len * 3 + 1); // TODO free
 
     for (size_t i = 0; i < len; i++) {
         hexout[i * 3 + 0] = hex_str[(data[i] >> 4) & 0x0F];
