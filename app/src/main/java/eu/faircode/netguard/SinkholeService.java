@@ -333,6 +333,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private boolean stats = false;
+        private long when;
 
         private long t = -1;
         private long tx = -1;
@@ -349,6 +350,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             boolean enabled = (!stats && prefs.getBoolean("show_stats", false));
             Log.i(TAG, "Stats start enabled=" + enabled);
             if (enabled) {
+                when = new Date().getTime();
                 t = -1;
                 tx = -1;
                 rx = -1;
@@ -528,6 +530,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             TypedValue tv = new TypedValue();
             getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(SinkholeService.this)
+                    .setWhen(when)
                     .setSmallIcon(R.drawable.ic_equalizer_white_24dp)
                     .setContent(remoteViews)
                     .setContentIntent(pi)
