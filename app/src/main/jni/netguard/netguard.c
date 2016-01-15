@@ -60,6 +60,8 @@ struct connection {
 
 void *handle_events(void *);
 
+void handle_ip(JNIEnv *, jobject, const struct arguments *, const uint8_t *, const uint16_t);
+
 void handle_tcp(JNIEnv *, jobject, const struct arguments *args,
                 const uint8_t *, const uint16_t, int uid);
 
@@ -70,8 +72,6 @@ int getLocalPort(const int);
 int canWrite(const int);
 
 int writeTCP(const struct connection *, struct data *, uint16_t, int, int, int, int);
-
-void handle_ip(JNIEnv *, jobject, const struct arguments *, const uint8_t *, const uint16_t);
 
 jint getUid(const int, const int, const void *, const uint16_t);
 
@@ -424,6 +424,156 @@ void *handle_events(void *a) {
                         args->tun, thread_id);
 }
 
+void handle_ip(JNIEnv *env, jobject instance, const struct arguments *args,
+               const uint8_t *buffer, const uint16_t length) {
+    uint8_t protocol;
+    void *saddr;
+    void *daddr;
+    char source[40];
+    char dest[40];
+    char flags[10];
+    int flen = 0;
+    uint8_t *payload;
+
+    // Get protocol, addresses & payload
+    uint8_t version = (*buffer) >> 4;
+    if (version == 4) {
+        struct iphdr *ip4hdr = buffer;
+
+        protocol = ip4hdr->protocol;
+        saddr = &ip4hdr->saddr;
+        daddr = &ip4hdr->daddr;
+
+        if (ip4hdr->frag_off & IP_MF)
+            flags[flen++] = '+';
+
+        uint8_t optlen = (ip4hdr->ihl - 5) * 4;
+        payload = buffer + 20 + optlen;
+
+        if (ntohs(ip4hdr->tot_len) != length) {
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid length %u header length %u",
+                                length, ntohs(ip4hdr->tot_len));
+            return;
+        }
+
+        uint16_t csum = checksum(ip4hdr, sizeof(struct iphdr));
+        if (csum != 0) {
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid IP checksum");
+            return;
+        }
+    }
+    else if (version == 6) {
+        struct ip6_hdr *ip6hdr = buffer;
+
+        protocol = ip6hdr->ip6_nxt;
+        saddr = &ip6hdr->ip6_src;
+        daddr = &ip6hdr->ip6_dst;
+
+        payload = buffer + 40;
+
+        // TODO check length
+        // TODO checksum
+    }
+    else {
+        __android_log_print(ANDROID_LOG_WARN, TAG, "Unknown version %d", version);
+        return;
+    }
+
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, saddr, source, sizeof(source));
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, daddr, dest, sizeof(dest));
+
+    // Get ports & flags
+    int syn = 0;
+    uint16_t sport = -1;
+    uint16_t dport = -1;
+    if (protocol == IPPROTO_TCP) {
+        struct tcphdr *tcp = payload;
+
+        sport = ntohs(tcp->source);
+        dport = ntohs(tcp->dest);
+
+        if (tcp->syn) {
+            syn = 1;
+            flags[flen++] = 'S';
+        }
+        if (tcp->ack)
+            flags[flen++] = 'A';
+        if (tcp->psh)
+            flags[flen++] = 'P';
+        if (tcp->fin)
+            flags[flen++] = 'F';
+        if (tcp->fin)
+            flags[flen++] = 'R';
+
+        // TODO checksum
+    } else if (protocol == IPPROTO_UDP) {
+        struct udphdr *udp = payload;
+
+        sport = ntohs(udp->source);
+        dport = ntohs(udp->dest);
+
+        // TODO checksum
+    }
+    flags[flen] = 0;
+
+    // Get uid
+    jint uid = -1;
+    if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
+        // Sleep 10 ms
+        usleep(1000 * UIDDELAY);
+
+        // Lookup uid
+        uid = getUid(protocol, version, saddr, sport);
+        if (uid < 0 && version == 4) {
+            int8_t saddr128[16];
+            memset(saddr128, 0, 10);
+            saddr128[10] = 0xFF;
+            saddr128[11] = 0xFF;
+            memcpy(saddr128 + 12, saddr, 4);
+            uid = getUid(protocol, 6, saddr128, sport);
+        }
+    }
+
+    __android_log_print(ANDROID_LOG_DEBUG, TAG,
+                        "Packet v%d %s/%u -> %s/%u proto %d flags %s uid %d",
+                        version, source, sport, dest, dport, protocol, flags, uid);
+
+    if (protocol == IPPROTO_TCP)
+        handle_tcp(env, instance, args, buffer, length, uid);
+
+    // Call back
+    if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
+        jclass cls = (*env)->GetObjectClass(env, instance);
+        jmethodID mid = (*env)->GetMethodID(env, cls, "logPacket",
+                                            "(ILjava/lang/String;ILjava/lang/String;IILjava/lang/String;IZ)V");
+        if (mid == 0)
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "logPacket not found");
+        else {
+            jboolean allowed = 0;
+            jstring jsource = (*env)->NewStringUTF(env, source);
+            jstring jdest = (*env)->NewStringUTF(env, dest);
+            jstring jflags = (*env)->NewStringUTF(env, flags);
+            (*env)->CallVoidMethod(env, instance, mid,
+                                   version,
+                                   jsource, sport,
+                                   jdest, dport,
+                                   protocol, jflags,
+                                   uid, allowed);
+            (*env)->DeleteLocalRef(env, jsource);
+            (*env)->DeleteLocalRef(env, jdest);
+            (*env)->DeleteLocalRef(env, jflags);
+
+            jthrowable ex = (*env)->ExceptionOccurred(env);
+            if (ex) {
+                (*env)->ExceptionDescribe(env);
+                (*env)->ExceptionClear(env);
+                (*env)->DeleteLocalRef(env, ex);
+            }
+        }
+        (*env)->DeleteLocalRef(env, cls);
+    }
+}
+
 void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                 const uint8_t *buffer, uint16_t length, int uid) {
     // Check version
@@ -437,9 +587,6 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
     struct tcphdr *tcphdr = buffer + sizeof(struct iphdr) + optlen;
     if (optlen)
         __android_log_print(ANDROID_LOG_DEBUG, TAG, "optlen %d", optlen);
-
-    if (ntohs(iphdr->tot_len) != length)
-        __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid length %u/%d", iphdr->tot_len, length);
 
     // Get data
     uint16_t dataoff = sizeof(struct iphdr) + optlen + sizeof(struct tcphdr);
@@ -780,156 +927,6 @@ int writeTCP(const struct connection *cur,
     free(buffer);
 
     return res;
-}
-
-void handle_ip(JNIEnv *env, jobject instance, const struct arguments *args,
-               const uint8_t *buffer, const uint16_t length) {
-    uint8_t protocol;
-    void *saddr;
-    void *daddr;
-    char source[40];
-    char dest[40];
-    char flags[10];
-    int flen = 0;
-    uint8_t *payload;
-
-    // Get protocol, addresses & payload
-    uint8_t version = (*buffer) >> 4;
-    if (version == 4) {
-        struct iphdr *ip4hdr = buffer;
-
-        protocol = ip4hdr->protocol;
-        saddr = &ip4hdr->saddr;
-        daddr = &ip4hdr->daddr;
-
-        if (ip4hdr->frag_off & IP_MF)
-            flags[flen++] = '+';
-
-        uint8_t optlen = (ip4hdr->ihl - 5) * 4;
-        payload = buffer + 20 + optlen;
-
-        if (ntohs(ip4hdr->tot_len) != length) {
-            __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid length %u header length %u",
-                                length, ntohs(ip4hdr->tot_len));
-            return;
-        }
-
-        uint16_t csum = checksum(ip4hdr, sizeof(struct iphdr));
-        if (csum != 0) {
-            __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid IP checksum");
-            return;
-        }
-    }
-    else if (version == 6) {
-        struct ip6_hdr *ip6hdr = buffer;
-
-        protocol = ip6hdr->ip6_nxt;
-        saddr = &ip6hdr->ip6_src;
-        daddr = &ip6hdr->ip6_dst;
-
-        payload = buffer + 40;
-
-        // TODO check length
-        // TODO checksum
-    }
-    else {
-        __android_log_print(ANDROID_LOG_WARN, TAG, "Unknown version %d", version);
-        return;
-    }
-
-    inet_ntop(version == 4 ? AF_INET : AF_INET6, saddr, source, sizeof(source));
-    inet_ntop(version == 4 ? AF_INET : AF_INET6, daddr, dest, sizeof(dest));
-
-    // Get ports & flags
-    int syn = 0;
-    uint16_t sport = -1;
-    uint16_t dport = -1;
-    if (protocol == IPPROTO_TCP) {
-        struct tcphdr *tcp = payload;
-
-        sport = ntohs(tcp->source);
-        dport = ntohs(tcp->dest);
-
-        if (tcp->syn) {
-            syn = 1;
-            flags[flen++] = 'S';
-        }
-        if (tcp->ack)
-            flags[flen++] = 'A';
-        if (tcp->psh)
-            flags[flen++] = 'P';
-        if (tcp->fin)
-            flags[flen++] = 'F';
-        if (tcp->fin)
-            flags[flen++] = 'R';
-
-        // TODO checksum
-    } else if (protocol == IPPROTO_UDP) {
-        struct udphdr *udp = payload;
-
-        sport = ntohs(udp->source);
-        dport = ntohs(udp->dest);
-
-        // TODO checksum
-    }
-    flags[flen] = 0;
-
-    // Get uid
-    jint uid = -1;
-    if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
-        // Sleep 10 ms
-        usleep(1000 * UIDDELAY);
-
-        // Lookup uid
-        uid = getUid(protocol, version, saddr, sport);
-        if (uid < 0 && version == 4) {
-            int8_t saddr128[16];
-            memset(saddr128, 0, 10);
-            saddr128[10] = 0xFF;
-            saddr128[11] = 0xFF;
-            memcpy(saddr128 + 12, saddr, 4);
-            uid = getUid(protocol, 6, saddr128, sport);
-        }
-    }
-
-    __android_log_print(ANDROID_LOG_DEBUG, TAG,
-                        "Packet v%d %s/%u -> %s/%u proto %d flags %s uid %d",
-                        version, source, sport, dest, dport, protocol, flags, uid);
-
-    if (protocol == IPPROTO_TCP)
-        handle_tcp(env, instance, args, buffer, length, uid);
-
-    // Call back
-    if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
-        jclass cls = (*env)->GetObjectClass(env, instance);
-        jmethodID mid = (*env)->GetMethodID(env, cls, "logPacket",
-                                            "(ILjava/lang/String;ILjava/lang/String;IILjava/lang/String;IZ)V");
-        if (mid == 0)
-            __android_log_print(ANDROID_LOG_ERROR, TAG, "logPacket not found");
-        else {
-            jboolean allowed = 0;
-            jstring jsource = (*env)->NewStringUTF(env, source);
-            jstring jdest = (*env)->NewStringUTF(env, dest);
-            jstring jflags = (*env)->NewStringUTF(env, flags);
-            (*env)->CallVoidMethod(env, instance, mid,
-                                   version,
-                                   jsource, sport,
-                                   jdest, dport,
-                                   protocol, jflags,
-                                   uid, allowed);
-            (*env)->DeleteLocalRef(env, jsource);
-            (*env)->DeleteLocalRef(env, jdest);
-            (*env)->DeleteLocalRef(env, jflags);
-
-            jthrowable ex = (*env)->ExceptionOccurred(env);
-            if (ex) {
-                (*env)->ExceptionDescribe(env);
-                (*env)->ExceptionClear(env);
-                (*env)->DeleteLocalRef(env, ex);
-            }
-        }
-        (*env)->DeleteLocalRef(env, cls);
-    }
 }
 
 jint getUid(const int protocol, const int version, const void *saddr, const uint16_t sport) {
