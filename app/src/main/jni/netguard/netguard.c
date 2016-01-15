@@ -18,6 +18,9 @@
 // TODO log allowed traffic
 // TODO header file
 // TODO debug switches
+// TODO fix warnings
+
+// Window size < 2^31: x <= y: (uint32_t)(y-x) < 0x80000000
 
 #define TAG "NetGuard.JNI"
 #define MAXPKT 32678
@@ -72,7 +75,7 @@ void handle_ip(JNIEnv *, jobject, const struct arguments *, const uint8_t *, con
 
 jint getUid(const int, const int, const void *, const uint16_t);
 
-unsigned short checksum(unsigned short *, int);
+uint16_t checksum(uint8_t *, uint16_t);
 
 char *hex(const u_int8_t *, const u_int16_t);
 
@@ -88,11 +91,6 @@ struct connection *connection = NULL;
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Init");
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "TCP_SYN_RECV %d", TCP_SYN_RECV);
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "TCP_ESTABLISHED %d", TCP_ESTABLISHED);
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "TCP_CLOSE_WAIT %d", TCP_CLOSE_WAIT);
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "TCP_LAST_ACK %d", TCP_LAST_ACK);
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "TCP_CLOSE %d", TCP_CLOSE);
     connection = NULL;
 }
 
@@ -593,8 +591,8 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             else if (cur->state == TCP_LAST_ACK) {
                 if (ntohl(tcphdr->ack_seq) == cur->local_seq + 1 &&
                     ntohl(tcphdr->seq) >= cur->remote_seq + 1) {
-                    cur->local_seq += 1; // local SYN
-                    cur->remote_seq += 1; // remote SYN
+                    cur->local_seq += 1; // local ACK
+                    cur->remote_seq += 1; // remote FIN
 
                     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Full close");
                     // socket has been shutdown already
@@ -1000,36 +998,23 @@ jint getUid(const int protocol, const int version, const void *saddr, const uint
     return uid;
 }
 
-// TODO data types
-// TODO endianess?
-unsigned short checksum(unsigned short *addr, int len) {
-    register int sum = 0;
-    u_short answer = 0;
-    register u_short *w = addr;
-    register int nleft = len;
+uint16_t checksum(uint8_t *buffer, uint16_t length) {
+    register uint32_t sum = 0;
+    register uint16_t *buf = buffer;
+    register int len = length;
 
-    /*
-    * Our algorithm is simple, using a 32-bit accumulator (sum),
-    * we add sequential 16-bit words to it, and at the end, fold back
-    * all the carry bits from the top 16 bits into the lower 16 bits.
-    */
-
-    while (nleft > 1) {
-        sum += *w++;
-        nleft -= 2;
+    while (len > 1) {
+        sum += *buf++;
+        len -= 2;
     }
 
-    /* mop up an odd byte, if necessary */
-    if (nleft == 1) {
-        *(u_char *) (&answer) = *(u_char *) w;
-        sum += answer;
-    }
+    if (len > 0)
+        sum += *((uint8_t *) buf);
 
-    /* add back carry outs from top 16 bits to low 16 bits */
-    sum = (sum >> 16) + (sum & 0xffff); /* add hi 16 to low 16 */
-    sum += (sum >> 16); /* add carry */
-    answer = ~sum; /* truncate to 16 bits */
-    return (answer);
+    while (sum >> 16)
+        sum = (sum & 0xFFFF) + (sum >> 16);
+
+    return (uint16_t) (~sum);
 }
 
 char *hex(const u_int8_t *data, const u_int16_t len) {
