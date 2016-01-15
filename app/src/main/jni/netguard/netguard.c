@@ -131,6 +131,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instanc
                 __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_join error %d: %s",
                                     err, strerror(err));
         }
+        // TODO: clear connection (not reload)
         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped");
     } else
         __android_log_print(ANDROID_LOG_WARN, TAG, "Not running");
@@ -194,6 +195,7 @@ void *handle_events(void *a) {
         FD_ZERO(&wfds);
         FD_ZERO(&efds);
 
+        // Always read tun
         FD_SET(args->tun, &rfds);
         FD_SET(args->tun, &efds);
 
@@ -202,16 +204,17 @@ void *handle_events(void *a) {
         struct connection *last = NULL;
         struct connection *cur = connection;
         while (cur != NULL) {
-            if (cur->state == TCP_CLOSE || cur->time + TCPTIMEOUT < now) {
+            if (cur->state == TCP_TIME_WAIT || cur->time + TCPTIMEOUT < now) {
                 // Log
                 inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
                 __android_log_print(ANDROID_LOG_DEBUG, TAG, "Idle %s/%u lport %u close %d",
                                     dest, ntohs(cur->dest), cur->lport,
-                                    (cur->state == TCP_CLOSE));
+                                    (cur->state == TCP_TIME_WAIT));
 
                 if (close(cur->socket))
                     __android_log_print(ANDROID_LOG_ERROR, TAG, "close error %d: %s",
                                         errno, strerror(errno));
+                // TCP_CLOSE state
 
                 struct data *prev;
                 struct data *sent = cur->sent;
@@ -233,13 +236,14 @@ void *handle_events(void *a) {
                 free(c);
                 continue;
 
-            } else if (cur->state != TCP_CLOSE) {
+            } else if (cur->state != TCP_TIME_WAIT) {
                 if (cur->state == TCP_SYN_RECV) {
                     FD_SET(cur->socket, &wfds);
                     if (cur->socket > max)
                         max = cur->socket;
                 }
-                else if (cur->state == TCP_ESTABLISHED || cur->state == TCP_CLOSE_WAIT) {
+                else if (cur->state == TCP_ESTABLISHED ||
+                         cur->state == TCP_CLOSE_WAIT) {
                     FD_SET(cur->socket, &rfds);
                     if (cur->socket > max)
                         max = cur->socket;
@@ -307,7 +311,7 @@ void *handle_events(void *a) {
                         __android_log_print(ANDROID_LOG_ERROR, TAG, "getsockopt error %d: %s",
                                             errno, strerror(errno));
                         // TODO initiate finish
-                        cur->state = TCP_CLOSE;
+                        cur->state = TCP_TIME_WAIT;
                         cur = cur->next;
                         continue;
                     }
@@ -315,7 +319,7 @@ void *handle_events(void *a) {
                         __android_log_print(ANDROID_LOG_ERROR, TAG, "SO_ERROR %d: %s",
                                             serr, strerror(serr));
                         // TODO initiate FIN
-                        cur->state = TCP_CLOSE;
+                        cur->state = TCP_TIME_WAIT;
                         cur = cur->next;
                         continue;
                     }
@@ -334,7 +338,7 @@ void *handle_events(void *a) {
                         if (writeTCP(cur, NULL, 1, 1, 0, 0, args->tun) < 0) { // SYN
                             __android_log_print(ANDROID_LOG_ERROR, TAG, "write SYN error %d: %s",
                                                 errno, strerror((errno)));
-                            cur->state = TCP_CLOSE;
+                            cur->state = TCP_TIME_WAIT;
                             cur = cur->next;
                             continue;
                         } else
@@ -342,7 +346,8 @@ void *handle_events(void *a) {
                     }
                 }
 
-                else if (cur->state == TCP_ESTABLISHED || cur->state == TCP_CLOSE_WAIT) {
+                else if (cur->state == TCP_ESTABLISHED ||
+                         cur->state == TCP_CLOSE_WAIT) {
                     // Check socket read
                     if (FD_ISSET(cur->socket, &rfds)) {
                         uint8_t buffer[MAXPKT];
@@ -352,18 +357,26 @@ void *handle_events(void *a) {
                                                 errno, strerror(errno));
                             if (errno != EINTR) {
                                 // TODO initiate FIN
-                                cur->state = TCP_CLOSE;
+                                cur->state = TCP_TIME_WAIT;
                                 cur = cur->next;
                                 continue;
                             }
                         }
                         else if (bytes == 0) {
+                            // Socket remotely closed
                             if (cur->state == TCP_ESTABLISHED) {
                                 // TODO initiate FIN
                                 __android_log_print(ANDROID_LOG_WARN, TAG, "recv socket empty");
-                                cur->state = TCP_CLOSE;
-                                cur = cur->next;
-                                continue;
+
+                                if (writeTCP(cur, NULL, 1, 0, 1, 0, args->tun) < 0) // FIN
+                                    __android_log_print(ANDROID_LOG_ERROR, TAG,
+                                                        "write FIN error %d: %s",
+                                                        errno, strerror((errno)));
+                                else {
+                                    __android_log_print(ANDROID_LOG_DEBUG, TAG,
+                                                        "Half close initiated");
+                                    cur->state = TCP_FIN_WAIT1;
+                                }
                             }
                             else if (cur->state == TCP_CLOSE_WAIT) {
                                 // TODO can write
@@ -402,7 +415,7 @@ void *handle_events(void *a) {
                     }
                 }
 
-                else if (cur->state == TCP_CLOSE) {
+                else if (cur->state == TCP_TIME_WAIT) {
                     // Happens after full close
                 }
 
@@ -645,7 +658,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             // Open socket
             syn->socket = openSocket(env, instance, &daddr);
             if (syn->socket < 0) {
-                syn->state = TCP_CLOSE;
+                syn->state = TCP_TIME_WAIT;
                 // Remote will retry
                 free(syn);
             }
@@ -670,7 +683,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             rst->source = tcphdr->source;
             rst->daddr = iphdr->daddr;
             rst->dest = tcphdr->dest;
-            rst->state = TCP_CLOSE;
+            rst->state = TCP_TIME_WAIT;
             rst->sent = NULL;
             rst->next = NULL;
 
@@ -688,7 +701,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
         if (tcphdr->syn)
             __android_log_print(ANDROID_LOG_DEBUG, TAG, "Ignoring repeated SYN");
 
-        if (tcphdr->ack) {
+        if (tcphdr->ack && !tcphdr->fin) {
             cur->time = time(NULL);
 
             if (cur->state == TCP_SYN_SENT) {
@@ -743,10 +756,22 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
 
                     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Full close");
                     // socket has been shutdown already
-                    cur->state = TCP_CLOSE;
+                    cur->state = TCP_TIME_WAIT;
                 }
                 else
                     __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid seq/ack");
+            }
+
+            else if (cur->state == TCP_FIN_WAIT1) {
+                // TODO process ACK
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "FIN wait 1");
+                cur->state = TCP_FIN_WAIT2;
+            }
+
+            else if (cur->state == TCP_CLOSING) {
+                // TODO process ACK
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Closing");
+                cur->state = TCP_TIME_WAIT;
             }
 
             else
@@ -762,12 +787,27 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Shutdown socket");
                 cur->state = TCP_CLOSE_WAIT;
             }
+            else if (cur->state == TCP_FIN_WAIT1) {
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "FIN wait 1");
+                if (tcphdr->ack) {
+                    // TODO send ACK
+                    cur->state = TCP_TIME_WAIT;
+                } else {
+                    // TODO send ACK
+                    cur->state = TCP_CLOSING;
+                }
+            }
+            else if (cur->state == TCP_FIN_WAIT2) {
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "FIN wait 2");
+                // TODO send ACK
+                cur->state = TCP_TIME_WAIT;
+            }
             else
                 __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid FIN state %d", cur->state);
         }
 
         if (tcphdr->rst) {
-            cur->state = TCP_CLOSE;
+            cur->state = TCP_TIME_WAIT;
         }
     }
 
