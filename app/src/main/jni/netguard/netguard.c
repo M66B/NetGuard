@@ -70,11 +70,9 @@ int getLocalPort(const int);
 
 int canWrite(const int);
 
-int writeSYN(const struct connection *, const int);
+int writeTCP(const struct connection *, struct data *, uint16_t, int, int, int, int);
 
-int writeACK(const struct connection *, struct data *, uint16_t, int, int);
-
-void decode(JNIEnv *, jobject, const struct arguments *args, const uint8_t *, const uint16_t);
+void decode(JNIEnv *, jobject, const struct arguments *, const uint8_t *, const uint16_t);
 
 jint getUid(const int, const int, const void *, const uint16_t);
 
@@ -353,7 +351,9 @@ void *handle_events(void *a) {
                         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Established %s/%u lport %u",
                                             dest, ntohs(cur->dest), cur->lport);
 
-                        if (writeSYN(cur, args->tun) < 0) {
+                        if (writeTCP(cur, NULL, 1, 1, 0, 0, args->tun) < 0) { // SYN
+                            __android_log_print(ANDROID_LOG_DEBUG, TAG, "write SYN error %d: %s",
+                                                errno, strerror((errno)));
                             // Remote will retry
                             shutdown(cur->socket, SHUT_RDWR);
                             cur->state = TCP_CLOSE;
@@ -384,7 +384,11 @@ void *handle_events(void *a) {
                                 // TODO initiate FIN
                             }
                             else if (cur->state == TCP_CLOSE_WAIT) {
-                                if (writeACK(cur, NULL, 1, 1, args->tun) >= 0) {
+                                if (writeTCP(cur, NULL, 1, 0, 1, 0, args->tun) < 0) // FIN
+                                    __android_log_print(ANDROID_LOG_DEBUG, TAG,
+                                                        "write FIN error %d: %s",
+                                                        errno, strerror((errno)));
+                                else {
                                     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Half close");
                                     cur->state = TCP_LAST_ACK;
                                 }
@@ -401,7 +405,12 @@ void *handle_events(void *a) {
                             data->data = malloc(bytes);
                             memcpy(data->data, buffer, bytes);
                             // canWrite(args->tun)
-                            if (writeACK(cur, data, 0, 0, args->tun) >= 0)
+
+                            if (writeTCP(cur, data, 0, 0, 0, 0, args->tun) < 0) // ACK
+                                __android_log_print(ANDROID_LOG_DEBUG, TAG,
+                                                    "write ACK error %d: %s",
+                                                    errno, strerror((errno)));
+                            else
                                 cur->local_seq += bytes;
                             // TODO retransmits
                             free(data->data);
@@ -568,7 +577,11 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                             __android_log_print(ANDROID_LOG_ERROR, TAG, "send error %d: %s",
                                                 errno, strerror(errno));
                         else {
-                            if (writeACK(cur, NULL, data->len, 0, args->tun))
+                            if (writeTCP(cur, NULL, data->len, 0, 0, 0, args->tun) < 0) // ACK
+                                __android_log_print(ANDROID_LOG_DEBUG, TAG,
+                                                    "write ACK error %d: %s",
+                                                    errno, strerror((errno)));
+                            else
                                 cur->remote_seq += data->len;
                         }
                     }
@@ -691,73 +704,9 @@ int canWrite(const int fd) {
     return (select(fd + 1, NULL, &wfds, NULL, &tv) > 0);
 }
 
-int writeSYN(const struct connection *cur, int tun) {
-    // Build packet
-    uint16_t len = sizeof(struct iphdr) + sizeof(struct tcphdr); // no data
-    u_int8_t *buffer = calloc(len, 1);
-    struct iphdr *ip = buffer;
-    struct tcphdr *tcp = buffer + sizeof(struct iphdr);
-
-    // Build IP header
-    ip->version = 4;
-    ip->ihl = sizeof(struct iphdr) >> 2;
-    ip->tot_len = htons(len);
-    ip->ttl = TCPTTL;
-    ip->protocol = IPPROTO_TCP;
-    ip->saddr = cur->daddr;
-    ip->daddr = cur->saddr;
-
-    // Calculate IP checksum
-    ip->check = checksum(ip, sizeof(struct iphdr));
-
-    // Build TCP header
-    tcp->source = cur->dest;
-    tcp->dest = cur->source;
-    tcp->seq = htonl(cur->local_seq);
-    tcp->ack_seq = htonl(cur->remote_seq + 1); // TODO proper wrap around
-    tcp->doff = sizeof(struct tcphdr) >> 2;
-    tcp->syn = 1;
-    tcp->ack = 1;
-    tcp->window = htons(TCPWINDOW);
-
-    // Calculate TCP checksum
-    uint16_t clen = sizeof(struct ippseudo) + sizeof(struct tcphdr);
-    uint8_t csum[clen];
-
-    // Build pseudo header
-    struct ippseudo *pseudo = csum;
-    pseudo->ippseudo_src.s_addr = ip->saddr;
-    pseudo->ippseudo_dst.s_addr = ip->daddr;
-    pseudo->ippseudo_pad = 0;
-    pseudo->ippseudo_p = ip->protocol;
-    pseudo->ippseudo_len = htons(sizeof(struct tcphdr)); // no data
-
-    // Copy TCP header
-    memcpy(csum + sizeof(struct ippseudo), tcp, sizeof(struct tcphdr));
-
-    tcp->check = checksum(csum, clen);
-
-    char to[20];
-    inet_ntop(AF_INET, &(ip->daddr), to, sizeof(to));
-
-    // Send packet
-    __android_log_print(ANDROID_LOG_DEBUG, TAG,
-                        "Sending SYN+ACK to tun %s/%u seq %u ack %u",
-                        to, ntohs(tcp->dest),
-                        ntohl(tcp->seq), ntohl(tcp->ack_seq));
-    int res = write(tun, buffer, len);
-    if (res < 0) {
-        // TODO handle EINTR
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "write error %d: %s",
-                            errno, strerror(errno));
-    }
-
-    free(buffer);
-
-    return res;
-}
-
-int writeACK(const struct connection *cur, struct data *data, uint16_t confirm, int fin, int tun) {
+int writeTCP(const struct connection *cur,
+             struct data *data, uint16_t confirm,
+             int syn, int fin, int rst, int tun) {
     // Build packet
     uint16_t datalen = (data == NULL ? 0 : data->len);
     uint16_t len = sizeof(struct iphdr) + sizeof(struct tcphdr) + datalen; // no data
@@ -785,8 +734,10 @@ int writeACK(const struct connection *cur, struct data *data, uint16_t confirm, 
     tcp->seq = htonl(cur->local_seq);
     tcp->ack_seq = htonl(cur->remote_seq + confirm); // TODO proper wrap around
     tcp->doff = sizeof(struct tcphdr) >> 2;
-    tcp->ack = 1;
+    tcp->syn = syn;
+    tcp->ack = (datalen > 0 || confirm > 0 || syn);
     tcp->fin = fin;
+    tcp->rst = rst;
     tcp->window = htons(TCPWINDOW);
 
     // Calculate TCP checksum
@@ -813,15 +764,14 @@ int writeACK(const struct connection *cur, struct data *data, uint16_t confirm, 
 
     // Send packet
     __android_log_print(ANDROID_LOG_DEBUG, TAG,
-                        "Sending ACK%s to tun %s/%u seq %u ack %u data %u confirm %u",
-                        (fin ? "/FIN" : ""), to, ntohs(tcp->dest),
+                        "Sending%s%s%s%s to tun %s/%u seq %u ack %u data %u confirm %u",
+                        (tcp->syn ? " SYN" : ""),
+                        (tcp->ack ? " ACK" : ""),
+                        (tcp->fin ? " FIN" : ""),
+                        (tcp->rst ? " RST" : ""),
+                        to, ntohs(tcp->dest),
                         ntohl(tcp->seq), ntohl(tcp->ack_seq), datalen, confirm);
     int res = write(tun, buffer, len);
-    if (res < 0) {
-        // TODO handle EINTR
-        __android_log_print(ANDROID_LOG_ERROR, TAG, "write error %d: %s",
-                            errno, strerror(errno));
-    }
 
     free(buffer);
 
