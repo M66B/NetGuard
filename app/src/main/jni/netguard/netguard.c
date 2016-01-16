@@ -25,12 +25,12 @@
 // It is assumed that no packets will get lost and that packets arrive in order
 
 #define TAG "NetGuard.JNI"
-#define MAXPKT 32678
-// TODO TCP parameters
+#define MAXPKT 32768
+// TODO TCP parameters (net.inet.tcp.keepinit, etc)
 #define SELECTWAIT 10 // seconds
-#define TCPTIMEOUT 300 // seconds
+#define TCPTIMEOUT 300 // seconds ~net.inet.tcp.keepidle
 #define TCPTTL 64
-#define TCPWINDOW 2048
+#define TCPWINDOW 32768
 #define UIDDELAY 10 // milliseconds
 
 struct arguments {
@@ -234,6 +234,8 @@ void *handle_events(void *a) {
                 __android_log_print(ANDROID_LOG_DEBUG, TAG, "Close lport %u",
                                     cur->lport);
 
+                // TODO keep for some time
+
                 // TODO non blocking?
                 if (close(cur->socket))
                     __android_log_print(ANDROID_LOG_ERROR, TAG, "close error %d: %s",
@@ -272,6 +274,7 @@ void *handle_events(void *a) {
 
         ts.tv_sec = SELECTWAIT;
         ts.tv_nsec = 0;
+        // TODO let timeout depend on session timeouts
         sigemptyset(&emptyset);
         int ready = pselect(max + 1, &rfds, &wfds, &efds, session == NULL ? NULL : &ts, &emptyset);
         if (ready < 0) {
@@ -290,9 +293,19 @@ void *handle_events(void *a) {
             }
         }
 
+        int sessions = 0;
+        struct session *s = session;
+        while (s != NULL) {
+            sessions++;
+            s = s->next;
+        }
+
         if (ready == 0)
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "pselect timeout");
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "pselect timeout sessions %d", sessions);
         else {
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "pselect sessions %d ready %d",
+                                sessions, ready);
+
             // Check tun exception
             if (FD_ISSET(args->tun, &efds)) {
                 __android_log_print(ANDROID_LOG_ERROR, TAG, "tun exception");
@@ -612,8 +625,8 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
     // Search session
     struct session *last = NULL;
     struct session *cur = session;
-    while (cur != NULL && !(cur->saddr == iphdr->saddr && cur->source == tcphdr->source)) {
-        // TODO check source
+    while (cur != NULL && !(cur->saddr == iphdr->saddr && cur->source == tcphdr->source &&
+                            cur->daddr == iphdr->daddr && cur->dest == tcphdr->dest)) {
         last = cur;
         cur = cur->next;
     }
@@ -750,10 +763,12 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                 else if (cur->state == TCP_CLOSING)
                     cur->state = TCP_TIME_WAIT;
                 else
-                    __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid ACK");
+                    __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid ACK");
             }
-            else
-                __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid seq/ack");
+            else {
+                // TODO check old seq/ack
+                __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid seq/ack");
+            }
         }
 
         else if (tcphdr->fin /* ack */) {
