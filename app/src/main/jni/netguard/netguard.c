@@ -22,6 +22,8 @@
 
 // Window size < 2^31: x <= y: (uint32_t)(y-x) < 0x80000000
 
+// It is assumed that no packets will get lost and that packets arrive in order
+
 #define TAG "NetGuard.JNI"
 #define MAXPKT 32678
 // TODO TCP parameters
@@ -42,7 +44,7 @@ struct data {
     struct data *next;
 };
 
-struct connection {
+struct session {
     time_t time;
     int uid;
     uint32_t remote_seq; // confirmed bytes received, host notation
@@ -54,8 +56,7 @@ struct connection {
     uint8_t state;
     jint socket;
     uint32_t lport; // host notation
-    struct data *sent;
-    struct connection *next;
+    struct session *next;
 };
 
 void *handle_events(void *);
@@ -71,7 +72,7 @@ int getLocalPort(const int);
 
 int canWrite(const int);
 
-int writeTCP(const struct connection *, struct data *, uint16_t, int, int, int, int);
+int writeTCP(const struct session *, struct data *, uint16_t, int, int, int, int);
 
 jint getUid(const int, const int, const void *, const uint16_t);
 
@@ -84,14 +85,14 @@ char *hex(const u_int8_t *, const u_int16_t);
 static JavaVM *jvm;
 pthread_t thread_id;
 int signaled = 0;
-struct connection *connection = NULL;
+struct session *session = NULL;
 
 // JNI
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Init");
-    connection = NULL;
+    session = NULL;
 }
 
 JNIEXPORT void JNICALL
@@ -131,7 +132,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instanc
                 __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_join error %d: %s",
                                     err, strerror(err));
         }
-        // TODO: clear connection (not reload)
+        // TODO: clear sessions (not reload)
         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped");
     } else
         __android_log_print(ANDROID_LOG_WARN, TAG, "Not running");
@@ -201,8 +202,8 @@ void *handle_events(void *a) {
 
         max = args->tun;
 
-        struct connection *last = NULL;
-        struct connection *cur = connection;
+        struct session *last = NULL;
+        struct session *cur = session;
         while (cur != NULL) {
             if (cur->state == TCP_TIME_WAIT || cur->time + TCPTIMEOUT < now) {
                 // Log
@@ -216,22 +217,12 @@ void *handle_events(void *a) {
                                         errno, strerror(errno));
                 // TCP_CLOSE state
 
-                struct data *prev;
-                struct data *sent = cur->sent;
-                while (sent != NULL) {
-                    prev = sent;
-                    sent = sent->next;
-                    if (prev->data != NULL)
-                        free(prev->data);
-                    free(prev);
-                }
-
                 if (last == NULL)
-                    connection = cur->next;
+                    session = cur->next;
                 else
                     last->next = cur->next;
 
-                struct connection *c = cur;
+                struct session *c = cur;
                 cur = cur->next;
                 free(c);
                 continue;
@@ -301,7 +292,7 @@ void *handle_events(void *a) {
             }
 
             // Check sockets
-            struct connection *cur = connection;
+            struct session *cur = session;
             while (cur != NULL) {
                 // Check socket exception
                 if (FD_ISSET(cur->socket, &efds)) {
@@ -408,7 +399,6 @@ void *handle_events(void *a) {
                                                     errno, strerror((errno)));
                             else
                                 cur->local_seq += bytes;
-                            // TODO retransmits
                             free(data->data);
                             free(data);
                         }
@@ -533,6 +523,7 @@ void handle_ip(JNIEnv *env, jobject instance, const struct arguments *args,
     jint uid = -1;
     if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
         // Sleep 10 ms
+        // TODO uid retry
         usleep(1000 * UIDDELAY);
 
         // Lookup uid
@@ -613,9 +604,9 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
         data->next = NULL;
     }
 
-    // Search connection
-    struct connection *last = NULL;
-    struct connection *cur = connection;
+    // Search session
+    struct session *last = NULL;
+    struct session *cur = session;
     while (cur != NULL && !(cur->saddr == iphdr->saddr && cur->source == tcphdr->source)) {
         last = cur;
         cur = cur->next;
@@ -632,8 +623,8 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
         if (tcphdr->syn) {
             __android_log_print(ANDROID_LOG_DEBUG, TAG, "New SYN");
 
-            // Register connection
-            struct connection *syn = malloc(sizeof(struct connection));
+            // Register session
+            struct session *syn = malloc(sizeof(struct session));
             syn->time = time(NULL);
             syn->uid = uid;
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
@@ -643,7 +634,6 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             syn->daddr = iphdr->daddr;
             syn->dest = tcphdr->dest;
             syn->state = TCP_SYN_RECV;
-            syn->sent = NULL;
             syn->next = NULL;
 
             // TODO handle SYN data?
@@ -668,14 +658,14 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                 __android_log_print(ANDROID_LOG_DEBUG, TAG, "Connecting to %s/%u lport %u",
                                     dest, ntohs(tcphdr->dest), syn->lport);
                 if (last == NULL)
-                    connection = syn;
+                    session = syn;
                 else
                     last->next = syn;
             }
         }
         else {
-            __android_log_print(ANDROID_LOG_WARN, TAG, "Unknown connection");
-            struct connection *rst = malloc(sizeof(struct connection));
+            __android_log_print(ANDROID_LOG_WARN, TAG, "Unknown session");
+            struct session *rst = malloc(sizeof(struct session));
             rst->time = time(NULL);
             rst->remote_seq = ntohl(tcphdr->seq); // ISN remote
             rst->local_seq = rand(); // ISN local
@@ -684,7 +674,6 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             rst->daddr = iphdr->daddr;
             rst->dest = tcphdr->dest;
             rst->state = TCP_TIME_WAIT;
-            rst->sent = NULL;
             rst->next = NULL;
 
             // TODO can write
@@ -696,7 +685,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
         }
     }
     else {
-        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Existing connection lport %u", cur->lport);
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Existing session lport %u", cur->lport);
 
         if (tcphdr->syn)
             __android_log_print(ANDROID_LOG_DEBUG, TAG, "Ignoring repeated SYN");
@@ -895,7 +884,7 @@ int canWrite(const int fd) {
     return (select(fd + 1, NULL, &wfds, NULL, &tv) > 0);
 }
 
-int writeTCP(const struct connection *cur,
+int writeTCP(const struct session *cur,
              struct data *data, uint16_t confirm,
              int syn, int fin, int rst, int tun) {
     // Build packet
