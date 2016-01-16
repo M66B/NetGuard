@@ -185,7 +185,7 @@ void *handle_events(void *a) {
     // Loop
     while (1) {
         time_t now = time(NULL);
-        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Select thread %u", thread_id);
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "Loop thread %u", thread_id);
 
         // Select
         FD_ZERO(&rfds);
@@ -273,7 +273,7 @@ void *handle_events(void *a) {
         ts.tv_sec = SELECTWAIT;
         ts.tv_nsec = 0;
         sigemptyset(&emptyset);
-        int ready = pselect(max + 1, &rfds, &wfds, &efds, &ts, &emptyset);
+        int ready = pselect(max + 1, &rfds, &wfds, &efds, session == NULL ? NULL : &ts, &emptyset);
         if (ready < 0) {
             if (errno == EINTR) {
                 if (signaled) { ;
@@ -284,14 +284,14 @@ void *handle_events(void *a) {
                     continue;
                 }
             } else {
-                __android_log_print(ANDROID_LOG_ERROR, TAG, "select error %d: %s",
+                __android_log_print(ANDROID_LOG_ERROR, TAG, "pselect error %d: %s",
                                     errno, strerror(errno));
                 break;
             }
         }
 
         if (ready == 0)
-            __android_log_print(ANDROID_LOG_DEBUG, TAG, "Yield");
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "pselect timeout");
         else {
             // Check tun exception
             if (FD_ISSET(args->tun, &efds)) {
@@ -365,8 +365,8 @@ void *handle_events(void *a) {
                             cur = cur->next;
                             continue;
                         } else {
-                            cur->local_seq++;
-                            cur->remote_seq++;
+                            cur->local_seq++; // local SYN
+                            cur->remote_seq++; // remote SYN
                             cur->state = TCP_SYN_RECV;
                         }
                     }
@@ -403,7 +403,7 @@ void *handle_events(void *a) {
                             else {
                                 __android_log_print(ANDROID_LOG_DEBUG, TAG,
                                                     "Half close initiated");
-                                cur->local_seq++;
+                                cur->local_seq++; // local FIN
                                 if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
                                     cur->state = TCP_FIN_WAIT1;
                                 else // close wait
@@ -419,7 +419,7 @@ void *handle_events(void *a) {
                                                     "write ACK lport %u error %d: %s",
                                                     cur->lport, errno, strerror((errno)));
                             else
-                                cur->local_seq += bytes;
+                                cur->local_seq += bytes; // received from socket
                         }
                     }
                 }
@@ -721,7 +721,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                     cur->state = TCP_ESTABLISHED;
                 }
                 else if (cur->state == TCP_ESTABLISHED) {
-                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "New ack");
+                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "New ack data %u", datalen);
                     if (datalen) {
                         __android_log_print(ANDROID_LOG_DEBUG, TAG, "send socket data %u",
                                             datalen);
@@ -737,7 +737,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                                                     "write data error %d: %s",
                                                     errno, strerror((errno)));
                             else
-                                cur->remote_seq += datalen;
+                                cur->remote_seq += datalen; // received from tun
                         }
                     }
                 }
@@ -788,14 +788,16 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                                                 "write ACK error %d: %s",
                                                 errno, strerror((errno)));
                         else {
-                            cur->remote_seq += 1 + datalen; // FIN + data
+                            cur->remote_seq += 1 + datalen; // FIN + received from tun
+                            // TODO check ACK !TCP_FIN_WAIT1
                             if (cur->state == TCP_ESTABLISHED)
                                 cur->state = TCP_CLOSE_WAIT;
-                            else if (cur->state == TCP_FIN_WAIT1) if (tcphdr->ack)
-                                cur->state = TCP_TIME_WAIT;
-                            else
-                                cur->state = TCP_CLOSING;
-                            else if (cur->state == TCP_FIN_WAIT2)
+                            else if (cur->state == TCP_FIN_WAIT1) {
+                                if (tcphdr->ack)
+                                    cur->state = TCP_TIME_WAIT;
+                                else
+                                    cur->state = TCP_CLOSING;
+                            } else if (cur->state == TCP_FIN_WAIT2)
                                 cur->state = TCP_TIME_WAIT;
                             else
                                 __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid FIN");
