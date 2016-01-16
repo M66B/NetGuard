@@ -28,7 +28,7 @@
 #define MAXPKT 32678
 // TODO TCP parameters
 #define SELECTWAIT 10 // seconds
-#define TCPTIMEOUT 30 // seconds
+#define TCPTIMEOUT 300 // seconds
 #define TCPTTL 64
 #define TCPWINDOW 2048
 #define UIDDELAY 10 // milliseconds
