@@ -928,11 +928,12 @@ int writeTCP(const struct session *cur,
     // Build TCP header
     tcp->source = cur->dest;
     tcp->dest = cur->source;
-    tcp->seq = htonl(cur->local_seq);
-    tcp->ack_seq = htonl(cur->remote_seq + confirm); // TODO proper wrap around
+    tcp->seq = (rst ? 0 : htonl(cur->local_seq));
+    tcp->ack_seq = (rst ? 0 : htonl(cur->remote_seq + confirm)); // TODO proper wrap around
     tcp->doff = sizeof(struct tcphdr) >> 2;
     tcp->syn = syn;
-    tcp->ack = (datalen > 0 || confirm > 0 || syn);
+    // TODO why does a FIN need an ACK?
+    tcp->ack = (datalen > 0 || confirm > 0 || syn || fin);
     tcp->fin = fin;
     tcp->rst = rst;
     tcp->window = htons(TCPWINDOW);
@@ -969,6 +970,11 @@ int writeTCP(const struct session *cur,
                         (tcp->rst ? " RST" : ""),
                         to, ntohs(tcp->dest),
                         ntohl(tcp->seq), ntohl(tcp->ack_seq), datalen, confirm);
+    //if (tcp->fin || tcp->rst) {
+    //    char *h = hex(buffer, len);
+    //    __android_log_print(ANDROID_LOG_DEBUG, TAG, "%s", h);
+    //    free(h);
+    //}
     int res = write(tun, buffer, len);
 
     free(buffer);
