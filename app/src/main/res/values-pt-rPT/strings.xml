@@ -103,7 +103,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_pro_theme">Aparência (tema, cores)</string>
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_log">Visualizar registro de tráfego bloqueado</string>
-  <string name="title_pro_multi">Multi user support</string>
+  <string name="title_pro_multi">Suporte a multiusuários</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>

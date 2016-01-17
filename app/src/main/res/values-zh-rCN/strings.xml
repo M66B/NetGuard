@@ -103,7 +103,7 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="title_pro_theme">外观 (主题、 颜色)</string>
   <string name="title_pro_speed">网速示图通知</string>
   <string name="title_pro_log">查看被拦截流量日志</string>
-  <string name="title_pro_multi">Multi user support</string>
+  <string name="title_pro_multi">多用户支持</string>
   <string name="title_pro_buy">详细信息</string>
   <string name="title_pro_bought">已启用</string>
   <string name="title_pro_challenge">验证口令</string>

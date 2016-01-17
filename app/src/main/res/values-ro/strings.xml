@@ -103,7 +103,7 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="title_pro_theme">Tema, culori configurabile</string>
   <string name="title_pro_speed">Notificare cu grafic viteza conexiune</string>
   <string name="title_pro_log">Arata adresele blocate</string>
-  <string name="title_pro_multi">Multi user support</string>
+  <string name="title_pro_multi">Suport utilizatori multipli</string>
   <string name="title_pro_buy">Detalii</string>
   <string name="title_pro_bought">Activat</string>
   <string name="title_pro_challenge">Intrebare de verificare</string>

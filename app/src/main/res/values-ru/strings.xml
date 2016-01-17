@@ -100,7 +100,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_pro_theme">Внешний вид (темы, цвета)</string>
   <string name="title_pro_speed">График скорости сети</string>
   <string name="title_pro_log">Просмотр журнала заблокированного трафика</string>
-  <string name="title_pro_multi">Multi user support</string>
+  <string name="title_pro_multi">Поддержка нескольких пользователей</string>
   <string name="title_pro_buy">Добавить</string>
   <string name="title_pro_bought">Добавлено</string>
   <string name="title_pro_challenge">Задание</string>

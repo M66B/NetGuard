@@ -24,7 +24,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="menu_support">Aide</string>
   <string name="menu_about">À propos</string>
   <string name="menu_enabled">Activé</string>
-  <string name="menu_live">Live updates</string>
+  <string name="menu_live">Mises à jour en directe</string>
   <string name="menu_clear">Effacer</string>
   <string name="setting_defaults">Par défaut</string>
   <string name="setting_whitelist_wifi">Bloquer Wi-Fi</string>
@@ -103,7 +103,7 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
   <string name="title_pro_theme">Apparence (thème, couleurs)</string>
   <string name="title_pro_speed">Notification d\'un graphique de la vitesse</string>
   <string name="title_pro_log">Voir le journal du trafic bloqué</string>
-  <string name="title_pro_multi">Multi user support</string>
+  <string name="title_pro_multi">Support multi-utilisateur</string>
   <string name="title_pro_buy">Détails</string>
   <string name="title_pro_bought">Activé</string>
   <string name="title_pro_challenge">Code</string>

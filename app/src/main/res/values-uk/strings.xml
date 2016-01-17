@@ -14,14 +14,14 @@
   <string name="menu_sort">Впорядкування додатків</string>
   <string name="menu_sort_name">За назвою</string>
   <string name="menu_sort_data">За використанням даних</string>
-  <string name="menu_log">Show log</string>
+  <string name="menu_log">Показати журнал</string>
   <string name="menu_settings">Налаштування</string>
   <string name="menu_invite">Запросити</string>
   <string name="menu_support">Підтримка</string>
   <string name="menu_about">Про</string>
-  <string name="menu_enabled">Enabled</string>
+  <string name="menu_enabled">Увімкнено</string>
   <string name="menu_live">Live updates</string>
-  <string name="menu_clear">Clear</string>
+  <string name="menu_clear">Очистити</string>
   <string name="setting_defaults">Типові</string>
   <string name="setting_whitelist_wifi">Блокувати типово у Wi-Fi мережі</string>
   <string name="setting_whitelist_other">Блокувати типово у мобільній мережі</string>
@@ -33,7 +33,7 @@
   <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
-  <string name="setting_theme">Theme: %1$s</string>
+  <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_wifi_home">Домашня Wi-Fi мережа: %1$s</string>
   <string name="setting_metered">Регулювати лімітовані Wi-Fi мережі</string>
@@ -90,13 +90,13 @@ NetGuard не має дозволу до інтернет доступу, том
   <string name="title_block">Блокувати</string>
   <string name="title_log">Blocked traffic</string>
   <string name="title_log_whois">Whois %1$s</string>
-  <string name="title_log_port">Port %1$d</string>
+  <string name="title_log_port">Порт %1$d</string>
   <string name="title_pro">Pro можливості</string>
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
   <string name="title_pro_trial_ended">Pro features trial period ended</string>
   <string name="title_pro_description">The following convenience features are available:</string>
   <string name="title_pro_notify">New application notifications</string>
-  <string name="title_pro_theme">Appearance (theme, colors)</string>
+  <string name="title_pro_theme">Зовнішній вигляд (тема, кольори)</string>
   <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_multi">Multi user support</string>
@@ -106,10 +106,10 @@ NetGuard не має дозволу до інтернет доступу, том
   <string name="title_pro_reponse">Відповідь</string>
   <string-array name="themeNames">
     <item>teal/orange</item>
-    <item>blue/orange</item>
-    <item>purple/red</item>
-    <item>amber/blue</item>
-    <item>orange/grey</item>
-    <item>green</item>
+    <item>синій/помаранчевий</item>
+    <item>фіолетовий/червоний</item>
+    <item>бурштиновий/синій</item>
+    <item>помаранчевий/сірий</item>
+    <item>зелений</item>
   </string-array>
 </resources>

@@ -103,7 +103,7 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_pro_theme">外観 (テーマ、色)</string>
   <string name="title_pro_speed">ネットワーク速度グラフ通知</string>
   <string name="title_pro_log">ブロックされたトラフィックのログを表示</string>
-  <string name="title_pro_multi">Multi user support</string>
+  <string name="title_pro_multi">マルチ ユーザー サポート</string>
   <string name="title_pro_buy">詳細</string>
   <string name="title_pro_bought">有効</string>
   <string name="title_pro_challenge">チャレンジ</string>
