@@ -58,6 +58,8 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xmlpull.v1.XmlSerializer;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -80,9 +82,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
-    private static final int REQUEST_METERED = 3;
-    private static final int REQUEST_ROAMING_NATIONAL = 4;
-    private static final int REQUEST_ROAMING_INTERNATIONAL = 5;
+    private static final int REQUEST_PCAP = 3;
+    private static final int REQUEST_METERED = 4;
+    private static final int REQUEST_ROAMING_NATIONAL = 5;
+    private static final int REQUEST_ROAMING_INTERNATIONAL = 6;
+
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +172,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
         });
 
+        // Handle pcap export
+        Preference pref_pcap = screen.findPreference("pcap");
+        pref_pcap.setEnabled(getIntentPCAPDocument().resolveActivity(getPackageManager()) != null);
+        pref_pcap.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivityForResult(getIntentPCAPDocument(), ActivitySettings.REQUEST_PCAP);
+                return true;
+            }
+        });
+
         // Handle technical info
         Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {
             @Override
@@ -213,6 +228,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             options.removePreference(screen.findPreference("unmetered_3g"));
             options.removePreference(screen.findPreference("unmetered_4g"));
             options.removePreference(screen.findPreference("national_roaming"));
+        }
+
+
+        if (!Util.isDebuggable(this)) {
+            PreferenceCategory backup = (PreferenceCategory) screen.findPreference("category_backup");
+            backup.removePreference(screen.findPreference("pcap"));
         }
     }
 
@@ -478,10 +499,37 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             if (resultCode == RESULT_OK && data != null)
                 handleImport(data);
 
+        } else if (requestCode == REQUEST_PCAP) {
+            if (resultCode == RESULT_OK && data != null)
+                handleExportPCAP(data);
+
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private static Intent getIntentCreateDocument() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/xml");
+        intent.putExtra(Intent.EXTRA_TITLE, "netguard_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".xml");
+        return intent;
+    }
+
+    private static Intent getIntentOpenDocument() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/xml");
+        return intent;
+    }
+
+    private static Intent getIntentPCAPDocument() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/octet-stream");
+        intent.putExtra(Intent.EXTRA_TITLE, "netguard_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".pcap");
+        return intent;
     }
 
     private void handleExport(final Intent data) {
@@ -490,8 +538,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             protected Throwable doInBackground(Object... objects) {
                 OutputStream out = null;
                 try {
-                    out = getContentResolver().openOutputStream(data.getData());
                     Log.i(TAG, "Writing URI=" + data.getData());
+                    out = getContentResolver().openOutputStream(data.getData());
                     xmlExport(out);
                     return null;
                 } catch (Throwable ex) {
@@ -518,29 +566,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         }.execute();
     }
 
-    private static Intent getIntentCreateDocument() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/xml");
-        intent.putExtra(Intent.EXTRA_TITLE, "netguard_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".xml");
-        return intent;
-    }
-
-    private static Intent getIntentOpenDocument() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/xml");
-        return intent;
-    }
-
     private void handleImport(final Intent data) {
         new AsyncTask<Object, Object, Throwable>() {
             @Override
             protected Throwable doInBackground(Object... objects) {
                 InputStream in = null;
                 try {
-                    in = getContentResolver().openInputStream(data.getData());
                     Log.i(TAG, "Reading URI=" + data.getData());
+                    in = getContentResolver().openInputStream(data.getData());
                     xmlImport(in);
                     return null;
                 } catch (Throwable ex) {
@@ -563,6 +596,55 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
                     recreate();
                 } else
+                    Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+        }.execute();
+    }
+
+    private void handleExportPCAP(final Intent data) {
+        new AsyncTask<Object, Object, Throwable>() {
+            @Override
+            protected Throwable doInBackground(Object... objects) {
+                OutputStream out = null;
+                InputStream in = null;
+                try {
+                    Log.i(TAG, "Export PCAP URI=" + data.getData());
+                    out = getContentResolver().openOutputStream(data.getData());
+
+                    File pcap = new File(getCacheDir(), "netguard.pcap");
+                    in = new FileInputStream(pcap);
+
+                    byte[] buf = new byte[4096];
+                    int len;
+                    while ((len = in.read(buf)) > 0)
+                        out.write(buf, 0, len);
+
+                    return null;
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, ActivitySettings.this);
+                    return ex;
+                } finally {
+                    if (out != null)
+                        try {
+                            out.close();
+                        } catch (IOException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
+                    if (in != null)
+                        try {
+                            in.close();
+                        } catch (IOException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Throwable ex) {
+                if (ex == null)
+                    Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                else
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
         }.execute();

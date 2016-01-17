@@ -124,6 +124,9 @@
         <Preference
             android:key="import"
             android:title="@string/setting_import" />
+        <Preference
+            android:key="pcap"
+            android:title="Export PCAP" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_technical"

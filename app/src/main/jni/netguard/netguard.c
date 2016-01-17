@@ -32,6 +32,7 @@
 #define TCPTTL 64
 #define TCPWINDOW 32768
 #define UIDDELAY 10 // milliseconds
+#define MAXPCAP 80
 
 struct arguments {
     jobject instance;
@@ -54,6 +55,34 @@ struct session {
     uint32_t lport; // host notation
     struct session *next;
 };
+
+// https://wiki.wireshark.org/Development/LibpcapFileFormat
+
+typedef unsigned short guint16_t;
+typedef unsigned int guint32_t;
+typedef signed int gint32_t;
+
+typedef struct pcap_hdr_s {
+    guint32_t magic_number;
+    guint16_t version_major;
+    guint16_t version_minor;
+    gint32_t thiszone;
+    guint32_t sigfigs;
+    guint32_t snaplen;
+    guint32_t network;
+} pcap_hdr_t;
+
+
+typedef struct pcaprec_hdr_s {
+    guint32_t ts_sec;
+    guint32_t ts_usec;
+    guint32_t incl_len;
+    guint32_t orig_len;
+} pcaprec_hdr_t;
+
+#define LINKTYPE_RAW 101
+
+void pcap_write(const void *, size_t);
 
 void *handle_events(void *);
 
@@ -84,13 +113,54 @@ static JavaVM *jvm;
 pthread_t thread_id;
 int signaled = 0;
 struct session *session = NULL;
+char *pcap_fn = NULL;
 
 // JNI
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Init");
-    session = NULL;
+Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance,
+                                                    jboolean debug, jstring pcap_) {
+    const char *pcap = (*env)->GetStringUTFChars(env, pcap_, 0);
+
+    if (pcap == NULL)
+        pcap_fn = NULL;
+    else {
+        pcap_fn = malloc(strlen(pcap) + 1);
+        strcpy(pcap_fn, pcap);
+
+        __android_log_print(ANDROID_LOG_DEBUG, TAG, "PCAP %s", pcap_fn);
+
+        session = NULL;
+        struct pcap_hdr_s pcap_hdr;
+        pcap_hdr.magic_number = 0xa1b2c3d4;
+        pcap_hdr.version_major = 2;
+        pcap_hdr.version_minor = 4;
+        pcap_hdr.thiszone = 0;
+        pcap_hdr.sigfigs = 0;
+        pcap_hdr.snaplen = MAXPCAP;
+        pcap_hdr.network = LINKTYPE_RAW;
+        pcap_write(&pcap_hdr, sizeof(struct pcap_hdr_s));
+    }
+
+    (*env)->ReleaseStringUTFChars(env, pcap_, pcap);
+}
+
+void pcap_write(const void *ptr, size_t len) {
+    FILE *fd = fopen(pcap_fn, "ab");
+    if (fd == NULL)
+        __android_log_print(ANDROID_LOG_ERROR, TAG, "fopen %s error %d: %s",
+                            pcap_fn, errno, strerror(errno));
+    else {
+        if (fwrite(ptr, len, 1, fd) < 1)
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "fwrite %s error %d: %s",
+                                pcap_fn, errno, strerror(errno));
+        else
+            __android_log_print(ANDROID_LOG_DEBUG, TAG, "PCAP write %d", len);
+
+        if (fclose(fd))
+            __android_log_print(ANDROID_LOG_ERROR, TAG, "fclose %s error %d: %s",
+                                pcap_fn, errno, strerror(errno));
+    }
 }
 
 JNIEXPORT void JNICALL
@@ -144,6 +214,12 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instanc
         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped");
     } else
         __android_log_print(ANDROID_LOG_WARN, TAG, "Not running");
+}
+
+JNIEXPORT void JNICALL
+Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instance) {
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Done");
+    free(pcap_fn);
 }
 
 // Private functions
@@ -244,8 +320,6 @@ void *handle_events(void *a) {
                 if (close(cur->socket))
                     __android_log_print(ANDROID_LOG_ERROR, TAG, "close error %d: %s",
                                         errno, strerror(errno));
-                else
-                    cur->state = TCP_CLOSE;
 
                 if (last == NULL)
                     session = cur->next;
@@ -328,8 +402,32 @@ void *handle_events(void *a) {
                     else
                         break;
                 }
-                if (length > 0)
+                else if (length > 0) {
+                    if (pcap_fn != NULL) {
+                        struct timespec ts;
+                        if (clock_gettime(CLOCK_REALTIME, &ts))
+                            __android_log_print(ANDROID_LOG_ERROR, TAG,
+                                                "clock_gettime error %d: %s",
+                                                errno, strerror(errno));
+
+
+                        int plen = (length < MAXPCAP ? length : MAXPCAP);
+                        struct pcaprec_hdr_s *pcap_rec = malloc(
+                                sizeof(struct pcaprec_hdr_s) + plen);
+
+                        pcap_rec->ts_sec = ts.tv_sec;
+                        pcap_rec->ts_usec = ts.tv_nsec / 1000;
+                        pcap_rec->incl_len = plen;
+                        pcap_rec->orig_len = length;
+                        memcpy(((uint8_t *) pcap_rec) + sizeof(struct pcaprec_hdr_s), buffer, plen);
+
+                        pcap_write(pcap_rec, sizeof(struct pcaprec_hdr_s) + plen);
+
+                        free(pcap_rec);
+                    }
+
                     handle_ip(env, args->instance, args, buffer, length);
+                }
                 else {
                     __android_log_print(ANDROID_LOG_ERROR, TAG, "tun empty read");
                     break;
@@ -409,8 +507,9 @@ void *handle_events(void *a) {
                                 }
                             }
                             else
-                                __android_log_print(ANDROID_LOG_DEBUG, TAG, "recv lport %u empty",
-                                                    cur->lport);
+                                __android_log_print(ANDROID_LOG_DEBUG, TAG,
+                                                    "recv empty lport %u state %s",
+                                                    cur->lport, strstate(cur->state));
 
                             // TODO can write
                             if (writeTCP(cur, NULL, 0, 0, 0, 1, 0, args->tun) < 0) // FIN
@@ -418,18 +517,18 @@ void *handle_events(void *a) {
                                                     "write FIN lport %u error %d: %s",
                                                     cur->lport, errno, strerror((errno)));
                             else {
-                                __android_log_print(ANDROID_LOG_DEBUG, TAG,
-                                                    "Half close initiated");
                                 cur->local_seq++; // local FIN
                                 if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
                                     cur->state = TCP_FIN_WAIT1;
                                 else // close wait
                                     cur->state = TCP_LAST_ACK;
+                                __android_log_print(ANDROID_LOG_DEBUG, TAG, "Half close state %s",
+                                                    strstate(cur->state));
                             }
                         } else {
                             __android_log_print(ANDROID_LOG_DEBUG, TAG,
-                                                "recv lport %u bytes %d",
-                                                cur->lport, bytes);
+                                                "recv lport %u bytes %d state %s",
+                                                cur->lport, bytes, strstate(cur->state));
                             // TODO can write
                             if (writeTCP(cur, buffer, bytes, 0, 0, 0, 0, args->tun) < 0) // ACK
                                 __android_log_print(ANDROID_LOG_ERROR, TAG,
@@ -535,7 +634,7 @@ void handle_ip(JNIEnv *env, jobject instance, const struct arguments *args,
             flags[flen++] = 'P';
         if (tcp->fin)
             flags[flen++] = 'F';
-        if (tcp->fin)
+        if (tcp->rst)
             flags[flen++] = 'R';
 
         // TODO checksum
@@ -640,7 +739,8 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
     inet_ntop(AF_INET, &(iphdr->daddr), dest, sizeof(dest));
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Received %s/%u seq %u ack %u window %u data %d",
                         dest, ntohs(tcphdr->dest),
-                        ntohl(tcphdr->seq), ntohl(tcphdr->ack_seq),
+                        ntohl(tcphdr->seq) - (cur == NULL ? 0 : cur->remote_start),
+                        ntohl(tcphdr->ack_seq) - (cur == NULL ? 0 : cur->local_start),
                         ntohs(tcphdr->window), datalen);
 
     if (cur == NULL) {
@@ -691,24 +791,18 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
         }
         else {
             __android_log_print(ANDROID_LOG_WARN, TAG, "Unknown session");
-            struct session *rst = malloc(sizeof(struct session));
-            rst->time = time(NULL);
-            rst->remote_seq = ntohl(tcphdr->seq);
-            rst->local_seq = 0;
-            rst->saddr = iphdr->saddr;
-            rst->source = tcphdr->source;
-            rst->daddr = iphdr->daddr;
-            rst->dest = tcphdr->dest;
-            rst->state = TCP_TIME_WAIT;
-            rst->next = NULL;
+            struct session rst;
+            memset(&rst, 0, sizeof(struct session));
+            rst.saddr = iphdr->saddr;
+            rst.source = tcphdr->source;
+            rst.daddr = iphdr->daddr;
+            rst.dest = tcphdr->dest;
 
             // TODO can write
-            int confirm = (tcphdr->syn || tcphdr->fin ? 1 : 0) + datalen;
-            if (writeTCP(rst, NULL, 0, confirm, 0, 0, 1, args->tun) < 0)
+            if (writeTCP(&rst, NULL, 0, 0, 0, 0, 1, args->tun) < 0)
                 __android_log_print(ANDROID_LOG_ERROR, TAG,
                                     "write RST error %d: %s",
                                     errno, strerror((errno)));
-            free(rst);
         }
     }
     else {
@@ -726,16 +820,12 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             __android_log_print(ANDROID_LOG_DEBUG, TAG, "Ignoring repeated SYN");
 
         else if (tcphdr->ack && !tcphdr->fin) {
-            // TODO proper wrap around
-            if (ntohl(tcphdr->seq) + 1 == cur->remote_seq) {
+            if (((uint32_t) ntohl(tcphdr->seq) + 1) == cur->remote_seq) {
                 // TODO respond to keep alive?
                 __android_log_print(ANDROID_LOG_DEBUG, TAG, "Keep alive");
                 cur->time = time(NULL);
-            } else if (ntohl(tcphdr->ack_seq) < cur->local_seq ||
-                       ntohl(tcphdr->seq) < cur->remote_seq)
-                __android_log_print(ANDROID_LOG_WARN, TAG, "Old ack");
-            else if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
-                     ntohl(tcphdr->seq) == cur->remote_seq) {
+            } else if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
+                       ntohl(tcphdr->seq) == cur->remote_seq) {
                 cur->time = time(NULL);
 
                 if (cur->state == TCP_SYN_RECV) {
@@ -776,67 +866,86 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             }
             else {
                 // TODO check old seq/ack
-                __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid seq/ack");
+                __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid seq %u/%u ack %u/%u",
+                                    ntohl(tcphdr->seq) - cur->remote_start,
+                                    cur->remote_seq - cur->remote_start,
+                                    ntohl(tcphdr->ack_seq) - cur->local_start,
+                                    cur->local_seq - cur->local_start);
             }
         }
 
-        else if (tcphdr->fin /* ack */) {
+        else if (tcphdr->fin /* ACK */) {
             if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
                 ntohl(tcphdr->seq) == cur->remote_seq) {
                 cur->time = time(NULL);
 
+                __android_log_print(ANDROID_LOG_DEBUG, TAG, "socket RD shutdown");
                 if (shutdown(cur->socket, SHUT_RD)) {
-                    __android_log_print(ANDROID_LOG_ERROR, TAG, "shutdown error %d: %s",
+                    __android_log_print(ANDROID_LOG_ERROR, TAG, "shutdown RD error %d: %s",
                                         errno, strerror(errno));
-                    // Remote will retry
+                    // Socket could be closed by remote
                 }
-                else {
-                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Shutdown socket");
 
-                    int ok = 1;
-                    if (tcphdr->ack && datalen) {
-                        __android_log_print(ANDROID_LOG_DEBUG, TAG, "send socket data %u",
-                                            datalen);
-                        // TODO non blocking
-                        if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
-                            __android_log_print(ANDROID_LOG_ERROR, TAG, "send error %d: %s",
+                int ok = 1;
+                if (tcphdr->ack && datalen) {
+                    __android_log_print(ANDROID_LOG_DEBUG, TAG, "send socket data %u",
+                                        datalen);
+                    // TODO non blocking
+                    if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
+                        __android_log_print(ANDROID_LOG_ERROR, TAG, "send error %d: %s",
+                                            errno, strerror(errno));
+                        ok = 0;
+                    }
+                    else {
+                        if (shutdown(cur->socket, SHUT_WR)) {
+                            __android_log_print(ANDROID_LOG_ERROR, TAG,
+                                                "shutdown WR error %d: %s",
                                                 errno, strerror(errno));
                             ok = 0;
+                            // Data might be lost
                         }
+                        else
+                            __android_log_print(ANDROID_LOG_DEBUG, TAG, "socket WR shutdown");
                     }
+                }
 
-                    if (ok) {
-                        // TODO can write
-                        if (writeTCP(cur, NULL, 0, 1 + datalen, 0, 0, 0, args->tun) < 0) // ACK
-                            __android_log_print(ANDROID_LOG_ERROR, TAG,
-                                                "write ACK error %d: %s",
-                                                errno, strerror((errno)));
-                        else {
-                            cur->remote_seq += 1 + datalen; // FIN + received from tun
-                            // TODO check ACK !TCP_FIN_WAIT1
-                            if (cur->state == TCP_ESTABLISHED)
-                                cur->state = TCP_CLOSE_WAIT;
-                            else if (cur->state == TCP_FIN_WAIT1) {
-                                if (tcphdr->ack)
-                                    cur->state = TCP_TIME_WAIT;
-                                else
-                                    cur->state = TCP_CLOSING;
-                            } else if (cur->state == TCP_FIN_WAIT2)
+                if (ok) {
+                    // TODO can write
+                    if (writeTCP(cur, NULL, 0, 1 + datalen, 0, 0, 0, args->tun) < 0) // ACK
+                        __android_log_print(ANDROID_LOG_ERROR, TAG,
+                                            "write ACK error %d: %s",
+                                            errno, strerror((errno)));
+                    else {
+                        cur->remote_seq += (1 + datalen); // FIN + received from tun
+                        // TODO check ACK !TCP_FIN_WAIT1
+                        if (cur->state == TCP_ESTABLISHED)
+                            cur->state = TCP_CLOSE_WAIT;
+                        else if (cur->state == TCP_FIN_WAIT1) {
+                            if (tcphdr->ack)
                                 cur->state = TCP_TIME_WAIT;
                             else
-                                __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid FIN");
-                        }
+                                cur->state = TCP_CLOSING;
+                        } else if (cur->state == TCP_FIN_WAIT2)
+                            cur->state = TCP_TIME_WAIT;
+                        else
+                            __android_log_print(ANDROID_LOG_ERROR, TAG, "Invalid FIN");
                     }
                 }
             }
             else {
                 // TODO check old seq/ack
-                __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid seq/ack");
+                __android_log_print(ANDROID_LOG_WARN, TAG, "Invalid seq %u/%u ack %u/%u",
+                                    ntohl(tcphdr->seq) - cur->remote_start,
+                                    cur->remote_seq - cur->remote_start,
+                                    ntohl(tcphdr->ack_seq) - cur->local_start,
+                                    cur->local_seq - cur->local_start);
             }
         }
 
-        else if (tcphdr->rst)
+        else if (tcphdr->rst) {
+            cur->time = time(NULL);
             cur->state = TCP_TIME_WAIT; // will close socket
+        }
 
         else
             __android_log_print(ANDROID_LOG_ERROR, TAG, "Unknown packet");
@@ -955,14 +1064,16 @@ int writeTCP(const struct session *cur,
     tcp->source = cur->dest;
     tcp->dest = cur->source;
     tcp->seq = htonl(cur->local_seq);
-    tcp->ack_seq = htonl(cur->remote_seq + confirm); // TODO proper wrap around
+    tcp->ack_seq = htonl((uint32_t) (cur->remote_seq + confirm));
     tcp->doff = sizeof(struct tcphdr) >> 2;
     tcp->syn = syn;
-    // TODO why does a FIN need an ACK?
-    tcp->ack = (datalen > 0 || confirm > 0 || syn || fin);
+    tcp->ack = (datalen > 0 || confirm > 0 || syn);
     tcp->fin = fin;
     tcp->rst = rst;
     tcp->window = htons(TCPWINDOW);
+
+    if (!tcp->ack)
+        tcp->ack_seq = 0;
 
     // Calculate TCP checksum
     // TODO optimize memory usage
@@ -998,12 +1109,28 @@ int writeTCP(const struct session *cur,
                         ntohl(tcp->seq) - cur->local_start,
                         ntohl(tcp->ack_seq) - cur->remote_start,
                         datalen, confirm);
-    //if (tcp->fin || tcp->rst) {
-    //    char *h = hex(buffer, len);
-    //    __android_log_print(ANDROID_LOG_DEBUG, TAG, "%s", h);
-    //    free(h);
-    //}
     int res = write(tun, buffer, len);
+
+    if (pcap_fn != NULL) {
+        struct timespec ts;
+        if (clock_gettime(CLOCK_REALTIME, &ts))
+            __android_log_print(ANDROID_LOG_ERROR, TAG,
+                                "clock_gettime error %d: %s",
+                                errno, strerror(errno));
+
+        int plen = (len < MAXPCAP ? len : MAXPCAP);
+        struct pcaprec_hdr_s *pcap_rec = malloc(sizeof(struct pcaprec_hdr_s) + plen);
+
+        pcap_rec->ts_sec = ts.tv_sec;
+        pcap_rec->ts_usec = ts.tv_nsec / 1000;
+        pcap_rec->incl_len = plen;
+        pcap_rec->orig_len = len;
+        memcpy(((uint8_t *) pcap_rec) + sizeof(struct pcaprec_hdr_s), buffer, plen);
+
+        pcap_write(pcap_rec, sizeof(struct pcaprec_hdr_s) + plen);
+
+        free(pcap_rec);
+    }
 
     free(buffer);
 
@@ -1140,4 +1267,3 @@ char *hex(const u_int8_t *data, const u_int16_t len) {
     }
     return hexout;
 }
-

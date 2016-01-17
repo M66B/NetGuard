@@ -61,6 +61,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -111,11 +112,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
 
-    private native void jni_init();
+    private native void jni_init(boolean debug, String pcap);
 
     private native void jni_start(int tun);
 
     private native void jni_stop(int tun, boolean clear);
+
+    private native void jni_done();
 
     static {
         System.loadLibrary("netguard");
@@ -852,7 +855,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     public void onCreate() {
         Log.i(TAG, "Create");
 
-        jni_init();
+        boolean debug = Util.isDebuggable(this);
+        File pcap = new File(getCacheDir(), "netguard.pcap");
+        if (pcap.exists())
+            pcap.delete();
+        jni_init(debug, pcap.getAbsolutePath());
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -997,6 +1004,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             stopVPN(vpn);
             vpn = null;
         }
+        jni_done();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.unregisterOnSharedPreferenceChangeListener(this);
