@@ -689,8 +689,8 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             __android_log_print(ANDROID_LOG_WARN, TAG, "Unknown session");
             struct session *rst = malloc(sizeof(struct session));
             rst->time = time(NULL);
-            rst->remote_seq = ntohl(tcphdr->seq); // ISN remote
-            rst->local_seq = rand(); // ISN local
+            rst->remote_seq = ntohl(tcphdr->seq);
+            rst->local_seq = 0;
             rst->saddr = iphdr->saddr;
             rst->source = tcphdr->source;
             rst->daddr = iphdr->daddr;
@@ -699,7 +699,8 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             rst->next = NULL;
 
             // TODO can write
-            if (writeTCP(rst, NULL, 0, 0, 0, 0, 1, args->tun) < 0)
+            int confirm = (tcphdr->syn || tcphdr->fin ? 1 : 0) + datalen;
+            if (writeTCP(rst, NULL, 0, confirm, 0, 0, 1, args->tun) < 0)
                 __android_log_print(ANDROID_LOG_ERROR, TAG,
                                     "write RST error %d: %s",
                                     errno, strerror((errno)));
@@ -945,8 +946,8 @@ int writeTCP(const struct session *cur,
     // Build TCP header
     tcp->source = cur->dest;
     tcp->dest = cur->source;
-    tcp->seq = (rst ? 0 : htonl(cur->local_seq));
-    tcp->ack_seq = (rst ? 0 : htonl(cur->remote_seq + confirm)); // TODO proper wrap around
+    tcp->seq = htonl(cur->local_seq);
+    tcp->ack_seq = htonl(cur->remote_seq + confirm); // TODO proper wrap around
     tcp->doff = sizeof(struct tcphdr) >> 2;
     tcp->syn = syn;
     // TODO why does a FIN need an ACK?
