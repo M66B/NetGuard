@@ -292,6 +292,7 @@ void *handle_events(void *a) {
         while (cur != NULL) {
             // TODO differentiate timeouts
             if (cur->time + TCPTIMEOUT < now) {
+                // TODO send keep alives?
                 ng_log(ANDROID_LOG_WARN, "Idle lport %u",
                        cur->lport);
                 if (cur->state == TCP_SYN_RECV ||
@@ -878,36 +879,40 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                                errno, strerror((errno)));
                     else {
                         cur->remote_seq += (1 + datalen); // FIN + received from tun
-                        // TODO check ACK !TCP_FIN_WAIT1
-                        if (cur->state == TCP_ESTABLISHED)
+                        if (cur->state == TCP_ESTABLISHED /* && !tcphdr->ack */)
                             cur->state = TCP_CLOSE_WAIT;
-                        else if (cur->state == TCP_FIN_WAIT1) {
-                            if (tcphdr->ack)
-                                cur->state = TCP_TIME_WAIT;
-                            else
-                                cur->state = TCP_CLOSING;
-                        } else if (cur->state == TCP_FIN_WAIT2)
+                        else if (cur->state == TCP_FIN_WAIT1 && tcphdr->ack)
+                            cur->state = TCP_TIME_WAIT;
+                        else if (cur->state == TCP_FIN_WAIT1 && !tcphdr->ack)
+                            cur->state = TCP_CLOSING;
+                        else if (cur->state == TCP_FIN_WAIT2 /* && !tcphdr->ack */)
                             cur->state = TCP_TIME_WAIT;
                         else
-                            ng_log(ANDROID_LOG_ERROR, "Invalid FIN state %s", strstate(cur->state));
+                            ng_log(ANDROID_LOG_ERROR, "Invalid FIN state %s ACK %d",
+                                   strstate(cur->state), tcphdr->ack);
                     }
                 }
             }
             else {
-                // TODO check old seq/ack
-                ng_log(ANDROID_LOG_WARN, "Invalid FIN seq %u/%u ack %u/%u",
-                       ntohl(tcphdr->seq) - cur->remote_start,
-                       cur->remote_seq - cur->remote_start,
-                       ntohl(tcphdr->ack_seq) - cur->local_start,
-                       cur->local_seq - cur->local_start);
-                // TODO hack
-                if (cur->state == TCP_FIN_WAIT1) {
-                    ng_log(ANDROID_LOG_WARN, "FIN hack");
-                    if (writeTCP(cur, NULL, 0, 1, 0, 0, 0, args->tun) < 0) // ACK
+                // TODO proper wrap around
+                if (cur->state == TCP_FIN_WAIT1 &&
+                    ntohl(tcphdr->seq) == cur->remote_seq &&
+                    ntohl(tcphdr->ack_seq) < cur->local_seq) {
+                    int confirm = cur->local_seq - ntohl(tcphdr->ack_seq);
+                    ng_log(ANDROID_LOG_INFO, "Simultaneous close %d", confirm);
+
+                    // TODO can write
+                    if (writeTCP(cur, NULL, 0, confirm, 0, 0, 0, args->tun) < 0) // ACK
                         ng_log(ANDROID_LOG_ERROR,
                                "write ACK error %d: %s",
                                errno, strerror((errno)));
                 }
+                else
+                    ng_log(ANDROID_LOG_WARN, "Invalid FIN seq %u/%u ack %u/%u",
+                           ntohl(tcphdr->seq) - cur->remote_start,
+                           cur->remote_seq - cur->remote_start,
+                           ntohl(tcphdr->ack_seq) - cur->local_start,
+                           cur->local_seq - cur->local_start);
             }
         }
 
@@ -957,12 +962,20 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                     ng_log(ANDROID_LOG_ERROR, "Invalid ACK state %s", strstate(cur->state));
             }
             else {
-                // TODO check old seq/ack
-                ng_log(ANDROID_LOG_WARN, "Invalid ACK seq %u/%u ack %u/%u",
-                       ntohl(tcphdr->seq) - cur->remote_start,
-                       cur->remote_seq - cur->remote_start,
-                       ntohl(tcphdr->ack_seq) - cur->local_start,
-                       cur->local_seq - cur->local_start);
+                // TODO proper wrap around
+                if (ntohl(tcphdr->seq) == cur->remote_seq &&
+                    ntohl(tcphdr->ack_seq) < cur->local_seq)
+                    ng_log(ANDROID_LOG_INFO, "Previous ACK seq %u/%u ack %u/%u",
+                           ntohl(tcphdr->seq) - cur->remote_start,
+                           cur->remote_seq - cur->remote_start,
+                           ntohl(tcphdr->ack_seq) - cur->local_start,
+                           cur->local_seq - cur->local_start);
+                else
+                    ng_log(ANDROID_LOG_WARN, "Invalid ACK seq %u/%u ack %u/%u",
+                           ntohl(tcphdr->seq) - cur->remote_start,
+                           cur->remote_seq - cur->remote_start,
+                           ntohl(tcphdr->ack_seq) - cur->local_start,
+                           cur->local_seq - cur->local_start);
             }
         }
 
@@ -1242,10 +1255,12 @@ uint16_t checksum(uint8_t *buffer, uint16_t length) {
 }
 
 void ng_log(int prio, const char *fmt, ...) {
-    if (prio > loglevel) {
+    if (prio >= loglevel) {
+        char line[1024];
         va_list argptr;
         va_start(argptr, fmt);
-        __android_log_print(prio, TAG, fmt, argptr);
+        vsprintf(line, fmt, argptr);
+        __android_log_print(prio, TAG, line);
         va_end(argptr);
     }
 }
