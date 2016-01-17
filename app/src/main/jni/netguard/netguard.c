@@ -42,11 +42,11 @@ JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance,
                                                     jint loglevel_, jstring pcap_) {
     loglevel = loglevel_;
-    const char *pcap = (*env)->GetStringUTFChars(env, pcap_, 0);
-
-    if (pcap == NULL)
+    if (pcap_ == NULL)
         pcap_fn = NULL;
     else {
+        const char *pcap = (*env)->GetStringUTFChars(env, pcap_, 0);
+
         pcap_fn = malloc(strlen(pcap) + 1);
         strcpy(pcap_fn, pcap);
 
@@ -63,9 +63,9 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instanc
         pcap_hdr.snaplen = MAXPCAP;
         pcap_hdr.network = LINKTYPE_RAW;
         pcap_write(&pcap_hdr, sizeof(struct pcap_hdr_s));
-    }
 
-    (*env)->ReleaseStringUTFChars(env, pcap_, pcap);
+        (*env)->ReleaseStringUTFChars(env, pcap_, pcap);
+    }
 }
 
 JNIEXPORT void JNICALL
@@ -587,11 +587,12 @@ void handle_ip(JNIEnv *env, jobject instance, const struct arguments *args,
            "Packet v%d %s/%u -> %s/%u proto %d flags %s uid %d",
            version, source, sport, dest, dport, protocol, flags, uid);
 
-    if (protocol == IPPROTO_TCP)
-        handle_tcp(env, instance, args, buffer, length, uid);
+    //if (protocol == IPPROTO_TCP)
+    //    handle_tcp(env, instance, args, buffer, length, uid);
 
     // Call back
-    if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
+    //if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
+    if (protocol == IPPROTO_TCP || protocol == IPPROTO_UDP) {
         jclass cls = (*env)->GetObjectClass(env, instance);
         jmethodID mid = (*env)->GetMethodID(
                 env, cls, "logPacket",

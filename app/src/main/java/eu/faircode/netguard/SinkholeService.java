@@ -855,11 +855,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     public void onCreate() {
         Log.i(TAG, "Create");
 
-        boolean debug = Util.isDebuggable(this);
         File pcap = new File(getCacheDir(), "netguard.pcap");
         if (pcap.exists())
             pcap.delete();
-        jni_init(Log.INFO, pcap.getAbsolutePath());
+        //jni_init(Log.INFO, pcap.getAbsolutePath());
+        jni_init(Log.INFO, null);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);

@@ -231,10 +231,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         }
 
 
-        if (!Util.isDebuggable(this)) {
-            PreferenceCategory backup = (PreferenceCategory) screen.findPreference("category_backup");
-            backup.removePreference(screen.findPreference("pcap"));
-        }
+        //if (!Util.isDebuggable(this)) {
+        PreferenceCategory backup = (PreferenceCategory) screen.findPreference("category_backup");
+        backup.removePreference(screen.findPreference("pcap"));
+        //}
     }
 
     @Override
