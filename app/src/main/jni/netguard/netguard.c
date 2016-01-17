@@ -52,6 +52,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instanc
 
         ng_log(ANDROID_LOG_INFO, "PCAP %s", pcap_fn);
 
+        // Write pcap header
         session = NULL;
         struct pcap_hdr_s pcap_hdr;
         pcap_hdr.magic_number = 0xa1b2c3d4;
@@ -73,7 +74,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
     ng_log(ANDROID_LOG_INFO, "Starting tun=%d", tun);
 
     if (pthread_kill(thread_id, 0) == 0)
-        ng_log(ANDROID_LOG_WARN, "Already running thread %u", thread_id);
+        ng_log(ANDROID_LOG_WARN, "Already running thread %ld", thread_id);
     else {
         jint rs = (*env)->GetJavaVM(env, &jvm);
         if (rs != JNI_OK)
@@ -84,7 +85,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
         args->tun = tun;
         int err = pthread_create(&thread_id, NULL, handle_events, args);
         if (err == 0)
-            ng_log(ANDROID_LOG_INFO, "Started thread %u", thread_id);
+            ng_log(ANDROID_LOG_INFO, "Started thread %ld", thread_id);
         else
             ng_log(ANDROID_LOG_ERROR, "pthread_create error %d: %s", err, strerror(err));
     }
@@ -93,14 +94,14 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance,
                                                     jint tun, jboolean clear) {
-    ng_log(ANDROID_LOG_INFO, "Stop tun %d clear %d", tun, clear);
+    ng_log(ANDROID_LOG_INFO, "Stop tun %d clear %d", tun, (int) clear);
     if (pthread_kill(thread_id, 0) == 0) {
-        ng_log(ANDROID_LOG_DEBUG, "Kill thread %u", thread_id);
+        ng_log(ANDROID_LOG_DEBUG, "Kill thread %ld", thread_id);
         int err = pthread_kill(thread_id, SIGUSR1);
         if (err != 0)
             ng_log(ANDROID_LOG_WARN, "pthread_kill error %d: %s", err, strerror(err));
         else {
-            ng_log(ANDROID_LOG_DEBUG, "Join thread %u", thread_id);
+            ng_log(ANDROID_LOG_DEBUG, "Join thread %ld", thread_id);
             pthread_join(thread_id, NULL);
             if (err != 0)
                 ng_log(ANDROID_LOG_WARN, "pthread_join error %d: %s", err, strerror(err));
@@ -114,7 +115,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instanc
             }
             session = NULL;
         }
-        ng_log(ANDROID_LOG_INFO, "Stopped thread %u", thread_id);
+        ng_log(ANDROID_LOG_INFO, "Stopped thread %ld", thread_id);
     } else
         ng_log(ANDROID_LOG_WARN, "Not running");
 }
@@ -134,7 +135,7 @@ void sig_handler(int sig, siginfo_t *info, void *context) {
 
 void *handle_events(void *a) {
     struct arguments *args = (struct arguments *) a;
-    ng_log(ANDROID_LOG_INFO, "Start events tun=%d thread %u", args->tun, thread_id);
+    ng_log(ANDROID_LOG_INFO, "Start events tun=%d thread %ld", args->tun, thread_id);
 
     JNIEnv *env;
     jint rs = (*jvm)->AttachCurrentThread(jvm, &env, NULL);
@@ -167,7 +168,7 @@ void *handle_events(void *a) {
     // Loop
     while (1) {
         time_t now = time(NULL);
-        ng_log(ANDROID_LOG_DEBUG, "Loop thread %u", thread_id);
+        ng_log(ANDROID_LOG_DEBUG, "Loop thread %ld", thread_id);
 
         // Select
         FD_ZERO(&rfds);
@@ -245,6 +246,7 @@ void *handle_events(void *a) {
                 else if (cur->state == TCP_ESTABLISHED ||
                          cur->state == TCP_SYN_RECV ||
                          cur->state == TCP_CLOSE_WAIT) {
+                    // Check for errors / data
                     FD_SET(cur->socket, &efds);
                     FD_SET(cur->socket, &rfds);
                     if (cur->socket > max)
@@ -292,7 +294,7 @@ void *handle_events(void *a) {
             // Check tun exception
             if (FD_ISSET(args->tun, &efds)) {
                 ng_log(ANDROID_LOG_ERROR, "tun exception");
-                break;
+                break; // over and out
             }
 
             // Check tun read
@@ -304,19 +306,20 @@ void *handle_events(void *a) {
                     if (errno == EINTR)
                         continue;
                     else
-                        break;
+                        break; // over and out
                 }
                 else if (length > 0) {
+                    // Write pcap record
                     if (pcap_fn != NULL) {
                         struct timespec ts;
                         if (clock_gettime(CLOCK_REALTIME, &ts))
                             ng_log(ANDROID_LOG_ERROR, "clock_gettime error %d: %s",
                                    errno, strerror(errno));
 
-
+                        // TODO use stack
                         int plen = (length < MAXPCAP ? length : MAXPCAP);
-                        struct pcaprec_hdr_s *pcap_rec = malloc(
-                                sizeof(struct pcaprec_hdr_s) + plen);
+                        struct pcaprec_hdr_s *pcap_rec =
+                                malloc(sizeof(struct pcaprec_hdr_s) + plen);
 
                         pcap_rec->ts_sec = ts.tv_sec;
                         pcap_rec->ts_usec = ts.tv_nsec / 1000;
@@ -329,11 +332,12 @@ void *handle_events(void *a) {
                         free(pcap_rec);
                     }
 
+                    // Handle IP from tun
                     handle_ip(env, args->instance, args, buffer, length);
                 }
                 else {
                     ng_log(ANDROID_LOG_ERROR, "tun empty read");
-                    break;
+                    break; // over and out
                 }
             }
 
@@ -348,8 +352,7 @@ void *handle_events(void *a) {
         ng_log(ANDROID_LOG_ERROR, "DetachCurrentThread failed");
     free(args);
 
-    ng_log(ANDROID_LOG_INFO, "Stopped events tun=%d thread %u",
-           args->tun, thread_id);
+    ng_log(ANDROID_LOG_INFO, "Stopped events tun=%d thread %ld", args->tun, thread_id);
     // TODO conditionally report to Java
 }
 
@@ -367,6 +370,8 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
             if (err < 0 || serr) {
                 ng_log(ANDROID_LOG_ERROR, "lport %u SO_ERROR %d: %s",
                        cur->lport, serr, strerror(serr));
+
+                // Abort
                 if (err < 0 || (serr && serr != EINTR)) {
                     if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, args->tun) < 0) // RST
                         ng_log(ANDROID_LOG_ERROR, "write RST error %d: %s",
@@ -385,7 +390,8 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
                     ng_log(ANDROID_LOG_INFO, "Connected %s/%u lport %u",
                            dest, ntohs(cur->dest), cur->lport);
 
-                    if (write_tcp(cur, NULL, 0, 1, 1, 0, 0, args->tun) < 0) { // SYN+ACK
+                    // SYN+ACK
+                    if (write_tcp(cur, NULL, 0, 1, 1, 0, 0, args->tun) < 0) {
                         ng_log(ANDROID_LOG_ERROR, "write SYN+ACK error %d: %s",
                                errno, strerror((errno)));
                         // Remote will retry
@@ -412,10 +418,14 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
                         // Socket error
                         ng_log(ANDROID_LOG_ERROR, "recv lport %u error %d: %s",
                                cur->lport, errno, strerror(errno));
+
                         if (errno != EINTR) {
-                            if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, args->tun) < 0) // RST
+                            // RST
+                            if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, args->tun) < 0) {
                                 ng_log(ANDROID_LOG_ERROR, "write RST error %d: %s",
                                        errno, strerror((errno)));
+                                // TODO
+                            }
                         }
                     }
                     else if (bytes == 0) {
@@ -423,24 +433,29 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
                         ng_log(ANDROID_LOG_DEBUG, "recv empty lport %u state %s",
                                cur->lport, strstate(cur->state));
 
-                        if (write_tcp(cur, NULL, 0, 0, 0, 1, 0, args->tun) < 0) // FIN
+                        // FIN
+                        if (write_tcp(cur, NULL, 0, 0, 0, 1, 0, args->tun) < 0) {
                             ng_log(ANDROID_LOG_ERROR, "write FIN lport %u error %d: %s",
                                    cur->lport, errno, strerror((errno)));
-                        else {
+                            // TODO
+                        } else {
                             cur->local_seq++; // local FIN
                             if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
                                 cur->state = TCP_FIN_WAIT1;
-                            else // close wait
+                            else if (cur->state == TCP_CLOSE_WAIT)
                                 cur->state = TCP_LAST_ACK;
-                            ng_log(ANDROID_LOG_DEBUG, "Half close state %s",
-                                   strstate(cur->state));
+                            else
+                                ng_log(ANDROID_LOG_ERROR, "Unknown state %s", strstate(cur->state));
+                            ng_log(ANDROID_LOG_DEBUG, "Half close state %s", strstate(cur->state));
                         }
                     } else {
                         // Socket read
                         ng_log(ANDROID_LOG_DEBUG,
                                "recv lport %u bytes %d state %s",
                                cur->lport, bytes, strstate(cur->state));
-                        if (write_tcp(cur, buffer, bytes, 0, 0, 0, 0, args->tun) < 0) // ACK
+
+                        // data ACK
+                        if (write_tcp(cur, buffer, bytes, 0, 0, 0, 0, args->tun) < 0)
                             ng_log(ANDROID_LOG_ERROR, "write ACK lport %u error %d: %s",
                                    cur->lport, errno, strerror((errno)));
                         else
@@ -693,7 +708,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
         }
         else {
             ng_log(ANDROID_LOG_WARN, "Unknown session %s/%u", dest, ntohs(tcphdr->dest));
-            /*
+
             struct session rst;
             memset(&rst, 0, sizeof(struct session));
             rst.saddr = iphdr->saddr;
@@ -701,11 +716,11 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             rst.daddr = iphdr->daddr;
             rst.dest = tcphdr->dest;
 
-            if (write_tcp(&rst, NULL, 0, 0, 0, 0, 1, args->tun) < 0)
-                ng_log(ANDROID_LOG_ERROR,
-                       "write RST error %d: %s",
-                       errno, strerror((errno)));
-            */
+            // RST
+            if (write_tcp(&rst, NULL, 0, 0, 0, 0, 1, args->tun) < 0) {
+                ng_log(ANDROID_LOG_ERROR, "write RST error %d: %s", errno, strerror((errno)));
+                // TODO
+            }
         }
     }
     else {
@@ -727,43 +742,47 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             cur->state = TCP_TIME_WAIT; // will close socket
         }
 
-        else if (tcphdr->syn)
-            ng_log(ANDROID_LOG_DEBUG, "Ignoring repeated SYN");
+        else if (tcphdr->syn) {
+            ng_log(ANDROID_LOG_DEBUG, "Repeated SYN");
+            // TODO
 
-        else if (tcphdr->fin /* ACK */) {
+        } else if (tcphdr->fin /* ACK */) {
             if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
                 ntohl(tcphdr->seq) == cur->remote_seq) {
                 cur->time = time(NULL);
 
-                ng_log(ANDROID_LOG_DEBUG, "socket RD shutdown");
+                // Stop socket read
                 if (shutdown(cur->socket, SHUT_RD)) {
                     ng_log(ANDROID_LOG_ERROR, "shutdown RD error %d: %s", errno, strerror(errno));
-                    // Socket could be closed by remote
-                }
+                    // Socket could be closed by remote already
+                } else
+                    ng_log(ANDROID_LOG_DEBUG, "socket RD shutdown");
 
+                // Write data
                 int ok = 1;
                 if (tcphdr->ack && datalen) {
-                    ng_log(ANDROID_LOG_DEBUG, "send socket data %u",
-                           datalen);
+                    ng_log(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
+
                     // TODO non blocking
                     if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
                         ng_log(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
                         ok = 0;
                     }
-                    else {
-                        if (shutdown(cur->socket, SHUT_WR)) {
-                            ng_log(ANDROID_LOG_ERROR, "shutdown WR error %d: %s",
-                                   errno, strerror(errno));
-                            ok = 0;
-                            // Data might be lost
-                        }
-                        else
-                            ng_log(ANDROID_LOG_DEBUG, "socket WR shutdown");
-                    }
                 }
 
+                // Stop socket write
+                if (shutdown(cur->socket, SHUT_WR)) {
+                    ng_log(ANDROID_LOG_ERROR, "shutdown WR error %d: %s",
+                           errno, strerror(errno));
+                    ok = 0;
+                    // Data might be lost
+                }
+                else
+                    ng_log(ANDROID_LOG_DEBUG, "socket WR shutdown");
+
                 if (ok) {
-                    if (write_tcp(cur, NULL, 0, 1 + datalen, 0, 0, 0, args->tun) < 0) // ACK
+                    // ACK
+                    if (write_tcp(cur, NULL, 0, 1 + datalen, 0, 0, 0, args->tun) < 0)
                         ng_log(ANDROID_LOG_ERROR, "write ACK error %d: %s",
                                errno, strerror((errno)));
                     else {
@@ -780,6 +799,8 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                             ng_log(ANDROID_LOG_ERROR, "Invalid FIN state %s ACK %d",
                                    strstate(cur->state), tcphdr->ack);
                     }
+                } else {
+                    // TODO
                 }
             }
             else {
@@ -806,25 +827,29 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
 
         else if (tcphdr->ack) {
             if (((uint32_t) ntohl(tcphdr->seq) + 1) == cur->remote_seq) {
-                // TODO respond to keep alive?
                 ng_log(ANDROID_LOG_DEBUG, "Keep alive");
                 cur->time = time(NULL);
+
             } else if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
                        ntohl(tcphdr->seq) == cur->remote_seq) {
                 cur->time = time(NULL);
 
                 if (cur->state == TCP_SYN_RECV) {
                     // TODO process data?
+                    // Remote will retry
                     cur->state = TCP_ESTABLISHED;
                 }
                 else if (cur->state == TCP_ESTABLISHED) {
                     ng_log(ANDROID_LOG_DEBUG, "New ack data %u", datalen);
+
+                    // Forward data
                     if (datalen) {
                         ng_log(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
                         // TODO non blocking
                         if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
                             ng_log(ANDROID_LOG_ERROR, "send error %d: %s",
                                    errno, strerror(errno));
+                            // TODO
                             // Remote will retry
                         } else {
                             if (write_tcp(cur, NULL, 0, datalen, 0, 0, 0, args->tun) < 0) // ACK
@@ -940,6 +965,8 @@ int get_local_port(const int sock) {
         return ntohs(sin.sin_port);
 }
 
+// TODO specialized writes
+
 int write_tcp(const struct session *cur,
               uint8_t *data, uint16_t datalen, uint16_t confirm,
               int syn, int fin, int rst, int tun) {
@@ -1014,11 +1041,13 @@ int write_tcp(const struct session *cur,
            datalen, confirm);
     int res = write(tun, buffer, len);
 
+    // Write pcap record
     if (pcap_fn != NULL) {
         struct timespec ts;
         if (clock_gettime(CLOCK_REALTIME, &ts))
             ng_log(ANDROID_LOG_ERROR, "clock_gettime error %d: %s", errno, strerror(errno));
 
+        // TODO use stack
         int plen = (len < MAXPCAP ? len : MAXPCAP);
         struct pcaprec_hdr_s *pcap_rec = malloc(sizeof(struct pcaprec_hdr_s) + plen);
 
