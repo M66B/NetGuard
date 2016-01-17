@@ -92,7 +92,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instanc
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instance, jint tun) {
+Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instance,
+                                                     jint tun) {
     __android_log_print(ANDROID_LOG_DEBUG, TAG, "Starting tun=%d", tun);
 
     if (pthread_kill(thread_id, 0) == 0)
@@ -113,8 +114,9 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance, jint tun) {
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stop thread %u", thread_id);
+Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance,
+                                                    jint tun, jboolean clear) {
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stop tun %d clear %d", tun, clear);
     if (pthread_kill(thread_id, 0) == 0) {
         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Kill thread %u", thread_id);
         int err = pthread_kill(thread_id, SIGUSR1);
@@ -128,18 +130,18 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instanc
                 __android_log_print(ANDROID_LOG_WARN, TAG, "pthread_join error %d: %s",
                                     err, strerror(err));
         }
-        // TODO: clear sessions (not reload)
+        if (clear) {
+            struct session *s = session;
+            while (s != NULL) {
+                struct session *p = s;
+                s = s->next;
+                free(p);
+            }
+            session = NULL;
+        }
         __android_log_print(ANDROID_LOG_DEBUG, TAG, "Stopped");
     } else
         __android_log_print(ANDROID_LOG_WARN, TAG, "Not running");
-}
-
-JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1reload(JNIEnv *env, jobject instance, jint tun) {
-    // TODO seamless handover
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Reload tun=%d", tun);
-    Java_eu_faircode_netguard_SinkholeService_jni_1stop(env, instance, tun);
-    Java_eu_faircode_netguard_SinkholeService_jni_1start(env, instance, tun);
 }
 
 // Private functions
@@ -1127,3 +1129,4 @@ char *hex(const u_int8_t *data, const u_int16_t len) {
     }
     return hexout;
 }
+

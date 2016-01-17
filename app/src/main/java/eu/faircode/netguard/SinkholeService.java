@@ -61,8 +61,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -117,9 +115,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_start(int tun);
 
-    private native void jni_stop(int tun);
-
-    private native void jni_reload(int tun);
+    private native void jni_stop(int tun, boolean clear);
 
     static {
         System.loadLibrary("netguard");
@@ -275,15 +271,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             if (vpn == null)
                                 throw new IllegalStateException("Handover failed");
                         }
+                        jni_stop(vpn.getFd(), false);
                         if (prefs.getBoolean("log", false))
-                            jni_reload(vpn.getFd());
+                            jni_start(vpn.getFd());
                         if (prev != null)
                             stopVPN(prev);
                         break;
 
                     case stop:
                         if (vpn != null) {
-                            jni_stop(vpn.getFd());
+                            jni_stop(vpn.getFd(), true);
                             stopVPN(vpn);
                             vpn = null;
                         }
@@ -996,7 +993,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         if (vpn != null) {
-            jni_stop(vpn.getFd());
+            jni_stop(vpn.getFd(), true);
             stopVPN(vpn);
             vpn = null;
         }
