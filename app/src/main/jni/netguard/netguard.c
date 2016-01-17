@@ -34,7 +34,8 @@
 #define TCPTIMEOUT 300 // seconds ~net.inet.tcp.keepidle
 #define TCPTTL 64
 #define TCPWINDOW 32768
-#define UIDDELAY 10 // milliseconds
+#define UIDDELAY 100 // milliseconds
+#define UIDTRIES 10
 #define MAXPCAP 80
 
 struct arguments {
@@ -659,19 +660,22 @@ void handle_ip(JNIEnv *env, jobject instance, const struct arguments *args,
     // Get uid
     jint uid = -1;
     if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
-        // Sleep 10 ms
-        // TODO uid retry
-        usleep(1000 * UIDDELAY);
-
-        // Lookup uid
-        uid = getUid(protocol, version, saddr, sport);
-        if (uid < 0 && version == 4) {
-            int8_t saddr128[16];
-            memset(saddr128, 0, 10);
-            saddr128[10] = 0xFF;
-            saddr128[11] = 0xFF;
-            memcpy(saddr128 + 12, saddr, 4);
-            uid = getUid(protocol, 6, saddr128, sport);
+        int tries = 0;
+        while (tries++ < UIDTRIES && uid < 0) {
+            // Lookup uid
+            uid = getUid(protocol, version, saddr, sport);
+            if (uid < 0 && version == 4) {
+                int8_t saddr128[16];
+                memset(saddr128, 0, 10);
+                saddr128[10] = 0xFF;
+                saddr128[11] = 0xFF;
+                memcpy(saddr128 + 12, saddr, 4);
+                uid = getUid(protocol, 6, saddr128, sport);
+            }
+            if (uid < 0 && tries < UIDTRIES) {
+                ng_log("get uid try %d", tries);
+                usleep(1000 * UIDDELAY);
+            }
         }
     }
 
@@ -753,7 +757,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
 
     if (cur == NULL) {
         if (tcphdr->syn) {
-            ng_log(ANDROID_LOG_DEBUG, "New SYN");
+            ng_log(ANDROID_LOG_INFO, "New session %s/%u uid %d", dest, ntohs(tcphdr->dest), uid);
 
             // Register session
             struct session *syn = malloc(sizeof(struct session));
@@ -799,6 +803,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
         }
         else {
             ng_log(ANDROID_LOG_WARN, "Unknown session");
+            /*
             struct session rst;
             memset(&rst, 0, sizeof(struct session));
             rst.saddr = iphdr->saddr;
@@ -810,6 +815,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                 ng_log(ANDROID_LOG_ERROR,
                        "write RST error %d: %s",
                        errno, strerror((errno)));
+            */
         }
     }
     else {
