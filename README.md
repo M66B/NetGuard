@@ -217,6 +217,7 @@ Current translations:
 1. English
 1. French (fr)
 1. German (de)
+1. Hungarian (hu)
 1. Italian (it)
 1. Japanese (ja)
 1. Korean (ko)
