@@ -43,6 +43,8 @@ struct session {
     int uid;
     uint32_t remote_seq; // confirmed bytes received, host notation
     uint32_t local_seq; // confirmed bytes sent, host notation
+    uint32_t remote_start;
+    uint32_t local_start;
     int32_t saddr; // network notation
     __be16 source; // network notation
     int32_t daddr; // network notation
@@ -636,7 +638,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
     // Log
     char dest[20];
     inet_ntop(AF_INET, &(iphdr->daddr), dest, sizeof(dest));
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "%s/%u seq %u ack %u window %u data %d",
+    __android_log_print(ANDROID_LOG_DEBUG, TAG, "Received %s/%u seq %u ack %u window %u data %d",
                         dest, ntohs(tcphdr->dest),
                         ntohl(tcphdr->seq), ntohl(tcphdr->ack_seq),
                         ntohs(tcphdr->window), datalen);
@@ -651,6 +653,8 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             syn->uid = uid;
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
             syn->local_seq = rand(); // ISN local
+            syn->remote_start = syn->remote_seq;
+            syn->local_start = syn->local_seq;
             syn->saddr = iphdr->saddr;
             syn->source = tcphdr->source;
             syn->daddr = iphdr->daddr;
@@ -714,7 +718,9 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
 
         __android_log_print(ANDROID_LOG_DEBUG, TAG,
                             "Session lport %u state %s local %u remote %u",
-                            cur->lport, strstate(cur->state), cur->local_seq, cur->remote_seq);
+                            cur->lport, strstate(cur->state),
+                            cur->local_seq - cur->local_start,
+                            cur->remote_seq - cur->remote_start);
 
         if (tcphdr->syn)
             __android_log_print(ANDROID_LOG_DEBUG, TAG, "Ignoring repeated SYN");
@@ -838,7 +844,9 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
         if (cur->state != oldstate || cur->local_seq != oldlocal || cur->remote_seq != oldremote)
             __android_log_print(ANDROID_LOG_DEBUG, TAG,
                                 "Session lport %u new state %s local %u remote %u",
-                                cur->lport, strstate(cur->state), cur->local_seq, cur->remote_seq);
+                                cur->lport, strstate(cur->state),
+                                cur->local_seq - cur->local_start,
+                                cur->remote_seq - cur->remote_start);
     }
 }
 
@@ -987,7 +995,9 @@ int writeTCP(const struct session *cur,
                         (tcp->fin ? " FIN" : ""),
                         (tcp->rst ? " RST" : ""),
                         to, ntohs(tcp->dest),
-                        ntohl(tcp->seq), ntohl(tcp->ack_seq), datalen, confirm);
+                        ntohl(tcp->seq) - cur->local_start,
+                        ntohl(tcp->ack_seq) - cur->remote_start,
+                        datalen, confirm);
     //if (tcp->fin || tcp->rst) {
     //    char *h = hex(buffer, len);
     //    __android_log_print(ANDROID_LOG_DEBUG, TAG, "%s", h);
