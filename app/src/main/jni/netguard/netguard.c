@@ -825,63 +825,15 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                cur->local_seq - cur->local_start,
                cur->remote_seq - cur->remote_start);
 
-        if (tcphdr->syn)
-            ng_log(ANDROID_LOG_DEBUG, "Ignoring repeated SYN");
+        // Do not change order of conditions
 
-        else if (tcphdr->ack && !tcphdr->fin) {
-            if (((uint32_t) ntohl(tcphdr->seq) + 1) == cur->remote_seq) {
-                // TODO respond to keep alive?
-                ng_log(ANDROID_LOG_DEBUG, "Keep alive");
-                cur->time = time(NULL);
-            } else if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
-                       ntohl(tcphdr->seq) == cur->remote_seq) {
-                cur->time = time(NULL);
-
-                if (cur->state == TCP_SYN_RECV) {
-                    // TODO process data?
-                    cur->state = TCP_ESTABLISHED;
-                }
-                else if (cur->state == TCP_ESTABLISHED) {
-                    ng_log(ANDROID_LOG_DEBUG, "New ack data %u", datalen);
-                    if (datalen) {
-                        ng_log(ANDROID_LOG_DEBUG, "send socket data %u",
-                               datalen);
-                        // TODO non blocking
-                        if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
-                            ng_log(ANDROID_LOG_ERROR, "send error %d: %s",
-                                   errno, strerror(errno));
-                            // Remote will retry
-                        } else {
-                            // TODO can write
-                            if (writeTCP(cur, NULL, 0, datalen, 0, 0, 0, args->tun) < 0) // ACK
-                                ng_log(ANDROID_LOG_ERROR,
-                                       "write data error %d: %s",
-                                       errno, strerror((errno)));
-                            else
-                                cur->remote_seq += datalen; // received from tun
-                        }
-                    }
-                }
-                else if (cur->state == TCP_LAST_ACK) {
-                    // socket has been shutdown already
-                    cur->state = TCP_TIME_WAIT; // Will close socket
-                }
-                else if (cur->state == TCP_FIN_WAIT1)
-                    cur->state = TCP_FIN_WAIT2;
-                else if (cur->state == TCP_CLOSING)
-                    cur->state = TCP_TIME_WAIT;
-                else
-                    ng_log(ANDROID_LOG_ERROR, "Invalid ACK");
-            }
-            else {
-                // TODO check old seq/ack
-                ng_log(ANDROID_LOG_WARN, "Invalid ACK seq %u/%u ack %u/%u",
-                       ntohl(tcphdr->seq) - cur->remote_start,
-                       cur->remote_seq - cur->remote_start,
-                       ntohl(tcphdr->ack_seq) - cur->local_start,
-                       cur->local_seq - cur->local_start);
-            }
+        if (tcphdr->rst) {
+            cur->time = time(NULL);
+            cur->state = TCP_TIME_WAIT; // will close socket
         }
+
+        else if (tcphdr->syn)
+            ng_log(ANDROID_LOG_DEBUG, "Ignoring repeated SYN");
 
         else if (tcphdr->fin /* ACK */) {
             if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
@@ -937,13 +889,13 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                         } else if (cur->state == TCP_FIN_WAIT2)
                             cur->state = TCP_TIME_WAIT;
                         else
-                            ng_log(ANDROID_LOG_ERROR, "Invalid FIN");
+                            ng_log(ANDROID_LOG_ERROR, "Invalid FIN state %s", strstate(cur->state));
                     }
                 }
             }
             else {
                 // TODO check old seq/ack
-                ng_log(ANDROID_LOG_WARN, "Invalid seq %u/%u ack %u/%u",
+                ng_log(ANDROID_LOG_WARN, "Invalid FIN seq %u/%u ack %u/%u",
                        ntohl(tcphdr->seq) - cur->remote_start,
                        cur->remote_seq - cur->remote_start,
                        ntohl(tcphdr->ack_seq) - cur->local_start,
@@ -959,9 +911,59 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             }
         }
 
-        else if (tcphdr->rst) {
-            cur->time = time(NULL);
-            cur->state = TCP_TIME_WAIT; // will close socket
+        else if (tcphdr->ack) {
+            if (((uint32_t) ntohl(tcphdr->seq) + 1) == cur->remote_seq) {
+                // TODO respond to keep alive?
+                ng_log(ANDROID_LOG_DEBUG, "Keep alive");
+                cur->time = time(NULL);
+            } else if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
+                       ntohl(tcphdr->seq) == cur->remote_seq) {
+                cur->time = time(NULL);
+
+                if (cur->state == TCP_SYN_RECV) {
+                    // TODO process data?
+                    cur->state = TCP_ESTABLISHED;
+                }
+                else if (cur->state == TCP_ESTABLISHED) {
+                    ng_log(ANDROID_LOG_DEBUG, "New ack data %u", datalen);
+                    if (datalen) {
+                        ng_log(ANDROID_LOG_DEBUG, "send socket data %u",
+                               datalen);
+                        // TODO non blocking
+                        if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
+                            ng_log(ANDROID_LOG_ERROR, "send error %d: %s",
+                                   errno, strerror(errno));
+                            // Remote will retry
+                        } else {
+                            // TODO can write
+                            if (writeTCP(cur, NULL, 0, datalen, 0, 0, 0, args->tun) < 0) // ACK
+                                ng_log(ANDROID_LOG_ERROR,
+                                       "write data error %d: %s",
+                                       errno, strerror((errno)));
+                            else
+                                cur->remote_seq += datalen; // received from tun
+                        }
+                    }
+                }
+                else if (cur->state == TCP_LAST_ACK) {
+                    // socket has been shutdown already
+                    cur->state = TCP_TIME_WAIT; // Will close socket
+                }
+                else if (cur->state == TCP_FIN_WAIT1)
+                    cur->state = TCP_FIN_WAIT2;
+                else if (cur->state == TCP_CLOSING)
+                    cur->state = TCP_TIME_WAIT;
+                else
+                    ng_log(ANDROID_LOG_ERROR, "Invalid ACK state %s", strstate(cur->state));
+            }
+            else {
+                // TODO check old seq/ack
+                ng_log(ANDROID_LOG_WARN, "Invalid ACK seq %u/%u ack %u/%u",
+                       ntohl(tcphdr->seq) - cur->remote_start,
+                       cur->remote_seq - cur->remote_start,
+                       ntohl(tcphdr->ack_seq) - cur->local_start,
+                       cur->local_seq - cur->local_start);
+            }
         }
 
         else
