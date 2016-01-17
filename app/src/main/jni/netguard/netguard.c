@@ -939,6 +939,14 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
                                     cur->remote_seq - cur->remote_start,
                                     ntohl(tcphdr->ack_seq) - cur->local_start,
                                     cur->local_seq - cur->local_start);
+                // TODO hack
+                if (cur->state == TCP_FIN_WAIT1) {
+                    __android_log_print(ANDROID_LOG_ERROR, TAG, "FIN hack");
+                    if (writeTCP(cur, NULL, 0, 1, 0, 0, 0, args->tun) < 0) // ACK
+                        __android_log_print(ANDROID_LOG_ERROR, TAG,
+                                            "write ACK error %d: %s",
+                                            errno, strerror((errno)));
+                }
             }
         }
 
