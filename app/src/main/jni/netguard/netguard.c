@@ -141,17 +141,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
         strcpy(tmp, name);
         pcap_fn = tmp;
 
-        // Write pcap header
-        session = NULL;
-        struct pcap_hdr_s pcap_hdr;
-        pcap_hdr.magic_number = 0xa1b2c3d4;
-        pcap_hdr.version_major = 2;
-        pcap_hdr.version_minor = 4;
-        pcap_hdr.thiszone = 0;
-        pcap_hdr.sigfigs = 0;
-        pcap_hdr.snaplen = MAX_PCAP;
-        pcap_hdr.network = LINKTYPE_RAW;
-        write_pcap(&pcap_hdr, sizeof(struct pcap_hdr_s));
+        write_pcap_hdr();
 
         (*env)->ReleaseStringUTFChars(env, name_, name);
     }
@@ -204,7 +194,6 @@ void handle_events(void *a) {
         // Select
         ts.tv_sec = SELECT_TIMEOUT;
         ts.tv_nsec = 0;
-        // TODO let timeout depend on session timeouts
         sigemptyset(&emptyset);
         int max = get_selects(args, &rfds, &wfds, &efds);
         int ready = pselect(max + 1, &rfds, &wfds, &efds, session == NULL ? NULL : &ts, &emptyset);
@@ -276,7 +265,7 @@ void handle_events(void *a) {
     free(args);
 
     log_android(ANDROID_LOG_INFO, "Stopped events tun=%d thread %lu", args->tun, thread_id);
-    // TODO conditionally report to Java
+    // TODO report exit to Java
 }
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
@@ -379,27 +368,8 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
         }
         else if (length > 0) {
             // Write pcap record
-            if (native && pcap_fn != NULL) {
-                struct timespec ts;
-                if (clock_gettime(CLOCK_REALTIME, &ts))
-                    log_android(ANDROID_LOG_ERROR, "clock_gettime error %d: %s",
-                                errno, strerror(errno));
-
-                // TODO use stack
-                int plen = (length < MAX_PCAP ? length : MAX_PCAP);
-                struct pcaprec_hdr_s *pcap_rec =
-                        malloc(sizeof(struct pcaprec_hdr_s) + plen);
-
-                pcap_rec->ts_sec = ts.tv_sec;
-                pcap_rec->ts_usec = ts.tv_nsec / 1000;
-                pcap_rec->incl_len = plen;
-                pcap_rec->orig_len = length;
-                memcpy(((uint8_t *) pcap_rec) + sizeof(struct pcaprec_hdr_s), buffer, plen);
-
-                write_pcap(pcap_rec, sizeof(struct pcaprec_hdr_s) + plen);
-
-                free(pcap_rec);
-            }
+            if (native && pcap_fn != NULL)
+                write_pcap_rec(buffer, length);
 
             // Handle IP from tun
             handle_ip(args, buffer, length);
@@ -625,6 +595,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     // Get uid
     jint uid = -1;
     if ((protocol == IPPROTO_TCP && (syn || !native)) || protocol == IPPROTO_UDP) {
+        log_android(ANDROID_LOG_INFO, "get uid %s/%u syn %d", dest, dport, syn);
         int tries = 0;
         while (uid < 0 && tries++ < UID_MAXTRY) {
             // Most likely in IPv6 table
@@ -1175,25 +1146,8 @@ int write_tcp(const struct session *cur,
 #endif
 
     // Write pcap record
-    if (native && pcap_fn != NULL) {
-        struct timespec ts;
-        if (clock_gettime(CLOCK_REALTIME, &ts))
-            log_android(ANDROID_LOG_ERROR, "clock_gettime error %d: %s", errno, strerror(errno));
-
-        // TODO use stack
-        int plen = (len < MAX_PCAP ? len : MAX_PCAP);
-        struct pcaprec_hdr_s *pcap_rec = malloc(sizeof(struct pcaprec_hdr_s) + plen);
-
-        pcap_rec->ts_sec = ts.tv_sec;
-        pcap_rec->ts_usec = ts.tv_nsec / 1000;
-        pcap_rec->incl_len = plen;
-        pcap_rec->orig_len = len;
-        memcpy(((uint8_t *) pcap_rec) + sizeof(struct pcaprec_hdr_s), buffer, plen);
-
-        write_pcap(pcap_rec, sizeof(struct pcaprec_hdr_s) + plen);
-
-        free(pcap_rec);
-    }
+    if (native && pcap_fn != NULL)
+        write_pcap_rec(buffer, len);
 
     free(buffer);
 
@@ -1392,6 +1346,38 @@ void write_pcap(const void *ptr, size_t len) {
     if (mselapsed > 1)
         log_android(ANDROID_LOG_INFO, "pcap write %f", mselapsed);
 #endif
+}
+
+void write_pcap_hdr() {
+    struct pcap_hdr_s pcap_hdr;
+    pcap_hdr.magic_number = 0xa1b2c3d4;
+    pcap_hdr.version_major = 2;
+    pcap_hdr.version_minor = 4;
+    pcap_hdr.thiszone = 0;
+    pcap_hdr.sigfigs = 0;
+    pcap_hdr.snaplen = MAX_PCAP;
+    pcap_hdr.network = LINKTYPE_RAW;
+    write_pcap(&pcap_hdr, sizeof(struct pcap_hdr_s));
+}
+
+void write_pcap_rec(const uint8_t *buffer, uint16_t length) {
+    struct timespec ts;
+    if (clock_gettime(CLOCK_REALTIME, &ts))
+        log_android(ANDROID_LOG_ERROR, "clock_gettime error %d: %s", errno, strerror(errno));
+
+    // TODO use stack
+    int plen = (length < MAX_PCAP ? length : MAX_PCAP);
+    struct pcaprec_hdr_s *pcap_rec = malloc(sizeof(struct pcaprec_hdr_s) + plen);
+
+    pcap_rec->ts_sec = ts.tv_sec;
+    pcap_rec->ts_usec = ts.tv_nsec / 1000;
+    pcap_rec->incl_len = plen;
+    pcap_rec->orig_len = length;
+    memcpy(((uint8_t *) pcap_rec) + sizeof(struct pcaprec_hdr_s), buffer, plen);
+
+    write_pcap(pcap_rec, sizeof(struct pcaprec_hdr_s) + plen);
+
+    free(pcap_rec);
 }
 
 const char *strstate(const int state) {

@@ -111,6 +111,10 @@ void log_java(const struct arguments *args, uint8_t version,
 
 void write_pcap(const void *ptr, size_t len);
 
+void write_pcap_hdr();
+
+void write_pcap_rec(const uint8_t *buffer, uint16_t len);
+
 const char *strstate(const int state);
 
 char *hex(const u_int8_t *data, const u_int16_t len);
