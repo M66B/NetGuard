@@ -56,10 +56,10 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
 
     log_android(ANDROID_LOG_INFO, "Starting tun=%d level %d native %d", tun, loglevel, native);
 
-    // Set non blocking
+    // Set blocking
     uint8_t flags = fcntl(tun, F_GETFL, 0);
-    if (flags < 0 || fcntl(tun, F_SETFL, flags | O_NONBLOCK) < 0)
-        log_android(ANDROID_LOG_ERROR, "fcntl tun O_NONBLOCK error %d: %s", errno, strerror(errno));
+    if (flags < 0 || fcntl(tun, F_SETFL, flags & ~O_NONBLOCK) < 0)
+        log_android(ANDROID_LOG_ERROR, "fcntl tun ~O_NONBLOCK error %d: %s", errno, strerror(errno));
 
     if (pthread_kill(thread_id, 0) == 0)
         log_android(ANDROID_LOG_WARN, "Already running thread %lu", thread_id);
@@ -965,9 +965,9 @@ int open_socket(const struct session *cur, const struct arguments *args) {
         }
     }
 
-    // Set tun blocking
+    // Set non blocking
     uint8_t flags = fcntl(sock, F_GETFL, 0);
-    if (flags < 0 || fcntl(sock, F_SETFL, flags & ~O_NONBLOCK) < 0) {
+    if (flags < 0 || fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) {
         log_android(ANDROID_LOG_ERROR, "fcntl socket O_NONBLOCK error %d: %s",
                     errno, strerror(errno));
         return -1;
@@ -982,7 +982,7 @@ int open_socket(const struct session *cur, const struct arguments *args) {
 
     // Set blocking
     if (fcntl(sock, F_SETFL, flags & ~O_NONBLOCK) < 0) {
-        log_android(ANDROID_LOG_ERROR, "fcntl socket error %d: %s", errno, strerror(errno));
+        log_android(ANDROID_LOG_ERROR, "fcntl socket ~O_NONBLOCK error %d: %s", errno, strerror(errno));
         return -1;
     }
 
