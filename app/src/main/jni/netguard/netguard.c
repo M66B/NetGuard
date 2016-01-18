@@ -25,6 +25,7 @@
 // TODO DHCP
 // TODO log allowed traffic
 // TODO fix warnings
+// TODO non blocking send/write, handle EAGAIN/EWOULDBLOCK
 
 // Window size < 2^31: x <= y: (uint32_t)(y-x) < 0x80000000
 // It is assumed that no packets will get lost and that packets arrive in order
@@ -819,7 +820,7 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
 
                 if (ok) {
                     if (write_ack(cur, 1 + datalen, args->tun) >= 0) {
-                        cur->remote_seq += (1 + datalen); // FIN + received from tun
+                        cur->remote_seq += (1 + datalen); // FIN + data from tun
                         if (cur->state == TCP_ESTABLISHED /* && !tcphdr->ack */)
                             cur->state = TCP_CLOSE_WAIT;
                         else if (cur->state == TCP_FIN_WAIT1 && tcphdr->ack)
@@ -834,10 +835,8 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
                                         dest, ntohs(cur->dest), cur->lport,
                                         strstate(cur->state), tcphdr->ack);
                     }
-                } else {
-                    // Not OK
+                } else
                     write_rst(cur, args->tun);
-                }
             }
             else {
                 // Special case or hack if you like
@@ -984,9 +983,9 @@ int open_socket(const struct session *cur, const struct arguments *args) {
         }
     }
 
-    // Set non blocking
+    // Set tun blocking
     uint8_t flags = fcntl(sock, F_GETFL, 0);
-    if (flags < 0 || fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) {
+    if (flags < 0 || fcntl(sock, F_SETFL, flags & ~O_NONBLOCK) < 0) {
         log_android(ANDROID_LOG_ERROR, "fcntl socket O_NONBLOCK error %d: %s",
                     errno, strerror(errno));
         return -1;
