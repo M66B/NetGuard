@@ -149,7 +149,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
         pcap_hdr.version_minor = 4;
         pcap_hdr.thiszone = 0;
         pcap_hdr.sigfigs = 0;
-        pcap_hdr.snaplen = MAXPCAP;
+        pcap_hdr.snaplen = MAX_PCAP;
         pcap_hdr.network = LINKTYPE_RAW;
         write_pcap(&pcap_hdr, sizeof(struct pcap_hdr_s));
 
@@ -168,7 +168,6 @@ void handle_events(void *a) {
     fd_set wfds;
     fd_set efds;
     struct timespec ts;
-    char dest[20];
     sigset_t blockset;
     sigset_t emptyset;
     struct sigaction sa;
@@ -203,7 +202,7 @@ void handle_events(void *a) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %lu", thread_id);
 
         // Select
-        ts.tv_sec = SELECTWAIT;
+        ts.tv_sec = SELECT_TIMEOUT;
         ts.tv_nsec = 0;
         // TODO let timeout depend on session timeouts
         sigemptyset(&emptyset);
@@ -297,8 +296,15 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     struct session *last = NULL;
     struct session *cur = session;
     while (cur != NULL) {
-        // TODO differentiate timeouts
-        if (cur->state != TCP_TIME_WAIT && cur->time + TCPTIMEOUT < now) {
+        int timeout = 0;
+        if (cur->state == TCP_LISTEN || cur->state == TCP_SYN_RECV)
+            timeout = TCP_INIT_TIMEOUT;
+        else if (cur->state == TCP_ESTABLISHED)
+            timeout = TCP_IDLE_TIMEOUT;
+        else
+            timeout = TCP_CLOSE_TIMEOUT;
+
+        if (cur->state != TCP_TIME_WAIT && cur->time + timeout < now) {
             // TODO send keep alives?
             char dest[20];
             inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
@@ -316,7 +322,7 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
             log_android(ANDROID_LOG_INFO, "Close %s/%u lport %u",
                         dest, ntohs(cur->dest), cur->lport);
 
-            // TODO keep for some time
+            // TODO keep for some time?
 
             // TODO non blocking?
             if (close(cur->socket))
@@ -365,8 +371,8 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
 
     // Check tun read
     if (FD_ISSET(args->tun, rfds)) {
-        uint8_t buffer[MAXPKT];
-        ssize_t length = read(args->tun, buffer, MAXPKT);
+        uint8_t buffer[MAX_PKTSIZE];
+        ssize_t length = read(args->tun, buffer, sizeof(buffer));
         if (length < 0) {
             log_android(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
             return (errno == EINTR ? 0 : -1);
@@ -380,7 +386,7 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
                                 errno, strerror(errno));
 
                 // TODO use stack
-                int plen = (length < MAXPCAP ? length : MAXPCAP);
+                int plen = (length < MAX_PCAP ? length : MAX_PCAP);
                 struct pcaprec_hdr_s *pcap_rec =
                         malloc(sizeof(struct pcaprec_hdr_s) + plen);
 
@@ -454,8 +460,8 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
                 // Check socket read
                 if (FD_ISSET(cur->socket, rfds)) {
                     // TODO window size
-                    uint8_t buffer[MAXPKT];
-                    ssize_t bytes = recv(cur->socket, buffer, MAXPKT, 0);
+                    uint8_t buffer[MAX_DATASIZE4];
+                    ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
                     if (bytes < 0) {
                         // Socket error
                         log_android(ANDROID_LOG_ERROR, "recv lport %u error %d: %s",
@@ -618,7 +624,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     jint uid = -1;
     if ((protocol == IPPROTO_TCP && (syn || !native)) || protocol == IPPROTO_UDP) {
         int tries = 0;
-        while (uid < 0 && tries++ < UIDTRIES) {
+        while (uid < 0 && tries++ < UID_MAXTRY) {
             // Most likely in IPv6 table
             int8_t saddr128[16];
             memset(saddr128, 0, 10);
@@ -632,9 +638,9 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
                 uid = get_uid(protocol, version, saddr, sport);
 
             // Retry delay
-            if (uid < 0 && tries < UIDTRIES) {
+            if (uid < 0 && tries < UID_MAXTRY) {
                 log_android(ANDROID_LOG_WARN, "get uid try %d", tries);
-                usleep(1000 * UIDDELAY);
+                usleep(1000 * UID_DELAY);
             }
         }
 
@@ -1094,7 +1100,7 @@ int write_tcp(const struct session *cur,
     ip->version = 4;
     ip->ihl = sizeof(struct iphdr) >> 2;
     ip->tot_len = htons(len);
-    ip->ttl = TCPTTL;
+    ip->ttl = TCP_TTL;
     ip->protocol = IPPROTO_TCP;
     ip->saddr = cur->daddr;
     ip->daddr = cur->saddr;
@@ -1112,7 +1118,7 @@ int write_tcp(const struct session *cur,
     tcp->ack = (datalen > 0 || confirm > 0 || syn);
     tcp->fin = fin;
     tcp->rst = rst;
-    tcp->window = htons(TCPWINDOW);
+    tcp->window = htons(TCP_WINDOW);
 
     if (!tcp->ack)
         tcp->ack_seq = 0;
@@ -1168,7 +1174,7 @@ int write_tcp(const struct session *cur,
             log_android(ANDROID_LOG_ERROR, "clock_gettime error %d: %s", errno, strerror(errno));
 
         // TODO use stack
-        int plen = (len < MAXPCAP ? len : MAXPCAP);
+        int plen = (len < MAX_PCAP ? len : MAX_PCAP);
         struct pcaprec_hdr_s *pcap_rec = malloc(sizeof(struct pcaprec_hdr_s) + plen);
 
         pcap_rec->ts_sec = ts.tv_sec;
@@ -1385,27 +1391,27 @@ const char *strstate(const int state) {
     char buf[20];
     switch (state) {
         case TCP_ESTABLISHED:
-            return "TCP_ESTABLISHED";
+            return "ESTABLISHED";
         case TCP_SYN_SENT:
-            return "TCP_SYN_SENT";
+            return "SYN_SENT";
         case TCP_SYN_RECV:
-            return "TCP_SYN_RECV";
+            return "SYN_RECV";
         case TCP_FIN_WAIT1:
-            return "TCP_FIN_WAIT1";
+            return "FIN_WAIT1";
         case TCP_FIN_WAIT2:
-            return "TCP_FIN_WAIT2";
+            return "FIN_WAIT2";
         case TCP_TIME_WAIT:
-            return "TCP_TIME_WAIT";
+            return "TIME_WAIT";
         case TCP_CLOSE:
-            return "TCP_CLOSE";
+            return "CLOSE";
         case TCP_CLOSE_WAIT:
-            return "TCP_CLOSE_WAIT";
+            return "CLOSE_WAIT";
         case TCP_LAST_ACK:
-            return "TCP_LAST_ACK";
+            return "LAST_ACK";
         case TCP_LISTEN:
-            return "TCP_LISTEN";
+            return "LISTEN";
         case  TCP_CLOSING:
-            return "TCP_CLOSING";
+            return "CLOSING";
         default:
             sprintf(buf, "TCP_%d", state);
             return buf;
