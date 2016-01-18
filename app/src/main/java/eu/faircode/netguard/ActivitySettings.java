@@ -415,10 +415,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             SinkholeService.reload(null, "setting changed", this);
 
         else if ("pcap_enabled".equals(name)) {
+            File pcap = new File(getCacheDir(), "netguard.pcap");
+            if (pcap.exists())
+                pcap.delete();
             if (prefs.getBoolean(name, false)) {
-                File pcap = new File(getCacheDir(), "netguard.pcap");
-                if (pcap.exists())
-                    pcap.delete();
                 SinkholeService.setPcap(pcap.getAbsolutePath());
             } else
                 SinkholeService.setPcap(null);

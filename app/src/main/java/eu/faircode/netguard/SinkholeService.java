@@ -862,9 +862,18 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     public void onCreate() {
         Log.i(TAG, "Create");
 
-        jni_init();
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Native init
+        jni_init();
+        File pcap = new File(getCacheDir(), "netguard.pcap");
+        if (pcap.exists())
+            pcap.delete();
+        if (prefs.getBoolean("pcap_enabled", false)) {
+            SinkholeService.setPcap(pcap.getAbsolutePath());
+        } else
+            SinkholeService.setPcap(null);
+
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         Util.setTheme(this);
