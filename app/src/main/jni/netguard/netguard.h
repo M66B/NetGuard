@@ -1,3 +1,5 @@
+#include <jni.h>
+
 #define TAG "NetGuard.JNI"
 #define MAXPKT 32768
 // TODO TCP parameters (net.inet.tcp.keepinit, etc)
@@ -10,6 +12,7 @@
 #define MAXPCAP 80
 
 struct arguments {
+    JNIEnv *env;
     jobject instance;
     int tun;
 };
@@ -57,16 +60,19 @@ typedef struct pcaprec_hdr_s {
 
 #define LINKTYPE_RAW 101
 
-void *handle_events(void *);
+void handle_events(void *);
+
+int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
+
+int check_tun(const struct arguments *, fd_set *, fd_set *, fd_set *);
 
 void check_sockets(const struct arguments *, fd_set *, fd_set *, fd_set *);
 
-void handle_ip(JNIEnv *, jobject, const struct arguments *, const uint8_t *, const uint16_t);
+void handle_ip(const struct arguments *, const uint8_t *, const uint16_t);
 
-void handle_tcp(JNIEnv *, jobject, const struct arguments *args,
-                const uint8_t *, const uint16_t, int uid);
+void handle_tcp(const struct arguments *, const uint8_t *, const uint16_t, int uid);
 
-int open_socket(JNIEnv *, jobject, const struct sockaddr_in *);
+int open_socket(const struct arguments *, const struct sockaddr_in *);
 
 int get_local_port(const int);
 

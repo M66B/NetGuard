@@ -33,6 +33,7 @@ static JavaVM *jvm;
 pthread_t thread_id;
 int signaled = 0;
 struct session *session = NULL;
+
 int loglevel = ANDROID_LOG_WARN;
 char *pcap_fn = NULL;
 
@@ -133,16 +134,7 @@ void sig_handler(int sig, siginfo_t *info, void *context) {
     signaled = 1;
 }
 
-void *handle_events(void *a) {
-    struct arguments *args = (struct arguments *) a;
-    ng_log(ANDROID_LOG_INFO, "Start events tun=%d thread %ld", args->tun, thread_id);
-
-    JNIEnv *env;
-    jint rs = (*jvm)->AttachCurrentThread(jvm, &env, NULL);
-    if (rs != JNI_OK)
-        ng_log(ANDROID_LOG_ERROR, "AttachCurrentThread failed");
-
-    int max;
+void handle_events(void *a) {
     fd_set rfds;
     fd_set wfds;
     fd_set efds;
@@ -151,6 +143,18 @@ void *handle_events(void *a) {
     sigset_t blockset;
     sigset_t emptyset;
     struct sigaction sa;
+
+    struct arguments *args = (struct arguments *) a;
+    ng_log(ANDROID_LOG_INFO, "Start events tun=%d thread %ld", args->tun, thread_id);
+
+    // Attach to Java
+    JNIEnv *env;
+    jint rs = (*jvm)->AttachCurrentThread(jvm, &env, NULL);
+    if (rs != JNI_OK) {
+        ng_log(ANDROID_LOG_ERROR, "AttachCurrentThread failed");
+        return;
+    }
+    args->env = env;
 
     // Block SIGUSR1
     sigemptyset(&blockset);
@@ -167,101 +171,14 @@ void *handle_events(void *a) {
 
     // Loop
     while (1) {
-        time_t now = time(NULL);
         ng_log(ANDROID_LOG_DEBUG, "Loop thread %ld", thread_id);
 
         // Select
-        FD_ZERO(&rfds);
-        FD_ZERO(&wfds);
-        FD_ZERO(&efds);
-
-        // Always read tun
-        FD_SET(args->tun, &rfds);
-        FD_SET(args->tun, &efds);
-
-        max = args->tun;
-
-        struct session *last = NULL;
-        struct session *cur = session;
-        while (cur != NULL) {
-            // TODO differentiate timeouts
-            if (cur->time + TCPTIMEOUT < now) {
-                // TODO send keep alives?
-                char dest[20];
-                inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
-                ng_log(ANDROID_LOG_WARN, "Idle %s/%u lport %u",
-                       dest, ntohs(cur->dest), cur->lport);
-                if (cur->state == TCP_SYN_RECV ||
-                    cur->state == TCP_ESTABLISHED ||
-                    cur->state == TCP_CLOSE_WAIT) {
-                    if (write_tcp(cur, NULL, 0, 0, 0, 1, 0, args->tun) < 0) { // FIN
-                        ng_log(ANDROID_LOG_ERROR,
-                               "write FIN lport %u error %d: %s",
-                               cur->lport, errno, strerror((errno)));
-                        cur->state = TCP_TIME_WAIT; // Will close socket
-                    }
-                    else {
-                        ng_log(ANDROID_LOG_DEBUG, "Half close initiated");
-                        cur->local_seq++;
-                        if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
-                            cur->state = TCP_FIN_WAIT1;
-                        else // close wait
-                            cur->state = TCP_LAST_ACK;
-                    }
-
-                } else
-                    cur->state = TCP_TIME_WAIT; // Will close socket
-            }
-
-            if (cur->state == TCP_TIME_WAIT) {
-                // Log
-                char dest[20];
-                inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
-                ng_log(ANDROID_LOG_INFO, "Close %s/%u lport %u",
-                       dest, ntohs(cur->dest), cur->lport);
-
-                // TODO keep for some time
-
-                // TODO non blocking?
-                if (close(cur->socket))
-                    ng_log(ANDROID_LOG_ERROR, "close error %d: %s", errno, strerror(errno));
-
-                if (last == NULL)
-                    session = cur->next;
-                else
-                    last->next = cur->next;
-
-                struct session *c = cur;
-                cur = cur->next;
-                free(c);
-                continue;
-
-            } else if (cur->state != TCP_TIME_WAIT) {
-                if (cur->state == TCP_LISTEN) {
-                    FD_SET(cur->socket, &efds);
-                    FD_SET(cur->socket, &wfds);
-                    if (cur->socket > max)
-                        max = cur->socket;
-                }
-                else if (cur->state == TCP_ESTABLISHED ||
-                         cur->state == TCP_SYN_RECV ||
-                         cur->state == TCP_CLOSE_WAIT) {
-                    // Check for errors / data
-                    FD_SET(cur->socket, &efds);
-                    FD_SET(cur->socket, &rfds);
-                    if (cur->socket > max)
-                        max = cur->socket;
-                }
-            }
-
-            last = cur;
-            cur = cur->next;
-        }
-
         ts.tv_sec = SELECTWAIT;
         ts.tv_nsec = 0;
         // TODO let timeout depend on session timeouts
         sigemptyset(&emptyset);
+        int max = get_selects(args, &rfds, &wfds, &efds);
         int ready = pselect(max + 1, &rfds, &wfds, &efds, session == NULL ? NULL : &ts, &emptyset);
         if (ready < 0) {
             if (errno == EINTR) {
@@ -279,6 +196,7 @@ void *handle_events(void *a) {
             }
         }
 
+        // Count sessions
         int sessions = 0;
         struct session *s = session;
         while (s != NULL) {
@@ -291,57 +209,10 @@ void *handle_events(void *a) {
         else {
             ng_log(ANDROID_LOG_DEBUG, "pselect sessions %d ready %d", sessions, ready);
 
-            // Check tun exception
-            if (FD_ISSET(args->tun, &efds)) {
-                ng_log(ANDROID_LOG_ERROR, "tun exception");
-                break; // over and out
-            }
+            // Check upstream
+            check_tun(args, &rfds, &wfds, &efds);
 
-            // Check tun read
-            if (FD_ISSET(args->tun, &rfds)) {
-                uint8_t buffer[MAXPKT];
-                ssize_t length = read(args->tun, buffer, MAXPKT);
-                if (length < 0) {
-                    ng_log(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
-                    if (errno == EINTR)
-                        continue;
-                    else
-                        break; // over and out
-                }
-                else if (length > 0) {
-                    // Write pcap record
-                    if (pcap_fn != NULL) {
-                        struct timespec ts;
-                        if (clock_gettime(CLOCK_REALTIME, &ts))
-                            ng_log(ANDROID_LOG_ERROR, "clock_gettime error %d: %s",
-                                   errno, strerror(errno));
-
-                        // TODO use stack
-                        int plen = (length < MAXPCAP ? length : MAXPCAP);
-                        struct pcaprec_hdr_s *pcap_rec =
-                                malloc(sizeof(struct pcaprec_hdr_s) + plen);
-
-                        pcap_rec->ts_sec = ts.tv_sec;
-                        pcap_rec->ts_usec = ts.tv_nsec / 1000;
-                        pcap_rec->incl_len = plen;
-                        pcap_rec->orig_len = length;
-                        memcpy(((uint8_t *) pcap_rec) + sizeof(struct pcaprec_hdr_s), buffer, plen);
-
-                        pcap_write(pcap_rec, sizeof(struct pcaprec_hdr_s) + plen);
-
-                        free(pcap_rec);
-                    }
-
-                    // Handle IP from tun
-                    handle_ip(env, args->instance, args, buffer, length);
-                }
-                else {
-                    ng_log(ANDROID_LOG_ERROR, "tun empty read");
-                    break; // over and out
-                }
-            }
-
-            // Check sockets
+            // Check downstream
             check_sockets(args, &rfds, &wfds, &efds);
         }
     }
@@ -354,6 +225,152 @@ void *handle_events(void *a) {
 
     ng_log(ANDROID_LOG_INFO, "Stopped events tun=%d thread %ld", args->tun, thread_id);
     // TODO conditionally report to Java
+}
+
+int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+    time_t now = time(NULL);
+
+    // Select
+    FD_ZERO(rfds);
+    FD_ZERO(wfds);
+    FD_ZERO(efds);
+
+    // Always read tun
+    FD_SET(args->tun, rfds);
+    FD_SET(args->tun, efds);
+
+    int max = args->tun;
+
+    struct session *last = NULL;
+    struct session *cur = session;
+    while (cur != NULL) {
+        // TODO differentiate timeouts
+        if (cur->time + TCPTIMEOUT < now) {
+            // TODO send keep alives?
+            char dest[20];
+            inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+            ng_log(ANDROID_LOG_WARN, "Idle %s/%u lport %u",
+                   dest, ntohs(cur->dest), cur->lport);
+            if (cur->state == TCP_SYN_RECV ||
+                cur->state == TCP_ESTABLISHED ||
+                cur->state == TCP_CLOSE_WAIT) {
+                if (write_tcp(cur, NULL, 0, 0, 0, 1, 0, args->tun) < 0) { // FIN
+                    ng_log(ANDROID_LOG_ERROR,
+                           "write FIN lport %u error %d: %s",
+                           cur->lport, errno, strerror((errno)));
+                    cur->state = TCP_TIME_WAIT; // Will close socket
+                }
+                else {
+                    ng_log(ANDROID_LOG_DEBUG, "Half close initiated");
+                    cur->local_seq++;
+                    if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
+                        cur->state = TCP_FIN_WAIT1;
+                    else // close wait
+                        cur->state = TCP_LAST_ACK;
+                }
+
+            } else
+                cur->state = TCP_TIME_WAIT; // Will close socket
+        }
+
+        if (cur->state == TCP_TIME_WAIT) {
+            // Log
+            char dest[20];
+            inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+            ng_log(ANDROID_LOG_INFO, "Close %s/%u lport %u",
+                   dest, ntohs(cur->dest), cur->lport);
+
+            // TODO keep for some time
+
+            // TODO non blocking?
+            if (close(cur->socket))
+                ng_log(ANDROID_LOG_ERROR, "close error %d: %s", errno, strerror(errno));
+
+            if (last == NULL)
+                session = cur->next;
+            else
+                last->next = cur->next;
+
+            struct session *c = cur;
+            cur = cur->next;
+            free(c);
+            continue;
+
+        } else if (cur->state != TCP_TIME_WAIT) {
+            if (cur->state == TCP_LISTEN) {
+                FD_SET(cur->socket, efds);
+                FD_SET(cur->socket, wfds);
+                if (cur->socket > max)
+                    max = cur->socket;
+            }
+            else if (cur->state == TCP_ESTABLISHED ||
+                     cur->state == TCP_SYN_RECV ||
+                     cur->state == TCP_CLOSE_WAIT) {
+                // Check for errors / data
+                FD_SET(cur->socket, efds);
+                FD_SET(cur->socket, rfds);
+                if (cur->socket > max)
+                    max = cur->socket;
+            }
+        }
+
+        last = cur;
+        cur = cur->next;
+    }
+    return max;
+}
+
+int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+    // Check tun exception
+    if (FD_ISSET(args->tun, efds)) {
+        ng_log(ANDROID_LOG_ERROR, "tun exception");
+        return -1; // over and out
+    }
+
+    // Check tun read
+    if (FD_ISSET(args->tun, rfds)) {
+        uint8_t buffer[MAXPKT];
+        ssize_t length = read(args->tun, buffer, MAXPKT);
+        if (length < 0) {
+            ng_log(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
+            if (errno == EINTR)
+                return 0;
+            else
+                return -1; // over and out
+        }
+        else if (length > 0) {
+            // Write pcap record
+            if (pcap_fn != NULL) {
+                struct timespec ts;
+                if (clock_gettime(CLOCK_REALTIME, &ts))
+                    ng_log(ANDROID_LOG_ERROR, "clock_gettime error %d: %s",
+                           errno, strerror(errno));
+
+                // TODO use stack
+                int plen = (length < MAXPCAP ? length : MAXPCAP);
+                struct pcaprec_hdr_s *pcap_rec =
+                        malloc(sizeof(struct pcaprec_hdr_s) + plen);
+
+                pcap_rec->ts_sec = ts.tv_sec;
+                pcap_rec->ts_usec = ts.tv_nsec / 1000;
+                pcap_rec->incl_len = plen;
+                pcap_rec->orig_len = length;
+                memcpy(((uint8_t *) pcap_rec) + sizeof(struct pcaprec_hdr_s), buffer, plen);
+
+                pcap_write(pcap_rec, sizeof(struct pcaprec_hdr_s) + plen);
+
+                free(pcap_rec);
+            }
+
+            // Handle IP from tun
+            handle_ip(args, buffer, length);
+        }
+        else {
+            ng_log(ANDROID_LOG_ERROR, "tun empty read");
+            return -1; // over and out
+        }
+    }
+    return 0;
 }
 
 void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
@@ -469,8 +486,7 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
     }
 }
 
-void handle_ip(JNIEnv *env, jobject instance, const struct arguments *args,
-               const uint8_t *buffer, const uint16_t length) {
+void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16_t length) {
     uint8_t protocol;
     void *saddr;
     void *daddr;
@@ -592,6 +608,8 @@ void handle_ip(JNIEnv *env, jobject instance, const struct arguments *args,
 
     // Call back
     //if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
+    JNIEnv *env = args->env;
+    jobject instance = args->instance;
     if (protocol == IPPROTO_TCP || protocol == IPPROTO_UDP) {
         jclass cls = (*env)->GetObjectClass(env, instance);
         jmethodID mid = (*env)->GetMethodID(
@@ -625,8 +643,7 @@ void handle_ip(JNIEnv *env, jobject instance, const struct arguments *args,
     }
 }
 
-void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
-                const uint8_t *buffer, uint16_t length, int uid) {
+void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid) {
     // Check version
     uint8_t version = (*buffer) >> 4;
     if (version != 4)
@@ -690,7 +707,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
             daddr.sin_addr.s_addr = iphdr->daddr;
 
             // Open socket
-            syn->socket = open_socket(env, instance, &daddr);
+            syn->socket = open_socket(args, &daddr);
             if (syn->socket < 0) {
                 syn->state = TCP_TIME_WAIT;
                 // Remote will retry
@@ -904,7 +921,7 @@ void handle_tcp(JNIEnv *env, jobject instance, const struct arguments *args,
     }
 }
 
-int open_socket(JNIEnv *env, jobject instance, const struct sockaddr_in *daddr) {
+int open_socket(const struct arguments *args, const struct sockaddr_in *daddr) {
     int sock = -1;
 
     // Get TCP socket
@@ -915,6 +932,8 @@ int open_socket(JNIEnv *env, jobject instance, const struct sockaddr_in *daddr) 
     }
 
     // Protect
+    JNIEnv *env = args->env;
+    jobject instance = args->instance;
     jclass cls = (*env)->GetObjectClass(env, instance);
     jmethodID mid = (*env)->GetMethodID(env, cls, "protect", "(I)Z");
     if (mid == 0) {
