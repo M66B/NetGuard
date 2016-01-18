@@ -1307,7 +1307,6 @@ void log_java(
     if (mid == 0)
         log_android(ANDROID_LOG_ERROR, "logPacket not found");
     else {
-        jboolean allowed = 0;
         jstring jsource = (*env)->NewStringUTF(env, source);
         jstring jdest = (*env)->NewStringUTF(env, dest);
         jstring jflags = (*env)->NewStringUTF(env, flags);

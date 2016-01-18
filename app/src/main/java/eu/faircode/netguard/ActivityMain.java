@@ -199,7 +199,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             public void onRefresh() {
                 SinkholeService.reload(null, "pull", ActivityMain.this);
-                updateApplicationList(null);
+                SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+                updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
             }
         });
 
