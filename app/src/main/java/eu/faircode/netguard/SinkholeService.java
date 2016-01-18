@@ -573,6 +573,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             else
                 prefs.edit().putBoolean(pkg, blocked).apply();
 
+            // Apply rules
+            reload(null, "notification", SinkholeService.this);
+
             // Update notification
             Receiver.notifyNewApplication(uid, SinkholeService.this);
 
