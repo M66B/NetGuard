@@ -60,32 +60,46 @@ typedef struct pcaprec_hdr_s {
 
 #define LINKTYPE_RAW 101
 
-void handle_events(void *);
+void sig_handler(int sig, siginfo_t *info, void *context);
+
+void handle_events(void *a);
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-int check_tun(const struct arguments *, fd_set *, fd_set *, fd_set *);
+int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-void check_sockets(const struct arguments *, fd_set *, fd_set *, fd_set *);
+void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-void handle_ip(const struct arguments *, const uint8_t *, const uint16_t);
+void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16_t length);
 
-void handle_tcp(const struct arguments *, const uint8_t *, const uint16_t, int uid);
+void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
 
-int open_socket(const struct arguments *, const struct sockaddr_in *);
+int open_socket(const struct session *cur, const struct arguments *args);
 
-int get_local_port(const int);
+int get_local_port(const int sock);
 
-int write_tcp(const struct session *, uint8_t *, uint16_t, uint16_t, int, int, int, int);
+int write_syn_ack(struct session *cur, int tun);
 
-jint get_uid(const int, const int, const void *, const uint16_t);
+int write_ack(struct session *cur, int bytes, int tun);
 
-uint16_t checksum(uint8_t *, uint16_t);
+int write_data(struct session *cur, const uint8_t *buffer, uint16_t length, int tun);
 
-void ng_log(int, const char *, ...);
+int write_fin(struct session *cur, int tun);
+
+void write_rst(struct session *cur, int tun);
+
+int write_tcp(const struct session *cur,
+              uint8_t *data, uint16_t datalen, uint16_t confirm,
+              int syn, int fin, int rst, int tun);
+
+jint get_uid(const int protocol, const int version, const void *saddr, const uint16_t sport);
+
+uint16_t checksum(uint8_t *buffer, uint16_t length);
+
+void ng_log(int prio, const char *fmt, ...);
 
 const char *strstate(const int state);
 
-char *hex(const u_int8_t *, const u_int16_t);
+char *hex(const u_int8_t *data, const u_int16_t len);
 
-void pcap_write(const void *, size_t);
+void pcap_write(const void *ptr, size_t len);

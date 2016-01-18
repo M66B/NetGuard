@@ -249,32 +249,15 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     struct session *cur = session;
     while (cur != NULL) {
         // TODO differentiate timeouts
-        if (cur->time + TCPTIMEOUT < now) {
+        if (cur->state != TCP_TIME_WAIT && cur->time + TCPTIMEOUT < now) {
             // TODO send keep alives?
             char dest[20];
             inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+
             ng_log(ANDROID_LOG_WARN, "Idle %s/%u lport %u",
                    dest, ntohs(cur->dest), cur->lport);
-            if (cur->state == TCP_SYN_RECV ||
-                cur->state == TCP_ESTABLISHED ||
-                cur->state == TCP_CLOSE_WAIT) {
-                if (write_tcp(cur, NULL, 0, 0, 0, 1, 0, args->tun) < 0) { // FIN
-                    ng_log(ANDROID_LOG_ERROR,
-                           "write FIN lport %u error %d: %s",
-                           cur->lport, errno, strerror((errno)));
-                    cur->state = TCP_TIME_WAIT; // Will close socket
-                }
-                else {
-                    ng_log(ANDROID_LOG_DEBUG, "Half close initiated");
-                    cur->local_seq++;
-                    if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
-                        cur->state = TCP_FIN_WAIT1;
-                    else // close wait
-                        cur->state = TCP_LAST_ACK;
-                }
 
-            } else
-                cur->state = TCP_TIME_WAIT; // Will close socket
+            write_rst(cur, args->tun);
         }
 
         if (cur->state == TCP_TIME_WAIT) {
@@ -300,32 +283,32 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
             free(c);
             continue;
 
-        } else if (cur->state != TCP_TIME_WAIT) {
-            if (cur->state == TCP_LISTEN) {
-                FD_SET(cur->socket, efds);
-                FD_SET(cur->socket, wfds);
-                if (cur->socket > max)
-                    max = cur->socket;
-            }
-            else if (cur->state == TCP_ESTABLISHED ||
-                     cur->state == TCP_SYN_RECV ||
-                     cur->state == TCP_CLOSE_WAIT) {
-                // Check for errors / data
-                FD_SET(cur->socket, efds);
-                FD_SET(cur->socket, rfds);
-                if (cur->socket > max)
-                    max = cur->socket;
-            }
+        } else if (cur->state == TCP_LISTEN) {
+            // Check for connected / errors
+            FD_SET(cur->socket, efds);
+            FD_SET(cur->socket, wfds);
+            if (cur->socket > max)
+                max = cur->socket;
+        }
+        else if (cur->state == TCP_ESTABLISHED ||
+                 cur->state == TCP_SYN_RECV ||
+                 cur->state == TCP_CLOSE_WAIT) {
+            // Check for data / errors
+            FD_SET(cur->socket, efds);
+            FD_SET(cur->socket, rfds);
+            if (cur->socket > max)
+                max = cur->socket;
         }
 
         last = cur;
         cur = cur->next;
     }
+
     return max;
 }
 
 int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
-    // Check tun exception
+    // Check tun error
     if (FD_ISSET(args->tun, efds)) {
         ng_log(ANDROID_LOG_ERROR, "tun exception");
         return -1; // over and out
@@ -337,10 +320,7 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
         ssize_t length = read(args->tun, buffer, MAXPKT);
         if (length < 0) {
             ng_log(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
-            if (errno == EINTR)
-                return 0;
-            else
-                return -1; // over and out
+            return (errno == EINTR ? 0 : -1);
         }
         else if (length > 0) {
             // Write pcap record
@@ -370,10 +350,12 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
             handle_ip(args, buffer, length);
         }
         else {
+            // tun eof
             ng_log(ANDROID_LOG_ERROR, "tun empty read");
-            return -1; // over and out
+            return -1;
         }
     }
+
     return 0;
 }
 
@@ -381,24 +363,18 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
     struct session *cur = session;
     while (cur != NULL) {
         if (FD_ISSET(cur->socket, efds)) {
-            // Socket exception
-            int serr;
+            // Socket error
+            int serr = 0;
             socklen_t optlen = sizeof(int);
             int err = getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen);
             if (err < 0)
                 ng_log(ANDROID_LOG_ERROR, "getsockopt lport %u error %d: %s",
                        cur->lport, errno, strerror(errno));
-            if (err < 0 || serr) {
+            else if (serr)
                 ng_log(ANDROID_LOG_ERROR, "lport %u SO_ERROR %d: %s",
                        cur->lport, serr, strerror(serr));
 
-                // Abort
-                if (err < 0 || (serr && serr != EINTR)) {
-                    if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, args->tun) < 0) // RST
-                        ng_log(ANDROID_LOG_ERROR, "write RST error %d: %s",
-                               errno, strerror((errno)));
-                }
-            }
+            write_rst(cur, args->tun);
         }
         else {
             // Assume socket okay
@@ -411,15 +387,7 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
                     ng_log(ANDROID_LOG_INFO, "Connected %s/%u lport %u",
                            dest, ntohs(cur->dest), cur->lport);
 
-                    // SYN+ACK
-                    if (write_tcp(cur, NULL, 0, 1, 1, 0, 0, args->tun) < 0) {
-                        ng_log(ANDROID_LOG_ERROR, "write SYN+ACK error %d: %s",
-                               errno, strerror((errno)));
-                        // Remote will retry
-                        cur->state = TCP_TIME_WAIT; // will close socket
-                        cur = cur->next;
-                        continue;
-                    } else {
+                    if (write_syn_ack(cur, args->tun) >= 0) {
                         cur->local_seq++; // local SYN
                         cur->remote_seq++; // remote SYN
                         cur->state = TCP_SYN_RECV;
@@ -440,47 +408,41 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
                         ng_log(ANDROID_LOG_ERROR, "recv lport %u error %d: %s",
                                cur->lport, errno, strerror(errno));
 
-                        if (errno != EINTR) {
-                            // RST
-                            if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, args->tun) < 0) {
-                                ng_log(ANDROID_LOG_ERROR, "write RST error %d: %s",
-                                       errno, strerror((errno)));
-                                // TODO
-                            }
-                        }
+                        if (errno != EINTR)
+                            write_rst(cur, args->tun);
                     }
                     else if (bytes == 0) {
-                        // Socket peer closed
+                        // Socket eof
+                        // TCP: application close
                         ng_log(ANDROID_LOG_DEBUG, "recv empty lport %u state %s",
                                cur->lport, strstate(cur->state));
 
-                        // FIN
-                        if (write_tcp(cur, NULL, 0, 0, 0, 1, 0, args->tun) < 0) {
-                            ng_log(ANDROID_LOG_ERROR, "write FIN lport %u error %d: %s",
-                                   cur->lport, errno, strerror((errno)));
-                            // TODO
-                        } else {
+                        if (write_fin(cur, args->tun) >= 0) {
+                            // Shutdown socket for reading
+                            if (shutdown(cur->socket, SHUT_RD))
+                                ng_log(ANDROID_LOG_ERROR, "shutdown RD error %d: %s",
+                                       errno, strerror(errno));
+
                             cur->local_seq++; // local FIN
+
                             if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
                                 cur->state = TCP_FIN_WAIT1;
                             else if (cur->state == TCP_CLOSE_WAIT)
                                 cur->state = TCP_LAST_ACK;
                             else
                                 ng_log(ANDROID_LOG_ERROR, "Unknown state %s", strstate(cur->state));
+
                             ng_log(ANDROID_LOG_DEBUG, "Half close state %s", strstate(cur->state));
                         }
                     } else {
-                        // Socket read
+                        // Socket read data
                         ng_log(ANDROID_LOG_DEBUG,
                                "recv lport %u bytes %d state %s",
                                cur->lport, bytes, strstate(cur->state));
 
-                        // data ACK
-                        if (write_tcp(cur, buffer, bytes, 0, 0, 0, 0, args->tun) < 0)
-                            ng_log(ANDROID_LOG_ERROR, "write ACK lport %u error %d: %s",
-                                   cur->lport, errno, strerror((errno)));
-                        else
-                            cur->local_seq += bytes; // received from socket
+                        // Forward to tun
+                        if (write_data(cur, buffer, bytes, args->tun) >= 0)
+                            cur->local_seq += bytes;
                     }
                 }
             }
@@ -683,7 +645,8 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
 
     if (cur == NULL) {
         if (tcphdr->syn) {
-            ng_log(ANDROID_LOG_INFO, "New session %s/%u uid %d", dest, ntohs(tcphdr->dest), uid);
+            ng_log(ANDROID_LOG_INFO, "New session %s/%u uid %d",
+                   dest, ntohs(tcphdr->dest), uid);
 
             // Register session
             struct session *syn = malloc(sizeof(struct session));
@@ -701,26 +664,20 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
             syn->next = NULL;
 
             // TODO handle SYN data?
-
-            // Build target address
-            struct sockaddr_in daddr;
-            memset(&daddr, 0, sizeof(struct sockaddr_in));
-            daddr.sin_family = AF_INET;
-            daddr.sin_port = tcphdr->dest;
-            daddr.sin_addr.s_addr = iphdr->daddr;
+            if (datalen)
+                ng_log(ANDROID_LOG_WARN, "SYN session %s/%u data %u",
+                       dest, ntohs(tcphdr->dest), datalen);
 
             // Open socket
-            syn->socket = open_socket(args, &daddr);
+            syn->socket = open_socket(syn, args);
             if (syn->socket < 0) {
                 syn->state = TCP_TIME_WAIT;
-                // Remote will retry
+                // Remote might retry
                 free(syn);
             }
             else {
                 syn->lport = get_local_port(syn->socket);
 
-                ng_log(ANDROID_LOG_DEBUG, "Connecting to %s/%u lport %u",
-                       dest, ntohs(tcphdr->dest), syn->lport);
                 if (last == NULL)
                     session = syn;
                 else
@@ -728,59 +685,55 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
             }
         }
         else {
-            ng_log(ANDROID_LOG_WARN, "Unknown session %s/%u", dest, ntohs(tcphdr->dest));
-            /*
+            ng_log(ANDROID_LOG_WARN, "Unknown session %s/%u uid %d",
+                   dest, ntohs(tcphdr->dest), uid);
+
             struct session rst;
             memset(&rst, 0, sizeof(struct session));
+            rst.remote_seq = ntohl(tcphdr->seq);
             rst.saddr = iphdr->saddr;
             rst.source = tcphdr->source;
             rst.daddr = iphdr->daddr;
             rst.dest = tcphdr->dest;
-
-            // RST
-            if (write_tcp(&rst, NULL, 0, 0, 0, 0, 1, args->tun) < 0) {
-                ng_log(ANDROID_LOG_ERROR, "write RST error %d: %s", errno, strerror((errno)));
-                // TODO
-            }
-            */
+            write_rst(&rst, args->tun);
         }
     }
     else {
+        // Session found
         int oldstate = cur->state;
         uint32_t oldlocal = cur->local_seq;
         uint32_t oldremote = cur->remote_seq;
 
         ng_log(ANDROID_LOG_DEBUG,
-               "Session lport %u state %s local %u remote %u",
-               cur->lport, strstate(cur->state),
+               "Session %s/%u lport %u state %s local %u remote %u",
+               dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
                cur->local_seq - cur->local_start,
                cur->remote_seq - cur->remote_start);
+
+        cur->time = time(NULL);
 
         // Do not change order of conditions
 
         if (tcphdr->rst) {
-            ng_log(ANDROID_LOG_INFO, "RST");
-            cur->time = time(NULL);
-            cur->state = TCP_TIME_WAIT; // will close socket
+            ng_log(ANDROID_LOG_INFO, "RST session %s/%u lport %u received",
+                   dest, ntohs(cur->dest), cur->lport);
+            cur->state = TCP_TIME_WAIT;
         }
 
         else if (tcphdr->syn) {
-            ng_log(ANDROID_LOG_DEBUG, "Repeated SYN");
-            // TODO
+            ng_log(ANDROID_LOG_WARN, "Repeated SYN session %s/%u lport %u",
+                   dest, ntohs(cur->dest), cur->lport);
+            // Note: perfect, ordered packet receive assumed
 
         } else if (tcphdr->fin /* ACK */) {
             if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
                 ntohl(tcphdr->seq) == cur->remote_seq) {
-                cur->time = time(NULL);
 
-                // Stop socket read
-                if (shutdown(cur->socket, SHUT_RD)) {
-                    ng_log(ANDROID_LOG_ERROR, "shutdown RD error %d: %s", errno, strerror(errno));
-                    // Socket could be closed by remote already
-                } else
-                    ng_log(ANDROID_LOG_DEBUG, "socket RD shutdown");
+                if (datalen)
+                    ng_log(ANDROID_LOG_WARN, "FIN session %s/%u lport %u data %u",
+                           dest, ntohs(cur->dest), cur->lport, datalen);
 
-                // Write data
+                // Forward last data to socket
                 int ok = 1;
                 if (tcphdr->ack && datalen) {
                     ng_log(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
@@ -789,25 +742,19 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
                     if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
                         ng_log(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
                         ok = 0;
-                    } else {
-                        // Stop socket write
-                        if (shutdown(cur->socket, SHUT_WR)) {
-                            ng_log(ANDROID_LOG_ERROR, "shutdown WR error %d: %s",
-                                   errno, strerror(errno));
-                            ok = 0;
-                            // Data might be lost
-                        }
-                        else
-                            ng_log(ANDROID_LOG_DEBUG, "socket WR shutdown");
                     }
                 }
 
+                // Shutdown socket for writing
+                if (shutdown(cur->socket, SHUT_WR)) {
+                    ng_log(ANDROID_LOG_ERROR, "shutdown WR error %d: %s",
+                           errno, strerror(errno));
+                    ok = 0;
+                    // Data might be lost
+                }
+
                 if (ok) {
-                    // ACK
-                    if (write_tcp(cur, NULL, 0, 1 + datalen, 0, 0, 0, args->tun) < 0)
-                        ng_log(ANDROID_LOG_ERROR, "write ACK error %d: %s",
-                               errno, strerror((errno)));
-                    else {
+                    if (write_ack(cur, 1 + datalen, args->tun) >= 0) {
                         cur->remote_seq += (1 + datalen); // FIN + received from tun
                         if (cur->state == TCP_ESTABLISHED /* && !tcphdr->ack */)
                             cur->state = TCP_CLOSE_WAIT;
@@ -818,28 +765,32 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
                         else if (cur->state == TCP_FIN_WAIT2 /* && !tcphdr->ack */)
                             cur->state = TCP_TIME_WAIT;
                         else
-                            ng_log(ANDROID_LOG_ERROR, "Invalid FIN state %s ACK %d",
+                            ng_log(ANDROID_LOG_ERROR,
+                                   "Invalid FIN session %s/%u lport %u state %s ACK %d",
+                                   dest, ntohs(cur->dest), cur->lport,
                                    strstate(cur->state), tcphdr->ack);
                     }
                 } else {
-                    // TODO
+                    // Not OK
+                    write_rst(cur, args->tun);
                 }
             }
             else {
+                // Special case or hack if you like
+
                 // TODO proper wrap around
                 if (cur->state == TCP_FIN_WAIT1 &&
                     ntohl(tcphdr->seq) == cur->remote_seq &&
                     ntohl(tcphdr->ack_seq) < cur->local_seq) {
                     int confirm = cur->local_seq - ntohl(tcphdr->ack_seq);
-                    ng_log(ANDROID_LOG_INFO, "Simultaneous close %d", confirm);
-
-                    if (write_tcp(cur, NULL, 0, confirm, 0, 0, 0, args->tun) < 0) // ACK
-                        ng_log(ANDROID_LOG_ERROR, "write ACK error %d: %s",
-                               errno, strerror((errno)));
+                    ng_log(ANDROID_LOG_INFO, "Simultaneous close %s/%u lport %u confirm %d",
+                           dest, ntohs(cur->dest), cur->lport, confirm);
+                    write_ack(cur, confirm, args->tun);
                 }
                 else
-                    ng_log(ANDROID_LOG_WARN, "Invalid FIN state %s seq %u/%u ack %u/%u",
-                           strstate(cur->state),
+                    ng_log(ANDROID_LOG_WARN,
+                           "Invalid FIN session %s/%u lport %u state %s seq %u/%u ack %u/%u",
+                           dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
                            ntohl(tcphdr->seq) - cur->remote_start,
                            cur->remote_seq - cur->remote_start,
                            ntohl(tcphdr->ack_seq) - cur->local_start,
@@ -849,12 +800,11 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
 
         else if (tcphdr->ack) {
             if (((uint32_t) ntohl(tcphdr->seq) + 1) == cur->remote_seq) {
-                ng_log(ANDROID_LOG_DEBUG, "Keep alive");
-                cur->time = time(NULL);
+                ng_log(ANDROID_LOG_INFO, "Keep alive session %s/%u lport %u",
+                       dest, ntohs(cur->dest), cur->lport);
 
             } else if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
                        ntohl(tcphdr->seq) == cur->remote_seq) {
-                cur->time = time(NULL);
 
                 if (cur->state == TCP_SYN_RECV) {
                     // TODO process data?
@@ -862,49 +812,50 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
                     cur->state = TCP_ESTABLISHED;
                 }
                 else if (cur->state == TCP_ESTABLISHED) {
-                    ng_log(ANDROID_LOG_DEBUG, "New ack data %u", datalen);
+                    ng_log(ANDROID_LOG_DEBUG, "New ACK session %s/%u lport %u data %u",
+                           dest, ntohs(cur->dest), cur->lport, datalen);
 
-                    // Forward data
+                    // Forward data to socket
                     if (datalen) {
                         ng_log(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
                         // TODO non blocking
                         if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
                             ng_log(ANDROID_LOG_ERROR, "send error %d: %s",
                                    errno, strerror(errno));
-                            // TODO
-                            // Remote will retry
+                            write_rst(cur, args->tun);
                         } else {
-                            if (write_tcp(cur, NULL, 0, datalen, 0, 0, 0, args->tun) < 0) // ACK
-                                ng_log(ANDROID_LOG_ERROR, "write data error %d: %s",
-                                       errno, strerror((errno)));
-                            else
-                                cur->remote_seq += datalen; // received from tun
+                            if (write_ack(cur, datalen, args->tun) >= 0)
+                                cur->remote_seq += datalen;
                         }
                     }
                 }
                 else if (cur->state == TCP_LAST_ACK) {
                     // socket has been shutdown already
-                    cur->state = TCP_TIME_WAIT; // Will close socket
+                    cur->state = TCP_TIME_WAIT;
                 }
                 else if (cur->state == TCP_FIN_WAIT1)
                     cur->state = TCP_FIN_WAIT2;
                 else if (cur->state == TCP_CLOSING)
                     cur->state = TCP_TIME_WAIT;
                 else
-                    ng_log(ANDROID_LOG_ERROR, "Invalid ACK state %s", strstate(cur->state));
+                    ng_log(ANDROID_LOG_ERROR, "Invalid ACK session %s/%u lport %u state %s",
+                           dest, ntohs(cur->dest), cur->lport, strstate(cur->state));
             }
             else {
                 // TODO proper wrap around
                 if (ntohl(tcphdr->seq) == cur->remote_seq &&
                     ntohl(tcphdr->ack_seq) < cur->local_seq)
-                    ng_log(ANDROID_LOG_INFO, "Previous ACK seq %u/%u ack %u/%u",
+                    ng_log(ANDROID_LOG_INFO,
+                           "Previous ACK session %s/%u lport %u seq %u/%u ack %u/%u",
+                           dest, ntohs(cur->dest), cur->lport,
                            ntohl(tcphdr->seq) - cur->remote_start,
                            cur->remote_seq - cur->remote_start,
                            ntohl(tcphdr->ack_seq) - cur->local_start,
                            cur->local_seq - cur->local_start);
                 else
-                    ng_log(ANDROID_LOG_WARN, "Invalid ACK state %s seq %u/%u ack %u/%u",
-                           strstate(cur->state),
+                    ng_log(ANDROID_LOG_WARN,
+                           "Invalid ACK session %s/%u lport %u state %s seq %u/%u ack %u/%u",
+                           dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
                            ntohl(tcphdr->seq) - cur->remote_start,
                            cur->remote_seq - cur->remote_start,
                            ntohl(tcphdr->ack_seq) - cur->local_start,
@@ -913,10 +864,11 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
         }
 
         else
-            ng_log(ANDROID_LOG_ERROR, "Unknown packet");
+            ng_log(ANDROID_LOG_ERROR, "Unknown packet session %s/%u lport %u",
+                   dest, ntohs(cur->dest), cur->lport);
 
         if (cur->state != oldstate || cur->local_seq != oldlocal || cur->remote_seq != oldremote)
-            ng_log(ANDROID_LOG_DEBUG,
+            ng_log(ANDROID_LOG_INFO,
                    "Session lport %u new state %s local %u remote %u",
                    cur->lport, strstate(cur->state),
                    cur->local_seq - cur->local_start,
@@ -924,8 +876,15 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
     }
 }
 
-int open_socket(const struct arguments *args, const struct sockaddr_in *daddr) {
+int open_socket(const struct session *cur, const struct arguments *args) {
     int sock = -1;
+
+    // Build target address
+    struct sockaddr_in daddr;
+    memset(&daddr, 0, sizeof(struct sockaddr_in));
+    daddr.sin_family = AF_INET;
+    daddr.sin_port = cur->dest;
+    daddr.sin_addr.s_addr = cur->daddr;
 
     // Get TCP socket
     // TODO socket options (SO_REUSEADDR, etc)
@@ -964,7 +923,7 @@ int open_socket(const struct arguments *args, const struct sockaddr_in *daddr) {
     }
 
     // Initiate connect
-    int err = connect(sock, daddr, sizeof(struct sockaddr_in));
+    int err = connect(sock, &daddr, sizeof(struct sockaddr_in));
     if (err < 0 && errno != EINPROGRESS) {
         ng_log(ANDROID_LOG_ERROR, "connect error %d: %s", errno, strerror(errno));
         return -1;
@@ -989,7 +948,53 @@ int get_local_port(const int sock) {
         return ntohs(sin.sin_port);
 }
 
-// TODO specialized writes
+int write_syn_ack(struct session *cur, int tun) {
+    if (write_tcp(cur, NULL, 0, 1, 1, 0, 0, tun) < 0) {
+        ng_log(ANDROID_LOG_ERROR, "write SYN+ACK error %d: %s",
+               errno, strerror((errno)));
+        cur->state = TCP_TIME_WAIT;
+        return -1;
+    }
+    return 0;
+}
+
+int write_ack(struct session *cur, int bytes, int tun) {
+    if (write_tcp(cur, NULL, 0, bytes, 0, 0, 0, tun) < 0) {
+        ng_log(ANDROID_LOG_ERROR, "write ACK error %d: %s",
+               errno, strerror((errno)));
+        cur->state = TCP_TIME_WAIT;
+        return -1;
+    }
+    return 0;
+}
+
+int write_data(struct session *cur, const uint8_t *buffer, uint16_t length, int tun) {
+    if (write_tcp(cur, buffer, length, 0, 0, 0, 0, tun) < 0) {
+        ng_log(ANDROID_LOG_ERROR, "write data ACK lport %u error %d: %s",
+               cur->lport, errno, strerror((errno)));
+        cur->state = TCP_TIME_WAIT;
+    }
+
+}
+
+int write_fin(struct session *cur, int tun) {
+    if (write_tcp(cur, NULL, 0, 0, 0, 1, 0, tun) < 0) {
+        ng_log(ANDROID_LOG_ERROR,
+               "write FIN lport %u error %d: %s",
+               cur->lport, errno, strerror((errno)));
+        cur->state = TCP_TIME_WAIT;
+        return -1;
+    }
+    return 0;
+}
+
+void write_rst(struct session *cur, int tun) {
+    ng_log(ANDROID_LOG_ERROR, "Sending RST");
+    if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, tun) < 0)
+        ng_log(ANDROID_LOG_ERROR, "write RST error %d: %s",
+               errno, strerror((errno)));
+    cur->state = TCP_TIME_WAIT;
+}
 
 int write_tcp(const struct session *cur,
               uint8_t *data, uint16_t datalen, uint16_t confirm,
