@@ -548,11 +548,13 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
         saddr = &ip4hdr->saddr;
         daddr = &ip4hdr->daddr;
 
-        if (ip4hdr->frag_off & IP_MF)
+        if (ip4hdr->frag_off & IP_MF) {
+            log_android(ANDROID_LOG_ERROR, "IP fragment");
             flags[flen++] = '+';
+        }
 
-        uint8_t optlen = (ip4hdr->ihl - 5) * 4;
-        payload = buffer + 20 + optlen;
+        uint8_t ipoptlen = (ip4hdr->ihl - 5) * 4;
+        payload = buffer + sizeof(struct iphdr) + ipoptlen;
 
         if (ntohs(ip4hdr->tot_len) != length) {
             log_android(ANDROID_LOG_ERROR, "Invalid length %u header length %u",
@@ -682,13 +684,16 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
 
     // Get headers
     struct iphdr *iphdr = buffer;
-    uint8_t optlen = (iphdr->ihl - 5) * 4;
-    struct tcphdr *tcphdr = buffer + sizeof(struct iphdr) + optlen;
-    if (optlen)
-        log_android(ANDROID_LOG_INFO, "optlen %d", optlen);
+    uint8_t ipoptlen = (iphdr->ihl - 5) * 4;
+    struct tcphdr *tcphdr = buffer + sizeof(struct iphdr) + ipoptlen;
+    uint8_t tcpoptlen = (tcphdr->doff - 5) * 4;
+    if (tcpoptlen) {
+        // TODO handle TCP options
+        log_android(ANDROID_LOG_INFO, "optlen %d", tcpoptlen);
+    }
 
     // Get data
-    uint16_t dataoff = sizeof(struct iphdr) + optlen + sizeof(struct tcphdr);
+    uint16_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct tcphdr) + tcpoptlen;
     uint16_t datalen = length - dataoff;
 
     // Search session
@@ -1157,6 +1162,8 @@ int write_tcp(const struct session *cur,
                 ntohl(tcp->seq) - cur->local_start,
                 ntohl(tcp->ack_seq) - cur->remote_start,
                 datalen, confirm);
+
+    // TODO non blocking
     int res = write(tun, buffer, len);
 
 #ifdef PROFILE
