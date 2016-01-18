@@ -7,8 +7,8 @@
 #define TCPTIMEOUT 300 // seconds ~net.inet.tcp.keepidle
 #define TCPTTL 64
 #define TCPWINDOW 32768
-#define UIDDELAY 100 // milliseconds
-#define UIDTRIES 10
+#define UIDDELAY 10 // milliseconds
+#define UIDTRIES 3
 #define MAXPCAP 80
 
 struct arguments {

@@ -615,18 +615,30 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 
     // Get uid
     jint uid = -1;
-    if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
-        // Most likely in IPv6 table
-        int8_t saddr128[16];
-        memset(saddr128, 0, 10);
-        saddr128[10] = 0xFF;
-        saddr128[11] = 0xFF;
-        memcpy(saddr128 + 12, saddr, 4);
-        uid = get_uid(protocol, 6, saddr128, sport);
-        if (uid < 0 && version == 4) {
+    if ((protocol == IPPROTO_TCP && (syn || !native)) || protocol == IPPROTO_UDP) {
+        int tries = 0;
+        while (uid < 0 && tries++ < UIDTRIES) {
+            // Most likely in IPv6 table
+            int8_t saddr128[16];
+            memset(saddr128, 0, 10);
+            saddr128[10] = 0xFF;
+            saddr128[11] = 0xFF;
+            memcpy(saddr128 + 12, saddr, 4);
+            uid = get_uid(protocol, 6, saddr128, sport);
+
             // Fallback to IPv4 table
-            uid = get_uid(protocol, version, saddr, sport);
+            if (uid < 0 && version == 4)
+                uid = get_uid(protocol, version, saddr, sport);
+
+            // Retry delay
+            if (uid < 0 && tries < UIDTRIES) {
+                log_android(ANDROID_LOG_WARN, "get uid try %d", tries);
+                usleep(1000 * UIDDELAY);
+            }
         }
+
+        if (uid < 0)
+            log_android(ANDROID_LOG_WARN, "uid not found");
     }
 
     log_android(ANDROID_LOG_DEBUG,
@@ -1055,7 +1067,7 @@ int write_fin(struct session *cur, int tun) {
 }
 
 void write_rst(struct session *cur, int tun) {
-    log_android(ANDROID_LOG_ERROR, "Sending RST");
+    log_android(ANDROID_LOG_WARN, "Sending RST");
     if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, tun) < 0)
         log_android(ANDROID_LOG_ERROR, "write RST error %d: %s",
                     errno, strerror((errno)));
