@@ -112,9 +112,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
 
-    private native void jni_init(int loglevel, String pcap);
+    private native void jni_init(String pcap);
 
-    private native void jni_start(int tun);
+    private native void jni_start(int tun, int loglevel, boolean native_);
 
     private native void jni_stop(int tun, boolean clear);
 
@@ -247,7 +247,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             if (vpn == null)
                                 throw new IllegalStateException("VPN start failed");
                             if (prefs.getBoolean("log", false))
-                                jni_start(vpn.getFd());
+                                jni_start(vpn.getFd(), Log.INFO, prefs.getBoolean("native", false));
                             removeDisabledNotification();
                         }
                         break;
@@ -276,7 +276,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         }
                         jni_stop(vpn.getFd(), false);
                         if (prefs.getBoolean("log", false))
-                            jni_start(vpn.getFd());
+                            jni_start(vpn.getFd(), Log.INFO, prefs.getBoolean("native", false));
                         if (prev != null)
                             stopVPN(prev);
                         break;
@@ -858,8 +858,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         File pcap = new File(getCacheDir(), "netguard.pcap");
         if (pcap.exists())
             pcap.delete();
-        //jni_init(Log.INFO, pcap.getAbsolutePath());
-        jni_init(Log.INFO, null);
+        jni_init(pcap.getAbsolutePath());
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);

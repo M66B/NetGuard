@@ -124,8 +124,18 @@
         <Preference
             android:key="import"
             android:title="@string/setting_import" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_development"
+        android:title="Development">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="log"
+            android:key="native"
+            android:title="Native code" />
         <Preference
             android:key="pcap"
+            android:dependency="native"
             android:title="Export PCAP" />
     </PreferenceCategory>
     <PreferenceCategory

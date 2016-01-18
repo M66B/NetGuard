@@ -230,11 +230,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             options.removePreference(screen.findPreference("national_roaming"));
         }
 
-
-        //if (!Util.isDebuggable(this)) {
-        PreferenceCategory backup = (PreferenceCategory) screen.findPreference("category_backup");
-        backup.removePreference(screen.findPreference("pcap"));
-        //}
+        // Development
+        if (!Util.isDebuggable(this)) {
+            PreferenceCategory development = (PreferenceCategory) screen.findPreference("category_development");
+            screen.removePreference(development);
+        }
     }
 
     @Override
@@ -410,7 +410,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if ("stats_samples".equals(name)) {
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
-        }
+
+        } else if ("native".equals(name))
+            SinkholeService.reload(null, "setting changed", this);
     }
 
     @Override

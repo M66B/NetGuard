@@ -34,15 +34,14 @@ pthread_t thread_id;
 int signaled = 0;
 struct session *session = NULL;
 
-int loglevel = ANDROID_LOG_WARN;
 char *pcap_fn = NULL;
+int loglevel = ANDROID_LOG_WARN;
+int native = 0;
 
 // JNI
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance,
-                                                    jint loglevel_, jstring pcap_) {
-    loglevel = loglevel_;
+Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance, jstring pcap_) {
     if (pcap_ == NULL)
         pcap_fn = NULL;
     else {
@@ -65,14 +64,19 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instanc
         pcap_hdr.network = LINKTYPE_RAW;
         pcap_write(&pcap_hdr, sizeof(struct pcap_hdr_s));
 
+        // TODO limit pcap file size
+
         (*env)->ReleaseStringUTFChars(env, pcap_, pcap);
     }
 }
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instance,
-                                                     jint tun) {
-    ng_log(ANDROID_LOG_INFO, "Starting tun=%d", tun);
+                                                     jint tun, jint loglevel_, jboolean native_) {
+    loglevel = loglevel_;
+    native = native_;
+
+    ng_log(ANDROID_LOG_INFO, "Starting tun=%d level %d native %d", tun, loglevel, native);
 
     if (pthread_kill(thread_id, 0) == 0)
         ng_log(ANDROID_LOG_WARN, "Already running thread %ld", thread_id);
@@ -340,7 +344,7 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
         }
         else if (length > 0) {
             // Write pcap record
-            if (pcap_fn != NULL) {
+            if (native && pcap_fn != NULL) {
                 struct timespec ts;
                 if (clock_gettime(CLOCK_REALTIME, &ts))
                     ng_log(ANDROID_LOG_ERROR, "clock_gettime error %d: %s",
@@ -603,14 +607,13 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
            "Packet v%d %s/%u -> %s/%u proto %d flags %s uid %d",
            version, source, sport, dest, dport, protocol, flags, uid);
 
-    //if (protocol == IPPROTO_TCP)
-    //    handle_tcp(env, instance, args, buffer, length, uid);
+    if (protocol == IPPROTO_TCP && native)
+        handle_tcp(args, buffer, length, uid);
 
     // Call back
-    //if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
     JNIEnv *env = args->env;
     jobject instance = args->instance;
-    if (protocol == IPPROTO_TCP || protocol == IPPROTO_UDP) {
+    if ((protocol == IPPROTO_TCP && (syn || !native)) || protocol == IPPROTO_UDP) {
         jclass cls = (*env)->GetObjectClass(env, instance);
         jmethodID mid = (*env)->GetMethodID(
                 env, cls, "logPacket",
@@ -1063,7 +1066,7 @@ int write_tcp(const struct session *cur,
     int res = write(tun, buffer, len);
 
     // Write pcap record
-    if (pcap_fn != NULL) {
+    if (native && pcap_fn != NULL) {
         struct timespec ts;
         if (clock_gettime(CLOCK_REALTIME, &ts))
             ng_log(ANDROID_LOG_ERROR, "clock_gettime error %d: %s", errno, strerror(errno));
