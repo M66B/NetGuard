@@ -112,13 +112,19 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
 
-    private native void jni_init(String pcap);
+    private native void jni_init();
 
     private native void jni_start(int tun, int loglevel, boolean native_);
 
     private native void jni_stop(int tun, boolean clear);
 
     private native void jni_done();
+
+    private static native void jni_pcap(String name);
+
+    public static void setPcap(String name) {
+        jni_pcap(name);
+    }
 
     static {
         System.loadLibrary("netguard");
@@ -674,8 +680,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setConfigureIntent(pi);
 
-        builder.setBlocking(true);
-
         // Start VPN service
         try {
             return builder.establish();
@@ -858,10 +862,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     public void onCreate() {
         Log.i(TAG, "Create");
 
-        File pcap = new File(getCacheDir(), "netguard.pcap");
-        if (pcap.exists())
-            pcap.delete();
-        jni_init(pcap.getAbsolutePath());
+        jni_init();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);

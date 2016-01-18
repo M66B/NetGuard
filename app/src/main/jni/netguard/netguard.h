@@ -60,7 +60,7 @@ typedef struct pcaprec_hdr_s {
 
 #define LINKTYPE_RAW 101
 
-void sig_handler(int sig, siginfo_t *info, void *context);
+void handle_signal(int sig, siginfo_t *info, void *context);
 
 void handle_events(void *a);
 
@@ -78,6 +78,8 @@ int open_socket(const struct session *cur, const struct arguments *args);
 
 int get_local_port(const int sock);
 
+ssize_t send_socket(int sock, uint8_t *buffer, uint16_t len);
+
 int write_syn_ack(struct session *cur, int tun);
 
 int write_ack(struct session *cur, int bytes, int tun);
@@ -94,12 +96,18 @@ int write_tcp(const struct session *cur,
 
 jint get_uid(const int protocol, const int version, const void *saddr, const uint16_t sport);
 
-uint16_t checksum(uint8_t *buffer, uint16_t length);
+uint16_t calc_checksum(uint8_t *buffer, uint16_t length);
 
-void ng_log(int prio, const char *fmt, ...);
+void log_android(int prio, const char *fmt, ...);
+
+void log_java(const struct arguments *args, uint8_t version,
+              const char *source, uint16_t sport,
+              const char *dest, uint16_t dport,
+              uint8_t protocol, const char *flags,
+              jint uid, jboolean allowed);
+
+void write_pcap(const void *ptr, size_t len);
 
 const char *strstate(const int state);
 
 char *hex(const u_int8_t *data, const u_int16_t len);
-
-void pcap_write(const void *ptr, size_t len);

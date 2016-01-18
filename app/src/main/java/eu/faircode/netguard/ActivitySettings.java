@@ -173,7 +173,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         });
 
         // Handle pcap export
-        Preference pref_pcap = screen.findPreference("pcap");
+        Preference pref_pcap = screen.findPreference("pcap_export");
         pref_pcap.setEnabled(getIntentPCAPDocument().resolveActivity(getPackageManager()) != null);
         pref_pcap.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -413,6 +413,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if ("native".equals(name))
             SinkholeService.reload(null, "setting changed", this);
+
+        else if ("pcap_enabled".equals(name)) {
+            if (prefs.getBoolean(name, false)) {
+                File pcap = new File(getCacheDir(), "netguard.pcap");
+                if (pcap.exists())
+                    pcap.delete();
+                SinkholeService.setPcap(pcap.getAbsolutePath());
+            } else
+                SinkholeService.setPcap(null);
+        }
     }
 
     @Override

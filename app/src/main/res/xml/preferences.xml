@@ -133,9 +133,14 @@
             android:dependency="log"
             android:key="native"
             android:title="Native code" />
-        <Preference
-            android:key="pcap"
+        <SwitchPreference
+            android:defaultValue="false"
             android:dependency="native"
+            android:key="pcap_enabled"
+            android:title="PCAP" />
+        <Preference
+            android:dependency="pcap_enabled"
+            android:key="pcap_export"
             android:title="Export PCAP" />
     </PreferenceCategory>
     <PreferenceCategory
