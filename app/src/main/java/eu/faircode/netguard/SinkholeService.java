@@ -607,6 +607,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean roaming = Util.isRoaming(SinkholeService.this);
         boolean national = prefs.getBoolean("national_roaming", false);
         boolean telephony = Util.hasTelephony(this);
+        boolean native_ = prefs.getBoolean("native", false);
 
         // Update connected state
         last_connected = Util.isConnected(SinkholeService.this);
@@ -652,7 +653,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         // Add list of allowed applications
         int nAllowed = 0;
         int nBlocked = 0;
-        if (last_connected)
+        if (last_connected && !native_)
             for (Rule rule : Rule.getRules(true, TAG, this)) {
                 boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
                 boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
