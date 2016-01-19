@@ -108,10 +108,10 @@ uint16_t calc_checksum(uint8_t *buffer, uint16_t length);
 
 void log_android(int prio, const char *fmt, ...);
 
-void log_java(const struct arguments *args, uint8_t version,
-              const char *source, uint16_t sport,
-              const char *dest, uint16_t dport,
-              uint8_t protocol, const char *flags,
+void log_java(const struct arguments *args, jint version,
+              const char *source, jint sport,
+              const char *dest, jint dport,
+              jint protocol, const char *flags,
               jint uid, jboolean allowed);
 
 void write_pcap(const void *ptr, size_t len);

@@ -100,7 +100,7 @@ public class LogAdapter extends CursorAdapter {
         else
             tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
 
-        tvPort.setText(port <= 0 ? "" : Integer.toString(port));
+        tvPort.setText(port < 0 ? "" : Integer.toString(port));
         tvFlags.setText(flags);
 
         // Application icon

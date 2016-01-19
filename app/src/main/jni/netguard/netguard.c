@@ -600,8 +600,8 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 
     // Get ports & flags
     int syn = 0;
-    uint16_t sport = 0;
-    uint16_t dport = 0;
+    int32_t sport = -1;
+    int32_t dport = -1;
     if (protocol == IPPROTO_TCP) {
         struct tcphdr *tcp = payload;
 
@@ -684,6 +684,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
             }
     }
 
+    // Handle allowed traffic
     if (allowed) {
         if (protocol == IPPROTO_TCP)
             allowed = handle_tcp(args, buffer, length, uid);
@@ -691,6 +692,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
             allowed = 0;
     }
 
+    // Log traffic
     if (args->log) {
         if (!args->filter || syn)
             log_java(args, version, source, sport, dest, dport, protocol, flags, uid, allowed);
@@ -1352,10 +1354,10 @@ void log_android(int prio, const char *fmt, ...) {
 }
 
 void log_java(
-        const struct arguments *args, uint8_t version,
-        const char *source, uint16_t sport,
-        const char *dest, uint16_t dport,
-        uint8_t protocol, const char *flags,
+        const struct arguments *args, jint version,
+        const char *source, jint sport,
+        const char *dest, jint dport,
+        jint protocol, const char *flags,
         jint uid, jboolean allowed) {
 #ifdef PROFILE
     float mselapsed;
