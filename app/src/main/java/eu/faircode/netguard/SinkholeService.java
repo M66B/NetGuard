@@ -607,6 +607,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean roaming = Util.isRoaming(SinkholeService.this);
         boolean national = prefs.getBoolean("national_roaming", false);
         boolean telephony = Util.hasTelephony(this);
+        boolean tethering = prefs.getBoolean("tethering", false);
         boolean native_ = prefs.getBoolean("native", false);
 
         // Update connected state
@@ -647,7 +648,24 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         // TODO: make tunnel parameters configurable
         builder.addAddress("10.1.10.1", 32);
         builder.addAddress("fd00:1:fd00:1:fd00:1:fd00:1", 64);
-        builder.addRoute("0.0.0.0", 0);
+
+        if (tethering) {
+            // USB Tethering 192.168.42.x
+            // Wi-Fi Tethering 192.168.43.x
+            for (int r = 1; r <= 255; r++)
+                if (r == 192) {
+                    for (int s = 1; s <= 255; s++)
+                        if (s == 168) {
+                            for (int t = 1; t <= 255; t++)
+                                if (t != 42 && t != 43)
+                                    builder.addRoute(r + "." + s + "." + t + ".0", 24);
+                        } else
+                            builder.addRoute(r + "." + s + ".0.0", 16);
+                } else if (r != 127)
+                    builder.addRoute(r + ".0.0.0", 8);
+        } else
+            builder.addRoute("0.0.0.0", 0);
+
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
         // Add list of allowed applications

@@ -349,7 +349,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             prefs.edit().putBoolean("show_system", manage).apply();
             SinkholeService.reload(null, "setting changed", this);
 
-        } else if ("log".equals(name)) {
+        } else if ("tethering".equals(name))
+            SinkholeService.reload(null, "setting changed", this);
+
+        else if ("log".equals(name)) {
             if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_LOG, this)) {
                 prefs.edit().putBoolean(name, false).apply();
                 ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
