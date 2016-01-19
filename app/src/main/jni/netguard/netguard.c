@@ -675,8 +675,8 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 #endif
 
     // Check if allowed
-    jboolean allowed = 0;
-    if (args->filter && uid >= 0) {
+    jboolean allowed = !syn;
+    if (syn && args->filter && uid >= 0) {
         for (int i = 0; i < args->count; i++)
             if (args->uid[i] == uid) {
                 allowed = 1;
