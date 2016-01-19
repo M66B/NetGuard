@@ -77,7 +77,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 
 void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
 
-int open_socket(const struct session *cur, const struct arguments *args);
+int open_tcp(const struct session *cur, const struct arguments *args);
 
 int get_local_port(const int sock);
 

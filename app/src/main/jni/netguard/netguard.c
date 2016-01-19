@@ -731,7 +731,7 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
                             dest, ntohs(tcphdr->dest), datalen);
 
             // Open socket
-            syn->socket = open_socket(syn, args);
+            syn->socket = open_tcp(syn, args);
             if (syn->socket < 0) {
                 syn->state = TCP_TIME_WAIT;
                 // Remote might retry
@@ -946,7 +946,7 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
     }
 }
 
-int open_socket(const struct session *cur, const struct arguments *args) {
+int open_tcp(const struct session *cur, const struct arguments *args) {
     int sock = -1;
 
     // Build target address
