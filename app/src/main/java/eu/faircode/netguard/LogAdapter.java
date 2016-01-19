@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 
 public class LogAdapter extends CursorAdapter {
@@ -72,7 +75,7 @@ public class LogAdapter extends CursorAdapter {
         TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
         ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
-        TextView tvIP = (TextView) view.findViewById(R.id.tvIP);
+        final TextView tvIP = (TextView) view.findViewById(R.id.tvIP);
 
         // Set values
         tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
@@ -138,5 +141,22 @@ public class LogAdapter extends CursorAdapter {
         // tvUid.setText("18888");
 
         tvIP.setText(whois);
+
+        new AsyncTask<String, Object, String>() {
+            @Override
+            protected String doInBackground(String... args) {
+                try {
+                    // This requires internet permission
+                    return InetAddress.getByName(args[0]).getHostName();
+                } catch (UnknownHostException ignored) {
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String host) {
+                tvIP.setText(host);
+            }
+        }.execute(whois);
     }
 }
