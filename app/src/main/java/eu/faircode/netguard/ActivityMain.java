@@ -678,7 +678,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         dialogAbout.show();
     }
 
-
     private static Intent getIntentInvite(Context context) {
         Intent intent = new Intent("com.google.android.gms.appinvite.ACTION_APP_INVITE");
         intent.setPackage("com.google.android.gms");

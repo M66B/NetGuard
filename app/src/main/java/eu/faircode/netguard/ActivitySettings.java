@@ -21,8 +21,10 @@ package eu.faircode.netguard;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -49,6 +51,8 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import org.xml.sax.Attributes;
@@ -344,6 +348,22 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("filter".equals(name)) {
             // TODO pro feature
             SinkholeService.reload(null, "setting changed", this);
+
+            // Show dialog
+            if (prefs.getBoolean(name, false)) {
+                LayoutInflater inflater = LayoutInflater.from(ActivitySettings.this);
+                View view = inflater.inflate(R.layout.filter, null);
+                new AlertDialog.Builder(ActivitySettings.this)
+                        .setView(view)
+                        .setCancelable(false)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing
+                            }
+                        })
+                        .create().show();
+            }
 
         } else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
