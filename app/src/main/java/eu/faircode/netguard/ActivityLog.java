@@ -28,14 +28,18 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -47,6 +51,7 @@ public class ActivityLog extends AppCompatActivity {
     private LogAdapter adapter;
     private DatabaseHelper dh;
     private boolean live;
+    private MenuItem menuSearch = null;
 
     private DatabaseHelper.LogChangedListener listener = new DatabaseHelper.LogChangedListener() {
         @Override
@@ -76,6 +81,13 @@ public class ActivityLog extends AppCompatActivity {
 
         adapter = new LogAdapter(this, dh.getLog());
         lvLog.setAdapter(adapter);
+        adapter.setFilterQueryProvider(new FilterQueryProvider() {
+
+            public Cursor runQuery(CharSequence constraint) {
+                return dh.getLog(constraint.toString());
+            }
+
+        });
 
         lvLog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -151,6 +163,36 @@ public class ActivityLog extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.log, menu);
+
+        menuSearch = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (adapter != null) {
+                    adapter.getFilter().filter(query);
+                    adapter.notifyDataSetChanged();
+                }
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (adapter != null)
+                    adapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if (adapter != null)
+                    adapter.getFilter().filter(null);
+                return true;
+            }
+        });
+
         return true;
     }
 

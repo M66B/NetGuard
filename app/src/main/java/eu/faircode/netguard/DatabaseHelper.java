@@ -156,6 +156,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{});
     }
 
+    public Cursor getLog(String filter) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT ID AS _id, * FROM log";
+        query += " WHERE ip like ?";
+        query += " ORDER BY time DESC";
+
+        return db.rawQuery(query, new String[]{"%" + filter + "%"});
+    }
+
     public static void addLogChangedListener(LogChangedListener listener) {
         logChangedListeners.add(listener);
     }
