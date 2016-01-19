@@ -78,7 +78,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
     // Set blocking
     uint8_t flags = fcntl(tun, F_GETFL, 0);
     if (flags < 0 || fcntl(tun, F_SETFL, flags & ~O_NONBLOCK) < 0)
-        log_android(ANDROID_LOG_ERROR, "fcntl tun ~O_NONBLOCK error %d: %s", errno, strerror(errno));
+        log_android(ANDROID_LOG_ERROR, "fcntl tun ~O_NONBLOCK error %d: %s",
+                    errno, strerror(errno));
 
     if (pthread_kill(thread_id, 0) == 0)
         log_android(ANDROID_LOG_WARN, "Already running thread %lu", thread_id);
@@ -623,11 +624,11 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
             saddr128[10] = 0xFF;
             saddr128[11] = 0xFF;
             memcpy(saddr128 + 12, saddr, 4);
-            uid = get_uid(protocol, 6, saddr128, sport);
+            uid = get_uid(protocol, 6, saddr128, sport, tries == UID_MAXTRY);
 
             // Fallback to IPv4 table
             if (uid < 0 && version == 4)
-                uid = get_uid(protocol, version, saddr, sport);
+                uid = get_uid(protocol, version, saddr, sport, tries == UID_MAXTRY);
 
             // Retry delay
             if (uid < 0 && tries < UID_MAXTRY) {
@@ -637,7 +638,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
         }
 
         if (uid < 0)
-            log_android(ANDROID_LOG_WARN, "uid not found");
+            log_android(ANDROID_LOG_ERROR, "uid not found");
     }
 
     log_android(ANDROID_LOG_DEBUG,
@@ -1001,7 +1002,8 @@ int open_socket(const struct session *cur, const struct arguments *args) {
 
     // Set blocking
     if (fcntl(sock, F_SETFL, flags & ~O_NONBLOCK) < 0) {
-        log_android(ANDROID_LOG_ERROR, "fcntl socket ~O_NONBLOCK error %d: %s", errno, strerror(errno));
+        log_android(ANDROID_LOG_ERROR, "fcntl socket ~O_NONBLOCK error %d: %s",
+                    errno, strerror(errno));
         return -1;
     }
 
@@ -1173,11 +1175,26 @@ int write_tcp(const struct session *cur,
     return res;
 }
 
-jint get_uid(const int protocol, const int version, const void *saddr, const uint16_t sport) {
+uint8_t char2nible(const char c) {
+    if (c >= '0' && c <= '9') return (c - '0');
+    if (c >= 'a' && c <= 'f') return (c - 'a') + 10;
+    if (c >= 'A' && c <= 'F') return (c - 'A') + 10;
+    return 255;
+}
+
+void hex2bytes(const char *hex, uint8_t *buffer) {
+    int len = strlen(hex);
+    for (int i = 0; i < len; i += 2)
+        buffer[i / 2] = (char2nible(hex[i]) << 4) | char2nible(hex[i + 1]);
+}
+
+jint get_uid(const int protocol, const int version,
+             const void *saddr, const uint16_t sport, int dump) {
     char line[250];
+    char hex[16 * 2 + 1];
     int fields;
-    int32_t addr32;
-    int8_t addr128[16];
+    uint8_t addr4[4];
+    uint8_t addr6[16];
     uint16_t port;
     jint uid = -1;
 
@@ -1196,6 +1213,12 @@ jint get_uid(const int protocol, const int version, const void *saddr, const uin
     else
         return uid;
 
+    if (dump) {
+        char source[40];
+        inet_ntop(version == 4 ? AF_INET : AF_INET6, saddr, source, sizeof(source));
+        log_android(ANDROID_LOG_INFO, "Searching %s/%u in %s", source, sport, fn);
+    }
+
     // Open proc file
     FILE *fd = fopen(fn, "r");
     if (fd == NULL) {
@@ -1211,27 +1234,32 @@ jint get_uid(const int protocol, const int version, const void *saddr, const uin
             if (version == 4)
                 fields = sscanf(
                         line,
-                        "%*d: %X:%X %*X:%*X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld ",
-                        &addr32, &port, &u);
+                        "%*d: %8s:%X %*X:%*X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld",
+                        hex, &port, &u);
             else
                 fields = sscanf(
                         line,
-                        "%*d: %8X%8X%8X%8X:%X %*X:%*X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld ",
-                        addr128, addr128 + 4, addr128 + 8, addr128 + 12, &port, &u);
+                        "%*d: %32s:%X %*X:%*X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld",
+                        hex, &port, &u);
+            if (fields == 3) {
+                hex2bytes(hex, version == 4 ? addr4 : addr6);
+                if (version == 4)
+                    ((uint32_t *) addr4)[0] = htonl(((uint32_t *) addr4)[0]);
+                for (int w = 0; w < 4; w++)
+                    ((uint32_t *) addr6)[w] = htonl(((uint32_t *) addr6)[w]);
 
-            if (fields == (version == 4 ? 3 : 6)) {
+                if (dump) {
+                    char source[40];
+                    inet_ntop(version == 4 ? AF_INET : AF_INET6,
+                              version == 4 ? addr4 : addr6,
+                              source, sizeof(source));
+                    log_android(ANDROID_LOG_INFO, "%s/%u %d", source, sport, u);
+                }
+
                 if (port == sport) {
-                    if (version == 4) {
-                        if (addr32 == *((int32_t *) saddr)) {
-                            uid = u;
-                            break;
-                        }
-                    }
-                    else {
-                        if (memcmp(addr128, saddr, (size_t) 16) == 0) {
-                            uid = u;
-                            break;
-                        }
+                    if (memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) == 0) {
+                        uid = u;
+                        break;
                     }
                 }
             } else
