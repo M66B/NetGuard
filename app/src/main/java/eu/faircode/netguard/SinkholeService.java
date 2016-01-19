@@ -658,11 +658,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         if (s == 168) {
                             for (int t = 1; t <= 255; t++)
                                 if (t != 42 && t != 43)
-                                    builder.addRoute(r + "." + s + "." + t + ".0", 24);
+                                    builder.addRoute(String.format("%d.%d.%d.0", r, s, t), 24);
                         } else
-                            builder.addRoute(r + "." + s + ".0.0", 16);
+                            builder.addRoute(String.format("%d.%d.0.0", r, s), 16);
                 } else if (r != 127)
-                    builder.addRoute(r + ".0.0.0", 8);
+                    builder.addRoute(String.format("%d.0.0.0", r), 8);
         } else
             builder.addRoute("0.0.0.0", 0);
 
