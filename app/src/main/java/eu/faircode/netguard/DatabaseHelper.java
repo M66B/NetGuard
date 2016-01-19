@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
 
     private static List<LogChangedListener> logChangedListeners = new ArrayList<LogChangedListener>();
 
@@ -45,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", uid INTEGER NULL" +
                 ", connection INTEGER NULL" +
                 ", interactive INTEGER NULL" +
+                ", allowed INTEGER NULL" +
                 ");");
         db.execSQL("CREATE INDEX idx_log_time ON log(time)");
     }
@@ -74,6 +74,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("ALTER TABLE log ADD COLUMN interactive INTEGER NULL");
                 oldVersion = 5;
             }
+            if (oldVersion < 6) {
+                db.execSQL("ALTER TABLE log ADD COLUMN allowed INTEGER NULL");
+                oldVersion = 6;
+            }
 
             db.setVersion(DB_VERSION);
 
@@ -89,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper insertLog(
             int version, String ip, int protocol, int port, String flags,
-            int uid, int connection, boolean interactive) {
+            int uid, int connection, boolean interactive, boolean allowed) {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
@@ -117,6 +121,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             cv.put("connection", connection);
             cv.put("interactive", interactive ? 1 : 0);
+            cv.put("allowed", allowed ? 1 : 0);
 
             if (db.insert("log", null, cv) == -1)
                 Log.e(TAG, "Insert log failed");

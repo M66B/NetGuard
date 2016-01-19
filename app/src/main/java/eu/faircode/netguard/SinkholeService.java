@@ -114,7 +114,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init();
 
-    private native void jni_start(int tun, boolean log, boolean filter, int loglevel);
+    private native void jni_start(int tun, int[] uid, boolean log, boolean filter, int loglevel);
 
     private native void jni_stop(int tun, boolean clear);
 
@@ -252,15 +252,25 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             state = State.enforcing;
                             Log.d(TAG, "Start foreground state=" + state.toString());
 
-                            vpn = startVPN();
+                            List<Rule> listRule = Rule.getRules(true, TAG, SinkholeService.this);
+                            List<Rule> listAllowed = getAllowedRules(listRule);
+
+                            vpn = startVPN(listAllowed);
                             if (vpn == null)
                                 throw new IllegalStateException("VPN start failed");
 
                             boolean log = prefs.getBoolean("log", false);
                             boolean filter = prefs.getBoolean("filter", false);
-                            if (log || filter)
-                                jni_start(vpn.getFd(), log, filter, Log.INFO);
+                            if (log || filter) {
+                                int[] uid = new int[listAllowed.size()];
+                                for (int i = 0; i < listAllowed.size(); i++)
+                                    uid[i] = listAllowed.get(i).info.applicationInfo.uid;
+
+                                jni_start(vpn.getFd(), uid, log, filter, Log.INFO);
+                            }
+
                             removeDisabledNotification();
+                            updateEnforcingNotification(listAllowed.size(), listRule.size());
                         }
                         break;
 
@@ -277,12 +287,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
                         // Seamless handover
                         ParcelFileDescriptor prev = vpn;
-                        vpn = startVPN();
+                        List<Rule> listRule = Rule.getRules(true, TAG, SinkholeService.this);
+                        List<Rule> listAllowed = getAllowedRules(listRule);
+
+                        vpn = startVPN(listAllowed);
                         if (prev != null && vpn == null) {
                             Log.w(TAG, "Handover failed");
                             stopVPN(prev);
                             prev = null;
-                            vpn = startVPN();
+                            vpn = startVPN(listAllowed);
                             if (vpn == null)
                                 throw new IllegalStateException("Handover failed");
                         }
@@ -290,11 +303,18 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         jni_stop(vpn.getFd(), false);
                         boolean log = prefs.getBoolean("log", false);
                         boolean filter = prefs.getBoolean("filter", false);
-                        if (log || filter)
-                            jni_start(vpn.getFd(), log, filter, Log.INFO);
+                        if (log || filter) {
+                            int[] uid = new int[listAllowed.size()];
+                            for (int i = 0; i < listAllowed.size(); i++)
+                                uid[i] = listAllowed.get(i).info.applicationInfo.uid;
+
+                            jni_start(vpn.getFd(), uid, log, filter, Log.INFO);
+                        }
 
                         if (prev != null)
                             stopVPN(prev);
+
+                        updateEnforcingNotification(listAllowed.size(), listRule.size());
                         break;
 
                     case stop:
@@ -601,7 +621,63 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    private ParcelFileDescriptor startVPN() {
+    private ParcelFileDescriptor startVPN(List<Rule> listAllowed) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean tethering = prefs.getBoolean("tethering", false);
+        boolean filter = prefs.getBoolean("filter", false);
+
+        // Build VPN service
+        final Builder builder = new Builder();
+        builder.setSession(getString(R.string.app_name) + " session");
+        // TODO: make tunnel parameters configurable
+        builder.addAddress("10.1.10.1", 32);
+        builder.addAddress("fd00:1:fd00:1:fd00:1:fd00:1", 64);
+
+        if (tethering) {
+            // USB Tethering 192.168.42.x
+            // Wi-Fi Tethering 192.168.43.x
+            for (int r = 1; r <= 255; r++)
+                if (r == 192) {
+                    for (int s = 1; s <= 255; s++)
+                        if (s == 168) {
+                            for (int t = 1; t <= 255; t++)
+                                if (t != 42 && t != 43)
+                                    builder.addRoute(String.format("%d.%d.%d.0", r, s, t), 24);
+                        } else
+                            builder.addRoute(String.format("%d.%d.0.0", r, s), 16);
+                } else if (r != 127)
+                    builder.addRoute(String.format("%d.0.0.0", r), 8);
+        } else
+            builder.addRoute("0.0.0.0", 0);
+
+        builder.addRoute("0:0:0:0:0:0:0:0", 0);
+
+        // Add list of allowed applications
+        if (last_connected && !filter)
+            for (Rule rule : listAllowed)
+                try {
+                    builder.addDisallowedApplication(rule.info.packageName);
+                } catch (PackageManager.NameNotFoundException ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, this);
+                }
+
+        // Build configure intent
+        Intent configure = new Intent(this, ActivityMain.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setConfigureIntent(pi);
+
+        // Start VPN service
+        try {
+            return builder.establish();
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            return null;
+        }
+    }
+
+    private List<Rule> getAllowedRules(List<Rule> listRule) {
+        List<Rule> listAllowed = new ArrayList<>();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Check state
@@ -654,70 +730,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 " tethering=" + tethering +
                 " filter=" + filter);
 
-        // Build VPN service
-        final Builder builder = new Builder();
-        builder.setSession(getString(R.string.app_name) + " session");
-        // TODO: make tunnel parameters configurable
-        builder.addAddress("10.1.10.1", 32);
-        builder.addAddress("fd00:1:fd00:1:fd00:1:fd00:1", 64);
-
-        if (tethering) {
-            // USB Tethering 192.168.42.x
-            // Wi-Fi Tethering 192.168.43.x
-            for (int r = 1; r <= 255; r++)
-                if (r == 192) {
-                    for (int s = 1; s <= 255; s++)
-                        if (s == 168) {
-                            for (int t = 1; t <= 255; t++)
-                                if (t != 42 && t != 43)
-                                    builder.addRoute(String.format("%d.%d.%d.0", r, s, t), 24);
-                        } else
-                            builder.addRoute(String.format("%d.%d.0.0", r, s), 16);
-                } else if (r != 127)
-                    builder.addRoute(String.format("%d.0.0.0", r), 8);
-        } else
-            builder.addRoute("0.0.0.0", 0);
-
-        builder.addRoute("0:0:0:0:0:0:0:0", 0);
-
-        // Add list of allowed applications
-        int nAllowed = 0;
-        int nBlocked = 0;
-        if (last_connected && !filter)
-            for (Rule rule : Rule.getRules(true, TAG, this)) {
-                boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
-                boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
-                if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming))) {
-                    nAllowed++;
-                    // Log.i(TAG, "Allowing " + rule.info.packageName);
-                    try {
-                        builder.addDisallowedApplication(rule.info.packageName);
-                    } catch (PackageManager.NameNotFoundException ex) {
-                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        Util.sendCrashReport(ex, this);
-                    }
-                } else
-                    nBlocked++;
-            }
-        Log.i(TAG, "Allowed=" + nAllowed + " blocked=" + nBlocked);
-
-        // Update notification
-        Notification notification = getEnforcingNotification(nAllowed, nBlocked);
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(NOTIFY_ENFORCING, notification);
-
-        // Build configure intent
-        Intent configure = new Intent(this, ActivityMain.class);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setConfigureIntent(pi);
-
-        // Start VPN service
-        try {
-            return builder.establish();
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            return null;
+        for (Rule rule : listRule) {
+            boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
+            boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
+            if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming)))
+                listAllowed.add(rule);
         }
+
+        return listAllowed;
     }
 
     private void stopVPN(ParcelFileDescriptor pfd) {
@@ -745,7 +765,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 flags,
                 uid,
                 (last_connected ? last_metered ? 2 : 1 : 0),
-                last_interactive).close();
+                last_interactive,
+                allowed).close();
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
@@ -1071,6 +1092,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         notification.bigText(getString(R.string.msg_started));
         notification.setSummaryText(getString(R.string.msg_packages, allowed, blocked));
         return notification.build();
+    }
+
+    private void updateEnforcingNotification(int allowed, int total) {
+        // Update notification
+        Notification notification = getEnforcingNotification(allowed, total - allowed);
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.notify(NOTIFY_ENFORCING, notification);
     }
 
     private Notification getWaitingNotification() {

@@ -17,14 +17,16 @@ struct arguments {
     JNIEnv *env;
     jobject instance;
     int tun;
-    int log;
-    int filter;
+    jint count;
+    jint *uid;
+    jboolean log;
+    jboolean filter;
 };
 
 struct session {
     // TODO TCPv6
     time_t time;
-    int uid;
+    jint uid;
     uint32_t remote_seq; // confirmed bytes received, host notation
     uint32_t local_seq; // confirmed bytes sent, host notation
     uint32_t remote_start;
@@ -77,7 +79,7 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
 
 void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16_t length);
 
-void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
+jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
 
 int open_tcp(const struct session *cur, const struct arguments *args);
 

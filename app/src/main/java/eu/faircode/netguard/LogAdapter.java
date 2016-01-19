@@ -26,6 +26,7 @@ public class LogAdapter extends CursorAdapter {
     private int colUid;
     private int colConnection;
     private int colInteractive;
+    private int colAllowed;
 
     public LogAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
@@ -38,6 +39,7 @@ public class LogAdapter extends CursorAdapter {
         colUid = cursor.getColumnIndex("uid");
         colConnection = cursor.getColumnIndex("connection");
         colInteractive = cursor.getColumnIndex("interactive");
+        colAllowed = cursor.getColumnIndex("allowed");
     }
 
     @Override
@@ -57,6 +59,7 @@ public class LogAdapter extends CursorAdapter {
         int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
         int connection = (cursor.isNull(colConnection) ? -1 : cursor.getInt(colConnection));
         int interactive = (cursor.isNull(colInteractive) ? -1 : cursor.getInt(colInteractive));
+        int allowed = (cursor.isNull(colAllowed) ? -1 : cursor.getInt(colAllowed));
 
         final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
 
@@ -76,8 +79,12 @@ public class LogAdapter extends CursorAdapter {
 
         if (connection <= 0)
             ivConnection.setImageDrawable(null);
-        else
-            ivConnection.setImageResource(connection == 1 ? R.drawable.wifi_off : R.drawable.other_off);
+        else {
+            if (allowed > 0)
+                ivConnection.setImageResource(connection == 1 ? R.drawable.wifi_on : R.drawable.other_on);
+            else
+                ivConnection.setImageResource(connection == 1 ? R.drawable.wifi_off : R.drawable.other_off);
+        }
 
         if (interactive <= 0)
             ivInteractive.setImageDrawable(null);

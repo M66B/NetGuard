@@ -49,6 +49,8 @@
 // Window size < 2^31: x <= y: (uint32_t)(y-x) < 0x80000000
 // It is assumed that no packets will get lost and that packets arrive in order
 
+// http://journals.ecs.soton.ac.uk/java/tutorial/native1.1/implementing/index.html
+
 // Global variables
 
 static JavaVM *jvm;
@@ -67,9 +69,12 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instance,
-                                                     jint tun, jboolean log, jboolean filter,
-                                                     jint loglevel_) {
+Java_eu_faircode_netguard_SinkholeService_jni_1start(
+        JNIEnv *env, jobject instance,
+        jint tun, jintArray uid_,
+        jboolean log, jboolean filter,
+        jint loglevel_) {
+
     loglevel = loglevel_;
     log_android(ANDROID_LOG_INFO, "Starting tun=%d log %d filter %d level %d",
                 tun, log, filter, loglevel_);
@@ -87,12 +92,23 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
         if (rs != JNI_OK)
             log_android(ANDROID_LOG_ERROR, "GetJavaVM failed");
 
+        // Get arguments
         struct arguments *args = malloc(sizeof(struct arguments));
         args->instance = (*env)->NewGlobalRef(env, instance);
         args->tun = tun;
+        args->count = (*env)->GetArrayLength(env, uid_);
+        args->uid = malloc(args->count * sizeof(jint));
+        jint *uid = (*env)->GetIntArrayElements(env, uid_, NULL);
+        memcpy(args->uid, uid, args->count * sizeof(jint));
+        (*env)->ReleaseIntArrayElements(env, uid_, uid, 0);
         args->log = log;
         args->filter = filter;
-        int err = pthread_create(&thread_id, NULL, handle_events, args);
+
+        for (int i = 0; i < args->count; i++)
+            log_android(ANDROID_LOG_INFO, "Allowed uid %d", args->uid[i]);
+
+        // Start native thread
+        int err = pthread_create(&thread_id, NULL, handle_events, (void *) args);
         if (err == 0)
             log_android(ANDROID_LOG_INFO, "Started thread %lu", thread_id);
         else
@@ -254,7 +270,8 @@ void handle_events(void *a) {
 #endif
 
             // Check upstream
-            check_tun(args, &rfds, &wfds, &efds);
+            if (check_tun(args, &rfds, &wfds, &efds) < 0)
+                break;
 
 #ifdef PROFILE
             gettimeofday(&end, NULL);
@@ -279,11 +296,13 @@ void handle_events(void *a) {
 #endif
     }
 
+    free(args->uid);
+    free(args);
+
     (*env)->DeleteGlobalRef(env, args->instance);
     rs = (*jvm)->DetachCurrentThread(jvm);
     if (rs != JNI_OK)
         log_android(ANDROID_LOG_ERROR, "DetachCurrentThread failed");
-    free(args);
 
     log_android(ANDROID_LOG_INFO, "Stopped events tun=%d thread %lu", args->tun, thread_id);
     // TODO report exit to Java
@@ -581,8 +600,8 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 
     // Get ports & flags
     int syn = 0;
-    uint16_t sport = -1;
-    uint16_t dport = -1;
+    uint16_t sport = 0;
+    uint16_t dport = 0;
     if (protocol == IPPROTO_TCP) {
         struct tcphdr *tcp = payload;
 
@@ -615,7 +634,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 
     // Get uid
     jint uid = -1;
-    if ((protocol == IPPROTO_TCP && (syn || !args->filter)) || protocol == IPPROTO_UDP) {
+    if ((protocol == IPPROTO_TCP && version == 4) || protocol == IPPROTO_UDP) {
         log_android(ANDROID_LOG_INFO, "get uid %s/%u syn %d", dest, dport, syn);
         int tries = 0;
         while (uid < 0 && tries++ < UID_MAXTRY) {
@@ -654,16 +673,30 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
         log_android(ANDROID_LOG_INFO, "handle ip %f", mselapsed);
 #endif
 
-    if (protocol == IPPROTO_TCP && args->filter)
-        handle_tcp(args, buffer, length, uid);
+    // Check if allowed
+    jboolean allowed = 0;
+    if (args->filter && uid >= 0) {
+        for (int i = 0; i < args->count; i++)
+            if (args->uid[i] == uid) {
+                allowed = 1;
+                break;
+            }
+    }
+
+    if (allowed) {
+        if (protocol == IPPROTO_TCP)
+            allowed = handle_tcp(args, buffer, length, uid);
+        else
+            allowed = 0;
+    }
 
     if (args->log) {
-        if ((protocol == IPPROTO_TCP && (syn || !args->filter)) || protocol == IPPROTO_UDP)
-            log_java(args, version, source, sport, dest, dport, protocol, flags, uid, 0);
+        if (!args->filter || syn)
+            log_java(args, version, source, sport, dest, dport, protocol, flags, uid, allowed);
     }
 }
 
-void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid) {
+jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -673,7 +706,7 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
     // Check version
     uint8_t version = (*buffer) >> 4;
     if (version != 4)
-        return;
+        return 0;
 
     // Get headers
     struct iphdr *iphdr = buffer;
@@ -760,6 +793,8 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
             rst.daddr = iphdr->daddr;
             rst.dest = tcphdr->dest;
             write_rst(&rst, args->tun);
+
+            return 0;
         }
 
 #ifdef PROFILE
@@ -946,6 +981,8 @@ void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t le
             log_android(ANDROID_LOG_INFO, "existing session %f", mselapsed);
 #endif
     }
+
+    return 1;
 }
 
 int open_tcp(const struct session *cur, const struct arguments *args) {
