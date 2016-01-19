@@ -17,6 +17,8 @@ struct arguments {
     JNIEnv *env;
     jobject instance;
     int tun;
+    int log;
+    int filter;
 };
 
 struct session {

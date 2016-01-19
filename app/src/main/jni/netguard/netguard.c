@@ -55,9 +55,8 @@ static JavaVM *jvm;
 pthread_t thread_id;
 int signaled = 0;
 struct session *session = NULL;
+int loglevel = 0;
 char *pcap_fn = NULL;
-int loglevel = ANDROID_LOG_WARN;
-int native = 0;
 
 // JNI
 
@@ -69,11 +68,11 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instance,
-                                                     jint tun, jint loglevel_, jboolean native_) {
+                                                     jint tun, jboolean log, jboolean filter,
+                                                     jint loglevel_) {
     loglevel = loglevel_;
-    native = native_;
-
-    log_android(ANDROID_LOG_INFO, "Starting tun=%d level %d native %d", tun, loglevel, native);
+    log_android(ANDROID_LOG_INFO, "Starting tun=%d log %d filter %d level %d",
+                tun, log, filter, loglevel_);
 
     // Set blocking
     uint8_t flags = fcntl(tun, F_GETFL, 0);
@@ -91,6 +90,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
         struct arguments *args = malloc(sizeof(struct arguments));
         args->instance = (*env)->NewGlobalRef(env, instance);
         args->tun = tun;
+        args->log = log;
+        args->filter = filter;
         int err = pthread_create(&thread_id, NULL, handle_events, args);
         if (err == 0)
             log_android(ANDROID_LOG_INFO, "Started thread %lu", thread_id);
@@ -388,7 +389,7 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
         }
         else if (length > 0) {
             // Write pcap record
-            if (native && pcap_fn != NULL)
+            if (pcap_fn != NULL)
                 write_pcap_rec(buffer, length);
 
             // Handle IP from tun
@@ -614,7 +615,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 
     // Get uid
     jint uid = -1;
-    if ((protocol == IPPROTO_TCP && (syn || !native)) || protocol == IPPROTO_UDP) {
+    if ((protocol == IPPROTO_TCP && (syn || !args->filter)) || protocol == IPPROTO_UDP) {
         log_android(ANDROID_LOG_INFO, "get uid %s/%u syn %d", dest, dport, syn);
         int tries = 0;
         while (uid < 0 && tries++ < UID_MAXTRY) {
@@ -653,12 +654,13 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
         log_android(ANDROID_LOG_INFO, "handle ip %f", mselapsed);
 #endif
 
-    if (protocol == IPPROTO_TCP && native)
+    if (protocol == IPPROTO_TCP && args->filter)
         handle_tcp(args, buffer, length, uid);
 
-    if ((protocol == IPPROTO_TCP && (syn || !native)) || protocol == IPPROTO_UDP)
-        log_java(args, version, source, sport, dest, dport, protocol, flags, uid, 0);
-
+    if (args->log) {
+        if ((protocol == IPPROTO_TCP && (syn || !args->filter)) || protocol == IPPROTO_UDP)
+            log_java(args, version, source, sport, dest, dport, protocol, flags, uid, 0);
+    }
 }
 
 void handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid) {
@@ -1167,7 +1169,7 @@ int write_tcp(const struct session *cur,
 #endif
 
     // Write pcap record
-    if (native && pcap_fn != NULL)
+    if (pcap_fn != NULL)
         write_pcap_rec(buffer, len);
 
     free(buffer);

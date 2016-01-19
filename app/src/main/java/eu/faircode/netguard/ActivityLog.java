@@ -19,17 +19,18 @@ package eu.faircode.netguard;
     Copyright 2015-2016 by Marcel Bokhorst (M66B)
 */
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,13 +41,23 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ActivityLog extends AppCompatActivity {
+    private static final String TAG = "NetGuard.Log";
+
     private ListView lvLog;
     private LogAdapter adapter;
     private DatabaseHelper dh;
     private boolean live;
+
+    private static final int REQUEST_PCAP = 1;
 
     private DatabaseHelper.LogChangedListener listener = new DatabaseHelper.LogChangedListener() {
         @Override
@@ -67,7 +78,7 @@ public class ActivityLog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logview);
 
-        getSupportActionBar().setTitle(R.string.title_log);
+        getSupportActionBar().setTitle(R.string.menu_log);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dh = new DatabaseHelper(this);
@@ -154,22 +165,34 @@ public class ActivityLog extends AppCompatActivity {
         return true;
     }
 
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        menu.findItem(R.id.menu_enabled).setChecked(prefs.getBoolean("log", true));
+        boolean log = prefs.getBoolean("log", false);
+        boolean filter = prefs.getBoolean("filter", false);
+        boolean pcap = prefs.getBoolean("pcap", false);
+        boolean export = (getPackageManager().resolveActivity(getIntentPCAPDocument(), 0) != null);
+
+        menu.findItem(R.id.menu_log_enabled).setChecked(log);
+        menu.findItem(R.id.menu_pcap_enabled).setChecked(pcap);
+        menu.findItem(R.id.menu_pcap_enabled).setEnabled(log || filter);
+        menu.findItem(R.id.menu_pcap_export).setEnabled(pcap && export);
+
         return super.onPrepareOptionsMenu(menu);
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         switch (item.getItemId()) {
-            case R.id.menu_enabled:
+            case R.id.menu_log_enabled:
                 item.setChecked(!item.isChecked());
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 prefs.edit().putBoolean("log", item.isChecked()).apply();
                 SinkholeService.reload(null, "setting changed", this);
                 return true;
 
-            case R.id.menu_live:
+            case R.id.menu_log_live:
                 item.setChecked(!item.isChecked());
                 live = item.isChecked();
                 if (live) {
@@ -180,7 +203,7 @@ public class ActivityLog extends AppCompatActivity {
                     DatabaseHelper.removeLocationChangedListener(listener);
                 return true;
 
-            case R.id.menu_clear:
+            case R.id.menu_log_clear:
                 dh.clear();
                 if (!live) {
                     adapter = new LogAdapter(this, dh.getLog());
@@ -188,7 +211,17 @@ public class ActivityLog extends AppCompatActivity {
                 }
                 return true;
 
-            case R.id.menu_support:
+            case R.id.menu_pcap_enabled:
+                item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("pcap", item.isChecked()).apply();
+                SinkholeService.setPcap(item.isChecked(), this);
+                return true;
+
+            case R.id.menu_pcap_export:
+                startActivityForResult(getIntentPCAPDocument(), REQUEST_PCAP);
+                return true;
+
+            case R.id.menu_log_support:
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ27"));
                 if (getPackageManager().resolveActivity(intent, 0) != null)
@@ -198,5 +231,76 @@ public class ActivityLog extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private static Intent getIntentPCAPDocument() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/octet-stream");
+        intent.putExtra(Intent.EXTRA_TITLE, "netguard_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".pcap");
+        return intent;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode + " ok=" + (resultCode == RESULT_OK));
+
+        if (requestCode == REQUEST_PCAP) {
+            if (resultCode == RESULT_OK && data != null)
+                handleExportPCAP(data);
+
+        } else {
+            Log.w(TAG, "Unknown activity result request=" + requestCode);
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void handleExportPCAP(final Intent data) {
+        new AsyncTask<Object, Object, Throwable>() {
+            @Override
+            protected Throwable doInBackground(Object... objects) {
+                OutputStream out = null;
+                InputStream in = null;
+                try {
+                    Log.i(TAG, "Export PCAP URI=" + data.getData());
+                    out = getContentResolver().openOutputStream(data.getData());
+
+                    File pcap = new File(getCacheDir(), "netguard.pcap");
+                    in = new FileInputStream(pcap);
+
+                    byte[] buf = new byte[4096];
+                    int len;
+                    while ((len = in.read(buf)) > 0)
+                        out.write(buf, 0, len);
+
+                    return null;
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, ActivityLog.this);
+                    return ex;
+                } finally {
+                    if (out != null)
+                        try {
+                            out.close();
+                        } catch (IOException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
+                    if (in != null)
+                        try {
+                            in.close();
+                        } catch (IOException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Throwable ex) {
+                if (ex == null)
+                    Toast.makeText(ActivityLog.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(ActivityLog.this, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+        }.execute();
     }
 }

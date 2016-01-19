@@ -41,6 +41,11 @@
             android:key="log"
             android:summary="@string/summary_log"
             android:title="@string/setting_log" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="filter"
+            android:summary="@string/summary_filter"
+            android:title="@string/setting_filter" />
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"
@@ -128,24 +133,6 @@
         <Preference
             android:key="import"
             android:title="@string/setting_import" />
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:key="category_development"
-        android:title="Development">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="log"
-            android:key="native"
-            android:title="Native code" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="native"
-            android:key="pcap_enabled"
-            android:title="PCAP" />
-        <Preference
-            android:dependency="pcap_enabled"
-            android:key="pcap_export"
-            android:title="Export PCAP" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_technical"

@@ -114,7 +114,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init();
 
-    private native void jni_start(int tun, int loglevel, boolean native_);
+    private native void jni_start(int tun, boolean log, boolean filter, int loglevel);
 
     private native void jni_stop(int tun, boolean clear);
 
@@ -122,8 +122,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private static native void jni_pcap(String name);
 
-    public static void setPcap(String name) {
-        jni_pcap(name);
+    public static void setPcap(boolean enabled, Context context) {
+        File pcap = new File(context.getCacheDir(), "netguard.pcap");
+        if (pcap.exists())
+            pcap.delete();
+        jni_pcap(enabled ? pcap.getAbsolutePath() : null);
     }
 
     static {
@@ -252,8 +255,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             vpn = startVPN();
                             if (vpn == null)
                                 throw new IllegalStateException("VPN start failed");
-                            if (prefs.getBoolean("log", false))
-                                jni_start(vpn.getFd(), Log.INFO, prefs.getBoolean("native", false));
+
+                            boolean log = prefs.getBoolean("log", false);
+                            boolean filter = prefs.getBoolean("filter", false);
+                            if (log || filter)
+                                jni_start(vpn.getFd(), log, filter, Log.INFO);
                             removeDisabledNotification();
                         }
                         break;
@@ -280,9 +286,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             if (vpn == null)
                                 throw new IllegalStateException("Handover failed");
                         }
+
                         jni_stop(vpn.getFd(), false);
-                        if (prefs.getBoolean("log", false))
-                            jni_start(vpn.getFd(), Log.INFO, prefs.getBoolean("native", false));
+                        boolean log = prefs.getBoolean("log", false);
+                        boolean filter = prefs.getBoolean("filter", false);
+                        if (log || filter)
+                            jni_start(vpn.getFd(), log, filter, Log.INFO);
+
                         if (prev != null)
                             stopVPN(prev);
                         break;
@@ -608,7 +618,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean national = prefs.getBoolean("national_roaming", false);
         boolean telephony = Util.hasTelephony(this);
         boolean tethering = prefs.getBoolean("tethering", false);
-        boolean native_ = prefs.getBoolean("native", false);
+        boolean filter = prefs.getBoolean("filter", false);
 
         // Update connected state
         last_connected = Util.isConnected(SinkholeService.this);
@@ -640,7 +650,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 " telephony=" + telephony +
                 " generation=" + generation +
                 " roaming=" + roaming +
-                " interactive=" + last_interactive);
+                " interactive=" + last_interactive +
+                " tethering=" + tethering +
+                " filter=" + filter);
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -671,7 +683,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         // Add list of allowed applications
         int nAllowed = 0;
         int nBlocked = 0;
-        if (last_connected && !native_)
+        if (last_connected && !filter)
             for (Rule rule : Rule.getRules(true, TAG, this)) {
                 boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
                 boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
@@ -885,13 +897,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         // Native init
         jni_init();
-        File pcap = new File(getCacheDir(), "netguard.pcap");
-        if (pcap.exists())
-            pcap.delete();
-        if (prefs.getBoolean("pcap_enabled", false)) {
-            SinkholeService.setPcap(pcap.getAbsolutePath());
-        } else
-            SinkholeService.setPcap(null);
+        setPcap(prefs.getBoolean("pcap", false), this);
 
         prefs.registerOnSharedPreferenceChangeListener(this);
 
