@@ -32,6 +32,7 @@
   <string name="setting_whitelist_roaming">阻擋漫遊</string>
   <string name="setting_options">選項</string>
   <string name="setting_system">管理系統程式</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">紀錄阻擋流量</string>
   <string name="setting_auto">在 %1$s 分鐘後自動啟用</string>
   <string name="setting_delay">延遲%1$s分鐘關閉螢幕</string>

@@ -35,6 +35,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_whitelist_roaming">Blocca roaming di default</string>
   <string name="setting_options">Impostazioni opzionali</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Registra il traffico bloccato</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>

@@ -34,6 +34,7 @@
   <string name="setting_whitelist_roaming">デフォルトでローミングをブロック</string>
   <string name="setting_options">オプション</string>
   <string name="setting_system">システムアプリケーションの管理</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">ブロックされたトラフィックをログに記録</string>
   <string name="setting_auto">%1$s 分後に自動的に有効にする</string>
   <string name="setting_delay">%1$s 分、画面オフを遅延</string>

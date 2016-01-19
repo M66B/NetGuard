@@ -34,6 +34,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_whitelist_roaming">Domyślnie blokuj roaming</string>
   <string name="setting_options">Opcje</string>
   <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">Automatyczne włączenie po %1$s min</string>
   <string name="setting_delay">Opóźnienie wyłączenia reguł ekranu %1$s min</string>

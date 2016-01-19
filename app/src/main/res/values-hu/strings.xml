@@ -34,6 +34,7 @@ Ezeket a hibákat az Android bugjai vagy az eszköz gyártójának a szoftverei 
   <string name="setting_whitelist_roaming">Roaming letiltása</string>
   <string name="setting_options">Beállítások</string>
   <string name="setting_system">Rendszer alkalmazások kezelése</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Letiltott forgalom naplózása</string>
   <string name="setting_auto">Automatikus engedélyezés %1$s perc után</string>
   <string name="setting_delay">%1$s perc várakozás a képernyő kikapcsolása után</string>

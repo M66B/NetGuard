@@ -34,6 +34,7 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="setting_whitelist_roaming">صـــد الـــتـــجـــوال</string>
   <string name="setting_options">خيارات</string>
   <string name="setting_system">إدارة تطبيقات النظام</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">تمكين التلقائي بعد دقائق %1$s</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>

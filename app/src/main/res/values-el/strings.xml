@@ -30,6 +30,7 @@
   <string name="setting_whitelist_roaming">Block roaming</string>
   <string name="setting_options">Options</string>
   <string name="setting_system">Manage system applications</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Log blocked traffic</string>
   <string name="setting_auto">Auto enable after %1$s minutes</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>

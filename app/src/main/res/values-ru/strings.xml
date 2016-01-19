@@ -31,6 +31,7 @@
   <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
   <string name="setting_options">Опции</string>
   <string name="setting_system">Управлять сист. приложениями</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Журнал заблокированного трафика</string>
   <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
   <string name="setting_delay">Задержка экрана %1$s минут(ы)</string>

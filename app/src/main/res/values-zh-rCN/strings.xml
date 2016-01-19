@@ -34,6 +34,7 @@
   <string name="setting_whitelist_roaming">默认阻止漫游</string>
   <string name="setting_options">选项:</string>
   <string name="setting_system">管理系统应用</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">记录被拦截流量</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
   <string name="setting_delay">推迟 %1$s 分钟关屏</string>

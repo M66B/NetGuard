@@ -33,6 +33,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_whitelist_roaming">Roaming blockieren</string>
   <string name="setting_options">Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Blockierten Verkehr protokollieren</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>

@@ -34,6 +34,7 @@ Ceci est causé par des bugs dans Android, ou dans le logiciel fourni par le con
   <string name="setting_whitelist_roaming">Bloquer itinérance</string>
   <string name="setting_options">Options</string>
   <string name="setting_system">Gérer les applications système</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Enregistrer le trafic bloqué</string>
   <string name="setting_auto">Activer automatiquement après %1$s minutes</string>
   <string name="setting_delay">Délai écran éteint de %1$s minutes</string>

@@ -34,6 +34,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_whitelist_roaming">Por padrão, bloquear Roaming</string>
   <string name="setting_options">Opções</string>
   <string name="setting_system">Administrar aplicativos do sistema</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Registrar de tráfego bloqueado</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>

@@ -34,6 +34,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_whitelist_roaming">Blocheaza in roaming</string>
   <string name="setting_options">Optiuni</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
+  <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Inregistreaza adresele blocate</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_delay">Pastreza regulile ecran pornit active %1$s minute</string>
