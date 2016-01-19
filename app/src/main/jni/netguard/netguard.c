@@ -634,20 +634,21 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 
     // Get uid
     jint uid = -1;
-    if ((protocol == IPPROTO_TCP && version == 4) || protocol == IPPROTO_UDP) {
+    if ((protocol == IPPROTO_TCP && (!args->filter || syn)) || protocol == IPPROTO_UDP) {
         log_android(ANDROID_LOG_INFO, "get uid %s/%u syn %d", dest, dport, syn);
         int tries = 0;
         while (uid < 0 && tries++ < UID_MAXTRY) {
-            // Most likely in IPv6 table
-            int8_t saddr128[16];
-            memset(saddr128, 0, 10);
-            saddr128[10] = 0xFF;
-            saddr128[11] = 0xFF;
-            memcpy(saddr128 + 12, saddr, 4);
-            uid = get_uid(protocol, 6, saddr128, sport, tries == UID_MAXTRY);
+            // Check IPv6 table first
+            if (version == 4) {
+                int8_t saddr128[16];
+                memset(saddr128, 0, 10);
+                saddr128[10] = 0xFF;
+                saddr128[11] = 0xFF;
+                memcpy(saddr128 + 12, saddr, 4);
+                uid = get_uid(protocol, 6, saddr128, sport, tries == UID_MAXTRY);
+            }
 
-            // Fallback to IPv4 table
-            if (uid < 0 && version == 4)
+            if (uid < 0)
                 uid = get_uid(protocol, version, saddr, sport, tries == UID_MAXTRY);
 
             // Retry delay
