@@ -237,6 +237,12 @@ void handle_events(void *a) {
     if (bind(usock, (struct sockaddr *) &uaddr, sizeof(struct sockaddr)) < 0)
         log_android(ANDROID_LOG_ERROR, "UDP bind error %d: %s", errno, strerror(errno));
 
+    int on = 1;
+    if (!setsockopt(usock, SOL_IP, IP_PKTINFO, &on, sizeof(on)))
+        log_android(ANDROID_LOG_ERROR, "IP_PKTINFO error %d: %s", errno, strerror(errno));
+    //if (!setsockopt(usock, SOL_IP, IP_RECVORIGDSTADDR, &on, sizeof(on)))
+    //    log_android(ANDROID_LOG_ERROR, "IP_RECVORIGDSTADDR error %d: %s", errno, strerror(errno));
+
     // Loop
     while (1) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %lu", thread_id);
@@ -464,19 +470,54 @@ void check_udp(const struct arguments *args, int usock, fd_set *rfds, fd_set *wf
             log_android(ANDROID_LOG_ERROR, "UDP SO_ERROR %d: %s", serr, strerror(serr));
     }
     else if (FD_ISSET(usock, rfds)) {
-        // Socket receive
+
         uint8_t buffer[MAX_PKTSIZE];
         struct sockaddr_in client;
-        int clen = sizeof(client);
-        ssize_t bytes = recvfrom(
-                usock, buffer, sizeof(buffer), 0,
-                (struct sockaddr *) &client, (socklen_t *) &clen);
-        int sport = ntohs(client.sin_port);
+        struct msghdr mh;
+        struct iovec iov;
+        char cbuf[0x100];
+        memset(&mh, 0, sizeof(struct msghdr));
+        iov.iov_base = buffer;
+        iov.iov_len = sizeof(buffer);
+        mh.msg_control = cbuf;
+        mh.msg_controllen = sizeof(cbuf);
+        mh.msg_name = &client;
+        mh.msg_namelen = sizeof(client);
+        mh.msg_iov = &iov;
+        mh.msg_iovlen = 1;
+        mh.msg_flags = 0;
+        ssize_t bytes = recvmsg(usock, &mh, 0);
+        if (bytes < 0)
+            log_android(ANDROID_LOG_ERROR, "UDP recvmsg error %d: %s", errno, strerror(errno));
+        else {
+            int found = 0;
+            for (struct cmsghdr *msg = CMSG_FIRSTHDR(&mh);
+                 msg != NULL; msg = CMSG_NXTHDR(&mh, msg)) {
+                if (msg->cmsg_level == SOL_IP && /* IPPROTO_IP? */
+                    msg->cmsg_type == IP_PKTINFO) {
+                    found = 1;
+                    struct in_pktinfo *pi = CMSG_DATA(msg);
+                    // pi->ipi_spec_dst is the destination in_addr
+                    // pi->ipi_addr is the receiving interface in_addr
 
-        char source[40];
-        inet_ntop(client.sin_family, &client.sin_addr, source, sizeof(source));
+                    char source[40];
+                    char dest[40];
+                    char intf[40];
+                    inet_ntop(client.sin_family, &client.sin_addr, source, sizeof(source));
+                    inet_ntop(client.sin_family, &(pi->ipi_spec_dst), dest, sizeof(dest));
+                    inet_ntop(client.sin_family, &(pi->ipi_addr), intf, sizeof(intf));
 
-        log_android(ANDROID_LOG_INFO, "UDP from %s/%u data %d", source, sport, bytes);
+                    int sport = ntohs(client.sin_port);
+
+                    log_android(ANDROID_LOG_INFO, "UDP from %s/%u to %s/%u intf %s data %d",
+                                source, sport, dest, 0, intf, bytes);
+
+                    break;
+                }
+            }
+            if (!found)
+                log_android(ANDROID_LOG_ERROR, "UDP IP_PKTINFO not found");
+        }
     }
 }
 
@@ -774,11 +815,13 @@ jboolean handle_udp(const struct arguments *args, int usock,
 
     // TODO make session
 
+    char source[40];
     char dest[40];
-    inet_ntop(version == 4 ? AF_INET : AF_INET6, udphdr->dest, dest, sizeof(dest));
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(udphdr->source), source, sizeof(source));
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(udphdr->dest), dest, sizeof(dest));
 
-    log_android(ANDROID_LOG_INFO, "Forwarding UDP to %s/%u data %d",
-                dest, ntohs(udphdr->dest), datalen);
+    log_android(ANDROID_LOG_INFO, "UDP forward from %s/%u to %s/%u data %d",
+                source, ntohs(udphdr->source), dest, ntohs(udphdr->dest), datalen);
 
     struct sockaddr_in client;
     client.sin_family = (version == 4 ? AF_INET : AF_INET6);
