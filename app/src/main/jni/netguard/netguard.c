@@ -252,7 +252,8 @@ void handle_events(void *a) {
         ts.tv_nsec = 0;
         sigemptyset(&emptyset);
         int max = get_selects(args, usock, &rfds, &wfds, &efds);
-        int ready = pselect(max + 1, &rfds, &wfds, &efds, tcp_session == NULL ? NULL : &ts, &emptyset);
+        int ready = pselect(max + 1, &rfds, &wfds, &efds,
+                            tcp_session == NULL ? NULL : &ts, &emptyset);
         if (ready < 0) {
             if (errno == EINTR) {
                 if (signaled) { ;
@@ -529,6 +530,8 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
         uint32_t oldremote = cur->remote_seq;
 
         if (FD_ISSET(cur->socket, efds)) {
+            cur->time = time(NULL);
+
             // Socket error
             int serr = 0;
             socklen_t optlen = sizeof(int);
@@ -547,6 +550,8 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
             if (cur->state == TCP_LISTEN) {
                 // Check socket connect
                 if (FD_ISSET(cur->socket, wfds)) {
+                    cur->time = time(NULL);
+
                     // Log
                     char dest[20];
                     inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
@@ -566,6 +571,8 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
                      cur->state == TCP_CLOSE_WAIT) {
                 // Check socket read
                 if (FD_ISSET(cur->socket, rfds)) {
+                    cur->time = time(NULL);
+
                     // TODO window size
                     uint8_t buffer[MAX_DATASIZE4];
                     ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
