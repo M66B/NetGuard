@@ -18,6 +18,8 @@ import com.squareup.picasso.Picasso;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LogAdapter extends CursorAdapter {
     private int colTime;
@@ -30,6 +32,7 @@ public class LogAdapter extends CursorAdapter {
     private int colConnection;
     private int colInteractive;
     private int colAllowed;
+    private Map<String, String> mapIPHost = new HashMap<String, String>();
 
     public LogAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
@@ -140,23 +143,32 @@ public class LogAdapter extends CursorAdapter {
         // tvFlags.setText("+APFR");
         // tvUid.setText("18888");
 
-        tvIP.setText(whois);
+        synchronized (mapIPHost) {
+            if (mapIPHost.containsKey(whois))
+                tvIP.setText(mapIPHost.get(whois));
+            else {
+                tvIP.setText(whois);
+                new AsyncTask<String, Object, String>() {
+                    @Override
+                    protected String doInBackground(String... args) {
+                        try {
+                            // This requires internet permission
+                            return InetAddress.getByName(args[0]).getHostName();
+                        } catch (UnknownHostException ignored) {
+                            return whois;
+                        }
+                    }
 
-        new AsyncTask<String, Object, String>() {
-            @Override
-            protected String doInBackground(String... args) {
-                try {
-                    // This requires internet permission
-                    return InetAddress.getByName(args[0]).getHostName();
-                } catch (UnknownHostException ignored) {
-                    return null;
-                }
+                    @Override
+                    protected void onPostExecute(String host) {
+                        synchronized (mapIPHost) {
+                            if (!mapIPHost.containsKey(host))
+                                mapIPHost.put(host, host);
+                        }
+                        tvIP.setText(host);
+                    }
+                }.execute(whois);
             }
-
-            @Override
-            protected void onPostExecute(String host) {
-                tvIP.setText(host);
-            }
-        }.execute(whois);
+        }
     }
 }
