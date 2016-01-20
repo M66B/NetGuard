@@ -594,7 +594,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         log_android(ANDROID_LOG_DEBUG, "recv empty lport %u state %s",
                                     cur->lport, strstate(cur->state));
 
-                        if (write_fin(args, cur, args->tun) >= 0) {
+                        if (write_fin_ack(args, cur, 0, args->tun) >= 0) {
                             cur->local_seq++; // local FIN
 
                             if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
@@ -1098,8 +1098,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                         }
                     }
                     else {
-                        if (write_ack(args, cur, confirm, args->tun) >= 0)
-                            cur->remote_seq += 1;
+                    //    if (write_ack(args, cur, confirm, args->tun) >= 0)
+                    //        cur->remote_seq += 1;
                     }
                 }
                 else {
@@ -1334,6 +1334,16 @@ int write_data(const struct arguments *args, struct tcp_session *cur, const uint
         cur->state = TCP_TIME_WAIT;
     }
 
+}
+
+int write_fin_ack(const struct arguments *args, struct tcp_session *cur, int bytes, int tun) {
+    if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 1, 0, tun) < 0) {
+        log_android(ANDROID_LOG_ERROR, "write FIN+ACK error %d: %s",
+                    errno, strerror((errno)));
+        cur->state = TCP_TIME_WAIT;
+        return -1;
+    }
+    return 0;
 }
 
 int write_fin(const struct arguments *args, struct tcp_session *cur, int tun) {
