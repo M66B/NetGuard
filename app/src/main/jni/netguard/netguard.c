@@ -543,11 +543,6 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
                                     cur->lport, strstate(cur->state));
 
                         if (write_fin(cur, args->tun) >= 0) {
-                            // Shutdown socket for reading
-                            if (shutdown(cur->socket, SHUT_RD))
-                                log_android(ANDROID_LOG_WARN, "shutdown RD error %d: %s",
-                                            errno, strerror(errno));
-
                             cur->local_seq++; // local FIN
 
                             if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
