@@ -30,6 +30,7 @@ struct udp_session {
     // TODO UDPv6
     time_t time;
     jint uid;
+    int version;
     int32_t saddr; // network notation
     __be16 source; // network notation
     int32_t daddr; // network notation
@@ -42,6 +43,7 @@ struct tcp_session {
     // TODO TCPv6
     time_t time;
     jint uid;
+    int version;
     uint32_t remote_seq; // confirmed bytes received, host notation
     uint32_t local_seq; // confirmed bytes sent, host notation
     uint32_t remote_start;
@@ -108,19 +110,21 @@ int get_local_port(const int sock);
 
 ssize_t send_socket(int sock, uint8_t *buffer, uint16_t len);
 
-int write_syn_ack(struct tcp_session *cur, int tun);
+int write_syn_ack(const struct arguments *args, struct tcp_session *cur, int tun);
 
-int write_ack(struct tcp_session *cur, int bytes, int tun);
+int write_ack(const struct arguments *args, struct tcp_session *cur, int bytes, int tun);
 
-int write_data(struct tcp_session *cur, const uint8_t *buffer, uint16_t length, int tun);
+int write_data(const struct arguments *args, struct tcp_session *cur,
+               const uint8_t *buffer, uint16_t length, int tun);
 
-int write_fin(struct tcp_session *cur, int tun);
+int write_fin(const struct arguments *args, struct tcp_session *cur, int tun);
 
-void write_rst(struct tcp_session *cur, int tun);
+void write_rst(const struct arguments *args, struct tcp_session *cur, int tun);
 
-int write_udp(const struct udp_session *cur, uint8_t *data, uint16_t datalen, int tun);
+int write_udp(const struct arguments *args, const struct udp_session *cur,
+              uint8_t *data, uint16_t datalen, int tun);
 
-int write_tcp(const struct tcp_session *cur,
+int write_tcp(const struct arguments *args, const struct tcp_session *cur,
               uint8_t *data, uint16_t datalen, uint16_t confirm,
               int syn, int ack, int fin, int rst, int tun);
 
@@ -131,11 +135,15 @@ uint16_t calc_checksum(uint8_t *buffer, uint16_t length);
 
 void log_android(int prio, const char *fmt, ...);
 
-void log_java(const struct arguments *args, jint version,
-              const char *source, jint sport,
-              const char *dest, jint dport,
-              jint protocol, const char *flags,
-              jint uid, jboolean allowed);
+void log_packet(const struct arguments *args,
+                jlong time,
+                jint version,
+                const char *dest,
+                jint protocol,
+                jint dport,
+                const char *flags,
+                jint uid,
+                jboolean allowed);
 
 void write_pcap(const void *ptr, size_t len);
 

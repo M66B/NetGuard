@@ -392,7 +392,7 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
 
             log_android(ANDROID_LOG_WARN, "Idle %s/%u lport %u", dest, ntohs(t->dest), t->lport);
 
-            write_rst(t, args->tun);
+            write_rst(args, t, args->tun);
         }
 
         if (t->state == TCP_TIME_WAIT) {
@@ -517,7 +517,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
                     log_android(ANDROID_LOG_INFO, "UDP recv bytes %d for %s/%u @tun",
                                 bytes, dest, ntohs(cur->dest));
-                    write_udp(cur, buffer, bytes, args->tun);
+                    write_udp(args, cur, buffer, bytes, args->tun);
                 }
             }
         }
@@ -547,7 +547,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 log_android(ANDROID_LOG_ERROR, "lport %u SO_ERROR %d: %s",
                             cur->lport, serr, strerror(serr));
 
-            write_rst(cur, args->tun);
+            write_rst(args, cur, args->tun);
         }
         else {
             // Assume socket okay
@@ -562,7 +562,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     log_android(ANDROID_LOG_INFO, "Connected %s/%u lport %u",
                                 dest, ntohs(cur->dest), cur->lport);
 
-                    if (write_syn_ack(cur, args->tun) >= 0) {
+                    if (write_syn_ack(args, cur, args->tun) >= 0) {
                         cur->local_seq++; // local SYN
                         cur->remote_seq++; // remote SYN
                         cur->state = TCP_SYN_RECV;
@@ -586,7 +586,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                     cur->lport, errno, strerror(errno));
 
                         if (errno != EINTR)
-                            write_rst(cur, args->tun);
+                            write_rst(args, cur, args->tun);
                     }
                     else if (bytes == 0) {
                         // Socket eof
@@ -594,7 +594,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         log_android(ANDROID_LOG_DEBUG, "recv empty lport %u state %s",
                                     cur->lport, strstate(cur->state));
 
-                        if (write_fin(cur, args->tun) >= 0) {
+                        if (write_fin(args, cur, args->tun) >= 0) {
                             cur->local_seq++; // local FIN
 
                             if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
@@ -615,7 +615,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                     cur->lport, bytes, strstate(cur->state));
 
                         // Forward to tun
-                        if (write_data(cur, buffer, bytes, args->tun) >= 0)
+                        if (write_data(args, cur, buffer, bytes, args->tun) >= 0)
                             cur->local_seq += bytes;
                     }
                 }
@@ -803,7 +803,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     // Log traffic
     if (args->log) {
         if (!args->filter || syn || protocol != IPPROTO_TCP)
-            log_java(args, version, source, sport, dest, dport, protocol, flags, uid, allowed);
+            log_packet(args, time(NULL), version, dest, protocol, dport, flags, uid, allowed);
     }
 }
 
@@ -840,6 +840,7 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
         struct udp_session *u = malloc(sizeof(struct udp_session));
         u->time = time(NULL);
         u->uid = uid;
+        u->version = 4;
         u->saddr = iphdr->saddr;
         u->source = udphdr->source;
         u->daddr = iphdr->daddr;
@@ -854,15 +855,6 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
         }
         else {
             protect_socket(args, u->socket);
-
-            //struct sockaddr_in uaddr;
-            //uaddr.sin_family = AF_INET;
-            //uaddr.sin_addr.s_addr = INADDR_ANY;
-            //uaddr.sin_port = 0;
-            //if (bind(usock, (struct sockaddr *) &uaddr, sizeof(struct sockaddr)) < 0) {
-            //    log_android(ANDROID_LOG_ERROR, "UDP bind error %d: %s", errno, strerror(errno));
-            //    return 0;
-            //}
 
             if (last == NULL)
                 udp_session = u;
@@ -951,6 +943,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             struct tcp_session *syn = malloc(sizeof(struct tcp_session));
             syn->time = time(NULL);
             syn->uid = uid;
+            syn->version = 4;
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
             syn->local_seq = rand(); // ISN local
             syn->remote_start = syn->remote_seq;
@@ -989,12 +982,13 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
 
             struct tcp_session rst;
             memset(&rst, 0, sizeof(struct tcp_session));
+            rst.version = 4;
             rst.remote_seq = ntohl(tcphdr->seq);
             rst.saddr = iphdr->saddr;
             rst.source = tcphdr->source;
             rst.daddr = iphdr->daddr;
             rst.dest = tcphdr->dest;
-            write_rst(&rst, args->tun);
+            write_rst(args, &rst, args->tun);
 
             return 0;
         }
@@ -1039,7 +1033,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                 ntohl(tcphdr->seq) == cur->remote_seq) {
 
                 if (datalen)
-                    log_android(ANDROID_LOG_WARN, "FIN session %s/%u lport %u data %u",
+                    log_android(ANDROID_LOG_INFO, "FIN session %s/%u lport %u data %u",
                                 dest, ntohs(cur->dest), cur->lport, datalen);
 
                 // Forward last data to socket
@@ -1060,7 +1054,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                 }
 
                 if (ok) {
-                    if (write_ack(cur, 1 + datalen, args->tun) >= 0) {
+                    if (write_ack(args, cur, 1 + datalen, args->tun) >= 0) {
                         cur->remote_seq += (1 + datalen); // FIN + data from tun
                         if (cur->state == TCP_ESTABLISHED /* && !tcphdr->ack */)
                             cur->state = TCP_CLOSE_WAIT;
@@ -1077,7 +1071,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                                         strstate(cur->state), tcphdr->ack);
                     }
                 } else
-                    write_rst(cur, args->tun);
+                    write_rst(args, cur, args->tun);
             }
             else {
                 // Special case or hack if you like
@@ -1090,7 +1084,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                     log_android(ANDROID_LOG_INFO,
                                 "Simultaneous close %s/%u lport %u confirm %d",
                                 dest, ntohs(cur->dest), cur->lport, confirm);
-                    write_ack(cur, confirm, args->tun);
+                    write_ack(args, cur, confirm, args->tun);
                 }
                 else
                     log_android(ANDROID_LOG_WARN,
@@ -1124,9 +1118,9 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                     if (datalen) {
                         log_android(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
                         if (send_socket(cur->socket, buffer + dataoff, datalen) < 0)
-                            write_rst(cur, args->tun);
+                            write_rst(args, cur, args->tun);
                         else {
-                            if (write_ack(cur, datalen, args->tun) >= 0)
+                            if (write_ack(args, cur, datalen, args->tun) >= 0)
                                 cur->remote_seq += datalen;
                         }
                     }
@@ -1161,9 +1155,9 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                     if (datalen) {
                         log_android(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
                         if (send_socket(cur->socket, buffer + dataoff, datalen) < 0)
-                            write_rst(cur, args->tun);
+                            write_rst(args, cur, args->tun);
                         else {
-                            if (write_ack(cur, datalen, args->tun) >= 0)
+                            if (write_ack(args, cur, datalen, args->tun) >= 0)
                                 cur->remote_seq += datalen;
                         }
                     }
@@ -1270,8 +1264,8 @@ ssize_t send_socket(int sock, uint8_t *buffer, uint16_t len) {
     return res;
 }
 
-int write_syn_ack(struct tcp_session *cur, int tun) {
-    if (write_tcp(cur, NULL, 0, 1, 1, 1, 0, 0, tun) < 0) {
+int write_syn_ack(const struct arguments *args, struct tcp_session *cur, int tun) {
+    if (write_tcp(args, cur, NULL, 0, 1, 1, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write SYN+ACK error %d: %s",
                     errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
@@ -1280,8 +1274,8 @@ int write_syn_ack(struct tcp_session *cur, int tun) {
     return 0;
 }
 
-int write_ack(struct tcp_session *cur, int bytes, int tun) {
-    if (write_tcp(cur, NULL, 0, bytes, 0, 1, 0, 0, tun) < 0) {
+int write_ack(const struct arguments *args, struct tcp_session *cur, int bytes, int tun) {
+    if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write ACK error %d: %s",
                     errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
@@ -1290,8 +1284,9 @@ int write_ack(struct tcp_session *cur, int bytes, int tun) {
     return 0;
 }
 
-int write_data(struct tcp_session *cur, const uint8_t *buffer, uint16_t length, int tun) {
-    if (write_tcp(cur, buffer, length, 0, 0, 1, 0, 0, tun) < 0) {
+int write_data(const struct arguments *args, struct tcp_session *cur, const uint8_t *buffer,
+               uint16_t length, int tun) {
+    if (write_tcp(args, cur, buffer, length, 0, 0, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write data ACK lport %u error %d: %s",
                     cur->lport, errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
@@ -1299,8 +1294,8 @@ int write_data(struct tcp_session *cur, const uint8_t *buffer, uint16_t length, 
 
 }
 
-int write_fin(struct tcp_session *cur, int tun) {
-    if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, 0, tun) < 0) {
+int write_fin(const struct arguments *args, struct tcp_session *cur, int tun) {
+    if (write_tcp(args, cur, NULL, 0, 0, 0, 0, 1, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR,
                     "write FIN lport %u error %d: %s",
                     cur->lport, errno, strerror((errno)));
@@ -1310,15 +1305,16 @@ int write_fin(struct tcp_session *cur, int tun) {
     return 0;
 }
 
-void write_rst(struct tcp_session *cur, int tun) {
+void write_rst(const struct arguments *args, struct tcp_session *cur, int tun) {
     log_android(ANDROID_LOG_WARN, "Sending RST");
-    if (write_tcp(cur, NULL, 0, 0, 0, 0, 0, 1, tun) < 0)
+    if (write_tcp(args, cur, NULL, 0, 0, 0, 0, 0, 1, tun) < 0)
         log_android(ANDROID_LOG_ERROR, "write RST error %d: %s",
                     errno, strerror((errno)));
     cur->state = TCP_TIME_WAIT;
 }
 
-int write_udp(const struct udp_session *cur, uint8_t *data, uint16_t datalen, int tun) {
+int write_udp(const struct arguments *args, const struct udp_session *cur,
+              uint8_t *data, uint16_t datalen, int tun) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -1370,6 +1366,8 @@ int write_udp(const struct udp_session *cur, uint8_t *data, uint16_t datalen, in
         log_android(ANDROID_LOG_INFO, "tun UDP write %f", mselapsed);
 #endif
 
+    log_packet(args, time(NULL), cur->version, to, ip->protocol, ntohs(udp->dest), "", cur->uid, 1);
+
     // Write pcap record
     if (pcap_fn != NULL)
         write_pcap_rec(buffer, len);
@@ -1380,7 +1378,7 @@ int write_udp(const struct udp_session *cur, uint8_t *data, uint16_t datalen, in
 }
 
 
-int write_tcp(const struct tcp_session *cur,
+int write_tcp(const struct arguments *args, const struct tcp_session *cur,
               uint8_t *data, uint16_t datalen, uint16_t confirm,
               int syn, int ack, int fin, int rst, int tun) {
 #ifdef PROFILE
@@ -1645,12 +1643,16 @@ void log_android(int prio, const char *fmt, ...) {
     }
 }
 
-void log_java(
-        const struct arguments *args, jint version,
-        const char *source, jint sport,
-        const char *dest, jint dport,
-        jint protocol, const char *flags,
-        jint uid, jboolean allowed) {
+void log_packet(
+        const struct arguments *args,
+        jlong time,
+        jint version,
+        const char *dest,
+        jint protocol,
+        jint dport,
+        const char *flags,
+        jint uid,
+        jboolean allowed) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -1660,22 +1662,22 @@ void log_java(
     JNIEnv *env = args->env;
     jobject instance = args->instance;
     jclass cls = (*env)->GetObjectClass(env, instance);
-    jmethodID mid = (*env)->GetMethodID(
-            env, cls, "logPacket",
-            "(ILjava/lang/String;ILjava/lang/String;IILjava/lang/String;IZ)V");
+    char *signature = "(JILjava/lang/String;IILjava/lang/String;IZ)V";
+    jmethodID mid = (*env)->GetMethodID(env, cls, "logPacket", signature);
     if (mid == 0)
-        log_android(ANDROID_LOG_ERROR, "logPacket not found");
+        log_android(ANDROID_LOG_ERROR, "Method logPacket%s not found", signature);
     else {
-        jstring jsource = (*env)->NewStringUTF(env, source);
         jstring jdest = (*env)->NewStringUTF(env, dest);
         jstring jflags = (*env)->NewStringUTF(env, flags);
         (*env)->CallVoidMethod(env, instance, mid,
+                               time,
                                version,
-                               jsource, sport,
-                               jdest, dport,
-                               protocol, jflags,
-                               uid, allowed);
-        (*env)->DeleteLocalRef(env, jsource);
+                               jdest,
+                               protocol,
+                               dport,
+                               jflags,
+                               uid,
+                               allowed);
         (*env)->DeleteLocalRef(env, jdest);
         (*env)->DeleteLocalRef(env, jflags);
 

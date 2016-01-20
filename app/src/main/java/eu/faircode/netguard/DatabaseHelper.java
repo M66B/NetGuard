@@ -92,13 +92,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Location
 
     public DatabaseHelper insertLog(
-            int version, String ip, int protocol, int port, String flags,
-            int uid, int connection, boolean interactive, boolean allowed) {
+            long time,
+            int version,
+            String ip,
+            int protocol,
+            int port,
+            String flags,
+            int uid,
+            int connection,
+            boolean interactive,
+            boolean allowed) {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
-            cv.put("time", new Date().getTime());
+            cv.put("time", time);
             cv.put("version", version);
             cv.put("ip", ip);
 

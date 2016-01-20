@@ -773,12 +773,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void logPacket(
+            long time,
             int version,
-            String saddr, int sport,
-            String daddr, int dport,
-            int protocol, String flags,
-            int uid, boolean allowed) {
+            String daddr,
+            int protocol,
+            int dport,
+            String flags,
+            int uid,
+            boolean allowed) {
         new DatabaseHelper(SinkholeService.this).insertLog(
+                time,
                 version,
                 daddr,
                 protocol,

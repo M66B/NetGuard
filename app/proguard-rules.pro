@@ -25,7 +25,7 @@
 
 #JNI callback
 -keep class eu.faircode.netguard.SinkholeService {
-    void logPacket(int, java.lang.String, int, java.lang.String, int, int, java.lang.String, int, boolean);
+    void logPacket(long, int, java.lang.String, int, int, java.lang.String, int, boolean);
 }
 
 #Support library
