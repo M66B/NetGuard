@@ -34,15 +34,13 @@
 
 #include "netguard.h"
 
-#define PROFILE 1
+// #define PROFILE 1
 
 // TODO TCP fragmentation
 // TODO TCP push
 // TODO TCPv6
 // TODO UDPv4
 // TODO UDPv6
-// TODO DHCP
-// TODO log allowed traffic
 // TODO fix warnings
 // TODO non blocking send/write, handle EAGAIN/EWOULDBLOCK
 
@@ -105,7 +103,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
         args->filter = filter;
 
         for (int i = 0; i < args->count; i++)
-            log_android(ANDROID_LOG_INFO, "Allowed uid %d", args->uid[i]);
+            log_android(ANDROID_LOG_DEBUG, "Allowed uid %d", args->uid[i]);
 
         // Start native thread
         int err = pthread_create(&thread_id, NULL, handle_events, (void *) args);
@@ -131,15 +129,9 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instanc
             if (err != 0)
                 log_android(ANDROID_LOG_WARN, "pthread_join error %d: %s", err, strerror(err));
         }
-        if (clear) {
-            struct session *s = session;
-            while (s != NULL) {
-                struct session *p = s;
-                s = s->next;
-                free(p);
-            }
-            session = NULL;
-        }
+        if (clear)
+            clear_sessions();
+
         log_android(ANDROID_LOG_INFO, "Stopped thread %lu", thread_id);
     } else
         log_android(ANDROID_LOG_WARN, "Not running");
@@ -149,13 +141,7 @@ JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instance) {
     log_android(ANDROID_LOG_INFO, "Done");
 
-    struct session *s = session;
-    while (s != NULL) {
-        struct session *p = s;
-        s = s->next;
-        free(p);
-    }
-    session = NULL;
+    clear_sessions();
 
     if (pcap_fn != NULL)
         free(pcap_fn);
@@ -183,7 +169,19 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
         (*env)->ReleaseStringUTFChars(env, name_, name);
     }
 }
+
 // Private functions
+
+void clear_sessions() {
+    struct session *s = session;
+    while (s != NULL) {
+        close(s->socket);
+        struct session *p = s;
+        s = s->next;
+        free(p);
+    }
+    session = NULL;
+}
 
 void handle_signal(int sig, siginfo_t *info, void *context) {
     log_android(ANDROID_LOG_DEBUG, "Signal %d", sig);
@@ -224,6 +222,20 @@ void handle_events(void *a) {
 
     signaled = 0;
 
+    // Open UDP socket
+    int usock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if (usock < 0)
+        log_android(ANDROID_LOG_ERROR, "UDP socket error %d: %s", errno, strerror(errno));
+
+    protect_socket(args, usock);
+
+    struct sockaddr_in uaddr;
+    uaddr.sin_family = AF_INET;
+    uaddr.sin_addr.s_addr = INADDR_ANY;
+    uaddr.sin_port = 0;
+    if (bind(usock, (struct sockaddr *) &uaddr, sizeof(struct sockaddr)) < 0)
+        log_android(ANDROID_LOG_ERROR, "UDP bind error %d: %s", errno, strerror(errno));
+
     // Loop
     while (1) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %lu", thread_id);
@@ -232,7 +244,7 @@ void handle_events(void *a) {
         ts.tv_sec = SELECT_TIMEOUT;
         ts.tv_nsec = 0;
         sigemptyset(&emptyset);
-        int max = get_selects(args, &rfds, &wfds, &efds);
+        int max = get_selects(args, usock, &rfds, &wfds, &efds);
         int ready = pselect(max + 1, &rfds, &wfds, &efds, session == NULL ? NULL : &ts, &emptyset);
         if (ready < 0) {
             if (errno == EINTR) {
@@ -270,7 +282,7 @@ void handle_events(void *a) {
 #endif
 
             // Check upstream
-            if (check_tun(args, &rfds, &wfds, &efds) < 0)
+            if (check_tun(args, usock, &rfds, &wfds, &efds) < 0)
                 break;
 
 #ifdef PROFILE
@@ -283,6 +295,9 @@ void handle_events(void *a) {
             gettimeofday(&start, NULL);
 #endif
 
+            // Check UDP
+            check_udp(args, usock, &rfds, &wfds, &efds);
+
             // Check downstream
             check_sockets(args, &rfds, &wfds, &efds);
 
@@ -292,9 +307,11 @@ void handle_events(void *a) {
                         (end.tv_usec - start.tv_usec) / 1000.0;
             if (mselapsed > 1)
                 log_android(ANDROID_LOG_INFO, "sockets %f", mselapsed);
-        }
 #endif
+        }
     }
+
+    close(usock);
 
     free(args->uid);
     free(args);
@@ -308,20 +325,27 @@ void handle_events(void *a) {
     // TODO report exit to Java
 }
 
-int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+int get_selects(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds,
+                fd_set *efds) {
     time_t now = time(NULL);
 
-    // Select
+    // Initialize
     FD_ZERO(rfds);
     FD_ZERO(wfds);
     FD_ZERO(efds);
 
-    // Always read tun
+    // Always select tun
     FD_SET(args->tun, rfds);
     FD_SET(args->tun, efds);
-
     int max = args->tun;
 
+    // Always select UDP
+    FD_SET(usock, rfds);
+    FD_SET(usock, efds);
+    if (usock > max)
+        max = usock;
+
+    // Select sockets
     struct session *last = NULL;
     struct session *cur = session;
     while (cur != NULL) {
@@ -391,7 +415,8 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     return max;
 }
 
-int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+int check_tun(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds,
+              fd_set *efds) {
     // Check tun error
     if (FD_ISSET(args->tun, efds)) {
         log_android(ANDROID_LOG_ERROR, "tun exception");
@@ -412,7 +437,7 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
                 write_pcap_rec(buffer, length);
 
             // Handle IP from tun
-            handle_ip(args, buffer, length);
+            handle_ip(args, usock, buffer, length);
         }
         else {
             // tun eof
@@ -422,6 +447,36 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
     }
 
     return 0;
+}
+
+void check_udp(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds,
+               fd_set *efds) {
+    if (FD_ISSET(usock, efds)) {
+        // Socket error
+        int serr = 0;
+        socklen_t optlen = sizeof(int);
+        int err = getsockopt(usock, SOL_SOCKET, SO_ERROR, &serr, &optlen);
+        if (err < 0)
+            log_android(ANDROID_LOG_ERROR, "UDP getsockopt error %d: %s", errno,
+                        strerror(errno));
+        else if (serr)
+            log_android(ANDROID_LOG_ERROR, "UDP SO_ERROR %d: %s", serr, strerror(serr));
+    }
+    else if (FD_ISSET(usock, rfds)) {
+        // Socket receive
+        uint8_t buffer[MAX_PKTSIZE];
+        struct sockaddr_in client;
+        int clen = sizeof(client);
+        ssize_t bytes = recvfrom(
+                usock, buffer, sizeof(buffer), 0,
+                (struct sockaddr *) &client, (socklen_t *) &clen);
+        int sport = ntohs(client.sin_port);
+
+        char source[40];
+        inet_ntop(client.sin_family, &client.sin_addr, source, sizeof(source));
+
+        log_android(ANDROID_LOG_INFO, "UDP from %s/%u data %d", source, sport, bytes);
+    }
 }
 
 void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
@@ -519,7 +574,8 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
             }
         }
 
-        if (cur->state != oldstate || cur->local_seq != oldlocal || cur->remote_seq != oldremote) {
+        if (cur->state != oldstate || cur->local_seq != oldlocal ||
+            cur->remote_seq != oldremote) {
             char dest[20];
             inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
             log_android(ANDROID_LOG_INFO,
@@ -533,7 +589,8 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
     }
 }
 
-void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16_t length) {
+void handle_ip(const struct arguments *args, int usock, const uint8_t *buffer,
+               const uint16_t length) {
     uint8_t protocol;
     void *saddr;
     void *daddr;
@@ -686,7 +743,9 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 
     // Handle allowed traffic
     if (allowed) {
-        if (protocol == IPPROTO_TCP)
+        if (protocol == IPPROTO_UDP)
+            allowed = handle_udp(args, usock, buffer, length, uid);
+        else if (protocol == IPPROTO_TCP)
             allowed = handle_tcp(args, buffer, length, uid);
         else
             allowed = 0;
@@ -699,7 +758,45 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     }
 }
 
-jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid) {
+jboolean handle_udp(const struct arguments *args, int usock,
+                    const uint8_t *buffer, uint16_t length, int uid) {
+    // Check version
+    uint8_t version = (*buffer) >> 4;
+    if (version != 4)
+        return 0;
+
+    // Get headers
+    struct iphdr *iphdr = buffer;
+    uint8_t ipoptlen = (iphdr->ihl - 5) * 4;
+    struct udphdr *udphdr = buffer + sizeof(struct iphdr) + ipoptlen;
+
+    // Get data
+    uint16_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
+    uint16_t datalen = length - dataoff;
+
+    // TODO make session
+
+    char dest[40];
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, udphdr->dest, dest, sizeof(dest));
+
+    log_android(ANDROID_LOG_INFO, "Forwarding UDP to %s/%u data %d",
+                dest, ntohs(udphdr->dest), datalen);
+
+    struct sockaddr_in client;
+    client.sin_family = (version == 4 ? AF_INET : AF_INET6);
+    client.sin_addr.s_addr = iphdr->daddr;
+    client.sin_port = udphdr->dest;
+
+    if (sendto(usock, buffer + dataoff, datalen, 0, &client, sizeof(client)) != datalen) {
+        log_android(ANDROID_LOG_ERROR, "UDP sendto error %s:%s", errno, strerror(errno));
+        return 0;
+    }
+
+    return 1;
+}
+
+jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length,
+                    int uid) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -888,7 +985,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                     ntohl(tcphdr->seq) == cur->remote_seq &&
                     ntohl(tcphdr->ack_seq) < cur->local_seq) {
                     int confirm = cur->local_seq - ntohl(tcphdr->ack_seq);
-                    log_android(ANDROID_LOG_INFO, "Simultaneous close %s/%u lport %u confirm %d",
+                    log_android(ANDROID_LOG_INFO,
+                                "Simultaneous close %s/%u lport %u confirm %d",
                                 dest, ntohs(cur->dest), cur->lport, confirm);
                     write_ack(cur, confirm, args->tun);
                 }
@@ -940,7 +1038,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                 else if (cur->state == TCP_CLOSING)
                     cur->state = TCP_TIME_WAIT;
                 else
-                    log_android(ANDROID_LOG_ERROR, "Invalid ACK session %s/%u lport %u state %s",
+                    log_android(ANDROID_LOG_ERROR,
+                                "Invalid ACK session %s/%u lport %u state %s",
                                 dest, ntohs(cur->dest), cur->lport, strstate(cur->state));
             }
             else {
@@ -969,7 +1068,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             log_android(ANDROID_LOG_ERROR, "Unknown packet session %s/%u lport %u",
                         dest, ntohs(cur->dest), cur->lport);
 
-        if (cur->state != oldstate || cur->local_seq != oldlocal || cur->remote_seq != oldremote)
+        if (cur->state != oldstate || cur->local_seq != oldlocal ||
+            cur->remote_seq != oldremote)
             log_android(ANDROID_LOG_INFO,
                         "Session %s/%u lport %u new state %s local %u remote %u",
                         dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
@@ -1006,26 +1106,8 @@ int open_tcp(const struct session *cur, const struct arguments *args) {
     }
 
     // Protect
-    JNIEnv *env = args->env;
-    jobject instance = args->instance;
-    jclass cls = (*env)->GetObjectClass(env, instance);
-    jmethodID mid = (*env)->GetMethodID(env, cls, "protect", "(I)Z");
-    if (mid == 0) {
-        log_android(ANDROID_LOG_ERROR, "protect not found");
+    if (protect_socket(args, sock) < 0)
         return -1;
-    }
-    else {
-        jboolean isProtected = (*env)->CallBooleanMethod(env, instance, mid, sock);
-        if (!isProtected)
-            log_android(ANDROID_LOG_ERROR, "protect failed");
-
-        jthrowable ex = (*env)->ExceptionOccurred(env);
-        if (ex) {
-            (*env)->ExceptionDescribe(env);
-            (*env)->ExceptionClear(env);
-            (*env)->DeleteLocalRef(env, ex);
-        }
-    }
 
     // Set non blocking
     uint8_t flags = fcntl(sock, F_GETFL, 0);
@@ -1299,7 +1381,8 @@ jint get_uid(const int protocol, const int version,
                 }
 
                 if (port == sport) {
-                    if (memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) == 0) {
+                    if (memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) ==
+                        0) {
                         uid = u;
                         break;
                     }
@@ -1321,6 +1404,35 @@ jint get_uid(const int protocol, const int version,
 #endif
 
     return uid;
+}
+
+int protect_socket(struct arguments *args, int socket) {
+    JNIEnv *env = args->env;
+    jobject instance = args->instance;
+
+    jclass cls = (*env)->GetObjectClass(env, instance);
+    jmethodID mid = (*env)->GetMethodID(env, cls, "protect", "(I)Z");
+    if (mid == 0) {
+        log_android(ANDROID_LOG_ERROR, "protect method not found");
+        return -1;
+    }
+
+    jboolean isProtected = (*env)->CallBooleanMethod(env, instance, mid, socket);
+    if (!isProtected) {
+        log_android(ANDROID_LOG_ERROR, "protect failed");
+        return -1;
+    }
+
+    jthrowable ex = (*env)->ExceptionOccurred(env);
+    if (ex) {
+        log_android(ANDROID_LOG_ERROR, "protect exception");
+        (*env)->ExceptionDescribe(env);
+        (*env)->ExceptionClear(env);
+        (*env)->DeleteLocalRef(env, ex);
+        return -1;
+    }
+
+    return 0;
 }
 
 uint16_t calc_checksum(uint8_t *buffer, uint16_t length) {

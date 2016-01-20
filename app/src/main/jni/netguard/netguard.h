@@ -67,17 +67,25 @@ typedef struct pcaprec_hdr_s {
 
 #define LINKTYPE_RAW 101
 
+void clear_sessions();
+
 void handle_signal(int sig, siginfo_t *info, void *context);
 
 void handle_events(void *a);
 
-int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
+int get_selects(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
+int check_tun(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds, fd_set *efds);
+
+void check_udp(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
 void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16_t length);
+void handle_ip(const struct arguments *args, int usock,
+               const uint8_t *buffer, const uint16_t length);
+
+jboolean handle_udp(const struct arguments *args, int usock,
+                    const uint8_t *buffer, uint16_t length, int uid);
 
 jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
 
