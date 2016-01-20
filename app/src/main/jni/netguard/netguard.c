@@ -55,7 +55,7 @@
 static JavaVM *jvm;
 pthread_t thread_id;
 int signaled = 0;
-struct session *session = NULL;
+struct tcp_session *tcp_session = NULL;
 int loglevel = 0;
 char *pcap_fn = NULL;
 
@@ -63,7 +63,7 @@ char *pcap_fn = NULL;
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
-    session = NULL;
+    tcp_session = NULL;
     pcap_fn = NULL;
 }
 
@@ -174,14 +174,14 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
 // Private functions
 
 void clear_sessions() {
-    struct session *s = session;
+    struct tcp_session *s = tcp_session;
     while (s != NULL) {
         close(s->socket);
-        struct session *p = s;
+        struct tcp_session *p = s;
         s = s->next;
         free(p);
     }
-    session = NULL;
+    tcp_session = NULL;
 }
 
 void handle_signal(int sig, siginfo_t *info, void *context) {
@@ -252,7 +252,7 @@ void handle_events(void *a) {
         ts.tv_nsec = 0;
         sigemptyset(&emptyset);
         int max = get_selects(args, usock, &rfds, &wfds, &efds);
-        int ready = pselect(max + 1, &rfds, &wfds, &efds, session == NULL ? NULL : &ts, &emptyset);
+        int ready = pselect(max + 1, &rfds, &wfds, &efds, tcp_session == NULL ? NULL : &ts, &emptyset);
         if (ready < 0) {
             if (errno == EINTR) {
                 if (signaled) { ;
@@ -271,7 +271,7 @@ void handle_events(void *a) {
 
         // Count sessions
         int sessions = 0;
-        struct session *s = session;
+        struct tcp_session *s = tcp_session;
         while (s != NULL) {
             sessions++;
             s = s->next;
@@ -353,8 +353,8 @@ int get_selects(const struct arguments *args, int usock, fd_set *rfds, fd_set *w
         max = usock;
 
     // Select sockets
-    struct session *last = NULL;
-    struct session *cur = session;
+    struct tcp_session *last = NULL;
+    struct tcp_session *cur = tcp_session;
     while (cur != NULL) {
         int timeout = 0;
         if (cur->state == TCP_LISTEN || cur->state == TCP_SYN_RECV)
@@ -389,11 +389,11 @@ int get_selects(const struct arguments *args, int usock, fd_set *rfds, fd_set *w
                 log_android(ANDROID_LOG_ERROR, "close error %d: %s", errno, strerror(errno));
 
             if (last == NULL)
-                session = cur->next;
+                tcp_session = cur->next;
             else
                 last->next = cur->next;
 
-            struct session *c = cur;
+            struct tcp_session *c = cur;
             cur = cur->next;
             free(c);
             continue;
@@ -522,7 +522,7 @@ void check_udp(const struct arguments *args, int usock, fd_set *rfds, fd_set *wf
 }
 
 void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
-    struct session *cur = session;
+    struct tcp_session *cur = tcp_session;
     while (cur != NULL) {
         int oldstate = cur->state;
         uint32_t oldlocal = cur->local_seq;
@@ -864,8 +864,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
     uint16_t datalen = length - dataoff;
 
     // Search session
-    struct session *last = NULL;
-    struct session *cur = session;
+    struct tcp_session *last = NULL;
+    struct tcp_session *cur = tcp_session;
     while (cur != NULL && !(cur->saddr == iphdr->saddr && cur->source == tcphdr->source &&
                             cur->daddr == iphdr->daddr && cur->dest == tcphdr->dest)) {
         last = cur;
@@ -887,7 +887,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                         dest, ntohs(tcphdr->dest), uid);
 
             // Register session
-            struct session *syn = malloc(sizeof(struct session));
+            struct tcp_session *syn = malloc(sizeof(struct tcp_session));
             syn->time = time(NULL);
             syn->uid = uid;
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
@@ -917,7 +917,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                 syn->lport = get_local_port(syn->socket);
 
                 if (last == NULL)
-                    session = syn;
+                    tcp_session = syn;
                 else
                     last->next = syn;
             }
@@ -926,8 +926,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             log_android(ANDROID_LOG_WARN, "Unknown session %s/%u uid %d",
                         dest, ntohs(tcphdr->dest), uid);
 
-            struct session rst;
-            memset(&rst, 0, sizeof(struct session));
+            struct tcp_session rst;
+            memset(&rst, 0, sizeof(struct tcp_session));
             rst.remote_seq = ntohl(tcphdr->seq);
             rst.saddr = iphdr->saddr;
             rst.source = tcphdr->source;
@@ -1145,7 +1145,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
     return 1;
 }
 
-int open_tcp(const struct session *cur, const struct arguments *args) {
+int open_tcp(const struct tcp_session *cur, const struct arguments *args) {
     int sock = -1;
 
     // Build target address
@@ -1209,7 +1209,7 @@ ssize_t send_socket(int sock, uint8_t *buffer, uint16_t len) {
     return res;
 }
 
-int write_syn_ack(struct session *cur, int tun) {
+int write_syn_ack(struct tcp_session *cur, int tun) {
     if (write_tcp(cur, NULL, 0, 1, 1, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write SYN+ACK error %d: %s",
                     errno, strerror((errno)));
@@ -1219,7 +1219,7 @@ int write_syn_ack(struct session *cur, int tun) {
     return 0;
 }
 
-int write_ack(struct session *cur, int bytes, int tun) {
+int write_ack(struct tcp_session *cur, int bytes, int tun) {
     if (write_tcp(cur, NULL, 0, bytes, 0, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write ACK error %d: %s",
                     errno, strerror((errno)));
@@ -1229,7 +1229,7 @@ int write_ack(struct session *cur, int bytes, int tun) {
     return 0;
 }
 
-int write_data(struct session *cur, const uint8_t *buffer, uint16_t length, int tun) {
+int write_data(struct tcp_session *cur, const uint8_t *buffer, uint16_t length, int tun) {
     if (write_tcp(cur, buffer, length, 0, 0, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write data ACK lport %u error %d: %s",
                     cur->lport, errno, strerror((errno)));
@@ -1238,7 +1238,7 @@ int write_data(struct session *cur, const uint8_t *buffer, uint16_t length, int 
 
 }
 
-int write_fin(struct session *cur, int tun) {
+int write_fin(struct tcp_session *cur, int tun) {
     if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR,
                     "write FIN lport %u error %d: %s",
@@ -1249,7 +1249,7 @@ int write_fin(struct session *cur, int tun) {
     return 0;
 }
 
-void write_rst(struct session *cur, int tun) {
+void write_rst(struct tcp_session *cur, int tun) {
     log_android(ANDROID_LOG_WARN, "Sending RST");
     if (write_tcp(cur, NULL, 0, 0, 0, 0, 0, 1, tun) < 0)
         log_android(ANDROID_LOG_ERROR, "write RST error %d: %s",
@@ -1257,7 +1257,7 @@ void write_rst(struct session *cur, int tun) {
     cur->state = TCP_TIME_WAIT;
 }
 
-int write_tcp(const struct session *cur,
+int write_tcp(const struct tcp_session *cur,
               uint8_t *data, uint16_t datalen, uint16_t confirm,
               int syn, int ack, int fin, int rst, int tun) {
 #ifdef PROFILE

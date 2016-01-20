@@ -24,7 +24,7 @@ struct arguments {
     jboolean filter;
 };
 
-struct session {
+struct tcp_session {
     // TODO TCPv6
     time_t time;
     jint uid;
@@ -39,7 +39,7 @@ struct session {
     uint8_t state;
     jint socket;
     uint32_t lport; // host notation
-    struct session *next;
+    struct tcp_session *next;
 };
 
 // https://wiki.wireshark.org/Development/LibpcapFileFormat
@@ -90,23 +90,23 @@ jboolean handle_udp(const struct arguments *args, int usock,
 
 jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
 
-int open_tcp(const struct session *cur, const struct arguments *args);
+int open_tcp(const struct tcp_session *cur, const struct arguments *args);
 
 int get_local_port(const int sock);
 
 ssize_t send_socket(int sock, uint8_t *buffer, uint16_t len);
 
-int write_syn_ack(struct session *cur, int tun);
+int write_syn_ack(struct tcp_session *cur, int tun);
 
-int write_ack(struct session *cur, int bytes, int tun);
+int write_ack(struct tcp_session *cur, int bytes, int tun);
 
-int write_data(struct session *cur, const uint8_t *buffer, uint16_t length, int tun);
+int write_data(struct tcp_session *cur, const uint8_t *buffer, uint16_t length, int tun);
 
-int write_fin(struct session *cur, int tun);
+int write_fin(struct tcp_session *cur, int tun);
 
-void write_rst(struct session *cur, int tun);
+void write_rst(struct tcp_session *cur, int tun);
 
-int write_tcp(const struct session *cur,
+int write_tcp(const struct tcp_session *cur,
               uint8_t *data, uint16_t datalen, uint16_t confirm,
               int syn, int ack, int fin, int rst, int tun);
 
