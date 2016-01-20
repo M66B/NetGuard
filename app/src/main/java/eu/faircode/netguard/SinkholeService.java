@@ -329,7 +329,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     for (int i = 0; i < listAllowed.size(); i++)
                         uid[i] = listAllowed.get(i).info.applicationInfo.uid;
 
-                    jni_start(vpn.getFd(), uid, log, filter, Log.INFO);
+                    int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
+                    jni_start(vpn.getFd(), uid, log, filter, prio);
                 }
 
                 removeDisabledNotification();
@@ -372,7 +373,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 for (int i = 0; i < listAllowed.size(); i++)
                     uid[i] = listAllowed.get(i).info.applicationInfo.uid;
 
-                jni_start(vpn.getFd(), uid, log, filter, Log.INFO);
+                int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
+                jni_start(vpn.getFd(), uid, log, filter, prio);
             }
 
             if (prev != null)

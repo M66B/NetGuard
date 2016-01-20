@@ -145,5 +145,21 @@ Since NetGuard has no internet permission, you know your internet traffic is not
         <item>green</item>
     </string-array>
 
+    <string-array name="logLevelNames" translatable="false">
+        <item>Verbose</item>
+        <item>Debug</item>
+        <item>Info</item>
+        <item>Warning</item>
+        <item>Error</item>
+    </string-array>
+
+    <string-array name="logLevelValues" translatable="false">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
     <string name="fingerprint" translatable="false">ef46f813d2c8a064d72c936b9b96d1cccc989378</string>
 </resources>

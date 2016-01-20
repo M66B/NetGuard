@@ -219,6 +219,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             options.removePreference(screen.findPreference("unmetered_4g"));
             options.removePreference(screen.findPreference("national_roaming"));
         }
+
+        if (!Util.isDebuggable(this))
+            screen.removePreference(screen.findPreference("category_development"));
     }
 
     @Override
@@ -418,7 +421,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("stats_samples".equals(name)) {
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
 
-        }
+        } else if ("loglevel".equals(name))
+            SinkholeService.reload(null, "setting changed", this);
     }
 
     @Override
