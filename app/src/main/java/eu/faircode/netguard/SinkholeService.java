@@ -143,6 +143,19 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private final class ServiceHandler extends Handler {
+        private boolean stats = false;
+        private long when;
+
+        private long t = -1;
+        private long tx = -1;
+        private long rx = -1;
+
+        private List<Long> gt = new ArrayList<>();
+        private List<Float> gtx = new ArrayList<>();
+        private List<Float> grx = new ArrayList<>();
+
+        private HashMap<ApplicationInfo, Long> app = new HashMap<>();
+
         public ServiceHandler(Looper looper) {
             super(looper);
         }
@@ -225,7 +238,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     @Override
                     public void onSubscriptionsChanged() {
                         Log.i(TAG, "Subscriptions changed");
-                        reload(null, "Subscriptions changed", SinkholeService.this);
+                        SinkholeService.reload(null, "Subscriptions changed", SinkholeService.this);
                     }
                 };
                 sm.addOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
@@ -235,104 +248,19 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             try {
                 switch (cmd) {
                     case run:
-                        if (state == State.none) {
-                            startForeground(NOTIFY_WAITING, getWaitingNotification());
-                            state = State.waiting;
-                            Log.d(TAG, "Start foreground state=" + state.toString());
-                        }
+                        run();
                         break;
 
                     case start:
-                        if (vpn == null) {
-                            if (state != State.none) {
-                                Log.d(TAG, "Stop foreground state=" + state.toString());
-                                stopForeground(true);
-                            }
-                            startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
-                            state = State.enforcing;
-                            Log.d(TAG, "Start foreground state=" + state.toString());
-
-                            List<Rule> listRule = Rule.getRules(true, TAG, SinkholeService.this);
-                            List<Rule> listAllowed = getAllowedRules(listRule);
-
-                            vpn = startVPN(listAllowed);
-                            if (vpn == null)
-                                throw new IllegalStateException("VPN start failed");
-
-                            boolean log = prefs.getBoolean("log", false);
-                            boolean filter = prefs.getBoolean("filter", false);
-                            if (log || filter) {
-                                int[] uid = new int[listAllowed.size()];
-                                for (int i = 0; i < listAllowed.size(); i++)
-                                    uid[i] = listAllowed.get(i).info.applicationInfo.uid;
-
-                                jni_start(vpn.getFd(), uid, log, filter, Log.INFO);
-                            }
-
-                            removeDisabledNotification();
-                            updateEnforcingNotification(listAllowed.size(), listRule.size());
-                        }
+                        start();
                         break;
 
                     case reload:
-                        if (state != State.enforcing) {
-                            if (state != State.none) {
-                                Log.d(TAG, "Stop foreground state=" + state.toString());
-                                stopForeground(true);
-                            }
-                            startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
-                            state = State.enforcing;
-                            Log.d(TAG, "Start foreground state=" + state.toString());
-                        }
-
-                        // Seamless handover
-                        ParcelFileDescriptor prev = vpn;
-                        List<Rule> listRule = Rule.getRules(true, TAG, SinkholeService.this);
-                        List<Rule> listAllowed = getAllowedRules(listRule);
-
-                        vpn = startVPN(listAllowed);
-                        if (prev != null && vpn == null) {
-                            Log.w(TAG, "Handover failed");
-                            stopVPN(prev);
-                            prev = null;
-                            vpn = startVPN(listAllowed);
-                            if (vpn == null)
-                                throw new IllegalStateException("Handover failed");
-                        }
-
-                        jni_stop(vpn.getFd(), false);
-                        boolean log = prefs.getBoolean("log", false);
-                        boolean filter = prefs.getBoolean("filter", false);
-                        if (log || filter) {
-                            int[] uid = new int[listAllowed.size()];
-                            for (int i = 0; i < listAllowed.size(); i++)
-                                uid[i] = listAllowed.get(i).info.applicationInfo.uid;
-
-                            jni_start(vpn.getFd(), uid, log, filter, Log.INFO);
-                        }
-
-                        if (prev != null)
-                            stopVPN(prev);
-
-                        updateEnforcingNotification(listAllowed.size(), listRule.size());
+                        reload();
                         break;
 
                     case stop:
-                        if (vpn != null) {
-                            jni_stop(vpn.getFd(), true);
-                            stopVPN(vpn);
-                            vpn = null;
-                        }
-                        if (state == State.enforcing) {
-                            Log.d(TAG, "Stop foreground state=" + state.toString());
-                            stopForeground(true);
-                            if (prefs.getBoolean("show_stats", false)) {
-                                startForeground(NOTIFY_WAITING, getWaitingNotification());
-                                state = State.waiting;
-                                Log.d(TAG, "Start foreground state=" + state.toString());
-                            } else
-                                state = State.none;
-                        }
+                        stop();
                         break;
 
                     case stats:
@@ -368,18 +296,109 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
         }
 
-        private boolean stats = false;
-        private long when;
+        private void run() {
+            if (state == State.none) {
+                startForeground(NOTIFY_WAITING, getWaitingNotification());
+                state = State.waiting;
+                Log.d(TAG, "Start foreground state=" + state.toString());
+            }
+        }
 
-        private long t = -1;
-        private long tx = -1;
-        private long rx = -1;
+        private void start() {
+            if (vpn == null) {
+                if (state != State.none) {
+                    Log.d(TAG, "Stop foreground state=" + state.toString());
+                    stopForeground(true);
+                }
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
+                state = State.enforcing;
+                Log.d(TAG, "Start foreground state=" + state.toString());
 
-        private List<Long> gt = new ArrayList<>();
-        private List<Float> gtx = new ArrayList<>();
-        private List<Float> grx = new ArrayList<>();
+                List<Rule> listRule = Rule.getRules(true, TAG, SinkholeService.this);
+                List<Rule> listAllowed = getAllowedRules(listRule);
 
-        private HashMap<ApplicationInfo, Long> app = new HashMap<>();
+                vpn = startVPN(listAllowed);
+                if (vpn == null)
+                    throw new IllegalStateException("VPN start failed");
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                boolean log = prefs.getBoolean("log", false);
+                boolean filter = prefs.getBoolean("filter", false);
+                if (log || filter) {
+                    int[] uid = new int[listAllowed.size()];
+                    for (int i = 0; i < listAllowed.size(); i++)
+                        uid[i] = listAllowed.get(i).info.applicationInfo.uid;
+
+                    jni_start(vpn.getFd(), uid, log, filter, Log.INFO);
+                }
+
+                removeDisabledNotification();
+                updateEnforcingNotification(listAllowed.size(), listRule.size());
+            }
+        }
+
+        private void reload() {
+            if (state != State.enforcing) {
+                if (state != State.none) {
+                    Log.d(TAG, "Stop foreground state=" + state.toString());
+                    stopForeground(true);
+                }
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
+                state = State.enforcing;
+                Log.d(TAG, "Start foreground state=" + state.toString());
+            }
+
+            // Seamless handover
+            ParcelFileDescriptor prev = vpn;
+            List<Rule> listRule = Rule.getRules(true, TAG, SinkholeService.this);
+            List<Rule> listAllowed = getAllowedRules(listRule);
+
+            vpn = startVPN(listAllowed);
+            if (prev != null && vpn == null) {
+                Log.w(TAG, "Handover failed");
+                stopVPN(prev);
+                prev = null;
+                vpn = startVPN(listAllowed);
+                if (vpn == null)
+                    throw new IllegalStateException("Handover failed");
+            }
+
+            jni_stop(vpn.getFd(), false);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            boolean log = prefs.getBoolean("log", false);
+            boolean filter = prefs.getBoolean("filter", false);
+            if (log || filter) {
+                int[] uid = new int[listAllowed.size()];
+                for (int i = 0; i < listAllowed.size(); i++)
+                    uid[i] = listAllowed.get(i).info.applicationInfo.uid;
+
+                jni_start(vpn.getFd(), uid, log, filter, Log.INFO);
+            }
+
+            if (prev != null)
+                stopVPN(prev);
+
+            updateEnforcingNotification(listAllowed.size(), listRule.size());
+        }
+
+        private void stop() {
+            if (vpn != null) {
+                jni_stop(vpn.getFd(), true);
+                stopVPN(vpn);
+                vpn = null;
+            }
+            if (state == State.enforcing) {
+                Log.d(TAG, "Stop foreground state=" + state.toString());
+                stopForeground(true);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                if (prefs.getBoolean("show_stats", false)) {
+                    startForeground(NOTIFY_WAITING, getWaitingNotification());
+                    state = State.waiting;
+                    Log.d(TAG, "Start foreground state=" + state.toString());
+                } else
+                    state = State.none;
+            }
+        }
 
         private void startStats() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
@@ -610,7 +629,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 prefs.edit().putBoolean(pkg, blocked).apply();
 
             // Apply rules
-            reload(null, "notification", SinkholeService.this);
+            SinkholeService.reload(null, "notification", SinkholeService.this);
 
             // Update notification
             Receiver.notifyNewApplication(uid, SinkholeService.this);
