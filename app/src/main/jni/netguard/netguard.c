@@ -802,7 +802,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 
     // Log traffic
     if (args->log) {
-        if (!args->filter || syn || !(protocol == IPPROTO_TCP || protocol == IPPROTO_UDP))
+        if (!args->filter || syn || protocol != IPPROTO_TCP)
             log_java(args, version, source, sport, dest, dport, protocol, flags, uid, allowed);
     }
 }
