@@ -693,8 +693,9 @@ void handle_ip(const struct arguments *args, int usock, const uint8_t *buffer,
     // Get uid
     jint uid = -1;
     if ((protocol == IPPROTO_TCP && (!args->filter || syn)) || protocol == IPPROTO_UDP) {
-        log_android(ANDROID_LOG_INFO, "get uid %s/%u syn %d", dest, dport, syn);
+        log_android(ANDROID_LOG_DEBUG, "get uid %s/%u syn %d", dest, dport, syn);
         int tries = 0;
+        usleep(1000 * UID_DELAY);
         while (uid < 0 && tries++ < UID_MAXTRY) {
             // Check IPv6 table first
             if (version == 4) {
@@ -711,8 +712,9 @@ void handle_ip(const struct arguments *args, int usock, const uint8_t *buffer,
 
             // Retry delay
             if (uid < 0 && tries < UID_MAXTRY) {
-                log_android(ANDROID_LOG_WARN, "get uid try %d", tries);
-                usleep(1000 * UID_DELAY);
+                log_android(ANDROID_LOG_WARN, "get uid %s/%u syn %d try %d",
+                            dest, dport, syn, tries);
+                usleep(1000 * UID_DELAYTRY);
             }
         }
 
@@ -816,7 +818,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
     uint8_t tcpoptlen = (tcphdr->doff - 5) * 4;
     if (tcpoptlen) {
         // TODO handle TCP options
-        log_android(ANDROID_LOG_INFO, "optlen %d", tcpoptlen);
+        log_android(ANDROID_LOG_DEBUG, "optlen %d", tcpoptlen);
     }
 
     // Get data

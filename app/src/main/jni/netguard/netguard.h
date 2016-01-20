@@ -9,7 +9,8 @@
 #define TCP_CLOSE_TIMEOUT 30
 #define TCP_TTL 64
 #define TCP_WINDOW 32768
-#define UID_DELAY 10 // milliseconds
+#define UID_DELAY 1 // milliseconds
+#define UID_DELAYTRY 10 // milliseconds
 #define UID_MAXTRY 3
 #define MAX_PCAP 80
 
