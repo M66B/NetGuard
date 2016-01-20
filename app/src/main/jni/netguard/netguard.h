@@ -4,6 +4,8 @@
 #define MAX_PKTSIZE 32768
 #define MAX_DATASIZE4 (MAX_PKTSIZE-60-60) // IP/TCP header
 #define SELECT_TIMEOUT 10 // seconds
+#define UDP_TIMEOUT 300 // seconds
+#define UDP_TTL 64
 #define TCP_INIT_TIMEOUT 30 // seconds ~net.inet.tcp.keepinit
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
 #define TCP_CLOSE_TIMEOUT 30
@@ -22,6 +24,18 @@ struct arguments {
     jint *uid;
     jboolean log;
     jboolean filter;
+};
+
+struct udp_session {
+    // TODO UDPv6
+    time_t time;
+    jint uid;
+    int32_t saddr; // network notation
+    __be16 source; // network notation
+    int32_t daddr; // network notation
+    __be16 dest; // network notation
+    jint socket;
+    struct udp_session *next;
 };
 
 struct tcp_session {
@@ -74,19 +88,17 @@ void handle_signal(int sig, siginfo_t *info, void *context);
 
 void handle_events(void *a);
 
-int get_selects(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds, fd_set *efds);
+int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-int check_tun(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds, fd_set *efds);
+int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-void check_udp(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds, fd_set *efds);
+void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
+void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-void handle_ip(const struct arguments *args, int usock,
-               const uint8_t *buffer, const uint16_t length);
+void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16_t length);
 
-jboolean handle_udp(const struct arguments *args, int usock,
-                    const uint8_t *buffer, uint16_t length, int uid);
+jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
 
 jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
 
@@ -105,6 +117,8 @@ int write_data(struct tcp_session *cur, const uint8_t *buffer, uint16_t length, 
 int write_fin(struct tcp_session *cur, int tun);
 
 void write_rst(struct tcp_session *cur, int tun);
+
+int write_udp(const struct udp_session *cur, uint8_t *data, uint16_t datalen, int tun);
 
 int write_tcp(const struct tcp_session *cur,
               uint8_t *data, uint16_t datalen, uint16_t confirm,

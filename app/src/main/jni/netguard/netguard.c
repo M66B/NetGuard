@@ -39,7 +39,6 @@
 // TODO TCP options
 // TODO TCP fragmentation
 // TODO TCP push
-// TODO UDPv4
 // TODO TCPv6
 // TODO UDPv6
 // TODO fix warnings
@@ -55,6 +54,7 @@
 static JavaVM *jvm;
 pthread_t thread_id;
 int signaled = 0;
+struct udp_session *udp_session = NULL;
 struct tcp_session *tcp_session = NULL;
 int loglevel = 0;
 char *pcap_fn = NULL;
@@ -63,6 +63,7 @@ char *pcap_fn = NULL;
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
+    udp_session = NULL;
     tcp_session = NULL;
     pcap_fn = NULL;
 }
@@ -174,11 +175,20 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
 // Private functions
 
 void clear_sessions() {
-    struct tcp_session *s = tcp_session;
-    while (s != NULL) {
-        close(s->socket);
-        struct tcp_session *p = s;
-        s = s->next;
+    struct udp_session *u = udp_session;
+    while (u != NULL) {
+        close(u->socket);
+        struct udp_session *p = u;
+        u = u->next;
+        free(p);
+    }
+    udp_session = NULL;
+
+    struct tcp_session *t = tcp_session;
+    while (t != NULL) {
+        close(t->socket);
+        struct tcp_session *p = t;
+        t = t->next;
         free(p);
     }
     tcp_session = NULL;
@@ -223,26 +233,6 @@ void handle_events(void *a) {
 
     signaled = 0;
 
-    // Open UDP socket
-    int usock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if (usock < 0)
-        log_android(ANDROID_LOG_ERROR, "UDP socket error %d: %s", errno, strerror(errno));
-
-    protect_socket(args, usock);
-
-    struct sockaddr_in uaddr;
-    uaddr.sin_family = AF_INET;
-    uaddr.sin_addr.s_addr = INADDR_ANY;
-    uaddr.sin_port = 0;
-    if (bind(usock, (struct sockaddr *) &uaddr, sizeof(struct sockaddr)) < 0)
-        log_android(ANDROID_LOG_ERROR, "UDP bind error %d: %s", errno, strerror(errno));
-
-    int on = 1;
-    if (!setsockopt(usock, SOL_IP, IP_PKTINFO, &on, sizeof(on)))
-        log_android(ANDROID_LOG_ERROR, "IP_PKTINFO error %d: %s", errno, strerror(errno));
-    //if (!setsockopt(usock, SOL_IP, IP_RECVORIGDSTADDR, &on, sizeof(on)))
-    //    log_android(ANDROID_LOG_ERROR, "IP_RECVORIGDSTADDR error %d: %s", errno, strerror(errno));
-
     // Loop
     while (1) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %lu", thread_id);
@@ -251,9 +241,10 @@ void handle_events(void *a) {
         ts.tv_sec = SELECT_TIMEOUT;
         ts.tv_nsec = 0;
         sigemptyset(&emptyset);
-        int max = get_selects(args, usock, &rfds, &wfds, &efds);
+        int max = get_selects(args, &rfds, &wfds, &efds);
         int ready = pselect(max + 1, &rfds, &wfds, &efds,
-                            tcp_session == NULL ? NULL : &ts, &emptyset);
+                            udp_session == NULL && tcp_session == NULL ? NULL : &ts,
+                            &emptyset);
         if (ready < 0) {
             if (errno == EINTR) {
                 if (signaled) { ;
@@ -271,17 +262,24 @@ void handle_events(void *a) {
         }
 
         // Count sessions
-        int sessions = 0;
-        struct tcp_session *s = tcp_session;
-        while (s != NULL) {
-            sessions++;
-            s = s->next;
+        int us = 0;
+        struct udp_session *u = udp_session;
+        while (u != NULL) {
+            us++;
+            u = u->next;
+        }
+
+        int ts = 0;
+        struct tcp_session *t = tcp_session;
+        while (t != NULL) {
+            ts++;
+            t = t->next;
         }
 
         if (ready == 0)
-            log_android(ANDROID_LOG_DEBUG, "pselect timeout sessions %d", sessions);
+            log_android(ANDROID_LOG_DEBUG, "pselect timeout udp %d tcp %d", us, ts);
         else {
-            log_android(ANDROID_LOG_DEBUG, "pselect sessions %d ready %d", sessions, ready);
+            log_android(ANDROID_LOG_DEBUG, "pselect udp %d tcp %d ready %d", us, ts, ready);
 
 #ifdef PROFILE
             struct timeval start, end;
@@ -290,7 +288,7 @@ void handle_events(void *a) {
 #endif
 
             // Check upstream
-            if (check_tun(args, usock, &rfds, &wfds, &efds) < 0)
+            if (check_tun(args, &rfds, &wfds, &efds) < 0)
                 break;
 
 #ifdef PROFILE
@@ -303,11 +301,11 @@ void handle_events(void *a) {
             gettimeofday(&start, NULL);
 #endif
 
-            // Check UDP
-            check_udp(args, usock, &rfds, &wfds, &efds);
+            // Check UDP downstream
+            check_udp_sockets(args, &rfds, &wfds, &efds);
 
-            // Check downstream
-            check_sockets(args, &rfds, &wfds, &efds);
+            // Check TCP downstream
+            check_tcp_sockets(args, &rfds, &wfds, &efds);
 
 #ifdef PROFILE
             gettimeofday(&end, NULL);
@@ -318,8 +316,6 @@ void handle_events(void *a) {
 #endif
         }
     }
-
-    close(usock);
 
     free(args->uid);
     free(args);
@@ -333,8 +329,7 @@ void handle_events(void *a) {
     // TODO report exit to Java
 }
 
-int get_selects(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds,
-                fd_set *efds) {
+int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
     time_t now = time(NULL);
 
     // Initialize
@@ -347,83 +342,106 @@ int get_selects(const struct arguments *args, int usock, fd_set *rfds, fd_set *w
     FD_SET(args->tun, efds);
     int max = args->tun;
 
-    // Always select UDP
-    FD_SET(usock, rfds);
-    FD_SET(usock, efds);
-    if (usock > max)
-        max = usock;
+    // Select UDP sockets
+    struct udp_session *ul = NULL;
+    struct udp_session *u = udp_session;
+    while (u != NULL) {
+        if (u->time + UDP_TIMEOUT < now) {
+            log_android(ANDROID_LOG_INFO, "UDP timeout");
 
-    // Select sockets
-    struct tcp_session *last = NULL;
-    struct tcp_session *cur = tcp_session;
-    while (cur != NULL) {
+            // TODO non blocking?
+            if (close(u->socket))
+                log_android(ANDROID_LOG_ERROR, "UDP close error %d: %s", errno, strerror(errno));
+
+            if (ul == NULL)
+                udp_session = u->next;
+            else
+                ul->next = u->next;
+
+            struct udp_session *c = u;
+            u = u->next;
+            free(c);
+            continue;
+        } else {
+            FD_SET(u->socket, efds);
+            FD_SET(u->socket, rfds);
+            if (u->socket > max)
+                max = u->socket;
+        }
+
+        ul = u;
+        u = u->next;
+    }
+
+    // Select TCP sockets
+    struct tcp_session *tl = NULL;
+    struct tcp_session *t = tcp_session;
+    while (t != NULL) {
         int timeout = 0;
-        if (cur->state == TCP_LISTEN || cur->state == TCP_SYN_RECV)
+        if (t->state == TCP_LISTEN || t->state == TCP_SYN_RECV)
             timeout = TCP_INIT_TIMEOUT;
-        else if (cur->state == TCP_ESTABLISHED)
+        else if (t->state == TCP_ESTABLISHED)
             timeout = TCP_IDLE_TIMEOUT;
         else
             timeout = TCP_CLOSE_TIMEOUT;
 
-        if (cur->state != TCP_TIME_WAIT && cur->time + timeout < now) {
+        if (t->state != TCP_TIME_WAIT && t->time + timeout < now) {
             // TODO send keep alives?
             char dest[20];
-            inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+            inet_ntop(AF_INET, &(t->daddr), dest, sizeof(dest));
 
-            log_android(ANDROID_LOG_WARN, "Idle %s/%u lport %u",
-                        dest, ntohs(cur->dest), cur->lport);
+            log_android(ANDROID_LOG_WARN, "Idle %s/%u lport %u", dest, ntohs(t->dest), t->lport);
 
-            write_rst(cur, args->tun);
+            write_rst(t, args->tun);
         }
 
-        if (cur->state == TCP_TIME_WAIT) {
+        if (t->state == TCP_TIME_WAIT) {
             // Log
             char dest[20];
-            inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
-            log_android(ANDROID_LOG_INFO, "Close %s/%u lport %u",
-                        dest, ntohs(cur->dest), cur->lport);
+            inet_ntop(AF_INET, &(t->daddr), dest, sizeof(dest));
+            log_android(ANDROID_LOG_INFO, "Close %s/%u lport %u", dest, ntohs(t->dest), t->lport);
 
             // TODO keep for some time?
 
             // TODO non blocking?
-            if (close(cur->socket))
+            if (close(t->socket))
                 log_android(ANDROID_LOG_ERROR, "close error %d: %s", errno, strerror(errno));
 
-            if (last == NULL)
-                tcp_session = cur->next;
+            if (tl == NULL)
+                tcp_session = t->next;
             else
-                last->next = cur->next;
+                tl->next = t->next;
 
-            struct tcp_session *c = cur;
-            cur = cur->next;
+            struct tcp_session *c = t;
+            t = t->next;
             free(c);
             continue;
 
-        } else if (cur->state == TCP_LISTEN) {
+        } else if (t->state == TCP_LISTEN) {
             // Check for connected / errors
-            FD_SET(cur->socket, efds);
-            FD_SET(cur->socket, wfds);
-            if (cur->socket > max)
-                max = cur->socket;
+            FD_SET(t->socket, efds);
+            FD_SET(t->socket, wfds);
+            if (t->socket > max)
+                max = t->socket;
         }
-        else if (cur->state == TCP_ESTABLISHED ||
-                 cur->state == TCP_SYN_RECV ||
-                 cur->state == TCP_CLOSE_WAIT) {
+        else if (t->state == TCP_ESTABLISHED ||
+                 t->state == TCP_SYN_RECV ||
+                 t->state == TCP_CLOSE_WAIT) {
             // Check for data / errors
-            FD_SET(cur->socket, efds);
-            FD_SET(cur->socket, rfds);
-            if (cur->socket > max)
-                max = cur->socket;
+            FD_SET(t->socket, efds);
+            FD_SET(t->socket, rfds);
+            if (t->socket > max)
+                max = t->socket;
         }
 
-        last = cur;
-        cur = cur->next;
+        tl = t;
+        t = t->next;
     }
 
     return max;
 }
 
-int check_tun(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds,
+int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
               fd_set *efds) {
     // Check tun error
     if (FD_ISSET(args->tun, efds)) {
@@ -445,7 +463,7 @@ int check_tun(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfd
                 write_pcap_rec(buffer, length);
 
             // Handle IP from tun
-            handle_ip(args, usock, buffer, length);
+            handle_ip(args, buffer, length);
         }
         else {
             // tun eof
@@ -457,82 +475,68 @@ int check_tun(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfd
     return 0;
 }
 
-void check_udp(const struct arguments *args, int usock, fd_set *rfds, fd_set *wfds,
-               fd_set *efds) {
-    if (FD_ISSET(usock, efds)) {
-        // Socket error
-        int serr = 0;
-        socklen_t optlen = sizeof(int);
-        int err = getsockopt(usock, SOL_SOCKET, SO_ERROR, &serr, &optlen);
-        if (err < 0)
-            log_android(ANDROID_LOG_ERROR, "UDP getsockopt error %d: %s", errno,
-                        strerror(errno));
-        else if (serr)
-            log_android(ANDROID_LOG_ERROR, "UDP SO_ERROR %d: %s", serr, strerror(serr));
-    }
-    else if (FD_ISSET(usock, rfds)) {
+void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+    struct udp_session *cur = udp_session;
+    while (cur != NULL) {
+        // Check socket error
+        if (FD_ISSET(cur->socket, efds)) {
+            cur->time = time(NULL);
 
-        uint8_t buffer[MAX_PKTSIZE];
-        struct sockaddr_in client;
-        struct msghdr mh;
-        struct iovec iov;
-        char cbuf[0x100];
-        memset(&mh, 0, sizeof(struct msghdr));
-        iov.iov_base = buffer;
-        iov.iov_len = sizeof(buffer);
-        mh.msg_control = cbuf;
-        mh.msg_controllen = sizeof(cbuf);
-        mh.msg_name = &client;
-        mh.msg_namelen = sizeof(client);
-        mh.msg_iov = &iov;
-        mh.msg_iovlen = 1;
-        mh.msg_flags = 0;
-        ssize_t bytes = recvmsg(usock, &mh, 0);
-        if (bytes < 0)
-            log_android(ANDROID_LOG_ERROR, "UDP recvmsg error %d: %s", errno, strerror(errno));
+            int serr = 0;
+            socklen_t optlen = sizeof(int);
+            int err = getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen);
+            if (err < 0)
+                log_android(ANDROID_LOG_ERROR, "UDP getsockopt error %d: %s",
+                            errno, strerror(errno));
+            else if (serr)
+                log_android(ANDROID_LOG_ERROR, "UDP SO_ERROR %d: %s", serr, strerror(serr));
+
+            // TODO state
+        }
         else {
-            int found = 0;
-            for (struct cmsghdr *msg = CMSG_FIRSTHDR(&mh);
-                 msg != NULL; msg = CMSG_NXTHDR(&mh, msg)) {
-                if (msg->cmsg_level == SOL_IP && /* IPPROTO_IP? */
-                    msg->cmsg_type == IP_PKTINFO) {
-                    found = 1;
-                    struct in_pktinfo *pi = CMSG_DATA(msg);
-                    // pi->ipi_spec_dst is the destination in_addr
-                    // pi->ipi_addr is the receiving interface in_addr
+            // Check socket read
+            if (FD_ISSET(cur->socket, rfds)) {
+                cur->time = time(NULL);
 
-                    char source[40];
-                    char dest[40];
-                    char intf[40];
-                    inet_ntop(client.sin_family, &client.sin_addr, source, sizeof(source));
-                    inet_ntop(client.sin_family, &(pi->ipi_spec_dst), dest, sizeof(dest));
-                    inet_ntop(client.sin_family, &(pi->ipi_addr), intf, sizeof(intf));
+                uint8_t buffer[MAX_DATASIZE4];
+                ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
+                if (bytes < 0) {
+                    // Socket error
+                    log_android(ANDROID_LOG_ERROR, "UDP recv error %d: %s", errno, strerror(errno));
 
-                    int sport = ntohs(client.sin_port);
+                    if (errno != EINTR); // TODO state
+                }
+                else if (bytes == 0) {
+                    // Socket eof
+                    log_android(ANDROID_LOG_INFO, "UDP recv empty");
+                    // TODO state
 
-                    log_android(ANDROID_LOG_INFO, "UDP from %s/%u to %s/%u intf %s data %d",
-                                source, sport, dest, 0, intf, bytes);
-
-                    break;
+                } else {
+                    // Socket read data
+                    char dest[20];
+                    inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+                    log_android(ANDROID_LOG_INFO, "UDP recv bytes %d for %s/%u @tun",
+                                bytes, dest, ntohs(cur->dest));
+                    write_udp(cur, buffer, bytes, args->tun);
                 }
             }
-            if (!found)
-                log_android(ANDROID_LOG_ERROR, "UDP IP_PKTINFO not found");
         }
+
+        cur = cur->next;
     }
 }
 
-void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
     struct tcp_session *cur = tcp_session;
     while (cur != NULL) {
         int oldstate = cur->state;
         uint32_t oldlocal = cur->local_seq;
         uint32_t oldremote = cur->remote_seq;
 
+        // Check socket error
         if (FD_ISSET(cur->socket, efds)) {
             cur->time = time(NULL);
 
-            // Socket error
             int serr = 0;
             socklen_t optlen = sizeof(int);
             int err = getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen);
@@ -633,8 +637,7 @@ void check_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_
     }
 }
 
-void handle_ip(const struct arguments *args, int usock, const uint8_t *buffer,
-               const uint16_t length) {
+void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16_t length) {
     uint8_t protocol;
     void *saddr;
     void *daddr;
@@ -790,7 +793,7 @@ void handle_ip(const struct arguments *args, int usock, const uint8_t *buffer,
     // Handle allowed traffic
     if (allowed) {
         if (protocol == IPPROTO_UDP)
-            allowed = handle_udp(args, usock, buffer, length, uid);
+            allowed = handle_udp(args, buffer, length, uid);
         else if (protocol == IPPROTO_TCP)
             allowed = handle_tcp(args, buffer, length, uid);
         else
@@ -804,8 +807,7 @@ void handle_ip(const struct arguments *args, int usock, const uint8_t *buffer,
     }
 }
 
-jboolean handle_udp(const struct arguments *args, int usock,
-                    const uint8_t *buffer, uint16_t length, int uid) {
+jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid) {
     // Check version
     uint8_t version = (*buffer) >> 4;
     if (version != 4)
@@ -820,22 +822,75 @@ jboolean handle_udp(const struct arguments *args, int usock,
     uint16_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
     uint16_t datalen = length - dataoff;
 
-    // TODO make session
+    // Search session
+    struct udp_session *last = NULL;
+    struct udp_session *cur = udp_session;
+    while (cur != NULL && !(cur->saddr == iphdr->saddr && cur->source == udphdr->source &&
+                            cur->daddr == iphdr->daddr && cur->dest == udphdr->dest)) {
+        last = cur;
+        cur = cur->next;
+    }
+
+    // Create new session if needed
+    int usock = -1;
+    if (cur == NULL) {
+        log_android(ANDROID_LOG_INFO, "UDP new session");
+
+        // Register session
+        struct udp_session *u = malloc(sizeof(struct udp_session));
+        u->time = time(NULL);
+        u->uid = uid;
+        u->saddr = iphdr->saddr;
+        u->source = udphdr->source;
+        u->daddr = iphdr->daddr;
+        u->dest = udphdr->dest;
+        u->next = NULL;
+
+        // Open UDP socket
+        u->socket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+        if (u->socket < 0) {
+            log_android(ANDROID_LOG_ERROR, "UDP socket error %d: %s", errno, strerror(errno));
+            return 0;
+        }
+        else {
+            protect_socket(args, u->socket);
+
+            //struct sockaddr_in uaddr;
+            //uaddr.sin_family = AF_INET;
+            //uaddr.sin_addr.s_addr = INADDR_ANY;
+            //uaddr.sin_port = 0;
+            //if (bind(usock, (struct sockaddr *) &uaddr, sizeof(struct sockaddr)) < 0) {
+            //    log_android(ANDROID_LOG_ERROR, "UDP bind error %d: %s", errno, strerror(errno));
+            //    return 0;
+            //}
+
+            if (last == NULL)
+                udp_session = u;
+            else
+                last->next = u;
+
+            usock = u->socket;
+        }
+
+    } else {
+        cur->time = time(NULL);
+        usock = cur->socket;
+    }
 
     char source[40];
     char dest[40];
-    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(udphdr->source), source, sizeof(source));
-    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(udphdr->dest), dest, sizeof(dest));
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(iphdr->saddr), source, sizeof(source));
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(iphdr->daddr), dest, sizeof(dest));
 
-    log_android(ANDROID_LOG_INFO, "UDP forward from %s/%u to %s/%u data %d",
+    log_android(ANDROID_LOG_INFO, "UDP forward from tun %s/%u to %s/%u data %d",
                 source, ntohs(udphdr->source), dest, ntohs(udphdr->dest), datalen);
 
-    struct sockaddr_in client;
-    client.sin_family = (version == 4 ? AF_INET : AF_INET6);
-    client.sin_addr.s_addr = iphdr->daddr;
-    client.sin_port = udphdr->dest;
+    struct sockaddr_in server;
+    server.sin_family = (version == 4 ? AF_INET : AF_INET6);
+    server.sin_addr.s_addr = iphdr->daddr;
+    server.sin_port = udphdr->dest;
 
-    if (sendto(usock, buffer + dataoff, datalen, 0, &client, sizeof(client)) != datalen) {
+    if (sendto(usock, buffer + dataoff, datalen, 0, &server, sizeof(server)) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %s:%s", errno, strerror(errno));
         return 0;
     }
@@ -843,8 +898,7 @@ jboolean handle_udp(const struct arguments *args, int usock,
     return 1;
 }
 
-jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length,
-                    int uid) {
+jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -1264,6 +1318,68 @@ void write_rst(struct tcp_session *cur, int tun) {
     cur->state = TCP_TIME_WAIT;
 }
 
+int write_udp(const struct udp_session *cur, uint8_t *data, uint16_t datalen, int tun) {
+#ifdef PROFILE
+    float mselapsed;
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
+#endif
+
+    // Build packet
+    uint16_t len = sizeof(struct iphdr) + sizeof(struct udphdr) + datalen;
+    u_int8_t *buffer = calloc(len, 1);
+    struct iphdr *ip = buffer;
+    struct udphdr *udp = buffer + sizeof(struct iphdr);
+    if (datalen)
+        memcpy(buffer + sizeof(struct iphdr) + sizeof(struct udphdr), data, datalen);
+
+    // Build IP header
+    ip->version = 4;
+    ip->ihl = sizeof(struct iphdr) >> 2;
+    ip->tot_len = htons(len);
+    ip->ttl = UDP_TTL;
+    ip->protocol = IPPROTO_UDP;
+    ip->saddr = cur->daddr;
+    ip->daddr = cur->saddr;
+
+    // Calculate IP checksum
+    ip->check = calc_checksum(ip, sizeof(struct iphdr));
+
+    // Build TCP header
+    udp->source = cur->dest;
+    udp->dest = cur->source;
+    udp->check = 0;
+    udp->len = htons(sizeof(struct udphdr) + datalen);
+
+    char to[20];
+    inet_ntop(AF_INET, &(ip->daddr), to, sizeof(to));
+
+    // Send packet
+    log_android(ANDROID_LOG_DEBUG,
+                "Sending UDP to tun %s/%u data %u",
+                to, ntohs(udp->dest), datalen);
+
+    // TODO non blocking
+    int res = write(tun, buffer, len);
+
+#ifdef PROFILE
+    gettimeofday(&end, NULL);
+    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
+                (end.tv_usec - start.tv_usec) / 1000.0;
+    if (mselapsed > 1)
+        log_android(ANDROID_LOG_INFO, "tun UDP write %f", mselapsed);
+#endif
+
+    // Write pcap record
+    if (pcap_fn != NULL)
+        write_pcap_rec(buffer, len);
+
+    free(buffer);
+
+    return res;
+}
+
+
 int write_tcp(const struct tcp_session *cur,
               uint8_t *data, uint16_t datalen, uint16_t confirm,
               int syn, int ack, int fin, int rst, int tun) {
@@ -1351,7 +1467,7 @@ int write_tcp(const struct tcp_session *cur,
     mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
                 (end.tv_usec - start.tv_usec) / 1000.0;
     if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "tun write %f", mselapsed);
+        log_android(ANDROID_LOG_INFO, "tun TCP write %f", mselapsed);
 #endif
 
     // Write pcap record
