@@ -107,7 +107,7 @@ void write_rst(struct session *cur, int tun);
 
 int write_tcp(const struct session *cur,
               uint8_t *data, uint16_t datalen, uint16_t confirm,
-              int syn, int fin, int rst, int tun);
+              int syn, int ack, int fin, int rst, int tun);
 
 jint get_uid(const int protocol, const int version,
              const void *saddr, const uint16_t sport, int dump);

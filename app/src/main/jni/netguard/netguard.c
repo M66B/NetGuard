@@ -36,10 +36,11 @@
 
 // #define PROFILE 1
 
+// TODO TCP options
 // TODO TCP fragmentation
 // TODO TCP push
-// TODO TCPv6
 // TODO UDPv4
+// TODO TCPv6
 // TODO UDPv6
 // TODO fix warnings
 // TODO non blocking send/write, handle EAGAIN/EWOULDBLOCK
@@ -1045,22 +1046,38 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             else {
                 // TODO proper wrap around
                 if (ntohl(tcphdr->seq) == cur->remote_seq &&
-                    ntohl(tcphdr->ack_seq) < cur->local_seq)
+                    ntohl(tcphdr->ack_seq) < cur->local_seq) {
                     log_android(ANDROID_LOG_INFO,
-                                "Previous ACK session %s/%u lport %u seq %u/%u ack %u/%u",
+                                "Previous ACK session %s/%u lport %u seq %u/%u ack %u/%u data %d",
                                 dest, ntohs(cur->dest), cur->lport,
                                 ntohl(tcphdr->seq) - cur->remote_start,
                                 cur->remote_seq - cur->remote_start,
                                 ntohl(tcphdr->ack_seq) - cur->local_start,
-                                cur->local_seq - cur->local_start);
-                else
-                    log_android(ANDROID_LOG_WARN,
-                                "Invalid ACK session %s/%u lport %u state %s seq %u/%u ack %u/%u",
+                                cur->local_seq - cur->local_start,
+                                datalen);
+
+                    // Forward data to socket
+                    if (datalen) {
+                        log_android(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
+                        if (send_socket(cur->socket, buffer + dataoff, datalen) < 0)
+                            write_rst(cur, args->tun);
+                        else {
+                            if (write_ack(cur, datalen, args->tun) >= 0)
+                                cur->remote_seq += datalen;
+                        }
+                    }
+
+                } else {
+                    log_android(ANDROID_LOG_ERROR,
+                                "Invalid ACK session %s/%u lport %u state %s seq %u/%u ack %u/%u data %d",
                                 dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
                                 ntohl(tcphdr->seq) - cur->remote_start,
                                 cur->remote_seq - cur->remote_start,
                                 ntohl(tcphdr->ack_seq) - cur->local_start,
-                                cur->local_seq - cur->local_start);
+                                cur->local_seq - cur->local_start,
+                                datalen);
+                    //write_ack(cur, 0, args->tun);
+                }
             }
         }
 
@@ -1153,7 +1170,7 @@ ssize_t send_socket(int sock, uint8_t *buffer, uint16_t len) {
 }
 
 int write_syn_ack(struct session *cur, int tun) {
-    if (write_tcp(cur, NULL, 0, 1, 1, 0, 0, tun) < 0) {
+    if (write_tcp(cur, NULL, 0, 1, 1, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write SYN+ACK error %d: %s",
                     errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
@@ -1163,7 +1180,7 @@ int write_syn_ack(struct session *cur, int tun) {
 }
 
 int write_ack(struct session *cur, int bytes, int tun) {
-    if (write_tcp(cur, NULL, 0, bytes, 0, 0, 0, tun) < 0) {
+    if (write_tcp(cur, NULL, 0, bytes, 0, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write ACK error %d: %s",
                     errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
@@ -1173,7 +1190,7 @@ int write_ack(struct session *cur, int bytes, int tun) {
 }
 
 int write_data(struct session *cur, const uint8_t *buffer, uint16_t length, int tun) {
-    if (write_tcp(cur, buffer, length, 0, 0, 0, 0, tun) < 0) {
+    if (write_tcp(cur, buffer, length, 0, 0, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write data ACK lport %u error %d: %s",
                     cur->lport, errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
@@ -1182,7 +1199,7 @@ int write_data(struct session *cur, const uint8_t *buffer, uint16_t length, int 
 }
 
 int write_fin(struct session *cur, int tun) {
-    if (write_tcp(cur, NULL, 0, 0, 0, 1, 0, tun) < 0) {
+    if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR,
                     "write FIN lport %u error %d: %s",
                     cur->lport, errno, strerror((errno)));
@@ -1194,7 +1211,7 @@ int write_fin(struct session *cur, int tun) {
 
 void write_rst(struct session *cur, int tun) {
     log_android(ANDROID_LOG_WARN, "Sending RST");
-    if (write_tcp(cur, NULL, 0, 0, 0, 0, 1, tun) < 0)
+    if (write_tcp(cur, NULL, 0, 0, 0, 0, 0, 1, tun) < 0)
         log_android(ANDROID_LOG_ERROR, "write RST error %d: %s",
                     errno, strerror((errno)));
     cur->state = TCP_TIME_WAIT;
@@ -1202,7 +1219,7 @@ void write_rst(struct session *cur, int tun) {
 
 int write_tcp(const struct session *cur,
               uint8_t *data, uint16_t datalen, uint16_t confirm,
-              int syn, int fin, int rst, int tun) {
+              int syn, int ack, int fin, int rst, int tun) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -1236,7 +1253,7 @@ int write_tcp(const struct session *cur,
     tcp->ack_seq = htonl((uint32_t) (cur->remote_seq + confirm));
     tcp->doff = sizeof(struct tcphdr) >> 2;
     tcp->syn = syn;
-    tcp->ack = (datalen > 0 || confirm > 0 || syn);
+    tcp->ack = ack;
     tcp->fin = fin;
     tcp->rst = rst;
     tcp->window = htons(TCP_WINDOW);
