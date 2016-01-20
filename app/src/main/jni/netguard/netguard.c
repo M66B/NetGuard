@@ -1077,23 +1077,51 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                 // Special case or hack if you like
 
                 // TODO proper wrap around
-                if (cur->state == TCP_FIN_WAIT1 &&
+                if ((cur->state == TCP_FIN_WAIT1 || cur->state == TCP_CLOSE_WAIT) &&
                     ntohl(tcphdr->seq) == cur->remote_seq &&
                     ntohl(tcphdr->ack_seq) < cur->local_seq) {
                     int confirm = cur->local_seq - ntohl(tcphdr->ack_seq);
-                    log_android(ANDROID_LOG_INFO,
-                                "Simultaneous close %s/%u lport %u confirm %d",
-                                dest, ntohs(cur->dest), cur->lport, confirm);
-                    write_ack(args, cur, confirm, args->tun);
-                }
-                else
+
                     log_android(ANDROID_LOG_WARN,
-                                "Invalid FIN session %s/%u lport %u state %s seq %u/%u ack %u/%u",
+                                "Simultaneous close %s/%u lport %u state %s confirm %d data %d",
                                 dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
-                                ntohl(tcphdr->seq) - cur->remote_start,
-                                cur->remote_seq - cur->remote_start,
-                                ntohl(tcphdr->ack_seq) - cur->local_start,
-                                cur->local_seq - cur->local_start);
+                                confirm, datalen);
+
+                    // Forward data to socket
+                    if (datalen) {
+                        log_android(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
+                        if (send_socket(cur->socket, buffer + dataoff, datalen) < 0)
+                            write_rst(args, cur, args->tun);
+                        else {
+                            if (write_ack(args, cur, 1 + datalen, args->tun) >= 0)
+                                cur->remote_seq += 1 + datalen;
+                        }
+                    }
+                    else {
+                        if (write_ack(args, cur, confirm, args->tun) >= 0)
+                            cur->remote_seq += 1;
+                    }
+                }
+                else {
+                    // TODO proper wrap around
+                    if (ntohl(tcphdr->seq) < cur->remote_seq &&
+                        ntohl(tcphdr->ack_seq) == cur->local_seq)
+                        log_android(ANDROID_LOG_WARN,
+                                    "Repeated FIN session %s/%u lport %u state %s seq %u/%u ack %u/%u",
+                                    dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
+                                    ntohl(tcphdr->seq) - cur->remote_start,
+                                    cur->remote_seq - cur->remote_start,
+                                    ntohl(tcphdr->ack_seq) - cur->local_start,
+                                    cur->local_seq - cur->local_start);
+                    else
+                        log_android(ANDROID_LOG_ERROR,
+                                    "Invalid FIN session %s/%u lport %u state %s seq %u/%u ack %u/%u",
+                                    dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
+                                    ntohl(tcphdr->seq) - cur->remote_start,
+                                    cur->remote_seq - cur->remote_start,
+                                    ntohl(tcphdr->ack_seq) - cur->local_start,
+                                    cur->local_seq - cur->local_start);
+                }
             }
         }
 
@@ -1161,17 +1189,31 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                                 cur->remote_seq += datalen;
                         }
                     }
+                    else {
+                        // TODO write ack?
+                    }
 
                 } else {
-                    log_android(ANDROID_LOG_ERROR,
-                                "Invalid ACK session %s/%u lport %u state %s seq %u/%u ack %u/%u data %d",
-                                dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
-                                ntohl(tcphdr->seq) - cur->remote_start,
-                                cur->remote_seq - cur->remote_start,
-                                ntohl(tcphdr->ack_seq) - cur->local_start,
-                                cur->local_seq - cur->local_start,
-                                datalen);
-                    //write_ack(cur, 0, args->tun);
+                    // TODO proper wrap around
+                    if (ntohl(tcphdr->seq) < cur->remote_seq &&
+                        ntohl(tcphdr->ack_seq) == cur->local_seq)
+                        log_android(ANDROID_LOG_WARN,
+                                    "Repeated ACK session %s/%u lport %u state %s seq %u/%u ack %u/%u data %d",
+                                    dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
+                                    ntohl(tcphdr->seq) - cur->remote_start,
+                                    cur->remote_seq - cur->remote_start,
+                                    ntohl(tcphdr->ack_seq) - cur->local_start,
+                                    cur->local_seq - cur->local_start,
+                                    datalen);
+                    else
+                        log_android(ANDROID_LOG_ERROR,
+                                    "Invalid ACK session %s/%u lport %u state %s seq %u/%u ack %u/%u data %d",
+                                    dest, ntohs(cur->dest), cur->lport, strstate(cur->state),
+                                    ntohl(tcphdr->seq) - cur->remote_start,
+                                    cur->remote_seq - cur->remote_start,
+                                    ntohl(tcphdr->ack_seq) - cur->local_start,
+                                    cur->local_seq - cur->local_start,
+                                    datalen);
                 }
             }
         }
