@@ -983,7 +983,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             struct tcp_session rst;
             memset(&rst, 0, sizeof(struct tcp_session));
             rst.version = 4;
-            rst.remote_seq = ntohl(tcphdr->seq);
+            rst.remote_seq = tcphdr->seq;
             rst.saddr = iphdr->saddr;
             rst.source = tcphdr->source;
             rst.daddr = iphdr->daddr;
