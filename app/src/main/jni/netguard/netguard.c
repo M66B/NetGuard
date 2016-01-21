@@ -1164,63 +1164,45 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                                         strstate(cur->state));
                     }
                     else {
+                        char *msg;
+                        static const char previous[] = "Previous";
+                        static const char repeated[] = "Repeated";
+                        static const char invalid[] = "Invalid";
+                        static const char keepalive[] = "Keep alive";
+
+                        // TODO proper wrap around
                         if (tcphdr->ack && ((uint32_t) ntohl(tcphdr->seq) + 1) == cur->remote_seq)
-                            log_android(ANDROID_LOG_WARN,
-                                        "Keep alive from %s/%u to %s/%u state %s",
-                                        source, ntohs(tcphdr->source), dest, ntohs(cur->dest),
-                                        strstate(cur->state));
-                        else {
-                            char flags[10];
-                            int flen = 0;
-                            if (tcphdr->syn)
-                                flags[flen++] = 'S';
-                            if (tcphdr->ack)
-                                flags[flen++] = 'A';
-                            if (tcphdr->fin)
-                                flags[flen++] = 'F';
-                            flags[flen] = 0;
+                            msg = keepalive;
+                        else if (ntohl(tcphdr->seq) == cur->remote_seq &&
+                                 ntohl(tcphdr->ack_seq) < cur->local_seq)
+                            msg = previous;
+                        else if (ntohl(tcphdr->seq) < cur->remote_seq &&
+                                 ntohl(tcphdr->ack_seq) == cur->local_seq)
+                            msg = repeated;
+                        else
+                            msg = invalid;
 
-                            // TODO proper wrap around
-                            if (ntohl(tcphdr->seq) == cur->remote_seq &&
-                                ntohl(tcphdr->ack_seq) < cur->local_seq) {
-                                log_android(tcphdr->fin ? ANDROID_LOG_WARN : ANDROID_LOG_INFO,
-                                            "Previous %s from %s/%u to %s/%u state %s seq %u/%u ack %u/%u data %d",
-                                            flags,
-                                            source, ntohs(tcphdr->source),
-                                            dest, ntohs(cur->dest),
-                                            strstate(cur->state),
-                                            ntohl(tcphdr->seq) - cur->remote_start,
-                                            cur->remote_seq - cur->remote_start,
-                                            ntohl(tcphdr->ack_seq) - cur->local_start,
-                                            cur->local_seq - cur->local_start,
-                                            datalen);
+                        char flags[10];
+                        int flen = 0;
+                        if (tcphdr->syn)
+                            flags[flen++] = 'S';
+                        if (tcphdr->ack)
+                            flags[flen++] = 'A';
+                        if (tcphdr->fin)
+                            flags[flen++] = 'F';
+                        flags[flen] = 0;
 
-                            } else if (ntohl(tcphdr->seq) < cur->remote_seq &&
-                                       ntohl(tcphdr->ack_seq) == cur->local_seq)
-                                log_android(tcphdr->fin ? ANDROID_LOG_WARN : ANDROID_LOG_INFO,
-                                            "Repeated %s from %s/%u to %s/%u state %s seq %u/%u ack %u/%u data %d",
-                                            flags,
-                                            source, ntohs(tcphdr->source),
-                                            dest, ntohs(cur->dest),
-                                            strstate(cur->state),
-                                            ntohl(tcphdr->seq) - cur->remote_start,
-                                            cur->remote_seq - cur->remote_start,
-                                            ntohl(tcphdr->ack_seq) - cur->local_start,
-                                            cur->local_seq - cur->local_start,
-                                            datalen);
-                            else
-                                log_android(ANDROID_LOG_ERROR,
-                                            "Invalid %s from %s/%u to %s/%u state %s seq %u/%u ack %u/%u data %d",
-                                            flags,
-                                            source, ntohs(tcphdr->source),
-                                            dest, ntohs(cur->dest),
-                                            strstate(cur->state),
-                                            ntohl(tcphdr->seq) - cur->remote_start,
-                                            cur->remote_seq - cur->remote_start,
-                                            ntohl(tcphdr->ack_seq) - cur->local_start,
-                                            cur->local_seq - cur->local_start,
-                                            datalen);
-                        }
+                        log_android(tcphdr->fin ? ANDROID_LOG_WARN : ANDROID_LOG_INFO,
+                                    "%s %s from %s/%u to %s/%u state %s seq %u/%u ack %u/%u data %d",
+                                    msg, flags,
+                                    source, ntohs(tcphdr->source),
+                                    dest, ntohs(cur->dest),
+                                    strstate(cur->state),
+                                    ntohl(tcphdr->seq) - cur->remote_start,
+                                    cur->remote_seq - cur->remote_start,
+                                    ntohl(tcphdr->ack_seq) - cur->local_start,
+                                    cur->local_seq - cur->local_start,
+                                    datalen);
                     }
                 }
             }
