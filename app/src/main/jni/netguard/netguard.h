@@ -90,6 +90,8 @@ void handle_signal(int sig, siginfo_t *info, void *context);
 
 void handle_events(void *a);
 
+void report_exit(struct arguments *args);
+
 void check_sessions(const struct arguments *args);
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);

@@ -772,6 +772,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     // Called from native code
+    private void selectExit(boolean planned) {
+        Log.w(TAG, "Select exit planned=" + planned);
+        if (!planned) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            prefs.edit().putBoolean("enabled", false).apply();
+        }
+    }
+
+    // Called from native code
     private void logPacket(
             long time,
             int version,

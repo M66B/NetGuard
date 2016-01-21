@@ -25,6 +25,7 @@
 
 #JNI callback
 -keep class eu.faircode.netguard.SinkholeService {
+    void selectExit(boolean);
     void logPacket(long, int, java.lang.String, int, int, java.lang.String, int, boolean);
 }
 

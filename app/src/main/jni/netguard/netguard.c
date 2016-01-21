@@ -39,14 +39,13 @@
 // TODO TCP options
 // TODO TCP fragmentation
 // TODO TCP push
+// TODO TCP window
 // TODO TCPv6
 // TODO UDPv6
 // TODO fix warnings
 // TODO non blocking send/write/close, handle EAGAIN/EWOULDBLOCK
 
-// Window size < 2^31: x <= y: (uint32_t)(y-x) < 0x80000000
 // It is assumed that no packets will get lost and that packets arrive in order
-
 // http://journals.ecs.soton.ac.uk/java/tutorial/native1.1/implementing/index.html
 
 // Global variables
@@ -258,8 +257,7 @@ void handle_events(void *a) {
                     continue;
                 }
             } else {
-                log_android(ANDROID_LOG_ERROR, "pselect error %d: %s",
-                            errno, strerror(errno));
+                log_android(ANDROID_LOG_ERROR, "pselect error %d: %s", errno, strerror(errno));
                 break;
             }
         }
@@ -320,16 +318,42 @@ void handle_events(void *a) {
         }
     }
 
-    free(args->uid);
-    free(args);
+    // Report exit to Java
+    report_exit(args);
 
     (*env)->DeleteGlobalRef(env, args->instance);
+
+    // Detach from Java
     rs = (*jvm)->DetachCurrentThread(jvm);
     if (rs != JNI_OK)
         log_android(ANDROID_LOG_ERROR, "DetachCurrentThread failed");
 
+    // Cleanup
+    free(args->uid);
+    free(args);
+
     log_android(ANDROID_LOG_INFO, "Stopped events tun=%d thread %lu", args->tun, thread_id);
-    // TODO report exit to Java
+}
+
+void report_exit(struct arguments *args) {
+    JNIEnv *env = args->env;
+    jclass cls = (*env)->GetObjectClass(env, args->instance);
+    jmethodID mid = (*env)->GetMethodID(env, cls, "selectExit", "(Z)V");
+    if (mid == 0)
+        log_android(ANDROID_LOG_ERROR, "selectExit method not found");
+    else {
+        jboolean planned = signaled;
+        (*env)->CallVoidMethod(env, args->instance, mid, planned);
+
+        jthrowable ex = (*env)->ExceptionOccurred(env);
+        if (ex) {
+            log_android(ANDROID_LOG_ERROR, "selectExit exception");
+            (*env)->ExceptionDescribe(env);
+            (*env)->ExceptionClear(env);
+            (*env)->DeleteLocalRef(env, ex);
+        }
+    }
+    (*env)->DeleteLocalRef(env, cls);
 }
 
 void check_sessions(const struct arguments *args) {
@@ -599,7 +623,6 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 if (FD_ISSET(cur->socket, rfds)) {
                     cur->time = time(NULL);
 
-                    // TODO window size
                     uint8_t buffer[MAX_DATASIZE4];
                     ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
                     if (bytes < 0) {
@@ -926,10 +949,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
     uint8_t ipoptlen = (iphdr->ihl - 5) * 4;
     struct tcphdr *tcphdr = buffer + sizeof(struct iphdr) + ipoptlen;
     uint8_t tcpoptlen = (tcphdr->doff - 5) * 4;
-    if (tcpoptlen) {
-        // TODO handle TCP options
+    if (tcpoptlen)
         log_android(ANDROID_LOG_DEBUG, "optlen %d", tcpoptlen);
-    }
 
     // Get data
     uint16_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct tcphdr) + tcpoptlen;
@@ -1640,6 +1661,8 @@ int protect_socket(struct arguments *args, int socket) {
         (*env)->DeleteLocalRef(env, ex);
         return -1;
     }
+
+    (*env)->DeleteLocalRef(env, cls);
 
     return 0;
 }
