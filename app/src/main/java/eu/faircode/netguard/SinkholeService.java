@@ -364,6 +364,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     throw new IllegalStateException("Handover failed");
             }
 
+            // TODO drain old VPN
             jni_stop(vpn.getFd(), false);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean log = prefs.getBoolean("log", false);

@@ -117,10 +117,10 @@ Since NetGuard has no internet permission, you know your internet traffic is not
     <string name="title_pro_trial_until">Pro features trial until %1$s</string>
     <string name="title_pro_trial_ended">Pro features trial period ended</string>
     <string name="title_pro_description">The following convenience features are available:</string>
-    <string name="title_pro_notify">New application notifications</string>
-    <string name="title_pro_theme">Appearance (theme, colors)</string>
-    <string name="title_pro_speed">Network speed graph notification</string>
     <string name="title_pro_log">View blocked traffic log</string>
+    <string name="title_pro_notify">New application notifications</string>
+    <string name="title_pro_speed">Network speed graph notification</string>
+    <string name="title_pro_theme">Appearance (theme, colors)</string>
     <string name="title_pro_multi">Multi user support</string>
     <string name="title_pro_buy">Details</string>
     <string name="title_pro_bought">Enabled</string>

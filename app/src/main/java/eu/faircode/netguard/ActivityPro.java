@@ -45,10 +45,10 @@ public class ActivityPro extends AppCompatActivity {
 
     // adb shell pm clear com.android.vending
     // android.test.purchased
-    public static final String SKU_NOTIFY = "notify";
-    public static final String SKU_THEME = "theme";
-    public static final String SKU_SPEED = "speed";
     public static final String SKU_LOG = "log";
+    public static final String SKU_NOTIFY = "notify";
+    public static final String SKU_SPEED = "speed";
+    public static final String SKU_THEME = "theme";
     public static final String SKU_MULTI = "multi";
     public static final String SKU_DONATION = "donation";
 
@@ -67,10 +67,10 @@ public class ActivityPro extends AppCompatActivity {
         // Initial state
         updateState();
 
-        TextView tvNotifyTitle = (TextView) findViewById(R.id.tvNotifyTitle);
-        TextView tvThemeTitle = (TextView) findViewById(R.id.tvThemeTitle);
-        TextView tvSpeedTitle = (TextView) findViewById(R.id.tvSpeedTitle);
         TextView tvLogTitle = (TextView) findViewById(R.id.tvLogTitle);
+        TextView tvNotifyTitle = (TextView) findViewById(R.id.tvNotifyTitle);
+        TextView tvSpeedTitle = (TextView) findViewById(R.id.tvSpeedTitle);
+        TextView tvThemeTitle = (TextView) findViewById(R.id.tvThemeTitle);
         TextView tvMultiTitle = (TextView) findViewById(R.id.tvMultiTitle);
 
         Linkify.TransformFilter filter = new Linkify.TransformFilter() {
@@ -80,10 +80,10 @@ public class ActivityPro extends AppCompatActivity {
             }
         };
 
-        Linkify.addLinks(tvNotifyTitle, Pattern.compile(".*"), "http://www.netguard.me/#notify", null, filter);
-        Linkify.addLinks(tvThemeTitle, Pattern.compile(".*"), "http://www.netguard.me/#theme", null, filter);
-        Linkify.addLinks(tvSpeedTitle, Pattern.compile(".*"), "http://www.netguard.me/#speed", null, filter);
         Linkify.addLinks(tvLogTitle, Pattern.compile(".*"), "http://www.netguard.me/#log", null, filter);
+        Linkify.addLinks(tvNotifyTitle, Pattern.compile(".*"), "http://www.netguard.me/#notify", null, filter);
+        Linkify.addLinks(tvSpeedTitle, Pattern.compile(".*"), "http://www.netguard.me/#speed", null, filter);
+        Linkify.addLinks(tvThemeTitle, Pattern.compile(".*"), "http://www.netguard.me/#theme", null, filter);
         Linkify.addLinks(tvMultiTitle, Pattern.compile(".*"), "http://www.netguard.me/#multi", null, filter);
 
         // Challenge
@@ -126,24 +126,24 @@ public class ActivityPro extends AppCompatActivity {
                         iab.updatePurchases();
                         updateState();
 
-                        final Button btnNotify = (Button) findViewById(R.id.btnNotify);
-                        final Button btnTheme = (Button) findViewById(R.id.btnTheme);
-                        final Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
                         final Button btnLog = (Button) findViewById(R.id.btnLog);
+                        final Button btnNotify = (Button) findViewById(R.id.btnNotify);
+                        final Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
+                        final Button btnTheme = (Button) findViewById(R.id.btnTheme);
                         final Button btnMulti = (Button) findViewById(R.id.btnMulti);
 
                         View.OnClickListener listener = new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 try {
-                                    if (view == btnNotify)
+                                    if (view == btnLog)
+                                        startIntentSenderForResult(iab.getBuyIntent(SKU_LOG).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                    else if (view == btnNotify)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_NOTIFY).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
-                                    else if (view == btnTheme)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_THEME).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                     else if (view == btnSpeed)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_SPEED).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
-                                    else if (view == btnLog)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_LOG).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                    else if (view == btnTheme)
+                                        startIntentSenderForResult(iab.getBuyIntent(SKU_THEME).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                     else if (view == btnMulti)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_MULTI).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                 } catch (Throwable ex) {
@@ -153,16 +153,16 @@ public class ActivityPro extends AppCompatActivity {
                             }
                         };
 
-                        btnNotify.setOnClickListener(listener);
-                        btnTheme.setOnClickListener(listener);
-                        btnSpeed.setOnClickListener(listener);
                         btnLog.setOnClickListener(listener);
+                        btnNotify.setOnClickListener(listener);
+                        btnSpeed.setOnClickListener(listener);
+                        btnTheme.setOnClickListener(listener);
                         btnMulti.setOnClickListener(listener);
 
-                        btnNotify.setEnabled(true);
-                        btnTheme.setEnabled(true);
-                        btnSpeed.setEnabled(true);
                         btnLog.setEnabled(true);
+                        btnNotify.setEnabled(true);
+                        btnSpeed.setEnabled(true);
+                        btnTheme.setEnabled(true);
                         btnMulti.setEnabled(true);
 
                     } catch (Throwable ex) {
@@ -196,20 +196,20 @@ public class ActivityPro extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case R.id.btnNotify:
-                    IAB.setBought(SKU_NOTIFY, this);
+                case R.id.btnLog:
+                    IAB.setBought(SKU_LOG, this);
                     updateState();
                     break;
-                case R.id.btnTheme:
-                    IAB.setBought(SKU_THEME, this);
+                case R.id.btnNotify:
+                    IAB.setBought(SKU_NOTIFY, this);
                     updateState();
                     break;
                 case R.id.btnSpeed:
                     IAB.setBought(SKU_SPEED, this);
                     updateState();
                     break;
-                case R.id.btnLog:
-                    IAB.setBought(SKU_LOG, this);
+                case R.id.btnTheme:
+                    IAB.setBought(SKU_THEME, this);
                     updateState();
                     break;
                 case R.id.btnMulti:
@@ -221,28 +221,28 @@ public class ActivityPro extends AppCompatActivity {
     }
 
     private void updateState() {
-        Button btnNotify = (Button) findViewById(R.id.btnNotify);
-        Button btnTheme = (Button) findViewById(R.id.btnTheme);
-        Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
         Button btnLog = (Button) findViewById(R.id.btnLog);
+        Button btnNotify = (Button) findViewById(R.id.btnNotify);
+        Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
+        Button btnTheme = (Button) findViewById(R.id.btnTheme);
         Button btnMulti = (Button) findViewById(R.id.btnMulti);
-        TextView tvNotify = (TextView) findViewById(R.id.tvNotify);
-        TextView tvTheme = (TextView) findViewById(R.id.tvTheme);
-        TextView tvSpeed = (TextView) findViewById(R.id.tvSpeed);
         TextView tvLog = (TextView) findViewById(R.id.tvLog);
+        TextView tvNotify = (TextView) findViewById(R.id.tvNotify);
+        TextView tvSpeed = (TextView) findViewById(R.id.tvSpeed);
+        TextView tvTheme = (TextView) findViewById(R.id.tvTheme);
         TextView tvMulti = (TextView) findViewById(R.id.tvMulti);
         LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
 
-        btnNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.GONE : View.VISIBLE);
-        btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
-        btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
         btnLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.GONE : View.VISIBLE);
+        btnNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.GONE : View.VISIBLE);
+        btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
+        btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
         btnMulti.setVisibility(IAB.isPurchased(SKU_MULTI, this) ? View.GONE : View.VISIBLE);
 
-        tvNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.VISIBLE : View.GONE);
-        tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
-        tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
         tvLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.VISIBLE : View.GONE);
+        tvNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.VISIBLE : View.GONE);
+        tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
+        tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
         tvMulti.setVisibility(IAB.isPurchased(SKU_MULTI, this) ? View.VISIBLE : View.GONE);
 
         llChallenge.setVisibility(IAB.isPurchased(SKU_DONATION, this) ? View.GONE : View.VISIBLE);
