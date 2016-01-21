@@ -36,6 +36,7 @@ struct udp_session {
     __be16 source; // network notation
     int32_t daddr; // network notation
     __be16 dest; // network notation
+    uint8_t error;
     jint socket;
     struct udp_session *next;
 };

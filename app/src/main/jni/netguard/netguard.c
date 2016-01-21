@@ -363,8 +363,8 @@ void check_sessions(const struct arguments *args) {
     struct udp_session *ul = NULL;
     struct udp_session *u = udp_session;
     while (u != NULL) {
-        if (u->time + UDP_TIMEOUT < now) {
-            log_android(ANDROID_LOG_INFO, "UDP timeout");
+        if (u->error || u->time + UDP_TIMEOUT < now) {
+            log_android(ANDROID_LOG_WARN, "UDP timeout");
 
             if (close(u->socket))
                 log_android(ANDROID_LOG_ERROR, "UDP close error %d: %s", errno, strerror(errno));
@@ -537,7 +537,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
             else if (serr)
                 log_android(ANDROID_LOG_ERROR, "UDP SO_ERROR %d: %s", serr, strerror(serr));
 
-            // TODO state
+            cur->error = 1;
         }
         else {
             // Check socket read
@@ -550,11 +550,12 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     // Socket error
                     log_android(ANDROID_LOG_ERROR, "UDP recv error %d: %s", errno, strerror(errno));
 
-                    if (errno != EINTR); // TODO state
+                    if (errno != EINTR)
+                        cur->error = 1;
                 }
                 else if (bytes == 0) {
                     // Socket eof
-                    log_android(ANDROID_LOG_INFO, "UDP recv empty");
+                    log_android(ANDROID_LOG_WARN, "UDP recv empty");
                     // TODO state
 
                 } else {
@@ -887,6 +888,7 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
         u->source = udphdr->source;
         u->daddr = iphdr->daddr;
         u->dest = udphdr->dest;
+        u->error = 0;
         u->next = NULL;
 
         // Open UDP socket
