@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ActivityPro extends AppCompatActivity {
     private static final String TAG = "NetGuard.Pro";
@@ -62,6 +66,25 @@ public class ActivityPro extends AppCompatActivity {
 
         // Initial state
         updateState();
+
+        TextView tvNotifyTitle = (TextView) findViewById(R.id.tvNotifyTitle);
+        TextView tvThemeTitle = (TextView) findViewById(R.id.tvThemeTitle);
+        TextView tvSpeedTitle = (TextView) findViewById(R.id.tvSpeedTitle);
+        TextView tvLogTitle = (TextView) findViewById(R.id.tvLogTitle);
+        TextView tvMultiTitle = (TextView) findViewById(R.id.tvMultiTitle);
+
+        Linkify.TransformFilter filter = new Linkify.TransformFilter() {
+            @Override
+            public String transformUrl(Matcher match, String url) {
+                return "";
+            }
+        };
+
+        Linkify.addLinks(tvNotifyTitle, Pattern.compile(".*"), "http://www.netguard.me/#notify", null, filter);
+        Linkify.addLinks(tvThemeTitle, Pattern.compile(".*"), "http://www.netguard.me/#theme", null, filter);
+        Linkify.addLinks(tvSpeedTitle, Pattern.compile(".*"), "http://www.netguard.me/#speed", null, filter);
+        Linkify.addLinks(tvLogTitle, Pattern.compile(".*"), "http://www.netguard.me/#log", null, filter);
+        Linkify.addLinks(tvMultiTitle, Pattern.compile(".*"), "http://www.netguard.me/#multi", null, filter);
 
         // Challenge
         TextView tvChallenge = (TextView) findViewById(R.id.tvChallenge);
