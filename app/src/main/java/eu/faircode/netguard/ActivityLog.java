@@ -147,13 +147,27 @@ public class ActivityLog extends AppCompatActivity {
         });
 
         live = true;
-        DatabaseHelper.addLogChangedListener(listener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (live) {
+            DatabaseHelper.addLogChangedListener(listener);
+            adapter = new LogAdapter(ActivityLog.this, dh.getLog());
+            lvLog.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (live)
+            DatabaseHelper.removeLocationChangedListener(listener);
     }
 
     @Override
     protected void onDestroy() {
-        if (live)
-            DatabaseHelper.removeLocationChangedListener(listener);
         dh.close();
         super.onDestroy();
     }
