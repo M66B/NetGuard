@@ -453,10 +453,12 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     // Select UDP sockets
     struct udp_session *u = udp_session;
     while (u != NULL) {
-        FD_SET(u->socket, efds);
-        FD_SET(u->socket, rfds);
-        if (u->socket > max)
-            max = u->socket;
+        if (!u->error) {
+            FD_SET(u->socket, efds);
+            FD_SET(u->socket, rfds);
+            if (u->socket > max)
+                max = u->socket;
+        }
         u = u->next;
     }
 
@@ -834,18 +836,22 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     }
 
     // Handle allowed traffic
+    int log = 0;
     if (allowed) {
         if (protocol == IPPROTO_UDP)
             allowed = handle_udp(args, buffer, length, uid);
-        else if (protocol == IPPROTO_TCP)
+        else if (protocol == IPPROTO_TCP) {
             allowed = handle_tcp(args, buffer, length, uid);
+            if (!allowed)
+                log = 1;
+        }
         else
             allowed = 0;
     }
 
     // Log traffic
     if (args->log) {
-        if (!args->filter || syn || protocol != IPPROTO_TCP)
+        if (!args->filter || syn || log || protocol != IPPROTO_TCP)
             log_packet(args, time(NULL), version, dest, protocol, dport, flags, uid, allowed);
     }
 }
@@ -875,13 +881,11 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
     }
 
     // Create new session if needed
-    int usock = -1;
     if (cur == NULL) {
         log_android(ANDROID_LOG_INFO, "UDP new session");
 
         // Register session
         struct udp_session *u = malloc(sizeof(struct udp_session));
-        u->time = time(NULL);
         u->uid = uid;
         u->version = 4;
         u->saddr = iphdr->saddr;
@@ -895,6 +899,7 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
         u->socket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
         if (u->socket < 0) {
             log_android(ANDROID_LOG_ERROR, "UDP socket error %d: %s", errno, strerror(errno));
+            u->error = 1;
             return 0;
         }
         else {
@@ -905,12 +910,9 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
             else
                 last->next = u;
 
-            usock = u->socket;
+            cur = u;
         }
 
-    } else {
-        cur->time = time(NULL);
-        usock = cur->socket;
     }
 
     char source[40];
@@ -921,13 +923,16 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
     log_android(ANDROID_LOG_INFO, "UDP forward from tun %s/%u to %s/%u data %d",
                 source, ntohs(udphdr->source), dest, ntohs(udphdr->dest), datalen);
 
+    cur->time = time(NULL);
+
     struct sockaddr_in server;
     server.sin_family = (version == 4 ? AF_INET : AF_INET6);
     server.sin_addr.s_addr = iphdr->daddr;
     server.sin_port = udphdr->dest;
 
-    if (sendto(usock, buffer + dataoff, datalen, 0, &server, sizeof(server)) != datalen) {
+    if (sendto(cur->socket, buffer + dataoff, datalen, 0, &server, sizeof(server)) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %s:%s", errno, strerror(errno));
+        cur->error = 1;
         return 0;
     }
 
@@ -1014,6 +1019,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                 syn->state = TCP_TIME_WAIT;
                 // Remote might retry
                 free(syn);
+                return 0;
             }
             else {
                 uint16_t lport = get_local_port(syn->socket);
@@ -1064,6 +1070,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                         cur->local_seq - cur->local_start,
                         cur->remote_seq - cur->remote_start);
             write_rst(args, cur, args->tun);
+            return 0;
         }
         else {
             int oldstate = cur->state;
@@ -1090,6 +1097,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                     log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
                     ok = 0;
                     write_rst(args, cur, args->tun);
+                    return 0;
                 }
                 else {
                     if (tcphdr->fin ||
@@ -1113,6 +1121,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                                 source, ntohs(tcphdr->source), dest, ntohs(cur->dest),
                                 strstate(cur->state));
                     cur->state = TCP_TIME_WAIT;
+                    return 0;
                 }
                 else {
                     if (ntohl(tcphdr->ack_seq) == cur->local_seq &&
@@ -1131,8 +1140,9 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                             if (shutdown(cur->socket, SHUT_WR)) {
                                 log_android(ANDROID_LOG_ERROR, "shutdown WR error %d: %s",
                                             errno, strerror(errno));
-                                write_rst(args, cur, args->tun);
                                 // Data might be lost
+                                write_rst(args, cur, args->tun);
+                                return 0;
                             }
                             else {
                                 if (write_ack(args, cur, 1, args->tun) >= 0) {
@@ -1145,15 +1155,19 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                                         cur->state = TCP_CLOSING;
                                     else if (cur->state == TCP_FIN_WAIT2 /* && !tcphdr->ack */)
                                         cur->state = TCP_TIME_WAIT;
-                                    else
+                                    else {
                                         log_android(ANDROID_LOG_ERROR,
                                                     "Invalid FIN from %s/%u to %s/%u state %s ACK %d",
                                                     source, ntohs(tcphdr->source),
                                                     dest, ntohs(cur->dest),
                                                     strstate(cur->state), tcphdr->ack);
+                                        return 0;
+                                    }
                                 }
-                                else
+                                else {
                                     write_rst(args, cur, args->tun);
+                                    return 0;
+                                }
                             }
                         }
 
@@ -1174,18 +1188,22 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                                 cur->state = TCP_FIN_WAIT2;
                             else if (cur->state == TCP_CLOSING)
                                 cur->state = TCP_TIME_WAIT;
-                            else
+                            else {
                                 log_android(ANDROID_LOG_ERROR,
                                             "Invalid ACK from %s/%u to %s/%u state %s",
                                             source, ntohs(tcphdr->source), dest, ntohs(cur->dest),
                                             strstate(cur->state));
+                                return 0;
+                            }
                         }
 
-                        else
+                        else {
                             log_android(ANDROID_LOG_ERROR,
                                         "Unknown packet from %s/%u to %s/%u state %s",
                                         source, ntohs(tcphdr->source), dest, ntohs(cur->dest),
                                         strstate(cur->state));
+                            return 0;
+                        }
                     }
                     else {
                         char *msg;
@@ -1195,6 +1213,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                         static const char keepalive[] = "Keep alive";
 
                         // TODO proper wrap around
+                        int allowed = 1;
                         if (tcphdr->ack && ((uint32_t) ntohl(tcphdr->seq) + 1) == cur->remote_seq)
                             msg = keepalive;
                         else if (ntohl(tcphdr->seq) == cur->remote_seq &&
@@ -1203,8 +1222,10 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                         else if (ntohl(tcphdr->seq) < cur->remote_seq &&
                                  ntohl(tcphdr->ack_seq) == cur->local_seq)
                             msg = repeated;
-                        else
+                        else {
                             msg = invalid;
+                            allowed = 0;
+                        }
 
                         char flags[10];
                         int flen = 0;
@@ -1227,6 +1248,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                                     ntohl(tcphdr->ack_seq) - cur->local_start,
                                     cur->local_seq - cur->local_start,
                                     datalen);
+
+                        return allowed;
                     }
                 }
             }
