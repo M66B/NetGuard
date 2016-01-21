@@ -42,7 +42,7 @@
 // TODO TCPv6
 // TODO UDPv6
 // TODO fix warnings
-// TODO non blocking send/write, handle EAGAIN/EWOULDBLOCK
+// TODO non blocking send/write/close, handle EAGAIN/EWOULDBLOCK
 
 // Window size < 2^31: x <= y: (uint32_t)(y-x) < 0x80000000
 // It is assumed that no packets will get lost and that packets arrive in order
@@ -342,7 +342,6 @@ void check_sessions(const struct arguments *args) {
         if (u->time + UDP_TIMEOUT < now) {
             log_android(ANDROID_LOG_INFO, "UDP timeout");
 
-            // TODO non blocking?
             if (close(u->socket))
                 log_android(ANDROID_LOG_ERROR, "UDP close error %d: %s", errno, strerror(errno));
 
@@ -391,7 +390,6 @@ void check_sessions(const struct arguments *args) {
             log_android(ANDROID_LOG_INFO, "Close from %s/%u to %s/%u socket %d",
                         source, ntohs(t->source), dest, ntohs(t->dest), t->socket);
 
-            // TODO non blocking?
             if (close(t->socket))
                 log_android(ANDROID_LOG_ERROR, "close error %d: %s", errno, strerror(errno));
 
@@ -1287,7 +1285,6 @@ uint16_t get_local_port(const int sock) {
 }
 
 ssize_t send_socket(int sock, uint8_t *buffer, uint16_t len) {
-    // TODO non blocking
     ssize_t res = send(sock, buffer, len, 0);
     if (res < 0)
         log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
@@ -1391,7 +1388,6 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
                 "Sending UDP to tun %s/%u data %u",
                 to, ntohs(udp->dest), datalen);
 
-    // TODO non blocking
     int res = write(tun, buffer, len);
 
 #ifdef PROFILE
@@ -1493,7 +1489,6 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
                 ntohl(tcp->ack_seq) - cur->remote_start,
                 datalen, confirm);
 
-    // TODO non blocking
     int res = write(tun, buffer, len);
 
 #ifdef PROFILE
