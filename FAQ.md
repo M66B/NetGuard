@@ -264,6 +264,11 @@ To prevent a bad user experience there is a predefined rule to default allow the
 
 You can find all predefined rules [here](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/xml/predefined.xml).
 
+<a name="FAQ29"></a>
+**(29) Why do I get 'The item you requested is not available for purchase'?**
+
+You can only purchase pro feature when you installed NetGuard from the Play store.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.

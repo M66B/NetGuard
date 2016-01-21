@@ -182,6 +182,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ28"></a>
 [**(28) Why is Google connectivity services allowed internet access by default?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ28)
 
+<a name="FAQ29"></a>
+[**(29) Why do I get 'The item you requested is not available for purchase'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ29)
+
 Permissions
 -----------
 
