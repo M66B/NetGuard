@@ -65,8 +65,7 @@ public class ActivityLog extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    adapter = new LogAdapter(ActivityLog.this, dh.getLog());
-                    lvLog.setAdapter(adapter);
+                    adapter.changeCursor(dh.getLog());
                 }
             });
         }
@@ -81,10 +80,9 @@ public class ActivityLog extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.menu_log);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        dh = new DatabaseHelper(this);
-
         lvLog = (ListView) findViewById(R.id.lvLog);
 
+        dh = new DatabaseHelper(this);
         adapter = new LogAdapter(this, dh.getLog());
         lvLog.setAdapter(adapter);
 
@@ -154,8 +152,7 @@ public class ActivityLog extends AppCompatActivity {
         super.onResume();
         if (live) {
             DatabaseHelper.addLogChangedListener(listener);
-            adapter = new LogAdapter(ActivityLog.this, dh.getLog());
-            lvLog.setAdapter(adapter);
+            adapter.changeCursor(dh.getLog());
         }
     }
 
@@ -210,9 +207,8 @@ public class ActivityLog extends AppCompatActivity {
                 item.setChecked(!item.isChecked());
                 live = item.isChecked();
                 if (live) {
-                    adapter = new LogAdapter(this, dh.getLog());
-                    lvLog.setAdapter(adapter);
                     DatabaseHelper.addLogChangedListener(listener);
+                    adapter.changeCursor(dh.getLog());
                 } else
                     DatabaseHelper.removeLocationChangedListener(listener);
                 return true;
@@ -220,8 +216,7 @@ public class ActivityLog extends AppCompatActivity {
             case R.id.menu_log_clear:
                 dh.clear();
                 if (!live) {
-                    adapter = new LogAdapter(this, dh.getLog());
-                    lvLog.setAdapter(adapter);
+                    adapter.changeCursor(dh.getLog());
                 }
                 return true;
 
