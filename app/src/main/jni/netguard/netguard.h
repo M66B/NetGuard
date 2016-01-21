@@ -1,20 +1,26 @@
 #include <jni.h>
 
 #define TAG "NetGuard.JNI"
+
 #define MAX_PKTSIZE 32768
 #define MAX_DATASIZE4 (MAX_PKTSIZE-60-60) // IP/TCP header
+
 #define SELECT_TIMEOUT 10 // seconds
+
 #define UDP_TIMEOUT 300 // seconds
 #define UDP_TTL 64
+
 #define TCP_INIT_TIMEOUT 30 // seconds ~net.inet.tcp.keepinit
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
 #define TCP_CLOSE_TIMEOUT 30 // seconds
 #define TCP_KEEP_TIMEOUT 300 // seconds
 #define TCP_TTL 64
 #define TCP_WINDOW 32768
+
 #define UID_DELAY 1 // milliseconds
 #define UID_DELAYTRY 10 // milliseconds
 #define UID_MAXTRY 3
+
 #define MAX_PCAP 80
 
 struct arguments {
