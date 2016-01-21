@@ -1007,7 +1007,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                             dest, ntohs(tcphdr->dest), datalen);
 
             // Open socket
-            syn->socket = open_tcp(syn, args);
+            syn->socket = open_socket(syn, args);
             if (syn->socket < 0) {
                 syn->state = TCP_TIME_WAIT;
                 // Remote might retry
@@ -1082,7 +1082,9 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             int ok = 1;
             if (ntohl(tcphdr->seq) == cur->remote_seq && datalen) {
                 log_android(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
-                if (send_socket(cur->socket, buffer + dataoff, datalen) < 0) {
+
+                if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
+                    log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
                     ok = 0;
                     write_rst(args, cur, args->tun);
                 }
@@ -1249,7 +1251,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
     return 1;
 }
 
-int open_tcp(const struct tcp_session *cur, const struct arguments *args) {
+int open_socket(const struct tcp_session *cur, const struct arguments *args) {
     int sock = -1;
 
     // Build target address
@@ -1303,13 +1305,6 @@ uint16_t get_local_port(const int sock) {
         return -1;
     } else
         return ntohs(sin.sin_port);
-}
-
-ssize_t send_socket(int sock, uint8_t *buffer, uint16_t len) {
-    ssize_t res = send(sock, buffer, len, 0);
-    if (res < 0)
-        log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
-    return res;
 }
 
 int write_syn_ack(const struct arguments *args, struct tcp_session *cur, int tun) {

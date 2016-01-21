@@ -108,11 +108,9 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
 
 jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
 
-int open_tcp(const struct tcp_session *cur, const struct arguments *args);
+int open_socket(const struct tcp_session *cur, const struct arguments *args);
 
 uint16_t get_local_port(const int sock);
-
-ssize_t send_socket(int sock, uint8_t *buffer, uint16_t len);
 
 int write_syn_ack(const struct arguments *args, struct tcp_session *cur, int tun);
 
