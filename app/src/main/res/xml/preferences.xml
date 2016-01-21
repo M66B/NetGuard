@@ -142,7 +142,7 @@
             android:entries="@array/logLevelNames"
             android:entryValues="@array/logLevelValues"
             android:key="loglevel"
-            android:title="Loglevel" />
+            android:title="Native log level" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_technical"
