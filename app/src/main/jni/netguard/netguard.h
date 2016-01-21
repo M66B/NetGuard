@@ -8,7 +8,8 @@
 #define UDP_TTL 64
 #define TCP_INIT_TIMEOUT 30 // seconds ~net.inet.tcp.keepinit
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
-#define TCP_CLOSE_TIMEOUT 30
+#define TCP_CLOSE_TIMEOUT 30 // seconds
+#define TCP_KEEP_TIMEOUT 300 // seconds
 #define TCP_TTL 64
 #define TCP_WINDOW 32768
 #define UID_DELAY 1 // milliseconds
@@ -88,6 +89,8 @@ void clear_sessions();
 void handle_signal(int sig, siginfo_t *info, void *context);
 
 void handle_events(void *a);
+
+void check_sessions(const struct arguments *args);
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
