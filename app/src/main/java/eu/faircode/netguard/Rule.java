@@ -170,6 +170,9 @@ public class Rule {
         // Build rule list
         List<Rule> listRules = new ArrayList<>();
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
+            if (info.applicationInfo.uid == android.os.Process.myUid())
+                continue;
+
             Rule rule = new Rule(info, context);
             if (pre_system.containsKey(info.packageName))
                 rule.system = pre_system.get(info.packageName);

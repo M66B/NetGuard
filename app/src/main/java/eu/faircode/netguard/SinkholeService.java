@@ -467,11 +467,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // Calculate application speeds
             if (prefs.getBoolean("show_top", false)) {
-                if (app.size() == 0)
+                if (app.size() == 0) {
                     for (ApplicationInfo ainfo : getPackageManager().getInstalledApplications(0))
-                        app.put(ainfo, TrafficStats.getUidTxBytes(ainfo.uid) + TrafficStats.getUidRxBytes(ainfo.uid));
+                        if (ainfo.uid != android.os.Process.myUid())
+                            app.put(ainfo, TrafficStats.getUidTxBytes(ainfo.uid) + TrafficStats.getUidRxBytes(ainfo.uid));
 
-                else if (t > 0) {
+                } else if (t > 0) {
                     TreeMap<Float, ApplicationInfo> mapSpeed = new TreeMap<>(new Comparator<Float>() {
                         @Override
                         public int compare(Float value, Float other) {
