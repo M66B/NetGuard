@@ -852,7 +852,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     // Log traffic
     if (args->log) {
         if (!args->filter || syn || log || protocol != IPPROTO_TCP)
-            log_packet(args, time(NULL), version, dest, protocol, dport, flags, uid, allowed);
+            log_packet(args, version, dest, protocol, dport, flags, uid, allowed);
     }
 }
 
@@ -1440,7 +1440,7 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
         log_android(ANDROID_LOG_INFO, "tun UDP write %f", mselapsed);
 #endif
 
-    log_packet(args, time(NULL), cur->version, to, ip->protocol, ntohs(udp->dest), "", cur->uid, 1);
+    log_packet(args, cur->version, to, ip->protocol, ntohs(udp->dest), "", cur->uid, 1);
 
     // Write pcap record
     if (pcap_fn != NULL)
@@ -1720,7 +1720,6 @@ void log_android(int prio, const char *fmt, ...) {
 
 void log_packet(
         const struct arguments *args,
-        jlong time,
         jint version,
         const char *dest,
         jint protocol,
@@ -1742,10 +1741,13 @@ void log_packet(
     if (mid == 0)
         log_android(ANDROID_LOG_ERROR, "Method logPacket%s not found", signature);
     else {
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        jlong t = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
         jstring jdest = (*env)->NewStringUTF(env, dest);
         jstring jflags = (*env)->NewStringUTF(env, flags);
         (*env)->CallVoidMethod(env, instance, mid,
-                               time,
+                               t,
                                version,
                                jdest,
                                protocol,

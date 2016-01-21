@@ -147,7 +147,6 @@ uint16_t calc_checksum(uint8_t *buffer, uint16_t length);
 void log_android(int prio, const char *fmt, ...);
 
 void log_packet(const struct arguments *args,
-                jlong time,
                 jint version,
                 const char *dest,
                 jint protocol,
