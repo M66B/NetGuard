@@ -54,7 +54,6 @@ struct tcp_session {
     __be16 dest; // network notation
     uint8_t state;
     jint socket;
-    uint32_t lport; // host notation
     struct tcp_session *next;
 };
 
@@ -106,7 +105,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
 
 int open_tcp(const struct tcp_session *cur, const struct arguments *args);
 
-int get_local_port(const int sock);
+uint16_t get_local_port(const int sock);
 
 ssize_t send_socket(int sock, uint8_t *buffer, uint16_t len);
 
