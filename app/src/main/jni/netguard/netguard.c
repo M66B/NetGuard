@@ -1063,6 +1063,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                         dest, ntohs(cur->dest), strstate(cur->state),
                         cur->local_seq - cur->local_start,
                         cur->remote_seq - cur->remote_start);
+            write_rst(args, cur, args->tun);
         }
         else {
             int oldstate = cur->state;
