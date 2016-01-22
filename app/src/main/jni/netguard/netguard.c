@@ -38,7 +38,6 @@
 
 // TODO TCP options
 // TODO TCP fragmentation
-// TODO TCP push
 // TODO TCPv6
 // TODO UDPv6
 // TODO fix warnings
@@ -962,7 +961,8 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
     server.sin_addr.s_addr = iphdr->daddr;
     server.sin_port = udphdr->dest;
 
-    if (sendto(cur->socket, buffer + dataoff, datalen, 0, &server, sizeof(server)) != datalen) {
+    if (sendto(cur->socket, buffer + dataoff, datalen, MSG_NOSIGNAL, &server, sizeof(server)) !=
+        datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %s:%s", errno, strerror(errno));
         cur->error = 1;
         return 0;
@@ -1129,7 +1129,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             if (ntohl(tcphdr->seq) == cur->remote_seq && datalen) {
                 log_android(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
 
-                if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
+                int more = (tcphdr->psh ? 0 : MSG_MORE);
+                if (send(cur->socket, buffer + dataoff, datalen, MSG_NOSIGNAL | more) < 0) {
                     log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
                     write_rst(args, cur, args->tun);
                     return 0;
