@@ -38,8 +38,6 @@ model {
                 debuggable = true
             }
         }
-    }
-    android.buildTypes {
         debug {
             ndk.with {
                 debuggable = true
