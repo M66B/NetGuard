@@ -936,7 +936,7 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
         else {
             // Check for broacast
             uint32_t broadcast = INADDR_BROADCAST;
-            if (memcmp(&iphdr->saddr, &broadcast, sizeof(broadcast)) == 0) {
+            if (memcmp(&iphdr->daddr, &broadcast, sizeof(broadcast)) == 0) {
                 log_android(ANDROID_LOG_WARN, "UDP broadcast");
                 int on = 1;
                 if (setsockopt(u->socket, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on)))
