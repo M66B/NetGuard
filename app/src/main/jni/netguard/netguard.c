@@ -39,7 +39,6 @@
 // TODO TCP options
 // TODO TCP fragmentation
 // TODO TCP push
-// TODO TCP window
 // TODO TCPv6
 // TODO UDPv6
 // TODO fix warnings
@@ -504,7 +503,8 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
                  t->state == TCP_CLOSE_WAIT) {
             // Check for data / errors
             FD_SET(t->socket, efds);
-            FD_SET(t->socket, rfds);
+            if (t->send_window > 0)
+                FD_SET(t->socket, rfds);
             if (t->socket > max)
                 max = t->socket;
         }
@@ -525,7 +525,7 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 
     // Check tun read
     if (FD_ISSET(args->tun, rfds)) {
-        uint8_t buffer[MAX_PKTSIZE];
+        uint8_t buffer[TUN_MAXMSG];
         ssize_t length = read(args->tun, buffer, sizeof(buffer));
         if (length < 0) {
             log_android(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
@@ -572,7 +572,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
             if (FD_ISSET(cur->socket, rfds)) {
                 cur->time = time(NULL);
 
-                uint8_t buffer[MAX_DATASIZE4];
+                uint8_t buffer[UDP4_MAXMSG];
                 ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
                 if (bytes < 0) {
                     // Socket error
@@ -649,11 +649,14 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                      cur->state == TCP_ESTABLISHED ||
                      cur->state == TCP_CLOSE_WAIT) {
                 // Check socket read
-                if (FD_ISSET(cur->socket, rfds)) {
+                if (FD_ISSET(cur->socket, rfds) && cur->send_window > 0) {
                     cur->time = time(NULL);
 
-                    uint8_t buffer[MAX_DATASIZE4];
-                    ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
+                    uint16_t len = (cur->send_window > TCP_SEND_WINDOW
+                                    ? TCP_SEND_WINDOW
+                                    : cur->send_window);
+                    uint8_t *buffer = malloc(len);
+                    ssize_t bytes = recv(cur->socket, buffer, len, 0);
                     if (bytes < 0) {
                         // Socket error
                         log_android(ANDROID_LOG_ERROR, "recv error %d: %s", errno, strerror(errno));
@@ -689,6 +692,8 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         if (write_data(args, cur, buffer, bytes, args->tun) >= 0)
                             cur->local_seq += bytes;
                     }
+
+                    free(buffer);
                 }
             }
         }
@@ -1014,15 +1019,17 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
 
     if (cur == NULL) {
         if (tcphdr->syn) {
-            log_android(ANDROID_LOG_INFO, "New session from %s/%u to %s/%u uid %d",
+            log_android(ANDROID_LOG_INFO, "New session from %s/%u to %s/%u window %u uid %d",
                         source, ntohs(tcphdr->source),
-                        dest, ntohs(tcphdr->dest), uid);
+                        dest, ntohs(tcphdr->dest),
+                        ntohs(tcphdr->window), uid);
 
             // Register session
             struct tcp_session *syn = malloc(sizeof(struct tcp_session));
             syn->time = time(NULL);
             syn->uid = uid;
             syn->version = 4;
+            syn->send_window = ntohs(tcphdr->window);
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
             syn->local_seq = rand(); // ISN local
             syn->remote_start = syn->remote_seq;
@@ -1105,13 +1112,15 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             uint32_t oldremote = cur->remote_seq;
 
             log_android(ANDROID_LOG_DEBUG,
-                        "Session from %s/%u to %s/%u state %s local %u remote %u",
+                        "Session from %s/%u to %s/%u state %s local %u remote %u window %u",
                         source, ntohs(tcphdr->source),
                         dest, ntohs(cur->dest), strstate(cur->state),
                         cur->local_seq - cur->local_start,
-                        cur->remote_seq - cur->remote_start);
+                        cur->remote_seq - cur->remote_start,
+                        ntohs(tcphdr->window));
 
             cur->time = time(NULL);
+            cur->send_window = ntohs(tcphdr->window);
 
             // Do not change order of conditions
 
@@ -1282,12 +1291,13 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             if (cur->state != oldstate || cur->local_seq != oldlocal ||
                 cur->remote_seq != oldremote)
                 log_android(ANDROID_LOG_INFO,
-                            "Session from %s/%u to %s/%u new state %s local %u remote %u",
+                            "Session from %s/%u to %s/%u new state %s local %u remote %u window %u",
                             source, ntohs(tcphdr->source),
                             dest, ntohs(cur->dest),
                             strstate(cur->state),
                             cur->local_seq - cur->local_start,
-                            cur->remote_seq - cur->remote_start);
+                            cur->remote_seq - cur->remote_start,
+                            ntohs(tcphdr->window));
         }
 
 #ifdef PROFILE
@@ -1519,7 +1529,7 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
     tcp->ack = ack;
     tcp->fin = fin;
     tcp->rst = rst;
-    tcp->window = htons(TCP_WINDOW);
+    tcp->window = htons(TCP_RECV_WINDOW);
 
     if (!tcp->ack)
         tcp->ack_seq = 0;

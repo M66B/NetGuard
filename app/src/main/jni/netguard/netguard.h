@@ -2,20 +2,21 @@
 
 #define TAG "NetGuard.JNI"
 
-#define MAX_PKTSIZE 32768
-#define MAX_DATASIZE4 (MAX_PKTSIZE-60-60) // IP/TCP header
-
 #define SELECT_TIMEOUT 10 // seconds
 
-#define UDP_TIMEOUT 300 // seconds
-#define UDP_TTL 64
+#define TUN_MAXMSG 32768 // bytes (device)
+#define UDP4_MAXMSG 65507 // bytes (socket)
 
+#define UDP_TTL 64
+#define UDP_TIMEOUT 300 // seconds
+
+#define TCP_TTL 64
+#define TCP_RECV_WINDOW 2048 // bytes
+#define TCP_SEND_WINDOW 2048 // bytes (maximum)
 #define TCP_INIT_TIMEOUT 30 // seconds ~net.inet.tcp.keepinit
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
 #define TCP_CLOSE_TIMEOUT 30 // seconds
 #define TCP_KEEP_TIMEOUT 300 // seconds
-#define TCP_TTL 64
-#define TCP_WINDOW 32768
 
 #define UID_DELAY 1 // milliseconds
 #define UID_DELAYTRY 10 // milliseconds
@@ -50,9 +51,10 @@ struct udp_session {
 
 struct tcp_session {
     // TODO TCPv6
-    time_t time;
     jint uid;
+    time_t time;
     int version;
+    uint16_t send_window; // host notation
     uint32_t remote_seq; // confirmed bytes received, host notation
     uint32_t local_seq; // confirmed bytes sent, host notation
     uint32_t remote_start;
