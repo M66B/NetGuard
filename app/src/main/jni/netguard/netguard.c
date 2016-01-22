@@ -46,7 +46,6 @@
 // TODO non blocking send/write/close, handle EAGAIN/EWOULDBLOCK
 
 // It is assumed that no packets will get lost and that packets arrive in order
-// http://journals.ecs.soton.ac.uk/java/tutorial/native1.1/implementing/index.html
 
 // Global variables
 
@@ -59,6 +58,36 @@ int loglevel = 0;
 char *pcap_fn = NULL;
 
 // JNI
+
+jclass clsPacket;
+
+jint JNI_OnLoad(JavaVM *vm, void *reserved) {
+    log_android(ANDROID_LOG_INFO, "JNI load");
+
+    JNIEnv *env;
+    if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_6) != JNI_OK) {
+        log_android(ANDROID_LOG_INFO, "JNI load GetEnv failed");
+        return -1;
+    }
+
+    const char *packet = "eu/faircode/netguard/Packet";
+    clsPacket = jniGlobalRef(env, jniFindClass(env, packet));
+
+    // TODO find methods
+
+    return JNI_VERSION_1_6;
+}
+
+void JNI_OnUnload(JavaVM *vm, void *reserved) {
+    log_android(ANDROID_LOG_INFO, "JNI unload");
+
+    JNIEnv *env;
+    if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_6) != JNI_OK)
+        log_android(ANDROID_LOG_INFO, "JNI load GetEnv failed");
+    else {
+        (*env)->DeleteGlobalRef(env, clsPacket);
+    }
+}
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
@@ -852,7 +881,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     // Log traffic
     if (args->log) {
         if (!args->filter || syn || log || protocol != IPPROTO_TCP)
-            log_packet(args, version, dest, protocol, dport, flags, uid, allowed);
+            log_packet(args, version, protocol, flags, source, sport, dest, dport, uid, allowed);
     }
 }
 
@@ -1422,13 +1451,15 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
     udp->check = 0;
     udp->len = htons(sizeof(struct udphdr) + datalen);
 
-    char to[20];
-    inet_ntop(AF_INET, &(ip->daddr), to, sizeof(to));
+    char source[20];
+    char dest[20];
+    inet_ntop(AF_INET, &(ip->saddr), source, sizeof(source));
+    inet_ntop(AF_INET, &(ip->daddr), dest, sizeof(dest));
 
     // Send packet
     log_android(ANDROID_LOG_DEBUG,
-                "Sending UDP to tun %s/%u data %u",
-                to, ntohs(udp->dest), datalen);
+                "Sending UDP to tun from %s/%u to %s/%u data %u",
+                source, ntohs(udp->source), dest, ntohs(udp->dest), datalen);
 
     int res = write(tun, buffer, len);
 
@@ -1440,7 +1471,8 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
         log_android(ANDROID_LOG_INFO, "tun UDP write %f", mselapsed);
 #endif
 
-    log_packet(args, cur->version, to, ip->protocol, ntohs(udp->dest), "", cur->uid, 1);
+    log_packet(args, cur->version, ip->protocol, "",
+               source, ntohs(udp->source), dest, ntohs(udp->dest), cur->uid, 1);
 
     // Write pcap record
     if (pcap_fn != NULL)
@@ -1707,6 +1739,59 @@ uint16_t calc_checksum(uint8_t *buffer, uint16_t length) {
     return (uint16_t) (~sum);
 }
 
+// http://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/functions.html
+// http://journals.ecs.soton.ac.uk/java/tutorial/native1.1/implementing/index.html
+
+jobject jniGlobalRef(JNIEnv *env, jobject cls) {
+    jobject gcls = (*env)->NewGlobalRef(env, cls);
+    if (gcls == NULL)
+        log_android(ANDROID_LOG_ERROR, "Global ref failed (out of memory?)");
+    return gcls;
+}
+
+jclass jniFindClass(JNIEnv *env, const char *name) {
+    jclass cls = (*env)->FindClass(env, name);
+    if (cls == NULL)
+        log_android(ANDROID_LOG_ERROR, "Class %s not found", name);
+    else
+        jniCheckException(env);
+    return cls;
+}
+
+jmethodID jniGetMethodID(JNIEnv *env, jclass cls, const char *name, const char *signature) {
+    jmethodID method = (*env)->GetMethodID(env, cls, name, signature);
+    if (method == NULL)
+        log_android(ANDROID_LOG_ERROR, "Method %s%s", name, signature);
+    return method;
+}
+
+jfieldID jniGetFieldID(JNIEnv *env, jclass cls, const char *name, const char *type) {
+    jfieldID field = (*env)->GetFieldID(env, cls, name, type);
+    if (field == NULL)
+        log_android(ANDROID_LOG_ERROR, "Field %s type %s not found", name, type);
+    return field;
+}
+
+jobject jniNewObject(JNIEnv *env, jclass cls, jmethodID constructor, const char *name) {
+    jobject object = (*env)->NewObject(env, cls, constructor);
+    if (object == NULL)
+        log_android(ANDROID_LOG_ERROR, "Create object %s failed", name);
+    else
+        jniCheckException(env);
+    return object;
+}
+
+int jniCheckException(JNIEnv *env) {
+    jthrowable ex = (*env)->ExceptionOccurred(env);
+    if (ex) {
+        (*env)->ExceptionDescribe(env);
+        (*env)->ExceptionClear(env);
+        (*env)->DeleteLocalRef(env, ex);
+        return 1;
+    }
+    return 0;
+}
+
 void log_android(int prio, const char *fmt, ...) {
     if (prio >= loglevel) {
         char line[1024];
@@ -1721,10 +1806,12 @@ void log_android(int prio, const char *fmt, ...) {
 void log_packet(
         const struct arguments *args,
         jint version,
-        const char *dest,
         jint protocol,
-        jint dport,
         const char *flags,
+        const char *source,
+        jint sport,
+        const char *dest,
+        jint dport,
         jint uid,
         jboolean allowed) {
 #ifdef PROFILE
@@ -1735,37 +1822,43 @@ void log_packet(
 
     JNIEnv *env = args->env;
     jobject instance = args->instance;
-    jclass cls = (*env)->GetObjectClass(env, instance);
-    char *signature = "(JILjava/lang/String;IILjava/lang/String;IZ)V";
-    jmethodID mid = (*env)->GetMethodID(env, cls, "logPacket", signature);
-    if (mid == 0)
-        log_android(ANDROID_LOG_ERROR, "Method logPacket%s not found", signature);
-    else {
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
-        jlong t = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
-        jstring jdest = (*env)->NewStringUTF(env, dest);
-        jstring jflags = (*env)->NewStringUTF(env, flags);
-        (*env)->CallVoidMethod(env, instance, mid,
-                               t,
-                               version,
-                               jdest,
-                               protocol,
-                               dport,
-                               jflags,
-                               uid,
-                               allowed);
-        (*env)->DeleteLocalRef(env, jdest);
-        (*env)->DeleteLocalRef(env, jflags);
 
-        jthrowable ex = (*env)->ExceptionOccurred(env);
-        if (ex) {
-            (*env)->ExceptionDescribe(env);
-            (*env)->ExceptionClear(env);
-            (*env)->DeleteLocalRef(env, ex);
-        }
-    }
-    (*env)->DeleteLocalRef(env, cls);
+    jclass clsService = (*env)->GetObjectClass(env, instance);
+
+    const char *signature = "(Leu/faircode/netguard/Packet;)V";
+    jmethodID logPacket = jniGetMethodID(env, clsService, "logPacket", signature);
+
+    const char *packet = "eu/faircode/netguard/Packet";
+    jmethodID initPacket = jniGetMethodID(env, clsPacket, "<init>", "()V");
+    jobject objPacket = jniNewObject(env, clsPacket, initPacket, packet);
+
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    jlong t = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
+    jstring jflags = (*env)->NewStringUTF(env, flags);
+    jstring jsource = (*env)->NewStringUTF(env, source);
+    jstring jdest = (*env)->NewStringUTF(env, dest);
+
+    const char *string = "Ljava/lang/String;";
+    (*env)->SetLongField(env, objPacket, jniGetFieldID(env, clsPacket, "time", "J"), t);
+    (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "version", "I"), version);
+    (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "protocol", "I"), protocol);
+    (*env)->SetObjectField(env, objPacket, jniGetFieldID(env, clsPacket, "flags", string), jflags);
+    (*env)->SetObjectField(env, objPacket, jniGetFieldID(env, clsPacket, "saddr", string), jsource);
+    (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "sport", "I"), sport);
+    (*env)->SetObjectField(env, objPacket, jniGetFieldID(env, clsPacket, "daddr", string), jdest);
+    (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "dport", "I"), dport);
+    (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "uid", "I"), uid);
+    (*env)->SetBooleanField(env, objPacket, jniGetFieldID(env, clsPacket, "allowed", "Z"), allowed);
+
+    (*env)->CallVoidMethod(env, instance, logPacket, objPacket);
+    jniCheckException(env);
+
+    (*env)->DeleteLocalRef(env, jdest);
+    (*env)->DeleteLocalRef(env, jsource);
+    (*env)->DeleteLocalRef(env, jflags);
+    (*env)->DeleteLocalRef(env, objPacket);
+    (*env)->DeleteLocalRef(env, clsService);
 
 #ifdef PROFILE
     gettimeofday(&end, NULL);

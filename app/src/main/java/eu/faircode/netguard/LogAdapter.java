@@ -22,30 +22,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LogAdapter extends CursorAdapter {
+    private boolean resolve;
     private int colTime;
     private int colVersion;
-    private int colIP;
     private int colProtocol;
-    private int colPort;
     private int colFlags;
+    private int colSource;
+    private int colSPort;
+    private int colDest;
+    private int colDPort;
     private int colUid;
+    private int colAllowed;
     private int colConnection;
     private int colInteractive;
-    private int colAllowed;
     private Map<String, String> mapIPHost = new HashMap<String, String>();
 
-    public LogAdapter(Context context, Cursor cursor) {
+    public LogAdapter(Context context, Cursor cursor, boolean resolve) {
         super(context, cursor, 0);
+        this.resolve = resolve;
         colTime = cursor.getColumnIndex("time");
         colVersion = cursor.getColumnIndex("version");
-        colIP = cursor.getColumnIndex("ip");
         colProtocol = cursor.getColumnIndex("protocol");
-        colPort = cursor.getColumnIndex("port");
         colFlags = cursor.getColumnIndex("flags");
+        colSource = cursor.getColumnIndex("saddr");
+        colSPort = cursor.getColumnIndex("sport");
+        colDest = cursor.getColumnIndex("daddr");
+        colDPort = cursor.getColumnIndex("dport");
         colUid = cursor.getColumnIndex("uid");
+        colAllowed = cursor.getColumnIndex("allowed");
         colConnection = cursor.getColumnIndex("connection");
         colInteractive = cursor.getColumnIndex("interactive");
-        colAllowed = cursor.getColumnIndex("allowed");
     }
 
     @Override
@@ -58,27 +64,29 @@ public class LogAdapter extends CursorAdapter {
         // Get values
         long time = cursor.getLong(colTime);
         int version = (cursor.isNull(colVersion) ? -1 : cursor.getInt(colVersion));
-        String ip = cursor.getString(colIP);
         int protocol = (cursor.isNull(colProtocol) ? -1 : cursor.getInt(colProtocol));
-        int port = (cursor.isNull(colPort) ? -1 : cursor.getInt(colPort));
         String flags = cursor.getString(colFlags);
+        String source = cursor.getString(colSource);
+        int sport = (cursor.isNull(colSPort) ? -1 : cursor.getInt(colSPort));
+        final String dest = cursor.getString(colDest);
+        int dport = (cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort));
         int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
+        int allowed = (cursor.isNull(colAllowed) ? -1 : cursor.getInt(colAllowed));
         int connection = (cursor.isNull(colConnection) ? -1 : cursor.getInt(colConnection));
         int interactive = (cursor.isNull(colInteractive) ? -1 : cursor.getInt(colInteractive));
-        int allowed = (cursor.isNull(colAllowed) ? -1 : cursor.getInt(colAllowed));
-
-        final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
 
         // Get views
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
-        ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
-        ImageView ivInteractive = (ImageView) view.findViewById(R.id.ivInteractive);
         TextView tvProtocol = (TextView) view.findViewById(R.id.tvProtocol);
-        TextView tvPort = (TextView) view.findViewById(R.id.tvPort);
         TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
+        final TextView tvSource = (TextView) view.findViewById(R.id.tvSource);
+        TextView tvSPort = (TextView) view.findViewById(R.id.tvSPort);
+        final TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
+        TextView tvDPort = (TextView) view.findViewById(R.id.tvDPort);
         ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
-        final TextView tvIP = (TextView) view.findViewById(R.id.tvIP);
+        ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
+        ImageView ivInteractive = (ImageView) view.findViewById(R.id.ivInteractive);
 
         // Set values
         tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
@@ -106,8 +114,10 @@ public class LogAdapter extends CursorAdapter {
         else
             tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
 
-        tvPort.setText(port < 0 ? "" : Integer.toString(port));
         tvFlags.setText(flags);
+
+        tvSPort.setText(sport < 0 ? "" : Integer.toString(sport));
+        tvDPort.setText(dport < 0 ? "" : Integer.toString(dport));
 
         // Application icon
         ApplicationInfo info = null;
@@ -143,32 +153,38 @@ public class LogAdapter extends CursorAdapter {
         // tvFlags.setText("+APFR");
         // tvUid.setText("18888");
 
-        synchronized (mapIPHost) {
-            if (mapIPHost.containsKey(whois))
-                tvIP.setText(mapIPHost.get(whois));
-            else {
-                tvIP.setText(whois);
-                new AsyncTask<String, Object, String>() {
-                    @Override
-                    protected String doInBackground(String... args) {
-                        try {
-                            // This requires internet permission
-                            return InetAddress.getByName(args[0]).getHostName();
-                        } catch (UnknownHostException ignored) {
-                            return whois;
-                        }
-                    }
+        // TODO resolve source when inbound
 
-                    @Override
-                    protected void onPostExecute(String host) {
-                        synchronized (mapIPHost) {
-                            if (!mapIPHost.containsKey(host))
-                                mapIPHost.put(host, host);
+        tvSource.setText(source);
+        if (resolve)
+            synchronized (mapIPHost) {
+                if (mapIPHost.containsKey(dest))
+                    tvDest.setText(mapIPHost.get(dest));
+                else {
+                    tvDest.setText(dest);
+                    new AsyncTask<String, Object, String>() {
+                        @Override
+                        protected String doInBackground(String... args) {
+                            try {
+                                // This requires internet permission
+                                return InetAddress.getByName(args[0]).getHostName();
+                            } catch (UnknownHostException ignored) {
+                                return dest;
+                            }
                         }
-                        tvIP.setText(host);
-                    }
-                }.execute(whois);
+
+                        @Override
+                        protected void onPostExecute(String host) {
+                            synchronized (mapIPHost) {
+                                if (!mapIPHost.containsKey(host))
+                                    mapIPHost.put(host, host);
+                            }
+                            tvDest.setText(host);
+                        }
+                    }.execute(dest);
+                }
             }
-        }
+        else
+            tvDest.setText(dest);
     }
 }

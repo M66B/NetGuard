@@ -63,6 +63,7 @@ import android.widget.RemoteViews;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -783,26 +784,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     // Called from native code
-    private void logPacket(
-            long time,
-            int version,
-            String daddr,
-            int protocol,
-            int dport,
-            String flags,
-            int uid,
-            boolean allowed) {
+    private void logPacket(Packet packet) {
         new DatabaseHelper(SinkholeService.this).insertLog(
-                time,
-                version,
-                daddr,
-                protocol,
-                dport,
-                flags,
-                uid,
+                packet,
                 (last_connected ? last_metered ? 2 : 1 : 0),
-                last_interactive,
-                allowed).close();
+                last_interactive).close();
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {

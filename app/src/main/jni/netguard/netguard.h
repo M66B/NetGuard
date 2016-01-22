@@ -144,14 +144,28 @@ jint get_uid(const int protocol, const int version,
 
 uint16_t calc_checksum(uint8_t *buffer, uint16_t length);
 
+jobject jniGlobalRef(JNIEnv *env, jobject cls);
+
+jclass jniFindClass(JNIEnv *env, const char *name);
+
+jmethodID jniGetMethodID(JNIEnv *env, jclass cls, const char *name, const char *signature);
+
+jfieldID jniGetFieldID(JNIEnv *env, jclass cls, const char *name, const char *type);
+
+jobject jniNewObject(JNIEnv *env, jclass cls, jmethodID constructor, const char *name);
+
+int jniCheckException(JNIEnv *env);
+
 void log_android(int prio, const char *fmt, ...);
 
 void log_packet(const struct arguments *args,
                 jint version,
-                const char *dest,
                 jint protocol,
-                jint dport,
                 const char *flags,
+                const char *source,
+                jint sport,
+                const char *dest,
+                jint dport,
                 jint uid,
                 jboolean allowed);
 

@@ -10,6 +10,11 @@
         android:checked="true"
         android:title="@string/menu_live" />
     <item
+        android:id="@+id/menu_log_resolve"
+        android:checkable="true"
+        android:checked="false"
+        android:title="@string/menu_resolve" />
+    <item
         android:id="@+id/menu_log_clear"
         android:title="@string/menu_clear" />
     <item

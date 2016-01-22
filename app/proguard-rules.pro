@@ -24,9 +24,10 @@
 -keepnames class eu.faircode.netguard.** { *; }
 
 #JNI callback
+-keep class eu.faircode.netguard.Packet { *; }
 -keep class eu.faircode.netguard.SinkholeService {
     void selectExit(boolean);
-    void logPacket(long, int, java.lang.String, int, int, java.lang.String, int, boolean);
+    void logPacket(eu.faircode.netguard.Packet);
 }
 
 #Support library

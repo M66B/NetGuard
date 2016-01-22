@@ -56,6 +56,7 @@ public class ActivityLog extends AppCompatActivity {
     private LogAdapter adapter;
     private DatabaseHelper dh;
     private boolean live;
+    private boolean resolve;
 
     private static final int REQUEST_PCAP = 1;
 
@@ -80,10 +81,13 @@ public class ActivityLog extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.menu_log);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        resolve = prefs.getBoolean("resolve", false);
+
         lvLog = (ListView) findViewById(R.id.lvLog);
 
         dh = new DatabaseHelper(this);
-        adapter = new LogAdapter(this, dh.getLog());
+        adapter = new LogAdapter(this, dh.getLog(), resolve);
         lvLog.setAdapter(adapter);
 
         lvLog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -180,11 +184,13 @@ public class ActivityLog extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean log = prefs.getBoolean("log", false);
+        boolean resolve = prefs.getBoolean("resolve", false);
         boolean filter = prefs.getBoolean("filter", false);
         boolean pcap = prefs.getBoolean("pcap", false);
         boolean export = (getPackageManager().resolveActivity(getIntentPCAPDocument(), 0) != null);
 
         menu.findItem(R.id.menu_log_enabled).setChecked(log);
+        menu.findItem(R.id.menu_log_resolve).setChecked(resolve);
         menu.findItem(R.id.menu_pcap_enabled).setChecked(pcap);
         menu.findItem(R.id.menu_pcap_enabled).setEnabled(log || filter);
         menu.findItem(R.id.menu_pcap_export).setEnabled(pcap && export);
@@ -211,6 +217,14 @@ public class ActivityLog extends AppCompatActivity {
                     adapter.changeCursor(dh.getLog());
                 } else
                     DatabaseHelper.removeLocationChangedListener(listener);
+                return true;
+
+            case R.id.menu_log_resolve:
+                item.setChecked(!item.isChecked());
+                resolve = item.isChecked();
+                prefs.edit().putBoolean("resolve", resolve).apply();
+                adapter = new LogAdapter(this, dh.getLog(), resolve);
+                lvLog.setAdapter(adapter);
                 return true;
 
             case R.id.menu_log_clear:

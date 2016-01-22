@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 7;
 
     private static List<LogChangedListener> logChangedListeners = new ArrayList<LogChangedListener>();
 
@@ -37,16 +37,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " ID INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ", time INTEGER NOT NULL" +
                 ", version INTEGER NULL" +
-                ", ip TEXT" +
                 ", protocol INTEGER NULL" +
-                ", port INTEGER NULL" +
                 ", flags TEXT" +
+                ", saddr TEXT" +
+                ", sport INTEGER NULL" +
+                ", daddr TEXT" +
+                ", dport INTEGER NULL" +
                 ", uid INTEGER NULL" +
+                ", allowed INTEGER NULL" +
                 ", connection INTEGER NULL" +
                 ", interactive INTEGER NULL" +
-                ", allowed INTEGER NULL" +
                 ");");
         db.execSQL("CREATE INDEX idx_log_time ON log(time)");
+        db.execSQL("CREATE INDEX idx_log_source ON log(saddr, sport)");
+        db.execSQL("CREATE INDEX idx_log_dest ON log(daddr, dport)");
     }
 
     @Override
@@ -78,6 +82,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("ALTER TABLE log ADD COLUMN allowed INTEGER NULL");
                 oldVersion = 6;
             }
+            if (oldVersion < 7) {
+                db.execSQL("DROP TABLE log");
+                createTableLog(db);
+                oldVersion = 7;
+            }
 
             db.setVersion(DB_VERSION);
 
@@ -91,45 +100,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Location
 
-    public DatabaseHelper insertLog(
-            long time,
-            int version,
-            String ip,
-            int protocol,
-            int port,
-            String flags,
-            int uid,
-            int connection,
-            boolean interactive,
-            boolean allowed) {
+    public DatabaseHelper insertLog(Packet packet, int connection, boolean interactive) {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
-            cv.put("time", time);
-            cv.put("version", version);
-            cv.put("ip", ip);
+            cv.put("time", packet.time);
+            cv.put("version", packet.version);
 
-            if (protocol < 0)
+            if (packet.protocol < 0)
                 cv.putNull("protocol");
             else
-                cv.put("protocol", protocol);
+                cv.put("protocol", packet.protocol);
 
-            if (port < 0)
-                cv.putNull("port");
+            cv.put("flags", packet.flags);
+
+            cv.put("saddr", packet.saddr);
+            if (packet.sport < 0)
+                cv.putNull("sport");
             else
-                cv.put("port", port);
+                cv.put("sport", packet.sport);
 
-            cv.put("flags", flags);
+            cv.put("daddr", packet.daddr);
+            if (packet.dport < 0)
+                cv.putNull("dport");
+            else
+                cv.put("dport", packet.dport);
 
-            if (uid < 0)
+            if (packet.uid < 0)
                 cv.putNull("uid");
             else
-                cv.put("uid", uid);
+                cv.put("uid", packet.uid);
+
+            cv.put("allowed", packet.allowed ? 1 : 0);
 
             cv.put("connection", connection);
             cv.put("interactive", interactive ? 1 : 0);
-            cv.put("allowed", allowed ? 1 : 0);
 
             if (db.insert("log", null, cv) == -1)
                 Log.e(TAG, "Insert log failed");
