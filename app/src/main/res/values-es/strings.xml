@@ -10,22 +10,22 @@ NetGuard puede dar un fallo al activarse en algunos dispositivos. Es posible tam
 Estos problemas son causados por errores en Android, o en el software provisto por el fabricante, así que por favor no culpes a NetGuard.
 \n\nAl utilizar NetGuard, estás aceptando la <a href="http://www.gnu.org/licenses/gpl.txt">Licencia Pública GNU General Public versión 3</a></string>
   <string name="menu_search">Buscar aplicación</string>
-  <string name="menu_filter">Filter applications</string>
-  <string name="menu_app_user">Show user applications</string>
-  <string name="menu_app_system">Show system applications</string>
-  <string name="menu_app_nointernet">Show applications without internet</string>
-  <string name="menu_app_disabled">Show disabled applications</string>
-  <string name="menu_sort">Sort applications</string>
-  <string name="menu_sort_name">Sort on name</string>
-  <string name="menu_sort_data">Sort on data usage</string>
-  <string name="menu_log">Show log</string>
+  <string name="menu_filter">Filtrar aplicaciones</string>
+  <string name="menu_app_user">Mostrar aplicaciones del usuario</string>
+  <string name="menu_app_system">Mostrar aplicaciones del sistema</string>
+  <string name="menu_app_nointernet">Mostrar aplicaciones sin internet</string>
+  <string name="menu_app_disabled">Mostrar aplicaciones desactivadas</string>
+  <string name="menu_sort">Ordenar aplicaciones</string>
+  <string name="menu_sort_name">Ordenar por nombre</string>
+  <string name="menu_sort_data">Ordenar por uso de datos</string>
+  <string name="menu_log">Mostrar registro</string>
   <string name="menu_settings">Configuración</string>
   <string name="menu_invite">Invitar</string>
   <string name="menu_support">Soporte</string>
   <string name="menu_about">Acerca de</string>
-  <string name="menu_enabled">Enabled</string>
+  <string name="menu_enabled">Activado</string>
   <string name="menu_live">Live updates</string>
-  <string name="menu_clear">Clear</string>
+  <string name="menu_clear">Vaciar</string>
   <string name="setting_defaults">Valores por defecto</string>
   <string name="setting_whitelist_wifi">Bloquear Wi-Fi por defecto</string>
   <string name="setting_whitelist_other">Bloquear red móvil por defecto</string>
@@ -34,11 +34,11 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="setting_whitelist_roaming">Bloquear roaming por defecto</string>
   <string name="setting_options">Opciones</string>
   <string name="setting_system">Administrar aplicaciones de sistema</string>
-  <string name="setting_tethering">Allow tethering</string>
-  <string name="setting_log">Log blocked traffic</string>
+  <string name="setting_tethering">Permitir tethering</string>
+  <string name="setting_log">Registro de tráfico bloqueado</string>
   <string name="setting_auto">Activar automáticamente después de %1$s minutos</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
-  <string name="setting_theme">Theme: %1$s</string>
+  <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Usar tema oscuro</string>
   <string name="setting_wifi_home">Red Wi-Fi hogareña: %1$s</string>
   <string name="setting_metered">Manejo de redes Wi-Fi de uso medido</string>
@@ -57,7 +57,7 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="setting_import">Importar configuración</string>
   <string name="setting_technical">Información técnica</string>
   <string name="summary_system">Definir reglas para aplicaciones de sistema (para expertos)</string>
-  <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
+  <string name="summary_log">Registrar direcciones de paquetes IP dentro de agujero negro del VPN. Podría cosumir más la batería.</string>
   <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>
   <string name="summary_auto">Después de desactivar usando el widget, activar automáticamente NetGuard nuevamente luego del número de minutos seleccionado\nIngresar cero para deshabilitar esta opción</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
@@ -70,10 +70,10 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="msg_sure">¿Estás seguro?</string>
   <string name="msg_started">Aplicando reglas</string>
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
-  <string name="msg_waiting">Waiting for event</string>
+  <string name="msg_waiting">Esperando por un evento</string>
   <string name="msg_disabled">NetGuard está deshabilitado, utiliza el interruptor de arriba para habilitar a NetGuard</string>
   <string name="msg_revoked">NetGuard ha sido desactivado, probablemente por usar otra aplicación de VPN</string>
-  <string name="msg_installed">\'%1$s\' installed</string>
+  <string name="msg_installed">\'%1$s\' instalado</string>
   <string name="msg_completed">Acción completada</string>
   <string name="msg_vpn">NetGuard utiliza una VPN local como un pozo ciego para bloquear el tráfico de internet.
 Por esta razón, por favor permite la conexión VPN en el próximo diálogo.
@@ -81,7 +81,7 @@ Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de i
   <string name="msg_try">Prueba NetGuard</string>
   <string name="msg_terms">Al donar aceptas los <a href="http://www.netguard.me/#terms"> términos y condiciones</a></string>
   <string name="msg_dimming">Si no puedes pulsar OK en el próximo diálogo, otra aplicación (de atenuación de pantalla) probablemente esté manipulando la pantalla.</string>
-  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
+  <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/día</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="title_screen_wifi">Permitir Wi-Fi cuando la pantalla está encendida</string>
@@ -91,30 +91,30 @@ Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de i
   <string name="title_internet">no tiene permiso a internet</string>
   <string name="title_launch">Iniciar aplicación</string>
   <string name="title_rate">Calificar</string>
-  <string name="title_allow">Allow</string>
-  <string name="title_block">Block</string>
-  <string name="title_log">Blocked traffic</string>
-  <string name="title_log_whois">Whois %1$s</string>
-  <string name="title_log_port">Port %1$d</string>
-  <string name="title_pro">Pro features</string>
-  <string name="title_pro_trial_until">Pro features trial until %1$s</string>
-  <string name="title_pro_trial_ended">Pro features trial period ended</string>
+  <string name="title_allow">Permitir</string>
+  <string name="title_block">Bloquear</string>
+  <string name="title_log">Tráfico bloqueado</string>
+  <string name="title_log_whois">Quién es %1$s</string>
+  <string name="title_log_port">Puerto %1$d</string>
+  <string name="title_pro">Funciones pagas</string>
+  <string name="title_pro_trial_until">Prueba de funciones pagas hasta %1$s</string>
+  <string name="title_pro_trial_ended">Finalizó el período de funciones pagas</string>
   <string name="title_pro_description">The following convenience features are available:</string>
-  <string name="title_pro_notify">New application notifications</string>
-  <string name="title_pro_theme">Appearance (theme, colors)</string>
-  <string name="title_pro_speed">Network speed graph notification</string>
-  <string name="title_pro_log">View blocked traffic log</string>
-  <string name="title_pro_multi">Multi user support</string>
-  <string name="title_pro_buy">Details</string>
-  <string name="title_pro_bought">Enabled</string>
-  <string name="title_pro_challenge">Challenge</string>
-  <string name="title_pro_reponse">Response</string>
+  <string name="title_pro_notify">Noticifaciones de aplicación nueva</string>
+  <string name="title_pro_theme">Apariencia (tema, colores)</string>
+  <string name="title_pro_speed">Notificacion gráfica de velocidad de red</string>
+  <string name="title_pro_log">Ver registro de tráfico bloqueado</string>
+  <string name="title_pro_multi">Soporte para múltiples usuarios</string>
+  <string name="title_pro_buy">Detalles</string>
+  <string name="title_pro_bought">Activado</string>
+  <string name="title_pro_challenge">Desafío</string>
+  <string name="title_pro_reponse">Repuesta</string>
   <string-array name="themeNames">
-    <item>teal/orange</item>
-    <item>blue/orange</item>
-    <item>purple/red</item>
-    <item>amber/blue</item>
-    <item>orange/grey</item>
-    <item>green</item>
+    <item>verde-azulado/anaranjado</item>
+    <item>azul/anaranjado</item>
+    <item>púrpura/rojo</item>
+    <item>ámbar/azul</item>
+    <item>anaranjado/gris</item>
+    <item>verde</item>
   </string-array>
 </resources>
