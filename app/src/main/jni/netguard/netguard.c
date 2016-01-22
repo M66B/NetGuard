@@ -51,6 +51,7 @@
 
 static JavaVM *jvm;
 pthread_t thread_id;
+int stopping = 0;
 int signaled = 0;
 struct udp_session *udp_session = NULL;
 struct tcp_session *tcp_session = NULL;
@@ -149,6 +150,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instanc
                                                     jint tun, jboolean clear) {
     log_android(ANDROID_LOG_INFO, "Stop tun %d clear %d", tun, (int) clear);
     if (pthread_kill(thread_id, 0) == 0) {
+        stopping = 1;
         log_android(ANDROID_LOG_DEBUG, "Kill thread %lu", thread_id);
         int err = pthread_kill(thread_id, SIGUSR1);
         if (err != 0)
@@ -259,6 +261,7 @@ void handle_events(void *a) {
     sa.sa_flags = SA_RESTART;
     sigaction(SIGUSR1, &sa, NULL);
 
+    stopping = 0;
     signaled = 0;
 
     // Loop
@@ -278,7 +281,7 @@ void handle_events(void *a) {
                             &emptyset);
         if (ready < 0) {
             if (errno == EINTR) {
-                if (signaled) { ;
+                if (stopping && signaled) { ;
                     log_android(ANDROID_LOG_WARN, "pselect signaled");
                     break;
                 } else {
@@ -371,7 +374,7 @@ void report_exit(struct arguments *args) {
     if (mid == 0)
         log_android(ANDROID_LOG_ERROR, "selectExit method not found");
     else {
-        jboolean planned = signaled;
+        jboolean planned = stopping;
         (*env)->CallVoidMethod(env, args->instance, mid, planned);
 
         jthrowable ex = (*env)->ExceptionOccurred(env);
