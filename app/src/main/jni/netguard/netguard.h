@@ -29,7 +29,7 @@ struct arguments {
     jobject instance;
     int tun;
     jint count;
-    jint *uid;
+    jint *uids;
     jboolean log;
     jboolean filter;
 };

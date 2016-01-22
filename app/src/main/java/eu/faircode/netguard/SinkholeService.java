@@ -46,6 +46,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.os.PowerManager;
+import android.os.Process;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -63,7 +64,6 @@ import android.widget.RemoteViews;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -116,7 +116,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init();
 
-    private native void jni_start(int tun, int[] uid, boolean log, boolean filter, int loglevel);
+    private native void jni_start(int tun, int[] uids, boolean log, boolean filter, int loglevel);
 
     private native void jni_stop(int tun, boolean clear);
 
@@ -208,7 +208,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
             String reason = intent.getStringExtra(EXTRA_REASON);
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason +
-                    " vpn=" + (vpn != null) + " user=" + (android.os.Process.myUid() / 100000));
+                    " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
             // Check if prepared
             if (cmd == Command.start || cmd == Command.reload)
@@ -328,12 +328,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 boolean log = prefs.getBoolean("log", false);
                 boolean filter = prefs.getBoolean("filter", false);
                 if (log || filter) {
-                    int[] uid = new int[listAllowed.size()];
-                    for (int i = 0; i < listAllowed.size(); i++)
-                        uid[i] = listAllowed.get(i).info.applicationInfo.uid;
-
                     int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
-                    jni_start(vpn.getFd(), uid, log, filter, prio);
+                    jni_start(vpn.getFd(), getAllowedUids(listAllowed), log, filter, prio);
                 }
 
                 removeDisabledNotification();
@@ -373,12 +369,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             boolean log = prefs.getBoolean("log", false);
             boolean filter = prefs.getBoolean("filter", false);
             if (log || filter) {
-                int[] uid = new int[listAllowed.size()];
-                for (int i = 0; i < listAllowed.size(); i++)
-                    uid[i] = listAllowed.get(i).info.applicationInfo.uid;
-
                 int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
-                jni_start(vpn.getFd(), uid, log, filter, prio);
+                jni_start(vpn.getFd(), getAllowedUids(listAllowed), log, filter, prio);
             }
 
             if (prev != null)
@@ -473,7 +465,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (prefs.getBoolean("show_top", false)) {
                 if (app.size() == 0) {
                     for (ApplicationInfo ainfo : getPackageManager().getInstalledApplications(0))
-                        if (ainfo.uid != android.os.Process.myUid())
+                        if (ainfo.uid != Process.myUid())
                             app.put(ainfo, TrafficStats.getUidTxBytes(ainfo.uid) + TrafficStats.getUidRxBytes(ainfo.uid));
 
                 } else if (t > 0) {
@@ -654,6 +646,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
+
     private ParcelFileDescriptor startVPN(List<Rule> listAllowed) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean tethering = prefs.getBoolean("tethering", false);
@@ -692,7 +685,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     builder.addDisallowedApplication(rule.info.packageName);
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, this);
                 }
 
         // Build configure intent
@@ -773,6 +765,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         return listAllowed;
     }
 
+    private int[] getAllowedUids(List<Rule> listAllowed) {
+        int[] uid = new int[listAllowed.size()];
+        for (int i = 0; i < listAllowed.size(); i++)
+            uid[i] = listAllowed.get(i).info.applicationInfo.uid;
+        return uid;
+    }
+
     private void stopVPN(ParcelFileDescriptor pfd) {
         Log.i(TAG, "Stopping");
         try {
@@ -842,7 +841,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             Util.logExtras(intent);
 
             user_foreground = Intent.ACTION_USER_FOREGROUND.equals(intent.getAction());
-            Log.i(TAG, "User foreground=" + user_foreground + " user=" + (android.os.Process.myUid() / 100000));
+            Log.i(TAG, "User foreground=" + user_foreground + " user=" + (Process.myUid() / 100000));
 
             if (user_foreground) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
@@ -1034,7 +1033,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
         String reason = intent.getStringExtra(EXTRA_REASON);
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " reason=" + reason +
-                " vpn=" + (vpn != null) + " user=" + (android.os.Process.myUid() / 100000));
+                " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
         // Queue command
         Message msg = mServiceHandler.obtainMessage();

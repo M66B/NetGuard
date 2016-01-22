@@ -102,7 +102,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1start(
         JNIEnv *env, jobject instance,
-        jint tun, jintArray uid_,
+        jint tun, jintArray uids_,
         jboolean log, jboolean filter,
         jint loglevel_) {
 
@@ -127,16 +127,16 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
         struct arguments *args = malloc(sizeof(struct arguments));
         args->instance = (*env)->NewGlobalRef(env, instance);
         args->tun = tun;
-        args->count = (*env)->GetArrayLength(env, uid_);
-        args->uid = malloc(args->count * sizeof(jint));
-        jint *uid = (*env)->GetIntArrayElements(env, uid_, NULL);
-        memcpy(args->uid, uid, args->count * sizeof(jint));
-        (*env)->ReleaseIntArrayElements(env, uid_, uid, 0);
+        args->count = (*env)->GetArrayLength(env, uids_);
+        args->uids = malloc(args->count * sizeof(jint));
+        jint *uids = (*env)->GetIntArrayElements(env, uids_, NULL);
+        memcpy(args->uids, uids, args->count * sizeof(jint));
+        (*env)->ReleaseIntArrayElements(env, uids_, uids, 0);
         args->log = log;
         args->filter = filter;
 
         for (int i = 0; i < args->count; i++)
-            log_android(ANDROID_LOG_DEBUG, "Allowed uid %d", args->uid[i]);
+            log_android(ANDROID_LOG_DEBUG, "Allowed uid %d", args->uids[i]);
 
         // Start native thread
         int err = pthread_create(&thread_id, NULL, handle_events, (void *) args);
@@ -367,7 +367,7 @@ void handle_events(void *a) {
         log_android(ANDROID_LOG_ERROR, "DetachCurrentThread failed");
 
     // Cleanup
-    free(args->uid);
+    free(args->uids);
     free(args);
 
     log_android(ANDROID_LOG_INFO, "Stopped events tun=%d thread %lu", args->tun, thread_id);
@@ -867,7 +867,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     jboolean allowed = !syn;
     if (syn && args->filter && uid >= 0) {
         for (int i = 0; i < args->count; i++)
-            if (args->uid[i] == uid) {
+            if (args->uids[i] == uid) {
                 allowed = 1;
                 break;
             }
@@ -880,7 +880,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
             allowed = handle_udp(args, buffer, length, uid);
         else if (protocol == IPPROTO_TCP) {
             allowed = handle_tcp(args, buffer, length, uid);
-            if (!allowed)
+            if (!allowed && loglevel < ANDROID_LOG_WARN)
                 log = 1;
         }
         else
@@ -1133,22 +1133,20 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
 
                 if (send(cur->socket, buffer + dataoff, datalen, 0) < 0) {
                     log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
-                    ok = 0;
                     write_rst(args, cur, args->tun);
                     return 0;
                 }
+
+                if (tcphdr->fin ||
+                    cur->state == TCP_FIN_WAIT1 ||
+                    cur->state == TCP_FIN_WAIT2 ||
+                    cur->state == TCP_CLOSING)
+                    cur->remote_seq += datalen; // FIN will send ACK or no ACK
                 else {
-                    if (tcphdr->fin ||
-                        cur->state == TCP_FIN_WAIT1 ||
-                        cur->state == TCP_FIN_WAIT2 ||
-                        cur->state == TCP_CLOSING)
-                        cur->remote_seq += datalen; // FIN will send ACK or no ACK
-                    else {
-                        if (write_ack(args, cur, datalen, args->tun) >= 0)
-                            cur->remote_seq += datalen;
-                        else
-                            ok = 0;
-                    }
+                    if (write_ack(args, cur, datalen, args->tun) >= 0)
+                        cur->remote_seq += datalen;
+                    else
+                        ok = 0;
                 }
             }
 

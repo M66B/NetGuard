@@ -27,6 +27,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.net.TrafficStats;
+import android.os.Process;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -170,7 +171,7 @@ public class Rule {
         // Build rule list
         List<Rule> listRules = new ArrayList<>();
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
-            if (info.applicationInfo.uid == android.os.Process.myUid())
+            if (info.applicationInfo.uid == Process.myUid())
                 continue;
 
             Rule rule = new Rule(info, context);
