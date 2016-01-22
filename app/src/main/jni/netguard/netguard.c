@@ -584,7 +584,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 else if (bytes == 0) {
                     // Socket eof
                     log_android(ANDROID_LOG_WARN, "UDP recv empty");
-                    // TODO state
+                    cur->error = 1;
 
                 } else {
                     // Socket read data
@@ -747,10 +747,11 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
             return;
         }
 
-        uint16_t csum = calc_checksum(ip4hdr, sizeof(struct iphdr));
-        if (csum != 0) {
-            log_android(ANDROID_LOG_ERROR, "Invalid IP checksum");
-            return;
+        if (loglevel < ANDROID_LOG_WARN) {
+            if (!calc_checksum(0, ip4hdr, sizeof(struct iphdr))) {
+                log_android(ANDROID_LOG_ERROR, "Invalid IP checksum");
+                return;
+            }
         }
     }
     else if (version == 6) {
@@ -803,7 +804,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
         sport = ntohs(udp->source);
         dport = ntohs(udp->dest);
 
-        // TODO checksum
+        // TODO checksum (IPv6)
     }
     flags[flen] = 0;
 
@@ -1438,7 +1439,7 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
     ip->daddr = cur->saddr;
 
     // Calculate IP checksum
-    ip->check = calc_checksum(ip, sizeof(struct iphdr));
+    ip->check = ~calc_checksum(0, ip, sizeof(struct iphdr));
 
     // Build TCP header
     udp->source = cur->dest;
@@ -1506,7 +1507,7 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
     ip->daddr = cur->saddr;
 
     // Calculate IP checksum
-    ip->check = calc_checksum(ip, sizeof(struct iphdr));
+    ip->check = ~calc_checksum(0, ip, sizeof(struct iphdr));
 
     // Build TCP header
     tcp->source = cur->dest;
@@ -1524,24 +1525,18 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
         tcp->ack_seq = 0;
 
     // Calculate TCP checksum
-    // TODO optimize memory usage
-    uint16_t clen = sizeof(struct ippseudo) + sizeof(struct tcphdr) + datalen;
-    uint8_t csum[clen];
+    struct ippseudo pseudo;
+    pseudo.ippseudo_src.s_addr = ip->saddr;
+    pseudo.ippseudo_dst.s_addr = ip->daddr;
+    pseudo.ippseudo_pad = 0;
+    pseudo.ippseudo_p = ip->protocol;
+    pseudo.ippseudo_len = htons(sizeof(struct tcphdr) + datalen);
 
-    // Build pseudo header
-    struct ippseudo *pseudo = csum;
-    pseudo->ippseudo_src.s_addr = ip->saddr;
-    pseudo->ippseudo_dst.s_addr = ip->daddr;
-    pseudo->ippseudo_pad = 0;
-    pseudo->ippseudo_p = ip->protocol;
-    pseudo->ippseudo_len = htons(sizeof(struct tcphdr) + datalen);
+    uint16_t csum = calc_checksum(0, &pseudo, sizeof(struct ippseudo));
+    csum = calc_checksum(csum, tcp, sizeof(struct tcphdr));
+    csum = calc_checksum(csum, data, datalen);
 
-    // Copy TCP header + data
-    memcpy(csum + sizeof(struct ippseudo), tcp, sizeof(struct tcphdr));
-    if (datalen)
-        memcpy(csum + sizeof(struct ippseudo) + sizeof(struct tcphdr), data, datalen);
-
-    tcp->check = calc_checksum(csum, clen);
+    tcp->check = ~csum;
 
     char to[20];
     inet_ntop(AF_INET, &(ip->daddr), to, sizeof(to));
@@ -1701,8 +1696,8 @@ int protect_socket(struct arguments *args, int socket) {
     return 0;
 }
 
-uint16_t calc_checksum(uint8_t *buffer, uint16_t length) {
-    register uint32_t sum = 0;
+uint16_t calc_checksum(uint16_t start, uint8_t *buffer, uint16_t length) {
+    register uint32_t sum = start;
     register uint16_t *buf = buffer;
     register int len = length;
 
@@ -1717,7 +1712,7 @@ uint16_t calc_checksum(uint8_t *buffer, uint16_t length) {
     while (sum >> 16)
         sum = (sum & 0xFFFF) + (sum >> 16);
 
-    return (uint16_t) (~sum);
+    return (uint16_t) sum;
 }
 
 // http://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/functions.html
@@ -1883,19 +1878,16 @@ void write_pcap_rec(const uint8_t *buffer, uint16_t length) {
     if (clock_gettime(CLOCK_REALTIME, &ts))
         log_android(ANDROID_LOG_ERROR, "clock_gettime error %d: %s", errno, strerror(errno));
 
-    // TODO use stack
     int plen = (length < MAX_PCAP_RECORD ? length : MAX_PCAP_RECORD);
-    struct pcaprec_hdr_s *pcap_rec = malloc(sizeof(struct pcaprec_hdr_s) + plen);
+    struct pcaprec_hdr_s pcap_rec;
 
-    pcap_rec->ts_sec = ts.tv_sec;
-    pcap_rec->ts_usec = ts.tv_nsec / 1000;
-    pcap_rec->incl_len = plen;
-    pcap_rec->orig_len = length;
-    memcpy(((uint8_t *) pcap_rec) + sizeof(struct pcaprec_hdr_s), buffer, plen);
+    pcap_rec.ts_sec = ts.tv_sec;
+    pcap_rec.ts_usec = ts.tv_nsec / 1000;
+    pcap_rec.incl_len = plen;
+    pcap_rec.orig_len = length;
 
-    write_pcap(pcap_rec, sizeof(struct pcaprec_hdr_s) + plen);
-
-    free(pcap_rec);
+    write_pcap(&pcap_rec, sizeof(struct pcaprec_hdr_s));
+    write_pcap(buffer, plen);
 }
 
 void write_pcap(const void *ptr, size_t len) {

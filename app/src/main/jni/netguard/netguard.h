@@ -143,7 +143,7 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
 jint get_uid(const int protocol, const int version,
              const void *saddr, const uint16_t sport, int dump);
 
-uint16_t calc_checksum(uint8_t *buffer, uint16_t length);
+uint16_t calc_checksum(uint16_t start, uint8_t *buffer, uint16_t length);
 
 jobject jniGlobalRef(JNIEnv *env, jobject cls);
 
