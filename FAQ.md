@@ -233,6 +233,17 @@ The columns have the following meaning:
 1. Application uid
 1. IPv4 or IPv6 address (tap on a log entry to lookup an IP address)
 
+From version 0.77:
+
+1. Time (tap on a log entry to see the date)
+1. Application icon (tap on a log entry to see the application name)
+1. Application uid
+1. Wi-Fi / mobile connection, green=allowed, red=blocked
+1. Interactive state (screen on)
+1. Protocol (see below) and packet flags (see below)
+1. Source and destination port (tap on a log entry to lookup a destination port)
+1. Source and destination IPv4 or IPv6 address (tap on a log entry to lookup a destination IP address)
+
 Protocols:
 
 * I = ICMP

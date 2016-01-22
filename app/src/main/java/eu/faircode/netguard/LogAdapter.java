@@ -105,12 +105,15 @@ public class LogAdapter extends CursorAdapter {
         else
             ivInteractive.setImageResource(R.drawable.screen_on);
 
-        if (protocol == 1) // ICMP
-            tvProtocol.setText("I");
+        // https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
+        if (protocol == 0) // HOPOPT
+            tvProtocol.setText("HOPO");
+        else if (protocol == 1) // ICMP
+            tvProtocol.setText("ICMP");
         else if (protocol == 6) // TCP
-            tvProtocol.setText("T");
+            tvProtocol.setText("TCP");
         else if (protocol == 17) // UDP
-            tvProtocol.setText("U");
+            tvProtocol.setText("UDP");
         else
             tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
 
@@ -147,11 +150,6 @@ public class LogAdapter extends CursorAdapter {
             tvUid.setText("-"); // nobody
         else
             tvUid.setText(Integer.toString(uid));
-
-        // tvProtocol.setText("99");
-        // tvPort.setText("88888");
-        // tvFlags.setText("+APFR");
-        // tvUid.setText("18888");
 
         // TODO resolve source when inbound
 
