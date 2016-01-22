@@ -21,7 +21,8 @@
 #define UID_DELAYTRY 10 // milliseconds
 #define UID_MAXTRY 3
 
-#define MAX_PCAP 80
+#define MAX_PCAP_FILE (1024 * 1024) // bytes
+#define MAX_PCAP_RECORD 80 // bytes
 
 struct arguments {
     JNIEnv *env;
@@ -169,11 +170,11 @@ void log_packet(const struct arguments *args,
                 jint uid,
                 jboolean allowed);
 
-void write_pcap(const void *ptr, size_t len);
-
 void write_pcap_hdr();
 
 void write_pcap_rec(const uint8_t *buffer, uint16_t len);
+
+void write_pcap(const void *ptr, size_t len);
 
 const char *strstate(const int state);
 

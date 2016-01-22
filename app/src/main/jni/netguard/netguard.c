@@ -53,10 +53,11 @@ static JavaVM *jvm;
 pthread_t thread_id;
 int stopping = 0;
 int signaled = 0;
+
 struct udp_session *udp_session = NULL;
 struct tcp_session *tcp_session = NULL;
 int loglevel = 0;
-char *pcap_fn = NULL;
+FILE *pcap_file = NULL;
 
 // JNI
 
@@ -94,7 +95,8 @@ JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
     udp_session = NULL;
     tcp_session = NULL;
-    pcap_fn = NULL;
+    loglevel = ANDROID_LOG_WARN;
+    pcap_file = NULL;
 }
 
 JNIEXPORT void JNICALL
@@ -174,29 +176,33 @@ Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instanc
     log_android(ANDROID_LOG_INFO, "Done");
 
     clear_sessions();
-
-    if (pcap_fn != NULL)
-        free(pcap_fn);
 }
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, jstring name_) {
-    // TODO limit pcap file size
-    // TODO keep pcap file open
-
     if (name_ == NULL) {
-        pcap_fn = NULL;
+        if (pcap_file != NULL) {
+            if (fclose(pcap_file))
+                log_android(ANDROID_LOG_ERROR, "PCAP fclose error %d: %s", errno,
+                            strerror(errno));
+        }
+        pcap_file = NULL;
         log_android(ANDROID_LOG_INFO, "PCAP disabled");
     }
     else {
         const char *name = (*env)->GetStringUTFChars(env, name_, 0);
         log_android(ANDROID_LOG_INFO, "PCAP file %s", name);
 
-        const char *tmp = malloc(strlen(name) + 1);
-        strcpy(tmp, name);
-        pcap_fn = tmp;
-
-        write_pcap_hdr();
+        pcap_file = fopen(name, "ab+");
+        if (pcap_file == NULL)
+            log_android(ANDROID_LOG_ERROR, "PCAP fopen error %d: %s", errno, strerror(errno));
+        else {
+            uint8_t flags = fcntl(fileno(pcap_file), F_GETFL, 0);
+            if (flags < 0 || fcntl(fileno(pcap_file), F_SETFL, flags | O_NONBLOCK) < 0)
+                log_android(ANDROID_LOG_ERROR, "PCAP fcntl O_NONBLOCK error %d: %s",
+                            errno, strerror(errno));
+            write_pcap_hdr();
+        }
 
         (*env)->ReleaseStringUTFChars(env, name_, name);
     }
@@ -539,7 +545,7 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
         }
         else if (length > 0) {
             // Write pcap record
-            if (pcap_fn != NULL)
+            if (pcap_file != NULL)
                 write_pcap_rec(buffer, length);
 
             // Handle IP from tun
@@ -1478,7 +1484,7 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
                source, ntohs(udp->source), dest, ntohs(udp->dest), cur->uid, 1);
 
     // Write pcap record
-    if (pcap_fn != NULL)
+    if (pcap_file != NULL)
         write_pcap_rec(buffer, len);
 
     free(buffer);
@@ -1577,7 +1583,7 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
 #endif
 
     // Write pcap record
-    if (pcap_fn != NULL)
+    if (pcap_file != NULL)
         write_pcap_rec(buffer, len);
 
     free(buffer);
@@ -1872,38 +1878,6 @@ void log_packet(
 #endif
 }
 
-void write_pcap(const void *ptr, size_t len) {
-#ifdef PROFILE
-    float mselapsed;
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
-#endif
-
-    FILE *fd = fopen(pcap_fn, "ab");
-    if (fd == NULL)
-        log_android(ANDROID_LOG_ERROR, "fopen %s error %d: %s",
-                    pcap_fn, errno, strerror(errno));
-    else {
-        if (fwrite(ptr, len, 1, fd) < 1)
-            log_android(ANDROID_LOG_ERROR, "fwrite %s error %d: %s",
-                        pcap_fn, errno, strerror(errno));
-        else
-            log_android(ANDROID_LOG_DEBUG, "PCAP write %d", len);
-
-        if (fclose(fd))
-            log_android(ANDROID_LOG_ERROR, "fclose %s error %d: %s",
-                        pcap_fn, errno, strerror(errno));
-    }
-
-#ifdef PROFILE
-    gettimeofday(&end, NULL);
-    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "pcap write %f", mselapsed);
-#endif
-}
-
 void write_pcap_hdr() {
     struct pcap_hdr_s pcap_hdr;
     pcap_hdr.magic_number = 0xa1b2c3d4;
@@ -1911,7 +1885,7 @@ void write_pcap_hdr() {
     pcap_hdr.version_minor = 4;
     pcap_hdr.thiszone = 0;
     pcap_hdr.sigfigs = 0;
-    pcap_hdr.snaplen = MAX_PCAP;
+    pcap_hdr.snaplen = MAX_PCAP_RECORD;
     pcap_hdr.network = LINKTYPE_RAW;
     write_pcap(&pcap_hdr, sizeof(struct pcap_hdr_s));
 }
@@ -1922,7 +1896,7 @@ void write_pcap_rec(const uint8_t *buffer, uint16_t length) {
         log_android(ANDROID_LOG_ERROR, "clock_gettime error %d: %s", errno, strerror(errno));
 
     // TODO use stack
-    int plen = (length < MAX_PCAP ? length : MAX_PCAP);
+    int plen = (length < MAX_PCAP_RECORD ? length : MAX_PCAP_RECORD);
     struct pcaprec_hdr_s *pcap_rec = malloc(sizeof(struct pcaprec_hdr_s) + plen);
 
     pcap_rec->ts_sec = ts.tv_sec;
@@ -1934,6 +1908,41 @@ void write_pcap_rec(const uint8_t *buffer, uint16_t length) {
     write_pcap(pcap_rec, sizeof(struct pcaprec_hdr_s) + plen);
 
     free(pcap_rec);
+}
+
+void write_pcap(const void *ptr, size_t len) {
+#ifdef PROFILE
+    float mselapsed;
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
+#endif
+
+    if (fwrite(ptr, len, 1, pcap_file) < 1)
+        log_android(ANDROID_LOG_ERROR, "PCAP fwrite error %d: %s", errno, strerror(errno));
+    else {
+        long fsize = ftell(pcap_file);
+        log_android(ANDROID_LOG_DEBUG, "PCAP wrote %d @%ld", len, fsize);
+
+        if (fsize > MAX_PCAP_FILE) {
+            log_android(ANDROID_LOG_INFO, "PCAP truncate @%ld", fsize);
+            if (ftruncate(fileno(pcap_file), sizeof(struct pcap_hdr_s)))
+                log_android(ANDROID_LOG_ERROR, "PCAP ftruncate error %d: %s",
+                            errno, strerror(errno));
+            else {
+                if (!lseek(fileno(pcap_file), sizeof(struct pcap_hdr_s), SEEK_SET))
+                    log_android(ANDROID_LOG_ERROR, "PCAP ftruncate error %d: %s",
+                                errno, strerror(errno));
+            }
+        }
+    }
+
+#ifdef PROFILE
+    gettimeofday(&end, NULL);
+    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
+                (end.tv_usec - start.tv_usec) / 1000.0;
+    if (mselapsed > 1)
+        log_android(ANDROID_LOG_INFO, "pcap write %f", mselapsed);
+#endif
 }
 
 const char *strstate(const int state) {
@@ -1964,7 +1973,6 @@ const char *strstate(const int state) {
         default:
             sprintf(buf, "TCP_%d", state);
             return buf;
-
     }
 }
 

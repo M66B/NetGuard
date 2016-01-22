@@ -15,15 +15,15 @@
         android:checked="false"
         android:title="@string/menu_resolve" />
     <item
-        android:id="@+id/menu_log_clear"
-        android:title="@string/menu_clear" />
-    <item
         android:id="@+id/menu_pcap_enabled"
         android:checkable="true"
         android:title="@string/menu_pcap_enabled" />
     <item
         android:id="@+id/menu_pcap_export"
         android:title="@string/menu_pcap_export" />
+    <item
+        android:id="@+id/menu_log_clear"
+        android:title="@string/menu_clear" />
     <item
         android:id="@+id/menu_log_support"
         android:title="@string/menu_support" />

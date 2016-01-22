@@ -186,14 +186,15 @@ public class ActivityLog extends AppCompatActivity {
         boolean log = prefs.getBoolean("log", false);
         boolean resolve = prefs.getBoolean("resolve", false);
         boolean filter = prefs.getBoolean("filter", false);
-        boolean pcap = prefs.getBoolean("pcap", false);
+        boolean pcap_enabled = prefs.getBoolean("pcap", false);
+        File pcap_file = new File(getCacheDir(), "netguard.pcap");
         boolean export = (getPackageManager().resolveActivity(getIntentPCAPDocument(), 0) != null);
 
         menu.findItem(R.id.menu_log_enabled).setChecked(log);
         menu.findItem(R.id.menu_log_resolve).setChecked(resolve);
-        menu.findItem(R.id.menu_pcap_enabled).setChecked(pcap);
+        menu.findItem(R.id.menu_pcap_enabled).setChecked(pcap_enabled);
         menu.findItem(R.id.menu_pcap_enabled).setEnabled(log || filter);
-        menu.findItem(R.id.menu_pcap_export).setEnabled(pcap && export);
+        menu.findItem(R.id.menu_pcap_export).setEnabled(pcap_file.exists() && export);
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -201,6 +202,7 @@ public class ActivityLog extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        File pcap_file = new File(getCacheDir(), "netguard.pcap");
 
         switch (item.getItemId()) {
             case R.id.menu_log_enabled:
@@ -227,21 +229,27 @@ public class ActivityLog extends AppCompatActivity {
                 lvLog.setAdapter(adapter);
                 return true;
 
-            case R.id.menu_log_clear:
-                dh.clear();
-                if (!live) {
-                    adapter.changeCursor(dh.getLog());
-                }
-                return true;
-
             case R.id.menu_pcap_enabled:
                 item.setChecked(!item.isChecked());
                 prefs.edit().putBoolean("pcap", item.isChecked()).apply();
-                SinkholeService.setPcap(item.isChecked(), this);
+                SinkholeService.setPcap(item.isChecked() ? pcap_file : null);
                 return true;
 
             case R.id.menu_pcap_export:
                 startActivityForResult(getIntentPCAPDocument(), REQUEST_PCAP);
+                return true;
+
+            case R.id.menu_log_clear:
+                dh.clear();
+                adapter.changeCursor(dh.getLog());
+                if (prefs.getBoolean("pcap", false)) {
+                    SinkholeService.setPcap(null);
+                    pcap_file.delete();
+                    SinkholeService.setPcap(pcap_file);
+                } else {
+                    if (pcap_file.exists())
+                        pcap_file.delete();
+                }
                 return true;
 
             case R.id.menu_log_support:
