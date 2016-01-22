@@ -677,6 +677,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             builder.addRoute("0.0.0.0", 0);
 
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
+        builder.addDnsServer("8.8.8.8");
 
         // Add list of allowed applications
         if (last_connected && !filter)
