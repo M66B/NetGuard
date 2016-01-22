@@ -934,6 +934,16 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
             return 0;
         }
         else {
+            // Check for broacast
+            uint32_t broadcast = INADDR_BROADCAST;
+            if (memcmp(&iphdr->saddr, &broadcast, sizeof(broadcast)) == 0) {
+                log_android(ANDROID_LOG_WARN, "UDP broadcast");
+                int on = 1;
+                if (setsockopt(u->socket, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on)))
+                    log_android(ANDROID_LOG_ERROR, "UDP setsockopt error %d: %s",
+                                errno, strerror(errno));
+            }
+
             protect_socket(args, u->socket);
 
             if (last == NULL)
@@ -943,7 +953,6 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
 
             cur = u;
         }
-
     }
 
     char source[40];
