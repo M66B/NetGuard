@@ -104,6 +104,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private static final int MSG_STATS_START = 1;
     private static final int MSG_STATS_STOP = 2;
     private static final int MSG_STATS_UPDATE = 3;
+    private static final int MSG_PACKET = 4;
 
     private enum State {none, waiting, enforcing, stats}
 
@@ -179,6 +180,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
                     case MSG_STATS_UPDATE:
                         updateStats();
+                        break;
+
+                    case MSG_PACKET:
+                        log((Packet) msg.obj);
                         break;
                 }
             } catch (Throwable ex) {
@@ -613,6 +618,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 NotificationManagerCompat.from(SinkholeService.this).notify(NOTIFY_TRAFFIC, builder.build());
         }
 
+        private void log(Packet packet) {
+            new DatabaseHelper(SinkholeService.this).insertLog(
+                    packet,
+                    (last_connected ? last_metered ? 2 : 1 : 0),
+                    last_interactive).close();
+        }
+
         private void set(Intent intent) {
             // Get arguments
             int uid = intent.getIntExtra(EXTRA_UID, 0);
@@ -785,10 +797,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void logPacket(Packet packet) {
-        new DatabaseHelper(SinkholeService.this).insertLog(
-                packet,
-                (last_connected ? last_metered ? 2 : 1 : 0),
-                last_interactive).close();
+        Message msg = mServiceHandler.obtainMessage();
+        msg.obj = packet;
+        msg.what = MSG_PACKET;
+        mServiceHandler.sendMessage(msg);
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
