@@ -75,8 +75,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     const char *packet = "eu/faircode/netguard/Packet";
     clsPacket = jniGlobalRef(env, jniFindClass(env, packet));
 
-    // TODO find methods
-
     return JNI_VERSION_1_6;
 }
 
@@ -374,24 +372,14 @@ void handle_events(void *a) {
 }
 
 void report_exit(struct arguments *args) {
-    JNIEnv *env = args->env;
-    jclass cls = (*env)->GetObjectClass(env, args->instance);
-    jmethodID mid = (*env)->GetMethodID(env, cls, "selectExit", "(Z)V");
-    if (mid == 0)
-        log_android(ANDROID_LOG_ERROR, "selectExit method not found");
-    else {
-        jboolean planned = stopping;
-        (*env)->CallVoidMethod(env, args->instance, mid, planned);
+    jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
+    jmethodID mid = jniGetMethodID(args->env, cls, "selectExit", "(Z)V");
 
-        jthrowable ex = (*env)->ExceptionOccurred(env);
-        if (ex) {
-            log_android(ANDROID_LOG_ERROR, "selectExit exception");
-            (*env)->ExceptionDescribe(env);
-            (*env)->ExceptionClear(env);
-            (*env)->DeleteLocalRef(env, ex);
-        }
-    }
-    (*env)->DeleteLocalRef(env, cls);
+    jboolean planned = stopping;
+    (*args->env)->CallVoidMethod(args->env, args->instance, mid, planned);
+    jniCheckException(args->env);
+
+    (*args->env)->DeleteLocalRef(args->env, cls);
 }
 
 void check_sessions(const struct arguments *args) {
@@ -1697,32 +1685,18 @@ jint get_uid(const int protocol, const int version,
 }
 
 int protect_socket(struct arguments *args, int socket) {
-    JNIEnv *env = args->env;
-    jobject instance = args->instance;
+    jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
+    jmethodID mid = jniGetMethodID(args->env, cls, "protect", "(I)Z");
 
-    jclass cls = (*env)->GetObjectClass(env, instance);
-    jmethodID mid = (*env)->GetMethodID(env, cls, "protect", "(I)Z");
-    if (mid == 0) {
-        log_android(ANDROID_LOG_ERROR, "protect method not found");
-        return -1;
-    }
+    jboolean isProtected = (*args->env)->CallBooleanMethod(args->env, args->instance, mid, socket);
+    jniCheckException(args->env);
 
-    jboolean isProtected = (*env)->CallBooleanMethod(env, instance, mid, socket);
     if (!isProtected) {
-        log_android(ANDROID_LOG_ERROR, "protect failed");
+        log_android(ANDROID_LOG_ERROR, "protect socket failed");
         return -1;
     }
 
-    jthrowable ex = (*env)->ExceptionOccurred(env);
-    if (ex) {
-        log_android(ANDROID_LOG_ERROR, "protect exception");
-        (*env)->ExceptionDescribe(env);
-        (*env)->ExceptionClear(env);
-        (*env)->DeleteLocalRef(env, ex);
-        return -1;
-    }
-
-    (*env)->DeleteLocalRef(env, cls);
+    (*args->env)->DeleteLocalRef(args->env, cls);
 
     return 0;
 }
@@ -1765,10 +1739,28 @@ jclass jniFindClass(JNIEnv *env, const char *name) {
     return cls;
 }
 
+jmethodID method_protect = NULL;
+jmethodID method_logPacket = NULL;
+
 jmethodID jniGetMethodID(JNIEnv *env, jclass cls, const char *name, const char *signature) {
+    if (strcmp(name, "protect") == 0 && method_protect != NULL)
+        return method_protect;
+    if (strcmp(name, "logPacket") == 0 && method_logPacket != NULL)
+        return method_logPacket;
+
     jmethodID method = (*env)->GetMethodID(env, cls, name, signature);
     if (method == NULL)
         log_android(ANDROID_LOG_ERROR, "Method %s%s", name, signature);
+    else {
+        if (strcmp(name, "protect") == 0) {
+            method_protect = method;
+            log_android(ANDROID_LOG_INFO, "Cached method ID protect");
+        }
+        else if (strcmp(name, "logPacket") == 0) {
+            method_logPacket = method;
+            log_android(ANDROID_LOG_INFO, "Cached method ID logPacket");
+        }
+    }
     return method;
 }
 
@@ -1828,9 +1820,7 @@ void log_packet(
 #endif
 
     JNIEnv *env = args->env;
-    jobject instance = args->instance;
-
-    jclass clsService = (*env)->GetObjectClass(env, instance);
+    jclass clsService = (*env)->GetObjectClass(env, args->instance);
 
     const char *signature = "(Leu/faircode/netguard/Packet;)V";
     jmethodID logPacket = jniGetMethodID(env, clsService, "logPacket", signature);
@@ -1858,7 +1848,7 @@ void log_packet(
     (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "uid", "I"), uid);
     (*env)->SetBooleanField(env, objPacket, jniGetFieldID(env, clsPacket, "allowed", "Z"), allowed);
 
-    (*env)->CallVoidMethod(env, instance, logPacket, objPacket);
+    (*env)->CallVoidMethod(env, args->instance, logPacket, objPacket);
     jniCheckException(env);
 
     (*env)->DeleteLocalRef(env, jdest);
