@@ -3,17 +3,17 @@
 <resources>
   <string name="app_copyright">Copyright \u00A9 2015-2016 von M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard erfordert Android 5.0 oder höher</string>
-  <string name="app_license">Mit der Verwendung von NetGuard, akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_first">Netguard wurde mit großer Sorgfalt entwickelt, jedoch ist es unmöglich zu garantieren, dass es auf jedem Gerät korrekt arbeitet.
-Es ist bekannt, dass Netguard zu Abstürzen führen kann und, dass auf manchen Geräten sämtlicher Netzwerkverkehr blockiert wird.
-Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitte beschuldigen Sie bei solchen Fehlern nicht Netguard.
-\n\nMit der Verwendung von NetGuard, akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_license">Mit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_first">NetGuard wurde mit großer Sorgfalt entwickelt, jedoch ist es unmöglich zu garantieren, dass es auf jedem Gerät korrekt arbeitet.
+Es ist bekannt, dass NetGuard zu Abstürzen führen kann und, dass auf manchen Geräten sämtlicher Netzwerkverkehr blockiert wird.
+Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitte beschuldigen Sie bei solchen Fehlern nicht NetGuard.
+\n\nMit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Nach Apps suchen</string>
   <string name="menu_filter">Anwendungsfilter</string>
   <string name="menu_app_user">Benutzeranwendungen anzeigen</string>
   <string name="menu_app_system">Systemanwendungen anzeigen</string>
   <string name="menu_app_nointernet">Anwendungen ohne internet anzeigen</string>
-  <string name="menu_app_disabled">Deaktiviert Anwendungen anzeigen</string>
+  <string name="menu_app_disabled">Deaktivierte Anwendungen anzeigen</string>
   <string name="menu_sort">Anwendungen sortieren</string>
   <string name="menu_sort_name">Nach Name sortieren</string>
   <string name="menu_sort_data">Nach Datennutzung sortieren</string>
@@ -22,11 +22,11 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="menu_invite">Einladung</string>
   <string name="menu_support">Hilfe</string>
   <string name="menu_about">Über</string>
-  <string name="menu_enabled">Log enabled</string>
+  <string name="menu_enabled">Log aktiviert</string>
   <string name="menu_live">Live-Updates</string>
-  <string name="menu_resolve">Resolve host names</string>
-  <string name="menu_pcap_enabled">PCAP enabled</string>
-  <string name="menu_pcap_export">PCAP export</string>
+  <string name="menu_resolve">Hostnamen auflösen</string>
+  <string name="menu_pcap_enabled">PCAP aktiviert</string>
+  <string name="menu_pcap_export">PCAP exportieren</string>
   <string name="menu_clear">Bereinigen</string>
   <string name="setting_defaults">Standards</string>
   <string name="setting_whitelist_wifi">WLAN blockieren</string>
@@ -37,8 +37,9 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_options">Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_tethering">Tethering erlauben</string>
-  <string name="setting_log">Log traffic</string>
-  <string name="setting_filter">Filter traffic</string>
+  <string name="setting_log">Datenverkehr loggen</string>
+  <string name="setting_filter">Datenverkehr filtern</string>
+  <string name="setting_block_domains">Block domain names</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
   <string name="setting_theme">Design: %1$s</string>
@@ -58,11 +59,12 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_backup">Sicherung</string>
   <string name="setting_export">Einstellungen exportieren</string>
   <string name="setting_import">Einstellungen importieren</string>
-  <string name="setting_hosts">Import hosts file</string>
+  <string name="setting_hosts">Host-Datei importieren</string>
   <string name="setting_technical">Technische information</string>
   <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
   <string name="summary_log">Adressen der IP-Pakete in das VPN protokollieren. Ein höherer Batterieverbrauch ist möglich.</string>
-  <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
+  <string name="summary_filter">IP Pakete filtern, die das VPN verlassen. Dies könnte zu erhöhtem Stromverbrauch führen.</string>
+  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert\nNull eingeben zum Deaktivieren dieser Option</string>
   <string name="summary_delay">Nachdem Ausschalten des Bildschirms, diesen aufgrund der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren)</string>
@@ -78,6 +80,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_waiting">Auf Ereignis warten</string>
   <string name="msg_disabled">NetGuard ist deaktiviert. Verwenden Sie den Schalter, um NetGuard zu aktivieren</string>
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer VPN-Anwendung</string>
+  <string name="msg_error">Netguard wurde wegen einem internen Fehler beendet</string>
   <string name="msg_installed">\'%1$s\' installiert</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
   <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um den Internet-Verkehr zu blockieren. Deshalb erlauben Sie eine VPN-Verbindung im nächsten Fenster. Da NetGuard keine Internet-Berechtigung hat, wird der Internet-Verkehr auch nirgendwo weitergeleitet.</string>

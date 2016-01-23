@@ -41,6 +41,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_tethering">Permetti il tethering</string>
   <string name="setting_log">Log traffic</string>
   <string name="setting_filter">Filter traffic</string>
+  <string name="setting_block_domains">Block domain names</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
   <string name="setting_theme">Tema: %1$s</string>
@@ -65,6 +66,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
   <string name="summary_log">Registra gli indirizzi dei pacchetti IP inviati alla VPN pozzo. Potrebbe causare ulteriore utilizzo di batteria.</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
+  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo é acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
@@ -80,6 +82,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="msg_waiting">In attesa di eventi</string>
   <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
   <string name="msg_revoked">NetGuard è stata disabilitata, probabilmente a causa di un\'altra applicazione che usa il servizio VPN</string>
+  <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">\'%1$s\' installata</string>
   <string name="msg_completed">Azione completata</string>
   <string name="msg_vpn">Per bloccare il traffico internet, NetGuard utilizza una VPN locale come \"pozzo\".

@@ -40,6 +40,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Log traffic</string>
   <string name="setting_filter">Filter traffic</string>
+  <string name="setting_block_domains">Block domain names</string>
   <string name="setting_auto">Automaticky zapnúť po %1$s minútach</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
   <string name="setting_theme">Téma: %1$s</string>
@@ -64,6 +65,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="summary_system">Určiť pravidlá pre systémové pravidlá (pre expertov)</string>
   <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
+  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
   <string name="summary_stats">Show network speed graph in status bar notification</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
@@ -79,6 +81,7 @@ Je to spôsobené chybami v Androide alebo v softvéri poskytovanom výrobcom, p
   <string name="msg_waiting">Čaká na udalosť</string>
   <string name="msg_disabled">NetGuard je vypnutý, použite prepínač vyššie na zapnutie NetGuard</string>
   <string name="msg_revoked">NetGuard bol zakázaný, pravdepodobne použitím inej aplikácie založenej na VPN</string>
+  <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">\'%1$s\' installed</string>
   <string name="msg_completed">Akcia bola dokončená</string>
   <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky,

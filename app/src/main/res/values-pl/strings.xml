@@ -40,6 +40,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="setting_tethering">Allow tethering</string>
   <string name="setting_log">Log traffic</string>
   <string name="setting_filter">Filter traffic</string>
+  <string name="setting_block_domains">Block domain names</string>
   <string name="setting_auto">Automatyczne włączenie po %1$s min</string>
   <string name="setting_delay">Opóźnienie wyłączenia reguł ekranu %1$s min</string>
   <string name="setting_theme">Motyw: %1$s</string>
@@ -64,6 +65,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="summary_system">Stwórz reguły dla aplikacji systemowych (zaawansowane)</string>
   <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
+  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
   <string name="summary_stats">Pokazuj wykres prędkości sieci w powiadomieniach aplikacji</string>
   <string name="summary_auto">Po wyłączeniu poprzez widget, automatycznie włącz NetGuard po podanej liczbie minut (wprowadzenie zera wyłącza tą opcję)</string>
   <string name="summary_delay">Po wyłączeniu ekranu, podtrzymuj działanie reguły \"Zezwól na ... przy włączonym ekranie\" przez podaną liczbę minut (wprowadzenie zera wyłącza tą opcję)</string>
@@ -79,6 +81,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard jest wyłączony, użyj przełącznika u góry by go uruchomić</string>
   <string name="msg_revoked">NetGuard został wyłączony, prawdopodobnie za pomocą innej aplikacji używającej VPN</string>
+  <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">\'%1$s\' installed</string>
   <string name="msg_completed">Wykonano</string>
   <string name="msg_vpn">NetGuard używa lokalnego VPN jako sinkhole\'a w celu blokowania ruchu internetowego.
