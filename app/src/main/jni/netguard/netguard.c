@@ -917,30 +917,45 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
 
         // Check for DNS
         if (ntohs(udphdr->dest) == 53 && datalen > sizeof(struct dns_header)) {
+            char *h = hex(buffer + dataoff, datalen);
+            log_android(ANDROID_LOG_DEBUG, "DNS off %d len %d hex %s", dataoff, datalen, h);
+            free(h);
+
             struct dns_header *dns = (struct dns_header *) (buffer + dataoff);
             uint16_t flags = ntohs(dns->flags);
 
             // Check if standard query
             if ((flags & DNS_QR) == 0 && (flags & DNS_OPCODE) == 0 && dns->qdcount != 0) {
-                uint16_t qdoff = dataoff + sizeof(struct dns_header);
-
-                // TODO DNS compression
-
                 char name[64];
                 uint8_t noff = 0;
-                uint8_t len = *(buffer + qdoff);
-                while (len && len < 64 && qdoff + 1 + len <= dataoff + datalen) {
-                    memcpy(name + noff, buffer + qdoff + 1, len);
-                    *(name + noff + len) = '.';
-                    noff += (len + 1);
-                    qdoff += (1 + len);
-                    len = *(buffer + qdoff);
-                }
 
-                if (len < 64 && noff > 0 && qdoff + 5 <= dataoff + datalen) {
+                // http://tools.ietf.org/html/rfc1035
+                uint8_t len;
+                uint16_t ptr;
+                uint16_t qdoff = dataoff + sizeof(struct dns_header);
+                do {
+                    len = *(buffer + qdoff);
+                    if (len < 63) {
+                        ptr = qdoff;
+                        qdoff += (1 + len);
+                    } else {
+                        // TODO check top 2 bits
+                        ptr = dataoff + (len & 63);
+                        len = *(buffer + ptr);
+                        qdoff += 1;
+                    }
+                    log_android(ANDROID_LOG_DEBUG, "DNS len %d ptr %d qdoff %d", len, ptr, qdoff);
+                    if (len && ptr + 1 + len <= dataoff + datalen) {
+                        memcpy(name + noff, buffer + ptr + 1, len);
+                        *(name + noff + len) = '.';
+                        noff += (len + 1);
+                    }
+                } while (len && ptr + 1 + len <= dataoff + datalen);
+
+                if (noff > 0 && qdoff + 4 <= dataoff + datalen) {
                     *(name + noff - 1) = 0;
-                    uint16_t qtype = ntohs(*((uint16_t *) (buffer + qdoff + 1)));
-                    uint16_t qclass = ntohs(*((uint16_t *) (buffer + qdoff + 3)));
+                    uint16_t qtype = ntohs(*((uint16_t *) (buffer + qdoff)));
+                    uint16_t qclass = ntohs(*((uint16_t *) (buffer + qdoff + 2)));
                     log_android(ANDROID_LOG_WARN, "DNS %s qtype %d qclass %d", name, qtype, qclass);
                 }
             }
