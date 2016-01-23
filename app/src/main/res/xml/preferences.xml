@@ -134,6 +134,7 @@
             android:key="import"
             android:title="@string/setting_import" />
         <Preference
+            android:dependency="filter"
             android:key="hosts"
             android:title="@string/setting_hosts" />
     </PreferenceCategory>
