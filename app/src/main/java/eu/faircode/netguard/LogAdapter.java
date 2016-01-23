@@ -1,11 +1,14 @@
 package eu.faircode.netguard;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LogAdapter extends CursorAdapter {
+    private static String TAG = "NetGuard.Log";
+
     private boolean resolve;
     private int colTime;
     private int colVersion;
@@ -35,6 +40,9 @@ public class LogAdapter extends CursorAdapter {
     private int colAllowed;
     private int colConnection;
     private int colInteractive;
+    private InetAddress vpn4 = null;
+    private InetAddress vpn6 = null;
+    private InetAddress dns = null;
     private Map<String, String> mapIPHost = new HashMap<String, String>();
 
     public LogAdapter(Context context, Cursor cursor, boolean resolve) {
@@ -52,6 +60,15 @@ public class LogAdapter extends CursorAdapter {
         colAllowed = cursor.getColumnIndex("allowed");
         colConnection = cursor.getColumnIndex("connection");
         colInteractive = cursor.getColumnIndex("interactive");
+
+        try {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            vpn4 = InetAddress.getByName(prefs.getString("vpn4", "10.1.10.1"));
+            vpn6 = InetAddress.getByName(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"));
+            dns = InetAddress.getByName(prefs.getString("dns", "8.8.8.8"));
+        } catch (UnknownHostException ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
     }
 
     @Override
@@ -152,9 +169,9 @@ public class LogAdapter extends CursorAdapter {
             tvUid.setText(Integer.toString(uid));
 
         // TODO resolve source when inbound
+        tvSource.setText(getKnownAddress(source));
 
-        tvSource.setText(source);
-        if (resolve)
+        if (resolve && !isKnownAddress(dest))
             synchronized (mapIPHost) {
                 if (mapIPHost.containsKey(dest))
                     tvDest.setText(mapIPHost.get(dest));
@@ -183,6 +200,28 @@ public class LogAdapter extends CursorAdapter {
                 }
             }
         else
-            tvDest.setText(dest);
+            tvDest.setText(getKnownAddress(dest));
+    }
+
+    private boolean isKnownAddress(String addr) {
+        try {
+            InetAddress a = InetAddress.getByName(addr);
+            if (a.equals(vpn4) || a.equals(vpn6) || a.equals(dns))
+                return true;
+        } catch (UnknownHostException ignored) {
+        }
+        return false;
+    }
+
+    private String getKnownAddress(String addr) {
+        try {
+            InetAddress a = InetAddress.getByName(addr);
+            if (a.equals(vpn4) || a.equals(vpn6))
+                return "vpn";
+            else if (a.equals(dns))
+                return "dns";
+        } catch (UnknownHostException ignored) {
+        }
+        return addr;
     }
 }

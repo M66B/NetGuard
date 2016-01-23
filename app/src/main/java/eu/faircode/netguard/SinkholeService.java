@@ -659,9 +659,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         // Build VPN service
         final Builder builder = new Builder();
         builder.setSession(getString(R.string.app_name) + " session");
-        // TODO: make tunnel parameters configurable
-        builder.addAddress("10.1.10.1", 32);
-        builder.addAddress("fd00:1:fd00:1:fd00:1:fd00:1", 64);
+        builder.addAddress(prefs.getString("vpn4", "10.1.10.1"), 32);
+        builder.addAddress(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"), 64);
+        // TODO multiple DNS servers
+        builder.addDnsServer(prefs.getString("dns", "8.8.8.8"));
 
         if (tethering) {
             // USB Tethering 192.168.42.x
@@ -681,7 +682,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             builder.addRoute("0.0.0.0", 0);
 
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
-        builder.addDnsServer("8.8.8.8");
 
         // Add list of allowed applications
         if (last_connected && !filter)
