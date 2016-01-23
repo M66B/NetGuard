@@ -292,6 +292,9 @@ public class ActivityLog extends AppCompatActivity {
                 OutputStream out = null;
                 FileInputStream in = null;
                 try {
+                    // Stop capture
+                    SinkholeService.setPcap(null);
+
                     Log.i(TAG, "Export PCAP URI=" + data.getData());
                     out = getContentResolver().openOutputStream(data.getData());
 
@@ -313,6 +316,13 @@ public class ActivityLog extends AppCompatActivity {
                     Util.sendCrashReport(ex, ActivityLog.this);
                     return ex;
                 } finally {
+                    // Resume capture
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ActivityLog.this);
+                    if (prefs.getBoolean("pcap", false)) {
+                        File pcap_file = new File(getCacheDir(), "netguard.pcap");
+                        SinkholeService.setPcap(pcap_file);
+                    }
+
                     if (out != null)
                         try {
                             out.close();

@@ -55,6 +55,7 @@ int signaled = 0;
 
 struct udp_session *udp_session = NULL;
 struct tcp_session *tcp_session = NULL;
+
 int loglevel = 0;
 FILE *pcap_file = NULL;
 
@@ -608,7 +609,9 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
                     log_android(ANDROID_LOG_INFO, "UDP recv bytes %d for %s/%u @tun",
                                 bytes, dest, ntohs(cur->dest));
-                    write_udp(args, cur, buffer, bytes, args->tun);
+                    if (write_udp(args, cur, buffer, bytes, args->tun) < 0)
+                        log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
+                                    errno, strerror((errno)));
                 }
             }
         }
@@ -928,60 +931,15 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
         cur = cur->next;
     }
 
+    char source[40];
+    char dest[40];
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(iphdr->saddr), source, sizeof(source));
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(iphdr->daddr), dest, sizeof(dest));
+
     // Create new session if needed
     if (cur == NULL) {
-        log_android(ANDROID_LOG_INFO, "UDP new session");
-
-        // Check for DNS
-        if (ntohs(udphdr->dest) == 53 && datalen > sizeof(struct dns_header)) {
-            char *h = hex(buffer + dataoff, datalen);
-            log_android(ANDROID_LOG_DEBUG, "DNS off %d len %d hex %s", dataoff, datalen, h);
-            free(h);
-
-            struct dns_header *dns = (struct dns_header *) (buffer + dataoff);
-            uint16_t flags = ntohs(dns->flags);
-
-            // Check if standard query
-            if ((flags & DNS_QR) == 0 && (flags & DNS_OPCODE) == 0 && dns->qdcount != 0) {
-                char name[64];
-                uint8_t noff = 0;
-
-                // http://tools.ietf.org/html/rfc1035
-                uint8_t len;
-                uint16_t ptr;
-                uint16_t qdoff = dataoff + sizeof(struct dns_header);
-                do {
-                    len = *(buffer + qdoff);
-                    if (len < 63) {
-                        ptr = qdoff;
-                        qdoff += (1 + len);
-                    } else {
-                        // TODO check top 2 bits
-                        ptr = dataoff + (len & 63);
-                        len = *(buffer + ptr);
-                        qdoff += 1;
-                    }
-                    log_android(ANDROID_LOG_DEBUG, "DNS len %d ptr %d qdoff %d", len, ptr, qdoff);
-                    if (len && ptr + 1 + len <= dataoff + datalen) {
-                        memcpy(name + noff, buffer + ptr + 1, len);
-                        *(name + noff + len) = '.';
-                        noff += (len + 1);
-                    }
-                } while (len && ptr + 1 + len <= dataoff + datalen);
-
-                if (noff > 0 && qdoff + 4 <= dataoff + datalen) {
-                    *(name + noff - 1) = 0;
-                    uint16_t qtype = ntohs(*((uint16_t *) (buffer + qdoff)));
-                    uint16_t qclass = ntohs(*((uint16_t *) (buffer + qdoff + 2)));
-                    log_android(ANDROID_LOG_WARN, "DNS %s qtype %d qclass %d", name, qtype, qclass);
-                    for (int i = 0; i < args->hcount; i++)
-                        if (!strcmp(name, args->hosts[i])) {
-                            log_android(ANDROID_LOG_WARN, "DNS %s blocked", name);
-                            return 0;
-                        }
-                }
-            }
-        }
+        log_android(ANDROID_LOG_WARN, "UDP new session from %s/%u to %s/%u",
+                    source, ntohs(udphdr->source), dest, ntohs(udphdr->dest));
 
         // Register session
         struct udp_session *u = malloc(sizeof(struct udp_session));
@@ -1023,10 +981,9 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
         }
     }
 
-    char source[40];
-    char dest[40];
-    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(iphdr->saddr), source, sizeof(source));
-    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(iphdr->daddr), dest, sizeof(dest));
+    // Check for DNS
+    if (check_dns(args, cur, buffer, length))
+        return 0;
 
     log_android(ANDROID_LOG_INFO, "UDP forward from tun %s/%u to %s/%u data %d",
                 source, ntohs(udphdr->source), dest, ntohs(udphdr->dest), datalen);
@@ -1046,6 +1003,90 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
     }
 
     return 1;
+}
+
+int check_dns(const struct arguments *args, const struct udp_session *u,
+              const uint8_t *buffer, const uint16_t length) {
+    // Get headers
+    struct iphdr *iphdr = buffer;
+    uint8_t ipoptlen = (iphdr->ihl - 5) * 4;
+    struct udphdr *udphdr = buffer + sizeof(struct iphdr) + ipoptlen;
+
+    // Get data
+    uint16_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
+    uint16_t datalen = length - dataoff;
+
+    if (ntohs(udphdr->dest) == 53 && datalen > sizeof(struct dns_header)) {
+        const struct dns_header *dns = (struct dns_header *) (buffer + dataoff);
+        uint16_t flags = ntohs(dns->flags);
+
+        // Check if standard query
+        if ((flags & DNS_QR) == 0 && (flags & DNS_OPCODE) == 0 && dns->qdcount != 0) {
+            char name[64];
+            uint8_t noff = 0;
+
+            // http://tools.ietf.org/html/rfc1035
+            uint8_t len;
+            uint16_t ptr;
+            uint16_t qdoff = dataoff + sizeof(struct dns_header);
+            do {
+                len = *(buffer + qdoff);
+                if (len <= 0x3F) {
+                    ptr = qdoff;
+                    qdoff += (1 + len);
+                } else {
+                    // TODO check top 2 bits
+                    ptr = dataoff + (len & 0x3F) * 256 + *(buffer + qdoff + 1);
+                    len = *(buffer + ptr);
+                    qdoff += 2;
+                }
+                if (len && ptr + 1 + len <= dataoff + datalen) {
+                    memcpy(name + noff, buffer + ptr + 1, len);
+                    *(name + noff + len) = '.';
+                    noff += (len + 1);
+                }
+            } while (len && ptr + 1 + len <= dataoff + datalen);
+
+            if (noff > 0 && qdoff + 4 <= dataoff + datalen) {
+                *(name + noff - 1) = 0;
+                uint16_t qtype = ntohs(*((uint16_t *) (buffer + qdoff)));
+                uint16_t qclass = ntohs(*((uint16_t *) (buffer + qdoff + 2)));
+                qdoff += 4;
+
+                if (qtype == DNS_QTYPE_A && qclass == DNS_QCLASS_IN)
+                    for (int i = 0; i < args->hcount; i++)
+                        if (!strcmp(name, args->hosts[i])) {
+                            log_android(ANDROID_LOG_WARN, "DNS %s blocked", name);
+
+                            struct dns_response reply;
+                            reply.qname_ptr = htons(sizeof(struct dns_header) | 0xC000);
+                            reply.qtype = htons(qtype);
+                            reply.qclass = htons(qclass);
+                            reply.ttl = htonl(DNS_TTL); // seconds
+                            reply.rdlength = htons(sizeof(reply.rdata));
+                            inet_aton("127.0.0.1", &(reply.rdata));
+
+                            uint16_t qsize = qdoff - dataoff;
+                            uint16_t rsize = qsize + sizeof(struct dns_response);
+                            uint8_t *response = malloc(rsize);
+                            memcpy(response, buffer + dataoff, qsize);
+                            memcpy(response + qsize, &reply, sizeof(struct dns_response));
+
+                            struct dns_header *rh = response;
+                            rh->flags = htons(DNS_QR);
+                            rh->ancount = htons(1);
+
+                            if (write_udp(args, u, response, rsize, args->tun) < 0)
+                                log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
+                                            errno, strerror((errno)));
+
+                            return 1;
+                        }
+            }
+        }
+    }
+
+    return 0;
 }
 
 jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid) {
@@ -1555,8 +1596,9 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
         log_android(ANDROID_LOG_INFO, "tun UDP write %f", mselapsed);
 #endif
 
-    log_packet(args, cur->version, ip->protocol, "",
-               source, ntohs(udp->source), dest, ntohs(udp->dest), cur->uid, 1);
+    if (args->log)
+        log_packet(args, cur->version, ip->protocol, "",
+                   source, ntohs(udp->source), dest, ntohs(udp->dest), cur->uid, 1);
 
     // Write pcap record
     if (pcap_file != NULL)
@@ -2063,7 +2105,7 @@ void read_hosts(const char *name, struct arguments *args) {
         log_android(ANDROID_LOG_ERROR, "fclose(%s) error %d: %s", name, errno, strerror(errno));
 
     for (int i = 0; i < args->hcount; i++)
-        log_android(ANDROID_LOG_WARN, "host '%s'", args->hosts[i]);
+        log_android(ANDROID_LOG_DEBUG, "host '%s'", args->hosts[i]);
 }
 
 const char *strstate(const int state) {
@@ -2108,5 +2150,7 @@ char *hex(const u_int8_t *data, const u_int16_t len) {
         hexout[i * 3 + 1] = hex_str[(data[i]) & 0x0F];
         hexout[i * 3 + 2] = ' ';
     }
+    hexout[len * 3] = 0;
+
     return hexout;
 }

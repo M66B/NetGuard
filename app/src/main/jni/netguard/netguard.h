@@ -23,7 +23,7 @@
 #define UID_MAXTRY 3
 
 #define MAX_PCAP_FILE (1024 * 1024) // bytes
-#define MAX_PCAP_RECORD 80 // bytes
+#define MAX_PCAP_RECORD 128 // bytes
 
 struct arguments {
     JNIEnv *env;
@@ -72,11 +72,11 @@ struct tcp_session {
 
 // https://wiki.wireshark.org/Development/LibpcapFileFormat
 
-typedef unsigned short guint16_t;
-typedef unsigned int guint32_t;
-typedef signed int gint32_t;
+typedef uint16_t guint16_t;
+typedef uint32_t guint32_t;
+typedef int32_t gint32_t;
 
-typedef struct pcap_hdr_s {
+typedef struct __attribute__((__packed__)) pcap_hdr_s {
     guint32_t magic_number;
     guint16_t version_major;
     guint16_t version_minor;
@@ -86,8 +86,7 @@ typedef struct pcap_hdr_s {
     guint32_t network;
 } pcap_hdr_t;
 
-
-typedef struct pcaprec_hdr_s {
+typedef struct __attribute__((__packed__)) pcaprec_hdr_s {
     guint32_t ts_sec;
     guint32_t ts_usec;
     guint32_t incl_len;
@@ -96,7 +95,7 @@ typedef struct pcaprec_hdr_s {
 
 #define LINKTYPE_RAW 101
 
-typedef struct dns_header {
+typedef struct __attribute__((__packed__)) dns_header {
     __be16 msgid;
     __be16 flags;
     __be16 qdcount;
@@ -105,6 +104,15 @@ typedef struct dns_header {
     __be16 arcount;
 } dns_header_t;
 
+typedef struct __attribute__((__packed__)) dns_response {
+    __be16 qname_ptr;
+    __be16 qtype;
+    __be16 qclass;
+    __be32 ttl;
+    __be16 rdlength;
+    __be32 rdata;
+} dns_response_t;
+
 #define DNS_QR 1
 #define DNS_OPCODE 30
 #define DNS_TC 8
@@ -112,6 +120,8 @@ typedef struct dns_header {
 #define DNS_QTYPE_A 1 // IPv4
 #define DNS_QTYPE_AAAA 28 // IPv6
 #define DNS_QCLASS_IN 1
+
+#define DNS_TTL 3600 // seconds
 
 void clear_sessions();
 
@@ -136,6 +146,9 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
 
 jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
+
+int check_dns(const struct arguments *args, const struct udp_session *u,
+              const uint8_t *buffer, const uint16_t length);
 
 int open_socket(const struct tcp_session *cur, const struct arguments *args);
 
