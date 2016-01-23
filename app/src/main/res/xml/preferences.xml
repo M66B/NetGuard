@@ -46,6 +46,11 @@
             android:key="filter"
             android:summary="@string/summary_filter"
             android:title="@string/setting_filter" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="domain_filter"
+            android:summary="@string/summary_domain_filter"
+            android:title="@string/setting_domain_filter" />
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"
