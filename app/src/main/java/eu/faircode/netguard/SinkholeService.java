@@ -661,8 +661,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         builder.setSession(getString(R.string.app_name) + " session");
         builder.addAddress(prefs.getString("vpn4", "10.1.10.1"), 32);
         builder.addAddress(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"), 64);
-        // TODO multiple DNS servers
-        builder.addDnsServer(prefs.getString("dns", "8.8.8.8"));
+
+        if (filter) {
+            // TODO multiple DNS servers
+            builder.addDnsServer(prefs.getString("dns", "8.8.8.8"));
+        }
 
         if (tethering) {
             // USB Tethering 192.168.42.x
