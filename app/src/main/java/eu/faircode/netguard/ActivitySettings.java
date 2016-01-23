@@ -179,9 +179,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Handle hosts
         Preference pref_hosts = screen.findPreference("hosts");
+        Preference domain_filter = screen.findPreference("domain_filter");
+
         if (Util.isPlayStoreInstall(this)) {
             PreferenceCategory pref_backup = (PreferenceCategory) screen.findPreference("category_backup");
             pref_backup.removePreference(pref_hosts);
+            PreferenceCategory pref_category = (PreferenceCategory) screen.findPreference("category_options");
+            pref_category.removePreference(domain_filter);
+
         } else {
             pref_hosts.setEnabled(getIntentOpenHosts().resolveActivity(getPackageManager()) != null);
             pref_hosts.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -388,6 +393,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         .create().show();
             }
 
+        } else if ("domain_filter".equals(name)){
+            SinkholeService.reload(null, "setting changed", this);
         } else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
 

@@ -103,7 +103,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
         jint tun, jintArray uids_,
         jstring hosts_,
         jboolean log, jboolean filter,
-        jint loglevel_) {
+        jint loglevel_, jboolean domain_filter) {
 
     loglevel = loglevel_;
     log_android(ANDROID_LOG_INFO, "Starting tun=%d log %d filter %d level %d",
@@ -135,8 +135,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
 
         args->log = log;
         args->filter = filter;
-
-        if (hosts_ == NULL) {
+        args->domain_filter = domain_filter;
+        if (hosts_ == NULL || !domain_filter) {
             args->hcount = 0;
             args->hosts = NULL;
         } else {
@@ -1008,6 +1008,11 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
 int check_dns(const struct arguments *args, const struct udp_session *u,
               const uint8_t *buffer, const uint16_t length) {
     // Get headers
+
+    if(!args->domain_filter) {
+        return 1;
+    }
+
     struct iphdr *iphdr = buffer;
     uint8_t ipoptlen = (iphdr->ihl - 5) * 4;
     struct udphdr *udphdr = buffer + sizeof(struct iphdr) + ipoptlen;
