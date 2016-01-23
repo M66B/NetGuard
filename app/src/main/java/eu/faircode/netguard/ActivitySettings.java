@@ -179,14 +179,19 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Handle hosts
         Preference pref_hosts = screen.findPreference("hosts");
-        pref_hosts.setEnabled(getIntentOpenHosts().resolveActivity(getPackageManager()) != null);
-        pref_hosts.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                startActivityForResult(getIntentOpenHosts(), ActivitySettings.REQUEST_HOSTS);
-                return true;
-            }
-        });
+        if (Util.isPlayStoreInstall(this)) {
+            PreferenceCategory pref_backup = (PreferenceCategory) screen.findPreference("category_backup");
+            pref_backup.removePreference(pref_hosts);
+        } else {
+            pref_hosts.setEnabled(getIntentOpenHosts().resolveActivity(getPackageManager()) != null);
+            pref_hosts.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivityForResult(getIntentOpenHosts(), ActivitySettings.REQUEST_HOSTS);
+                    return true;
+                }
+            });
+        }
 
         // Handle technical info
         Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {

@@ -133,6 +133,9 @@
         <Preference
             android:key="import"
             android:title="@string/setting_import" />
+        <Preference
+            android:key="hosts"
+            android:title="@string/setting_hosts" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_development"
@@ -143,9 +146,6 @@
             android:entryValues="@array/logLevelValues"
             android:key="loglevel"
             android:title="Native log level" />
-        <Preference
-            android:key="hosts"
-            android:title="Import hosts file" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_technical"
