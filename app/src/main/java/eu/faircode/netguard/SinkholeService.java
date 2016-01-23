@@ -117,7 +117,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init();
 
-    private native void jni_start(int tun, int[] uids, String hosts, boolean log, boolean filter, int loglevel);
+    private native void jni_start(int tun, int[] uids, String hosts, boolean log, boolean filter, int loglevel, boolean domain_filter);
 
     private native void jni_stop(int tun, boolean clear);
 
@@ -328,11 +328,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
                 boolean log = prefs.getBoolean("log", false);
                 boolean filter = prefs.getBoolean("filter", false);
+                boolean domain_filter = prefs.getBoolean("domain_filter", false);
                 if (log || filter) {
                     int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
                     File hosts = new File(getCacheDir(), "hosts.txt");
                     String hname = (hosts.exists() ? hosts.getAbsolutePath() : null);
-                    jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio);
+                    jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio, domain_filter);
                 }
 
                 removeWarningNotifications();
@@ -371,11 +372,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean log = prefs.getBoolean("log", false);
             boolean filter = prefs.getBoolean("filter", false);
+            boolean domain_filter = prefs.getBoolean("domain_filter", false);
+
             if (log || filter) {
                 int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
                 File hosts = new File(getCacheDir(), "hosts.txt");
                 String hname = (hosts.exists() ? hosts.getAbsolutePath() : null);
-                jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio);
+                jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio, domain_filter);
             }
 
             if (prev != null)
