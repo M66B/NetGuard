@@ -21,8 +21,11 @@
   <string name="menu_invite">邀請</string>
   <string name="menu_support">支援</string>
   <string name="menu_about">關於</string>
-  <string name="menu_enabled">Enabled</string>
+  <string name="menu_enabled">Log enabled</string>
   <string name="menu_live">Live updates</string>
+  <string name="menu_resolve">Resolve host names</string>
+  <string name="menu_pcap_enabled">PCAP enabled</string>
+  <string name="menu_pcap_export">PCAP export</string>
   <string name="menu_clear">清除</string>
   <string name="setting_defaults">預設</string>
   <string name="setting_whitelist_wifi">阻擋Wi-Fi</string>
@@ -33,7 +36,8 @@
   <string name="setting_options">選項</string>
   <string name="setting_system">管理系統程式</string>
   <string name="setting_tethering">Allow tethering</string>
-  <string name="setting_log">紀錄阻擋流量</string>
+  <string name="setting_log">Log traffic</string>
+  <string name="setting_filter">Filter traffic</string>
   <string name="setting_auto">在 %1$s 分鐘後自動啟用</string>
   <string name="setting_delay">延遲%1$s分鐘關閉螢幕</string>
   <string name="setting_theme">主題: %1$s</string>
@@ -53,9 +57,11 @@
   <string name="setting_backup">備份</string>
   <string name="setting_export">輸出設定</string>
   <string name="setting_import">輸入設定</string>
+  <string name="setting_hosts">Import hosts file</string>
   <string name="setting_technical">資訊</string>
   <string name="summary_system">為系統程式定義規則(專家用)</string>
   <string name="summary_log">紀錄進入VPN的封包的IP位址. 可能會導致電池耗電量提升</string>
+  <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_stats">在狀態欄通知列顯示網速圖表</string>
   <string name="summary_auto">\"在禁用小工具之後,自動在設定的時間後啟動網路守門人
 輸入0來關閉這項設定\"</string>
@@ -81,6 +87,7 @@
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB / 天</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
+  <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
   <string name="title_screen_wifi">在螢幕開啟時啟用Wi-fi</string>
   <string name="title_screen_other">在螢幕開啟時啟用行動網路</string>
   <string name="title_roaming">漫遊時阻擋</string>
@@ -90,17 +97,16 @@
   <string name="title_rate">評分</string>
   <string name="title_allow">允許</string>
   <string name="title_block">阻擋</string>
-  <string name="title_log">已阻擋流量</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">專業版功能</string>
   <string name="title_pro_trial_until">體驗Pro功能直到 %1$s</string>
   <string name="title_pro_trial_ended">Pro功能體驗期結束</string>
   <string name="title_pro_description">以下的便利功能是可使用的:</string>
-  <string name="title_pro_notify">新App通知</string>
-  <string name="title_pro_theme">外觀 (主題, 顏色)</string>
-  <string name="title_pro_speed">網路速度圖通知</string>
   <string name="title_pro_log">檢視阻擋流量紀錄</string>
+  <string name="title_pro_notify">新App通知</string>
+  <string name="title_pro_speed">網路速度圖通知</string>
+  <string name="title_pro_theme">外觀 (主題, 顏色)</string>
   <string name="title_pro_multi">Multi user support</string>
   <string name="title_pro_buy">詳細資訊</string>
   <string name="title_pro_bought">啟用</string>
