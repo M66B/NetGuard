@@ -47,13 +47,13 @@
         <activity
             android:name=".ActivitySettings"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_name"
+            android:label="@string/menu_settings"
             android:parentActivityName=".ActivityMain" />
 
         <activity
             android:name=".ActivityLog"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_log"
+            android:label="@string/menu_log"
             android:parentActivityName=".ActivityMain" />
 
         <activity
