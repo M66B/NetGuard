@@ -91,7 +91,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private static final int NOTIFY_ENFORCING = 1;
     private static final int NOTIFY_WAITING = 2;
     private static final int NOTIFY_DISABLED = 3;
-    private static final int NOTIFY_TRAFFIC = 4;
+    private static final int NOTIFY_ERROR = 4;
+    private static final int NOTIFY_TRAFFIC = 5;
 
     public static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
@@ -334,7 +335,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio);
                 }
 
-                removeDisabledNotification();
+                removeWarningNotifications();
                 updateEnforcingNotification(listAllowed.size(), listRule.size());
             }
         }
@@ -803,6 +804,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (!planned) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", false).apply();
+            showErrorNotification();
         }
     }
 
@@ -1173,7 +1175,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_error_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_revoked))
@@ -1184,11 +1186,38 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 .setOngoing(false)
                 .setAutoCancel(true);
 
+        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
+        notification.bigText(getString(R.string.msg_revoked));
+
         NotificationManagerCompat.from(this).notify(NOTIFY_DISABLED, notification.build());
     }
 
-    private void removeDisabledNotification() {
+    private void showErrorNotification() {
+        Intent main = new Intent(this, ActivityMain.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_error_white_24dp)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_error))
+                .setContentIntent(pi)
+                .setCategory(Notification.CATEGORY_STATUS)
+                .setVisibility(Notification.VISIBILITY_SECRET)
+                .setColor(tv.data)
+                .setOngoing(false)
+                .setAutoCancel(true);
+
+        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
+        notification.bigText(getString(R.string.msg_error));
+
+        NotificationManagerCompat.from(this).notify(NOTIFY_ERROR, notification.build());
+    }
+
+    private void removeWarningNotifications() {
         NotificationManagerCompat.from(this).cancel(NOTIFY_DISABLED);
+        NotificationManagerCompat.from(this).cancel(NOTIFY_ERROR);
     }
 
     public static void run(String reason, Context context) {
