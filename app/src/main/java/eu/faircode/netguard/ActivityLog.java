@@ -94,7 +94,7 @@ public class ActivityLog extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) adapter.getItem(position);
                 long time = cursor.getLong(cursor.getColumnIndex("time"));
-                String ip = cursor.getString(cursor.getColumnIndex("ip"));
+                String ip = cursor.getString(cursor.getColumnIndex("daddr"));
                 final int port = (cursor.isNull(cursor.getColumnIndex("port")) ? -1 : cursor.getInt(cursor.getColumnIndex("port")));
                 final int uid = (cursor.isNull(cursor.getColumnIndex("uid")) ? -1 : cursor.getInt(cursor.getColumnIndex("uid")));
                 final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
