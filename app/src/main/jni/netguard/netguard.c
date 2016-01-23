@@ -106,7 +106,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
         jint loglevel_) {
 
     loglevel = loglevel_;
-    log_android(ANDROID_LOG_INFO, "Starting tun=%d log %d filter %d level %d",
+    log_android(ANDROID_LOG_WARN, "Starting tun=%d log %d filter %d level %d",
                 tun, log, filter, loglevel_);
 
     // Set blocking
@@ -139,9 +139,10 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
         if (hosts_ == NULL) {
             args->hcount = 0;
             args->hosts = NULL;
+            log_android(ANDROID_LOG_WARN, "No hosts file");
         } else {
             const char *hosts = (*env)->GetStringUTFChars(env, hosts_, 0);
-            log_android(ANDROID_LOG_INFO, "hosts file %s", hosts);
+            log_android(ANDROID_LOG_WARN, "hosts file %s", hosts);
             read_hosts(hosts, args);
             (*env)->ReleaseStringUTFChars(env, hosts_, hosts);
         }
@@ -161,7 +162,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance,
                                                     jint tun, jboolean clear) {
-    log_android(ANDROID_LOG_INFO, "Stop tun %d clear %d", tun, (int) clear);
+    log_android(ANDROID_LOG_WARN, "Stop tun %d clear %d", tun, (int) clear);
     if (pthread_kill(thread_id, 0) == 0) {
         stopping = 1;
         log_android(ANDROID_LOG_DEBUG, "Kill thread %lu", thread_id);
@@ -302,7 +303,7 @@ void *handle_events(void *a) {
                     log_android(ANDROID_LOG_WARN, "pselect signaled");
                     break;
                 } else {
-                    log_android(ANDROID_LOG_WARN, "pselect interrupted");
+                    log_android(ANDROID_LOG_DEBUG, "pselect interrupted");
                     continue;
                 }
             } else {
@@ -384,7 +385,7 @@ void *handle_events(void *a) {
     free(args->hosts);
     free(args);
 
-    log_android(ANDROID_LOG_INFO, "Stopped events tun=%d thread %lu", args->tun, thread_id);
+    log_android(ANDROID_LOG_WARN, "Stopped events tun=%d thread %lu", args->tun, thread_id);
     return NULL;
 }
 
@@ -2062,7 +2063,7 @@ char *trim(char *str) {
 }
 
 void read_hosts(const char *name, struct arguments *args) {
-    log_android(ANDROID_LOG_WARN, "Reading %s", name);
+    log_android(ANDROID_LOG_INFO, "Reading %s", name);
 
     args->hcount = 0;
     args->hosts = NULL;

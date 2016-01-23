@@ -325,15 +325,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 if (vpn == null)
                     throw new IllegalStateException("VPN start failed");
 
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-                boolean log = prefs.getBoolean("log", false);
-                boolean filter = prefs.getBoolean("filter", false);
-                if (log || filter) {
-                    int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
-                    File hosts = new File(getCacheDir(), "hosts.txt");
-                    String hname = (hosts.exists() ? hosts.getAbsolutePath() : null);
-                    jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio);
-                }
+                startNative(listAllowed);
 
                 removeWarningNotifications();
                 updateEnforcingNotification(listAllowed.size(), listRule.size());
@@ -368,15 +360,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // TODO drain old VPN
             jni_stop(vpn.getFd(), false);
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            boolean log = prefs.getBoolean("log", false);
-            boolean filter = prefs.getBoolean("filter", false);
-            if (log || filter) {
-                int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
-                File hosts = new File(getCacheDir(), "hosts.txt");
-                String hname = (hosts.exists() ? hosts.getAbsolutePath() : null);
-                jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio);
-            }
+            startNative(listAllowed);
 
             if (prev != null)
                 stopVPN(prev);
@@ -714,6 +698,19 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             return null;
+        }
+    }
+
+    private void startNative(List<Rule> listAllowed) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+        boolean log = prefs.getBoolean("log", false);
+        boolean filter = prefs.getBoolean("filter", false);
+        boolean use_hosts = prefs.getBoolean("use_hosts", false);
+        if (log || filter) {
+            int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
+            File hosts = new File(getCacheDir(), "hosts.txt");
+            String hname = (use_hosts && hosts.exists() ? hosts.getAbsolutePath() : null);
+            jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio);
         }
     }
 

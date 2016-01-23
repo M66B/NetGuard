@@ -179,9 +179,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Handle hosts
         Preference pref_hosts = screen.findPreference("hosts");
+        Preference pref_block_domains = screen.findPreference("use_hosts");
+
         if (Util.isPlayStoreInstall(this)) {
             PreferenceCategory pref_backup = (PreferenceCategory) screen.findPreference("category_backup");
             pref_backup.removePreference(pref_hosts);
+            PreferenceCategory pref_category = (PreferenceCategory) screen.findPreference("category_options");
+            pref_category.removePreference(pref_block_domains);
+
         } else {
             pref_hosts.setEnabled(getIntentOpenHosts().resolveActivity(getPackageManager()) != null);
             pref_hosts.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -240,7 +245,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             options.removePreference(screen.findPreference("national_roaming"));
         }
 
-        if (!Util.getSelfVersionName(this).endsWith("beta"))
+        if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).endsWith("beta")))
             screen.removePreference(screen.findPreference("category_development"));
     }
 
@@ -387,6 +392,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         })
                         .create().show();
             }
+
+        } else if ("use_hosts".equals(name)) {
+            SinkholeService.reload(null, "setting changed", this);
 
         } else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
