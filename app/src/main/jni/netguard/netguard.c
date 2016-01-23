@@ -50,8 +50,8 @@
 
 static JavaVM *jvm;
 pthread_t thread_id;
-int stopping = 0;
-int signaled = 0;
+jboolean stopping = 0;
+jboolean signaled = 0;
 
 struct udp_session *udp_session = NULL;
 struct tcp_session *tcp_session = NULL;
@@ -110,7 +110,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
                 tun, log, filter, loglevel_);
 
     // Set blocking
-    uint8_t flags = fcntl(tun, F_GETFL, 0);
+    int flags = fcntl(tun, F_GETFL, 0);
     if (flags < 0 || fcntl(tun, F_SETFL, flags & ~O_NONBLOCK) < 0)
         log_android(ANDROID_LOG_ERROR, "fcntl tun ~O_NONBLOCK error %d: %s",
                     errno, strerror(errno));
@@ -208,7 +208,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
         if (pcap_file == NULL)
             log_android(ANDROID_LOG_ERROR, "PCAP fopen error %d: %s", errno, strerror(errno));
         else {
-            uint8_t flags = fcntl(fileno(pcap_file), F_GETFL, 0);
+            int flags = fcntl(fileno(pcap_file), F_GETFL, 0);
             if (flags < 0 || fcntl(fileno(pcap_file), F_SETFL, flags | O_NONBLOCK) < 0)
                 log_android(ANDROID_LOG_ERROR, "PCAP fcntl O_NONBLOCK error %d: %s",
                             errno, strerror(errno));
@@ -246,7 +246,7 @@ void handle_signal(int sig, siginfo_t *info, void *context) {
     signaled = 1;
 }
 
-void handle_events(void *a) {
+void *handle_events(void *a) {
     fd_set rfds;
     fd_set wfds;
     fd_set efds;
@@ -263,7 +263,7 @@ void handle_events(void *a) {
     jint rs = (*jvm)->AttachCurrentThread(jvm, &env, NULL);
     if (rs != JNI_OK) {
         log_android(ANDROID_LOG_ERROR, "AttachCurrentThread failed");
-        return;
+        return NULL;
     }
     args->env = env;
 
@@ -312,24 +312,24 @@ void handle_events(void *a) {
         }
 
         // Count sessions
-        int us = 0;
+        int udp = 0;
         struct udp_session *u = udp_session;
         while (u != NULL) {
-            us++;
+            udp++;
             u = u->next;
         }
 
-        int ts = 0;
+        int tcp = 0;
         struct tcp_session *t = tcp_session;
         while (t != NULL) {
-            ts++;
+            tcp++;
             t = t->next;
         }
 
         if (ready == 0)
-            log_android(ANDROID_LOG_DEBUG, "pselect timeout udp %d tcp %d", us, ts);
+            log_android(ANDROID_LOG_DEBUG, "pselect timeout udp %d tcp %d", udp, tcp);
         else {
-            log_android(ANDROID_LOG_DEBUG, "pselect udp %d tcp %d ready %d", us, ts, ready);
+            log_android(ANDROID_LOG_DEBUG, "pselect udp %d tcp %d ready %d", udp, tcp, ready);
 
 #ifdef PROFILE
             struct timeval start, end;
@@ -385,6 +385,7 @@ void handle_events(void *a) {
     free(args);
 
     log_android(ANDROID_LOG_INFO, "Stopped events tun=%d thread %lu", args->tun, thread_id);
+    return NULL;
 }
 
 void report_exit(struct arguments *args) {
@@ -551,10 +552,10 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
         else if (length > 0) {
             // Write pcap record
             if (pcap_file != NULL)
-                write_pcap_rec(buffer, length);
+                write_pcap_rec(buffer, (size_t) length);
 
             // Handle IP from tun
-            handle_ip(args, buffer, length);
+            handle_ip(args, buffer, (size_t) length);
         }
         else {
             // tun eof
@@ -609,7 +610,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
                     log_android(ANDROID_LOG_INFO, "UDP recv bytes %d for %s/%u @tun",
                                 bytes, dest, ntohs(cur->dest));
-                    if (write_udp(args, cur, buffer, bytes, args->tun) < 0)
+                    if (write_udp(args, cur, buffer, (size_t) bytes, args->tun) < 0)
                         log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
                                     errno, strerror((errno)));
                 }
@@ -671,9 +672,9 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 if (FD_ISSET(cur->socket, rfds) && cur->send_window > 0) {
                     cur->time = time(NULL);
 
-                    uint16_t len = (cur->send_window > TCP_SEND_WINDOW
-                                    ? TCP_SEND_WINDOW
-                                    : cur->send_window);
+                    size_t len = (cur->send_window > TCP_SEND_WINDOW
+                                  ? TCP_SEND_WINDOW
+                                  : cur->send_window);
                     uint8_t *buffer = malloc(len);
                     ssize_t bytes = recv(cur->socket, buffer, len, 0);
                     if (bytes < 0) {
@@ -708,7 +709,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                     "recv bytes %d state %s", bytes, strstate(cur->state));
 
                         // Forward to tun
-                        if (write_data(args, cur, buffer, bytes, args->tun) >= 0)
+                        if (write_data(args, cur, buffer, (size_t) bytes, args->tun) >= 0)
                             cur->local_seq += bytes;
                     }
 
@@ -732,7 +733,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
     }
 }
 
-void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16_t length) {
+void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t length) {
     uint8_t protocol;
     void *saddr;
     void *daddr;
@@ -751,7 +752,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     // Get protocol, addresses & payload
     uint8_t version = (*buffer) >> 4;
     if (version == 4) {
-        struct iphdr *ip4hdr = buffer;
+        struct iphdr *ip4hdr = (struct iphdr *) buffer;
 
         protocol = ip4hdr->protocol;
         saddr = &ip4hdr->saddr;
@@ -762,8 +763,8 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
             flags[flen++] = '+';
         }
 
-        uint8_t ipoptlen = (ip4hdr->ihl - 5) * 4;
-        payload = buffer + sizeof(struct iphdr) + ipoptlen;
+        uint8_t ipoptlen = (uint8_t) ((ip4hdr->ihl - 5) * 4);
+        payload = (uint8_t *) (buffer + sizeof(struct iphdr) + ipoptlen);
 
         if (ntohs(ip4hdr->tot_len) != length) {
             log_android(ANDROID_LOG_ERROR, "Invalid length %u header length %u",
@@ -772,20 +773,20 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
         }
 
         if (loglevel < ANDROID_LOG_WARN) {
-            if (!calc_checksum(0, ip4hdr, sizeof(struct iphdr))) {
+            if (!calc_checksum(0, (uint8_t *) ip4hdr, sizeof(struct iphdr))) {
                 log_android(ANDROID_LOG_ERROR, "Invalid IP checksum");
                 return;
             }
         }
     }
     else if (version == 6) {
-        struct ip6_hdr *ip6hdr = buffer;
+        struct ip6_hdr *ip6hdr = (struct ip6_hdr *) buffer;
 
         protocol = ip6hdr->ip6_nxt;
         saddr = &ip6hdr->ip6_src;
         daddr = &ip6hdr->ip6_dst;
 
-        payload = buffer + 40;
+        payload = (uint8_t *) (buffer + 40);
 
         // TODO check length
         // TODO checksum
@@ -799,11 +800,11 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     inet_ntop(version == 4 ? AF_INET : AF_INET6, daddr, dest, sizeof(dest));
 
     // Get ports & flags
-    int syn = 0;
+    jboolean syn = 0;
     int32_t sport = -1;
     int32_t dport = -1;
     if (protocol == IPPROTO_TCP) {
-        struct tcphdr *tcp = payload;
+        struct tcphdr *tcp = (struct tcphdr *) payload;
 
         sport = ntohs(tcp->source);
         dport = ntohs(tcp->dest);
@@ -823,7 +824,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 
         // TODO checksum
     } else if (protocol == IPPROTO_UDP) {
-        struct udphdr *udp = payload;
+        struct udphdr *udp = (struct udphdr *) payload;
 
         sport = ntohs(udp->source);
         dport = ntohs(udp->dest);
@@ -840,17 +841,18 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
         usleep(1000 * UID_DELAY);
         while (uid < 0 && tries++ < UID_MAXTRY) {
             // Check IPv6 table first
+            int dump = (tries == UID_MAXTRY);
             if (version == 4) {
                 int8_t saddr128[16];
                 memset(saddr128, 0, 10);
-                saddr128[10] = 0xFF;
-                saddr128[11] = 0xFF;
+                saddr128[10] = (uint8_t) 0xFF;
+                saddr128[11] = (uint8_t) 0xFF;
                 memcpy(saddr128 + 12, saddr, 4);
-                uid = get_uid(protocol, 6, saddr128, sport, tries == UID_MAXTRY);
+                uid = get_uid(protocol, 6, saddr128, (const uint16_t) sport, dump);
             }
 
             if (uid < 0)
-                uid = get_uid(protocol, version, saddr, sport, tries == UID_MAXTRY);
+                uid = get_uid(protocol, version, saddr, (const uint16_t) sport, dump);
 
             // Retry delay
             if (uid < 0 && tries < UID_MAXTRY) {
@@ -877,7 +879,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
 #endif
 
     // Check if allowed
-    jboolean allowed = !syn;
+    jboolean allowed = (jboolean) !syn;
     if (syn && args->filter && uid >= 0) {
         for (int i = 0; i < args->ucount; i++)
             if (args->uids[i] == uid) {
@@ -907,20 +909,20 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     }
 }
 
-jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid) {
+jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t length, int uid) {
     // Check version
     uint8_t version = (*buffer) >> 4;
     if (version != 4)
         return 0;
 
     // Get headers
-    struct iphdr *iphdr = buffer;
-    uint8_t ipoptlen = (iphdr->ihl - 5) * 4;
-    struct udphdr *udphdr = buffer + sizeof(struct iphdr) + ipoptlen;
+    struct iphdr *iphdr = (struct iphdr *) buffer;
+    uint8_t ipoptlen = (uint8_t) ((iphdr->ihl - 5) * 4);
+    struct udphdr *udphdr = (struct udphdr *) (buffer + sizeof(struct iphdr) + ipoptlen);
 
     // Get data
-    uint16_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
-    uint16_t datalen = length - dataoff;
+    size_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
+    size_t datalen = length - dataoff;
 
     // Search session
     struct udp_session *last = NULL;
@@ -945,9 +947,9 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
         struct udp_session *u = malloc(sizeof(struct udp_session));
         u->uid = uid;
         u->version = 4;
-        u->saddr = iphdr->saddr;
+        u->saddr = (__be32) iphdr->saddr;
         u->source = udphdr->source;
-        u->daddr = iphdr->daddr;
+        u->daddr = (__be32) iphdr->daddr;
         u->dest = udphdr->dest;
         u->error = 0;
         u->next = NULL;
@@ -991,12 +993,12 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
     cur->time = time(NULL);
 
     struct sockaddr_in server;
-    server.sin_family = (version == 4 ? AF_INET : AF_INET6);
-    server.sin_addr.s_addr = iphdr->daddr;
+    server.sin_family = (__kernel_sa_family_t) (version == 4 ? AF_INET : AF_INET6);
+    server.sin_addr.s_addr = (__be32) iphdr->daddr;
     server.sin_port = udphdr->dest;
 
-    if (sendto(cur->socket, buffer + dataoff, datalen, MSG_NOSIGNAL, &server, sizeof(server)) !=
-        datalen) {
+    if (sendto(cur->socket, buffer + dataoff, datalen, MSG_NOSIGNAL,
+               (const struct sockaddr *) &server, sizeof(server)) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %s:%s", errno, strerror(errno));
         cur->error = 1;
         return 0;
@@ -1006,15 +1008,15 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
 }
 
 int check_dns(const struct arguments *args, const struct udp_session *u,
-              const uint8_t *buffer, const uint16_t length) {
+              const uint8_t *buffer, const size_t length) {
     // Get headers
-    struct iphdr *iphdr = buffer;
-    uint8_t ipoptlen = (iphdr->ihl - 5) * 4;
-    struct udphdr *udphdr = buffer + sizeof(struct iphdr) + ipoptlen;
+    struct iphdr *iphdr = (struct iphdr *) buffer;
+    uint8_t ipoptlen = (uint8_t) ((iphdr->ihl - 5) * 4);
+    struct udphdr *udphdr = (struct udphdr *) (buffer + sizeof(struct iphdr) + ipoptlen);
 
     // Get data
-    uint16_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
-    uint16_t datalen = length - dataoff;
+    size_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
+    size_t datalen = length - dataoff;
 
     if (ntohs(udphdr->dest) == 53 && datalen > sizeof(struct dns_header)) {
         const struct dns_header *dns = (struct dns_header *) (buffer + dataoff);
@@ -1027,8 +1029,8 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
 
             // http://tools.ietf.org/html/rfc1035
             uint8_t len;
-            uint16_t ptr;
-            uint16_t qdoff = dataoff + sizeof(struct dns_header);
+            size_t ptr;
+            size_t qdoff = dataoff + sizeof(struct dns_header);
             do {
                 len = *(buffer + qdoff);
                 if (len <= 0x3F) {
@@ -1064,15 +1066,15 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
                             reply.qclass = htons(qclass);
                             reply.ttl = htonl(DNS_TTL); // seconds
                             reply.rdlength = htons(sizeof(reply.rdata));
-                            inet_aton("127.0.0.1", &(reply.rdata));
+                            inet_aton("127.0.0.1", (struct in_addr *) &(reply.rdata));
 
-                            uint16_t qsize = qdoff - dataoff;
-                            uint16_t rsize = qsize + sizeof(struct dns_response);
+                            size_t qsize = qdoff - dataoff;
+                            size_t rsize = qsize + sizeof(struct dns_response);
                             uint8_t *response = malloc(rsize);
                             memcpy(response, buffer + dataoff, qsize);
                             memcpy(response + qsize, &reply, sizeof(struct dns_response));
 
-                            struct dns_header *rh = response;
+                            struct dns_header *rh = (struct dns_header *) response;
                             rh->flags = htons(DNS_QR);
                             rh->ancount = htons(1);
 
@@ -1089,7 +1091,7 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
     return 0;
 }
 
-jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid) {
+jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t length, int uid) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -1102,16 +1104,16 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
         return 0;
 
     // Get headers
-    struct iphdr *iphdr = buffer;
-    uint8_t ipoptlen = (iphdr->ihl - 5) * 4;
-    struct tcphdr *tcphdr = buffer + sizeof(struct iphdr) + ipoptlen;
-    uint8_t tcpoptlen = (tcphdr->doff - 5) * 4;
+    struct iphdr *iphdr = (struct iphdr *) buffer;
+    uint8_t ipoptlen = (uint8_t) ((iphdr->ihl - 5) * 4);
+    struct tcphdr *tcphdr = (struct tcphdr *) (buffer + sizeof(struct iphdr) + ipoptlen);
+    uint8_t tcpoptlen = (uint8_t) ((tcphdr->doff - 5) * 4);
     if (tcpoptlen)
         log_android(ANDROID_LOG_DEBUG, "optlen %d", tcpoptlen);
 
     // Get data
-    uint16_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct tcphdr) + tcpoptlen;
-    uint16_t datalen = length - dataoff;
+    size_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct tcphdr) + tcpoptlen;
+    size_t datalen = length - dataoff;
 
     // Search session
     struct tcp_session *last = NULL;
@@ -1149,12 +1151,12 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             syn->version = 4;
             syn->send_window = ntohs(tcphdr->window);
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
-            syn->local_seq = rand(); // ISN local
+            syn->local_seq = (uint32_t) rand(); // ISN local
             syn->remote_start = syn->remote_seq;
             syn->local_start = syn->local_seq;
-            syn->saddr = iphdr->saddr;
+            syn->saddr = (__be32) iphdr->saddr;
             syn->source = tcphdr->source;
-            syn->daddr = iphdr->daddr;
+            syn->daddr = (__be32) iphdr->daddr;
             syn->dest = tcphdr->dest;
             syn->state = TCP_LISTEN;
             syn->next = NULL;
@@ -1174,7 +1176,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                 return 0;
             }
             else {
-                uint16_t lport = get_local_port(syn->socket);
+                int32_t lport = get_local_port(syn->socket);
                 log_android(ANDROID_LOG_INFO, "Open from %s/%u to %s/%u socket %d lport %u ",
                             source, ntohs(tcphdr->source), dest, ntohs(tcphdr->dest),
                             syn->socket, lport);
@@ -1195,9 +1197,9 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
             rst.version = 4;
             rst.local_seq = 0;
             rst.remote_seq = ntohl(tcphdr->seq);
-            rst.saddr = iphdr->saddr;
+            rst.saddr = (__be32) iphdr->saddr;
             rst.source = tcphdr->source;
-            rst.daddr = iphdr->daddr;
+            rst.daddr = (__be32) iphdr->daddr;
             rst.dest = tcphdr->dest;
             write_rst(args, &rst, args->tun);
 
@@ -1360,13 +1362,13 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
                     }
                     else {
                         char *msg;
-                        static const char previous[] = "Previous";
-                        static const char repeated[] = "Repeated";
-                        static const char invalid[] = "Invalid";
-                        static const char keepalive[] = "Keep alive";
+                        static char previous[] = "Previous";
+                        static char repeated[] = "Repeated";
+                        static char invalid[] = "Invalid";
+                        static char keepalive[] = "Keep alive";
 
                         // TODO proper wrap around
-                        int allowed = 1;
+                        jboolean allowed = 1;
                         if (tcphdr->ack && ((uint32_t) ntohl(tcphdr->seq) + 1) == cur->remote_seq)
                             msg = keepalive;
                         else if (ntohl(tcphdr->seq) == cur->remote_seq &&
@@ -1432,7 +1434,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_
 }
 
 int open_socket(const struct tcp_session *cur, const struct arguments *args) {
-    int sock = -1;
+    int sock;
 
     // Build target address
     struct sockaddr_in daddr;
@@ -1453,7 +1455,7 @@ int open_socket(const struct tcp_session *cur, const struct arguments *args) {
         return -1;
 
     // Set non blocking
-    uint8_t flags = fcntl(sock, F_GETFL, 0);
+    int flags = fcntl(sock, F_GETFL, 0);
     if (flags < 0 || fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) {
         log_android(ANDROID_LOG_ERROR, "fcntl socket O_NONBLOCK error %d: %s",
                     errno, strerror(errno));
@@ -1461,7 +1463,7 @@ int open_socket(const struct tcp_session *cur, const struct arguments *args) {
     }
 
     // Initiate connect
-    int err = connect(sock, &daddr, sizeof(struct sockaddr_in));
+    int err = connect(sock, (const struct sockaddr *) &daddr, sizeof(struct sockaddr_in));
     if (err < 0 && errno != EINPROGRESS) {
         log_android(ANDROID_LOG_ERROR, "connect error %d: %s", errno, strerror(errno));
         return -1;
@@ -1477,10 +1479,10 @@ int open_socket(const struct tcp_session *cur, const struct arguments *args) {
     return sock;
 }
 
-uint16_t get_local_port(const int sock) {
+int32_t get_local_port(const int sock) {
     struct sockaddr_in sin;
-    int len = sizeof(sin);
-    if (getsockname(sock, &sin, &len) < 0) {
+    socklen_t len = sizeof(sin);
+    if (getsockname(sock, (struct sockaddr *) &sin, &len) < 0) {
         log_android(ANDROID_LOG_ERROR, "getsockname error %d: %s", errno, strerror(errno));
         return -1;
     } else
@@ -1497,7 +1499,7 @@ int write_syn_ack(const struct arguments *args, struct tcp_session *cur, int tun
     return 0;
 }
 
-int write_ack(const struct arguments *args, struct tcp_session *cur, int bytes, int tun) {
+int write_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes, int tun) {
     if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write ACK error %d: %s",
                     errno, strerror((errno)));
@@ -1507,28 +1509,19 @@ int write_ack(const struct arguments *args, struct tcp_session *cur, int bytes, 
     return 0;
 }
 
-int write_data(const struct arguments *args, struct tcp_session *cur, const uint8_t *buffer,
-               uint16_t length, int tun) {
+int write_data(const struct arguments *args, struct tcp_session *cur,
+               const uint8_t *buffer, size_t length, int tun) {
     if (write_tcp(args, cur, buffer, length, 0, 0, 1, 0, 0, tun) < 0) {
         log_android(ANDROID_LOG_ERROR, "write data ACK error %d: %s", errno, strerror((errno)));
-        cur->state = TCP_TIME_WAIT;
-    }
-
-}
-
-int write_fin_ack(const struct arguments *args, struct tcp_session *cur, int bytes, int tun) {
-    if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 1, 0, tun) < 0) {
-        log_android(ANDROID_LOG_ERROR, "write FIN+ACK error %d: %s", errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
         return -1;
     }
     return 0;
 }
 
-int write_fin(const struct arguments *args, struct tcp_session *cur, int tun) {
-    if (write_tcp(args, cur, NULL, 0, 0, 0, 0, 1, 0, tun) < 0) {
-        log_android(ANDROID_LOG_ERROR,
-                    "write FIN error %d: %s", errno, strerror((errno)));
+int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes, int tun) {
+    if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 1, 0, tun) < 0) {
+        log_android(ANDROID_LOG_ERROR, "write FIN+ACK error %d: %s", errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
         return -1;
     }
@@ -1542,8 +1535,8 @@ void write_rst(const struct arguments *args, struct tcp_session *cur, int tun) {
     cur->state = TCP_TIME_WAIT;
 }
 
-int write_udp(const struct arguments *args, const struct udp_session *cur,
-              uint8_t *data, uint16_t datalen, int tun) {
+ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
+                  uint8_t *data, size_t datalen, int tun) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -1551,10 +1544,10 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
 #endif
 
     // Build packet
-    uint16_t len = sizeof(struct iphdr) + sizeof(struct udphdr) + datalen;
+    size_t len = sizeof(struct iphdr) + sizeof(struct udphdr) + datalen;
     u_int8_t *buffer = calloc(len, 1);
-    struct iphdr *ip = buffer;
-    struct udphdr *udp = buffer + sizeof(struct iphdr);
+    struct iphdr *ip = (struct iphdr *) buffer;
+    struct udphdr *udp = (struct udphdr *) (buffer + sizeof(struct iphdr));
     if (datalen)
         memcpy(buffer + sizeof(struct iphdr) + sizeof(struct udphdr), data, datalen);
 
@@ -1568,7 +1561,7 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
     ip->daddr = cur->saddr;
 
     // Calculate IP checksum
-    ip->check = ~calc_checksum(0, ip, sizeof(struct iphdr));
+    ip->check = ~calc_checksum(0, (uint8_t *) ip, sizeof(struct iphdr));
 
     // Build TCP header
     udp->source = cur->dest;
@@ -1586,7 +1579,7 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
                 "Sending UDP to tun from %s/%u to %s/%u data %u",
                 source, ntohs(udp->source), dest, ntohs(udp->dest), datalen);
 
-    int res = write(tun, buffer, len);
+    ssize_t res = write(tun, buffer, len);
 
 #ifdef PROFILE
     gettimeofday(&end, NULL);
@@ -1610,9 +1603,9 @@ int write_udp(const struct arguments *args, const struct udp_session *cur,
 }
 
 
-int write_tcp(const struct arguments *args, const struct tcp_session *cur,
-              uint8_t *data, uint16_t datalen, uint16_t confirm,
-              int syn, int ack, int fin, int rst, int tun) {
+ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
+                  const uint8_t *data, size_t datalen, size_t confirm,
+                  int syn, int ack, int fin, int rst, int tun) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -1620,10 +1613,10 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
 #endif
 
     // Build packet
-    uint16_t len = sizeof(struct iphdr) + sizeof(struct tcphdr) + datalen;
+    size_t len = sizeof(struct iphdr) + sizeof(struct tcphdr) + datalen;
     u_int8_t *buffer = calloc(len, 1);
-    struct iphdr *ip = buffer;
-    struct tcphdr *tcp = buffer + sizeof(struct iphdr);
+    struct iphdr *ip = (struct iphdr *) buffer;
+    struct tcphdr *tcp = (struct tcphdr *) (buffer + sizeof(struct iphdr));
     if (datalen)
         memcpy(buffer + sizeof(struct iphdr) + sizeof(struct tcphdr), data, datalen);
 
@@ -1637,7 +1630,7 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
     ip->daddr = cur->saddr;
 
     // Calculate IP checksum
-    ip->check = ~calc_checksum(0, ip, sizeof(struct iphdr));
+    ip->check = ~calc_checksum(0, (uint8_t *) ip, sizeof(struct iphdr));
 
     // Build TCP header
     tcp->source = cur->dest;
@@ -1645,10 +1638,10 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
     tcp->seq = htonl(cur->local_seq);
     tcp->ack_seq = htonl((uint32_t) (cur->remote_seq + confirm));
     tcp->doff = sizeof(struct tcphdr) >> 2;
-    tcp->syn = syn;
-    tcp->ack = ack;
-    tcp->fin = fin;
-    tcp->rst = rst;
+    tcp->syn = (__u16) syn;
+    tcp->ack = (__u16) ack;
+    tcp->fin = (__u16) fin;
+    tcp->rst = (__u16) rst;
     tcp->window = htons(TCP_RECV_WINDOW);
 
     if (!tcp->ack)
@@ -1656,15 +1649,15 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
 
     // Calculate TCP checksum
     struct ippseudo pseudo;
-    pseudo.ippseudo_src.s_addr = ip->saddr;
-    pseudo.ippseudo_dst.s_addr = ip->daddr;
+    pseudo.ippseudo_src.s_addr = (__be32) ip->saddr;
+    pseudo.ippseudo_dst.s_addr = (__be32) ip->daddr;
     pseudo.ippseudo_pad = 0;
     pseudo.ippseudo_p = ip->protocol;
     pseudo.ippseudo_len = htons(sizeof(struct tcphdr) + datalen);
 
-    uint16_t csum = calc_checksum(0, &pseudo, sizeof(struct ippseudo));
-    csum = calc_checksum(csum, tcp, sizeof(struct tcphdr));
-    csum = calc_checksum(csum, data, datalen);
+    uint16_t csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ippseudo));
+    csum = calc_checksum(csum, (uint8_t *) tcp, sizeof(struct tcphdr));
+    csum = calc_checksum(csum, (uint8_t *) data, datalen);
 
     tcp->check = ~csum;
 
@@ -1683,7 +1676,7 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
                 ntohl(tcp->ack_seq) - cur->remote_start,
                 datalen, confirm);
 
-    int res = write(tun, buffer, len);
+    ssize_t res = write(tun, buffer, len);
 
 #ifdef PROFILE
     gettimeofday(&end, NULL);
@@ -1703,14 +1696,14 @@ int write_tcp(const struct arguments *args, const struct tcp_session *cur,
 }
 
 uint8_t char2nible(const char c) {
-    if (c >= '0' && c <= '9') return (c - '0');
-    if (c >= 'a' && c <= 'f') return (c - 'a') + 10;
-    if (c >= 'A' && c <= 'F') return (c - 'A') + 10;
+    if (c >= '0' && c <= '9') return (uint8_t) (c - '0');
+    if (c >= 'a' && c <= 'f') return (uint8_t) ((c - 'a') + 10);
+    if (c >= 'A' && c <= 'F') return (uint8_t) ((c - 'A') + 10);
     return 255;
 }
 
 void hex2bytes(const char *hex, uint8_t *buffer) {
-    int len = strlen(hex);
+    size_t len = strlen(hex);
     for (int i = 0; i < len; i += 2)
         buffer[i / 2] = (char2nible(hex[i]) << 4) | char2nible(hex[i + 1]);
 }
@@ -1722,7 +1715,7 @@ jint get_uid(const int protocol, const int version,
     int fields;
     uint8_t addr4[4];
     uint8_t addr6[16];
-    uint16_t port;
+    int port;
     jint uid = -1;
 
 #ifdef PROFILE
@@ -1809,7 +1802,7 @@ jint get_uid(const int protocol, const int version,
     return uid;
 }
 
-int protect_socket(struct arguments *args, int socket) {
+int protect_socket(const struct arguments *args, int socket) {
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
     jmethodID mid = jniGetMethodID(args->env, cls, "protect", "(I)Z");
 
@@ -1826,10 +1819,10 @@ int protect_socket(struct arguments *args, int socket) {
     return 0;
 }
 
-uint16_t calc_checksum(uint16_t start, uint8_t *buffer, uint16_t length) {
+uint16_t calc_checksum(uint16_t start, const uint8_t *buffer, size_t length) {
     register uint32_t sum = start;
-    register uint16_t *buf = buffer;
-    register int len = length;
+    register uint16_t *buf = (uint16_t *) buffer;
+    register size_t len = length;
 
     while (len > 1) {
         sum += *buf++;
@@ -2003,18 +1996,18 @@ void write_pcap_hdr() {
     write_pcap(&pcap_hdr, sizeof(struct pcap_hdr_s));
 }
 
-void write_pcap_rec(const uint8_t *buffer, uint16_t length) {
+void write_pcap_rec(const uint8_t *buffer, size_t length) {
     struct timespec ts;
     if (clock_gettime(CLOCK_REALTIME, &ts))
         log_android(ANDROID_LOG_ERROR, "clock_gettime error %d: %s", errno, strerror(errno));
 
-    int plen = (length < MAX_PCAP_RECORD ? length : MAX_PCAP_RECORD);
+    size_t plen = (length < MAX_PCAP_RECORD ? length : MAX_PCAP_RECORD);
     struct pcaprec_hdr_s pcap_rec;
 
-    pcap_rec.ts_sec = ts.tv_sec;
-    pcap_rec.ts_usec = ts.tv_nsec / 1000;
-    pcap_rec.incl_len = plen;
-    pcap_rec.orig_len = length;
+    pcap_rec.ts_sec = (guint32_t) ts.tv_sec;
+    pcap_rec.ts_usec = (guint32_t) (ts.tv_nsec / 1000);
+    pcap_rec.incl_len = (guint32_t) plen;
+    pcap_rec.orig_len = (guint32_t) length;
 
     write_pcap(&pcap_rec, sizeof(struct pcaprec_hdr_s));
     write_pcap(buffer, plen);
@@ -2109,7 +2102,6 @@ void read_hosts(const char *name, struct arguments *args) {
 }
 
 const char *strstate(const int state) {
-    char buf[20];
     switch (state) {
         case TCP_ESTABLISHED:
             return "ESTABLISHED";
@@ -2134,12 +2126,11 @@ const char *strstate(const int state) {
         case  TCP_CLOSING:
             return "CLOSING";
         default:
-            sprintf(buf, "TCP_%d", state);
-            return buf;
+            return "UNKNOWN";
     }
 }
 
-char *hex(const u_int8_t *data, const u_int16_t len) {
+char *hex(const u_int8_t *data, const size_t len) {
     char hex_str[] = "0123456789ABCDEF";
 
     char *hexout;

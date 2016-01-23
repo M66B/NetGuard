@@ -127,7 +127,7 @@ void clear_sessions();
 
 void handle_signal(int sig, siginfo_t *info, void *context);
 
-void handle_events(void *a);
+void *handle_events(void *a);
 
 void report_exit(struct arguments *args);
 
@@ -141,43 +141,47 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16_t length);
+void handle_ip(const struct arguments *args, const uint8_t *buffer, size_t length);
 
-jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
+jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t length, int uid);
 
-jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, uint16_t length, int uid);
+jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t length, int uid);
 
 int check_dns(const struct arguments *args, const struct udp_session *u,
-              const uint8_t *buffer, const uint16_t length);
+              const uint8_t *buffer, const size_t length);
 
 int open_socket(const struct tcp_session *cur, const struct arguments *args);
 
-uint16_t get_local_port(const int sock);
+int32_t get_local_port(const int sock);
 
 int write_syn_ack(const struct arguments *args, struct tcp_session *cur, int tun);
 
-int write_ack(const struct arguments *args, struct tcp_session *cur, int bytes, int tun);
+int write_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes, int tun);
 
 int write_data(const struct arguments *args, struct tcp_session *cur,
-               const uint8_t *buffer, uint16_t length, int tun);
+               const uint8_t *buffer, size_t length, int tun);
 
-int write_fin_ack(const struct arguments *args, struct tcp_session *cur, int bytes, int tun);
-
-int write_fin(const struct arguments *args, struct tcp_session *cur, int tun);
+int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes, int tun);
 
 void write_rst(const struct arguments *args, struct tcp_session *cur, int tun);
 
-int write_udp(const struct arguments *args, const struct udp_session *cur,
-              uint8_t *data, uint16_t datalen, int tun);
+ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
+                  uint8_t *data, size_t datalen, int tun);
 
-int write_tcp(const struct arguments *args, const struct tcp_session *cur,
-              uint8_t *data, uint16_t datalen, uint16_t confirm,
-              int syn, int ack, int fin, int rst, int tun);
+ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
+                  const uint8_t *data, size_t datalen, size_t confirm,
+                  int syn, int ack, int fin, int rst, int tun);
+
+uint8_t char2nible(const char c);
+
+void hex2bytes(const char *hex, uint8_t *buffer);
 
 jint get_uid(const int protocol, const int version,
              const void *saddr, const uint16_t sport, int dump);
 
-uint16_t calc_checksum(uint16_t start, uint8_t *buffer, uint16_t length);
+int protect_socket(const struct arguments *args, int socket);
+
+uint16_t calc_checksum(uint16_t start, const uint8_t *buffer, size_t length);
 
 jobject jniGlobalRef(JNIEnv *env, jobject cls);
 
@@ -206,7 +210,7 @@ void log_packet(const struct arguments *args,
 
 void write_pcap_hdr();
 
-void write_pcap_rec(const uint8_t *buffer, uint16_t len);
+void write_pcap_rec(const uint8_t *buffer, size_t len);
 
 void write_pcap(const void *ptr, size_t len);
 
@@ -214,4 +218,4 @@ void read_hosts(const char *name, struct arguments *args);
 
 const char *strstate(const int state);
 
-char *hex(const u_int8_t *data, const u_int16_t len);
+char *hex(const u_int8_t *data, const size_t len);
