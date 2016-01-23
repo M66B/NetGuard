@@ -35,6 +35,7 @@ struct arguments {
     char **hosts;
     jboolean log;
     jboolean filter;
+    jboolean domain_filter;
 };
 
 struct udp_session {
