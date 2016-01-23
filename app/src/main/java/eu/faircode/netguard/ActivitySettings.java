@@ -180,6 +180,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Handle hosts
         Preference pref_hosts = screen.findPreference("hosts");
         Preference pref_block_domains = screen.findPreference("use_hosts");
+        pref_block_domains.setEnabled(new File(getCacheDir(), "hosts.txt").exists());
 
         if (Util.isPlayStoreInstall(this)) {
             PreferenceCategory pref_backup = (PreferenceCategory) screen.findPreference("category_backup");
@@ -393,10 +394,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         .create().show();
             }
 
-        } else if ("use_hosts".equals(name)) {
+        } else if ("use_hosts".equals(name))
             SinkholeService.reload(null, "setting changed", this);
 
-        } else if ("auto_enable".equals(name))
+        else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
 
         else if ("screen_delay".equals(name))
@@ -540,7 +541,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 handleImport(data);
 
         } else if (requestCode == REQUEST_HOSTS) {
-            handleHosts(resultCode == RESULT_OK ? data : null);
+            if (resultCode == RESULT_OK && data != null)
+                handleHosts(data);
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
@@ -609,47 +611,41 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             @Override
             protected Throwable doInBackground(Object... objects) {
                 File hosts = new File(getCacheDir(), "hosts.txt");
-                if (data == null) {
-                    // TODO user confirmation
-                    if (hosts.exists())
-                        hosts.delete();
-                    return null;
-                } else {
-                    FileOutputStream out = null;
-                    InputStream in = null;
-                    try {
-                        Log.i(TAG, "Reading URI=" + data.getData());
-                        in = getContentResolver().openInputStream(data.getData());
-                        out = new FileOutputStream(hosts);
 
-                        int len;
-                        long total = 0;
-                        byte[] buf = new byte[4096];
-                        while ((len = in.read(buf)) > 0) {
-                            out.write(buf, 0, len);
-                            total += len;
-                        }
-                        Log.i(TAG, "Copied bytes=" + total);
+                FileOutputStream out = null;
+                InputStream in = null;
+                try {
+                    Log.i(TAG, "Reading URI=" + data.getData());
+                    in = getContentResolver().openInputStream(data.getData());
+                    out = new FileOutputStream(hosts);
 
-                        return null;
-                    } catch (Throwable ex) {
-                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        Util.sendCrashReport(ex, ActivitySettings.this);
-                        return ex;
-                    } finally {
-                        if (out != null)
-                            try {
-                                out.close();
-                            } catch (IOException ex) {
-                                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                            }
-                        if (in != null)
-                            try {
-                                in.close();
-                            } catch (IOException ex) {
-                                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                            }
+                    int len;
+                    long total = 0;
+                    byte[] buf = new byte[4096];
+                    while ((len = in.read(buf)) > 0) {
+                        out.write(buf, 0, len);
+                        total += len;
                     }
+                    Log.i(TAG, "Copied bytes=" + total);
+
+                    return null;
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, ActivitySettings.this);
+                    return ex;
+                } finally {
+                    if (out != null)
+                        try {
+                            out.close();
+                        } catch (IOException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
+                    if (in != null)
+                        try {
+                            in.close();
+                        } catch (IOException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
                 }
             }
 
@@ -658,6 +654,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (ex == null) {
                     Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
                     SinkholeService.reload(null, "hosts", ActivitySettings.this);
+                    getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
                 } else
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
