@@ -40,9 +40,9 @@ struct udp_session {
     time_t time;
     jint uid;
     int version;
-    int32_t saddr; // network notation
+    __be32 saddr; // network notation
     __be16 source; // network notation
-    int32_t daddr; // network notation
+    __be32 daddr; // network notation
     __be16 dest; // network notation
     uint8_t error;
     jint socket;
@@ -59,9 +59,9 @@ struct tcp_session {
     uint32_t local_seq; // confirmed bytes sent, host notation
     uint32_t remote_start;
     uint32_t local_start;
-    int32_t saddr; // network notation
+    __be32 saddr; // network notation
     __be16 source; // network notation
-    int32_t daddr; // network notation
+    __be32 daddr; // network notation
     __be16 dest; // network notation
     uint8_t state;
     jint socket;
@@ -93,6 +93,23 @@ typedef struct pcaprec_hdr_s {
 } pcaprec_hdr_t;
 
 #define LINKTYPE_RAW 101
+
+typedef struct dns_header {
+    __be16 msgid;
+    __be16 flags;
+    __be16 qdcount;
+    __be16 ancount;
+    __be16 nscount;
+    __be16 arcount;
+} dns_header_t;
+
+#define DNS_QR 1
+#define DNS_OPCODE 30
+#define DNS_TC 8
+
+#define DNS_QTYPE_A 1 // IPv4
+#define DNS_QTYPE_AAAA 28 // IPv6
+#define DNS_QCLASS_IN 1
 
 void clear_sessions();
 
