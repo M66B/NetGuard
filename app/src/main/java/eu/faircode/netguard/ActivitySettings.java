@@ -600,11 +600,25 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         new AsyncTask<Object, Object, Throwable>() {
             @Override
             protected Throwable doInBackground(Object... objects) {
-                File hosts = new File(getCacheDir(), "hosts.txt");
+                final File hosts = new File(getCacheDir(), "hosts.txt");
                 if (data == null) {
-                    // TODO user confirmation
-                    if (hosts.exists())
-                        hosts.delete();
+                    if (hosts.exists()) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                askUser(getString(R.string.setting_delete_hosts_file), getString(R.string.app_confirm_title), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        hosts.delete();
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
+
+                    }
+
+
                     return null;
                 } else {
                     FileOutputStream out = null;
@@ -899,5 +913,18 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             } else
                 Log.e(TAG, "Unknown element qname=" + qName);
         }
+    }
+    private void askUser(String message, String title, DialogInterface.OnClickListener positiveCallBack){
+        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+        dlgAlert.setMessage(message);
+        dlgAlert.setTitle(title);
+        dlgAlert.setPositiveButton(getString(R.string.YES), positiveCallBack);
+        dlgAlert.setNegativeButton(getString(R.string.NO), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+        dlgAlert.create().show();
     }
 }

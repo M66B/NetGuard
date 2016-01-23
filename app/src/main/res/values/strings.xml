@@ -164,4 +164,11 @@ Since NetGuard has no internet permission, you know your internet traffic is not
     </string-array>
 
     <string name="fingerprint" translatable="false">ef46f813d2c8a064d72c936b9b96d1cccc989378</string>
+    <string name="setting_delete_hosts_file" translatable="true">Do you want to clear current hosts file?</string>
+    <string name="YES" translatable="true">Yes</string>
+    <string name="NO" translatable="true">No</string>
+    <string name="app_confirm_title" translatable="true">Confirm</string>
+
+
+
 </resources>
