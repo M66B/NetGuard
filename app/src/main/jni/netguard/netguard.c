@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <time.h>
 #include <unistd.h>
 #include <pthread.h>
@@ -99,6 +100,7 @@ JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1start(
         JNIEnv *env, jobject instance,
         jint tun, jintArray uids_,
+        jstring hosts_,
         jboolean log, jboolean filter,
         jint loglevel_) {
 
@@ -123,15 +125,27 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
         struct arguments *args = malloc(sizeof(struct arguments));
         args->instance = (*env)->NewGlobalRef(env, instance);
         args->tun = tun;
-        args->count = (*env)->GetArrayLength(env, uids_);
-        args->uids = malloc(args->count * sizeof(jint));
+
+        args->ucount = (*env)->GetArrayLength(env, uids_);
+        args->uids = malloc(args->ucount * sizeof(jint));
         jint *uids = (*env)->GetIntArrayElements(env, uids_, NULL);
-        memcpy(args->uids, uids, args->count * sizeof(jint));
+        memcpy(args->uids, uids, args->ucount * sizeof(jint));
         (*env)->ReleaseIntArrayElements(env, uids_, uids, 0);
+
         args->log = log;
         args->filter = filter;
 
-        for (int i = 0; i < args->count; i++)
+        if (hosts_ == NULL) {
+            args->hcount = 0;
+            args->hosts = NULL;
+        } else {
+            const char *hosts = (*env)->GetStringUTFChars(env, hosts_, 0);
+            log_android(ANDROID_LOG_INFO, "hosts file %s", hosts);
+            read_hosts(hosts, args);
+            (*env)->ReleaseStringUTFChars(env, hosts_, hosts);
+        }
+
+        for (int i = 0; i < args->ucount; i++)
             log_android(ANDROID_LOG_DEBUG, "Allowed uid %d", args->uids[i]);
 
         // Start native thread
@@ -364,6 +378,9 @@ void handle_events(void *a) {
 
     // Cleanup
     free(args->uids);
+    for (int i = 0; i < args->hcount; i++)
+        free(args->hosts[i]);
+    free(args->hosts);
     free(args);
 
     log_android(ANDROID_LOG_INFO, "Stopped events tun=%d thread %lu", args->tun, thread_id);
@@ -859,7 +876,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const uint16
     // Check if allowed
     jboolean allowed = !syn;
     if (syn && args->filter && uid >= 0) {
-        for (int i = 0; i < args->count; i++)
+        for (int i = 0; i < args->ucount; i++)
             if (args->uids[i] == uid) {
                 allowed = 1;
                 break;
@@ -957,6 +974,11 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, uint16_
                     uint16_t qtype = ntohs(*((uint16_t *) (buffer + qdoff)));
                     uint16_t qclass = ntohs(*((uint16_t *) (buffer + qdoff + 2)));
                     log_android(ANDROID_LOG_WARN, "DNS %s qtype %d qclass %d", name, qtype, qclass);
+                    for (int i = 0; i < args->hcount; i++)
+                        if (!strcmp(name, args->hosts[i])) {
+                            log_android(ANDROID_LOG_WARN, "DNS %s blocked", name);
+                            return 0;
+                        }
                 }
             }
         }
@@ -1989,6 +2011,59 @@ void write_pcap(const void *ptr, size_t len) {
     if (mselapsed > 1)
         log_android(ANDROID_LOG_INFO, "pcap write %f", mselapsed);
 #endif
+}
+
+char *trim(char *str) {
+    while (isspace(*str))
+        str++;
+    if (*str == 0)
+        return str;
+
+    char *end = str + strlen(str) - 1;
+    while (end > str && isspace(*end))
+        end--;
+    *(end + 1) = 0;
+    return str;
+}
+
+void read_hosts(const char *name, struct arguments *args) {
+    log_android(ANDROID_LOG_WARN, "Reading %s", name);
+
+    args->hcount = 0;
+    args->hosts = NULL;
+
+    FILE *hosts;
+    if ((hosts = fopen(name, "r")) == NULL) {
+        log_android(ANDROID_LOG_ERROR, "fopen(%s) error %d: %s", name, errno, strerror(errno));
+        return;
+    }
+
+    char buffer[160];
+    while (fgets(buffer, sizeof(buffer), hosts)) {
+        char *hash = strchr(buffer, '#');
+        if (hash)
+            *hash = 0;
+
+        char *host = trim(buffer);
+        while (*host && !isspace(*host))
+            host++;
+
+        if (isspace(*host)) {
+            host++;
+            if (*host && strcmp(host, "localhost")) {
+                args->hosts = realloc(args->hosts, sizeof(char *) * (args->hcount + 1));
+                args->hosts[args->hcount] = malloc(strlen(host) + 1);
+                strcpy(args->hosts[args->hcount], host);
+                args->hcount++;
+            }
+        }
+    }
+
+    if (fclose(hosts))
+        log_android(ANDROID_LOG_ERROR, "fclose(%s) error %d: %s", name, errno, strerror(errno));
+
+    for (int i = 0; i < args->hcount; i++)
+        log_android(ANDROID_LOG_WARN, "host '%s'", args->hosts[i]);
 }
 
 const char *strstate(const int state) {

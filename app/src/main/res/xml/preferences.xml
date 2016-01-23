@@ -143,6 +143,9 @@
             android:entryValues="@array/logLevelValues"
             android:key="loglevel"
             android:title="Native log level" />
+        <Preference
+            android:key="hosts"
+            android:title="Import hosts file" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_technical"

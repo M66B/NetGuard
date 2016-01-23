@@ -62,6 +62,9 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xmlpull.v1.XmlSerializer;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -87,6 +90,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private static final int REQUEST_METERED = 3;
     private static final int REQUEST_ROAMING_NATIONAL = 4;
     private static final int REQUEST_ROAMING_INTERNATIONAL = 5;
+    private static final int REQUEST_HOSTS = 6;
 
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
 
@@ -153,22 +157,33 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Handle export
         Preference pref_export = screen.findPreference("export");
-        pref_export.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
+        pref_export.setEnabled(getIntentCreateExport().resolveActivity(getPackageManager()) != null);
         pref_export.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                startActivityForResult(getIntentCreateDocument(), ActivitySettings.REQUEST_EXPORT);
+                startActivityForResult(getIntentCreateExport(), ActivitySettings.REQUEST_EXPORT);
                 return true;
             }
         });
 
         // Handle import
         Preference pref_import = screen.findPreference("import");
-        pref_import.setEnabled(getIntentCreateDocument().resolveActivity(getPackageManager()) != null);
+        pref_import.setEnabled(getIntentOpenExport().resolveActivity(getPackageManager()) != null);
         pref_import.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                startActivityForResult(getIntentOpenDocument(), ActivitySettings.REQUEST_IMPORT);
+                startActivityForResult(getIntentOpenExport(), ActivitySettings.REQUEST_IMPORT);
+                return true;
+            }
+        });
+
+        // Handle hosts
+        Preference pref_hosts = screen.findPreference("hosts");
+        pref_hosts.setEnabled(getIntentOpenHosts().resolveActivity(getPackageManager()) != null);
+        pref_hosts.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivityForResult(getIntentOpenHosts(), ActivitySettings.REQUEST_HOSTS);
                 return true;
             }
         });
@@ -511,13 +526,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             if (resultCode == RESULT_OK && data != null)
                 handleImport(data);
 
+        } else if (requestCode == REQUEST_HOSTS) {
+            handleHosts(resultCode == RESULT_OK ? data : null);
+
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private static Intent getIntentCreateDocument() {
+    private static Intent getIntentCreateExport() {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("text/xml");
@@ -525,10 +543,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         return intent;
     }
 
-    private static Intent getIntentOpenDocument() {
+    private static Intent getIntentOpenExport() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("text/xml");
+        return intent;
+    }
+
+    private static Intent getIntentOpenHosts() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
         return intent;
     }
 
@@ -561,6 +586,66 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (ex == null)
                     Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
                 else
+                    Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+        }.execute();
+    }
+
+    private void handleHosts(final Intent data) {
+        new AsyncTask<Object, Object, Throwable>() {
+            @Override
+            protected Throwable doInBackground(Object... objects) {
+                File hosts = new File(getCacheDir(), "hosts.txt");
+                if (data == null) {
+                    // TODO user confirmation
+                    if (hosts.exists())
+                        hosts.delete();
+                    return null;
+                } else {
+                    FileOutputStream out = null;
+                    InputStream in = null;
+                    try {
+                        Log.i(TAG, "Reading URI=" + data.getData());
+                        in = getContentResolver().openInputStream(data.getData());
+                        out = new FileOutputStream(hosts);
+
+                        int len;
+                        long total = 0;
+                        byte[] buf = new byte[4096];
+                        while ((len = in.read(buf)) > 0) {
+                            out.write(buf, 0, len);
+                            total += len;
+                        }
+                        Log.i(TAG, "Copied bytes=" + total);
+
+                        return null;
+                    } catch (Throwable ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        Util.sendCrashReport(ex, ActivitySettings.this);
+                        return ex;
+                    } finally {
+                        if (out != null)
+                            try {
+                                out.close();
+                            } catch (IOException ex) {
+                                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                            }
+                        if (in != null)
+                            try {
+                                in.close();
+                            } catch (IOException ex) {
+                                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                            }
+                    }
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Throwable ex) {
+                if (ex == null) {
+                    Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                    SinkholeService.reload(null, "hosts", ActivitySettings.this);
+                } else
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
         }.execute();

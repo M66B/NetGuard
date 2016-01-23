@@ -44,7 +44,6 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -291,7 +290,7 @@ public class ActivityLog extends AppCompatActivity {
             @Override
             protected Throwable doInBackground(Object... objects) {
                 OutputStream out = null;
-                InputStream in = null;
+                FileInputStream in = null;
                 try {
                     Log.i(TAG, "Export PCAP URI=" + data.getData());
                     out = getContentResolver().openOutputStream(data.getData());
@@ -299,10 +298,14 @@ public class ActivityLog extends AppCompatActivity {
                     File pcap = new File(getCacheDir(), "netguard.pcap");
                     in = new FileInputStream(pcap);
 
-                    byte[] buf = new byte[4096];
                     int len;
-                    while ((len = in.read(buf)) > 0)
+                    long total = 0;
+                    byte[] buf = new byte[4096];
+                    while ((len = in.read(buf)) > 0) {
                         out.write(buf, 0, len);
+                        total += len;
+                    }
+                    Log.i(TAG, "Copied bytes=" + total);
 
                     return null;
                 } catch (Throwable ex) {

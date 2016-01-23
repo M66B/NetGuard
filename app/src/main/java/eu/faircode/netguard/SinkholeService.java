@@ -116,7 +116,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init();
 
-    private native void jni_start(int tun, int[] uids, boolean log, boolean filter, int loglevel);
+    private native void jni_start(int tun, int[] uids, String hosts, boolean log, boolean filter, int loglevel);
 
     private native void jni_stop(int tun, boolean clear);
 
@@ -329,7 +329,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 boolean filter = prefs.getBoolean("filter", false);
                 if (log || filter) {
                     int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
-                    jni_start(vpn.getFd(), getAllowedUids(listAllowed), log, filter, prio);
+                    File hosts = new File(getCacheDir(), "hosts.txt");
+                    String hname = (hosts.exists() ? hosts.getAbsolutePath() : null);
+                    jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio);
                 }
 
                 removeDisabledNotification();
@@ -370,7 +372,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             boolean filter = prefs.getBoolean("filter", false);
             if (log || filter) {
                 int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
-                jni_start(vpn.getFd(), getAllowedUids(listAllowed), log, filter, prio);
+                File hosts = new File(getCacheDir(), "hosts.txt");
+                String hname = (hosts.exists() ? hosts.getAbsolutePath() : null);
+                jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio);
             }
 
             if (prev != null)

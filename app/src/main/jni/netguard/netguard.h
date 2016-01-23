@@ -29,8 +29,10 @@ struct arguments {
     JNIEnv *env;
     jobject instance;
     int tun;
-    jint count;
+    jint ucount;
     jint *uids;
+    int hcount;
+    char **hosts;
     jboolean log;
     jboolean filter;
 };
@@ -194,6 +196,8 @@ void write_pcap_hdr();
 void write_pcap_rec(const uint8_t *buffer, uint16_t len);
 
 void write_pcap(const void *ptr, size_t len);
+
+void read_hosts(const char *name, struct arguments *args);
 
 const char *strstate(const int state);
 
