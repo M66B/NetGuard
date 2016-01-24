@@ -41,7 +41,6 @@
 // TODO TCP fragmentation
 // TODO TCPv6
 // TODO UDPv6
-// TODO fix warnings
 // TODO non blocking send/write/close, handle EAGAIN/EWOULDBLOCK
 
 // It is assumed that no packets will get lost and that packets arrive in order
@@ -50,6 +49,7 @@
 
 static JavaVM *jvm;
 pthread_t thread_id;
+pthread_mutex_t lock;
 jboolean stopping = 0;
 jboolean signaled = 0;
 
@@ -95,6 +95,9 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
     tcp_session = NULL;
     loglevel = ANDROID_LOG_WARN;
     pcap_file = NULL;
+
+    if (pthread_mutex_init(&lock, NULL))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_init failed");
 }
 
 JNIEXPORT void JNICALL
@@ -193,16 +196,31 @@ Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instanc
     log_android(ANDROID_LOG_INFO, "Done");
 
     clear_sessions();
+
+    if (pthread_mutex_destroy(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_destroy failed");
 }
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, jstring name_) {
+    if (pthread_mutex_lock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
+
     if (name_ == NULL) {
         if (pcap_file != NULL) {
+            int flags = fcntl(fileno(pcap_file), F_GETFL, 0);
+            if (flags < 0 || fcntl(fileno(pcap_file), F_SETFL, flags & ~O_NONBLOCK) < 0)
+                log_android(ANDROID_LOG_ERROR, "PCAP fcntl ~O_NONBLOCK error %d: %s",
+                            errno, strerror(errno));
+
+            if (fsync(fileno(pcap_file)))
+                log_android(ANDROID_LOG_ERROR, "PCAP fsync error %d: %s", errno, strerror(errno));
+
             if (fclose(pcap_file))
                 log_android(ANDROID_LOG_ERROR, "PCAP fclose error %d: %s", errno, strerror(errno));
+
+            pcap_file = NULL;
         }
-        pcap_file = NULL;
         log_android(ANDROID_LOG_INFO, "PCAP disabled");
     }
     else {
@@ -219,11 +237,13 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
                             errno, strerror(errno));
 
             write_pcap_hdr();
-
         }
 
         (*env)->ReleaseStringUTFChars(env, name_, name);
     }
+
+    if (pthread_mutex_unlock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
 }
 
 // Private functions
@@ -320,8 +340,14 @@ void *handle_events(void *a) {
     stopping = 0;
     signaled = 0;
 
+    if (pthread_mutex_lock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
+
     // Loop
     while (1) {
+        if (pthread_mutex_unlock(&lock))
+            log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+
         log_android(ANDROID_LOG_DEBUG, "Loop thread %lu", thread_id);
 
         // Check sessions
@@ -335,6 +361,10 @@ void *handle_events(void *a) {
         int ready = pselect(max + 1, &rfds, &wfds, &efds,
                             udp_session == NULL && tcp_session == NULL ? NULL : &ts,
                             &emptyset);
+
+        if (pthread_mutex_lock(&lock))
+            log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
+
         if (ready < 0) {
             if (errno == EINTR) {
                 if (stopping && signaled) { ;
@@ -410,6 +440,9 @@ void *handle_events(void *a) {
         }
     }
 
+    if (pthread_mutex_unlock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+
     (*env)->DeleteGlobalRef(env, args->instance);
 
     // Detach from Java
@@ -457,8 +490,8 @@ void check_sessions(const struct arguments *args) {
         if (u->stop || u->time + timeout < now) {
             char source[INET6_ADDRSTRLEN + 1];
             char dest[INET6_ADDRSTRLEN + 1];
-            inet_ntop(AF_INET, &(u->saddr1.ipv4), source, sizeof(source));
-            inet_ntop(AF_INET, &(u->daddr1.ipv4), dest, sizeof(dest));
+            inet_ntop(AF_INET, &u->saddr.ip4, source, sizeof(source));
+            inet_ntop(AF_INET, &u->daddr.ip4, dest, sizeof(dest));
             log_android(ANDROID_LOG_WARN, "UDP idle %d/%d sec stop %d from %s/%u to %s/%u",
                         now - u->time, timeout, u->stop,
                         dest, ntohs(u->dest), source, ntohs(u->source));
@@ -488,8 +521,8 @@ void check_sessions(const struct arguments *args) {
     while (t != NULL) {
         char source[INET6_ADDRSTRLEN + 1];
         char dest[INET6_ADDRSTRLEN + 1];
-        inet_ntop(AF_INET, &(t->saddr.ipv4), source, sizeof(source));
-        inet_ntop(AF_INET, &(t->daddr.ipv4), dest, sizeof(dest));
+        inet_ntop(AF_INET, &t->saddr.ip4, source, sizeof(source));
+        inet_ntop(AF_INET, &t->daddr.ip4, dest, sizeof(dest));
 
         // Check connection timeout
         int timeout = 0;
@@ -674,7 +707,10 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 } else {
                     // Socket read data
                     char dest[INET6_ADDRSTRLEN + 1];
-                    inet_ntop(AF_INET, &(cur->daddr1.ipv4), dest, sizeof(dest));
+                    if (cur->version == 4)
+                        inet_ntop(AF_INET, &cur->daddr.ip4, dest, sizeof(dest));
+                    else
+                        inet_ntop(AF_INET6, &cur->daddr.ip6, dest, sizeof(dest));
                     log_android(ANDROID_LOG_INFO, "UDP recv bytes %d for %s/%u @tun",
                                 bytes, dest, ntohs(cur->dest));
                     if (write_udp(args, cur, buffer, (size_t) bytes) < 0)
@@ -724,8 +760,8 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     // Log
                     char source[INET6_ADDRSTRLEN + 1];
                     char dest[INET6_ADDRSTRLEN + 1];
-                    inet_ntop(AF_INET, &(cur->saddr.ipv4), source, sizeof(source));
-                    inet_ntop(AF_INET, &(cur->daddr.ipv4), dest, sizeof(dest));
+                    inet_ntop(AF_INET, &cur->saddr.ip4, source, sizeof(source));
+                    inet_ntop(AF_INET, &cur->daddr.ip4, dest, sizeof(dest));
                     log_android(ANDROID_LOG_INFO, "Connected from %s/%u to %s/%u",
                                 source, ntohs(cur->source), dest, ntohs(cur->dest));
 
@@ -793,7 +829,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
         if (cur->state != oldstate || cur->local_seq != oldlocal ||
             cur->remote_seq != oldremote) {
             char dest[INET6_ADDRSTRLEN + 1];
-            inet_ntop(AF_INET, &(cur->daddr.ipv4), dest, sizeof(dest));
+            inet_ntop(AF_INET, &cur->daddr.ip4, dest, sizeof(dest));
             log_android(ANDROID_LOG_INFO,
                         "Session %s/%u new state %s local %u remote %u",
                         dest, ntohs(cur->dest), strstate(cur->state),
@@ -854,6 +890,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
     else if (version == 6) {
         struct ip6_hdr *ip6hdr = (struct ip6_hdr *) buffer;
 
+        // TODO skip extension headers
         protocol = ip6hdr->ip6_nxt;
         saddr = &ip6hdr->ip6_src;
         daddr = &ip6hdr->ip6_dst;
@@ -986,31 +1023,50 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
 jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t length, int uid) {
     // Check version
     uint8_t version = (*buffer) >> 4;
-    if (version != 4)
-        return 0;
 
     // Get headers
-    struct iphdr *iphdr = (struct iphdr *) buffer;
-    uint8_t ipoptlen = (uint8_t) ((iphdr->ihl - 5) * 4);
-    struct udphdr *udphdr = (struct udphdr *) (buffer + sizeof(struct iphdr) + ipoptlen);
+    struct iphdr *ip4;
+    struct ip6_hdr *ip6 = NULL;
+    struct udphdr *udphdr;
+    size_t dataoff;
+    if (version == 4) {
+        ip4 = (struct iphdr *) buffer;
+        uint8_t ipoptlen = (uint8_t) ((ip4->ihl - 5) * 4);
+        udphdr = (struct udphdr *) (buffer + sizeof(struct iphdr) + ipoptlen);
+        dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
+    }
+    else {
+        ip6 = (struct ip6_hdr *) buffer;
+        // TODO extension headers
+        udphdr = (struct udphdr *) (buffer + sizeof(struct ip6_hdr));
+        dataoff = sizeof(struct ip6_hdr) + sizeof(struct udphdr);
+    }
 
     // Get data
-    size_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
     size_t datalen = length - dataoff;
 
     // Search session
     struct udp_session *last = NULL;
     struct udp_session *cur = udp_session;
-    while (cur != NULL && !(cur->saddr1.ipv4 == iphdr->saddr && cur->source == udphdr->source &&
-                            cur->daddr1.ipv4 == iphdr->daddr && cur->dest == udphdr->dest)) {
+    while (cur != NULL &&
+           !(cur->source == udphdr->source && cur->dest == udphdr->dest &&
+             (version == 4 ? cur->saddr.ip4 == ip4->saddr &&
+                             cur->daddr.ip4 == ip4->daddr
+                           : memcmp(&cur->saddr.ip6, &ip6->ip6_src, 16) == 0 &&
+                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0))) {
         last = cur;
         cur = cur->next;
     }
 
     char source[INET6_ADDRSTRLEN + 1];
     char dest[INET6_ADDRSTRLEN + 1];
-    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(iphdr->saddr), source, sizeof(source));
-    inet_ntop(version == 4 ? AF_INET : AF_INET6, &(iphdr->daddr), dest, sizeof(dest));
+    if (version == 4) {
+        inet_ntop(AF_INET, &ip4->saddr, source, sizeof(source));
+        inet_ntop(AF_INET, &ip4->daddr, dest, sizeof(dest));
+    } else {
+        inet_ntop(AF_INET6, &ip6->ip6_src, source, sizeof(source));
+        inet_ntop(AF_INET6, &ip6->ip6_dst, dest, sizeof(dest));
+    }
 
     // Create new session if needed
     if (cur == NULL) {
@@ -1020,30 +1076,38 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
         // Register session
         struct udp_session *u = malloc(sizeof(struct udp_session));
         u->uid = uid;
-        u->version = 4;
-        u->saddr1.ipv4 = (__be32) iphdr->saddr;
+        u->version = version;
+        if (version == 4) {
+            u->saddr.ip4 = (__be32) ip4->saddr;
+            u->daddr.ip4 = (__be32) ip4->daddr;
+        } else {
+            memcpy(&u->saddr.ip6, &ip6->ip6_src, 16);
+            memcpy(&u->daddr.ip6, &ip6->ip6_dst, 16);
+        }
         u->source = udphdr->source;
-        u->daddr1.ipv4 = (__be32) iphdr->daddr;
         u->dest = udphdr->dest;
         u->stop = 0;
         u->next = NULL;
 
         // Open UDP socket
-        u->socket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+        u->socket = socket(version == 4 ? PF_INET : PF_INET6, SOCK_DGRAM, IPPROTO_UDP);
         if (u->socket < 0) {
             log_android(ANDROID_LOG_ERROR, "UDP socket error %d: %s", errno, strerror(errno));
             u->stop = 1;
             return 0;
         }
         else {
-            // Check for broacast
-            uint32_t broadcast = INADDR_BROADCAST;
-            if (memcmp(&iphdr->daddr, &broadcast, sizeof(broadcast)) == 0) {
-                log_android(ANDROID_LOG_WARN, "UDP broadcast");
-                int on = 1;
-                if (setsockopt(u->socket, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on)))
-                    log_android(ANDROID_LOG_ERROR, "UDP setsockopt error %d: %s",
-                                errno, strerror(errno));
+            // Check for broadcast
+            // TODO IPv6 broadcast
+            if (version == 4) {
+                uint32_t broadcast4 = INADDR_BROADCAST;
+                if (memcmp(&ip4->daddr, &broadcast4, sizeof(broadcast4)) == 0) {
+                    log_android(ANDROID_LOG_WARN, "UDP broadcast");
+                    int on = 1;
+                    if (setsockopt(u->socket, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on)))
+                        log_android(ANDROID_LOG_ERROR, "UDP setsockopt error %d: %s",
+                                    errno, strerror(errno));
+                }
             }
 
             protect_socket(args, u->socket);
@@ -1058,8 +1122,10 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
     }
 
     // Check for DNS
-    if (check_dns(args, cur, buffer, length))
+    if (ntohs(udphdr->dest) == 53 && check_dns(args, cur, buffer + dataoff, datalen)) {
+        cur->stop = 1;
         return 0;
+    }
 
     // TODO check DHCP (tethering)
 
@@ -1068,13 +1134,21 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
 
     cur->time = time(NULL);
 
-    struct sockaddr_in server;
-    server.sin_family = (__kernel_sa_family_t) (version == 4 ? AF_INET : AF_INET6);
-    server.sin_addr.s_addr = (__be32) iphdr->daddr;
-    server.sin_port = udphdr->dest;
+    struct sockaddr_in server4;
+    struct sockaddr_in6 server6;
+    if (version == 4) {
+        server4.sin_family = (__kernel_sa_family_t) AF_INET;
+        server4.sin_addr.s_addr = (__be32) ip4->daddr;
+        server4.sin_port = udphdr->dest;
+    } else {
+        server6.sin6_family = (__kernel_sa_family_t) AF_INET6;
+        memcpy(&server6.sin6_addr, &ip6->ip6_dst, 16);
+        server6.sin6_port = udphdr->dest;
+    }
 
     if (sendto(cur->socket, buffer + dataoff, datalen, MSG_NOSIGNAL,
-               (const struct sockaddr *) &server, sizeof(server)) != datalen) {
+               (const struct sockaddr *) version == 4 ? &server4 : &server6,
+               version == 4 ? sizeof(server4) : sizeof(server6)) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %d: %s", errno, strerror(errno));
         cur->stop = 1;
         return 0;
@@ -1084,83 +1158,77 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
 }
 
 int check_dns(const struct arguments *args, const struct udp_session *u,
-              const uint8_t *buffer, const size_t length) {
-    // Get headers
-    struct iphdr *iphdr = (struct iphdr *) buffer;
-    uint8_t ipoptlen = (uint8_t) ((iphdr->ihl - 5) * 4);
-    struct udphdr *udphdr = (struct udphdr *) (buffer + sizeof(struct iphdr) + ipoptlen);
-
-    // Get data
-    size_t dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
-    size_t datalen = length - dataoff;
-
-    if (ntohs(udphdr->dest) == 53 && datalen > sizeof(struct dns_header)) {
-        const struct dns_header *dns = (struct dns_header *) (buffer + dataoff);
+              const uint8_t *data, const size_t datalen) {
+    if (datalen > sizeof(struct dns_header)) {
+        const struct dns_header *dns = (struct dns_header *) data;
         uint16_t flags = ntohs(dns->flags);
 
         // Check if standard query
-        if ((flags & DNS_QR) == 0 && (flags & DNS_OPCODE) == 0 && dns->qdcount != 0) {
+        // Wireshark:  (udp.port eq 53)
+        if ((flags & DNS_QR) == 0 && (flags & DNS_OP) == 0 && ntohs(dns->qdcount) > 0) {
+
             char name[64];
             uint8_t noff = 0;
 
             // http://tools.ietf.org/html/rfc1035
             uint8_t len;
-            size_t qdoff = dataoff + sizeof(struct dns_header);
+            size_t qdoff = sizeof(struct dns_header);
             do {
-                len = *(buffer + qdoff);
-                if (len == 0)
-                    qdoff++;
-                else if (len >= 0x40) {
-                    // TODO test
-                    // TODO check top 2 bits
-                    qdoff = dataoff + (len & 0x3F) * 256 + *(buffer + qdoff + 1);
-                    len = *(buffer + qdoff);
-                }
-                if (len && qdoff + 1 + len <= dataoff + datalen) {
-                    memcpy(name + noff, buffer + qdoff + 1, len);
+                len = *(data + qdoff);
+                // TODO DNS compression
+                if (len && qdoff + 1 + len <= datalen) {
+                    memcpy(name + noff, data + qdoff + 1, len);
                     *(name + noff + len) = '.';
                     noff += (len + 1);
                     qdoff += (1 + len);
                 }
-            } while (len && qdoff + 1 + len <= dataoff + datalen);
+            } while (len);
 
-            if (noff > 0 && qdoff + 4 <= dataoff + datalen) {
+            qdoff++;
+            if (noff > 0 && qdoff + 4 <= datalen) {
                 *(name + noff - 1) = 0;
-                uint16_t qtype = ntohs(*((uint16_t *) (buffer + qdoff)));
-                uint16_t qclass = ntohs(*((uint16_t *) (buffer + qdoff + 2)));
+                uint16_t qtype = ntohs(*((uint16_t *) (data + qdoff)));
+                uint16_t qclass = ntohs(*((uint16_t *) (data + qdoff + 2)));
                 qdoff += 4;
 
                 log_android(ANDROID_LOG_WARN, "DNS type %d class %d name %s", qtype, qclass, name);
 
-                if (qtype == DNS_QTYPE_A && qclass == DNS_QCLASS_IN)
+                if (qclass == DNS_QCLASS_IN && (qtype == DNS_QTYPE_A || qtype == DNS_QTYPE_AAAA)) {
                     for (int i = 0; i < args->hcount; i++)
                         if (!strcmp(name, args->hosts[i])) {
                             log_android(ANDROID_LOG_WARN, "DNS %s blocked", name);
+
+                            if (qtype == DNS_QTYPE_AAAA) {
+                                // TODO DNS v6 reply
+                                return 1;
+                            }
 
                             struct dns_response reply;
                             reply.qname_ptr = htons(sizeof(struct dns_header) | 0xC000);
                             reply.qtype = htons(qtype);
                             reply.qclass = htons(qclass);
                             reply.ttl = htonl(DNS_TTL); // seconds
-                            reply.rdlength = htons(sizeof(reply.rdata));
-                            inet_aton("127.0.0.1", (struct in_addr *) &(reply.rdata));
 
-                            size_t qsize = qdoff - dataoff;
+                            reply.rdlength = htons(sizeof(reply.rdata));
+                            inet_aton("127.0.0.1", (struct in_addr *) &reply.rdata);
+
+                            size_t qsize = qdoff; // header + query
                             size_t rsize = qsize + sizeof(struct dns_response);
                             uint8_t *response = malloc(rsize);
-                            memcpy(response, buffer + dataoff, qsize);
+                            memcpy(response, data, qsize); // header + query
                             memcpy(response + qsize, &reply, sizeof(struct dns_response));
 
                             struct dns_header *rh = (struct dns_header *) response;
                             rh->flags = htons(DNS_QR);
-                            rh->ancount = htons(1);
+                            rh->ancount = htons(0);
 
                             if (write_udp(args, u, response, rsize) < 0)
                                 log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
                                             errno, strerror((errno)));
-
-                            return 1;
+                            else
+                                return 1;
                         }
+                }
             }
         }
     }
@@ -1195,8 +1263,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
     // Search session
     struct tcp_session *last = NULL;
     struct tcp_session *cur = tcp_session;
-    while (cur != NULL && !(cur->saddr.ipv4 == iphdr->saddr && cur->source == tcphdr->source &&
-                            cur->daddr.ipv4 == iphdr->daddr && cur->dest == tcphdr->dest)) {
+    while (cur != NULL && !(cur->saddr.ip4 == iphdr->saddr && cur->source == tcphdr->source &&
+                            cur->daddr.ip4 == iphdr->daddr && cur->dest == tcphdr->dest)) {
         last = cur;
         cur = cur->next;
     }
@@ -1231,9 +1299,9 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
             syn->local_seq = (uint32_t) rand(); // ISN local
             syn->remote_start = syn->remote_seq;
             syn->local_start = syn->local_seq;
-            syn->saddr.ipv4 = (__be32) iphdr->saddr;
+            syn->saddr.ip4 = (__be32) iphdr->saddr;
             syn->source = tcphdr->source;
-            syn->daddr.ipv4 = (__be32) iphdr->daddr;
+            syn->daddr.ip4 = (__be32) iphdr->daddr;
             syn->dest = tcphdr->dest;
             syn->state = TCP_LISTEN;
             syn->next = NULL;
@@ -1274,9 +1342,9 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
             rst.version = 4;
             rst.local_seq = 0;
             rst.remote_seq = ntohl(tcphdr->seq);
-            rst.saddr.ipv4 = (__be32) iphdr->saddr;
+            rst.saddr.ip4 = (__be32) iphdr->saddr;
             rst.source = tcphdr->source;
-            rst.daddr.ipv4 = (__be32) iphdr->daddr;
+            rst.daddr.ip4 = (__be32) iphdr->daddr;
             rst.dest = tcphdr->dest;
             write_rst(args, &rst);
 
@@ -1518,7 +1586,7 @@ int open_socket(const struct tcp_session *cur, const struct arguments *args) {
     memset(&daddr, 0, sizeof(struct sockaddr_in));
     daddr.sin_family = AF_INET;
     daddr.sin_port = cur->dest;
-    daddr.sin_addr.s_addr = cur->daddr.ipv4;
+    daddr.sin_addr.s_addr = cur->daddr.ip4;
 
     // Get TCP socket
     // TODO socket options?
@@ -1620,41 +1688,94 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
     gettimeofday(&start, NULL);
 #endif
 
+    size_t len;
+    u_int8_t *buffer;
+    struct udphdr *udp;
+    uint16_t csum;
+    char source[INET6_ADDRSTRLEN + 1];
+    char dest[INET6_ADDRSTRLEN + 1];
+
     // Build packet
-    size_t len = sizeof(struct iphdr) + sizeof(struct udphdr) + datalen;
-    u_int8_t *buffer = calloc(len, 1);
-    struct iphdr *ip = (struct iphdr *) buffer;
-    struct udphdr *udp = (struct udphdr *) (buffer + sizeof(struct iphdr));
-    if (datalen)
-        memcpy(buffer + sizeof(struct iphdr) + sizeof(struct udphdr), data, datalen);
+    if (cur->version == 4) {
+        len = sizeof(struct iphdr) + sizeof(struct udphdr) + datalen;
+        buffer = calloc(len, 1);
+        struct iphdr *ip4 = (struct iphdr *) buffer;
+        udp = (struct udphdr *) (buffer + sizeof(struct iphdr));
+        if (datalen)
+            memcpy(buffer + sizeof(struct iphdr) + sizeof(struct udphdr), data, datalen);
 
-    // Build IP header
-    ip->version = 4;
-    ip->ihl = sizeof(struct iphdr) >> 2;
-    ip->tot_len = htons(len);
-    ip->ttl = UDP_TTL;
-    ip->protocol = IPPROTO_UDP;
-    ip->saddr = cur->daddr1.ipv4;
-    ip->daddr = cur->saddr1.ipv4;
+        // Build IP header
+        ip4->version = 4;
+        ip4->ihl = sizeof(struct iphdr) >> 2;
+        ip4->tot_len = htons(len);
+        ip4->ttl = IPDEFTTL;
+        ip4->protocol = IPPROTO_UDP;
+        ip4->saddr = cur->daddr.ip4;
+        ip4->daddr = cur->saddr.ip4;
 
-    // Calculate IP checksum
-    ip->check = ~calc_checksum(0, (uint8_t *) ip, sizeof(struct iphdr));
+        // Calculate IP checksum
+        ip4->check = ~calc_checksum(0, (uint8_t *) ip4, sizeof(struct iphdr));
 
-    // Build TCP header
+        inet_ntop(AF_INET, &ip4->saddr, source, sizeof(source));
+        inet_ntop(AF_INET, &ip4->daddr, dest, sizeof(dest));
+
+        // Calculate TCP checksum
+        struct ippseudo pseudo;
+        pseudo.ippseudo_src.s_addr = (__be32) ip4->saddr;
+        pseudo.ippseudo_dst.s_addr = (__be32) ip4->daddr;
+        pseudo.ippseudo_pad = 0;
+        pseudo.ippseudo_p = ip4->protocol;
+        pseudo.ippseudo_len = htons(sizeof(struct udphdr) + datalen);
+
+        csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ippseudo));
+    }
+    else {
+        len = sizeof(struct ip6_hdr) + sizeof(struct udphdr) + datalen;
+        buffer = calloc(len, 1);
+        struct ip6_hdr *ip6 = (struct ip6_hdr *) buffer;
+        udp = (struct udphdr *) (buffer + sizeof(struct ip6_hdr));
+        if (datalen)
+            memcpy(buffer + sizeof(struct ip6_hdr) + sizeof(struct udphdr), data, datalen);
+
+        ip6->ip6_ctlun.ip6_un2_vfc = 6;
+        ip6->ip6_ctlun.ip6_un1.ip6_un1_flow = 0;
+        ip6->ip6_ctlun.ip6_un1.ip6_un1_plen = htons(len - sizeof(struct ip6_hdr));
+        ip6->ip6_ctlun.ip6_un1.ip6_un1_nxt = IPPROTO_UDP;
+        ip6->ip6_ctlun.ip6_un1.ip6_un1_hlim = IPDEFTTL;
+        memcpy(&ip6->ip6_src, &cur->saddr.ip6, 16);
+        memcpy(&ip6->ip6_dst, &cur->daddr.ip6, 16);
+
+        inet_ntop(AF_INET, &ip6->ip6_src, source, sizeof(source));
+        inet_ntop(AF_INET, &ip6->ip6_dst, dest, sizeof(dest));
+
+        struct ip6_hdr_pseudo pseudo;
+        memset(&pseudo, 0, sizeof(pseudo));
+        memcpy(&pseudo.ip6ph_src, &ip6->ip6_src, 16);
+        memcpy(&pseudo.ip6ph_dst, &ip6->ip6_dst, 16);
+        pseudo.ip6ph_len = ip6->ip6_ctlun.ip6_un1.ip6_un1_plen;
+        pseudo.ip6ph_nxt = ip6->ip6_ctlun.ip6_un1.ip6_un1_nxt;
+
+        csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ip6_hdr_pseudo));
+    }
+
+    // Build UDP header
     udp->source = cur->dest;
     udp->dest = cur->source;
     udp->check = 0;
     udp->len = htons(sizeof(struct udphdr) + datalen);
 
-    char source[INET6_ADDRSTRLEN + 1];
-    char dest[INET6_ADDRSTRLEN + 1];
-    inet_ntop(AF_INET, &(ip->saddr), source, sizeof(source));
-    inet_ntop(AF_INET, &(ip->daddr), dest, sizeof(dest));
+    if (cur->version == 4) {
+        csum = calc_checksum(csum, (uint8_t *) udp, sizeof(struct udphdr));
+        csum = calc_checksum(csum, data, datalen);
+        udp->check = ~csum;
+    } else {
+        // TODO checksum (IPv6)
+    }
 
     // Send packet
     log_android(ANDROID_LOG_DEBUG,
                 "Sending UDP to tun from %s/%u to %s/%u data %u",
-                source, ntohs(udp->source), dest, ntohs(udp->dest), datalen);
+                source, ntohs(cur->source), dest, ntohs(cur->dest), datalen);
 
     ssize_t res = write(args->tun, buffer, len);
 
@@ -1667,7 +1788,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
 #endif
 
     if (args->log)
-        log_packet(args, cur->version, ip->protocol, "",
+        log_packet(args, cur->version, IPPROTO_UDP, "",
                    source, ntohs(udp->source), dest, ntohs(udp->dest), cur->uid, 1);
 
     // Write pcap record
@@ -1701,10 +1822,10 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     ip->version = 4;
     ip->ihl = sizeof(struct iphdr) >> 2;
     ip->tot_len = htons(len);
-    ip->ttl = TCP_TTL;
+    ip->ttl = IPDEFTTL;
     ip->protocol = IPPROTO_TCP;
-    ip->saddr = cur->daddr.ipv4;
-    ip->daddr = cur->saddr.ipv4;
+    ip->saddr = cur->daddr.ip4;
+    ip->daddr = cur->saddr.ip4;
 
     // Calculate IP checksum
     ip->check = ~calc_checksum(0, (uint8_t *) ip, sizeof(struct iphdr));
@@ -2104,7 +2225,7 @@ void write_pcap(const void *ptr, size_t len) {
         log_android(ANDROID_LOG_DEBUG, "PCAP wrote %d @%ld", len, fsize);
 
         if (fsize > MAX_PCAP_FILE) {
-            log_android(ANDROID_LOG_INFO, "PCAP truncate @%ld", fsize);
+            log_android(ANDROID_LOG_WARN, "PCAP truncate @%ld", fsize);
             if (ftruncate(fileno(pcap_file), sizeof(struct pcap_hdr_s)))
                 log_android(ANDROID_LOG_ERROR, "PCAP ftruncate error %d: %s",
                             errno, strerror(errno));

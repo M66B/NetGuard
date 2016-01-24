@@ -7,11 +7,9 @@
 #define TUN_MAXMSG 32768 // bytes (device)
 #define UDP4_MAXMSG 65507 // bytes (socket)
 
-#define UDP_TTL 64
 #define UDP_TIMEOUT_53 15 // seconds
 #define UDP_TIMEOUT_ANY 300 // seconds
 
-#define TCP_TTL 64
 #define TCP_RECV_WINDOW 2048 // bytes
 #define TCP_SEND_WINDOW 2048 // bytes (maximum)
 #define TCP_INIT_TIMEOUT 30 // seconds ~net.inet.tcp.keepinit
@@ -39,19 +37,20 @@ struct arguments {
 };
 
 struct udp_session {
-    // TODO UDPv6
     time_t time;
     jint uid;
     int version;
 
     union {
-        __be32 ipv4; // network notation
-    } saddr1;
+        __be32 ip4; // network notation
+        struct in6_addr ip6;
+    } saddr;
     __be16 source; // network notation
 
     union {
-        __be32 ipv4; // network notation
-    } daddr1;
+        __be32 ip4; // network notation
+        struct in6_addr ip6;
+    } daddr;
 
     __be16 dest; // network notation
     uint8_t stop;
@@ -60,7 +59,6 @@ struct udp_session {
 };
 
 struct tcp_session {
-    // TODO TCPv6
     jint uid;
     time_t time;
     int version;
@@ -72,12 +70,14 @@ struct tcp_session {
     uint32_t local_start;
 
     union {
-        __be32 ipv4; // network notation
+        __be32 ip4; // network notation
+        struct in6_addr ip6;
     } saddr;
     __be16 source; // network notation
 
     union {
-        __be32 ipv4; // network notation
+        __be32 ip4; // network notation
+        struct in6_addr ip6;
     } daddr;
     __be16 dest; // network notation
 
@@ -130,14 +130,21 @@ typedef struct dns_response {
 } __packed;
 
 #define DNS_QR 1
-#define DNS_OPCODE 30
-#define DNS_TC 8
+#define DNS_OP (0x0F < 1)
 
 #define DNS_QTYPE_A 1 // IPv4
 #define DNS_QTYPE_AAAA 28 // IPv6
 #define DNS_QCLASS_IN 1
 
 #define DNS_TTL 3600 // seconds
+
+struct ip6_hdr_pseudo {
+    struct in6_addr ip6ph_src;
+    struct in6_addr ip6ph_dst;
+    u_int32_t ip6ph_len;
+    u_int8_t ip6ph_zero[3];
+    u_int8_t ip6ph_nxt;
+} __packed;
 
 void check_allowed(const struct arguments *args);
 
@@ -166,7 +173,7 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
 jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t length, int uid);
 
 int check_dns(const struct arguments *args, const struct udp_session *u,
-              const uint8_t *buffer, const size_t length);
+              const uint8_t *data, const size_t datalen);
 
 int open_socket(const struct tcp_session *cur, const struct arguments *args);
 
