@@ -682,8 +682,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                                     builder.addRoute(String.format("%d.%d.%d.0", r, s, t), 24);
                         } else
                             builder.addRoute(String.format("%d.%d.0.0", r, s), 16);
-                } else if (r != 127)
+                } else if (r != 127 && r != 224 && r != 255) {
+                    // https://en.wikipedia.org/wiki/IPv4#Special-use_addresses
                     builder.addRoute(String.format("%d.0.0.0", r), 8);
+                }
         } else
             builder.addRoute("0.0.0.0", 0);
 
