@@ -1121,11 +1121,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             subscriptionsChangedListener = null;
         }
 
-        if (vpn != null) {
-            jni_stop(vpn.getFd(), true);
-            stopVPN(vpn);
-            vpn = null;
+        try {
+            if (vpn != null) {
+                jni_stop(vpn.getFd(), true);
+                stopVPN(vpn);
+                vpn = null;
+            }
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
+
         jni_done();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
