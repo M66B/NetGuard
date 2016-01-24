@@ -1075,7 +1075,7 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
 
     if (sendto(cur->socket, buffer + dataoff, datalen, MSG_NOSIGNAL,
                (const struct sockaddr *) &server, sizeof(server)) != datalen) {
-        log_android(ANDROID_LOG_ERROR, "UDP sendto error %s:%s", errno, strerror(errno));
+        log_android(ANDROID_LOG_ERROR, "UDP sendto error %d: %s", errno, strerror(errno));
         cur->stop = 1;
         return 0;
     }
