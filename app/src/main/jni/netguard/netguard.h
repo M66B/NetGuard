@@ -8,7 +8,8 @@
 #define UDP4_MAXMSG 65507 // bytes (socket)
 
 #define UDP_TTL 64
-#define UDP_TIMEOUT 300 // seconds
+#define UDP_TIMEOUT_53 15 // seconds
+#define UDP_TIMEOUT_ANY 300 // seconds
 
 #define TCP_TTL 64
 #define TCP_RECV_WINDOW 2048 // bytes
@@ -46,7 +47,7 @@ struct udp_session {
     __be16 source; // network notation
     __be32 daddr; // network notation
     __be16 dest; // network notation
-    uint8_t error;
+    uint8_t stop;
     jint socket;
     struct udp_session *next;
 };
