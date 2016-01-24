@@ -123,13 +123,15 @@ typedef struct __attribute__((__packed__)) dns_response {
 
 #define DNS_TTL 3600 // seconds
 
+void check_allowed(const struct arguments *args);
+
 void clear_sessions();
 
 void handle_signal(int sig, siginfo_t *info, void *context);
 
 void *handle_events(void *a);
 
-void report_exit(struct arguments *args);
+void report_exit(const struct arguments *args);
 
 void check_sessions(const struct arguments *args);
 

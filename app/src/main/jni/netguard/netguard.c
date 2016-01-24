@@ -150,6 +150,9 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
         for (int i = 0; i < args->ucount; i++)
             log_android(ANDROID_LOG_DEBUG, "Allowed uid %d", args->uids[i]);
 
+        // Terminate sessions not allowed anymore
+        check_allowed(args);
+
         // Start native thread
         int err = pthread_create(&thread_id, NULL, handle_events, (void *) args);
         if (err == 0)
@@ -221,6 +224,38 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
 }
 
 // Private functions
+
+void check_allowed(const struct arguments *args) {
+    struct udp_session *u = udp_session;
+    while (u != NULL) {
+        int found = 0;
+        for (int i = 0; i < args->ucount; i++)
+            if (u->uid == args->uids[i]) {
+                found = 1;
+                break;
+            }
+        if (!found) {
+            u->error = 1;
+            log_android(ANDROID_LOG_WARN, "UDP terminate uid %d", u->uid);
+        }
+        u = u->next;
+    }
+
+    struct tcp_session *t = tcp_session;
+    while (t != NULL) {
+        int found = 0;
+        for (int i = 0; i < args->ucount; i++)
+            if (t->uid == args->uids[i]) {
+                found = 1;
+                break;
+            }
+        if (!found) {
+            t->state = TCP_TIME_WAIT;
+            log_android(ANDROID_LOG_WARN, "TCP terminate uid %d", t->uid);
+        }
+        t = t->next;
+    }
+}
 
 void clear_sessions() {
     struct udp_session *u = udp_session;
@@ -300,14 +335,15 @@ void *handle_events(void *a) {
         if (ready < 0) {
             if (errno == EINTR) {
                 if (stopping && signaled) { ;
-                    log_android(ANDROID_LOG_WARN, "pselect signaled");
+                    log_android(ANDROID_LOG_WARN, "pselect signaled tun %d", args->tun);
                     break;
                 } else {
-                    log_android(ANDROID_LOG_DEBUG, "pselect interrupted");
+                    log_android(ANDROID_LOG_DEBUG, "pselect interrupted %d", args->tun);
                     continue;
                 }
             } else {
-                log_android(ANDROID_LOG_ERROR, "pselect error %d: %s", errno, strerror(errno));
+                log_android(ANDROID_LOG_ERROR, "pselect tun %d error %d: %s",
+                            args->tun, errno, strerror(errno));
                 break;
             }
         }
@@ -389,7 +425,7 @@ void *handle_events(void *a) {
     return NULL;
 }
 
-void report_exit(struct arguments *args) {
+void report_exit(const struct arguments *args) {
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
     jmethodID mid = jniGetMethodID(args->env, cls, "selectExit", "(Z)V");
 
@@ -411,7 +447,8 @@ void check_sessions(const struct arguments *args) {
             log_android(ANDROID_LOG_WARN, "UDP timeout");
 
             if (close(u->socket))
-                log_android(ANDROID_LOG_ERROR, "UDP close error %d: %s", errno, strerror(errno));
+                log_android(ANDROID_LOG_ERROR, "UDP close %d error %d: %s",
+                            u->socket, errno, strerror(errno));
 
             if (ul == NULL)
                 udp_session = u->next;
@@ -459,7 +496,8 @@ void check_sessions(const struct arguments *args) {
                         source, ntohs(t->source), dest, ntohs(t->dest), t->socket);
 
             if (close(t->socket))
-                log_android(ANDROID_LOG_ERROR, "close error %d: %s", errno, strerror(errno));
+                log_android(ANDROID_LOG_ERROR, "close %d error %d: %s",
+                            t->socket, errno, strerror(errno));
 
             t->time = time(NULL);
             t->state = TCP_CLOSE;
@@ -987,6 +1025,8 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
     // Check for DNS
     if (check_dns(args, cur, buffer, length))
         return 0;
+
+    // TODO check DHCP (tethering)
 
     log_android(ANDROID_LOG_INFO, "UDP forward from tun %s/%u to %s/%u data %d",
                 source, ntohs(udphdr->source), dest, ntohs(udphdr->dest), datalen);

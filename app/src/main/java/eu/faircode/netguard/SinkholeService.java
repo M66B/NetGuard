@@ -325,7 +325,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 if (vpn == null)
                     throw new IllegalStateException("VPN start failed");
 
-                startNative(listAllowed);
+                startNative(vpn, listAllowed);
 
                 removeWarningNotifications();
                 updateEnforcingNotification(listAllowed.size(), listRule.size());
@@ -333,6 +333,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void reload() {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+
             if (state != State.enforcing) {
                 if (state != State.none) {
                     Log.d(TAG, "Stop foreground state=" + state.toString());
@@ -343,27 +345,43 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 Log.d(TAG, "Start foreground state=" + state.toString());
             }
 
-            // Seamless handover
-            ParcelFileDescriptor prev = vpn;
             List<Rule> listRule = Rule.getRules(true, TAG, SinkholeService.this);
             List<Rule> listAllowed = getAllowedRules(listRule);
 
-            vpn = startVPN(listAllowed);
-            if (prev != null && vpn == null) {
-                Log.w(TAG, "Handover failed");
-                stopVPN(prev);
-                prev = null;
-                vpn = startVPN(listAllowed);
+            if (prefs.getBoolean("filter", false)) {
+                Log.i(TAG, "Native restart");
+
+                if (vpn != null)
+                    jni_stop(vpn.getFd(), false);
+
                 if (vpn == null)
-                    throw new IllegalStateException("Handover failed");
+                    vpn = startVPN(listAllowed);
+                if (vpn == null)
+                    throw new IllegalStateException("VPN start failed");
+
+                startNative(vpn, listAllowed);
+
+            } else {
+                Log.i(TAG, "VPN restart");
+
+                // Attempt seamless handover
+                ParcelFileDescriptor prev = vpn;
+                vpn = startVPN(listAllowed);
+                if (prev != null && vpn == null) {
+                    Log.w(TAG, "Handover failed");
+                    stopVPN(prev);
+                    prev = null;
+                    vpn = startVPN(listAllowed);
+                    if (vpn == null)
+                        throw new IllegalStateException("Handover failed");
+                }
+
+                if (prev != null) {
+                    jni_stop(prev.getFd(), false);
+                    stopVPN(prev);
+                }
+                startNative(vpn, listAllowed);
             }
-
-            // TODO drain old VPN
-            jni_stop(vpn.getFd(), false);
-            startNative(listAllowed);
-
-            if (prev != null)
-                stopVPN(prev);
 
             updateEnforcingNotification(listAllowed.size(), listRule.size());
         }
@@ -701,7 +719,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    private void startNative(List<Rule> listAllowed) {
+    private void startNative(ParcelFileDescriptor vpn, List<Rule> listAllowed) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
         boolean log = prefs.getBoolean("log", false);
         boolean filter = prefs.getBoolean("filter", false);
@@ -779,9 +797,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private int[] getAllowedUids(List<Rule> listAllowed) {
-        int[] uid = new int[listAllowed.size()];
+        int[] uid = new int[listAllowed.size() + 1];
+        uid[0] = 0; // Allow root (DNS, etc)
         for (int i = 0; i < listAllowed.size(); i++)
-            uid[i] = listAllowed.get(i).info.applicationInfo.uid;
+            uid[i + 1] = listAllowed.get(i).info.applicationInfo.uid;
         return uid;
     }
 
