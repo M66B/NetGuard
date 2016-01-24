@@ -131,7 +131,7 @@ void handle_signal(int sig, siginfo_t *info, void *context);
 
 void *handle_events(void *a);
 
-void report_exit(const struct arguments *args);
+void report_exit(const struct arguments *args, const char*reason);
 
 void check_sessions(const struct arguments *args);
 
@@ -156,23 +156,23 @@ int open_socket(const struct tcp_session *cur, const struct arguments *args);
 
 int32_t get_local_port(const int sock);
 
-int write_syn_ack(const struct arguments *args, struct tcp_session *cur, int tun);
+int write_syn_ack(const struct arguments *args, struct tcp_session *cur);
 
-int write_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes, int tun);
+int write_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes);
 
 int write_data(const struct arguments *args, struct tcp_session *cur,
-               const uint8_t *buffer, size_t length, int tun);
+               const uint8_t *buffer, size_t length);
 
-int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes, int tun);
+int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes);
 
-void write_rst(const struct arguments *args, struct tcp_session *cur, int tun);
+void write_rst(const struct arguments *args, struct tcp_session *cur);
 
 ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
-                  uint8_t *data, size_t datalen, int tun);
+                  uint8_t *data, size_t datalen);
 
 ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
                   const uint8_t *data, size_t datalen, size_t confirm,
-                  int syn, int ack, int fin, int rst, int tun);
+                  int syn, int ack, int fin, int rst);
 
 uint8_t char2nible(const char c);
 

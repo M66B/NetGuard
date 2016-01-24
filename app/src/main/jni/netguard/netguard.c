@@ -124,6 +124,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
 
         // Get arguments
         struct arguments *args = malloc(sizeof(struct arguments));
+        // args->env = will be set in thread
         args->instance = (*env)->NewGlobalRef(env, instance);
         args->tun = tun;
 
@@ -178,6 +179,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instanc
             if (err != 0)
                 log_android(ANDROID_LOG_WARN, "pthread_join error %d: %s", err, strerror(err));
         }
+
         if (clear)
             clear_sessions();
 
@@ -198,8 +200,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
     if (name_ == NULL) {
         if (pcap_file != NULL) {
             if (fclose(pcap_file))
-                log_android(ANDROID_LOG_ERROR, "PCAP fclose error %d: %s", errno,
-                            strerror(errno));
+                log_android(ANDROID_LOG_ERROR, "PCAP fclose error %d: %s", errno, strerror(errno));
         }
         pcap_file = NULL;
         log_android(ANDROID_LOG_INFO, "PCAP disabled");
@@ -216,7 +217,9 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
             if (flags < 0 || fcntl(fileno(pcap_file), F_SETFL, flags | O_NONBLOCK) < 0)
                 log_android(ANDROID_LOG_ERROR, "PCAP fcntl O_NONBLOCK error %d: %s",
                             errno, strerror(errno));
+
             write_pcap_hdr();
+
         }
 
         (*env)->ReleaseStringUTFChars(env, name_, name);
@@ -336,14 +339,17 @@ void *handle_events(void *a) {
             if (errno == EINTR) {
                 if (stopping && signaled) { ;
                     log_android(ANDROID_LOG_WARN, "pselect signaled tun %d", args->tun);
+                    report_exit(args, NULL);
                     break;
                 } else {
                     log_android(ANDROID_LOG_DEBUG, "pselect interrupted %d", args->tun);
                     continue;
                 }
             } else {
-                log_android(ANDROID_LOG_ERROR, "pselect tun %d error %d: %s",
-                            args->tun, errno, strerror(errno));
+                char error[200];
+                sprintf(error, "pselect tun %d error %d: %s", args->tun, errno, strerror(errno));
+                log_android(ANDROID_LOG_ERROR, error);
+                report_exit(args, error);
                 break;
             }
         }
@@ -404,9 +410,6 @@ void *handle_events(void *a) {
         }
     }
 
-    // Report exit to Java
-    report_exit(args);
-
     (*env)->DeleteGlobalRef(env, args->instance);
 
     // Detach from Java
@@ -425,14 +428,17 @@ void *handle_events(void *a) {
     return NULL;
 }
 
-void report_exit(const struct arguments *args) {
+void report_exit(const struct arguments *args, const char *reason) {
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
-    jmethodID mid = jniGetMethodID(args->env, cls, "selectExit", "(Z)V");
+    jmethodID mid = jniGetMethodID(args->env, cls, "nativeExit", "(Ljava/lang/String;)V");
 
-    jboolean planned = stopping;
-    (*args->env)->CallVoidMethod(args->env, args->instance, mid, planned);
+    jstring jreason = (reason == NULL ? NULL : (*args->env)->NewStringUTF(args->env, reason));
+
+    (*args->env)->CallVoidMethod(args->env, args->instance, mid, jreason);
     jniCheckException(args->env);
 
+    if (jreason != NULL)
+        (*args->env)->DeleteLocalRef(args->env, jreason);
     (*args->env)->DeleteLocalRef(args->env, cls);
 }
 
@@ -487,7 +493,7 @@ void check_sessions(const struct arguments *args) {
             log_android(ANDROID_LOG_WARN, "Idle from %s/%u to %s/%u state %s",
                         dest, ntohs(t->dest), source, ntohs(t->source), strstate(t->state));
 
-            write_rst(args, t, args->tun);
+            write_rst(args, t);
         }
 
         // Check finished connection
@@ -576,8 +582,10 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
               fd_set *efds) {
     // Check tun error
     if (FD_ISSET(args->tun, efds)) {
+        // TODO get error (how?)
         log_android(ANDROID_LOG_ERROR, "tun exception");
-        return -1; // over and out
+        report_exit(args, "tun exception");
+        return -1;
     }
 
     // Check tun read
@@ -585,8 +593,15 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
         uint8_t buffer[TUN_MAXMSG];
         ssize_t length = read(args->tun, buffer, sizeof(buffer));
         if (length < 0) {
-            log_android(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
-            return (errno == EINTR ? 0 : -1);
+            char error[200];
+            sprintf(error, "tun read error %d: %s", errno, strerror(errno));
+            log_android(ANDROID_LOG_ERROR, error);
+            if (errno == EINTR)
+                return 0;
+            else {
+                report_exit(args, error);
+                return -1;
+            }
         }
         else if (length > 0) {
             // Write pcap record
@@ -599,6 +614,7 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
         else {
             // tun eof
             log_android(ANDROID_LOG_ERROR, "tun empty read");
+            report_exit(args, "tun empty read");
             return -1;
         }
     }
@@ -649,7 +665,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
                     log_android(ANDROID_LOG_INFO, "UDP recv bytes %d for %s/%u @tun",
                                 bytes, dest, ntohs(cur->dest));
-                    if (write_udp(args, cur, buffer, (size_t) bytes, args->tun) < 0)
+                    if (write_udp(args, cur, buffer, (size_t) bytes) < 0)
                         log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
                                     errno, strerror((errno)));
                 }
@@ -679,7 +695,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
             else if (serr)
                 log_android(ANDROID_LOG_ERROR, "SO_ERROR %d: %s", serr, strerror(serr));
 
-            write_rst(args, cur, args->tun);
+            write_rst(args, cur);
         }
         else {
             // Assume socket okay
@@ -696,7 +712,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     log_android(ANDROID_LOG_INFO, "Connected from %s/%u to %s/%u",
                                 source, ntohs(cur->source), dest, ntohs(cur->dest));
 
-                    if (write_syn_ack(args, cur, args->tun) >= 0) {
+                    if (write_syn_ack(args, cur) >= 0) {
                         cur->local_seq++; // local SYN
                         cur->remote_seq++; // remote SYN
                         cur->state = TCP_SYN_RECV;
@@ -721,14 +737,14 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         log_android(ANDROID_LOG_ERROR, "recv error %d: %s", errno, strerror(errno));
 
                         if (errno != EINTR)
-                            write_rst(args, cur, args->tun);
+                            write_rst(args, cur);
                     }
                     else if (bytes == 0) {
                         // Socket eof
                         // TCP: application close
                         log_android(ANDROID_LOG_INFO, "recv empty state %s", strstate(cur->state));
 
-                        if (write_fin_ack(args, cur, 0, args->tun) >= 0) {
+                        if (write_fin_ack(args, cur, 0) >= 0) {
                             cur->local_seq++; // local FIN
 
                             if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
@@ -748,7 +764,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                     "recv bytes %d state %s", bytes, strstate(cur->state));
 
                         // Forward to tun
-                        if (write_data(args, cur, buffer, (size_t) bytes, args->tun) >= 0)
+                        if (write_data(args, cur, buffer, (size_t) bytes) >= 0)
                             cur->local_seq += bytes;
                     }
 
@@ -918,7 +934,9 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
 #endif
 
     // Check if allowed
-    jboolean allowed = (jboolean) !syn;
+    jboolean
+            allowed = (jboolean)
+            !syn;
     if (syn && args->filter && uid >= 0) {
         for (int i = 0; i < args->ucount; i++)
             if (args->uids[i] == uid) {
@@ -1119,7 +1137,7 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
                             rh->flags = htons(DNS_QR);
                             rh->ancount = htons(1);
 
-                            if (write_udp(args, u, response, rsize, args->tun) < 0)
+                            if (write_udp(args, u, response, rsize) < 0)
                                 log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
                                             errno, strerror((errno)));
 
@@ -1242,7 +1260,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
             rst.source = tcphdr->source;
             rst.daddr = (__be32) iphdr->daddr;
             rst.dest = tcphdr->dest;
-            write_rst(args, &rst, args->tun);
+            write_rst(args, &rst);
 
             return 0;
         }
@@ -1264,7 +1282,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
                         dest, ntohs(cur->dest), strstate(cur->state),
                         cur->local_seq - cur->local_start,
                         cur->remote_seq - cur->remote_start);
-            write_rst(args, cur, args->tun);
+            write_rst(args, cur);
             return 0;
         }
         else {
@@ -1293,7 +1311,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
                 int more = (tcphdr->psh ? 0 : MSG_MORE);
                 if (send(cur->socket, buffer + dataoff, datalen, MSG_NOSIGNAL | more) < 0) {
                     log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
-                    write_rst(args, cur, args->tun);
+                    write_rst(args, cur);
                     return 0;
                 }
 
@@ -1303,7 +1321,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
                     cur->state == TCP_CLOSING)
                     cur->remote_seq += datalen; // FIN will send ACK or no ACK
                 else {
-                    if (write_ack(args, cur, datalen, args->tun) >= 0)
+                    if (write_ack(args, cur, datalen) >= 0)
                         cur->remote_seq += datalen;
                     else
                         ok = 0;
@@ -1337,11 +1355,11 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
                                 log_android(ANDROID_LOG_ERROR, "shutdown WR error %d: %s",
                                             errno, strerror(errno));
                                 // Data might be lost
-                                write_rst(args, cur, args->tun);
+                                write_rst(args, cur);
                                 return 0;
                             }
                             else {
-                                if (write_ack(args, cur, 1, args->tun) >= 0) {
+                                if (write_ack(args, cur, 1) >= 0) {
                                     cur->remote_seq += 1; // FIN
                                     if (cur->state == TCP_ESTABLISHED /* && !tcphdr->ack */)
                                         cur->state = TCP_CLOSE_WAIT;
@@ -1361,7 +1379,7 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
                                     }
                                 }
                                 else {
-                                    write_rst(args, cur, args->tun);
+                                    write_rst(args, cur);
                                     return 0;
                                 }
                             }
@@ -1485,7 +1503,7 @@ int open_socket(const struct tcp_session *cur, const struct arguments *args) {
     daddr.sin_addr.s_addr = cur->daddr;
 
     // Get TCP socket
-    // TODO socket options (SO_REUSEADDR, etc)
+    // TODO socket options?
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         log_android(ANDROID_LOG_ERROR, "socket error %d: %s", errno, strerror(errno));
         return -1;
@@ -1530,8 +1548,8 @@ int32_t get_local_port(const int sock) {
         return ntohs(sin.sin_port);
 }
 
-int write_syn_ack(const struct arguments *args, struct tcp_session *cur, int tun) {
-    if (write_tcp(args, cur, NULL, 0, 1, 1, 1, 0, 0, tun) < 0) {
+int write_syn_ack(const struct arguments *args, struct tcp_session *cur) {
+    if (write_tcp(args, cur, NULL, 0, 1, 1, 1, 0, 0) < 0) {
         log_android(ANDROID_LOG_ERROR, "write SYN+ACK error %d: %s",
                     errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
@@ -1540,8 +1558,8 @@ int write_syn_ack(const struct arguments *args, struct tcp_session *cur, int tun
     return 0;
 }
 
-int write_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes, int tun) {
-    if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 0, 0, tun) < 0) {
+int write_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes) {
+    if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 0, 0) < 0) {
         log_android(ANDROID_LOG_ERROR, "write ACK error %d: %s",
                     errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
@@ -1551,8 +1569,8 @@ int write_ack(const struct arguments *args, struct tcp_session *cur, size_t byte
 }
 
 int write_data(const struct arguments *args, struct tcp_session *cur,
-               const uint8_t *buffer, size_t length, int tun) {
-    if (write_tcp(args, cur, buffer, length, 0, 0, 1, 0, 0, tun) < 0) {
+               const uint8_t *buffer, size_t length) {
+    if (write_tcp(args, cur, buffer, length, 0, 0, 1, 0, 0) < 0) {
         log_android(ANDROID_LOG_ERROR, "write data ACK error %d: %s", errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
         return -1;
@@ -1560,8 +1578,8 @@ int write_data(const struct arguments *args, struct tcp_session *cur,
     return 0;
 }
 
-int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes, int tun) {
-    if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 1, 0, tun) < 0) {
+int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes) {
+    if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 1, 0) < 0) {
         log_android(ANDROID_LOG_ERROR, "write FIN+ACK error %d: %s", errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
         return -1;
@@ -1569,15 +1587,15 @@ int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t 
     return 0;
 }
 
-void write_rst(const struct arguments *args, struct tcp_session *cur, int tun) {
+void write_rst(const struct arguments *args, struct tcp_session *cur) {
     log_android(ANDROID_LOG_WARN, "Sending RST");
-    if (write_tcp(args, cur, NULL, 0, 0, 0, 0, 0, 1, tun) < 0)
+    if (write_tcp(args, cur, NULL, 0, 0, 0, 0, 0, 1) < 0)
         log_android(ANDROID_LOG_ERROR, "write RST error %d: %s", errno, strerror((errno)));
     cur->state = TCP_TIME_WAIT;
 }
 
 ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
-                  uint8_t *data, size_t datalen, int tun) {
+                  uint8_t *data, size_t datalen) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -1620,7 +1638,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
                 "Sending UDP to tun from %s/%u to %s/%u data %u",
                 source, ntohs(udp->source), dest, ntohs(udp->dest), datalen);
 
-    ssize_t res = write(tun, buffer, len);
+    ssize_t res = write(args->tun, buffer, len);
 
 #ifdef PROFILE
     gettimeofday(&end, NULL);
@@ -1646,7 +1664,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
 
 ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
                   const uint8_t *data, size_t datalen, size_t confirm,
-                  int syn, int ack, int fin, int rst, int tun) {
+                  int syn, int ack, int fin, int rst) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -1717,7 +1735,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
                 ntohl(tcp->ack_seq) - cur->remote_start,
                 datalen, confirm);
 
-    ssize_t res = write(tun, buffer, len);
+    ssize_t res = write(args->tun, buffer, len);
 
 #ifdef PROFILE
     gettimeofday(&end, NULL);

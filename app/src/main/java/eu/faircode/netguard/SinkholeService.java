@@ -815,12 +815,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     // Called from native code
-    private void selectExit(boolean planned) {
-        Log.w(TAG, "Select exit planned=" + planned);
-        if (!planned) {
+    private void nativeExit(java.lang.String reason) {
+        Log.w(TAG, "Native exit reason=" + reason);
+        if (reason != null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", false).apply();
-            showErrorNotification();
+            showErrorNotification(reason);
         }
     }
 
@@ -1213,7 +1213,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         NotificationManagerCompat.from(this).notify(NOTIFY_DISABLED, notification.build());
     }
 
-    private void showErrorNotification() {
+    private void showErrorNotification(String reason) {
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -1232,6 +1232,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
         notification.bigText(getString(R.string.msg_error));
+        notification.setSummaryText(reason);
 
         NotificationManagerCompat.from(this).notify(NOTIFY_ERROR, notification.build());
     }
