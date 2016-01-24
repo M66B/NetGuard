@@ -673,7 +673,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (tethering) {
             // USB Tethering 192.168.42.x
             // Wi-Fi Tethering 192.168.43.x
-            for (int r = 1; r <= 255; r++)
+            // https://en.wikipedia.org/wiki/IPv4#Special-use_addresses
+            for (int r = 1; r <= 223; r++)
                 if (r == 192) {
                     for (int s = 1; s <= 255; s++)
                         if (s == 168) {
@@ -682,10 +683,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                                     builder.addRoute(String.format("%d.%d.%d.0", r, s, t), 24);
                         } else
                             builder.addRoute(String.format("%d.%d.0.0", r, s), 16);
-                } else if (r != 127 && r != 224 && r != 255) {
-                    // https://en.wikipedia.org/wiki/IPv4#Special-use_addresses
+                } else if (r != 127)
                     builder.addRoute(String.format("%d.0.0.0", r), 8);
-                }
         } else
             builder.addRoute("0.0.0.0", 0);
 
