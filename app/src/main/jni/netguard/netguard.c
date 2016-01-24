@@ -1159,11 +1159,10 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
               const uint8_t *data, const size_t datalen) {
     if (datalen > sizeof(struct dns_header)) {
         const struct dns_header *dns = (struct dns_header *) data;
-        uint16_t flags = ntohs(dns->flags);
 
-        // Check if standard query
+        // Check if standard DNS query
         // Wireshark:  (udp.port eq 53)
-        if ((flags & DNS_QR) == 0 && (flags & DNS_OP) == 0 && ntohs(dns->qdcount) > 0) {
+        if (dns->qr == 0 && dns->opcode == 0 && dns->q_count != 0) {
 
             char name[64];
             uint8_t noff = 0;
@@ -1189,38 +1188,33 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
                 uint16_t qclass = ntohs(*((uint16_t *) (data + qdoff + 2)));
                 qdoff += 4;
 
-                log_android(ANDROID_LOG_WARN, "DNS type %d class %d name %s", qtype, qclass, name);
+                log_android(ANDROID_LOG_INFO, "DNS type %d class %d name %s", qtype, qclass, name);
 
                 if (qclass == DNS_QCLASS_IN && (qtype == DNS_QTYPE_A || qtype == DNS_QTYPE_AAAA)) {
                     for (int i = 0; i < args->hcount; i++)
                         if (!strcmp(name, args->hosts[i])) {
                             log_android(ANDROID_LOG_WARN, "DNS %s blocked", name);
 
-                            if (qtype == DNS_QTYPE_AAAA) {
-                                // TODO DNS v6 reply
-                                return 1;
-                            }
-
-                            struct dns_response reply;
-                            reply.qname_ptr = htons(sizeof(struct dns_header) | 0xC000);
-                            reply.qtype = htons(qtype);
-                            reply.qclass = htons(qclass);
-                            reply.ttl = htonl(DNS_TTL); // seconds
-
-                            reply.rdlength = htons(sizeof(reply.rdata));
-                            inet_aton("127.0.0.1", (struct in_addr *) &reply.rdata);
-
-                            size_t qsize = qdoff; // header + query
-                            size_t rsize = qsize + sizeof(struct dns_response);
-                            uint8_t *response = malloc(rsize);
-                            memcpy(response, data, qsize); // header + query
-                            memcpy(response + qsize, &reply, sizeof(struct dns_response));
+                            uint8_t *response = malloc(qdoff);
+                            memcpy(response, data, qdoff); // header + query
 
                             struct dns_header *rh = (struct dns_header *) response;
-                            rh->flags = htons(DNS_QR);
-                            rh->ancount = htons(0);
+                            rh->qr = 1;
+                            rh->aa = 0;
+                            rh->tc = 0;
+                            rh->rd = 0;
+                            rh->ra = 0;
+                            rh->z = 0;
+                            rh->ad = 0;
+                            rh->cd = 0;
+                            rh->rcode = 3;
+                            rh->ans_count = 0;
 
-                            if (write_udp(args, u, response, rsize) < 0)
+                            int res = write_udp(args, u, response, qdoff);
+
+                            free(response);
+
+                            if (res < 0)
                                 log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
                                             errno, strerror((errno)));
                             else
