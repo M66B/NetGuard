@@ -43,9 +43,16 @@ struct udp_session {
     time_t time;
     jint uid;
     int version;
-    __be32 saddr; // network notation
+
+    union {
+        __be32 ipv4; // network notation
+    } saddr1;
     __be16 source; // network notation
-    __be32 daddr; // network notation
+
+    union {
+        __be32 ipv4; // network notation
+    } daddr1;
+
     __be16 dest; // network notation
     uint8_t stop;
     jint socket;
@@ -58,14 +65,22 @@ struct tcp_session {
     time_t time;
     int version;
     uint16_t send_window; // host notation
+
     uint32_t remote_seq; // confirmed bytes received, host notation
     uint32_t local_seq; // confirmed bytes sent, host notation
     uint32_t remote_start;
     uint32_t local_start;
-    __be32 saddr; // network notation
+
+    union {
+        __be32 ipv4; // network notation
+    } saddr;
     __be16 source; // network notation
-    __be32 daddr; // network notation
+
+    union {
+        __be32 ipv4; // network notation
+    } daddr;
     __be16 dest; // network notation
+
     uint8_t state;
     jint socket;
     struct tcp_session *next;
@@ -77,7 +92,7 @@ typedef uint16_t guint16_t;
 typedef uint32_t guint32_t;
 typedef int32_t gint32_t;
 
-typedef struct __attribute__((__packed__)) pcap_hdr_s {
+typedef struct pcap_hdr_s {
     guint32_t magic_number;
     guint16_t version_major;
     guint16_t version_minor;
@@ -85,34 +100,34 @@ typedef struct __attribute__((__packed__)) pcap_hdr_s {
     guint32_t sigfigs;
     guint32_t snaplen;
     guint32_t network;
-} pcap_hdr_t;
+} __packed;
 
-typedef struct __attribute__((__packed__)) pcaprec_hdr_s {
+typedef struct pcaprec_hdr_s {
     guint32_t ts_sec;
     guint32_t ts_usec;
     guint32_t incl_len;
     guint32_t orig_len;
-} pcaprec_hdr_t;
+} __packed;
 
 #define LINKTYPE_RAW 101
 
-typedef struct __attribute__((__packed__)) dns_header {
+typedef struct dns_header {
     __be16 msgid;
     __be16 flags;
     __be16 qdcount;
     __be16 ancount;
     __be16 nscount;
     __be16 arcount;
-} dns_header_t;
+} __packed;
 
-typedef struct __attribute__((__packed__)) dns_response {
+typedef struct dns_response {
     __be16 qname_ptr;
     __be16 qtype;
     __be16 qclass;
     __be32 ttl;
     __be16 rdlength;
     __be32 rdata;
-} dns_response_t;
+} __packed;
 
 #define DNS_QR 1
 #define DNS_OPCODE 30
@@ -132,7 +147,7 @@ void handle_signal(int sig, siginfo_t *info, void *context);
 
 void *handle_events(void *a);
 
-void report_exit(const struct arguments *args, const char*reason);
+void report_exit(const struct arguments *args, const char *reason);
 
 void check_sessions(const struct arguments *args);
 

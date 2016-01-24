@@ -455,10 +455,10 @@ void check_sessions(const struct arguments *args) {
         else
             timeout = UDP_TIMEOUT_ANY;
         if (u->stop || u->time + timeout < now) {
-            char source[20];
-            char dest[20];
-            inet_ntop(AF_INET, &(u->saddr), source, sizeof(source));
-            inet_ntop(AF_INET, &(u->daddr), dest, sizeof(dest));
+            char source[INET6_ADDRSTRLEN + 1];
+            char dest[INET6_ADDRSTRLEN + 1];
+            inet_ntop(AF_INET, &(u->saddr1.ipv4), source, sizeof(source));
+            inet_ntop(AF_INET, &(u->daddr1.ipv4), dest, sizeof(dest));
             log_android(ANDROID_LOG_WARN, "UDP idle %d/%d sec stop %d from %s/%u to %s/%u",
                         now - u->time, timeout, u->stop,
                         dest, ntohs(u->dest), source, ntohs(u->source));
@@ -486,10 +486,10 @@ void check_sessions(const struct arguments *args) {
     struct tcp_session *tl = NULL;
     struct tcp_session *t = tcp_session;
     while (t != NULL) {
-        char source[20];
-        char dest[20];
-        inet_ntop(AF_INET, &(t->saddr), source, sizeof(source));
-        inet_ntop(AF_INET, &(t->daddr), dest, sizeof(dest));
+        char source[INET6_ADDRSTRLEN + 1];
+        char dest[INET6_ADDRSTRLEN + 1];
+        inet_ntop(AF_INET, &(t->saddr.ipv4), source, sizeof(source));
+        inet_ntop(AF_INET, &(t->daddr.ipv4), dest, sizeof(dest));
 
         // Check connection timeout
         int timeout = 0;
@@ -673,8 +673,8 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 
                 } else {
                     // Socket read data
-                    char dest[20];
-                    inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+                    char dest[INET6_ADDRSTRLEN + 1];
+                    inet_ntop(AF_INET, &(cur->daddr1.ipv4), dest, sizeof(dest));
                     log_android(ANDROID_LOG_INFO, "UDP recv bytes %d for %s/%u @tun",
                                 bytes, dest, ntohs(cur->dest));
                     if (write_udp(args, cur, buffer, (size_t) bytes) < 0)
@@ -722,10 +722,10 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     cur->time = time(NULL);
 
                     // Log
-                    char source[20];
-                    char dest[20];
-                    inet_ntop(AF_INET, &(cur->saddr), source, sizeof(source));
-                    inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+                    char source[INET6_ADDRSTRLEN + 1];
+                    char dest[INET6_ADDRSTRLEN + 1];
+                    inet_ntop(AF_INET, &(cur->saddr.ipv4), source, sizeof(source));
+                    inet_ntop(AF_INET, &(cur->daddr.ipv4), dest, sizeof(dest));
                     log_android(ANDROID_LOG_INFO, "Connected from %s/%u to %s/%u",
                                 source, ntohs(cur->source), dest, ntohs(cur->dest));
 
@@ -792,8 +792,8 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 
         if (cur->state != oldstate || cur->local_seq != oldlocal ||
             cur->remote_seq != oldremote) {
-            char dest[20];
-            inet_ntop(AF_INET, &(cur->daddr), dest, sizeof(dest));
+            char dest[INET6_ADDRSTRLEN + 1];
+            inet_ntop(AF_INET, &(cur->daddr.ipv4), dest, sizeof(dest));
             log_android(ANDROID_LOG_INFO,
                         "Session %s/%u new state %s local %u remote %u",
                         dest, ntohs(cur->dest), strstate(cur->state),
@@ -809,8 +809,8 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
     uint8_t protocol;
     void *saddr;
     void *daddr;
-    char source[40];
-    char dest[40];
+    char source[INET6_ADDRSTRLEN + 1];
+    char dest[INET6_ADDRSTRLEN + 1];
     char flags[10];
     int flen = 0;
     uint8_t *payload;
@@ -1001,14 +1001,14 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
     // Search session
     struct udp_session *last = NULL;
     struct udp_session *cur = udp_session;
-    while (cur != NULL && !(cur->saddr == iphdr->saddr && cur->source == udphdr->source &&
-                            cur->daddr == iphdr->daddr && cur->dest == udphdr->dest)) {
+    while (cur != NULL && !(cur->saddr1.ipv4 == iphdr->saddr && cur->source == udphdr->source &&
+                            cur->daddr1.ipv4 == iphdr->daddr && cur->dest == udphdr->dest)) {
         last = cur;
         cur = cur->next;
     }
 
-    char source[40];
-    char dest[40];
+    char source[INET6_ADDRSTRLEN + 1];
+    char dest[INET6_ADDRSTRLEN + 1];
     inet_ntop(version == 4 ? AF_INET : AF_INET6, &(iphdr->saddr), source, sizeof(source));
     inet_ntop(version == 4 ? AF_INET : AF_INET6, &(iphdr->daddr), dest, sizeof(dest));
 
@@ -1021,9 +1021,9 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
         struct udp_session *u = malloc(sizeof(struct udp_session));
         u->uid = uid;
         u->version = 4;
-        u->saddr = (__be32) iphdr->saddr;
+        u->saddr1.ipv4 = (__be32) iphdr->saddr;
         u->source = udphdr->source;
-        u->daddr = (__be32) iphdr->daddr;
+        u->daddr1.ipv4 = (__be32) iphdr->daddr;
         u->dest = udphdr->dest;
         u->stop = 0;
         u->next = NULL;
@@ -1108,7 +1108,9 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
             size_t qdoff = dataoff + sizeof(struct dns_header);
             do {
                 len = *(buffer + qdoff);
-                if (len >= 0x40) {
+                if (len == 0)
+                    qdoff++;
+                else if (len >= 0x40) {
                     // TODO test
                     // TODO check top 2 bits
                     qdoff = dataoff + (len & 0x3F) * 256 + *(buffer + qdoff + 1);
@@ -1128,7 +1130,7 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
                 uint16_t qclass = ntohs(*((uint16_t *) (buffer + qdoff + 2)));
                 qdoff += 4;
 
-                log_android(ANDROID_LOG_INFO, "DNS type %d class %d name %s", qtype, qclass, name);
+                log_android(ANDROID_LOG_WARN, "DNS type %d class %d name %s", qtype, qclass, name);
 
                 if (qtype == DNS_QTYPE_A && qclass == DNS_QCLASS_IN)
                     for (int i = 0; i < args->hcount; i++)
@@ -1193,15 +1195,15 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
     // Search session
     struct tcp_session *last = NULL;
     struct tcp_session *cur = tcp_session;
-    while (cur != NULL && !(cur->saddr == iphdr->saddr && cur->source == tcphdr->source &&
-                            cur->daddr == iphdr->daddr && cur->dest == tcphdr->dest)) {
+    while (cur != NULL && !(cur->saddr.ipv4 == iphdr->saddr && cur->source == tcphdr->source &&
+                            cur->daddr.ipv4 == iphdr->daddr && cur->dest == tcphdr->dest)) {
         last = cur;
         cur = cur->next;
     }
 
     // Log
-    char source[20];
-    char dest[20];
+    char source[INET6_ADDRSTRLEN + 1];
+    char dest[INET6_ADDRSTRLEN + 1];
     inet_ntop(AF_INET, &(iphdr->saddr), source, sizeof(source));
     inet_ntop(AF_INET, &(iphdr->daddr), dest, sizeof(dest));
 
@@ -1229,9 +1231,9 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
             syn->local_seq = (uint32_t) rand(); // ISN local
             syn->remote_start = syn->remote_seq;
             syn->local_start = syn->local_seq;
-            syn->saddr = (__be32) iphdr->saddr;
+            syn->saddr.ipv4 = (__be32) iphdr->saddr;
             syn->source = tcphdr->source;
-            syn->daddr = (__be32) iphdr->daddr;
+            syn->daddr.ipv4 = (__be32) iphdr->daddr;
             syn->dest = tcphdr->dest;
             syn->state = TCP_LISTEN;
             syn->next = NULL;
@@ -1272,9 +1274,9 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
             rst.version = 4;
             rst.local_seq = 0;
             rst.remote_seq = ntohl(tcphdr->seq);
-            rst.saddr = (__be32) iphdr->saddr;
+            rst.saddr.ipv4 = (__be32) iphdr->saddr;
             rst.source = tcphdr->source;
-            rst.daddr = (__be32) iphdr->daddr;
+            rst.daddr.ipv4 = (__be32) iphdr->daddr;
             rst.dest = tcphdr->dest;
             write_rst(args, &rst);
 
@@ -1516,7 +1518,7 @@ int open_socket(const struct tcp_session *cur, const struct arguments *args) {
     memset(&daddr, 0, sizeof(struct sockaddr_in));
     daddr.sin_family = AF_INET;
     daddr.sin_port = cur->dest;
-    daddr.sin_addr.s_addr = cur->daddr;
+    daddr.sin_addr.s_addr = cur->daddr.ipv4;
 
     // Get TCP socket
     // TODO socket options?
@@ -1632,8 +1634,8 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
     ip->tot_len = htons(len);
     ip->ttl = UDP_TTL;
     ip->protocol = IPPROTO_UDP;
-    ip->saddr = cur->daddr;
-    ip->daddr = cur->saddr;
+    ip->saddr = cur->daddr1.ipv4;
+    ip->daddr = cur->saddr1.ipv4;
 
     // Calculate IP checksum
     ip->check = ~calc_checksum(0, (uint8_t *) ip, sizeof(struct iphdr));
@@ -1644,8 +1646,8 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
     udp->check = 0;
     udp->len = htons(sizeof(struct udphdr) + datalen);
 
-    char source[20];
-    char dest[20];
+    char source[INET6_ADDRSTRLEN + 1];
+    char dest[INET6_ADDRSTRLEN + 1];
     inet_ntop(AF_INET, &(ip->saddr), source, sizeof(source));
     inet_ntop(AF_INET, &(ip->daddr), dest, sizeof(dest));
 
@@ -1701,8 +1703,8 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     ip->tot_len = htons(len);
     ip->ttl = TCP_TTL;
     ip->protocol = IPPROTO_TCP;
-    ip->saddr = cur->daddr;
-    ip->daddr = cur->saddr;
+    ip->saddr = cur->daddr.ipv4;
+    ip->daddr = cur->saddr.ipv4;
 
     // Calculate IP checksum
     ip->check = ~calc_checksum(0, (uint8_t *) ip, sizeof(struct iphdr));
@@ -1736,7 +1738,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
 
     tcp->check = ~csum;
 
-    char to[20];
+    char to[INET6_ADDRSTRLEN + 1];
     inet_ntop(AF_INET, &(ip->daddr), to, sizeof(to));
 
     // Send packet
@@ -1809,7 +1811,7 @@ jint get_uid(const int protocol, const int version,
         return uid;
 
     if (dump) {
-        char source[40];
+        char source[INET6_ADDRSTRLEN + 1];
         inet_ntop(version == 4 ? AF_INET : AF_INET6, saddr, source, sizeof(source));
         log_android(ANDROID_LOG_INFO, "Searching %s/%u in %s", source, sport, fn);
     }
@@ -1844,7 +1846,7 @@ jint get_uid(const int protocol, const int version,
                     ((uint32_t *) addr6)[w] = htonl(((uint32_t *) addr6)[w]);
 
                 if (dump) {
-                    char source[40];
+                    char source[INET6_ADDRSTRLEN + 1];
                     inet_ntop(version == 4 ? AF_INET : AF_INET6,
                               version == 4 ? addr4 : addr6,
                               source, sizeof(source));
