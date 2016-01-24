@@ -63,7 +63,7 @@
   <string name="summary_system">為系統程式定義規則(專家用)</string>
   <string name="summary_log">紀錄進入VPN的封包的IP位址. 可能會導致電池耗電量提升</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
-  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
+  <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">在狀態欄通知列顯示網速圖表</string>
   <string name="summary_auto">\"在禁用小工具之後,自動在設定的時間後啟動網路守門人
 輸入0來關閉這項設定\"</string>

@@ -65,7 +65,7 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="summary_system">Definir reglas para aplicaciones de sistema (para expertos)</string>
   <string name="summary_log">Registrar direcciones de paquetes IP dentro de agujero negro del VPN. Podría cosumir más la batería.</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
-  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
+  <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>
   <string name="summary_auto">Después de desactivar usando el widget, activar automáticamente NetGuard nuevamente luego del número de minutos seleccionado\nIngresar cero para deshabilitar esta opción</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>

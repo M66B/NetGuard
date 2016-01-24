@@ -65,7 +65,7 @@ Problemy te są spowodowane błędami w samym Androidzie, lub oprogramowaniu dos
   <string name="summary_system">Stwórz reguły dla aplikacji systemowych (zaawansowane)</string>
   <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
-  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
+  <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">Pokazuj wykres prędkości sieci w powiadomieniach aplikacji</string>
   <string name="summary_auto">Po wyłączeniu poprzez widget, automatycznie włącz NetGuard po podanej liczbie minut (wprowadzenie zera wyłącza tą opcję)</string>
   <string name="summary_delay">Po wyłączeniu ekranu, podtrzymuj działanie reguły \"Zezwól na ... przy włączonym ekranie\" przez podaną liczbę minut (wprowadzenie zera wyłącza tą opcję)</string>

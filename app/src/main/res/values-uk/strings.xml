@@ -61,7 +61,7 @@
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
   <string name="summary_log">Записувати IP адреси, які проходять через VPN. Це призведе до підвищеного споживання заряду батареї.</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
-  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
+  <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">Показувати графік швидкості мережі у панелі сповіщень</string>
   <string name="summary_auto">При відключені через віджет, NetGuard буде автоматично увімкнуто через вказану кількість хвилин\nВведіть 0, аби відключити цю функцію</string>
   <string name="summary_delay">Тримати екран активним на протязі обраної кількості хвилин після вимикання. (0 - вимикає функцію)</string>

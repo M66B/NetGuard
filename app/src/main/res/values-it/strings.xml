@@ -66,7 +66,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
   <string name="summary_log">Registra gli indirizzi dei pacchetti IP inviati alla VPN pozzo. Potrebbe causare ulteriore utilizzo di batteria.</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
-  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
+  <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo é acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>

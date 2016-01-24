@@ -65,7 +65,7 @@ Ezeket a hibákat az Android bugjai vagy az eszköz gyártójának a szoftverei 
   <string name="summary_system">Szabályok megállapítása a rendszer alkalmazásokra (szakértő)</string>
   <string name="summary_log">Naplózza a címeket az IP csomagokban, amik bekerülnek a VPN-be. Ez extra akkumulátor használatot eredményezhet.</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
-  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
+  <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">Mutassa a hálózat sebesség grafikont az értesítés sávon</string>
   <string name="summary_auto">A widget használat után automatikusan engedélyezze a NetGuard használatát a beírt perc eltelte után (a nulla beírása letiltja ezt az opciót)</string>
   <string name="summary_delay">A képernyő kikapcsolása után a szabályok a megadott perc időtartamig aktívak maradnak (a nulla beírása letiltja ezt az opciót)</string>

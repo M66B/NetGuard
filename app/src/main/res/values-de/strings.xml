@@ -39,7 +39,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_tethering">Tethering erlauben</string>
   <string name="setting_log">Datenverkehr loggen</string>
   <string name="setting_filter">Datenverkehr filtern</string>
-  <string name="setting_block_domains">Block domain names</string>
+  <string name="setting_block_domains">Domainnamen blockieren</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
   <string name="setting_theme">Design: %1$s</string>
@@ -64,7 +64,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
   <string name="summary_log">Adressen der IP-Pakete in das VPN protokollieren. Ein höherer Batterieverbrauch ist möglich.</string>
   <string name="summary_filter">IP Pakete filtern, die das VPN verlassen. Dies könnte zu erhöhtem Stromverbrauch führen.</string>
-  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
+  <string name="summary_block_domains">Blockierte Domainnamen an das lokale Gerät weiterleten. Dieser Schalter ist nicht verfügbar, wenn keine hosts-Datei importiert wurde.</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert\nNull eingeben zum Deaktivieren dieser Option</string>
   <string name="summary_delay">Nachdem Ausschalten des Bildschirms, diesen aufgrund der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren)</string>
@@ -90,7 +90,7 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/Tag</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
+  <string name="msg_filter">Bei Verwendung von Filterung werden Daten- und Energiewerte getriggert und Android nimmt an, dass die Daten und Energie von NetGuard, anstatt der ursprünglichen Anwendungen verbraucht wird.</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_roaming">Bei Roaming blockieren</string>

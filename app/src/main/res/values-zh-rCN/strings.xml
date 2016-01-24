@@ -40,7 +40,7 @@
   <string name="setting_tethering">允许网络共享</string>
   <string name="setting_log">记录流量</string>
   <string name="setting_filter">过滤流量</string>
-  <string name="setting_block_domains">Block domain names</string>
+  <string name="setting_block_domains">屏蔽域名</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
   <string name="setting_delay">推迟 %1$s 分钟关屏</string>
   <string name="setting_theme">主题: %1$s</string>
@@ -65,7 +65,7 @@
   <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
   <string name="summary_log">记录被重定向数据包的 IP 地址。这可能导致额外电量消耗。</string>
   <string name="summary_filter">筛选经由 VPN 重定向流出的 IP 数据包。这可能会导致额外耗电</string>
-  <string name="summary_block_domains">Redirect blocked domain names to local device</string>
+  <string name="summary_block_domains">将被屏蔽的域名重定向至本地设备. 无 hosts 文件导入时本功能不可用.</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
   <string name="summary_auto">禁用小部件后, 在设定分钟后自动再次启用NetGuard\n输入零以禁用此选项</string>
   <string name="summary_delay">关屏后，保持亮屏规则在指定的分钟数内有效 (输入零以禁用此选项)</string>
