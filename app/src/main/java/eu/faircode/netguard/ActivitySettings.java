@@ -573,7 +573,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private static Intent getIntentOpenHosts() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/plain");
+        intent.setType("*/*");
         return intent;
     }
 
