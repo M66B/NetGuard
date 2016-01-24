@@ -1105,31 +1105,30 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
 
             // http://tools.ietf.org/html/rfc1035
             uint8_t len;
-            size_t ptr;
             size_t qdoff = dataoff + sizeof(struct dns_header);
             do {
                 len = *(buffer + qdoff);
-                if (len <= 0x3F) {
-                    ptr = qdoff;
-                    qdoff += (1 + len);
-                } else {
+                if (len >= 0x40) {
+                    // TODO test
                     // TODO check top 2 bits
-                    ptr = dataoff + (len & 0x3F) * 256 + *(buffer + qdoff + 1);
-                    len = *(buffer + ptr);
-                    qdoff += 2;
+                    qdoff = dataoff + (len & 0x3F) * 256 + *(buffer + qdoff + 1);
+                    len = *(buffer + qdoff);
                 }
-                if (len && ptr + 1 + len <= dataoff + datalen) {
-                    memcpy(name + noff, buffer + ptr + 1, len);
+                if (len && qdoff + 1 + len <= dataoff + datalen) {
+                    memcpy(name + noff, buffer + qdoff + 1, len);
                     *(name + noff + len) = '.';
                     noff += (len + 1);
+                    qdoff += (1 + len);
                 }
-            } while (len && ptr + 1 + len <= dataoff + datalen);
+            } while (len && qdoff + 1 + len <= dataoff + datalen);
 
             if (noff > 0 && qdoff + 4 <= dataoff + datalen) {
                 *(name + noff - 1) = 0;
                 uint16_t qtype = ntohs(*((uint16_t *) (buffer + qdoff)));
                 uint16_t qclass = ntohs(*((uint16_t *) (buffer + qdoff + 2)));
                 qdoff += 4;
+
+                log_android(ANDROID_LOG_INFO, "DNS type %d class %d name %s", qtype, qclass, name);
 
                 if (qtype == DNS_QTYPE_A && qclass == DNS_QCLASS_IN)
                     for (int i = 0; i < args->hcount; i++)
