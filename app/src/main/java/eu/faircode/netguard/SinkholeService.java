@@ -726,7 +726,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean use_hosts = prefs.getBoolean("use_hosts", false);
         if (log || filter) {
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
-            File hosts = new File(getCacheDir(), "hosts.txt");
+            File hosts = new File(getFilesDir(), "hosts.txt");
             String hname = (use_hosts && hosts.exists() ? hosts.getAbsolutePath() : null);
             jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio);
         }

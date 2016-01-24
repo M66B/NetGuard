@@ -180,7 +180,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Handle hosts
         Preference pref_hosts = screen.findPreference("hosts");
         Preference pref_block_domains = screen.findPreference("use_hosts");
-        pref_block_domains.setEnabled(new File(getCacheDir(), "hosts.txt").exists());
+        pref_block_domains.setEnabled(new File(getFilesDir(), "hosts.txt").exists());
 
         if (Util.isPlayStoreInstall(this)) {
             PreferenceCategory pref_backup = (PreferenceCategory) screen.findPreference("category_backup");
@@ -615,7 +615,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         new AsyncTask<Object, Object, Throwable>() {
             @Override
             protected Throwable doInBackground(Object... objects) {
-                File hosts = new File(getCacheDir(), "hosts.txt");
+                File hosts = new File(getFilesDir(), "hosts.txt");
 
                 FileOutputStream out = null;
                 InputStream in = null;
