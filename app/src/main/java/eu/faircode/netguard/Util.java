@@ -664,8 +664,7 @@ public class Util {
             br = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = br.readLine()) != null)
-                if (line.toLowerCase().contains("netguard"))
-                    builder.append(line).append("\r\n");
+                builder.append(line).append("\r\n");
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         } finally {
