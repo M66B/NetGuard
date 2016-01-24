@@ -502,7 +502,7 @@ void check_sessions(const struct arguments *args) {
         if (t->state != TCP_TIME_WAIT && t->state != TCP_CLOSE && t->time + timeout < now) {
             // TODO send keep alives?
             log_android(ANDROID_LOG_WARN, "Idle %d/%d sec from %s/%u to %s/%u state %s",
-                        now - u->time, timeout,
+                        now - t->time, timeout,
                         source, ntohs(t->source), dest, ntohs(t->dest), strstate(t->state));
 
             write_rst(args, t);
