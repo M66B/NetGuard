@@ -246,7 +246,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             options.removePreference(screen.findPreference("national_roaming"));
         }
 
-        if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).endsWith("beta")))
+        if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta")))
             screen.removePreference(screen.findPreference("category_development"));
     }
 

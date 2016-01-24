@@ -168,7 +168,7 @@ public class IAB implements ServiceConnection {
     }
 
     public static boolean isPurchased(String sku, Context context) {
-        if (Util.getSelfVersionName(context).endsWith("beta"))
+        if (Util.getSelfVersionName(context).contains("beta"))
             return true;
         SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
         return (prefs.getBoolean(sku, false) || prefs.getBoolean(ActivityPro.SKU_DONATION, false));
