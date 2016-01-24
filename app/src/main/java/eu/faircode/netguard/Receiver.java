@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.VpnService;
+import android.os.Build;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -226,6 +227,8 @@ public class Receiver extends BroadcastReceiver {
             } else {
                 editor.putBoolean("whitelist_wifi", false);
                 editor.putBoolean("whitelist_other", false);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1)
+                    editor.putBoolean("filter", true);
             }
             editor.putInt("version", newVersion);
             editor.apply();
