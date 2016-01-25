@@ -256,7 +256,7 @@ void check_allowed(const struct arguments *args) {
         if (!u->stop) {
             int found = 0;
             for (int i = 0; i < args->ucount; i++)
-                if (u->uid < 0 || u->uid == args->uids[i]) {
+                if (u->uid == args->uids[i]) {
                     found = 1;
                     break;
                 }
@@ -273,7 +273,7 @@ void check_allowed(const struct arguments *args) {
         if (t->state != TCP_TIME_WAIT && t->state != TCP_CLOSE) {
             int found = 0;
             for (int i = 0; i < args->ucount; i++)
-                if (t->uid < 0 || t->uid == args->uids[i]) {
+                if (t->uid == args->uids[i]) {
                     found = 1;
                     break;
                 }
@@ -1020,7 +1020,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
     jboolean allowed = (jboolean) !syn;
     if (syn && args->filter) {
         for (int i = 0; i < args->ucount; i++)
-            if (uid < 0 || uid == args->uids[i]) {
+            if (uid == args->uids[i]) {
                 allowed = 1;
                 break;
             }

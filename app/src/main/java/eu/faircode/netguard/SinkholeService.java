@@ -798,10 +798,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private int[] getAllowedUids(List<Rule> listAllowed) {
-        int[] uid = new int[listAllowed.size() + 1];
-        uid[0] = 0; // Allow root (DNS, etc)
+        int[] uid = new int[listAllowed.size() + 2];
+        uid[0] = -1; // Allow unknown
+        uid[1] = 0; // Allow root (DNS, etc)
         for (int i = 0; i < listAllowed.size(); i++)
-            uid[i + 1] = listAllowed.get(i).info.applicationInfo.uid;
+            uid[i + 2] = listAllowed.get(i).info.applicationInfo.uid;
         return uid;
     }
 
