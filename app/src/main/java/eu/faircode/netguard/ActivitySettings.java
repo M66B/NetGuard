@@ -199,6 +199,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             });
         }
 
+        Preference pref_dns = screen.findPreference("dns");
+        pref_dns.setSummary(Util.getDefaultDNS(this));
+
         // Handle technical info
         Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {
             @Override
@@ -457,6 +460,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if ("loglevel".equals(name))
             SinkholeService.reload(null, "setting changed", this);
+
+        else if ("dns".equals(name)) {
+            if (TextUtils.isEmpty(prefs.getString(name, null)))
+                prefs.edit().remove(name).apply();
+            if (prefs.getBoolean("filter", false)) {
+                // Requires a full stop to reconfigure the VPN
+                SinkholeService.stop("dns", this);
+                SinkholeService.start("dns", this);
+            }
+        }
     }
 
     @Override

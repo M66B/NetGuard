@@ -153,6 +153,11 @@
             android:entryValues="@array/logLevelValues"
             android:key="loglevel"
             android:title="Native log level" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="text"
+            android:key="dns"
+            android:title="DNS" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_technical"
