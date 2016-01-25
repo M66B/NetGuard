@@ -144,17 +144,13 @@ struct dns_header {
     uint16_t add_count; // number of resource entries
 } __packed;
 
-typedef struct dns_response {
+typedef struct dns_rr {
     __be16 qname_ptr;
     __be16 qtype;
     __be16 qclass;
     __be32 ttl;
     __be16 rdlength;
-    __be32 rdata;
 } __packed;
-
-#define DNS_QR 1
-#define DNS_OP (0x0F < 1)
 
 #define DNS_QTYPE_A 1 // IPv4
 #define DNS_QTYPE_AAAA 28 // IPv6

@@ -1181,9 +1181,9 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
         server6.sin6_port = udphdr->dest;
     }
 
-    if (sendto(cur->socket, buffer + dataoff, datalen, MSG_NOSIGNAL,
-               (const struct sockaddr *) version == 4 ? &server4 : &server6,
-               version == 4 ? sizeof(server4) : sizeof(server6)) != datalen) {
+    if (sendto(cur->socket, buffer + dataoff, (socklen_t) datalen, MSG_NOSIGNAL,
+               (const struct sockaddr *) (version == 4 ? &server4 : &server6),
+               (socklen_t) (version == 4 ? sizeof(server4) : sizeof(server6))) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %d: %s", errno, strerror(errno));
         cur->stop = 1;
         return 0;
@@ -1217,24 +1217,30 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
                     qdoff += (1 + len);
                 }
             } while (len);
-
             qdoff++;
-            if (noff > 0 && qdoff + 4 <= datalen) {
+
+            if (noff > 0 && qdoff + 4 == datalen) {
                 *(name + noff - 1) = 0;
                 uint16_t qtype = ntohs(*((uint16_t *) (data + qdoff)));
                 uint16_t qclass = ntohs(*((uint16_t *) (data + qdoff + 2)));
-                qdoff += 4;
 
                 log_android(ANDROID_LOG_INFO, "DNS type %d class %d name %s", qtype, qclass, name);
 
                 if (qclass == DNS_QCLASS_IN && (qtype == DNS_QTYPE_A || qtype == DNS_QTYPE_AAAA)) {
                     for (int i = 0; i < args->hcount; i++)
                         if (!strcmp(name, args->hosts[i])) {
-                            log_android(ANDROID_LOG_WARN, "DNS %s blocked", name);
+                            log_android(ANDROID_LOG_WARN, "DNS type %d class %d name %s blocked",
+                                        qtype, qclass, name);
 
-                            uint8_t *response = malloc(qdoff);
-                            memcpy(response, data, qdoff); // header + query
+                            // Build response
+                            size_t rlen = datalen + sizeof(struct dns_rr) +
+                                          (qtype == DNS_QTYPE_A ? 4 : 16);
+                            uint8_t *response = malloc(rlen);
 
+                            // Copy header & query
+                            memcpy(response, data, datalen);
+
+                            // Modify header
                             struct dns_header *rh = (struct dns_header *) response;
                             rh->qr = 1;
                             rh->aa = 0;
@@ -1244,10 +1250,28 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
                             rh->z = 0;
                             rh->ad = 0;
                             rh->cd = 0;
-                            rh->rcode = 3;
-                            rh->ans_count = 0;
+                            rh->rcode = 0;
+                            rh->ans_count = htons(1);
+                            rh->auth_count = 0;
+                            rh->add_count = 0;
 
-                            int res = write_udp(args, u, response, qdoff);
+                            // Build answer
+                            struct dns_rr *answer = (struct dns_rr *) (response + datalen);
+                            answer->qname_ptr = htons(sizeof(struct dns_header) | 0xC000);
+                            answer->qtype = htons(qtype);
+                            answer->qclass = htons(qclass);
+                            answer->ttl = htonl(DNS_TTL);
+                            answer->rdlength = htons(qtype == DNS_QTYPE_A ? 4 : 16);
+
+                            // Add answer address
+                            uint8_t *addr = response + datalen + sizeof(struct dns_rr);
+                            if (qtype == DNS_QTYPE_A)
+                                inet_pton(AF_INET, "127.0.0.1", addr);
+                            else
+                                inet_pton(AF_INET6, "::1", addr);
+
+                            // Send response
+                            ssize_t res = write_udp(args, u, response, rlen);
 
                             free(response);
 
