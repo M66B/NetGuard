@@ -134,7 +134,7 @@ public class LogAdapter extends CursorAdapter {
         else
             tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
 
-        tvFlags.setText(flags);
+        tvFlags.setText(version + flags);
 
         tvSPort.setText(sport < 0 ? "" : Integer.toString(sport));
         tvDPort.setText(dport < 0 ? "" : Integer.toString(dport));
