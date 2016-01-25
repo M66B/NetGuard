@@ -65,7 +65,7 @@ public class LogAdapter extends CursorAdapter {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             vpn4 = InetAddress.getByName(prefs.getString("vpn4", "10.1.10.1"));
             vpn6 = InetAddress.getByName(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"));
-            dns = InetAddress.getByName(prefs.getString("dns", "8.8.8.8"));
+            dns = InetAddress.getByName(prefs.getString("dns", Util.getDefaultDNS(context)));
         } catch (UnknownHostException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }

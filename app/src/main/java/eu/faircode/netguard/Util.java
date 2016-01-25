@@ -281,6 +281,10 @@ public class Util {
             return true;
     }
 
+    public static String getDefaultDNS(Context context) {
+        return "8.8.8.8";//"2001:4860:4860::8888";
+    }
+
     public static boolean isInteractive(Context context) {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         return (pm != null && pm.isInteractive());

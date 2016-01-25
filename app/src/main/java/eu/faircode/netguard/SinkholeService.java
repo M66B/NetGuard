@@ -667,7 +667,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         if (filter) {
             // TODO multiple DNS servers
-            builder.addDnsServer(prefs.getString("dns", "8.8.8.8"));
+            String dns = prefs.getString("dns", Util.getDefaultDNS(SinkholeService.this));
+            Log.i(TAG, "DNS " + dns);
+            builder.addDnsServer(dns);
         }
 
         if (tethering) {
