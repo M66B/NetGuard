@@ -199,7 +199,9 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
 int check_dns(const struct arguments *args, const struct udp_session *u,
               const uint8_t *data, const size_t datalen);
 
-int open_socket(const struct tcp_session *cur, const struct arguments *args);
+int open_udp_socket(const struct arguments *args, const struct udp_session *cur);
+
+int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur);
 
 int32_t get_local_port(const int sock);
 

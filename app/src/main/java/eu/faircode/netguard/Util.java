@@ -282,7 +282,8 @@ public class Util {
     }
 
     public static String getDefaultDNS(Context context) {
-        return "8.8.8.8";//"2001:4860:4860::8888";
+        return "8.8.8.8";
+        //return "2001:4860:4860::8888";
     }
 
     public static boolean isInteractive(Context context) {
