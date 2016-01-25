@@ -362,14 +362,8 @@ void *handle_events(void *a) {
     stopping = 0;
     signaled = 0;
 
-    if (pthread_mutex_lock(&lock))
-        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
-
     // Loop
     while (1) {
-        if (pthread_mutex_unlock(&lock))
-            log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
-
         log_android(ANDROID_LOG_DEBUG, "Loop thread %lu", thread_id);
 
         // Check sessions
@@ -383,9 +377,6 @@ void *handle_events(void *a) {
         int ready = pselect(max + 1, &rfds, &wfds, &efds,
                             udp_session == NULL && tcp_session == NULL ? NULL : &ts,
                             &emptyset);
-
-        if (pthread_mutex_lock(&lock))
-            log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
         if (ready < 0) {
             if (errno == EINTR) {
@@ -447,11 +438,17 @@ void *handle_events(void *a) {
             gettimeofday(&start, NULL);
 #endif
 
+            if (pthread_mutex_lock(&lock))
+                log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
+
             // Check UDP downstream
             check_udp_sockets(args, &rfds, &wfds, &efds);
 
             // Check TCP downstream
             check_tcp_sockets(args, &rfds, &wfds, &efds);
+
+            if (pthread_mutex_unlock(&lock))
+                log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
 
 #ifdef PROFILE
             gettimeofday(&end, NULL);
@@ -460,11 +457,9 @@ void *handle_events(void *a) {
             if (mselapsed > 1)
                 log_android(ANDROID_LOG_INFO, "sockets %f", mselapsed);
 #endif
+
         }
     }
-
-    if (pthread_mutex_unlock(&lock))
-        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
 
     (*env)->DeleteGlobalRef(env, args->instance);
 
