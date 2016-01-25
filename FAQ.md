@@ -253,6 +253,8 @@ Protocols:
 
 Packet flags:
 
+* 4 = IPv4
+* 6 = IPv6
 * S = SYN
 * A = ACK
 * P = PSH
