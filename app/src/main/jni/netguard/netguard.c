@@ -151,8 +151,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
             (*env)->ReleaseStringUTFChars(env, hosts_, hosts);
         }
 
-        for (int i = 0; i < args->ucount; i++)
-            log_android(ANDROID_LOG_DEBUG, "Allowed uid %d", args->uids[i]);
+        // for (int i = 0; i < args->ucount; i++)
+        //     log_android(ANDROID_LOG_DEBUG, "Allowed uid %d", args->uids[i]);
 
         // Terminate sessions not allowed anymore
         check_allowed(args);
@@ -251,30 +251,34 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
 void check_allowed(const struct arguments *args) {
     struct udp_session *u = udp_session;
     while (u != NULL) {
-        int found = 0;
-        for (int i = 0; i < args->ucount; i++)
-            if (u->uid < 0 || u->uid == args->uids[i]) {
-                found = 1;
-                break;
+        if (!u->stop) {
+            int found = 0;
+            for (int i = 0; i < args->ucount; i++)
+                if (u->uid < 0 || u->uid == args->uids[i]) {
+                    found = 1;
+                    break;
+                }
+            if (!found) {
+                u->stop = 1;
+                log_android(ANDROID_LOG_WARN, "UDP terminate %d uid %d", u->socket, u->uid);
             }
-        if (!found) {
-            u->stop = 1;
-            log_android(ANDROID_LOG_WARN, "UDP terminate uid %d", u->uid);
         }
         u = u->next;
     }
 
     struct tcp_session *t = tcp_session;
     while (t != NULL) {
-        int found = 0;
-        for (int i = 0; i < args->ucount; i++)
-            if (t->uid < 0 || t->uid == args->uids[i]) {
-                found = 1;
-                break;
+        if (t->state != TCP_TIME_WAIT && t->state != TCP_CLOSE) {
+            int found = 0;
+            for (int i = 0; i < args->ucount; i++)
+                if (t->uid < 0 || t->uid == args->uids[i]) {
+                    found = 1;
+                    break;
+                }
+            if (!found) {
+                t->state = TCP_TIME_WAIT;
+                log_android(ANDROID_LOG_WARN, "TCP terminate socket %d uid %d", t->socket, t->uid);
             }
-        if (!found) {
-            t->state = TCP_TIME_WAIT;
-            log_android(ANDROID_LOG_WARN, "TCP terminate uid %d", t->uid);
         }
         t = t->next;
     }
@@ -283,7 +287,9 @@ void check_allowed(const struct arguments *args) {
 void clear_sessions() {
     struct udp_session *u = udp_session;
     while (u != NULL) {
-        close(u->socket);
+        if (u->socket >= 0 && close(u->socket))
+            log_android(ANDROID_LOG_ERROR, "UDP close %d error %d: %s",
+                        u->socket, errno, strerror(errno));
         struct udp_session *p = u;
         u = u->next;
         free(p);
@@ -292,7 +298,9 @@ void clear_sessions() {
 
     struct tcp_session *t = tcp_session;
     while (t != NULL) {
-        close(t->socket);
+        if (t->socket >= 0 && close(t->socket))
+            log_android(ANDROID_LOG_ERROR, "TCP close %d error %d: %s",
+                        u->socket, errno, strerror(errno));
         struct tcp_session *p = t;
         t = t->next;
         free(p);
@@ -372,14 +380,15 @@ void *handle_events(void *a) {
                     report_exit(args, NULL);
                     break;
                 } else {
+                    // TODO check if SIGUSR1 is free
                     log_android(ANDROID_LOG_DEBUG, "pselect interrupted %d", args->tun);
                     continue;
                 }
             } else {
-                char error[200];
-                sprintf(error, "pselect tun %d error %d: %s", args->tun, errno, strerror(errno));
-                log_android(ANDROID_LOG_ERROR, error);
-                report_exit(args, error);
+                log_android(ANDROID_LOG_ERROR, "pselect tun %d error %d: %s",
+                            args->tun, errno, strerror(errno));
+                report_exit(args, "pselect tun %d error %d: %s",
+                            args->tun, errno, strerror(errno));
                 break;
             }
         }
@@ -461,11 +470,19 @@ void *handle_events(void *a) {
     return NULL;
 }
 
-void report_exit(const struct arguments *args, const char *reason) {
+void report_exit(const struct arguments *args, const char *fmt, ...) {
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
     jmethodID mid = jniGetMethodID(args->env, cls, "nativeExit", "(Ljava/lang/String;)V");
 
-    jstring jreason = (reason == NULL ? NULL : (*args->env)->NewStringUTF(args->env, reason));
+    jstring jreason = NULL;
+    if (fmt != NULL) {
+        char line[1024];
+        va_list argptr;
+        va_start(argptr, fmt);
+        vsprintf(line, fmt, argptr);
+        jreason = (*args->env)->NewStringUTF(args->env, line);
+        va_end(argptr);
+    }
 
     (*args->env)->CallVoidMethod(args->env, args->instance, mid, jreason);
     jniCheckException(args->env);
@@ -499,6 +516,7 @@ void check_sessions(const struct arguments *args) {
             if (close(u->socket))
                 log_android(ANDROID_LOG_ERROR, "UDP close %d error %d: %s",
                             u->socket, errno, strerror(errno));
+            u->socket = -1;
 
             if (ul == NULL)
                 udp_session = u->next;
@@ -549,6 +567,7 @@ void check_sessions(const struct arguments *args) {
             if (close(t->socket))
                 log_android(ANDROID_LOG_ERROR, "close %d error %d: %s",
                             t->socket, errno, strerror(errno));
+            t->socket = -1;
 
             t->time = time(NULL);
             t->state = TCP_CLOSE;
@@ -623,13 +642,17 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     return max;
 }
 
-int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
-              fd_set *efds) {
+int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
     // Check tun error
     if (FD_ISSET(args->tun, efds)) {
-        // TODO get error (how?)
-        log_android(ANDROID_LOG_ERROR, "tun exception");
-        report_exit(args, "tun exception");
+        log_android(ANDROID_LOG_ERROR, "tun %d exception", args->tun);
+        if (fcntl(args->tun, F_GETFL) < 0) {
+            log_android(ANDROID_LOG_ERROR, "fcntl tun %d F_GETFL error %d: %s",
+                        args->tun, errno, strerror(errno));
+            report_exit(args, "fcntl tun %d F_GETFL error %d: %s",
+                        args->tun, errno, strerror(errno));
+        } else
+            report_exit(args, "tun %d exception", args->tun);
         return -1;
     }
 
@@ -638,13 +661,11 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
         uint8_t buffer[TUN_MAXMSG];
         ssize_t length = read(args->tun, buffer, sizeof(buffer));
         if (length < 0) {
-            char error[200];
-            sprintf(error, "tun read error %d: %s", errno, strerror(errno));
-            log_android(ANDROID_LOG_ERROR, error);
+            log_android(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
             if (errno == EINTR)
                 return 0;
             else {
-                report_exit(args, error);
+                report_exit(args, "tun read error %d: %s", errno, strerror(errno));
                 return -1;
             }
         }
@@ -658,8 +679,8 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
         }
         else {
             // tun eof
-            log_android(ANDROID_LOG_ERROR, "tun empty read");
-            report_exit(args, "tun empty read");
+            log_android(ANDROID_LOG_ERROR, "tun %d empty read", args->tun);
+            report_exit(args, "tun %d empty read", args->tun);
             return -1;
         }
     }
@@ -670,61 +691,63 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
     struct udp_session *cur = udp_session;
     while (cur != NULL) {
-        // Check socket error
-        if (FD_ISSET(cur->socket, efds)) {
-            cur->time = time(NULL);
-
-            int serr = 0;
-            socklen_t optlen = sizeof(int);
-            int err = getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen);
-            if (err < 0)
-                log_android(ANDROID_LOG_ERROR, "UDP getsockopt error %d: %s",
-                            errno, strerror(errno));
-            else if (serr)
-                log_android(ANDROID_LOG_ERROR, "UDP SO_ERROR %d: %s", serr, strerror(serr));
-
-            cur->stop = 1;
-        }
-        else {
-            // Check socket read
-            if (FD_ISSET(cur->socket, rfds)) {
+        if (cur->socket >= 0) {
+            // Check socket error
+            if (FD_ISSET(cur->socket, efds)) {
                 cur->time = time(NULL);
 
-                uint8_t buffer[UDP4_MAXMSG];
-                ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
-                if (bytes < 0) {
-                    // Socket error
-                    log_android(ANDROID_LOG_ERROR, "UDP recv error %d: %s", errno, strerror(errno));
+                int serr = 0;
+                socklen_t optlen = sizeof(int);
+                int err = getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen);
+                if (err < 0)
+                    log_android(ANDROID_LOG_ERROR, "UDP getsockopt error %d: %s",
+                                errno, strerror(errno));
+                else if (serr)
+                    log_android(ANDROID_LOG_ERROR, "UDP SO_ERROR %d: %s", serr, strerror(serr));
 
-                    if (errno != EINTR)
-                        cur->stop = 1;
-                }
-                else if (bytes == 0) {
-                    // Socket eof
-                    log_android(ANDROID_LOG_WARN, "UDP recv empty");
-                    cur->stop = 1;
+                cur->stop = 1;
+            }
+            else {
+                // Check socket read
+                if (FD_ISSET(cur->socket, rfds)) {
+                    cur->time = time(NULL);
 
-                } else {
-                    // Socket read data
-                    char dest[INET6_ADDRSTRLEN + 1];
-                    if (cur->version == 4)
-                        inet_ntop(AF_INET, &cur->daddr.ip4, dest, sizeof(dest));
-                    else
-                        inet_ntop(AF_INET6, &cur->daddr.ip6, dest, sizeof(dest));
-                    log_android(ANDROID_LOG_INFO, "UDP recv bytes %d for %s/%u @tun",
-                                bytes, dest, ntohs(cur->dest));
-                    if (write_udp(args, cur, buffer, (size_t) bytes) < 0)
-                        log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
-                                    errno, strerror((errno)));
-                    else {
-                        // Prevent too many open files
-                        if (ntohs(cur->dest) == 53)
+                    uint8_t buffer[UDP4_MAXMSG];
+                    ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
+                    if (bytes < 0) {
+                        // Socket error
+                        log_android(ANDROID_LOG_ERROR, "UDP recv error %d: %s",
+                                    errno, strerror(errno));
+
+                        if (errno != EINTR)
                             cur->stop = 1;
+                    }
+                    else if (bytes == 0) {
+                        // Socket eof
+                        log_android(ANDROID_LOG_WARN, "UDP recv empty");
+                        cur->stop = 1;
+
+                    } else {
+                        // Socket read data
+                        char dest[INET6_ADDRSTRLEN + 1];
+                        if (cur->version == 4)
+                            inet_ntop(AF_INET, &cur->daddr.ip4, dest, sizeof(dest));
+                        else
+                            inet_ntop(AF_INET6, &cur->daddr.ip6, dest, sizeof(dest));
+                        log_android(ANDROID_LOG_INFO, "UDP recv bytes %d for %s/%u @tun",
+                                    bytes, dest, ntohs(cur->dest));
+                        if (write_udp(args, cur, buffer, (size_t) bytes) < 0)
+                            log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
+                                        errno, strerror((errno)));
+                        else {
+                            // Prevent too many open files
+                            if (ntohs(cur->dest) == 53)
+                                cur->stop = 1;
+                        }
                     }
                 }
             }
         }
-
         cur = cur->next;
     }
 }
@@ -732,111 +755,115 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
     struct tcp_session *cur = tcp_session;
     while (cur != NULL) {
-        int oldstate = cur->state;
-        uint32_t oldlocal = cur->local_seq;
-        uint32_t oldremote = cur->remote_seq;
+        if (cur->socket >= 1) {
+            int oldstate = cur->state;
+            uint32_t oldlocal = cur->local_seq;
+            uint32_t oldremote = cur->remote_seq;
 
-        // Check socket error
-        if (FD_ISSET(cur->socket, efds)) {
-            cur->time = time(NULL);
+            // Check socket error
+            if (FD_ISSET(cur->socket, efds)) {
+                cur->time = time(NULL);
 
-            int serr = 0;
-            socklen_t optlen = sizeof(int);
-            int err = getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen);
-            if (err < 0)
-                log_android(ANDROID_LOG_ERROR, "getsockopt error %d: %s", errno, strerror(errno));
-            else if (serr)
-                log_android(ANDROID_LOG_ERROR, "SO_ERROR %d: %s", serr, strerror(serr));
+                int serr = 0;
+                socklen_t optlen = sizeof(int);
+                int err = getsockopt(cur->socket, SOL_SOCKET, SO_ERROR, &serr, &optlen);
+                if (err < 0)
+                    log_android(ANDROID_LOG_ERROR, "getsockopt error %d: %s", errno,
+                                strerror(errno));
+                else if (serr)
+                    log_android(ANDROID_LOG_ERROR, "SO_ERROR %d: %s", serr, strerror(serr));
 
-            write_rst(args, cur);
-        }
-        else {
-            // Assume socket okay
-            if (cur->state == TCP_LISTEN) {
-                // Check socket connect
-                if (FD_ISSET(cur->socket, wfds)) {
-                    cur->time = time(NULL);
-
-                    // Log
-                    char source[INET6_ADDRSTRLEN + 1];
-                    char dest[INET6_ADDRSTRLEN + 1];
-                    inet_ntop(AF_INET, &cur->saddr.ip4, source, sizeof(source));
-                    inet_ntop(AF_INET, &cur->daddr.ip4, dest, sizeof(dest));
-                    log_android(ANDROID_LOG_INFO, "Connected from %s/%u to %s/%u",
-                                source, ntohs(cur->source), dest, ntohs(cur->dest));
-
-                    if (write_syn_ack(args, cur) >= 0) {
-                        cur->local_seq++; // local SYN
-                        cur->remote_seq++; // remote SYN
-                        cur->state = TCP_SYN_RECV;
-                    }
-                }
+                write_rst(args, cur);
             }
+            else {
+                // Assume socket okay
+                if (cur->state == TCP_LISTEN) {
+                    // Check socket connect
+                    if (FD_ISSET(cur->socket, wfds)) {
+                        cur->time = time(NULL);
 
-            else if (cur->state == TCP_SYN_RECV ||
-                     cur->state == TCP_ESTABLISHED ||
-                     cur->state == TCP_CLOSE_WAIT) {
-                // Check socket read
-                if (FD_ISSET(cur->socket, rfds) && cur->send_window > 0) {
-                    cur->time = time(NULL);
+                        // Log
+                        char source[INET6_ADDRSTRLEN + 1];
+                        char dest[INET6_ADDRSTRLEN + 1];
+                        inet_ntop(AF_INET, &cur->saddr.ip4, source, sizeof(source));
+                        inet_ntop(AF_INET, &cur->daddr.ip4, dest, sizeof(dest));
+                        log_android(ANDROID_LOG_INFO, "Connected from %s/%u to %s/%u",
+                                    source, ntohs(cur->source), dest, ntohs(cur->dest));
 
-                    size_t len = (cur->send_window > TCP_SEND_WINDOW
-                                  ? TCP_SEND_WINDOW
-                                  : cur->send_window);
-                    uint8_t *buffer = malloc(len);
-                    ssize_t bytes = recv(cur->socket, buffer, len, 0);
-                    if (bytes < 0) {
-                        // Socket error
-                        log_android(ANDROID_LOG_ERROR, "recv error %d: %s", errno, strerror(errno));
-
-                        if (errno != EINTR)
-                            write_rst(args, cur);
-                    }
-                    else if (bytes == 0) {
-                        // Socket eof
-                        // TCP: application close
-                        log_android(ANDROID_LOG_INFO, "recv empty state %s", strstate(cur->state));
-
-                        if (write_fin_ack(args, cur, 0) >= 0) {
-                            cur->local_seq++; // local FIN
-
-                            if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
-                                cur->state = TCP_FIN_WAIT1;
-                            else if (cur->state == TCP_CLOSE_WAIT)
-                                cur->state = TCP_LAST_ACK;
-                            else
-                                log_android(ANDROID_LOG_ERROR, "Unknown state %s",
-                                            strstate(cur->state));
-
-                            log_android(ANDROID_LOG_INFO, "Half close state %s",
-                                        strstate(cur->state));
+                        if (write_syn_ack(args, cur) >= 0) {
+                            cur->local_seq++; // local SYN
+                            cur->remote_seq++; // remote SYN
+                            cur->state = TCP_SYN_RECV;
                         }
-                    } else {
-                        // Socket read data
-                        log_android(ANDROID_LOG_DEBUG,
-                                    "recv bytes %d state %s", bytes, strstate(cur->state));
-
-                        // Forward to tun
-                        if (write_data(args, cur, buffer, (size_t) bytes) >= 0)
-                            cur->local_seq += bytes;
                     }
+                }
 
-                    free(buffer);
+                else if (cur->state == TCP_SYN_RECV ||
+                         cur->state == TCP_ESTABLISHED ||
+                         cur->state == TCP_CLOSE_WAIT) {
+                    // Check socket read
+                    if (FD_ISSET(cur->socket, rfds) && cur->send_window > 0) {
+                        cur->time = time(NULL);
+
+                        size_t len = (cur->send_window > TCP_SEND_WINDOW
+                                      ? TCP_SEND_WINDOW
+                                      : cur->send_window);
+                        uint8_t *buffer = malloc(len);
+                        ssize_t bytes = recv(cur->socket, buffer, len, 0);
+                        if (bytes < 0) {
+                            // Socket error
+                            log_android(ANDROID_LOG_ERROR, "recv error %d: %s",
+                                        errno, strerror(errno));
+
+                            if (errno != EINTR)
+                                write_rst(args, cur);
+                        }
+                        else if (bytes == 0) {
+                            // Socket eof
+                            // TCP: application close
+                            log_android(ANDROID_LOG_INFO, "recv empty state %s",
+                                        strstate(cur->state));
+
+                            if (write_fin_ack(args, cur, 0) >= 0) {
+                                cur->local_seq++; // local FIN
+
+                                if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
+                                    cur->state = TCP_FIN_WAIT1;
+                                else if (cur->state == TCP_CLOSE_WAIT)
+                                    cur->state = TCP_LAST_ACK;
+                                else
+                                    log_android(ANDROID_LOG_ERROR, "Unknown state %s",
+                                                strstate(cur->state));
+
+                                log_android(ANDROID_LOG_INFO, "Half close state %s",
+                                            strstate(cur->state));
+                            }
+                        } else {
+                            // Socket read data
+                            log_android(ANDROID_LOG_DEBUG,
+                                        "recv bytes %d state %s", bytes, strstate(cur->state));
+
+                            // Forward to tun
+                            if (write_data(args, cur, buffer, (size_t) bytes) >= 0)
+                                cur->local_seq += bytes;
+                        }
+
+                        free(buffer);
+                    }
                 }
             }
-        }
 
-        if (cur->state != oldstate || cur->local_seq != oldlocal ||
-            cur->remote_seq != oldremote) {
-            char dest[INET6_ADDRSTRLEN + 1];
-            inet_ntop(AF_INET, &cur->daddr.ip4, dest, sizeof(dest));
-            log_android(ANDROID_LOG_INFO,
-                        "Session %s/%u new state %s local %u remote %u",
-                        dest, ntohs(cur->dest), strstate(cur->state),
-                        cur->local_seq - cur->local_start,
-                        cur->remote_seq - cur->remote_start);
+            if (cur->state != oldstate || cur->local_seq != oldlocal ||
+                cur->remote_seq != oldremote) {
+                char dest[INET6_ADDRSTRLEN + 1];
+                inet_ntop(AF_INET, &cur->daddr.ip4, dest, sizeof(dest));
+                log_android(ANDROID_LOG_INFO,
+                            "Session %s/%u new state %s local %u remote %u",
+                            dest, ntohs(cur->dest), strstate(cur->state),
+                            cur->local_seq - cur->local_start,
+                            cur->remote_seq - cur->remote_start);
+            }
         }
-
         cur = cur->next;
     }
 }
@@ -1095,6 +1122,9 @@ jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t 
             return 0;
         }
         else {
+            log_android(ANDROID_LOG_DEBUG, "UDP socket %d lport %d",
+                        u->socket, get_local_port(u->socket));
+
             // Check for broadcast
             // TODO IPv6 broadcast
             if (version == 4) {
@@ -1313,10 +1343,8 @@ jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t 
                 return 0;
             }
             else {
-                int32_t lport = get_local_port(syn->socket);
-                log_android(ANDROID_LOG_INFO, "Open from %s/%u to %s/%u socket %d lport %u ",
-                            source, ntohs(tcphdr->source), dest, ntohs(tcphdr->dest),
-                            syn->socket, lport);
+                log_android(ANDROID_LOG_DEBUG, "TCP socket %d lport %d",
+                            syn->socket, get_local_port(syn->socket));
 
                 if (last == NULL)
                     tcp_session = syn;
@@ -2287,8 +2315,8 @@ void read_hosts(const char *name, struct arguments *args) {
     if (fclose(hosts))
         log_android(ANDROID_LOG_ERROR, "fclose(%s) error %d: %s", name, errno, strerror(errno));
 
-    for (int i = 0; i < args->hcount; i++)
-        log_android(ANDROID_LOG_DEBUG, "host '%s'", args->hosts[i]);
+    // for (int i = 0; i < args->hcount; i++)
+    //    log_android(ANDROID_LOG_DEBUG, "host '%s'", args->hosts[i]);
 }
 
 const char *strstate(const int state) {

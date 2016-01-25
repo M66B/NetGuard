@@ -178,7 +178,7 @@ void handle_signal(int sig, siginfo_t *info, void *context);
 
 void *handle_events(void *a);
 
-void report_exit(const struct arguments *args, const char *reason);
+void report_exit(const struct arguments *args, const char *fmt, ...);
 
 void check_sessions(const struct arguments *args);
 
