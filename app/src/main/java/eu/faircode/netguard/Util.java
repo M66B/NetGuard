@@ -66,6 +66,12 @@ public class Util {
     private static final int NETWORK_TYPE_IWLAN = 18;
     private static final String TAG = "NetGuard.Util";
 
+    private static native String jni_getprop(String name);
+
+    static {
+        System.loadLibrary("netguard");
+    }
+
     public static String getSelfVersionName(Context context) {
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -282,8 +288,7 @@ public class Util {
     }
 
     public static String getDefaultDNS(Context context) {
-        return "8.8.8.8";
-        //return "2001:4860:4860::8888";
+        return jni_getprop("net.dns1");
     }
 
     public static boolean isInteractive(Context context) {

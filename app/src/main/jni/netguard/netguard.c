@@ -26,6 +26,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <dlfcn.h>
 
 #include <arpa/inet.h>
 #include <netinet/ip.h>
@@ -245,6 +246,18 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type,
 
     if (pthread_mutex_unlock(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+}
+
+JNIEXPORT jstring JNICALL
+Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring name_) {
+    const char *name = (*env)->GetStringUTFChars(env, name_, 0);
+
+    char value[250];
+    __system_property_get(name, value);
+
+    (*env)->ReleaseStringUTFChars(env, name_, name);
+
+    return (*env)->NewStringUTF(env, value);
 }
 
 // Private functions
@@ -2153,6 +2166,23 @@ int jniCheckException(JNIEnv *env) {
         return 1;
     }
     return 0;
+}
+
+typedef int (*PFN_SYS_PROP_GET)(const char *, char *);
+
+int __system_property_get(const char *name, char *value) {
+    static PFN_SYS_PROP_GET __real_system_property_get = NULL;
+    if (!__real_system_property_get) {
+        void *handle = dlopen("libc.so", RTLD_NOLOAD);
+        if (!handle)
+            log_android(ANDROID_LOG_ERROR, "dlopen(libc.so): %s", dlerror());
+        else {
+            __real_system_property_get = (PFN_SYS_PROP_GET) dlsym(handle, "__system_property_get");
+            if (!__real_system_property_get)
+                log_android(ANDROID_LOG_ERROR, "dlsym(__system_property_get()): %s", dlerror());
+        }
+    }
+    return (*__real_system_property_get)(name, value);
 }
 
 void log_android(int prio, const char *fmt, ...) {
