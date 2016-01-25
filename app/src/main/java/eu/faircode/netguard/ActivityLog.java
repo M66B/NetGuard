@@ -231,7 +231,7 @@ public class ActivityLog extends AppCompatActivity {
             case R.id.menu_pcap_enabled:
                 item.setChecked(!item.isChecked());
                 prefs.edit().putBoolean("pcap", item.isChecked()).apply();
-                SinkholeService.setPcap(item.isChecked() ? pcap_file : null);
+                SinkholeService.setPcap(item.isChecked() ? pcap_file : null, false);
                 return true;
 
             case R.id.menu_pcap_export:
@@ -242,9 +242,9 @@ public class ActivityLog extends AppCompatActivity {
                 dh.clear();
                 adapter.changeCursor(dh.getLog());
                 if (prefs.getBoolean("pcap", false)) {
-                    SinkholeService.setPcap(null);
+                    SinkholeService.setPcap(null, false);
                     pcap_file.delete();
-                    SinkholeService.setPcap(pcap_file);
+                    SinkholeService.setPcap(pcap_file, true);
                 } else {
                     if (pcap_file.exists())
                         pcap_file.delete();
@@ -293,7 +293,7 @@ public class ActivityLog extends AppCompatActivity {
                 FileInputStream in = null;
                 try {
                     // Stop capture
-                    SinkholeService.setPcap(null);
+                    SinkholeService.setPcap(null, false);
 
                     Log.i(TAG, "Export PCAP URI=" + data.getData());
                     out = getContentResolver().openOutputStream(data.getData());
@@ -333,7 +333,7 @@ public class ActivityLog extends AppCompatActivity {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ActivityLog.this);
                     if (prefs.getBoolean("pcap", false)) {
                         File pcap_file = new File(getCacheDir(), "netguard.pcap");
-                        SinkholeService.setPcap(pcap_file);
+                        SinkholeService.setPcap(pcap_file, false);
                     }
                 }
             }

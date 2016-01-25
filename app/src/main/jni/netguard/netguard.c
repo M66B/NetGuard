@@ -202,7 +202,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instanc
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, jstring name_) {
+Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type,
+                                                    jstring name_, jboolean init) {
     if (pthread_mutex_lock(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
@@ -236,7 +237,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
                 log_android(ANDROID_LOG_ERROR, "PCAP fcntl O_NONBLOCK error %d: %s",
                             errno, strerror(errno));
 
-            write_pcap_hdr();
+            if (init)
+                write_pcap_hdr();
         }
 
         (*env)->ReleaseStringUTFChars(env, name_, name);

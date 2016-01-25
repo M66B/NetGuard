@@ -123,10 +123,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_done();
 
-    private static native void jni_pcap(String name);
+    private static native void jni_pcap(String name, boolean init);
 
-    public static void setPcap(File pcap) {
-        jni_pcap(pcap == null ? null : pcap.getAbsolutePath());
+    public static void setPcap(File pcap, boolean init) {
+        jni_pcap(pcap == null ? null : pcap.getAbsolutePath(), init);
     }
 
     static {
@@ -983,7 +983,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         // Native init
         jni_init();
         boolean pcap = prefs.getBoolean("pcap", false);
-        setPcap(pcap ? new File(getCacheDir(), "netguard.pcap") : null);
+        setPcap(pcap ? new File(getCacheDir(), "netguard.pcap") : null, false);
 
         prefs.registerOnSharedPreferenceChangeListener(this);
 
