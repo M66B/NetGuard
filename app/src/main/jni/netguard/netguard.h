@@ -156,7 +156,7 @@ typedef struct dns_rr {
 #define DNS_QTYPE_AAAA 28 // IPv6
 #define DNS_QCLASS_IN 1
 
-#define DNS_TTL 3600 // seconds
+#define DNS_TTL (10 * 60) // seconds
 
 struct ip6_hdr_pseudo {
     struct in6_addr ip6ph_src;
