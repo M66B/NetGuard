@@ -898,7 +898,8 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
     }
 }
 
-//https://en.wikipedia.org/wiki/IPv6_packet#Extension_headers
+// https://en.wikipedia.org/wiki/IPv6_packet#Extension_headers
+// http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 int is_lower_layer(int protocol) {
     // No next header = 59
     return (protocol == 0 || // Hop-by-Hop Options
@@ -912,7 +913,10 @@ int is_lower_layer(int protocol) {
 }
 
 int is_upper_layer(int protocol) {
-    return (protocol == IPPROTO_TCP || protocol == IPPROTO_UDP || protocol == IPPROTO_ICMP);
+    return (protocol == IPPROTO_TCP ||
+            protocol == IPPROTO_UDP ||
+            protocol == IPPROTO_ICMP ||
+            protocol == 58); // ICMP for IPv6
 }
 
 void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t length) {

@@ -128,7 +128,7 @@ public class LogAdapter extends CursorAdapter {
         // https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
         if (protocol == 0) // HOPOPT
             tvProtocol.setText("HOPO" + version);
-        else if (protocol == 1) // ICMP
+        else if (protocol == 1 || protocol == 58) // ICMPv4/v6
             tvProtocol.setText("ICMP" + version);
         else if (protocol == 6) // TCP
             tvProtocol.setText("TCP" + version);
