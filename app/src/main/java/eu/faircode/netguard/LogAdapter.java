@@ -241,6 +241,8 @@ public class LogAdapter extends CursorAdapter {
             return "http";
         else if (port == 443)
             return "https";
+        else if (port == 993)
+            return "imaps";
         return Integer.toString(port);
     }
 }
