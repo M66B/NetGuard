@@ -29,7 +29,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -45,6 +44,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -56,6 +57,8 @@ public class ActivityLog extends AppCompatActivity {
     private DatabaseHelper dh;
     private boolean live;
     private boolean resolve;
+    private InetAddress vpn4 = null;
+    private InetAddress vpn6 = null;
 
     private static final int REQUEST_PCAP = 1;
 
@@ -89,40 +92,70 @@ public class ActivityLog extends AppCompatActivity {
         adapter = new LogAdapter(this, dh.getLog(), resolve);
         lvLog.setAdapter(adapter);
 
+        try {
+            vpn4 = InetAddress.getByName(prefs.getString("vpn4", "10.1.10.1"));
+            vpn6 = InetAddress.getByName(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"));
+        } catch (UnknownHostException ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
+
         lvLog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PackageManager pm = getPackageManager();
                 Cursor cursor = (Cursor) adapter.getItem(position);
                 long time = cursor.getLong(cursor.getColumnIndex("time"));
-                String ip = cursor.getString(cursor.getColumnIndex("daddr"));
-                final int port = (cursor.isNull(cursor.getColumnIndex("port")) ? -1 : cursor.getInt(cursor.getColumnIndex("port")));
+                final String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
+                final int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
+                final String saddr = cursor.getString(cursor.getColumnIndex("saddr"));
+                final int sport = (cursor.isNull(cursor.getColumnIndex("sport")) ? -1 : cursor.getInt(cursor.getColumnIndex("sport")));
                 final int uid = (cursor.isNull(cursor.getColumnIndex("uid")) ? -1 : cursor.getInt(cursor.getColumnIndex("uid")));
-                final String whois = (ip.length() > 1 && ip.charAt(0) == '/' ? ip.substring(1) : ip);
 
+                // Get package name
                 String name = null;
-                PackageManager pm = getPackageManager();
-                String[] pkg = pm.getPackagesForUid(uid);
-                if (pkg != null && pkg.length > 0)
-                    try {
-                        ApplicationInfo info = pm.getApplicationInfo(pkg[0], 0);
-                        name = pm.getApplicationLabel(info).toString();
-                    } catch (PackageManager.NameNotFoundException ignored) {
-                    }
+                if (uid == 0)
+                    name = "root";
+                else {
+                    String[] pkg = pm.getPackagesForUid(uid);
+                    if (pkg != null && pkg.length > 0)
+                        try {
+                            ApplicationInfo info = pm.getApplicationInfo(pkg[0], 0);
+                            name = pm.getApplicationLabel(info).toString();
+                        } catch (PackageManager.NameNotFoundException ignored) {
+                        }
+                }
 
-                final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + whois));
-                final Intent lookupPort = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.speedguide.net/port.php?port=" + port));
+                // Get external address
+                InetAddress addr = null;
+                try {
+                    addr = InetAddress.getByName(daddr);
+                } catch (UnknownHostException ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
 
+                String ip;
+                int port;
+                if (addr.equals(vpn4) || addr.equals(vpn6)) {
+                    ip = saddr;
+                    port = sport;
+                } else {
+                    ip = daddr;
+                    port = dport;
+                }
+
+                // Build popup menu
                 PopupMenu popup = new PopupMenu(ActivityLog.this, findViewById(R.id.vwPopupAnchor), Gravity.CENTER);
 
-                if (uid > 0)
+                if (uid >= 0)
                     popup.getMenu().add(Menu.NONE, 1, 1, name == null ? Integer.toString(uid) : name);
 
-                if (!TextUtils.isEmpty(whois))
-                    popup.getMenu().add(Menu.NONE, 2, 2, getString(R.string.title_log_whois, whois))
-                            .setEnabled(pm.resolveActivity(lookupIP, 0) != null);
+                final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + ip));
+                popup.getMenu().add(Menu.NONE, 2, 2, getString(R.string.title_log_whois, ip))
+                        .setEnabled(pm.resolveActivity(lookupIP, 0) != null);
 
+                final Intent lookupPort = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.speedguide.net/port.php?port=" + port));
                 if (port > 0)
-                    popup.getMenu().add(Menu.NONE, 3, 3, getString(R.string.title_log_port, port))
+                    popup.getMenu().add(Menu.NONE, 3, 3, getString(R.string.title_log_port, dport))
                             .setEnabled(pm.resolveActivity(lookupPort, 0) != null);
 
                 popup.getMenu().add(Menu.NONE, 4, 4, SimpleDateFormat.getDateTimeInstance().format(time))

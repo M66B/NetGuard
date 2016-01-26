@@ -42,7 +42,6 @@ public class LogAdapter extends CursorAdapter {
     private int colInteractive;
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
-    private InetAddress dns = null;
     private Map<String, String> mapIPHost = new HashMap<String, String>();
 
     public LogAdapter(Context context, Cursor cursor, boolean resolve) {
@@ -65,7 +64,6 @@ public class LogAdapter extends CursorAdapter {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             vpn4 = InetAddress.getByName(prefs.getString("vpn4", "10.1.10.1"));
             vpn6 = InetAddress.getByName(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"));
-            dns = InetAddress.getByName(prefs.getString("dns", Util.getDefaultDNS(context)));
         } catch (UnknownHostException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
@@ -136,8 +134,8 @@ public class LogAdapter extends CursorAdapter {
 
         tvFlags.setText(flags);
 
-        tvSPort.setText(sport < 0 ? "" : Integer.toString(sport));
-        tvDPort.setText(dport < 0 ? "" : Integer.toString(dport));
+        tvSPort.setText(sport < 0 ? "" : getKnownPort(sport));
+        tvDPort.setText(dport < 0 ? "" : getKnownPort(dport));
 
         // Application icon
         ApplicationInfo info = null;
@@ -203,10 +201,10 @@ public class LogAdapter extends CursorAdapter {
             tvDest.setText(getKnownAddress(dest));
     }
 
-    private boolean isKnownAddress(String addr) {
+    public boolean isKnownAddress(String addr) {
         try {
             InetAddress a = InetAddress.getByName(addr);
-            if (a.equals(vpn4) || a.equals(vpn6) || a.equals(dns))
+            if (a.equals(vpn4) || a.equals(vpn6))
                 return true;
         } catch (UnknownHostException ignored) {
         }
@@ -218,10 +216,18 @@ public class LogAdapter extends CursorAdapter {
             InetAddress a = InetAddress.getByName(addr);
             if (a.equals(vpn4) || a.equals(vpn6))
                 return "vpn";
-            else if (a.equals(dns))
-                return "dns";
         } catch (UnknownHostException ignored) {
         }
         return addr;
+    }
+
+    private String getKnownPort(int port) {
+        if (port == 53)
+            return "dns";
+        else if (port == 80)
+            return "http";
+        else if (port == 443)
+            return "https";
+        return Integer.toString(port);
     }
 }
