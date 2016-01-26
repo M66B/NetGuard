@@ -898,7 +898,24 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
     }
 }
 
-void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t length) {
+//https://en.wikipedia.org/wiki/IPv6_packet#Extension_headers
+int is_lower_layer(int protocol) {
+    // No next header = 59
+    return (protocol == 0 || // Hop-by-Hop Options
+            protocol == 60 || // Destination Options (before routing header)
+            protocol == 43 || // Routing
+            protocol == 44 || // Fragment
+            protocol == 51 || // Authentication Header (AH)
+            protocol == 50 || // Encapsulating Security Payload (ESP)
+            protocol == 60 || // Destination Options (before upper-layer header)
+            protocol == 135); // Mobility
+}
+
+int is_upper_layer(int protocol) {
+    return (protocol == IPPROTO_TCP || protocol == IPPROTO_UDP || protocol == IPPROTO_ICMP);
+}
+
+void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t length) {
     uint8_t protocol;
     void *saddr;
     void *daddr;
@@ -915,9 +932,9 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
 #endif
 
     // Get protocol, addresses & payload
-    uint8_t version = (*buffer) >> 4;
+    uint8_t version = (*pkt) >> 4;
     if (version == 4) {
-        struct iphdr *ip4hdr = (struct iphdr *) buffer;
+        struct iphdr *ip4hdr = (struct iphdr *) pkt;
 
         protocol = ip4hdr->protocol;
         saddr = &ip4hdr->saddr;
@@ -929,7 +946,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
         }
 
         uint8_t ipoptlen = (uint8_t) ((ip4hdr->ihl - 5) * 4);
-        payload = (uint8_t *) (buffer + sizeof(struct iphdr) + ipoptlen);
+        payload = (uint8_t *) (pkt + sizeof(struct iphdr) + ipoptlen);
 
         if (ntohs(ip4hdr->tot_len) != length) {
             log_android(ANDROID_LOG_ERROR, "Invalid length %u header length %u",
@@ -945,14 +962,33 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
         }
     }
     else if (version == 6) {
-        struct ip6_hdr *ip6hdr = (struct ip6_hdr *) buffer;
+        struct ip6_hdr *ip6hdr = (struct ip6_hdr *) pkt;
 
-        // TODO skip extension headers
+        // Skip extension headers
+        uint16_t off = 0;
         protocol = ip6hdr->ip6_nxt;
+        if (!is_upper_layer(protocol)) {
+            log_android(ANDROID_LOG_WARN, "IP6 extension %d", protocol);
+            off = sizeof(struct ip6_hdr);
+            struct ip6_ext *ext = (struct ip6_ext *) (pkt + off);
+            while (is_lower_layer(ext->ip6e_nxt) && !is_upper_layer(protocol)) {
+                protocol = ext->ip6e_nxt;
+                log_android(ANDROID_LOG_WARN, "IP6 extension %d", protocol);
+
+                off += (8 + ext->ip6e_len);
+                ext = (struct ip6_ext *) (pkt + off);
+            }
+            if (!is_upper_layer(protocol)) {
+                off = 0;
+                protocol = ip6hdr->ip6_nxt;
+                log_android(ANDROID_LOG_WARN, "IP6 final extension %d", protocol);
+            }
+        }
+
         saddr = &ip6hdr->ip6_src;
         daddr = &ip6hdr->ip6_dst;
 
-        payload = (uint8_t *) (buffer + 40);
+        payload = (uint8_t *) (pkt + sizeof(struct ip6_hdr) + off);
 
         // TODO check length
         // TODO checksum
@@ -1056,14 +1092,14 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
 
     // Handle allowed traffic
     int log = 0;
-    char data[200];
-    *data = 0;
+    char extra[200];
+    *extra = 0;
     if (allowed) {
         if (protocol == IPPROTO_UDP) {
-            allowed = handle_udp(args, buffer, length, uid, data);
-            log = (!allowed || dport != 53 || debug);
+            allowed = handle_udp(args, pkt, length, payload, uid, extra);
+            log = (!allowed || dport != 53);
         } else if (protocol == IPPROTO_TCP) {
-            allowed = handle_tcp(args, buffer, length, uid, data);
+            allowed = handle_tcp(args, pkt, length, payload, uid, extra);
             log = (!allowed || syn);
         }
         else {
@@ -1074,36 +1110,22 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
 
     // Log traffic
     if (args->log && (!args->filter || log))
-        log_packet(args, version, protocol, flags, source, sport, dest, dport, data, uid, allowed);
+        log_packet(args, version, protocol, flags, source, sport, dest, dport, extra, uid, allowed);
 }
 
 jboolean handle_udp(const struct arguments *args,
-                    const uint8_t *buffer, size_t length,
-                    int uid, char *data) {
+                    const uint8_t *pkt, size_t length,
+                    const uint8_t *payload,
+                    int uid, char *extra) {
     // Check version
-    uint8_t version = (*buffer) >> 4;
+    uint8_t version = (*pkt) >> 4;
 
     // Get headers
-    struct iphdr *ip4 = NULL;
-    struct ip6_hdr *ip6 = NULL;
-    struct udphdr *udphdr;
-    size_t dataoff;
-
-    if (version == 4) {
-        ip4 = (struct iphdr *) buffer;
-        uint8_t ipoptlen = (uint8_t) ((ip4->ihl - 5) * 4);
-        udphdr = (struct udphdr *) (buffer + sizeof(struct iphdr) + ipoptlen);
-        dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct udphdr);
-    }
-    else {
-        ip6 = (struct ip6_hdr *) buffer;
-        // TODO extension headers
-        udphdr = (struct udphdr *) (buffer + sizeof(struct ip6_hdr));
-        dataoff = sizeof(struct ip6_hdr) + sizeof(struct udphdr);
-    }
-
-    // Get data
-    size_t datalen = length - dataoff;
+    struct iphdr *ip4 = (struct iphdr *) pkt;
+    struct ip6_hdr *ip6 = (struct iphdr *) pkt;
+    struct udphdr *udphdr = (struct udphdr *) payload;
+    uint8_t *data = payload + sizeof(struct udphdr);
+    size_t datalen = length - (data - pkt);
 
     // Search session
     struct udp_session *last = NULL;
@@ -1173,11 +1195,11 @@ jboolean handle_udp(const struct arguments *args,
         char qname[DNS_QNAME_MAX + 1];
         uint16_t qtype;
         uint16_t qclass;
-        if (get_dns(args, cur, buffer + dataoff, datalen, &qtype, &qclass, qname) >= 0) {
+        if (get_dns(args, cur, data, datalen, &qtype, &qclass, qname) >= 0) {
             log_android(ANDROID_LOG_INFO, "DNS type %d class %d name %s", qtype, qclass, qname);
-            sprintf(data, "qtype %d qname %s", qtype, qname);
+            sprintf(extra, "qtype %d qname %s", qtype, qname);
 
-            if (check_dns(args, cur, buffer + dataoff, datalen, qclass, qtype, qname)) {
+            if (check_dns(args, cur, data, datalen, qclass, qtype, qname)) {
                 cur->stop = 1;
                 return 0;
             }
@@ -1203,7 +1225,7 @@ jboolean handle_udp(const struct arguments *args,
         server6.sin6_port = udphdr->dest;
     }
 
-    if (sendto(cur->socket, buffer + dataoff, (socklen_t) datalen, MSG_NOSIGNAL,
+    if (sendto(cur->socket, data, (socklen_t) datalen, MSG_NOSIGNAL,
                (const struct sockaddr *) (version == 4 ? &server4 : &server6),
                (socklen_t) (version == 4 ? sizeof(server4) : sizeof(server6))) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %d: %s", errno, strerror(errno));
@@ -1314,39 +1336,23 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
 }
 
 jboolean handle_tcp(const struct arguments *args,
-                    const uint8_t *buffer, size_t length,
-                    int uid, char *data) {
+                    const uint8_t *pkt, size_t length,
+                    const uint8_t *payload,
+                    int uid, char *extra) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
     gettimeofday(&start, NULL);
 #endif
     // Check version
-    uint8_t version = (*buffer) >> 4;
+    uint8_t version = (*pkt) >> 4;
 
     // Get headers
-    struct iphdr *ip4 = NULL;
-    struct ip6_hdr *ip6 = NULL;
-    struct tcphdr *tcphdr;
-    size_t dataoff;
-
-    if (version == 4) {
-        ip4 = (struct iphdr *) buffer;
-        uint8_t ipoptlen = (uint8_t) ((ip4->ihl - 5) * 4);
-        tcphdr = (struct tcphdr *) (buffer + sizeof(struct iphdr) + ipoptlen);
-        uint8_t tcpoptlen = (uint8_t) ((tcphdr->doff - 5) * 4);
-        dataoff = sizeof(struct iphdr) + ipoptlen + sizeof(struct tcphdr) + tcpoptlen;
-    }
-    else {
-        ip6 = (struct ip6_hdr *) buffer;
-        // TODO extension headers
-        tcphdr = (struct tcphdr *) (buffer + sizeof(struct ip6_hdr));
-        uint8_t tcpoptlen = (uint8_t) ((tcphdr->doff - 5) * 4);
-        dataoff = sizeof(struct ip6_hdr) + sizeof(struct tcphdr) + tcpoptlen;
-    }
-
-    // Get data
-    size_t datalen = length - dataoff;
+    struct iphdr *ip4 = (struct iphdr *) pkt;
+    struct ip6_hdr *ip6 = (struct iphdr *) pkt;
+    struct tcphdr *tcphdr = (struct tcphdr *) payload;
+    uint8_t *data = payload + sizeof(struct tcphdr);
+    size_t datalen = length - (data - pkt);
 
     // Search session
     struct tcp_session *last = NULL;
@@ -1502,7 +1508,7 @@ jboolean handle_tcp(const struct arguments *args,
                 log_android(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
 
                 int more = (tcphdr->psh ? 0 : MSG_MORE);
-                if (send(cur->socket, buffer + dataoff, datalen, MSG_NOSIGNAL | more) < 0) {
+                if (send(cur->socket, data, datalen, MSG_NOSIGNAL | more) < 0) {
                     log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
                     write_rst(args, cur);
                     return 0;
@@ -1895,7 +1901,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
         ip6->ip6_ctlun.ip6_un1.ip6_un1_plen = htons(len - sizeof(struct ip6_hdr));
         ip6->ip6_ctlun.ip6_un1.ip6_un1_nxt = IPPROTO_UDP;
         ip6->ip6_ctlun.ip6_un1.ip6_un1_hlim = IPDEFTTL;
-        ip6->ip6_ctlun.ip6_un2_vfc = 0x60;
+        ip6->ip6_ctlun.ip6_un2_vfc = IPV6_VERSION;
         memcpy(&(ip6->ip6_src), &cur->daddr.ip6, 16);
         memcpy(&(ip6->ip6_dst), &cur->saddr.ip6, 16);
 
@@ -1942,9 +1948,9 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
 #endif
 
     if (res >= 0) {
-        if (args->log && (debug || ntohs(cur->dest) != 53))
+        if (args->log && ntohs(cur->dest) != 53)
             log_packet(args, cur->version, IPPROTO_UDP, "",
-                       source, ntohs(udp->source), dest, ntohs(udp->dest), "", cur->uid, 1);
+                       dest, ntohs(udp->dest), source, ntohs(udp->source), "", cur->uid, 1);
 
         // Write pcap record
         if (pcap_file != NULL)

@@ -196,15 +196,21 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
+int is_lower_layer(int protocol);
+
+int is_upper_layer(int protocol);
+
 void handle_ip(const struct arguments *args, const uint8_t *buffer, size_t length);
 
 jboolean handle_udp(const struct arguments *args,
-                    const uint8_t *buffer, size_t length,
-                    int uid, char *data);
+                    const uint8_t *pkt, size_t length,
+                    const uint8_t *payload,
+                    int uid, char *extra);
 
 jboolean handle_tcp(const struct arguments *args,
-                    const uint8_t *buffer, size_t length,
-                    int uid, char *data);
+                    const uint8_t *pkt, size_t length,
+                    const uint8_t *payload,
+                    int uid, char *extra);
 
 int get_dns(const struct arguments *args, const struct udp_session *u,
             const uint8_t *data, const size_t datalen,
