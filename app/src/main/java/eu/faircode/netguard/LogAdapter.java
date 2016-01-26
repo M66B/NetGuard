@@ -124,17 +124,17 @@ public class LogAdapter extends CursorAdapter {
 
         // https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
         if (protocol == 0) // HOPOPT
-            tvProtocol.setText("HOPO");
+            tvProtocol.setText("HOPO" + version);
         else if (protocol == 1) // ICMP
-            tvProtocol.setText("ICMP");
+            tvProtocol.setText("ICMP" + version);
         else if (protocol == 6) // TCP
-            tvProtocol.setText("TCP");
+            tvProtocol.setText("TCP" + version);
         else if (protocol == 17) // UDP
-            tvProtocol.setText("UDP");
+            tvProtocol.setText("UDP" + version);
         else
-            tvProtocol.setText(protocol < 0 ? "" : Integer.toString(protocol));
+            tvProtocol.setText(protocol < 0 ? "" : "P" + Integer.toString(protocol) + "V" + version);
 
-        tvFlags.setText(version + flags);
+        tvFlags.setText(flags);
 
         tvSPort.setText(sport < 0 ? "" : Integer.toString(sport));
         tvDPort.setText(dport < 0 ? "" : Integer.toString(dport));

@@ -250,11 +250,11 @@ Protocols:
 * T = TCP
 * U = UDP
 * Number = one of the protocols in [this list](https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)
+* 4 = IPv4
+* 6 = IPv6
 
 Packet flags:
 
-* 4 = IPv4
-* 6 = IPv6
 * S = SYN
 * A = ACK
 * P = PSH
