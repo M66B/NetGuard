@@ -3,119 +3,133 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".ActivityLog">
 
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:textAppearance="@android:style/TextAppearance.Material.Small"
-        android:textSize="12sp" />
-
-    <ImageView
-        android:id="@+id/ivIcon"
-        android:layout_width="24dip"
-        android:layout_height="24dip"
-        android:layout_gravity="center_vertical" />
-
-    <TextView
-        android:id="@+id/tvUid"
-        android:layout_width="36dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="end"
-        android:textAppearance="@android:style/TextAppearance.Material.Small"
-        android:textSize="12sp" />
-
-    <ImageView
-        android:id="@+id/ivConnection"
-        android:layout_width="16dip"
-        android:layout_height="16dip"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="4dp" />
-
-    <ImageView
-        android:id="@+id/ivInteractive"
-        android:layout_width="16dip"
-        android:layout_height="16dip"
-        android:layout_gravity="center_vertical" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="4dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvProtocol"
-            android:layout_width="40dp"
+            android:id="@+id/tvTime"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textAppearance="@android:style/TextAppearance.Material.Small"
             android:textSize="12sp" />
 
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="24dip"
+            android:layout_height="24dip"
+            android:layout_gravity="center_vertical" />
+
         <TextView
-            android:id="@+id/tvFlags"
-            android:layout_width="40dp"
+            android:id="@+id/tvUid"
+            android:layout_width="36dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:gravity="end"
             android:textAppearance="@android:style/TextAppearance.Material.Small"
             android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/ivConnection"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="4dp" />
+
+        <ImageView
+            android:id="@+id/ivInteractive"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:layout_gravity="center_vertical" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="4dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvProtocol"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvFlags"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvSPort"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvSource"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDPort"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvDest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tvData"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="4dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvSPort"
-                android:layout_width="36dp"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tvSource"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvDPort"
-                android:layout_width="36dp"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tvDest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_marginStart="50dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="12sp" />
 </LinearLayout>

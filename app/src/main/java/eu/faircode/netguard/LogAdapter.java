@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class LogAdapter extends CursorAdapter {
     private int colDest;
     private int colDPort;
     private int colUid;
+    private int colData;
     private int colAllowed;
     private int colConnection;
     private int colInteractive;
@@ -56,6 +58,7 @@ public class LogAdapter extends CursorAdapter {
         colDest = cursor.getColumnIndex("daddr");
         colDPort = cursor.getColumnIndex("dport");
         colUid = cursor.getColumnIndex("uid");
+        colData = cursor.getColumnIndex("data");
         colAllowed = cursor.getColumnIndex("allowed");
         colConnection = cursor.getColumnIndex("connection");
         colInteractive = cursor.getColumnIndex("interactive");
@@ -86,6 +89,7 @@ public class LogAdapter extends CursorAdapter {
         final String dest = cursor.getString(colDest);
         int dport = (cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort));
         int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
+        String data = cursor.getString(colData);
         int allowed = (cursor.isNull(colAllowed) ? -1 : cursor.getInt(colAllowed));
         int connection = (cursor.isNull(colConnection) ? -1 : cursor.getInt(colConnection));
         int interactive = (cursor.isNull(colInteractive) ? -1 : cursor.getInt(colInteractive));
@@ -100,6 +104,7 @@ public class LogAdapter extends CursorAdapter {
         TextView tvDPort = (TextView) view.findViewById(R.id.tvDPort);
         ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
+        TextView tvData = (TextView) view.findViewById(R.id.tvData);
         ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
         ImageView ivInteractive = (ImageView) view.findViewById(R.id.ivInteractive);
 
@@ -199,6 +204,14 @@ public class LogAdapter extends CursorAdapter {
             }
         else
             tvDest.setText(getKnownAddress(dest));
+
+        if (TextUtils.isEmpty(data)) {
+            tvData.setText("");
+            tvData.setVisibility(View.GONE);
+        } else {
+            tvData.setText(data);
+            tvData.setVisibility(View.VISIBLE);
+        }
     }
 
     public boolean isKnownAddress(String addr) {

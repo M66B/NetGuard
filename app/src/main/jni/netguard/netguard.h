@@ -51,10 +51,11 @@ struct udp_session {
         __be32 ip4; // network notation
         struct in6_addr ip6;
     } daddr;
-
     __be16 dest; // network notation
+
     uint8_t stop;
     jint socket;
+
     struct udp_session *next;
 };
 
@@ -83,9 +84,11 @@ struct tcp_session {
 
     uint8_t state;
     jint socket;
+
     struct tcp_session *next;
 };
 
+// PCAP
 // https://wiki.wireshark.org/Development/LibpcapFileFormat
 
 typedef uint16_t guint16_t;
@@ -110,6 +113,15 @@ typedef struct pcaprec_hdr_s {
 } __packed;
 
 #define LINKTYPE_RAW 101
+
+// DNS
+
+#define DNS_QTYPE_A 1 // IPv4
+#define DNS_QTYPE_AAAA 28 // IPv6
+#define DNS_QCLASS_IN 1
+
+#define DNS_QNAME_MAX 63
+#define DNS_TTL (10 * 60) // seconds
 
 struct dns_header {
     uint16_t id; // identification number
@@ -152,11 +164,7 @@ typedef struct dns_rr {
     __be16 rdlength;
 } __packed;
 
-#define DNS_QTYPE_A 1 // IPv4
-#define DNS_QTYPE_AAAA 28 // IPv6
-#define DNS_QCLASS_IN 1
-
-#define DNS_TTL (10 * 60) // seconds
+// IPv6
 
 struct ip6_hdr_pseudo {
     struct in6_addr ip6ph_src;
@@ -165,6 +173,8 @@ struct ip6_hdr_pseudo {
     u_int8_t ip6ph_zero[3];
     u_int8_t ip6ph_nxt;
 } __packed;
+
+// Prototypes
 
 void check_allowed(const struct arguments *args);
 
@@ -188,12 +198,21 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 
 void handle_ip(const struct arguments *args, const uint8_t *buffer, size_t length);
 
-jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t length, int uid);
+jboolean handle_udp(const struct arguments *args,
+                    const uint8_t *buffer, size_t length,
+                    int uid, char *data);
 
-jboolean handle_tcp(const struct arguments *args, const uint8_t *buffer, size_t length, int uid);
+jboolean handle_tcp(const struct arguments *args,
+                    const uint8_t *buffer, size_t length,
+                    int uid, char *data);
+
+int get_dns(const struct arguments *args, const struct udp_session *u,
+            const uint8_t *data, const size_t datalen,
+            uint16_t *qtype, uint16_t *qclass, char *name);
 
 int check_dns(const struct arguments *args, const struct udp_session *u,
-              const uint8_t *data, const size_t datalen);
+              const uint8_t *data, const size_t datalen,
+              uint16_t qclass, uint16_t qtype, const char *name);
 
 int open_udp_socket(const struct arguments *args, const struct udp_session *cur);
 
@@ -254,6 +273,7 @@ void log_packet(const struct arguments *args,
                 jint sport,
                 const char *dest,
                 jint dport,
+                const char *data,
                 jint uid,
                 jboolean allowed);
 

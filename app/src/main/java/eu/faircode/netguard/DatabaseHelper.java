@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 7;
+    private static final int DB_VERSION = 8;
 
     private static List<LogChangedListener> logChangedListeners = new ArrayList<LogChangedListener>();
 
@@ -44,13 +44,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", daddr TEXT" +
                 ", dport INTEGER NULL" +
                 ", uid INTEGER NULL" +
+                ", data TEXT" +
                 ", allowed INTEGER NULL" +
                 ", connection INTEGER NULL" +
                 ", interactive INTEGER NULL" +
                 ");");
         db.execSQL("CREATE INDEX idx_log_time ON log(time)");
-        db.execSQL("CREATE INDEX idx_log_source ON log(saddr, sport)");
-        db.execSQL("CREATE INDEX idx_log_dest ON log(daddr, dport)");
+        db.execSQL("CREATE INDEX idx_log_source ON log(saddr)");
+        db.execSQL("CREATE INDEX idx_log_dest ON log(daddr)");
+        db.execSQL("CREATE INDEX idx_log_uid ON log(uid)");
     }
 
     @Override
@@ -86,6 +88,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("DROP TABLE log");
                 createTableLog(db);
                 oldVersion = 7;
+            }
+            if (oldVersion < 8) {
+                db.execSQL("ALTER TABLE log ADD COLUMN data TEXT");
+                db.execSQL("DROP INDEX idx_log_source");
+                db.execSQL("DROP INDEX idx_log_dest");
+                db.execSQL("CREATE INDEX idx_log_source ON log(saddr)");
+                db.execSQL("CREATE INDEX idx_log_dest ON log(daddr)");
+                db.execSQL("CREATE INDEX idx_log_uid ON log(uid)");
+                oldVersion = 8;
             }
 
             db.setVersion(DB_VERSION);
@@ -126,6 +137,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cv.putNull("dport");
             else
                 cv.put("dport", packet.dport);
+
+            cv.put("data", packet.data);
 
             if (packet.uid < 0)
                 cv.putNull("uid");
