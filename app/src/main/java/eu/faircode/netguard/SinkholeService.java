@@ -120,7 +120,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init();
 
-    private native void jni_start(int tun, int[] uids, String hosts, boolean log, boolean filter, int loglevel);
+    private native void jni_start(int tun, int[] uids, String hosts, boolean log, boolean filter, boolean debug, int loglevel);
 
     private native void jni_stop(int tun, boolean clear);
 
@@ -666,6 +666,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         String vpnDns = prefs.getString("dns", sysDns);
         Log.i(TAG, "DNS system=" + sysDns + " VPN=" + vpnDns);
         try {
+            if (TextUtils.isEmpty(vpnDns.trim()))
+                throw new IllegalArgumentException();
             InetAddress.getByName(vpnDns);
             Log.i(TAG, "DNS using=" + vpnDns);
             return vpnDns;
@@ -756,10 +758,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean filter = prefs.getBoolean("filter", false);
         boolean use_hosts = prefs.getBoolean("use_hosts", false);
         if (log || filter) {
+            boolean debug = prefs.getBoolean("debug", false);
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
+            if (!debug)
+                prio = Log.WARN;
             File hosts = new File(getFilesDir(), "hosts.txt");
             String hname = (use_hosts && hosts.exists() ? hosts.getAbsolutePath() : null);
-            jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, prio);
+            jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, debug, prio);
         }
     }
 

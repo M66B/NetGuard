@@ -56,6 +56,7 @@ jboolean signaled = 0;
 struct udp_session *udp_session = NULL;
 struct tcp_session *tcp_session = NULL;
 
+int debug = 0;
 int loglevel = 0;
 FILE *pcap_file = NULL;
 
@@ -106,11 +107,13 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
         jint tun, jintArray uids_,
         jstring hosts_,
         jboolean log, jboolean filter,
-        jint loglevel_) {
+        jboolean debug_, jint loglevel_) {
 
+    debug = debug_;
     loglevel = loglevel_;
-    log_android(ANDROID_LOG_WARN, "Starting tun=%d log %d filter %d level %d",
-                tun, log, filter, loglevel_);
+
+    log_android(ANDROID_LOG_WARN, "Starting tun=%d log %d filter %d debug %d level %d",
+                tun, log, filter, debug, loglevel);
 
     // Set blocking
     int flags = fcntl(tun, F_GETFL, 0);
@@ -1050,22 +1053,22 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, const size_t
     // Handle allowed traffic
     int log = 0;
     if (allowed) {
-        if (protocol == IPPROTO_UDP)
+        if (protocol == IPPROTO_UDP) {
             allowed = handle_udp(args, buffer, length, uid);
-        else if (protocol == IPPROTO_TCP) {
+            log = (debug || dport != 53);
+        } else if (protocol == IPPROTO_TCP) {
             allowed = handle_tcp(args, buffer, length, uid);
-            if (!allowed && loglevel < ANDROID_LOG_WARN)
-                log = 1;
+            log = (debug || syn);
         }
-        else
+        else {
             allowed = 0;
+            log = 1;
+        }
     }
 
     // Log traffic
-    if (args->log) {
-        if (!args->filter || syn || log || protocol != IPPROTO_TCP)
-            log_packet(args, version, protocol, flags, source, sport, dest, dport, uid, allowed);
-    }
+    if (args->log && (!args->filter || log))
+        log_packet(args, version, protocol, flags, source, sport, dest, dport, uid, allowed);
 }
 
 jboolean handle_udp(const struct arguments *args, const uint8_t *buffer, size_t length, int uid) {
@@ -1802,7 +1805,6 @@ int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t 
 }
 
 void write_rst(const struct arguments *args, struct tcp_session *cur) {
-    log_android(ANDROID_LOG_WARN, "Sending RST");
     if (write_tcp(args, cur, NULL, 0, 0, 0, 0, 0, 1) < 0)
         log_android(ANDROID_LOG_ERROR, "write RST error %d: %s", errno, strerror((errno)));
     cur->state = TCP_TIME_WAIT;
@@ -1918,7 +1920,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
 #endif
 
     if (res >= 0) {
-        if (args->log)
+        if (args->log && (debug || ntohs(cur->dest) != 53))
             log_packet(args, cur->version, IPPROTO_UDP, "",
                        source, ntohs(udp->source), dest, ntohs(udp->dest), cur->uid, 1);
 

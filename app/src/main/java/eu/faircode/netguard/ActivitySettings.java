@@ -249,8 +249,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             options.removePreference(screen.findPreference("national_roaming"));
         }
 
-        if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta")))
+        if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta"))) {
             screen.removePreference(screen.findPreference("category_development"));
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.remove("debug");
+            edit.remove("loglevel");
+            edit.remove("dns");
+            edit.apply();
+        }
     }
 
     @Override
@@ -453,7 +459,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("stats_samples".equals(name)) {
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
 
-        } else if ("loglevel".equals(name))
+        } else if ("debug".equals(name) || "loglevel".equals(name))
             SinkholeService.reload(null, "changed " + name, this);
 
         else if ("dns".equals(name)) {
