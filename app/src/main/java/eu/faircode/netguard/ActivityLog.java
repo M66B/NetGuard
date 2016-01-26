@@ -215,11 +215,12 @@ public class ActivityLog extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        File pcap_file = new File(getCacheDir(), "netguard.pcap");
+
         boolean log = prefs.getBoolean("log", false);
         boolean resolve = prefs.getBoolean("resolve", false);
         boolean filter = prefs.getBoolean("filter", false);
         boolean pcap_enabled = prefs.getBoolean("pcap", false);
-        File pcap_file = new File(getCacheDir(), "netguard.pcap");
         boolean export = (getPackageManager().resolveActivity(getIntentPCAPDocument(), 0) != null);
 
         menu.findItem(R.id.menu_log_enabled).setChecked(log);
@@ -233,8 +234,8 @@ public class ActivityLog extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        File pcap_file = new File(getCacheDir(), "netguard.pcap");
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final File pcap_file = new File(getCacheDir(), "netguard.pcap");
 
         switch (item.getItemId()) {
             case R.id.menu_log_enabled:
@@ -272,16 +273,26 @@ public class ActivityLog extends AppCompatActivity {
                 return true;
 
             case R.id.menu_log_clear:
-                dh.clear();
-                adapter.changeCursor(dh.getLog());
-                if (prefs.getBoolean("pcap", false)) {
-                    SinkholeService.setPcap(null, false);
-                    pcap_file.delete();
-                    SinkholeService.setPcap(pcap_file, true);
-                } else {
-                    if (pcap_file.exists())
-                        pcap_file.delete();
-                }
+                new AsyncTask<Object, Object, Object>() {
+                    @Override
+                    protected Object doInBackground(Object... objects) {
+                        dh.clear();
+                        if (prefs.getBoolean("pcap", false)) {
+                            SinkholeService.setPcap(null, false);
+                            pcap_file.delete();
+                            SinkholeService.setPcap(pcap_file, true);
+                        } else {
+                            if (pcap_file.exists())
+                                pcap_file.delete();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Object o) {
+                        adapter.changeCursor(dh.getLog());
+                    }
+                }.execute();
                 return true;
 
             case R.id.menu_log_support:
