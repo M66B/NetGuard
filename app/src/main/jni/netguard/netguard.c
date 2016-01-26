@@ -40,7 +40,6 @@
 
 // TODO TCP options
 // TODO TCP fragmentation
-// TODO non blocking send/write/close, handle EAGAIN/EWOULDBLOCK
 
 // It is assumed that no packets will get lost and that packets arrive in order
 
@@ -763,8 +762,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         log_android(ANDROID_LOG_INFO, "UDP recv bytes %d from %s/%u @tun",
                                     bytes, dest, ntohs(cur->dest));
                         if (write_udp(args, cur, buffer, (size_t) bytes) < 0)
-                            log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
-                                        errno, strerror((errno)));
+                            cur->stop = 1;
                         else {
                             // Prevent too many open files
                             if (ntohs(cur->dest) == 53)
@@ -1235,6 +1233,7 @@ jboolean handle_udp(const struct arguments *args,
                (const struct sockaddr *) (version == 4 ? &server4 : &server6),
                (socklen_t) (version == 4 ? sizeof(server4) : sizeof(server6))) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %d: %s", errno, strerror(errno));
+        // ignore EINTR/EAGAIN
         cur->stop = 1;
         return 0;
     }
@@ -1347,11 +1346,7 @@ int check_domain(const struct arguments *args, const struct udp_session *u,
 
                 free(response);
 
-                if (res < 0)
-                    log_android(ANDROID_LOG_ERROR, "write UDP error %d: %s",
-                                errno, strerror((errno)));
-                else
-                    return 1;
+                return 1;
             }
     }
 
@@ -1473,12 +1468,9 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
             DHCP option 6: DNS servers 9.7.10.15
          */
 
-        if (write_udp(args, u, response, 500) < 0)
-            log_android(ANDROID_LOG_ERROR, "write DHCP error %d: %s",
-                        errno, strerror((errno)));
-        else
+        write_udp(args, u, response, 500);
 
-            free(response);
+        free(response);
     }
 }
 
@@ -1496,7 +1488,8 @@ jboolean handle_tcp(const struct arguments *args,
     const struct iphdr *ip4 = (struct iphdr *) pkt;
     const struct ip6_hdr *ip6 = (struct ip6_hdr *) pkt;
     const struct tcphdr *tcphdr = (struct tcphdr *) payload;
-    const uint8_t *data = payload + sizeof(struct tcphdr);
+    const uint8_t tcpoptlen = (uint8_t) ((tcphdr->doff - 5) * 4);
+    const uint8_t *data = payload + sizeof(struct tcphdr) + tcpoptlen;
     const size_t datalen = length - (data - pkt);
 
     // Search session
@@ -1655,8 +1648,20 @@ jboolean handle_tcp(const struct arguments *args,
                 int more = (tcphdr->psh ? 0 : MSG_MORE);
                 if (send(cur->socket, data, datalen, MSG_NOSIGNAL | more) < 0) {
                     log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
-                    write_rst(args, cur);
-                    return 0;
+                    log_android(ANDROID_LOG_ERROR,
+                                "TCP session from %s/%u to %s/%u state %s local %u remote %u window %u",
+                                source, ntohs(tcphdr->source),
+                                dest, ntohs(cur->dest), strstate(cur->state),
+                                cur->local_seq - cur->local_start,
+                                cur->remote_seq - cur->remote_start,
+                                ntohs(tcphdr->window));
+                    if (errno == EINTR || errno == EAGAIN) {
+                        // Remote will retry
+                        return 0;
+                    } else {
+                        write_rst(args, cur);
+                        return 0;
+                    }
                 }
 
                 if (tcphdr->fin ||
@@ -1722,10 +1727,8 @@ jboolean handle_tcp(const struct arguments *args,
                                         return 0;
                                     }
                                 }
-                                else {
-                                    write_rst(args, cur);
+                                else
                                     return 0;
-                                }
                             }
                         }
 
@@ -1874,12 +1877,14 @@ int open_udp_socket(const struct arguments *args, const struct udp_session *cur)
     }
 
     // Set blocking
+    /*
     int flags = fcntl(sock, F_GETFL, 0);
     if (flags < 0 || fcntl(sock, F_SETFL, flags & ~O_NONBLOCK) < 0) {
         log_android(ANDROID_LOG_ERROR, "fcntl socket ~O_NONBLOCK error %d: %s",
                     errno, strerror(errno));
         return -1;
     }
+    */
 
     return sock;
 }
@@ -1931,11 +1936,13 @@ int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur)
     }
 
     // Set blocking
+    /*
     if (fcntl(sock, F_SETFL, flags & ~O_NONBLOCK) < 0) {
         log_android(ANDROID_LOG_ERROR, "fcntl socket ~O_NONBLOCK error %d: %s",
                     errno, strerror(errno));
         return -1;
     }
+    */
 
     return sock;
 }
@@ -1952,8 +1959,6 @@ int32_t get_local_port(const int sock) {
 
 int write_syn_ack(const struct arguments *args, struct tcp_session *cur) {
     if (write_tcp(args, cur, NULL, 0, 1, 1, 1, 0, 0) < 0) {
-        log_android(ANDROID_LOG_ERROR, "write SYN+ACK error %d: %s",
-                    errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
         return -1;
     }
@@ -1962,8 +1967,6 @@ int write_syn_ack(const struct arguments *args, struct tcp_session *cur) {
 
 int write_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes) {
     if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 0, 0) < 0) {
-        log_android(ANDROID_LOG_ERROR, "write ACK error %d: %s",
-                    errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
         return -1;
     }
@@ -1973,7 +1976,6 @@ int write_ack(const struct arguments *args, struct tcp_session *cur, size_t byte
 int write_data(const struct arguments *args, struct tcp_session *cur,
                const uint8_t *buffer, size_t length) {
     if (write_tcp(args, cur, buffer, length, 0, 0, 1, 0, 0) < 0) {
-        log_android(ANDROID_LOG_ERROR, "write data ACK error %d: %s", errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
         return -1;
     }
@@ -1982,7 +1984,6 @@ int write_data(const struct arguments *args, struct tcp_session *cur,
 
 int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes) {
     if (write_tcp(args, cur, NULL, 0, bytes, 0, 1, 1, 0) < 0) {
-        log_android(ANDROID_LOG_ERROR, "write FIN+ACK error %d: %s", errno, strerror((errno)));
         cur->state = TCP_TIME_WAIT;
         return -1;
     }
@@ -1990,8 +1991,7 @@ int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t 
 }
 
 void write_rst(const struct arguments *args, struct tcp_session *cur) {
-    if (write_tcp(args, cur, NULL, 0, 0, 0, 0, 0, 1) < 0)
-        log_android(ANDROID_LOG_ERROR, "write RST error %d: %s", errno, strerror((errno)));
+    write_tcp(args, cur, NULL, 0, 0, 0, 0, 0, 1);
     if (cur->state != TCP_CLOSE)
         cur->state = TCP_TIME_WAIT;
 }
@@ -2114,6 +2114,8 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
         if (pcap_file != NULL)
             write_pcap_rec(buffer, res);
     }
+    else
+        log_android(ANDROID_LOG_WARN, "UDP write error %d: %s", errno, strerror(errno));
 
     free(buffer);
 
@@ -2251,8 +2253,17 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
 #endif
 
     // Write pcap record
-    if (res >= 0 && pcap_file != NULL)
-        write_pcap_rec(buffer, res);
+    if (res >= 0) {
+        if (pcap_file != NULL)
+            write_pcap_rec(buffer, res);
+    } else
+        log_android(ANDROID_LOG_ERROR, "TCP write%s%s%s%s data %d confirm %d error %d: %s",
+                    (tcp->syn ? " SYN" : ""),
+                    (tcp->ack ? " ACK" : ""),
+                    (tcp->fin ? " FIN" : ""),
+                    (tcp->rst ? " RST" : ""),
+                    datalen, confirm,
+                    errno, strerror((errno)));
 
     free(buffer);
 
