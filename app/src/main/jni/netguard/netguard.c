@@ -1158,6 +1158,7 @@ jboolean handle_udp(const struct arguments *args,
 
         // Register session
         struct udp_session *u = malloc(sizeof(struct udp_session));
+        u->time = time(NULL);
         u->uid = uid;
         u->version = version;
 
@@ -1200,7 +1201,7 @@ jboolean handle_udp(const struct arguments *args,
             log_android(ANDROID_LOG_INFO, "DNS type %d class %d name %s", qtype, qclass, qname);
             sprintf(extra, "qtype %d qname %s", qtype, qname);
 
-            if (check_dns(args, cur, data, datalen, qclass, qtype, qname)) {
+            if (check_domain(args, cur, data, datalen, qclass, qtype, qname)) {
                 cur->stop = 1;
                 return 0;
             }
@@ -1291,9 +1292,9 @@ int get_dns(const struct arguments *args, const struct udp_session *u,
     return -1;
 }
 
-int check_dns(const struct arguments *args, const struct udp_session *u,
-              const uint8_t *data, const size_t datalen,
-              uint16_t qclass, uint16_t qtype, const char *name) {
+int check_domain(const struct arguments *args, const struct udp_session *u,
+                 const uint8_t *data, const size_t datalen,
+                 uint16_t qclass, uint16_t qtype, const char *name) {
     if (qclass == DNS_QCLASS_IN && (qtype == DNS_QTYPE_A || qtype == DNS_QTYPE_AAAA)) {
         for (int i = 0; i < args->hcount; i++)
             if (!strcmp(name, args->hosts[i])) {
@@ -1354,6 +1355,10 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
 
 int check_dhcp(const struct arguments *args, const struct udp_session *u,
                const uint8_t *data, const size_t datalen) {
+
+    // This is untested
+    // Android routing of DHCP is eroneous
+
     log_android(ANDROID_LOG_WARN, "DHCP check");
 
     if (datalen < sizeof(struct dhcp_packet)) {
@@ -1982,7 +1987,8 @@ int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t 
 void write_rst(const struct arguments *args, struct tcp_session *cur) {
     if (write_tcp(args, cur, NULL, 0, 0, 0, 0, 0, 1) < 0)
         log_android(ANDROID_LOG_ERROR, "write RST error %d: %s", errno, strerror((errno)));
-    cur->state = TCP_TIME_WAIT;
+    if (cur->state != TCP_CLOSE)
+        cur->state = TCP_TIME_WAIT;
 }
 
 // TODO common UDP/TCP
@@ -2094,8 +2100,6 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
         log_android(ANDROID_LOG_INFO, "tun UDP write %f", mselapsed);
 #endif
 
-    // TODO check write size
-
     if (res >= 0) {
         if (args->log && ntohs(cur->dest) != 53)
             log_packet(args, cur->version, IPPROTO_UDP, "",
@@ -2103,10 +2107,15 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
 
         // Write pcap record
         if (pcap_file != NULL)
-            write_pcap_rec(buffer, len);
+            write_pcap_rec(buffer, res);
     }
 
     free(buffer);
+
+    if (res != len) {
+        log_android(ANDROID_LOG_ERROR, "write %d wrote %d", res, len);
+        return -1;
+    }
 
     return res;
 }
@@ -2236,13 +2245,16 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
         log_android(ANDROID_LOG_INFO, "tun TCP write %f", mselapsed);
 #endif
 
-    // TODO check write size
-
     // Write pcap record
     if (res >= 0 && pcap_file != NULL)
-        write_pcap_rec(buffer, len);
+        write_pcap_rec(buffer, res);
 
     free(buffer);
+
+    if (res != len) {
+        log_android(ANDROID_LOG_ERROR, "TCP write %d wrote %d", res, len);
+        return -1;
+    }
 
     return res;
 }

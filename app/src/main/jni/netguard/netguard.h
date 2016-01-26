@@ -238,9 +238,9 @@ int get_dns(const struct arguments *args, const struct udp_session *u,
             const uint8_t *data, const size_t datalen,
             uint16_t *qtype, uint16_t *qclass, char *name);
 
-int check_dns(const struct arguments *args, const struct udp_session *u,
-              const uint8_t *data, const size_t datalen,
-              uint16_t qclass, uint16_t qtype, const char *name);
+int check_domain(const struct arguments *args, const struct udp_session *u,
+                 const uint8_t *data, const size_t datalen,
+                 uint16_t qclass, uint16_t qtype, const char *name);
 
 int check_dhcp(const struct arguments *args, const struct udp_session *u,
                const uint8_t *data, const size_t datalen);
