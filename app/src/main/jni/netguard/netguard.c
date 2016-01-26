@@ -529,7 +529,7 @@ void check_sessions(const struct arguments *args) {
                 inet_ntop(AF_INET6, &u->saddr.ip6, source, sizeof(source));
                 inet_ntop(AF_INET6, &u->daddr.ip6, dest, sizeof(dest));
             }
-            log_android(ANDROID_LOG_WARN, "UDP idle %d/%d sec stop %d from %s/%u to %s/%u",
+            log_android(ANDROID_LOG_INFO, "UDP idle %d/%d sec stop %d from %s/%u to %s/%u",
                         now - u->time, timeout, u->stop,
                         dest, ntohs(u->dest), source, ntohs(u->source));
 
@@ -741,7 +741,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
                     if (bytes < 0) {
                         // Socket error
-                        log_android(ANDROID_LOG_ERROR, "UDP recv error %d: %s",
+                        log_android(ANDROID_LOG_WARN, "UDP recv error %d: %s",
                                     errno, strerror(errno));
 
                         if (errno != EINTR)
@@ -1648,13 +1648,6 @@ jboolean handle_tcp(const struct arguments *args,
                 int more = (tcphdr->psh ? 0 : MSG_MORE);
                 if (send(cur->socket, data, datalen, MSG_NOSIGNAL | more) < 0) {
                     log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
-                    log_android(ANDROID_LOG_ERROR,
-                                "TCP session from %s/%u to %s/%u state %s local %u remote %u window %u",
-                                source, ntohs(tcphdr->source),
-                                dest, ntohs(cur->dest), strstate(cur->state),
-                                cur->local_seq - cur->local_start,
-                                cur->remote_seq - cur->remote_start,
-                                ntohs(tcphdr->window));
                     if (errno == EINTR || errno == EAGAIN) {
                         // Remote will retry
                         return 0;
