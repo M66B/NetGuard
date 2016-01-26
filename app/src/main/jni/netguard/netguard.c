@@ -40,7 +40,6 @@
 
 // TODO TCP options
 // TODO TCP fragmentation
-// TODO TCPv6
 // TODO non blocking send/write/close, handle EAGAIN/EWOULDBLOCK
 
 // It is assumed that no packets will get lost and that packets arrive in order
@@ -1263,7 +1262,13 @@ int get_dns(const struct arguments *args, const struct udp_session *u,
         do {
             comp++;
             len = *(data + qdoff);
+
             // TODO DNS compression
+            if (len & 0xC0) {
+                log_android(ANDROID_LOG_WARN, "DNS compression len %x", len);
+                return -1;
+            }
+
             if (len && qdoff + 1 + len <= datalen) {
                 memcpy(name + noff, data + qdoff + 1, len);
                 *(name + noff + len) = '.';
@@ -1836,16 +1841,26 @@ int open_udp_socket(const struct arguments *args, const struct udp_session *cur)
         return -1;
 
     // Check for broadcast
-    // TODO IPv6 broadcast
     if (cur->version == 4) {
         uint32_t broadcast4 = INADDR_BROADCAST;
         if (memcmp(&cur->daddr.ip4, &broadcast4, sizeof(broadcast4)) == 0) {
             log_android(ANDROID_LOG_WARN, "UDP broadcast");
             int on = 1;
             if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on)))
-                log_android(ANDROID_LOG_ERROR, "UDP setsockopt error %d: %s",
+                log_android(ANDROID_LOG_ERROR, "UDP setsockopt SO_BROADCAST error %d: %s",
                             errno, strerror(errno));
         }
+    } else {
+        // TODO IPv6 broadcast
+        // ffX2::0/16
+        /*
+        struct ipv6_mreq mreq6;
+        mreq6->ipv6mr_multiaddr;
+        mreq6->ipv6mr_ifindex;
+        if (setsockopt(sock, IPPROTO_IPV6, IPV6_ADD_MEMBERSHIP, (char *) &mreq6, sizeof(mreq6)))
+            log_android(ANDROID_LOG_ERROR, "UDP setsockopt IPV6_ADD_MEMBERSHIP error %d: %s",
+                        errno, strerror(errno));
+        */
     }
 
     // Set blocking
