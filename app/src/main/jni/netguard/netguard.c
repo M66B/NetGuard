@@ -1121,15 +1121,13 @@ jboolean handle_udp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
                     int uid, char *extra) {
-    // Check version
-    uint8_t version = (*pkt) >> 4;
-
     // Get headers
-    struct iphdr *ip4 = (struct iphdr *) pkt;
-    struct ip6_hdr *ip6 = (struct iphdr *) pkt;
-    struct udphdr *udphdr = (struct udphdr *) payload;
-    uint8_t *data = payload + sizeof(struct udphdr);
-    size_t datalen = length - (data - pkt);
+    const uint8_t version = (*pkt) >> 4;
+    const struct iphdr *ip4 = (struct iphdr *) pkt;
+    const struct ip6_hdr *ip6 = (struct ip6_hdr *) pkt;
+    const struct udphdr *udphdr = (struct udphdr *) payload;
+    const uint8_t *data = payload + sizeof(struct udphdr);
+    const size_t datalen = length - (data - pkt);
 
     // Search session
     struct udp_session *last = NULL;
@@ -1210,7 +1208,11 @@ jboolean handle_udp(const struct arguments *args,
         }
     }
 
-    // TODO check DHCP (tethering)
+    // Check for DHCP (tethering)
+    if (ntohs(udphdr->source) == 68 || ntohs(udphdr->dest) == 67) {
+        if (check_dhcp(args, cur, data, datalen) >= 0)
+            return 1;
+    }
 
     log_android(ANDROID_LOG_INFO, "UDP forward from tun %s/%u to %s/%u data %d",
                 source, ntohs(udphdr->source), dest, ntohs(udphdr->dest), datalen);
@@ -1243,36 +1245,42 @@ jboolean handle_udp(const struct arguments *args,
 int get_dns(const struct arguments *args, const struct udp_session *u,
             const uint8_t *data, const size_t datalen,
             uint16_t *qtype, uint16_t *qclass, char *name) {
-    if (datalen > sizeof(struct dns_header)) {
-        // Check if standard DNS query
-        const struct dns_header *dns = (struct dns_header *) data;
-        if (dns->qr == 0 && dns->opcode == 0 && dns->q_count != 0) {
-            uint8_t noff = 0;
+    if (datalen < sizeof(struct dns_header) + 1) {
+        log_android(ANDROID_LOG_WARN, "DNS packet length %d", datalen);
+        return -1;
+    }
 
-            // http://tools.ietf.org/html/rfc1035
-            uint8_t len;
-            uint8_t comp = 0;
-            size_t qdoff = sizeof(struct dns_header);
-            do {
-                comp++;
-                len = *(data + qdoff);
-                // TODO DNS compression
-                if (len && qdoff + 1 + len <= datalen) {
-                    memcpy(name + noff, data + qdoff + 1, len);
-                    *(name + noff + len) = '.';
-                    noff += (len + 1);
-                    qdoff += (1 + len);
-                }
-            } while (len && comp < 10);
-            qdoff++;
+    // Check if standard DNS query
+    // TODO multiple qnames
+    const struct dns_header *dns = (struct dns_header *) data;
+    if (dns->qr == 0 && dns->opcode == 0 && ntohs(dns->q_count) > 0) {
+        uint8_t noff = 0;
 
-            if (noff > 0 && qdoff + 4 == datalen) {
-                *(name + noff - 1) = 0;
-                *qtype = ntohs(*((uint16_t *) (data + qdoff)));
-                *qclass = ntohs(*((uint16_t *) (data + qdoff + 2)));
-                return 0;
+        // http://tools.ietf.org/html/rfc1035
+        uint8_t len;
+        uint8_t comp = 0;
+        size_t qdoff = sizeof(struct dns_header);
+        do {
+            comp++;
+            len = *(data + qdoff);
+            // TODO DNS compression
+            if (len && qdoff + 1 + len <= datalen) {
+                memcpy(name + noff, data + qdoff + 1, len);
+                *(name + noff + len) = '.';
+                noff += (len + 1);
+                qdoff += (1 + len);
             }
+        } while (len && comp < 10);
+        qdoff++;
+
+        if (noff > 0 && qdoff + 4 == datalen) {
+            *(name + noff - 1) = 0;
+            *qtype = ntohs(*((uint16_t *) (data + qdoff)));
+            *qclass = ntohs(*((uint16_t *) (data + qdoff + 2)));
+            return 0;
         }
+        else
+            log_android(ANDROID_LOG_WARN, "DNS packet invalid");
     }
 
     return -1;
@@ -1339,6 +1347,126 @@ int check_dns(const struct arguments *args, const struct udp_session *u,
     return 0;
 }
 
+int check_dhcp(const struct arguments *args, const struct udp_session *u,
+               const uint8_t *data, const size_t datalen) {
+    log_android(ANDROID_LOG_WARN, "DHCP check");
+
+    if (datalen < sizeof(struct dhcp_packet)) {
+        log_android(ANDROID_LOG_WARN, "DHCP packet size %d", datalen);
+        return -1;
+    }
+
+    const struct dhcp_packet *request = (struct dhcp_packet *) data;
+
+    if (ntohl(request->option_format) != DHCP_OPTION_MAGIC_NUMBER) {
+        log_android(ANDROID_LOG_WARN, "DHCP invalid magic %x", request->option_format);
+        return -1;
+    }
+
+    if (request->htype != 1 || request->hlen != 6) {
+        log_android(ANDROID_LOG_WARN, "DHCP unknown hardware htype %d hlen %d",
+                    request->htype, request->hlen);
+        return -1;
+    }
+
+    log_android(ANDROID_LOG_WARN, "DHCP opcode", request->opcode);
+
+    // Discover: source 0.0.0.0:68 destination 255.255.255.255:67
+    // Offer: source 10.1.10.1:67 destination 255.255.255.255:68
+    // Request: source 0.0.0.0:68 destination 255.255.255.255:67
+    // Ack: source: 10.1.10.1 destination: 255.255.255.255
+
+    if (request->opcode == 1) { // Discover/request
+        struct dhcp_packet *response = calloc(500, 1);
+
+        // Hack
+        inet_pton(AF_INET, "10.1.10.1", &u->saddr);
+
+        /*
+        Discover:
+            DHCP option 53: DHCP Discover
+            DHCP option 50: 192.168.1.100 requested
+            DHCP option 55: Parameter Request List:
+            Request Subnet Mask (1), Router (3), Domain Name (15), Domain Name Server (6)
+
+        Request
+            DHCP option 53: DHCP Request
+            DHCP option 50: 192.168.1.100 requested
+            DHCP option 54: 192.168.1.1 DHCP server.
+        */
+
+        memcpy(response, request, sizeof(struct dhcp_packet));
+        response->opcode = (request->siaddr == 0 ? 2 /* Offer */ : /* Ack */ 4);
+        response->secs = 0;
+        response->flags = 0;
+        memset(&response->ciaddr, 0, sizeof(response->ciaddr));
+        inet_pton(AF_INET, "10.1.10.2", &response->yiaddr);
+        inet_pton(AF_INET, "10.1.10.1", &response->siaddr);
+        memset(&response->giaddr, 0, sizeof(response->giaddr));
+
+        // https://tools.ietf.org/html/rfc2132
+        uint8_t *options = response + sizeof(struct dhcp_packet);
+
+        int idx = 0;
+        *(options + idx++) = 53; // Message type
+        *(options + idx++) = 1;
+        *(options + idx++) = (request->siaddr == 0 ? 2 : 5);
+        /*
+             1     DHCPDISCOVER
+             2     DHCPOFFER
+             3     DHCPREQUEST
+             4     DHCPDECLINE
+             5     DHCPACK
+             6     DHCPNAK
+             7     DHCPRELEASE
+             8     DHCPINFORM
+         */
+
+        *(options + idx++) = 1; // subnet mask
+        *(options + idx++) = 4; // IP4 length
+        inet_pton(AF_INET, "255.255.255.0", options + idx);
+        idx += 4;
+
+        *(options + idx++) = 3; // gateway
+        *(options + idx++) = 4; // IP4 length
+        inet_pton(AF_INET, "10.1.10.1", options + idx);
+        idx += 4;
+
+        *(options + idx++) = 51; // lease time
+        *(options + idx++) = 4; // quad
+        *((uint32_t *) (options + idx)) = 3600;
+        idx += 4;
+
+        *(options + idx++) = 54; // DHCP
+        *(options + idx++) = 4; // IP4 length
+        inet_pton(AF_INET, "10.1.10.1", options + idx);
+        idx += 4;
+
+        *(options + idx++) = 6; // DNS
+        *(options + idx++) = 4; // IP4 length
+        inet_pton(AF_INET, "8.8.8.8", options + idx);
+        idx += 4;
+
+        *(options + idx++) = 255; // End
+
+        /*
+            DHCP option 53: DHCP Offer
+            DHCP option 1: 255.255.255.0 subnet mask
+            DHCP option 3: 192.168.1.1 router
+            DHCP option 51: 86400s (1 day) IP address lease time
+            DHCP option 54: 192.168.1.1 DHCP server
+            DHCP option 6: DNS servers 9.7.10.15
+         */
+
+        if (write_udp(args, u, response, 500) < 0)
+            log_android(ANDROID_LOG_ERROR, "write DHCP error %d: %s",
+                        errno, strerror((errno)));
+        else
+
+            free(response);
+    }
+}
+
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
@@ -1348,15 +1476,13 @@ jboolean handle_tcp(const struct arguments *args,
     struct timeval start, end;
     gettimeofday(&start, NULL);
 #endif
-    // Check version
-    uint8_t version = (*pkt) >> 4;
-
     // Get headers
-    struct iphdr *ip4 = (struct iphdr *) pkt;
-    struct ip6_hdr *ip6 = (struct iphdr *) pkt;
-    struct tcphdr *tcphdr = (struct tcphdr *) payload;
-    uint8_t *data = payload + sizeof(struct tcphdr);
-    size_t datalen = length - (data - pkt);
+    const uint8_t version = (*pkt) >> 4;
+    const struct iphdr *ip4 = (struct iphdr *) pkt;
+    const struct ip6_hdr *ip6 = (struct ip6_hdr *) pkt;
+    const struct tcphdr *tcphdr = (struct tcphdr *) payload;
+    const uint8_t *data = payload + sizeof(struct tcphdr);
+    const size_t datalen = length - (data - pkt);
 
     // Search session
     struct tcp_session *last = NULL;
@@ -1771,7 +1897,9 @@ int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur)
     // Initiate connect
     int err = connect(sock,
                       (const struct sockaddr *) (cur->version == 4 ? &addr4 : &addr6),
-                      cur->version == 4 ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6));
+                      (socklen_t) (cur->version == 4
+                                   ? sizeof(struct sockaddr_in)
+                                   : sizeof(struct sockaddr_in6)));
     if (err < 0 && errno != EINPROGRESS) {
         log_android(ANDROID_LOG_ERROR, "connect error %d: %s", errno, strerror(errno));
         return -1;
@@ -1951,6 +2079,8 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
         log_android(ANDROID_LOG_INFO, "tun UDP write %f", mselapsed);
 #endif
 
+    // TODO check write size
+
     if (res >= 0) {
         if (args->log && ntohs(cur->dest) != 53)
             log_packet(args, cur->version, IPPROTO_UDP, "",
@@ -2090,6 +2220,8 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     if (mselapsed > 1)
         log_android(ANDROID_LOG_INFO, "tun TCP write %f", mselapsed);
 #endif
+
+    // TODO check write size
 
     // Write pcap record
     if (res >= 0 && pcap_file != NULL)

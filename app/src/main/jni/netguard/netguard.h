@@ -88,6 +88,16 @@ struct tcp_session {
     struct tcp_session *next;
 };
 
+// IPv6
+
+struct ip6_hdr_pseudo {
+    struct in6_addr ip6ph_src;
+    struct in6_addr ip6ph_dst;
+    u_int32_t ip6ph_len;
+    u_int8_t ip6ph_zero[3];
+    u_int8_t ip6ph_nxt;
+} __packed;
+
 // PCAP
 // https://wiki.wireshark.org/Development/LibpcapFileFormat
 
@@ -164,14 +174,31 @@ typedef struct dns_rr {
     __be16 rdlength;
 } __packed;
 
-// IPv6
+// DHCP
 
-struct ip6_hdr_pseudo {
-    struct in6_addr ip6ph_src;
-    struct in6_addr ip6ph_dst;
-    u_int32_t ip6ph_len;
-    u_int8_t ip6ph_zero[3];
-    u_int8_t ip6ph_nxt;
+#define DHCP_OPTION_MAGIC_NUMBER (0x63825363)
+
+typedef struct dhcp_packet {
+    uint8_t opcode;
+    uint8_t htype;
+    uint8_t hlen;
+    uint8_t hops;
+    uint32_t xid;
+    uint16_t secs;
+    uint16_t flags;
+    uint32_t ciaddr;
+    uint32_t yiaddr;
+    uint32_t siaddr;
+    uint32_t giaddr;
+    uint8_t chaddr[16];
+    uint8_t sname[64];
+    uint8_t file[128];
+    uint32_t option_format;
+} __packed;
+
+typedef struct dhcp_option {
+    uint8_t code;
+    uint8_t length;
 } __packed;
 
 // Prototypes
@@ -207,11 +234,6 @@ jboolean handle_udp(const struct arguments *args,
                     const uint8_t *payload,
                     int uid, char *extra);
 
-jboolean handle_tcp(const struct arguments *args,
-                    const uint8_t *pkt, size_t length,
-                    const uint8_t *payload,
-                    int uid, char *extra);
-
 int get_dns(const struct arguments *args, const struct udp_session *u,
             const uint8_t *data, const size_t datalen,
             uint16_t *qtype, uint16_t *qclass, char *name);
@@ -219,6 +241,14 @@ int get_dns(const struct arguments *args, const struct udp_session *u,
 int check_dns(const struct arguments *args, const struct udp_session *u,
               const uint8_t *data, const size_t datalen,
               uint16_t qclass, uint16_t qtype, const char *name);
+
+int check_dhcp(const struct arguments *args, const struct udp_session *u,
+               const uint8_t *data, const size_t datalen);
+
+jboolean handle_tcp(const struct arguments *args,
+                    const uint8_t *pkt, size_t length,
+                    const uint8_t *payload,
+                    int uid, char *extra);
 
 int open_udp_socket(const struct arguments *args, const struct udp_session *cur);
 
