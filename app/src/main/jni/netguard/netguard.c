@@ -1100,7 +1100,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
             allowed = handle_udp(args, pkt, length, payload, uid, extra);
             log = (!allowed || dport != 53);
         } else if (protocol == IPPROTO_TCP) {
-            allowed = handle_tcp(args, pkt, length, payload, uid, extra);
+            allowed = handle_tcp(args, pkt, length, payload, uid, extra) || !debug;
             log = (!allowed || syn);
         }
         else {
