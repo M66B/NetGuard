@@ -427,31 +427,36 @@ void *handle_events(void *a) {
             gettimeofday(&start, NULL);
 #endif
 
-            // Check upstream
-            if (check_tun(args, &rfds, &wfds, &efds) < 0)
-                break;
-
-#ifdef PROFILE
-            gettimeofday(&end, NULL);
-            mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                        (end.tv_usec - start.tv_usec) / 1000.0;
-            if (mselapsed > 1)
-                log_android(ANDROID_LOG_INFO, "tun %f", mselapsed);
-
-            gettimeofday(&start, NULL);
-#endif
-
             if (pthread_mutex_lock(&lock))
                 log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
-            // Check UDP downstream
-            check_udp_sockets(args, &rfds, &wfds, &efds);
+            // Check upstream
+            int error;
+            if (check_tun(args, &rfds, &wfds, &efds) < 0)
+                error = 1;
+            else {
+#ifdef PROFILE
+                gettimeofday(&end, NULL);
+                mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
+                            (end.tv_usec - start.tv_usec) / 1000.0;
+                if (mselapsed > 1)
+                    log_android(ANDROID_LOG_INFO, "tun %f", mselapsed);
 
-            // Check TCP downstream
-            check_tcp_sockets(args, &rfds, &wfds, &efds);
+                gettimeofday(&start, NULL);
+#endif
+
+                // Check UDP downstream
+                check_udp_sockets(args, &rfds, &wfds, &efds);
+
+                // Check TCP downstream
+                check_tcp_sockets(args, &rfds, &wfds, &efds);
+            }
 
             if (pthread_mutex_unlock(&lock))
                 log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+
+            if (error)
+                break;
 
 #ifdef PROFILE
             gettimeofday(&end, NULL);
@@ -460,7 +465,6 @@ void *handle_events(void *a) {
             if (mselapsed > 1)
                 log_android(ANDROID_LOG_INFO, "sockets %f", mselapsed);
 #endif
-
         }
     }
 
