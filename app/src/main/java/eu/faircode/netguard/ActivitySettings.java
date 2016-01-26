@@ -199,8 +199,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             });
         }
 
-        Preference pref_dns = screen.findPreference("dns");
-        pref_dns.setSummary(Util.getDefaultDNS(this));
+        EditTextPreference pref_dns = (EditTextPreference) screen.findPreference("dns");
+        pref_dns.getEditText().setHint(Util.getDefaultDNS(this));
 
         // Handle technical info
         Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {
@@ -463,8 +463,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             SinkholeService.reload(null, "changed " + name, this);
 
         else if ("dns".equals(name)) {
-            if (TextUtils.isEmpty(prefs.getString(name, "")))
-                prefs.edit().remove(name).apply();
             if (prefs.getBoolean("filter", false))
                 SinkholeService.reload(null, "changed " + name, this);
         }

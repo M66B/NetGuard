@@ -160,6 +160,7 @@
             android:title="Native log level" />
         <EditTextPreference
             android:defaultValue=""
+            android:dependency="filter"
             android:inputType="text"
             android:key="dns"
             android:title="DNS" />
