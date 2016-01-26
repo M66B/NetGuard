@@ -64,6 +64,7 @@ import android.widget.RemoteViews;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -81,6 +82,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
+    private String last_dns = null;
+    private boolean last_tethering = false;
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
@@ -334,6 +337,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         private void reload() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            boolean tethering = prefs.getBoolean("tethering", false);
+            boolean filter = prefs.getBoolean("filter", false);
 
             if (state != State.enforcing) {
                 if (state != State.none) {
@@ -348,7 +353,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             List<Rule> listRule = Rule.getRules(true, TAG, SinkholeService.this);
             List<Rule> listAllowed = getAllowedRules(listRule);
 
-            if (prefs.getBoolean("filter", false)) {
+            if (filter &&
+                    tethering == last_tethering &&
+                    getDns().equals(last_dns)) {
                 Log.i(TAG, "Native restart");
 
                 if (vpn != null)
@@ -653,11 +660,36 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
+    private String getDns() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String sysDns = Util.getDefaultDNS(SinkholeService.this);
+        String vpnDns = prefs.getString("dns", sysDns);
+        Log.i(TAG, "DNS system=" + sysDns + " VPN=" + vpnDns);
+        try {
+            InetAddress.getByName(vpnDns);
+            Log.i(TAG, "DNS using=" + vpnDns);
+            return vpnDns;
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            try {
+                InetAddress.getByName(sysDns);
+                Log.i(TAG, "DNS using=" + sysDns);
+                return sysDns;
+            } catch (Throwable exex) {
+                Log.e(TAG, exex.toString() + "\n" + Log.getStackTraceString(exex));
+                Log.i(TAG, "DNS using=8.8.8.8");
+                return "8.8.8.8";
+            }
+        }
+    }
 
     private ParcelFileDescriptor startVPN(List<Rule> listAllowed) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
+
+        last_dns = getDns();
+        last_tethering = tethering;
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -665,18 +697,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         builder.addAddress(prefs.getString("vpn4", "10.1.10.1"), 32);
         builder.addAddress(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"), 64);
 
-        if (filter) {
-            // TODO multiple DNS servers
-            String sysDns = Util.getDefaultDNS(SinkholeService.this);
-            String vpnDns = prefs.getString("dns", sysDns);
-            Log.i(TAG, "DNS system=" + sysDns + " VPN=" + vpnDns);
-            try {
-                builder.addDnsServer(vpnDns);
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                builder.addDnsServer(sysDns);
-            }
-        }
+        if (filter)
+            builder.addDnsServer(last_dns);
 
         if (tethering) {
             // USB Tethering 192.168.42.x

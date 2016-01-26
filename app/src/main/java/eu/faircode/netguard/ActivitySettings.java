@@ -343,35 +343,30 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         if ("whitelist_wifi".equals(name) ||
                 "screen_wifi".equals(name))
-            SinkholeService.reload("wifi", "setting changed", this);
+            SinkholeService.reload("wifi", "changed " + name, this);
 
         else if ("whitelist_other".equals(name) ||
                 "screen_other".equals(name))
-            SinkholeService.reload("other", "setting changed", this);
+            SinkholeService.reload("other", "changed " + name, this);
 
         else if ("whitelist_roaming".equals(name)) {
             if (prefs.getBoolean(name, false)) {
                 if (Util.hasPhoneStatePermission(this))
-                    SinkholeService.reload("other", "setting changed", this);
+                    SinkholeService.reload("other", "changed " + name, this);
                 else
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_INTERNATIONAL);
             } else
-                SinkholeService.reload("other", "setting changed", this);
+                SinkholeService.reload("other", "changed " + name, this);
 
         } else if ("manage_system".equals(name)) {
             boolean manage = prefs.getBoolean(name, false);
             if (!manage)
                 prefs.edit().putBoolean("show_user", true).apply();
             prefs.edit().putBoolean("show_system", manage).apply();
-            SinkholeService.reload(null, "setting changed", this);
+            SinkholeService.reload(null, "changed " + name, this);
 
         } else if ("tethering".equals(name)) {
-            if (prefs.getBoolean("filter", false)) {
-                // Requires a full stop to reconfigure the VPN
-                SinkholeService.stop("tethering", this);
-                SinkholeService.start("tethering", this);
-            } else
-                SinkholeService.reload(null, "setting changed", this);
+            SinkholeService.reload(null, "changed " + name, this);
 
         } else if ("log".equals(name)) {
             if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_LOG, this)) {
@@ -380,11 +375,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 startActivity(new Intent(this, ActivityPro.class));
                 return;
             } else
-                SinkholeService.reload(null, "setting changed", this);
+                SinkholeService.reload(null, "changed " + name, this);
 
         } else if ("filter".equals(name)) {
             // TODO pro feature
-            SinkholeService.reload(null, "setting changed", this);
+            SinkholeService.reload(null, "changed " + name, this);
 
             // Show dialog
             if (prefs.getBoolean(name, false)) {
@@ -403,7 +398,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
 
         } else if ("use_hosts".equals(name))
-            SinkholeService.reload(null, "setting changed", this);
+            SinkholeService.reload(null, "changed " + name, this);
 
         else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
@@ -421,33 +416,33 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
             else
                 pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
-            SinkholeService.reload(null, "setting changed", this);
+            SinkholeService.reload(null, "changed " + name, this);
 
         } else if ("use_metered".equals(name))
-            SinkholeService.reload(null, "setting changed", this);
+            SinkholeService.reload(null, "changed " + name, this);
 
         else if ("unmetered_2g".equals(name) ||
                 "unmetered_3g".equals(name) ||
                 "unmetered_4g".equals(name)) {
             if (prefs.getBoolean(name, false)) {
                 if (Util.hasPhoneStatePermission(this))
-                    SinkholeService.reload("other", "setting changed", this);
+                    SinkholeService.reload("other", "changed " + name, this);
                 else
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED);
             } else
-                SinkholeService.reload("other", "setting changed", this);
+                SinkholeService.reload("other", "changed " + name, this);
 
         } else if ("national_roaming".equals(name)) {
             if (prefs.getBoolean(name, false)) {
                 if (Util.hasPhoneStatePermission(this))
-                    SinkholeService.reload("other", "setting changed", this);
+                    SinkholeService.reload("other", "changed " + name, this);
                 else
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_NATIONAL);
             } else
-                SinkholeService.reload("other", "setting changed", this);
+                SinkholeService.reload("other", "changed " + name, this);
 
         } else if ("show_stats".equals(name)) {
-            SinkholeService.reloadStats("setting changed", this);
+            SinkholeService.reloadStats("changed " + name, this);
 
         } else if ("stats_base".equals(name)) {
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_base, prefs.getString(name, "5")));
@@ -459,16 +454,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
 
         } else if ("loglevel".equals(name))
-            SinkholeService.reload(null, "setting changed", this);
+            SinkholeService.reload(null, "changed " + name, this);
 
         else if ("dns".equals(name)) {
-            if (TextUtils.isEmpty(prefs.getString(name, null)))
+            if (TextUtils.isEmpty(prefs.getString(name, "")))
                 prefs.edit().remove(name).apply();
-            if (prefs.getBoolean("filter", false)) {
-                // Requires a full stop to reconfigure the VPN
-                SinkholeService.stop("dns", this);
-                SinkholeService.start("dns", this);
-            }
+            if (prefs.getBoolean("filter", false))
+                SinkholeService.reload(null, "changed " + name, this);
         }
     }
 
