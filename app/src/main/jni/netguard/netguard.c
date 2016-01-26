@@ -33,6 +33,8 @@
 #include <netinet/ip6.h>
 #include <netinet/udp.h>
 #include <netinet/tcp.h>
+#include <netinet/ip_icmp.h>
+#include <netinet/icmp6.h>
 
 #include "netguard.h"
 
@@ -364,6 +366,59 @@ void *handle_events(void *a) {
 
     stopping = 0;
     signaled = 0;
+
+    log_android(ANDROID_LOG_WARN, "ICMP opening");
+    int isock = socket(AF_INET, SOCK_DGRAM, IPPROTO_ICMP);
+    if (isock < 0)
+        log_android(ANDROID_LOG_ERROR, "ICMP socket error %d: %s", errno, strerror(errno));
+    else {
+        log_android(ANDROID_LOG_WARN, "ICMP opened");
+
+        struct sockaddr_in addr;
+        memset(&addr, 0, sizeof addr);
+        addr.sin_family = AF_INET;
+        inet_pton(AF_INET, "8.8.8.8", &addr.sin_addr);
+
+        size_t len = sizeof(struct icmp) + 5;
+        uint8_t *buffer = malloc(len);
+        struct icmp *icmp_msg = (struct icmp *) buffer;
+        memset(icmp_msg, 0, sizeof(struct icmp));
+        icmp_msg->icmp_type = ICMP_ECHO;
+        icmp_msg->icmp_id = htons(1234);
+        memset(buffer + sizeof(struct icmp), 0x41, 5);
+
+        for (int seq = 0; seq < 3; seq++) {
+            icmp_msg->icmp_seq = htons(seq);
+
+            if (sendto(isock, buffer, len, 0, (struct sockaddr *) &addr, sizeof addr) < 0)
+                log_android(ANDROID_LOG_ERROR, "ICMP sendto error %d: %s", errno, strerror(errno));
+            else
+                log_android(ANDROID_LOG_WARN, "ICMP send seq %d", seq);
+        }
+
+        for (int seq = 0; seq < 3; seq++) {
+            FD_ZERO(&rfds);
+            FD_SET(isock, &rfds);
+
+            ts.tv_sec = 10;
+            ts.tv_nsec = 0;
+            int r = select(isock + 1, &rfds, NULL, NULL, &ts);
+            if (r > 0) {
+                uint8_t rbuffer[500];
+                struct icmp *icmp_reply = (struct icmp *) rbuffer;
+                if (recv(isock, rbuffer, sizeof(rbuffer), 0) < 0)
+                    log_android(ANDROID_LOG_ERROR, "ICMP recv error %d: %s",
+                                errno, strerror(errno));
+                else {
+                    log_android(ANDROID_LOG_WARN, "ICMP reply seq %d", ntohs(icmp_reply->icmp_seq));
+                }
+            }
+        }
+
+        free(buffer);
+        if (close(isock))
+            log_android(ANDROID_LOG_ERROR, "ICMP close error %d: %s", errno, strerror(errno));
+    }
 
     // Loop
     while (1) {
