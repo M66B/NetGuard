@@ -1082,13 +1082,16 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 #endif
 
     // Check if allowed
-    jboolean allowed = (jboolean) !syn;
-    if (syn && args->filter) {
-        for (int i = 0; i < args->ucount; i++)
-            if (uid == args->uids[i]) {
-                allowed = 1;
-                break;
-            }
+    jboolean allowed = 0;
+    if (args->filter) {
+        allowed = (jboolean) !syn;
+        if (syn) {
+            for (int i = 0; i < args->ucount; i++)
+                if (uid == args->uids[i]) {
+                    allowed = 1;
+                    break;
+                }
+        }
     }
 
     // Handle allowed traffic
@@ -1112,9 +1115,9 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         log = 1;
 
     // Log traffic
-    if (args->log && (!args->filter || log))
-        log_packet(args, version, protocol, flags, source, sport, dest, dport, 1, extra, uid,
-                   allowed);
+    if (args->log && log)
+        log_packet(args, version, protocol, flags,
+                   source, sport, dest, dport, 1, extra, uid, allowed);
 }
 
 jboolean handle_udp(const struct arguments *args,
