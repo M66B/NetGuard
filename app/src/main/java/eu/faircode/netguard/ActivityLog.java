@@ -195,6 +195,10 @@ public class ActivityLog extends AppCompatActivity {
         if (live) {
             DatabaseHelper.addLogChangedListener(listener);
             adapter.changeCursor(dh.getLog());
+            if (menuSearch != null && menuSearch.isActionViewExpanded()) {
+                SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+                adapter.getFilter().filter(searchView.getQuery().toString());
+            }
         }
     }
 
