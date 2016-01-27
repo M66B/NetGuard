@@ -33,9 +33,9 @@ public class LogAdapter extends CursorAdapter {
     private int colVersion;
     private int colProtocol;
     private int colFlags;
-    private int colSource;
+    private int colSAddr;
     private int colSPort;
-    private int colDest;
+    private int colDaddr;
     private int colDPort;
     private int colUid;
     private int colData;
@@ -53,9 +53,9 @@ public class LogAdapter extends CursorAdapter {
         colVersion = cursor.getColumnIndex("version");
         colProtocol = cursor.getColumnIndex("protocol");
         colFlags = cursor.getColumnIndex("flags");
-        colSource = cursor.getColumnIndex("saddr");
+        colSAddr = cursor.getColumnIndex("saddr");
         colSPort = cursor.getColumnIndex("sport");
-        colDest = cursor.getColumnIndex("daddr");
+        colDaddr = cursor.getColumnIndex("daddr");
         colDPort = cursor.getColumnIndex("dport");
         colUid = cursor.getColumnIndex("uid");
         colData = cursor.getColumnIndex("data");
@@ -84,9 +84,9 @@ public class LogAdapter extends CursorAdapter {
         int version = (cursor.isNull(colVersion) ? -1 : cursor.getInt(colVersion));
         int protocol = (cursor.isNull(colProtocol) ? -1 : cursor.getInt(colProtocol));
         String flags = cursor.getString(colFlags);
-        String source = cursor.getString(colSource);
+        String saddr = cursor.getString(colSAddr);
         int sport = (cursor.isNull(colSPort) ? -1 : cursor.getInt(colSPort));
-        final String dest = cursor.getString(colDest);
+        String daddr = cursor.getString(colDaddr);
         int dport = (cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort));
         int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
         String data = cursor.getString(colData);
@@ -98,9 +98,9 @@ public class LogAdapter extends CursorAdapter {
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
         TextView tvProtocol = (TextView) view.findViewById(R.id.tvProtocol);
         TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
-        final TextView tvSource = (TextView) view.findViewById(R.id.tvSource);
+        final TextView tvSAddr = (TextView) view.findViewById(R.id.tvSAddr);
         TextView tvSPort = (TextView) view.findViewById(R.id.tvSPort);
-        final TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
+        final TextView tvDaddr = (TextView) view.findViewById(R.id.tvDAddr);
         TextView tvDPort = (TextView) view.findViewById(R.id.tvDPort);
         ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
@@ -172,14 +172,14 @@ public class LogAdapter extends CursorAdapter {
             tvUid.setText(Integer.toString(uid));
 
         // TODO resolve source when inbound
-        tvSource.setText(getKnownAddress(source));
+        tvSAddr.setText(getKnownAddress(saddr));
 
-        if (resolve && !isKnownAddress(dest))
+        if (resolve && !isKnownAddress(daddr))
             synchronized (mapIPHost) {
-                if (mapIPHost.containsKey(dest))
-                    tvDest.setText(mapIPHost.get(dest));
+                if (mapIPHost.containsKey(daddr))
+                    tvDaddr.setText(mapIPHost.get(daddr));
                 else {
-                    tvDest.setText(dest);
+                    tvDaddr.setText(daddr);
                     new AsyncTask<String, Object, String>() {
                         @Override
                         protected String doInBackground(String... args) {
@@ -187,7 +187,7 @@ public class LogAdapter extends CursorAdapter {
                                 // This requires internet permission
                                 return InetAddress.getByName(args[0]).getHostName();
                             } catch (UnknownHostException ignored) {
-                                return dest;
+                                return args[0];
                             }
                         }
 
@@ -197,13 +197,13 @@ public class LogAdapter extends CursorAdapter {
                                 if (!mapIPHost.containsKey(host))
                                     mapIPHost.put(host, host);
                             }
-                            tvDest.setText(host);
+                            tvDaddr.setText(host);
                         }
-                    }.execute(dest);
+                    }.execute(daddr);
                 }
             }
         else
-            tvDest.setText(getKnownAddress(dest));
+            tvDaddr.setText(getKnownAddress(daddr));
 
         if (TextUtils.isEmpty(data)) {
             tvData.setText("");

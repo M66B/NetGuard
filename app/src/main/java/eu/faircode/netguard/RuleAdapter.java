@@ -48,6 +48,7 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -59,6 +60,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private static final String TAG = "NetGuard.Adapter";
 
     private Activity context;
+    private DatabaseHelper dh;
     private boolean wifi;
     private boolean telephony;
     private boolean debuggable;
@@ -105,6 +107,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public ImageButton btnSettings;
         public Button btnLaunch;
 
+        public ListView lvAccess;
         public TextView tvStatistics;
 
         public ViewHolder(View itemView) {
@@ -143,6 +146,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             btnSettings = (ImageButton) itemView.findViewById(R.id.btnSettings);
             btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
 
+            lvAccess = (ListView) itemView.findViewById(R.id.lvAccess);
             tvStatistics = (TextView) itemView.findViewById(R.id.tvStatistics);
 
             final View wifiParent = (View) cbWifi.getParent();
@@ -173,8 +177,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
     }
 
-    public RuleAdapter(Activity context) {
+    public RuleAdapter(DatabaseHelper dh, Activity context) {
         this.context = context;
+        this.dh = dh;
         this.wifi = Util.hasWifi(context);
         this.telephony = Util.hasTelephony(context);
         this.debuggable = Util.isDebuggable(context);
@@ -441,6 +446,12 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 context.startActivity(rule.intent);
             }
         });
+
+        if (rule.expanded) {
+            AccessAdapter adapter = new AccessAdapter(context, dh.getAccess(rule.info.applicationInfo.uid));
+            holder.lvAccess.setAdapter(adapter);
+        } else
+            holder.lvAccess.setAdapter(null);
 
         // Traffic statistics
         holder.tvStatistics.setText(context.getString(R.string.msg_mbday, rule.upspeed, rule.downspeed));

@@ -1108,10 +1108,13 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
             log = 1;
         }
     }
+    else
+        log = 1;
 
     // Log traffic
     if (args->log && (!args->filter || log))
-        log_packet(args, version, protocol, flags, source, sport, dest, dport, extra, uid, allowed);
+        log_packet(args, version, protocol, flags, source, sport, dest, dport, 1, extra, uid,
+                   allowed);
 }
 
 jboolean handle_udp(const struct arguments *args,
@@ -2101,7 +2104,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
     if (res >= 0) {
         if (args->log && ntohs(cur->dest) != 53)
             log_packet(args, cur->version, IPPROTO_UDP, "",
-                       dest, ntohs(udp->dest), source, ntohs(udp->source), "", cur->uid, 1);
+                       dest, ntohs(udp->dest), source, ntohs(udp->source), 0, "", cur->uid, 1);
 
         // Write pcap record
         if (pcap_file != NULL)
@@ -2519,6 +2522,7 @@ void log_packet(
         jint sport,
         const char *dest,
         jint dport,
+        jboolean outbound,
         const char *data,
         jint uid,
         jboolean allowed) {
@@ -2555,6 +2559,8 @@ void log_packet(
     (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "sport", "I"), sport);
     (*env)->SetObjectField(env, objPacket, jniGetFieldID(env, clsPacket, "daddr", string), jdest);
     (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "dport", "I"), dport);
+    (*env)->SetBooleanField(env, objPacket, jniGetFieldID(env, clsPacket, "outbound", "Z"),
+                            outbound);
     (*env)->SetObjectField(env, objPacket, jniGetFieldID(env, clsPacket, "data", string), jdata);
     (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "uid", "I"), uid);
     (*env)->SetBooleanField(env, objPacket, jniGetFieldID(env, clsPacket, "allowed", "Z"), allowed);

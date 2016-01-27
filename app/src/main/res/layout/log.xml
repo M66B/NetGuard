@@ -93,7 +93,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tvSource"
+                    android:id="@+id/tvSAddr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -115,7 +115,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tvDest"
+                    android:id="@+id/tvDAddr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"

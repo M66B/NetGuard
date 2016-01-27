@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,8 +16,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 8;
+    private static final int DB_VERSION = 9;
 
+    private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<LogChangedListener>();
 
     private Context mContext;
@@ -24,15 +26,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         mContext = context;
+
+        if (!once) {
+            once = true;
+
+            File dbfile = context.getDatabasePath(DB_NAME);
+            if (dbfile.exists()) {
+                Log.w(TAG, "Deleting " + dbfile);
+                dbfile.delete();
+            }
+
+            File dbjournal = context.getDatabasePath(DB_NAME + "-journal");
+            if (dbjournal.exists()) {
+                Log.w(TAG, "Deleting " + dbjournal);
+                dbjournal.delete();
+            }
+        }
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i(TAG, "Creating database " + DB_NAME + ":" + DB_VERSION);
+        Log.i(TAG, "Creating database " + DB_NAME + " version " + DB_VERSION);
         createTableLog(db);
+        createTableAccess(db);
+    }
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        //db.enableWriteAheadLogging();
+        super.onConfigure(db);
     }
 
     private void createTableLog(SQLiteDatabase db) {
+        Log.i(TAG, "Creating log table");
         db.execSQL("CREATE TABLE log (" +
                 " ID INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ", time INTEGER NOT NULL" +
@@ -55,9 +81,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE INDEX idx_log_uid ON log(uid)");
     }
 
+    private void createTableAccess(SQLiteDatabase db) {
+        Log.i(TAG, "Creating access table");
+        db.execSQL("CREATE TABLE access (" +
+                " ID INTEGER PRIMARY KEY AUTOINCREMENT" +
+                ", uid INTEGER NOT NULL" +
+                ", daddr TEXT NOT NULL" +
+                ", dport INTEGER NULL" +
+                ", time INTEGER NOT NULL" +
+                ", allowed INTEGER NOT NULL" +
+                ");");
+        db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, daddr, dport)");
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i(TAG, "Upgrading from version " + oldVersion + " to " + newVersion);
+        Log.i(TAG, DB_NAME + " upgrading from version " + oldVersion + " to " + newVersion);
 
         db.beginTransaction();
         try {
@@ -98,10 +137,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("CREATE INDEX idx_log_uid ON log(uid)");
                 oldVersion = 8;
             }
+            if (oldVersion < 9) {
+                createTableAccess(db);
+                oldVersion = 9;
+            }
 
-            db.setVersion(DB_VERSION);
+            if (oldVersion == DB_VERSION) {
+                db.setVersion(oldVersion);
+                db.setTransactionSuccessful();
+                Log.e(TAG, DB_NAME + " upgraded to " + DB_VERSION);
+            } else
+                throw new IllegalArgumentException(DB_NAME + " upgraded to " + oldVersion + " but required " + DB_VERSION);
 
-            db.setTransactionSuccessful();
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         } finally {
@@ -109,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Location
+    // Log
 
     public DatabaseHelper insertLog(Packet packet, int connection, boolean interactive) {
         synchronized (mContext.getApplicationContext()) {
@@ -194,6 +241,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         query += " WHERE saddr LIKE ? OR daddr LIKE ? OR uid LIKE ?";
         query += " ORDER BY time DESC";
         return db.rawQuery(query, new String[]{"%" + find + "%", "%" + find + "%", "%" + find + "%"});
+    }
+
+    // Access
+
+    public DatabaseHelper updateAccess(Packet packet) {
+        synchronized (mContext.getApplicationContext()) {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+            cv.put("time", packet.time);
+            cv.put("allowed", packet.allowed ? 1 : 0);
+
+            int rows = db.update("access", cv, "uid = ? AND daddr = ? AND dport = ?", new String[]{
+                    Integer.toString(packet.uid), packet.daddr, Integer.toString(packet.dport)});
+
+            if (rows == 0) {
+                cv.put("uid", packet.uid);
+                cv.put("daddr", packet.daddr);
+                cv.put("dport", packet.dport);
+                if (db.insert("access", null, cv) == -1)
+                    Log.e(TAG, "Insert access failed");
+            }
+        }
+
+        return this;
+    }
+
+    public Cursor getAccess(int uid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT ID AS _id, * FROM access WHERE uid = ?";
+        query += " ORDER BY time DESC";
+        return db.rawQuery(query, new String[]{Integer.toString(uid)});
     }
 
     public static void addLogChangedListener(LogChangedListener listener) {

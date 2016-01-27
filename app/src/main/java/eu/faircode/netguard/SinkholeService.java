@@ -629,10 +629,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void log(Packet packet) {
-            new DatabaseHelper(SinkholeService.this).insertLog(
-                    packet,
-                    (last_connected ? last_metered ? 2 : 1 : 0),
-                    last_interactive).close();
+            DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+            dh.insertLog(packet, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
+            if (packet.uid > 0 && packet.outbound)
+                dh.updateAccess(packet);
+            dh.close();
         }
 
         private void set(Intent intent) {

@@ -62,6 +62,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private boolean running = false;
     private SwipeRefreshLayout swipeRefresh;
+    private DatabaseHelper dh;
     private RuleAdapter adapter = null;
     private MenuItem menuSearch = null;
     private AlertDialog dialogFirst = null;
@@ -186,7 +187,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(true);
         rvApplication.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RuleAdapter(this);
+        dh = new DatabaseHelper(this);
+        adapter = new RuleAdapter(dh, this);
         rvApplication.setAdapter(adapter);
 
         // Swipe to refresh
@@ -305,6 +307,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
 
         running = false;
+
+        dh.close();
 
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 

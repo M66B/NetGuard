@@ -309,6 +309,7 @@ void log_packet(const struct arguments *args,
                 jint sport,
                 const char *dest,
                 jint dport,
+                jboolean outbound,
                 const char *data,
                 jint uid,
                 jboolean allowed);
