@@ -64,9 +64,9 @@
   <string name="setting_import">Импорт настроек</string>
   <string name="setting_hosts">Импорт hosts-файла</string>
   <string name="setting_technical">Техническая информация</string>
-  <string name="setting_technical_general">General</string>
-  <string name="setting_technical_networks">Networks</string>
-  <string name="setting_technical_subscription">Subscriptions</string>
+  <string name="setting_technical_general">Общее</string>
+  <string name="setting_technical_networks">Сеть</string>
+  <string name="setting_technical_subscription">Подписки</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
