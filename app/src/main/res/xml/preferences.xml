@@ -192,12 +192,12 @@
         android:title="@string/setting_technical">
         <Preference
             android:key="technical_info"
-            android:title="General" />
+            android:title="@string/setting_technical_general" />
         <Preference
             android:key="technical_network"
-            android:title="Networks" />
+            android:title="@string/setting_technical_networks" />
         <Preference
             android:key="technical_subscription"
-            android:title="Subscriptions" />
+            android:title="@string/setting_technical_subscription" />
     </PreferenceCategory>
 </PreferenceScreen>
