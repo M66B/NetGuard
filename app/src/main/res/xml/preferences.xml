@@ -24,34 +24,10 @@
             android:key="whitelist_roaming"
             android:title="@string/setting_whitelist_roaming" />
     </PreferenceCategory>
+
     <PreferenceCategory
         android:key="category_options"
         android:title="@string/setting_options">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="manage_system"
-            android:summary="@string/summary_system"
-            android:title="@string/setting_system" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="tethering"
-            android:title="@string/setting_tethering" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="log"
-            android:summary="@string/summary_log"
-            android:title="@string/setting_log" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="filter"
-            android:summary="@string/summary_filter"
-            android:title="@string/setting_filter" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:dependency="filter"
-            android:key="use_hosts"
-            android:summary="@string/summary_block_domains"
-            android:title="@string/setting_block_domains" />
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"
@@ -71,6 +47,15 @@
             android:defaultValue="false"
             android:key="dark_theme"
             android:title="@string/setting_dark" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_options"
+        android:title="@string/setting_network_options">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="tethering"
+            android:title="@string/setting_tethering" />
         <MultiSelectListPreference
             android:defaultValue="@array/default_wifi_home"
             android:key="wifi_homes"
@@ -101,6 +86,46 @@
             android:summary="@string/summary_national_roaming"
             android:title="@string/setting_national_roaming" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_options"
+        android:title="@string/setting_advanced_options">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="manage_system"
+            android:summary="@string/summary_system"
+            android:title="@string/setting_system" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="log"
+            android:summary="@string/summary_log"
+            android:title="@string/setting_log" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="filter"
+            android:summary="@string/summary_filter"
+            android:title="@string/setting_filter" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="filter"
+            android:key="use_hosts"
+            android:summary="@string/summary_block_domains"
+            android:title="@string/setting_block_domains" />
+        <EditTextPreference
+            inputType="phone"
+            android:hint="10.1.10.1"
+            android:inputType="phone"
+            android:key="vpn4" />
+        <EditTextPreference
+            android:hint="fd00:1:fd00:1:fd00:1:fd00:1"
+            android:inputType="text"
+            android:key="vpn6" />
+        <EditTextPreference
+            android:dependency="filter"
+            android:inputType="text"
+            android:key="dns" />
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="category_stats"
         android:title="@string/setting_stats_category">
@@ -130,6 +155,7 @@
             android:inputType="number"
             android:key="stats_samples" />
     </PreferenceCategory>
+
     <PreferenceCategory
         android:key="category_backup"
         android:title="@string/setting_backup">
@@ -144,6 +170,7 @@
             android:key="hosts"
             android:title="@string/setting_hosts" />
     </PreferenceCategory>
+
     <PreferenceCategory
         android:key="category_development"
         android:title="Development">
@@ -158,13 +185,8 @@
             android:entryValues="@array/logLevelValues"
             android:key="loglevel"
             android:title="Native log level" />
-        <EditTextPreference
-            android:defaultValue=""
-            android:dependency="filter"
-            android:inputType="text"
-            android:key="dns"
-            android:title="DNS" />
     </PreferenceCategory>
+
     <PreferenceCategory
         android:key="category_technical"
         android:title="@string/setting_technical">

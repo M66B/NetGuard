@@ -82,6 +82,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
+    private String last_vpn4 = null;
+    private String last_vpn6 = null;
     private String last_dns = null;
     private boolean last_tethering = false;
     private boolean phone_state = false;
@@ -339,6 +341,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean tethering = prefs.getBoolean("tethering", false);
             boolean filter = prefs.getBoolean("filter", false);
+            String vpn4 = prefs.getString("vpn4", "10.1.10.1");
+            String vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
+            String dns = getDns();
 
             if (state != State.enforcing) {
                 if (state != State.none) {
@@ -355,7 +360,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             if (filter &&
                     tethering == last_tethering &&
-                    getDns().equals(last_dns)) {
+                    vpn4.equals(last_vpn4) &&
+                    vpn6.equals(last_vpn6) &&
+                    dns.equals(last_dns)) {
                 Log.i(TAG, "Native restart");
 
                 if (vpn != null)
@@ -667,18 +674,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         Log.i(TAG, "DNS system=" + sysDns + " VPN=" + vpnDns);
         try {
             if (TextUtils.isEmpty(vpnDns.trim()))
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("dns");
             InetAddress.getByName(vpnDns);
             Log.i(TAG, "DNS using=" + vpnDns);
             return vpnDns;
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        } catch (Throwable ignored1) {
             try {
                 InetAddress.getByName(sysDns);
                 Log.i(TAG, "DNS using=" + sysDns);
                 return sysDns;
-            } catch (Throwable exex) {
-                Log.e(TAG, exex.toString() + "\n" + Log.getStackTraceString(exex));
+            } catch (Throwable ignored2) {
                 Log.i(TAG, "DNS using=8.8.8.8");
                 return "8.8.8.8";
             }
@@ -690,14 +695,19 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
 
+        last_vpn4 = prefs.getString("vpn4", "10.1.10.1");
+        last_vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
         last_dns = getDns();
         last_tethering = tethering;
 
         // Build VPN service
         final Builder builder = new Builder();
         builder.setSession(getString(R.string.app_name) + " session");
-        builder.addAddress(prefs.getString("vpn4", "10.1.10.1"), 32);
-        builder.addAddress(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"), 64);
+
+        // VPN address
+        Log.i(TAG, "vpn4=" + last_vpn4 + " vpn6=" + last_vpn6);
+        builder.addAddress(last_vpn4, 32);
+        builder.addAddress(last_vpn6, 64);
 
         if (filter)
             builder.addDnsServer(last_dns);

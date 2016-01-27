@@ -68,6 +68,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -111,23 +112,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         PreferenceScreen screen = getPreferenceScreen();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // Wi-Fi home
-        MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) screen.findPreference("wifi_homes");
-        Set<String> ssid = prefs.getStringSet("wifi_homes", new HashSet<String>());
-        if (ssid.size() > 0)
-            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
-        else
-            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
-
-        WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        List<CharSequence> listSSID = new ArrayList<>();
-        List<WifiConfiguration> configs = wm.getConfiguredNetworks();
-        if (configs != null)
-            for (WifiConfiguration config : configs)
-                listSSID.add(config.SSID == null ? "NULL" : config.SSID);
-        pref_wifi_homes.setEntries(listSSID.toArray(new CharSequence[0]));
-        pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
-
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
         pref_auto_enable.setTitle(getString(R.string.setting_auto, prefs.getString("auto_enable", "0")));
@@ -146,6 +130,31 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 pref_screen_theme.setTitle(getString(R.string.setting_theme, themeNames[i]));
                 break;
             }
+
+        // Wi-Fi home
+        MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) screen.findPreference("wifi_homes");
+        Set<String> ssid = prefs.getStringSet("wifi_homes", new HashSet<String>());
+        if (ssid.size() > 0)
+            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
+        else
+            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
+
+        WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        List<CharSequence> listSSID = new ArrayList<>();
+        List<WifiConfiguration> configs = wm.getConfiguredNetworks();
+        if (configs != null)
+            for (WifiConfiguration config : configs)
+                listSSID.add(config.SSID == null ? "NULL" : config.SSID);
+        pref_wifi_homes.setEntries(listSSID.toArray(new CharSequence[0]));
+        pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
+
+        // VPN parameters
+        screen.findPreference("vpn4").setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn4", "10.1.10.1")));
+        screen.findPreference("vpn6").setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
+        EditTextPreference pref_dns = (EditTextPreference) screen.findPreference("dns");
+        String def_dns = Util.getDefaultDNS(this);
+        pref_dns.getEditText().setHint(def_dns);
+        pref_dns.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns)));
 
         // Handle stats
         EditTextPreference pref_stats_base = (EditTextPreference) screen.findPreference("stats_base");
@@ -177,7 +186,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
         });
 
-        // Handle hosts
+        // Handle hosts import
         Preference pref_hosts = screen.findPreference("hosts");
         Preference pref_block_domains = screen.findPreference("use_hosts");
         pref_block_domains.setEnabled(new File(getFilesDir(), "hosts.txt").exists());
@@ -199,8 +208,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             });
         }
 
-        EditTextPreference pref_dns = (EditTextPreference) screen.findPreference("dns");
-        pref_dns.getEditText().setHint(Util.getDefaultDNS(this));
+        // Development
+        if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta"))) {
+            screen.removePreference(screen.findPreference("category_development"));
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.remove("debug");
+            edit.remove("loglevel");
+            edit.apply();
+        }
 
         // Handle technical info
         Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {
@@ -247,15 +262,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             options.removePreference(screen.findPreference("unmetered_3g"));
             options.removePreference(screen.findPreference("unmetered_4g"));
             options.removePreference(screen.findPreference("national_roaming"));
-        }
-
-        if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta"))) {
-            screen.removePreference(screen.findPreference("category_development"));
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.remove("debug");
-            edit.remove("loglevel");
-            edit.remove("dns");
-            edit.apply();
         }
     }
 
@@ -347,6 +353,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
         }
 
+        // Dependencies
         if ("whitelist_wifi".equals(name) ||
                 "screen_wifi".equals(name))
             SinkholeService.reload("wifi", "changed " + name, this);
@@ -364,6 +371,51 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             } else
                 SinkholeService.reload("other", "changed " + name, this);
 
+        } else if ("auto_enable".equals(name))
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
+
+        else if ("screen_delay".equals(name))
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_delay, prefs.getString(name, "0")));
+
+        else if ("theme".equals(name) || "dark_theme".equals(name))
+            recreate();
+
+        else if ("tethering".equals(name))
+            SinkholeService.reload(null, "changed " + name, this);
+
+        else if ("wifi_homes".equals(name)) {
+            MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) getPreferenceScreen().findPreference(name);
+            Set<String> ssid = prefs.getStringSet(name, new HashSet<String>());
+            if (ssid.size() > 0)
+                pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
+            else
+                pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
+            SinkholeService.reload(null, "changed " + name, this);
+
+        } else if ("use_metered".equals(name))
+            SinkholeService.reload(null, "changed " + name, this);
+
+        else if ("unmetered_2g".equals(name) ||
+                "unmetered_3g".equals(name) ||
+                "unmetered_4g".equals(name)) {
+            if (prefs.getBoolean(name, false)) {
+                if (Util.hasPhoneStatePermission(this))
+                    SinkholeService.reload("other", "changed " + name, this);
+                else
+                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED);
+            } else
+                SinkholeService.reload("other", "changed " + name, this);
+
+        } else if ("national_roaming".equals(name)) {
+            if (prefs.getBoolean(name, false)) {
+                if (Util.hasPhoneStatePermission(this))
+                    SinkholeService.reload("other", "changed " + name, this);
+                else
+                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_NATIONAL);
+            } else
+                SinkholeService.reload("other", "changed " + name, this);
+
+
         } else if ("manage_system".equals(name)) {
             boolean manage = prefs.getBoolean(name, false);
             if (!manage)
@@ -371,8 +423,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             prefs.edit().putBoolean("show_system", manage).apply();
             SinkholeService.reload(null, "changed " + name, this);
 
-        } else if ("tethering".equals(name)) {
-            SinkholeService.reload(null, "changed " + name, this);
 
         } else if ("log".equals(name)) {
             if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_LOG, this)) {
@@ -406,46 +456,44 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("use_hosts".equals(name))
             SinkholeService.reload(null, "changed " + name, this);
 
-        else if ("auto_enable".equals(name))
-            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
+        else if ("vpn4".equals(name)) {
+            String vpn4 = prefs.getString("vpn4", null);
+            try {
+                if (TextUtils.isEmpty(vpn4.trim()))
+                    throw new IllegalArgumentException("vpn4");
+                InetAddress.getByName(vpn4);
+                SinkholeService.reload(null, "changed " + name, this);
+            } catch (Throwable ex) {
+                Log.w(TAG, ex.toString());
+                prefs.edit().remove("vpn4").apply();
+            }
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn4", "10.1.10.1")));
 
-        else if ("screen_delay".equals(name))
-            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_delay, prefs.getString(name, "0")));
+        } else if ("vpn6".equals(name)) {
+            String vpn6 = prefs.getString("vpn6", null);
+            try {
+                if (TextUtils.isEmpty(vpn6.trim()))
+                    throw new IllegalArgumentException("vpn6");
+                InetAddress.getByName(vpn6);
+                SinkholeService.reload(null, "changed " + name, this);
+            } catch (Throwable ex) {
+                Log.w(TAG, ex.toString());
+                prefs.edit().remove("vpn6").apply();
+            }
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
 
-        else if ("theme".equals(name) || "dark_theme".equals(name)) {
-            recreate();
-
-        } else if ("wifi_homes".equals(name)) {
-            MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) getPreferenceScreen().findPreference(name);
-            Set<String> ssid = prefs.getStringSet(name, new HashSet<String>());
-            if (ssid.size() > 0)
-                pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
-            else
-                pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
-            SinkholeService.reload(null, "changed " + name, this);
-
-        } else if ("use_metered".equals(name))
-            SinkholeService.reload(null, "changed " + name, this);
-
-        else if ("unmetered_2g".equals(name) ||
-                "unmetered_3g".equals(name) ||
-                "unmetered_4g".equals(name)) {
-            if (prefs.getBoolean(name, false)) {
-                if (Util.hasPhoneStatePermission(this))
-                    SinkholeService.reload("other", "changed " + name, this);
-                else
-                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED);
-            } else
-                SinkholeService.reload("other", "changed " + name, this);
-
-        } else if ("national_roaming".equals(name)) {
-            if (prefs.getBoolean(name, false)) {
-                if (Util.hasPhoneStatePermission(this))
-                    SinkholeService.reload("other", "changed " + name, this);
-                else
-                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_NATIONAL);
-            } else
-                SinkholeService.reload("other", "changed " + name, this);
+        } else if ("dns".equals(name)) {
+            String dns = prefs.getString("dns", null);
+            try {
+                if (TextUtils.isEmpty(dns.trim()))
+                    throw new IllegalArgumentException("dns");
+                InetAddress.getByName(dns);
+                SinkholeService.reload(null, "changed " + name, this);
+            } catch (Throwable ex) {
+                Log.w(TAG, ex.toString());
+                prefs.edit().remove("dns").apply();
+            }
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_dns, prefs.getString("dns", Util.getDefaultDNS(this))));
 
         } else if ("show_stats".equals(name)) {
             SinkholeService.reloadStats("changed " + name, this);
@@ -461,11 +509,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if ("debug".equals(name) || "loglevel".equals(name))
             SinkholeService.reload(null, "changed " + name, this);
-
-        else if ("dns".equals(name)) {
-            if (prefs.getBoolean("filter", false))
-                SinkholeService.reload(null, "changed " + name, this);
-        }
     }
 
     @Override
