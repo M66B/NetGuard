@@ -6,7 +6,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,8 +21,6 @@ import com.squareup.picasso.Picasso;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LogAdapter extends CursorAdapter {
     private static String TAG = "NetGuard.Log";
@@ -44,7 +41,6 @@ public class LogAdapter extends CursorAdapter {
     private int colInteractive;
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
-    private Map<String, String> mapIPHost = new HashMap<String, String>();
 
     public LogAdapter(Context context, Cursor cursor, boolean resolve) {
         super(context, cursor, 0);
@@ -175,33 +171,7 @@ public class LogAdapter extends CursorAdapter {
         tvSAddr.setText(getKnownAddress(saddr));
 
         if (resolve && !isKnownAddress(daddr))
-            synchronized (mapIPHost) {
-                if (mapIPHost.containsKey(daddr))
-                    tvDaddr.setText(mapIPHost.get(daddr));
-                else {
-                    tvDaddr.setText(daddr);
-                    new AsyncTask<String, Object, String>() {
-                        @Override
-                        protected String doInBackground(String... args) {
-                            try {
-                                // This requires internet permission
-                                return InetAddress.getByName(args[0]).getHostName();
-                            } catch (UnknownHostException ignored) {
-                                return args[0];
-                            }
-                        }
-
-                        @Override
-                        protected void onPostExecute(String host) {
-                            synchronized (mapIPHost) {
-                                if (!mapIPHost.containsKey(host))
-                                    mapIPHost.put(host, host);
-                            }
-                            tvDaddr.setText(host);
-                        }
-                    }.execute(daddr);
-                }
-            }
+            Util.resolveName(daddr, tvDaddr);
         else
             tvDaddr.setText(getKnownAddress(daddr));
 

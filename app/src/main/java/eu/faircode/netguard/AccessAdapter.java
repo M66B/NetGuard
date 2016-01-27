@@ -2,7 +2,6 @@ package eu.faircode.netguard;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,6 @@ import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 
 public class AccessAdapter extends CursorAdapter {
@@ -46,32 +43,15 @@ public class AccessAdapter extends CursorAdapter {
         // Get views
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
         CheckBox cbIp = (CheckBox) view.findViewById(R.id.cbIp);
-        final TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
+        TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
+        TextView tvPort = (TextView) view.findViewById(R.id.tvPort);
 
         // Set values
         tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
         cbIp.setChecked(allowed != 0);
+        tvDest.setText(dest);
+        tvPort.setText(dport > 0 ? Integer.toString(dport) : "");
 
-        new AsyncTask<String, Object, String>() {
-            @Override
-            protected void onPreExecute() {
-                tvDest.setText(dest + ":" + dport);
-            }
-
-            @Override
-            protected String doInBackground(String... args) {
-                try {
-                    // This requires internet permission
-                    return InetAddress.getByName(args[0]).getHostName();
-                } catch (UnknownHostException ignored) {
-                    return args[0];
-                }
-            }
-
-            @Override
-            protected void onPostExecute(String host) {
-                tvDest.setText(host + ":" + dport);
-            }
-        }.execute(dest);
+        Util.resolveName(dest, tvDest);
     }
 }

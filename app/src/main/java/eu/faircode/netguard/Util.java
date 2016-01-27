@@ -45,6 +45,7 @@ import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,10 +56,13 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -346,6 +350,39 @@ public class Util {
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             return false;
+        }
+    }
+
+    private static Map<String, String> mapIPHost = new HashMap<String, String>();
+
+    public static void resolveName(String name, final TextView tv) {
+        synchronized (mapIPHost) {
+            if (mapIPHost.containsKey(name))
+                tv.setText(mapIPHost.get(name));
+            else {
+                tv.setText(name);
+
+                new AsyncTask<String, Object, String>() {
+                    @Override
+                    protected String doInBackground(String... args) {
+                        try {
+                            // This requires internet permission
+                            return InetAddress.getByName(args[0]).getHostName();
+                        } catch (UnknownHostException ignored) {
+                            return args[0];
+                        }
+                    }
+
+                    @Override
+                    protected void onPostExecute(String host) {
+                        synchronized (mapIPHost) {
+                            if (!mapIPHost.containsKey(host))
+                                mapIPHost.put(host, host);
+                        }
+                        tv.setText(host);
+                    }
+                }.execute(name);
+            }
         }
     }
 
