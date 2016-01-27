@@ -171,7 +171,12 @@ public class LogAdapter extends CursorAdapter {
         tvSAddr.setText(getKnownAddress(saddr));
 
         if (resolve && !isKnownAddress(daddr))
-            Util.resolveName(daddr, tvDaddr);
+            Util.resolveName(daddr, new Util.resolveListener() {
+                @Override
+                public void onResolved(String name, boolean resolved) {
+                    tvDaddr.setText(name);
+                }
+            });
         else
             tvDaddr.setText(getKnownAddress(daddr));
 

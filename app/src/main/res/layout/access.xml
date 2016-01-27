@@ -23,31 +23,15 @@
         android:scaleX="0.8"
         android:scaleY="0.8" />
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/tvDest"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1">
-
-        <TextView
-            android:id="@+id/tvDest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Material.Small"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=":"
-            android:textAppearance="@android:style/TextAppearance.Material.Small"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tvPort"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Material.Small"
-            android:textSize="12sp" />
-    </LinearLayout>
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="12sp" />
 </LinearLayout>

@@ -43,15 +43,17 @@ public class AccessAdapter extends CursorAdapter {
         // Get views
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
         CheckBox cbIp = (CheckBox) view.findViewById(R.id.cbIp);
-        TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
-        TextView tvPort = (TextView) view.findViewById(R.id.tvPort);
+        final TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
 
         // Set values
         tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
         cbIp.setChecked(allowed != 0);
-        tvDest.setText(dest);
-        tvPort.setText(dport > 0 ? Integer.toString(dport) : "");
 
-        Util.resolveName(dest, tvDest);
+        Util.resolveName(dest, new Util.resolveListener() {
+            @Override
+            public void onResolved(String name, boolean resolved) {
+                tvDest.setText(name + (dport > 0 ? ":" + dport : ""));
+            }
+        });
     }
 }

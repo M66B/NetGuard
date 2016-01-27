@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
+// This requires list view items with equal heights
+
 public class ExpandedListView extends ListView {
     public ExpandedListView(Context context) {
         super(context);

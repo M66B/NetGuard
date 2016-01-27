@@ -355,12 +355,16 @@ public class Util {
 
     private static Map<String, String> mapIPHost = new HashMap<String, String>();
 
-    public static void resolveName(String name, final TextView tv) {
+    public interface resolveListener {
+        void onResolved(String name, boolean resolved);
+    }
+
+    public static void resolveName(String name, final resolveListener listener) {
         synchronized (mapIPHost) {
             if (mapIPHost.containsKey(name))
-                tv.setText(mapIPHost.get(name));
+                listener.onResolved(mapIPHost.get(name), true);
             else {
-                tv.setText(name);
+                listener.onResolved(name, false);
 
                 new AsyncTask<String, Object, String>() {
                     @Override
@@ -379,7 +383,7 @@ public class Util {
                             if (!mapIPHost.containsKey(host))
                                 mapIPHost.put(host, host);
                         }
-                        tv.setText(host);
+                        listener.onResolved(host, true);
                     }
                 }.execute(name);
             }
