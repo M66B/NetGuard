@@ -27,12 +27,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.net.VpnService;
 import android.os.Build;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -107,13 +107,15 @@ public class Receiver extends BroadcastReceiver {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
+            // Get application name(s)
+            String name = TextUtils.join(",", Util.getApplicationNames(uid, context));
+
             // Get application info
             PackageManager pm = context.getPackageManager();
             String[] packages = pm.getPackagesForUid(uid);
             if (packages.length < 1)
                 throw new PackageManager.NameNotFoundException(Integer.toString(uid));
             ApplicationInfo info = pm.getApplicationInfo(packages[0], 0);
-            String name = (String) pm.getApplicationLabel(info);
             boolean internet = (pm.checkPermission("android.permission.INTERNET", info.packageName) == PackageManager.PERMISSION_GRANTED);
 
             // Build notification

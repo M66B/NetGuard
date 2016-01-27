@@ -21,7 +21,6 @@ package eu.faircode.netguard;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -31,6 +30,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -128,19 +128,8 @@ public class ActivityLog extends AppCompatActivity {
                 final int sport = (cursor.isNull(cursor.getColumnIndex("sport")) ? -1 : cursor.getInt(cursor.getColumnIndex("sport")));
                 final int uid = (cursor.isNull(cursor.getColumnIndex("uid")) ? -1 : cursor.getInt(cursor.getColumnIndex("uid")));
 
-                // Get package name
-                String name = null;
-                if (uid == 0)
-                    name = "root";
-                else {
-                    String[] pkg = pm.getPackagesForUid(uid);
-                    if (pkg != null && pkg.length > 0)
-                        try {
-                            ApplicationInfo info = pm.getApplicationInfo(pkg[0], 0);
-                            name = pm.getApplicationLabel(info).toString();
-                        } catch (PackageManager.NameNotFoundException ignored) {
-                        }
-                }
+                // Get application name(s)
+                String name = (uid == 0 ? "root" : TextUtils.join(",", Util.getApplicationNames(uid, ActivityLog.this)));
 
                 // Get external address
                 InetAddress addr = null;

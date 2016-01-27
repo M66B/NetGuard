@@ -57,6 +57,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -303,6 +305,20 @@ public class Util {
         } catch (PackageManager.NameNotFoundException ignored) {
             return false;
         }
+    }
+
+    public static List<String> getApplicationNames(int uid, Context context) {
+        List<String> listResult = new ArrayList<>();
+        PackageManager pm = context.getPackageManager();
+        String[] pkg = pm.getPackagesForUid(uid);
+        if (pkg != null && pkg.length > 0)
+            try {
+                ApplicationInfo info = pm.getApplicationInfo(pkg[0], 0);
+                listResult.add(pm.getApplicationLabel(info).toString());
+            } catch (PackageManager.NameNotFoundException ignored) {
+            }
+        Collections.sort(listResult);
+        return listResult;
     }
 
     public static boolean isDebuggable(Context context) {
