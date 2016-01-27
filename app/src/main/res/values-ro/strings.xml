@@ -40,7 +40,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_delay">Temporizare la oprirea ecranului %1$s minute</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
-  <string name="setting_network_options">Network options</string>
+  <string name="setting_network_options">Optiuni conexiune</string>
   <string name="setting_tethering">Permite partajarea conexiunii</string>
   <string name="setting_wifi_home">Retea Wi-Fi de domiciliu: %1$s</string>
   <string name="setting_metered">Gestionati conexiunile Wi-Fi contorizate</string>
@@ -48,7 +48,7 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_metered_3g">Considera 3G necontorizat</string>
   <string name="setting_metered_4g">Considera 4G/LTE necontorizat</string>
   <string name="setting_national_roaming">Ignora roamingul national</string>
-  <string name="setting_advanced_options">Advanced options</string>
+  <string name="setting_advanced_options">Optiuni avansate</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_log">Jurnal de trafic</string>
   <string name="setting_filter">Filtru de trafic</string>
@@ -67,6 +67,9 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_import">Importa setari</string>
   <string name="setting_hosts">Importa lista de domenii de blocat</string>
   <string name="setting_technical">Informatii tehnice</string>
+  <string name="setting_technical_general">General</string>
+  <string name="setting_technical_networks">Networks</string>
+  <string name="setting_technical_subscription">Subscriptions</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_delay">Dupa oprirea ecranului, pastreza regulile ecran pornit pentru numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (pentru alte retele Wi-Fi se aplica regulile de date mobile)</string>

@@ -65,6 +65,9 @@
   <string name="setting_import">輸入設定</string>
   <string name="setting_hosts">Import hosts file</string>
   <string name="setting_technical">資訊</string>
+  <string name="setting_technical_general">General</string>
+  <string name="setting_technical_networks">Networks</string>
+  <string name="setting_technical_subscription">Subscriptions</string>
   <string name="summary_auto">\"在禁用小工具之後,自動在設定的時間後啟動網路守門人
 輸入0來關閉這項設定\"</string>
   <string name="summary_delay">在關閉螢幕後, 在所選數目分鐘內繼續保持螢幕開啟時的規則 (輸入0以禁用此選項)</string>

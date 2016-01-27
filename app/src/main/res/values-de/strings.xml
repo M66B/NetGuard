@@ -66,6 +66,9 @@ Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitt
   <string name="setting_import">Einstellungen importieren</string>
   <string name="setting_hosts">Host-Datei importieren</string>
   <string name="setting_technical">Technische information</string>
+  <string name="setting_technical_general">General</string>
+  <string name="setting_technical_networks">Networks</string>
+  <string name="setting_technical_subscription">Subscriptions</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert\nNull eingeben zum Deaktivieren dieser Option</string>
   <string name="summary_delay">Nachdem Ausschalten des Bildschirms, diesen aufgrund der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren)</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>

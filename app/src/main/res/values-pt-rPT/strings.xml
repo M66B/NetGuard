@@ -67,6 +67,9 @@ Esses problemas são causados por bugs/falhas no Android ou no software fornecid
   <string name="setting_import">Importar configurações</string>
   <string name="setting_hosts">Importar ficheiro hosts</string>
   <string name="setting_technical">Informações técnicas</string>
+  <string name="setting_technical_general">General</string>
+  <string name="setting_technical_networks">Networks</string>
+  <string name="setting_technical_subscription">Subscriptions</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis às outras redes Wi-Fi)</string>

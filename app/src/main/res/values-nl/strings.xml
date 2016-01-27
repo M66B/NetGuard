@@ -67,6 +67,9 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="setting_import">Importeer instellingen</string>
   <string name="setting_hosts">Importeer hosts-bestand</string>
   <string name="setting_technical">Technische informatie</string>
+  <string name="setting_technical_general">Algemeen</string>
+  <string name="setting_technical_networks">Netwerken</string>
+  <string name="setting_technical_subscription">Abonnementen</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>

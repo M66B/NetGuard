@@ -67,6 +67,9 @@
   <string name="setting_import">設定をインポート</string>
   <string name="setting_hosts">hosts ファイルをインポート</string>
   <string name="setting_technical">技術情報</string>
+  <string name="setting_technical_general">General</string>
+  <string name="setting_technical_networks">Networks</string>
+  <string name="setting_technical_subscription">Subscriptions</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>

@@ -67,6 +67,9 @@ Estos problemas son causados por errores en Android, o en el software provisto p
   <string name="setting_import">Importar configuración</string>
   <string name="setting_hosts">Import hosts file</string>
   <string name="setting_technical">Información técnica</string>
+  <string name="setting_technical_general">General</string>
+  <string name="setting_technical_networks">Networks</string>
+  <string name="setting_technical_subscription">Subscriptions</string>
   <string name="summary_auto">Después de desactivar usando el widget, activar automáticamente NetGuard nuevamente luego del número de minutos seleccionado\nIngresar cero para deshabilitar esta opción</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Aplicar reglas de red Wi-Fi para la red seleccionada solamente (aplicar reglas de red móvil para otras redes Wi-Fi)</string>

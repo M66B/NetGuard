@@ -67,6 +67,9 @@
   <string name="setting_import">导入设置</string>
   <string name="setting_hosts">导出 hosts 文件</string>
   <string name="setting_technical">技术信息</string>
+  <string name="setting_technical_general">General</string>
+  <string name="setting_technical_networks">Networks</string>
+  <string name="setting_technical_subscription">Subscriptions</string>
   <string name="summary_auto">禁用小部件后, 在设定分钟后自动再次启用NetGuard\n输入零以禁用此选项</string>
   <string name="summary_delay">关屏后，保持亮屏规则在指定的分钟数内有效 (输入零以禁用此选项)</string>
   <string name="summary_wifi_home">仅将Wi-Fi网络规则应用于所选定的网络 (将移动网络规则应用于其他Wi-Fi网络)</string>
