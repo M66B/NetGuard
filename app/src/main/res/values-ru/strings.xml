@@ -93,8 +93,8 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="msg_terms">Делая пожертвование, Вы соглашаетесь с <a href="http://www.netguard.me/#terms">условиями &amp; положениями</a></string>
   <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ МБ/день</string>
-  <string name="msg_kbsec">%7.3f KB/s</string>
-  <string name="msg_mbsec">%7.3f MB/s</string>
+  <string name="msg_kbsec">%7.3f КБ/с</string>
+  <string name="msg_mbsec">%7.3f МБ/с</string>
   <string name="msg_filter">Использование данной функции приводит к тому, что Android передает данные и использование энергии в пользование NetGuard; Android будет считать, что данные и энергия используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>
