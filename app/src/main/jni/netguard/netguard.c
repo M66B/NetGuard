@@ -454,7 +454,7 @@ void check_allowed(const struct arguments *args) {
 
             jobject objPacket = create_packet(
                     args, u->version, IPPROTO_UDP, "",
-                    source, ntohs(u->source), dest, ntohs(u->dest), 1, "", u->uid, 0);
+                    source, ntohs(u->source), dest, ntohs(u->dest), "", u->uid, 0);
             if (!is_address_allowed(args, objPacket)) {
                 u->stop = 1;
                 log_android(ANDROID_LOG_WARN, "UDP terminate %d uid %d", u->socket, u->uid);
@@ -477,7 +477,7 @@ void check_allowed(const struct arguments *args) {
 
             jobject objPacket = create_packet(
                     args, t->version, IPPROTO_TCP, "",
-                    source, ntohs(t->source), dest, ntohs(t->dest), 1, "", t->uid, 0);
+                    source, ntohs(t->source), dest, ntohs(t->dest), "", t->uid, 0);
             if (!is_address_allowed(args, objPacket)) {
                 t->state = TCP_TIME_WAIT;
                 log_android(ANDROID_LOG_WARN, "TCP terminate socket %d uid %d", t->socket, t->uid);
@@ -984,7 +984,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     inet_ntop(version == 4 ? AF_INET : AF_INET6, daddr, dest, sizeof(dest));
 
     // Get ports & flags
-    jboolean syn = 0;
+    int syn = 0;
     int32_t sport = -1;
     int32_t dport = -1;
     if (protocol == IPPROTO_TCP) {
@@ -1074,7 +1074,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         log_android(ANDROID_LOG_INFO, "UDP existing session allowed");
     } else {
         jobject objPacket = create_packet(
-                args, version, protocol, flags, source, sport, dest, dport, 1, "", uid, 0);
+                args, version, protocol, flags, source, sport, dest, dport, "", uid, 0);
         allowed = is_address_allowed(args, objPacket);
     }
 
@@ -1102,9 +1102,9 @@ int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint
              (version == 4 ? cur->saddr.ip4 == ip4->saddr &&
                              cur->daddr.ip4 == ip4->daddr
                            : memcmp(&cur->saddr.ip6, &ip6->ip6_src, 16) == 0 &&
-                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0))) {
+                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0)))
         cur = cur->next;
-    }
+
     return (cur != NULL);
 }
 
@@ -1193,13 +1193,16 @@ jboolean handle_udp(const struct arguments *args,
             log_android(ANDROID_LOG_INFO, "DNS type %d class %d name %s", qtype, qclass, qname);
 
             if (check_domain(args, cur, data, datalen, qclass, qtype, qname)) {
+                // Log qname
                 char name[DNS_QNAME_MAX + 40 + 1];
                 sprintf(name, "qtype %d qname %s", qtype, qname);
                 jobject objPacket = create_packet(
                         args, version, IPPROTO_UDP, "",
                         source, ntohs(cur->source), dest, ntohs(cur->dest),
-                        1, name, cur->uid, 0);
+                        name, cur->uid, 0);
                 log_packet(args, objPacket);
+
+                // Session done
                 cur->stop = 1;
                 return 0;
             }
@@ -1473,6 +1476,27 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
 
         free(response);
     }
+}
+
+int has_tcp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload) {
+    // Get headers
+    const uint8_t version = (*pkt) >> 4;
+    const struct iphdr *ip4 = (struct iphdr *) pkt;
+    const struct ip6_hdr *ip6 = (struct ip6_hdr *) pkt;
+    const struct tcphdr *tcphdr = (struct tcphdr *) payload;
+
+    // Search session
+    struct tcp_session *cur = tcp_session;
+    while (cur != NULL &&
+           !(cur->version == version &&
+             cur->source == tcphdr->source && cur->dest == tcphdr->dest &&
+             (version == 4 ? cur->saddr.ip4 == ip4->saddr &&
+                             cur->daddr.ip4 == ip4->daddr
+                           : memcmp(&cur->saddr.ip6, &ip6->ip6_src, 16) == 0 &&
+                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0)))
+        cur = cur->next;
+
+    return (cur != NULL);
 }
 
 jboolean handle_tcp(const struct arguments *args,
@@ -2602,7 +2626,6 @@ jobject create_packet(const struct arguments *args,
                       jint sport,
                       const char *dest,
                       jint dport,
-                      jboolean outbound,
                       const char *data,
                       jint uid,
                       jboolean allowed) {
@@ -2629,7 +2652,6 @@ jobject create_packet(const struct arguments *args,
     (*env)->SetIntField(env, jpacket, jniGetFieldID(env, clsPacket, "sport", "I"), sport);
     (*env)->SetObjectField(env, jpacket, jniGetFieldID(env, clsPacket, "daddr", string), jdest);
     (*env)->SetIntField(env, jpacket, jniGetFieldID(env, clsPacket, "dport", "I"), dport);
-    (*env)->SetBooleanField(env, jpacket, jniGetFieldID(env, clsPacket, "outbound", "Z"), outbound);
     (*env)->SetObjectField(env, jpacket, jniGetFieldID(env, clsPacket, "data", string), jdata);
     (*env)->SetIntField(env, jpacket, jniGetFieldID(env, clsPacket, "uid", "I"), uid);
     (*env)->SetBooleanField(env, jpacket, jniGetFieldID(env, clsPacket, "allowed", "Z"), allowed);

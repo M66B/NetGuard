@@ -28,7 +28,6 @@ public class Packet {
     public int sport;
     public String daddr;
     public int dport;
-    public boolean outbound;
     public String data;
     public int uid;
     public boolean allowed;

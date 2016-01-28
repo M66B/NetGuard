@@ -241,6 +241,8 @@ int check_domain(const struct arguments *args, const struct udp_session *u,
 int check_dhcp(const struct arguments *args, const struct udp_session *u,
                const uint8_t *data, const size_t datalen);
 
+int has_tcp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload);
+
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
@@ -311,7 +313,6 @@ jobject create_packet(const struct arguments *args,
                       jint sport,
                       const char *dest,
                       jint dport,
-                      jboolean outbound,
                       const char *data,
                       jint uid,
                       jboolean allowed);
@@ -321,8 +322,6 @@ void write_pcap_hdr();
 void write_pcap_rec(const uint8_t *buffer, size_t len);
 
 void write_pcap(const void *ptr, size_t len);
-
-void read_hosts(const char *name, struct arguments *args);
 
 const char *strstate(const int state);
 
