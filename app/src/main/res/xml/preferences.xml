@@ -53,7 +53,7 @@
         android:key="category_options"
         android:title="@string/setting_network_options">
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="tethering"
             android:title="@string/setting_tethering" />
         <MultiSelectListPreference
