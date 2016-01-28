@@ -1875,16 +1875,6 @@ int open_udp_socket(const struct arguments *args, const struct udp_session *cur)
         */
     }
 
-    // Set blocking
-    /*
-    int flags = fcntl(sock, F_GETFL, 0);
-    if (flags < 0 || fcntl(sock, F_SETFL, flags & ~O_NONBLOCK) < 0) {
-        log_android(ANDROID_LOG_ERROR, "fcntl socket ~O_NONBLOCK error %d: %s",
-                    errno, strerror(errno));
-        return -1;
-    }
-    */
-
     return sock;
 }
 
@@ -1933,15 +1923,6 @@ int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur)
         log_android(ANDROID_LOG_ERROR, "connect error %d: %s", errno, strerror(errno));
         return -1;
     }
-
-    // Set blocking
-    /*
-    if (fcntl(sock, F_SETFL, flags & ~O_NONBLOCK) < 0) {
-        log_android(ANDROID_LOG_ERROR, "fcntl socket ~O_NONBLOCK error %d: %s",
-                    errno, strerror(errno));
-        return -1;
-    }
-    */
 
     return sock;
 }
