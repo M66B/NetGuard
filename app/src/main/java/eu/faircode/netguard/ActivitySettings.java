@@ -150,7 +150,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // VPN parameters
         screen.findPreference("vpn4").setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn4", "10.1.10.1")));
-        screen.findPreference("vpn6").setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
+        screen.findPreference("vpn6").setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
         EditTextPreference pref_dns = (EditTextPreference) screen.findPreference("dns");
         String def_dns = Util.getDefaultDNS(this);
         pref_dns.getEditText().setHint(def_dns);
