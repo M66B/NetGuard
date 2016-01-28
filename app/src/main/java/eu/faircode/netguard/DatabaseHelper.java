@@ -126,7 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (oldVersion < 7) {
                 db.execSQL("DROP TABLE log");
                 createTableLog(db);
-                oldVersion = 7;
+                oldVersion = 9;
             }
             if (oldVersion < 8) {
                 db.execSQL("ALTER TABLE log ADD COLUMN data TEXT");
