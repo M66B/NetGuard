@@ -360,6 +360,7 @@ public class Util {
     }
 
     public static void resolveName(String name, final resolveListener listener) {
+        // TODO DNS cache timeout
         synchronized (mapIPHost) {
             if (mapIPHost.containsKey(name))
                 listener.onResolved(mapIPHost.get(name), true);

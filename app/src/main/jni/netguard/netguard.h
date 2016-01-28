@@ -223,6 +223,8 @@ int is_upper_layer(int protocol);
 
 void handle_ip(const struct arguments *args, const uint8_t *buffer, size_t length);
 
+int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload);
+
 jboolean handle_udp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,

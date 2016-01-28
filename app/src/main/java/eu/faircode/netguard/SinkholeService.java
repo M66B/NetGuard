@@ -924,11 +924,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean isAddressAllowed(Packet packet) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (prefs.getBoolean("filter", false)) {
-            if (packet.uid <= 0) // unknown, root
-                packet.allowed = true;
-            else
-                packet.allowed = (mapUidAllowed.containsKey(packet.uid) && mapUidAllowed.get(packet.uid));
+        if (packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */) {
+            if (prefs.getBoolean("filter", false)) {
+                if (packet.uid <= 0) // unknown, root
+                    packet.allowed = true;
+                else
+                    packet.allowed = (mapUidAllowed.containsKey(packet.uid) && mapUidAllowed.get(packet.uid));
+            } else
+                packet.allowed = false;
         } else
             packet.allowed = false;
 
