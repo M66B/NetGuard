@@ -100,8 +100,9 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instance,
-                                                     jint tun, jint loglevel) {
+                                                     jint tun, jint loglevel_) {
 
+    loglevel = loglevel_;
     log_android(ANDROID_LOG_WARN, "Starting tun=%d level %d", tun, loglevel);
 
     // Set blocking
@@ -865,8 +866,8 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 
             if (cur->state != oldstate || cur->local_seq != oldlocal ||
                 cur->remote_seq != oldremote)
-                log_android(ANDROID_LOG_INFO,
-                            "Session %s/%u new state %s local %u remote %u",
+                log_android(ANDROID_LOG_DEBUG,
+                            "TCP session %s/%u new state %s local %u remote %u",
                             dest, ntohs(cur->dest), strstate(cur->state),
                             cur->local_seq - cur->local_start,
                             cur->remote_seq - cur->remote_start);

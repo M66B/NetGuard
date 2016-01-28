@@ -179,7 +179,7 @@
             android:entries="@array/logLevelNames"
             android:entryValues="@array/logLevelValues"
             android:key="loglevel"
-            android:summary="More logging means less performance and more battery usage"
+            android:summary="Log level debug or verbose will impact performance and battery usage"
             android:title="Native log level" />
 
     </PreferenceCategory>
