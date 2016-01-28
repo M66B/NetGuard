@@ -40,7 +40,7 @@
   <string name="setting_delay">%1$s 分、画面オフを遅延</string>
   <string name="setting_theme">テーマ: %1$s</string>
   <string name="setting_dark">ダークテーマを使用する</string>
-  <string name="setting_network_options">Network options</string>
+  <string name="setting_network_options">ネットワーク オプション</string>
   <string name="setting_tethering">テザリングを許可</string>
   <string name="setting_wifi_home">Wi-Fi ホームネットワーク: %1$s</string>
   <string name="setting_metered">従量制の Wi-Fi ネットワークを扱う</string>
@@ -48,7 +48,7 @@
   <string name="setting_metered_3g">定額制 3G を考慮する</string>
   <string name="setting_metered_4g">定額制 LTE を考慮する</string>
   <string name="setting_national_roaming">国内ローミングを無視する</string>
-  <string name="setting_advanced_options">Advanced options</string>
+  <string name="setting_advanced_options">詳細オプション</string>
   <string name="setting_system">システムアプリケーションの管理</string>
   <string name="setting_log">トラフィックのログ</string>
   <string name="setting_filter">トラフィックをフィルター</string>
@@ -67,9 +67,9 @@
   <string name="setting_import">設定をインポート</string>
   <string name="setting_hosts">hosts ファイルをインポート</string>
   <string name="setting_technical">技術情報</string>
-  <string name="setting_technical_general">General</string>
-  <string name="setting_technical_networks">Networks</string>
-  <string name="setting_technical_subscription">Subscriptions</string>
+  <string name="setting_technical_general">全般</string>
+  <string name="setting_technical_networks">ネットワーク</string>
+  <string name="setting_technical_subscription">サブスクリプション</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>
