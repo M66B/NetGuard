@@ -174,13 +174,8 @@
     <PreferenceCategory
         android:key="category_development"
         android:title="Development">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="debug"
-            android:title="Debug" />
         <ListPreference
             android:defaultValue="4"
-            android:dependency="debug"
             android:entries="@array/logLevelNames"
             android:entryValues="@array/logLevelValues"
             android:key="loglevel"

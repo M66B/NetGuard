@@ -54,7 +54,6 @@ jboolean signaled = 0;
 struct udp_session *udp_session = NULL;
 struct tcp_session *tcp_session = NULL;
 
-int debug = 0;
 int loglevel = 0;
 FILE *pcap_file = NULL;
 
@@ -100,18 +99,10 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1start(
-        JNIEnv *env, jobject instance,
-        jint tun, jintArray uids_,
-        jstring hosts_,
-        jboolean log, jboolean filter,
-        jboolean debug_, jint loglevel_) {
+Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instance,
+                                                     jint tun, jint loglevel) {
 
-    debug = debug_;
-    loglevel = loglevel_;
-
-    log_android(ANDROID_LOG_WARN, "Starting tun=%d log %d filter %d debug %d level %d",
-                tun, log, filter, debug, loglevel);
+    log_android(ANDROID_LOG_WARN, "Starting tun=%d level %d", tun, loglevel);
 
     // Set blocking
     int flags = fcntl(tun, F_GETFL, 0);
@@ -131,32 +122,6 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
         // args->env = will be set in thread
         args->instance = (*env)->NewGlobalRef(env, instance);
         args->tun = tun;
-
-        args->ucount = (*env)->GetArrayLength(env, uids_);
-        args->uids = malloc(args->ucount * sizeof(jint));
-        jint *uids = (*env)->GetIntArrayElements(env, uids_, NULL);
-        memcpy(args->uids, uids, args->ucount * sizeof(jint));
-        (*env)->ReleaseIntArrayElements(env, uids_, uids, 0);
-
-        args->log = log;
-        args->filter = filter;
-
-        if (hosts_ == NULL) {
-            args->hcount = 0;
-            args->hosts = NULL;
-            log_android(ANDROID_LOG_WARN, "No hosts file");
-        } else {
-            const char *hosts = (*env)->GetStringUTFChars(env, hosts_, 0);
-            log_android(ANDROID_LOG_WARN, "hosts file %s", hosts);
-            read_hosts(hosts, args);
-            (*env)->ReleaseStringUTFChars(env, hosts_, hosts);
-        }
-
-        for (int i = 0; i < args->ucount; i++)
-            log_android(ANDROID_LOG_VERBOSE, "Allowed uid %d", args->uids[i]);
-
-        // Terminate sessions not allowed anymore
-        check_allowed(args);
 
         // Start native thread
         int err = pthread_create(&thread_id, NULL, handle_events, (void *) args);
@@ -263,42 +228,6 @@ Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring na
 
 // Private functions
 
-void check_allowed(const struct arguments *args) {
-    struct udp_session *u = udp_session;
-    while (u != NULL) {
-        if (!u->stop) {
-            int found = 0;
-            for (int i = 0; i < args->ucount; i++)
-                if (u->uid == args->uids[i]) {
-                    found = 1;
-                    break;
-                }
-            if (!found) {
-                u->stop = 1;
-                log_android(ANDROID_LOG_WARN, "UDP terminate %d uid %d", u->socket, u->uid);
-            }
-        }
-        u = u->next;
-    }
-
-    struct tcp_session *t = tcp_session;
-    while (t != NULL) {
-        if (t->state != TCP_TIME_WAIT && t->state != TCP_CLOSE) {
-            int found = 0;
-            for (int i = 0; i < args->ucount; i++)
-                if (t->uid == args->uids[i]) {
-                    found = 1;
-                    break;
-                }
-            if (!found) {
-                t->state = TCP_TIME_WAIT;
-                log_android(ANDROID_LOG_WARN, "TCP terminate socket %d uid %d", t->socket, t->uid);
-            }
-        }
-        t = t->next;
-    }
-}
-
 void clear_sessions() {
     struct udp_session *u = udp_session;
     while (u != NULL) {
@@ -359,6 +288,9 @@ void *handle_events(void *a) {
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_RESTART;
     sigaction(SIGUSR1, &sa, NULL);
+
+    // Terminate existing sessions not allowed anymore
+    check_allowed(args);
 
     stopping = 0;
     signaled = 0;
@@ -474,10 +406,6 @@ void *handle_events(void *a) {
         log_android(ANDROID_LOG_ERROR, "DetachCurrentThread failed");
 
     // Cleanup
-    free(args->uids);
-    for (int i = 0; i < args->hcount; i++)
-        free(args->hosts[i]);
-    free(args->hosts);
     free(args);
 
     log_android(ANDROID_LOG_WARN, "Stopped events tun=%d thread %lu", args->tun, thread_id);
@@ -504,6 +432,57 @@ void report_exit(const struct arguments *args, const char *fmt, ...) {
     if (jreason != NULL)
         (*args->env)->DeleteLocalRef(args->env, jreason);
     (*args->env)->DeleteLocalRef(args->env, cls);
+}
+
+void check_allowed(const struct arguments *args) {
+    char source[INET6_ADDRSTRLEN + 1];
+    char dest[INET6_ADDRSTRLEN + 1];
+
+    struct udp_session *u = udp_session;
+    while (u != NULL) {
+        if (!u->stop) {
+            if (u->version == 4) {
+                inet_ntop(AF_INET, &u->saddr.ip4, source, sizeof(source));
+                inet_ntop(AF_INET, &u->daddr.ip4, dest, sizeof(dest));
+            }
+            else {
+                inet_ntop(AF_INET6, &u->saddr.ip6, source, sizeof(source));
+                inet_ntop(AF_INET6, &u->daddr.ip6, dest, sizeof(dest));
+            }
+
+            jobject objPacket = create_packet(
+                    args, u->version, IPPROTO_UDP, "",
+                    source, ntohs(u->source), dest, ntohs(u->dest), 1, "", u->uid, 0);
+            if (!is_address_allowed(args, objPacket)) {
+                u->stop = 1;
+                log_android(ANDROID_LOG_WARN, "UDP terminate %d uid %d", u->socket, u->uid);
+            }
+        }
+        u = u->next;
+    }
+
+    struct tcp_session *t = tcp_session;
+    while (t != NULL) {
+        if (t->state != TCP_TIME_WAIT && t->state != TCP_CLOSE) {
+            if (t->version == 4) {
+                inet_ntop(AF_INET, &t->saddr.ip4, source, sizeof(source));
+                inet_ntop(AF_INET, &t->daddr.ip4, dest, sizeof(dest));
+            }
+            else {
+                inet_ntop(AF_INET6, &t->saddr.ip6, source, sizeof(source));
+                inet_ntop(AF_INET6, &t->daddr.ip6, dest, sizeof(dest));
+            }
+
+            jobject objPacket = create_packet(
+                    args, t->version, IPPROTO_TCP, "",
+                    source, ntohs(t->source), dest, ntohs(t->dest), 1, "", t->uid, 0);
+            if (!is_address_allowed(args, objPacket)) {
+                t->state = TCP_TIME_WAIT;
+                log_android(ANDROID_LOG_WARN, "TCP terminate socket %d uid %d", t->socket, t->uid);
+            }
+        }
+        t = t->next;
+    }
 }
 
 void check_sessions(const struct arguments *args) {
@@ -1038,7 +1017,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 
     // Get uid
     jint uid = -1;
-    if ((protocol == IPPROTO_TCP && (!args->filter || syn)) || protocol == IPPROTO_UDP) {
+    if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
         log_android(ANDROID_LOG_INFO, "get uid %s/%u syn %d", dest, dport, syn);
         int tries = 0;
         usleep(1000 * UID_DELAY);
@@ -1082,48 +1061,25 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 #endif
 
     // Check if allowed
-    jboolean allowed = 0;
-    if (args->filter) {
-        allowed = (jboolean) !syn;
-        if (syn) {
-            for (int i = 0; i < args->ucount; i++)
-                if (uid == args->uids[i]) {
-                    allowed = 1;
-                    break;
-                }
-        }
+    jboolean allowed = 1;
+    if (protocol != IPPROTO_TCP || syn) {
+        jobject objPacket = create_packet(args, version, protocol, flags,
+                                          source, sport, dest, dport, 1, "", uid, 0);
+        allowed = is_address_allowed(args, objPacket);
     }
 
     // Handle allowed traffic
-    int log = 0;
-    char extra[200];
-    *extra = 0;
     if (allowed) {
-        if (protocol == IPPROTO_UDP) {
-            allowed = handle_udp(args, pkt, length, payload, uid, extra);
-            log = (!allowed || dport != 53);
-        } else if (protocol == IPPROTO_TCP) {
-            allowed = handle_tcp(args, pkt, length, payload, uid, extra) || !debug;
-            log = (!allowed || syn);
-        }
-        else {
-            allowed = 0;
-            log = 1;
-        }
+        if (protocol == IPPROTO_UDP)
+            handle_udp(args, pkt, length, payload, uid);
+        else if (protocol == IPPROTO_TCP)
+            handle_tcp(args, pkt, length, payload, uid);
     }
-    else
-        log = 1;
-
-    // Log traffic
-    if (args->log && log)
-        log_packet(args, version, protocol, flags,
-                   source, sport, dest, dport, 1, extra, uid, allowed);
 }
 
 jboolean handle_udp(const struct arguments *args,
-                    const uint8_t *pkt, size_t length,
-                    const uint8_t *payload,
-                    int uid, char *extra) {
+                    const uint8_t *pkt, size_t length, const uint8_t *payload,
+                    int uid) {
     // Get headers
     const uint8_t version = (*pkt) >> 4;
     const struct iphdr *ip4 = (struct iphdr *) pkt;
@@ -1203,7 +1159,6 @@ jboolean handle_udp(const struct arguments *args,
         uint16_t qclass;
         if (get_dns(args, cur, data, datalen, &qtype, &qclass, qname) >= 0) {
             log_android(ANDROID_LOG_INFO, "DNS type %d class %d name %s", qtype, qclass, qname);
-            sprintf(extra, "qtype %d qname %s", qtype, qname);
 
             if (check_domain(args, cur, data, datalen, qclass, qtype, qname)) {
                 cur->stop = 1;
@@ -1300,60 +1255,61 @@ int get_dns(const struct arguments *args, const struct udp_session *u,
 int check_domain(const struct arguments *args, const struct udp_session *u,
                  const uint8_t *data, const size_t datalen,
                  uint16_t qclass, uint16_t qtype, const char *name) {
-    if (qclass == DNS_QCLASS_IN && (qtype == DNS_QTYPE_A || qtype == DNS_QTYPE_AAAA)) {
-        for (int i = 0; i < args->hcount; i++)
-            if (!strcmp(name, args->hosts[i])) {
-                log_android(ANDROID_LOG_WARN, "DNS type %d name %s blocked", qtype, name);
 
-                // Build response
-                size_t rlen = datalen + sizeof(struct dns_rr) + (qtype == DNS_QTYPE_A ? 4 : 16);
-                uint8_t *response = malloc(rlen);
+    if (qclass == DNS_QCLASS_IN &&
+        (qtype == DNS_QTYPE_A || qtype == DNS_QTYPE_AAAA) &&
+        is_domain_blocked(args, name)) {
 
-                // Copy header & query
-                memcpy(response, data, datalen);
+        log_android(ANDROID_LOG_WARN, "DNS type %d name %s blocked", qtype, name);
 
-                // Modify copied header
-                struct dns_header *rh = (struct dns_header *) response;
-                rh->qr = 1;
-                rh->aa = 0;
-                rh->tc = 0;
-                rh->rd = 0;
-                rh->ra = 0;
-                rh->z = 0;
-                rh->ad = 0;
-                rh->cd = 0;
-                rh->rcode = 0;
-                rh->ans_count = htons(1);
-                rh->auth_count = 0;
-                rh->add_count = 0;
+        // Build response
+        size_t rlen = datalen + sizeof(struct dns_rr) + (qtype == DNS_QTYPE_A ? 4 : 16);
+        uint8_t *response = malloc(rlen);
 
-                // Build answer
-                struct dns_rr *answer = (struct dns_rr *) (response + datalen);
-                answer->qname_ptr = htons(sizeof(struct dns_header) | 0xC000);
-                answer->qtype = htons(qtype);
-                answer->qclass = htons(qclass);
-                answer->ttl = htonl(DNS_TTL);
-                answer->rdlength = htons(qtype == DNS_QTYPE_A ? 4 : 16);
+        // Copy header & query
+        memcpy(response, data, datalen);
 
-                // Add answer address
-                uint8_t *addr = response + datalen + sizeof(struct dns_rr);
-                if (qtype == DNS_QTYPE_A)
-                    inet_pton(AF_INET, "127.0.0.1", addr);
-                else
-                    inet_pton(AF_INET6, "::1", addr);
+        // Modify copied header
+        struct dns_header *rh = (struct dns_header *) response;
+        rh->qr = 1;
+        rh->aa = 0;
+        rh->tc = 0;
+        rh->rd = 0;
+        rh->ra = 0;
+        rh->z = 0;
+        rh->ad = 0;
+        rh->cd = 0;
+        rh->rcode = 0;
+        rh->ans_count = htons(1);
+        rh->auth_count = 0;
+        rh->add_count = 0;
 
-                // Experiment
-                rlen = datalen;
-                rh->rcode = 3; // NXDOMAIN
-                rh->ans_count = 0;
+        // Build answer
+        struct dns_rr *answer = (struct dns_rr *) (response + datalen);
+        answer->qname_ptr = htons(sizeof(struct dns_header) | 0xC000);
+        answer->qtype = htons(qtype);
+        answer->qclass = htons(qclass);
+        answer->ttl = htonl(DNS_TTL);
+        answer->rdlength = htons(qtype == DNS_QTYPE_A ? 4 : 16);
 
-                // Send response
-                ssize_t res = write_udp(args, u, response, rlen);
+        // Add answer address
+        uint8_t *addr = response + datalen + sizeof(struct dns_rr);
+        if (qtype == DNS_QTYPE_A)
+            inet_pton(AF_INET, "127.0.0.1", addr);
+        else
+            inet_pton(AF_INET6, "::1", addr);
 
-                free(response);
+        // Experiment
+        rlen = datalen;
+        rh->rcode = 3; // NXDOMAIN
+        rh->ans_count = 0;
 
-                return 1;
-            }
+        // Send response
+        ssize_t res = write_udp(args, u, response, rlen);
+
+        free(response);
+
+        return 1;
     }
 
     return 0;
@@ -1483,7 +1439,7 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
-                    int uid, char *extra) {
+                    int uid) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
@@ -2086,9 +2042,13 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
 #endif
 
     if (res >= 0) {
-        if (args->log && ntohs(cur->dest) != 53)
-            log_packet(args, cur->version, IPPROTO_UDP, "",
-                       dest, ntohs(udp->dest), source, ntohs(udp->source), 0, "", cur->uid, 1);
+        if (ntohs(cur->dest) != 53) {
+            jobject objPacket = create_packet(
+                    args, cur->version, IPPROTO_UDP, "",
+                    dest, ntohs(udp->dest), source, ntohs(udp->source), 0, "", cur->uid, 1);
+            log_packet(args, objPacket);
+
+        }
 
         // Write pcap record
         if (pcap_file != NULL)
@@ -2419,17 +2379,27 @@ jclass jniFindClass(JNIEnv *env, const char *name) {
 
 jmethodID method_protect = NULL;
 jmethodID method_logPacket = NULL;
+jmethodID method_isDomainBlocked = NULL;
+jmethodID method_isAddressAllowed = NULL;
 
 jmethodID jniGetMethodID(JNIEnv *env, jclass cls, const char *name, const char *signature) {
     if (strcmp(name, "protect") == 0 && method_protect != NULL)
         return method_protect;
+
     if (strcmp(name, "logPacket") == 0 && method_logPacket != NULL)
         return method_logPacket;
 
+    if (strcmp(name, "isDomainBlocked") == 0 && method_isDomainBlocked != NULL)
+        return method_isDomainBlocked;
+
+    if (strcmp(name, "isAddressAllowed") == 0 && method_isAddressAllowed != NULL)
+        return method_isAddressAllowed;
+
     jmethodID method = (*env)->GetMethodID(env, cls, name, signature);
-    if (method == NULL)
-        log_android(ANDROID_LOG_ERROR, "Method %s%s", name, signature);
-    else {
+    if (method == NULL) {
+        log_android(ANDROID_LOG_ERROR, "Method %s %s not found", name, signature);
+        jniCheckException(env);
+    } else {
         if (strcmp(name, "protect") == 0) {
             method_protect = method;
             log_android(ANDROID_LOG_INFO, "Cached method ID protect");
@@ -2438,11 +2408,20 @@ jmethodID jniGetMethodID(JNIEnv *env, jclass cls, const char *name, const char *
             method_logPacket = method;
             log_android(ANDROID_LOG_INFO, "Cached method ID logPacket");
         }
+        else if (strcmp(name, "isDomainBlocked") == 0) {
+            method_isDomainBlocked = method;
+            log_android(ANDROID_LOG_INFO, "Cached method ID isDomainBlocked");
+        }
+        else if (strcmp(name, "isAddressAllowed") == 0) {
+            method_isAddressAllowed = method;
+            log_android(ANDROID_LOG_INFO, "Cached method ID isAddressAllowed");
+        }
     }
     return method;
 }
 
 jfieldID jniGetFieldID(JNIEnv *env, jclass cls, const char *name, const char *type) {
+    // TODO cache field IDs
     jfieldID field = (*env)->GetFieldID(env, cls, name, type);
     if (field == NULL)
         log_android(ANDROID_LOG_ERROR, "Field %s type %s not found", name, type);
@@ -2497,34 +2476,110 @@ void log_android(int prio, const char *fmt, ...) {
     }
 }
 
-void log_packet(
-        const struct arguments *args,
-        jint version,
-        jint protocol,
-        const char *flags,
-        const char *source,
-        jint sport,
-        const char *dest,
-        jint dport,
-        jboolean outbound,
-        const char *data,
-        jint uid,
-        jboolean allowed) {
+void log_packet(const struct arguments *args, jobject jpacket) {
 #ifdef PROFILE
     float mselapsed;
     struct timeval start, end;
     gettimeofday(&start, NULL);
 #endif
 
-    JNIEnv *env = args->env;
-    jclass clsService = (*env)->GetObjectClass(env, args->instance);
+    jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
 
     const char *signature = "(Leu/faircode/netguard/Packet;)V";
-    jmethodID logPacket = jniGetMethodID(env, clsService, "logPacket", signature);
+    jmethodID method = jniGetMethodID(args->env, clsService, "logPacket", signature);
+
+    (*args->env)->CallVoidMethod(args->env, args->instance, method, jpacket);
+    jniCheckException(args->env);
+
+    (*args->env)->DeleteLocalRef(args->env, jpacket);
+    (*args->env)->DeleteLocalRef(args->env, clsService);
+
+#ifdef PROFILE
+    gettimeofday(&end, NULL);
+    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
+                (end.tv_usec - start.tv_usec) / 1000.0;
+    if (mselapsed > 1)
+        log_android(ANDROID_LOG_INFO, "log_packet %f", mselapsed);
+#endif
+}
+
+jboolean is_domain_blocked(const struct arguments *args, const char *name) {
+#ifdef PROFILE
+    float mselapsed;
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
+#endif
+
+    jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
+
+    const char *signature = "(Ljava/lang/String;)Z";
+    jmethodID method = jniGetMethodID(args->env, clsService, "isDomainBlocked", signature);
+
+    jstring jname = (*args->env)->NewStringUTF(args->env, name);
+
+    jboolean jallowed = (*args->env)->CallBooleanMethod(args->env, args->instance, method, jname);
+    jniCheckException(args->env);
+
+    (*args->env)->DeleteLocalRef(args->env, jname);
+    (*args->env)->DeleteLocalRef(args->env, clsService);
+
+#ifdef PROFILE
+    gettimeofday(&end, NULL);
+    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
+                (end.tv_usec - start.tv_usec) / 1000.0;
+    if (mselapsed > 1)
+        log_android(ANDROID_LOG_INFO, "is_domain_blocked %f", mselapsed);
+#endif
+
+    return jallowed;
+}
+
+jboolean is_address_allowed(const struct arguments *args, jobject jpacket) {
+#ifdef PROFILE
+    float mselapsed;
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
+#endif
+
+    jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
+
+    const char *signature = "(Leu/faircode/netguard/Packet;)Z";
+    jmethodID method = jniGetMethodID(args->env, clsService, "isAddressAllowed", signature);
+
+    jboolean jallowed = (*args->env)->CallBooleanMethod(args->env, args->instance, method, jpacket);
+    jniCheckException(args->env);
+
+    (*args->env)->DeleteLocalRef(args->env, jpacket);
+    (*args->env)->DeleteLocalRef(args->env, clsService);
+
+#ifdef PROFILE
+    gettimeofday(&end, NULL);
+    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
+                (end.tv_usec - start.tv_usec) / 1000.0;
+    if (mselapsed > 1)
+        log_android(ANDROID_LOG_INFO, "is_address_allowed %f", mselapsed);
+#endif
+
+    return jallowed;
+}
+
+jobject create_packet(const struct arguments *args,
+                      jint version,
+                      jint protocol,
+                      const char *flags,
+                      const char *source,
+                      jint sport,
+                      const char *dest,
+                      jint dport,
+                      jboolean outbound,
+                      const char *data,
+                      jint uid,
+                      jboolean allowed) {
+    JNIEnv *env = args->env;
 
     const char *packet = "eu/faircode/netguard/Packet";
     jmethodID initPacket = jniGetMethodID(env, clsPacket, "<init>", "()V");
-    jobject objPacket = jniNewObject(env, clsPacket, initPacket, packet);
+    jobject jpacket = jniNewObject(env, clsPacket, initPacket, packet);
 
     struct timeval tv;
     gettimeofday(&tv, NULL);
@@ -2535,37 +2590,26 @@ void log_packet(
     jstring jdata = (*env)->NewStringUTF(env, data);
 
     const char *string = "Ljava/lang/String;";
-    (*env)->SetLongField(env, objPacket, jniGetFieldID(env, clsPacket, "time", "J"), t);
-    (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "version", "I"), version);
-    (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "protocol", "I"), protocol);
-    (*env)->SetObjectField(env, objPacket, jniGetFieldID(env, clsPacket, "flags", string), jflags);
-    (*env)->SetObjectField(env, objPacket, jniGetFieldID(env, clsPacket, "saddr", string), jsource);
-    (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "sport", "I"), sport);
-    (*env)->SetObjectField(env, objPacket, jniGetFieldID(env, clsPacket, "daddr", string), jdest);
-    (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "dport", "I"), dport);
-    (*env)->SetBooleanField(env, objPacket, jniGetFieldID(env, clsPacket, "outbound", "Z"),
-                            outbound);
-    (*env)->SetObjectField(env, objPacket, jniGetFieldID(env, clsPacket, "data", string), jdata);
-    (*env)->SetIntField(env, objPacket, jniGetFieldID(env, clsPacket, "uid", "I"), uid);
-    (*env)->SetBooleanField(env, objPacket, jniGetFieldID(env, clsPacket, "allowed", "Z"), allowed);
-
-    (*env)->CallVoidMethod(env, args->instance, logPacket, objPacket);
-    jniCheckException(env);
+    (*env)->SetLongField(env, jpacket, jniGetFieldID(env, clsPacket, "time", "J"), t);
+    (*env)->SetIntField(env, jpacket, jniGetFieldID(env, clsPacket, "version", "I"), version);
+    (*env)->SetIntField(env, jpacket, jniGetFieldID(env, clsPacket, "protocol", "I"), protocol);
+    (*env)->SetObjectField(env, jpacket, jniGetFieldID(env, clsPacket, "flags", string), jflags);
+    (*env)->SetObjectField(env, jpacket, jniGetFieldID(env, clsPacket, "saddr", string), jsource);
+    (*env)->SetIntField(env, jpacket, jniGetFieldID(env, clsPacket, "sport", "I"), sport);
+    (*env)->SetObjectField(env, jpacket, jniGetFieldID(env, clsPacket, "daddr", string), jdest);
+    (*env)->SetIntField(env, jpacket, jniGetFieldID(env, clsPacket, "dport", "I"), dport);
+    (*env)->SetBooleanField(env, jpacket, jniGetFieldID(env, clsPacket, "outbound", "Z"), outbound);
+    (*env)->SetObjectField(env, jpacket, jniGetFieldID(env, clsPacket, "data", string), jdata);
+    (*env)->SetIntField(env, jpacket, jniGetFieldID(env, clsPacket, "uid", "I"), uid);
+    (*env)->SetBooleanField(env, jpacket, jniGetFieldID(env, clsPacket, "allowed", "Z"), allowed);
 
     (*env)->DeleteLocalRef(env, jdata);
     (*env)->DeleteLocalRef(env, jdest);
     (*env)->DeleteLocalRef(env, jsource);
     (*env)->DeleteLocalRef(env, jflags);
-    (*env)->DeleteLocalRef(env, objPacket);
-    (*env)->DeleteLocalRef(env, clsService);
+    // Caller needs to delete reference to packet
 
-#ifdef PROFILE
-    gettimeofday(&end, NULL);
-    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "log java %f", mselapsed);
-#endif
+    return jpacket;
 }
 
 void write_pcap_hdr() {
@@ -2643,46 +2687,6 @@ char *trim(char *str) {
         end--;
     *(end + 1) = 0;
     return str;
-}
-
-void read_hosts(const char *name, struct arguments *args) {
-    log_android(ANDROID_LOG_INFO, "Reading %s", name);
-
-    args->hcount = 0;
-    args->hosts = NULL;
-
-    FILE *hosts;
-    if ((hosts = fopen(name, "r")) == NULL) {
-        log_android(ANDROID_LOG_ERROR, "fopen(%s) error %d: %s", name, errno, strerror(errno));
-        return;
-    }
-
-    char buffer[160];
-    while (fgets(buffer, sizeof(buffer), hosts)) {
-        char *hash = strchr(buffer, '#');
-        if (hash)
-            *hash = 0;
-
-        char *host = trim(buffer);
-        while (*host && !isspace(*host))
-            host++;
-
-        if (isspace(*host)) {
-            host++;
-            if (*host && strcmp(host, "localhost")) {
-                args->hosts = realloc(args->hosts, sizeof(char *) * (args->hcount + 1));
-                args->hosts[args->hcount] = malloc(strlen(host) + 1);
-                strcpy(args->hosts[args->hcount], host);
-                args->hcount++;
-            }
-        }
-    }
-
-    if (fclose(hosts))
-        log_android(ANDROID_LOG_ERROR, "fclose(%s) error %d: %s", name, errno, strerror(errno));
-
-    for (int i = 0; i < args->hcount; i++)
-        log_android(ANDROID_LOG_VERBOSE, "host '%s'", args->hosts[i]);
 }
 
 const char *strstate(const int state) {

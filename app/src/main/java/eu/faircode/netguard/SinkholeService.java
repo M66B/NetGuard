@@ -62,7 +62,9 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -89,6 +91,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
+
+    private HashMap<String, Boolean> mapDomainBlocked = new HashMap<>();
+    private HashMap<Integer, Boolean> mapUidAllowed = new HashMap<>();
 
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
@@ -122,7 +127,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init();
 
-    private native void jni_start(int tun, int[] uids, String hosts, boolean log, boolean filter, boolean debug, int loglevel);
+    private native void jni_start(int tun, int loglevel);
 
     private native void jni_stop(int tun, boolean clear);
 
@@ -764,18 +769,56 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private void startNative(ParcelFileDescriptor vpn, List<Rule> listAllowed) {
+        prepareAllowed(listAllowed);
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
         boolean log = prefs.getBoolean("log", false);
         boolean filter = prefs.getBoolean("filter", false);
-        boolean use_hosts = prefs.getBoolean("use_hosts", false);
         if (log || filter) {
-            boolean debug = prefs.getBoolean("debug", false);
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
-            if (!debug)
-                prio = Log.WARN;
+            jni_start(vpn.getFd(), prio);
+        }
+    }
+
+    private void prepareAllowed(List<Rule> listAllowed) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+        boolean use_hosts = prefs.getBoolean("use_hosts", false);
+
+        mapUidAllowed.clear();
+        for (Rule rule : listAllowed)
+            mapUidAllowed.put(rule.info.applicationInfo.uid, true);
+
+        mapDomainBlocked.clear();
+        if (use_hosts) {
             File hosts = new File(getFilesDir(), "hosts.txt");
-            String hname = (use_hosts && hosts.exists() ? hosts.getAbsolutePath() : null);
-            jni_start(vpn.getFd(), getAllowedUids(listAllowed), hname, log, filter, debug, prio);
+            BufferedReader br = null;
+            try {
+                br = new BufferedReader(new FileReader(hosts));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    int hash = line.indexOf('#');
+                    if (hash >= 0)
+                        line = line.substring(0, hash);
+                    line = line.trim();
+                    if (line.length() > 0) {
+                        String[] words = line.split("\\s+");
+                        if (words.length == 2)
+                            mapDomainBlocked.put(words[1], true);
+                        else
+                            Log.i(TAG, "Invalid hosts file line: " + line);
+                    }
+                }
+                br.close();
+            } catch (IOException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            } finally {
+                if (br != null)
+                    try {
+                        br.close();
+                    } catch (IOException exex) {
+                        Log.e(TAG, exex.toString() + "\n" + Log.getStackTraceString(exex));
+                    }
+            }
         }
     }
 
@@ -843,15 +886,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         return listAllowed;
     }
 
-    private int[] getAllowedUids(List<Rule> listAllowed) {
-        int[] uid = new int[listAllowed.size() + 2];
-        uid[0] = -1; // Allow unknown
-        uid[1] = 0; // Allow root (DNS, etc)
-        for (int i = 0; i < listAllowed.size(); i++)
-            uid[i + 2] = listAllowed.get(i).info.applicationInfo.uid;
-        return uid;
-    }
-
     private void stopVPN(ParcelFileDescriptor pfd) {
         Log.i(TAG, "Stopping");
         try {
@@ -878,6 +912,30 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         msg.obj = packet;
         msg.what = MSG_PACKET;
         mServiceHandler.sendMessage(msg);
+    }
+
+    // Called from native code
+    private boolean isDomainBlocked(String name) {
+        boolean blocked = (mapDomainBlocked.containsKey(name) && mapDomainBlocked.get(name));
+        return blocked;
+    }
+
+    // Called from native code
+    private boolean isAddressAllowed(Packet packet) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (prefs.getBoolean("filter", false)) {
+            if (packet.uid <= 0) // unknown, root
+                packet.allowed = true;
+            else
+                packet.allowed = (mapUidAllowed.containsKey(packet.uid) && mapUidAllowed.get(packet.uid));
+        } else
+            packet.allowed = false;
+
+        if (prefs.getBoolean("log", false))
+            logPacket(packet);
+
+        return packet.allowed;
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {

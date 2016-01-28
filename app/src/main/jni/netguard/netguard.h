@@ -28,12 +28,6 @@ struct arguments {
     JNIEnv *env;
     jobject instance;
     int tun;
-    jint ucount;
-    jint *uids;
-    int hcount;
-    char **hosts;
-    jboolean log;
-    jboolean filter;
 };
 
 struct udp_session {
@@ -203,8 +197,6 @@ typedef struct dhcp_option {
 
 // Prototypes
 
-void check_allowed(const struct arguments *args);
-
 void clear_sessions();
 
 void handle_signal(int sig, siginfo_t *info, void *context);
@@ -212,6 +204,8 @@ void handle_signal(int sig, siginfo_t *info, void *context);
 void *handle_events(void *a);
 
 void report_exit(const struct arguments *args, const char *fmt, ...);
+
+void check_allowed(const struct arguments *args);
 
 void check_sessions(const struct arguments *args);
 
@@ -232,7 +226,7 @@ void handle_ip(const struct arguments *args, const uint8_t *buffer, size_t lengt
 jboolean handle_udp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
-                    int uid, char *extra);
+                    int uid);
 
 int get_dns(const struct arguments *args, const struct udp_session *u,
             const uint8_t *data, const size_t datalen,
@@ -248,7 +242,7 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
-                    int uid, char *extra);
+                    int uid);
 
 int open_udp_socket(const struct arguments *args, const struct udp_session *cur);
 
@@ -301,18 +295,24 @@ int __system_property_get(const char *name, char *value);
 
 void log_android(int prio, const char *fmt, ...);
 
-void log_packet(const struct arguments *args,
-                jint version,
-                jint protocol,
-                const char *flags,
-                const char *source,
-                jint sport,
-                const char *dest,
-                jint dport,
-                jboolean outbound,
-                const char *data,
-                jint uid,
-                jboolean allowed);
+void log_packet(const struct arguments *args, jobject jpacket);
+
+jboolean is_domain_blocked(const struct arguments *args, const char *name);
+
+jboolean is_address_allowed(const struct arguments *args, jobject objPacket);
+
+jobject create_packet(const struct arguments *args,
+                      jint version,
+                      jint protocol,
+                      const char *flags,
+                      const char *source,
+                      jint sport,
+                      const char *dest,
+                      jint dport,
+                      jboolean outbound,
+                      const char *data,
+                      jint uid,
+                      jboolean allowed);
 
 void write_pcap_hdr();
 

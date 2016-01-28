@@ -23,11 +23,13 @@
 #NetGuard
 -keepnames class eu.faircode.netguard.** { *; }
 
-#JNI callback
+#JNI callbacks
 -keep class eu.faircode.netguard.Packet { *; }
 -keep class eu.faircode.netguard.SinkholeService {
     void nativeExit(java.lang.String);
     void logPacket(eu.faircode.netguard.Packet);
+    boolean isDomainBlocked(java.lang.String);
+    boolean isAddressAllowed(eu.faircode.netguard.Packet);
 }
 
 #Support library

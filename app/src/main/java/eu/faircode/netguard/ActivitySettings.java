@@ -211,10 +211,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Development
         if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta"))) {
             screen.removePreference(screen.findPreference("category_development"));
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.remove("debug");
-            edit.remove("loglevel");
-            edit.apply();
+            prefs.edit().remove("loglevel").apply();
         }
 
         // Handle technical info
@@ -507,7 +504,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("stats_samples".equals(name)) {
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
 
-        } else if ("debug".equals(name) || "loglevel".equals(name))
+        } else if ("loglevel".equals(name))
             SinkholeService.reload(null, "changed " + name, this);
     }
 
