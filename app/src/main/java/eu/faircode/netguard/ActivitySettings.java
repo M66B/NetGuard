@@ -208,32 +208,34 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             });
         }
 
-        // Development
         if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta"))) {
+            // Development
             screen.removePreference(screen.findPreference("category_development"));
             prefs.edit().remove("loglevel").apply();
-        }
 
-        // Handle technical info
-        Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                updateTechnicalInfo();
-                return true;
-            }
-        };
+            // Technical info
+            screen.removePreference(screen.findPreference("category_technical"));
+        } else {
+            // Handle technical info
+            Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    updateTechnicalInfo();
+                    return true;
+                }
+            };
 
-        Preference pref_technical_info = screen.findPreference("technical_info");
-        Preference pref_technical_network = screen.findPreference("technical_network");
-        Preference pref_technical_subscription = screen.findPreference("technical_subscription");
-        if (Util.isDebuggable(this)) {
+            // Technical info
+            Preference pref_technical_info = screen.findPreference("technical_info");
+            Preference pref_technical_network = screen.findPreference("technical_network");
+            Preference pref_technical_subscription = screen.findPreference("technical_subscription");
             pref_technical_info.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
             pref_technical_info.setIntent(INTENT_VPN_SETTINGS);
+            pref_technical_info.setOnPreferenceClickListener(listener);
+            pref_technical_network.setOnPreferenceClickListener(listener);
+            pref_technical_subscription.setOnPreferenceClickListener(listener);
+            updateTechnicalInfo();
         }
-        pref_technical_info.setOnPreferenceClickListener(listener);
-        pref_technical_network.setOnPreferenceClickListener(listener);
-        pref_technical_subscription.setOnPreferenceClickListener(listener);
-        updateTechnicalInfo();
 
         // Handle devices without wifi
         if (!Util.hasWifi(this)) {
