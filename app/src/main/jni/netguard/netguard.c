@@ -46,7 +46,7 @@
 // Global variables
 
 static JavaVM *jvm;
-pthread_t thread_id;
+pthread_t thread_id = 0;
 pthread_mutex_t lock;
 jboolean stopping = 0;
 jboolean signaled = 0;
@@ -110,8 +110,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
         log_android(ANDROID_LOG_ERROR, "fcntl tun ~O_NONBLOCK error %d: %s",
                     errno, strerror(errno));
 
-    if (pthread_kill(thread_id, 0) == 0)
-        log_android(ANDROID_LOG_WARN, "Already running thread %lu", thread_id);
+    if (thread_id && pthread_kill(thread_id, 0) == 0)
+        log_android(ANDROID_LOG_WARN, "Already running thread %x", thread_id);
     else {
         jint rs = (*env)->GetJavaVM(env, &jvm);
         if (rs != JNI_OK)
@@ -126,7 +126,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
         // Start native thread
         int err = pthread_create(&thread_id, NULL, handle_events, (void *) args);
         if (err == 0)
-            log_android(ANDROID_LOG_INFO, "Started thread %lu", thread_id);
+            log_android(ANDROID_LOG_INFO, "Started thread %x", thread_id);
         else
             log_android(ANDROID_LOG_ERROR, "pthread_create error %d: %s", err, strerror(err));
     }
@@ -136,14 +136,14 @@ JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance,
                                                     jint tun, jboolean clear) {
     log_android(ANDROID_LOG_WARN, "Stop tun %d clear %d", tun, (int) clear);
-    if (pthread_kill(thread_id, 0) == 0) {
+    if (thread_id && pthread_kill(thread_id, 0) == 0) {
         stopping = 1;
-        log_android(ANDROID_LOG_DEBUG, "Kill thread %lu", thread_id);
+        log_android(ANDROID_LOG_DEBUG, "Kill thread %x", thread_id);
         int err = pthread_kill(thread_id, SIGUSR1);
         if (err != 0)
             log_android(ANDROID_LOG_WARN, "pthread_kill error %d: %s", err, strerror(err));
         else {
-            log_android(ANDROID_LOG_DEBUG, "Join thread %lu", thread_id);
+            log_android(ANDROID_LOG_DEBUG, "Join thread %x", thread_id);
             pthread_join(thread_id, NULL);
             if (err != 0)
                 log_android(ANDROID_LOG_WARN, "pthread_join error %d: %s", err, strerror(err));
@@ -152,7 +152,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instanc
         if (clear)
             clear_sessions();
 
-        log_android(ANDROID_LOG_INFO, "Stopped thread %lu", thread_id);
+        log_android(ANDROID_LOG_INFO, "Stopped thread %x", thread_id);
     } else
         log_android(ANDROID_LOG_WARN, "Not running");
 }
@@ -267,7 +267,7 @@ void *handle_events(void *a) {
     struct sigaction sa;
 
     struct arguments *args = (struct arguments *) a;
-    log_android(ANDROID_LOG_INFO, "Start events tun=%d thread %lu", args->tun, thread_id);
+    log_android(ANDROID_LOG_INFO, "Start events tun=%d thread %x", args->tun, thread_id);
 
     // Attach to Java
     JNIEnv *env;
@@ -297,7 +297,7 @@ void *handle_events(void *a) {
 
     // Loop
     while (1) {
-        log_android(ANDROID_LOG_DEBUG, "Loop thread %lu", thread_id);
+        log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
 
         // Check sessions
         check_sessions(args);
@@ -408,7 +408,8 @@ void *handle_events(void *a) {
     // Cleanup
     free(args);
 
-    log_android(ANDROID_LOG_WARN, "Stopped events tun=%d thread %lu", args->tun, thread_id);
+    log_android(ANDROID_LOG_WARN, "Stopped events tun=%d thread %x", args->tun, thread_id);
+    thread_id = 0;
     return NULL;
 }
 
