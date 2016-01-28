@@ -8,10 +8,6 @@
         netguard:actionViewClass="android.support.v7.widget.SearchView"
         netguard:showAsAction="always|collapseActionView" />
     <item
-        android:id="@+id/menu_log_enabled"
-        android:checkable="true"
-        android:title="@string/menu_enabled" />
-    <item
         android:id="@+id/menu_log_live"
         android:checkable="true"
         android:checked="true"

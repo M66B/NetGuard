@@ -908,10 +908,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void logPacket(Packet packet) {
-        Message msg = mServiceHandler.obtainMessage();
-        msg.obj = packet;
-        msg.what = MSG_PACKET;
-        mServiceHandler.sendMessage(msg);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean("log", false)) {
+            Message msg = mServiceHandler.obtainMessage();
+            msg.obj = packet;
+            msg.what = MSG_PACKET;
+            mServiceHandler.sendMessage(msg);
+        }
     }
 
     // Called from native code

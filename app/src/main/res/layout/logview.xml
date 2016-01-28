@@ -8,10 +8,22 @@
     android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
+    <TextView
+        android:id="@+id/tvDisabled"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:padding="8dp"
+        android:text="@string/msg_log_disabled"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textColor="?attr/colorOff"
+        android:visibility="gone" />
+
     <ListView
         android:id="@+id/lvLog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/tvDisabled"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical" />
 

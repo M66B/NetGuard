@@ -30,6 +30,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,9 +39,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -52,7 +55,7 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ActivityLog extends AppCompatActivity {
+public class ActivityLog extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Log";
 
     private ListView lvLog;
@@ -91,11 +94,35 @@ public class ActivityLog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logview);
 
+        // Action bar
+        View actionView = getLayoutInflater().inflate(R.layout.action, null);
+        SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
+
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(actionView);
+
         getSupportActionBar().setTitle(R.string.menu_log);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        // Get settings
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         resolve = prefs.getBoolean("resolve", false);
+        boolean log = prefs.getBoolean("log", false);
+
+        // Show disabled message
+        TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
+        tvDisabled.setVisibility(log ? View.GONE : View.VISIBLE);
+
+        // Set enabled switch
+        swEnabled.setChecked(log);
+        swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                prefs.edit().putBoolean("log", isChecked).apply();
+            }
+        });
+
+        // Listen for preference changes
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
         lvLog = (ListView) findViewById(R.id.lvLog);
 
@@ -212,7 +239,30 @@ public class ActivityLog extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         dh.close();
+
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+
         super.onDestroy();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String name) {
+        Log.i(TAG, "Preference " + name + "=" + prefs.getAll().get(name));
+        if ("log".equals(name)) {
+            // Get enabled
+            boolean log = prefs.getBoolean(name, false);
+
+            // Display disabled warning
+            TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
+            tvDisabled.setVisibility(log ? View.GONE : View.VISIBLE);
+
+            // Check switch state
+            SwitchCompat swEnabled = (SwitchCompat) getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
+            if (swEnabled.isChecked() != log)
+                swEnabled.setChecked(log);
+
+            SinkholeService.reload(null, "changed " + name, ActivityLog.this);
+        }
     }
 
     @Override
@@ -260,10 +310,9 @@ public class ActivityLog extends AppCompatActivity {
         boolean pcap_enabled = prefs.getBoolean("pcap", false);
         boolean export = (getPackageManager().resolveActivity(getIntentPCAPDocument(), 0) != null);
 
-        menu.findItem(R.id.menu_log_enabled).setChecked(log);
         menu.findItem(R.id.menu_log_resolve).setChecked(resolve);
         menu.findItem(R.id.menu_pcap_enabled).setChecked(pcap_enabled);
-        menu.findItem(R.id.menu_pcap_enabled).setEnabled(log || filter);
+        menu.findItem(R.id.menu_pcap_enabled).setEnabled(filter);
         menu.findItem(R.id.menu_pcap_export).setEnabled(pcap_file.exists() && export);
 
         return super.onPrepareOptionsMenu(menu);
@@ -275,12 +324,6 @@ public class ActivityLog extends AppCompatActivity {
         final File pcap_file = new File(getCacheDir(), "netguard.pcap");
 
         switch (item.getItemId()) {
-            case R.id.menu_log_enabled:
-                item.setChecked(!item.isChecked());
-                prefs.edit().putBoolean("log", item.isChecked()).apply();
-                SinkholeService.reload(null, "setting changed", this);
-                return true;
-
             case R.id.menu_log_live:
                 item.setChecked(!item.isChecked());
                 live = item.isChecked();
