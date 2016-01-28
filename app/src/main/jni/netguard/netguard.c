@@ -1019,8 +1019,9 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 
     // Get uid
     jint uid = -1;
-    if ((protocol == IPPROTO_TCP && syn) || protocol == IPPROTO_UDP) {
-        log_android(ANDROID_LOG_INFO, "get uid %s/%u syn %d", dest, dport, syn);
+    if (syn || (protocol == IPPROTO_UDP && dport != 53)) {
+        log_android(ANDROID_LOG_INFO, "get uid %s/%u version %d protocol %d syn %d",
+                    dest, dport, version, protocol, syn);
         int tries = 0;
         usleep(1000 * UID_DELAY);
         while (uid < 0 && tries++ < UID_MAXTRY) {
@@ -1064,7 +1065,8 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 
     // Check if allowed
     jboolean allowed = 1;
-    if (protocol != IPPROTO_TCP || syn) {
+    if (syn || (protocol == IPPROTO_UDP && dport != 53) ||
+        !(protocol == IPPROTO_TCP || protocol == IPPROTO_UDP)) {
         jobject objPacket = create_packet(args, version, protocol, flags,
                                           source, sport, dest, dport, 1, "", uid, 0);
         allowed = is_address_allowed(args, objPacket);
