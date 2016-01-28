@@ -36,7 +36,9 @@
 
 #include "netguard.h"
 
-// #define PROFILE 1
+// #define PROFILE_EVENTS 5
+// #define PROFILE_UID 5
+// #define PROFILE_JNI 5
 
 // TODO TCP options
 // TODO TCP fragmentation
@@ -332,46 +334,31 @@ void *handle_events(void *a) {
             }
         }
 
-        // Count sessions
-        int udp = 0;
-        struct udp_session *u = udp_session;
-        while (u != NULL) {
-            udp++;
-            u = u->next;
-        }
-
-        int tcp = 0;
-        struct tcp_session *t = tcp_session;
-        while (t != NULL) {
-            tcp++;
-            t = t->next;
-        }
-
         if (ready == 0)
-            log_android(ANDROID_LOG_DEBUG, "pselect timeout udp %d tcp %d", udp, tcp);
+            log_android(ANDROID_LOG_DEBUG, "pselect timeout");
         else {
-            log_android(ANDROID_LOG_DEBUG, "pselect udp %d tcp %d ready %d", udp, tcp, ready);
+            log_android(ANDROID_LOG_DEBUG, "pselect ready %d", ready);
 
-#ifdef PROFILE
+            if (pthread_mutex_lock(&lock))
+                log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
+
+#ifdef PROFILE_EVENTS
             struct timeval start, end;
             float mselapsed;
             gettimeofday(&start, NULL);
 #endif
-
-            if (pthread_mutex_lock(&lock))
-                log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
             // Check upstream
             int error;
             if (check_tun(args, &rfds, &wfds, &efds) < 0)
                 error = 1;
             else {
-#ifdef PROFILE
+#ifdef PROFILE_EVENTS
                 gettimeofday(&end, NULL);
                 mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
                             (end.tv_usec - start.tv_usec) / 1000.0;
-                if (mselapsed > 1)
-                    log_android(ANDROID_LOG_INFO, "tun %f", mselapsed);
+                if (mselapsed > PROFILE_EVENTS)
+                    log_android(ANDROID_LOG_WARN, "tun %f", mselapsed);
 
                 gettimeofday(&start, NULL);
 #endif
@@ -389,12 +376,12 @@ void *handle_events(void *a) {
             if (error)
                 break;
 
-#ifdef PROFILE
+#ifdef PROFILE_EVENTS
             gettimeofday(&end, NULL);
             mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
                         (end.tv_usec - start.tv_usec) / 1000.0;
-            if (mselapsed > 1)
-                log_android(ANDROID_LOG_INFO, "sockets %f", mselapsed);
+            if (mselapsed > PROFILE_EVENTS)
+                log_android(ANDROID_LOG_WARN, "sockets %f", mselapsed);
 #endif
         }
     }
@@ -907,7 +894,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     int flen = 0;
     uint8_t *payload;
 
-#ifdef PROFILE
+#ifdef PROFILE_EVENTS
     float mselapsed;
     struct timeval start, end;
     gettimeofday(&start, NULL);
@@ -1055,12 +1042,12 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
                 "Packet v%d %s/%u -> %s/%u proto %d flags %s uid %d",
                 version, source, sport, dest, dport, protocol, flags, uid);
 
-#ifdef PROFILE
+#ifdef PROFILE_EVENTS
     gettimeofday(&end, NULL);
     mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
                 (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "handle ip %f", mselapsed);
+    if (mselapsed > PROFILE_EVENTS)
+        log_android(ANDROID_LOG_WARN, "handle ip %f", mselapsed);
 #endif
 
     // Check if allowed
@@ -1085,6 +1072,14 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         else if (protocol == IPPROTO_TCP)
             handle_tcp(args, pkt, length, payload, uid);
     }
+
+#ifdef PROFILE_EVENTS
+    gettimeofday(&end, NULL);
+    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
+                (end.tv_usec - start.tv_usec) / 1000.0;
+    if (mselapsed > PROFILE_EVENTS)
+        log_android(ANDROID_LOG_WARN, "handle protocol %f", mselapsed);
+#endif
 }
 
 int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload) {
@@ -1503,11 +1498,6 @@ jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
                     int uid) {
-#ifdef PROFILE
-    float mselapsed;
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
-#endif
     // Get headers
     const uint8_t version = (*pkt) >> 4;
     const struct iphdr *ip4 = (struct iphdr *) pkt;
@@ -1627,14 +1617,6 @@ jboolean handle_tcp(const struct arguments *args,
 
             return 0;
         }
-
-#ifdef PROFILE
-        gettimeofday(&end, NULL);
-        mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                    (end.tv_usec - start.tv_usec) / 1000.0;
-        if (mselapsed > 1)
-            log_android(ANDROID_LOG_INFO, "new session %f", mselapsed);
-#endif
     }
     else {
         // Session found
@@ -1845,14 +1827,6 @@ jboolean handle_tcp(const struct arguments *args,
                             cur->remote_seq - cur->remote_start,
                             ntohs(tcphdr->window));
         }
-
-#ifdef PROFILE
-        gettimeofday(&end, NULL);
-        mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                    (end.tv_usec - start.tv_usec) / 1000.0;
-        if (mselapsed > 1)
-            log_android(ANDROID_LOG_INFO, "existing session %f", mselapsed);
-#endif
     }
 
     return 1;
@@ -2000,12 +1974,6 @@ void write_rst(const struct arguments *args, struct tcp_session *cur) {
 
 ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
                   uint8_t *data, size_t datalen) {
-#ifdef PROFILE
-    float mselapsed;
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
-#endif
-
     size_t len;
     u_int8_t *buffer;
     struct udphdr *udp;
@@ -2097,14 +2065,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
 
     ssize_t res = write(args->tun, buffer, len);
 
-#ifdef PROFILE
-    gettimeofday(&end, NULL);
-    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "tun UDP write %f", mselapsed);
-#endif
-
+    // Write PCAP record
     if (res >= 0) {
         if (pcap_file != NULL)
             write_pcap_rec(buffer, res);
@@ -2125,12 +2086,6 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
 ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
                   const uint8_t *data, size_t datalen, size_t confirm,
                   int syn, int ack, int fin, int rst) {
-#ifdef PROFILE
-    float mselapsed;
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
-#endif
-
     size_t len;
     u_int8_t *buffer;
     struct tcphdr *tcp;
@@ -2239,14 +2194,6 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
 
     ssize_t res = write(args->tun, buffer, len);
 
-#ifdef PROFILE
-    gettimeofday(&end, NULL);
-    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "tun TCP write %f", mselapsed);
-#endif
-
     // Write pcap record
     if (res >= 0) {
         if (pcap_file != NULL)
@@ -2293,7 +2240,7 @@ jint get_uid(const int protocol, const int version,
     int port;
     jint uid = -1;
 
-#ifdef PROFILE
+#ifdef PROFILE_UID
     float mselapsed;
     struct timeval start, end;
     gettimeofday(&start, NULL);
@@ -2366,12 +2313,12 @@ jint get_uid(const int protocol, const int version,
     if (fclose(fd))
         log_android(ANDROID_LOG_ERROR, "fclose %s error %d: %s", fn, errno, strerror(errno));
 
-#ifdef PROFILE
+#ifdef PROFILE_UID
     gettimeofday(&end, NULL);
     mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
                 (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "get uid ip %f", mselapsed);
+    if (mselapsed > PROFILE_UID)
+        log_android(ANDROID_LOG_WARN, "get uid ip %f", mselapsed);
 #endif
 
     return uid;
@@ -2503,7 +2450,7 @@ void log_android(int prio, const char *fmt, ...) {
 static jmethodID midLogPacket = NULL;
 
 void log_packet(const struct arguments *args, jobject jpacket) {
-#ifdef PROFILE
+#ifdef PROFILE_JNI
     float mselapsed;
     struct timeval start, end;
     gettimeofday(&start, NULL);
@@ -2521,19 +2468,19 @@ void log_packet(const struct arguments *args, jobject jpacket) {
     (*args->env)->DeleteLocalRef(args->env, jpacket);
     (*args->env)->DeleteLocalRef(args->env, clsService);
 
-#ifdef PROFILE
+#ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
     mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
                 (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "log_packet %f", mselapsed);
+    if (mselapsed > PROFILE_JNI)
+        log_android(ANDROID_LOG_WARN, "log_packet %f", mselapsed);
 #endif
 }
 
 static jmethodID midIsDomainBlocked = NULL;
 
 jboolean is_domain_blocked(const struct arguments *args, const char *name) {
-#ifdef PROFILE
+#ifdef PROFILE_JNI
     float mselapsed;
     struct timeval start, end;
     gettimeofday(&start, NULL);
@@ -2554,12 +2501,12 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
     (*args->env)->DeleteLocalRef(args->env, jname);
     (*args->env)->DeleteLocalRef(args->env, clsService);
 
-#ifdef PROFILE
+#ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
     mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
                 (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "is_domain_blocked %f", mselapsed);
+    if (mselapsed > PROFILE_JNI)
+        log_android(ANDROID_LOG_WARN, "is_domain_blocked %f", mselapsed);
 #endif
 
     return jallowed;
@@ -2568,7 +2515,7 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
 static jmethodID midIsAddressAllowed = NULL;
 
 jboolean is_address_allowed(const struct arguments *args, jobject jpacket) {
-#ifdef PROFILE
+#ifdef PROFILE_JNI
     float mselapsed;
     struct timeval start, end;
     gettimeofday(&start, NULL);
@@ -2587,12 +2534,12 @@ jboolean is_address_allowed(const struct arguments *args, jobject jpacket) {
     (*args->env)->DeleteLocalRef(args->env, jpacket);
     (*args->env)->DeleteLocalRef(args->env, clsService);
 
-#ifdef PROFILE
+#ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
     mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
                 (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "is_address_allowed %f", mselapsed);
+    if (mselapsed > PROFILE_JNI)
+        log_android(ANDROID_LOG_WARN, "is_address_allowed %f", mselapsed);
 #endif
 
     return jallowed;
@@ -2624,6 +2571,12 @@ jobject create_packet(const struct arguments *args,
                       jint uid,
                       jboolean allowed) {
     JNIEnv *env = args->env;
+
+#ifdef PROFILE_JNI
+    float mselapsed;
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
+#endif
 
     const char *packet = "eu/faircode/netguard/Packet";
     if (midInitPacket == NULL)
@@ -2671,6 +2624,14 @@ jobject create_packet(const struct arguments *args,
     (*env)->DeleteLocalRef(env, jflags);
     // Caller needs to delete reference to packet
 
+#ifdef PROFILE_JNI
+    gettimeofday(&end, NULL);
+    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
+                (end.tv_usec - start.tv_usec) / 1000.0;
+    if (mselapsed > PROFILE_JNI)
+        log_android(ANDROID_LOG_WARN, "create_packet %f", mselapsed);
+#endif
+
     return jpacket;
 }
 
@@ -2704,12 +2665,6 @@ void write_pcap_rec(const uint8_t *buffer, size_t length) {
 }
 
 void write_pcap(const void *ptr, size_t len) {
-#ifdef PROFILE
-    float mselapsed;
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
-#endif
-
     if (fwrite(ptr, len, 1, pcap_file) < 1)
         log_android(ANDROID_LOG_ERROR, "PCAP fwrite error %d: %s", errno, strerror(errno));
     else {
@@ -2728,14 +2683,6 @@ void write_pcap(const void *ptr, size_t len) {
             }
         }
     }
-
-#ifdef PROFILE
-    gettimeofday(&end, NULL);
-    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > 1)
-        log_android(ANDROID_LOG_INFO, "pcap write %f", mselapsed);
-#endif
 }
 
 char *trim(char *str) {
