@@ -84,10 +84,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
+    private boolean last_tethering = false;
+    private boolean last_filter = false;
     private String last_vpn4 = null;
     private String last_vpn6 = null;
     private String last_dns = null;
-    private boolean last_tethering = false;
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
@@ -232,6 +233,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (cmd != Command.stop)
                 if (!user_foreground) {
                     Log.i(TAG, "Command " + cmd + "ignored for background user");
+                    return;
                 }
 
             // Listen for phone state changes
@@ -364,6 +366,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             List<Rule> listAllowed = getAllowedRules(listRule);
 
             if (filter &&
+                    filter == last_filter &&
                     tethering == last_tethering &&
                     vpn4.equals(last_vpn4) &&
                     vpn6.equals(last_vpn6) &&
@@ -371,7 +374,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 Log.i(TAG, "Native restart");
 
                 if (vpn != null)
-                    jni_stop(vpn.getFd(), false);
+                    stopNative(vpn, false);
 
                 if (vpn == null)
                     vpn = startVPN(listAllowed);
@@ -396,7 +399,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 }
 
                 if (prev != null) {
-                    jni_stop(prev.getFd(), false);
+                    stopNative(prev, false);
                     stopVPN(prev);
                 }
                 startNative(vpn, listAllowed);
@@ -407,7 +410,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         private void stop() {
             if (vpn != null) {
-                jni_stop(vpn.getFd(), true);
+                stopNative(vpn, true);
                 stopVPN(vpn);
                 vpn = null;
             }
@@ -701,10 +704,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
 
+        last_filter = filter;
+        last_tethering = tethering;
         last_vpn4 = prefs.getString("vpn4", "10.1.10.1");
         last_vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
         last_dns = getDns();
-        last_tethering = tethering;
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -769,15 +773,24 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private void startNative(ParcelFileDescriptor vpn, List<Rule> listAllowed) {
-        prepareAllowed(listAllowed);
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
         boolean log = prefs.getBoolean("log", false);
         boolean filter = prefs.getBoolean("filter", false);
+
+        Log.i(TAG, "Start native log=" + log + " filter=" + filter);
+
+        // Prepare allowed/blocked lists
+        prepareAllowed(listAllowed);
+
         if (log || filter) {
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
             jni_start(vpn.getFd(), prio);
         }
+    }
+
+    private void stopNative(ParcelFileDescriptor vpn, boolean clear) {
+        Log.i(TAG, "Stop native clear=" + clear);
+        jni_stop(vpn.getFd(), clear);
     }
 
     private void prepareAllowed(List<Rule> listAllowed) {
@@ -1235,7 +1248,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         try {
             if (vpn != null) {
-                jni_stop(vpn.getFd(), true);
+                stopNative(vpn, true);
                 stopVPN(vpn);
                 vpn = null;
             }

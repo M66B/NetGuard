@@ -433,7 +433,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 SinkholeService.reload(null, "changed " + name, this);
 
         } else if ("filter".equals(name)) {
-            // TODO pro feature
             SinkholeService.reload(null, "changed " + name, this);
 
             // Show dialog
