@@ -63,7 +63,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -827,6 +826,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private void xmlImport(InputStream in) throws IOException, SAXException, ParserConfigurationException {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
         prefs.edit().putBoolean("enabled", false).apply();
         SinkholeService.stop("import", this);
 
@@ -848,6 +848,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Refresh UI
         prefs.edit().putBoolean("imported", true).apply();
+        prefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     private void xmlImport(Map<String, Object> settings, SharedPreferences prefs) {
@@ -931,7 +932,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     else {
                         // Pro features
                         if (current == application)
-                            if ("theme".equals(key)) {
+                            if ("log".equals(key)) {
+                                if (!IAB.isPurchased(ActivityPro.SKU_LOG, context))
+                                    return;
+                            } else if ("theme".equals(key)) {
                                 if (!IAB.isPurchased(ActivityPro.SKU_THEME, context))
                                     return;
                             } else if ("show_stats".equals(key)) {
