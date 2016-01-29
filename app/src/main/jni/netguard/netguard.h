@@ -230,9 +230,9 @@ jboolean handle_udp(const struct arguments *args,
                     const uint8_t *payload,
                     int uid);
 
-int get_dns(const struct arguments *args, const struct udp_session *u,
-            const uint8_t *data, const size_t datalen,
-            uint16_t *qtype, uint16_t *qclass, char *name);
+int get_dns_query(const struct arguments *args, const struct udp_session *u,
+                  const uint8_t *data, const size_t datalen,
+                  uint16_t *qtype, uint16_t *qclass, char *name);
 
 int check_domain(const struct arguments *args, const struct udp_session *u,
                  const uint8_t *data, const size_t datalen,

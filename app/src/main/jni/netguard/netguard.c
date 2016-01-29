@@ -349,7 +349,7 @@ void *handle_events(void *a) {
 #endif
 
             // Check upstream
-            int error;
+            int error = 0;
             if (check_tun(args, &rfds, &wfds, &efds) < 0)
                 error = 1;
             else {
@@ -1184,7 +1184,7 @@ jboolean handle_udp(const struct arguments *args,
         char qname[DNS_QNAME_MAX + 1];
         uint16_t qtype;
         uint16_t qclass;
-        if (get_dns(args, cur, data, datalen, &qtype, &qclass, qname) >= 0) {
+        if (get_dns_query(args, cur, data, datalen, &qtype, &qclass, qname) >= 0) {
             log_android(ANDROID_LOG_INFO, "DNS type %d class %d name %s", qtype, qclass, qname);
 
             if (check_domain(args, cur, data, datalen, qclass, qtype, qname)) {
@@ -1194,7 +1194,7 @@ jboolean handle_udp(const struct arguments *args,
                 jobject objPacket = create_packet(
                         args, version, IPPROTO_UDP, "",
                         source, ntohs(cur->source), dest, ntohs(cur->dest),
-                        name, cur->uid, 0);
+                        name, 0, 0);
                 log_packet(args, objPacket);
 
                 // Session done
@@ -1239,9 +1239,11 @@ jboolean handle_udp(const struct arguments *args,
     return 1;
 }
 
-int get_dns(const struct arguments *args, const struct udp_session *u,
-            const uint8_t *data, const size_t datalen,
-            uint16_t *qtype, uint16_t *qclass, char *name) {
+//int get_dns_qpart
+
+int get_dns_query(const struct arguments *args, const struct udp_session *u,
+                  const uint8_t *data, const size_t datalen,
+                  uint16_t *qtype, uint16_t *qclass, char *name) {
     if (datalen < sizeof(struct dns_header) + 1) {
         log_android(ANDROID_LOG_WARN, "DNS packet length %d", datalen);
         return -1;
@@ -1250,31 +1252,43 @@ int get_dns(const struct arguments *args, const struct udp_session *u,
     // Check if standard DNS query
     // TODO multiple qnames
     const struct dns_header *dns = (struct dns_header *) data;
-    if (dns->qr == 0 && dns->opcode == 0 && ntohs(dns->q_count) > 0) {
-        uint8_t noff = 0;
+    int qcount = ntohs(dns->q_count);
+    if (dns->qr == 0 && dns->opcode == 0 && qcount > 0) {
+        if (qcount > 1)
+            log_android(ANDROID_LOG_WARN, "DNS qcount %d", qcount);
 
         // http://tools.ietf.org/html/rfc1035
         uint8_t len;
+        uint8_t noff = 0;
         uint8_t comp = 0;
-        size_t qdoff = sizeof(struct dns_header);
+        int qdoff = sizeof(struct dns_header);
         do {
             comp++;
+
+            int qptr;
             len = *(data + qdoff);
-
-            // TODO DNS compression
             if (len & 0xC0) {
-                log_android(ANDROID_LOG_WARN, "DNS compression len %x", len);
-                return -1;
+                log_android(ANDROID_LOG_WARN, "DNS compression");
+                // Compression
+                qptr = (len & 0x3F) * 256 + *(data + qdoff + 1);
+                len = *(data + qptr);
+                if (len & 0xC0) {
+                    log_android(ANDROID_LOG_WARN, "DNS compression x2");
+                    break;
+                }
+                qdoff += 2;
             }
-
-            if (len && qdoff + 1 + len <= datalen) {
-                memcpy(name + noff, data + qdoff + 1, len);
-                *(name + noff + len) = '.';
-                noff += (len + 1);
+            else {
+                qptr = qdoff;
                 qdoff += (1 + len);
             }
+
+            if (len && qptr + 1 + len <= datalen) {
+                memcpy(name + noff, data + qptr + 1, len);
+                *(name + noff + len) = '.';
+                noff += (len + 1);
+            }
         } while (len && comp < 10);
-        qdoff++;
 
         if (noff > 0 && qdoff + 4 == datalen) {
             *(name + noff - 1) = 0;
@@ -1283,7 +1297,9 @@ int get_dns(const struct arguments *args, const struct udp_session *u,
             return 0;
         }
         else
-            log_android(ANDROID_LOG_WARN, "DNS packet invalid");
+            log_android(ANDROID_LOG_WARN,
+                        "DNS packet invalid noff %d qdoff %d datalen %d",
+                        noff, qdoff, datalen);
     }
 
     return -1;
@@ -1342,7 +1358,8 @@ int check_domain(const struct arguments *args, const struct udp_session *u,
         rh->ans_count = 0;
 
         // Send response
-        ssize_t res = write_udp(args, u, response, rlen);
+        if (write_udp(args, u, response, rlen) < 0)
+            log_android(ANDROID_LOG_WARN, "UDP DNS write error %d: %s", errno, strerror(errno));
 
         free(response);
 
@@ -1405,7 +1422,7 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
         */
 
         memcpy(response, request, sizeof(struct dhcp_packet));
-        response->opcode = (request->siaddr == 0 ? 2 /* Offer */ : /* Ack */ 4);
+        response->opcode = (uint8_t) (request->siaddr == 0 ? 2 /* Offer */ : /* Ack */ 4);
         response->secs = 0;
         response->flags = 0;
         memset(&response->ciaddr, 0, sizeof(response->ciaddr));
@@ -1414,12 +1431,12 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
         memset(&response->giaddr, 0, sizeof(response->giaddr));
 
         // https://tools.ietf.org/html/rfc2132
-        uint8_t *options = response + sizeof(struct dhcp_packet);
+        uint8_t *options = (uint8_t *) (response + sizeof(struct dhcp_packet));
 
         int idx = 0;
         *(options + idx++) = 53; // Message type
         *(options + idx++) = 1;
-        *(options + idx++) = (request->siaddr == 0 ? 2 : 5);
+        *(options + idx++) = (uint8_t) (request->siaddr == 0 ? 2 : 5);
         /*
              1     DHCPDISCOVER
              2     DHCPOFFER
@@ -2068,7 +2085,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
     // Write PCAP record
     if (res >= 0) {
         if (pcap_file != NULL)
-            write_pcap_rec(buffer, res);
+            write_pcap_rec(buffer, (size_t) res);
     }
     else
         log_android(ANDROID_LOG_WARN, "UDP write error %d: %s", errno, strerror(errno));
@@ -2197,7 +2214,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     // Write pcap record
     if (res >= 0) {
         if (pcap_file != NULL)
-            write_pcap_rec(buffer, res);
+            write_pcap_rec(buffer, (size_t) res);
     } else
         log_android(ANDROID_LOG_ERROR, "TCP write%s%s%s%s data %d confirm %d error %d: %s",
                     (tcp->syn ? " SYN" : ""),
