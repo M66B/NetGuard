@@ -120,9 +120,10 @@ typedef struct pcaprec_hdr_s {
 
 // DNS
 
-#define DNS_QTYPE_A 1 // IPv4
-#define DNS_QTYPE_AAAA 28 // IPv6
 #define DNS_QCLASS_IN 1
+#define DNS_QTYPE_A 1 // IPv4
+#define DNS_QTYPE_CNAME 5
+#define DNS_QTYPE_AAAA 28 // IPv6
 
 #define DNS_QNAME_MAX 63
 #define DNS_TTL (10 * 60) // seconds
@@ -215,6 +216,10 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
 
 void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
+int get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qname);
+
+void parse_dns_response(const struct arguments *args, const uint8_t *data, const size_t datalen);
+
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
 int is_lower_layer(int protocol);
@@ -232,7 +237,7 @@ jboolean handle_udp(const struct arguments *args,
 
 int get_dns_query(const struct arguments *args, const struct udp_session *u,
                   const uint8_t *data, const size_t datalen,
-                  uint16_t *qtype, uint16_t *qclass, char *name);
+                  uint16_t *qtype, uint16_t *qclass, char *qname);
 
 int check_domain(const struct arguments *args, const struct udp_session *u,
                  const uint8_t *data, const size_t datalen,

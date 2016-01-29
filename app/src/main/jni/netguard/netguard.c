@@ -729,6 +729,12 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                             inet_ntop(AF_INET6, &cur->daddr.ip6, dest, sizeof(dest));
                         log_android(ANDROID_LOG_INFO, "UDP recv bytes %d from %s/%u @tun",
                                     bytes, dest, ntohs(cur->dest));
+
+                        // Process DNS response
+                        if (ntohs(cur->dest) == 53)
+                            parse_dns_response(args, buffer, (size_t) bytes);
+
+                        // Forward to tun
                         if (write_udp(args, cur, buffer, (size_t) bytes) < 0)
                             cur->stop = 1;
                         else {
@@ -742,6 +748,141 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
         }
         cur = cur->next;
     }
+}
+
+int get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qname) {
+    *qname = 0;
+
+    uint16_t c = 0;
+    uint8_t noff = 0;
+    uint16_t ptr = off;
+    uint8_t len = *(data + ptr);
+    uint8_t parts = 0;
+    while (len && parts < 10) {
+        parts++;
+        if (len & 0xC0) {
+            ptr = (len & 0x3F) * 256 + *(data + ptr + 1);
+            len = *(data + ptr);
+            log_android(ANDROID_LOG_DEBUG, "DNS qname compression ptr %d len %d", ptr, len);
+            if (!c) {
+                c = 1;
+                off += 2;
+            }
+        }
+        else if (ptr + 1 + len <= datalen) {
+            memcpy(qname + noff, data + ptr + 1, len);
+            *(qname + noff + len) = '.';
+            noff += (len + 1);
+
+            ptr += (len + 1);
+            len = *(data + ptr);
+        }
+        else
+            break;
+    }
+    ptr++;
+
+    if (len > 0 || noff == 0) {
+        log_android(ANDROID_LOG_ERROR, "DNS qname invalid len %d noff %d part %d", len, noff,
+                    parts);
+        return -1;
+    }
+
+    *(qname + noff - 1) = 0;
+
+    return (c ? off : ptr);
+}
+
+void parse_dns_response(const struct arguments *args, const uint8_t *data, const size_t datalen) {
+    if (datalen < sizeof(struct dns_header) + 1) {
+        log_android(ANDROID_LOG_WARN, "DNS response length %d", datalen);
+        return;
+    }
+
+    // Check if standard DNS query
+    // TODO multiple qnames
+    const struct dns_header *dns = (struct dns_header *) data;
+    int qcount = ntohs(dns->q_count);
+    int acount = ntohs(dns->ans_count);
+    if (dns->qr == 1 && dns->opcode == 0 && qcount > 0) {
+        log_android(ANDROID_LOG_WARN, "DNS response qcount %d acount %d", qcount, acount);
+
+        // http://tools.ietf.org/html/rfc1035
+        char qname[DNS_QNAME_MAX + 1];
+
+        uint16_t off = sizeof(struct dns_header);
+        for (int q = 0; q < qcount; q++) {
+            off = get_qname(data, datalen, off, qname);
+            if (off > 0 && off + 4 <= datalen) {
+                uint16_t qtype = ntohs(*((uint16_t *) (data + off)));
+                uint16_t qclass = ntohs(*((uint16_t *) (data + off + 2)));
+                log_android(ANDROID_LOG_WARN,
+                            "DNS question %d qtype %d qclass %d qname %s",
+                            q, qtype, qclass, qname);
+                off += 4;
+            }
+            else {
+                log_android(ANDROID_LOG_ERROR,
+                            "DNS response Q invalid off %d datalen %d",
+                            off, datalen);
+                return;
+            }
+        }
+
+        for (int a = 0; a < acount; a++) {
+            off = get_qname(data, datalen, off, qname);
+            if (off > 0 && off + 10 <= datalen) {
+                uint16_t qtype = ntohs(*((uint16_t *) (data + off)));
+                uint16_t qclass = ntohs(*((uint16_t *) (data + off + 2)));
+                uint32_t ttl = ntohl(*((uint32_t *) (data + off + 4)));
+                uint16_t rdlength = ntohs(*((uint16_t *) (data + off + 8)));
+                off += 10;
+
+                if (off + rdlength <= datalen) {
+                    char addr[INET6_ADDRSTRLEN + 1];
+                    if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_A) {
+                        inet_ntop(AF_INET, data + off, addr, sizeof(addr));
+                        log_android(ANDROID_LOG_WARN,
+                                    "DNS answer %d qname %s qtype %d ttl %d addr %s",
+                                    a, qname, qtype, ttl, addr);
+                    } else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_AAAA) {
+                        inet_ntop(AF_INET6, data + off, addr, sizeof(addr));
+                        log_android(ANDROID_LOG_WARN,
+                                    "DNS answer %d qname %s qtype %d ttl %d addr %s",
+                                    a, qname, qtype, ttl, addr);
+                    } else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_CNAME) {
+                        char cname[DNS_QNAME_MAX + 1];
+                        get_qname(data, datalen, off, cname);
+                        log_android(ANDROID_LOG_WARN,
+                                    "DNS answer %d qname %s qtype %d ttl %d cname %s",
+                                    a, qname, qtype, ttl, cname);
+                    } else
+                        log_android(ANDROID_LOG_WARN,
+                                    "DNS answer %d qname %s qclass %d qtype %d ttl %d length %d",
+                                    a, qname, qclass, qtype, ttl, rdlength);
+
+
+                    off += rdlength;
+                }
+                else {
+                    log_android(ANDROID_LOG_ERROR,
+                                "DNS response A invalid off %d rdlength %d datalen %d",
+                                off, rdlength, datalen);
+                    return;
+                }
+            }
+            else {
+                log_android(ANDROID_LOG_ERROR,
+                            "DNS response A invalid off %d datalen %d",
+                            off, datalen);
+                return;
+            }
+        }
+    }
+    else
+        log_android(ANDROID_LOG_INFO,
+                    "DNS response qr %d opcode %d qcount %d acount %d",
+                    dns->qr, dns->opcode, qcount, acount);
 }
 
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
@@ -1185,7 +1326,9 @@ jboolean handle_udp(const struct arguments *args,
         uint16_t qtype;
         uint16_t qclass;
         if (get_dns_query(args, cur, data, datalen, &qtype, &qclass, qname) >= 0) {
-            log_android(ANDROID_LOG_INFO, "DNS type %d class %d name %s", qtype, qclass, qname);
+            log_android(ANDROID_LOG_WARN,
+                        "DNS query qtype %d qclass %d name %s",
+                        qtype, qclass, qname);
 
             if (check_domain(args, cur, data, datalen, qclass, qtype, qname)) {
                 // Log qname
@@ -1239,13 +1382,11 @@ jboolean handle_udp(const struct arguments *args,
     return 1;
 }
 
-//int get_dns_qpart
-
 int get_dns_query(const struct arguments *args, const struct udp_session *u,
                   const uint8_t *data, const size_t datalen,
-                  uint16_t *qtype, uint16_t *qclass, char *name) {
+                  uint16_t *qtype, uint16_t *qclass, char *qname) {
     if (datalen < sizeof(struct dns_header) + 1) {
-        log_android(ANDROID_LOG_WARN, "DNS packet length %d", datalen);
+        log_android(ANDROID_LOG_WARN, "DNS query length %d", datalen);
         return -1;
     }
 
@@ -1255,51 +1396,17 @@ int get_dns_query(const struct arguments *args, const struct udp_session *u,
     int qcount = ntohs(dns->q_count);
     if (dns->qr == 0 && dns->opcode == 0 && qcount > 0) {
         if (qcount > 1)
-            log_android(ANDROID_LOG_WARN, "DNS qcount %d", qcount);
+            log_android(ANDROID_LOG_WARN, "DNS query qcount %d", qcount);
 
         // http://tools.ietf.org/html/rfc1035
-        uint8_t len;
-        uint8_t noff = 0;
-        uint8_t comp = 0;
-        int qdoff = sizeof(struct dns_header);
-        do {
-            comp++;
-
-            int qptr;
-            len = *(data + qdoff);
-            if (len & 0xC0) {
-                log_android(ANDROID_LOG_WARN, "DNS compression");
-                // Compression
-                qptr = (len & 0x3F) * 256 + *(data + qdoff + 1);
-                len = *(data + qptr);
-                if (len & 0xC0) {
-                    log_android(ANDROID_LOG_WARN, "DNS compression x2");
-                    break;
-                }
-                qdoff += 2;
-            }
-            else {
-                qptr = qdoff;
-                qdoff += (1 + len);
-            }
-
-            if (len && qptr + 1 + len <= datalen) {
-                memcpy(name + noff, data + qptr + 1, len);
-                *(name + noff + len) = '.';
-                noff += (len + 1);
-            }
-        } while (len && comp < 10);
-
-        if (noff > 0 && qdoff + 4 == datalen) {
-            *(name + noff - 1) = 0;
-            *qtype = ntohs(*((uint16_t *) (data + qdoff)));
-            *qclass = ntohs(*((uint16_t *) (data + qdoff + 2)));
+        int off = get_qname(data, datalen, sizeof(struct dns_header), qname);
+        if (off > 0 && off + 4 == datalen) {
+            *qtype = ntohs(*((uint16_t *) (data + off)));
+            *qclass = ntohs(*((uint16_t *) (data + off + 2)));
             return 0;
         }
         else
-            log_android(ANDROID_LOG_WARN,
-                        "DNS packet invalid noff %d qdoff %d datalen %d",
-                        noff, qdoff, datalen);
+            log_android(ANDROID_LOG_WARN, "DNS query invalid off %d datalen %d", off, datalen);
     }
 
     return -1;
@@ -1313,7 +1420,7 @@ int check_domain(const struct arguments *args, const struct udp_session *u,
         (qtype == DNS_QTYPE_A || qtype == DNS_QTYPE_AAAA) &&
         is_domain_blocked(args, name)) {
 
-        log_android(ANDROID_LOG_WARN, "DNS type %d name %s blocked", qtype, name);
+        log_android(ANDROID_LOG_WARN, "DNS query type %d name %s blocked", qtype, name);
 
         // Build response
         size_t rlen = datalen + sizeof(struct dns_rr) + (qtype == DNS_QTYPE_A ? 4 : 16);
@@ -1558,7 +1665,8 @@ jboolean handle_tcp(const struct arguments *args,
 
     if (cur == NULL) {
         if (tcphdr->syn) {
-            log_android(ANDROID_LOG_INFO, "TCP new session from %s/%u to %s/%u window %u uid %d",
+            log_android(ANDROID_LOG_INFO,
+                        "TCP new session from %s/%u to %s/%u window %u uid %d",
                         source, ntohs(tcphdr->source),
                         dest, ntohs(tcphdr->dest),
                         ntohs(tcphdr->window), uid);
@@ -1698,7 +1806,8 @@ jboolean handle_tcp(const struct arguments *args,
             if (ok) {
                 if (tcphdr->rst) {
                     // No sequence check
-                    log_android(ANDROID_LOG_INFO, "TCP received RST from %s/%u to %s/%u state %s",
+                    log_android(ANDROID_LOG_INFO,
+                                "TCP received RST from %s/%u to %s/%u state %s",
                                 source, ntohs(tcphdr->source), dest, ntohs(cur->dest),
                                 strstate(cur->state));
                     cur->state = TCP_TIME_WAIT;
@@ -1756,7 +1865,8 @@ jboolean handle_tcp(const struct arguments *args,
                             else if (cur->state == TCP_ESTABLISHED) {
                                 log_android(ANDROID_LOG_DEBUG,
                                             "TCP new ACK from %s/%u to %s/%u state %s data %u",
-                                            source, ntohs(tcphdr->source), dest, ntohs(cur->dest),
+                                            source, ntohs(tcphdr->source),
+                                            dest, ntohs(cur->dest),
                                             strstate(cur->state), datalen);
                             }
                             else if (cur->state == TCP_LAST_ACK) {
@@ -1770,7 +1880,8 @@ jboolean handle_tcp(const struct arguments *args,
                             else {
                                 log_android(ANDROID_LOG_ERROR,
                                             "TCP invalid ACK from %s/%u to %s/%u state %s",
-                                            source, ntohs(tcphdr->source), dest, ntohs(cur->dest),
+                                            source, ntohs(tcphdr->source),
+                                            dest, ntohs(cur->dest),
                                             strstate(cur->state));
                                 return 0;
                             }
@@ -1793,7 +1904,8 @@ jboolean handle_tcp(const struct arguments *args,
 
                         // TODO proper wrap around
                         jboolean allowed = 1;
-                        if (tcphdr->ack && ((uint32_t) ntohl(tcphdr->seq) + 1) == cur->remote_seq)
+                        if (tcphdr->ack &&
+                            ((uint32_t) ntohl(tcphdr->seq) + 1) == cur->remote_seq)
                             msg = keepalive;
                         else if (ntohl(tcphdr->seq) == cur->remote_seq &&
                                  ntohl(tcphdr->ack_seq) < cur->local_seq)
@@ -2445,7 +2557,8 @@ int __system_property_get(const char *name, char *value) {
         if (!handle)
             log_android(ANDROID_LOG_ERROR, "dlopen(libc.so): %s", dlerror());
         else {
-            __real_system_property_get = (PFN_SYS_PROP_GET) dlsym(handle, "__system_property_get");
+            __real_system_property_get = (PFN_SYS_PROP_GET) dlsym(
+                    handle, "__system_property_get");
             if (!__real_system_property_get)
                 log_android(ANDROID_LOG_ERROR, "dlsym(__system_property_get()): %s", dlerror());
         }
@@ -2507,7 +2620,8 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
 
     const char *signature = "(Ljava/lang/String;)Z";
     if (midIsDomainBlocked == NULL)
-        midIsDomainBlocked = jniGetMethodID(args->env, clsService, "isDomainBlocked", signature);
+        midIsDomainBlocked = jniGetMethodID(args->env, clsService,
+                                            "isDomainBlocked", signature);
 
     jstring jname = (*args->env)->NewStringUTF(args->env, name);
 
@@ -2542,7 +2656,8 @@ jboolean is_address_allowed(const struct arguments *args, jobject jpacket) {
 
     const char *signature = "(Leu/faircode/netguard/Packet;)Z";
     if (midIsAddressAllowed == NULL)
-        midIsAddressAllowed = jniGetMethodID(args->env, clsService, "isAddressAllowed", signature);
+        midIsAddressAllowed = jniGetMethodID(args->env, clsService,
+                                             "isAddressAllowed", signature);
 
     jboolean jallowed = (*args->env)->CallBooleanMethod(
             args->env, args->instance, midIsAddressAllowed, jpacket);
