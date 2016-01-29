@@ -188,6 +188,7 @@ Frequently Asked Questions (FAQ)
 Permissions
 -----------
 
+* INTERNET: to forward allowed traffic to the internet
 * ACCESS_NETWORK_STATE: to check if the device is connected to the internet through Wi-Fi
 * READ_PHONE_STATE: to detect mobile network changes, see [here](http://forum.xda-developers.com/showpost.php?p=64107371&postcount=489) for more details
 * ACCESS_WIFI_STATE: to detect Wi-Fi network changes
