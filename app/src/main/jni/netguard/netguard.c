@@ -793,6 +793,8 @@ int get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qna
     return (c ? off : ptr);
 }
 
+static struct dns_entry *dns_entry = NULL;
+
 void parse_dns_response(const struct arguments *args, const uint8_t *data, const size_t datalen) {
     if (datalen < sizeof(struct dns_header) + 1) {
         log_android(ANDROID_LOG_WARN, "DNS response length %d", datalen);
@@ -804,12 +806,16 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
     const struct dns_header *dns = (struct dns_header *) data;
     int qcount = ntohs(dns->q_count);
     int acount = ntohs(dns->ans_count);
-    if (dns->qr == 1 && dns->opcode == 0 && qcount > 0) {
+    if (dns->qr == 1 && dns->opcode == 0 && qcount > 0 && acount > 0) {
         log_android(ANDROID_LOG_WARN, "DNS response qcount %d acount %d", qcount, acount);
 
         // http://tools.ietf.org/html/rfc1035
-        char qname[DNS_QNAME_MAX + 1];
 
+        struct dns_entry *entry = malloc(sizeof(struct dns_entry));
+        entry->acount = 0;
+        entry->answer = NULL;
+
+        char qname[DNS_QNAME_MAX + 1];
         uint16_t off = sizeof(struct dns_header);
         for (int q = 0; q < qcount; q++) {
             off = get_qname(data, datalen, off, qname);
@@ -820,6 +826,11 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
                             "DNS question %d qtype %d qclass %d qname %s",
                             q, qtype, qclass, qname);
                 off += 4;
+
+                // TODO multiple qnames?
+                if (q == 0)
+                    entry->qname = malloc(strlen(qname) + 1);
+                strcpy(entry->qname, qname);
             }
             else {
                 log_android(ANDROID_LOG_ERROR,
@@ -839,23 +850,35 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
                 off += 10;
 
                 if (off + rdlength <= datalen) {
-                    char addr[INET6_ADDRSTRLEN + 1];
-                    if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_A) {
-                        inet_ntop(AF_INET, data + off, addr, sizeof(addr));
+                    if (qclass == DNS_QCLASS_IN &&
+                        (qtype == DNS_QTYPE_A ||
+                         qtype == DNS_QTYPE_AAAA ||
+                         qtype == DNS_QTYPE_CNAME)) {
+
+                        char rd[INET6_ADDRSTRLEN + 1];
+                        if (qtype == DNS_QTYPE_A)
+                            inet_ntop(AF_INET, data + off, rd, sizeof(rd));
+                        else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_AAAA)
+                            inet_ntop(AF_INET6, data + off, rd, sizeof(rd));
+                        else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_CNAME) {
+                            if (get_qname(data, datalen, off, rd) < 0)
+                                log_android(ANDROID_LOG_WARN, "DNS cname error");
+                        }
+
                         log_android(ANDROID_LOG_WARN,
-                                    "DNS answer %d qname %s qtype %d ttl %d addr %s",
-                                    a, qname, qtype, ttl, addr);
-                    } else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_AAAA) {
-                        inet_ntop(AF_INET6, data + off, addr, sizeof(addr));
-                        log_android(ANDROID_LOG_WARN,
-                                    "DNS answer %d qname %s qtype %d ttl %d addr %s",
-                                    a, qname, qtype, ttl, addr);
-                    } else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_CNAME) {
-                        char cname[DNS_QNAME_MAX + 1];
-                        get_qname(data, datalen, off, cname);
-                        log_android(ANDROID_LOG_WARN,
-                                    "DNS answer %d qname %s qtype %d ttl %d cname %s",
-                                    a, qname, qtype, ttl, cname);
+                                    "DNS answer %d qname %s qtype %d ttl %d data %s",
+                                    a, qname, qtype, ttl, rd);
+
+                        entry->answer = realloc(entry->answer,
+                                                sizeof(struct dns_answer *) * (entry->acount + 1));
+                        entry->answer[entry->acount] = malloc(sizeof(struct dns_answer));
+                        entry->answer[entry->acount]->time = time(NULL);
+                        entry->answer[entry->acount]->ttl = ttl;
+                        entry->answer[entry->acount]->qtype = qtype;
+                        entry->answer[entry->acount]->rd = malloc(strlen(rd) + 1);
+                        strcpy(entry->answer[entry->acount]->rd, rd);
+                        entry->acount++;
+
                     } else
                         log_android(ANDROID_LOG_WARN,
                                     "DNS answer %d qname %s qclass %d qtype %d ttl %d length %d",
@@ -878,11 +901,49 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
                 return;
             }
         }
+
+        if (entry->acount > 0) {
+            // TODO cleanup old entries
+            entry->next = dns_entry;
+            dns_entry = entry;
+        }
+        else
+            free(entry);
     }
     else
         log_android(ANDROID_LOG_INFO,
                     "DNS response qr %d opcode %d qcount %d acount %d",
                     dns->qr, dns->opcode, qcount, acount);
+}
+
+JNIEXPORT jstring JNICALL
+Java_eu_faircode_netguard_Util_jni_1resolve(JNIEnv *env, jclass type, jstring ip_) {
+    const char *ip = (*env)->GetStringUTFChars(env, ip_, 0);
+
+    if (pthread_mutex_lock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
+
+    char *result = NULL;
+    struct dns_entry *entry = dns_entry;
+    while (entry != NULL) {
+        for (int a = 0; a < entry->acount; a++)
+            // TODO check ttl
+            if (entry->answer[a]->qtype == DNS_QTYPE_CNAME) {
+                // TODO cname recursion
+            }
+            else if (!strcmp(entry->answer[a]->rd, ip)) {
+                result = entry->qname;
+                break;
+            }
+        entry = entry->next;
+    }
+
+    if (pthread_mutex_unlock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+
+    (*env)->ReleaseStringUTFChars(env, ip_, ip);
+
+    return (result == NULL ? NULL : (*env)->NewStringUTF(env, result));
 }
 
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {

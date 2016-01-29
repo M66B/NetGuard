@@ -74,6 +74,8 @@ public class Util {
 
     private static native String jni_getprop(String name);
 
+    private static native String jni_resolve(String ip);
+
     static {
         System.loadLibrary("netguard");
     }
@@ -370,12 +372,15 @@ public class Util {
                 new AsyncTask<String, Object, String>() {
                     @Override
                     protected String doInBackground(String... args) {
+                        return jni_resolve(args[0]);
+                        /*
                         try {
                             // This requires internet permission
                             return InetAddress.getByName(args[0]).getHostName();
                         } catch (UnknownHostException ignored) {
                             return args[0];
                         }
+                        */
                     }
 
                     @Override

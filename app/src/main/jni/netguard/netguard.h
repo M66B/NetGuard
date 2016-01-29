@@ -169,6 +169,21 @@ typedef struct dns_rr {
     __be16 rdlength;
 } __packed;
 
+typedef struct dns_answer {
+    int time;
+    int ttl;
+    char *qname;
+    int qtype;
+    char *rd;
+};
+
+typedef struct dns_entry {
+    char *qname;
+    int acount;
+    struct dns_answer **answer;
+    struct dns_entry *next;
+};
+
 // DHCP
 
 #define DHCP_OPTION_MAGIC_NUMBER (0x63825363)
