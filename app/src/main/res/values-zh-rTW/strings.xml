@@ -4,9 +4,9 @@
   <string name="app_copyright">Copyright © 2015 by M. Bokhorst (M66B)</string>
   <string name="app_android">網路守門人只支援Android 5.0以上系統</string>
   <string name="app_license">使用網路守門人,代表你同意<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_first">\"作者及本人已經盡可能測試測款App了,但還是有可能會出現Bug.網路守門人可能在某些機型會閃退.也有可能會造成網路完全阻斷.這些是Android本身的bug,請不要因此責怪網路守門人. 
-
-使用網路守門人,代表你同意\"<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee NetGuard will work correctly on every device.
+\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">搜尋App</string>
   <string name="menu_filter">篩選程式</string>
   <string name="menu_app_user">顯示使用者程式</string>

@@ -4,10 +4,9 @@
   <string name="app_copyright">Copyright \u00A9 2015-2016 von M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard erfordert Android 5.0 oder höher</string>
   <string name="app_license">Mit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_first">NetGuard wurde mit großer Sorgfalt entwickelt, jedoch ist es unmöglich zu garantieren, dass es auf jedem Gerät korrekt arbeitet.
-Es ist bekannt, dass NetGuard zu Abstürzen führen kann und, dass auf manchen Geräten sämtlicher Netzwerkverkehr blockiert wird.
-Das wird von Fehlern in Android oder in Software vom Hersteller verursacht. Bitte beschuldigen Sie bei solchen Fehlern nicht NetGuard.
-\n\nMit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee NetGuard will work correctly on every device.
+\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Nach Apps suchen</string>
   <string name="menu_filter">Anwendungsfilter</string>
   <string name="menu_app_user">Benutzeranwendungen anzeigen</string>

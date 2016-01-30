@@ -5,9 +5,7 @@
   <string name="app_android">NetGuard kræver Android 5.0 eller nyere</string>
   <string name="app_license">Ved at bruge NetGuard, accepterer du licensaftalen <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee it will work correctly on every device.
-NetGuard is known to crash when activated on some devices. It is also known to block all traffic on some other devices.
-These issues are caused by bugs in Android, or in the software provided by the manufacturer, so please don\'t blame NetGuard.
+however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Søg efter applikation</string>
   <string name="menu_filter">Filtrer applikationer</string>

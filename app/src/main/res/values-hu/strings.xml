@@ -4,11 +4,9 @@
   <string name="app_copyright">Copyright \u00A9 2015-2016 by M. Bokhorst (M66B)</string>
   <string name="app_android">A NetGuard használatához Android 5.0 vagy újabb szükséges</string>
   <string name="app_license">NetGuard használatával elfogadja a<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_first">Nagy gondot fordítottak a NetGuard fejlesztésére és tesztelésére,
-azonban lehetetlen garantálni, hogy minden eszközön jól fog működni.
-Ismert probléma, hogy egyes eszközökön a NetGuard összeomlik, amikor aktiválják. Az is ismert, hogy más eszközön blokkolja az összes hálózati forgalmat.
-Ezeket a hibákat az Android bugjai vagy az eszköz gyártójának a szoftverei okozzák, ezért kérjük ne a NetGuard-ot okolják.
-\n\nA NetGuard használatával elfogadja<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee NetGuard will work correctly on every device.
+\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Alkalmazás keresése</string>
   <string name="menu_filter">Alkalmazás szűrő</string>
   <string name="menu_app_user">Felhasználói alkalmazások mutatása</string>

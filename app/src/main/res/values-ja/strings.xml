@@ -4,11 +4,9 @@
   <string name="app_copyright">Copyright \u00A9 2015-2016 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard は Android 5.0 またはそれ以降が必要です</string>
   <string name="app_license">NetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
-  <string name="app_first">細心の注意で NetGuard を開発およびテストしていますが、
-すべてのデバイス上で正しく動作することを保証することは不可能です。
-一部のデバイスで、起動時に NetGuard がクラッシュすることがわかっています。また、他の一部のデバイスで、すべてのトラフィックをブロックすることが知られています。
-これらの問題は Android のバグ、または製造元が提供するソフトウェアに起因します。そのために NetGuard を非難しないでください。
-\n\nNetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
+  <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee NetGuard will work correctly on every device.
+\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">アプリケーションの検索</string>
   <string name="menu_filter">アプリケーションをフィルター</string>
   <string name="menu_app_user">ユーザー アプリケーションを表示</string>

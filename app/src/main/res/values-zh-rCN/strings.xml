@@ -4,11 +4,9 @@
   <string name="app_copyright">版权所有 \u00A9 2015-2016 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard仅适用于运行Android 5.0 或更高版本的设备</string>
   <string name="app_license">使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
-  <string name="app_first">开发者在开发和测试NetGuard过程中已悉心尽力,
-但开发者无法确保本软件在所有设备上均可正常运行.
-在某些设备上NetGuard已知会在启动时崩溃或完全阻止所有网络通讯.
-这是由安卓系统或设备厂商软件缺陷所致, 请不要归咎于NetGuard.
-\n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
+  <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee NetGuard will work correctly on every device.
+\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">搜索应用</string>
   <string name="menu_filter">筛选应用</string>
   <string name="menu_app_user">显示用户应用</string>

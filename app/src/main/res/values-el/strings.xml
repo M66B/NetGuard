@@ -4,7 +4,9 @@
   <string name="app_copyright">Πνευματικά δικαιώματα \u00A9 2015-2016 από Μ. Bokhorst (M66B)</string>
   <string name="app_android">Το NetGuard απαιτεί Android 5.0 ή κάποια νεότερη έκδοση</string>
   <string name="app_license">Με τη χρήση του NetGuard, συμφωνείτε με την <a href="http://www.gnu.org/licenses/gpl.txt"> GNU/GPL έκδοση 3</a></string>
-  <string name="app_first">Μεγάλη προσοχή έχει ληφθεί για την ανάπτυξη και τη δοκιμή του NetGuard, ωστόσο, είναι αδύνατο να σας εγγυηθούμε ότι θα λειτουργήσει σωστά για κάθε συσκευή. Το NetGuard είναι γνωστό ότι μπορεί να κρασάρει όταν ενεργοποιηθεί σε ορισμένες συσκευές. Είναι επίσης γνωστό ότι μπορεί να αποκλείσει όλη την κυκλοφορία σε ορισμένες άλλες συσκευές. Αυτά τα ζητήματα προκαλούνται από σφάλματα στο Android, ή στο λογισμικό που παρέχεται από τον κατασκευαστή, έτσι παρακαλώ μην κατηγορείτε το NetGuard. \n\nΧρησιμοποιώντας το NetGuard, συμφωνείτε με την <a href="http://www.gnu.org/licenses/gpl.txt"> GNU/GPL έκδοση 3</a></string>
+  <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee NetGuard will work correctly on every device.
+\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Αναζήτηση</string>
   <string name="menu_filter">Φίλτρο</string>
   <string name="menu_app_user">Χρήστης</string>

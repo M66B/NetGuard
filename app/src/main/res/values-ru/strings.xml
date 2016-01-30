@@ -4,8 +4,9 @@
   <string name="app_copyright">Авторское право \u00A9 2015-2016 М. Bokhorst (M66B)</string>
   <string name="app_android">Для работы NetGuard требуется Android 5.0 или более поздняя версия</string>
   <string name="app_license">Используя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
-  <string name="app_first">Были приложены большие усилия для разработки и тестирования NetGuard, однако невозможно гарантировать, что оно будет корректно работать на любом устройстве. NetGuard известен сбой при активации на некоторых устройствах. Известно также, что блокируется весь трафик на некоторых устройствах. Эти проблемы вызваны ошибками в Android, или в программном обеспечении, поставляемом изготовителем, поэтому, пожалуйста, не вините NetGuard.
-\n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
+  <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee NetGuard will work correctly on every device.
+\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Поиск приложения</string>
   <string name="menu_filter">Фильтр приложений</string>
   <string name="menu_app_user">Показать пользовательские приложения</string>
