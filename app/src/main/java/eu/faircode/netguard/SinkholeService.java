@@ -931,6 +931,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     // Called from native code
+    private void dnsResolved(ResourceRecord rr) {
+        Log.i(TAG, rr.toString());
+    }
+
+    // Called from native code
     private boolean isDomainBlocked(String name) {
         boolean blocked = (mapDomainBlocked.containsKey(name) && mapDomainBlocked.get(name));
         return blocked;

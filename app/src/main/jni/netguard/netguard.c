@@ -62,6 +62,7 @@ static FILE *pcap_file = NULL;
 // JNI
 
 jclass clsPacket;
+jclass clsRR;
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     log_android(ANDROID_LOG_INFO, "JNI load");
@@ -74,6 +75,8 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 
     const char *packet = "eu/faircode/netguard/Packet";
     clsPacket = jniGlobalRef(env, jniFindClass(env, packet));
+    const char *rr = "eu/faircode/netguard/ResourceRecord";
+    clsRR = jniGlobalRef(env, jniFindClass(env, rr));
 
     return JNI_VERSION_1_6;
 }
@@ -86,6 +89,7 @@ void JNI_OnUnload(JavaVM *vm, void *reserved) {
         log_android(ANDROID_LOG_INFO, "JNI load GetEnv failed");
     else {
         (*env)->DeleteGlobalRef(env, clsPacket);
+        (*env)->DeleteGlobalRef(env, clsRR);
     }
 }
 
@@ -793,8 +797,6 @@ int get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qna
     return (c ? off : ptr);
 }
 
-static struct dns_entry *dns_entry = NULL;
-
 void parse_dns_response(const struct arguments *args, const uint8_t *data, const size_t datalen) {
     if (datalen < sizeof(struct dns_header) + 1) {
         log_android(ANDROID_LOG_WARN, "DNS response length %d", datalen);
@@ -807,33 +809,31 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
     int qcount = ntohs(dns->q_count);
     int acount = ntohs(dns->ans_count);
     if (dns->qr == 1 && dns->opcode == 0 && qcount > 0 && acount > 0) {
-        log_android(ANDROID_LOG_WARN, "DNS response qcount %d acount %d", qcount, acount);
+        log_android(ANDROID_LOG_DEBUG, "DNS response qcount %d acount %d", qcount, acount);
+        if (qcount > 1)
+            log_android(ANDROID_LOG_WARN, "DNS response qcount %d acount %d", qcount, acount);
 
         // http://tools.ietf.org/html/rfc1035
-
-        struct dns_entry *entry = malloc(sizeof(struct dns_entry));
-        entry->acount = 0;
-        entry->answer = NULL;
-
         char qname[DNS_QNAME_MAX + 1];
+
+        char name[DNS_QNAME_MAX + 1];
         uint16_t off = sizeof(struct dns_header);
         for (int q = 0; q < qcount; q++) {
-            off = get_qname(data, datalen, off, qname);
+            off = get_qname(data, datalen, off, name);
             if (off > 0 && off + 4 <= datalen) {
                 uint16_t qtype = ntohs(*((uint16_t *) (data + off)));
                 uint16_t qclass = ntohs(*((uint16_t *) (data + off + 2)));
-                log_android(ANDROID_LOG_WARN,
+                log_android(ANDROID_LOG_DEBUG,
                             "DNS question %d qtype %d qclass %d qname %s",
-                            q, qtype, qclass, qname);
+                            q, qtype, qclass, name);
                 off += 4;
 
                 // TODO multiple qnames?
                 if (q == 0)
-                    entry->qname = malloc(strlen(qname) + 1);
-                strcpy(entry->qname, qname);
+                    strcpy(qname, name);
             }
             else {
-                log_android(ANDROID_LOG_ERROR,
+                log_android(ANDROID_LOG_WARN,
                             "DNS response Q invalid off %d datalen %d",
                             off, datalen);
                 return;
@@ -841,7 +841,7 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
         }
 
         for (int a = 0; a < acount; a++) {
-            off = get_qname(data, datalen, off, qname);
+            off = get_qname(data, datalen, off, name);
             if (off > 0 && off + 10 <= datalen) {
                 uint16_t qtype = ntohs(*((uint16_t *) (data + off)));
                 uint16_t qclass = ntohs(*((uint16_t *) (data + off + 2)));
@@ -851,99 +851,45 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
 
                 if (off + rdlength <= datalen) {
                     if (qclass == DNS_QCLASS_IN &&
-                        (qtype == DNS_QTYPE_A ||
-                         qtype == DNS_QTYPE_AAAA ||
-                         qtype == DNS_QTYPE_CNAME)) {
+                        (qtype == DNS_QTYPE_A || qtype == DNS_QTYPE_AAAA)) {
 
                         char rd[INET6_ADDRSTRLEN + 1];
                         if (qtype == DNS_QTYPE_A)
                             inet_ntop(AF_INET, data + off, rd, sizeof(rd));
                         else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_AAAA)
                             inet_ntop(AF_INET6, data + off, rd, sizeof(rd));
-                        else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_CNAME) {
-                            if (get_qname(data, datalen, off, rd) < 0)
-                                log_android(ANDROID_LOG_WARN, "DNS cname error");
-                        }
 
-                        log_android(ANDROID_LOG_WARN,
+                        dns_resolved(args, qname, name, rd, ttl);
+                        log_android(ANDROID_LOG_DEBUG,
                                     "DNS answer %d qname %s qtype %d ttl %d data %s",
-                                    a, qname, qtype, ttl, rd);
-
-                        entry->answer = realloc(entry->answer,
-                                                sizeof(struct dns_answer *) * (entry->acount + 1));
-                        entry->answer[entry->acount] = malloc(sizeof(struct dns_answer));
-                        entry->answer[entry->acount]->time = time(NULL);
-                        entry->answer[entry->acount]->ttl = ttl;
-                        entry->answer[entry->acount]->qtype = qtype;
-                        entry->answer[entry->acount]->rd = malloc(strlen(rd) + 1);
-                        strcpy(entry->answer[entry->acount]->rd, rd);
-                        entry->acount++;
+                                    a, name, qtype, ttl, rd);
 
                     } else
-                        log_android(ANDROID_LOG_WARN,
+                        log_android(ANDROID_LOG_DEBUG,
                                     "DNS answer %d qname %s qclass %d qtype %d ttl %d length %d",
-                                    a, qname, qclass, qtype, ttl, rdlength);
-
+                                    a, name, qclass, qtype, ttl, rdlength);
 
                     off += rdlength;
                 }
                 else {
-                    log_android(ANDROID_LOG_ERROR,
+                    log_android(ANDROID_LOG_WARN,
                                 "DNS response A invalid off %d rdlength %d datalen %d",
                                 off, rdlength, datalen);
                     return;
                 }
             }
             else {
-                log_android(ANDROID_LOG_ERROR,
+                log_android(ANDROID_LOG_WARN,
                             "DNS response A invalid off %d datalen %d",
                             off, datalen);
                 return;
             }
         }
-
-        if (entry->acount > 0) {
-            // TODO cleanup old entries
-            entry->next = dns_entry;
-            dns_entry = entry;
-        }
-        else
-            free(entry);
     }
     else
-        log_android(ANDROID_LOG_INFO,
+        log_android(ANDROID_LOG_WARN,
                     "DNS response qr %d opcode %d qcount %d acount %d",
                     dns->qr, dns->opcode, qcount, acount);
-}
-
-JNIEXPORT jstring JNICALL
-Java_eu_faircode_netguard_Util_jni_1resolve(JNIEnv *env, jclass type, jstring ip_) {
-    const char *ip = (*env)->GetStringUTFChars(env, ip_, 0);
-
-    if (pthread_mutex_lock(&lock))
-        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
-
-    char *result = NULL;
-    struct dns_entry *entry = dns_entry;
-    while (entry != NULL) {
-        for (int a = 0; a < entry->acount; a++)
-            // TODO check ttl
-            if (entry->answer[a]->qtype == DNS_QTYPE_CNAME) {
-                // TODO cname recursion
-            }
-            else if (!strcmp(entry->answer[a]->rd, ip)) {
-                result = entry->qname;
-                break;
-            }
-        entry = entry->next;
-    }
-
-    if (pthread_mutex_unlock(&lock))
-        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
-
-    (*env)->ReleaseStringUTFChars(env, ip_, ip);
-
-    return (result == NULL ? NULL : (*env)->NewStringUTF(env, result));
 }
 
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
@@ -1387,7 +1333,7 @@ jboolean handle_udp(const struct arguments *args,
         uint16_t qtype;
         uint16_t qclass;
         if (get_dns_query(args, cur, data, datalen, &qtype, &qclass, qname) >= 0) {
-            log_android(ANDROID_LOG_WARN,
+            log_android(ANDROID_LOG_DEBUG,
                         "DNS query qtype %d qclass %d name %s",
                         qtype, qclass, qname);
 
@@ -2668,6 +2614,68 @@ void log_packet(const struct arguments *args, jobject jpacket) {
 #endif
 }
 
+static jmethodID midDnsResolved = NULL;
+static jmethodID midInitRR = NULL;
+jfieldID fidQName = NULL;
+jfieldID fidAName = NULL;
+jfieldID fidResource = NULL;
+jfieldID fidTTL = NULL;
+
+void dns_resolved(const struct arguments *args,
+                  const char *qname, const char *aname, const char *resource, int ttl) {
+#ifdef PROFILE_JNI
+    float mselapsed;
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
+#endif
+
+    jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
+
+    const char *signature = "(Leu/faircode/netguard/ResourceRecord;)V";
+    if (midDnsResolved == NULL)
+        midDnsResolved = jniGetMethodID(args->env, clsService, "dnsResolved", signature);
+
+    const char *rr = "eu/faircode/netguard/ResourceRecord";
+    if (midInitRR == NULL)
+        midInitRR = jniGetMethodID(args->env, clsRR, "<init>", "()V");
+
+    jobject jrr = jniNewObject(args->env, clsRR, midInitRR, rr);
+
+    if (fidQName == NULL) {
+        const char *string = "Ljava/lang/String;";
+        fidQName = jniGetFieldID(args->env, clsRR, "QName", string);
+        fidAName = jniGetFieldID(args->env, clsRR, "AName", string);
+        fidResource = jniGetFieldID(args->env, clsRR, "Resource", string);
+        fidTTL = jniGetFieldID(args->env, clsRR, "TTL", "I");
+    }
+
+    jstring jqname = (*args->env)->NewStringUTF(args->env, qname);
+    jstring janame = (*args->env)->NewStringUTF(args->env, aname);
+    jstring jresource = (*args->env)->NewStringUTF(args->env, resource);
+
+    (*args->env)->SetObjectField(args->env, jrr, fidQName, jqname);
+    (*args->env)->SetObjectField(args->env, jrr, fidAName, janame);
+    (*args->env)->SetObjectField(args->env, jrr, fidResource, jresource);
+    (*args->env)->SetIntField(args->env, jrr, fidTTL, ttl);
+
+    (*args->env)->CallVoidMethod(args->env, args->instance, midDnsResolved, jrr);
+    jniCheckException(args->env);
+
+    (*args->env)->DeleteLocalRef(args->env, jresource);
+    (*args->env)->DeleteLocalRef(args->env, janame);
+    (*args->env)->DeleteLocalRef(args->env, jqname);
+    (*args->env)->DeleteLocalRef(args->env, jrr);
+    (*args->env)->DeleteLocalRef(args->env, clsService);
+
+#ifdef PROFILE_JNI
+    gettimeofday(&end, NULL);
+    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
+                (end.tv_usec - start.tv_usec) / 1000.0;
+    if (mselapsed > PROFILE_JNI)
+        log_android(ANDROID_LOG_WARN, "log_packet %f", mselapsed);
+#endif
+}
+
 static jmethodID midIsDomainBlocked = NULL;
 
 jboolean is_domain_blocked(const struct arguments *args, const char *name) {
@@ -2681,8 +2689,7 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
 
     const char *signature = "(Ljava/lang/String;)Z";
     if (midIsDomainBlocked == NULL)
-        midIsDomainBlocked = jniGetMethodID(args->env, clsService,
-                                            "isDomainBlocked", signature);
+        midIsDomainBlocked = jniGetMethodID(args->env, clsService, "isDomainBlocked", signature);
 
     jstring jname = (*args->env)->NewStringUTF(args->env, name);
 
@@ -2717,8 +2724,7 @@ jboolean is_address_allowed(const struct arguments *args, jobject jpacket) {
 
     const char *signature = "(Leu/faircode/netguard/Packet;)Z";
     if (midIsAddressAllowed == NULL)
-        midIsAddressAllowed = jniGetMethodID(args->env, clsService,
-                                             "isAddressAllowed", signature);
+        midIsAddressAllowed = jniGetMethodID(args->env, clsService, "isAddressAllowed", signature);
 
     jboolean jallowed = (*args->env)->CallBooleanMethod(
             args->env, args->instance, midIsAddressAllowed, jpacket);
@@ -2776,14 +2782,6 @@ jobject create_packet(const struct arguments *args,
         midInitPacket = jniGetMethodID(env, clsPacket, "<init>", "()V");
     jobject jpacket = jniNewObject(env, clsPacket, midInitPacket, packet);
 
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    jlong t = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
-    jstring jflags = (*env)->NewStringUTF(env, flags);
-    jstring jsource = (*env)->NewStringUTF(env, source);
-    jstring jdest = (*env)->NewStringUTF(env, dest);
-    jstring jdata = (*env)->NewStringUTF(env, data);
-
     if (fidTime == NULL) {
         const char *string = "Ljava/lang/String;";
         fidTime = jniGetFieldID(env, clsPacket, "time", "J");
@@ -2798,6 +2796,14 @@ jobject create_packet(const struct arguments *args,
         fidUid = jniGetFieldID(env, clsPacket, "uid", "I");
         fidAllowed = jniGetFieldID(env, clsPacket, "allowed", "Z");
     }
+
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    jlong t = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
+    jstring jflags = (*env)->NewStringUTF(env, flags);
+    jstring jsource = (*env)->NewStringUTF(env, source);
+    jstring jdest = (*env)->NewStringUTF(env, dest);
+    jstring jdata = (*env)->NewStringUTF(env, data);
 
     (*env)->SetLongField(env, jpacket, fidTime, t);
     (*env)->SetIntField(env, jpacket, fidVersion, version);

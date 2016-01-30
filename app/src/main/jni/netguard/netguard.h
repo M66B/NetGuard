@@ -122,7 +122,6 @@ typedef struct pcaprec_hdr_s {
 
 #define DNS_QCLASS_IN 1
 #define DNS_QTYPE_A 1 // IPv4
-#define DNS_QTYPE_CNAME 5
 #define DNS_QTYPE_AAAA 28 // IPv6
 
 #define DNS_QNAME_MAX 63
@@ -168,21 +167,6 @@ typedef struct dns_rr {
     __be32 ttl;
     __be16 rdlength;
 } __packed;
-
-typedef struct dns_answer {
-    int time;
-    int ttl;
-    char *qname;
-    int qtype;
-    char *rd;
-};
-
-typedef struct dns_entry {
-    char *qname;
-    int acount;
-    struct dns_answer **answer;
-    struct dns_entry *next;
-};
 
 // DHCP
 
@@ -320,6 +304,9 @@ int __system_property_get(const char *name, char *value);
 void log_android(int prio, const char *fmt, ...);
 
 void log_packet(const struct arguments *args, jobject jpacket);
+
+void dns_resolved(const struct arguments *args,
+                  const char *qname, const char *aname, const char *resource, int ttl);
 
 jboolean is_domain_blocked(const struct arguments *args, const char *name);
 
