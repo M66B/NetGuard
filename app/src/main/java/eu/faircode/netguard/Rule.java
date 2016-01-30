@@ -80,7 +80,7 @@ public class Rule {
 
         this.info = info;
         this.name = info.applicationInfo.loadLabel(pm).toString();
-        this.system = ((info.applicationInfo.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0);
+        this.system = Util.isSystem(info.packageName, context);
         this.internet = (pm.checkPermission("android.permission.INTERNET", info.packageName) == PackageManager.PERMISSION_GRANTED);
 
         int setting;
@@ -127,7 +127,6 @@ public class Rule {
         Map<String, Boolean> pre_other_blocked = new HashMap<>();
         Map<String, Boolean> pre_roaming = new HashMap<>();
         Map<String, String[]> pre_related = new HashMap<>();
-        Map<String, Boolean> pre_system = new HashMap<>();
         try {
             XmlResourceParser xml = context.getResources().getXml(R.xml.predefined);
             int eventType = xml.getEventType();
@@ -153,11 +152,6 @@ public class Rule {
                         pre_related.put(pkg, rel);
                         Log.d(tag, "Relation " + pkg + " related=" + TextUtils.join(",", rel));
 
-                    } else if ("type".equals(xml.getName())) {
-                        String pkg = xml.getAttributeValue(null, "package");
-                        boolean system = xml.getAttributeBooleanValue(null, "system", true);
-                        pre_system.put(pkg, system);
-                        Log.d(tag, "Type " + pkg + " system=" + system);
                     }
 
 
@@ -170,13 +164,13 @@ public class Rule {
 
         // Build rule list
         List<Rule> listRules = new ArrayList<>();
+
+
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
             if (info.applicationInfo.uid == Process.myUid())
                 continue;
 
             Rule rule = new Rule(info, context);
-            if (pre_system.containsKey(info.packageName))
-                rule.system = pre_system.get(info.packageName);
             if (all ||
                     ((rule.system ? show_system : show_user) &&
                             (show_nointernet ? true : rule.internet) &&

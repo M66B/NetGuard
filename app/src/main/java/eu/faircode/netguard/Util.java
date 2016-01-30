@@ -311,6 +311,18 @@ public class Util {
         }
     }
 
+    public static boolean isSystem(String packageName, Context context) {
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pkg = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
+            PackageInfo sys = pm.getPackageInfo("android", PackageManager.GET_SIGNATURES);
+            return (pkg != null && pkg.signatures != null && pkg.signatures.length > 0 &&
+                    sys.signatures.length > 0 && sys.signatures[0].equals(pkg.signatures[0]));
+        } catch (PackageManager.NameNotFoundException ignore) {
+            return false;
+        }
+    }
+
     public static List<String> getApplicationNames(int uid, Context context) {
         List<String> listResult = new ArrayList<>();
         PackageManager pm = context.getPackageManager();

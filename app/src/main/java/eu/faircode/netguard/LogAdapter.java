@@ -167,7 +167,7 @@ public class LogAdapter extends CursorAdapter {
         if (uid == -1)
             tvUid.setText("");
         else if (uid == 0)
-            tvUid.setText("root");
+            tvUid.setText(context.getString(R.string.title_root));
         else if (uid == 9999)
             tvUid.setText("-"); // nobody
         else

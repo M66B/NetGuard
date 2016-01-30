@@ -156,7 +156,9 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 final int uid = (cursor.isNull(cursor.getColumnIndex("uid")) ? -1 : cursor.getInt(cursor.getColumnIndex("uid")));
 
                 // Get application name(s)
-                String name = (uid == 0 ? "root" : TextUtils.join(",", Util.getApplicationNames(uid, ActivityLog.this)));
+                String name = (uid == 0
+                        ? getString(R.string.title_root)
+                        : TextUtils.join(",", Util.getApplicationNames(uid, ActivityLog.this)));
 
                 // Get external address
                 InetAddress addr = null;
