@@ -202,8 +202,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             public void onRefresh() {
                 SinkholeService.reload(null, "pull", ActivityMain.this);
-                SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-                updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
+                updateApplicationList(null);
             }
         });
 
@@ -392,14 +391,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 "show_nointernet".equals(name) ||
                 "show_disabled".equals(name) ||
                 "sort".equals(name) ||
-                "imported".equals(name)) {
-            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-            updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
+                "imported".equals(name))
+            updateApplicationList(null);
 
-        } else if ("manage_system".equals(name)) {
+        else if ("manage_system".equals(name)) {
             invalidateOptionsMenu();
-            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-            updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
+            updateApplicationList(null);
 
         } else if ("theme".equals(name) || "dark_theme".equals(name))
             recreate();
@@ -433,10 +430,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                             adapter.setWifiActive();
                     else
                         adapter.setDisconnected();
-                else {
-                    SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-                    updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
-                }
+                else
+                    updateApplicationList(null);
         }
     };
 
@@ -445,8 +440,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-            updateApplicationList(menuSearch.isActionViewExpanded() ? searchView.getQuery().toString() : null);
+            updateApplicationList(null);
         }
     };
 
@@ -475,16 +469,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             protected void onPostExecute(List<Rule> result) {
                 if (running) {
-                    if (adapter != null)
+                    if (adapter != null) {
                         adapter.set(result);
-                    if (menuSearch != null)
-                        if (search == null)
-                            MenuItemCompat.collapseActionView(menuSearch);
-                        else {
+
+                        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+                        if (search == null) {
+                            if (menuSearch != null && menuSearch.isActionViewExpanded())
+                                adapter.getFilter().filter(searchView.getQuery().toString());
+                        } else {
                             MenuItemCompat.expandActionView(menuSearch);
-                            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
                             searchView.setQuery(search, true);
                         }
+                    }
+
                     if (swipeRefresh != null) {
                         refreshing = false;
                         swipeRefresh.setRefreshing(false);
