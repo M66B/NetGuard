@@ -363,7 +363,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 new AsyncTask<Object, Object, Object>() {
                     @Override
                     protected Object doInBackground(Object... objects) {
-                        dh.clear();
+                        dh.clearLog();
                         if (prefs.getBoolean("pcap", false)) {
                             SinkholeService.setPcap(null, false);
                             pcap_file.delete();

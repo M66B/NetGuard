@@ -1,5 +1,24 @@
 package eu.faircode.netguard;
 
+/*
+    This file is part of NetGuard.
+
+    NetGuard is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    NetGuard is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2015-2016 by Marcel Bokhorst (M66B)
+*/
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,7 +28,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -19,8 +37,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 11;
 
     private static boolean once = true;
-    private static List<LogChangedListener> logChangedListeners = new ArrayList<LogChangedListener>();
-    private static List<AccessChangedListener> accessChangedListeners = new ArrayList<AccessChangedListener>();
+    private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
+    private static List<AccessChangedListener> accessChangedListeners = new ArrayList<>();
 
     private Context mContext;
 
@@ -229,7 +247,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this;
     }
 
-    public DatabaseHelper clear() {
+    public DatabaseHelper clearLog() {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getReadableDatabase();
             db.delete("log", null, new String[]{});
@@ -248,14 +266,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getLog() {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT ID AS _id, * FROM log";
+        String query = "SELECT ID AS _id, *";
+        query += " FROM log";
         query += " ORDER BY time DESC";
         return db.rawQuery(query, new String[]{});
     }
 
     public Cursor searchLog(String find) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT ID AS _id, * FROM log";
+        String query = "SELECT ID AS _id, *";
+        query += " FROM log";
         query += " WHERE daddr LIKE ? OR uid LIKE ?";
         query += " ORDER BY time DESC";
         return db.rawQuery(query, new String[]{"%" + find + "%", "%" + find + "%"});
@@ -297,11 +317,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this;
     }
 
+    public DatabaseHelper setAccess(long id, int uid, int block) {
+        synchronized (mContext.getApplicationContext()) {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+            cv.put("block", block);
+
+            if (db.update("access", cv, "ID = ?", new String[]{Long.toString(id)}) != 1)
+                Log.e(TAG, "Set access failed");
+
+            for (AccessChangedListener listener : accessChangedListeners)
+                try {
+                    listener.onChanged(uid);
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+        }
+
+        return this;
+    }
+
+    public DatabaseHelper clearAccess(int uid) {
+        synchronized (mContext.getApplicationContext()) {
+            SQLiteDatabase db = this.getReadableDatabase();
+            db.delete("access", "uid = ?", new String[]{Integer.toString(uid)});
+        }
+
+        for (AccessChangedListener listener : accessChangedListeners)
+            try {
+                listener.onChanged(uid);
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+
+        return this;
+    }
+
     public Cursor getAccess(int uid) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT ID AS _id, * FROM access WHERE uid = ?";
+        String query = "SELECT ID AS _id, *";
+        query += " FROM access WHERE uid = ?";
         query += " ORDER BY time DESC";
         return db.rawQuery(query, new String[]{Integer.toString(uid)});
+    }
+
+    public Cursor getAccess() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query("access", new String[]{"uid", "daddr", "dport", "block"}, "block >= 0", null, null, null, null);
     }
 
     public void addLogChangedListener(LogChangedListener listener) {

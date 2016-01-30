@@ -180,6 +180,13 @@
             android:textStyle="italic"
             android:visibility="gone" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/title_conditions"
+            android:textAppearance="@android:style/TextAppearance.Material.Title" />
+
         <LinearLayout
             android:id="@+id/llWifiAttr"
             android:layout_width="wrap_content"
@@ -279,6 +286,13 @@
                 android:text="@string/title_launch" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/title_access"
+            android:textAppearance="@android:style/TextAppearance.Material.Title" />
+
         <eu.faircode.netguard.ExpandedListView
             android:id="@+id/lvAccess"
             android:layout_width="match_parent"
@@ -286,9 +300,32 @@
             android:layout_marginTop="4dp" />
 
         <TextView
-            android:id="@+id/tvStatistics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:text="@string/title_precedence"
+            android:textAppearance="@android:style/TextAppearance.Material.Small"
+            android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnClearAccess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_delete_white_24dp" />
+
+            <TextView
+                android:id="@+id/tvStatistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

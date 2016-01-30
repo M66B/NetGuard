@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_host"
+        android:enabled="false"
+        android:title="" />
+    <item
+        android:id="@+id/menu_allow"
+        android:title="@string/title_allow" />
+    <item
+        android:id="@+id/menu_block"
+        android:title="@string/title_block" />
+    <item
+        android:id="@+id/menu_clear"
+        android:title="@string/menu_clear" />
+</menu>

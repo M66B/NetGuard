@@ -1,12 +1,31 @@
 package eu.faircode.netguard;
 
+/*
+    This file is part of NetGuard.
+
+    NetGuard is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    NetGuard is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2015-2016 by Marcel Bokhorst (M66B)
+*/
+
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -42,13 +61,15 @@ public class AccessAdapter extends CursorAdapter {
 
         // Get views
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
-        CheckBox cbBlock = (CheckBox) view.findViewById(R.id.cbBlock);
+        ImageView ivBlock = (ImageView) view.findViewById(R.id.ivBlock);
         final TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
 
         // Set values
         tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
-        cbBlock.setVisibility(block < 0 ? View.INVISIBLE : View.VISIBLE);
-        cbBlock.setChecked(block > 0);
+        if (block < 0)
+            ivBlock.setImageDrawable(null);
+        else
+            ivBlock.setImageResource(block > 0 ? R.drawable.host_blocked : R.drawable.host_allowed);
         tvDest.setText(daddr + (dport > 0 ? ":" + dport : ""));
     }
 }

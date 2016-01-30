@@ -22,10 +22,13 @@ package eu.faircode.netguard;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -36,9 +39,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -48,6 +53,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -107,6 +113,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public Button btnLaunch;
 
         public ListView lvAccess;
+        public ImageButton btnClearAccess;
         public TextView tvStatistics;
 
         public ViewHolder(View itemView) {
@@ -146,6 +153,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
 
             lvAccess = (ListView) itemView.findViewById(R.id.lvAccess);
+            btnClearAccess = (ImageButton) itemView.findViewById(R.id.btnClearAccess);
             tvStatistics = (TextView) itemView.findViewById(R.id.tvStatistics);
 
             final View wifiParent = (View) cbWifi.getParent();
@@ -417,11 +425,26 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.cbWifi.setChecked(rule.wifi_default);
-                holder.cbOther.setChecked(rule.other_default);
-                holder.cbScreenWifi.setChecked(rule.screen_wifi_default);
-                holder.cbScreenOther.setChecked(rule.screen_other_default);
-                holder.cbRoaming.setChecked(rule.roaming_default);
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.msg_sure)
+                        .setCancelable(true)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                holder.cbWifi.setChecked(rule.wifi_default);
+                                holder.cbOther.setChecked(rule.other_default);
+                                holder.cbScreenWifi.setChecked(rule.screen_wifi_default);
+                                holder.cbScreenOther.setChecked(rule.screen_other_default);
+                                holder.cbRoaming.setChecked(rule.roaming_default);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing
+                            }
+                        })
+                        .create().show();
             }
         });
 
@@ -447,10 +470,72 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         });
 
         if (rule.expanded) {
-            AccessAdapter adapter = new AccessAdapter(context, dh.getAccess(rule.info.applicationInfo.uid));
-            holder.lvAccess.setAdapter(adapter);
-        } else
+            final AccessAdapter badapter = new AccessAdapter(context, dh.getAccess(rule.info.applicationInfo.uid));
+
+            holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, final int bposition, long bid) {
+                    Cursor cursor = (Cursor) badapter.getItem(bposition);
+                    final long id = cursor.getLong(cursor.getColumnIndex("ID"));
+                    final String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
+                    final int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
+
+                    PopupMenu popup = new PopupMenu(context, view);
+                    popup.inflate(R.menu.access);
+                    popup.getMenu().findItem(R.id.menu_host).setTitle(daddr + (dport > 0 ? ":" + dport : ""));
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.menu_allow:
+                                    dh.setAccess(id, rule.info.applicationInfo.uid, 0);
+                                    SinkholeService.reload(null, "allow host", context);
+                                    return true;
+                                case R.id.menu_block:
+                                    dh.setAccess(id, rule.info.applicationInfo.uid, 1);
+                                    SinkholeService.reload(null, "block host", context);
+                                    return true;
+                                case R.id.menu_clear:
+                                    dh.setAccess(id, rule.info.applicationInfo.uid, -1);
+                                    SinkholeService.reload(null, "clear host", context);
+                                    return true;
+                            }
+                            return false;
+                        }
+                    });
+
+                    popup.show();
+                }
+            });
+
+            holder.lvAccess.setAdapter(badapter);
+        } else {
             holder.lvAccess.setAdapter(null);
+            holder.lvAccess.setOnItemClickListener(null);
+        }
+
+        holder.btnClearAccess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.msg_sure)
+                        .setCancelable(true)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dh.clearAccess(rule.info.applicationInfo.uid);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing
+                            }
+                        })
+                        .create().show();
+            }
+        });
 
         // Traffic statistics
         holder.tvStatistics.setText(context.getString(R.string.msg_mbday, rule.upspeed, rule.downspeed));

@@ -14,15 +14,11 @@
         android:textAppearance="@android:style/TextAppearance.Material.Small"
         android:textSize="12sp" />
 
-    <CheckBox
-        android:id="@+id/cbBlock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:button="@drawable/ip"
-        android:scaleX="0.8"
-        android:scaleY="0.8" />
-
+    <ImageView
+        android:id="@+id/ivBlock"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="center_vertical" />
 
     <TextView
         android:id="@+id/tvDest"
