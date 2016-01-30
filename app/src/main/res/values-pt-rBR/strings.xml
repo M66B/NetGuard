@@ -33,10 +33,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">Permitir Dados Móveis ao ligar a tela</string>
   <string name="setting_whitelist_roaming">Bloquear roaming</string>
   <string name="setting_options">Opções</string>
-  <string name="setting_auto">Auto habilitar após %1$s minutos</string>
-  <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Ativa tema escuro</string>
+  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_auto">Auto habilitar após %1$s minutos</string>
+  <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
   <string name="setting_network_options">Opções de rede</string>
   <string name="setting_tethering">Permitir tethering</string>
   <string name="setting_wifi_home">Redes Wi-Fi Domésticas: %1$s</string>
@@ -66,6 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Geral</string>
   <string name="setting_technical_networks">Redes</string>
   <string name="setting_technical_subscription">Inscrições</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis à outras redes Wi-Fi)</string>
@@ -86,6 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>
   <string name="msg_error">NetGuard foi desativado devido a um erro interno</string>
   <string name="msg_installed">\'%1$s\' instalado</string>
+  <string name="msg_access">%1$s accessed the internet</string>
   <string name="msg_completed">Ação concluída</string>
   <string name="msg_vpn">NetGuard usa uma VPN local como um sumidouro para bloquear o tráfego de dados.
 Por essa razão, por favor, permita a conexão VPN na tela a seguir.

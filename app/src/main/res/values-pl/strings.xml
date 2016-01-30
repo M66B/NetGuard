@@ -33,10 +33,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">Domyślnie zezwól na mobilne przy włączonym ekranie</string>
   <string name="setting_whitelist_roaming">Domyślnie blokuj roaming</string>
   <string name="setting_options">Opcje</string>
-  <string name="setting_auto">Automatyczne włączenie po %1$s min</string>
-  <string name="setting_delay">Opóźnienie wyłączenia reguł ekranu %1$s min</string>
   <string name="setting_theme">Motyw: %1$s</string>
   <string name="setting_dark">Użyj ciemnej skórki</string>
+  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_auto">Automatyczne włączenie po %1$s min</string>
+  <string name="setting_delay">Opóźnienie wyłączenia reguł ekranu %1$s min</string>
   <string name="setting_network_options">Network options</string>
   <string name="setting_tethering">Allow tethering</string>
   <string name="setting_wifi_home">Gniazdo sieci Wi-Fi: %1$s</string>
@@ -66,6 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">General</string>
   <string name="setting_technical_networks">Networks</string>
   <string name="setting_technical_subscription">Subscriptions</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">Po wyłączeniu poprzez widget, automatycznie włącz NetGuard po podanej liczbie minut (wprowadzenie zera wyłącza tą opcję)</string>
   <string name="summary_delay">Po wyłączeniu ekranu, podtrzymuj działanie reguły \"Zezwól na ... przy włączonym ekranie\" przez podaną liczbę minut (wprowadzenie zera wyłącza tą opcję)</string>
   <string name="summary_wifi_home">Zastosuj reguły sieci Wi-Fi tylko do zaznaczonej sieci (do pozostałych sieci Wi-Fi zastosowane zostaną reguły mobilne)</string>
@@ -86,6 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard został wyłączony, prawdopodobnie za pomocą innej aplikacji używającej VPN</string>
   <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">\'%1$s\' installed</string>
+  <string name="msg_access">%1$s accessed the internet</string>
   <string name="msg_completed">Wykonano</string>
   <string name="msg_vpn">NetGuard używa lokalnego VPN jako sinkhole\'a w celu blokowania ruchu internetowego.
 Z tego powodu w następnym oknie dialogowym zezwól na połączenie VPN.

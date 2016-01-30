@@ -33,10 +33,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">Sta mobiel toe als scherm aan</string>
   <string name="setting_whitelist_roaming">Blokkeer roaming</string>
   <string name="setting_options">Opties</string>
-  <string name="setting_auto">Zet weer aan na %1$s minuten</string>
-  <string name="setting_delay">Vertraag scherm uit %1$s minuten</string>
   <string name="setting_theme">Thema: %1$s</string>
   <string name="setting_dark">Gebruik donker thema</string>
+  <string name="setting_access">Melding bij internet toegang</string>
+  <string name="setting_auto">Zet weer aan na %1$s minuten</string>
+  <string name="setting_delay">Vertraag scherm uit %1$s minuten</string>
   <string name="setting_network_options">Netwerkopties</string>
   <string name="setting_tethering">Sta tethering toe</string>
   <string name="setting_wifi_home">Wi-Fi thuisnetwerk: %1$s</string>
@@ -66,6 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Algemeen</string>
   <string name="setting_technical_networks">Netwerken</string>
   <string name="setting_technical_subscription">Abonnementen</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
@@ -86,6 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard is uitgezet, waarschijnlijk door een andere VPN applicatie</string>
   <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">\'%1$s\' geïnstalleerd</string>
+  <string name="msg_access">%1$s benaderde het internet</string>
   <string name="msg_completed">Actie uitgevoerd</string>
   <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
 For this reason, please allow a VPN connection in the next dialog.

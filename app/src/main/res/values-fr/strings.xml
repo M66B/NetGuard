@@ -33,10 +33,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">Autoriser données mobiles si écran allumé</string>
   <string name="setting_whitelist_roaming">Bloquer itinérance</string>
   <string name="setting_options">Options</string>
-  <string name="setting_auto">Activer automatiquement après %1$s minutes</string>
-  <string name="setting_delay">Délai écran éteint de %1$s minutes</string>
   <string name="setting_theme">Thème : %1$s</string>
   <string name="setting_dark">Utiliser le thème sombre</string>
+  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_auto">Activer automatiquement après %1$s minutes</string>
+  <string name="setting_delay">Délai écran éteint de %1$s minutes</string>
   <string name="setting_network_options">Network options</string>
   <string name="setting_tethering">Allow tethering</string>
   <string name="setting_wifi_home">Réseaux Wi-Fi domicile : %1$s</string>
@@ -66,6 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">General</string>
   <string name="setting_technical_networks">Networks</string>
   <string name="setting_technical_subscription">Subscriptions</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">Après désactivation via le widget, activer automatiquement de nouveau NetGuard après le nombre de minutes sélectionné\nEnter zéro pour désactiver cette option</string>
   <string name="summary_delay">Après avoir éteint l\'écran, garder les règles d\'écran allumé actives pour un nombre déterminé de minutes (saisissez zéro pour désactiver cette option)</string>
   <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour les autres Wi-Fi)</string>
@@ -86,6 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard a été désactivé, probablement en utilisant une autre application VPN</string>
   <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">%1$s installé</string>
+  <string name="msg_access">%1$s accessed the internet</string>
   <string name="msg_completed">Action réalisée</string>
   <string name="msg_vpn">NetGuard utilise un VPN local comme un gouffre pour bloquer le trafic internet.
 Pour cette raison, veuillez autoriser une connexion VPN dans la fenêtre suivante.

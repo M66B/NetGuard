@@ -33,10 +33,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">画面がオンのときモバイル通信を許可する</string>
   <string name="setting_whitelist_roaming">デフォルトでローミングをブロック</string>
   <string name="setting_options">オプション</string>
-  <string name="setting_auto">%1$s 分後に自動的に有効にする</string>
-  <string name="setting_delay">%1$s 分、画面オフを遅延</string>
   <string name="setting_theme">テーマ: %1$s</string>
   <string name="setting_dark">ダークテーマを使用する</string>
+  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_auto">%1$s 分後に自動的に有効にする</string>
+  <string name="setting_delay">%1$s 分、画面オフを遅延</string>
   <string name="setting_network_options">ネットワーク オプション</string>
   <string name="setting_tethering">テザリングを許可</string>
   <string name="setting_wifi_home">Wi-Fi ホームネットワーク: %1$s</string>
@@ -66,6 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">全般</string>
   <string name="setting_technical_networks">ネットワーク</string>
   <string name="setting_technical_subscription">サブスクリプション</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>
@@ -86,6 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard が無効にされました。別の VPN ベースのアプリケーションを使用した可能性があります</string>
   <string name="msg_error">内部エラーのため、NetGuard が無効になりました</string>
   <string name="msg_installed">\'%1$s\' インストールしました</string>
+  <string name="msg_access">%1$s accessed the internet</string>
   <string name="msg_completed">操作を完了しました</string>
   <string name="msg_vpn">NetGuard は、シンクの穴としてローカル VPN を使用して、インターネット トラフィックをブロックします。
 このため、次のダイアログ ボックスで VPN 接続を許可してください。

@@ -4,9 +4,7 @@
   <string name="app_copyright">Copyright \u00A9 2015-2016 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard necesita Android 5.0 sau mai nou</string>
   <string name="app_license">Folosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee NetGuard will work correctly on every device.
-\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_first">NetGuard este dezvoltat si testat cu mare atentie, cu toate acestea este imposibii de garantat ca va functiona corect pe fiecare sau pe orice dispozitiv. \n\nBFolosind NetGuard, sunteţi de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License versiunea 3</a></string>
   <string name="menu_search">Cauta aplicatii</string>
   <string name="menu_filter">Filtreaza aplicatiile</string>
   <string name="menu_app_user">Arata aplicatiile utilizatorului</string>
@@ -22,7 +20,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_support">Asistenta</string>
   <string name="menu_about">Despre</string>
   <string name="menu_live">Actualizare in timp real</string>
-  <string name="menu_resolve">Arata nume</string>
+  <string name="menu_resolve">Arata nume domenii</string>
   <string name="menu_pcap_enabled">Activeaza PCAP</string>
   <string name="menu_pcap_export">Exporta PCAP</string>
   <string name="menu_clear">Goleste</string>
@@ -33,10 +31,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">Permite datele mobile cu ecranul pornit</string>
   <string name="setting_whitelist_roaming">Blocheaza in roaming</string>
   <string name="setting_options">Optiuni</string>
-  <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
-  <string name="setting_delay">Temporizare la oprirea ecranului %1$s minute</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
+  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
+  <string name="setting_delay">Temporizare la oprirea ecranului %1$s minute</string>
   <string name="setting_network_options">Optiuni conexiune</string>
   <string name="setting_tethering">Permite partajarea conexiunii</string>
   <string name="setting_wifi_home">Retea Wi-Fi de domiciliu: %1$s</string>
@@ -66,6 +65,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Generale</string>
   <string name="setting_technical_networks">Retele</string>
   <string name="setting_technical_subscription">Abonamente</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_delay">Dupa oprirea ecranului, pastreza regulile ecran pornit pentru numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (pentru alte retele Wi-Fi se aplica regulile de date mobile)</string>
@@ -86,6 +86,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard a fost dezactivat, probabil de o alta aplicatie ce foloseste o conexiune VPN</string>
   <string name="msg_error">NetGuard a fost dezactivat datorită unei erori interne</string>
   <string name="msg_installed">\'%1$s\' instalat</string>
+  <string name="msg_access">%1$s accessed the internet</string>
   <string name="msg_completed">Actiune realizata</string>
   <string name="msg_vpn">NetGuard foloseste o conexiune locala VPN ca o \"gaura neagra\" pentru traficul de internet blocat.
 Din acest motiv la urmatoarea fereastra de dialog trebuie sa acceptati crearea conexiunii VPN.
@@ -98,15 +99,15 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Android va asocia consumul de baterie si date lui NetGuard atunci cand activati filtrarea. De fapt aplicatiile ce acceseaza internetul consuma</string>
   <string name="msg_log_disabled">Inregistrarea traficului in jurnal este dezactivata, utilizati butonul de mai sus pentru a o activa. Optiunea de inregistrare ar putea duce la un consumul suplimentar al bateriei.</string>
-  <string name="title_conditions">Conditions</string>
+  <string name="title_conditions">Restrictii</string>
   <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
   <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>
   <string name="title_roaming">Blocheaza in roaming</string>
   <string name="title_disabled">Este dezactivata</string>
   <string name="title_internet">Nu are permisiunea de a accesa internetul</string>
   <string name="title_launch">Porneste aplicatia</string>
-  <string name="title_access">Access</string>
-  <string name="title_precedence">Access rules take precedence over other rules</string>
+  <string name="title_access">Adrese accesate</string>
+  <string name="title_precedence">Regulile de acces ale acestor adrese au prioritate</string>
   <string name="title_rate">Evalueaza aplicatia</string>
   <string name="title_allow">Permite</string>
   <string name="title_block">Blocheaza</string>

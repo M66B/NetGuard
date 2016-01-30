@@ -33,10 +33,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">亮屏时默认允许移动网络</string>
   <string name="setting_whitelist_roaming">默认阻止漫游</string>
   <string name="setting_options">选项:</string>
-  <string name="setting_auto">%1$s 分钟后自动启用</string>
-  <string name="setting_delay">推迟 %1$s 分钟关屏</string>
   <string name="setting_theme">主题: %1$s</string>
   <string name="setting_dark">使用暗色主题</string>
+  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_auto">%1$s 分钟后自动启用</string>
+  <string name="setting_delay">推迟 %1$s 分钟关屏</string>
   <string name="setting_network_options">网络选项</string>
   <string name="setting_tethering">允许网络共享</string>
   <string name="setting_wifi_home">Wi-Fi 家庭网络: %1$s</string>
@@ -66,6 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">常规​​​​​</string>
   <string name="setting_technical_networks">网络</string>
   <string name="setting_technical_subscription">Subscriptions</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">禁用小部件后, 在设定分钟后自动再次启用NetGuard\n输入零以禁用此选项</string>
   <string name="summary_delay">关屏后，保持亮屏规则在指定的分钟数内有效 (输入零以禁用此选项)</string>
   <string name="summary_wifi_home">仅将Wi-Fi网络规则应用于所选定的网络 (将移动网络规则应用于其他Wi-Fi网络)</string>
@@ -86,6 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard已被停用, 可能是由于您启动了另一个基于VPN的应用</string>
   <string name="msg_error">由于内部错误 NetGuard 已被禁用</string>
   <string name="msg_installed">\'%1$s\' 已安装</string>
+  <string name="msg_access">%1$s accessed the internet</string>
   <string name="msg_completed">操作完成</string>
   <string name="msg_vpn">NetGuard使用一个本地VPN来重定向被阻止的网络流量.
 因此请在下一个对话框中允许建立VPN连接.

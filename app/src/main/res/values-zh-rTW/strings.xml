@@ -33,10 +33,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">在螢幕開啟時啟用行動網路</string>
   <string name="setting_whitelist_roaming">阻擋漫遊</string>
   <string name="setting_options">選項</string>
-  <string name="setting_auto">在 %1$s 分鐘後自動啟用</string>
-  <string name="setting_delay">延遲%1$s分鐘關閉螢幕</string>
   <string name="setting_theme">主題: %1$s</string>
   <string name="setting_dark">使用深色主題</string>
+  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_auto">在 %1$s 分鐘後自動啟用</string>
+  <string name="setting_delay">延遲%1$s分鐘關閉螢幕</string>
   <string name="setting_network_options">Network options</string>
   <string name="setting_tethering">Allow tethering</string>
   <string name="setting_wifi_home">Wi-Fi: %1$s</string>
@@ -66,6 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">General</string>
   <string name="setting_technical_networks">Networks</string>
   <string name="setting_technical_subscription">Subscriptions</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">\"在禁用小工具之後,自動在設定的時間後啟動網路守門人
 輸入0來關閉這項設定\"</string>
   <string name="summary_delay">在關閉螢幕後, 在所選數目分鐘內繼續保持螢幕開啟時的規則 (輸入0以禁用此選項)</string>
@@ -87,6 +89,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">網路守門人未啟用,原因似乎是有其他App開啟了VPN</string>
   <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">\'%1$s\' 已安裝</string>
+  <string name="msg_access">%1$s accessed the internet</string>
   <string name="msg_completed">完成</string>
   <string name="msg_vpn">網路守門人使用一個VPN做為一個緩衝器來阻擋網路連接.因此,請在下一個對話框允許開啟一個VPN連接.因為網路守門人並沒有網路權限,所以你完全可以放心.</string>
   <string name="msg_try">試試網路守門人</string>

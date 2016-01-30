@@ -33,10 +33,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">Permetti reti mobili di default quando lo schermo è accesso</string>
   <string name="setting_whitelist_roaming">Blocca roaming di default</string>
   <string name="setting_options">Impostazioni opzionali</string>
-  <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
-  <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Usa il tema scuro</string>
+  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
+  <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
   <string name="setting_network_options">Opzioni di rete</string>
   <string name="setting_tethering">Permetti il tethering</string>
   <string name="setting_wifi_home">Reti Wi-Fi domestiche: %1$s</string>
@@ -66,6 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Generali</string>
   <string name="setting_technical_networks">Reti</string>
   <string name="setting_technical_subscription">Sottoscrizioni</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo é acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
@@ -86,6 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard è stata disabilitata, probabilmente a causa di un\'altra applicazione che usa il servizio VPN</string>
   <string name="msg_error">NetGuard è stato disattivato a causa di un errore interno</string>
   <string name="msg_installed">\'%1$s\' installata</string>
+  <string name="msg_access">%1$s accessed the internet</string>
   <string name="msg_completed">Azione completata</string>
   <string name="msg_vpn">Per bloccare il traffico internet, NetGuard utilizza una VPN locale come \"pozzo\".
         Per questo motivo, abilita la connessione VPN nella prossima schermata.

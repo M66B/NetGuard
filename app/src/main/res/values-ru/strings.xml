@@ -4,9 +4,7 @@
   <string name="app_copyright">Авторское право \u00A9 2015-2016 М. Bokhorst (M66B)</string>
   <string name="app_android">Для работы NetGuard требуется Android 5.0 или более поздняя версия</string>
   <string name="app_license">Используя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee NetGuard will work correctly on every device.
-\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_first">Было уделено большое внимание разработке и тестированию NetGuard, однако нельзя гарантировать, что NetGuard будет правильно работать на каждом устройстве. \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="menu_search">Поиск приложения</string>
   <string name="menu_filter">Фильтр приложений</string>
   <string name="menu_app_user">Показать пользовательские приложения</string>
@@ -33,10 +31,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">Разрешить моб. сеть при вкл. экране по умолч.</string>
   <string name="setting_whitelist_roaming">Блокировать роуминг по умолч.</string>
   <string name="setting_options">Опции</string>
-  <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
-  <string name="setting_delay">Задержка экрана %1$s минут(ы)</string>
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Использовать темную тему</string>
+  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
+  <string name="setting_delay">Задержка экрана %1$s минут(ы)</string>
   <string name="setting_network_options">Параметры сети</string>
   <string name="setting_tethering">Разрешить привязку</string>
   <string name="setting_wifi_home">Домашняя сеть Wi-Fi: %1$s</string>
@@ -66,6 +65,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Общее</string>
   <string name="setting_technical_networks">Сеть</string>
   <string name="setting_technical_subscription">Подписки</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
@@ -86,6 +86,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>
   <string name="msg_error">NetGuard был отключен по причине внутренней ошибки</string>
   <string name="msg_installed">\'%1$s\' установлено</string>
+  <string name="msg_access">%1$s accessed the internet</string>
   <string name="msg_completed">Действие завершено</string>
   <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик.
 По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне.
@@ -98,15 +99,15 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Использование данной функции приводит к тому, что Android передает данные и использование энергии в пользование NetGuard; Android будет считать, что данные и энергия используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
   <string name="msg_log_disabled">Ведение журнала трафика отключено, используйте параметр выше для его включения. Это может привести к большему потреблению заряда аккумулятора.</string>
-  <string name="title_conditions">Conditions</string>
+  <string name="title_conditions">Условия</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>
   <string name="title_roaming">Блокировать в роуминге</string>
   <string name="title_disabled">отключено</string>
   <string name="title_internet">не имеет доступа в интернет</string>
   <string name="title_launch">Запуск приложения</string>
-  <string name="title_access">Access</string>
-  <string name="title_precedence">Access rules take precedence over other rules</string>
+  <string name="title_access">Доступ</string>
+  <string name="title_precedence">Правила доступа имеют приоритет над другими правилами</string>
   <string name="title_rate">Оценить</string>
   <string name="title_allow">Разрешить</string>
   <string name="title_block">Блокировать</string>

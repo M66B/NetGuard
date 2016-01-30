@@ -33,10 +33,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="setting_whitelist_roaming">Roaming blockieren</string>
   <string name="setting_options">Optionen</string>
-  <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
-  <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
   <string name="setting_theme">Design: %1$s</string>
   <string name="setting_dark">Dunkles Thema verwenden</string>
+  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
+  <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
   <string name="setting_network_options">Netzwerkoptionen</string>
   <string name="setting_tethering">Tethering erlauben</string>
   <string name="setting_wifi_home">WLAN-Heimnetzwerk: %1$s</string>
@@ -66,6 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Allgemein</string>
   <string name="setting_technical_networks">Netzwerke</string>
   <string name="setting_technical_subscription">Abos</string>
+  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert\nNull eingeben zum Deaktivieren dieser Option</string>
   <string name="summary_delay">Nachdem Ausschalten des Bildschirms, diesen aufgrund der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren)</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
@@ -86,6 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer VPN-Anwendung</string>
   <string name="msg_error">Netguard wurde wegen einem internen Fehler beendet</string>
   <string name="msg_installed">\'%1$s\' installiert</string>
+  <string name="msg_access">%1$s accessed the internet</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
   <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um den Internet-Verkehr zu blockieren. Deshalb erlauben Sie eine VPN-Verbindung im nächsten Fenster. Da NetGuard keine Internet-Berechtigung hat, wird der Internet-Verkehr auch nirgendwo weitergeleitet.</string>
   <string name="msg_try">NetGuard ausprobieren</string>
