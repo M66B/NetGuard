@@ -697,7 +697,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         Log.i(TAG, "DNS system=" + sysDns + " VPN=" + vpnDns);
         try {
             if (TextUtils.isEmpty(vpnDns.trim()))
-                throw new IllegalArgumentException("dns");
+                throw new UnknownHostException("dns");
             InetAddress vpn = InetAddress.getByName(vpnDns);
             Log.i(TAG, "DNS using=" + vpn);
             return vpn;
