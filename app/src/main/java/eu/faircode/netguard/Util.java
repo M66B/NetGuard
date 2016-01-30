@@ -96,18 +96,6 @@ public class Util {
         }
     }
 
-    public static int getSystemUid(String packageName, Context context) {
-        try {
-            PackageInfo pInfo = context.getPackageManager().getPackageInfo(packageName, 0);
-            if ((pInfo.applicationInfo.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0)
-                return pInfo.applicationInfo.uid;
-            else
-                return -1;
-        } catch (PackageManager.NameNotFoundException ex) {
-            return -1;
-        }
-    }
-
     public static boolean hasTelephony(Context context) {
         PackageManager pm = context.getPackageManager();
         if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY))

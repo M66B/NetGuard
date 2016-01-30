@@ -218,13 +218,6 @@ public class Receiver extends BroadcastReceiver {
                     edit_screen_other.apply();
 
                     // TODO: delete unused
-                } else if (oldVersion < 2016010307) {
-                    notifyNewApplication(Util.getSystemUid("com.facebook.katana", context), context);
-                    notifyNewApplication(Util.getSystemUid("com.facebook.orca", context), context);
-                    notifyNewApplication(Util.getSystemUid("com.google.android.youtube", context), context);
-                    notifyNewApplication(Util.getSystemUid("com.skype.raider", context), context);
-                    notifyNewApplication(Util.getSystemUid("com.twitter.android", context), context);
-                    notifyNewApplication(Util.getSystemUid("com.whatsapp", context), context);
                 }
             } else {
                 editor.putBoolean("whitelist_wifi", false);
