@@ -823,10 +823,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void prepareHostsBlocked() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
         boolean use_hosts = prefs.getBoolean("use_hosts", false);
+        File hosts = new File(getFilesDir(), "hosts.txt");
 
         mapHostsBlocked.clear();
-        if (use_hosts) {
-            File hosts = new File(getFilesDir(), "hosts.txt");
+
+        if (use_hosts && hosts.exists() && hosts.canRead()) {
+            int count = 0;
             BufferedReader br = null;
             try {
                 br = new BufferedReader(new FileReader(hosts));
@@ -838,13 +840,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     line = line.trim();
                     if (line.length() > 0) {
                         String[] words = line.split("\\s+");
-                        if (words.length == 2)
+                        if (words.length == 2) {
+                            count++;
                             mapHostsBlocked.put(words[1], true);
-                        else
+                        } else
                             Log.i(TAG, "Invalid hosts file line: " + line);
                     }
                 }
-                br.close();
+                Log.i(TAG, count + " hosts read");
             } catch (IOException ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             } finally {
