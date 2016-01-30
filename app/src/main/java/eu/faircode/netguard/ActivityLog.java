@@ -220,7 +220,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
     protected void onResume() {
         super.onResume();
         if (live) {
-            DatabaseHelper.addLogChangedListener(listener);
+            dh.addLogChangedListener(listener);
             adapter.changeCursor(dh.getLog());
             if (menuSearch != null && menuSearch.isActionViewExpanded()) {
                 SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
@@ -233,7 +233,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
     protected void onPause() {
         super.onPause();
         if (live)
-            DatabaseHelper.removeLocationChangedListener(listener);
+            dh.removeLogChangedListener(listener);
     }
 
     @Override
@@ -328,10 +328,10 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 item.setChecked(!item.isChecked());
                 live = item.isChecked();
                 if (live) {
-                    DatabaseHelper.addLogChangedListener(listener);
+                    dh.addLogChangedListener(listener);
                     adapter.changeCursor(dh.getLog());
                 } else
-                    DatabaseHelper.removeLocationChangedListener(listener);
+                    dh.removeLogChangedListener(listener);
                 return true;
 
             case R.id.menu_log_resolve:

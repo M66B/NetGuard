@@ -639,11 +639,17 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void log(Packet packet) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+
             ResourceRecord rr = resolveDNS(packet.daddr);
             DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
-            dh.insertLog(packet, rr == null ? null : rr.QName, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
-            if (packet.uid > 0)
+
+            if (prefs.getBoolean("log", false))
+                dh.insertLog(packet, rr == null ? null : rr.QName, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
+
+            if (packet.uid >= 0)
                 dh.updateAccess(packet, rr == null ? null : rr.QName);
+
             dh.close();
         }
 
@@ -930,12 +936,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     // Called from native code
     private void logPacket(Packet packet) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean("log", false)) {
-            Message msg = mServiceHandler.obtainMessage();
-            msg.obj = packet;
-            msg.what = MSG_PACKET;
-            mServiceHandler.sendMessage(msg);
-        }
+        Message msg = mServiceHandler.obtainMessage();
+        msg.obj = packet;
+        msg.what = MSG_PACKET;
+        mServiceHandler.sendMessage(msg);
     }
 
     private static HashMap<String, ResourceRecord> mapRR = new HashMap<>();

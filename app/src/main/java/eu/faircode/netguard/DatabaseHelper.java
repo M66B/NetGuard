@@ -16,10 +16,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 10;
+    private static final int DB_VERSION = 11;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<LogChangedListener>();
+    private static List<AccessChangedListener> accessChangedListeners = new ArrayList<AccessChangedListener>();
 
     private Context mContext;
 
@@ -88,9 +89,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", uid INTEGER NOT NULL" +
                 ", daddr TEXT NOT NULL" +
                 ", dport INTEGER NULL" +
-                ", dname TEXT NULL" +
                 ", time INTEGER NOT NULL" +
-                ", allowed INTEGER NOT NULL" +
+                ", block INTEGER NOT NULL" +
                 ");");
         db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, daddr, dport)");
     }
@@ -148,6 +148,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 createTableLog(db);
                 createTableAccess(db);
                 oldVersion = 10;
+            }
+            if (oldVersion < 11) {
+                db.execSQL("DROP TABLE access");
+                createTableAccess(db);
+                oldVersion = 11;
             }
 
             if (oldVersion == DB_VERSION) {
@@ -264,29 +269,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             ContentValues cv = new ContentValues();
             cv.put("time", packet.time);
-            cv.put("allowed", packet.allowed ? 1 : 0);
-            if (dname == null)
-                cv.putNull("dname");
-            else
-                cv.put("dname", dname);
 
-            int rows = db.update("access", cv, "uid = ? AND daddr = ? AND dport = ?", new String[]{
-                    Integer.toString(packet.uid), packet.daddr, Integer.toString(packet.dport)});
+            int rows = db.update("access", cv, "uid = ? AND daddr = ? AND dport = ?",
+                    new String[]{
+                            Integer.toString(packet.uid),
+                            dname == null ? packet.daddr : dname,
+                            Integer.toString(packet.dport)});
 
             if (rows == 0) {
                 cv.put("uid", packet.uid);
-                cv.put("daddr", packet.daddr);
+                cv.put("daddr", dname == null ? packet.daddr : dname);
                 cv.put("dport", packet.dport);
-
-                if (dname == null)
-                    cv.putNull("dname");
-                else
-                    cv.put("dname", dname);
+                cv.put("block", -1);
 
                 if (db.insert("access", null, cv) == -1)
                     Log.e(TAG, "Insert access failed");
             }
         }
+
+        for (AccessChangedListener listener : accessChangedListeners)
+            try {
+                listener.onChanged(packet.uid);
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
 
         return this;
     }
@@ -298,15 +304,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{Integer.toString(uid)});
     }
 
-    public static void addLogChangedListener(LogChangedListener listener) {
+    public void addLogChangedListener(LogChangedListener listener) {
         logChangedListeners.add(listener);
     }
 
-    public static void removeLocationChangedListener(LogChangedListener listener) {
+    public void removeLogChangedListener(LogChangedListener listener) {
         logChangedListeners.remove(listener);
+    }
+
+    public void addAccessChangedListener(AccessChangedListener listener) {
+        accessChangedListeners.add(listener);
+    }
+
+    public void removeAccessChangedListener(AccessChangedListener listener) {
+        accessChangedListeners.remove(listener);
     }
 
     public interface LogChangedListener {
         void onChanged();
+    }
+
+    public interface AccessChangedListener {
+        void onChanged(int uid);
     }
 }

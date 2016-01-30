@@ -190,6 +190,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         dh = new DatabaseHelper(this);
         adapter = new RuleAdapter(dh, this);
         rvApplication.setAdapter(adapter);
+        dh.addAccessChangedListener(accessChangedListener);
 
         // Swipe to refresh
         TypedValue tv = new TypedValue();
@@ -308,6 +309,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         running = false;
 
+        dh.removeAccessChangedListener(accessChangedListener);
         dh.close();
 
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
@@ -402,6 +404,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         } else if ("theme".equals(name) || "dark_theme".equals(name))
             recreate();
     }
+
+    private DatabaseHelper.AccessChangedListener accessChangedListener = new DatabaseHelper.AccessChangedListener() {
+        @Override
+        public void onChanged(int uid) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (adapter != null)
+                        adapter.notifyDataSetChanged();
+                }
+            });
+        }
+    };
 
     private BroadcastReceiver onRulesetChanged = new BroadcastReceiver() {
         @Override
