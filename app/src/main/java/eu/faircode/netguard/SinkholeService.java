@@ -874,39 +874,34 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void prepareUidIPFilters() {
         mapUidIPFilters.clear();
 
-        DatabaseHelper dh = null;
-        try {
-            dh = new DatabaseHelper(SinkholeService.this);
-            Cursor cursor = dh.getAccess();
-            int colUid = cursor.getColumnIndex("uid");
-            int colDAddr = cursor.getColumnIndex("daddr");
-            int colDPort = cursor.getColumnIndex("dport");
-            int colBlock = cursor.getColumnIndex("block");
-            while (cursor.moveToNext()) {
-                int uid = cursor.getInt(colUid);
-                String daddr = cursor.getString(colDAddr);
-                int dport = cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort);
-                boolean block = (cursor.getInt(colBlock) > 0);
+        DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+        Cursor cursor = dh.getAccess();
+        int colUid = cursor.getColumnIndex("uid");
+        int colDAddr = cursor.getColumnIndex("daddr");
+        int colDPort = cursor.getColumnIndex("dport");
+        int colBlock = cursor.getColumnIndex("block");
+        while (cursor.moveToNext()) {
+            int uid = cursor.getInt(colUid);
+            String daddr = cursor.getString(colDAddr);
+            int dport = cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort);
+            boolean block = (cursor.getInt(colBlock) > 0);
 
-                if (!mapUidIPFilters.containsKey(uid))
-                    mapUidIPFilters.put(uid, new HashMap());
-                if (!mapUidIPFilters.get(uid).containsKey(dport))
-                    mapUidIPFilters.get(uid).put(dport, new HashMap<InetAddress, Boolean>());
+            if (!mapUidIPFilters.containsKey(uid))
+                mapUidIPFilters.put(uid, new HashMap());
+            if (!mapUidIPFilters.get(uid).containsKey(dport))
+                mapUidIPFilters.get(uid).put(dport, new HashMap<InetAddress, Boolean>());
 
-                try {
-                    for (InetAddress iaddr : InetAddress.getAllByName(daddr)) {
-                        mapUidIPFilters.get(uid).get(dport).put(iaddr, block);
-                        Log.i(TAG, "Set filter uid=" + uid + " " + iaddr + "/" + dport + "=" + block);
-                    }
-                } catch (UnknownHostException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            try {
+                for (InetAddress iaddr : InetAddress.getAllByName(daddr)) {
+                    mapUidIPFilters.get(uid).get(dport).put(iaddr, block);
+                    Log.i(TAG, "Set filter uid=" + uid + " " + iaddr + "/" + dport + "=" + block);
                 }
+            } catch (UnknownHostException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
-            cursor.close();
-
-        } finally {
-            dh.close();
         }
+        cursor.close();
+        dh.close();
     }
 
     private List<Rule> getAllowedRules(List<Rule> listRule) {
@@ -1511,7 +1506,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         sp.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         notification.addLine(sp);
 
-        Cursor cursor = new DatabaseHelper(SinkholeService.this).getAccessUnset(uid);
+        DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+        Cursor cursor = dh.getAccessUnset(uid);
         int colTime = cursor.getColumnIndex("time");
         int colDAddr = cursor.getColumnIndex("daddr");
         int colDPort = cursor.getColumnIndex("dport");
@@ -1529,6 +1525,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             sp.setSpan(new StyleSpan(Typeface.ITALIC), pos, pos + daddr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             notification.addLine(sp);
         }
+        cursor.close();
+        dh.close();
 
         NotificationManagerCompat.from(this).notify(uid + 10000, notification.build());
     }

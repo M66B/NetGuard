@@ -199,7 +199,6 @@ public class LogAdapter extends CursorAdapter {
             if (dname == null) {
                 tvDaddr.setText(daddr);
                 new AsyncTask<String, Object, String>() {
-
                     @Override
                     protected String doInBackground(String... args) {
                         try {
