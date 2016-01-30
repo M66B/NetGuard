@@ -65,7 +65,7 @@ public class AccessAdapter extends CursorAdapter {
         final TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
 
         // Set values
-        tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
+        tvTime.setText(new SimpleDateFormat("dd HH:mm").format(time));
         if (block < 0)
             ivBlock.setImageDrawable(null);
         else
