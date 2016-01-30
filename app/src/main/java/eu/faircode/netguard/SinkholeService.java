@@ -657,9 +657,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 dh.insertLog(packet, rr == null ? null : rr.QName, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
 
             if (packet.uid > 0) {
-                if (dh.updateAccess(packet, rr == null ? null : rr.QName) &&
-                        prefs.getBoolean("notify_access", false))
-                    showAccessNotification(packet.uid);
+                if (dh.updateAccess(packet, rr == null ? null : rr.QName))
+                    if (prefs.getBoolean("notify_access", false) &&
+                            (prefs.getBoolean("manage_system", false) ||
+                                    !Util.isSystem(packet.uid, SinkholeService.this)))
+                        showAccessNotification(packet.uid);
             } else if (packet.dport != 53)
                 Log.w(TAG, "Unknown application packet=" + packet);
 

@@ -299,6 +299,16 @@ public class Util {
         }
     }
 
+    public static boolean isSystem(int uid, Context context) {
+        PackageManager pm = context.getPackageManager();
+        String[] pkgs = pm.getPackagesForUid(uid);
+        if (pkgs != null)
+            for (String pkg : pkgs)
+                if (isSystem(pkg, context))
+                    return true;
+        return false;
+    }
+
     public static boolean isSystem(String packageName, Context context) {
         try {
             PackageManager pm = context.getPackageManager();
