@@ -69,6 +69,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -650,9 +652,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (prefs.getBoolean("log", false))
                 dh.insertLog(packet, rr == null ? null : rr.QName, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
 
-            if (packet.uid > 0)
-                dh.updateAccess(packet, rr == null ? null : rr.QName);
-            else if (packet.dport != 53)
+            if (packet.uid > 0) {
+                if (dh.updateAccess(packet, rr == null ? null : rr.QName) &&
+                        prefs.getBoolean("notify_access", false))
+                    showAccessNotification(packet.uid);
+            } else if (packet.dport != 53)
                 Log.w(TAG, "Unknown application packet=" + packet);
 
             dh.close();
@@ -1470,6 +1474,49 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         notification.setSummaryText(reason);
 
         NotificationManagerCompat.from(this).notify(NOTIFY_ERROR, notification.build());
+    }
+
+    private void showAccessNotification(int uid) {
+        String name = TextUtils.join(", ", Util.getApplicationNames(uid, SinkholeService.this));
+
+        Intent main = new Intent(SinkholeService.this, ActivityMain.class);
+        main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
+        PendingIntent pi = PendingIntent.getActivity(SinkholeService.this, 999, main, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_access, name))
+                .setContentIntent(pi)
+                .setCategory(Notification.CATEGORY_REMINDER)
+                .setVisibility(Notification.VISIBILITY_SECRET)
+                .setColor(tv.data)
+                .setOngoing(false)
+                .setAutoCancel(true);
+
+        DateFormat df = new SimpleDateFormat("dd HH:mm");
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(getString(R.string.msg_access, name)).append("\n");
+        Cursor cursor = new DatabaseHelper(SinkholeService.this).getAccessUnset(uid);
+        int colTime = cursor.getColumnIndex("time");
+        int colDAddr = cursor.getColumnIndex("daddr");
+        int colDPort = cursor.getColumnIndex("dport");
+        while (cursor.moveToNext()) {
+            sb.append(df.format(cursor.getLong(colTime))).append(' ');
+            sb.append(cursor.getString(colDAddr));
+            int dport = cursor.getInt(colDPort);
+            if (dport > 0)
+                sb.append(':').append(dport);
+            sb.append("\n");
+        }
+
+        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
+        notification.bigText(sb.toString());
+
+        NotificationManagerCompat.from(this).notify(uid + 10000, notification.build());
     }
 
     private void removeWarningNotifications() {

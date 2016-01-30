@@ -155,11 +155,6 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 final int sport = (cursor.isNull(cursor.getColumnIndex("sport")) ? -1 : cursor.getInt(cursor.getColumnIndex("sport")));
                 final int uid = (cursor.isNull(cursor.getColumnIndex("uid")) ? -1 : cursor.getInt(cursor.getColumnIndex("uid")));
 
-                // Get application name(s)
-                String name = (uid == 0
-                        ? getString(R.string.title_root)
-                        : TextUtils.join(",", Util.getApplicationNames(uid, ActivityLog.this)));
-
                 // Get external address
                 InetAddress addr = null;
                 try {
@@ -182,7 +177,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 PopupMenu popup = new PopupMenu(ActivityLog.this, findViewById(R.id.vwPopupAnchor), Gravity.CENTER);
 
                 if (uid >= 0)
-                    popup.getMenu().add(Menu.NONE, 1, 1, name == null ? Integer.toString(uid) : name);
+                    popup.getMenu().add(Menu.NONE, 1, 1, TextUtils.join(", ", Util.getApplicationNames(uid, ActivityLog.this)));
 
                 final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + ip));
                 popup.getMenu().add(Menu.NONE, 2, 2, getString(R.string.title_log_whois, ip))

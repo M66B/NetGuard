@@ -28,6 +28,20 @@
     <PreferenceCategory
         android:key="category_options"
         android:title="@string/setting_options">
+        <ListPreference
+            android:defaultValue="teal"
+            android:entries="@array/themeNames"
+            android:entryValues="@array/themeValues"
+            android:key="theme" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="dark_theme"
+            android:title="@string/setting_dark" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="notify_access"
+            android:summary="@string/summary_access"
+            android:title="@string/setting_access" />
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"
@@ -38,15 +52,6 @@
             android:inputType="number"
             android:key="screen_delay"
             android:summary="@string/summary_delay" />
-        <ListPreference
-            android:defaultValue="teal"
-            android:entries="@array/themeNames"
-            android:entryValues="@array/themeValues"
-            android:key="theme" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="dark_theme"
-            android:title="@string/setting_dark" />
     </PreferenceCategory>
 
     <PreferenceCategory

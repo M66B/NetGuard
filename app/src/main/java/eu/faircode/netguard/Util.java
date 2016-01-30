@@ -313,15 +313,20 @@ public class Util {
 
     public static List<String> getApplicationNames(int uid, Context context) {
         List<String> listResult = new ArrayList<>();
-        PackageManager pm = context.getPackageManager();
-        String[] pkg = pm.getPackagesForUid(uid);
-        if (pkg != null && pkg.length > 0)
-            try {
-                ApplicationInfo info = pm.getApplicationInfo(pkg[0], 0);
-                listResult.add(pm.getApplicationLabel(info).toString());
-            } catch (PackageManager.NameNotFoundException ignored) {
-            }
-        Collections.sort(listResult);
+        if (uid == 0)
+            listResult.add(context.getString(R.string.title_root));
+        else {
+            PackageManager pm = context.getPackageManager();
+            String[] pkgs = pm.getPackagesForUid(uid);
+            if (pkgs != null)
+                for (String pkg : pkgs)
+                    try {
+                        ApplicationInfo info = pm.getApplicationInfo(pkg, 0);
+                        listResult.add(pm.getApplicationLabel(info).toString());
+                    } catch (PackageManager.NameNotFoundException ignored) {
+                    }
+            Collections.sort(listResult);
+        }
         return listResult;
     }
 

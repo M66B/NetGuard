@@ -107,8 +107,8 @@ public class Receiver extends BroadcastReceiver {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
-            // Get application name(s)
-            String name = TextUtils.join(",", Util.getApplicationNames(uid, context));
+            // Get application name
+            String name = TextUtils.join(", ", Util.getApplicationNames(uid, context));
 
             // Get application info
             PackageManager pm = context.getPackageManager();

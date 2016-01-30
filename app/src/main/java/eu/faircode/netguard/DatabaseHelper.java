@@ -283,14 +283,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Access
 
-    public DatabaseHelper updateAccess(Packet packet, String dname) {
+    public boolean updateAccess(Packet packet, String dname) {
+        int rows;
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
             cv.put("time", packet.time);
 
-            int rows = db.update("access", cv, "uid = ? AND daddr = ? AND dport = ?",
+            rows = db.update("access", cv, "uid = ? AND daddr = ? AND dport = ?",
                     new String[]{
                             Integer.toString(packet.uid),
                             dname == null ? packet.daddr : dname,
@@ -304,7 +305,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 if (db.insert("access", null, cv) == -1)
                     Log.e(TAG, "Insert access failed");
-            }
+            } else if (rows != 1)
+                Log.e(TAG, "Update access failed");
         }
 
         for (AccessChangedListener listener : accessChangedListeners)
@@ -314,7 +316,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
 
-        return this;
+        return (rows == 0);
     }
 
     public DatabaseHelper setAccess(long id, int uid, int block) {
@@ -365,6 +367,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getAccess() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query("access", new String[]{"uid", "daddr", "dport", "block"}, "block >= 0", null, null, null, null);
+    }
+
+    public Cursor getAccessUnset(int uid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query("access", new String[]{"time", "daddr", "dport"},
+                "uid = ? AND block < 0", new String[]{Integer.toString(uid)},
+                null, null, "time DESC");
     }
 
     public void addLogChangedListener(LogChangedListener listener) {
