@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 9;
+    private static final int DB_VERSION = 10;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<LogChangedListener>();
@@ -69,6 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", sport INTEGER NULL" +
                 ", daddr TEXT" +
                 ", dport INTEGER NULL" +
+                ", dname TEXT NULL" +
                 ", uid INTEGER NULL" +
                 ", data TEXT" +
                 ", allowed INTEGER NULL" +
@@ -76,7 +77,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", interactive INTEGER NULL" +
                 ");");
         db.execSQL("CREATE INDEX idx_log_time ON log(time)");
-        db.execSQL("CREATE INDEX idx_log_source ON log(saddr)");
         db.execSQL("CREATE INDEX idx_log_dest ON log(daddr)");
         db.execSQL("CREATE INDEX idx_log_uid ON log(uid)");
     }
@@ -88,6 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", uid INTEGER NOT NULL" +
                 ", daddr TEXT NOT NULL" +
                 ", dport INTEGER NULL" +
+                ", dname TEXT NULL" +
                 ", time INTEGER NOT NULL" +
                 ", allowed INTEGER NOT NULL" +
                 ");");
@@ -141,6 +142,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 createTableAccess(db);
                 oldVersion = 9;
             }
+            if (oldVersion < 10) {
+                db.execSQL("DROP TABLE log");
+                db.execSQL("DROP TABLE access");
+                createTableLog(db);
+                createTableAccess(db);
+                oldVersion = 10;
+            }
 
             if (oldVersion == DB_VERSION) {
                 db.setVersion(oldVersion);
@@ -158,7 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Log
 
-    public DatabaseHelper insertLog(Packet packet, int connection, boolean interactive) {
+    public DatabaseHelper insertLog(Packet packet, String dname, int connection, boolean interactive) {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
@@ -184,6 +192,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cv.putNull("dport");
             else
                 cv.put("dport", packet.dport);
+
+            if (dname == null)
+                cv.putNull("dname");
+            else
+                cv.put("dname", dname);
 
             cv.put("data", packet.data);
 
@@ -238,20 +251,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor searchLog(String find) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT ID AS _id, * FROM log";
-        query += " WHERE saddr LIKE ? OR daddr LIKE ? OR uid LIKE ?";
+        query += " WHERE daddr LIKE ? OR uid LIKE ?";
         query += " ORDER BY time DESC";
-        return db.rawQuery(query, new String[]{"%" + find + "%", "%" + find + "%", "%" + find + "%"});
+        return db.rawQuery(query, new String[]{"%" + find + "%", "%" + find + "%"});
     }
 
     // Access
 
-    public DatabaseHelper updateAccess(Packet packet) {
+    public DatabaseHelper updateAccess(Packet packet, String dname) {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
             cv.put("time", packet.time);
             cv.put("allowed", packet.allowed ? 1 : 0);
+            if (dname == null)
+                cv.putNull("dname");
+            else
+                cv.put("dname", dname);
 
             int rows = db.update("access", cv, "uid = ? AND daddr = ? AND dport = ?", new String[]{
                     Integer.toString(packet.uid), packet.daddr, Integer.toString(packet.dport)});
@@ -260,6 +277,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cv.put("uid", packet.uid);
                 cv.put("daddr", packet.daddr);
                 cv.put("dport", packet.dport);
+
+                if (dname == null)
+                    cv.putNull("dname");
+                else
+                    cv.put("dname", dname);
+
                 if (db.insert("access", null, cv) == -1)
                     Log.e(TAG, "Insert access failed");
             }

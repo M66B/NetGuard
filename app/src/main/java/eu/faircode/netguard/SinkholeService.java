@@ -67,6 +67,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -88,7 +89,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean last_filter = false;
     private String last_vpn4 = null;
     private String last_vpn6 = null;
-    private String last_dns = null;
+    private InetAddress last_dns = null;
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
@@ -273,6 +274,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
                     case reload:
                         reload();
+                        cleanupDNS();
                         break;
 
                     case stop:
@@ -350,7 +352,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             boolean filter = prefs.getBoolean("filter", false);
             String vpn4 = prefs.getString("vpn4", "10.1.10.1");
             String vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
-            String dns = getDns();
+            InetAddress dns = getDns(SinkholeService.this);
 
             if (state != State.enforcing) {
                 if (state != State.none) {
@@ -637,10 +639,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void log(Packet packet) {
+            ResourceRecord rr = resolveDNS(packet.daddr);
             DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
-            dh.insertLog(packet, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
+            dh.insertLog(packet, rr == null ? null : rr.QName, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
             if (packet.uid > 0)
-                dh.updateAccess(packet);
+                dh.updateAccess(packet, rr == null ? null : rr.QName);
             dh.close();
         }
 
@@ -676,25 +679,30 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    private String getDns() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String sysDns = Util.getDefaultDNS(SinkholeService.this);
+    public static InetAddress getDns(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String sysDns = Util.getDefaultDNS(context);
         String vpnDns = prefs.getString("dns", sysDns);
         Log.i(TAG, "DNS system=" + sysDns + " VPN=" + vpnDns);
         try {
             if (TextUtils.isEmpty(vpnDns.trim()))
                 throw new IllegalArgumentException("dns");
-            InetAddress.getByName(vpnDns);
-            Log.i(TAG, "DNS using=" + vpnDns);
-            return vpnDns;
-        } catch (Throwable ignored1) {
+            InetAddress vpn = InetAddress.getByName(vpnDns);
+            Log.i(TAG, "DNS using=" + vpn);
+            return vpn;
+        } catch (UnknownHostException ignored1) {
             try {
-                InetAddress.getByName(sysDns);
-                Log.i(TAG, "DNS using=" + sysDns);
-                return sysDns;
-            } catch (Throwable ignored2) {
-                Log.i(TAG, "DNS using=8.8.8.8");
-                return "8.8.8.8";
+                InetAddress sys = InetAddress.getByName(sysDns);
+                Log.i(TAG, "DNS using=" + sys);
+                return sys;
+            } catch (UnknownHostException ignored2) {
+                try {
+                    InetAddress def = InetAddress.getByName("8.8.8.8");
+                    Log.i(TAG, "DNS using=" + def);
+                    return def;
+                } catch (UnknownHostException ignored) {
+                    return null;
+                }
             }
         }
     }
@@ -708,7 +716,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         last_tethering = tethering;
         last_vpn4 = prefs.getString("vpn4", "10.1.10.1");
         last_vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
-        last_dns = getDns();
+        last_dns = getDns(SinkholeService.this);
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -930,9 +938,37 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
+    private static HashMap<String, ResourceRecord> mapRR = new HashMap<>();
+
     // Called from native code
     private void dnsResolved(ResourceRecord rr) {
-        Log.i(TAG, rr.toString());
+        synchronized (mapRR) {
+            mapRR.put(rr.Resource, rr);
+        }
+    }
+
+    public static ResourceRecord resolveDNS(String ip) {
+        synchronized (mapRR) {
+            if (mapRR.containsKey(ip))
+                return mapRR.get(ip);
+            else
+                return null;
+        }
+    }
+
+    private void cleanupDNS() {
+        long now = new Date().getTime();
+        synchronized (mapRR) {
+            List<String> ips = new ArrayList<>(mapRR.keySet());
+            for (String ip : ips) {
+                ResourceRecord rr = mapRR.get(ip);
+                if (rr.Time + rr.TTL * 1000L < now &&
+                        rr.Time + 10 * 60 * 1000L < now) {
+                    mapRR.remove(ip);
+                    Log.i(TAG, "Purged " + rr);
+                }
+            }
+        }
     }
 
     // Called from native code

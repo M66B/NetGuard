@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,11 +35,13 @@ public class LogAdapter extends CursorAdapter {
     private int colSPort;
     private int colDaddr;
     private int colDPort;
+    private int colDName;
     private int colUid;
     private int colData;
     private int colAllowed;
     private int colConnection;
     private int colInteractive;
+    private InetAddress dns = null;
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
 
@@ -53,6 +56,7 @@ public class LogAdapter extends CursorAdapter {
         colSPort = cursor.getColumnIndex("sport");
         colDaddr = cursor.getColumnIndex("daddr");
         colDPort = cursor.getColumnIndex("dport");
+        colDName = cursor.getColumnIndex("dname");
         colUid = cursor.getColumnIndex("uid");
         colData = cursor.getColumnIndex("data");
         colAllowed = cursor.getColumnIndex("allowed");
@@ -61,6 +65,7 @@ public class LogAdapter extends CursorAdapter {
 
         try {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            dns = SinkholeService.getDns(context);
             vpn4 = InetAddress.getByName(prefs.getString("vpn4", "10.1.10.1"));
             vpn6 = InetAddress.getByName(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"));
         } catch (UnknownHostException ex) {
@@ -84,6 +89,7 @@ public class LogAdapter extends CursorAdapter {
         int sport = (cursor.isNull(colSPort) ? -1 : cursor.getInt(colSPort));
         String daddr = cursor.getString(colDaddr);
         int dport = (cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort));
+        String dname = (cursor.isNull(colDName) ? null : cursor.getString(colDName));
         int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
         String data = cursor.getString(colData);
         int allowed = (cursor.isNull(colAllowed) ? -1 : cursor.getInt(colAllowed));
@@ -94,7 +100,7 @@ public class LogAdapter extends CursorAdapter {
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
         TextView tvProtocol = (TextView) view.findViewById(R.id.tvProtocol);
         TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
-        final TextView tvSAddr = (TextView) view.findViewById(R.id.tvSAddr);
+        TextView tvSAddr = (TextView) view.findViewById(R.id.tvSAddr);
         TextView tvSPort = (TextView) view.findViewById(R.id.tvSPort);
         final TextView tvDaddr = (TextView) view.findViewById(R.id.tvDAddr);
         TextView tvDPort = (TextView) view.findViewById(R.id.tvDPort);
@@ -171,12 +177,26 @@ public class LogAdapter extends CursorAdapter {
         tvSAddr.setText(getKnownAddress(saddr));
 
         if (resolve && !isKnownAddress(daddr))
-            Util.resolveName(daddr, new Util.resolveListener() {
-                @Override
-                public void onResolved(String name, boolean resolved) {
-                    tvDaddr.setText(name);
-                }
-            });
+            if (dname == null) {
+                tvDaddr.setText(daddr);
+                new AsyncTask<String, Object, String>() {
+
+                    @Override
+                    protected String doInBackground(String... args) {
+                        try {
+                            return InetAddress.getByName(args[0]).toString();
+                        } catch (UnknownHostException ignored) {
+                            return args[0];
+                        }
+                    }
+
+                    @Override
+                    protected void onPostExecute(String name) {
+                        tvDaddr.setText(name);
+                    }
+                }.execute(daddr);
+            } else
+                tvDaddr.setText(dname);
         else
             tvDaddr.setText(getKnownAddress(daddr));
 
@@ -192,7 +212,7 @@ public class LogAdapter extends CursorAdapter {
     public boolean isKnownAddress(String addr) {
         try {
             InetAddress a = InetAddress.getByName(addr);
-            if (a.equals(vpn4) || a.equals(vpn6))
+            if (a.equals(dns) || a.equals(vpn4) || a.equals(vpn6))
                 return true;
         } catch (UnknownHostException ignored) {
         }
@@ -202,6 +222,8 @@ public class LogAdapter extends CursorAdapter {
     private String getKnownAddress(String addr) {
         try {
             InetAddress a = InetAddress.getByName(addr);
+            if (a.equals(dns))
+                return "dns";
             if (a.equals(vpn4) || a.equals(vpn6))
                 return "vpn";
         } catch (UnknownHostException ignored) {

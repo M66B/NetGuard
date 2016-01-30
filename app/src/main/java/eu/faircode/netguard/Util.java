@@ -74,8 +74,6 @@ public class Util {
 
     private static native String jni_getprop(String name);
 
-    private static native String jni_resolve(String ip);
-
     static {
         System.loadLibrary("netguard");
     }
@@ -356,45 +354,6 @@ public class Util {
     }
 
     private static Map<String, String> mapIPHost = new HashMap<String, String>();
-
-    public interface resolveListener {
-        void onResolved(String name, boolean resolved);
-    }
-
-    public static void resolveName(String name, final resolveListener listener) {
-        // TODO DNS cache timeout
-        synchronized (mapIPHost) {
-            if (mapIPHost.containsKey(name))
-                listener.onResolved(mapIPHost.get(name), true);
-            else {
-                listener.onResolved(name, false);
-
-                new AsyncTask<String, Object, String>() {
-                    @Override
-                    protected String doInBackground(String... args) {
-                        return jni_resolve(args[0]);
-                        /*
-                        try {
-                            // This requires internet permission
-                            return InetAddress.getByName(args[0]).getHostName();
-                        } catch (UnknownHostException ignored) {
-                            return args[0];
-                        }
-                        */
-                    }
-
-                    @Override
-                    protected void onPostExecute(String host) {
-                        synchronized (mapIPHost) {
-                            if (!mapIPHost.containsKey(host))
-                                mapIPHost.put(host, host);
-                        }
-                        listener.onResolved(host, true);
-                    }
-                }.execute(name);
-            }
-        }
-    }
 
     public static void setTheme(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

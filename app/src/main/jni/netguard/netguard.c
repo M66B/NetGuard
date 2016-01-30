@@ -2616,6 +2616,7 @@ void log_packet(const struct arguments *args, jobject jpacket) {
 
 static jmethodID midDnsResolved = NULL;
 static jmethodID midInitRR = NULL;
+jfieldID fidQTime = NULL;
 jfieldID fidQName = NULL;
 jfieldID fidAName = NULL;
 jfieldID fidResource = NULL;
@@ -2641,18 +2642,21 @@ void dns_resolved(const struct arguments *args,
 
     jobject jrr = jniNewObject(args->env, clsRR, midInitRR, rr);
 
-    if (fidQName == NULL) {
+    if (fidQTime == NULL) {
         const char *string = "Ljava/lang/String;";
+        fidQTime = jniGetFieldID(args->env, clsRR, "Time", "J");
         fidQName = jniGetFieldID(args->env, clsRR, "QName", string);
         fidAName = jniGetFieldID(args->env, clsRR, "AName", string);
         fidResource = jniGetFieldID(args->env, clsRR, "Resource", string);
         fidTTL = jniGetFieldID(args->env, clsRR, "TTL", "I");
     }
 
+    jlong jtime = time(NULL) * 1000LL;
     jstring jqname = (*args->env)->NewStringUTF(args->env, qname);
     jstring janame = (*args->env)->NewStringUTF(args->env, aname);
     jstring jresource = (*args->env)->NewStringUTF(args->env, resource);
 
+    (*args->env)->SetLongField(args->env, jrr, fidQTime, jtime);
     (*args->env)->SetObjectField(args->env, jrr, fidQName, jqname);
     (*args->env)->SetObjectField(args->env, jrr, fidAName, janame);
     (*args->env)->SetObjectField(args->env, jrr, fidResource, jresource);

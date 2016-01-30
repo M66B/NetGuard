@@ -16,6 +16,7 @@ public class AccessAdapter extends CursorAdapter {
 
     private int colDaddr;
     private int colDPort;
+    private int colDName;
     private int colTime;
     private int colAllowed;
 
@@ -23,6 +24,7 @@ public class AccessAdapter extends CursorAdapter {
         super(context, cursor, 0);
         colDaddr = cursor.getColumnIndex("daddr");
         colDPort = cursor.getColumnIndex("dport");
+        colDName = cursor.getColumnIndex("dname");
         colTime = cursor.getColumnIndex("time");
         colAllowed = cursor.getColumnIndex("allowed");
     }
@@ -35,8 +37,9 @@ public class AccessAdapter extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
         // Get values
-        final String dest = cursor.getString(colDaddr);
-        final int dport = (cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort));
+        String daddr = cursor.getString(colDaddr);
+        int dport = (cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort));
+        String dname = (cursor.isNull(colDName) ? null : cursor.getString(colDName));
         long time = cursor.getLong(colTime);
         int allowed = cursor.getInt(colAllowed);
 
@@ -48,12 +51,6 @@ public class AccessAdapter extends CursorAdapter {
         // Set values
         tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
         cbIp.setChecked(allowed != 0);
-
-        Util.resolveName(dest, new Util.resolveListener() {
-            @Override
-            public void onResolved(String name, boolean resolved) {
-                tvDest.setText(name + (dport > 0 ? ":" + dport : ""));
-            }
-        });
+        tvDest.setText((dname == null ? daddr : dname) + (dport > 0 ? ":" + dport : ""));
     }
 }

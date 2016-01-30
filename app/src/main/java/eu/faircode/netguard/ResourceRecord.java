@@ -19,17 +19,29 @@ package eu.faircode.netguard;
     Copyright 2015-2016 by Marcel Bokhorst (M66B)
 */
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ResourceRecord {
+    public long Time;
     public String QName;
     public String AName;
     public String Resource;
     public int TTL;
+    private static DateFormat formater = SimpleDateFormat.getDateTimeInstance();
 
     public ResourceRecord() {
     }
 
     @Override
     public String toString() {
-        return "Q " + QName + " A " + AName + " R " + Resource + " TTL " + TTL;
+        return formater.format(
+                new Date(Time).getTime()) +
+                " Q " + QName +
+                " A " + AName +
+                " R " + Resource +
+                " TTL " + TTL +
+                " " + formater.format(new Date(Time + TTL * 1000L).getTime());
     }
 }
