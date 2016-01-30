@@ -215,24 +215,27 @@ Translations:
 
 Current translations:
 
-1. Arabic (ar)
-1. Simplified Chinese (zh-rCN)
-1. Dutch (nl)
+1. Arabic
+1. Simplified Chinese
+1. Czech
+1. Danish
+1. Dutch
 1. English
-1. French (fr)
-1. German (de)
-1. Hungarian (hu)
-1. Italian (it)
-1. Japanese (ja)
-1. Korean (ko)
-1. Polish (pl)
-1. Portuguese/Brazilian (pt-rBR)
-1. Romanian (ro)
-1. Russian (ru)
-1. Slovak (sk)
-1. Spanish (es)
-1. Turkish (tr)
-1. Ukrainian (uk)
+1. French
+1. German
+1. Greek
+1. Hungarian
+1. Italian
+1. Japanese
+1. Korean
+1. Polish
+1. Portuguese/Brazilian
+1. Romanian
+1. Russian
+1. Slovak
+1. Spanish
+1. Turkish
+1. Ukrainian
 
 You can see the actual status of all translations [here](https://crowdin.com/project/netguard).
 
