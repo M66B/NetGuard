@@ -24,9 +24,9 @@ public class Packet {
     public int version;
     public int protocol;
     public String flags;
-    public String saddr;
+    public String saddr; // TODO byte[]
     public int sport;
-    public String daddr;
+    public String daddr; // TODO byte[]
     public int dport;
     public String data;
     public int uid;

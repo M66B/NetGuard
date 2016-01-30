@@ -98,7 +98,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
-    private Map<Integer, Map<String, Boolean>> mapUidIPFilters = new HashMap<>();
+    private Map<Integer, Map<Integer, Map<InetAddress, Boolean>>> mapUidIPFilters = new HashMap<>();
 
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
@@ -877,14 +877,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 String daddr = cursor.getString(colDAddr);
                 int dport = cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort);
                 boolean block = (cursor.getInt(colBlock) > 0);
+
                 if (!mapUidIPFilters.containsKey(uid))
-                    mapUidIPFilters.put(uid, new HashMap<String, Boolean>());
+                    mapUidIPFilters.put(uid, new HashMap());
+                if (!mapUidIPFilters.get(uid).containsKey(dport))
+                    mapUidIPFilters.get(uid).put(dport, new HashMap<InetAddress, Boolean>());
+
                 try {
                     for (InetAddress iaddr : InetAddress.getAllByName(daddr)) {
-                        String addr = iaddr.toString() + "/" + dport;
-                        addr = addr.substring(addr.indexOf('/') + 1);
-                        Log.i(TAG, "Set filter " + daddr + " " + addr + "=" + block);
-                        mapUidIPFilters.get(uid).put(addr, block);
+                        mapUidIPFilters.get(uid).get(dport).put(iaddr, block);
+                        Log.i(TAG, "Set filter uid=" + uid + " " + iaddr + "/" + dport + "=" + block);
                     }
                 } catch (UnknownHostException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -1040,14 +1042,18 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     packet.allowed = true;
                 else {
                     boolean filtered = false;
-                    if (mapUidIPFilters.containsKey(packet.uid)) {
-                        String addr = packet.daddr + "/" + packet.dport;
-                        if (mapUidIPFilters.get(packet.uid).containsKey(addr)) {
-                            filtered = true;
-                            packet.allowed = !mapUidIPFilters.get(packet.uid).get(addr);
-                            Log.i(TAG, "Filtering " + addr + " allowed=" + packet.allowed);
+                    if (mapUidIPFilters.containsKey(packet.uid))
+                        try {
+                            InetAddress iaddr = InetAddress.getByName(packet.daddr);
+                            Map<InetAddress, Boolean> map = mapUidIPFilters.get(packet.uid).get(packet.dport);
+                            if (map != null && map.containsKey(iaddr)) {
+                                filtered = true;
+                                packet.allowed = !mapUidIPFilters.get(packet.uid).get(packet.dport).get(iaddr);
+                                Log.i(TAG, "Filtering uid=" + packet.uid + " " + iaddr + "/" + packet.dport + " allowed=" + packet.allowed);
+                            }
+                        } catch (UnknownHostException ex) {
+                            Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                         }
-                    }
 
                     if (!filtered)
                         packet.allowed = (mapUidAllowed.containsKey(packet.uid) && mapUidAllowed.get(packet.uid));
