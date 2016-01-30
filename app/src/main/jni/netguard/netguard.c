@@ -886,7 +886,7 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
             }
         }
     }
-    else
+    else if (acount > 0)
         log_android(ANDROID_LOG_WARN,
                     "DNS response qr %d opcode %d qcount %d acount %d",
                     dns->qr, dns->opcode, qcount, acount);
