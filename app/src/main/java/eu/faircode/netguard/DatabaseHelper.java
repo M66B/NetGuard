@@ -341,7 +341,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper clearAccess(int uid) {
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getReadableDatabase();
-            db.delete("access", "uid = ?", new String[]{Integer.toString(uid)});
+            db.delete("access", "uid = ? AND block < 0", new String[]{Integer.toString(uid)});
         }
 
         for (AccessChangedListener listener : accessChangedListeners)
