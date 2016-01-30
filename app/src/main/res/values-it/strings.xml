@@ -24,9 +24,8 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Supporto</string>
   <string name="menu_about">Info</string>
-  <string name="menu_enabled">Log enabled</string>
   <string name="menu_live">Aggiornamenti in tempo reale</string>
-  <string name="menu_resolve">Resolve host names</string>
+  <string name="menu_resolve">Show names</string>
   <string name="menu_pcap_enabled">PCAP enabled</string>
   <string name="menu_pcap_export">PCAP export</string>
   <string name="menu_clear">Pulisci</string>
@@ -51,7 +50,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="setting_national_roaming">Ignora roaming nazionale</string>
   <string name="setting_advanced_options">Advanced options</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
-  <string name="setting_log">Log traffic</string>
   <string name="setting_filter">Filter traffic</string>
   <string name="setting_block_domains">Block domain names</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -80,7 +78,6 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="summary_metered_4g">Applica le regole valide per il Wi-Fi alle connessioni LTE</string>
   <string name="summary_national_roaming">Non applicare le regole di roaming quando il paese della carta SIM e della rete mobile è lo stesso</string>
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
-  <string name="summary_log">Registra gli indirizzi dei pacchetti IP inviati alla VPN pozzo. Potrebbe causare ulteriore utilizzo di batteria.</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
@@ -104,6 +101,7 @@ Ció è causato da alcuni bug contenuti in Android, o in programmi forniti dal p
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
+  <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
   <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>
   <string name="title_roaming">Blocca quando in roaming</string>

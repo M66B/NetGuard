@@ -20,9 +20,8 @@
   <string name="menu_invite">Пригласить</string>
   <string name="menu_support">Поддержка</string>
   <string name="menu_about">О приложении</string>
-  <string name="menu_enabled">Включить журнал</string>
   <string name="menu_live">Обновления в реальном времени</string>
-  <string name="menu_resolve">Определять имена хостов</string>
+  <string name="menu_resolve">Show names</string>
   <string name="menu_pcap_enabled">PCAP включен</string>
   <string name="menu_pcap_export">PCAP экспорт</string>
   <string name="menu_clear">Очистить</string>
@@ -47,7 +46,6 @@
   <string name="setting_national_roaming">Игнорировать роуминг внутри страны</string>
   <string name="setting_advanced_options">Дополнительные параметры</string>
   <string name="setting_system">Управлять сист. приложениями</string>
-  <string name="setting_log">Журнал трафика</string>
   <string name="setting_filter">Фильтр трафика</string>
   <string name="setting_block_domains">Блокировать доменные имена</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -76,7 +74,6 @@
   <string name="summary_metered_4g">Применить правила Wi-Fi-сети для передачи данных через LTE</string>
   <string name="summary_national_roaming">Не применять правила роуминга, если SIM-карта и мобильная сеть из одной страны</string>
   <string name="summary_system">Определить правила для системных приложений (для профи)</string>
-  <string name="summary_log">Записывать адреса IP-пакетов, проходящих через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_block_domains">Перенаправление заблокированных доменных имен для локальных устройств. Этот переключатель выключен, если ни один hosts-файл не был импортирован.</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>
@@ -99,6 +96,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Использование данной функции приводит к тому, что Android передает данные и использование энергии в пользование NetGuard; Android будет считать, что данные и энергия используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
+  <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>
   <string name="title_roaming">Блокировать в роуминге</string>

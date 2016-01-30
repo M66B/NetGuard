@@ -23,9 +23,8 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="menu_invite">Convite</string>
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
-  <string name="menu_enabled">Registro ativado</string>
   <string name="menu_live">Atualizações ao vivo</string>
-  <string name="menu_resolve">Resolver nomes de host</string>
+  <string name="menu_resolve">Show names</string>
   <string name="menu_pcap_enabled">PCAP ativado</string>
   <string name="menu_pcap_export">Exportar PCAP</string>
   <string name="menu_clear">Limpar</string>
@@ -40,7 +39,7 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Ativa tema escuro</string>
-  <string name="setting_network_options">Network options</string>
+  <string name="setting_network_options">Opções de rede</string>
   <string name="setting_tethering">Permitir tethering</string>
   <string name="setting_wifi_home">Redes Wi-Fi Domésticas: %1$s</string>
   <string name="setting_metered">Manipular redes Wi-Fi Limitadas</string>
@@ -48,9 +47,8 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_metered_3g">Considerar 3G ilimitado</string>
   <string name="setting_metered_4g">Considerar 4G ilimitado</string>
   <string name="setting_national_roaming">Ignorar roaming nacional</string>
-  <string name="setting_advanced_options">Advanced options</string>
+  <string name="setting_advanced_options">Opções avançadas</string>
   <string name="setting_system">Administrar aplicativos do sistema</string>
-  <string name="setting_log">Registrar tráfego</string>
   <string name="setting_filter">Filtrar tráfego</string>
   <string name="setting_block_domains">Bloquear nomes de domínio</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -67,9 +65,9 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="setting_import">Importar configurações</string>
   <string name="setting_hosts">Importar arquivos de hosts</string>
   <string name="setting_technical">Informações técnicas</string>
-  <string name="setting_technical_general">General</string>
-  <string name="setting_technical_networks">Networks</string>
-  <string name="setting_technical_subscription">Subscriptions</string>
+  <string name="setting_technical_general">Geral</string>
+  <string name="setting_technical_networks">Redes</string>
+  <string name="setting_technical_subscription">Inscrições</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis à outras redes Wi-Fi)</string>
@@ -79,7 +77,6 @@ Esses problemas são causados por bugs/falhas no Android ou no sotfware fornecid
   <string name="summary_metered_4g">Aplicar regras Wi-Fi para conexões 4G</string>
   <string name="summary_national_roaming">Não aplicar regras de roaming quando o chip SIM e a rede móvel forem do mesmo país</string>
   <string name="summary_system">Definir regras para aplicativos do sistema (usuários experientes)</string>
-  <string name="summary_log">Registrar endereços de pacotes de IP direcionados à VPN. Isso pode resultar no uso extra de bateria.</string>
   <string name="summary_filter">Filtrar pacotes de IP que saem da VPN. Isso pode resultar em um maior uso da bateria.</string>
   <string name="summary_block_domains">Redirecionar nomes de domínios bloqueados para o dispositivo local. Essa opção será desativada caso nenhum arquivo de host tenha sido importado.</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
@@ -102,6 +99,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Usar filtragem pode fazer com que o Android atribua uso de dados e consumo de energia ao NetGuard - Android assume que o uso de dados e consumo de bateria são usados pelo NetGuard e não pelas aplicações originais</string>
+  <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
   <string name="title_roaming">Bloquear quando em roaming</string>

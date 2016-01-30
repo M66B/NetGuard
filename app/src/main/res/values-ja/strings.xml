@@ -23,9 +23,8 @@
   <string name="menu_invite">招待</string>
   <string name="menu_support">サポート</string>
   <string name="menu_about">アプリについて</string>
-  <string name="menu_enabled">ログを有効にしました</string>
   <string name="menu_live">ライブアップデート</string>
-  <string name="menu_resolve">ホスト名を解決</string>
+  <string name="menu_resolve">Show names</string>
   <string name="menu_pcap_enabled">PCAP を有効にしました</string>
   <string name="menu_pcap_export">PCAP エクスポート</string>
   <string name="menu_clear">クリア</string>
@@ -50,7 +49,6 @@
   <string name="setting_national_roaming">国内ローミングを無視する</string>
   <string name="setting_advanced_options">詳細オプション</string>
   <string name="setting_system">システムアプリケーションの管理</string>
-  <string name="setting_log">トラフィックのログ</string>
   <string name="setting_filter">トラフィックをフィルター</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -79,7 +77,6 @@
   <string name="summary_metered_4g">LTE データ接続の Wi-Fi ネットワーク ルールを適用します</string>
   <string name="summary_national_roaming">SIM およびモバイル ネットワークの国が同じときは、ローミングのルールを適用しません</string>
   <string name="summary_system">システムアプリケーションのルールを定義 (上級者向け)</string>
-  <string name="summary_log">VPN のシンク穴に入る IP パケットのアドレスを記録します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_filter">VPN のシンク穴を出る IP パケットをフィルター処理します。バッテリー使用量が増える場合があります。</string>
   <string name="summary_block_domains">ブロックされたドメイン名をローカル デバイスにリダイレクトします。hosts ファイルをインポートしない場合は、このスイッチは無効です。</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
@@ -102,6 +99,7 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">NetGuard でフィルタリングを使用すると、Android のデータと電力使用につながります - Android は、元のアプリケーションではなく NetGuard によってデータと電力を使用しているとみなします。</string>
+  <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>
   <string name="title_roaming">ローミング時にブロック</string>

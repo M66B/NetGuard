@@ -23,9 +23,8 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Asistenta</string>
   <string name="menu_about">Despre</string>
-  <string name="menu_enabled">Jurnal activat</string>
   <string name="menu_live">Actualizare in timp real</string>
-  <string name="menu_resolve">Rezolva numele de domenii</string>
+  <string name="menu_resolve">Show names</string>
   <string name="menu_pcap_enabled">Activeaza PCAP</string>
   <string name="menu_pcap_export">Exporta PCAP</string>
   <string name="menu_clear">Goleste</string>
@@ -50,7 +49,6 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="setting_national_roaming">Ignora roamingul national</string>
   <string name="setting_advanced_options">Optiuni avansate</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
-  <string name="setting_log">Jurnal de trafic</string>
   <string name="setting_filter">Filtru de trafic</string>
   <string name="setting_block_domains">Blocheaza domenii</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -79,7 +77,6 @@ Acest lucru este cauzat de bug-uri in Android sau in software-ul pus la dispozit
   <string name="summary_metered_4g">Aplica regulile Wi-Fi pentru conexiunile de date 4G/LTE</string>
   <string name="summary_national_roaming">Nu folosi regulile de roaming atunci cand tara de origine a SIM-ului si tara retelei mobile sunt identice</string>
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (pentru experti)</string>
-  <string name="summary_log">Inregistreaza adresele IP ale pachetelor trimise in VPN-ul \"gaura neagra\". Acest lucru poate duce la un consum suplimentar al bateriei.</string>
   <string name="summary_filter">Filtreaza pachetele de date ce sunt trimise in \"gaura neagra\" a VPN-ului. Poate duce la un consum mai mare al bateriei.</string>
   <string name="summary_block_domains">Redirectioneaza domeniile blocate spre dispozitivul local. Aceasta optiune este dezactivata daca nu a fost importata o lista de domenii.</string>
   <string name="summary_stats">Arata graficul de viteza al retelei in bara de notificari</string>
@@ -102,6 +99,7 @@ Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca tr
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Android va asocia consumul de baterie si date lui NetGuard atunci cand activati filtrarea. De fapt aplicatiile ce acceseaza internetul consuma</string>
+  <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
   <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>
   <string name="title_roaming">Blocheaza in roaming</string>

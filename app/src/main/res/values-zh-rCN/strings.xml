@@ -23,9 +23,8 @@
   <string name="menu_invite">邀请</string>
   <string name="menu_support">软件支持</string>
   <string name="menu_about">关于</string>
-  <string name="menu_enabled">日志已启用</string>
   <string name="menu_live">实时更新</string>
-  <string name="menu_resolve">解析主机名称</string>
+  <string name="menu_resolve">Show names</string>
   <string name="menu_pcap_enabled">PCAP 已启用</string>
   <string name="menu_pcap_export">PCAP 导出</string>
   <string name="menu_clear">清除</string>
@@ -50,7 +49,6 @@
   <string name="setting_national_roaming">忽略全国漫游</string>
   <string name="setting_advanced_options">高级选项</string>
   <string name="setting_system">管理系统应用</string>
-  <string name="setting_log">记录流量</string>
   <string name="setting_filter">过滤流量</string>
   <string name="setting_block_domains">屏蔽域名</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -79,7 +77,6 @@
   <string name="summary_metered_4g">将Wi-Fi网络规则应用于LTE数据连接</string>
   <string name="summary_national_roaming">SIM卡与移动网络为相同国家时不使用漫游规则</string>
   <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
-  <string name="summary_log">记录被重定向数据包的 IP 地址。这可能导致额外电量消耗。</string>
   <string name="summary_filter">筛选经由 VPN 重定向流出的 IP 数据包。这可能会导致额外耗电</string>
   <string name="summary_block_domains">将被屏蔽的域名重定向至本地设备. 无 hosts 文件导入时本功能不可用.</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
@@ -102,6 +99,7 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">使用过滤功能将导致系统认为 NetGuard 使用了额外的电量和数据流量, 尽管这些使用量是由原应用所致.</string>
+  <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>
   <string name="title_screen_other">亮屏时允许移动网络</string>
   <string name="title_roaming">漫游时阻止</string>

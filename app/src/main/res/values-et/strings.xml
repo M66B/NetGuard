@@ -23,9 +23,8 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="menu_invite">Invite</string>
   <string name="menu_support">Support</string>
   <string name="menu_about">About</string>
-  <string name="menu_enabled">Log enabled</string>
   <string name="menu_live">Live updates</string>
-  <string name="menu_resolve">Resolve host names</string>
+  <string name="menu_resolve">Show names</string>
   <string name="menu_pcap_enabled">PCAP enabled</string>
   <string name="menu_pcap_export">PCAP export</string>
   <string name="menu_clear">Clear</string>
@@ -50,7 +49,6 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="setting_national_roaming">Ignore national roaming</string>
   <string name="setting_advanced_options">Advanced options</string>
   <string name="setting_system">Manage system applications</string>
-  <string name="setting_log">Log traffic</string>
   <string name="setting_filter">Filter traffic</string>
   <string name="setting_block_domains">Block domain names</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -79,7 +77,6 @@ These issues are caused by bugs in Android, or in the software provided by the m
   <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections</string>
   <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
   <string name="summary_system">Define rules for system applications (for experts)</string>
-  <string name="summary_log">Log addresses of IP packets going into the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">Show network speed graph in status bar notification</string>
@@ -102,6 +99,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
+  <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
   <string name="title_screen_other">Allow mobile when screen is on</string>
   <string name="title_roaming">Block when roaming</string>
