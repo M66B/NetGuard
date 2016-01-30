@@ -37,6 +37,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.TrafficStats;
 import android.net.VpnService;
@@ -58,7 +59,10 @@ import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
@@ -1498,23 +1502,31 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         DateFormat df = new SimpleDateFormat("dd HH:mm");
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(getString(R.string.msg_access, name)).append("\n");
+        NotificationCompat.InboxStyle notification = new NotificationCompat.InboxStyle(builder);
+        String sname = getString(R.string.msg_access, name);
+        int pos = sname.indexOf(name);
+        Spannable sp = new SpannableString(sname);
+        sp.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        notification.addLine(sp);
+
         Cursor cursor = new DatabaseHelper(SinkholeService.this).getAccessUnset(uid);
         int colTime = cursor.getColumnIndex("time");
         int colDAddr = cursor.getColumnIndex("daddr");
         int colDPort = cursor.getColumnIndex("dport");
         while (cursor.moveToNext()) {
+            StringBuilder sb = new StringBuilder();
             sb.append(df.format(cursor.getLong(colTime))).append(' ');
-            sb.append(cursor.getString(colDAddr));
+            String daddr = cursor.getString(colDAddr);
+            sb.append(daddr);
             int dport = cursor.getInt(colDPort);
             if (dport > 0)
                 sb.append(':').append(dport);
-            sb.append("\n");
-        }
 
-        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
-        notification.bigText(sb.toString());
+            pos = sb.indexOf(daddr);
+            sp = new SpannableString(sb);
+            sp.setSpan(new StyleSpan(Typeface.ITALIC), pos, pos + daddr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            notification.addLine(sp);
+        }
 
         NotificationManagerCompat.from(this).notify(uid + 10000, notification.build());
     }

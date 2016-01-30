@@ -103,7 +103,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
     <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
     <string name="msg_installed">\'%1$s\' installed</string>
-    <string name="msg_access">\'%1$s\' accessed the internet</string>
+    <string name="msg_access">%1$s accessed the internet</string>
     <string name="msg_completed">Action completed</string>
     <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
 For this reason, please allow a VPN connection in the next dialog.
