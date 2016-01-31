@@ -127,6 +127,7 @@ public class Rule {
         Map<String, Boolean> pre_other_blocked = new HashMap<>();
         Map<String, Boolean> pre_roaming = new HashMap<>();
         Map<String, String[]> pre_related = new HashMap<>();
+        Map<String, Boolean> pre_system = new HashMap<>();
         try {
             XmlResourceParser xml = context.getResources().getXml(R.xml.predefined);
             int eventType = xml.getEventType();
@@ -152,6 +153,11 @@ public class Rule {
                         pre_related.put(pkg, rel);
                         Log.d(tag, "Relation " + pkg + " related=" + TextUtils.join(",", rel));
 
+                    } else if ("type".equals(xml.getName())) {
+                        String pkg = xml.getAttributeValue(null, "package");
+                        boolean system = xml.getAttributeBooleanValue(null, "system", true);
+                        pre_system.put(pkg, system);
+                        Log.d(tag, "Type " + pkg + " system=" + system);
                     }
 
 
@@ -171,6 +177,10 @@ public class Rule {
                 continue;
 
             Rule rule = new Rule(info, context);
+
+            if (pre_system.containsKey(info.packageName))
+                rule.system = pre_system.get(info.packageName);
+
             if (all ||
                     ((rule.system ? show_system : show_user) &&
                             (show_nointernet ? true : rule.internet) &&

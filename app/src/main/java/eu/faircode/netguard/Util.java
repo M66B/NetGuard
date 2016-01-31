@@ -312,10 +312,14 @@ public class Util {
     public static boolean isSystem(String packageName, Context context) {
         try {
             PackageManager pm = context.getPackageManager();
+            PackageInfo info = pm.getPackageInfo(packageName, 0);
+            return ((info.applicationInfo.flags & (ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0);
+            /*
             PackageInfo pkg = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
             PackageInfo sys = pm.getPackageInfo("android", PackageManager.GET_SIGNATURES);
             return (pkg != null && pkg.signatures != null && pkg.signatures.length > 0 &&
                     sys.signatures.length > 0 && sys.signatures[0].equals(pkg.signatures[0]));
+            */
         } catch (PackageManager.NameNotFoundException ignore) {
             return false;
         }
