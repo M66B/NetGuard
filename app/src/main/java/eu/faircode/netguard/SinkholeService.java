@@ -1167,9 +1167,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         @Override
         public void onReceive(Context context, Intent intent) {
             // Filter VPN connectivity changes
-            int networkType = intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY);
-            if (networkType == ConnectivityManager.TYPE_VPN)
-                return;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                int networkType = intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY);
+                if (networkType == ConnectivityManager.TYPE_VPN)
+                    return;
+            }
 
             // Reload rules
             Log.i(TAG, "Received " + intent);
