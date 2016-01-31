@@ -131,7 +131,7 @@ public class Receiver extends BroadcastReceiver {
                     .setContentTitle(context.getString(R.string.app_name))
                     .setContentText(context.getString(R.string.msg_installed, name))
                     .setContentIntent(pi)
-                    .setCategory(Notification.CATEGORY_STATUS)
+                    .setCategory(Notification.CATEGORY_REMINDER)
                     .setVisibility(Notification.VISIBILITY_SECRET)
                     .setColor(tv.data)
                     .setAutoCancel(true);
