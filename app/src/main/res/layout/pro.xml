@@ -209,43 +209,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvMultiTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:text="@string/title_pro_multi"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small" />
-
-                <Button
-                    android:id="@+id/btnMulti"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:text="@string/title_pro_buy"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tvMulti"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="@string/title_pro_bought"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/llChallenge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

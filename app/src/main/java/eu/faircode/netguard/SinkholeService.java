@@ -1123,6 +1123,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private BroadcastReceiver userReceiver = new BroadcastReceiver() {
         @Override
+        @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
@@ -1258,10 +1259,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         registerReceiver(interactiveStateReceiver, ifInteractive);
 
         // Listen for user switches
-        IntentFilter ifUser = new IntentFilter();
-        ifUser.addAction(Intent.ACTION_USER_BACKGROUND);
-        ifUser.addAction(Intent.ACTION_USER_FOREGROUND);
-        registerReceiver(userReceiver, ifUser);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            IntentFilter ifUser = new IntentFilter();
+            ifUser.addAction(Intent.ACTION_USER_BACKGROUND);
+            ifUser.addAction(Intent.ACTION_USER_FOREGROUND);
+            registerReceiver(userReceiver, ifUser);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Listen for idle mode state changes
@@ -1354,7 +1357,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         mServiceLooper.quit();
 
         unregisterReceiver(interactiveStateReceiver);
-        unregisterReceiver(userReceiver);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            unregisterReceiver(userReceiver);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             unregisterReceiver(idleStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
