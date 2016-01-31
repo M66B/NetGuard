@@ -38,6 +38,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.TouchDelegate;
@@ -486,7 +487,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                             int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
                             int block = cursor.getInt(cursor.getColumnIndex("block"));
 
-                            PopupMenu popup = new PopupMenu(context, view);
+                            PopupMenu popup = new PopupMenu(context, context.findViewById(R.id.vwPopupAnchor));
                             popup.inflate(R.menu.access);
                             popup.getMenu().findItem(R.id.menu_host).setTitle(daddr + (dport > 0 ? ":" + dport : ""));
 

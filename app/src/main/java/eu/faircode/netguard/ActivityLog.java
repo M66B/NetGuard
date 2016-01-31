@@ -174,7 +174,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 }
 
                 // Build popup menu
-                PopupMenu popup = new PopupMenu(ActivityLog.this, findViewById(R.id.vwPopupAnchor), Gravity.CENTER);
+                PopupMenu popup = new PopupMenu(ActivityLog.this, findViewById(R.id.vwPopupAnchor));
 
                 if (uid >= 0)
                     popup.getMenu().add(Menu.NONE, 1, 1, TextUtils.join(", ", Util.getApplicationNames(uid, ActivityLog.this)));
