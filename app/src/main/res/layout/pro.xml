@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,12 +7,205 @@
     android:padding="16dp"
     tools:context=".ActivityPro">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_pro_description"
+            android:textAppearance="@style/TextMedium" />
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvLogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="@string/title_pro_log"
+                android:textAppearance="@style/TextSmall" />
+
+            <Button
+                android:id="@+id/btnLog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/title_pro_buy"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvLog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/title_pro_bought"
+                android:textAppearance="@style/TextMedium"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvFilterTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="@string/title_pro_filter"
+                android:textAppearance="@style/TextSmall" />
+
+            <Button
+                android:id="@+id/btnFilter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/title_pro_buy"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvFilter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/title_pro_bought"
+                android:textAppearance="@style/TextMedium"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvNotifyTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="@string/title_pro_notify"
+                android:textAppearance="@style/TextSmall" />
+
+            <Button
+                android:id="@+id/btnNotify"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/title_pro_buy"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvNotify"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/title_pro_bought"
+                android:textAppearance="@style/TextMedium"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvSpeedTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="@string/title_pro_speed"
+                android:textAppearance="@style/TextSmall" />
+
+            <Button
+                android:id="@+id/btnSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/title_pro_buy"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/title_pro_bought"
+                android:textAppearance="@style/TextMedium"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvThemeTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="@string/title_pro_theme"
+                android:textAppearance="@style/TextSmall" />
+
+            <Button
+                android:id="@+id/btnTheme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/title_pro_buy"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvTheme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/title_pro_bought"
+                android:textAppearance="@style/TextMedium"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llChallenge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -20,228 +213,31 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_pro_description"
+                android:layout_marginTop="16dp"
+                android:text="@string/title_pro_challenge"
                 android:textAppearance="@style/TextMedium" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvChallenge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_pro_challenge"
+                android:textAppearance="@style/TextMedium"
+                android:textIsSelectable="true"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvLogTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:text="@string/title_pro_log"
-                    android:textAppearance="@style/TextSmall" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/title_pro_reponse"
+                android:textAppearance="@style/TextMedium" />
 
-                <Button
-                    android:id="@+id/btnLog"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:text="@string/title_pro_buy"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tvLog"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="@string/title_pro_bought"
-                    android:textAppearance="@style/TextMedium"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvFilterTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:text="@string/title_pro_filter"
-                    android:textAppearance="@style/TextSmall" />
-
-                <Button
-                    android:id="@+id/btnFilter"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:text="@string/title_pro_buy"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tvFilter"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="@string/title_pro_bought"
-                    android:textAppearance="@style/TextMedium"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvNotifyTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:text="@string/title_pro_notify"
-                    android:textAppearance="@style/TextSmall" />
-
-                <Button
-                    android:id="@+id/btnNotify"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:text="@string/title_pro_buy"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tvNotify"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="@string/title_pro_bought"
-                    android:textAppearance="@style/TextMedium"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvSpeedTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:text="@string/title_pro_speed"
-                    android:textAppearance="@style/TextSmall" />
-
-                <Button
-                    android:id="@+id/btnSpeed"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:text="@string/title_pro_buy"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tvSpeed"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="@string/title_pro_bought"
-                    android:textAppearance="@style/TextMedium"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvThemeTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
-                    android:text="@string/title_pro_theme"
-                    android:textAppearance="@style/TextSmall" />
-
-                <Button
-                    android:id="@+id/btnTheme"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:text="@string/title_pro_buy"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tvTheme"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="@string/title_pro_bought"
-                    android:textAppearance="@style/TextMedium"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llChallenge"
+            <EditText
+                android:id="@+id/etResponse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/title_pro_challenge"
-                    android:textAppearance="@style/TextMedium" />
-
-                <TextView
-                    android:id="@+id/tvChallenge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/title_pro_challenge"
-                    android:textAppearance="@style/TextMedium"
-                    android:textIsSelectable="true"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/title_pro_reponse"
-                    android:textAppearance="@style/TextMedium" />
-
-                <EditText
-                    android:id="@+id/etResponse"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                android:inputType="text" />
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

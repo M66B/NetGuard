@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:singleLine="false"
         android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
         android:textSize="10sp" />

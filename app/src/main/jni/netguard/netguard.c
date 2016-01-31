@@ -754,7 +754,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
     }
 }
 
-int get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qname) {
+int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qname) {
     *qname = 0;
 
     uint16_t c = 0;
@@ -765,7 +765,7 @@ int get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qna
     while (len && parts < 10) {
         parts++;
         if (len & 0xC0) {
-            ptr = (len & 0x3F) * 256 + *(data + ptr + 1);
+            ptr = (uint16_t) ((len & 0x3F) * 256 + *(data + ptr + 1));
             len = *(data + ptr);
             log_android(ANDROID_LOG_DEBUG, "DNS qname compression ptr %d len %d", ptr, len);
             if (!c) {
@@ -817,9 +817,9 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
         char qname[DNS_QNAME_MAX + 1];
 
         char name[DNS_QNAME_MAX + 1];
-        uint16_t off = sizeof(struct dns_header);
+        int32_t off = sizeof(struct dns_header);
         for (int q = 0; q < qcount; q++) {
-            off = get_qname(data, datalen, off, name);
+            off = get_qname(data, datalen, (uint16_t) off, name);
             if (off > 0 && off + 4 <= datalen) {
                 uint16_t qtype = ntohs(*((uint16_t *) (data + off)));
                 uint16_t qclass = ntohs(*((uint16_t *) (data + off + 2)));
@@ -841,7 +841,7 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
         }
 
         for (int a = 0; a < acount; a++) {
-            off = get_qname(data, datalen, off, name);
+            off = get_qname(data, datalen, (uint16_t) off, name);
             if (off > 0 && off + 10 <= datalen) {
                 uint16_t qtype = ntohs(*((uint16_t *) (data + off)));
                 uint16_t qclass = ntohs(*((uint16_t *) (data + off + 2)));
@@ -1600,10 +1600,12 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
             DHCP option 6: DNS servers 9.7.10.15
          */
 
-        write_udp(args, u, response, 500);
+        write_udp(args, u, (uint8_t *) response, 500);
 
         free(response);
     }
+
+    return 0;
 }
 
 int has_tcp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload) {
