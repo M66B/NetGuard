@@ -81,7 +81,7 @@ public class Rule {
         this.info = info;
         this.name = info.applicationInfo.loadLabel(pm).toString();
         this.system = Util.isSystem(info.packageName, context);
-        this.internet = (pm.checkPermission("android.permission.INTERNET", info.packageName) == PackageManager.PERMISSION_GRANTED);
+        this.internet = Util.hasInternet(info.packageName, context);
 
         int setting;
         try {

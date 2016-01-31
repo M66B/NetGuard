@@ -325,6 +325,21 @@ public class Util {
         }
     }
 
+    public static boolean hasInternet(String packageName, Context context) {
+        PackageManager pm = context.getPackageManager();
+        return (pm.checkPermission("android.permission.INTERNET", packageName) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public static boolean hasInternet(int uid, Context context) {
+        PackageManager pm = context.getPackageManager();
+        String[] pkgs = pm.getPackagesForUid(uid);
+        if (pkgs != null)
+            for (String pkg : pkgs)
+                if (hasInternet(pkg, context))
+                    return true;
+        return false;
+    }
+
     public static List<String> getApplicationNames(int uid, Context context) {
         List<String> listResult = new ArrayList<>();
         if (uid == 0)

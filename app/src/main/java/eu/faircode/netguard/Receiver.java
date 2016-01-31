@@ -107,7 +107,7 @@ public class Receiver extends BroadcastReceiver {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         try {
-            // Get application name
+            // Get application info
             String name = TextUtils.join(", ", Util.getApplicationNames(uid, context));
 
             // Get application info
@@ -115,12 +115,11 @@ public class Receiver extends BroadcastReceiver {
             String[] packages = pm.getPackagesForUid(uid);
             if (packages.length < 1)
                 throw new PackageManager.NameNotFoundException(Integer.toString(uid));
-            ApplicationInfo info = pm.getApplicationInfo(packages[0], 0);
-            boolean internet = (pm.checkPermission("android.permission.INTERNET", info.packageName) == PackageManager.PERMISSION_GRANTED);
+            boolean internet = Util.hasInternet(uid, context);
 
             // Build notification
             Intent main = new Intent(context, ActivityMain.class);
-            main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(info.uid));
+            main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
             PendingIntent pi = PendingIntent.getActivity(context, uid, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
             Util.setTheme(context);
