@@ -630,12 +630,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     .setSmallIcon(R.drawable.ic_equalizer_white_24dp)
                     .setContent(remoteViews)
                     .setContentIntent(pi)
-                    .setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .setPriority(Notification.PRIORITY_DEFAULT)
                     .setColor(tv.data)
                     .setOngoing(true)
                     .setAutoCancel(false);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder.setCategory(Notification.CATEGORY_STATUS)
+                        .setVisibility(Notification.VISIBILITY_PUBLIC);
+            }
 
             if (state == State.none || state == State.waiting) {
                 if (state != State.none) {
@@ -1402,12 +1404,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_started))
                 .setContentIntent(pi)
-                .setCategory(Notification.CATEGORY_STATUS)
-                .setVisibility(Notification.VISIBILITY_SECRET)
-                .setPriority(Notification.PRIORITY_MIN)
                 .setColor(tv.data)
                 .setOngoing(true)
                 .setAutoCancel(false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setCategory(Notification.CATEGORY_STATUS)
+                    .setVisibility(Notification.VISIBILITY_SECRET)
+                    .setPriority(Notification.PRIORITY_MIN);
+        }
 
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
         notification.bigText(getString(R.string.msg_started));
@@ -1433,12 +1438,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_waiting))
                 .setContentIntent(pi)
-                .setCategory(Notification.CATEGORY_STATUS)
-                .setVisibility(Notification.VISIBILITY_SECRET)
-                .setPriority(Notification.PRIORITY_MIN)
                 .setColor(tv.data)
                 .setOngoing(true)
                 .setAutoCancel(false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setCategory(Notification.CATEGORY_STATUS)
+                    .setVisibility(Notification.VISIBILITY_SECRET)
+                    .setPriority(Notification.PRIORITY_MIN);
+        }
+
         return builder.build();
     }
 
@@ -1453,11 +1462,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_revoked))
                 .setContentIntent(pi)
-                .setCategory(Notification.CATEGORY_STATUS)
-                .setVisibility(Notification.VISIBILITY_SECRET)
                 .setColor(tv.data)
                 .setOngoing(false)
                 .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setCategory(Notification.CATEGORY_STATUS)
+                    .setVisibility(Notification.VISIBILITY_SECRET);
+        }
 
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
         notification.bigText(getString(R.string.msg_revoked));
@@ -1476,11 +1488,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_error))
                 .setContentIntent(pi)
-                .setCategory(Notification.CATEGORY_STATUS)
-                .setVisibility(Notification.VISIBILITY_SECRET)
                 .setColor(tv.data)
                 .setOngoing(false)
                 .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setCategory(Notification.CATEGORY_STATUS)
+                    .setVisibility(Notification.VISIBILITY_SECRET);
+        }
 
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
         notification.bigText(getString(R.string.msg_error));
@@ -1509,11 +1524,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_access, name))
                 .setContentIntent(pi)
-                .setCategory(Notification.CATEGORY_REMINDER)
-                .setVisibility(Notification.VISIBILITY_SECRET)
                 .setColor(colorAccent)
                 .setOngoing(false)
                 .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setCategory(Notification.CATEGORY_REMINDER)
+                    .setVisibility(Notification.VISIBILITY_SECRET);
+        }
 
         DateFormat df = new SimpleDateFormat("dd HH:mm");
 

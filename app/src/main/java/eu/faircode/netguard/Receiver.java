@@ -122,15 +122,18 @@ public class Receiver extends BroadcastReceiver {
             Util.setTheme(context);
             TypedValue tv = new TypedValue();
             context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-            NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_security_white_24dp)
                     .setContentTitle(context.getString(R.string.app_name))
                     .setContentText(context.getString(R.string.msg_installed, name))
                     .setContentIntent(pi)
-                    .setCategory(Notification.CATEGORY_REMINDER)
-                    .setVisibility(Notification.VISIBILITY_SECRET)
                     .setColor(tv.data)
                     .setAutoCancel(true);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder.setCategory(Notification.CATEGORY_REMINDER)
+                        .setVisibility(Notification.VISIBILITY_SECRET);
+            }
 
             // Get defaults
             SharedPreferences prefs_wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
@@ -147,7 +150,7 @@ public class Receiver extends BroadcastReceiver {
             riWifi.putExtra(SinkholeService.EXTRA_BLOCKED, !wifi);
 
             PendingIntent piWifi = PendingIntent.getService(context, uid, riWifi, PendingIntent.FLAG_UPDATE_CURRENT);
-            notification.addAction(
+            builder.addAction(
                     wifi ? R.drawable.wifi_on : R.drawable.wifi_off,
                     context.getString(wifi ? R.string.title_allow : R.string.title_block),
                     piWifi
@@ -161,7 +164,7 @@ public class Receiver extends BroadcastReceiver {
             riOther.putExtra(SinkholeService.EXTRA_PACKAGE, packages[0]);
             riOther.putExtra(SinkholeService.EXTRA_BLOCKED, !other);
             PendingIntent piOther = PendingIntent.getService(context, uid + 10000, riOther, PendingIntent.FLAG_UPDATE_CURRENT);
-            notification.addAction(
+            builder.addAction(
                     other ? R.drawable.other_on : R.drawable.other_off,
                     context.getString(other ? R.string.title_allow : R.string.title_block),
                     piOther
@@ -169,9 +172,9 @@ public class Receiver extends BroadcastReceiver {
 
             // Show notification
             if (internet)
-                NotificationManagerCompat.from(context).notify(uid, notification.build());
+                NotificationManagerCompat.from(context).notify(uid, builder.build());
             else {
-                NotificationCompat.BigTextStyle expanded = new NotificationCompat.BigTextStyle(notification);
+                NotificationCompat.BigTextStyle expanded = new NotificationCompat.BigTextStyle(builder);
                 expanded.bigText(context.getString(R.string.msg_installed, name));
                 expanded.setSummaryText(context.getString(R.string.title_internet));
                 NotificationManagerCompat.from(context).notify(uid, expanded.build());
