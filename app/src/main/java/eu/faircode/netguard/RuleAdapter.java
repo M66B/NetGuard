@@ -477,8 +477,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 public void onItemClick(AdapterView<?> parent, View view, final int bposition, long bid) {
                     Cursor cursor = (Cursor) badapter.getItem(bposition);
                     final long id = cursor.getLong(cursor.getColumnIndex("ID"));
-                    final String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
-                    final int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
+                    String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
+                    int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
+                    int block = cursor.getInt(cursor.getColumnIndex("block"));
 
                     PopupMenu popup = new PopupMenu(context, view);
                     popup.inflate(R.menu.access);
@@ -504,6 +505,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                             return false;
                         }
                     });
+
+                    if (block == 0)
+                        popup.getMenu().removeItem(R.id.menu_allow);
+                    else if (block == 1)
+                        popup.getMenu().removeItem(R.id.menu_block);
 
                     popup.show();
                 }

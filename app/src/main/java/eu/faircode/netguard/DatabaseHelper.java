@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 11;
+    private static final int DB_VERSION = 12;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -108,6 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", daddr TEXT NOT NULL" +
                 ", dport INTEGER NULL" +
                 ", time INTEGER NOT NULL" +
+                ", allowed INTEGER NULL" +
                 ", block INTEGER NOT NULL" +
                 ");");
         db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, daddr, dport)");
@@ -167,10 +168,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 createTableAccess(db);
                 oldVersion = 10;
             }
-            if (oldVersion < 11) {
+            if (oldVersion < 12) {
                 db.execSQL("DROP TABLE access");
                 createTableAccess(db);
-                oldVersion = 11;
+                oldVersion = 12;
             }
 
             if (oldVersion == DB_VERSION) {
@@ -290,6 +291,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             ContentValues cv = new ContentValues();
             cv.put("time", packet.time);
+            cv.put("allowed", packet.allowed ? 1 : 0);
 
             rows = db.update("access", cv, "uid = ? AND daddr = ? AND dport = ?",
                     new String[]{
@@ -325,6 +327,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             ContentValues cv = new ContentValues();
             cv.put("block", block);
+            cv.put("allowed", block < 0 ? -1 : 1 - block);
 
             if (db.update("access", cv, "ID = ?", new String[]{Long.toString(id)}) != 1)
                 Log.e(TAG, "Set access failed");
@@ -371,7 +374,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAccessUnset(int uid) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query("access", new String[]{"time", "daddr", "dport"},
+        return db.query("access", new String[]{"daddr", "dport", "time", "allowed"},
                 "uid = ? AND block < 0", new String[]{Integer.toString(uid)},
                 null, null, "time DESC");
     }

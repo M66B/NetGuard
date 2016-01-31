@@ -62,6 +62,7 @@ import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.TypedValue;
@@ -648,19 +649,37 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void log(Packet packet) {
+            // Get settings
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            boolean log = prefs.getBoolean("log", false);
+            boolean filter = prefs.getBoolean("filter", false);
+            boolean notify = prefs.getBoolean("notify_access", false);
+            boolean system = prefs.getBoolean("manage_system", false);
 
-            ResourceRecord rr = resolveDNS(packet.daddr);
+            // Get name
+            String dname = null;
+            if (filter) {
+                ResourceRecord rr = resolveDNS(packet.daddr);
+                dname = (rr == null ? null : rr.QName);
+            } else {
+                try {
+                    dname = InetAddress.getByName(packet.daddr).toString();
+                    if (dname.startsWith("/"))
+                        dname = dname.substring(1);
+                } catch (UnknownHostException ex) {
+                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+            }
+
+            // Store
             DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
 
-            if (prefs.getBoolean("log", false))
-                dh.insertLog(packet, rr == null ? null : rr.QName, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
+            if (log)
+                dh.insertLog(packet, dname, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
 
             if (packet.uid > 0) {
-                if (dh.updateAccess(packet, rr == null ? null : rr.QName))
-                    if (prefs.getBoolean("notify_access", false) &&
-                            (prefs.getBoolean("manage_system", false) ||
-                                    !Util.isSystem(packet.uid, SinkholeService.this)))
+                if (dh.updateAccess(packet, dname))
+                    if (notify && (system || !Util.isSystem(packet.uid, SinkholeService.this)))
                         showAccessNotification(packet.uid);
             } else if (packet.dport != 53)
                 Log.w(TAG, "Unknown application packet=" + packet);
@@ -1485,7 +1504,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         PendingIntent pi = PendingIntent.getActivity(SinkholeService.this, uid + 10000, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
+        int colorPrimary = tv.data;
         getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
+        int colorAccent = tv.data;
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
@@ -1493,7 +1516,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 .setContentIntent(pi)
                 .setCategory(Notification.CATEGORY_REMINDER)
                 .setVisibility(Notification.VISIBILITY_SECRET)
-                .setColor(tv.data)
+                .setColor(colorAccent)
                 .setOngoing(false)
                 .setAutoCancel(true);
 
@@ -1508,9 +1531,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
         Cursor cursor = dh.getAccessUnset(uid);
-        int colTime = cursor.getColumnIndex("time");
         int colDAddr = cursor.getColumnIndex("daddr");
         int colDPort = cursor.getColumnIndex("dport");
+        int colTime = cursor.getColumnIndex("time");
+        int colAllowed = cursor.getColumnIndex("allowed");
         while (cursor.moveToNext()) {
             StringBuilder sb = new StringBuilder();
             sb.append(df.format(cursor.getLong(colTime))).append(' ');
@@ -1520,9 +1544,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (dport > 0)
                 sb.append(':').append(dport);
 
-            pos = sb.indexOf(daddr);
-            sp = new SpannableString(sb);
-            sp.setSpan(new StyleSpan(Typeface.ITALIC), pos, pos + daddr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            int allowed = cursor.getInt(colAllowed);
+            if (allowed >= 0) {
+                pos = sb.indexOf(daddr);
+                sp = new SpannableString(sb);
+                ForegroundColorSpan fgsp = new ForegroundColorSpan(allowed > 0 ? colorPrimary : colorAccent);
+                sp.setSpan(fgsp, pos, pos + daddr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
             notification.addLine(sp);
         }
         cursor.close();

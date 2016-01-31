@@ -20,7 +20,10 @@ package eu.faircode.netguard;
 */
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,14 +39,33 @@ public class AccessAdapter extends CursorAdapter {
     private int colDaddr;
     private int colDPort;
     private int colTime;
+    private int colAllowed;
     private int colBlock;
+
+    private int colorText;
+    private int colorPrimary;
+    private int colorAccent;
 
     public AccessAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
         colDaddr = cursor.getColumnIndex("daddr");
         colDPort = cursor.getColumnIndex("dport");
         colTime = cursor.getColumnIndex("time");
+        colAllowed = cursor.getColumnIndex("allowed");
         colBlock = cursor.getColumnIndex("block");
+
+        TypedArray ta = context.getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
+        try {
+            colorText = ta.getColor(0, 0);
+        } finally {
+            ta.recycle();
+        }
+
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
+        colorPrimary = tv.data;
+        context.getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
+        colorAccent = tv.data;
     }
 
     @Override
@@ -57,6 +79,7 @@ public class AccessAdapter extends CursorAdapter {
         String daddr = cursor.getString(colDaddr);
         int dport = (cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort));
         long time = cursor.getLong(colTime);
+        int allowed = cursor.getInt(colAllowed);
         int block = cursor.getInt(colBlock);
 
         // Get views
@@ -71,5 +94,12 @@ public class AccessAdapter extends CursorAdapter {
         else
             ivBlock.setImageResource(block > 0 ? R.drawable.host_blocked : R.drawable.host_allowed);
         tvDest.setText(daddr + (dport > 0 ? ":" + dport : ""));
+
+        if (allowed < 0)
+            tvDest.setTextColor(colorText);
+        else if (allowed > 0)
+            tvDest.setTextColor(colorPrimary);
+        else
+            tvDest.setTextColor(colorAccent);
     }
 }
