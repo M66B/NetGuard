@@ -7,7 +7,7 @@ model {
 
         defaultConfig.with {
             applicationId = "eu.faircode.netguard"
-            minSdkVersion.apiLevel = 21
+            minSdkVersion.apiLevel = 14
             targetSdkVersion.apiLevel = 23
             versionCode = 2016013002
             versionName = "0.80-beta-2"
