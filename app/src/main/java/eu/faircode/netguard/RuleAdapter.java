@@ -38,7 +38,6 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.TouchDelegate;

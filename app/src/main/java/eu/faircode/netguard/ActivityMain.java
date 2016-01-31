@@ -19,7 +19,6 @@ package eu.faircode.netguard;
     Copyright 2015-2016 by Marcel Bokhorst (M66B)
 */
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,6 +36,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -573,7 +573,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_app_system:
-                boolean manage = prefs.getBoolean("manage_system", false);
                 item.setChecked(!item.isChecked());
                 prefs.edit().putBoolean("show_system", item.isChecked()).apply();
                 return true;
@@ -662,7 +661,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
                     Intent intent = getIntentLogcat();
                     if (intent.resolveActivity(getPackageManager()) != null)
-                        startActivityForResult(intent, REQUEST_LOGCAT, null);
+                        startActivityForResult(intent, REQUEST_LOGCAT);
 
                 } else if (tap > 3) {
                     toast.setText(Integer.toString(7 - tap));

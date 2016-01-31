@@ -147,6 +147,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_wifi_homes.setEntries(listSSID.toArray(new CharSequence[0]));
         pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
+        // Filtering always enabled
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            screen.findPreference("filter").setEnabled(false);
+
         // VPN parameters
         screen.findPreference("vpn4").setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn4", "10.1.10.1")));
         screen.findPreference("vpn6").setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
@@ -427,7 +431,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 prefs.edit().putBoolean(name, false).apply();
                 ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
                 startActivity(new Intent(this, ActivityPro.class));
-                return;
             } else
                 SinkholeService.reload(null, "changed " + name, this);
 

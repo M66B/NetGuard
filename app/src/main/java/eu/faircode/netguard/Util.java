@@ -40,12 +40,12 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.net.ConnectivityManagerCompat;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,13 +56,11 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -124,7 +122,7 @@ public class Util {
 
     public static boolean isMeteredNetwork(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return (cm != null && cm.isActiveNetworkMetered());
+        return (cm != null && ConnectivityManagerCompat.isActiveNetworkMetered(cm));
     }
 
     public static String getWifiSSID(Context context) {
@@ -179,7 +177,7 @@ public class Util {
             }
         }
 
-        return (tm == null || tm.getSimCountryIso() == null ? true : !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
+        return (tm == null || tm.getSimCountryIso() == null || !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
     }
 
     public static String getNetworkGeneration(int networkType) {
@@ -287,7 +285,10 @@ public class Util {
 
     public static boolean isInteractive(Context context) {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        return (pm != null && pm.isInteractive());
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH)
+            return (pm != null && pm.isScreenOn());
+        else
+            return (pm != null && pm.isInteractive());
     }
 
     public static boolean isPackageInstalled(String packageName, Context context) {
@@ -376,8 +377,8 @@ public class Util {
             MessageDigest digest = MessageDigest.getInstance("SHA1");
             byte[] bytes = digest.digest(cert);
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < bytes.length; ++i)
-                sb.append(Integer.toString(bytes[i] & 0xff, 16).toLowerCase());
+            for (byte b : bytes)
+                sb.append(Integer.toString(b & 0xff, 16).toLowerCase());
             String calculated = sb.toString();
             String expected = context.getString(R.string.fingerprint);
             return calculated.equals(expected);
@@ -386,8 +387,6 @@ public class Util {
             return false;
         }
     }
-
-    private static Map<String, String> mapIPHost = new HashMap<String, String>();
 
     public static void setTheme(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -512,18 +511,27 @@ public class Util {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo ani = cm.getActiveNetworkInfo();
-        for (Network network : cm.getAllNetworks()) {
-            NetworkInfo ni = cm.getNetworkInfo(network);
-            if (ni != null)
-                sb.append(ni.getTypeName())
-                        .append('/')
-                        .append(ni.getSubtypeName())
-                        .append(' ').append(ni.getDetailedState())
-                        .append(TextUtils.isEmpty(ni.getExtraInfo()) ? "" : " " + ni.getExtraInfo())
-                        .append(ni.getType() == ConnectivityManager.TYPE_MOBILE ? " " + Util.getNetworkGeneration(ni.getSubtype()) : "")
-                        .append(ni.isRoaming() ? " R" : "")
-                        .append(ani != null && ni.getType() == ani.getType() && ni.getSubtype() == ani.getSubtype() ? " *" : "")
-                        .append("\r\n");
+        List<NetworkInfo> listNI = new ArrayList<>();
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            listNI.addAll(Arrays.asList(cm.getAllNetworkInfo()));
+        else
+            for (Network network : cm.getAllNetworks()) {
+                NetworkInfo ni = cm.getNetworkInfo(network);
+                if (ni != null)
+                    listNI.add(cm.getNetworkInfo(network));
+            }
+
+        for (NetworkInfo ni : listNI) {
+            sb.append(ni.getTypeName())
+                    .append('/')
+                    .append(ni.getSubtypeName())
+                    .append(' ').append(ni.getDetailedState())
+                    .append(TextUtils.isEmpty(ni.getExtraInfo()) ? "" : " " + ni.getExtraInfo())
+                    .append(ni.getType() == ConnectivityManager.TYPE_MOBILE ? " " + Util.getNetworkGeneration(ni.getSubtype()) : "")
+                    .append(ni.isRoaming() ? " R" : "")
+                    .append(ani != null && ni.getType() == ani.getType() && ni.getSubtype() == ani.getSubtype() ? " *" : "")
+                    .append("\r\n");
         }
 
         if (sb.length() > 2)
@@ -609,9 +617,7 @@ public class Util {
                                 .append(' ')
                                 .append(String.format("%B", getDataEnabled.invoke(tm, si.getSubscriptionId())))
                                 .append("\r\n");
-                    } catch (IllegalAccessException ex) {
-                        Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    } catch (InvocationTargetException ex) {
+                    } catch (IllegalAccessException | InvocationTargetException ex) {
                         Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     }
             }
@@ -720,7 +726,6 @@ public class Util {
     }
 
     private static StringBuilder getLogcat() {
-        String pid = Integer.toString(android.os.Process.myPid());
         StringBuilder builder = new StringBuilder();
         Process process = null;
         BufferedReader br = null;

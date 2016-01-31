@@ -22,7 +22,6 @@ package eu.faircode.netguard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
@@ -107,8 +106,6 @@ public class Rule {
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
 
         // Get settings
-        boolean haswifi = Util.hasWifi(context);
-        boolean hastelephony = Util.hasTelephony(context);
         boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
         boolean default_other = prefs.getBoolean("whitelist_other", true);
         boolean default_screen_wifi = prefs.getBoolean("screen_wifi", true);
@@ -173,9 +170,6 @@ public class Rule {
 
 
         for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
-            if (info.applicationInfo.uid == Process.myUid())
-                continue;
-
             Rule rule = new Rule(info, context);
 
             if (pre_system.containsKey(info.packageName))
@@ -183,29 +177,35 @@ public class Rule {
 
             if (all ||
                     ((rule.system ? show_system : show_user) &&
-                            (show_nointernet ? true : rule.internet) &&
-                            (show_disabled ? true : rule.enabled))) {
+                            (show_nointernet || rule.internet) &&
+                            (show_disabled || rule.enabled) &&
+                            info.applicationInfo.uid != Process.myUid())) {
 
-                rule.wifi_default = (pre_wifi_blocked.containsKey(info.packageName) ? pre_wifi_blocked.get(info.packageName) : default_wifi);
-                rule.other_default = (pre_other_blocked.containsKey(info.packageName) ? pre_other_blocked.get(info.packageName) : default_other);
-                rule.screen_wifi_default = default_screen_wifi;
-                rule.screen_other_default = default_screen_other;
-                rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
+                if (info.applicationInfo.uid == Process.myUid()) {
+                    // Internet access is needed to resolve host names
+                    rule.wifi_default = false;
+                    rule.other_default = false;
+                    rule.screen_wifi_default = false;
+                    rule.screen_other_default = false;
+                    rule.roaming_default = false;
 
-                rule.wifi_blocked = (rule.system && !manage_system ? false : wifi.getBoolean(info.packageName, rule.wifi_default));
-                rule.other_blocked = (rule.system && !manage_system ? false : other.getBoolean(info.packageName, rule.other_default));
-                rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default);
-                rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
-                rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
-
-                if (!haswifi) {
-                    rule.wifi_blocked = true;
+                    rule.wifi_blocked = false;
+                    rule.other_blocked = false;
                     rule.screen_wifi = false;
-                }
-
-                if (!hastelephony) {
-                    rule.other_blocked = true;
                     rule.screen_other = false;
+                    rule.roaming = false;
+                } else {
+                    rule.wifi_default = (pre_wifi_blocked.containsKey(info.packageName) ? pre_wifi_blocked.get(info.packageName) : default_wifi);
+                    rule.other_default = (pre_other_blocked.containsKey(info.packageName) ? pre_other_blocked.get(info.packageName) : default_other);
+                    rule.screen_wifi_default = default_screen_wifi;
+                    rule.screen_other_default = default_screen_other;
+                    rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
+
+                    rule.wifi_blocked = (!(rule.system && !manage_system) && wifi.getBoolean(info.packageName, rule.wifi_default));
+                    rule.other_blocked = (!(rule.system && !manage_system) && other.getBoolean(info.packageName, rule.other_default));
+                    rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default);
+                    rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
+                    rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
                 }
 
                 if (pre_related.containsKey(info.packageName))
@@ -217,7 +217,7 @@ public class Rule {
                 rule.upspeed = (float) up * 24 * 3600 * 1000 / 1024f / 1024f / now;
                 rule.downspeed = (float) down * 24 * 3600 * 1000 / 1024f / 1024f / now;
 
-                rule.updateChanged(default_wifi, default_other, default_roaming, haswifi, hastelephony);
+                rule.updateChanged(default_wifi, default_other, default_roaming);
 
                 listRules.add(rule);
             }
@@ -252,12 +252,12 @@ public class Rule {
         return listRules;
     }
 
-    private void updateChanged(boolean default_wifi, boolean default_other, boolean default_roaming, boolean wifi, boolean telephony) {
-        changed = (wifi && wifi_blocked != default_wifi ||
-                (telephony && other_blocked != default_other) ||
-                (wifi && wifi_blocked && screen_wifi != screen_wifi_default) ||
-                (telephony && other_blocked && screen_other != screen_other_default) ||
-                (telephony && (!other_blocked || screen_other) && roaming != default_roaming));
+    private void updateChanged(boolean default_wifi, boolean default_other, boolean default_roaming) {
+        changed = (wifi_blocked != default_wifi ||
+                (other_blocked != default_other) ||
+                (wifi_blocked && screen_wifi != screen_wifi_default) ||
+                (other_blocked && screen_other != screen_other_default) ||
+                ((!other_blocked || screen_other) && roaming != default_roaming));
     }
 
     public void updateChanged(Context context) {
@@ -265,8 +265,6 @@ public class Rule {
         boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
         boolean default_other = prefs.getBoolean("whitelist_other", true);
         boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
-        boolean wifi = Util.hasWifi(context);
-        boolean telephony = Util.hasTelephony(context);
-        updateChanged(default_wifi, default_other, default_roaming, wifi, telephony);
+        updateChanged(default_wifi, default_other, default_roaming);
     }
 }

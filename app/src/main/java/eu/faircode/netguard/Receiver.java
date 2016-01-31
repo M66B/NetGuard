@@ -25,10 +25,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -95,8 +93,7 @@ public class Receiver extends BroadcastReceiver {
                 Util.sendCrashReport(ex, context);
             }
 
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            if (pm.isInteractive())
+            if (Util.isInteractive(context))
                 SinkholeService.reloadStats("receiver", context);
         }
     }
@@ -195,6 +192,7 @@ public class Receiver extends BroadcastReceiver {
             Log.i(TAG, "Upgrading from version " + oldVersion + " to " + newVersion);
 
             SharedPreferences.Editor editor = prefs.edit();
+
             if (initialized) {
                 if (oldVersion < 38) {
                     Log.i(TAG, "Converting screen wifi/mobile");
@@ -221,9 +219,13 @@ public class Receiver extends BroadcastReceiver {
             } else {
                 editor.putBoolean("whitelist_wifi", false);
                 editor.putBoolean("whitelist_other", false);
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1)
-                    editor.putBoolean("filter", true);
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1)
+                    editor.putBoolean("filter", true); // Optional
             }
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+                editor.putBoolean("filter", true); // Mandatory
+
             editor.putInt("version", newVersion);
             editor.apply();
         }

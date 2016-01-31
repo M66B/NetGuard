@@ -33,7 +33,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -301,7 +300,6 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         File pcap_file = new File(getCacheDir(), "netguard.pcap");
 
-        boolean log = prefs.getBoolean("log", false);
         boolean resolve = prefs.getBoolean("resolve", false);
         boolean filter = prefs.getBoolean("filter", false);
         boolean pcap_enabled = prefs.getBoolean("pcap", false);

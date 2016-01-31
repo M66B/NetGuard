@@ -103,6 +103,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
 
+    private static final Map<String, ResourceRecord> mapRR = new HashMap<>();
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
     private Map<Integer, Map<Integer, Map<InetAddress, Boolean>>> mapUidIPFilters = new HashMap<>();
@@ -748,6 +749,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private ParcelFileDescriptor startVPN(List<Rule> listAllowed) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean tethering = prefs.getBoolean("tethering", false);
@@ -799,13 +801,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
-
-        // Allow internet to resolve host names
-        try {
-            builder.addDisallowedApplication(getPackageName());
-        } catch (PackageManager.NameNotFoundException ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
@@ -966,7 +961,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (roaming && national)
             roaming = Util.isInternational(this);
 
-        Log.i(TAG, "Starting connected=" + last_connected +
+        Log.i(TAG, "Get allowed" +
+                " connected=" + last_connected +
                 " wifi=" + wifi +
                 " home=" + TextUtils.join(",", ssidHomes) +
                 " network=" + ssidNetwork +
@@ -978,12 +974,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 " tethering=" + tethering +
                 " filter=" + filter);
 
-        for (Rule rule : listRule) {
-            boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
-            boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
-            if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming)))
-                listAllowed.add(rule);
-        }
+        if (last_connected)
+            for (Rule rule : listRule) {
+                boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
+                boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
+                if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming)))
+                    listAllowed.add(rule);
+            }
 
         return listAllowed;
     }
@@ -1010,14 +1007,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void logPacket(Packet packet) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Message msg = mServiceHandler.obtainMessage();
         msg.obj = packet;
         msg.what = MSG_PACKET;
         mServiceHandler.sendMessage(msg);
     }
-
-    private static HashMap<String, ResourceRecord> mapRR = new HashMap<>();
 
     // Called from native code
     private void dnsResolved(ResourceRecord rr) {
@@ -1052,8 +1046,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private boolean isDomainBlocked(String name) {
-        boolean blocked = (mapHostsBlocked.containsKey(name) && mapHostsBlocked.get(name));
-        return blocked;
+        return (mapHostsBlocked.containsKey(name) && mapHostsBlocked.get(name));
     }
 
     // Called from native code
@@ -1122,8 +1115,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
 
             // Start/stop stats
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            mServiceHandler.sendEmptyMessage(pm.isInteractive() ? MSG_STATS_START : MSG_STATS_STOP);
+            mServiceHandler.sendEmptyMessage(Util.isInteractive(SinkholeService.this) ? MSG_STATS_START : MSG_STATS_STOP);
         }
     };
 
