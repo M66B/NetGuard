@@ -131,7 +131,7 @@ public class Receiver extends BroadcastReceiver {
                     .setAutoCancel(true);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder.setCategory(Notification.CATEGORY_REMINDER)
+                builder.setCategory(Notification.CATEGORY_STATUS)
                         .setVisibility(Notification.VISIBILITY_SECRET);
             }
 
