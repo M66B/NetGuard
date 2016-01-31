@@ -103,7 +103,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
 
-    private static final Map<String, ResourceRecord> mapRR = new HashMap<>();
+    private static final Map<InetAddress, ResourceRecord> mapRR = new HashMap<>();
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
     private Map<Integer, Map<Integer, Map<InetAddress, Boolean>>> mapUidIPFilters = new HashMap<>();
@@ -662,8 +662,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             // Get real name
             String dname = null;
             if (filter) {
-                ResourceRecord rr = reverseDNS(packet.daddr);
-                dname = (rr == null ? null : rr.QName);
+                ResourceRecord rr = null;
+                try {
+                    rr = reverseDNS(InetAddress.getByName(packet.daddr));
+                    if (rr == null)
+                        Log.w(TAG, "No revered DNS for " + packet);
+                    else
+                        dname = rr.QName;
+                } catch (UnknownHostException ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
             }
 
             DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
@@ -1034,11 +1042,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     // Called from native code
     private void dnsResolved(ResourceRecord rr) {
         synchronized (mapRR) {
-            mapRR.put(rr.Resource, rr);
+            try {
+                mapRR.put(InetAddress.getByName(rr.Resource), rr);
+            } catch (UnknownHostException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
         }
     }
 
-    public static ResourceRecord reverseDNS(String ip) {
+    public static ResourceRecord reverseDNS(InetAddress ip) {
         synchronized (mapRR) {
             if (mapRR.containsKey(ip))
                 return mapRR.get(ip);
@@ -1050,8 +1062,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void cleanupDNS() {
         long now = new Date().getTime();
         synchronized (mapRR) {
-            List<String> ips = new ArrayList<>(mapRR.keySet());
-            for (String ip : ips) {
+            List<InetAddress> ips = new ArrayList<>(mapRR.keySet());
+            for (InetAddress ip : ips) {
                 ResourceRecord rr = mapRR.get(ip);
                 if (rr.Time + rr.TTL * 1000L < now &&
                         rr.Time + 10 * 60 * 1000L < now) {
