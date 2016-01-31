@@ -124,7 +124,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
     <string name="title_disabled">is disabled</string>
     <string name="title_internet">has no internet permission</string>
     <string name="title_launch">Start application</string>
-    <string name="title_access">Access</string>
+    <string name="title_access">Access attempts</string>
     <string name="title_precedence">Access rules take precedence over other rules</string>
     <string name="title_rate">Rate</string>
     <string name="title_allow">Allow</string>

@@ -656,31 +656,32 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             boolean notify = prefs.getBoolean("notify_access", false);
             boolean system = prefs.getBoolean("manage_system", false);
 
-            // Get name
+            // Get real name
             String dname = null;
             if (filter) {
-                ResourceRecord rr = resolveDNS(packet.daddr);
+                ResourceRecord rr = reverseDNS(packet.daddr);
                 dname = (rr == null ? null : rr.QName);
-            } else {
-                try {
-                    dname = InetAddress.getByName(packet.daddr).toString();
-                    if (dname.startsWith("/"))
-                        dname = dname.substring(1);
-                } catch (UnknownHostException ex) {
-                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
             }
 
-            // Store
             DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
 
+            // Traffic log
             if (log)
                 dh.insertLog(packet, dname, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
 
+            // Application log
             if (packet.uid > 0) {
+                if (dname == null)
+                    try {
+                        dname = InetAddress.getByName(packet.daddr).getHostName();
+                    } catch (UnknownHostException ignored) {
+                        dname = packet.daddr;
+                    }
+
                 if (dh.updateAccess(packet, dname))
                     if (notify && (system || !Util.isSystem(packet.uid, SinkholeService.this)))
                         showAccessNotification(packet.uid);
+
             } else if (packet.dport != 53)
                 Log.w(TAG, "Unknown application packet=" + packet);
 
@@ -1025,7 +1026,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    public static ResourceRecord resolveDNS(String ip) {
+    public static ResourceRecord reverseDNS(String ip) {
         synchronized (mapRR) {
             if (mapRR.containsKey(ip))
                 return mapRR.get(ip);

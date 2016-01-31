@@ -202,7 +202,7 @@ public class LogAdapter extends CursorAdapter {
                     @Override
                     protected String doInBackground(String... args) {
                         try {
-                            return InetAddress.getByName(args[0]).toString();
+                            return InetAddress.getByName(args[0]).getHostName();
                         } catch (UnknownHostException ignored) {
                             return args[0];
                         }
