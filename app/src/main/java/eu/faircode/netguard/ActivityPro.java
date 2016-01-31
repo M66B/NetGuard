@@ -46,6 +46,7 @@ public class ActivityPro extends AppCompatActivity {
     // adb shell pm clear com.android.vending
     // android.test.purchased
     public static final String SKU_LOG = "log";
+    public static final String SKU_FILTER = "filter";
     public static final String SKU_NOTIFY = "notify";
     public static final String SKU_SPEED = "speed";
     public static final String SKU_THEME = "theme";
@@ -68,6 +69,7 @@ public class ActivityPro extends AppCompatActivity {
         updateState();
 
         TextView tvLogTitle = (TextView) findViewById(R.id.tvLogTitle);
+        TextView tvFilterTitle = (TextView) findViewById(R.id.tvFilterTitle);
         TextView tvNotifyTitle = (TextView) findViewById(R.id.tvNotifyTitle);
         TextView tvSpeedTitle = (TextView) findViewById(R.id.tvSpeedTitle);
         TextView tvThemeTitle = (TextView) findViewById(R.id.tvThemeTitle);
@@ -81,6 +83,7 @@ public class ActivityPro extends AppCompatActivity {
         };
 
         Linkify.addLinks(tvLogTitle, Pattern.compile(".*"), "http://www.netguard.me/#log", null, filter);
+        Linkify.addLinks(tvFilterTitle, Pattern.compile(".*"), "http://www.netguard.me/#filter", null, filter);
         Linkify.addLinks(tvNotifyTitle, Pattern.compile(".*"), "http://www.netguard.me/#notify", null, filter);
         Linkify.addLinks(tvSpeedTitle, Pattern.compile(".*"), "http://www.netguard.me/#speed", null, filter);
         Linkify.addLinks(tvThemeTitle, Pattern.compile(".*"), "http://www.netguard.me/#theme", null, filter);
@@ -127,6 +130,7 @@ public class ActivityPro extends AppCompatActivity {
                         updateState();
 
                         final Button btnLog = (Button) findViewById(R.id.btnLog);
+                        final Button btnFilter = (Button) findViewById(R.id.btnFilter);
                         final Button btnNotify = (Button) findViewById(R.id.btnNotify);
                         final Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
                         final Button btnTheme = (Button) findViewById(R.id.btnTheme);
@@ -138,6 +142,8 @@ public class ActivityPro extends AppCompatActivity {
                                 try {
                                     if (view == btnLog)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_LOG).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                    else if (view == btnFilter)
+                                        startIntentSenderForResult(iab.getBuyIntent(SKU_FILTER).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                     else if (view == btnNotify)
                                         startIntentSenderForResult(iab.getBuyIntent(SKU_NOTIFY).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                     else if (view == btnSpeed)
@@ -154,12 +160,14 @@ public class ActivityPro extends AppCompatActivity {
                         };
 
                         btnLog.setOnClickListener(listener);
+                        btnFilter.setOnClickListener(listener);
                         btnNotify.setOnClickListener(listener);
                         btnSpeed.setOnClickListener(listener);
                         btnTheme.setOnClickListener(listener);
                         btnMulti.setOnClickListener(listener);
 
                         btnLog.setEnabled(true);
+                        btnFilter.setEnabled(true);
                         btnNotify.setEnabled(true);
                         btnSpeed.setEnabled(true);
                         btnTheme.setEnabled(true);
@@ -200,6 +208,10 @@ public class ActivityPro extends AppCompatActivity {
                     IAB.setBought(SKU_LOG, this);
                     updateState();
                     break;
+                case R.id.btnFilter:
+                    IAB.setBought(SKU_FILTER, this);
+                    updateState();
+                    break;
                 case R.id.btnNotify:
                     IAB.setBought(SKU_NOTIFY, this);
                     updateState();
@@ -222,11 +234,13 @@ public class ActivityPro extends AppCompatActivity {
 
     private void updateState() {
         Button btnLog = (Button) findViewById(R.id.btnLog);
+        Button btnFilter = (Button) findViewById(R.id.btnFilter);
         Button btnNotify = (Button) findViewById(R.id.btnNotify);
         Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
         Button btnTheme = (Button) findViewById(R.id.btnTheme);
         Button btnMulti = (Button) findViewById(R.id.btnMulti);
         TextView tvLog = (TextView) findViewById(R.id.tvLog);
+        TextView tvFilter = (TextView) findViewById(R.id.tvFilter);
         TextView tvNotify = (TextView) findViewById(R.id.tvNotify);
         TextView tvSpeed = (TextView) findViewById(R.id.tvSpeed);
         TextView tvTheme = (TextView) findViewById(R.id.tvTheme);
@@ -234,12 +248,14 @@ public class ActivityPro extends AppCompatActivity {
         LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
 
         btnLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.GONE : View.VISIBLE);
+        btnFilter.setVisibility(IAB.isPurchased(SKU_FILTER, this) ? View.GONE : View.VISIBLE);
         btnNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.GONE : View.VISIBLE);
         btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
         btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
         btnMulti.setVisibility(IAB.isPurchased(SKU_MULTI, this) ? View.GONE : View.VISIBLE);
 
         tvLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.VISIBLE : View.GONE);
+        tvFilter.setVisibility(IAB.isPurchased(SKU_FILTER, this) ? View.VISIBLE : View.GONE);
         tvNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.VISIBLE : View.GONE);
         tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
         tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);

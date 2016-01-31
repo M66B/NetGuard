@@ -475,43 +475,46 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int bposition, long bid) {
-                    Cursor cursor = (Cursor) badapter.getItem(bposition);
-                    final long id = cursor.getLong(cursor.getColumnIndex("ID"));
-                    String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
-                    int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
-                    int block = cursor.getInt(cursor.getColumnIndex("block"));
+                    if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
+                        Cursor cursor = (Cursor) badapter.getItem(bposition);
+                        final long id = cursor.getLong(cursor.getColumnIndex("ID"));
+                        String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
+                        int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
+                        int block = cursor.getInt(cursor.getColumnIndex("block"));
 
-                    PopupMenu popup = new PopupMenu(context, view);
-                    popup.inflate(R.menu.access);
-                    popup.getMenu().findItem(R.id.menu_host).setTitle(daddr + (dport > 0 ? ":" + dport : ""));
+                        PopupMenu popup = new PopupMenu(context, view);
+                        popup.inflate(R.menu.access);
+                        popup.getMenu().findItem(R.id.menu_host).setTitle(daddr + (dport > 0 ? ":" + dport : ""));
 
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            switch (menuItem.getItemId()) {
-                                case R.id.menu_allow:
-                                    dh.setAccess(id, rule.info.applicationInfo.uid, 0);
-                                    SinkholeService.reload(null, "allow host", context);
-                                    return true;
-                                case R.id.menu_block:
-                                    dh.setAccess(id, rule.info.applicationInfo.uid, 1);
-                                    SinkholeService.reload(null, "block host", context);
-                                    return true;
-                                case R.id.menu_clear:
-                                    dh.setAccess(id, rule.info.applicationInfo.uid, -1);
-                                    SinkholeService.reload(null, "clear host", context);
-                                    return true;
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.menu_allow:
+                                        dh.setAccess(id, rule.info.applicationInfo.uid, 0);
+                                        SinkholeService.reload(null, "allow host", context);
+                                        return true;
+                                    case R.id.menu_block:
+                                        dh.setAccess(id, rule.info.applicationInfo.uid, 1);
+                                        SinkholeService.reload(null, "block host", context);
+                                        return true;
+                                    case R.id.menu_clear:
+                                        dh.setAccess(id, rule.info.applicationInfo.uid, -1);
+                                        SinkholeService.reload(null, "clear host", context);
+                                        return true;
+                                }
+                                return false;
                             }
-                            return false;
-                        }
-                    });
+                        });
 
-                    if (block == 0)
-                        popup.getMenu().removeItem(R.id.menu_allow);
-                    else if (block == 1)
-                        popup.getMenu().removeItem(R.id.menu_block);
+                        if (block == 0)
+                            popup.getMenu().removeItem(R.id.menu_allow);
+                        else if (block == 1)
+                            popup.getMenu().removeItem(R.id.menu_block);
 
-                    popup.show();
+                        popup.show();
+                    } else
+                        context.startActivity(new Intent(context, ActivityPro.class));
                 }
             });
 
