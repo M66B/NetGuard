@@ -125,7 +125,6 @@ Puesto que NetGuard no tiene permisos de internet, ya sabes que tu tráfico de i
   <string name="title_pro_notify">Noticifaciones de aplicación nueva</string>
   <string name="title_pro_speed">Notificacion gráfica de velocidad de red</string>
   <string name="title_pro_theme">Apariencia (tema, colores)</string>
-  <string name="title_pro_multi">Soporte para múltiples usuarios</string>
   <string name="title_pro_buy">Detalles</string>
   <string name="title_pro_bought">Activado</string>
   <string name="title_pro_challenge">Desafío</string>

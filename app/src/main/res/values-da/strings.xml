@@ -125,7 +125,6 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_pro_notify">New application notifications</string>
   <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_theme">Udseende (tema, farver)</string>
-  <string name="title_pro_multi">Multi-bruger understøttelse</string>
   <string name="title_pro_buy">Detaljer</string>
   <string name="title_pro_bought">Aktiveret</string>
   <string name="title_pro_challenge">Udfordring</string>

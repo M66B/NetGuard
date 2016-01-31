@@ -126,7 +126,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_pro_notify">Notifiche nuove applicazioni</string>
   <string name="title_pro_speed">Grafico della velocità di rete nelle notifiche</string>
   <string name="title_pro_theme">Aspetto (tema, colori)</string>
-  <string name="title_pro_multi">Supporto utenti multipli</string>
   <string name="title_pro_buy">Dettagli</string>
   <string name="title_pro_bought">Abilitato</string>
   <string name="title_pro_challenge">Domanda di verifica</string>

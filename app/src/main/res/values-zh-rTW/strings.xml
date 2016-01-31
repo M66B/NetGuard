@@ -124,7 +124,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_pro_notify">新App通知</string>
   <string name="title_pro_speed">網路速度圖通知</string>
   <string name="title_pro_theme">外觀 (主題, 顏色)</string>
-  <string name="title_pro_multi">Multi user support</string>
   <string name="title_pro_buy">詳細資訊</string>
   <string name="title_pro_bought">啟用</string>
   <string name="title_pro_challenge">驗證密碼</string>

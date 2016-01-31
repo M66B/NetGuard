@@ -66,7 +66,7 @@
   <string name="setting_technical_general">全般</string>
   <string name="setting_technical_networks">ネットワーク</string>
   <string name="setting_technical_subscription">サブスクリプション</string>
-  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
+  <string name="summary_access">アプリケーションが、新しいインターネット アドレスにアクセスしようとするときに、ステータスバーに通知を表示します。</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>
@@ -87,7 +87,7 @@
   <string name="msg_revoked">NetGuard が無効にされました。別の VPN ベースのアプリケーションを使用した可能性があります</string>
   <string name="msg_error">内部エラーのため、NetGuard が無効になりました</string>
   <string name="msg_installed">\'%1$s\' インストールしました</string>
-  <string name="msg_access">%1$s attempted internet access</string>
+  <string name="msg_access">%1$s がインターネット アクセスを試みました。</string>
   <string name="msg_completed">操作を完了しました</string>
   <string name="msg_vpn">NetGuard は、シンクの穴としてローカル VPN を使用して、インターネット トラフィックをブロックします。
 このため、次のダイアログ ボックスで VPN 接続を許可してください。
@@ -107,7 +107,7 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_disabled">無効</string>
   <string name="title_internet">インターネット アクセス許可がありません</string>
   <string name="title_launch">アプリケーションを開始</string>
-  <string name="title_access">Access attempts</string>
+  <string name="title_access">アクセスの試行</string>
   <string name="title_precedence">アクセス ルールは他のルールよりも優先します</string>
   <string name="title_rate">評価</string>
   <string name="title_allow">許可</string>
@@ -120,11 +120,10 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_pro_trial_ended">プロ版機能の試用期間は終了しました</string>
   <string name="title_pro_description">次の便利な機能が利用できます:</string>
   <string name="title_pro_log">ブロックされたトラフィックのログを表示</string>
-  <string name="title_pro_filter">Filter network traffic</string>
+  <string name="title_pro_filter">ネットワーク トラフィックのフィルター</string>
   <string name="title_pro_notify">新しいアプリケーションの通知</string>
   <string name="title_pro_speed">ネットワーク速度グラフ通知</string>
   <string name="title_pro_theme">外観 (テーマ、色)</string>
-  <string name="title_pro_multi">マルチ ユーザー サポート</string>
   <string name="title_pro_buy">詳細</string>
   <string name="title_pro_bought">有効</string>
   <string name="title_pro_challenge">チャレンジ</string>

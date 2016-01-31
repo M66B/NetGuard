@@ -125,7 +125,6 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
   <string name="title_pro_notify">Notifications des nouvelles applications</string>
   <string name="title_pro_speed">Notification d\'un graphique de la vitesse</string>
   <string name="title_pro_theme">Apparence (thème, couleurs)</string>
-  <string name="title_pro_multi">Support multi-utilisateur</string>
   <string name="title_pro_buy">Détails</string>
   <string name="title_pro_bought">Activé</string>
   <string name="title_pro_challenge">Code</string>

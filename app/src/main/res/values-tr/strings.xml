@@ -9,21 +9,21 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Uygulama ara</string>
   <string name="menu_filter">Filter applications</string>
-  <string name="menu_app_user">Show user applications</string>
-  <string name="menu_app_system">Show system applications</string>
-  <string name="menu_app_nointernet">Show applications without internet</string>
-  <string name="menu_app_disabled">Show disabled applications</string>
-  <string name="menu_sort">Sort applications</string>
+  <string name="menu_app_user">Kullanıcı uygulamalarını göster</string>
+  <string name="menu_app_system">Sistem uygulamalarını göster</string>
+  <string name="menu_app_nointernet">Uygulamaları internet olmadan göster</string>
+  <string name="menu_app_disabled">Devre dışı uygulamaları göster</string>
+  <string name="menu_sort">Uygulamaları sırala</string>
   <string name="menu_sort_name">Sort on name</string>
   <string name="menu_sort_data">Sort on data usage</string>
-  <string name="menu_log">Show log</string>
+  <string name="menu_log">Günlüğü göster</string>
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_invite">Davet et</string>
   <string name="menu_support">Destek</string>
   <string name="menu_about">Hakkında</string>
-  <string name="menu_live">Live updates</string>
-  <string name="menu_resolve">Show names</string>
-  <string name="menu_pcap_enabled">PCAP enabled</string>
+  <string name="menu_live">Canlı güncellemeler</string>
+  <string name="menu_resolve">Adları göster</string>
+  <string name="menu_pcap_enabled">PCAP etkin</string>
   <string name="menu_pcap_export">PCAP export</string>
   <string name="menu_clear">Clear</string>
   <string name="setting_defaults">Varsayılanlar</string>
@@ -33,20 +33,20 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_screen_other">Allow mobile when screen on</string>
   <string name="setting_whitelist_roaming">Varsayılan olarak dolaşımı blokla</string>
   <string name="setting_options">Seçenekler</string>
-  <string name="setting_theme">Theme: %1$s</string>
+  <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Karanlık Temayı Kullan</string>
   <string name="setting_access">Notify on internet access</string>
   <string name="setting_auto">Otomatik etkinleştirme %1$s dakika sonra</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
-  <string name="setting_network_options">Network options</string>
+  <string name="setting_network_options">Ağ seçenekleri</string>
   <string name="setting_tethering">Allow tethering</string>
-  <string name="setting_wifi_home">Wi-Fi home networks: %1$s</string>
+  <string name="setting_wifi_home">Wi-Fi ev ağları: %1$s</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
   <string name="setting_metered_2g">Consider 2G unmetered</string>
   <string name="setting_metered_3g">Consider 3G unmetered</string>
   <string name="setting_metered_4g">Consider LTE unmetered</string>
   <string name="setting_national_roaming">Ulusal dolaşımı yoksay</string>
-  <string name="setting_advanced_options">Advanced options</string>
+  <string name="setting_advanced_options">Gelişmiş ayarlar</string>
   <string name="setting_system">Sistem uygulamaları yönet</string>
   <string name="setting_filter">Filter traffic</string>
   <string name="setting_block_domains">Block domain names</string>
@@ -56,17 +56,17 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_stats_category">Hız bildirimi</string>
   <string name="setting_stats">Hız bildirimini göster</string>
   <string name="setting_stats_top">En iyi uygulamaları göster</string>
-  <string name="setting_stats_base">Speed baseline: %s KB/s</string>
-  <string name="setting_stats_frequency">Sample interval: %s ms</string>
+  <string name="setting_stats_base">Temel hız: %s KB/s</string>
+  <string name="setting_stats_frequency">Örnek aralık: %s ms</string>
   <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Yedekleme</string>
   <string name="setting_export">Ayarları Dışa Aktar</string>
   <string name="setting_import">Ayarları İçe Aktar</string>
   <string name="setting_hosts">Import hosts file</string>
   <string name="setting_technical">Teknik bilgiler</string>
-  <string name="setting_technical_general">General</string>
-  <string name="setting_technical_networks">Networks</string>
-  <string name="setting_technical_subscription">Subscriptions</string>
+  <string name="setting_technical_general">Genel</string>
+  <string name="setting_technical_networks">Ağlar</string>
+  <string name="setting_technical_subscription">Abonelikler</string>
   <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
@@ -86,8 +86,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard devre dışı, NetGuard etkinleştirmek için yukarıdaki anahtarını kullanın.</string>
   <string name="msg_revoked">NetGuard, büyük olasılıkla başka bir VPN tabanlı uygulama kullanılarak devre dışı bırakıldı</string>
-  <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
-  <string name="msg_installed">\'%1$s\' installed</string>
+  <string name="msg_error">NetGuard bur iç hata nedeniyle devre dışı bırakıldı</string>
+  <string name="msg_installed">\'%1$s\' yüklü</string>
   <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Eylem tamamlandı</string>
   <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
@@ -116,26 +116,25 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_root">root</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
-  <string name="title_pro">Pro features</string>
+  <string name="title_pro">Pro özellikleri</string>
   <string name="title_pro_trial_until">Pro features trial until %1$s</string>
-  <string name="title_pro_trial_ended">Pro features trial period ended</string>
+  <string name="title_pro_trial_ended">Pro özellikleri deneme süresi sona erdi</string>
   <string name="title_pro_description">The following convenience features are available:</string>
   <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_filter">Filter network traffic</string>
-  <string name="title_pro_notify">New application notifications</string>
+  <string name="title_pro_notify">Yeni uygulama bildirimleri</string>
   <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_theme">Appearance (theme, colors)</string>
-  <string name="title_pro_multi">Multi user support</string>
-  <string name="title_pro_buy">Details</string>
-  <string name="title_pro_bought">Enabled</string>
-  <string name="title_pro_challenge">Challenge</string>
-  <string name="title_pro_reponse">Response</string>
+  <string name="title_pro_buy">Ayrıntılar</string>
+  <string name="title_pro_bought">Etkin</string>
+  <string name="title_pro_challenge">Meydan okuma</string>
+  <string name="title_pro_reponse">Yanıt</string>
   <string-array name="themeNames">
-    <item>teal/orange</item>
-    <item>blue/orange</item>
-    <item>purple/red</item>
+    <item>deniz mavisi/turuncu</item>
+    <item>mavi/turuncu</item>
+    <item>mor/kırmızı</item>
     <item>amber/blue</item>
-    <item>orange/grey</item>
-    <item>green</item>
+    <item>turuncu/gri</item>
+    <item>yeşil</item>
   </string-array>
 </resources>

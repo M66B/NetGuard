@@ -125,7 +125,6 @@ Mivel a NetGuard nem rendelkezik internet elérés engedéllyel, ezért nem kül
   <string name="title_pro_notify">Új alkalmazás értesítések</string>
   <string name="title_pro_speed">Hálózat sebesség grafikon értesítés</string>
   <string name="title_pro_theme">Megjelenés (téma, színek)</string>
-  <string name="title_pro_multi">Több felhasználó támogatás</string>
   <string name="title_pro_buy">Részletek</string>
   <string name="title_pro_bought">Engedélyezve</string>
   <string name="title_pro_challenge">Hívás</string>
