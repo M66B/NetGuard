@@ -1482,7 +1482,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         Intent main = new Intent(SinkholeService.this, ActivityMain.class);
         main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
-        PendingIntent pi = PendingIntent.getActivity(SinkholeService.this, 999, main, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getActivity(SinkholeService.this, uid + 10000, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorAccent, tv, true);

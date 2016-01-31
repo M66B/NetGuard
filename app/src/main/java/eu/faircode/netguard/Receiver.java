@@ -121,7 +121,7 @@ public class Receiver extends BroadcastReceiver {
             // Build notification
             Intent main = new Intent(context, ActivityMain.class);
             main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(info.uid));
-            PendingIntent pi = PendingIntent.getActivity(context, 999, main, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pi = PendingIntent.getActivity(context, uid, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
             Util.setTheme(context);
             TypedValue tv = new TypedValue();
