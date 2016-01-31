@@ -299,6 +299,8 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // https://gist.github.com/granoeste/5574148
         File pcap_file = new File(getCacheDir(), "netguard.pcap");
 
         boolean resolve = prefs.getBoolean("resolve", false);

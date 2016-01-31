@@ -2786,6 +2786,12 @@ jobject create_packet(const struct arguments *args,
     gettimeofday(&start, NULL);
 #endif
 
+    /*
+        jbyte b[] = {1,2,3};
+        jbyteArray ret = env->NewByteArray(3);
+        env->SetByteArrayRegion (ret, 0, 3, b);
+     */
+
     const char *packet = "eu/faircode/netguard/Packet";
     if (midInitPacket == NULL)
         midInitPacket = jniGetMethodID(env, clsPacket, "<init>", "()V");

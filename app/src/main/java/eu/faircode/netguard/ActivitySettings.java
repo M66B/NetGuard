@@ -192,6 +192,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         });
 
         // Handle hosts import
+        // https://github.com/Free-Software-for-Android/AdAway/wiki/HostsSources
         Preference pref_hosts = screen.findPreference("hosts");
         Preference pref_block_domains = screen.findPreference("use_hosts");
         pref_block_domains.setEnabled(new File(getFilesDir(), "hosts.txt").exists());
