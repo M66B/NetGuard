@@ -43,8 +43,8 @@ public class AccessAdapter extends CursorAdapter {
     private int colBlock;
 
     private int colorText;
-    private int colorPrimary;
-    private int colorAccent;
+    private int colorOn;
+    private int colorOff;
 
     public AccessAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
@@ -62,10 +62,10 @@ public class AccessAdapter extends CursorAdapter {
         }
 
         TypedValue tv = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-        colorPrimary = tv.data;
-        context.getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
-        colorAccent = tv.data;
+        context.getTheme().resolveAttribute(R.attr.colorOn, tv, true);
+        colorOn = tv.data;
+        context.getTheme().resolveAttribute(R.attr.colorOff, tv, true);
+        colorOff = tv.data;
     }
 
     @Override
@@ -98,8 +98,8 @@ public class AccessAdapter extends CursorAdapter {
         if (allowed < 0)
             tvDest.setTextColor(colorText);
         else if (allowed > 0)
-            tvDest.setTextColor(colorPrimary);
+            tvDest.setTextColor(colorOn);
         else
-            tvDest.setTextColor(colorAccent);
+            tvDest.setTextColor(colorOff);
     }
 }

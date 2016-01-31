@@ -1505,9 +1505,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-        int colorPrimary = tv.data;
-        getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
         int colorAccent = tv.data;
+        getTheme().resolveAttribute(R.attr.colorOn, tv, true);
+        int colorOn = tv.data;
+        getTheme().resolveAttribute(R.attr.colorOff, tv, true);
+        int colorOff = tv.data;
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
@@ -1548,7 +1550,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (allowed >= 0) {
                 pos = sb.indexOf(daddr);
                 sp = new SpannableString(sb);
-                ForegroundColorSpan fgsp = new ForegroundColorSpan(allowed > 0 ? colorPrimary : colorAccent);
+                ForegroundColorSpan fgsp = new ForegroundColorSpan(allowed > 0 ? colorOn : colorOff);
                 sp.setSpan(fgsp, pos, pos + daddr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             notification.addLine(sp);
