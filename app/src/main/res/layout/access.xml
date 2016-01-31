@@ -11,7 +11,7 @@
         android:layout_width="56dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        android:textAppearance="@style/TextSmall" />
 
     <ImageView
         android:id="@+id/ivBlock"
@@ -27,5 +27,5 @@
         android:layout_weight="1"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        android:textAppearance="@style/TextSmall" />
 </LinearLayout>

@@ -23,9 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/app_name"
-            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textAppearance="@style/TextLarge"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -44,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/msg_filter"
-                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                android:textAppearance="@style/TextMedium" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

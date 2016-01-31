@@ -21,7 +21,7 @@
             android:layout_marginBottom="8dp"
             android:padding="8dp"
             android:text="@string/msg_disabled"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textAppearance="@style/TextMedium"
             android:textColor="?attr/colorOff"
             android:visibility="gone" />
 

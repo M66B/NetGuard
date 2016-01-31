@@ -2,7 +2,7 @@
     <attr name="colorOn" format="reference" />
     <attr name="colorOff" format="reference" />
     <attr name="expander" format="reference" />
-
+    
     <style name="AppThemeTeal" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorTealPrimary</item>
         <item name="colorPrimaryDark">@color/colorTealPrimaryDark</item>

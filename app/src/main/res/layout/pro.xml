@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_pro_description"
-                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                android:textAppearance="@style/TextMedium" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
                     android:text="@string/title_pro_log"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small" />
+                    android:textAppearance="@style/TextSmall" />
 
                 <Button
                     android:id="@+id/btnLog"
@@ -55,7 +55,7 @@
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:text="@string/title_pro_bought"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textAppearance="@style/TextMedium"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>
@@ -72,7 +72,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
                     android:text="@string/title_pro_filter"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small" />
+                    android:textAppearance="@style/TextSmall" />
 
                 <Button
                     android:id="@+id/btnFilter"
@@ -92,7 +92,7 @@
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:text="@string/title_pro_bought"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textAppearance="@style/TextMedium"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>
@@ -109,7 +109,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
                     android:text="@string/title_pro_notify"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small" />
+                    android:textAppearance="@style/TextSmall" />
 
                 <Button
                     android:id="@+id/btnNotify"
@@ -129,7 +129,7 @@
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:text="@string/title_pro_bought"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textAppearance="@style/TextMedium"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>
@@ -146,7 +146,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
                     android:text="@string/title_pro_speed"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small" />
+                    android:textAppearance="@style/TextSmall" />
 
                 <Button
                     android:id="@+id/btnSpeed"
@@ -166,7 +166,7 @@
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:text="@string/title_pro_bought"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textAppearance="@style/TextMedium"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>
@@ -183,7 +183,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="2"
                     android:text="@string/title_pro_theme"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small" />
+                    android:textAppearance="@style/TextSmall" />
 
                 <Button
                     android:id="@+id/btnTheme"
@@ -203,7 +203,7 @@
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:text="@string/title_pro_bought"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textAppearance="@style/TextMedium"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>
@@ -219,14 +219,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/title_pro_challenge"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                    android:textAppearance="@style/TextMedium" />
 
                 <TextView
                     android:id="@+id/tvChallenge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_pro_challenge"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textAppearance="@style/TextMedium"
                     android:textIsSelectable="true"
                     android:textStyle="bold" />
 
@@ -235,7 +235,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/title_pro_reponse"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                    android:textAppearance="@style/TextMedium" />
 
                 <EditText
                     android:id="@+id/etResponse"

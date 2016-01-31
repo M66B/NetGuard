@@ -16,7 +16,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:textAppearance="@android:style/TextAppearance.Material.Small"
+            android:textAppearance="@style/TextSmall"
             android:textSize="12sp" />
 
         <ImageView
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="end"
-            android:textAppearance="@android:style/TextAppearance.Material.Small"
+            android:textAppearance="@style/TextSmall"
             android:textSize="12sp" />
 
         <ImageView
@@ -39,6 +39,7 @@
             android:layout_width="16dip"
             android:layout_height="16dip"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp" />
 
         <ImageView
@@ -51,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
             android:orientation="vertical">
 
@@ -59,7 +61,7 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textAppearance="@style/TextSmall"
                 android:textSize="12sp" />
 
             <TextView
@@ -67,7 +69,7 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textAppearance="@style/TextSmall"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -75,6 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -89,15 +92,16 @@
                     android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textAppearance="@style/TextSmall"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tvSAddr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
                     android:layout_marginStart="4dp"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textAppearance="@style/TextSmall"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -111,15 +115,16 @@
                     android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textAppearance="@style/TextSmall"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tvDAddr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
                     android:layout_marginStart="4dp"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"
+                    android:textAppearance="@style/TextSmall"
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
@@ -129,7 +134,8 @@
         android:id="@+id/tvData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
         android:layout_marginStart="50dp"
-        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textAppearance="@style/TextSmall"
         android:textSize="12sp" />
 </LinearLayout>

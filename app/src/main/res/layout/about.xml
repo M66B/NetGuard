@@ -23,9 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/app_name"
-            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textAppearance="@style/TextLarge"
             android:textStyle="bold" />
 
         <TextView
@@ -33,8 +34,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
-            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textAppearance="@style/TextLarge"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -43,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/app_copyright"
-        android:textAppearance="@android:style/TextAppearance.Material.Small" />
+        android:textAppearance="@style/TextSmall" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -70,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/app_license"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textAppearance="@style/TextSmall"
                 android:textSize="12sp" />
         </LinearLayout>
     </ScrollView>

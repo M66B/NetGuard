@@ -1,0 +1,10 @@
+<resources>
+
+    <style name="TextLarge" parent="@android:style/TextAppearance.DeviceDefault.Large" />
+
+    <style name="TextMedium" parent="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+    <style name="TextSmall" parent="@android:style/TextAppearance.DeviceDefault.Small" />
+
+    <style name="TextTitle" parent="@android:style/TextAppearance.DeviceDefault.WindowTitle" />
+</resources>
