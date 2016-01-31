@@ -67,7 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">常规​​​​​</string>
   <string name="setting_technical_networks">网络</string>
   <string name="setting_technical_subscription">Subscriptions</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">禁用小部件后, 在设定分钟后自动再次启用NetGuard\n输入零以禁用此选项</string>
   <string name="summary_delay">关屏后，保持亮屏规则在指定的分钟数内有效 (输入零以禁用此选项)</string>
   <string name="summary_wifi_home">仅将Wi-Fi网络规则应用于所选定的网络 (将移动网络规则应用于其他Wi-Fi网络)</string>
@@ -88,7 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard已被停用, 可能是由于您启动了另一个基于VPN的应用</string>
   <string name="msg_error">由于内部错误 NetGuard 已被禁用</string>
   <string name="msg_installed">\'%1$s\' 已安装</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">操作完成</string>
   <string name="msg_vpn">NetGuard使用一个本地VPN来重定向被阻止的网络流量.
 因此请在下一个对话框中允许建立VPN连接.
@@ -108,7 +108,7 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="title_disabled">已禁用</string>
   <string name="title_internet">无网络访问权限</string>
   <string name="title_launch">启动应用</string>
-  <string name="title_access">Access</string>
+  <string name="title_access">Access attempts</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">评分</string>
   <string name="title_allow">允许</string>
@@ -121,6 +121,7 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="title_pro_trial_ended">专业版试用期已结束</string>
   <string name="title_pro_description">专业版提供下列功能：</string>
   <string name="title_pro_log">查看被拦截流量日志</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">新应用通知</string>
   <string name="title_pro_speed">网速示图通知</string>
   <string name="title_pro_theme">外观 (主题、 颜色)</string>

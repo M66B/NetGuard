@@ -22,9 +22,9 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_support">Підтримка</string>
   <string name="menu_about">Про</string>
   <string name="menu_live">Актуальні оновлення</string>
-  <string name="menu_resolve">Show names</string>
-  <string name="menu_pcap_enabled">PCAP enabled</string>
-  <string name="menu_pcap_export">PCAP export</string>
+  <string name="menu_resolve">Відображати імена</string>
+  <string name="menu_pcap_enabled">PCAP увімкнуто</string>
+  <string name="menu_pcap_export">Експорт PCAP</string>
   <string name="menu_clear">Очистити</string>
   <string name="setting_defaults">Типові</string>
   <string name="setting_whitelist_wifi">Блокувати типово у Wi-Fi мережі</string>
@@ -35,10 +35,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_options">Опції</string>
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Використовувати темну тему</string>
-  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_access">Сповіщення під час доступу до інтернету</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_delay">Затримка екрану %1$s хвилин</string>
-  <string name="setting_network_options">Network options</string>
+  <string name="setting_network_options">Параметри мережі</string>
   <string name="setting_tethering">Дозволити прив\'язку</string>
   <string name="setting_wifi_home">Домашня Wi-Fi мережа: %1$s</string>
   <string name="setting_metered">Регулювати лімітовані Wi-Fi мережі</string>
@@ -46,10 +46,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_metered_3g">Не враховувати 3G</string>
   <string name="setting_metered_4g">Не враховувати LTE</string>
   <string name="setting_national_roaming">Ігнорувати національний роумінг</string>
-  <string name="setting_advanced_options">Advanced options</string>
+  <string name="setting_advanced_options">Додаткові параметри</string>
   <string name="setting_system">Керувати системними додатками</string>
-  <string name="setting_filter">Filter traffic</string>
-  <string name="setting_block_domains">Block domain names</string>
+  <string name="setting_filter">Фільтр трафіку</string>
+  <string name="setting_block_domains">Блокувати доменні імена</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
@@ -62,12 +62,12 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_backup">Резервне копіювання</string>
   <string name="setting_export">Експорт налаштувань</string>
   <string name="setting_import">Імпорт налаштувань</string>
-  <string name="setting_hosts">Import hosts file</string>
+  <string name="setting_hosts">Імплрт hosts файлу</string>
   <string name="setting_technical">Технічна інформація</string>
-  <string name="setting_technical_general">General</string>
-  <string name="setting_technical_networks">Networks</string>
-  <string name="setting_technical_subscription">Subscriptions</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="setting_technical_general">Загальне</string>
+  <string name="setting_technical_networks">Мережі</string>
+  <string name="setting_technical_subscription">Підписки</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">При відключені через віджет, NetGuard буде автоматично увімкнуто через вказану кількість хвилин\nВведіть 0, аби відключити цю функцію</string>
   <string name="summary_delay">Тримати екран активним на протязі обраної кількості хвилин після вимикання. (0 - вимикає функцію)</string>
   <string name="summary_wifi_home">Застосувати правила Wi-Fi мережі лише для обраної (для інших застосовуються правила мобільної мережі)</string>
@@ -88,7 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard було вимкнено, скоріш за все через використання іншого VPN-підключення</string>
   <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">%1$s встановлено</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Дію завершено</string>
   <string name="msg_vpn">NetGuard використовує локальний VPN, аби заблокувати інтернет трафік.
 Через це, будь ласка, дозвольте VPN-підключення в наступному діалоговому вікні.
@@ -108,7 +108,7 @@ NetGuard не має дозволу до інтернет доступу, том
   <string name="title_disabled">вимкнено</string>
   <string name="title_internet">немає доступу до інтернету</string>
   <string name="title_launch">Запуск додатку</string>
-  <string name="title_access">Access</string>
+  <string name="title_access">Access attempts</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Оцінити</string>
   <string name="title_allow">Дозволити</string>
@@ -121,6 +121,7 @@ NetGuard не має дозволу до інтернет доступу, том
   <string name="title_pro_trial_ended">Завершився пробний період розширених можливостей</string>
   <string name="title_pro_description">Доступні перечислені нижче функції:</string>
   <string name="title_pro_log">Перегляд звіту заблокованого трафіку</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Нові сповідання додатків</string>
   <string name="title_pro_speed">Графік швидкості в сповіщеннях</string>
   <string name="title_pro_theme">Зовнішній вигляд (тема, кольори)</string>

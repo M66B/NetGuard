@@ -67,7 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">General</string>
   <string name="setting_technical_networks">Networks</string>
   <string name="setting_technical_subscription">Subscriptions</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">Après désactivation via le widget, activer automatiquement de nouveau NetGuard après le nombre de minutes sélectionné\nEnter zéro pour désactiver cette option</string>
   <string name="summary_delay">Après avoir éteint l\'écran, garder les règles d\'écran allumé actives pour un nombre déterminé de minutes (saisissez zéro pour désactiver cette option)</string>
   <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour les autres Wi-Fi)</string>
@@ -88,7 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard a été désactivé, probablement en utilisant une autre application VPN</string>
   <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">%1$s installé</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Action réalisée</string>
   <string name="msg_vpn">NetGuard utilise un VPN local comme un gouffre pour bloquer le trafic internet.
 Pour cette raison, veuillez autoriser une connexion VPN dans la fenêtre suivante.
@@ -108,7 +108,7 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
   <string name="title_disabled">est désactivé</string>
   <string name="title_internet">n\'a aucune autorisation internet</string>
   <string name="title_launch">Lancer l\'application</string>
-  <string name="title_access">Access</string>
+  <string name="title_access">Access attempts</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Évaluer</string>
   <string name="title_allow">Autoriser</string>
@@ -121,6 +121,7 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
   <string name="title_pro_trial_ended">Fin de la période d\'essai des fonctionnalités Pro</string>
   <string name="title_pro_description">Les fonctionnalités pratiques suivantes sont disponibles :</string>
   <string name="title_pro_log">Voir le journal du trafic bloqué</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Notifications des nouvelles applications</string>
   <string name="title_pro_speed">Notification d\'un graphique de la vitesse</string>
   <string name="title_pro_theme">Apparence (thème, couleurs)</string>

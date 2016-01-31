@@ -67,7 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">General</string>
   <string name="setting_technical_networks">Networks</string>
   <string name="setting_technical_subscription">Subscriptions</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">A widget használat után automatikusan engedélyezze a NetGuard használatát a beírt perc eltelte után (a nulla beírása letiltja ezt az opciót)</string>
   <string name="summary_delay">A képernyő kikapcsolása után a szabályok a megadott perc időtartamig aktívak maradnak (a nulla beírása letiltja ezt az opciót)</string>
   <string name="summary_wifi_home">Wi-Fi hálózat szabályok alkalmazása csak a kiválasztott hálózatokra (a többi Wi-Fi hálózatra a Mobil hálózati szabályokat alkalmazza)</string>
@@ -88,7 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">A NetGuard letiltva. Valószínűleg egy másik VPN alapú alkalmazással</string>
   <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">\'%1$s\' telepítve</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Művelet befejezve</string>
   <string name="msg_vpn">A NetGuard egy helyi VPN-t, mint egy víznyelőt használ az internet forgalom blokkolására.
 Ezért kérjük, hogy a következő párbeszédablakban engedélyezze a VPN kapcsolatot.
@@ -108,7 +108,7 @@ Mivel a NetGuard nem rendelkezik internet elérés engedéllyel, ezért nem kül
   <string name="title_disabled">letiltva</string>
   <string name="title_internet">nincs internet elérés engedélye</string>
   <string name="title_launch">Alkalmazás indítása</string>
-  <string name="title_access">Access</string>
+  <string name="title_access">Access attempts</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Értékelje</string>
   <string name="title_allow">Engedélyezés</string>
@@ -121,6 +121,7 @@ Mivel a NetGuard nem rendelkezik internet elérés engedéllyel, ezért nem kül
   <string name="title_pro_trial_ended">Pro szolgáltatások kipróbálási ideje lejárt</string>
   <string name="title_pro_description">A következő kényelmi funkciók állnak rendelkezésre:</string>
   <string name="title_pro_log">Letiltott forgalom naplójának megnézése</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Új alkalmazás értesítések</string>
   <string name="title_pro_speed">Hálózat sebesség grafikon értesítés</string>
   <string name="title_pro_theme">Megjelenés (téma, színek)</string>

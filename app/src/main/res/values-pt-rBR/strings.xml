@@ -4,9 +4,8 @@
   <string name="app_copyright">Copyright \u00A9 2015-2016 por M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard requer Android 5.0 ou superior</string>
   <string name="app_license">Ao usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee NetGuard will work correctly on every device.
-\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_first">NetGuard foi desenvolvido e testado com grande cuidado, porém é impossível garantir que o NetGuard funcionará corretamente em cada dispositivo.
+\n\nUsando o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="menu_search">Buscar aplicativo</string>
   <string name="menu_filter">Filtrar aplicativos</string>
   <string name="menu_app_user">Mostrar apps do usuário</string>
@@ -22,7 +21,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
   <string name="menu_live">Atualizações ao vivo</string>
-  <string name="menu_resolve">Show names</string>
+  <string name="menu_resolve">Mostrar nomes</string>
   <string name="menu_pcap_enabled">PCAP ativado</string>
   <string name="menu_pcap_export">Exportar PCAP</string>
   <string name="menu_clear">Limpar</string>
@@ -35,7 +34,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_options">Opções</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Ativa tema escuro</string>
-  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_access">Notificar ao acessar a internet</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
   <string name="setting_network_options">Opções de rede</string>
@@ -67,7 +66,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Geral</string>
   <string name="setting_technical_networks">Redes</string>
   <string name="setting_technical_subscription">Inscrições</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis à outras redes Wi-Fi)</string>
@@ -88,7 +87,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>
   <string name="msg_error">NetGuard foi desativado devido a um erro interno</string>
   <string name="msg_installed">\'%1$s\' instalado</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Ação concluída</string>
   <string name="msg_vpn">NetGuard usa uma VPN local como um sumidouro para bloquear o tráfego de dados.
 Por essa razão, por favor, permita a conexão VPN na tela a seguir.
@@ -100,20 +99,20 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Usar filtragem pode fazer com que o Android atribua uso de dados e consumo de energia ao NetGuard - Android assume que o uso de dados e consumo de bateria são usados pelo NetGuard e não pelas aplicações originais</string>
-  <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
-  <string name="title_conditions">Conditions</string>
+  <string name="msg_log_disabled">Log de tráfego está desabilitado, utilize o botão acima para habilitar o log. Log do tráfego pode resultar no uso extra da bateria.</string>
+  <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
   <string name="title_roaming">Bloquear quando em roaming</string>
   <string name="title_disabled">está desativado</string>
   <string name="title_internet">não tem permissão de acesso a internet</string>
   <string name="title_launch">Iniciar aplicativo</string>
-  <string name="title_access">Access</string>
-  <string name="title_precedence">Access rules take precedence over other rules</string>
+  <string name="title_access">Access attempts</string>
+  <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
-  <string name="title_root">root</string>
+  <string name="title_root">raiz</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
   <string name="title_pro">Versão PRO</string>
@@ -121,6 +120,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_pro_trial_ended">O período de testes terminou</string>
   <string name="title_pro_description">Os recursos a seguir estão disponíveis:</string>
   <string name="title_pro_log">Visualizar registro de tráfego bloqueado</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Notificação de novos aplicativos</string>
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>

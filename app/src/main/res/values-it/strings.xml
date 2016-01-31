@@ -67,7 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Generali</string>
   <string name="setting_technical_networks">Reti</string>
   <string name="setting_technical_subscription">Sottoscrizioni</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo é acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
@@ -88,7 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard è stata disabilitata, probabilmente a causa di un\'altra applicazione che usa il servizio VPN</string>
   <string name="msg_error">NetGuard è stato disattivato a causa di un errore interno</string>
   <string name="msg_installed">\'%1$s\' installata</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Azione completata</string>
   <string name="msg_vpn">Per bloccare il traffico internet, NetGuard utilizza una VPN locale come \"pozzo\".
         Per questo motivo, abilita la connessione VPN nella prossima schermata.
@@ -109,7 +109,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_disabled">è disabilitata</string>
   <string name="title_internet">non ha accesso a internet</string>
   <string name="title_launch">Avvia applicazione</string>
-  <string name="title_access">Access</string>
+  <string name="title_access">Access attempts</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Vota</string>
   <string name="title_allow">Permetti</string>
@@ -122,6 +122,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_pro_trial_ended">Periodo di prova delle funzionalità a pagamento terminato</string>
   <string name="title_pro_description">Sono disponibili le seguenti funzionalità aggiuntive:</string>
   <string name="title_pro_log">Mostra il registro contenente il traffico bloccato</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Notifiche nuove applicazioni</string>
   <string name="title_pro_speed">Grafico della velocità di rete nelle notifiche</string>
   <string name="title_pro_theme">Aspetto (tema, colori)</string>

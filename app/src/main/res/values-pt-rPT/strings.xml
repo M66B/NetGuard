@@ -67,7 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Geral</string>
   <string name="setting_technical_networks">Redes</string>
   <string name="setting_technical_subscription">Subscrições</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis às outras redes Wi-Fi)</string>
@@ -88,7 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN está a ser usado</string>
   <string name="msg_error">NetGuard foi desativado devido a um erro interno</string>
   <string name="msg_installed">\'%1$s\' instalado</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Ação concluída</string>
   <string name="msg_vpn">NetGuard usa uma VPN local como um sumidouro para bloquear o tráfego de dados.
 Por essa razão, por favor, permita a conexão VPN na tela a seguir.
@@ -108,7 +108,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_disabled">está desativado</string>
   <string name="title_internet">não tem permissão de acesso a internet</string>
   <string name="title_launch">Iniciar aplicativo</string>
-  <string name="title_access">Access</string>
+  <string name="title_access">Access attempts</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>
@@ -121,6 +121,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_pro_trial_ended">O período de testes terminou</string>
   <string name="title_pro_description">Os seguintes recursos estão disponíveis:</string>
   <string name="title_pro_log">Visualizar registo de tráfego bloqueado</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Notificação de novos aplicativos</string>
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>

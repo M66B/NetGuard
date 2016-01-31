@@ -4,9 +4,8 @@
   <string name="app_copyright">Copyright \u00A9 2015-2016 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard は Android 5.0 またはそれ以降が必要です</string>
   <string name="app_license">NetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee NetGuard will work correctly on every device.
-\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_first">NetGuard は細心の注意を行って開発およびテストしました。しかしながら NetGuard がすべてのデバイスで正常に動作を保証することは不可能です。
+\n\nNetGuard を使用することで <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾契約書バージョン 3</a> に同意します</string>
   <string name="menu_search">アプリケーションの検索</string>
   <string name="menu_filter">アプリケーションをフィルター</string>
   <string name="menu_app_user">ユーザー アプリケーションを表示</string>
@@ -22,7 +21,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_support">サポート</string>
   <string name="menu_about">アプリについて</string>
   <string name="menu_live">ライブアップデート</string>
-  <string name="menu_resolve">Show names</string>
+  <string name="menu_resolve">名前を表示</string>
   <string name="menu_pcap_enabled">PCAP を有効にしました</string>
   <string name="menu_pcap_export">PCAP エクスポート</string>
   <string name="menu_clear">クリア</string>
@@ -35,7 +34,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_options">オプション</string>
   <string name="setting_theme">テーマ: %1$s</string>
   <string name="setting_dark">ダークテーマを使用する</string>
-  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_access">インター ネット アクセス時に通知</string>
   <string name="setting_auto">%1$s 分後に自動的に有効にする</string>
   <string name="setting_delay">%1$s 分、画面オフを遅延</string>
   <string name="setting_network_options">ネットワーク オプション</string>
@@ -67,7 +66,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">全般</string>
   <string name="setting_technical_networks">ネットワーク</string>
   <string name="setting_technical_subscription">サブスクリプション</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>
@@ -88,7 +87,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard が無効にされました。別の VPN ベースのアプリケーションを使用した可能性があります</string>
   <string name="msg_error">内部エラーのため、NetGuard が無効になりました</string>
   <string name="msg_installed">\'%1$s\' インストールしました</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">操作を完了しました</string>
   <string name="msg_vpn">NetGuard は、シンクの穴としてローカル VPN を使用して、インターネット トラフィックをブロックします。
 このため、次のダイアログ ボックスで VPN 接続を許可してください。
@@ -100,20 +99,20 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">NetGuard でフィルタリングを使用すると、Android のデータと電力使用につながります - Android は、元のアプリケーションではなく NetGuard によってデータと電力を使用しているとみなします。</string>
-  <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
-  <string name="title_conditions">Conditions</string>
+  <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
+  <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>
   <string name="title_roaming">ローミング時にブロック</string>
   <string name="title_disabled">無効</string>
   <string name="title_internet">インターネット アクセス許可がありません</string>
   <string name="title_launch">アプリケーションを開始</string>
-  <string name="title_access">Access</string>
-  <string name="title_precedence">Access rules take precedence over other rules</string>
+  <string name="title_access">Access attempts</string>
+  <string name="title_precedence">アクセス ルールは他のルールよりも優先します</string>
   <string name="title_rate">評価</string>
   <string name="title_allow">許可</string>
   <string name="title_block">ブロック</string>
-  <string name="title_root">root</string>
+  <string name="title_root">ルート</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">ポート %1$d</string>
   <string name="title_pro">Pro版の機能</string>
@@ -121,6 +120,7 @@ NetGuard にインターネット アクセス許可がないと、インター 
   <string name="title_pro_trial_ended">プロ版機能の試用期間は終了しました</string>
   <string name="title_pro_description">次の便利な機能が利用できます:</string>
   <string name="title_pro_log">ブロックされたトラフィックのログを表示</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">新しいアプリケーションの通知</string>
   <string name="title_pro_speed">ネットワーク速度グラフ通知</string>
   <string name="title_pro_theme">外観 (テーマ、色)</string>

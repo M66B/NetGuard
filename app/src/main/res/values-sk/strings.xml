@@ -67,7 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">General</string>
   <string name="setting_technical_networks">Networks</string>
   <string name="setting_technical_subscription">Subscriptions</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
@@ -88,7 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard bol zakázaný, pravdepodobne použitím inej aplikácie založenej na VPN</string>
   <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">\'%1$s\' installed</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Akcia bola dokončená</string>
   <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky,
 a preto by ste mali povoliť VPN pripojenie v ďalšom okne.
@@ -108,7 +108,7 @@ Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemô�
   <string name="title_disabled">Zakázané</string>
   <string name="title_internet">Nemá prístup k internetu</string>
   <string name="title_launch">Spustiť aplikáciu</string>
-  <string name="title_access">Access</string>
+  <string name="title_access">Access attempts</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Ohodnotiť</string>
   <string name="title_allow">Povoliť</string>
@@ -121,6 +121,7 @@ Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemô�
   <string name="title_pro_trial_ended">Pro funkcie, skúšobná doba skončila</string>
   <string name="title_pro_description">The following convenience features are available:</string>
   <string name="title_pro_log">View blocked traffic log</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Oznámenia nových aplikácií</string>
   <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_theme">Vzhľad (téma, farby)</string>

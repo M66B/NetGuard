@@ -33,7 +33,7 @@
   <string name="setting_options">Опции</string>
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Использовать темную тему</string>
-  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_access">Уведомить при доступе в интернет</string>
   <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
   <string name="setting_delay">Задержка экрана %1$s минут(ы)</string>
   <string name="setting_network_options">Параметры сети</string>
@@ -65,7 +65,7 @@
   <string name="setting_technical_general">Общее</string>
   <string name="setting_technical_networks">Сеть</string>
   <string name="setting_technical_subscription">Подписки</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
@@ -86,7 +86,7 @@
   <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>
   <string name="msg_error">NetGuard был отключен по причине внутренней ошибки</string>
   <string name="msg_installed">\'%1$s\' установлено</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Действие завершено</string>
   <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик.
 По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне.
@@ -98,7 +98,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Использование данной функции приводит к тому, что Android передает данные и использование энергии в пользование NetGuard; Android будет считать, что данные и энергия используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
-  <string name="msg_log_disabled">Ведение журнала трафика отключено, используйте параметр выше для его включения. Это может привести к большему потреблению заряда аккумулятора.</string>
+  <string name="msg_log_disabled">Ведение журнала трафика отключено, используйте переключатель выше для его включения. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="title_conditions">Условия</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>
@@ -106,7 +106,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_disabled">отключено</string>
   <string name="title_internet">не имеет доступа в интернет</string>
   <string name="title_launch">Запуск приложения</string>
-  <string name="title_access">Доступ</string>
+  <string name="title_access">Access attempts</string>
   <string name="title_precedence">Правила доступа имеют приоритет над другими правилами</string>
   <string name="title_rate">Оценить</string>
   <string name="title_allow">Разрешить</string>
@@ -119,6 +119,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_pro_trial_ended">Pro-функции пробного периода закончились</string>
   <string name="title_pro_description">Перечисленные ниже функции доступны:</string>
   <string name="title_pro_log">Просмотр журнала заблокированного трафика</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Новые уведомления</string>
   <string name="title_pro_speed">График скорости сети</string>
   <string name="title_pro_theme">Внешний вид (темы, цвета)</string>

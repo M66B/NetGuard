@@ -67,7 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Algemeen</string>
   <string name="setting_technical_networks">Netwerken</string>
   <string name="setting_technical_subscription">Abonnementen</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
@@ -88,7 +88,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard is uitgezet, waarschijnlijk door een andere VPN applicatie</string>
   <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">\'%1$s\' geïnstalleerd</string>
-  <string name="msg_access">%1$s benaderde het internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Actie uitgevoerd</string>
   <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
 For this reason, please allow a VPN connection in the next dialog.
@@ -108,7 +108,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_disabled">is uitgezet</string>
   <string name="title_internet">heeft geen internet toegang</string>
   <string name="title_launch">Start applicatie</string>
-  <string name="title_access">Toegang</string>
+  <string name="title_access">Toegangspogingen</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Beoordeel</string>
   <string name="title_allow">Toestaan</string>
@@ -121,10 +121,11 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_pro_trial_ended">Pro functies proefperiode is beëindigd</string>
   <string name="title_pro_description">De volgende gemaksfuncties zijn beschikbaar:</string>
   <string name="title_pro_log">Weergave van geblokkeerd verkeer</string>
+  <string name="title_pro_filter">Filter netwerkverkeer</string>
   <string name="title_pro_notify">Nieuwe applicatie meldingen</string>
   <string name="title_pro_speed">Netwerk snelheid grafiek melding</string>
   <string name="title_pro_theme">Uiterlijk (thema, kleuren)</string>
-  <string name="title_pro_multi">Multi user support</string>
+  <string name="title_pro_multi">Ondersteuning voor meerdere gebruikers</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Ingeschakeld</string>
   <string name="title_pro_challenge">Uitdaging</string>

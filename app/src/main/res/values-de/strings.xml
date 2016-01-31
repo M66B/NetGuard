@@ -4,9 +4,8 @@
   <string name="app_copyright">Copyright \u00A9 2015-2016 von M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard erfordert Android 5.0 oder höher</string>
   <string name="app_license">Mit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard,
-however it is impossible to guarantee NetGuard will work correctly on every device.
-\n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_first">Due App wurde mit großer sorgfalt entwickelt und getestet. Es ist leider trotzdem unmöglich zu garantieren, daß NetGuard auf jedem Gerät fehlerfrei funktioniert.
+\n\nDurch die Verwendung von NetGuard, stimmen Sie der <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a> zu</string>
   <string name="menu_search">Nach Apps suchen</string>
   <string name="menu_filter">Anwendungsfilter</string>
   <string name="menu_app_user">Benutzeranwendungen anzeigen</string>
@@ -35,7 +34,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_options">Optionen</string>
   <string name="setting_theme">Design: %1$s</string>
   <string name="setting_dark">Dunkles Thema verwenden</string>
-  <string name="setting_access">Notify on internet access</string>
+  <string name="setting_access">Bei Internet-Zugriff benachrichtigen</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
   <string name="setting_network_options">Netzwerkoptionen</string>
@@ -67,7 +66,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Allgemein</string>
   <string name="setting_technical_networks">Netzwerke</string>
   <string name="setting_technical_subscription">Abos</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert\nNull eingeben zum Deaktivieren dieser Option</string>
   <string name="summary_delay">Nachdem Ausschalten des Bildschirms, diesen aufgrund der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren)</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
@@ -88,7 +87,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer VPN-Anwendung</string>
   <string name="msg_error">Netguard wurde wegen einem internen Fehler beendet</string>
   <string name="msg_installed">\'%1$s\' installiert</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
   <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um den Internet-Verkehr zu blockieren. Deshalb erlauben Sie eine VPN-Verbindung im nächsten Fenster. Da NetGuard keine Internet-Berechtigung hat, wird der Internet-Verkehr auch nirgendwo weitergeleitet.</string>
   <string name="msg_try">NetGuard ausprobieren</string>
@@ -99,15 +98,15 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Bei Verwendung von Filterung werden Daten- und Energiewerte getriggert und Android nimmt an, dass die Daten und Energie von NetGuard, anstatt der ursprünglichen Anwendungen verbraucht wird.</string>
   <string name="msg_log_disabled">Datenverkehrprotokollierung ist deaktiviert. Zum Aktivieren den Schalter oben verwenden. Die Protokollierung kann zu höherem Akku-Verbrauch führen.</string>
-  <string name="title_conditions">Conditions</string>
+  <string name="title_conditions">Bedingungen</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_roaming">Bei Roaming blockieren</string>
   <string name="title_disabled">ist deaktiviert</string>
   <string name="title_internet">hat keine Internet-Berechtigung</string>
   <string name="title_launch">App starten</string>
-  <string name="title_access">Access</string>
-  <string name="title_precedence">Access rules take precedence over other rules</string>
+  <string name="title_access">Access attempts</string>
+  <string name="title_precedence">Zugriffsregeln haben vor anderen Regeln Vorrang</string>
   <string name="title_rate">Bewerten</string>
   <string name="title_allow">Erlauben</string>
   <string name="title_block">Sperren</string>
@@ -119,6 +118,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_pro_trial_ended">Pro-Funktionen-Testzeitraum abgelaufen</string>
   <string name="title_pro_description">Folgende Annehmlichkeiten stehen zur Verfügung:</string>
   <string name="title_pro_log">Protokoll blockierter Verlehr anzeigen</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Benachrichtigung über neue App</string>
   <string name="title_pro_speed">Netzwerkgeschwindigkeit Benachrichtigung</string>
   <string name="title_pro_theme">Aussehen (Themes, Farben)</string>

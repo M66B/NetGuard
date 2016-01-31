@@ -67,7 +67,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">General</string>
   <string name="setting_technical_networks">Networks</string>
   <string name="setting_technical_subscription">Subscriptions</string>
-  <string name="summary_access">Show a status bar notification when an application accesses a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">\"在禁用小工具之後,自動在設定的時間後啟動網路守門人
 輸入0來關閉這項設定\"</string>
   <string name="summary_delay">在關閉螢幕後, 在所選數目分鐘內繼續保持螢幕開啟時的規則 (輸入0以禁用此選項)</string>
@@ -89,7 +89,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_revoked">網路守門人未啟用,原因似乎是有其他App開啟了VPN</string>
   <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
   <string name="msg_installed">\'%1$s\' 已安裝</string>
-  <string name="msg_access">%1$s accessed the internet</string>
+  <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">完成</string>
   <string name="msg_vpn">網路守門人使用一個VPN做為一個緩衝器來阻擋網路連接.因此,請在下一個對話框允許開啟一個VPN連接.因為網路守門人並沒有網路權限,所以你完全可以放心.</string>
   <string name="msg_try">試試網路守門人</string>
@@ -107,7 +107,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_disabled">未啟用</string>
   <string name="title_internet">沒有網路權限</string>
   <string name="title_launch">啟動App</string>
-  <string name="title_access">Access</string>
+  <string name="title_access">Access attempts</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">評分</string>
   <string name="title_allow">允許</string>
@@ -120,6 +120,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_pro_trial_ended">Pro功能體驗期結束</string>
   <string name="title_pro_description">以下的便利功能是可使用的:</string>
   <string name="title_pro_log">檢視阻擋流量紀錄</string>
+  <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">新App通知</string>
   <string name="title_pro_speed">網路速度圖通知</string>
   <string name="title_pro_theme">外觀 (主題, 顏色)</string>
