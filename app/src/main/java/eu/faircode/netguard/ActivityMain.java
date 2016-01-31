@@ -337,8 +337,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         } else if (requestCode == REQUEST_LOGCAT) {
             // Send logcat by e-mail
-            if (resultCode == RESULT_OK)
-                Util.sendLogcat(data.getData(), this);
+            if (resultCode == RESULT_OK) {
+                Uri target = data.getData();
+                if (data.hasExtra("org.openintents.extra.DIR_PATH"))
+                    target = Uri.parse(target + "/logcat.txt");
+                Log.i(TAG, "Export PCAP URI=" + target);
+                Util.sendLogcat(target, this);
+            }
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
@@ -705,10 +710,20 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private Intent getIntentLogcat() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TITLE, "logcat.txt");
+        Intent intent;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            if (Util.isPackageInstalled("org.openintents.filemanager", this)) {
+                intent = new Intent("org.openintents.action.PICK_DIRECTORY");
+            } else {
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=org.openintents.filemanager"));
+            }
+        } else {
+            intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TITLE, "logcat.txt");
+        }
         return intent;
     }
 }

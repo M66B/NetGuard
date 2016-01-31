@@ -30,6 +30,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
@@ -607,23 +608,41 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         }
     }
 
-    private static Intent getIntentCreateExport() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*"); // text/xml
-        intent.putExtra(Intent.EXTRA_TITLE, "netguard_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".xml");
+    private Intent getIntentCreateExport() {
+        Intent intent;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            if (Util.isPackageInstalled("org.openintents.filemanager", this)) {
+                intent = new Intent("org.openintents.action.PICK_DIRECTORY");
+            } else {
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=org.openintents.filemanager"));
+            }
+        } else {
+            intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*"); // text/xml
+            intent.putExtra(Intent.EXTRA_TITLE, "netguard_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".xml");
+        }
         return intent;
     }
 
-    private static Intent getIntentOpenExport() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+    private Intent getIntentOpenExport() {
+        Intent intent;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        else
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*"); // text/xml
         return intent;
     }
 
-    private static Intent getIntentOpenHosts() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+    private Intent getIntentOpenHosts() {
+        Intent intent;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        else
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*"); // text/plain
         return intent;
@@ -635,8 +654,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             protected Throwable doInBackground(Object... objects) {
                 OutputStream out = null;
                 try {
-                    Log.i(TAG, "Writing URI=" + data.getData());
-                    out = getContentResolver().openOutputStream(data.getData());
+                    Uri target = data.getData();
+                    if (data.hasExtra("org.openintents.extra.DIR_PATH"))
+                        target = Uri.parse(target + "/netguard.xml");
+                    Log.i(TAG, "Writing URI=" + target);
+                    out = getContentResolver().openOutputStream(target);
                     xmlExport(out);
                     return null;
                 } catch (Throwable ex) {

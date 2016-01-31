@@ -25,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
@@ -387,11 +388,21 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         }
     }
 
-    private static Intent getIntentPCAPDocument() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/octet-stream");
-        intent.putExtra(Intent.EXTRA_TITLE, "netguard_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".pcap");
+    private Intent getIntentPCAPDocument() {
+        Intent intent;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            if (Util.isPackageInstalled("org.openintents.filemanager", this)) {
+                intent = new Intent("org.openintents.action.PICK_DIRECTORY");
+            } else {
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=org.openintents.filemanager"));
+            }
+        } else {
+            intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("application/octet-stream");
+            intent.putExtra(Intent.EXTRA_TITLE, "netguard_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".pcap");
+        }
         return intent;
     }
 
@@ -419,8 +430,11 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                     // Stop capture
                     SinkholeService.setPcap(null, false);
 
-                    Log.i(TAG, "Export PCAP URI=" + data.getData());
-                    out = getContentResolver().openOutputStream(data.getData());
+                    Uri target = data.getData();
+                    if (data.hasExtra("org.openintents.extra.DIR_PATH"))
+                        target = Uri.parse(target + "/netguard.pcap");
+                    Log.i(TAG, "Export PCAP URI=" + target);
+                    out = getContentResolver().openOutputStream(target);
 
                     File pcap = new File(getCacheDir(), "netguard.pcap");
                     in = new FileInputStream(pcap);
