@@ -23,6 +23,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.ApplicationErrorReport;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -41,6 +42,7 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.net.ConnectivityManagerCompat;
+import android.support.v7.app.AlertDialog;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
@@ -408,6 +410,29 @@ public class Util {
 
     public static int dips2pixels(int dips, Context context) {
         return Math.round(dips * context.getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    public interface DoubtListener {
+        public void onSure();
+    }
+
+    public static void areYouSure(Context context, final DoubtListener listener) {
+        new AlertDialog.Builder(context)
+                .setView(R.layout.sure)
+                .setCancelable(true)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listener.onSure();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                })
+                .create().show();
     }
 
     public static String md5(String text, String salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {

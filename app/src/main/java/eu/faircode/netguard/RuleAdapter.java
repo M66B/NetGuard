@@ -470,26 +470,16 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(context)
-                        .setTitle(R.string.msg_sure)
-                        .setCancelable(true)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                holder.cbWifi.setChecked(rule.wifi_default);
-                                holder.cbOther.setChecked(rule.other_default);
-                                holder.cbScreenWifi.setChecked(rule.screen_wifi_default);
-                                holder.cbScreenOther.setChecked(rule.screen_other_default);
-                                holder.cbRoaming.setChecked(rule.roaming_default);
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Do nothing
-                            }
-                        })
-                        .create().show();
+                Util.areYouSure(view.getContext(), new Util.DoubtListener() {
+                    @Override
+                    public void onSure() {
+                        holder.cbWifi.setChecked(rule.wifi_default);
+                        holder.cbOther.setChecked(rule.other_default);
+                        holder.cbScreenWifi.setChecked(rule.screen_wifi_default);
+                        holder.cbScreenOther.setChecked(rule.screen_other_default);
+                        holder.cbRoaming.setChecked(rule.roaming_default);
+                    }
+                });
             }
         });
 
@@ -585,22 +575,12 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.btnClearAccess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(context)
-                        .setTitle(R.string.msg_sure)
-                        .setCancelable(true)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dh.clearAccess(rule.info.applicationInfo.uid);
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Do nothing
-                            }
-                        })
-                        .create().show();
+                Util.areYouSure(view.getContext(), new Util.DoubtListener() {
+                    @Override
+                    public void onSure() {
+                        dh.clearAccess(rule.info.applicationInfo.uid);
+                    }
+                });
             }
         });
 
