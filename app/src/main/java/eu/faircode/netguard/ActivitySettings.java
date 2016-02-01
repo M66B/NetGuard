@@ -649,6 +649,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         return intent;
     }
 
+    // TODO translate uid to package name for notify.<uid> setting
+
     private void handleExport(final Intent data) {
         new AsyncTask<Object, Object, Throwable>() {
             @Override

@@ -315,7 +315,16 @@
             android:layout_marginTop="4dp"
             android:text="@string/title_no_log"
             android:textAppearance="@style/TextSmall"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/cbNotify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/title_notify"
+            android:textAppearance="@style/TextSmall" />
 
         <TextView
             android:layout_width="wrap_content"

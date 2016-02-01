@@ -22,9 +22,7 @@ package eu.faircode.netguard;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -122,6 +120,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         public ListView lvAccess;
         public TextView tvNolog;
+        public CheckBox cbNotify;
         public ImageButton btnClearAccess;
         public TextView tvStatistics;
 
@@ -165,6 +164,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
             lvAccess = (ListView) itemView.findViewById(R.id.lvAccess);
             tvNolog = (TextView) itemView.findViewById(R.id.tvNolog);
+            cbNotify = (CheckBox) itemView.findViewById(R.id.cbNotify);
             btnClearAccess = (ImageButton) itemView.findViewById(R.id.btnClearAccess);
             tvStatistics = (TextView) itemView.findViewById(R.id.tvStatistics);
 
@@ -562,13 +562,24 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             holder.lvAccess.setOnItemClickListener(null);
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean log_app = prefs.getBoolean("log_app", false);
         holder.tvNolog.setVisibility(log_app ? View.GONE : View.VISIBLE);
         holder.tvNolog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 context.startActivity(new Intent(context, ActivitySettings.class));
+            }
+        });
+
+        boolean notify = prefs.getBoolean("notify_access", false);
+        final String key = "notify." + rule.info.applicationInfo.uid;
+        holder.cbNotify.setEnabled(notify);
+        holder.cbNotify.setChecked(prefs.getBoolean(key, true));
+        holder.cbNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                prefs.edit().putBoolean(key, isChecked).apply();
             }
         });
 
