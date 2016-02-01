@@ -35,7 +35,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_options">Impostazioni opzionali</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Usa il tema scuro</string>
-  <string name="setting_access">Notify on internet access</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
   <string name="setting_network_options">Opzioni di rete</string>
@@ -48,6 +47,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_national_roaming">Ignora roaming nazionale</string>
   <string name="setting_advanced_options">Opzioni avanzate</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
+  <string name="setting_log_app">Log internet access</string>
+  <string name="setting_access">Notify on internet access</string>
   <string name="setting_filter">Filtra traffico</string>
   <string name="setting_block_domains">Blocca nomi di dominio</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -67,7 +68,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Generali</string>
   <string name="setting_technical_networks">Reti</string>
   <string name="setting_technical_subscription">Sottoscrizioni</string>
-  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo é acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
@@ -77,9 +77,12 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_metered_4g">Applica le regole valide per il Wi-Fi alle connessioni LTE</string>
   <string name="summary_national_roaming">Non applicare le regole di roaming quando il paese della carta SIM e della rete mobile è lo stesso</string>
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
+  <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_filter">Filtra i pacchetti IP in uscita dal pozzo VPN. Questo potrebbe comportare un consumo aggiuntivo di batteria.</string>
   <string name="summary_block_domains">Reindirizza i nomi di dominio bloccati al dispositivo locale. Questa opzione é disabilitata se nessun file hosts é stato importato.</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
+  <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">Sei sicuro?</string>
   <string name="msg_started">Regole applicate</string>
   <string name="msg_packages">%1$d permesse, %2$d bloccate</string>
@@ -110,6 +113,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_internet">non ha accesso a internet</string>
   <string name="title_launch">Avvia applicazione</string>
   <string name="title_access">Access attempts</string>
+  <string name="title_no_log"><u>Logging is not enabled</u></string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Vota</string>
   <string name="title_allow">Permetti</string>

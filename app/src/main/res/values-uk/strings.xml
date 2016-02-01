@@ -34,7 +34,6 @@
   <string name="setting_options">Опції</string>
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Використовувати темну тему</string>
-  <string name="setting_access">Сповіщення під час доступу до інтернету</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_delay">Затримка екрану %1$s хвилин</string>
   <string name="setting_network_options">Параметри мережі</string>
@@ -47,6 +46,8 @@
   <string name="setting_national_roaming">Ігнорувати національний роумінг</string>
   <string name="setting_advanced_options">Додаткові параметри</string>
   <string name="setting_system">Керувати системними додатками</string>
+  <string name="setting_log_app">Log internet access</string>
+  <string name="setting_access">Сповіщення під час доступу до інтернету</string>
   <string name="setting_filter">Фільтр трафіку</string>
   <string name="setting_block_domains">Блокувати доменні імена</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -66,7 +67,6 @@
   <string name="setting_technical_general">Загальне</string>
   <string name="setting_technical_networks">Мережі</string>
   <string name="setting_technical_subscription">Підписки</string>
-  <string name="summary_access">Показувати сповіщення в панелі статусу коли додаток отримує доступ до нової інтернет адреси</string>
   <string name="summary_auto">При відключені через віджет, NetGuard буде автоматично увімкнуто через вказану кількість хвилин\nВведіть 0, аби відключити цю функцію</string>
   <string name="summary_delay">Тримати екран активним на протязі обраної кількості хвилин після вимикання. (0 - вимикає функцію)</string>
   <string name="summary_wifi_home">Застосувати правила Wi-Fi мережі лише для обраної (для інших застосовуються правила мобільної мережі)</string>
@@ -76,9 +76,12 @@
   <string name="summary_metered_4g">Застосувати правила Wi-Fi мережі до LTE з\'єднання</string>
   <string name="summary_national_roaming">Не застосовувати правила роумінгу, якщо SIM-карта з однієї країни</string>
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
+  <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
+  <string name="summary_access">Показувати сповіщення в панелі статусу коли додаток отримує доступ до нової інтернет адреси</string>
   <string name="summary_filter">Фільтрація IPпакетів, які проходять через VPN. Це може призвести до підвищеного споживання батареї.</string>
   <string name="summary_block_domains">Перенаправляти заблоковані доменні імена до локального пристрою. Цей перемикач вимкнуто, якщо не імпортовано hosts файл.</string>
   <string name="summary_stats">Показувати графік швидкості мережі у панелі сповіщень</string>
+  <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">Ви впевнені?</string>
   <string name="msg_started">Визначити правила</string>
   <string name="msg_packages">%1$d дозволено, %2$d заблоковано</string>
@@ -108,6 +111,7 @@ NetGuard не має дозволу до інтернет доступу, том
   <string name="title_internet">немає доступу до інтернету</string>
   <string name="title_launch">Запуск додатку</string>
   <string name="title_access">Спроби доступу</string>
+  <string name="title_no_log"><u>Logging is not enabled</u></string>
   <string name="title_precedence">Правила доступу мають вищій пріоритет над іншим правилами</string>
   <string name="title_rate">Оцінити</string>
   <string name="title_allow">Дозволити</string>

@@ -35,7 +35,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_options">Opcje</string>
   <string name="setting_theme">Motyw: %1$s</string>
   <string name="setting_dark">Użyj ciemnej skórki</string>
-  <string name="setting_access">Notify on internet access</string>
   <string name="setting_auto">Automatyczne włączenie po %1$s min</string>
   <string name="setting_delay">Opóźnienie wyłączenia reguł ekranu %1$s min</string>
   <string name="setting_network_options">Network options</string>
@@ -48,6 +47,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_national_roaming">Ignoruj roaming krajowy</string>
   <string name="setting_advanced_options">Advanced options</string>
   <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
+  <string name="setting_log_app">Log internet access</string>
+  <string name="setting_access">Notify on internet access</string>
   <string name="setting_filter">Filter traffic</string>
   <string name="setting_block_domains">Block domain names</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -67,7 +68,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">General</string>
   <string name="setting_technical_networks">Networks</string>
   <string name="setting_technical_subscription">Subscriptions</string>
-  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">Po wyłączeniu poprzez widget, automatycznie włącz NetGuard po podanej liczbie minut (wprowadzenie zera wyłącza tą opcję)</string>
   <string name="summary_delay">Po wyłączeniu ekranu, podtrzymuj działanie reguły \"Zezwól na ... przy włączonym ekranie\" przez podaną liczbę minut (wprowadzenie zera wyłącza tą opcję)</string>
   <string name="summary_wifi_home">Zastosuj reguły sieci Wi-Fi tylko do zaznaczonej sieci (do pozostałych sieci Wi-Fi zastosowane zostaną reguły mobilne)</string>
@@ -77,9 +77,12 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_metered_4g">Zastosuj reguły sieci Wi-Fi do połączeń LTE</string>
   <string name="summary_national_roaming">Nie stosuj ustawień dotyczących roamingu, gdy karta SIM oraz sieć komórkowa są z tego samego kraju</string>
   <string name="summary_system">Stwórz reguły dla aplikacji systemowych (zaawansowane)</string>
+  <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">Pokazuj wykres prędkości sieci w powiadomieniach aplikacji</string>
+  <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">Na pewno?</string>
   <string name="msg_started">Wymuś Reguły</string>
   <string name="msg_packages">%1$d dozwolone, %2$d zablokowane</string>
@@ -109,6 +112,7 @@ Ponieważ NetGuard nie ma zezwolenia na dostęp do Internetu, masz pewność, ż
   <string name="title_internet">brak uprawnień do Internetu</string>
   <string name="title_launch">Start aplikacji</string>
   <string name="title_access">Access attempts</string>
+  <string name="title_no_log"><u>Logging is not enabled</u></string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Oceń</string>
   <string name="title_allow">Zezwól</string>

@@ -35,7 +35,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_options">Indstillinger</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Brug mørkt tema</string>
-  <string name="setting_access">Notify on internet access</string>
   <string name="setting_auto">Auto enable after %1$s minutes</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
   <string name="setting_network_options">Netværksindstillinger</string>
@@ -48,6 +47,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_national_roaming">Ignorer national roaming</string>
   <string name="setting_advanced_options">Avancerede indstillinger</string>
   <string name="setting_system">Administrer system applikationer</string>
+  <string name="setting_log_app">Log internet access</string>
+  <string name="setting_access">Notify on internet access</string>
   <string name="setting_filter">Filtrer trafik</string>
   <string name="setting_block_domains">Bloker domænenavne</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -67,7 +68,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">Generelt</string>
   <string name="setting_technical_networks">Netværk</string>
   <string name="setting_technical_subscription">Abonnementer</string>
-  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
@@ -77,9 +77,12 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections</string>
   <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
   <string name="summary_system">Define rules for system applications (for experts)</string>
+  <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">Show network speed graph in status bar notification</string>
+  <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">Er du sikker?</string>
   <string name="msg_started">Håndhæver regler</string>
   <string name="msg_packages">%1$d tilladt, %2$d blokeret</string>
@@ -109,6 +112,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_internet">har ingen internet tilladelse</string>
   <string name="title_launch">Start applikation</string>
   <string name="title_access">Access attempts</string>
+  <string name="title_no_log"><u>Logging is not enabled</u></string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Bedøm</string>
   <string name="title_allow">Tillad</string>

@@ -33,7 +33,6 @@
   <string name="setting_options">Opções</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Ativar tema escuro</string>
-  <string name="setting_access">Notificar com acesso à internet</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
   <string name="setting_network_options">Opções de rede</string>
@@ -46,6 +45,8 @@
   <string name="setting_national_roaming">Ignorar Roaming nacional</string>
   <string name="setting_advanced_options">Opções avançadas</string>
   <string name="setting_system">Administrar aplicações de siistema</string>
+  <string name="setting_log_app">Log internet access</string>
+  <string name="setting_access">Notificar com acesso à internet</string>
   <string name="setting_filter">Filtrar tráfego</string>
   <string name="setting_block_domains">Bloquear nomes de domínio</string>
   <string name="setting_vpn4">IPv4 VPN: %s</string>
@@ -65,7 +66,6 @@
   <string name="setting_technical_general">Geral</string>
   <string name="setting_technical_networks">Redes</string>
   <string name="setting_technical_subscription">Subscrições</string>
-  <string name="summary_access">Mostrar uma notificação na barra de estado quando uma aplicação tentar aceder ao um novo endereço de internet</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis às outras redes Wi-Fi)</string>
@@ -75,9 +75,12 @@
   <string name="summary_metered_4g">Aplicar regras Wi-Fi para conexões LTE</string>
   <string name="summary_national_roaming">Não aplicar regras de Roaming quando o chip SIM e a rede móvel forem do mesmo país</string>
   <string name="summary_system">Definir regras para aplicações de sistema (para utilizadores experientes)</string>
+  <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
+  <string name="summary_access">Mostrar uma notificação na barra de estado quando uma aplicação tentar aceder ao um novo endereço de internet</string>
   <string name="summary_filter">Filtrar pacotes de IP que saiem do sumidouro VPN. Isto pode resultar num uso adicional de bateria.</string>
   <string name="summary_block_domains">Redirecionar nomes de dominio bloqueados para o dispositivo local. Esta opção está desativada quando nenhum ficheiro hosts tenha sido importado.</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
+  <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo regras</string>
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
@@ -107,11 +110,12 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_internet">não tem permissão de acesso a internet</string>
   <string name="title_launch">Iniciar aplicativo</string>
   <string name="title_access">Tentativas de acesso</string>
+  <string name="title_no_log"><u>Logging is not enabled</u></string>
   <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
-  <string name="title_root">raiz</string>
+  <string name="title_root">root</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
   <string name="title_pro">Versão PRO</string>

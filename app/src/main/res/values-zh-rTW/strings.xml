@@ -35,7 +35,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_options">選項</string>
   <string name="setting_theme">主題: %1$s</string>
   <string name="setting_dark">使用深色主題</string>
-  <string name="setting_access">Notify on internet access</string>
   <string name="setting_auto">在 %1$s 分鐘後自動啟用</string>
   <string name="setting_delay">延遲%1$s分鐘關閉螢幕</string>
   <string name="setting_network_options">Network options</string>
@@ -48,6 +47,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_national_roaming">忽略國際漫遊</string>
   <string name="setting_advanced_options">Advanced options</string>
   <string name="setting_system">管理系統程式</string>
+  <string name="setting_log_app">Log internet access</string>
+  <string name="setting_access">Notify on internet access</string>
   <string name="setting_filter">Filter traffic</string>
   <string name="setting_block_domains">Block domain names</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -67,7 +68,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_general">General</string>
   <string name="setting_technical_networks">Networks</string>
   <string name="setting_technical_subscription">Subscriptions</string>
-  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_auto">\"在禁用小工具之後,自動在設定的時間後啟動網路守門人
 輸入0來關閉這項設定\"</string>
   <string name="summary_delay">在關閉螢幕後, 在所選數目分鐘內繼續保持螢幕開啟時的規則 (輸入0以禁用此選項)</string>
@@ -78,9 +78,12 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_metered_4g">套用Wi-Fi規則到LTE連接</string>
   <string name="summary_national_roaming">當Sim卡和行動網路所在國家相同時不套用漫遊規則</string>
   <string name="summary_system">為系統程式定義規則(專家用)</string>
+  <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">在狀態欄通知列顯示網速圖表</string>
+  <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">你確定?</string>
   <string name="msg_started">執行規則</string>
   <string name="msg_packages">%1$d 允許, %2$d 被阻擋</string>
@@ -108,6 +111,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_internet">沒有網路權限</string>
   <string name="title_launch">啟動App</string>
   <string name="title_access">Access attempts</string>
+  <string name="title_no_log"><u>Logging is not enabled</u></string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">評分</string>
   <string name="title_allow">允許</string>

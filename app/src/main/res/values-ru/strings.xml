@@ -33,7 +33,6 @@
   <string name="setting_options">Опции</string>
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Использовать темную тему</string>
-  <string name="setting_access">Уведомить при доступе в интернет</string>
   <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
   <string name="setting_delay">Задержка экрана %1$s минут(ы)</string>
   <string name="setting_network_options">Параметры сети</string>
@@ -46,6 +45,8 @@
   <string name="setting_national_roaming">Игнорировать роуминг внутри страны</string>
   <string name="setting_advanced_options">Дополнительные параметры</string>
   <string name="setting_system">Управлять сист. приложениями</string>
+  <string name="setting_log_app">Log internet access</string>
+  <string name="setting_access">Уведомить при доступе в интернет</string>
   <string name="setting_filter">Фильтр трафика</string>
   <string name="setting_block_domains">Блокировать доменные имена</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -65,7 +66,6 @@
   <string name="setting_technical_general">Общее</string>
   <string name="setting_technical_networks">Сеть</string>
   <string name="setting_technical_subscription">Подписки</string>
-  <string name="summary_access">Показывать оповещение в статус баре, когда приложение получает доступ к новому интернет адресу</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
@@ -75,14 +75,17 @@
   <string name="summary_metered_4g">Применить правила Wi-Fi-сети для передачи данных через LTE</string>
   <string name="summary_national_roaming">Не применять правила роуминга, если SIM-карта и мобильная сеть из одной страны</string>
   <string name="summary_system">Определить правила для системных приложений (для профи)</string>
+  <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
+  <string name="summary_access">Показывать оповещение в статус баре, когда приложение получает доступ к новому интернет адресу</string>
   <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_block_domains">Перенаправление заблокированных доменных имен для локальных устройств. Этот переключатель выключен, если ни один hosts-файл не был импортирован.</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>
+  <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">Вы уверены?</string>
   <string name="msg_started">Определить правила</string>
   <string name="msg_packages">%1$d разрешено, %2$d заблокировано</string>
   <string name="msg_waiting">Ожидание события</string>
-  <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для включения</string>
+  <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для его включения</string>
   <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>
   <string name="msg_error">NetGuard был отключен по причине внутренней ошибки</string>
   <string name="msg_installed">\'%1$s\' установлено</string>
@@ -107,6 +110,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_internet">не имеет доступа в интернет</string>
   <string name="title_launch">Запуск приложения</string>
   <string name="title_access">Попытки доступа</string>
+  <string name="title_no_log"><u>Logging is not enabled</u></string>
   <string name="title_precedence">Правила доступа имеют приоритет над другими правилами</string>
   <string name="title_rate">Оценить</string>
   <string name="title_allow">Разрешить</string>
