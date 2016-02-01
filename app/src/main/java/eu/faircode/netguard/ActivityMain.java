@@ -495,12 +495,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Search
         menuSearch = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (adapter != null)
                     adapter.getFilter().filter(query);
+                searchView.clearFocus();
                 return true;
             }
 
