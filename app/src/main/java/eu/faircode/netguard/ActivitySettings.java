@@ -45,7 +45,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
+import android.preference.TwoStatePreference;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -292,16 +292,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 prefs.edit().putBoolean("unmetered_3g", false).apply();
                 prefs.edit().putBoolean("unmetered_4g", false).apply();
 
-                ((SwitchPreference) screen.findPreference("unmetered_2g")).setChecked(false);
-                ((SwitchPreference) screen.findPreference("unmetered_3g")).setChecked(false);
-                ((SwitchPreference) screen.findPreference("unmetered_4g")).setChecked(false);
+                ((TwoStatePreference) screen.findPreference("unmetered_2g")).setChecked(false);
+                ((TwoStatePreference) screen.findPreference("unmetered_3g")).setChecked(false);
+                ((TwoStatePreference) screen.findPreference("unmetered_4g")).setChecked(false);
             }
 
         // Check if permission was revoked
         if (prefs.getBoolean("national_roaming", false))
             if (!Util.hasPhoneStatePermission(this)) {
                 prefs.edit().putBoolean("national_roaming", false).apply();
-                ((SwitchPreference) screen.findPreference("national_roaming")).setChecked(false);
+                ((TwoStatePreference) screen.findPreference("national_roaming")).setChecked(false);
             }
 
         // Listen for preference changes
@@ -356,7 +356,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("show_stats".equals(name)) {
             if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_SPEED, this)) {
                 prefs.edit().putBoolean(name, false).apply();
-                ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
+                ((TwoStatePreference) getPreferenceScreen().findPreference(name)).setChecked(false);
                 startActivity(new Intent(this, ActivityPro.class));
                 return;
             }
@@ -525,9 +525,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 prefs.edit().putBoolean("unmetered_2g", false).apply();
                 prefs.edit().putBoolean("unmetered_3g", false).apply();
                 prefs.edit().putBoolean("unmetered_4g", false).apply();
-                ((SwitchPreference) screen.findPreference("unmetered_2g")).setChecked(false);
-                ((SwitchPreference) screen.findPreference("unmetered_3g")).setChecked(false);
-                ((SwitchPreference) screen.findPreference("unmetered_4g")).setChecked(false);
+                ((TwoStatePreference) screen.findPreference("unmetered_2g")).setChecked(false);
+                ((TwoStatePreference) screen.findPreference("unmetered_3g")).setChecked(false);
+                ((TwoStatePreference) screen.findPreference("unmetered_4g")).setChecked(false);
             }
 
         else if (requestCode == REQUEST_ROAMING_NATIONAL)
@@ -536,7 +536,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 prefs.edit().putBoolean("national_roaming", false).apply();
-                ((SwitchPreference) screen.findPreference("national_roaming")).setChecked(false);
+                ((TwoStatePreference) screen.findPreference("national_roaming")).setChecked(false);
             }
 
         else if (requestCode == REQUEST_ROAMING_INTERNATIONAL)
@@ -545,7 +545,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 prefs.edit().putBoolean("whitelist_roaming", false).apply();
-                ((SwitchPreference) screen.findPreference("whitelist_roaming")).setChecked(false);
+                ((TwoStatePreference) screen.findPreference("whitelist_roaming")).setChecked(false);
             }
     }
 
