@@ -46,6 +46,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
@@ -428,14 +429,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             prefs.edit().putBoolean("show_system", manage).apply();
             SinkholeService.reload(null, "changed " + name, this);
 
-
-        } else if ("log".equals(name)) {
-            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_LOG, this)) {
-                prefs.edit().putBoolean(name, false).apply();
-                ((SwitchPreference) getPreferenceScreen().findPreference(name)).setChecked(false);
-                startActivity(new Intent(this, ActivityPro.class));
-            } else
-                SinkholeService.reload(null, "changed " + name, this);
+        } else if ("log_app".equals(name)) {
+            Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(ruleset);
 
         } else if ("filter".equals(name)) {
             SinkholeService.reload(null, "changed " + name, this);

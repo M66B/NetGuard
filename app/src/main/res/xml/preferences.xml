@@ -37,11 +37,6 @@
             android:defaultValue="false"
             android:key="dark_theme"
             android:title="@string/setting_dark" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="notify_access"
-            android:summary="@string/summary_access"
-            android:title="@string/setting_access" />
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"
@@ -100,6 +95,17 @@
             android:key="manage_system"
             android:summary="@string/summary_system"
             android:title="@string/setting_system" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="log_app"
+            android:summary="@string/summary_log_app"
+            android:title="@string/setting_log_app" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="log_app"
+            android:key="notify_access"
+            android:summary="@string/summary_access"
+            android:title="@string/setting_access" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="filter"

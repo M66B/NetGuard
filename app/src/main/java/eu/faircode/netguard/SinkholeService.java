@@ -655,6 +655,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             // Get settings
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean log = prefs.getBoolean("log", false);
+            boolean log_app = prefs.getBoolean("log_app", false);
             boolean filter = prefs.getBoolean("filter", false);
             boolean notify = prefs.getBoolean("notify_access", false);
             boolean system = prefs.getBoolean("manage_system", false);
@@ -681,7 +682,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 dh.insertLog(packet, dname, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
 
             // Application log
-            if (packet.uid > 0) {
+            if (log_app && packet.uid > 0) {
                 if (dname == null)
                     try {
                         dname = InetAddress.getByName(packet.daddr).getHostName();
@@ -693,7 +694,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     if (notify && (system || !Util.isSystem(packet.uid, SinkholeService.this)))
                         showAccessNotification(packet.uid);
 
-            } else if (packet.dport != 53)
+            }
+
+            if (packet.uid < 0 && packet.dport != 53)
                 Log.w(TAG, "Unknown application packet=" + packet);
 
             dh.close();
