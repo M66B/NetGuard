@@ -339,7 +339,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     Log.d(TAG, "Stop foreground state=" + state.toString());
                     stopForeground(true);
                 }
-                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
                 state = State.enforcing;
                 Log.d(TAG, "Start foreground state=" + state.toString());
 
@@ -370,7 +370,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     Log.d(TAG, "Stop foreground state=" + state.toString());
                     stopForeground(true);
                 }
-                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
                 state = State.enforcing;
                 Log.d(TAG, "Start foreground state=" + state.toString());
             }
@@ -1334,7 +1334,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 stopForeground(true);
             }
             if (state == State.enforcing)
-                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0));
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
             else if (state != State.none)
                 startForeground(NOTIFY_WAITING, getWaitingNotification());
             Log.d(TAG, "Start foreground state=" + state.toString());
@@ -1436,7 +1436,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         super.onDestroy();
     }
 
-    private Notification getEnforcingNotification(int allowed, int blocked) {
+    private Notification getEnforcingNotification(int allowed, int blocked, int hosts) {
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -1459,13 +1459,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
         notification.bigText(getString(R.string.msg_started));
-        notification.setSummaryText(getString(R.string.msg_packages, allowed, blocked));
+        if (Util.isPlayStoreInstall(this))
+            notification.setSummaryText(getString(R.string.msg_packages, allowed, blocked));
+        else
+            notification.setSummaryText(getString(R.string.msg_hosts, allowed, blocked, hosts));
         return notification.build();
     }
 
     private void updateEnforcingNotification(int allowed, int total) {
         // Update notification
-        Notification notification = getEnforcingNotification(allowed, total - allowed);
+        Notification notification = getEnforcingNotification(allowed, total - allowed, mapHostsBlocked.size());
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nm.notify(NOTIFY_ENFORCING, notification);
     }
