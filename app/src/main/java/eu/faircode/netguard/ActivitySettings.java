@@ -770,6 +770,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             protected void onPostExecute(Throwable ex) {
                 if (ex == null) {
                     Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                    SinkholeService.reloadStats("import", ActivitySettings.this);
                     recreate();
                 } else
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
