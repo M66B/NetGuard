@@ -5,12 +5,10 @@
 
     <style name="BaseThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowDisablePreview">true</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="BaseThemeLight" parent="Theme.AppCompat">
         <item name="android:windowDisablePreview">true</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="AppThemeTeal" parent="BaseThemeDark">

@@ -56,7 +56,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.+'
     compile 'com.android.support:recyclerview-v7:23.1.+'
-    compile 'com.android.support:preference-v7:23.1.+'
-    compile 'com.h6ah4i.android.compat:mulsellistprefcompat:1.0.0' // Google come on ...
     compile 'com.squareup.picasso:picasso:2.5.+'
 }
