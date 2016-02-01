@@ -200,6 +200,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/ivWifiLegend"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center_vertical"
@@ -226,6 +227,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivOtherLegend"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_gravity="center_vertical"

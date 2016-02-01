@@ -22,6 +22,9 @@ package eu.faircode.netguard;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,8 +93,13 @@ public class AccessAdapter extends CursorAdapter {
         tvTime.setText(new SimpleDateFormat("dd HH:mm").format(time));
         if (block < 0)
             ivBlock.setImageDrawable(null);
-        else
+        else {
             ivBlock.setImageResource(block > 0 ? R.drawable.host_blocked : R.drawable.host_allowed);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                Drawable wrap = DrawableCompat.wrap(ivBlock.getDrawable());
+                DrawableCompat.setTint(wrap, block > 0 ? colorOff : colorOn);
+            }
+        }
         tvDest.setText(daddr + (dport > 0 ? ":" + dport : ""));
 
         if (allowed < 0)

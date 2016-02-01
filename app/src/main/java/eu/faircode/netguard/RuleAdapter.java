@@ -31,10 +31,13 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
@@ -73,6 +76,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private int colorText;
     private int colorAccent;
     private int colorChanged;
+    private int colorOn;
+    private int colorOff;
     private boolean wifiActive = true;
     private boolean otherActive = true;
     private List<Rule> listAll = new ArrayList<>();
@@ -103,9 +108,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public TextView tvInternet;
 
         public LinearLayout llWifiAttr;
+        public ImageView ivWifiLegend;
         public CheckBox cbScreenWifi;
 
         public LinearLayout llOtherAttr;
+        public ImageView ivOtherLegend;
         public CheckBox cbScreenOther;
         public CheckBox cbRoaming;
 
@@ -144,9 +151,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
 
             llWifiAttr = (LinearLayout) itemView.findViewById(R.id.llWifiAttr);
+            ivWifiLegend = (ImageView) itemView.findViewById(R.id.ivWifiLegend);
             cbScreenWifi = (CheckBox) itemView.findViewById(R.id.cbScreenWifi);
 
             llOtherAttr = (LinearLayout) itemView.findViewById(R.id.llOtherAttr);
+            ivOtherLegend = (ImageView) itemView.findViewById(R.id.ivOtherLegend);
             cbScreenOther = (CheckBox) itemView.findViewById(R.id.cbScreenOther);
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
 
@@ -212,6 +221,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         TypedValue tv = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
         colorAccent = tv.data;
+        context.getTheme().resolveAttribute(R.attr.colorOn, tv, true);
+        colorOn = tv.data;
+        context.getTheme().resolveAttribute(R.attr.colorOff, tv, true);
+        colorOff = tv.data;
     }
 
     public void set(List<Rule> listRule) {
@@ -304,20 +317,37 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.cbWifi.setAlpha(wifiActive ? 1 : 0.5f);
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrap = DrawableCompat.wrap(CompoundButtonCompat.getButtonDrawable(holder.cbWifi));
+            DrawableCompat.setTint(wrap, rule.wifi_blocked ? colorOff : colorOn);
+        }
         holder.cbWifi.setOnCheckedChangeListener(cbListener);
 
         holder.ivScreenWifi.setAlpha(wifiActive ? 1 : 0.5f);
         holder.ivScreenWifi.setVisibility(rule.screen_wifi && rule.wifi_blocked ? View.VISIBLE : View.INVISIBLE);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrap = DrawableCompat.wrap(holder.ivScreenWifi.getDrawable());
+            DrawableCompat.setTint(wrap, colorOn);
+        }
 
         holder.llOther.setVisibility(telephony ? View.VISIBLE : View.GONE);
 
         holder.cbOther.setAlpha(otherActive ? 1 : 0.5f);
         holder.cbOther.setOnCheckedChangeListener(null);
         holder.cbOther.setChecked(rule.other_blocked);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrap = DrawableCompat.wrap(CompoundButtonCompat.getButtonDrawable(holder.cbOther));
+            DrawableCompat.setTint(wrap, rule.other_blocked ? colorOff : colorOn);
+        }
         holder.cbOther.setOnCheckedChangeListener(cbListener);
 
         holder.ivScreenOther.setAlpha(otherActive ? 1 : 0.5f);
         holder.ivScreenOther.setVisibility(rule.screen_other && rule.other_blocked ? View.VISIBLE : View.INVISIBLE);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrap = DrawableCompat.wrap(holder.ivScreenOther.getDrawable());
+            DrawableCompat.setTint(wrap, colorOn);
+        }
+
         holder.tvRoaming.setAlpha(otherActive ? 1 : 0.5f);
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.screen_other) ? View.VISIBLE : View.INVISIBLE);
 
@@ -335,6 +365,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.cbScreenWifi.setEnabled(rule.wifi_blocked);
 
         holder.llWifiAttr.setVisibility(wifi ? View.VISIBLE : View.GONE);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrap = DrawableCompat.wrap(holder.ivWifiLegend.getDrawable());
+            DrawableCompat.setTint(wrap, colorOn);
+        }
 
         holder.cbScreenWifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -362,6 +397,11 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         });
 
         holder.llOtherAttr.setVisibility(telephony ? View.VISIBLE : View.GONE);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrap = DrawableCompat.wrap(holder.ivOtherLegend.getDrawable());
+            DrawableCompat.setTint(wrap, colorOn);
+        }
 
         holder.cbScreenOther.setOnCheckedChangeListener(null);
         holder.cbScreenOther.setChecked(rule.screen_other);

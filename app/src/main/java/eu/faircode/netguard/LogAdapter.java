@@ -24,11 +24,15 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +64,8 @@ public class LogAdapter extends CursorAdapter {
     private int colAllowed;
     private int colConnection;
     private int colInteractive;
+    private int colorOn;
+    private int colorOff;
     private InetAddress dns = null;
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
@@ -81,6 +87,12 @@ public class LogAdapter extends CursorAdapter {
         colAllowed = cursor.getColumnIndex("allowed");
         colConnection = cursor.getColumnIndex("connection");
         colInteractive = cursor.getColumnIndex("interactive");
+
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorOn, tv, true);
+        colorOn = tv.data;
+        context.getTheme().resolveAttribute(R.attr.colorOff, tv, true);
+        colorOff = tv.data;
 
         try {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -139,12 +151,21 @@ public class LogAdapter extends CursorAdapter {
                 ivConnection.setImageResource(connection == 1 ? R.drawable.wifi_on : R.drawable.other_on);
             else
                 ivConnection.setImageResource(connection == 1 ? R.drawable.wifi_off : R.drawable.other_off);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                Drawable wrap = DrawableCompat.wrap(ivConnection.getDrawable());
+                DrawableCompat.setTint(wrap, allowed > 0 ? colorOn : colorOff);
+            }
         }
 
         if (interactive <= 0)
             ivInteractive.setImageDrawable(null);
-        else
+        else {
             ivInteractive.setImageResource(R.drawable.screen_on);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                Drawable wrap = DrawableCompat.wrap(ivInteractive.getDrawable());
+                DrawableCompat.setTint(wrap, colorOn);
+            }
+        }
 
         // https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
         if (protocol == 0) // HOPOPT

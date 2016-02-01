@@ -299,7 +299,9 @@ jobject jniNewObject(JNIEnv *env, jclass cls, jmethodID constructor, const char 
 
 int jniCheckException(JNIEnv *env);
 
-int __system_property_get(const char *name, char *value);
+int sdk_int(JNIEnv *env);
+
+int __system_property_get(JNIEnv *env, const char *name, char *value);
 
 void log_android(int prio, const char *fmt, ...);
 

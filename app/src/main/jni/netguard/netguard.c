@@ -26,7 +26,12 @@
 #include <time.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/socket.h>
 #include <dlfcn.h>
+
+#define RTLD_NOLOAD 4
 
 #include <arpa/inet.h>
 #include <netinet/ip.h>
@@ -227,7 +232,7 @@ Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring na
     const char *name = (*env)->GetStringUTFChars(env, name_, 0);
 
     char value[250];
-    __system_property_get(name, value);
+    __system_property_get(env, name, value);
 
     (*env)->ReleaseStringUTFChars(env, name_, name);
 
@@ -1371,11 +1376,11 @@ jboolean handle_udp(const struct arguments *args,
     struct sockaddr_in server4;
     struct sockaddr_in6 server6;
     if (version == 4) {
-        server4.sin_family = (__kernel_sa_family_t) AF_INET;
+        server4.sin_family = AF_INET;
         server4.sin_addr.s_addr = (__be32) ip4->daddr;
         server4.sin_port = udphdr->dest;
     } else {
-        server6.sin6_family = (__kernel_sa_family_t) AF_INET6;
+        server6.sin6_family = AF_INET6;
         memcpy(&server6.sin6_addr, &ip6->ip6_dst, 16);
         server6.sin6_port = udphdr->dest;
     }
@@ -1790,7 +1795,7 @@ jboolean handle_tcp(const struct arguments *args,
             if (ntohl(tcphdr->seq) == cur->remote_seq && datalen) {
                 log_android(ANDROID_LOG_DEBUG, "send socket data %u", datalen);
 
-                int more = (tcphdr->psh ? 0 : MSG_MORE);
+                unsigned int more = (tcphdr->psh ? 0 : MSG_MORE);
                 if (send(cur->socket, data, datalen, MSG_NOSIGNAL | more) < 0) {
                     log_android(ANDROID_LOG_ERROR, "send error %d: %s", errno, strerror(errno));
                     if (errno == EINTR || errno == EAGAIN) {
@@ -2039,11 +2044,11 @@ int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur)
     struct sockaddr_in addr4;
     struct sockaddr_in6 addr6;
     if (cur->version == 4) {
-        addr4.sin_family = (__kernel_sa_family_t) AF_INET;
+        addr4.sin_family = AF_INET;
         addr4.sin_addr.s_addr = (__be32) cur->daddr.ip4;
         addr4.sin_port = cur->dest;
     } else {
-        addr6.sin6_family = (__kernel_sa_family_t) AF_INET6;
+        addr6.sin6_family = AF_INET6;
         memcpy(&addr6.sin6_addr, &cur->daddr.ip6, 16);
         addr6.sin6_port = cur->dest;
     }
@@ -2436,15 +2441,13 @@ jint get_uid(const int protocol, const int version,
                     inet_ntop(version == 4 ? AF_INET : AF_INET6,
                               version == 4 ? addr4 : addr6,
                               source, sizeof(source));
-                    log_android(ANDROID_LOG_INFO, "%s/%u %d", source, sport, u);
+                    log_android(ANDROID_LOG_INFO, "%s/%u %d", source, port, u);
                 }
 
                 if (port == sport) {
-                    if (memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) ==
-                        0) {
-                        uid = u;
+                    uid = u;
+                    if (memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) == 0)
                         break;
-                    }
                 }
             } else
                 log_android(ANDROID_LOG_ERROR, "Invalid field #%d: %s", fields, line);
@@ -2560,12 +2563,18 @@ int jniCheckException(JNIEnv *env) {
     return 0;
 }
 
+int sdk_int(JNIEnv *env) {
+    jclass clsVersion = jniFindClass(env, "android/os/Build$VERSION");
+    jfieldID fid = (*env)->GetStaticFieldID(env, clsVersion, "SDK_INT", "I");
+    return (*env)->GetStaticIntField(env, clsVersion, fid);
+}
+
 typedef int (*PFN_SYS_PROP_GET)(const char *, char *);
 
-int __system_property_get(const char *name, char *value) {
+int __system_property_get(JNIEnv *env, const char *name, char *value) {
     static PFN_SYS_PROP_GET __real_system_property_get = NULL;
     if (!__real_system_property_get) {
-        void *handle = dlopen("libc.so", RTLD_NOLOAD);
+        void *handle = dlopen("libc.so", sdk_int(env) >= 21 ? RTLD_NOLOAD : 0);
         if (!handle)
             log_android(ANDROID_LOG_ERROR, "dlopen(libc.so): %s", dlerror());
         else {

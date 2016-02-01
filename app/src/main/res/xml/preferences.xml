@@ -112,7 +112,7 @@
             android:summary="@string/summary_filter"
             android:title="@string/setting_filter" />
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:dependency="filter"
             android:key="use_hosts"
             android:summary="@string/summary_block_domains"

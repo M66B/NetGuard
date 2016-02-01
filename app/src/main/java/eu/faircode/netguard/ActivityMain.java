@@ -75,7 +75,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_LOGCAT = 3;
     public static final int REQUEST_ROAMING = 4;
 
-    private static final int MIN_SDK = Build.VERSION_CODES.LOLLIPOP;
+    private static final int MIN_SDK = Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
     public static final String EXTRA_SEARCH = "Search";
@@ -267,10 +267,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         }
                         if (!IAB.isPurchased(ActivityPro.SKU_SPEED, ActivityMain.this))
                             prefs.edit().putBoolean("show_stats", false).apply();
-
-                        iab.unbind();
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    } finally {
+                        iab.unbind();
                     }
                 }
             }, this).bind();
@@ -283,7 +283,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     protected void onNewIntent(Intent intent) {
         Log.i(TAG, "New intent");
         super.onNewIntent(intent);
-        updateApplicationList(intent.getStringExtra(EXTRA_SEARCH));
+        if (Build.VERSION.SDK_INT >= MIN_SDK)
+            updateApplicationList(intent.getStringExtra(EXTRA_SEARCH));
     }
 
     @Override

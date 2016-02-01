@@ -15,6 +15,7 @@ model {
         }
     }
     android.ndk {
+        platformVersion = "14"
         moduleName = "netguard"
         toolchain = "clang"
         ldLibs.add("log")
