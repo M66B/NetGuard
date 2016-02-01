@@ -535,7 +535,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         if (prefs.getBoolean("manage_system", false)) {
             menu.findItem(R.id.menu_app_user).setChecked(prefs.getBoolean("show_user", true));
-            menu.findItem(R.id.menu_app_system).setChecked(prefs.getBoolean("show_system", true));
+            menu.findItem(R.id.menu_app_system).setChecked(prefs.getBoolean("show_system", false));
         } else {
             Menu submenu = menu.findItem(R.id.menu_filter).getSubMenu();
             submenu.removeItem(R.id.menu_app_user);
