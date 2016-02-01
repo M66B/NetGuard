@@ -1496,7 +1496,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
+        getTheme().resolveAttribute(R.attr.colorOff, tv, true);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_error_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
@@ -1522,7 +1522,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
+        getTheme().resolveAttribute(R.attr.colorOff, tv, true);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_error_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
@@ -1552,8 +1552,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         PendingIntent pi = PendingIntent.getActivity(SinkholeService.this, uid + 10000, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
-        int colorAccent = tv.data;
         getTheme().resolveAttribute(R.attr.colorOn, tv, true);
         int colorOn = tv.data;
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
@@ -1564,7 +1562,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_access, name))
                 .setContentIntent(pi)
-                .setColor(colorAccent)
+                .setColor(colorOff)
                 .setOngoing(false)
                 .setAutoCancel(true);
 
