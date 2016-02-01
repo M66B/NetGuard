@@ -3,23 +3,23 @@
     <PreferenceCategory
         android:key="category_defaults"
         android:title="@string/setting_defaults">
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="true"
             android:key="whitelist_wifi"
             android:title="@string/setting_whitelist_wifi" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="true"
             android:key="whitelist_other"
             android:title="@string/setting_whitelist_other" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="screen_wifi"
             android:title="@string/setting_screen_wifi" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="screen_other"
             android:title="@string/setting_screen_other" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="true"
             android:key="whitelist_roaming"
             android:title="@string/setting_whitelist_roaming" />
@@ -33,7 +33,7 @@
             android:entries="@array/themeNames"
             android:entryValues="@array/themeValues"
             android:key="theme" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="dark_theme"
             android:title="@string/setting_dark" />
@@ -52,7 +52,7 @@
     <PreferenceCategory
         android:key="category_options"
         android:title="@string/setting_network_options">
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="tethering"
             android:title="@string/setting_tethering" />
@@ -60,27 +60,27 @@
             android:defaultValue="@array/default_wifi_home"
             android:key="wifi_homes"
             android:summary="@string/summary_wifi_home" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="use_metered"
             android:summary="@string/summary_metered"
             android:title="@string/setting_metered" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="unmetered_2g"
             android:summary="@string/summary_metered_2g"
             android:title="@string/setting_metered_2g" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="unmetered_3g"
             android:summary="@string/summary_metered_3g"
             android:title="@string/setting_metered_3g" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="unmetered_4g"
             android:summary="@string/summary_metered_4g"
             android:title="@string/setting_metered_4g" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="national_roaming"
             android:summary="@string/summary_national_roaming"
@@ -90,28 +90,28 @@
     <PreferenceCategory
         android:key="category_options"
         android:title="@string/setting_advanced_options">
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="manage_system"
             android:summary="@string/summary_system"
             android:title="@string/setting_system" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="log_app"
             android:summary="@string/summary_log_app"
             android:title="@string/setting_log_app" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:dependency="log_app"
             android:key="notify_access"
             android:summary="@string/summary_access"
             android:title="@string/setting_access" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="filter"
             android:summary="@string/summary_filter"
             android:title="@string/setting_filter" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:dependency="filter"
             android:key="use_hosts"
@@ -135,12 +135,12 @@
     <PreferenceCategory
         android:key="category_stats"
         android:title="@string/setting_stats_category">
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:key="show_stats"
             android:summary="@string/summary_stats"
             android:title="@string/setting_stats" />
-        <SwitchPreference
+        <eu.faircode.netguard.SwitchPreference
             android:defaultValue="false"
             android:dependency="show_stats"
             android:key="show_top"
