@@ -78,10 +78,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 public void run() {
                     if (adapter != null) {
                         adapter.changeCursor(dh.getLog());
-                        if (menuSearch != null && menuSearch.isActionViewExpanded()) {
-                            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-                            adapter.getFilter().filter(searchView.getQuery().toString());
-                        }
+                        applyFilter();
                     }
                 }
             });
@@ -219,10 +216,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         if (live) {
             dh.addLogChangedListener(listener);
             adapter.changeCursor(dh.getLog());
-            if (menuSearch != null && menuSearch.isActionViewExpanded()) {
-                SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-                adapter.getFilter().filter(searchView.getQuery().toString());
-            }
+            applyFilter();
         }
     }
 
@@ -328,21 +322,16 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 if (live) {
                     dh.addLogChangedListener(listener);
                     adapter.changeCursor(dh.getLog());
+                    applyFilter();
                 } else
                     dh.removeLogChangedListener(listener);
                 return true;
 
             case R.id.menu_log_resolve:
                 item.setChecked(!item.isChecked());
-                resolve = item.isChecked();
-                prefs.edit().putBoolean("resolve", resolve).apply();
-                adapter = new LogAdapter(this, dh.getLog(), resolve);
-                adapter.setFilterQueryProvider(new FilterQueryProvider() {
-                    public Cursor runQuery(CharSequence constraint) {
-                        return dh.searchLog(constraint.toString());
-                    }
-                });
-                lvLog.setAdapter(adapter);
+                prefs.edit().putBoolean("resolve", item.isChecked()).apply();
+                adapter.setResolve(item.isChecked());
+                adapter.notifyDataSetChanged();
                 return true;
 
             case R.id.menu_pcap_enabled:
@@ -375,6 +364,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                     @Override
                     protected void onPostExecute(Object o) {
                         adapter.changeCursor(dh.getLog());
+                        applyFilter();
                     }
                 }.execute();
                 return true;
@@ -388,6 +378,13 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void applyFilter() {
+        if (adapter != null && menuSearch != null && menuSearch.isActionViewExpanded()) {
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+            adapter.getFilter().filter(searchView.getQuery().toString());
         }
     }
 
