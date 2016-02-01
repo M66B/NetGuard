@@ -194,7 +194,7 @@ Permissions
 * ACCESS_WIFI_STATE: to detect Wi-Fi network changes
 * RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
 * WAKE_LOCK: to reliably reload rules in the background on connectivity changes
-* WRITE_EXTERNAL_STORAGE: to export settings on Android versions before 5.0 (Lollipop)
+* WRITE_EXTERNAL_STORAGE: to export settings on Android versions before 5.0 (Lollipop) (there is no need to grant this permission on later Android versions)
 * com.android.vending.BILLING: to accept donations via in-app billing
 
 Support
