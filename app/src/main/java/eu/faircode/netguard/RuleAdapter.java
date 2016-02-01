@@ -76,7 +76,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private boolean wifiActive = true;
     private boolean otherActive = true;
     private List<Rule> listAll = new ArrayList<>();
-    private List<Rule> listSelected = new ArrayList<>();
+    private List<Rule> listFiltered = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -214,8 +214,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     public void set(List<Rule> listRule) {
         listAll = listRule;
-        listSelected = new ArrayList<>();
-        listSelected.addAll(listRule);
+        listFiltered = new ArrayList<>();
+        listFiltered.addAll(listRule);
         notifyDataSetChanged();
     }
 
@@ -240,7 +240,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         // Get rule
-        final Rule rule = listSelected.get(position);
+        final Rule rule = listFiltered.get(position);
 
         // Rule change listener
         CompoundButton.OnCheckedChangeListener cbListener = new CompoundButton.OnCheckedChangeListener() {
@@ -636,12 +636,14 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
             @Override
             protected void publishResults(CharSequence query, FilterResults result) {
-                listSelected.clear();
+                listFiltered.clear();
                 if (result == null)
-                    listSelected.addAll(listAll);
-                else
-                    for (Rule rule : (List<Rule>) result.values)
-                        listSelected.add(rule);
+                    listFiltered.addAll(listAll);
+                else {
+                    listFiltered.addAll((List<Rule>) result.values);
+                    if (listFiltered.size() == 1)
+                        listFiltered.get(0).expanded = true;
+                }
                 notifyDataSetChanged();
             }
         };
@@ -654,6 +656,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     @Override
     public int getItemCount() {
-        return listSelected.size();
+        return listFiltered.size();
     }
 }
