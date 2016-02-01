@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.wifi.WifiConfiguration;
@@ -801,6 +802,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlExport(getSharedPreferences("screen_other", Context.MODE_PRIVATE), serializer);
         serializer.endTag(null, "screen_other");
 
+        serializer.startTag(null, "filter");
+        filterExport(serializer);
+        serializer.endTag(null, "filter");
+
         serializer.endTag(null, "netguard");
         serializer.endDocument();
         serializer.flush();
@@ -848,24 +853,59 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         }
     }
 
+    private void filterExport(XmlSerializer serializer) throws IOException {
+        PackageManager pm = getPackageManager();
+        DatabaseHelper dh = new DatabaseHelper(this);
+        Cursor cursor = dh.getAccess();
+        int colUid = cursor.getColumnIndex("uid");
+        int colDAddr = cursor.getColumnIndex("daddr");
+        int colDPort = cursor.getColumnIndex("dport");
+        int colTime = cursor.getColumnIndex("time");
+        int colBlock = cursor.getColumnIndex("block");
+        while (cursor.moveToNext()) {
+            int uid = cursor.getInt(colUid);
+            String pkgs[] = pm.getPackagesForUid(uid);
+            if (pkgs == null) {
+                Log.w(TAG, "No packages for uid=" + uid);
+                continue;
+            }
+            for (String pkg : pkgs) {
+                serializer.startTag(null, "rule");
+                serializer.attribute(null, "pkg", pkg);
+                serializer.attribute(null, "daddr", cursor.getString(colDAddr));
+                serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
+                serializer.attribute(null, "time", Long.toString(cursor.getLong(colTime)));
+                serializer.attribute(null, "block", Integer.toString(cursor.getInt(colBlock)));
+                serializer.endTag(null, "rule");
+            }
+        }
+        cursor.close();
+        dh.close();
+    }
+
     private void xmlImport(InputStream in) throws IOException, SAXException, ParserConfigurationException {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.unregisterOnSharedPreferenceChangeListener(this);
         prefs.edit().putBoolean("enabled", false).apply();
         SinkholeService.stop("import", this);
 
-        XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-        XmlImportHandler handler = new XmlImportHandler(this);
-        reader.setContentHandler(handler);
-        reader.parse(new InputSource(in));
+        DatabaseHelper dh = new DatabaseHelper(this);
+        try {
+            XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+            XmlImportHandler handler = new XmlImportHandler(this, dh);
+            reader.setContentHandler(handler);
+            reader.parse(new InputSource(in));
 
-        xmlImport(handler.application, prefs);
-        xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
-        xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
-        xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
-        xmlImport(handler.screen_wifi, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
-        xmlImport(handler.screen_other, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
-        xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
+            xmlImport(handler.application, prefs);
+            xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
+            xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
+            xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
+            xmlImport(handler.screen_wifi, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
+            xmlImport(handler.screen_other, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
+            xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
+        } finally {
+            dh.close();
+        }
 
         // Upgrade imported settings
         Receiver.upgrade(true, this);
@@ -903,6 +943,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private class XmlImportHandler extends DefaultHandler {
         private Context context;
+        private DatabaseHelper dh;
         public boolean enabled = false;
         public Map<String, Object> application = new HashMap<>();
         public Map<String, Object> wifi = new HashMap<>();
@@ -912,9 +953,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         public Map<String, Object> screen_other = new HashMap<>();
         public Map<String, Object> roaming = new HashMap<>();
         private Map<String, Object> current = null;
+        private List<Integer> listUid = new ArrayList<>();
 
-        public XmlImportHandler(Context context) {
+        public XmlImportHandler(Context context, DatabaseHelper dh) {
             this.context = context;
+            this.dh = dh;
         }
 
         @Override
@@ -942,6 +985,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             else if (qName.equals("roaming"))
                 current = roaming;
+
+            else if (qName.equals("filter"))
+                current = null;
 
             else if (qName.equals("setting")) {
                 String key = attributes.getValue("key");
@@ -982,6 +1028,31 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         } else
                             Log.e(TAG, "Unknown type key=" + key);
                     }
+                }
+            } else if (qName.equals("rule")) {
+                String pkg = attributes.getValue("pkg");
+
+                Packet packet = new Packet();
+                packet.daddr = attributes.getValue("daddr");
+                packet.dport = Integer.parseInt(attributes.getValue("dport"));
+                packet.time = Long.parseLong(attributes.getValue("time"));
+
+                int block = Integer.parseInt(attributes.getValue("block"));
+
+                try {
+                    packet.uid = getPackageManager().getApplicationInfo(pkg, 0).uid;
+
+                    // This assumes ordered export
+                    if (!listUid.contains(packet.uid)) {
+                        Log.i(TAG, "Clear filters uid=" + packet.uid);
+                        listUid.add(packet.uid);
+                        dh.clearAccess(packet.uid);
+                    }
+
+                    Log.i(TAG, " Update access " + packet + " block=" + block);
+                    dh.updateAccess(packet, null, block);
+                } catch (PackageManager.NameNotFoundException ex) {
+                    Log.w(TAG, "Package not found pkg=" + pkg);
                 }
 
             } else

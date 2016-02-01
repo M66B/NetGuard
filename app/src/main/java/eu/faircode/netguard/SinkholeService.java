@@ -690,7 +690,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         dname = packet.daddr;
                     }
 
-                if (dh.updateAccess(packet, dname))
+                if (dh.updateAccess(packet, dname, -1))
                     if (notify && (system || !Util.isSystem(packet.uid, SinkholeService.this)))
                         showAccessNotification(packet.uid);
 

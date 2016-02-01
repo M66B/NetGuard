@@ -284,7 +284,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Access
 
-    public boolean updateAccess(Packet packet, String dname) {
+    public boolean updateAccess(Packet packet, String dname, int block) {
         int rows;
         synchronized (mContext.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -292,6 +292,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues cv = new ContentValues();
             cv.put("time", packet.time);
             cv.put("allowed", packet.allowed ? 1 : 0);
+            if (block >= 0)
+                cv.put("block", block);
 
             rows = db.update("access", cv, "uid = ? AND daddr = ? AND dport = ?",
                     new String[]{
@@ -303,7 +305,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cv.put("uid", packet.uid);
                 cv.put("daddr", dname == null ? packet.daddr : dname);
                 cv.put("dport", packet.dport);
-                cv.put("block", -1);
+                if (block < 0)
+                    cv.put("block", block);
 
                 if (db.insert("access", null, cv) == -1)
                     Log.e(TAG, "Insert access failed");
@@ -369,7 +372,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAccess() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query("access", new String[]{"uid", "daddr", "dport", "block"}, "block >= 0", null, null, null, null);
+        return db.query("access", new String[]{"uid", "daddr", "dport", "time", "block"}, "block >= 0", null, null, null, "uid");
     }
 
     public Cursor getAccessUnset(int uid) {
