@@ -85,6 +85,7 @@
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo Regras</string>
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
+  <string name="msg_hosts">%1$d allowed, %2$d blocked, %3$d hosts</string>
   <string name="msg_waiting">Aguardando evento</string>
   <string name="msg_disabled">NetGuard desativado, use o interruptor acima para ativá-lo</string>
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>

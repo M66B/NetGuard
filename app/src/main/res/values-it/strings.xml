@@ -86,6 +86,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_sure">Sei sicuro?</string>
   <string name="msg_started">Regole applicate</string>
   <string name="msg_packages">%1$d permesse, %2$d bloccate</string>
+  <string name="msg_hosts">%1$d allowed, %2$d blocked, %3$d hosts</string>
   <string name="msg_waiting">In attesa di eventi</string>
   <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
   <string name="msg_revoked">NetGuard è stata disabilitata, probabilmente a causa di un\'altra applicazione che usa il servizio VPN</string>

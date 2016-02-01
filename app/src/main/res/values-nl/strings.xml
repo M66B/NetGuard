@@ -86,6 +86,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_sure">Weet u het zeker?</string>
   <string name="msg_started">Regels worden toegepast</string>
   <string name="msg_packages">%1$d toegestaan, %2$d geblokkeerd</string>
+  <string name="msg_hosts">%1$d toegestaan, %2$d geblokkeerd, %3$d hosts</string>
   <string name="msg_waiting">Wachten op gebeurtenis</string>
   <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar boven om NetGuard aan te zetten</string>
   <string name="msg_revoked">NetGuard is uitgezet, waarschijnlijk door een andere VPN applicatie</string>

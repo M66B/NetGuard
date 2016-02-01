@@ -86,6 +86,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_sure">Na pewno?</string>
   <string name="msg_started">Wymuś Reguły</string>
   <string name="msg_packages">%1$d dozwolone, %2$d zablokowane</string>
+  <string name="msg_hosts">%1$d allowed, %2$d blocked, %3$d hosts</string>
   <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard jest wyłączony, użyj przełącznika u góry by go uruchomić</string>
   <string name="msg_revoked">NetGuard został wyłączony, prawdopodobnie za pomocą innej aplikacji używającej VPN</string>

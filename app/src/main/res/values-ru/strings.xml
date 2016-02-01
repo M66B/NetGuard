@@ -84,6 +84,7 @@
   <string name="msg_sure">Вы уверены?</string>
   <string name="msg_started">Определить правила</string>
   <string name="msg_packages">%1$d разрешено, %2$d заблокировано</string>
+  <string name="msg_hosts">%1$d allowed, %2$d blocked, %3$d hosts</string>
   <string name="msg_waiting">Ожидание события</string>
   <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для его включения</string>
   <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>

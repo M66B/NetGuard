@@ -86,6 +86,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_sure">Emin misiniz?</string>
   <string name="msg_started">Kuralları zorla</string>
   <string name="msg_packages">%1$d izin verilen, %2$d engellenen</string>
+  <string name="msg_hosts">%1$d allowed, %2$d blocked, %3$d hosts</string>
   <string name="msg_waiting">Waiting for event</string>
   <string name="msg_disabled">NetGuard devre dışı, NetGuard etkinleştirmek için yukarıdaki anahtarını kullanın.</string>
   <string name="msg_revoked">NetGuard, büyük olasılıkla başka bir VPN tabanlı uygulama kullanılarak devre dışı bırakıldı</string>

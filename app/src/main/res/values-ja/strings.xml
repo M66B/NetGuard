@@ -85,6 +85,7 @@
   <string name="msg_sure">よろしいですか?</string>
   <string name="msg_started">ルールを適用します</string>
   <string name="msg_packages">%1$d 許可、%2$d ブロック</string>
+  <string name="msg_hosts">%1$d allowed, %2$d blocked, %3$d hosts</string>
   <string name="msg_waiting">イベントの待機中</string>
   <string name="msg_disabled">NetGuard は無効です。NetGuard を有効にするには上のスイッチを使用してください</string>
   <string name="msg_revoked">NetGuard が無効にされました。別の VPN ベースのアプリケーションを使用した可能性があります</string>
