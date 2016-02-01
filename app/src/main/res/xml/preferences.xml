@@ -56,7 +56,7 @@
             android:defaultValue="false"
             android:key="tethering"
             android:title="@string/setting_tethering" />
-        <MultiSelectListPreference
+        <com.h6ah4i.android.compat.preference.MultiSelectListPreferenceCompat
             android:defaultValue="@array/default_wifi_home"
             android:key="wifi_homes"
             android:summary="@string/summary_wifi_home" />
