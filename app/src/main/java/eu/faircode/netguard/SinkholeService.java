@@ -1118,7 +1118,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
         }
 
-        if (prefs.getBoolean("log", false))
+        if (prefs.getBoolean("log", false) || prefs.getBoolean("log_app", false))
             logPacket(packet);
 
         return packet.allowed;
