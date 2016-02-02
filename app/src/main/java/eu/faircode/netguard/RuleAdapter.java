@@ -89,6 +89,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public ImageView ivExpander;
         public TextView tvName;
 
+        public TextView tvHosts;
+
         public LinearLayout llWifi;
         public CheckBox cbWifi;
         public ImageView ivScreenWifi;
@@ -132,6 +134,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             ivIcon = (ImageView) itemView.findViewById(R.id.ivIcon);
             ivExpander = (ImageView) itemView.findViewById(R.id.ivExpander);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
+
+            tvHosts = (TextView) itemView.findViewById(R.id.tvHosts);
 
             llWifi = (LinearLayout) itemView.findViewById(R.id.llWifi);
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
@@ -504,9 +508,14 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
-        if (rule.expanded) {
-            final AccessAdapter badapter = new AccessAdapter(context, dh.getAccess(rule.info.applicationInfo.uid));
+        // Show rule count
+        final AccessAdapter badapter = new AccessAdapter(context, dh.getAccess(rule.info.applicationInfo.uid));
+        int count = badapter.getCount();
+        holder.tvHosts.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
+        holder.tvHosts.setText(Integer.toString(count));
 
+        // Show rules
+        if (rule.expanded) {
             if (filter)
                 holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

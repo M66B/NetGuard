@@ -41,6 +41,16 @@
                 android:textAppearance="@style/TextMedium" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tvHosts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:textAppearance="@style/TextSmall"
+            android:textSize="12sp" />
+
         <LinearLayout
             android:id="@+id/llWifi"
             android:layout_width="wrap_content"
