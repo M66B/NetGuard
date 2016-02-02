@@ -111,7 +111,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="msg_completed">Action completed</string>
     <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
 For this reason, please allow a VPN connection in the next dialog.
-Your internet traffic is not being sent to an remote VPN server.</string>
+Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
     <string name="msg_try">Try NetGuard</string>
     <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
