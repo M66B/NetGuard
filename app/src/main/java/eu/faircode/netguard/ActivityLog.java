@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -316,6 +317,11 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         final File pcap_file = new File(getCacheDir(), "netguard.pcap");
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                Log.i(TAG, "Up");
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
             case R.id.menu_log_live:
                 item.setChecked(!item.isChecked());
                 live = item.isChecked();

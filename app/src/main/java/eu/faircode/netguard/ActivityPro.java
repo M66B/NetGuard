@@ -22,6 +22,7 @@ package eu.faircode.netguard;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -183,13 +184,16 @@ public class ActivityPro extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                Log.i(TAG, "Up");
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
