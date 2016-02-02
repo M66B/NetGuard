@@ -770,7 +770,11 @@ public class Util {
                 } catch (IOException ignored) {
                 }
             if (process != null)
-                process.destroy();
+                try {
+                    process.destroy();
+                } catch (Throwable ex) {
+                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
         }
         return builder;
     }
