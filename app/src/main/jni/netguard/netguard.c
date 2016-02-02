@@ -285,6 +285,7 @@ void handle_signal(int sig, siginfo_t *info, void *context) {
 }
 
 void *handle_events(void *a) {
+    int sdk;
     fd_set rfds;
     fd_set wfds;
     fd_set efds;
@@ -305,6 +306,9 @@ void *handle_events(void *a) {
     }
     args->env = env;
 
+    // Get SDK version
+    sdk = sdk_int(env);
+
     // Block SIGUSR1
     sigemptyset(&blockset);
     sigaddset(&blockset, SIGUSR1);
@@ -323,21 +327,20 @@ void *handle_events(void *a) {
     signaled = 0;
 
     // Loop
-    while (1) {
+    while (!stopping) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
 
         // Check sessions
         check_sessions(args);
+        int idle = (icmp_session == NULL && udp_session == NULL && tcp_session == NULL);
+        idle = (idle && sdk >= 16); // https://bugzilla.mozilla.org/show_bug.cgi?id=1093893
 
         // Select
         ts.tv_sec = SELECT_TIMEOUT;
         ts.tv_nsec = 0;
         sigemptyset(&emptyset);
         int max = get_selects(args, &rfds, &wfds, &efds);
-        int ready = pselect(
-                max + 1, &rfds, &wfds, &efds,
-                icmp_session == NULL && udp_session == NULL && tcp_session == NULL ? NULL : &ts,
-                &emptyset);
+        int ready = pselect(max + 1, &rfds, &wfds, &efds, idle ? NULL : &ts, &emptyset);
 
         if (ready < 0) {
             if (errno == EINTR) {
@@ -363,7 +366,7 @@ void *handle_events(void *a) {
         }
 
         if (ready == 0)
-            log_android(ANDROID_LOG_DEBUG, "pselect timeout");
+            log_android(ANDROID_LOG_DEBUG, "pselect timeout sdk %d idle %d", sdk, idle);
         else {
             log_android(ANDROID_LOG_DEBUG, "pselect ready %d", ready);
 
