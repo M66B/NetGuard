@@ -1094,7 +1094,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             return true;
 
         packet.allowed = false;
-        if (packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */) {
+        if (packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */
+                || packet.protocol == 1 /* ICMPv4 */ || packet.protocol == 58 /* ICMPv6 */) {
             if (prefs.getBoolean("filter", false)) {
                 if (packet.uid <= 0) // unknown, root
                     packet.allowed = true;

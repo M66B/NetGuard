@@ -5,7 +5,10 @@
 #define SELECT_TIMEOUT 10 // seconds
 
 #define TUN_MAXMSG 32768 // bytes (device)
+#define ICMP4_MAXMSG 65507 // bytes (socket)
 #define UDP4_MAXMSG 65507 // bytes (socket)
+
+#define ICMP_TIMEOUT 3 // seconds
 
 #define UDP_TIMEOUT_53 15 // seconds
 #define UDP_TIMEOUT_ANY 300 // seconds
@@ -28,6 +31,29 @@ struct arguments {
     JNIEnv *env;
     jobject instance;
     int tun;
+};
+
+struct icmp_session {
+    time_t time;
+    jint uid;
+    int version;
+
+    union {
+        __be32 ip4; // network notation
+        struct in6_addr ip6;
+    } saddr;
+
+    union {
+        __be32 ip4; // network notation
+        struct in6_addr ip6;
+    } daddr;
+
+    uint16_t id;
+
+    uint8_t stop;
+    jint socket;
+
+    struct icmp_session *next;
 };
 
 struct udp_session {
@@ -213,6 +239,8 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
 
 int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
+void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
+
 void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
 int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qname);
@@ -226,6 +254,12 @@ int is_lower_layer(int protocol);
 int is_upper_layer(int protocol);
 
 void handle_ip(const struct arguments *args, const uint8_t *buffer, size_t length);
+
+int has_icmp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload);
+
+jboolean handle_icmp(const struct arguments *args,
+                     const uint8_t *pkt, size_t length, const uint8_t *payload,
+                     int uid);
 
 int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload);
 
@@ -268,6 +302,9 @@ int write_data(const struct arguments *args, struct tcp_session *cur,
 int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes);
 
 void write_rst(const struct arguments *args, struct tcp_session *cur);
+
+ssize_t write_icmp(const struct arguments *args, const struct icmp_session *cur,
+                   uint8_t *data, size_t datalen);
 
 ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
                   uint8_t *data, size_t datalen);
