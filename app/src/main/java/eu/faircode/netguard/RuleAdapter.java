@@ -573,7 +573,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         });
 
         boolean notify = prefs.getBoolean("notify_access", false);
-        final String key = "notify." + rule.info.applicationInfo.uid;
+        final String key = "notify_" + rule.info.applicationInfo.uid;
+        holder.cbNotify.setOnCheckedChangeListener(null);
         holder.cbNotify.setEnabled(notify);
         holder.cbNotify.setChecked(prefs.getBoolean(key, true));
         holder.cbNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
