@@ -94,9 +94,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_installed">\'%1$s\' installed</string>
   <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Akcia bola dokončená</string>
-  <string name="msg_vpn">NetGuard používa lokálnu VPN sieť na zablokovanie sieťovej prevádzky,
-a preto by ste mali povoliť VPN pripojenie v ďalšom okne.
-Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemôže byť nikde odosielaná.</string>
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">Skúsiť NetGuard</string>
   <string name="msg_terms">Darovaním súhlasíte s <a href="http://www.netguard.me/#terms">podmienkami služby</a></string>
   <string name="msg_dimming">Ak nemôžete stlačiť tlačidlo OK na ďalšom okne, tak iná aplikácia (na ovladanie jasu) prekrýva obrazovkou.</string>
@@ -119,6 +120,7 @@ Keďže NetGuard nemá internetové povolenie, vaša sieťová prevádzka nemô�
   <string name="title_allow">Povoliť</string>
   <string name="title_block">Blokovať</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Vlastnosti verzie Pro</string>

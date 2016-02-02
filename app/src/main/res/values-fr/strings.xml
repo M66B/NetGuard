@@ -94,9 +94,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_installed">%1$s installé</string>
   <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Action réalisée</string>
-  <string name="msg_vpn">NetGuard utilise un VPN local comme un gouffre pour bloquer le trafic internet.
-Pour cette raison, veuillez autoriser une connexion VPN dans la fenêtre suivante.
-Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est pas envoyé partout.</string>
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">Essayer NetGuard</string>
   <string name="msg_terms">En faisant un don vous acceptez les <a href="http://www.netguard.me/#terms">termes et conditions</a></string>
   <string name="msg_dimming">Si vous ne pouvez pas appuyer sur OK dans la fenêtre suivante, une autre application (filtre de luminosité) manipule probablement l\'écran.</string>
@@ -119,6 +120,7 @@ Netguard n\'a pas accès a internet, vous savez que votre trafic internet n\'est
   <string name="title_allow">Autoriser</string>
   <string name="title_block">Bloquer</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Fonctionnalités Pro</string>

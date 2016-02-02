@@ -94,9 +94,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_installed">\'%1$s\' telepítve</string>
   <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Művelet befejezve</string>
-  <string name="msg_vpn">A NetGuard egy helyi VPN-t, mint egy víznyelőt használ az internet forgalom blokkolására.
-Ezért kérjük, hogy a következő párbeszédablakban engedélyezze a VPN kapcsolatot.
-Mivel a NetGuard nem rendelkezik internet elérés engedéllyel, ezért nem küldi el sehova az internet forgalmi adatait.</string>
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">NetGuard kipróbálása</string>
   <string name="msg_terms">A támogató elfogadja a <a href="http://www.netguard.me/#terms">felhasználási feltételeket</a></string>
   <string name="msg_dimming">Ha nem nyomja meg az OK gombot a következő párbeszédablakban, a másik (a képernyő fényerő) alkalmazás valószínűleg módosul a képernyőn.</string>
@@ -119,6 +120,7 @@ Mivel a NetGuard nem rendelkezik internet elérés engedéllyel, ezért nem kül
   <string name="title_allow">Engedélyezés</string>
   <string name="title_block">Letiltás</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Pro funkciók</string>

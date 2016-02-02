@@ -31,8 +31,6 @@
 #include <sys/socket.h>
 #include <dlfcn.h>
 
-#define RTLD_NOLOAD 4
-
 #include <arpa/inet.h>
 #include <netinet/ip.h>
 #include <netinet/ip6.h>
@@ -831,7 +829,9 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
                         else
                             inet_ntop(AF_INET6, &cur->daddr.ip6, dest, sizeof(dest));
 
-                        // cur->id == icmp->icmp_id
+                        // cur->id should be equal to icmp->icmp_id
+                        // but for some unexplained reason this is not the case
+                        // some bits seems to be set extra
                         struct icmp *icmp = (struct icmp *) buffer;
                         log_android(cur->id == icmp->icmp_id ? ANDROID_LOG_INFO : ANDROID_LOG_WARN,
                                     "ICMP recv bytes %d from %s for tun type %d code %d id %x/%x seq %d",
@@ -841,8 +841,20 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
 
                         // restore original ID
                         icmp->icmp_id = cur->id;
+                        uint16_t csum = 0;
+                        if (cur->version == 6) {
+                            // Untested
+                            struct ip6_hdr_pseudo pseudo;
+                            memset(&pseudo, 0, sizeof(struct ip6_hdr_pseudo));
+                            memcpy(&pseudo.ip6ph_src, &cur->daddr.ip6, 16);
+                            memcpy(&pseudo.ip6ph_dst, &cur->saddr.ip6, 16);
+                            pseudo.ip6ph_len = bytes - sizeof(struct ip6_hdr);
+                            pseudo.ip6ph_nxt = IPPROTO_ICMPV6;
+                            csum = calc_checksum(
+                                    0, (uint8_t *) &pseudo, sizeof(struct ip6_hdr_pseudo));
+                        }
                         icmp->icmp_cksum = 0;
-                        icmp->icmp_cksum = ~calc_checksum(0, buffer, bytes);
+                        icmp->icmp_cksum = ~calc_checksum(csum, buffer, bytes);
 
                         // Forward to tun
                         if (write_icmp(args, cur, buffer, (size_t) bytes) < 0)
@@ -1489,8 +1501,19 @@ jboolean handle_icmp(const struct arguments *args,
     // Modify ID
     // http://lwn.net/Articles/443051/
     icmp->icmp_id = ~icmp->icmp_id;
+    uint16_t csum = 0;
+    if (version == 6) {
+        // Untested
+        struct ip6_hdr_pseudo pseudo;
+        memset(&pseudo, 0, sizeof(struct ip6_hdr_pseudo));
+        memcpy(&pseudo.ip6ph_src, &ip6->ip6_dst, 16);
+        memcpy(&pseudo.ip6ph_dst, &ip6->ip6_src, 16);
+        pseudo.ip6ph_len = ip6->ip6_ctlun.ip6_un1.ip6_un1_plen;
+        pseudo.ip6ph_nxt = ip6->ip6_ctlun.ip6_un1.ip6_un1_nxt;
+        csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ip6_hdr_pseudo));
+    }
     icmp->icmp_cksum = 0;
-    icmp->icmp_cksum = ~calc_checksum(0, icmp, icmplen);
+    icmp->icmp_cksum = ~calc_checksum(csum, icmp, icmplen);
 
     log_android(ANDROID_LOG_INFO,
                 "ICMP forward from tun %s to %s type %d code %d id %x seq %d data %d",

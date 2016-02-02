@@ -92,9 +92,10 @@
   <string name="msg_installed">\'%1$s\' instalado</string>
   <string name="msg_access">%1$s tentaram acesso à internet</string>
   <string name="msg_completed">Ação concluída</string>
-  <string name="msg_vpn">NetGuard usa uma VPN local como um sumidouro para bloquear o tráfego de dados.
-Por essa razão, por favor, permita a conexão VPN na tela a seguir.
-Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados não é enviado a lugar algum.</string>
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">Testar NetGuard</string>
   <string name="msg_terms">Doando, você concorda com os <a href="http://www.netguard.me/#terms">termos &amp; condições</a></string>
   <string name="msg_dimming">Caso não consiga pressionar OK no dialogo a seguir, então provavelmente alguma aplicacão (screen dimming) está a manipular a tela.</string>
@@ -117,6 +118,7 @@ Como o NetGuard não possui permissão de acesso a internet, o tráfego de dados
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
   <string name="title_pro">Versão PRO</string>

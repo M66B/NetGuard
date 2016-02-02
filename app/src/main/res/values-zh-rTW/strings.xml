@@ -95,7 +95,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_installed">\'%1$s\' 已安裝</string>
   <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">完成</string>
-  <string name="msg_vpn">網路守門人使用一個VPN做為一個緩衝器來阻擋網路連接.因此,請在下一個對話框允許開啟一個VPN連接.因為網路守門人並沒有網路權限,所以你完全可以放心.</string>
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">試試網路守門人</string>
   <string name="msg_terms">捐款代表你同意<a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">如果你在下一個對話框沒辦法點OK,可能是有其他App(濾波器之類的)在執行螢幕繪製.</string>
@@ -118,6 +121,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_allow">允許</string>
   <string name="title_block">阻擋</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">專業版功能</string>

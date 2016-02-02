@@ -94,9 +94,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_installed">\'%1$s\' installed</string>
   <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Action completed</string>
-  <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
 For this reason, please allow a VPN connection in the next dialog.
-Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">Try NetGuard</string>
   <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
@@ -119,6 +120,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_allow">Allow</string>
   <string name="title_block">Block</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Pro features</string>

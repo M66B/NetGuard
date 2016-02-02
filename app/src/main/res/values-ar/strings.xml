@@ -94,7 +94,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_installed">\'%1$s\' installed</string>
   <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">اكتمل الإجراء</string>
-  <string name="msg_vpn">يـسـتـخـدم NetGuard عـلـى VPN مـحـلـي بـاعـتـبـارة الـمـجـرى لـمـنـع حـركـة الـمـرور عـلـى الإنـتـرنـت. لـهـذا الـسـبـب، يـرجـى أن تـسـمـحـوا إتـصـال VPN فـي الـحـوار الـتـالـي. ولأن NetGuard لا يـوجـد لـديـه إذن الإنـتـرنـت، كـمـا تـعـلـمـون، لـذا لا يـتـم إرسـال حـركـة الـمـرور عـلـى الإنـتـرنـت إلـى أي مـكـان.</string>
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">جـرّب حـارس الـشـبـكـة (NetGuard)</string>
   <string name="msg_terms">بالــتـبـرع مـعـنـاه مـوافـقـتـك عـلـى الأحـكـام والـشـروط. <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">إن لـم تـسـتـطـع الـضـغـط عـلـى مـوافـق مـعـنـى ذلـك ( تـعـتـيـم الـشـاشـة) أن تـطـبـيـق آخـر مـتـحـكـم فـي الـشـاشـة.</string>
@@ -117,6 +120,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_allow">اســمــح</string>
   <string name="title_block">Block</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Pro features</string>

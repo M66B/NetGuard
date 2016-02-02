@@ -22,7 +22,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_support">Podpora</string>
   <string name="menu_about">O programu</string>
   <string name="menu_live">Live updates</string>
-  <string name="menu_resolve">Show names</string>
+  <string name="menu_resolve">Zobrazit název</string>
   <string name="menu_pcap_enabled">PCAP enabled</string>
   <string name="menu_pcap_export">PCAP export</string>
   <string name="menu_clear">Vymazat</string>
@@ -65,8 +65,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_import">Importovat nastavení</string>
   <string name="setting_hosts">Import hosts file</string>
   <string name="setting_technical">Technické informace</string>
-  <string name="setting_technical_general">General</string>
-  <string name="setting_technical_networks">Networks</string>
+  <string name="setting_technical_general">Hlavní</string>
+  <string name="setting_technical_networks">Sítě</string>
   <string name="setting_technical_subscription">Subscriptions</string>
   <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
@@ -94,9 +94,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_installed">\'%1$s\' installed</string>
   <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Akce byla dokončena</string>
-  <string name="msg_vpn">NetGuard uses a local VPN as a sinkhole to block internet traffic.
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
 For this reason, please allow a VPN connection in the next dialog.
-Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.</string>
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">Vyzkoušet NetGuard</string>
   <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>
@@ -112,13 +113,14 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_disabled">je zakázáno</string>
   <string name="title_internet">has no internet permission</string>
   <string name="title_launch">Spustit aplikaci</string>
-  <string name="title_access">Access attempts</string>
+  <string name="title_access">Pokusy o přístup</string>
   <string name="title_no_log"><u>Logging is not enabled</u></string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Ohodnotit</string>
   <string name="title_allow">Povolit</string>
   <string name="title_block">Blokovat</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Pro-funkce</string>
@@ -127,10 +129,10 @@ Since NetGuard has no internet permission, you know your internet traffic is not
   <string name="title_pro_description">The following convenience features are available:</string>
   <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_filter">Filter network traffic</string>
-  <string name="title_pro_notify">New application notifications</string>
-  <string name="title_pro_speed">Network speed graph notification</string>
-  <string name="title_pro_theme">Appearance (theme, colors)</string>
-  <string name="title_pro_buy">Details</string>
+  <string name="title_pro_notify">Upozornění na nové aplikace</string>
+  <string name="title_pro_speed">Oznámení rychlosti sítě v grafu</string>
+  <string name="title_pro_theme">Vzhled (téma, barvy)</string>
+  <string name="title_pro_buy">Detaily</string>
   <string name="title_pro_bought">Povoleno</string>
   <string name="title_pro_challenge">Výzva</string>
   <string name="title_pro_reponse">Odpověď</string>

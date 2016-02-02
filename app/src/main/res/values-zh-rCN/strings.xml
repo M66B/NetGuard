@@ -94,9 +94,10 @@
   <string name="msg_installed">\'%1$s\' 已安装</string>
   <string name="msg_access">%1$s 尝试进行网络连接</string>
   <string name="msg_completed">操作完成</string>
-  <string name="msg_vpn">NetGuard使用一个本地VPN来重定向被阻止的网络流量.
-因此请在下一个对话框中允许建立VPN连接.
-NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被发送至任何第三方.</string>
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">试用NetGuard</string>
   <string name="msg_terms">捐赠即表明您同意 <a href="http://www.netguard.me/#terms">条款与条件</a></string>
   <string name="msg_dimming">如果您在下一个对话框中无法点击确定, 可能是另一个应用正在控制屏幕(如屏幕亮度调节软件).</string>
@@ -119,6 +120,7 @@ NetGuard不具有网络访问权限, 所以您无需担心您的网络流量被�
   <string name="title_allow">允许</string>
   <string name="title_block">阻止</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">端口 %1$d</string>
   <string name="title_pro">专业版功能</string>

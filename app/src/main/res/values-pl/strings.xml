@@ -94,9 +94,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_installed">\'%1$s\' installed</string>
   <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Wykonano</string>
-  <string name="msg_vpn">NetGuard używa lokalnego VPN jako sinkhole\'a w celu blokowania ruchu internetowego.
-Z tego powodu w następnym oknie dialogowym zezwól na połączenie VPN.
-Ponieważ NetGuard nie ma zezwolenia na dostęp do Internetu, masz pewność, że Twój ruch internetowy nigdzie nie jest wysyłany.</string>
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">Wypróbuj NetGuard</string>
   <string name="msg_terms">Przekazując darowiznę wyrażam zgodę na <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">Jeśli nie możesz nacisnąć OK w następnym oknie dialogowym, inna aplikacja prawdopodobnie zarządza ekranem (przygaszanie ekranu).</string>
@@ -119,6 +120,7 @@ Ponieważ NetGuard nie ma zezwolenia na dostęp do Internetu, masz pewność, ż
   <string name="title_allow">Zezwól</string>
   <string name="title_block">Blokuj</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Funkcje Pro</string>

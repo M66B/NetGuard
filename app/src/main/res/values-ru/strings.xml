@@ -76,7 +76,7 @@
   <string name="summary_national_roaming">Не применять правила роуминга, если SIM-карта и мобильная сеть из одной страны</string>
   <string name="summary_system">Определить правила для системных приложений (для профи)</string>
   <string name="summary_log_app">Журнал попыток доступа приложений к сети интернет. Это может привести к большему потреблению заряда аккумулятора.</string>
-  <string name="summary_access">Показывать оповещение в статус баре, когда приложение получает доступ к новому интернет адресу</string>
+  <string name="summary_access">Показывать оповещение в статус-баре, когда приложение получает доступ к новому интернет адресу</string>
   <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_block_domains">Перенаправление заблокированных доменных имен для локальных устройств. Этот переключатель выключен, если ни один hosts-файл не был импортирован.</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>
@@ -84,7 +84,7 @@
   <string name="msg_sure">Вы уверены?</string>
   <string name="msg_started">Определить правила</string>
   <string name="msg_packages">%1$d разрешено, %2$d заблокировано</string>
-  <string name="msg_hosts">%1$d allowed, %2$d blocked, %3$d hosts</string>
+  <string name="msg_hosts">%1$d разрешен, %2$d заблокирован, %3$d хостов</string>
   <string name="msg_waiting">Ожидание события</string>
   <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для его включения</string>
   <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>
@@ -92,9 +92,10 @@
   <string name="msg_installed">\'%1$s\' установлено</string>
   <string name="msg_access">%1$s попыток доступа в интернет</string>
   <string name="msg_completed">Действие завершено</string>
-  <string name="msg_vpn">NetGuard использует локальный VPN, чтобы блокировать интернет трафик.
-По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне.
-NetGuard не имеет разрешения доступа в интернет, поэтому вы можете быть уверены, что ваш интернет-трафик никуда не отправляется.</string>
+  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
+For this reason, please allow a VPN connection in the next dialog.
+Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
   <string name="msg_try">Попробуйте новый фаервол NetGuard</string>
   <string name="msg_terms">Делая пожертвование, Вы соглашаетесь с <a href="http://www.netguard.me/#terms">условиями &amp; положениями</a></string>
   <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>
@@ -117,6 +118,7 @@ NetGuard не имеет разрешения доступа в интернет
   <string name="title_allow">Разрешить</string>
   <string name="title_block">Блокировать</string>
   <string name="title_root">root</string>
+  <string name="title_notify">Уведомить о попытке доступа в интернет</string>
   <string name="title_log_whois">Протокол WHOIS: %1$s</string>
   <string name="title_log_port">Порт: %1$d</string>
   <string name="title_pro">Pro-функции</string>

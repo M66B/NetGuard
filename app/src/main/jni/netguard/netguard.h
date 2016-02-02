@@ -27,6 +27,8 @@
 #define MAX_PCAP_FILE (1024 * 1024) // bytes
 #define MAX_PCAP_RECORD 128 // bytes
 
+#define RTLD_NOLOAD 4
+
 struct arguments {
     JNIEnv *env;
     jobject instance;
