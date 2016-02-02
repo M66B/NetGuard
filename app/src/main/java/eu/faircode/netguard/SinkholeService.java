@@ -114,8 +114,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private static final int NOTIFY_ENFORCING = 1;
     private static final int NOTIFY_WAITING = 2;
     private static final int NOTIFY_DISABLED = 3;
-    private static final int NOTIFY_ERROR = 4;
-    private static final int NOTIFY_TRAFFIC = 5;
+    private static final int NOTIFY_AUTOSTART = 4;
+    private static final int NOTIFY_ERROR = 5;
+    private static final int NOTIFY_TRAFFIC = 6;
 
     public static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
@@ -238,6 +239,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (cmd == Command.start || cmd == Command.reload)
                 if (VpnService.prepare(SinkholeService.this) != null) {
                     Log.w(TAG, "VPN not prepared");
+                    prefs.edit().putBoolean("enabled", false).apply();
+                    showAutoStartNotification();
                     return;
                 }
 
@@ -1521,6 +1524,32 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         notification.bigText(getString(R.string.msg_revoked));
 
         NotificationManagerCompat.from(this).notify(NOTIFY_DISABLED, notification.build());
+    }
+
+    private void showAutoStartNotification() {
+        Intent main = new Intent(this, ActivityMain.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorOff, tv, true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_error_white_24dp)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_autostart))
+                .setContentIntent(pi)
+                .setColor(tv.data)
+                .setOngoing(false)
+                .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setCategory(Notification.CATEGORY_STATUS)
+                    .setVisibility(Notification.VISIBILITY_SECRET);
+        }
+
+        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
+        notification.bigText(getString(R.string.msg_autostart));
+
+        NotificationManagerCompat.from(this).notify(NOTIFY_AUTOSTART, notification.build());
     }
 
     private void showErrorNotification(String reason) {
