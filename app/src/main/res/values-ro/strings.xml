@@ -92,10 +92,9 @@
   <string name="msg_installed">\'%1$s\' instalat</string>
   <string name="msg_access">%1$s a incercat sa acceseze internetul</string>
   <string name="msg_completed">Actiune realizata</string>
-  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Your internet traffic is not being sent to a remote VPN server.</string>
-  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
+  <string name="msg_vpn">NetGuard utilizeaza o contexiune VPN locala pentru a filtra traficul pe internet.
+Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmatoare. Traficul de internet nu este trimis la un server VPN extern.</string>
+  <string name="msg_autostart">NetGuard nu a putut fi pornit automat dupa repornirea dispozitivului din cauza unei erori din aceasta versiune de Android</string>
   <string name="msg_try">Incearca NetGuard</string>
   <string name="msg_terms">Donand esti de acord cu <a href="http://www.netguard.me/#terms">termenii si conditiile</a></string>
   <string name="msg_dimming">Daca in urmatoarea fereastra de dialog nu poti apasa OK inseamna ca o aplicatie ce manipuleaza ecranul (luminozitatea sau nuanta) blocheaza interactiunea.</string>
