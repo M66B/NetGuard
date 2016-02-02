@@ -1528,6 +1528,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private void showAutoStartNotification() {
         Intent main = new Intent(this, ActivityMain.class);
+        main.putExtra(ActivityMain.EXTRA_APPROVE, true);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();

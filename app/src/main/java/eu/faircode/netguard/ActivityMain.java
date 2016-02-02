@@ -79,6 +79,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
     public static final String EXTRA_SEARCH = "Search";
+    public static final String EXTRA_APPROVE = "Approve";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +104,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Upgrade
         Receiver.upgrade(initialized, this);
 
-        if (enabled)
-            SinkholeService.start("UI", this);
-        else
-            SinkholeService.stop("UI", this);
+        if (!getIntent().hasExtra(EXTRA_APPROVE)) {
+            if (enabled)
+                SinkholeService.start("UI", this);
+            else
+                SinkholeService.stop("UI", this);
+        }
 
         // Action bar
         View actionView = getLayoutInflater().inflate(R.layout.action, null);
@@ -276,6 +279,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }, this).bind();
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
+
+        // Approve request
+        if (getIntent().hasExtra(EXTRA_APPROVE) && !enabled) {
+            Log.i(TAG, "Requesting VPN approval");
+            swEnabled.toggle();
         }
     }
 
