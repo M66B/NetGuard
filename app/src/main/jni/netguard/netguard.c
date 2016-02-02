@@ -331,9 +331,10 @@ void *handle_events(void *a) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
 
         // Check sessions
-        check_sessions(args);
-        int idle = (icmp_session == NULL && udp_session == NULL && tcp_session == NULL);
-        idle = (idle && sdk >= 16); // https://bugzilla.mozilla.org/show_bug.cgi?id=1093893
+        int sessions = check_sessions(args);
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1093893
+        int idle = (sessions == 0 && sdk >= 16);
+        log_android(ANDROID_LOG_DEBUG, "sessions %d idle %d sdk %d", sessions, idle, sdk);
 
         // Select
         ts.tv_sec = SELECT_TIMEOUT;
@@ -366,7 +367,7 @@ void *handle_events(void *a) {
         }
 
         if (ready == 0)
-            log_android(ANDROID_LOG_DEBUG, "pselect timeout sdk %d idle %d", sdk, idle);
+            log_android(ANDROID_LOG_DEBUG, "pselect timeout");
         else {
             log_android(ANDROID_LOG_DEBUG, "pselect ready %d", ready);
 
@@ -531,7 +532,8 @@ void check_allowed(const struct arguments *args) {
     }
 }
 
-void check_sessions(const struct arguments *args) {
+int check_sessions(const struct arguments *args) {
+    int count = 0;
     time_t now = time(NULL);
 
     // Check ICMP sessions
@@ -568,6 +570,7 @@ void check_sessions(const struct arguments *args) {
             free(c);
         }
         else {
+            count++;
             il = i;
             i = i->next;
         }
@@ -612,6 +615,7 @@ void check_sessions(const struct arguments *args) {
             free(c);
         }
         else {
+            count++;
             ul = u;
             u = u->next;
         }
@@ -674,10 +678,13 @@ void check_sessions(const struct arguments *args) {
             free(c);
         }
         else {
+            count++;
             tl = t;
             t = t->next;
         }
     }
+
+    return count;
 }
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {

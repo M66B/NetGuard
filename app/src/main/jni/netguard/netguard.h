@@ -235,7 +235,7 @@ void report_exit(const struct arguments *args, const char *fmt, ...);
 
 void check_allowed(const struct arguments *args);
 
-void check_sessions(const struct arguments *args);
+int check_sessions(const struct arguments *args);
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
