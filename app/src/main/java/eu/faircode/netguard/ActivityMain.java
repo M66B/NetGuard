@@ -343,7 +343,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 Uri target = data.getData();
                 if (data.hasExtra("org.openintents.extra.DIR_PATH"))
                     target = Uri.parse(target + "/logcat.txt");
-                Log.i(TAG, "Export PCAP URI=" + target);
+                Log.i(TAG, "Export URI=" + target);
                 Util.sendLogcat(target, this);
             }
 

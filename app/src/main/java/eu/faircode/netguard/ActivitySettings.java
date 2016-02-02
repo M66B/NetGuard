@@ -659,7 +659,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 try {
                     Uri target = data.getData();
                     if (data.hasExtra("org.openintents.extra.DIR_PATH"))
-                        target = Uri.parse(target + "/netguard.xml");
+                        target = Uri.parse(target + "/netguard_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".xml");
                     Log.i(TAG, "Writing URI=" + target);
                     out = getContentResolver().openOutputStream(target);
                     xmlExport(out);
