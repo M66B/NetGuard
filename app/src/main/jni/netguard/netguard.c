@@ -1437,7 +1437,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
             handle_tcp(args, pkt, length, payload, uid);
     }
     else
-        log_android(ANDROID_LOG_DEBUG, "Address %s/%u syn %d not allowed", dest, dport, syn);
+        log_android(ANDROID_LOG_INFO, "Address %s/%u syn %d not allowed", dest, dport, syn);
 
 #ifdef PROFILE_EVENTS
     gettimeofday(&end, NULL);

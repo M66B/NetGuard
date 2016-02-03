@@ -457,7 +457,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getDns() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT access.uid, dns.resource, access.dport, access.block";
+        String query = "SELECT access.uid, access.daddr, dns.resource, access.dport, access.block";
         query += " FROM access";
         query += " JOIN dns";
         query += "   ON dns.qname = access.daddr";

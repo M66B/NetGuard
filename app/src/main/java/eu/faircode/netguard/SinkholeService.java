@@ -924,11 +924,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         Cursor cursor = dh.getDns();
         int colUid = cursor.getColumnIndex("uid");
+        int colDAddr = cursor.getColumnIndex("daddr");
         int colResource = cursor.getColumnIndex("resource");
         int colDPort = cursor.getColumnIndex("dport");
         int colBlock = cursor.getColumnIndex("block");
         while (cursor.moveToNext()) {
             int uid = cursor.getInt(colUid);
+            String daddr = cursor.getString(colDAddr);
             String dresource = cursor.getString(colResource);
             int dport = cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort);
             boolean block = (cursor.getInt(colBlock) > 0);
@@ -940,7 +942,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             try {
                 map.get(uid).get(dport).put(InetAddress.getByName(dresource), block);
-                Log.i(TAG, "Set filter uid=" + uid + " " + dresource + "/" + dport + "=" + block);
+                Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
             } catch (UnknownHostException ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
