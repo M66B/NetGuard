@@ -48,6 +48,9 @@ import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -416,9 +419,13 @@ public class Util {
         public void onSure();
     }
 
-    public static void areYouSure(Context context, final DoubtListener listener) {
+    public static void areYouSure(Context context, int explanation, final DoubtListener listener) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.sure, null);
+        TextView tvExplanation = (TextView) view.findViewById(R.id.tvExplanation);
+        tvExplanation.setText(explanation);
         new AlertDialog.Builder(context)
-                .setView(R.layout.sure)
+                .setView(view)
                 .setCancelable(true)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override

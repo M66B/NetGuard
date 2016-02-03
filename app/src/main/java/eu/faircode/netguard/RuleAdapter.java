@@ -495,7 +495,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Util.areYouSure(view.getContext(), new Util.DoubtListener() {
+                Util.areYouSure(view.getContext(), R.string.msg_clear_rules, new Util.DoubtListener() {
                     @Override
                     public void onSure() {
                         holder.cbWifi.setChecked(rule.wifi_default);
@@ -616,7 +616,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.btnClearAccess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Util.areYouSure(view.getContext(), new Util.DoubtListener() {
+                Util.areYouSure(view.getContext(), R.string.msg_reset_access, new Util.DoubtListener() {
                     @Override
                     public void onSure() {
                         dh.clearAccess(rule.info.applicationInfo.uid);

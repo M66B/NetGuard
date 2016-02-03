@@ -28,9 +28,17 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tvExplanation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextMedium" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/msg_sure"
-        android:textAppearance="@style/TextMedium" />
+        android:textAppearance="@style/TextMedium"
+        android:textStyle="bold" />
 </LinearLayout>
