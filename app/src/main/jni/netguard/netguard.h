@@ -8,7 +8,7 @@
 #define ICMP4_MAXMSG 65507 // bytes (socket)
 #define UDP4_MAXMSG 65507 // bytes (socket)
 
-#define ICMP_TIMEOUT 3 // seconds
+#define ICMP_TIMEOUT 15 // seconds
 
 #define UDP_TIMEOUT_53 15 // seconds
 #define UDP_TIMEOUT_ANY 300 // seconds
