@@ -26,6 +26,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_pcap_enabled">PCAP abilitati</string>
   <string name="menu_pcap_export">Esporta PCAP</string>
   <string name="menu_clear">Pulisci</string>
+  <string name="menu_reset">Reset</string>
   <string name="setting_defaults">Impostazioni predefinite</string>
   <string name="setting_whitelist_wifi">Blocca Wi-Fi di default</string>
   <string name="setting_whitelist_other">Blocca rete dati di default</string>
@@ -64,6 +65,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_export">Esporta impostazioni</string>
   <string name="setting_import">Importa impostazioni</string>
   <string name="setting_hosts">Importa file hosts</string>
+  <string name="setting_hosts_url">Hosts file download URL</string>
+  <string name="setting_hosts_download">Download hosts file</string>
   <string name="setting_technical">Informazioni tecniche</string>
   <string name="setting_technical_general">Generali</string>
   <string name="setting_technical_networks">Reti</string>
@@ -106,6 +109,10 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">A causa dell\'utilizzo del filtraggio, Android attribuirà il consumo di dati ed energia a NetGuard - Android assume che i dati e la batteria vengano utilizzati da NetGuard invece che dalle rispettive applicazioni</string>
   <string name="msg_log_disabled">La registrazione del traffico è disattivata, utilizzare l\'interruttore sopra per attivare la registrazione. La registrazione del traffico potrebbe comportare un utilizzo aggiuntivo di batteria.</string>
+  <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
+  <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
+  <string name="msg_downloading">Downloading\n%1s</string>
+  <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
   <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>

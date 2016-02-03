@@ -25,6 +25,7 @@
   <string name="menu_pcap_enabled">PCAP увімкнуто</string>
   <string name="menu_pcap_export">Експорт PCAP</string>
   <string name="menu_clear">Очистити</string>
+  <string name="menu_reset">Reset</string>
   <string name="setting_defaults">Типові</string>
   <string name="setting_whitelist_wifi">Блокувати типово у Wi-Fi мережі</string>
   <string name="setting_whitelist_other">Блокувати типово у мобільній мережі</string>
@@ -63,6 +64,8 @@
   <string name="setting_export">Експорт налаштувань</string>
   <string name="setting_import">Імпорт налаштувань</string>
   <string name="setting_hosts">Імплрт hosts файлу</string>
+  <string name="setting_hosts_url">Hosts file download URL</string>
+  <string name="setting_hosts_download">Download hosts file</string>
   <string name="setting_technical">Технічна інформація</string>
   <string name="setting_technical_general">Загальне</string>
   <string name="setting_technical_networks">Мережі</string>
@@ -105,6 +108,10 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
   <string name="msg_log_disabled">Журналювання трафіку вимкнуто, використовуйте перемикач вище, аби увімкнути журналювання. Це може підвищити споживання батареї.</string>
+  <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
+  <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
+  <string name="msg_downloading">Downloading\n%1s</string>
+  <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="title_conditions">Умови</string>
   <string name="title_screen_wifi">Дозволено Wi-Fi, коли екран активний</string>
   <string name="title_screen_other">Дозволено мобільні мережі, коли екран активний</string>

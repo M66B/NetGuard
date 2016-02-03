@@ -26,6 +26,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_pcap_enabled">PCAP ingeschakeld</string>
   <string name="menu_pcap_export">PCAP exporteren</string>
   <string name="menu_clear">Wissen</string>
+  <string name="menu_reset">Herstellen</string>
   <string name="setting_defaults">Standaard</string>
   <string name="setting_whitelist_wifi">Blokkeer Wi-Fi</string>
   <string name="setting_whitelist_other">Blokkeer mobiel</string>
@@ -64,6 +65,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_export">Exporteer instellingen</string>
   <string name="setting_import">Importeer instellingen</string>
   <string name="setting_hosts">Importeer hosts-bestand</string>
+  <string name="setting_hosts_url">Hosts file download URL</string>
+  <string name="setting_hosts_download">Download hosts file</string>
   <string name="setting_technical">Technische informatie</string>
   <string name="setting_technical_general">Algemeen</string>
   <string name="setting_technical_networks">Netwerken</string>
@@ -106,6 +109,10 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
   <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
+  <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
+  <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
+  <string name="msg_downloading">Downloading\n%1s</string>
+  <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="title_conditions">Condities</string>
   <string name="title_screen_wifi">Sta Wi-Fi toe als het scherm aan is</string>
   <string name="title_screen_other">Sta mobiel toe als het scherm aan is</string>

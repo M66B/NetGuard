@@ -24,6 +24,7 @@
   <string name="menu_pcap_enabled">PCAP включен</string>
   <string name="menu_pcap_export">PCAP экспорт</string>
   <string name="menu_clear">Очистить</string>
+  <string name="menu_reset">Сброс</string>
   <string name="setting_defaults">По умолчанию</string>
   <string name="setting_whitelist_wifi">Блокировать Wi-Fi по умолч.</string>
   <string name="setting_whitelist_other">Блокировать моб. сеть по умолч.</string>
@@ -62,6 +63,8 @@
   <string name="setting_export">Экспорт настроек</string>
   <string name="setting_import">Импорт настроек</string>
   <string name="setting_hosts">Импорт hosts-файла</string>
+  <string name="setting_hosts_url">Hosts file download URL</string>
+  <string name="setting_hosts_download">Download hosts file</string>
   <string name="setting_technical">Техническая информация</string>
   <string name="setting_technical_general">Общее</string>
   <string name="setting_technical_networks">Сеть</string>
@@ -103,6 +106,10 @@
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Использование данной функции приводит к тому, что Android передает данные и использование энергии в пользование NetGuard; Android будет считать, что данные и энергия используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
   <string name="msg_log_disabled">Ведение журнала трафика отключено, используйте переключатель выше для его включения. Это может привести к большему потреблению заряда аккумулятора.</string>
+  <string name="msg_clear_rules">Это сбросит правила и условия на их значения по умолчанию</string>
+  <string name="msg_reset_access">Это удалит строки журнала попыток доступа правил разрешения/блокирования</string>
+  <string name="msg_downloading">Downloading\n%1s</string>
+  <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="title_conditions">Условия</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>

@@ -25,6 +25,7 @@
   <string name="menu_pcap_enabled">PCAP ativado</string>
   <string name="menu_pcap_export">Exportar PCAP</string>
   <string name="menu_clear">Limpar</string>
+  <string name="menu_reset">Reset</string>
   <string name="setting_defaults">Padrões</string>
   <string name="setting_whitelist_wifi">Bloquear Wi-Fi</string>
   <string name="setting_whitelist_other">Bloquear Dados Móveis</string>
@@ -63,6 +64,8 @@
   <string name="setting_export">Exportar configurações</string>
   <string name="setting_import">Importar configurações</string>
   <string name="setting_hosts">Importar arquivos de hosts</string>
+  <string name="setting_hosts_url">Hosts file download URL</string>
+  <string name="setting_hosts_download">Download hosts file</string>
   <string name="setting_technical">Informações técnicas</string>
   <string name="setting_technical_general">Geral</string>
   <string name="setting_technical_networks">Redes</string>
@@ -105,6 +108,10 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Usar filtragem pode fazer com que o Android atribua uso de dados e consumo de energia ao NetGuard - Android assume que o uso de dados e consumo de bateria são usados pelo NetGuard e não pelas aplicações originais</string>
   <string name="msg_log_disabled">Log de tráfego está desabilitado, utilize o botão acima para habilitar o log. Log do tráfego pode resultar no uso extra da bateria.</string>
+  <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
+  <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
+  <string name="msg_downloading">Downloading\n%1s</string>
+  <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>

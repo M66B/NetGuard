@@ -24,6 +24,7 @@
   <string name="menu_pcap_enabled">Activeaza PCAP</string>
   <string name="menu_pcap_export">Exporta PCAP</string>
   <string name="menu_clear">Elimina</string>
+  <string name="menu_reset">Reseteaza</string>
   <string name="setting_defaults">Setari implicite</string>
   <string name="setting_whitelist_wifi">Blocheaza Wi-Fi</string>
   <string name="setting_whitelist_other">Blocheaza datele mobile</string>
@@ -62,6 +63,8 @@
   <string name="setting_export">Exporta setari</string>
   <string name="setting_import">Importa setari</string>
   <string name="setting_hosts">Importa lista de domenii de blocat</string>
+  <string name="setting_hosts_url">Hosts file download URL</string>
+  <string name="setting_hosts_download">Download hosts file</string>
   <string name="setting_technical">Informatii tehnice</string>
   <string name="setting_technical_general">Generale</string>
   <string name="setting_technical_networks">Retele</string>
@@ -103,6 +106,10 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Android va asocia consumul de baterie si date lui NetGuard atunci cand activati filtrarea. De fapt aplicatiile ce acceseaza internetul consuma</string>
   <string name="msg_log_disabled">Inregistrarea traficului in jurnal este dezactivata, utilizati butonul de mai sus pentru a o activa. Optiunea de inregistrare ar putea duce la un consumul suplimentar al bateriei.</string>
+  <string name="msg_clear_rules">Se vor reseta regulile si conditiile la valorile implicite</string>
+  <string name="msg_reset_access">Se vor sterge din jurnal adresele accesate ce nu au fost conditionate cu permite/blocheaza</string>
+  <string name="msg_downloading">Downloading\n%1s</string>
+  <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="title_conditions">Restrictii</string>
   <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
   <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>

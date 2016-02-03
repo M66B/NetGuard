@@ -25,6 +25,7 @@
   <string name="menu_pcap_enabled">PCAP を有効にしました</string>
   <string name="menu_pcap_export">PCAP エクスポート</string>
   <string name="menu_clear">クリア</string>
+  <string name="menu_reset">Reset</string>
   <string name="setting_defaults">デフォルト</string>
   <string name="setting_whitelist_wifi">デフォルトで Wi-Fi をブロック</string>
   <string name="setting_whitelist_other">デフォルトでモバイル通信をブロック</string>
@@ -63,6 +64,8 @@
   <string name="setting_export">設定をエクスポート</string>
   <string name="setting_import">設定をインポート</string>
   <string name="setting_hosts">hosts ファイルをインポート</string>
+  <string name="setting_hosts_url">Hosts file download URL</string>
+  <string name="setting_hosts_download">Download hosts file</string>
   <string name="setting_technical">技術情報</string>
   <string name="setting_technical_general">全般</string>
   <string name="setting_technical_networks">ネットワーク</string>
@@ -105,6 +108,10 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">NetGuard でフィルタリングを使用すると、Android のデータと電力使用につながります - Android は、元のアプリケーションではなく NetGuard によってデータと電力を使用しているとみなします。</string>
   <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
+  <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
+  <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
+  <string name="msg_downloading">Downloading\n%1s</string>
+  <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>

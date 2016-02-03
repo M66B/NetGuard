@@ -25,6 +25,7 @@
   <string name="menu_pcap_enabled">PCAP aktiviert</string>
   <string name="menu_pcap_export">PCAP exportieren</string>
   <string name="menu_clear">Bereinigen</string>
+  <string name="menu_reset">Zurücksetzen</string>
   <string name="setting_defaults">Standards</string>
   <string name="setting_whitelist_wifi">WLAN blockieren</string>
   <string name="setting_whitelist_other">Mobilfunk blockieren</string>
@@ -63,6 +64,8 @@
   <string name="setting_export">Einstellungen exportieren</string>
   <string name="setting_import">Einstellungen importieren</string>
   <string name="setting_hosts">Host-Datei importieren</string>
+  <string name="setting_hosts_url">Hosts file download URL</string>
+  <string name="setting_hosts_download">Download hosts file</string>
   <string name="setting_technical">Technische information</string>
   <string name="setting_technical_general">Allgemein</string>
   <string name="setting_technical_networks">Netzwerke</string>
@@ -93,10 +96,8 @@
   <string name="msg_installed">\'%1$s\' installiert</string>
   <string name="msg_access">%1$s versucht Internetzugriff</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
-  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Your internet traffic is not being sent to a remote VPN server.</string>
-  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
+  <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um den Internetverkehr zu filtern. Gestatten Sie aus diesem Grund eine VPN-Verbindung im nächsten Dialogfenster. Ihr Internetverkehr wird an keinen Remote-VPN-Server gesendet!</string>
+  <string name="msg_autostart">NetGuard konnte aufgrund eines Fehlers Ihrer aktuellen Android Version beim Booten nicht automatisch stareten</string>
   <string name="msg_try">NetGuard ausprobieren</string>
   <string name="msg_terms">Durch eine Spende stimmen Sie der <a href="http://www.netguard.me/#terms">AGB</a> zu.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
@@ -105,6 +106,10 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">Bei Verwendung von Filterung werden Daten- und Energiewerte getriggert und Android nimmt an, dass die Daten und Energie von NetGuard, anstatt der ursprünglichen Anwendungen verbraucht wird.</string>
   <string name="msg_log_disabled">Datenverkehrprotokollierung ist deaktiviert. Zum Aktivieren den Schalter oben verwenden. Die Protokollierung kann zu höherem Akku-Verbrauch führen.</string>
+  <string name="msg_clear_rules">Dadurch werden die Regeln und Bedingungen auf ihre Standardwerte zurückgesetzt</string>
+  <string name="msg_reset_access">Dadurch werden die Zeilen für die Zugriffsversuche im das Protokoll ohne der Erlaubt-/Blockier-Regeln gelöscht</string>
+  <string name="msg_downloading">Downloading\n%1s</string>
+  <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="title_conditions">Bedingungen</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
