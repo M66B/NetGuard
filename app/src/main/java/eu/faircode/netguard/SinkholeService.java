@@ -1084,12 +1084,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     // Called from native code
-    private boolean isAddressAllowed(Packet packet) {
+    private int isAddressAllowed(Packet packet) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Allow name resolving
         if (packet.uid == Process.myUid())
-            return true;
+            return -1;
 
         packet.allowed = false;
         if (packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */
@@ -1123,7 +1123,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (prefs.getBoolean("log", false) || prefs.getBoolean("log_app", false))
             logPacket(packet);
 
-        return packet.allowed;
+        return packet.allowed ? -1 : 0;
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {

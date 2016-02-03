@@ -78,6 +78,7 @@ struct udp_session {
     __be16 dest; // network notation
 
     uint8_t stop;
+    int32_t lport; // host notation
     jint socket;
 
     struct udp_session *next;
@@ -270,7 +271,7 @@ int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint
 jboolean handle_udp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
-                    int uid);
+                    int uid, int32_t lport);
 
 int get_dns_query(const struct arguments *args, const struct udp_session *u,
                   const uint8_t *data, const size_t datalen,
@@ -289,6 +290,8 @@ jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
                     int uid);
+
+int open_icmp_socket(const struct arguments *args, const struct icmp_session *cur);
 
 int open_udp_socket(const struct arguments *args, const struct udp_session *cur);
 
@@ -353,7 +356,7 @@ void dns_resolved(const struct arguments *args,
 
 jboolean is_domain_blocked(const struct arguments *args, const char *name);
 
-jboolean is_address_allowed(const struct arguments *args, jobject objPacket);
+jint is_address_allowed(const struct arguments *args, jobject objPacket);
 
 jobject create_packet(const struct arguments *args,
                       jint version,
