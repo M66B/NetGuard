@@ -275,14 +275,30 @@ public class LogAdapter extends CursorAdapter {
     }
 
     private String getKnownPort(int port) {
-        if (port == 53)
-            return "dns";
-        else if (port == 80)
-            return "http";
-        else if (port == 443)
-            return "https";
-        else if (port == 993)
-            return "imaps";
-        return Integer.toString(port);
+        // https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers#Well-known_ports
+        switch (port) {
+            case 7:
+                return "echo";
+            case 25:
+                return "smtp";
+            case 53:
+                return "dns";
+            case 80:
+                return "http";
+            case 110:
+                return "pop3";
+            case 143:
+                return "imap";
+            case 443:
+                return "https";
+            case 465:
+                return "smtps";
+            case 993:
+                return "imaps";
+            case 995:
+                return "pop3s";
+            default:
+                return Integer.toString(port);
+        }
     }
 }
