@@ -955,35 +955,20 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private void updateUidIPFilters() {
-        Map<Integer, Map<Integer, Map<InetAddress, Boolean>>> map = new HashMap<>();
-
         DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
-
         Cursor cursor = dh.getAccess();
         int colDAddr = cursor.getColumnIndex("daddr");
         while (cursor.moveToNext()) {
             String daddr = cursor.getString(colDAddr);
             try {
-                for (InetAddress iaddr : InetAddress.getAllByName(daddr)) {
-                    ResourceRecord rr = new ResourceRecord();
-                    rr.Time = new Date().getTime();
-                    rr.QName = daddr;
-                    rr.AName = daddr;
-                    rr.Resource = iaddr.getHostAddress();
-                    rr.TTL = 10 * 60; // Android default
-                    dh.insertDns(rr);
-                }
+                // This will result in native callbacks
+                InetAddress.getAllByName(daddr);
             } catch (UnknownHostException ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
         }
         cursor.close();
-
         dh.close();
-
-        synchronized (mapUidIPFilters) {
-            mapUidIPFilters = map;
-        }
     }
 
     private void cleanupDNS() {
