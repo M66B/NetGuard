@@ -2343,27 +2343,38 @@ int open_udp_socket(const struct arguments *args, const struct udp_session *cur)
     if (protect_socket(args, sock) < 0)
         return -1;
 
-    // Check for broadcast
+    // Check for broadcast/multicast
     if (cur->version == 4) {
         uint32_t broadcast4 = INADDR_BROADCAST;
         if (memcmp(&cur->daddr.ip4, &broadcast4, sizeof(broadcast4)) == 0) {
-            log_android(ANDROID_LOG_WARN, "UDP broadcast");
+            log_android(ANDROID_LOG_WARN, "UDP4 broadcast");
             int on = 1;
             if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on)))
                 log_android(ANDROID_LOG_ERROR, "UDP setsockopt SO_BROADCAST error %d: %s",
                             errno, strerror(errno));
         }
     } else {
-        // TODO IPv6 broadcast
-        // ffX2::0/16
-        /*
-        struct ipv6_mreq mreq6;
-        mreq6->ipv6mr_multiaddr;
-        mreq6->ipv6mr_ifindex;
-        if (setsockopt(sock, IPPROTO_IPV6, IPV6_ADD_MEMBERSHIP, (char *) &mreq6, sizeof(mreq6)))
-            log_android(ANDROID_LOG_ERROR, "UDP setsockopt IPV6_ADD_MEMBERSHIP error %d: %s",
-                        errno, strerror(errno));
-        */
+        // http://man7.org/linux/man-pages/man7/ipv6.7.html
+        if (*((uint8_t *) &cur->daddr.ip6) == 0xFF) {
+            log_android(ANDROID_LOG_WARN, "UDP6 broadcast");
+
+            int loop = 1; // true
+            if (setsockopt(sock, IPPROTO_IPV6, IPV6_MULTICAST_LOOP, &loop, sizeof(loop)))
+                log_android(ANDROID_LOG_ERROR, "UDP setsockopt IPV6_MULTICAST_LOOP error %d: %s",
+                            errno, strerror(errno));
+
+            int ttl = -1; // route default
+            if (setsockopt(sock, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, &ttl, sizeof(ttl)))
+                log_android(ANDROID_LOG_ERROR, "UDP setsockopt IPV6_MULTICAST_HOPS error %d: %s",
+                            errno, strerror(errno));
+
+            struct ipv6_mreq mreq6;
+            memcpy(&mreq6.ipv6mr_multiaddr, &cur->daddr.ip6, sizeof(struct in6_addr));
+            mreq6.ipv6mr_interface = INADDR_ANY;
+            if (setsockopt(sock, IPPROTO_IPV6, IPV6_ADD_MEMBERSHIP, &mreq6, sizeof(mreq6)))
+                log_android(ANDROID_LOG_ERROR, "UDP setsockopt IPV6_ADD_MEMBERSHIP error %d: %s",
+                            errno, strerror(errno));
+        }
     }
 
     return sock;
