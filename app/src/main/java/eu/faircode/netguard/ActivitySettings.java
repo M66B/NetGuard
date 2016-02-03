@@ -117,7 +117,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         final PreferenceScreen screen = getPreferenceScreen();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
@@ -203,7 +203,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         Preference pref_hosts = screen.findPreference("hosts");
         Preference pref_block_domains = screen.findPreference("use_hosts");
         EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
-        Preference pref_hosts_download = screen.findPreference("hosts_download");
+        final Preference pref_hosts_download = screen.findPreference("hosts_download");
+        String last = prefs.getString("hosts_last", null);
+        if (last != null)
+            pref_hosts_download.setSummary(getString(R.string.msg_download_last, last));
 
         if (Util.isPlayStoreInstall(this)) {
             PreferenceCategory pref_category = (PreferenceCategory) screen.findPreference("category_advanced_options");
@@ -232,28 +235,33 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             pref_hosts_download.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
+                    final File tmp = new File(getFilesDir(), "hosts.tmp");
                     final File hosts = new File(getFilesDir(), "hosts.txt");
                     EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
                     try {
-                        new DownloadTask(ActivitySettings.this, new URL(pref_hosts_url.getText()), hosts, new DownloadTask.Listener() {
+                        new DownloadTask(ActivitySettings.this, new URL(pref_hosts_url.getText()), tmp, new DownloadTask.Listener() {
                             @Override
                             public void onCompleted() {
+                                if (hosts.exists())
+                                    hosts.delete();
+                                tmp.renameTo(hosts);
+                                String last = SimpleDateFormat.getDateTimeInstance().format(new Date().getTime());
+                                prefs.edit().putString("hosts_last", last).apply();
+                                pref_hosts_download.setSummary(getString(R.string.msg_download_last, last));
                                 Toast.makeText(ActivitySettings.this, R.string.msg_downloaded, Toast.LENGTH_LONG).show();
                                 SinkholeService.reload(null, "hosts file download", ActivitySettings.this);
                             }
 
                             @Override
                             public void onCancelled() {
-                                if (hosts.exists())
-                                    hosts.delete();
-                                SinkholeService.reload(null, "hosts file download", ActivitySettings.this);
+                                if (tmp.exists())
+                                    tmp.delete();
                             }
 
                             @Override
                             public void onException(Throwable ex) {
-                                if (hosts.exists())
-                                    hosts.delete();
-                                SinkholeService.reload(null, "hosts file download", ActivitySettings.this);
+                                if (tmp.exists())
+                                    tmp.delete();
                                 Toast.makeText(ActivitySettings.this, ex.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }).execute();

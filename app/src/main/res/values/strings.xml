@@ -128,6 +128,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
     <string name="msg_downloading">Downloading\n%1s</string>
     <string name="msg_downloaded">Hosts file downloaded</string>
+    <string name="msg_download_last">Last download: %s</string>
 
     <string name="title_conditions">Conditions</string>
     <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
