@@ -50,6 +50,7 @@
   <string name="setting_log_app">Internetzugriff protokollieren</string>
   <string name="setting_access">Bei Internet-Zugriff benachrichtigen</string>
   <string name="setting_filter">Datenverkehr filtern</string>
+  <string name="setting_resolved">Store resolved domain names</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
   <string name="setting_vpn6">VPN-IPv6: %s</string>
@@ -64,14 +65,15 @@
   <string name="setting_export">Einstellungen exportieren</string>
   <string name="setting_import">Einstellungen importieren</string>
   <string name="setting_hosts">Host-Datei importieren</string>
-  <string name="setting_hosts_url">Hosts file download URL</string>
-  <string name="setting_hosts_download">Download hosts file</string>
+  <string name="setting_hosts_url">Hosts-Datei-Download-URL</string>
+  <string name="setting_hosts_download">Hosts-Datei herunterladen</string>
   <string name="setting_technical">Technische information</string>
   <string name="setting_technical_general">Allgemein</string>
   <string name="setting_technical_networks">Netzwerke</string>
   <string name="setting_technical_subscription">Abos</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert\nNull eingeben zum Deaktivieren dieser Option</string>
   <string name="summary_delay">Nachdem Ausschalten des Bildschirms, diesen aufgrund der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren)</string>
+  <string name="summary_tethering">Tethered Verkehr kann nicht gefiltert werden</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
   <string name="summary_metered">Mobilfunk-Regeln gemessenen (bezahlten, tethered) WLAN-Netzwerken anwenden</string>
   <string name="summary_metered_2g">WLAN-Netzwerk-Regeln für 2G-Datenverbindungen anwenden</string>
@@ -82,7 +84,8 @@
   <string name="summary_log_app">Protokoll zeichnet den Internetzugriff von Anwendungen auf. Dadurch kann ein zusätzlicher Batterieverbrauch entstehen.</string>
   <string name="summary_access">Benachrichtigung in Statusleiste anzeigen, wenn eine App auf eine neue Internetadresse zugreifen möchte</string>
   <string name="summary_filter">IP Pakete filtern, die das VPN verlassen. Dies könnte zu erhöhtem Stromverbrauch führen.</string>
-  <string name="summary_block_domains">Blockierte Domainnamen an das lokale Gerät weiterleten. Dieser Schalter ist nicht verfügbar, wenn keine hosts-Datei importiert wurde.</string>
+  <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
+  <string name="summary_block_domains">Antworten Sie mit \'Name Error\' (NXDOMAIN) für blockierte Domain-Namen. Diese Option ist deaktiviert, wenn keine Hosts-Datei importiert wurde.</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>
   <string name="summary_hosts">Eine Standard-Hosts-Datei importieren. Eine Host-Datei wird beim Exportieren der Einstellungen nicht miteingeschlossen.</string>
   <string name="msg_sure">Sind Sie sicher?</string>
@@ -108,8 +111,9 @@
   <string name="msg_log_disabled">Datenverkehrprotokollierung ist deaktiviert. Zum Aktivieren den Schalter oben verwenden. Die Protokollierung kann zu höherem Akku-Verbrauch führen.</string>
   <string name="msg_clear_rules">Dadurch werden die Regeln und Bedingungen auf ihre Standardwerte zurückgesetzt</string>
   <string name="msg_reset_access">Dadurch werden die Zeilen für die Zugriffsversuche im das Protokoll ohne der Erlaubt-/Blockier-Regeln gelöscht</string>
-  <string name="msg_downloading">Downloading\n%1s</string>
-  <string name="msg_downloaded">Hosts file downloaded</string>
+  <string name="msg_downloading">Herunterladen\n%1s</string>
+  <string name="msg_downloaded">Hosts-Datei heruntergeladen</string>
+  <string name="msg_download_last">Letztes Herunterladen: %s</string>
   <string name="title_conditions">Bedingungen</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>

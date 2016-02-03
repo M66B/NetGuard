@@ -50,6 +50,7 @@
   <string name="setting_log_app">インター ネット アクセスをログ</string>
   <string name="setting_access">インター ネット アクセス時に通知</string>
   <string name="setting_filter">トラフィックをフィルター</string>
+  <string name="setting_resolved">Store resolved domain names</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -72,6 +73,7 @@
   <string name="setting_technical_subscription">サブスクリプション</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
+  <string name="summary_tethering">Tethered traffic cannot be filtered</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>
   <string name="summary_metered">従量制 (有料、テザリング) Wi-Fi ネットワークにモバイル ネットワーク ルールを適用します</string>
   <string name="summary_metered_2g">2G データ接続の Wi-Fi ネットワーク ルールを適用します</string>
@@ -82,7 +84,8 @@
   <string name="summary_log_app">アプリケーションのインターネットへのアクセスをログ記録します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_access">アプリケーションが、新しいインターネット アドレスにアクセスしようとするときに、ステータスバーに通知を表示します。</string>
   <string name="summary_filter">VPN のシンク穴を出る IP パケットをフィルター処理します。バッテリー使用量が増える場合があります。</string>
-  <string name="summary_block_domains">ブロックされたドメイン名をローカル デバイスにリダイレクトします。hosts ファイルをインポートしない場合は、このスイッチは無効です。</string>
+  <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
   <string name="summary_hosts">標準の hosts ファイルをインポートします。設定をエクスポートする場合、hosts ファイルはエクスポートされません。</string>
   <string name="msg_sure">よろしいですか?</string>
@@ -112,6 +115,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
   <string name="msg_downloading">Downloading\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
+  <string name="msg_download_last">Last download: %s</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>

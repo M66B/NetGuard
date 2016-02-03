@@ -51,6 +51,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">Log internet access</string>
   <string name="setting_access">Notify on internet access</string>
   <string name="setting_filter">Filtra traffico</string>
+  <string name="setting_resolved">Store resolved domain names</string>
   <string name="setting_block_domains">Blocca nomi di dominio</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -73,6 +74,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_subscription">Sottoscrizioni</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo é acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
+  <string name="summary_tethering">Tethered traffic cannot be filtered</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
   <string name="summary_metered_2g">Applica le regole valide per il Wi-Fi alle connessioni 2G</string>
@@ -83,7 +85,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
   <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_filter">Filtra i pacchetti IP in uscita dal pozzo VPN. Questo potrebbe comportare un consumo aggiuntivo di batteria.</string>
-  <string name="summary_block_domains">Reindirizza i nomi di dominio bloccati al dispositivo locale. Questa opzione é disabilitata se nessun file hosts é stato importato.</string>
+  <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
   <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">Sei sicuro?</string>
@@ -113,6 +116,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
   <string name="msg_downloading">Downloading\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
+  <string name="msg_download_last">Last download: %s</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
   <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>

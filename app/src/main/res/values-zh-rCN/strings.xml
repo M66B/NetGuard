@@ -51,6 +51,7 @@
   <string name="setting_log_app">网络访问日志</string>
   <string name="setting_access">网络连接通知</string>
   <string name="setting_filter">过滤流量</string>
+  <string name="setting_resolved">Store resolved domain names</string>
   <string name="setting_block_domains">屏蔽域名</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -73,6 +74,7 @@
   <string name="setting_technical_subscription">Subscriptions</string>
   <string name="summary_auto">禁用小部件后, 在设定分钟后自动再次启用NetGuard\n输入零以禁用此选项</string>
   <string name="summary_delay">关屏后，保持亮屏规则在指定的分钟数内有效 (输入零以禁用此选项)</string>
+  <string name="summary_tethering">Tethered traffic cannot be filtered</string>
   <string name="summary_wifi_home">仅将Wi-Fi网络规则应用于所选定的网络 (将移动网络规则应用于其他Wi-Fi网络)</string>
   <string name="summary_metered">将移动网络规则应用于按流量计费的 (付费, 共享) Wi-Fi网络</string>
   <string name="summary_metered_2g">将Wi-Fi网络规则应用于2G数据连接</string>
@@ -83,7 +85,8 @@
   <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
   <string name="summary_access">某应用程序尝试访问一个新的网络地址时显示状态栏通知</string>
   <string name="summary_filter">筛选经由 VPN 重定向流出的 IP 数据包。这可能会导致额外耗电</string>
-  <string name="summary_block_domains">将被屏蔽的域名重定向至本地设备. 无 hosts 文件导入时本功能不可用.</string>
+  <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
   <string name="summary_hosts">导入标准 hosts 文件。导出设置时，将不会导出 hosts 文件</string>
   <string name="msg_sure">是否确认?</string>
@@ -113,6 +116,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
   <string name="msg_downloading">Downloading\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
+  <string name="msg_download_last">Last download: %s</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>
   <string name="title_screen_other">亮屏时允许移动网络</string>

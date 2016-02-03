@@ -51,6 +51,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">Log internet access</string>
   <string name="setting_access">Notify on internet access</string>
   <string name="setting_filter">Filter traffic</string>
+  <string name="setting_resolved">Store resolved domain names</string>
   <string name="setting_block_domains">Block domain names</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -74,6 +75,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_auto">\"在禁用小工具之後,自動在設定的時間後啟動網路守門人
 輸入0來關閉這項設定\"</string>
   <string name="summary_delay">在關閉螢幕後, 在所選數目分鐘內繼續保持螢幕開啟時的規則 (輸入0以禁用此選項)</string>
+  <string name="summary_tethering">Tethered traffic cannot be filtered</string>
   <string name="summary_wifi_home">只為選定的網路套用Wi-Fi規則(未被選定的將套用行動網路規則)</string>
   <string name="summary_metered">套用行動網路規則到計量型(付費,限量)Wi-Fi</string>
   <string name="summary_metered_2g">套用Wi-Fi規則到2G連接</string>
@@ -84,7 +86,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
   <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
-  <string name="summary_block_domains">Redirect blocked domain names to local device. This switch is disabled when no hosts file has been imported.</string>
+  <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
   <string name="summary_stats">在狀態欄通知列顯示網速圖表</string>
   <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">你確定?</string>
@@ -114,6 +117,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
   <string name="msg_downloading">Downloading\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
+  <string name="msg_download_last">Last download: %s</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">在螢幕開啟時啟用Wi-fi</string>
   <string name="title_screen_other">在螢幕開啟時啟用行動網路</string>
