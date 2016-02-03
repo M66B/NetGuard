@@ -543,9 +543,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                                             dh.setAccess(id, rule.info.applicationInfo.uid, 1);
                                             SinkholeService.reload(null, "block host", context);
                                             return true;
-                                        case R.id.menu_clear:
+                                        case R.id.menu_reset:
                                             dh.setAccess(id, rule.info.applicationInfo.uid, -1);
-                                            SinkholeService.reload(null, "clear host", context);
+                                            SinkholeService.reload(null, "reset host", context);
                                             return true;
                                     }
                                     return false;

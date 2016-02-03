@@ -11,6 +11,6 @@
         android:id="@+id/menu_block"
         android:title="@string/title_block" />
     <item
-        android:id="@+id/menu_clear"
-        android:title="@string/menu_clear" />
+        android:id="@+id/menu_reset"
+        android:title="@string/menu_reset" />
 </menu>
