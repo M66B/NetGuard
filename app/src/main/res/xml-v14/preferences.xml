@@ -55,6 +55,7 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="tethering"
+            android:summary="@string/summary_tethering"
             android:title="@string/setting_tethering" />
         <MultiSelectListPreference
             android:defaultValue="@array/default_wifi_home"
