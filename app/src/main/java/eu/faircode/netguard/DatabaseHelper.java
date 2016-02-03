@@ -28,7 +28,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -439,6 +441,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Log.i(TAG, "Updated " + rr);
         }
 
+        return this;
+    }
+
+    public DatabaseHelper cleanupDns(long time) {
+        // There is no index on time, because an index will delay writing
+        synchronized (mContext.getApplicationContext()) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            int rows = db.delete("dns", "time < ?", new String[]{Long.toString(time)});
+            Log.i(TAG, "Cleanup DNS" +
+                    " before=" + SimpleDateFormat.getDateTimeInstance().format(new Date(time)) +
+                    " rows=" + rows);
+        }
         return this;
     }
 

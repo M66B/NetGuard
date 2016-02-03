@@ -974,7 +974,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private void cleanupDNS() {
-        // TODO
+        // Keep records for a week
+        new DatabaseHelper(SinkholeService.this)
+                .cleanupDns(new Date().getTime() - 7 * 24 * 3600 * 1000L)
+                .close();
     }
 
     private List<Rule> getAllowedRules(List<Rule> listRule) {
