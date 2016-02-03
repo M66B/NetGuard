@@ -333,7 +333,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         PreferenceScreen screen = getPreferenceScreen();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // TODO: check permision for whitelist_roaming
+        // Check if permission was revoked
+        if (prefs.getBoolean("whitelist_roaming", false))
+            if (!Util.hasPhoneStatePermission(this)) {
+                prefs.edit().putBoolean("whitelist_roaming", false).apply();
+                ((TwoStatePreference) screen.findPreference("whitelist_roaming")).setChecked(false);
+            }
 
         // Check if permission was revoked
         if (prefs.getBoolean("unmetered_2g", false) ||
