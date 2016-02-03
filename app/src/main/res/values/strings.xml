@@ -72,6 +72,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_export">Export settings</string>
     <string name="setting_import">Import settings</string>
     <string name="setting_hosts">Import hosts file</string>
+    <string name="setting_hosts_url">Hosts file download URL</string>
+    <string name="setting_hosts_download">Download hosts file</string>
 
     <string name="setting_technical">Technical information</string>
     <string name="setting_technical_general">General</string>
@@ -124,6 +126,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
     <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
     <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
+    <string name="msg_downloading">Downloading\n%1s</string>
+    <string name="msg_downloaded">Hosts file downloaded</string>
 
     <string name="title_conditions">Conditions</string>
     <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>

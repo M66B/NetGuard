@@ -176,6 +176,14 @@
             android:key="hosts"
             android:summary="@string/summary_hosts"
             android:title="@string/setting_hosts" />
+        <EditTextPreference
+            android:defaultValue="http://www.netguard.me/hosts"
+            android:key="hosts_url"
+            android:title="@string/setting_hosts_url" />
+        <Preference
+            android:dependency="hosts_url"
+            android:key="hosts_download"
+            android:title="@string/setting_hosts_download" />
     </PreferenceCategory>
 
     <PreferenceCategory

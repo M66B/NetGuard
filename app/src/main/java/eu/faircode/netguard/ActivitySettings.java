@@ -74,6 +74,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -114,7 +116,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        PreferenceScreen screen = getPreferenceScreen();
+        final PreferenceScreen screen = getPreferenceScreen();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Handle auto enable
@@ -197,19 +199,25 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
         });
 
-        // Handle hosts import
-        // https://github.com/Free-Software-for-Android/AdAway/wiki/HostsSources
+        // Hosts file settings
         Preference pref_hosts = screen.findPreference("hosts");
         Preference pref_block_domains = screen.findPreference("use_hosts");
-        pref_block_domains.setEnabled(new File(getFilesDir(), "hosts.txt").exists());
+        EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
+        Preference pref_hosts_download = screen.findPreference("hosts_download");
 
         if (Util.isPlayStoreInstall(this)) {
-            PreferenceCategory pref_backup = (PreferenceCategory) screen.findPreference("category_backup");
-            pref_backup.removePreference(pref_hosts);
             PreferenceCategory pref_category = (PreferenceCategory) screen.findPreference("category_advanced_options");
             pref_category.removePreference(pref_block_domains);
+            PreferenceCategory pref_backup = (PreferenceCategory) screen.findPreference("category_backup");
+            pref_backup.removePreference(pref_hosts);
+            pref_backup.removePreference(pref_hosts_url);
+            pref_backup.removePreference(pref_hosts_download);
 
         } else {
+            pref_block_domains.setEnabled(new File(getFilesDir(), "hosts.txt").exists());
+
+            // Handle hosts import
+            // https://github.com/Free-Software-for-Android/AdAway/wiki/HostsSources
             pref_hosts.setEnabled(getIntentOpenHosts().resolveActivity(getPackageManager()) != null);
             pref_hosts.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -218,10 +226,47 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     return true;
                 }
             });
+
+            // Handle hosts file download
+            pref_hosts_url.setSummary(pref_hosts_url.getText());
+            pref_hosts_download.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    final File hosts = new File(getFilesDir(), "hosts.txt");
+                    EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
+                    try {
+                        new DownloadTask(ActivitySettings.this, new URL(pref_hosts_url.getText()), hosts, new DownloadTask.Listener() {
+                            @Override
+                            public void onCompleted() {
+                                Toast.makeText(ActivitySettings.this, R.string.msg_downloaded, Toast.LENGTH_LONG).show();
+                                SinkholeService.reload(null, "hosts file download", ActivitySettings.this);
+                            }
+
+                            @Override
+                            public void onCancelled() {
+                                if (hosts.exists())
+                                    hosts.delete();
+                                SinkholeService.reload(null, "hosts file download", ActivitySettings.this);
+                            }
+
+                            @Override
+                            public void onException(Throwable ex) {
+                                if (hosts.exists())
+                                    hosts.delete();
+                                SinkholeService.reload(null, "hosts file download", ActivitySettings.this);
+                                Toast.makeText(ActivitySettings.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }).execute();
+                    } catch (MalformedURLException ex) {
+                        Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                    }
+                    return true;
+                }
+            });
         }
 
+        // Development
         if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta"))) {
-            // Development
             screen.removePreference(screen.findPreference("category_development"));
             prefs.edit().remove("loglevel").apply();
         }
@@ -508,19 +553,22 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_dns, prefs.getString("dns", Util.getDefaultDNS(this))));
 
-        } else if ("show_stats".equals(name)) {
+        } else if ("show_stats".equals(name))
             SinkholeService.reloadStats("changed " + name, this);
 
-        } else if ("stats_base".equals(name)) {
+        else if ("stats_base".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_base, prefs.getString(name, "5")));
 
-        } else if ("stats_frequency".equals(name)) {
+        else if ("stats_frequency".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_frequency, prefs.getString(name, "1000")));
 
-        } else if ("stats_samples".equals(name)) {
+        else if ("stats_samples".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
 
-        } else if ("loglevel".equals(name))
+        else if ("hosts_url".equals(name))
+            getPreferenceScreen().findPreference(name).setSummary(prefs.getString(name, "http://www.netguard.me/hosts"));
+
+        else if ("loglevel".equals(name))
             SinkholeService.reload(null, "changed " + name, this);
     }
 
