@@ -766,9 +766,11 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
 
     // Check tun read
     if (FD_ISSET(args->tun, rfds)) {
-        uint8_t buffer[TUN_MAXMSG];
-        ssize_t length = read(args->tun, buffer, sizeof(buffer));
+        uint8_t *buffer = malloc(TUN_MAXMSG);
+        ssize_t length = read(args->tun, buffer, TUN_MAXMSG);
         if (length < 0) {
+            free(buffer);
+
             log_android(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
             if (errno == EINTR || errno == EAGAIN)
                 return 0;
@@ -784,9 +786,13 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
 
             // Handle IP from tun
             handle_ip(args, buffer, (size_t) length);
+
+            free(buffer);
         }
         else {
             // tun eof
+            free(buffer);
+
             log_android(ANDROID_LOG_ERROR, "tun %d empty read", args->tun);
             report_exit(args, "tun %d empty read", args->tun);
             return -1;
@@ -820,8 +826,9 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
                 if (FD_ISSET(cur->socket, rfds)) {
                     cur->time = time(NULL);
 
-                    uint8_t buffer[ICMP4_MAXMSG]; // TODO ICMPv6 length
-                    ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
+                    uint16_t blen = cur->version == 4 ? ICMP4_MAXMSG : ICMP6_MAXMSG;
+                    uint8_t *buffer = malloc(blen);
+                    ssize_t bytes = recv(cur->socket, buffer, blen, 0);
                     if (bytes < 0) {
                         // Socket error
                         log_android(ANDROID_LOG_WARN, "ICMP recv error %d: %s",
@@ -874,6 +881,7 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
                         if (write_icmp(args, cur, buffer, (size_t) bytes) < 0)
                             cur->stop = 1;
                     }
+                    free(buffer);
                 }
             }
         }
@@ -905,8 +913,9 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 if (FD_ISSET(cur->socket, rfds)) {
                     cur->time = time(NULL);
 
-                    uint8_t buffer[UDP4_MAXMSG]; // TODO UDPv6 length
-                    ssize_t bytes = recv(cur->socket, buffer, sizeof(buffer), 0);
+                    uint16_t blen = cur->version == 4 ? UDP4_MAXMSG : UDP6_MAXMSG;
+                    uint8_t *buffer = malloc(blen);
+                    ssize_t bytes = recv(cur->socket, buffer, blen, 0);
                     if (bytes < 0) {
                         // Socket error
                         log_android(ANDROID_LOG_WARN, "UDP recv error %d: %s",
@@ -943,6 +952,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                 cur->stop = 1;
                         }
                     }
+                    free(buffer);
                 }
             }
         }
@@ -1189,7 +1199,6 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                             if (write_data(args, cur, buffer, (size_t) bytes) >= 0)
                                 cur->local_seq += bytes;
                         }
-
                         free(buffer);
                     }
                 }
