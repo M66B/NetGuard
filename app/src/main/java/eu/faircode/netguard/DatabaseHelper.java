@@ -277,9 +277,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT ID AS _id, *";
         query += " FROM log";
-        query += " WHERE daddr LIKE ? OR dport = ? OR uid LIKE ?";
+        query += " WHERE daddr LIKE ? OR dname LIKE ? OR dport = ? OR uid LIKE ?";
         query += " ORDER BY time DESC";
-        return db.rawQuery(query, new String[]{"%" + find + "%", find, "%" + find + "%"});
+        return db.rawQuery(query, new String[]{"%" + find + "%", "%" + find + "%", find, "%" + find + "%"});
     }
 
     // Access
