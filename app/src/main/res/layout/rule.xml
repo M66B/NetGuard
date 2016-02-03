@@ -52,7 +52,6 @@
             android:textSize="12sp" />
 
         <LinearLayout
-            android:id="@+id/llWifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -93,7 +92,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llOther"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -200,7 +198,6 @@
             android:textAppearance="@style/TextTitle" />
 
         <LinearLayout
-            android:id="@+id/llWifiAttr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -222,7 +219,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llOtherAttr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">

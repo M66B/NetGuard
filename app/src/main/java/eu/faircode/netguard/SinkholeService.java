@@ -967,7 +967,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean unmetered_4g = prefs.getBoolean("unmetered_4g", false);
         boolean roaming = Util.isRoaming(SinkholeService.this);
         boolean national = prefs.getBoolean("national_roaming", false);
-        boolean telephony = Util.hasTelephony(this);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
 
@@ -975,7 +974,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         last_connected = Util.isConnected(SinkholeService.this);
 
         // Update metered state
-        if (wifi && (!useMetered || !telephony))
+        if (wifi && !useMetered)
             metered = false;
         if (wifi && ssidHomes.size() > 0 && !ssidHomes.contains(ssidNetwork)) {
             metered = true;
@@ -999,7 +998,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 " home=" + TextUtils.join(",", ssidHomes) +
                 " network=" + ssidNetwork +
                 " metered=" + metered +
-                " telephony=" + telephony +
                 " generation=" + generation +
                 " roaming=" + roaming +
                 " interactive=" + last_interactive +

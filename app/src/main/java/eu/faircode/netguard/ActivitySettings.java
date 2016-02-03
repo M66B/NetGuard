@@ -298,32 +298,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_technical_network.setOnPreferenceClickListener(listener);
         pref_technical_subscription.setOnPreferenceClickListener(listener);
         updateTechnicalInfo();
-
-        // Handle devices without wifi
-        if (!Util.hasWifi(this)) {
-            PreferenceCategory defaults = (PreferenceCategory) screen.findPreference("category_defaults");
-            defaults.removePreference(screen.findPreference("whitelist_wifi"));
-            defaults.removePreference(screen.findPreference("screen_wifi"));
-
-            PreferenceCategory options = (PreferenceCategory) screen.findPreference("category_options");
-            options.removePreference(screen.findPreference("wifi_homes"));
-            options.removePreference(screen.findPreference("use_metered"));
-        }
-
-        // Handle devices without telephony
-        if (!Util.hasTelephony(this)) {
-            PreferenceCategory defaults = (PreferenceCategory) screen.findPreference("category_defaults");
-            defaults.removePreference(screen.findPreference("whitelist_other"));
-            defaults.removePreference(screen.findPreference("screen_other"));
-            defaults.removePreference(screen.findPreference("whitelist_roaming"));
-
-            PreferenceCategory options = (PreferenceCategory) screen.findPreference("category_options");
-            options.removePreference(screen.findPreference("use_metered"));
-            options.removePreference(screen.findPreference("unmetered_2g"));
-            options.removePreference(screen.findPreference("unmetered_3g"));
-            options.removePreference(screen.findPreference("unmetered_4g"));
-            options.removePreference(screen.findPreference("national_roaming"));
-        }
     }
 
     @Override

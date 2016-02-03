@@ -99,20 +99,6 @@ public class Util {
         }
     }
 
-    public static boolean hasTelephony(Context context) {
-        PackageManager pm = context.getPackageManager();
-        if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY))
-            return true;
-        // Workaround
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return (tm != null && tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN);
-    }
-
-    public static boolean hasWifi(Context context) {
-        PackageManager pm = context.getPackageManager();
-        return pm.hasSystemFeature(PackageManager.FEATURE_WIFI);
-    }
-
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
@@ -516,7 +502,6 @@ public class Util {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
         sb.append(String.format("Interactive %B\r\n", isInteractive(context)));
-        sb.append(String.format("Telephony %B\r\n", hasTelephony(context)));
         sb.append(String.format("Connected %B\r\n", isConnected(context)));
         sb.append(String.format("WiFi %B\r\n", isWifiActive(context)));
         sb.append(String.format("Metered %B\r\n", isMeteredNetwork(context)));

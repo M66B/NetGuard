@@ -68,8 +68,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private Activity context;
     private DatabaseHelper dh;
     private RecyclerView rv;
-    private boolean wifi;
-    private boolean telephony;
     private boolean filter;
     private boolean debuggable;
     private int colorText;
@@ -92,11 +90,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         public TextView tvHosts;
 
-        public LinearLayout llWifi;
         public CheckBox cbWifi;
         public ImageView ivScreenWifi;
 
-        public LinearLayout llOther;
         public CheckBox cbOther;
         public ImageView ivScreenOther;
         public TextView tvRoaming;
@@ -108,11 +104,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public TextView tvDisabled;
         public TextView tvInternet;
 
-        public LinearLayout llWifiAttr;
         public ImageView ivWifiLegend;
         public CheckBox cbScreenWifi;
 
-        public LinearLayout llOtherAttr;
         public ImageView ivOtherLegend;
         public CheckBox cbScreenOther;
         public CheckBox cbRoaming;
@@ -138,11 +132,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
             tvHosts = (TextView) itemView.findViewById(R.id.tvHosts);
 
-            llWifi = (LinearLayout) itemView.findViewById(R.id.llWifi);
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
             ivScreenWifi = (ImageView) itemView.findViewById(R.id.ivScreenWifi);
 
-            llOther = (LinearLayout) itemView.findViewById(R.id.llOther);
             cbOther = (CheckBox) itemView.findViewById(R.id.cbOther);
             ivScreenOther = (ImageView) itemView.findViewById(R.id.ivScreenOther);
             tvRoaming = (TextView) itemView.findViewById(R.id.tvRoaming);
@@ -154,11 +146,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
             tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
 
-            llWifiAttr = (LinearLayout) itemView.findViewById(R.id.llWifiAttr);
             ivWifiLegend = (ImageView) itemView.findViewById(R.id.ivWifiLegend);
             cbScreenWifi = (CheckBox) itemView.findViewById(R.id.cbScreenWifi);
 
-            llOtherAttr = (LinearLayout) itemView.findViewById(R.id.llOtherAttr);
             ivOtherLegend = (ImageView) itemView.findViewById(R.id.ivOtherLegend);
             cbScreenOther = (CheckBox) itemView.findViewById(R.id.cbScreenOther);
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
@@ -206,8 +196,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         this.context = context;
         this.dh = dh;
-        this.wifi = Util.hasWifi(context);
-        this.telephony = Util.hasTelephony(context);
         this.filter = prefs.getBoolean("filter", false);
         this.debuggable = Util.isDebuggable(context);
 
@@ -344,8 +332,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvHosts.setText(Long.toString(rules));
 
         // Wi-Fi settings
-        holder.llWifi.setVisibility(wifi ? View.VISIBLE : View.GONE);
-
         holder.cbWifi.setAlpha(wifiActive ? 1 : 0.5f);
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
@@ -363,8 +349,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
 
         // Mobile settings
-        holder.llOther.setVisibility(telephony ? View.VISIBLE : View.GONE);
-
         holder.cbOther.setAlpha(otherActive ? 1 : 0.5f);
         holder.cbOther.setOnCheckedChangeListener(null);
         holder.cbOther.setChecked(rule.other_blocked);
@@ -386,8 +370,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         // Expanded configuration section
         holder.llConfiguration.setVisibility(rule.expanded ? View.VISIBLE : View.GONE);
-        holder.llWifiAttr.setVisibility(wifi ? View.VISIBLE : View.GONE);
-        holder.llOtherAttr.setVisibility(telephony ? View.VISIBLE : View.GONE);
 
         // Show application details
         holder.tvUid.setText(rule.info.applicationInfo == null ? "?" : Integer.toString(rule.info.applicationInfo.uid));
