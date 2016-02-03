@@ -826,7 +826,7 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
                 if (FD_ISSET(cur->socket, rfds)) {
                     cur->time = time(NULL);
 
-                    uint16_t blen = cur->version == 4 ? ICMP4_MAXMSG : ICMP6_MAXMSG;
+                    uint16_t blen = (uint16_t) (cur->version == 4 ? ICMP4_MAXMSG : ICMP6_MAXMSG);
                     uint8_t *buffer = malloc(blen);
                     ssize_t bytes = recv(cur->socket, buffer, blen, 0);
                     if (bytes < 0) {
@@ -875,7 +875,7 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
                                     0, (uint8_t *) &pseudo, sizeof(struct ip6_hdr_pseudo));
                         }
                         icmp->icmp_cksum = 0;
-                        icmp->icmp_cksum = ~calc_checksum(csum, buffer, bytes);
+                        icmp->icmp_cksum = ~calc_checksum(csum, buffer, (size_t) bytes);
 
                         // Forward to tun
                         if (write_icmp(args, cur, buffer, (size_t) bytes) < 0)
@@ -913,7 +913,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 if (FD_ISSET(cur->socket, rfds)) {
                     cur->time = time(NULL);
 
-                    uint16_t blen = cur->version == 4 ? UDP4_MAXMSG : UDP6_MAXMSG;
+                    uint16_t blen = (uint16_t) (cur->version == 4 ? UDP4_MAXMSG : UDP6_MAXMSG);
                     uint8_t *buffer = malloc(blen);
                     ssize_t bytes = recv(cur->socket, buffer, blen, 0);
                     if (bytes < 0) {
@@ -1536,7 +1536,7 @@ jboolean handle_icmp(const struct arguments *args,
         csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ip6_hdr_pseudo));
     }
     icmp->icmp_cksum = 0;
-    icmp->icmp_cksum = ~calc_checksum(csum, icmp, icmplen);
+    icmp->icmp_cksum = ~calc_checksum(csum, (uint8_t *) icmp, icmplen);
 
     log_android(ANDROID_LOG_INFO,
                 "ICMP forward from tun %s to %s type %d code %d id %x seq %d data %d",

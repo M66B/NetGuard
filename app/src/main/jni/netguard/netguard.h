@@ -290,6 +290,8 @@ jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *payload,
                     int uid);
 
+int open_icmp_socket(const struct arguments *args, const struct icmp_session *cur);
+
 int open_udp_socket(const struct arguments *args, const struct udp_session *cur);
 
 int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur);
