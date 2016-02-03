@@ -380,6 +380,27 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvDisabled.setVisibility(rule.enabled ? View.GONE : View.VISIBLE);
         holder.tvInternet.setVisibility(rule.internet ? View.GONE : View.VISIBLE);
 
+        // Launch application settings
+        final Intent settings = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        settings.setData(Uri.parse("package:" + rule.info.packageName));
+        holder.btnSettings.setVisibility(
+                !debuggable || settings.resolveActivity(context.getPackageManager()) == null ? View.GONE : View.VISIBLE);
+        holder.btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(settings);
+            }
+        });
+
+        // Launch application
+        holder.btnLaunch.setVisibility(!debuggable || rule.intent == null ? View.GONE : View.VISIBLE);
+        holder.btnLaunch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(rule.intent);
+            }
+        });
+
         // Show Wi-Fi screen on condition
         holder.cbScreenWifi.setOnCheckedChangeListener(null);
         holder.cbScreenWifi.setChecked(rule.screen_wifi);
@@ -500,27 +521,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                         holder.cbRoaming.setChecked(rule.roaming_default);
                     }
                 });
-            }
-        });
-
-        // Launch application settings
-        final Intent settings = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        settings.setData(Uri.parse("package:" + rule.info.packageName));
-        holder.btnSettings.setVisibility(
-                !debuggable || settings.resolveActivity(context.getPackageManager()) == null ? View.GONE : View.VISIBLE);
-        holder.btnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(settings);
-            }
-        });
-
-        // Launch application
-        holder.btnLaunch.setVisibility(!debuggable || rule.intent == null ? View.GONE : View.VISIBLE);
-        holder.btnLaunch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(rule.intent);
             }
         });
 
