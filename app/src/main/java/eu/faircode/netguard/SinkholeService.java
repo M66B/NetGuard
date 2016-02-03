@@ -103,7 +103,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
 
-    private static final Map<InetAddress, ResourceRecord> mapRR = new HashMap<>();
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
     private Map<Integer, Map<Integer, Map<InetAddress, Boolean>>> mapUidIPFilters = new HashMap<>();
@@ -668,22 +667,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             boolean notify = prefs.getBoolean("notify_access", false);
             boolean system = prefs.getBoolean("manage_system", false);
 
-            // Get real name
-            String dname = null;
-            if (filter) {
-                ResourceRecord rr = null;
-                try {
-                    rr = reverseDNS(InetAddress.getByName(packet.daddr));
-                    if (rr == null)
-                        Log.w(TAG, "No revered DNS for " + packet);
-                    else
-                        dname = rr.QName;
-                } catch (UnknownHostException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-            }
-
             DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+
+            // Get real name
+            String dname = dh.getQName(packet.daddr);
 
             // Traffic log
             if (log)
@@ -711,14 +698,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void resolved(ResourceRecord rr) {
-            synchronized (mapRR) {
-                try {
-                    mapRR.put(InetAddress.getByName(rr.Resource), rr);
-                    new DatabaseHelper(SinkholeService.this).insertDns(rr).close();
-                } catch (UnknownHostException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-            }
+            new DatabaseHelper(SinkholeService.this).insertDns(rr).close();
         }
 
         private void set(Intent intent) {
@@ -859,6 +839,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (filter) {
             prepareUidAllowed(listAllowed);
             prepareHostsBlocked();
+            prepareUidIPFilters();
         } else
             unprepare();
 
@@ -869,7 +850,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         // Native needs to be started for name resolving
         if (filter)
-            prepareUidIPFilters();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    updateUidIPFilters();
+                }
+            }).start();
     }
 
     private void stopNative(ParcelFileDescriptor vpn, boolean clear) {
@@ -934,14 +920,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         Map<Integer, Map<Integer, Map<InetAddress, Boolean>>> map = new HashMap<>();
 
         DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
-        Cursor cursor = dh.getAccess();
+
+        Cursor cursor = dh.getDns();
         int colUid = cursor.getColumnIndex("uid");
-        int colDAddr = cursor.getColumnIndex("daddr");
+        int colResource = cursor.getColumnIndex("resource");
         int colDPort = cursor.getColumnIndex("dport");
         int colBlock = cursor.getColumnIndex("block");
         while (cursor.moveToNext()) {
             int uid = cursor.getInt(colUid);
-            String daddr = cursor.getString(colDAddr);
+            String dresource = cursor.getString(colResource);
             int dport = cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort);
             boolean block = (cursor.getInt(colBlock) > 0);
 
@@ -951,20 +938,55 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 map.get(uid).put(dport, new HashMap<InetAddress, Boolean>());
 
             try {
+                map.get(uid).get(dport).put(InetAddress.getByName(dresource), block);
+                Log.i(TAG, "Set filter uid=" + uid + " " + dresource + "/" + dport + "=" + block);
+            } catch (UnknownHostException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+        }
+        cursor.close();
+
+        dh.close();
+
+        synchronized (mapUidIPFilters) {
+            mapUidIPFilters = map;
+        }
+    }
+
+    private void updateUidIPFilters() {
+        Map<Integer, Map<Integer, Map<InetAddress, Boolean>>> map = new HashMap<>();
+
+        DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+
+        Cursor cursor = dh.getAccess();
+        int colDAddr = cursor.getColumnIndex("daddr");
+        while (cursor.moveToNext()) {
+            String daddr = cursor.getString(colDAddr);
+            try {
                 for (InetAddress iaddr : InetAddress.getAllByName(daddr)) {
-                    map.get(uid).get(dport).put(iaddr, block);
-                    Log.i(TAG, "Set filter uid=" + uid + " " + iaddr + "/" + dport + "=" + block);
+                    ResourceRecord rr = new ResourceRecord();
+                    rr.Time = new Date().getTime();
+                    rr.QName = daddr;
+                    rr.AName = daddr;
+                    rr.Resource = iaddr.getHostAddress();
+                    rr.TTL = 10 * 60; // Android default
+                    dh.insertDns(rr);
                 }
             } catch (UnknownHostException ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
         }
         cursor.close();
+
         dh.close();
 
         synchronized (mapUidIPFilters) {
             mapUidIPFilters = map;
         }
+    }
+
+    private void cleanupDNS() {
+        // TODO
     }
 
     private List<Rule> getAllowedRules(List<Rule> listRule) {
@@ -1065,30 +1087,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         msg.obj = rr;
         msg.what = MSG_RR;
         mServiceHandler.sendMessage(msg);
-    }
-
-    public static ResourceRecord reverseDNS(InetAddress ip) {
-        synchronized (mapRR) {
-            if (mapRR.containsKey(ip))
-                return mapRR.get(ip);
-            else
-                return null;
-        }
-    }
-
-    private void cleanupDNS() {
-        long now = new Date().getTime();
-        synchronized (mapRR) {
-            List<InetAddress> ips = new ArrayList<>(mapRR.keySet());
-            for (InetAddress ip : ips) {
-                ResourceRecord rr = mapRR.get(ip);
-                if (rr.Time + rr.TTL * 1000L < now &&
-                        rr.Time + 10 * 60 * 1000L < now) {
-                    mapRR.remove(ip);
-                    Log.i(TAG, "Purged " + rr);
-                }
-            }
-        }
     }
 
     // Called from native code

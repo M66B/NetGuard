@@ -23,6 +23,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -438,6 +439,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return this;
+    }
+
+    public String getQName(String ip) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            return db.compileStatement(
+                    "SELECT qname FROM dns WHERE resource = '" + ip.replace("'", "''") + "'")
+                    .simpleQueryForString();
+        } catch (SQLiteDoneException ignored) {
+            // Not found
+            return null;
+        }
+    }
+
+    public Cursor getDns() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT access.uid, dns.resource, access.dport, access.block";
+        query += " FROM access";
+        query += " JOIN dns";
+        query += "   ON dns.qname = access.daddr";
+        query += " WHERE access.block >= 0";
+
+        return db.rawQuery(query, new String[]{});
     }
 
     public void addLogChangedListener(LogChangedListener listener) {
