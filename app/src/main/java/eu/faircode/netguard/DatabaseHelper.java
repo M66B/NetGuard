@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 13;
+    private static final int DB_VERSION = 14;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -116,6 +116,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, daddr, dport)");
     }
 
+    private void createTableDns(SQLiteDatabase db) {
+        Log.i(TAG, "Creating dns table");
+        db.execSQL("CREATE TABLE dns (" +
+                " ID INTEGER PRIMARY KEY AUTOINCREMENT" +
+                ", time INTEGER NOT NULL" +
+                ", qname TEXT NOT NULL" +
+                ", aname TEXT NOT NULL" +
+                ", resource TEXT NOT NULL" +
+                ", ttl INTEGER NULL" +
+                ");");
+        db.execSQL("CREATE INDEX idx_dns ON dns(qname, aname, resource)");
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(TAG, DB_NAME + " upgrading from version " + oldVersion + " to " + newVersion);
@@ -179,6 +192,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("CREATE INDEX idx_log_dport ON log(dport)");
                 db.execSQL("CREATE INDEX idx_log_dname ON log(dname)");
                 oldVersion = 13;
+            }
+            if (oldVersion < 14) {
+                createTableDns(db);
+                oldVersion = 14;
             }
 
             if (oldVersion == DB_VERSION) {
@@ -394,6 +411,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.compileStatement("SELECT COUNT(*) FROM access WHERE block >=0 AND uid =" + uid).simpleQueryForLong();
     }
 
+    public DatabaseHelper insertDns(ResourceRecord rr) {
+        synchronized (mContext.getApplicationContext()) {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+            cv.put("time", rr.Time);
+            cv.put("ttl", rr.TTL);
+
+            int rows = db.update("dns", cv, "qname = ? AND aname = ? AND resource = ?",
+                    new String[]{rr.QName, rr.AName});
+
+            if (rows == 0) {
+                cv.put("qname", rr.QName);
+                cv.put("aname", rr.AName);
+                cv.put("resource", rr.Resource);
+
+                if (db.insert("dns", null, cv) == -1)
+                    Log.e(TAG, "Insert dns failed");
+                else
+                    Log.i(TAG, "Inserted " + rr);
+            } else if (rows != 1)
+                Log.e(TAG, "Update dns failed");
+            else
+                Log.i(TAG, "Updated " + rr);
+        }
+
+        return this;
+    }
 
     public void addLogChangedListener(LogChangedListener listener) {
         logChangedListeners.add(listener);

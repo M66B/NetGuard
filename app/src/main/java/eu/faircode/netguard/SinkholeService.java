@@ -130,6 +130,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private static final int MSG_STATS_STOP = 2;
     private static final int MSG_STATS_UPDATE = 3;
     private static final int MSG_PACKET = 4;
+    private static final int MSG_RR = 5;
 
     private enum State {none, waiting, enforcing, stats}
 
@@ -206,6 +207,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
                     case MSG_PACKET:
                         log((Packet) msg.obj);
+                        break;
+
+                    case MSG_RR:
+                        resolved((ResourceRecord) msg.obj);
                         break;
                 }
             } catch (Throwable ex) {
@@ -705,6 +710,17 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             dh.close();
         }
 
+        private void resolved(ResourceRecord rr) {
+            synchronized (mapRR) {
+                try {
+                    mapRR.put(InetAddress.getByName(rr.Resource), rr);
+                    new DatabaseHelper(SinkholeService.this).insertDns(rr).close();
+                } catch (UnknownHostException ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+            }
+        }
+
         private void set(Intent intent) {
             // Get arguments
             int uid = intent.getIntExtra(EXTRA_UID, 0);
@@ -1045,13 +1061,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void dnsResolved(ResourceRecord rr) {
-        synchronized (mapRR) {
-            try {
-                mapRR.put(InetAddress.getByName(rr.Resource), rr);
-            } catch (UnknownHostException ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
-        }
+        Message msg = mServiceHandler.obtainMessage();
+        msg.obj = rr;
+        msg.what = MSG_RR;
+        mServiceHandler.sendMessage(msg);
     }
 
     public static ResourceRecord reverseDNS(InetAddress ip) {
