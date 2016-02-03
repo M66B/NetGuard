@@ -1415,7 +1415,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     // Check if allowed
     int32_t allowed = 0;
     if (protocol == IPPROTO_UDP && dport == 53)
-        allowed = 5353; // allow DNS
+        allowed = -1; // allow DNS
     else if (protocol == IPPROTO_UDP && has_udp_session(args, pkt, payload)) {
         allowed = -1;
         log_android(ANDROID_LOG_INFO, "UDP existing session allowed");
