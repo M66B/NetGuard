@@ -875,7 +875,7 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
                                     0, (uint8_t *) &pseudo, sizeof(struct ip6_hdr_pseudo));
                         }
                         icmp->icmp_cksum = 0;
-                        icmp->icmp_cksum = ~calc_checksum(csum, buffer, (size_t) bytes);
+                        icmp->icmp_cksum = ~calc_checksum(csum, buffer, bytes);
 
                         // Forward to tun
                         if (write_icmp(args, cur, buffer, (size_t) bytes) < 0)
@@ -913,7 +913,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 if (FD_ISSET(cur->socket, rfds)) {
                     cur->time = time(NULL);
 
-                    uint16_t blen = (uint16_t) (cur->version == 4 ? UDP4_MAXMSG : UDP6_MAXMSG);
+                    uint16_t blen = cur->version == 4 ? UDP4_MAXMSG : UDP6_MAXMSG;
                     uint8_t *buffer = malloc(blen);
                     ssize_t bytes = recv(cur->socket, buffer, blen, 0);
                     if (bytes < 0) {
@@ -1413,14 +1413,14 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 #endif
 
     // Check if allowed
-    int32_t allowed = 0;
+    jboolean allowed = 0;
     if (protocol == IPPROTO_UDP && dport == 53)
-        allowed = 5353; // allow DNS
+        allowed = 1; // allow DNS
     else if (protocol == IPPROTO_UDP && has_udp_session(args, pkt, payload)) {
-        allowed = -1;
+        allowed = 1;
         log_android(ANDROID_LOG_INFO, "UDP existing session allowed");
     } else if (protocol == IPPROTO_TCP && !syn)
-        allowed = -1; // assume session
+        allowed = 1; // assume session
     else {
         jobject objPacket = create_packet(
                 args, version, protocol, flags, source, sport, dest, dport, "", uid, 0);
@@ -1432,7 +1432,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6)
             handle_icmp(args, pkt, length, payload, uid);
         else if (protocol == IPPROTO_UDP)
-            handle_udp(args, pkt, length, payload, uid, allowed);
+            handle_udp(args, pkt, length, payload, uid);
         else if (protocol == IPPROTO_TCP)
             handle_tcp(args, pkt, length, payload, uid);
     }
@@ -1536,7 +1536,7 @@ jboolean handle_icmp(const struct arguments *args,
         csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ip6_hdr_pseudo));
     }
     icmp->icmp_cksum = 0;
-    icmp->icmp_cksum = ~calc_checksum(csum, (uint8_t *) icmp, icmplen);
+    icmp->icmp_cksum = ~calc_checksum(csum, icmp, icmplen);
 
     log_android(ANDROID_LOG_INFO,
                 "ICMP forward from tun %s to %s type %d code %d id %x seq %d data %d",
@@ -1594,7 +1594,7 @@ int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint
 
 jboolean handle_udp(const struct arguments *args,
                     const uint8_t *pkt, size_t length, const uint8_t *payload,
-                    int uid, int32_t lport) {
+                    int uid) {
     // Get headers
     const uint8_t version = (*pkt) >> 4;
     const struct iphdr *ip4 = (struct iphdr *) pkt;
@@ -1629,8 +1629,8 @@ jboolean handle_udp(const struct arguments *args,
 
     // Create new session if needed
     if (cur == NULL) {
-        log_android(ANDROID_LOG_INFO, "UDP new session from %s/%u to %s/%u lport %d",
-                    source, ntohs(udphdr->source), dest, ntohs(udphdr->dest), lport);
+        log_android(ANDROID_LOG_INFO, "UDP new session from %s/%u to %s/%u",
+                    source, ntohs(udphdr->source), dest, ntohs(udphdr->dest));
 
         // Register session
         struct udp_session *u = malloc(sizeof(struct udp_session));
@@ -1652,7 +1652,6 @@ jboolean handle_udp(const struct arguments *args,
         u->next = NULL;
 
         // Open UDP socket
-        u->lport = lport;
         u->socket = open_udp_socket(args, u);
         if (u->socket < 0) {
             free(u);
@@ -1711,26 +1710,12 @@ jboolean handle_udp(const struct arguments *args,
     struct sockaddr_in6 server6;
     if (version == 4) {
         server4.sin_family = AF_INET;
-        if (cur->lport < 0 || cur->uid == 2000) {
-            server4.sin_addr.s_addr = (__be32) ip4->daddr;
-            server4.sin_port = udphdr->dest;
-        }
-        else {
-            inet_pton(AF_INET, "127.0.0.1", &server4.sin_addr.s_addr);
-            server4.sin_port = htons(cur->lport);
-            log_android(ANDROID_LOG_WARN, "Redirecting to local IP4 port %d", cur->lport);
-        }
+        server4.sin_addr.s_addr = (__be32) ip4->daddr;
+        server4.sin_port = udphdr->dest;
     } else {
         server6.sin6_family = AF_INET6;
-        if (cur->lport < 0 || cur->uid == 2000) {
-            memcpy(&server6.sin6_addr, &ip6->ip6_dst, 16);
-            server6.sin6_port = udphdr->dest;
-        }
-        else {
-            inet_pton(AF_INET6, "::1", &ip6->ip6_dst);
-            server4.sin_port = htons(cur->lport);
-            log_android(ANDROID_LOG_WARN, "Redirecting to local IP6 port %d", cur->lport);
-        }
+        memcpy(&server6.sin6_addr, &ip6->ip6_dst, 16);
+        server6.sin6_port = udphdr->dest;
     }
 
     if (sendto(cur->socket, data, (socklen_t) datalen, MSG_NOSIGNAL,
@@ -3190,7 +3175,7 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
 
 static jmethodID midIsAddressAllowed = NULL;
 
-jint is_address_allowed(const struct arguments *args, jobject jpacket) {
+jboolean is_address_allowed(const struct arguments *args, jobject jpacket) {
 #ifdef PROFILE_JNI
     float mselapsed;
     struct timeval start, end;
@@ -3199,11 +3184,11 @@ jint is_address_allowed(const struct arguments *args, jobject jpacket) {
 
     jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
 
-    const char *signature = "(Leu/faircode/netguard/Packet;)I";
+    const char *signature = "(Leu/faircode/netguard/Packet;)Z";
     if (midIsAddressAllowed == NULL)
         midIsAddressAllowed = jniGetMethodID(args->env, clsService, "isAddressAllowed", signature);
 
-    jint jallowed = (*args->env)->CallIntMethod(
+    jboolean jallowed = (*args->env)->CallBooleanMethod(
             args->env, args->instance, midIsAddressAllowed, jpacket);
     jniCheckException(args->env);
 
