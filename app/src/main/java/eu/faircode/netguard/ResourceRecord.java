@@ -29,19 +29,19 @@ public class ResourceRecord {
     public String AName;
     public String Resource;
     public int TTL;
-    private static DateFormat formater = SimpleDateFormat.getDateTimeInstance();
+    private static DateFormat formatter = SimpleDateFormat.getDateTimeInstance();
 
     public ResourceRecord() {
     }
 
     @Override
     public String toString() {
-        return formater.format(
+        return formatter.format(
                 new Date(Time).getTime()) +
                 " Q " + QName +
                 " A " + AName +
                 " R " + Resource +
                 " TTL " + TTL +
-                " " + formater.format(new Date(Time + TTL * 1000L).getTime());
+                " " + formatter.format(new Date(Time + TTL * 1000L).getTime());
     }
 }

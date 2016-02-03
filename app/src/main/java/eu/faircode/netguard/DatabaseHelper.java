@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 12;
+    private static final int DB_VERSION = 13;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -97,6 +97,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ");");
         db.execSQL("CREATE INDEX idx_log_time ON log(time)");
         db.execSQL("CREATE INDEX idx_log_dest ON log(daddr)");
+        db.execSQL("CREATE INDEX idx_log_dport ON log(dport)");
+        db.execSQL("CREATE INDEX idx_log_dname ON log(dname)");
         db.execSQL("CREATE INDEX idx_log_uid ON log(uid)");
     }
 
@@ -172,6 +174,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("DROP TABLE access");
                 createTableAccess(db);
                 oldVersion = 12;
+            }
+            if (oldVersion < 13) {
+                db.execSQL("CREATE INDEX idx_log_dport ON log(dport)");
+                db.execSQL("CREATE INDEX idx_log_dname ON log(dname)");
+                oldVersion = 13;
             }
 
             if (oldVersion == DB_VERSION) {
