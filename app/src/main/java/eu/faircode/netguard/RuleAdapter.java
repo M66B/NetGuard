@@ -291,6 +291,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         };
 
+        // Handle expanding/collapsing
         holder.llApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -299,8 +300,13 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
-        holder.itemView.setBackgroundColor(rule.changed ? colorChanged : Color.TRANSPARENT);
+        // Get access rule count
+        long rules = dh.getRuleCount(rule.info.applicationInfo.uid);
 
+        // Show if non default rules
+        holder.itemView.setBackgroundColor(rule.changed || rules > 0 ? colorChanged : Color.TRANSPARENT);
+
+        // Show application icon
         if (rule.info.applicationInfo == null || rule.info.applicationInfo.icon == 0)
             Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
         else {
@@ -308,14 +314,23 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             Picasso.with(context).load(uri).into(holder.ivIcon);
         }
 
+        // Show expand/collapse indicator
         holder.ivExpander.setImageLevel(rule.expanded ? 1 : 0);
+
+        // Show application label
         holder.tvName.setText(rule.name);
 
+        // Show application state
         int color = rule.system ? colorAccent : colorText;
         if (!rule.internet || !rule.enabled)
             color = Color.argb(128, Color.red(color), Color.green(color), Color.blue(color));
         holder.tvName.setTextColor(color);
 
+        // Show rule count
+        holder.tvHosts.setVisibility(rules > 0 ? View.VISIBLE : View.GONE);
+        holder.tvHosts.setText(Long.toString(rules));
+
+        // Wi-Fi settings
         holder.llWifi.setVisibility(wifi ? View.VISIBLE : View.GONE);
 
         holder.cbWifi.setAlpha(wifiActive ? 1 : 0.5f);
@@ -334,6 +349,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             DrawableCompat.setTint(wrap, colorOn);
         }
 
+        // Mobile settings
         holder.llOther.setVisibility(telephony ? View.VISIBLE : View.GONE);
 
         holder.cbOther.setAlpha(otherActive ? 1 : 0.5f);
@@ -355,20 +371,24 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvRoaming.setAlpha(otherActive ? 1 : 0.5f);
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.screen_other) ? View.VISIBLE : View.INVISIBLE);
 
+        // Expanded configuration section
         holder.llConfiguration.setVisibility(rule.expanded ? View.VISIBLE : View.GONE);
+        holder.llWifiAttr.setVisibility(wifi ? View.VISIBLE : View.GONE);
+        holder.llOtherAttr.setVisibility(telephony ? View.VISIBLE : View.GONE);
 
+        // Show application details
         holder.tvUid.setText(rule.info.applicationInfo == null ? "?" : Integer.toString(rule.info.applicationInfo.uid));
         holder.tvPackage.setText(rule.info.packageName);
         holder.tvVersion.setText(rule.info.versionName + '/' + rule.info.versionCode);
 
+        // Show application state
         holder.tvDisabled.setVisibility(rule.enabled ? View.GONE : View.VISIBLE);
         holder.tvInternet.setVisibility(rule.internet ? View.GONE : View.VISIBLE);
 
+        // Show Wi-Fi screen on condition
         holder.cbScreenWifi.setOnCheckedChangeListener(null);
         holder.cbScreenWifi.setChecked(rule.screen_wifi);
         holder.cbScreenWifi.setEnabled(rule.wifi_blocked);
-
-        holder.llWifiAttr.setVisibility(wifi ? View.VISIBLE : View.GONE);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrap = DrawableCompat.wrap(holder.ivWifiLegend.getDrawable());
@@ -400,13 +420,13 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
-        holder.llOtherAttr.setVisibility(telephony ? View.VISIBLE : View.GONE);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrap = DrawableCompat.wrap(holder.ivOtherLegend.getDrawable());
             DrawableCompat.setTint(wrap, colorOn);
         }
 
+        // Show mobile screen on condition
         holder.cbScreenOther.setOnCheckedChangeListener(null);
         holder.cbScreenOther.setChecked(rule.screen_other);
         holder.cbScreenOther.setEnabled(rule.other_blocked);
@@ -436,6 +456,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
+        // Show roaming condition
         holder.cbRoaming.setOnCheckedChangeListener(null);
         holder.cbRoaming.setChecked(rule.roaming);
         holder.cbRoaming.setEnabled(!rule.other_blocked || rule.screen_other);
@@ -508,14 +529,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
-        // Show rule count
-        final AccessAdapter badapter = new AccessAdapter(context, dh.getAccess(rule.info.applicationInfo.uid));
-        int count = badapter.getCount();
-        holder.tvHosts.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
-        holder.tvHosts.setText(Integer.toString(count));
-
-        // Show rules
+        // Show access rules
         if (rule.expanded) {
+            // Access the database when expanded only
+            final AccessAdapter badapter = new AccessAdapter(context, dh.getAccess(rule.info.applicationInfo.uid));
             if (filter)
                 holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -571,6 +588,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             holder.lvAccess.setOnItemClickListener(null);
         }
 
+        // Show logging is disabled
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean log_app = prefs.getBoolean("log_app", false);
         holder.tvNolog.setVisibility(log_app ? View.GONE : View.VISIBLE);
@@ -581,6 +599,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
+        // Show disable access notifications setting
         boolean notify = prefs.getBoolean("notify_access", false);
         final String key = "notify_" + rule.info.applicationInfo.uid;
         holder.cbNotify.setOnCheckedChangeListener(null);
@@ -593,6 +612,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
+        // Clear access log
         holder.btnClearAccess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -605,7 +625,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
-        // Traffic statistics
+        // Show traffic statistics
         holder.tvStatistics.setText(context.getString(R.string.msg_mbday, rule.upspeed, rule.downspeed));
     }
 

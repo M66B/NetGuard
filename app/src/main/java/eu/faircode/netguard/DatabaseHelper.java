@@ -382,6 +382,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null, null, "time DESC");
     }
 
+    public long getRuleCount(int uid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.compileStatement("SELECT COUNT(*) FROM access WHERE block >=0 AND uid =" + uid).simpleQueryForLong();
+    }
+
+
     public void addLogChangedListener(LogChangedListener listener) {
         logChangedListeners.add(listener);
     }
