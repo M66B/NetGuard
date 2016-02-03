@@ -69,6 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.i(TAG, "Creating database " + DB_NAME + " version " + DB_VERSION);
         createTableLog(db);
         createTableAccess(db);
+        createTableDns(db);
     }
 
     @Override
@@ -336,7 +337,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 if (db.insert("access", null, cv) == -1)
                     Log.e(TAG, "Insert access failed");
             } else if (rows != 1)
-                Log.e(TAG, "Update access failed");
+                Log.e(TAG, "Update access failed rows=" + rows);
         }
 
         for (AccessChangedListener listener : accessChangedListeners)
@@ -421,7 +422,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cv.put("ttl", rr.TTL);
 
             int rows = db.update("dns", cv, "qname = ? AND aname = ? AND resource = ?",
-                    new String[]{rr.QName, rr.AName});
+                    new String[]{rr.QName, rr.AName, rr.Resource});
 
             if (rows == 0) {
                 cv.put("qname", rr.QName);
@@ -433,7 +434,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 else
                     Log.i(TAG, "Inserted " + rr);
             } else if (rows != 1)
-                Log.e(TAG, "Update dns failed");
+                Log.e(TAG, "Update dns failed rows=" + rows);
             else
                 Log.i(TAG, "Updated " + rr);
         }
