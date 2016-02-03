@@ -307,6 +307,9 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         // Show if non default rules
         holder.itemView.setBackgroundColor(rule.changed || rules > 0 ? colorChanged : Color.TRANSPARENT);
 
+        // Show expand/collapse indicator
+        holder.ivExpander.setImageLevel(rule.expanded ? 1 : 0);
+
         // Show application icon
         if (rule.info.applicationInfo == null || rule.info.applicationInfo.icon == 0)
             Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
@@ -314,9 +317,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             Uri uri = Uri.parse("android.resource://" + rule.info.packageName + "/" + rule.info.applicationInfo.icon);
             Picasso.with(context).load(uri).into(holder.ivIcon);
         }
-
-        // Show expand/collapse indicator
-        holder.ivExpander.setImageLevel(rule.expanded ? 1 : 0);
 
         // Show application label
         holder.tvName.setText(rule.name);
