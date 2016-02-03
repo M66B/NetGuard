@@ -67,6 +67,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
     private Activity context;
     private DatabaseHelper dh;
+    private RecyclerView rv;
     private boolean wifi;
     private boolean telephony;
     private boolean filter;
@@ -254,6 +255,18 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         wifiActive = false;
         otherActive = false;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        rv = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        rv = null;
     }
 
     @Override
@@ -620,6 +633,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     @Override
                     public void onSure() {
                         dh.clearAccess(rule.info.applicationInfo.uid);
+                        if (rv != null)
+                            rv.scrollToPosition(position);
                     }
                 });
             }
