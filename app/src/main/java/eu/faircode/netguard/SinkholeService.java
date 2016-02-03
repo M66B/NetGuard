@@ -663,7 +663,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean log = prefs.getBoolean("log", false);
             boolean log_app = prefs.getBoolean("log_app", false);
-            boolean filter = prefs.getBoolean("filter", false);
             boolean notify = prefs.getBoolean("notify_access", false);
             boolean system = prefs.getBoolean("manage_system", false);
 
@@ -698,7 +697,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void resolved(ResourceRecord rr) {
-            new DatabaseHelper(SinkholeService.this).insertDns(rr).close();
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            if (prefs.getBoolean("resolved", true))
+                new DatabaseHelper(SinkholeService.this).insertDns(rr).close();
         }
 
         private void set(Intent intent) {

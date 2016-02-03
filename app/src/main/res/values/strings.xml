@@ -56,6 +56,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_log_app">Log internet access</string>
     <string name="setting_access">Notify on internet access</string>
     <string name="setting_filter">Filter traffic</string>
+    <string name="setting_resolved">Store resolved domain names</string>
     <string name="setting_block_domains">Block domain names</string>
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -95,6 +96,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
     <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
     <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
+    <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
     <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
 
     <string name="summary_stats">Show network speed graph in status bar notification</string>
