@@ -145,6 +145,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         android:visibility="gone">
 
