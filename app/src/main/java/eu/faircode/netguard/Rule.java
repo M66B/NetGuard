@@ -35,11 +35,13 @@ import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Rule {
@@ -260,7 +262,9 @@ public class Rule {
                 @Override
                 public int compare(Rule rule, Rule other) {
                     if (rule.changed == other.changed) {
-                        int i = rule.name.compareToIgnoreCase(other.name);
+                        Collator collator = Collator.getInstance(Locale.getDefault());
+                        collator.setStrength(Collator.SECONDARY); // Case sensitive, process accents etc
+                        int i = collator.compare(rule.name, other.name);
                         return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
                     }
                     return (rule.changed ? -1 : 1);
