@@ -153,6 +153,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE INDEX idx_dns ON dns(qname, aname, resource)");
     }
 
+    private boolean columnExists(SQLiteDatabase db, String table, String column) {
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery("SELECT * FROM " + table + " LIMIT 0", null);
+            return (cursor.getColumnIndex(column) >= 0);
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            return false;
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(TAG, DB_NAME + " upgrading from version " + oldVersion + " to " + newVersion);
@@ -160,39 +174,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             if (oldVersion < 2) {
-                db.execSQL("ALTER TABLE log ADD COLUMN version INTEGER NULL");
-                db.execSQL("ALTER TABLE log ADD COLUMN protocol INTEGER NULL");
-                db.execSQL("ALTER TABLE log ADD COLUMN uid INTEGER NULL");
+                if (!columnExists(db, "log", "version"))
+                    db.execSQL("ALTER TABLE log ADD COLUMN version INTEGER NULL");
+                if (!columnExists(db, "log", "protocol"))
+                    db.execSQL("ALTER TABLE log ADD COLUMN protocol INTEGER NULL");
+                if (!columnExists(db, "log", "uid"))
+                    db.execSQL("ALTER TABLE log ADD COLUMN uid INTEGER NULL");
                 oldVersion = 2;
             }
             if (oldVersion < 3) {
-                db.execSQL("ALTER TABLE log ADD COLUMN port INTEGER NULL");
-                db.execSQL("ALTER TABLE log ADD COLUMN flags TEXT");
+                if (!columnExists(db, "log", "port"))
+                    db.execSQL("ALTER TABLE log ADD COLUMN port INTEGER NULL");
+                if (!columnExists(db, "log", "flags"))
+                    db.execSQL("ALTER TABLE log ADD COLUMN flags TEXT");
                 oldVersion = 3;
             }
             if (oldVersion < 4) {
-                db.execSQL("ALTER TABLE log ADD COLUMN connection INTEGER NULL");
+                if (!columnExists(db, "log", "connection"))
+                    db.execSQL("ALTER TABLE log ADD COLUMN connection INTEGER NULL");
                 oldVersion = 4;
             }
             if (oldVersion < 5) {
-                db.execSQL("ALTER TABLE log ADD COLUMN interactive INTEGER NULL");
+                if (!columnExists(db, "log", "interactive"))
+                    db.execSQL("ALTER TABLE log ADD COLUMN interactive INTEGER NULL");
                 oldVersion = 5;
             }
             if (oldVersion < 6) {
-                db.execSQL("ALTER TABLE log ADD COLUMN allowed INTEGER NULL");
+                if (!columnExists(db, "log", "allowed"))
+                    db.execSQL("ALTER TABLE log ADD COLUMN allowed INTEGER NULL");
                 oldVersion = 6;
             }
             if (oldVersion < 7) {
                 db.execSQL("DROP TABLE log");
                 createTableLog(db);
-                oldVersion = 9;
+                oldVersion = 8;
             }
             if (oldVersion < 8) {
-                db.execSQL("ALTER TABLE log ADD COLUMN data TEXT");
+                if (!columnExists(db, "log", "data"))
+                    db.execSQL("ALTER TABLE log ADD COLUMN data TEXT");
                 db.execSQL("DROP INDEX idx_log_source");
                 db.execSQL("DROP INDEX idx_log_dest");
-                db.execSQL("CREATE INDEX IF NOT EXISTS idx_log_source ON log(saddr)");
-                db.execSQL("CREATE INDEX IF NOT EXISTS idx_log_dest ON log(daddr)");
+                db.execSQL("CREATE INDEX idx_log_source ON log(saddr)");
+                db.execSQL("CREATE INDEX idx_log_dest ON log(daddr)");
                 db.execSQL("CREATE INDEX IF NOT EXISTS idx_log_uid ON log(uid)");
                 oldVersion = 8;
             }
