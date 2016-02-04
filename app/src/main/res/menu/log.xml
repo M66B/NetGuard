@@ -43,6 +43,10 @@
         android:checked="true"
         android:title="@string/menu_live" />
     <item
+        android:id="@+id/menu_refresh"
+        android:enabled="false"
+        android:title="@string/menu_refresh" />
+    <item
         android:id="@+id/menu_log_resolve"
         android:checkable="true"
         android:checked="false"

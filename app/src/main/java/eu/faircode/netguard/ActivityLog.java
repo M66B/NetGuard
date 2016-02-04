@@ -305,9 +305,11 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         menu.findItem(R.id.menu_protocol_udp).setChecked(prefs.getBoolean("proto_udp", true));
         menu.findItem(R.id.menu_protocol_tcp).setChecked(prefs.getBoolean("proto_tcp", true));
         menu.findItem(R.id.menu_protocol_other).setChecked(prefs.getBoolean("proto_other", true));
+        menu.findItem(R.id.menu_traffic_allowed).setEnabled(prefs.getBoolean("filter", false));
         menu.findItem(R.id.menu_traffic_allowed).setChecked(prefs.getBoolean("traffic_allowed", true));
         menu.findItem(R.id.menu_traffic_blocked).setChecked(prefs.getBoolean("traffic_blocked", true));
 
+        menu.findItem(R.id.menu_refresh).setEnabled(!menu.findItem(R.id.menu_log_live).isChecked());
         menu.findItem(R.id.menu_log_resolve).setChecked(prefs.getBoolean("resolve", false));
         menu.findItem(R.id.menu_pcap_enabled).setEnabled(prefs.getBoolean("filter", false));
         menu.findItem(R.id.menu_pcap_enabled).setChecked(prefs.getBoolean("pcap", false));
@@ -365,6 +367,10 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                     updateAdapter();
                 } else
                     dh.removeLogChangedListener(listener);
+                return true;
+
+            case R.id.menu_refresh:
+                updateAdapter();
                 return true;
 
             case R.id.menu_log_resolve:
