@@ -681,13 +681,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // Application log
             if (log_app && packet.uid > 0) {
-                if (dname == null)
-                    try {
-                        dname = InetAddress.getByName(packet.daddr).getHostName();
-                    } catch (UnknownHostException ignored) {
-                        dname = packet.daddr;
-                    }
-
                 if (dh.updateAccess(packet, dname, -1))
                     if (notify && prefs.getBoolean("notify_" + packet.uid, true) &&
                             (system || !Util.isSystem(packet.uid, SinkholeService.this)))
