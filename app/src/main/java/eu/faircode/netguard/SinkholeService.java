@@ -499,12 +499,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             // Calculate network speed
             float txsec = 0;
             float rxsec = 0;
-            long ctx = TrafficStats.getTotalTxBytes();
-            long rtx = TrafficStats.getTotalRxBytes();
+            long ttx = TrafficStats.getTotalTxBytes();
+            long trx = TrafficStats.getTotalRxBytes();
+            if (prefs.getBoolean("filter", false)) {
+                ttx -= TrafficStats.getUidTxBytes(Process.myUid());
+                trx -= TrafficStats.getUidRxBytes(Process.myUid());
+            }
             if (t > 0 && tx > 0 && rx > 0) {
                 float dt = (ct - t) / 1000f;
-                txsec = (ctx - tx) / dt;
-                rxsec = (rtx - rx) / dt;
+                txsec = (ttx - tx) / dt;
+                rxsec = (trx - rx) / dt;
                 gt.add(ct);
                 gtx.add(txsec);
                 grx.add(rxsec);
@@ -554,8 +558,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
 
             t = ct;
-            tx = ctx;
-            rx = rtx;
+            tx = ttx;
+            rx = trx;
 
             // Create bitmap
             int height = Util.dips2pixels(96, SinkholeService.this);
