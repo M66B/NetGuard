@@ -563,15 +563,15 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                                 public boolean onMenuItemClick(MenuItem menuItem) {
                                     switch (menuItem.getItemId()) {
                                         case R.id.menu_allow:
-                                            dh.setAccess(id, rule.info.applicationInfo.uid, 0);
+                                            dh.setAccess(id, 0);
                                             SinkholeService.reload(null, "allow host", context);
                                             return true;
                                         case R.id.menu_block:
-                                            dh.setAccess(id, rule.info.applicationInfo.uid, 1);
+                                            dh.setAccess(id, 1);
                                             SinkholeService.reload(null, "block host", context);
                                             return true;
                                         case R.id.menu_reset:
-                                            dh.setAccess(id, rule.info.applicationInfo.uid, -1);
+                                            dh.setAccess(id, -1);
                                             SinkholeService.reload(null, "reset host", context);
                                             return true;
                                     }

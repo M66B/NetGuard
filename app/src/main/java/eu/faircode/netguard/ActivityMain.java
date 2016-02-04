@@ -408,7 +408,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private DatabaseHelper.AccessChangedListener accessChangedListener = new DatabaseHelper.AccessChangedListener() {
         @Override
-        public void onChanged(int uid) {
+        public void onChanged() {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

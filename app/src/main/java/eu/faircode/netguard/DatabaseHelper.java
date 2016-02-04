@@ -21,12 +21,13 @@ package eu.faircode.netguard;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.preference.PreferenceManager;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.util.Log;
 
 import java.io.File;
@@ -46,10 +47,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static List<AccessChangedListener> accessChangedListeners = new ArrayList<>();
 
     private Context context;
+    private static HandlerThread hthread = null;
+    private static Handler handler = null;
+
+    private final static int MSG_LOG = 1;
+    private final static int MSG_ACCESS = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
+
+        if (hthread == null) {
+            hthread = new HandlerThread(getClass().getName());
+            hthread.start();
+            handler = new Handler(hthread.getLooper()) {
+                @Override
+                public void handleMessage(Message msg) {
+                    handleChangedNotification(msg);
+                }
+            };
+        }
 
         if (!once) {
             once = true;
@@ -268,12 +285,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Log.e(TAG, "Insert log failed");
         }
 
-        for (LogChangedListener listener : logChangedListeners)
-            try {
-                listener.onChanged();
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
+        notifyLogChanged();
 
         return this;
     }
@@ -285,12 +297,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("VACUUM");
         }
 
-        for (LogChangedListener listener : logChangedListeners)
-            try {
-                listener.onChanged();
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
+        notifyLogChanged();
 
         return this;
     }
@@ -358,17 +365,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Log.e(TAG, "Update access failed rows=" + rows);
         }
 
-        for (AccessChangedListener listener : accessChangedListeners)
-            try {
-                listener.onChanged(packet.uid);
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
+        notifyAccessChanged();
 
         return (rows == 0);
     }
 
-    public DatabaseHelper setAccess(long id, int uid, int block) {
+    public DatabaseHelper setAccess(long id, int block) {
         synchronized (context.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
@@ -379,12 +381,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (db.update("access", cv, "ID = ?", new String[]{Long.toString(id)}) != 1)
                 Log.e(TAG, "Set access failed");
 
-            for (AccessChangedListener listener : accessChangedListeners)
-                try {
-                    listener.onChanged(uid);
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
+            notifyAccessChanged();
         }
 
         return this;
@@ -396,12 +393,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.delete("access", "uid = ? AND block < 0", new String[]{Integer.toString(uid)});
         }
 
-        for (AccessChangedListener listener : accessChangedListeners)
-            try {
-                listener.onChanged(uid);
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
+        notifyAccessChanged();
 
         return this;
     }
@@ -513,11 +505,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         accessChangedListeners.remove(listener);
     }
 
+    private void notifyLogChanged() {
+        Message msg = handler.obtainMessage();
+        msg.what = MSG_LOG;
+        handler.sendMessage(msg);
+    }
+
+    private void notifyAccessChanged() {
+        Message msg = handler.obtainMessage();
+        msg.what = MSG_ACCESS;
+        handler.sendMessage(msg);
+    }
+
+    private static void handleChangedNotification(Message msg) {
+        // Batch notifications
+        try {
+            Thread.sleep(1000);
+            if (handler.hasMessages(msg.what)) {
+                Log.i(TAG, "Batching notifications what=" + msg.what);
+                handler.removeMessages(msg.what);
+            }
+        } catch (InterruptedException ignored) {
+        }
+
+        // Notify listeners
+        if (msg.what == MSG_LOG) {
+            for (LogChangedListener listener : logChangedListeners)
+                try {
+                    listener.onChanged();
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+
+        } else if (msg.what == MSG_ACCESS) {
+            for (AccessChangedListener listener : accessChangedListeners)
+                try {
+                    listener.onChanged();
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+        }
+    }
+
     public interface LogChangedListener {
         void onChanged();
     }
 
     public interface AccessChangedListener {
-        void onChanged(int uid);
+        void onChanged();
     }
 }
