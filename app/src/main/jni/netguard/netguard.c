@@ -485,9 +485,10 @@ void check_allowed(const struct arguments *args) {
         i = i->next;
     }
 
+    struct udp_session *l = NULL;
     struct udp_session *u = udp_session;
     while (u != NULL) {
-        if (!u->stop) {
+        if (u->state == UDP_ACTIVE) {
             if (u->version == 4) {
                 inet_ntop(AF_INET, &u->saddr.ip4, source, sizeof(source));
                 inet_ntop(AF_INET, &u->daddr.ip4, dest, sizeof(dest));
@@ -501,10 +502,25 @@ void check_allowed(const struct arguments *args) {
                     args, u->version, IPPROTO_UDP, "",
                     source, ntohs(u->source), dest, ntohs(u->dest), "", u->uid, 0);
             if (!is_address_allowed(args, objPacket)) {
-                u->stop = 1;
-                log_android(ANDROID_LOG_WARN, "UDP terminate %d uid %d", u->socket, u->uid);
+                u->state = UDP_FINISHING;
+                log_android(ANDROID_LOG_WARN, "UDP terminate session socket %d uid %d", u->socket,
+                            u->uid);
             }
         }
+        else if (u->state == UDP_BLOCKED) {
+            log_android(ANDROID_LOG_WARN, "UDP remove blocked session uid %d", u->uid);
+
+            if (l == NULL)
+                udp_session = u->next;
+            else
+                l->next = u->next;
+
+            struct udp_session *c = u;
+            u = u->next;
+            free(c);
+            continue;
+        }
+        l = u;
         u = u->next;
     }
 
@@ -580,31 +596,43 @@ int check_sessions(const struct arguments *args) {
     struct udp_session *ul = NULL;
     struct udp_session *u = udp_session;
     while (u != NULL) {
-        int timeout;
-        if (ntohs(u->dest) == 53)
-            timeout = UDP_TIMEOUT_53;
-        else
-            timeout = UDP_TIMEOUT_ANY;
-        if (u->stop || u->time + timeout < now) {
-            char source[INET6_ADDRSTRLEN + 1];
-            char dest[INET6_ADDRSTRLEN + 1];
-            if (u->version == 4) {
-                inet_ntop(AF_INET, &u->saddr.ip4, source, sizeof(source));
-                inet_ntop(AF_INET, &u->daddr.ip4, dest, sizeof(dest));
-            }
-            else {
-                inet_ntop(AF_INET6, &u->saddr.ip6, source, sizeof(source));
-                inet_ntop(AF_INET6, &u->daddr.ip6, dest, sizeof(dest));
-            }
-            log_android(ANDROID_LOG_INFO, "UDP idle %d/%d sec stop %d from %s/%u to %s/%u",
-                        now - u->time, timeout, u->stop,
-                        dest, ntohs(u->dest), source, ntohs(u->source));
+        char source[INET6_ADDRSTRLEN + 1];
+        char dest[INET6_ADDRSTRLEN + 1];
+        if (u->version == 4) {
+            inet_ntop(AF_INET, &u->saddr.ip4, source, sizeof(source));
+            inet_ntop(AF_INET, &u->daddr.ip4, dest, sizeof(dest));
+        }
+        else {
+            inet_ntop(AF_INET6, &u->saddr.ip6, source, sizeof(source));
+            inet_ntop(AF_INET6, &u->daddr.ip6, dest, sizeof(dest));
+        }
+
+        // Check session timeout
+        int timeout = (ntohs(u->dest) == 53 ? UDP_TIMEOUT_53 : UDP_TIMEOUT_ANY);
+        if (u->state == UDP_ACTIVE && u->time + timeout < now) {
+            log_android(ANDROID_LOG_INFO, "UDP idle %d/%d sec state %d from %s/%u to %s/%u",
+                        now - u->time, timeout, u->state,
+                        source, ntohs(u->source), dest, ntohs(u->dest));
+            u->state = UDP_FINISHING;
+        }
+
+        // Check finished sessions
+        if (u->state == UDP_FINISHING) {
+            log_android(ANDROID_LOG_INFO, "UDP close from %s/%u to %s/%u socket %d",
+                        source, ntohs(u->source), dest, ntohs(u->dest), u->socket);
 
             if (close(u->socket))
                 log_android(ANDROID_LOG_ERROR, "UDP close %d error %d: %s",
                             u->socket, errno, strerror(errno));
             u->socket = -1;
 
+            u->time = time(NULL);
+            u->state = UDP_CLOSED;
+        }
+
+        // Cleanup lingering sessions
+        if ((u->state == UDP_CLOSED || u->state == UDP_BLOCKED) &&
+            u->time + UDP_KEEP_TIMEOUT < now) {
             if (ul == NULL)
                 udp_session = u->next;
             else
@@ -635,7 +663,7 @@ int check_sessions(const struct arguments *args) {
             inet_ntop(AF_INET6, &t->daddr.ip6, dest, sizeof(dest));
         }
 
-        // Check connection timeout
+        // Check session timeout
         int timeout = 0;
         if (t->state == TCP_LISTEN || t->state == TCP_SYN_RECV)
             timeout = TCP_INIT_TIMEOUT;
@@ -645,16 +673,16 @@ int check_sessions(const struct arguments *args) {
             timeout = TCP_CLOSE_TIMEOUT;
         if (t->state != TCP_TIME_WAIT && t->state != TCP_CLOSE && t->time + timeout < now) {
             // TODO send keep alives?
-            log_android(ANDROID_LOG_WARN, "Idle %d/%d sec from %s/%u to %s/%u state %s",
+            log_android(ANDROID_LOG_WARN, "TCP idle %d/%d sec from %s/%u to %s/%u state %s",
                         now - t->time, timeout,
                         source, ntohs(t->source), dest, ntohs(t->dest), strstate(t->state));
 
             write_rst(args, t);
         }
 
-        // Check finished connection
+        // Check finished sessions
         if (t->state == TCP_TIME_WAIT) {
-            log_android(ANDROID_LOG_INFO, "Close from %s/%u to %s/%u socket %d",
+            log_android(ANDROID_LOG_INFO, "TCP close from %s/%u to %s/%u socket %d",
                         source, ntohs(t->source), dest, ntohs(t->dest), t->socket);
 
             if (close(t->socket))
@@ -713,7 +741,7 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     // Select UDP sockets
     struct udp_session *u = udp_session;
     while (u != NULL) {
-        if (!u->stop) {
+        if (u->state == UDP_ACTIVE) {
             FD_SET(u->socket, efds);
             FD_SET(u->socket, rfds);
             if (u->socket > max)
@@ -906,7 +934,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 else if (serr)
                     log_android(ANDROID_LOG_ERROR, "UDP SO_ERROR %d: %s", serr, strerror(serr));
 
-                cur->stop = 1;
+                cur->state = UDP_FINISHING;
             }
             else {
                 // Check socket read
@@ -922,12 +950,12 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                     errno, strerror(errno));
 
                         if (errno != EINTR && errno != EAGAIN)
-                            cur->stop = 1;
+                            cur->state = UDP_FINISHING;
                     }
                     else if (bytes == 0) {
                         // Socket eof
                         log_android(ANDROID_LOG_WARN, "UDP recv empty");
-                        cur->stop = 1;
+                        cur->state = UDP_FINISHING;
 
                     } else {
                         // Socket read data
@@ -945,11 +973,11 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 
                         // Forward to tun
                         if (write_udp(args, cur, buffer, (size_t) bytes) < 0)
-                            cur->stop = 1;
+                            cur->state = UDP_FINISHING;
                         else {
                             // Prevent too many open files
                             if (ntohs(cur->dest) == 53)
-                                cur->stop = 1;
+                                cur->state = UDP_FINISHING;
                         }
                     }
                     free(buffer);
@@ -1368,7 +1396,8 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     // Get uid
     jint uid = -1;
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6 ||
-        (protocol == IPPROTO_UDP && dport != 53) || syn) {
+        (protocol == IPPROTO_UDP && dport != 53 && !has_udp_session(pkt, payload)) ||
+        (protocol == IPPROTO_TCP && syn)) {
         log_android(ANDROID_LOG_INFO, "get uid %s/%u version %d protocol %d syn %d",
                     dest, dport, version, protocol, syn);
         int tries = 0;
@@ -1416,10 +1445,9 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     jboolean allowed = 0;
     if (protocol == IPPROTO_UDP && dport == 53)
         allowed = 1; // allow DNS
-    else if (protocol == IPPROTO_UDP && has_udp_session(args, pkt, payload)) {
-        allowed = 1;
-        log_android(ANDROID_LOG_INFO, "UDP existing session allowed");
-    } else if (protocol == IPPROTO_TCP && !syn)
+    else if (protocol == IPPROTO_UDP && has_udp_session(pkt, payload))
+        allowed = 1; // could be a lingering session
+    else if (protocol == IPPROTO_TCP && !syn)
         allowed = 1; // assume session
     else {
         jobject objPacket = create_packet(
@@ -1436,8 +1464,11 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         else if (protocol == IPPROTO_TCP)
             handle_tcp(args, pkt, length, payload, uid);
     }
-    else
+    else {
+        if (protocol == IPPROTO_UDP)
+            block_udp(args, pkt, length, payload, uid);
         log_android(ANDROID_LOG_INFO, "Address %s/%u syn %d not allowed", dest, dport, syn);
+    }
 
 #ifdef PROFILE_EVENTS
     gettimeofday(&end, NULL);
@@ -1449,7 +1480,8 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 }
 
 jboolean handle_icmp(const struct arguments *args,
-                     const uint8_t *pkt, size_t length, const uint8_t *payload,
+                     const uint8_t *pkt, size_t length,
+                     const uint8_t *payload,
                      int uid) {
     // Get headers
     const uint8_t version = (*pkt) >> 4;
@@ -1459,17 +1491,14 @@ jboolean handle_icmp(const struct arguments *args,
     size_t icmplen = length - (payload - pkt);
 
     // Search session
-    struct icmp_session *last = NULL;
     struct icmp_session *cur = icmp_session;
     while (cur != NULL &&
            !(!cur->stop && cur->version == version &&
              (version == 4 ? cur->saddr.ip4 == ip4->saddr &&
                              cur->daddr.ip4 == ip4->daddr
                            : memcmp(&cur->saddr.ip6, &ip6->ip6_src, 16) == 0 &&
-                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0))) {
-        last = cur;
+                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0)))
         cur = cur->next;
-    }
 
     char source[INET6_ADDRSTRLEN + 1];
     char dest[INET6_ADDRSTRLEN + 1];
@@ -1513,10 +1542,8 @@ jboolean handle_icmp(const struct arguments *args,
 
         log_android(ANDROID_LOG_DEBUG, "ICMP socket %d id %x", i->socket, i->id);
 
-        if (last == NULL)
-            icmp_session = i;
-        else
-            last->next = i;
+        i->next = icmp_session;
+        icmp_session = i;
 
         cur = i;
     }
@@ -1571,7 +1598,7 @@ jboolean handle_icmp(const struct arguments *args,
     return 1;
 }
 
-int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload) {
+int has_udp_session(const uint8_t *pkt, const uint8_t *payload) {
     // Get headers
     const uint8_t version = (*pkt) >> 4;
     const struct iphdr *ip4 = (struct iphdr *) pkt;
@@ -1581,7 +1608,7 @@ int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint
     // Search session
     struct udp_session *cur = udp_session;
     while (cur != NULL &&
-           !(!cur->stop && cur->version == version &&
+           !(cur->version == version &&
              cur->source == udphdr->source && cur->dest == udphdr->dest &&
              (version == 4 ? cur->saddr.ip4 == ip4->saddr &&
                              cur->daddr.ip4 == ip4->daddr
@@ -1592,8 +1619,57 @@ int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint
     return (cur != NULL);
 }
 
+void block_udp(const struct arguments *args,
+               const uint8_t *pkt, size_t length,
+               const uint8_t *payload,
+               int uid) {
+    // Get headers
+    const uint8_t version = (*pkt) >> 4;
+    const struct iphdr *ip4 = (struct iphdr *) pkt;
+    const struct ip6_hdr *ip6 = (struct ip6_hdr *) pkt;
+    const struct udphdr *udphdr = (struct udphdr *) payload;
+    const uint8_t *data = payload + sizeof(struct udphdr);
+    const size_t datalen = length - (data - pkt);
+
+    char source[INET6_ADDRSTRLEN + 1];
+    char dest[INET6_ADDRSTRLEN + 1];
+    if (version == 4) {
+        inet_ntop(AF_INET, &ip4->saddr, source, sizeof(source));
+        inet_ntop(AF_INET, &ip4->daddr, dest, sizeof(dest));
+    } else {
+        inet_ntop(AF_INET6, &ip6->ip6_src, source, sizeof(source));
+        inet_ntop(AF_INET6, &ip6->ip6_dst, dest, sizeof(dest));
+    }
+
+    log_android(ANDROID_LOG_INFO, "UDP blocked session from %s/%u to %s/%u",
+                source, ntohs(udphdr->source), dest, ntohs(udphdr->dest));
+
+    // Register session
+    struct udp_session *u = malloc(sizeof(struct udp_session));
+    u->time = time(NULL);
+    u->uid = uid;
+    u->version = version;
+
+    if (version == 4) {
+        u->saddr.ip4 = (__be32) ip4->saddr;
+        u->daddr.ip4 = (__be32) ip4->daddr;
+    } else {
+        memcpy(&u->saddr.ip6, &ip6->ip6_src, 16);
+        memcpy(&u->daddr.ip6, &ip6->ip6_dst, 16);
+    }
+
+    u->source = udphdr->source;
+    u->dest = udphdr->dest;
+    u->state = UDP_BLOCKED;
+    u->socket = -1;
+
+    u->next = udp_session;
+    udp_session = u;
+}
+
 jboolean handle_udp(const struct arguments *args,
-                    const uint8_t *pkt, size_t length, const uint8_t *payload,
+                    const uint8_t *pkt, size_t length,
+                    const uint8_t *payload,
                     int uid) {
     // Get headers
     const uint8_t version = (*pkt) >> 4;
@@ -1604,18 +1680,15 @@ jboolean handle_udp(const struct arguments *args,
     const size_t datalen = length - (data - pkt);
 
     // Search session
-    struct udp_session *last = NULL;
     struct udp_session *cur = udp_session;
     while (cur != NULL &&
-           !(!cur->stop && cur->version == version &&
+           !(cur->version == version &&
              cur->source == udphdr->source && cur->dest == udphdr->dest &&
              (version == 4 ? cur->saddr.ip4 == ip4->saddr &&
                              cur->daddr.ip4 == ip4->daddr
                            : memcmp(&cur->saddr.ip6, &ip6->ip6_src, 16) == 0 &&
-                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0))) {
-        last = cur;
+                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0)))
         cur = cur->next;
-    }
 
     char source[INET6_ADDRSTRLEN + 1];
     char dest[INET6_ADDRSTRLEN + 1];
@@ -1625,6 +1698,12 @@ jboolean handle_udp(const struct arguments *args,
     } else {
         inet_ntop(AF_INET6, &ip6->ip6_src, source, sizeof(source));
         inet_ntop(AF_INET6, &ip6->ip6_dst, dest, sizeof(dest));
+    }
+
+    if (cur != NULL && cur->state != UDP_ACTIVE) {
+        log_android(ANDROID_LOG_INFO, "UDP ignore session from %s/%u to %s/%u state %d",
+                    source, ntohs(udphdr->source), dest, ntohs(udphdr->dest), cur->state);
+        return 0;
     }
 
     // Create new session if needed
@@ -1648,7 +1727,7 @@ jboolean handle_udp(const struct arguments *args,
 
         u->source = udphdr->source;
         u->dest = udphdr->dest;
-        u->stop = 0;
+        u->state = UDP_ACTIVE;
         u->next = NULL;
 
         // Open UDP socket
@@ -1660,10 +1739,8 @@ jboolean handle_udp(const struct arguments *args,
 
         log_android(ANDROID_LOG_DEBUG, "UDP socket %d", u->socket);
 
-        if (last == NULL)
-            udp_session = u;
-        else
-            last->next = u;
+        u->next = udp_session;
+        udp_session = u;
 
         cur = u;
     }
@@ -1689,7 +1766,7 @@ jboolean handle_udp(const struct arguments *args,
                 log_packet(args, objPacket);
 
                 // Session done
-                cur->stop = 1;
+                cur->state = UDP_FINISHING;
                 return 0;
             }
         }
@@ -1723,7 +1800,7 @@ jboolean handle_udp(const struct arguments *args,
                (socklen_t) (version == 4 ? sizeof(server4) : sizeof(server6))) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %d: %s", errno, strerror(errno));
         if (errno != EINTR && errno != EAGAIN) {
-            cur->stop = 1;
+            cur->state = UDP_FINISHING;
             return 0;
         }
     }
@@ -1948,27 +2025,6 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
     return 0;
 }
 
-int has_tcp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload) {
-    // Get headers
-    const uint8_t version = (*pkt) >> 4;
-    const struct iphdr *ip4 = (struct iphdr *) pkt;
-    const struct ip6_hdr *ip6 = (struct ip6_hdr *) pkt;
-    const struct tcphdr *tcphdr = (struct tcphdr *) payload;
-
-    // Search session
-    struct tcp_session *cur = tcp_session;
-    while (cur != NULL &&
-           !(cur->version == version &&
-             cur->source == tcphdr->source && cur->dest == tcphdr->dest &&
-             (version == 4 ? cur->saddr.ip4 == ip4->saddr &&
-                             cur->daddr.ip4 == ip4->daddr
-                           : memcmp(&cur->saddr.ip6, &ip6->ip6_src, 16) == 0 &&
-                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0)))
-        cur = cur->next;
-
-    return (cur != NULL);
-}
-
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
@@ -1983,7 +2039,6 @@ jboolean handle_tcp(const struct arguments *args,
     const size_t datalen = length - (data - pkt);
 
     // Search session
-    struct tcp_session *last = NULL;
     struct tcp_session *cur = tcp_session;
     while (cur != NULL &&
            !(cur->version == version &&
@@ -1991,10 +2046,8 @@ jboolean handle_tcp(const struct arguments *args,
              (version == 4 ? cur->saddr.ip4 == ip4->saddr &&
                              cur->daddr.ip4 == ip4->daddr
                            : memcmp(&cur->saddr.ip6, &ip6->ip6_src, 16) == 0 &&
-                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0))) {
-        last = cur;
+                             memcmp(&cur->daddr.ip6, &ip6->ip6_dst, 16) == 0)))
         cur = cur->next;
-    }
 
     char source[INET6_ADDRSTRLEN + 1];
     char dest[INET6_ADDRSTRLEN + 1];
@@ -2063,10 +2116,8 @@ jboolean handle_tcp(const struct arguments *args,
             log_android(ANDROID_LOG_DEBUG, "TCP socket %d lport %d",
                         syn->socket, get_local_port(syn->socket));
 
-            if (last == NULL)
-                tcp_session = syn;
-            else
-                last->next = syn;
+            syn->next = tcp_session;
+            tcp_session = syn;
         }
         else {
             log_android(ANDROID_LOG_WARN, "TCP unknown session from %s/%u to %s/%u uid %d",

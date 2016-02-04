@@ -14,6 +14,7 @@
 
 #define UDP_TIMEOUT_53 15 // seconds
 #define UDP_TIMEOUT_ANY 300 // seconds
+#define UDP_KEEP_TIMEOUT 60 // seconds
 
 #define TCP_RECV_WINDOW 2048 // bytes
 #define TCP_SEND_WINDOW 2048 // bytes (maximum)
@@ -60,6 +61,11 @@ struct icmp_session {
     struct icmp_session *next;
 };
 
+#define UDP_ACTIVE 0
+#define UDP_FINISHING 1
+#define UDP_CLOSED 2
+#define UDP_BLOCKED 3
+
 struct udp_session {
     time_t time;
     jint uid;
@@ -77,7 +83,7 @@ struct udp_session {
     } daddr;
     __be16 dest; // network notation
 
-    uint8_t stop;
+    uint8_t state;
     jint socket;
 
     struct udp_session *next;
@@ -259,13 +265,17 @@ int is_upper_layer(int protocol);
 
 void handle_ip(const struct arguments *args, const uint8_t *buffer, size_t length);
 
-int has_icmp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload);
-
 jboolean handle_icmp(const struct arguments *args,
-                     const uint8_t *pkt, size_t length, const uint8_t *payload,
+                     const uint8_t *pkt, size_t length,
+                     const uint8_t *payload,
                      int uid);
 
-int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload);
+int has_udp_session(const uint8_t *pkt, const uint8_t *payload);
+
+void block_udp(const struct arguments *args,
+               const uint8_t *pkt, size_t length,
+               const uint8_t *payload,
+               int uid);
 
 jboolean handle_udp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
@@ -282,8 +292,6 @@ int check_domain(const struct arguments *args, const struct udp_session *u,
 
 int check_dhcp(const struct arguments *args, const struct udp_session *u,
                const uint8_t *data, const size_t datalen);
-
-int has_tcp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload);
 
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
