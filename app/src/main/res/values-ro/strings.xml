@@ -19,9 +19,9 @@
   <string name="menu_invite">Invita</string>
   <string name="menu_support">Asistenta</string>
   <string name="menu_about">Despre</string>
-  <string name="menu_protocol_other">Other</string>
-  <string name="menu_traffic_allowed">Allowed</string>
-  <string name="menu_traffic_blocked">Blocked</string>
+  <string name="menu_protocol_other">Altele</string>
+  <string name="menu_traffic_allowed">Permis</string>
+  <string name="menu_traffic_blocked">Blocat</string>
   <string name="menu_live">Actualizare in timp real</string>
   <string name="menu_resolve">Arata nume domenii</string>
   <string name="menu_pcap_enabled">Activeaza PCAP</string>

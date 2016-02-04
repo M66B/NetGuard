@@ -20,15 +20,15 @@
   <string name="menu_invite">招待</string>
   <string name="menu_support">サポート</string>
   <string name="menu_about">アプリについて</string>
-  <string name="menu_protocol_other">Other</string>
-  <string name="menu_traffic_allowed">Allowed</string>
-  <string name="menu_traffic_blocked">Blocked</string>
+  <string name="menu_protocol_other">その他</string>
+  <string name="menu_traffic_allowed">許可</string>
+  <string name="menu_traffic_blocked">ブロック</string>
   <string name="menu_live">ライブアップデート</string>
   <string name="menu_resolve">名前を表示</string>
   <string name="menu_pcap_enabled">PCAP を有効にしました</string>
   <string name="menu_pcap_export">PCAP エクスポート</string>
   <string name="menu_clear">クリア</string>
-  <string name="menu_reset">Reset</string>
+  <string name="menu_reset">リセット</string>
   <string name="setting_defaults">デフォルト</string>
   <string name="setting_whitelist_wifi">デフォルトで Wi-Fi をブロック</string>
   <string name="setting_whitelist_other">デフォルトでモバイル通信をブロック</string>
@@ -53,7 +53,7 @@
   <string name="setting_log_app">インター ネット アクセスをログ</string>
   <string name="setting_access">インター ネット アクセス時に通知</string>
   <string name="setting_filter">トラフィックをフィルター</string>
-  <string name="setting_resolved">Store resolved domain names</string>
+  <string name="setting_resolved">解決したドメイン名を保存</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -68,15 +68,15 @@
   <string name="setting_export">設定をエクスポート</string>
   <string name="setting_import">設定をインポート</string>
   <string name="setting_hosts">hosts ファイルをインポート</string>
-  <string name="setting_hosts_url">Hosts file download URL</string>
-  <string name="setting_hosts_download">Download hosts file</string>
+  <string name="setting_hosts_url">Hosts ファイルのダウンロード URL</string>
+  <string name="setting_hosts_download">Hosts ファイルをダウンロード</string>
   <string name="setting_technical">技術情報</string>
   <string name="setting_technical_general">全般</string>
   <string name="setting_technical_networks">ネットワーク</string>
   <string name="setting_technical_subscription">サブスクリプション</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
-  <string name="summary_tethering">Tethered traffic cannot be filtered</string>
+  <string name="summary_tethering">テザリングのトラフィックをフィルターできません</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>
   <string name="summary_metered">従量制 (有料、テザリング) Wi-Fi ネットワークにモバイル ネットワーク ルールを適用します</string>
   <string name="summary_metered_2g">2G データ接続の Wi-Fi ネットワーク ルールを適用します</string>
@@ -87,8 +87,8 @@
   <string name="summary_log_app">アプリケーションのインターネットへのアクセスをログ記録します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_access">アプリケーションが、新しいインターネット アドレスにアクセスしようとするときに、ステータスバーに通知を表示します。</string>
   <string name="summary_filter">VPN のシンク穴を出る IP パケットをフィルター処理します。バッテリー使用量が増える場合があります。</string>
-  <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
-  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
+  <string name="summary_resolved">ドメイン名/IP アドレスをデータベースに格納します。これによりトラフィック ログがさらに便利になりますが、バッテリーの使用量が増えることがあります。</string>
+  <string name="summary_block_domains">ブロックされたドメイン名に対して \'名前エラー\' (NXDOMAIN) で応答しました。Hosts ファイルをインポートしていない場合、このスイッチは無効です。</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
   <string name="summary_hosts">標準の hosts ファイルをインポートします。設定をエクスポートする場合、hosts ファイルはエクスポートされません。</string>
   <string name="msg_sure">よろしいですか?</string>
@@ -102,10 +102,8 @@
   <string name="msg_installed">\'%1$s\' インストールしました</string>
   <string name="msg_access">%1$s がインターネット アクセスを試みました。</string>
   <string name="msg_completed">操作を完了しました</string>
-  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Your internet traffic is not being sent to a remote VPN server.</string>
-  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
+  <string name="msg_vpn">NetGuard は、ローカル VPN を使用してインターネット トラフィックをフィルターします。このため、次のダイアログ ボックスで VPN 接続を許可してください。インター ネット トラフィックはリモート VPN サーバーには送信されません。</string>
+  <string name="msg_autostart">お使いの Android のバージョンのバグのため、起動時に自動的に NetGuard を開始できませんでした</string>
   <string name="msg_try">NetGuard を試してください</string>
   <string name="msg_terms">寄付によって <a href="http://www.netguard.me/#terms">利用規約</a> に同意します</string>
   <string name="msg_dimming">次のダイアログ ボックスで OK を押すことができない場合、別の (画面調光) アプリケーションが画面を操作している可能性があります。</string>
@@ -114,9 +112,9 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">NetGuard でフィルタリングを使用すると、Android のデータと電力使用につながります - Android は、元のアプリケーションではなく NetGuard によってデータと電力を使用しているとみなします。</string>
   <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
-  <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
-  <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
-  <string name="msg_downloading">Downloading\n%1s</string>
+  <string name="msg_clear_rules">ルールと条件がデフォルト値にリセットされます</string>
+  <string name="msg_reset_access">これは、許可/ブロックのルールがない、アクセス試行ログの行を削除します</string>
+  <string name="msg_downloading">ダウンロード中\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="msg_download_last">Last download: %s</string>
   <string name="title_conditions">条件</string>
