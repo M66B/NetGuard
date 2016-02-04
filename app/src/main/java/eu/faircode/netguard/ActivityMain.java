@@ -298,6 +298,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onResume() {
         dh.addAccessChangedListener(accessChangedListener);
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
         super.onResume();
     }
 
