@@ -22,6 +22,7 @@ package eu.faircode.netguard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
@@ -49,6 +50,7 @@ public class Rule {
     public boolean system;
     public boolean internet;
     public boolean enabled;
+    public Intent intent;
 
     public boolean wifi_default;
     public boolean other_default;
@@ -70,31 +72,37 @@ public class Rule {
 
     public boolean changed;
 
-    public Intent intent;
-
     public boolean expanded = false;
 
     private Rule(PackageInfo info, Context context) {
         PackageManager pm = context.getPackageManager();
 
         this.info = info;
-        this.name = info.applicationInfo.loadLabel(pm).toString();
-        this.system = Util.isSystem(info.packageName, context);
-        this.internet = Util.hasInternet(info.packageName, context);
+        if (info.applicationInfo.uid == 0) {
+            this.name = context.getString(R.string.title_root);
+            this.system = true;
+            this.internet = true;
+            this.enabled = true;
+            this.intent = null;
+        } else {
+            this.name = info.applicationInfo.loadLabel(pm).toString();
+            this.system = Util.isSystem(info.packageName, context);
+            this.internet = Util.hasInternet(info.packageName, context);
 
-        int setting;
-        try {
-            setting = pm.getApplicationEnabledSetting(info.packageName);
-        } catch (IllegalArgumentException ex) {
-            setting = PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
-            Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            int setting;
+            try {
+                setting = pm.getApplicationEnabledSetting(info.packageName);
+            } catch (IllegalArgumentException ex) {
+                setting = PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
+                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+            if (setting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
+                this.enabled = info.applicationInfo.enabled;
+            else
+                this.enabled = (setting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
+
+            this.intent = pm.getLaunchIntentForPackage(info.packageName);
         }
-        if (setting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
-            this.enabled = info.applicationInfo.enabled;
-        else
-            this.enabled = (setting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
-
-        this.intent = pm.getLaunchIntentForPackage(info.packageName);
     }
 
     public static List<Rule> getRules(boolean all, String tag, Context context) {
@@ -168,8 +176,18 @@ public class Rule {
         // Build rule list
         List<Rule> listRules = new ArrayList<>();
 
+        List<PackageInfo> listPI = context.getPackageManager().getInstalledPackages(0);
 
-        for (PackageInfo info : context.getPackageManager().getInstalledPackages(0)) {
+        PackageInfo root = new PackageInfo();
+        root.packageName = "root";
+        root.versionCode = 0;
+        root.versionName = "0";
+        root.applicationInfo = new ApplicationInfo();
+        root.applicationInfo.uid = 0;
+        root.applicationInfo.icon = 0;
+        listPI.add(root);
+
+        for (PackageInfo info : listPI) {
             Rule rule = new Rule(info, context);
 
             if (pre_system.containsKey(info.packageName))

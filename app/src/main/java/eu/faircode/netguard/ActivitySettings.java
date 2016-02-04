@@ -1095,7 +1095,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 int block = Integer.parseInt(attributes.getValue("block"));
 
                 try {
-                    packet.uid = getPackageManager().getApplicationInfo(pkg, 0).uid;
+                    if ("root".equals(pkg))
+                        packet.uid = 0;
+                    else
+                        packet.uid = getPackageManager().getApplicationInfo(pkg, 0).uid;
 
                     // This assumes ordered export
                     if (!listUid.contains(packet.uid)) {

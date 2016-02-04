@@ -680,7 +680,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 dh.insertLog(packet, dname, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
 
             // Application log
-            if (log_app && packet.uid > 0) {
+            if (log_app && packet.uid >= 0) {
                 if (dh.updateAccess(packet, dname, -1))
                     if (notify && prefs.getBoolean("notify_" + packet.uid, true) &&
                             (system || !Util.isSystem(packet.uid, SinkholeService.this)))
@@ -1094,7 +1094,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */
                 || packet.protocol == 1 /* ICMPv4 */ || packet.protocol == 58 /* ICMPv6 */) {
             if (prefs.getBoolean("filter", false)) {
-                if (packet.uid <= 0) // unknown, root
+                if (packet.uid < 0) // unknown
                     packet.allowed = true;
                 else {
                     boolean filtered = false;
