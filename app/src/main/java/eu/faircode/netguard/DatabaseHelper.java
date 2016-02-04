@@ -395,6 +395,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT ID AS _id, *";
         query += " FROM access WHERE uid = ?";
         query += " ORDER BY time DESC";
+        query += " LIMIT 50";
         return db.rawQuery(query, new String[]{Integer.toString(uid)});
     }
 
