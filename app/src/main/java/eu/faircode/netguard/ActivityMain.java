@@ -186,7 +186,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         dh = new DatabaseHelper(this);
         adapter = new RuleAdapter(dh, this);
         rvApplication.setAdapter(adapter);
-        dh.addAccessChangedListener(accessChangedListener);
 
         // Swipe to refresh
         TypedValue tv = new TypedValue();
@@ -297,6 +296,18 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     @Override
+    protected void onResume() {
+        dh.addAccessChangedListener(accessChangedListener);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dh.removeAccessChangedListener(accessChangedListener);
+    }
+
+    @Override
     public void onDestroy() {
         Log.i(TAG, "Destroy");
 
@@ -307,7 +318,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         running = false;
 
-        dh.removeAccessChangedListener(accessChangedListener);
         dh.close();
 
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);

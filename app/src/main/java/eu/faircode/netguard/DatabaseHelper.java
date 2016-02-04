@@ -125,6 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE INDEX idx_log_uid ON log(uid)");
     }
 
+    // TODO add version, protocol
     private void createTableAccess(SQLiteDatabase db) {
         Log.i(TAG, "Creating access table");
         db.execSQL("CREATE TABLE access (" +

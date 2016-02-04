@@ -185,8 +185,13 @@ public class LogAdapter extends CursorAdapter {
 
         tvFlags.setText(flags);
 
-        tvSPort.setText(sport < 0 ? "" : getKnownPort(sport));
-        tvDPort.setText(dport < 0 ? "" : getKnownPort(dport));
+        if (protocol == 6 || protocol == 17) {
+            tvSPort.setText(sport < 0 ? "" : getKnownPort(sport));
+            tvDPort.setText(dport < 0 ? "" : getKnownPort(dport));
+        } else {
+            tvSPort.setText(sport < 0 ? "" : Integer.toString(sport));
+            tvDPort.setText(dport < 0 ? "" : Integer.toString(dport));
+        }
 
         // Application icon
         ApplicationInfo info = null;

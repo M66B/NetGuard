@@ -1360,7 +1360,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 
         // http://lwn.net/Articles/443051/
         sport = ntohs(icmp->icmp_id);
-        dport = 0;
+        dport = ntohs(icmp->icmp_id);
 
     } else if (protocol == IPPROTO_UDP) {
         struct udphdr *udp = (struct udphdr *) payload;
