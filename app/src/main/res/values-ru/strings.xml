@@ -23,6 +23,7 @@
   <string name="menu_traffic_allowed">Allowed</string>
   <string name="menu_traffic_blocked">Blocked</string>
   <string name="menu_live">Обновления в реальном времени</string>
+  <string name="menu_refresh">Refresh</string>
   <string name="menu_resolve">Показать названия</string>
   <string name="menu_pcap_enabled">PCAP включен</string>
   <string name="menu_pcap_export">PCAP экспорт</string>

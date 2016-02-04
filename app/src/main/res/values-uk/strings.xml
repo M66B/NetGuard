@@ -24,6 +24,7 @@
   <string name="menu_traffic_allowed">Allowed</string>
   <string name="menu_traffic_blocked">Blocked</string>
   <string name="menu_live">Актуальні оновлення</string>
+  <string name="menu_refresh">Refresh</string>
   <string name="menu_resolve">Відображати імена</string>
   <string name="menu_pcap_enabled">PCAP увімкнуто</string>
   <string name="menu_pcap_export">Експорт PCAP</string>

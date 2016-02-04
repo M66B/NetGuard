@@ -24,6 +24,7 @@
   <string name="menu_traffic_allowed">Erlaubt</string>
   <string name="menu_traffic_blocked">Blockiert</string>
   <string name="menu_live">Live-Updates</string>
+  <string name="menu_refresh">Refresh</string>
   <string name="menu_resolve">Namen anzeigen</string>
   <string name="menu_pcap_enabled">PCAP aktiviert</string>
   <string name="menu_pcap_export">PCAP exportieren</string>
