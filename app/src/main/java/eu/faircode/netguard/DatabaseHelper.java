@@ -171,9 +171,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("ALTER TABLE log ADD COLUMN data TEXT");
                 db.execSQL("DROP INDEX idx_log_source");
                 db.execSQL("DROP INDEX idx_log_dest");
-                db.execSQL("CREATE INDEX idx_log_source ON log(saddr)");
-                db.execSQL("CREATE INDEX idx_log_dest ON log(daddr)");
-                db.execSQL("CREATE INDEX idx_log_uid ON log(uid)");
+                db.execSQL("CREATE INDEX IF NOT EXISTS idx_log_source ON log(saddr)");
+                db.execSQL("CREATE INDEX IF NOT EXISTS idx_log_dest ON log(daddr)");
+                db.execSQL("CREATE INDEX IF NOT EXISTS idx_log_uid ON log(uid)");
                 oldVersion = 8;
             }
             if (oldVersion < 9) {
@@ -193,8 +193,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 oldVersion = 12;
             }
             if (oldVersion < 13) {
-                db.execSQL("CREATE INDEX idx_log_dport ON log(dport)");
-                db.execSQL("CREATE INDEX idx_log_dname ON log(dname)");
+                db.execSQL("CREATE INDEX IF NOT EXISTS idx_log_dport ON log(dport)");
+                db.execSQL("CREATE INDEX IF NOT EXISTS idx_log_dname ON log(dname)");
                 oldVersion = 13;
             }
             if (oldVersion < 14) {
