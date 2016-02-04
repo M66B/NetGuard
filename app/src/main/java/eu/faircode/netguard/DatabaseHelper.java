@@ -21,10 +21,12 @@ package eu.faircode.netguard;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.File;
@@ -43,11 +45,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
     private static List<AccessChangedListener> accessChangedListeners = new ArrayList<>();
 
-    private Context mContext;
+    private Context context;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-        mContext = context;
+        this.context = context;
 
         if (!once) {
             once = true;
@@ -219,7 +221,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Log
 
     public DatabaseHelper insertLog(Packet packet, String dname, int connection, boolean interactive) {
-        synchronized (mContext.getApplicationContext()) {
+        synchronized (context.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
@@ -277,7 +279,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public DatabaseHelper clearLog() {
-        synchronized (mContext.getApplicationContext()) {
+        synchronized (context.getApplicationContext()) {
             SQLiteDatabase db = this.getReadableDatabase();
             db.delete("log", null, new String[]{});
             db.execSQL("VACUUM");
@@ -293,10 +295,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this;
     }
 
-    public Cursor getLog() {
+    public Cursor getLog(boolean udp, boolean tcp, boolean other, boolean allowed, boolean blocked) {
+        // There is no index on protocol/allowed for write performance
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT ID AS _id, *";
         query += " FROM log";
+        query += " WHERE (0 = 1";
+        if (udp)
+            query += " OR protocol = 17";
+        if (tcp)
+            query += " OR protocol = 6";
+        if (other)
+            query += " OR (protocol <> 6 AND protocol <> 17)";
+        query += ") AND (0 = 1";
+        if (allowed)
+            query += " OR allowed = 1";
+        if (blocked)
+            query += " OR allowed = 0";
+        query += ")";
         query += " ORDER BY time DESC";
         return db.rawQuery(query, new String[]{});
     }
@@ -314,7 +330,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean updateAccess(Packet packet, String dname, int block) {
         int rows;
-        synchronized (mContext.getApplicationContext()) {
+        synchronized (context.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
@@ -353,7 +369,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public DatabaseHelper setAccess(long id, int uid, int block) {
-        synchronized (mContext.getApplicationContext()) {
+        synchronized (context.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
@@ -375,7 +391,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public DatabaseHelper clearAccess(int uid) {
-        synchronized (mContext.getApplicationContext()) {
+        synchronized (context.getApplicationContext()) {
             SQLiteDatabase db = this.getReadableDatabase();
             db.delete("access", "uid = ? AND block < 0", new String[]{Integer.toString(uid)});
         }
@@ -417,7 +433,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public DatabaseHelper insertDns(ResourceRecord rr) {
-        synchronized (mContext.getApplicationContext()) {
+        synchronized (context.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
@@ -446,8 +462,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public DatabaseHelper cleanupDns(long time) {
-        // There is no index on time, because an index will delay writing
-        synchronized (mContext.getApplicationContext()) {
+        // There is no index on time for write performance
+        synchronized (context.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
             int rows = db.delete("dns", "time < ?", new String[]{Long.toString(time)});
             Log.i(TAG, "Cleanup DNS" +
