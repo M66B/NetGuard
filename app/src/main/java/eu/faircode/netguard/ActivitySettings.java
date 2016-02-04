@@ -781,6 +781,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             protected void onPostExecute(Throwable ex) {
                 if (ex == null) {
                     Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ActivitySettings.this);
+                    prefs.edit().remove("hosts_last").apply();
+                    getPreferenceScreen().findPreference("hosts_download").setSummary(null);
+
                     SinkholeService.reload(null, "hosts", ActivitySettings.this);
                     getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
                 } else
