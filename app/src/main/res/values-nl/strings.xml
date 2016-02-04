@@ -21,6 +21,9 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_invite">Uitnodigen</string>
   <string name="menu_support">Ondersteuning</string>
   <string name="menu_about">Over</string>
+  <string name="menu_protocol_other">Andere</string>
+  <string name="menu_traffic_allowed">Toegestaan</string>
+  <string name="menu_traffic_blocked">Geblokkeerd</string>
   <string name="menu_live">Live updates</string>
   <string name="menu_resolve">Toon namen</string>
   <string name="menu_pcap_enabled">PCAP ingeschakeld</string>

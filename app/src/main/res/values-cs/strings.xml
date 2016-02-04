@@ -21,6 +21,9 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_invite">Pozvat</string>
   <string name="menu_support">Podpora</string>
   <string name="menu_about">O programu</string>
+  <string name="menu_protocol_other">Other</string>
+  <string name="menu_traffic_allowed">Allowed</string>
+  <string name="menu_traffic_blocked">Blocked</string>
   <string name="menu_live">Live updates</string>
   <string name="menu_resolve">Zobrazit název</string>
   <string name="menu_pcap_enabled">PCAP enabled</string>

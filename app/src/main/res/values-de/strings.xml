@@ -20,6 +20,9 @@
   <string name="menu_invite">Einladung</string>
   <string name="menu_support">Hilfe</string>
   <string name="menu_about">Über</string>
+  <string name="menu_protocol_other">Other</string>
+  <string name="menu_traffic_allowed">Allowed</string>
+  <string name="menu_traffic_blocked">Blocked</string>
   <string name="menu_live">Live-Updates</string>
   <string name="menu_resolve">Namen anzeigen</string>
   <string name="menu_pcap_enabled">PCAP aktiviert</string>
@@ -50,7 +53,7 @@
   <string name="setting_log_app">Internetzugriff protokollieren</string>
   <string name="setting_access">Bei Internet-Zugriff benachrichtigen</string>
   <string name="setting_filter">Datenverkehr filtern</string>
-  <string name="setting_resolved">Store resolved domain names</string>
+  <string name="setting_resolved">Aufgelöste Domain-Namen speichern</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
   <string name="setting_vpn6">VPN-IPv6: %s</string>
@@ -84,7 +87,7 @@
   <string name="summary_log_app">Protokoll zeichnet den Internetzugriff von Anwendungen auf. Dadurch kann ein zusätzlicher Batterieverbrauch entstehen.</string>
   <string name="summary_access">Benachrichtigung in Statusleiste anzeigen, wenn eine App auf eine neue Internetadresse zugreifen möchte</string>
   <string name="summary_filter">IP Pakete filtern, die das VPN verlassen. Dies könnte zu erhöhtem Stromverbrauch führen.</string>
-  <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
+  <string name="summary_resolved">Domain-Namen/IP-Adressen in einer Datenbank speichern. Dies macht das Verkehrsprotokoll sinnvoller, kann aber zu höherem Batterieverbrauch führen.</string>
   <string name="summary_block_domains">Antworten Sie mit \'Name Error\' (NXDOMAIN) für blockierte Domain-Namen. Diese Option ist deaktiviert, wenn keine Hosts-Datei importiert wurde.</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>
   <string name="summary_hosts">Eine Standard-Hosts-Datei importieren. Eine Host-Datei wird beim Exportieren der Einstellungen nicht miteingeschlossen.</string>

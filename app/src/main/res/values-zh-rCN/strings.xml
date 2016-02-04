@@ -21,6 +21,9 @@
   <string name="menu_invite">邀请</string>
   <string name="menu_support">软件支持</string>
   <string name="menu_about">关于</string>
+  <string name="menu_protocol_other">Other</string>
+  <string name="menu_traffic_allowed">Allowed</string>
+  <string name="menu_traffic_blocked">Blocked</string>
   <string name="menu_live">实时更新</string>
   <string name="menu_resolve">显示名称</string>
   <string name="menu_pcap_enabled">PCAP 已启用</string>

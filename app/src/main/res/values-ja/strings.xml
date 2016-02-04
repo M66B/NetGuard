@@ -20,6 +20,9 @@
   <string name="menu_invite">招待</string>
   <string name="menu_support">サポート</string>
   <string name="menu_about">アプリについて</string>
+  <string name="menu_protocol_other">Other</string>
+  <string name="menu_traffic_allowed">Allowed</string>
+  <string name="menu_traffic_blocked">Blocked</string>
   <string name="menu_live">ライブアップデート</string>
   <string name="menu_resolve">名前を表示</string>
   <string name="menu_pcap_enabled">PCAP を有効にしました</string>

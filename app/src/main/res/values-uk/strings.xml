@@ -20,6 +20,9 @@
   <string name="menu_invite">Запросити</string>
   <string name="menu_support">Підтримка</string>
   <string name="menu_about">Про</string>
+  <string name="menu_protocol_other">Other</string>
+  <string name="menu_traffic_allowed">Allowed</string>
+  <string name="menu_traffic_blocked">Blocked</string>
   <string name="menu_live">Актуальні оновлення</string>
   <string name="menu_resolve">Відображати імена</string>
   <string name="menu_pcap_enabled">PCAP увімкнуто</string>

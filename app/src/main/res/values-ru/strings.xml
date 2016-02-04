@@ -19,6 +19,9 @@
   <string name="menu_invite">Пригласить</string>
   <string name="menu_support">Поддержка</string>
   <string name="menu_about">О приложении</string>
+  <string name="menu_protocol_other">Other</string>
+  <string name="menu_traffic_allowed">Allowed</string>
+  <string name="menu_traffic_blocked">Blocked</string>
   <string name="menu_live">Обновления в реальном времени</string>
   <string name="menu_resolve">Показать названия</string>
   <string name="menu_pcap_enabled">PCAP включен</string>
@@ -49,7 +52,7 @@
   <string name="setting_log_app">Журнал доступа к сети интернет</string>
   <string name="setting_access">Уведомить при доступе в интернет</string>
   <string name="setting_filter">Фильтр трафика</string>
-  <string name="setting_resolved">Store resolved domain names</string>
+  <string name="setting_resolved">Хранить разрешения доменных имен</string>
   <string name="setting_block_domains">Блокировать доменные имена</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -72,7 +75,7 @@
   <string name="setting_technical_subscription">Подписки</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
-  <string name="summary_tethering">Tethered traffic cannot be filtered</string>
+  <string name="summary_tethering">Привязанный трафик не может быть отфильтрован</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
   <string name="summary_metered">Применить правила для лимитированных (платных, ограниченных) Wi-Fi сетей</string>
   <string name="summary_metered_2g">Применить правила Wi-Fi-сети для передачи данных через 2G</string>
@@ -83,8 +86,8 @@
   <string name="summary_log_app">Журнал попыток доступа приложений к сети интернет. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_access">Показывать оповещение в статус-баре, когда приложение получает доступ к новому интернет адресу</string>
   <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
-  <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
-  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
+  <string name="summary_resolved">Хранить доменные имена и IP-адреса в базе данных. Это делает журнал трафика более полезным, но может привести к большему потреблению заряда аккумулятора.</string>
+  <string name="summary_block_domains">Ответить на \'название ошибки\' (NXDOMAIN) для заблокированных доменных имен. Этот переключатель выключен, пока ни один hosts-файл не был импортирован.</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>
   <string name="summary_hosts">Импорт стандартного hosts-файла. Файл-hosts не будет экспортироваться при экспорте настроек.</string>
   <string name="msg_sure">Вы уверены?</string>

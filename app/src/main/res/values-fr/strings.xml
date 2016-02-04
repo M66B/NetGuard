@@ -21,6 +21,9 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_invite">Inviter</string>
   <string name="menu_support">Aide</string>
   <string name="menu_about">À propos</string>
+  <string name="menu_protocol_other">Other</string>
+  <string name="menu_traffic_allowed">Allowed</string>
+  <string name="menu_traffic_blocked">Blocked</string>
   <string name="menu_live">Mises à jour en directe</string>
   <string name="menu_resolve">Show names</string>
   <string name="menu_pcap_enabled">PCAP enabled</string>
