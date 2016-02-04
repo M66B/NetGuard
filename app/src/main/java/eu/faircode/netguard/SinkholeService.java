@@ -1458,13 +1458,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     .setPriority(Notification.PRIORITY_MIN);
         }
 
-        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
-        notification.bigText(getString(R.string.msg_started));
-        if (Util.isPlayStoreInstall(this))
-            notification.setSummaryText(getString(R.string.msg_packages, allowed, blocked));
-        else
-            notification.setSummaryText(getString(R.string.msg_hosts, allowed, blocked, hosts));
-        return notification.build();
+        if (allowed > 0 || blocked > 0 || hosts > 0) {
+            NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
+            notification.bigText(getString(R.string.msg_started));
+            if (Util.isPlayStoreInstall(this))
+                notification.setSummaryText(getString(R.string.msg_packages, allowed, blocked));
+            else
+                notification.setSummaryText(getString(R.string.msg_hosts, allowed, blocked, hosts));
+            return notification.build();
+        } else
+            return builder.build();
     }
 
     private void updateEnforcingNotification(int allowed, int total) {
