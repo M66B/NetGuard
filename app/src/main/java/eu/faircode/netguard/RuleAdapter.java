@@ -31,6 +31,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
@@ -301,11 +302,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             }
         });
 
-        // Get access rule count
-        long rules = dh.getRuleCount(rule.info.applicationInfo.uid);
-
         // Show if non default rules
-        holder.itemView.setBackgroundColor(rule.changed || rules > 0 ? colorChanged : Color.TRANSPARENT);
+        holder.itemView.setBackgroundColor(rule.changed ? colorChanged : Color.TRANSPARENT);
 
         // Show expand/collapse indicator
         holder.ivExpander.setImageLevel(rule.expanded ? 1 : 0);
@@ -328,8 +326,25 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvName.setTextColor(color);
 
         // Show rule count
-        holder.tvHosts.setVisibility(rules > 0 ? View.VISIBLE : View.GONE);
-        holder.tvHosts.setText(Long.toString(rules));
+        new AsyncTask<Object, Object, Long>() {
+            @Override
+            protected void onPreExecute() {
+                holder.tvHosts.setVisibility(View.GONE);
+            }
+
+            @Override
+            protected Long doInBackground(Object... objects) {
+                return dh.getRuleCount(rule.info.applicationInfo.uid);
+            }
+
+            @Override
+            protected void onPostExecute(Long rules) {
+                if (rules > 0) {
+                    holder.tvHosts.setVisibility(View.VISIBLE);
+                    holder.tvHosts.setText(Long.toString(rules));
+                }
+            }
+        }.execute();
 
         // Wi-Fi settings
         holder.cbWifi.setAlpha(wifiActive ? 1 : 0.5f);
