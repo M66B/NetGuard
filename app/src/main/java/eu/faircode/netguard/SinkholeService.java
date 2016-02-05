@@ -804,6 +804,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
+        builder.setMtu(32768);
+
         // Add list of allowed applications
         if (last_connected && !filter)
             for (Rule rule : listAllowed)

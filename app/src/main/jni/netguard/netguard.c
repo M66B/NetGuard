@@ -65,7 +65,7 @@ static struct tcp_session *tcp_session = NULL;
 static int loglevel = 0;
 static FILE *pcap_file = NULL;
 
-static int maxtun = 0;
+static int max_tun_msg = 0;
 
 // JNI
 
@@ -118,6 +118,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
                                                      jint tun, jint loglevel_) {
 
     loglevel = loglevel_;
+    max_tun_msg = 0;
     log_android(ANDROID_LOG_WARN, "Starting tun=%d level %d thread %x", tun, loglevel, thread_id);
 
     // Set blocking
@@ -826,9 +827,9 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
             if (pcap_file != NULL)
                 write_pcap_rec(buffer, (size_t) length);
 
-            if (length > maxtun) {
-                maxtun = length;
-                log_android(ANDROID_LOG_WARN, "Maximum tun msg length %d", maxtun);
+            if (length > max_tun_msg) {
+                max_tun_msg = length;
+                log_android(ANDROID_LOG_WARN, "Maximum tun msg length %d", max_tun_msg);
             }
 
             // Handle IP from tun
@@ -2764,13 +2765,16 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     char dest[INET6_ADDRSTRLEN + 1];
 
     // Build packet
+    int optlen = (syn ? 4 : 0);
+    uint8_t *options;
     if (cur->version == 4) {
-        len = sizeof(struct iphdr) + sizeof(struct tcphdr) + datalen;
+        len = sizeof(struct iphdr) + sizeof(struct tcphdr) + optlen + datalen;
         buffer = malloc(len);
         struct iphdr *ip4 = (struct iphdr *) buffer;
         tcp = (struct tcphdr *) (buffer + sizeof(struct iphdr));
+        options = buffer + sizeof(struct iphdr) + sizeof(struct tcphdr);
         if (datalen)
-            memcpy(buffer + sizeof(struct iphdr) + sizeof(struct tcphdr), data, datalen);
+            memcpy(buffer + sizeof(struct iphdr) + sizeof(struct tcphdr) + optlen, data, datalen);
 
         // Build IP4 header
         memset(ip4, 0, sizeof(struct iphdr));
@@ -2791,17 +2795,18 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
         pseudo.ippseudo_src.s_addr = (__be32) ip4->saddr;
         pseudo.ippseudo_dst.s_addr = (__be32) ip4->daddr;
         pseudo.ippseudo_p = ip4->protocol;
-        pseudo.ippseudo_len = htons(sizeof(struct tcphdr) + datalen);
+        pseudo.ippseudo_len = htons(sizeof(struct tcphdr) + optlen + datalen);
 
         csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ippseudo));
     }
     else {
-        len = sizeof(struct ip6_hdr) + sizeof(struct tcphdr) + datalen;
+        len = sizeof(struct ip6_hdr) + sizeof(struct tcphdr) + optlen + datalen;
         buffer = malloc(len);
         struct ip6_hdr *ip6 = (struct ip6_hdr *) buffer;
         tcp = (struct tcphdr *) (buffer + sizeof(struct ip6_hdr));
+        options = buffer + sizeof(struct ip6_hdr) + sizeof(struct tcphdr);
         if (datalen)
-            memcpy(buffer + sizeof(struct ip6_hdr) + sizeof(struct tcphdr), data, datalen);
+            memcpy(buffer + sizeof(struct ip6_hdr) + sizeof(struct tcphdr) + optlen, data, datalen);
 
         // Build IP6 header
         memset(ip6, 0, sizeof(struct ip6_hdr));
@@ -2836,7 +2841,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     tcp->dest = cur->source;
     tcp->seq = htonl(cur->local_seq);
     tcp->ack_seq = htonl((uint32_t) (cur->remote_seq + confirm));
-    tcp->doff = sizeof(struct tcphdr) >> 2;
+    tcp->doff = (sizeof(struct tcphdr) + optlen) >> 2;
     tcp->syn = (__u16) syn;
     tcp->ack = (__u16) ack;
     tcp->fin = (__u16) fin;
@@ -2847,8 +2852,17 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     if (!tcp->ack)
         tcp->ack_seq = 0;
 
+    // TCP options
+    if (syn) {
+        *(options) = 2; // MSS
+        *(options + 1) = 4; // total option length
+        *((uint16_t *) (options + 2)) = // option value
+                htons(TUN_MAXMSG - sizeof(struct ip6_hdr) - sizeof(struct tcphdr) - 4);
+    }
+
     // Continue checksum
     csum = calc_checksum(csum, (uint8_t *) tcp, sizeof(struct tcphdr));
+    csum = calc_checksum(csum, options, optlen);
     csum = calc_checksum(csum, data, datalen);
     tcp->check = ~csum;
 
