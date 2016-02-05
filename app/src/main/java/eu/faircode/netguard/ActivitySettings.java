@@ -485,7 +485,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("vpn4".equals(name)) {
             String vpn4 = prefs.getString("vpn4", null);
             try {
-                if (TextUtils.isEmpty(vpn4.trim()))
+                if (vpn4 == null || TextUtils.isEmpty(vpn4.trim()))
                     throw new IllegalArgumentException("vpn4");
                 InetAddress.getByName(vpn4);
                 SinkholeService.reload(null, "changed " + name, this);
@@ -498,7 +498,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("vpn6".equals(name)) {
             String vpn6 = prefs.getString("vpn6", null);
             try {
-                if (TextUtils.isEmpty(vpn6.trim()))
+                if (vpn6 == null || TextUtils.isEmpty(vpn6.trim()))
                     throw new IllegalArgumentException("vpn6");
                 InetAddress.getByName(vpn6);
                 SinkholeService.reload(null, "changed " + name, this);
@@ -511,7 +511,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("dns".equals(name)) {
             String dns = prefs.getString("dns", null);
             try {
-                if (TextUtils.isEmpty(dns.trim()))
+                if (dns == null || TextUtils.isEmpty(dns.trim()))
                     throw new IllegalArgumentException("dns");
                 InetAddress.getByName(dns);
                 SinkholeService.reload(null, "changed " + name, this);
