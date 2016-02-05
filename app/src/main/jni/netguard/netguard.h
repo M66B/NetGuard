@@ -325,7 +325,7 @@ int write_ack(const struct arguments *args, struct tcp_session *cur, size_t byte
 int write_data(const struct arguments *args, struct tcp_session *cur,
                const uint8_t *buffer, size_t length);
 
-int write_fin_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes);
+int write_fin_ack(const struct arguments *args, struct tcp_session *cur);
 
 void write_rst(const struct arguments *args, struct tcp_session *cur);
 
