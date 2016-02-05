@@ -408,7 +408,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             ContentValues cv = new ContentValues();
             cv.put("block", block);
-            cv.put("allowed", block < 0 ? -1 : 1 - block);
+            cv.put("allowed", -1);
 
             if (db.update("access", cv, "ID = ?", new String[]{Long.toString(id)}) != 1)
                 Log.e(TAG, "Set access failed");
