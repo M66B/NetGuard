@@ -42,6 +42,7 @@ struct segment {
     uint32_t seq;
     uint16_t len;
     int psh;
+    int confirm;
     uint8_t *data;
     struct segment *next;
 };
