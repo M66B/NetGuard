@@ -1924,7 +1924,7 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
                const uint8_t *data, const size_t datalen) {
 
     // This is untested
-    // Android routing of DHCP is eroneous
+    // Android routing of DHCP is erroneous
 
     log_android(ANDROID_LOG_WARN, "DHCP check");
 
@@ -2204,17 +2204,17 @@ jboolean handle_tcp(const struct arguments *args,
             if (datalen) {
                 uint32_t seq = ntohl(tcphdr->seq);
 
-                if (seq < cur->remote_seq)
+                if (compare_u16(seq, cur->remote_seq) < 0)
                     log_android(ANDROID_LOG_WARN, "%s already forwarded", session);
                 else {
                     struct segment *p = NULL;
                     struct segment *s = cur->data_rx;
-                    while (s != NULL && s->seq < seq) {
+                    while (s != NULL && compare_u16(s->seq, seq) < 0) {
                         p = s;
                         s = s->next;
                     }
 
-                    if (s == NULL || s->seq > seq) {
+                    if (s == NULL || compare_u16(s->seq, seq) > 0) {
                         struct segment *n = malloc(sizeof(struct segment));
                         n->seq = seq;
                         n->len = datalen;
@@ -2231,8 +2231,7 @@ jboolean handle_tcp(const struct arguments *args,
                         if (s->len == datalen)
                             log_android(ANDROID_LOG_DEBUG, "%s already buffered", session);
                         else
-                            log_android(ANDROID_LOG_ERROR,
-                                        "%s overlapping %u/%d",
+                            log_android(ANDROID_LOG_ERROR, "%s overlapping %u/%d",
                                         session, s->len, datalen);
                     }
                 }
@@ -2364,7 +2363,7 @@ jboolean handle_tcp(const struct arguments *args,
                         }
                     }
                     else {
-                        if (ntohl(tcphdr->ack_seq) < cur->local_seq) {
+                        if (compare_u16(ntohl(tcphdr->ack_seq), cur->local_seq) < 0) {
                             log_android(ANDROID_LOG_WARN, "%s previous ACK", session);
                             return 1;
                         }
@@ -2862,7 +2861,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
 
     // Continue checksum
     csum = calc_checksum(csum, (uint8_t *) tcp, sizeof(struct tcphdr));
-    csum = calc_checksum(csum, options, optlen);
+    csum = calc_checksum(csum, options, (size_t) optlen);
     csum = calc_checksum(csum, data, datalen);
     tcp->check = ~csum;
 
@@ -3455,6 +3454,20 @@ void write_pcap(const void *ptr, size_t len) {
             }
         }
     }
+}
+
+int compare_u16(uint16_t s1, uint16_t s2) {
+    // https://tools.ietf.org/html/rfc1982
+    if (s1 == s2)
+        return 0;
+
+    int i1 = s1;
+    int i2 = s2;
+    if ((i1 < i2 && i2 - i1 < 0x7FFF) ||
+        (i1 > i2 && i1 - i2 > 0x7FFF))
+        return -1;
+    else
+        return 1;
 }
 
 char *trim(char *str) {

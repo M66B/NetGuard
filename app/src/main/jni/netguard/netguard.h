@@ -395,6 +395,8 @@ void write_pcap_rec(const uint8_t *buffer, size_t len);
 
 void write_pcap(const void *ptr, size_t len);
 
+int compare_u16(uint16_t seq1, uint16_t seq2);
+
 const char *strstate(const int state);
 
 char *hex(const u_int8_t *data, const size_t len);
