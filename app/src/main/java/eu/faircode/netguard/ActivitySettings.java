@@ -95,10 +95,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
-    private static final int REQUEST_METERED = 3;
-    private static final int REQUEST_ROAMING_NATIONAL = 4;
-    private static final int REQUEST_ROAMING_INTERNATIONAL = 5;
-    private static final int REQUEST_HOSTS = 6;
+    private static final int REQUEST_METERED2 = 3;
+    private static final int REQUEST_METERED3 = 4;
+    private static final int REQUEST_METERED4 = 5;
+    private static final int REQUEST_ROAMING_NATIONAL = 6;
+    private static final int REQUEST_ROAMING_INTERNATIONAL = 7;
+    private static final int REQUEST_HOSTS = 8;
 
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
 
@@ -304,38 +306,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     protected void onResume() {
         super.onResume();
 
-        PreferenceScreen screen = getPreferenceScreen();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        // Check if permission was revoked
-        if (prefs.getBoolean("whitelist_roaming", false))
-            if (!Util.hasPhoneStatePermission(this)) {
-                prefs.edit().putBoolean("whitelist_roaming", false).apply();
-                ((TwoStatePreference) screen.findPreference("whitelist_roaming")).setChecked(false);
-            }
-
-        // Check if permission was revoked
-        if (prefs.getBoolean("unmetered_2g", false) ||
-                prefs.getBoolean("unmetered_3g", false) ||
-                prefs.getBoolean("unmetered_4g", false))
-            if (!Util.hasPhoneStatePermission(this)) {
-                prefs.edit().putBoolean("unmetered_2g", false).apply();
-                prefs.edit().putBoolean("unmetered_3g", false).apply();
-                prefs.edit().putBoolean("unmetered_4g", false).apply();
-
-                ((TwoStatePreference) screen.findPreference("unmetered_2g")).setChecked(false);
-                ((TwoStatePreference) screen.findPreference("unmetered_3g")).setChecked(false);
-                ((TwoStatePreference) screen.findPreference("unmetered_4g")).setChecked(false);
-            }
-
-        // Check if permission was revoked
-        if (prefs.getBoolean("national_roaming", false))
-            if (!Util.hasPhoneStatePermission(this)) {
-                prefs.edit().putBoolean("national_roaming", false).apply();
-                ((TwoStatePreference) screen.findPreference("national_roaming")).setChecked(false);
-            }
+        // Check if permissions were revoked
+        checkPermissions();
 
         // Listen for preference changes
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Listen for interactive state changes
@@ -453,8 +428,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             if (prefs.getBoolean(name, false)) {
                 if (Util.hasPhoneStatePermission(this))
                     SinkholeService.reload("other", "changed " + name, this);
-                else
-                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED);
+                else {
+                    if ("unmetered_2g".equals(name))
+                        requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED2);
+                    else if ("unmetered_3g".equals(name))
+                        requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED3);
+                    else if ("unmetered_4g".equals(name))
+                        requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED4);
+                }
             } else
                 SinkholeService.reload("other", "changed " + name, this);
 
@@ -559,40 +540,85 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             SinkholeService.reload(null, "changed " + name, this);
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    private void checkPermissions() {
+        PreferenceScreen screen = getPreferenceScreen();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Check if permission was revoked
+        if (prefs.getBoolean("whitelist_roaming", false))
+            if (!Util.hasPhoneStatePermission(this)) {
+                prefs.edit().putBoolean("whitelist_roaming", false).apply();
+                ((TwoStatePreference) screen.findPreference("whitelist_roaming")).setChecked(false);
+
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_INTERNATIONAL);
+            }
+
+        // Check if permission was revoked
+        if (prefs.getBoolean("unmetered_2g", false))
+            if (!Util.hasPhoneStatePermission(this)) {
+                prefs.edit().putBoolean("unmetered_2g", false).apply();
+                ((TwoStatePreference) screen.findPreference("unmetered_2g")).setChecked(false);
+
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED2);
+            }
+
+        if (prefs.getBoolean("unmetered_3g", false))
+            if (!Util.hasPhoneStatePermission(this)) {
+                prefs.edit().putBoolean("unmetered_3g", false).apply();
+                ((TwoStatePreference) screen.findPreference("unmetered_3g")).setChecked(false);
+
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED3);
+            }
+
+        if (prefs.getBoolean("unmetered_4g", false))
+            if (!Util.hasPhoneStatePermission(this)) {
+                prefs.edit().putBoolean("unmetered_4g", false).apply();
+                ((TwoStatePreference) screen.findPreference("unmetered_4g")).setChecked(false);
+
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED4);
+            }
+
+        // Check if permission was revoked
+        if (prefs.getBoolean("national_roaming", false))
+            if (!Util.hasPhoneStatePermission(this)) {
+                prefs.edit().putBoolean("national_roaming", false).apply();
+                ((TwoStatePreference) screen.findPreference("national_roaming")).setChecked(false);
+
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_NATIONAL);
+            }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         PreferenceScreen screen = getPreferenceScreen();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (requestCode == REQUEST_METERED)
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                SinkholeService.reload("other", "permission granted", this);
-            else {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                prefs.edit().putBoolean("unmetered_2g", false).apply();
-                prefs.edit().putBoolean("unmetered_3g", false).apply();
-                prefs.edit().putBoolean("unmetered_4g", false).apply();
-                ((TwoStatePreference) screen.findPreference("unmetered_2g")).setChecked(false);
-                ((TwoStatePreference) screen.findPreference("unmetered_3g")).setChecked(false);
-                ((TwoStatePreference) screen.findPreference("unmetered_4g")).setChecked(false);
-            }
+        boolean granted = (grantResults[0] == PackageManager.PERMISSION_GRANTED);
 
-        else if (requestCode == REQUEST_ROAMING_NATIONAL)
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                SinkholeService.reload("other", "permission granted", this);
-            else {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                prefs.edit().putBoolean("national_roaming", false).apply();
-                ((TwoStatePreference) screen.findPreference("national_roaming")).setChecked(false);
-            }
+        if (requestCode == REQUEST_METERED2) {
+            prefs.edit().putBoolean("unmetered_2g", granted).apply();
+            ((TwoStatePreference) screen.findPreference("unmetered_2g")).setChecked(granted);
 
-        else if (requestCode == REQUEST_ROAMING_INTERNATIONAL)
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                SinkholeService.reload("other", "permission granted", this);
-            else {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                prefs.edit().putBoolean("whitelist_roaming", false).apply();
-                ((TwoStatePreference) screen.findPreference("whitelist_roaming")).setChecked(false);
-            }
+        } else if (requestCode == REQUEST_METERED3) {
+            prefs.edit().putBoolean("unmetered_3g", granted).apply();
+            ((TwoStatePreference) screen.findPreference("unmetered_3g")).setChecked(granted);
+
+        } else if (requestCode == REQUEST_METERED4) {
+            prefs.edit().putBoolean("unmetered_4g", granted).apply();
+            ((TwoStatePreference) screen.findPreference("unmetered_4g")).setChecked(granted);
+
+        } else if (requestCode == REQUEST_ROAMING_NATIONAL) {
+            prefs.edit().putBoolean("national_roaming", granted).apply();
+            ((TwoStatePreference) screen.findPreference("national_roaming")).setChecked(granted);
+
+        } else if (requestCode == REQUEST_ROAMING_INTERNATIONAL) {
+            prefs.edit().putBoolean("whitelist_roaming", granted).apply();
+            ((TwoStatePreference) screen.findPreference("whitelist_roaming")).setChecked(granted);
+        }
+
+        if (granted)
+            SinkholeService.reload("other", "permission granted", this);
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
@@ -823,6 +849,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (ex == null) {
                     Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
                     SinkholeService.reloadStats("import", ActivitySettings.this);
+                    // Update theme, request permissions
                     recreate();
                 } else
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
