@@ -4,7 +4,7 @@
   <string name="app_copyright">Copyright \u00A9 2015-2016 von M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard erfordert Android 4.0 oder höher</string>
   <string name="app_license">Mit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_first">Due App wurde mit großer Sorgfalt entwickelt und getestet. Es ist leider trotzdem unmöglich zu garantieren, dass NetGuard auf jedem Gerät fehlerfrei funktioniert.
+  <string name="app_first">Die App wurde mit großer Sorgfalt entwickelt und getestet. Es ist leider trotzdem unmöglich zu garantieren, dass NetGuard auf jedem Gerät fehlerfrei funktioniert.
 \n\nDurch die Verwendung von NetGuard, stimmen Sie der <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a> zu</string>
   <string name="menu_search">Nach Apps suchen</string>
   <string name="menu_filter">Anwendungsfilter</string>
@@ -24,7 +24,7 @@
   <string name="menu_traffic_allowed">Erlaubt</string>
   <string name="menu_traffic_blocked">Blockiert</string>
   <string name="menu_live">Live-Updates</string>
-  <string name="menu_refresh">Refresh</string>
+  <string name="menu_refresh">Auffrischen</string>
   <string name="menu_resolve">Namen anzeigen</string>
   <string name="menu_pcap_enabled">PCAP aktiviert</string>
   <string name="menu_pcap_export">PCAP exportieren</string>
@@ -77,7 +77,7 @@
   <string name="setting_technical_subscription">Abos</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert\nNull eingeben zum Deaktivieren dieser Option</string>
   <string name="summary_delay">Nachdem Ausschalten des Bildschirms, diesen aufgrund der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren)</string>
-  <string name="summary_tethering">Tethering-Internetnutzung kann nicht gefiltert werden</string>
+  <string name="summary_tethering">Tethering-Verkehr kann nicht gefiltert werden</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
   <string name="summary_metered">Mobilfunk-Regeln gemessenen (bezahlten, tethered) WLAN-Netzwerken anwenden</string>
   <string name="summary_metered_2g">WLAN-Netzwerk-Regeln für 2G-Datenverbindungen anwenden</string>
@@ -143,7 +143,7 @@
   <string name="title_pro_filter">Netzwerkverkehr filtern</string>
   <string name="title_pro_notify">Benachrichtigung über neue App</string>
   <string name="title_pro_speed">Netzwerkgeschwindigkeit Benachrichtigung</string>
-  <string name="title_pro_theme">Aussehen (Themes, Farben)</string>
+  <string name="title_pro_theme">Aussehen (Design, Farben)</string>
   <string name="title_pro_buy">Detailinformationen</string>
   <string name="title_pro_bought">Aktiviert</string>
   <string name="title_pro_challenge">Challenge</string>

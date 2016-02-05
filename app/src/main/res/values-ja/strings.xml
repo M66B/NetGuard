@@ -24,7 +24,7 @@
   <string name="menu_traffic_allowed">許可</string>
   <string name="menu_traffic_blocked">ブロック</string>
   <string name="menu_live">ライブアップデート</string>
-  <string name="menu_refresh">Refresh</string>
+  <string name="menu_refresh">更新</string>
   <string name="menu_resolve">名前を表示</string>
   <string name="menu_pcap_enabled">PCAP を有効にしました</string>
   <string name="menu_pcap_export">PCAP エクスポート</string>

@@ -21,16 +21,16 @@
   <string name="menu_invite">邀请</string>
   <string name="menu_support">软件支持</string>
   <string name="menu_about">关于</string>
-  <string name="menu_protocol_other">Other</string>
-  <string name="menu_traffic_allowed">Allowed</string>
-  <string name="menu_traffic_blocked">Blocked</string>
+  <string name="menu_protocol_other">其它</string>
+  <string name="menu_traffic_allowed">已允许</string>
+  <string name="menu_traffic_blocked">已拦截</string>
   <string name="menu_live">实时更新</string>
-  <string name="menu_refresh">Refresh</string>
+  <string name="menu_refresh">刷新</string>
   <string name="menu_resolve">显示名称</string>
   <string name="menu_pcap_enabled">PCAP 已启用</string>
   <string name="menu_pcap_export">PCAP 导出</string>
   <string name="menu_clear">清除</string>
-  <string name="menu_reset">Reset</string>
+  <string name="menu_reset">重置</string>
   <string name="setting_defaults">默认</string>
   <string name="setting_whitelist_wifi">默认阻止Wi-Fi网络</string>
   <string name="setting_whitelist_other">默认阻止移动网络</string>
@@ -55,7 +55,7 @@
   <string name="setting_log_app">网络访问日志</string>
   <string name="setting_access">网络连接通知</string>
   <string name="setting_filter">过滤流量</string>
-  <string name="setting_resolved">Store resolved domain names</string>
+  <string name="setting_resolved">存储已解析的主机名称</string>
   <string name="setting_block_domains">屏蔽域名</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -70,15 +70,15 @@
   <string name="setting_export">导出设置</string>
   <string name="setting_import">导入设置</string>
   <string name="setting_hosts">导出 hosts 文件</string>
-  <string name="setting_hosts_url">Hosts file download URL</string>
-  <string name="setting_hosts_download">Download hosts file</string>
+  <string name="setting_hosts_url">Hosts 文件下载地址</string>
+  <string name="setting_hosts_download">下载 hosts 文件</string>
   <string name="setting_technical">技术信息</string>
   <string name="setting_technical_general">常规​​​​​</string>
   <string name="setting_technical_networks">网络</string>
   <string name="setting_technical_subscription">Subscriptions</string>
   <string name="summary_auto">禁用小部件后, 在设定分钟后自动再次启用NetGuard\n输入零以禁用此选项</string>
   <string name="summary_delay">关屏后，保持亮屏规则在指定的分钟数内有效 (输入零以禁用此选项)</string>
-  <string name="summary_tethering">Tethered traffic cannot be filtered</string>
+  <string name="summary_tethering">无法筛选共享网络流量</string>
   <string name="summary_wifi_home">仅将Wi-Fi网络规则应用于所选定的网络 (将移动网络规则应用于其他Wi-Fi网络)</string>
   <string name="summary_metered">将移动网络规则应用于按流量计费的 (付费, 共享) Wi-Fi网络</string>
   <string name="summary_metered_2g">将Wi-Fi网络规则应用于2G数据连接</string>
@@ -86,17 +86,17 @@
   <string name="summary_metered_4g">将Wi-Fi网络规则应用于LTE数据连接</string>
   <string name="summary_national_roaming">SIM卡与移动网络为相同国家时不使用漫游规则</string>
   <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
-  <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
+  <string name="summary_log_app">记录应用程序的网络访问尝试. 这可能会导致额外的电量消耗</string>
   <string name="summary_access">某应用程序尝试访问一个新的网络地址时显示状态栏通知</string>
   <string name="summary_filter">筛选经由 VPN 重定向流出的 IP 数据包。这可能会导致额外耗电</string>
-  <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
-  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
+  <string name="summary_resolved">将主机名称/IP 地址储存至一个数据库中. 这将使流量记录更有用但可能会导致额外电量消耗.</string>
+  <string name="summary_block_domains">对已屏蔽的主机名称返回 \"名称错误\" (NXDomain). 无 hosts 文件导入情况下此选项会被禁用</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
   <string name="summary_hosts">导入标准 hosts 文件。导出设置时，将不会导出 hosts 文件</string>
   <string name="msg_sure">是否确认?</string>
   <string name="msg_started">规则加载中</string>
   <string name="msg_packages">%1$d 已允许, %2$d 已拦截</string>
-  <string name="msg_hosts">%1$d allowed, %2$d blocked, %3$d hosts</string>
+  <string name="msg_hosts">%1$d 已允许, %2$d 已拦截, %3$d hosts</string>
   <string name="msg_waiting">等待事件</string>
   <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
   <string name="msg_revoked">NetGuard已被停用, 可能是由于您启动了另一个基于VPN的应用</string>
@@ -104,10 +104,10 @@
   <string name="msg_installed">\'%1$s\' 已安装</string>
   <string name="msg_access">%1$s 尝试进行网络连接</string>
   <string name="msg_completed">操作完成</string>
-  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Your internet traffic is not being sent to a remote VPN server.</string>
-  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
+  <string name="msg_vpn">NetGuard 使用一个本地 VPN 对网络流量进行过滤.
+因此请在下一个对话框中允许建立网络连接.
+您的网络流量不会被导向任何远程 VPN 服务器.</string>
+  <string name="msg_autostart">由于您使用的 Android 版本存在 bug, NetGuard 无法开机自启.</string>
   <string name="msg_try">试用NetGuard</string>
   <string name="msg_terms">捐赠即表明您同意 <a href="http://www.netguard.me/#terms">条款与条件</a></string>
   <string name="msg_dimming">如果您在下一个对话框中无法点击确定, 可能是另一个应用正在控制屏幕(如屏幕亮度调节软件).</string>
@@ -116,11 +116,11 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_filter">使用过滤功能将导致系统认为 NetGuard 使用了额外的电量和数据流量, 尽管这些使用量是由原应用所致.</string>
   <string name="msg_log_disabled">流量记录已禁用, 使用上方的开关以启用日志. 流量记录可能会导致额外电量消耗.</string>
-  <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
+  <string name="msg_clear_rules">此操作将重置所有规则和条件为默认值</string>
   <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
-  <string name="msg_downloading">Downloading\n%1s</string>
-  <string name="msg_downloaded">Hosts file downloaded</string>
-  <string name="msg_download_last">Last download: %s</string>
+  <string name="msg_downloading">下载中\n%1s</string>
+  <string name="msg_downloaded">Hosts 文件已下载</string>
+  <string name="msg_download_last">最近下载: %s</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>
   <string name="title_screen_other">亮屏时允许移动网络</string>
@@ -135,7 +135,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_allow">允许</string>
   <string name="title_block">阻止</string>
   <string name="title_root">root</string>
-  <string name="title_notify">Notify internet access attempts</string>
+  <string name="title_notify">发生网络访问尝试时通知我</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">端口 %1$d</string>
   <string name="title_pro">专业版功能</string>

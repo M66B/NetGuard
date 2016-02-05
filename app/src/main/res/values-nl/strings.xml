@@ -55,7 +55,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">Log internet-toegang</string>
   <string name="setting_access">Melding bij internet toegang</string>
   <string name="setting_filter">Verkeer filteren</string>
-  <string name="setting_resolved">Store resolved domain names</string>
+  <string name="setting_resolved">Bewaar opgelost domeinnamen</string>
   <string name="setting_block_domains">Blokkeer domeinnamen</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
   <string name="setting_vpn6">VPN-IPv6: %s</string>
