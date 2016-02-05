@@ -2983,7 +2983,7 @@ jint get_uid(const int protocol, const int version,
                     inet_ntop(version == 4 ? AF_INET : AF_INET6,
                               version == 4 ? addr4 : addr6,
                               source, sizeof(source));
-                    log_android(ANDROID_LOG_INFO, "%s/%u %d", source, port, u);
+                    log_android(ANDROID_LOG_INFO, "%s/%u %d %s", source, port, u, line);
                 }
 
                 if (port == sport) {
