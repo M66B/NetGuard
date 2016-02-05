@@ -37,6 +37,6 @@ public class Packet {
 
     @Override
     public String toString() {
-        return "uid=" + uid + " daddr=" + daddr + ":" + dport;
+        return "uid=" + uid + " v" + version + " p" + protocol + " " + daddr + ":" + dport;
     }
 }
