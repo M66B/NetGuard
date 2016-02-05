@@ -38,6 +38,14 @@ struct arguments {
     int tun;
 };
 
+struct segment {
+    uint32_t seq;
+    uint16_t len;
+    int psh;
+    uint8_t *data;
+    struct segment *next;
+};
+
 struct icmp_session {
     time_t time;
     jint uid;
@@ -114,6 +122,8 @@ struct tcp_session {
 
     uint8_t state;
     jint socket;
+
+    struct segment *data_rx;
 
     struct tcp_session *next;
 };
@@ -234,6 +244,8 @@ typedef struct dhcp_option {
 // Prototypes
 
 void clear_sessions();
+
+void clear_tcp_data(struct tcp_session *cur);
 
 void handle_signal(int sig, siginfo_t *info, void *context);
 
