@@ -1102,6 +1102,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (packet.uid == Process.myUid())
             return true;
 
+        if (packet.protocol == 1 || packet.protocol == 58) // ICMP
+            packet.dport = 0;
+
         packet.allowed = false;
         if (prefs.getBoolean("filter", false)) {
             if (packet.uid < 0) // unknown
