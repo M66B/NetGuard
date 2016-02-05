@@ -550,13 +550,17 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                         if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                             Cursor cursor = (Cursor) badapter.getItem(bposition);
                             final long id = cursor.getLong(cursor.getColumnIndex("ID"));
+                            int version = cursor.getInt(cursor.getColumnIndex("version"));
+                            int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
                             String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
-                            int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
+                            int dport = cursor.getInt(cursor.getColumnIndex("dport"));
                             int block = cursor.getInt(cursor.getColumnIndex("block"));
 
                             PopupMenu popup = new PopupMenu(context, context.findViewById(R.id.vwPopupAnchor));
                             popup.inflate(R.menu.access);
-                            popup.getMenu().findItem(R.id.menu_host).setTitle(daddr + (dport > 0 ? ":" + dport : ""));
+                            popup.getMenu().findItem(R.id.menu_host).setTitle(
+                                    Util.getProtocolName(protocol, version, false) + " " +
+                                            daddr + (dport > 0 ? ":" + dport : ""));
 
                             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                 @Override

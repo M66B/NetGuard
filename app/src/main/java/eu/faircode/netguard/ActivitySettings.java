@@ -940,6 +940,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         DatabaseHelper dh = new DatabaseHelper(this);
         Cursor cursor = dh.getAccess();
         int colUid = cursor.getColumnIndex("uid");
+        int colVersion = cursor.getColumnIndex("version");
+        int colProtocol = cursor.getColumnIndex("protocol");
         int colDAddr = cursor.getColumnIndex("daddr");
         int colDPort = cursor.getColumnIndex("dport");
         int colTime = cursor.getColumnIndex("time");
@@ -954,6 +956,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             for (String pkg : pkgs) {
                 serializer.startTag(null, "rule");
                 serializer.attribute(null, "pkg", pkg);
+                serializer.attribute(null, "version", Integer.toString(cursor.getInt(colVersion)));
+                serializer.attribute(null, "protocol", Integer.toString(cursor.getInt(colProtocol)));
                 serializer.attribute(null, "daddr", cursor.getString(colDAddr));
                 serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
                 serializer.attribute(null, "time", Long.toString(cursor.getLong(colTime)));
@@ -972,6 +976,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         SinkholeService.stop("import", this);
 
         DatabaseHelper dh = new DatabaseHelper(this);
+        dh.clearAccess();
         try {
             XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
             XmlImportHandler handler = new XmlImportHandler(this, dh);
@@ -1114,7 +1119,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             } else if (qName.equals("rule")) {
                 String pkg = attributes.getValue("pkg");
 
+                String version = attributes.getValue("version");
+                String protocol = attributes.getValue("protocol");
+
                 Packet packet = new Packet();
+                packet.version = (version == null ? 4 : Integer.parseInt(version));
+                packet.protocol = (protocol == null ? 6 /* TCP */ : Integer.parseInt(protocol));
                 packet.daddr = attributes.getValue("daddr");
                 packet.dport = Integer.parseInt(attributes.getValue("dport"));
                 packet.time = Long.parseLong(attributes.getValue("time"));

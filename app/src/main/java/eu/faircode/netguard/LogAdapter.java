@@ -171,17 +171,7 @@ public class LogAdapter extends CursorAdapter {
             }
         }
 
-        // https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
-        if (protocol == 0) // HOPOPT
-            tvProtocol.setText("HOPO" + version);
-        else if (protocol == 1 || protocol == 58) // ICMPv4/v6
-            tvProtocol.setText("ICMP" + version);
-        else if (protocol == 6) // TCP
-            tvProtocol.setText("TCP" + version);
-        else if (protocol == 17) // UDP
-            tvProtocol.setText("UDP" + version);
-        else
-            tvProtocol.setText(protocol < 0 ? "" : "P" + Integer.toString(protocol) + "V" + version);
+        tvProtocol.setText(Util.getProtocolName(protocol, version, false));
 
         tvFlags.setText(flags);
 

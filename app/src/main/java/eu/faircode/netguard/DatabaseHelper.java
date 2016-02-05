@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 14;
+    private static final int DB_VERSION = 15;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -131,13 +131,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE access (" +
                 " ID INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ", uid INTEGER NOT NULL" +
+                ", version INTEGER NOT NULL" +
+                ", protocol INTEGER NOT NULL" +
                 ", daddr TEXT NOT NULL" +
-                ", dport INTEGER NULL" +
+                ", dport INTEGER NOT NULL" +
                 ", time INTEGER NOT NULL" +
                 ", allowed INTEGER NULL" +
                 ", block INTEGER NOT NULL" +
                 ");");
-        db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, daddr, dport)");
+        db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, version, protocol, daddr, dport)");
     }
 
     private void createTableDns(SQLiteDatabase db) {
@@ -244,6 +246,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 createTableDns(db);
                 oldVersion = 14;
             }
+            if (oldVersion < 15) {
+                db.execSQL("DROP TABLE access");
+                createTableAccess(db);
+                oldVersion = 15;
+            }
 
             if (oldVersion == DB_VERSION) {
                 db.setVersion(oldVersion);
@@ -310,7 +317,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         notifyLogChanged();
-
         return this;
     }
 
@@ -322,7 +328,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         notifyLogChanged();
-
         return this;
     }
 
@@ -370,14 +375,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (block >= 0)
                 cv.put("block", block);
 
-            rows = db.update("access", cv, "uid = ? AND daddr = ? AND dport = ?",
+            rows = db.update("access", cv, "uid = ? AND version = ? AND protocol = ? AND daddr = ? AND dport = ?",
                     new String[]{
                             Integer.toString(packet.uid),
+                            Integer.toString(packet.version),
+                            Integer.toString(packet.protocol),
                             dname == null ? packet.daddr : dname,
                             Integer.toString(packet.dport)});
 
             if (rows == 0) {
                 cv.put("uid", packet.uid);
+                cv.put("version", packet.version);
+                cv.put("protocol", packet.protocol);
                 cv.put("daddr", dname == null ? packet.daddr : dname);
                 cv.put("dport", packet.dport);
                 if (block < 0)
@@ -390,7 +399,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         notifyAccessChanged();
-
         return (rows == 0);
     }
 
@@ -404,10 +412,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             if (db.update("access", cv, "ID = ?", new String[]{Long.toString(id)}) != 1)
                 Log.e(TAG, "Set access failed");
-
-            notifyAccessChanged();
         }
 
+        notifyAccessChanged();
+        return this;
+    }
+
+    public DatabaseHelper clearAccess() {
+        synchronized (context.getApplicationContext()) {
+            SQLiteDatabase db = this.getReadableDatabase();
+            db.delete("access", null, null);
+        }
+
+        notifyAccessChanged();
         return this;
     }
 
@@ -418,7 +435,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         notifyAccessChanged();
-
         return this;
     }
 
@@ -433,12 +449,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAccess() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query("access", new String[]{"uid", "daddr", "dport", "time", "block"}, "block >= 0", null, null, null, "uid");
+        return db.query("access", null, "block >= 0", null, null, null, "uid");
     }
 
     public Cursor getAccessUnset(int uid) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query("access", new String[]{"daddr", "dport", "time", "allowed"},
+        return db.query("access", null,
                 "uid = ? AND block < 0", new String[]{Integer.toString(uid)},
                 null, null, "time DESC");
     }
@@ -504,11 +520,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getDns() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT access.uid, access.daddr, dns.resource, access.dport, access.block";
-        query += " FROM access";
-        query += " JOIN dns";
-        query += "   ON dns.qname = access.daddr";
-        query += " WHERE access.block >= 0";
+        String query = "SELECT a.uid, a.version, a.protocol, a.daddr, d.resource, a.dport, a.block";
+        query += " FROM access AS a";
+        query += " JOIN dns AS d";
+        query += "   ON d.qname = a.daddr";
+        query += " WHERE a.block >= 0";
 
         return db.rawQuery(query, new String[]{});
     }

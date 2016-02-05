@@ -38,6 +38,8 @@ import java.text.SimpleDateFormat;
 public class AccessAdapter extends CursorAdapter {
     private static String TAG = "NetGuard.Access";
 
+    private int colVersion;
+    private int colProtocol;
     private int colDaddr;
     private int colDPort;
     private int colTime;
@@ -50,6 +52,8 @@ public class AccessAdapter extends CursorAdapter {
 
     public AccessAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
+        colVersion = cursor.getColumnIndex("version");
+        colProtocol = cursor.getColumnIndex("protocol");
         colDaddr = cursor.getColumnIndex("daddr");
         colDPort = cursor.getColumnIndex("dport");
         colTime = cursor.getColumnIndex("time");
@@ -78,8 +82,10 @@ public class AccessAdapter extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
         // Get values
+        int version = cursor.getInt(colVersion);
+        int protocol = cursor.getInt(colProtocol);
         String daddr = cursor.getString(colDaddr);
-        int dport = (cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort));
+        int dport = cursor.getInt(colDPort);
         long time = cursor.getLong(colTime);
         int allowed = cursor.getInt(colAllowed);
         int block = cursor.getInt(colBlock);
@@ -100,7 +106,9 @@ public class AccessAdapter extends CursorAdapter {
                 DrawableCompat.setTint(wrap, block > 0 ? colorOff : colorOn);
             }
         }
-        tvDest.setText(daddr + (dport > 0 ? ":" + dport : ""));
+        tvDest.setText(
+                Util.getProtocolName(protocol, version, true) + " " +
+                        daddr + (dport > 0 ? ":" + dport : ""));
 
         if (allowed < 0)
             tvDest.setTextColor(colorText);

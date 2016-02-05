@@ -680,8 +680,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 dh.insertLog(packet, dname, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
 
             // Application log
-            if (log_app && packet.uid >= 0 &&
-                    (packet.protocol == 17 /* UDP */ || packet.protocol == 6 /* TCP */)) {
+            if (log_app && packet.uid >= 0) {
                 if (dh.updateAccess(packet, dname, -1))
                     if (notify && prefs.getBoolean("notify_" + packet.uid, true) &&
                             (system || !Util.isSystem(packet.uid, SinkholeService.this)))
@@ -922,29 +921,38 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
 
+
         Cursor cursor = dh.getDns();
         int colUid = cursor.getColumnIndex("uid");
+        int colVersion = cursor.getColumnIndex("version");
+        int colProtocol = cursor.getColumnIndex("protocol");
         int colDAddr = cursor.getColumnIndex("daddr");
         int colResource = cursor.getColumnIndex("resource");
         int colDPort = cursor.getColumnIndex("dport");
         int colBlock = cursor.getColumnIndex("block");
         while (cursor.moveToNext()) {
             int uid = cursor.getInt(colUid);
+            int version = cursor.getInt(colVersion);
+            int protocol = cursor.getInt(colProtocol);
             String daddr = cursor.getString(colDAddr);
             String dresource = cursor.getString(colResource);
-            int dport = cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort);
+            int dport = cursor.getInt(colDPort);
             boolean block = (cursor.getInt(colBlock) > 0);
 
-            if (!map.containsKey(uid))
-                map.put(uid, new HashMap());
-            if (!map.get(uid).containsKey(dport))
-                map.get(uid).put(dport, new HashMap<InetAddress, Boolean>());
+            // TODO: handle version/protocol
+            if (protocol == 17 /* UDP */ || protocol == 6 /* TCP */) {
+                if (!map.containsKey(uid))
+                    map.put(uid, new HashMap());
 
-            try {
-                map.get(uid).get(dport).put(InetAddress.getByName(dresource), block);
-                Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
-            } catch (UnknownHostException ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                if (!map.get(uid).containsKey(dport))
+                    map.get(uid).put(dport, new HashMap<InetAddress, Boolean>());
+
+                try {
+                    map.get(uid).get(dport).put(InetAddress.getByName(dresource), block);
+                    Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
+                } catch (UnknownHostException ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
             }
         }
         cursor.close();
@@ -1624,6 +1632,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
         Cursor cursor = dh.getAccessUnset(uid);
+        int colVersion = cursor.getColumnIndex("version");
+        int colProtocol = cursor.getColumnIndex("protocol");
         int colDAddr = cursor.getColumnIndex("daddr");
         int colDPort = cursor.getColumnIndex("dport");
         int colTime = cursor.getColumnIndex("time");
@@ -1631,8 +1641,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         while (cursor.moveToNext()) {
             StringBuilder sb = new StringBuilder();
             sb.append(df.format(cursor.getLong(colTime))).append(' ');
+
+            sb.append(Util.getProtocolName(cursor.getInt(colProtocol), cursor.getInt(colVersion), true));
+            sb.append(' ');
+
             String daddr = cursor.getString(colDAddr);
             sb.append(daddr);
+
             int dport = cursor.getInt(colDPort);
             if (dport > 0)
                 sb.append(':').append(dport);

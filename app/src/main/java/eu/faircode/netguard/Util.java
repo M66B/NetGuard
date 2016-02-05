@@ -401,6 +401,29 @@ public class Util {
         return Math.round(dips * context.getResources().getDisplayMetrics().density + 0.5f);
     }
 
+    public static String getProtocolName(int protocol, int version, boolean brief) {
+        // https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
+        String p = null;
+        switch (protocol) {
+            case 0:
+                p = "HOPO";
+                break;
+            case 1:
+            case 58:
+                p = "ICMP";
+                break;
+            case 6:
+                p = "TCP";
+                break;
+            case 17:
+                p = "UDP";
+                break;
+        }
+        if (p == null)
+            return Integer.toString(protocol) + "/" + version;
+        return (brief ? p.substring(0, 1) + version : p + version);
+    }
+
     public interface DoubtListener {
         public void onSure();
     }
