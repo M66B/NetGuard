@@ -38,6 +38,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -185,7 +186,8 @@ public class Rule {
         // Build rule list
         List<Rule> listRules = new ArrayList<>();
 
-        List<PackageInfo> listPI = context.getPackageManager().getInstalledPackages(0);
+        PackageManager pm = context.getPackageManager();
+        List<PackageInfo> listPI = pm.getInstalledPackages(0);
 
         // Add root
         PackageInfo root = new PackageInfo();
@@ -246,8 +248,14 @@ public class Rule {
                     rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
                 }
 
+                List<String> listPkg = new ArrayList<>();
                 if (pre_related.containsKey(info.packageName))
-                    rule.related = pre_related.get(info.packageName);
+                    listPkg.addAll(Arrays.asList(pre_related.get(info.packageName)));
+                String[] pkgs = pm.getPackagesForUid(info.applicationInfo.uid);
+                if (pkgs != null)
+                    listPkg.addAll(Arrays.asList(pkgs));
+                listPkg.remove(info.packageName);
+                rule.related = listPkg.toArray(new String[0]);
 
                 long up = TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid);
                 long down = TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid);
