@@ -738,17 +738,19 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (TextUtils.isEmpty(vpnDns.trim()))
                 throw new UnknownHostException("dns");
             InetAddress vpn = InetAddress.getByName(vpnDns);
-            Log.i(TAG, "DNS using=" + vpn);
+            Log.i(TAG, "DNS vpn using=" + vpn);
             return vpn;
         } catch (UnknownHostException ignored1) {
             try {
+                if (TextUtils.isEmpty(sysDns.trim()))
+                    throw new UnknownHostException("dns");
                 InetAddress sys = InetAddress.getByName(sysDns);
-                Log.i(TAG, "DNS using=" + sys);
+                Log.i(TAG, "DNS sys using=" + sys);
                 return sys;
             } catch (UnknownHostException ignored2) {
                 try {
                     InetAddress def = InetAddress.getByName("8.8.8.8");
-                    Log.i(TAG, "DNS using=" + def);
+                    Log.i(TAG, "DNS def using=" + def);
                     return def;
                 } catch (UnknownHostException ignored) {
                     return null;
