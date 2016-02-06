@@ -39,6 +39,13 @@ struct arguments {
     int tun;
 };
 
+struct port_forward {
+    uint16_t source;
+    uint16_t target;
+    uint16_t uid;
+    struct port_forward *next;
+};
+
 struct segment {
     uint32_t seq;
     uint16_t len;

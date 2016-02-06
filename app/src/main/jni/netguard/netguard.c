@@ -58,6 +58,7 @@ static pthread_mutex_t lock;
 static jboolean stopping = 0;
 static jboolean signaled = 0;
 
+static struct port_forward *port_forward = NULL;
 static struct icmp_session *icmp_session = NULL;
 static struct udp_session *udp_session = NULL;
 static struct tcp_session *tcp_session = NULL;
@@ -101,8 +102,11 @@ void JNI_OnUnload(JavaVM *vm, void *reserved) {
     }
 }
 
+// JNI SinkholeService
+
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
+    port_forward = NULL;
     icmp_session = NULL;
     udp_session = NULL;
     tcp_session = NULL;
@@ -114,8 +118,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instance,
-                                                     jint tun, jint loglevel_) {
+Java_eu_faircode_netguard_SinkholeService_jni_1start(
+        JNIEnv *env, jobject instance, jint tun, jint loglevel_) {
 
     loglevel = loglevel_;
     max_tun_msg = 0;
@@ -150,8 +154,8 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(JNIEnv *env, jobject instan
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instance,
-                                                    jint tun, jboolean clear) {
+Java_eu_faircode_netguard_SinkholeService_jni_1stop(
+        JNIEnv *env, jobject instance, jint tun, jboolean clear) {
     pthread_t t = thread_id;
     log_android(ANDROID_LOG_WARN, "Stop tun %d clear %d thread %x", tun, (int) clear, t);
     if (t && pthread_kill(t, 0) == 0) {
@@ -173,16 +177,6 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(JNIEnv *env, jobject instanc
         log_android(ANDROID_LOG_WARN, "Stopped thread %x", t);
     } else
         log_android(ANDROID_LOG_WARN, "Not running thread %x", t);
-}
-
-JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instance) {
-    log_android(ANDROID_LOG_INFO, "Done");
-
-    clear_sessions();
-
-    if (pthread_mutex_destroy(&lock))
-        log_android(ANDROID_LOG_ERROR, "pthread_mutex_destroy failed");
 }
 
 JNIEXPORT void JNICALL
@@ -233,6 +227,73 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
 }
 
+
+JNIEXPORT void JNICALL
+Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instance) {
+    log_android(ANDROID_LOG_INFO, "Done");
+
+    clear_sessions();
+
+    if (pthread_mutex_destroy(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_destroy failed");
+}
+
+
+// JNI ForwardService
+
+JNIEXPORT void JNICALL
+Java_eu_faircode_netguard_ForwardService_jni_1stop_1port_1forward(
+        JNIEnv *env, jobject instance, jint source) {
+    log_android(ANDROID_LOG_WARN,
+                "Stop port forwarding to uid %d", source);
+
+    if (pthread_mutex_lock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
+
+    struct port_forward *l = NULL;
+    struct port_forward *f = port_forward;
+    while (f != NULL && f->source != source) {
+        l = f;
+        f = f->next;
+    }
+
+    if (f != NULL) {
+        if (l == NULL)
+            port_forward = f->next;
+        else
+            l->next = f->next;
+        free(f);
+    }
+
+    if (pthread_mutex_unlock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+}
+
+JNIEXPORT void JNICALL
+Java_eu_faircode_netguard_ForwardService_jni_1start_1port_1forward(
+        JNIEnv *env, jobject instance, jint source, jint target, jint uid) {
+
+    Java_eu_faircode_netguard_ForwardService_jni_1stop_1port_1forward(env, instance, source);
+
+    log_android(ANDROID_LOG_WARN,
+                "Start port forwarding from %d to %d uid %d", source, target, uid);
+
+    if (pthread_mutex_lock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
+
+    struct port_forward *forward = malloc(sizeof(struct port_forward));
+    forward->source = source;
+    forward->target = target;
+    forward->uid = uid;
+    forward->next = port_forward;
+    port_forward = forward;
+
+    if (pthread_mutex_unlock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+}
+
+// JNI Util
+
 JNIEXPORT jstring JNICALL
 Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring name_) {
     const char *name = (*env)->GetStringUTFChars(env, name_, 0);
@@ -248,6 +309,14 @@ Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring na
 // Private functions
 
 void clear_sessions() {
+    struct port_forward *f = port_forward;
+    while (f != NULL) {
+        struct port_forward *p = f;
+        f = f->next;
+        free(p);
+    }
+    port_forward = NULL;
+
     struct icmp_session *i = icmp_session;
     while (i != NULL) {
         if (i->socket >= 0 && close(i->socket))
@@ -1887,6 +1956,24 @@ jboolean handle_udp(const struct arguments *args,
         server6.sin6_port = udphdr->dest;
     }
 
+    // Port forwarding
+    struct port_forward *fwd = port_forward;
+    while (fwd != NULL && fwd->source != ntohs(udphdr->dest))
+        fwd = fwd->next;
+    if (fwd != NULL && fwd->uid != cur->uid) {
+        log_android(ANDROID_LOG_WARN, "TCP forward %u > %u uid %d",
+                    fwd->source, fwd->target, cur->uid);
+
+        if (cur->version == 4) {
+            inet_pton(AF_INET, "127.0.0.1", &server4.sin_addr.s_addr);
+            server4.sin_port = htons(fwd->target);
+        }
+        else {
+            inet_pton(AF_INET6, "::1", &server6.sin6_addr);
+            server6.sin6_port = htons(fwd->target);
+        }
+    }
+
     if (sendto(cur->socket, data, (socklen_t) datalen, MSG_NOSIGNAL,
                (const struct sockaddr *) (version == 4 ? &server4 : &server6),
                (socklen_t) (version == 4 ? sizeof(server4) : sizeof(server6))) != datalen) {
@@ -2517,6 +2604,24 @@ int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur)
         addr6.sin6_family = AF_INET6;
         memcpy(&addr6.sin6_addr, &cur->daddr.ip6, 16);
         addr6.sin6_port = cur->dest;
+    }
+
+    // Port forwarding
+    struct port_forward *fwd = port_forward;
+    while (fwd != NULL && fwd->source != ntohs(cur->dest))
+        fwd = fwd->next;
+    if (fwd != NULL && fwd->uid != cur->uid) {
+        log_android(ANDROID_LOG_WARN, "TCP forward %u > %u uid %d",
+                    fwd->source, fwd->target, cur->uid);
+
+        if (cur->version == 4) {
+            inet_pton(AF_INET, "127.0.0.1", &addr4.sin_addr.s_addr);
+            addr4.sin_port = htons(fwd->target);
+        }
+        else {
+            inet_pton(AF_INET6, "::1", &addr6.sin6_addr);
+            addr6.sin6_port = htons(fwd->target);
+        }
     }
 
     // Initiate connect

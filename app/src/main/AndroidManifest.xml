@@ -84,6 +84,16 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".ForwardService"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="eu.faircode.netguard.START_PORT_FORWARD" />
+                <action android:name="eu.faircode.netguard.STOP_PORT_FORWARD" />
+            </intent-filter>
+        </service>
+
         <receiver
             android:name=".Receiver"
             android:label="@string/app_name">

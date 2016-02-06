@@ -145,16 +145,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_stop(int tun, boolean clear);
 
-    private native void jni_done();
-
     private static native void jni_pcap(String name);
+
+    private native void jni_done();
 
     public static void setPcap(File pcap) {
         jni_pcap(pcap == null ? null : pcap.getAbsolutePath());
-    }
-
-    static {
-        System.loadLibrary("netguard");
     }
 
     synchronized private static PowerManager.WakeLock getLock(Context context) {
