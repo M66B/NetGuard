@@ -737,24 +737,18 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         try {
             if (TextUtils.isEmpty(vpnDns.trim()))
                 throw new UnknownHostException("dns");
-            InetAddress vpn = InetAddress.getByName(vpnDns);
-            Log.i(TAG, "DNS vpn using=" + vpn);
-            return vpn;
-        } catch (UnknownHostException ignored1) {
+            InetAddress dns = InetAddress.getByName(vpnDns);
+            if (dns.isAnyLocalAddress() || dns.isLinkLocalAddress() || dns.isLoopbackAddress())
+                throw new UnknownHostException("dns");
+            Log.i(TAG, "DNS using=" + dns);
+            return dns;
+        } catch (Throwable ignored) {
             try {
-                if (TextUtils.isEmpty(sysDns.trim()))
-                    throw new UnknownHostException("dns");
-                InetAddress sys = InetAddress.getByName(sysDns);
-                Log.i(TAG, "DNS sys using=" + sys);
-                return sys;
-            } catch (UnknownHostException ignored2) {
-                try {
-                    InetAddress def = InetAddress.getByName("8.8.8.8");
-                    Log.i(TAG, "DNS def using=" + def);
-                    return def;
-                } catch (UnknownHostException ignored) {
-                    return null;
-                }
+                InetAddress def = InetAddress.getByName("8.8.8.8");
+                Log.i(TAG, "DNS using=" + def);
+                return def;
+            } catch (UnknownHostException ignored1) {
+                return null;
             }
         }
     }
