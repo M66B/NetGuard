@@ -1636,25 +1636,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
         Cursor cursor = dh.getAccessUnset(uid);
-        int colVersion = cursor.getColumnIndex("version");
-        int colProtocol = cursor.getColumnIndex("protocol");
         int colDAddr = cursor.getColumnIndex("daddr");
-        int colDPort = cursor.getColumnIndex("dport");
         int colTime = cursor.getColumnIndex("time");
         int colAllowed = cursor.getColumnIndex("allowed");
         while (cursor.moveToNext()) {
             StringBuilder sb = new StringBuilder();
             sb.append(df.format(cursor.getLong(colTime))).append(' ');
 
-            sb.append(Util.getProtocolName(cursor.getInt(colProtocol), cursor.getInt(colVersion), true));
-            sb.append(' ');
-
             String daddr = cursor.getString(colDAddr);
             sb.append(daddr);
-
-            int dport = cursor.getInt(colDPort);
-            if (dport > 0)
-                sb.append(':').append(dport);
 
             int allowed = cursor.getInt(colAllowed);
             if (allowed >= 0) {
