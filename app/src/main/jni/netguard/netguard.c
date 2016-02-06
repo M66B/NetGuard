@@ -350,10 +350,21 @@ void *handle_events(void *a) {
         int idle = (sessions == 0 && sdk >= 16);
         log_android(ANDROID_LOG_DEBUG, "sessions %d idle %d sdk %d", sessions, idle, sdk);
 
-        // Select
         ts.tv_sec = SELECT_TIMEOUT;
         ts.tv_nsec = 0;
         sigemptyset(&emptyset);
+
+        // Check if tun is writable
+        FD_ZERO(&rfds);
+        FD_ZERO(&wfds);
+        FD_ZERO(&efds);
+        FD_SET(args->tun, &wfds);
+        if (pselect(args->tun + 1, &rfds, &wfds, &efds, &ts, &emptyset) == 0) {
+            log_android(ANDROID_LOG_WARN, "tun not writable");
+            continue;
+        }
+
+        // Select
         int max = get_selects(args, &rfds, &wfds, &efds);
         int ready = pselect(max + 1, &rfds, &wfds, &efds, idle ? NULL : &ts, &emptyset);
 
@@ -822,6 +833,7 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
 
             log_android(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
             if (errno == EINTR || errno == EAGAIN)
+                // Retry later
                 return 0;
             else {
                 report_exit(args, "tun read error %d: %s", errno, strerror(errno));
@@ -1492,7 +1504,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
                 saddr128[10] = (uint8_t) 0xFF;
                 saddr128[11] = (uint8_t) 0xFF;
                 memcpy(saddr128 + 12, saddr, 4);
-                uid = get_uid(protocol, 6, saddr128,  sport, dump);
+                uid = get_uid(protocol, 6, saddr128, sport, dump);
             }
 
             if (uid < 0)

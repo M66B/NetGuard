@@ -124,7 +124,6 @@ struct tcp_session {
 
     uint8_t state;
     jint socket;
-
     struct segment *forward;
 
     struct tcp_session *next;
