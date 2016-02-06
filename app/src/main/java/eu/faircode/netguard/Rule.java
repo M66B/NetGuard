@@ -27,6 +27,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.net.TrafficStats;
+import android.os.Build;
 import android.os.Process;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -82,6 +83,12 @@ public class Rule {
         this.info = info;
         if (info.applicationInfo.uid == 0) {
             this.name = context.getString(R.string.title_root);
+            this.system = true;
+            this.internet = true;
+            this.enabled = true;
+            this.intent = null;
+        } else if (info.applicationInfo.uid == 1013) {
+            this.name = context.getString(R.string.title_mediaserver);
             this.system = true;
             this.internet = true;
             this.enabled = true;
@@ -180,14 +187,25 @@ public class Rule {
 
         List<PackageInfo> listPI = context.getPackageManager().getInstalledPackages(0);
 
+        // Add root
         PackageInfo root = new PackageInfo();
         root.packageName = "root";
-        root.versionCode = 0;
-        root.versionName = "0";
+        root.versionCode = Build.VERSION.SDK_INT;
+        root.versionName = Build.VERSION.RELEASE;
         root.applicationInfo = new ApplicationInfo();
         root.applicationInfo.uid = 0;
         root.applicationInfo.icon = 0;
         listPI.add(root);
+
+        // Add mediaserver
+        PackageInfo media = new PackageInfo();
+        media.packageName = "android.media";
+        media.versionCode = Build.VERSION.SDK_INT;
+        media.versionName = Build.VERSION.RELEASE;
+        media.applicationInfo = new ApplicationInfo();
+        media.applicationInfo.uid = 1013;
+        media.applicationInfo.icon = 0;
+        listPI.add(media);
 
         for (PackageInfo info : listPI) {
             Rule rule = new Rule(info, context);
