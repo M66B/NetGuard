@@ -284,7 +284,7 @@ void clear_sessions() {
 }
 
 void clear_tcp_data(struct tcp_session *cur) {
-    struct segment *s = cur->data_rx;
+    struct segment *s = cur->forward;
     while (s != NULL) {
         struct segment *p = s;
         s = s->next;
@@ -786,7 +786,7 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
             if (t->socket > max)
                 max = t->socket;
 
-            if (t->data_rx != NULL) {
+            if (t->forward != NULL) {
                 FD_SET(t->socket, wfds);
                 if (t->socket > max)
                     max = t->socket;
@@ -1258,18 +1258,18 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 }
 
                 // Forward data
-                if (cur->data_rx != NULL && FD_ISSET(cur->socket, wfds)) {
+                if (cur->forward != NULL && FD_ISSET(cur->socket, wfds)) {
                     // Forward buffered data
                     int fwd = 0;
                     int confirm = 0;
-                    while (cur->data_rx != NULL && cur->data_rx->seq == cur->remote_seq) {
+                    while (cur->forward != NULL && cur->forward->seq == cur->remote_seq) {
                         log_android(ANDROID_LOG_DEBUG, "%s/%u to %s/%u fwd %u...%u",
                                     source, ntohs(cur->source), dest, ntohs(cur->dest),
-                                    cur->data_rx->seq - cur->remote_start,
-                                    cur->data_rx->seq + cur->data_rx->len - cur->remote_start);
+                                    cur->forward->seq - cur->remote_start,
+                                    cur->forward->seq + cur->forward->len - cur->remote_start);
 
-                        unsigned int more = (cur->data_rx->psh ? 0 : MSG_MORE);
-                        if (send(cur->socket, cur->data_rx->data, cur->data_rx->len,
+                        unsigned int more = (cur->forward->psh ? 0 : MSG_MORE);
+                        if (send(cur->socket, cur->forward->data, cur->forward->len,
                                  MSG_NOSIGNAL | more) < 0) {
                             log_android(ANDROID_LOG_ERROR,
                                         "send error %d: %s", errno, strerror(errno));
@@ -1283,18 +1283,18 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         } else {
                             fwd = 1;
                             cur->time = time(NULL);
-                            confirm += cur->data_rx->confirm;
-                            cur->remote_seq = cur->data_rx->seq + cur->data_rx->len;
+                            confirm += cur->forward->confirm;
+                            cur->remote_seq = cur->forward->seq + cur->forward->len;
 
-                            struct segment *p = cur->data_rx;
-                            cur->data_rx = cur->data_rx->next;
+                            struct segment *p = cur->forward;
+                            cur->forward = cur->forward->next;
                             free(p->data);
                             free(p);
                         }
                     }
 
                     // Log data buffered
-                    struct segment *s = cur->data_rx;
+                    struct segment *s = cur->forward;
                     while (s != NULL) {
                         log_android(ANDROID_LOG_WARN,
                                     "%s/%u to %s/%u buffered data %u...%u seq %d state %s",
@@ -2189,19 +2189,19 @@ jboolean handle_tcp(const struct arguments *args,
             syn->source = tcphdr->source;
             syn->dest = tcphdr->dest;
             syn->state = TCP_LISTEN;
-            syn->data_rx = NULL;
+            syn->forward = NULL;
             syn->next = NULL;
 
             if (datalen) {
                 log_android(ANDROID_LOG_WARN, "%s SYN data", packet);
-                syn->data_rx = malloc(sizeof(struct segment));
-                syn->data_rx->seq = syn->remote_seq;
-                syn->data_rx->len = datalen;
-                syn->data_rx->psh = tcphdr->psh;
-                syn->data_rx->confirm = 0;
-                syn->data_rx->data = malloc(datalen);
-                memcpy(syn->data_rx->data, data, datalen);
-                syn->data_rx->next = NULL;
+                syn->forward = malloc(sizeof(struct segment));
+                syn->forward->seq = syn->remote_seq;
+                syn->forward->len = datalen;
+                syn->forward->psh = tcphdr->psh;
+                syn->forward->confirm = 0;
+                syn->forward->data = malloc(datalen);
+                memcpy(syn->forward->data, data, datalen);
+                syn->forward->next = NULL;
             }
 
             // Open socket
@@ -2276,7 +2276,7 @@ jboolean handle_tcp(const struct arguments *args,
                     log_android(ANDROID_LOG_WARN, "%s already forwarded", session);
                 else {
                     struct segment *p = NULL;
-                    struct segment *s = cur->data_rx;
+                    struct segment *s = cur->forward;
                     while (s != NULL && compare_u16(s->seq, seq) < 0) {
                         p = s;
                         s = s->next;
@@ -2292,7 +2292,7 @@ jboolean handle_tcp(const struct arguments *args,
                         memcpy(n->data, data, datalen);
                         n->next = s;
                         if (p == NULL)
-                            cur->data_rx = n;
+                            cur->forward = n;
                         else
                             p->next = n;
                     }
@@ -2335,14 +2335,14 @@ jboolean handle_tcp(const struct arguments *args,
                             return 0;
                         }
 
-                        if (cur->data_rx == NULL) {
+                        if (cur->forward == NULL) {
                             if (write_ack(args, cur, 1) >= 0)
                                 cur->remote_seq += 1; // FIN
                             else
                                 return 0;
                         }
                         else {
-                            struct segment *s = cur->data_rx;
+                            struct segment *s = cur->forward;
                             while (s != NULL && compare_u16(s->seq, seq) < 0) {
                                 s = s->next;
                             }
