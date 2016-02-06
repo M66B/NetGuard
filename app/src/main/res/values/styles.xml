@@ -3,6 +3,11 @@
     <attr name="colorOff" format="reference" />
     <attr name="expander" format="reference" />
 
+    <style name="AppDialog" parent="Theme.AppCompat.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="BaseThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowDisablePreview">true</item>
     </style>

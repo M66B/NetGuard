@@ -622,8 +622,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_settings:
-                if (menuSearch != null)
-                    MenuItemCompat.collapseActionView(menuSearch);
                 startActivity(new Intent(this, ActivitySettings.class));
                 return true;
 

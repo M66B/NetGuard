@@ -242,17 +242,16 @@ Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instanc
 // JNI ForwardService
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_ForwardService_jni_1stop_1port_1forward(
-        JNIEnv *env, jobject instance, jint source) {
-    log_android(ANDROID_LOG_WARN,
-                "Stop port forwarding to uid %d", source);
+Java_eu_faircode_netguard_ActivityForward_jni_1stop_1port_1forward(
+        JNIEnv *env, jobject instance, jint protocol, jint source) {
+    log_android(ANDROID_LOG_WARN, "Stop port forwarding to protocol %d port %d", protocol, source);
 
     if (pthread_mutex_lock(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
     struct port_forward *l = NULL;
     struct port_forward *f = port_forward;
-    while (f != NULL && f->source != source) {
+    while (f != NULL && f->protocol != protocol && f->source != source) {
         l = f;
         f = f->next;
     }
@@ -270,18 +269,21 @@ Java_eu_faircode_netguard_ForwardService_jni_1stop_1port_1forward(
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_ForwardService_jni_1start_1port_1forward(
-        JNIEnv *env, jobject instance, jint source, jint target, jint uid) {
+Java_eu_faircode_netguard_ActivityForward_jni_1start_1port_1forward(
+        JNIEnv *env, jobject instance, jint protocol, jint source, jint target, jint uid) {
 
-    Java_eu_faircode_netguard_ForwardService_jni_1stop_1port_1forward(env, instance, source);
+    Java_eu_faircode_netguard_ActivityForward_jni_1stop_1port_1forward(
+            env, instance, protocol, source);
 
     log_android(ANDROID_LOG_WARN,
-                "Start port forwarding from %d to %d uid %d", source, target, uid);
+                "Start port forwarding protocol %d from %d to %d uid %d",
+                protocol, source, target, uid);
 
     if (pthread_mutex_lock(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
     struct port_forward *forward = malloc(sizeof(struct port_forward));
+    forward->protocol = protocol;
     forward->source = source;
     forward->target = target;
     forward->uid = uid;
@@ -298,7 +300,7 @@ JNIEXPORT jstring JNICALL
 Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring name_) {
     const char *name = (*env)->GetStringUTFChars(env, name_, 0);
 
-    char value[250];
+    char value[250] = "";
     __system_property_get(env, name, value);
 
     (*env)->ReleaseStringUTFChars(env, name_, name);
@@ -1556,7 +1558,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     flags[flen] = 0;
 
     struct port_forward *fwd53 = port_forward;
-    while (fwd53 != NULL && fwd53->source != 53)
+    while (fwd53 != NULL && fwd53->protocol != IPPROTO_UDP && fwd53->source != 53)
         fwd53 = fwd53->next;
 
     // Get uid
@@ -1634,7 +1636,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     else {
         if (protocol == IPPROTO_UDP)
             block_udp(args, pkt, length, payload, uid);
-        log_android(ANDROID_LOG_INFO, "Address v%d p%d %s/%u syn %d not allowed",
+        log_android(ANDROID_LOG_WARN, "Address v%d p%d %s/%u syn %d not allowed",
                     version, protocol, dest, dport, syn);
     }
 
@@ -1963,7 +1965,7 @@ jboolean handle_udp(const struct arguments *args,
 
     // Port forwarding
     struct port_forward *fwd = port_forward;
-    while (fwd != NULL && fwd->source != ntohs(udphdr->dest))
+    while (fwd != NULL && fwd->protocol != IPPROTO_UDP && fwd->source != ntohs(udphdr->dest))
         fwd = fwd->next;
     if (fwd != NULL) {
         if (fwd->uid == cur->uid)
@@ -2617,7 +2619,7 @@ int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur)
 
     // Port forwarding
     struct port_forward *fwd = port_forward;
-    while (fwd != NULL && fwd->source != ntohs(cur->dest))
+    while (fwd != NULL && fwd->protocol != IPPROTO_TCP && fwd->source != ntohs(cur->dest))
         fwd = fwd->next;
     if (fwd != NULL) {
         if (fwd->uid == cur->uid)

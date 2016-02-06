@@ -40,6 +40,7 @@ struct arguments {
 };
 
 struct port_forward {
+    uint8_t protocol;
     uint16_t source;
     uint16_t target;
     uint16_t uid;
