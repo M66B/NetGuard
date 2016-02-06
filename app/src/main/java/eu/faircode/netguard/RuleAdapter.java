@@ -710,10 +710,16 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                     listResult.addAll(listAll);
                 else {
                     query = query.toString().toLowerCase();
+                    int uid;
+                    try {
+                        uid = Integer.parseInt(query.toString());
+                    } catch (NumberFormatException ignore) {
+                        uid = -1;
+                    }
                     for (Rule rule : listAll)
-                        if (rule.info.packageName.toLowerCase().contains(query) ||
-                                (rule.name != null && rule.name.toLowerCase().contains(query)) ||
-                                (rule.info.applicationInfo != null && Integer.toString(rule.info.applicationInfo.uid).contains(query)))
+                        if (rule.info.applicationInfo.uid == uid ||
+                                rule.info.packageName.toLowerCase().contains(query) ||
+                                (rule.name != null && rule.name.toLowerCase().contains(query)))
                             listResult.add(rule);
                 }
 
