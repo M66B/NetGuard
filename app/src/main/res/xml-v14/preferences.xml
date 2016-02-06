@@ -185,6 +185,7 @@
             android:title="@string/setting_hosts" />
         <EditTextPreference
             android:defaultValue="http://www.netguard.me/hosts"
+            android:hint="http://www.netguard.me/hosts"
             android:key="hosts_url"
             android:title="@string/setting_hosts_url" />
         <Preference
