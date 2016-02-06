@@ -2,6 +2,14 @@
 <predefined>
     <wifi
         blocked="false"
+        package="root" />
+    <other
+        blocked="false"
+        package="root"
+        roaming="false" />
+
+    <wifi
+        blocked="false"
         package="com.google.android.apps.adm" />
     <other
         blocked="false"
