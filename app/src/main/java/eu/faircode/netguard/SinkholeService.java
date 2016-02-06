@@ -681,6 +681,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // Application log
             if (log_app && packet.uid >= 0) {
+                if (!(packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */))
+                    packet.dport = 0;
                 if (dh.updateAccess(packet, dname, -1))
                     if (notify && prefs.getBoolean("notify_" + packet.uid, true) &&
                             (system || !Util.isSystem(packet.uid, SinkholeService.this)))
@@ -944,6 +946,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             // 16..31 dport
             // 32..39 protocol
             // 40..43 version
+            if (!(protocol == 6 /* TCP */ || protocol == 17 /* UDP */))
+                dport = 0;
             long key = (version << 40) | (protocol << 32) | (dport << 16) | uid;
 
             if (!map.containsKey(key))
@@ -1102,16 +1106,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (packet.uid == Process.myUid())
             return true;
 
-        if (packet.protocol == 1 || packet.protocol == 58) // ICMP
-            packet.dport = 0;
-
         packet.allowed = false;
         if (prefs.getBoolean("filter", false)) {
             if (packet.uid < 0) // unknown
                 packet.allowed = true;
             else {
                 boolean filtered = false;
-                long key = (packet.version << 40) | (packet.protocol << 32) | (packet.dport << 16) | packet.uid;
+                // Only TCP (6) and UDP (17) have port numbers
+                int dport = (packet.protocol == 6 || packet.protocol == 17 ? packet.dport : 0);
+                long key = (packet.version << 40) | (packet.protocol << 32) | (dport << 16) | packet.uid;
 
                 synchronized (mapUidIPFilters) {
                     if (mapUidIPFilters.containsKey(key))
