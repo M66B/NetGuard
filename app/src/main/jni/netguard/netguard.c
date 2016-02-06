@@ -785,12 +785,12 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
                 FD_SET(t->socket, rfds);
             if (t->socket > max)
                 max = t->socket;
-        }
 
-        if (t->data_rx != NULL) {
-            FD_SET(t->socket, wfds);
-            if (t->socket > max)
-                max = t->socket;
+            if (t->data_rx != NULL) {
+                FD_SET(t->socket, wfds);
+                if (t->socket > max)
+                    max = t->socket;
+            }
         }
 
         t = t->next;
@@ -1282,6 +1282,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                             }
                         } else {
                             fwd = 1;
+                            cur->time = time(NULL);
                             confirm += cur->data_rx->confirm;
                             cur->remote_seq = cur->data_rx->seq + cur->data_rx->len;
 
@@ -2191,9 +2192,17 @@ jboolean handle_tcp(const struct arguments *args,
             syn->data_rx = NULL;
             syn->next = NULL;
 
-            // TODO handle SYN data?
-            if (datalen)
+            if (datalen) {
                 log_android(ANDROID_LOG_WARN, "%s SYN data", packet);
+                syn->data_rx = malloc(sizeof(struct segment));
+                syn->data_rx->seq = syn->remote_seq;
+                syn->data_rx->len = datalen;
+                syn->data_rx->psh = tcphdr->psh;
+                syn->data_rx->confirm = 0;
+                syn->data_rx->data = malloc(datalen);
+                memcpy(syn->data_rx->data, data, datalen);
+                syn->data_rx->next = NULL;
+            }
 
             // Open socket
             syn->socket = open_tcp_socket(args, syn);
@@ -2297,8 +2306,10 @@ jboolean handle_tcp(const struct arguments *args,
                 }
             }
 
-            if (tcphdr->rst) {
+            if (tcphdr->rst /* +ACK */) {
                 // No sequence check
+                // TODO half-duplex close sequence
+                // http://tools.ietf.org/html/rfc1122#page-87
                 log_android(ANDROID_LOG_WARN, "%s received reset", session);
                 cur->state = TCP_TIME_WAIT;
                 return 0;
@@ -2310,14 +2321,14 @@ jboolean handle_tcp(const struct arguments *args,
                         // The socket is likely not opened yet
                         // Note: perfect, ordered packet receive assumed
 
-                    } else if (tcphdr->fin /* ACK */) {
-                        if (cur->state == TCP_ESTABLISHED /* && !tcphdr->ack */)
+                    } else if (tcphdr->fin /* +ACK */) {
+                        if (cur->state == TCP_ESTABLISHED)
                             cur->state = TCP_CLOSE_WAIT;
                         else if (cur->state == TCP_FIN_WAIT1 && tcphdr->ack)
                             cur->state = TCP_TIME_WAIT;
                         else if (cur->state == TCP_FIN_WAIT1 && !tcphdr->ack)
                             cur->state = TCP_CLOSING;
-                        else if (cur->state == TCP_FIN_WAIT2 /* && !tcphdr->ack */)
+                        else if (cur->state == TCP_FIN_WAIT2)
                             cur->state = TCP_TIME_WAIT;
                         else {
                             log_android(ANDROID_LOG_ERROR, "%s invalid FIN", session);
@@ -2337,9 +2348,11 @@ jboolean handle_tcp(const struct arguments *args,
                             }
                             if (s != NULL && s->seq == seq)
                                 s->confirm = 1; // FIN
-                            else
+                            else {
                                 log_android(ANDROID_LOG_ERROR,
-                                            "%s no segment for ACK/FIN", session);
+                                            "%s no segment for FIN confirm", session);
+                                return 0;
+                            }
                         }
 
                     } else if (tcphdr->ack) {

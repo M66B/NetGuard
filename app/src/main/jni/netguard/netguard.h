@@ -22,6 +22,7 @@
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
 #define TCP_CLOSE_TIMEOUT 30 // seconds
 #define TCP_KEEP_TIMEOUT 300 // seconds
+// https://en.wikipedia.org/wiki/Maximum_segment_lifetime
 
 #define UID_DELAY 1 // milliseconds
 #define UID_DELAYTRY 10 // milliseconds
