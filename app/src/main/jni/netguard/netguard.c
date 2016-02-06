@@ -1434,8 +1434,8 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 
     // Get ports & flags
     int syn = 0;
-    int32_t sport = -1;
-    int32_t dport = -1;
+    uint16_t sport = 0;
+    uint16_t dport = 0;
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6) {
         struct icmp *icmp = (struct icmp *) payload;
 
@@ -1492,11 +1492,11 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
                 saddr128[10] = (uint8_t) 0xFF;
                 saddr128[11] = (uint8_t) 0xFF;
                 memcpy(saddr128 + 12, saddr, 4);
-                uid = get_uid(protocol, 6, saddr128, (const uint16_t) sport, dump);
+                uid = get_uid(protocol, 6, saddr128,  sport, dump);
             }
 
             if (uid < 0)
-                uid = get_uid(protocol, version, saddr, (const uint16_t) sport, dump);
+                uid = get_uid(protocol, version, saddr, sport, dump);
 
             // Retry delay
             if (uid < 0 && tries < UID_MAXTRY) {
@@ -1527,7 +1527,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     if (protocol == IPPROTO_UDP && dport == 53)
         allowed = 1; // allow DNS
     else if (protocol == IPPROTO_UDP && has_udp_session(pkt, payload))
-        allowed = 1; // could be a lingering session
+        allowed = 1; // could be a lingering/blocked session
     else if (protocol == IPPROTO_TCP && !syn)
         allowed = 1; // assume session
     else {
@@ -1548,7 +1548,8 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     else {
         if (protocol == IPPROTO_UDP)
             block_udp(args, pkt, length, payload, uid);
-        log_android(ANDROID_LOG_INFO, "Address %s/%u syn %d not allowed", dest, dport, syn);
+        log_android(ANDROID_LOG_INFO, "Address v%d p%d %s/%u syn %d not allowed",
+                    version, protocol, dest, dport, syn);
     }
 
 #ifdef PROFILE_EVENTS
