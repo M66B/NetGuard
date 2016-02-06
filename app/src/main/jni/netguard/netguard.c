@@ -1555,10 +1555,15 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     }
     flags[flen] = 0;
 
+    struct port_forward *fwd53 = port_forward;
+    while (fwd53 != NULL && fwd53->source != 53)
+        fwd53 = fwd53->next;
+
     // Get uid
     jint uid = -1;
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6 ||
-        (protocol == IPPROTO_UDP && dport != 53 && !has_udp_session(pkt, payload)) ||
+        (protocol == IPPROTO_UDP &&
+         (dport != 53 || fwd53 != NULL) && !has_udp_session(pkt, payload)) ||
         (protocol == IPPROTO_TCP && syn)) {
         log_android(ANDROID_LOG_INFO, "get uid %s/%u version %d protocol %d syn %d",
                     dest, dport, version, protocol, syn);
@@ -1960,17 +1965,21 @@ jboolean handle_udp(const struct arguments *args,
     struct port_forward *fwd = port_forward;
     while (fwd != NULL && fwd->source != ntohs(udphdr->dest))
         fwd = fwd->next;
-    if (fwd != NULL && fwd->uid != cur->uid) {
-        log_android(ANDROID_LOG_WARN, "TCP forward %u > %u uid %d",
-                    fwd->source, fwd->target, cur->uid);
-
-        if (cur->version == 4) {
-            inet_pton(AF_INET, "127.0.0.1", &server4.sin_addr.s_addr);
-            server4.sin_port = htons(fwd->target);
-        }
+    if (fwd != NULL) {
+        if (fwd->uid == cur->uid)
+            log_android(ANDROID_LOG_WARN, "UDP passthrough %u uid %d", fwd->source, cur->uid);
         else {
-            inet_pton(AF_INET6, "::1", &server6.sin6_addr);
-            server6.sin6_port = htons(fwd->target);
+            log_android(ANDROID_LOG_WARN, "UDP forward %u > %u uid %d",
+                        fwd->source, fwd->target, cur->uid);
+
+            if (cur->version == 4) {
+                inet_pton(AF_INET, "127.0.0.1", &server4.sin_addr);
+                server4.sin_port = htons(fwd->target);
+            }
+            else {
+                inet_pton(AF_INET6, "::1", &server6.sin6_addr);
+                server6.sin6_port = htons(fwd->target);
+            }
         }
     }
 
@@ -2610,17 +2619,21 @@ int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur)
     struct port_forward *fwd = port_forward;
     while (fwd != NULL && fwd->source != ntohs(cur->dest))
         fwd = fwd->next;
-    if (fwd != NULL && fwd->uid != cur->uid) {
-        log_android(ANDROID_LOG_WARN, "TCP forward %u > %u uid %d",
-                    fwd->source, fwd->target, cur->uid);
-
-        if (cur->version == 4) {
-            inet_pton(AF_INET, "127.0.0.1", &addr4.sin_addr.s_addr);
-            addr4.sin_port = htons(fwd->target);
-        }
+    if (fwd != NULL) {
+        if (fwd->uid == cur->uid)
+            log_android(ANDROID_LOG_WARN, "TCP passthrough %u uid %d", fwd->source, cur->uid);
         else {
-            inet_pton(AF_INET6, "::1", &addr6.sin6_addr);
-            addr6.sin6_port = htons(fwd->target);
+            log_android(ANDROID_LOG_WARN, "TCP forward %u > %u uid %d",
+                        fwd->source, fwd->target, cur->uid);
+
+            if (cur->version == 4) {
+                inet_pton(AF_INET, "127.0.0.1", &addr4.sin_addr);
+                addr4.sin_port = htons(fwd->target);
+            }
+            else {
+                inet_pton(AF_INET6, "::1", &addr6.sin6_addr);
+                addr6.sin6_port = htons(fwd->target);
+            }
         }
     }
 
