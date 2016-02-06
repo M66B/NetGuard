@@ -60,6 +60,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -554,6 +555,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                             int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
                             String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
                             int dport = cursor.getInt(cursor.getColumnIndex("dport"));
+                            long time = cursor.getLong(cursor.getColumnIndex("time"));
                             int block = cursor.getInt(cursor.getColumnIndex("block"));
 
                             PopupMenu popup = new PopupMenu(context, context.findViewById(R.id.vwPopupAnchor));
@@ -561,6 +563,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                             popup.getMenu().findItem(R.id.menu_host).setTitle(
                                     Util.getProtocolName(protocol, version, false) + " " +
                                             daddr + (dport > 0 ? ":" + dport : ""));
+                            popup.getMenu().findItem(R.id.menu_time).setTitle(
+                                    SimpleDateFormat.getDateTimeInstance().format(time));
 
                             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                 @Override
