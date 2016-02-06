@@ -121,6 +121,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_downloading">Downloading\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="msg_download_last">Last download: %s</string>
+  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
+  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
   <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>
@@ -135,6 +137,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_allow">Permetti</string>
   <string name="title_block">Blocca</string>
   <string name="title_root">root</string>
+  <string name="title_mediaserver">mediaserver</string>
   <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Identità %1$s</string>
   <string name="title_log_port">Porta %1$d</string>

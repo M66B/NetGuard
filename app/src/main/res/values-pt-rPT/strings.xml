@@ -19,11 +19,11 @@
   <string name="menu_invite">Convite</string>
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
-  <string name="menu_protocol_other">Other</string>
-  <string name="menu_traffic_allowed">Allowed</string>
-  <string name="menu_traffic_blocked">Blocked</string>
+  <string name="menu_protocol_other">Outro</string>
+  <string name="menu_traffic_allowed">Permitido</string>
+  <string name="menu_traffic_blocked">Bloqueado</string>
   <string name="menu_live">Atualizações em direto</string>
-  <string name="menu_refresh">Refresh</string>
+  <string name="menu_refresh">Atualizar</string>
   <string name="menu_resolve">Mostrar nomes</string>
   <string name="menu_pcap_enabled">PCAP habilitado</string>
   <string name="menu_pcap_export">Exportar PCAP</string>
@@ -117,6 +117,8 @@
   <string name="msg_downloading">A descarregar\n%1s</string>
   <string name="msg_downloaded">Ficheiro hosts descarregado</string>
   <string name="msg_download_last">Último descarregamento: %s</string>
+  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
+  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
@@ -131,6 +133,7 @@
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
   <string name="title_root">root</string>
+  <string name="title_mediaserver">mediaserver</string>
   <string name="title_notify">Notificar das tentativas de acesso à internet</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>

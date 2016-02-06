@@ -55,7 +55,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">Log internet-toegang</string>
   <string name="setting_access">Melding bij internet toegang</string>
   <string name="setting_filter">Verkeer filteren</string>
-  <string name="setting_resolved">Bewaar opgelost domeinnamen</string>
+  <string name="setting_resolved">Bewaar opgeloste domeinnamen</string>
   <string name="setting_block_domains">Blokkeer domeinnamen</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
   <string name="setting_vpn6">VPN-IPv6: %s</string>
@@ -121,6 +121,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_downloading">Downloading\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="msg_download_last">Last download: %s</string>
+  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
+  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
   <string name="title_conditions">Condities</string>
   <string name="title_screen_wifi">Sta Wi-Fi toe als het scherm aan is</string>
   <string name="title_screen_other">Sta mobiel toe als het scherm aan is</string>
@@ -135,6 +137,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_allow">Toestaan</string>
   <string name="title_block">Blokkeren</string>
   <string name="title_root">root</string>
+  <string name="title_mediaserver">mediaserver</string>
   <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Poort %1$d</string>

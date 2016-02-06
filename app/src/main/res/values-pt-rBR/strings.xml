@@ -120,6 +120,8 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_downloading">Baixando\n%1s</string>
   <string name="msg_downloaded">Arquivos de hosts baixados</string>
   <string name="msg_download_last">Último download: %s</string>
+  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
+  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
@@ -134,6 +136,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
   <string name="title_root">raiz</string>
+  <string name="title_mediaserver">mediaserver</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>

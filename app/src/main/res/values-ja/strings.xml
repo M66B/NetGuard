@@ -118,6 +118,8 @@
   <string name="msg_downloading">ダウンロード中\n%1s</string>
   <string name="msg_downloaded">Hosts ファイルをダウンロードしました</string>
   <string name="msg_download_last">最終ダウンロード: %s</string>
+  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
+  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>
@@ -132,6 +134,7 @@
   <string name="title_allow">許可</string>
   <string name="title_block">ブロック</string>
   <string name="title_root">ルート</string>
+  <string name="title_mediaserver">メディアサーバー</string>
   <string name="title_notify">インターネット アクセスの試みを通知</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">ポート %1$d</string>

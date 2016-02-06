@@ -120,6 +120,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_downloading">Downloading\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="msg_download_last">Last download: %s</string>
+  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
+  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
   <string name="title_conditions">Умови</string>
   <string name="title_screen_wifi">Дозволено Wi-Fi, коли екран активний</string>
   <string name="title_screen_other">Дозволено мобільні мережі, коли екран активний</string>
@@ -134,6 +136,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_allow">Дозволити</string>
   <string name="title_block">Блокувати</string>
   <string name="title_root">root</string>
+  <string name="title_mediaserver">mediaserver</string>
   <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Порт %1$d</string>
