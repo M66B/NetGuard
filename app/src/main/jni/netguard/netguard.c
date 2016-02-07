@@ -2454,11 +2454,11 @@ jboolean handle_tcp(const struct arguments *args,
                         }
                         else {
                             struct segment *s = cur->forward;
-                            while (s != NULL && compare_u16(s->seq, seq) < 0) {
+                            while (s != NULL && compare_u16(s->seq + s->len, seq) < 0) {
                                 s = s->next;
                             }
-                            if (s != NULL && s->seq == seq)
-                                s->confirm = 1; // FIN
+                            if (s != NULL && s->seq + s->len == seq)
+                                s->confirm += 1; // FIN
                             else {
                                 log_android(ANDROID_LOG_ERROR,
                                             "%s no segment for FIN confirm", session);
