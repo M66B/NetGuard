@@ -454,9 +454,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAccessUnset(int uid) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query("access", null,
-                "uid = ? AND block < 0", new String[]{Integer.toString(uid)},
-                null, null, "time DESC");
+        String query = "SELECT MAX(time) AS time, daddr, allowed";
+        query += " FROM access";
+        query += " WHERE uid = ?";
+        query += " AND block < 0";
+        query += " GROUP BY daddr, allowed";
+        query += " ORDER BY time DESC";
+        return db.rawQuery(query, new String[]{Integer.toString(uid)});
     }
 
     public long getRuleCount(int uid) {
