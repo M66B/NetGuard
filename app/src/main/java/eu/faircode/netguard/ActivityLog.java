@@ -59,6 +59,7 @@ import java.util.Date;
 public class ActivityLog extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Log";
 
+    private boolean running = false;
     private ListView lvLog;
     private LogAdapter adapter;
     private MenuItem menuSearch = null;
@@ -88,6 +89,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         Util.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logview);
+        running = true;
 
         // Action bar
         View actionView = getLayoutInflater().inflate(R.layout.action, null);
@@ -232,10 +234,9 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
     @Override
     protected void onDestroy() {
+        running = false;
         dh.close();
-
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
-
         super.onDestroy();
     }
 
@@ -409,7 +410,8 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
                     @Override
                     protected void onPostExecute(Object result) {
-                        updateAdapter();
+                        if (running)
+                            updateAdapter();
                     }
                 }.execute();
                 return true;

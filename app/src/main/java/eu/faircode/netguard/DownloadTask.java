@@ -22,7 +22,7 @@ public class DownloadTask extends AsyncTask<Object, Integer, Object> {
     private URL url;
     private File file;
     private Listener listener;
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
     private PowerManager.WakeLock wakeLock;
 
     public interface Listener {

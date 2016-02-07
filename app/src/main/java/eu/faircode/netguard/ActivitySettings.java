@@ -21,7 +21,6 @@ package eu.faircode.netguard;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -49,6 +48,7 @@ import android.preference.TwoStatePreference;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
@@ -91,6 +91,7 @@ import javax.xml.parsers.SAXParserFactory;
 public class ActivitySettings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Settings";
 
+    private boolean running = false;
     private boolean phone_state = false;
 
     private static final int REQUEST_EXPORT = 1;
@@ -102,6 +103,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private static final int REQUEST_ROAMING_INTERNATIONAL = 7;
     private static final int REQUEST_HOSTS = 8;
 
+    private AlertDialog dialogFilter = null;
+
     private static final Intent INTENT_VPN_SETTINGS = new Intent("android.net.vpn.SETTINGS");
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +112,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new FragmentSettings()).commit();
         getSupportActionBar().setTitle(R.string.menu_settings);
+        running = true;
     }
 
     private PreferenceScreen getPreferenceScreen() {
@@ -247,10 +251,15 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                 if (hosts.exists())
                                     hosts.delete();
                                 tmp.renameTo(hosts);
+
                                 String last = SimpleDateFormat.getDateTimeInstance().format(new Date().getTime());
                                 prefs.edit().putString("hosts_last", last).apply();
-                                pref_hosts_download.setSummary(getString(R.string.msg_download_last, last));
-                                Toast.makeText(ActivitySettings.this, R.string.msg_downloaded, Toast.LENGTH_LONG).show();
+
+                                if (running) {
+                                    pref_hosts_download.setSummary(getString(R.string.msg_download_last, last));
+                                    Toast.makeText(ActivitySettings.this, R.string.msg_downloaded, Toast.LENGTH_LONG).show();
+                                }
+
                                 SinkholeService.reload(null, "hosts file download", ActivitySettings.this);
                             }
 
@@ -264,7 +273,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                             public void onException(Throwable ex) {
                                 if (tmp.exists())
                                     tmp.delete();
-                                Toast.makeText(ActivitySettings.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+
+                                if (running)
+                                    Toast.makeText(ActivitySettings.this, ex.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }).execute();
                     } catch (MalformedURLException ex) {
@@ -346,6 +357,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
             phone_state = false;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        running = false;
+        if (dialogFilter != null) {
+            dialogFilter.dismiss();
+            dialogFilter = null;
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -467,7 +488,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             if (prefs.getBoolean(name, false)) {
                 LayoutInflater inflater = LayoutInflater.from(ActivitySettings.this);
                 View view = inflater.inflate(R.layout.filter, null);
-                new AlertDialog.Builder(ActivitySettings.this)
+                dialogFilter = new AlertDialog.Builder(ActivitySettings.this)
                         .setView(view)
                         .setCancelable(false)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -476,7 +497,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                 // Do nothing
                             }
                         })
-                        .create().show();
+                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialogInterface) {
+                                dialogFilter = null;
+                            }
+                        })
+                        .create();
+                dialogFilter.show();
             }
 
         } else if ("use_hosts".equals(name))
@@ -752,10 +780,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             @Override
             protected void onPostExecute(Throwable ex) {
-                if (ex == null)
-                    Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                if (running) {
+                    if (ex == null)
+                        Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                }
             }
         }.execute();
     }
@@ -805,17 +835,19 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             @Override
             protected void onPostExecute(Throwable ex) {
-                if (ex == null) {
-                    Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                if (running) {
+                    if (ex == null) {
+                        Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
 
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ActivitySettings.this);
-                    prefs.edit().remove("hosts_last").apply();
-                    getPreferenceScreen().findPreference("hosts_download").setSummary(null);
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ActivitySettings.this);
+                        prefs.edit().remove("hosts_last").apply();
+                        getPreferenceScreen().findPreference("hosts_download").setSummary(null);
 
-                    SinkholeService.reload(null, "hosts", ActivitySettings.this);
-                    getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
-                } else
-                    Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                        SinkholeService.reload(null, "hosts", ActivitySettings.this);
+                        getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
+                    } else
+                        Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                }
             }
         }.execute();
     }
@@ -845,13 +877,15 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             @Override
             protected void onPostExecute(Throwable ex) {
-                if (ex == null) {
-                    Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-                    SinkholeService.reloadStats("import", ActivitySettings.this);
-                    // Update theme, request permissions
-                    recreate();
-                } else
-                    Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                if (running) {
+                    if (ex == null) {
+                        Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                        SinkholeService.reloadStats("import", ActivitySettings.this);
+                        // Update theme, request permissions
+                        recreate();
+                    } else
+                        Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                }
             }
         }.execute();
     }
