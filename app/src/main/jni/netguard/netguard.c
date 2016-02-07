@@ -2437,7 +2437,7 @@ jboolean handle_tcp(const struct arguments *args,
                 return 0;
             }
             else {
-                if (ntohl(tcphdr->ack_seq) == cur->local_seq) {
+                if (!tcphdr->ack || ntohl(tcphdr->ack_seq) == cur->local_seq) {
                     if (tcphdr->syn) {
                         log_android(ANDROID_LOG_WARN, "%s repeated SYN", session);
                         // The socket is likely not opened yet
