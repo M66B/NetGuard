@@ -1318,19 +1318,25 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                             log_android(ANDROID_LOG_INFO, "recv empty state %s",
                                         strstate(cur->state));
 
-                            if (write_fin_ack(args, cur) >= 0) {
-                                cur->local_seq++; // local FIN
+                            if (cur->forward == NULL) {
+                                if (write_fin_ack(args, cur) >= 0) {
+                                    cur->local_seq++; // local FIN
 
-                                if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
-                                    cur->state = TCP_FIN_WAIT1;
-                                else if (cur->state == TCP_CLOSE_WAIT)
-                                    cur->state = TCP_LAST_ACK;
-                                else
-                                    log_android(ANDROID_LOG_ERROR, "Unknown state %s",
+                                    if (cur->state == TCP_SYN_RECV || cur->state == TCP_ESTABLISHED)
+                                        cur->state = TCP_FIN_WAIT1;
+                                    else if (cur->state == TCP_CLOSE_WAIT)
+                                        cur->state = TCP_LAST_ACK;
+                                    else
+                                        log_android(ANDROID_LOG_ERROR, "Unknown state %s",
+                                                    strstate(cur->state));
+
+                                    log_android(ANDROID_LOG_INFO, "Half close state %s",
                                                 strstate(cur->state));
-
-                                log_android(ANDROID_LOG_INFO, "Half close state %s",
-                                            strstate(cur->state));
+                                }
+                            }
+                            else {
+                                // There was still data to send
+                                write_rst(args, cur);
                             }
                         } else {
                             // Socket read data
