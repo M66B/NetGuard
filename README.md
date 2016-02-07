@@ -185,6 +185,10 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ29"></a>
 [**(29) Why do I get 'The item you requested is not available for purchase'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ29)
 
+<a name="FAQ30"></a>
+[**(30) Can I also run AFWall+ on the same device?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ30)
+
+
 Permissions
 -----------
 
