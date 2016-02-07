@@ -282,6 +282,19 @@ You can find all predefined rules [here](https://github.com/M66B/NetGuard/blob/m
 
 You can only purchase pro feature when you installed NetGuard from the Play store.
 
+<a name="FAQ30"></a>
+**(30) Can I also run AFWall+ on the same device?**
+
+Unless you are just testing NetGuard, there is no current reason to use them both, since they cover the same function (firewall) although with different base needs (AFWall+ needs a rooted device) and ways of doing their thing (AFWall+ uses iptables).
+
+Also you need to keep per applicaton access rules _always_ in sync, else the application will not be able to access the network, hence bringing another level of complexity when setting and assuring things work out.
+
+Some pointers on how to set up AFWall+:
+* if not using filtering in NetGuard, applications _need_ direct internet access (Wi-Fi and/or mobile) in AFWall+
+* if using filtering, NetGuard will _need_ internet access (Wi-Fi and/or mobile) in AFWall+
+* if using filtering, when you un/reinstall NetGuard, remember to RE-allow NetGuard in AFWall+
+* if using filtering, applications _need_ VPN internet access (check the box to show that option in AFWall+ settings)
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
