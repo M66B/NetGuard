@@ -71,6 +71,7 @@ static int max_tun_msg = 0;
 // JNI
 
 jclass clsPacket;
+jclass clsAllowed;
 jclass clsRR;
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved) {
@@ -84,6 +85,10 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 
     const char *packet = "eu/faircode/netguard/Packet";
     clsPacket = jniGlobalRef(env, jniFindClass(env, packet));
+
+    const char *allowed = "eu/faircode/netguard/Allowed";
+    clsAllowed = jniGlobalRef(env, jniFindClass(env, allowed));
+
     const char *rr = "eu/faircode/netguard/ResourceRecord";
     clsRR = jniGlobalRef(env, jniFindClass(env, rr));
 
@@ -573,7 +578,7 @@ void check_allowed(const struct arguments *args) {
             jobject objPacket = create_packet(
                     args, i->version, IPPROTO_ICMP, "",
                     source, 0, dest, 0, "", i->uid, 0);
-            if (!is_address_allowed(args, objPacket)) {
+            if (is_address_allowed(args, objPacket) == NULL) {
                 i->stop = 1;
                 log_android(ANDROID_LOG_WARN, "ICMP terminate %d uid %d", i->socket, i->uid);
             }
@@ -597,7 +602,7 @@ void check_allowed(const struct arguments *args) {
             jobject objPacket = create_packet(
                     args, u->version, IPPROTO_UDP, "",
                     source, ntohs(u->source), dest, ntohs(u->dest), "", u->uid, 0);
-            if (!is_address_allowed(args, objPacket)) {
+            if (is_address_allowed(args, objPacket) == NULL) {
                 u->state = UDP_FINISHING;
                 log_android(ANDROID_LOG_WARN, "UDP terminate session socket %d uid %d", u->socket,
                             u->uid);
@@ -635,7 +640,7 @@ void check_allowed(const struct arguments *args) {
             jobject objPacket = create_packet(
                     args, t->version, IPPROTO_TCP, "",
                     source, ntohs(t->source), dest, ntohs(t->dest), "", t->uid, 0);
-            if (!is_address_allowed(args, objPacket)) {
+            if (is_address_allowed(args, objPacket) == NULL) {
                 write_rst(args, t);
                 log_android(ANDROID_LOG_WARN, "TCP terminate socket %d uid %d", t->socket, t->uid);
             }
@@ -1621,7 +1626,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     else {
         jobject objPacket = create_packet(
                 args, version, protocol, flags, source, sport, dest, dport, "", uid, 0);
-        allowed = is_address_allowed(args, objPacket);
+        allowed = (is_address_allowed(args, objPacket) != NULL);
     }
 
     // Handle allowed traffic
@@ -3418,8 +3423,11 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
 }
 
 static jmethodID midIsAddressAllowed = NULL;
+jfieldID fidAllowedDaddr = NULL;
+jfieldID fidAllowedDport = NULL;
+struct allowed allowed;
 
-jboolean is_address_allowed(const struct arguments *args, jobject jpacket) {
+struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket) {
 #ifdef PROFILE_JNI
     float mselapsed;
     struct timeval start, end;
@@ -3428,16 +3436,31 @@ jboolean is_address_allowed(const struct arguments *args, jobject jpacket) {
 
     jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
 
-    const char *signature = "(Leu/faircode/netguard/Packet;)Z";
+    const char *signature = "(Leu/faircode/netguard/Packet;)Leu/faircode/netguard/Allowed;";
     if (midIsAddressAllowed == NULL)
         midIsAddressAllowed = jniGetMethodID(args->env, clsService, "isAddressAllowed", signature);
 
-    jboolean jallowed = (*args->env)->CallBooleanMethod(
+    jobject jallowed = (*args->env)->CallObjectMethod(
             args->env, args->instance, midIsAddressAllowed, jpacket);
     jniCheckException(args->env);
 
     (*args->env)->DeleteLocalRef(args->env, jpacket);
     (*args->env)->DeleteLocalRef(args->env, clsService);
+
+    if (jallowed != NULL) {
+        if (fidAllowedDaddr == NULL) {
+            const char *string = "Ljava/lang/String;";
+            fidAllowedDaddr = jniGetFieldID(args->env, clsAllowed, "daddr", string);
+            fidAllowedDport = jniGetFieldID(args->env, clsAllowed, "dport", "I");
+        }
+
+        jstring jdaddr = (*args->env)->GetObjectField(args->env, jallowed, fidAllowedDaddr);
+        const char *daddr = (*args->env)->GetStringUTFChars(args->env, jdaddr, NULL);
+        strcpy(allowed.daddr, daddr);
+        (*args->env)->ReleaseStringUTFChars(args->env, jdaddr, daddr);
+
+        allowed.dport = (*args->env)->GetIntField(args->env, jallowed, fidAllowedDport);
+    }
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -3447,7 +3470,7 @@ jboolean is_address_allowed(const struct arguments *args, jobject jpacket) {
         log_android(ANDROID_LOG_WARN, "is_address_allowed %f", mselapsed);
 #endif
 
-    return jallowed;
+    return (jallowed == NULL ? NULL : &allowed);
 }
 
 jmethodID midInitPacket = NULL;

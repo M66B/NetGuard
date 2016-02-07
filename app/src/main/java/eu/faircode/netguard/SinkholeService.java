@@ -1060,13 +1060,18 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     // Called from native code
-    private void nativeExit(java.lang.String reason) {
+    private void nativeExit(String reason) {
         Log.w(TAG, "Native exit reason=" + reason);
         if (reason != null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", false).apply();
             showErrorNotification(reason);
         }
+    }
+
+    // Called from native code
+    private void nativeError(String message) {
+        Log.e(TAG, "Native error message=" + message);
     }
 
     // Called from native code
@@ -1091,12 +1096,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     // Called from native code
-    private boolean isAddressAllowed(Packet packet) {
+    private Allowed isAddressAllowed(Packet packet) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Allow name resolving
         if (packet.uid == Process.myUid())
-            return true;
+            return new Allowed();
 
         packet.allowed = false;
         if (prefs.getBoolean("filter", false)) {
@@ -1131,7 +1136,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (prefs.getBoolean("log", false) || prefs.getBoolean("log_app", false))
             logPacket(packet);
 
-        return packet.allowed;
+        return (packet.allowed ? new Allowed() : null);
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {

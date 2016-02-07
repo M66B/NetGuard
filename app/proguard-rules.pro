@@ -32,10 +32,11 @@
 -keep class eu.faircode.netguard.Packet { *; }
 -keep class eu.faircode.netguard.SinkholeService {
     void nativeExit(java.lang.String);
+    void nativeError(java.lang.String);
     void logPacket(eu.faircode.netguard.Packet);
     void dnsResolved(eu.faircode.netguard.ResourceRecord);
     boolean isDomainBlocked(java.lang.String);
-    boolean isAddressAllowed(eu.faircode.netguard.Packet);
+    eu.faircode.netguard.Allowed isAddressAllowed(eu.faircode.netguard.Packet);
 }
 
 #Support library

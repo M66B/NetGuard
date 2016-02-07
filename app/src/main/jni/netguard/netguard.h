@@ -39,6 +39,11 @@ struct arguments {
     int tun;
 };
 
+struct allowed {
+    char daddr[INET6_ADDRSTRLEN + 1];
+    uint16_t dport;
+};
+
 struct port_forward {
     uint8_t protocol;
     uint16_t source;
@@ -384,7 +389,7 @@ void dns_resolved(const struct arguments *args,
 
 jboolean is_domain_blocked(const struct arguments *args, const char *name);
 
-jboolean is_address_allowed(const struct arguments *args, jobject objPacket);
+struct allowed *is_address_allowed(const struct arguments *args, jobject objPacket);
 
 jobject create_packet(const struct arguments *args,
                       jint version,
