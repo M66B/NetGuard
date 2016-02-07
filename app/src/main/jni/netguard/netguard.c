@@ -872,7 +872,9 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
                 FD_SET(t->socket, rfds);
             if (t->socket > max)
                 max = t->socket;
+        }
 
+        if (t->state != TCP_CLOSE) {
             if (t->forward != NULL) {
                 FD_SET(t->socket, wfds);
                 if (t->socket > max)
@@ -1355,16 +1357,16 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 if (cur->forward != NULL && FD_ISSET(cur->socket, wfds)) {
                     // Forward buffered data
                     int fwd = 0;
-                    int confirm = 0;
                     while (cur->forward != NULL && cur->forward->seq == cur->remote_seq) {
-                        log_android(ANDROID_LOG_DEBUG, "%s/%u to %s/%u fwd %u...%u",
+                        log_android(ANDROID_LOG_DEBUG, "%s/%u to %s/%u fwd %u...%u+%u",
                                     source, ntohs(cur->source), dest, ntohs(cur->dest),
                                     cur->forward->seq - cur->remote_start,
-                                    cur->forward->seq + cur->forward->len - cur->remote_start);
+                                    cur->forward->seq + cur->forward->len - cur->remote_start,
+                                    cur->forward->confirm);
 
-                        unsigned int more = (cur->forward->psh ? 0 : MSG_MORE);
-                        if (send(cur->socket, cur->forward->data, cur->forward->len,
-                                 MSG_NOSIGNAL | more) < 0) {
+                        unsigned int more = MSG_NOSIGNAL | (cur->forward->psh ? 0 : MSG_MORE);
+                        if (cur->forward->len + cur->forward->confirm &&
+                            send(cur->socket, cur->forward->data, cur->forward->len, more) < 0) {
                             log_android(ANDROID_LOG_ERROR,
                                         "send error %d: %s", errno, strerror(errno));
                             if (errno == EINTR || errno == EAGAIN) {
@@ -1377,8 +1379,8 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         } else {
                             fwd = 1;
                             cur->time = time(NULL);
-                            confirm += cur->forward->confirm;
-                            cur->remote_seq = cur->forward->seq + cur->forward->len;
+                            cur->remote_seq =
+                                    cur->forward->seq + cur->forward->len + cur->forward->confirm;
 
                             struct segment *p = cur->forward;
                             cur->forward = cur->forward->next;
@@ -1403,7 +1405,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     // Acknowledge forwarded data
                     // TODO send less ACKs?
                     if (fwd)
-                        write_ack(args, cur, confirm);
+                        write_ack(args, cur, 0);
                 }
             }
 
@@ -2392,41 +2394,8 @@ jboolean handle_tcp(const struct arguments *args,
             // Do not change the order of the conditions
 
             // Buffer data to forward
-            uint32_t seq = ntohl(tcphdr->seq);
-            if (datalen) {
-                if (compare_u16(seq, cur->remote_seq) < 0)
-                    log_android(ANDROID_LOG_WARN, "%s already forwarded", session);
-                else {
-                    struct segment *p = NULL;
-                    struct segment *s = cur->forward;
-                    while (s != NULL && compare_u16(s->seq, seq) < 0) {
-                        p = s;
-                        s = s->next;
-                    }
-
-                    if (s == NULL || compare_u16(s->seq, seq) > 0) {
-                        struct segment *n = malloc(sizeof(struct segment));
-                        n->seq = seq;
-                        n->len = datalen;
-                        n->psh = tcphdr->psh;
-                        n->confirm = 0;
-                        n->data = malloc(datalen);
-                        memcpy(n->data, data, datalen);
-                        n->next = s;
-                        if (p == NULL)
-                            cur->forward = n;
-                        else
-                            p->next = n;
-                    }
-                    else if (s != NULL && s->seq == seq) {
-                        if (s->len == datalen)
-                            log_android(ANDROID_LOG_DEBUG, "%s already buffered", session);
-                        else
-                            log_android(ANDROID_LOG_ERROR, "%s overlapping %u/%d",
-                                        session, s->len, datalen);
-                    }
-                }
-            }
+            if (datalen)
+                buffer_tcp(args, tcphdr, session, cur, data, datalen, 0);
 
             if (tcphdr->rst /* +ACK */) {
                 // No sequence check
@@ -2441,7 +2410,6 @@ jboolean handle_tcp(const struct arguments *args,
                     if (tcphdr->syn) {
                         log_android(ANDROID_LOG_WARN, "%s repeated SYN", session);
                         // The socket is likely not opened yet
-                        // Note: perfect, ordered packet receive assumed
 
                     } else if (tcphdr->fin /* +ACK */) {
                         if (cur->state == TCP_ESTABLISHED)
@@ -2457,25 +2425,7 @@ jboolean handle_tcp(const struct arguments *args,
                             return 0;
                         }
 
-                        if (cur->forward == NULL) {
-                            if (write_ack(args, cur, 1) >= 0)
-                                cur->remote_seq += 1; // FIN
-                            else
-                                return 0;
-                        }
-                        else {
-                            struct segment *s = cur->forward;
-                            while (s != NULL && compare_u16(s->seq + s->len, seq) < 0) {
-                                s = s->next;
-                            }
-                            if (s != NULL && s->seq + s->len == seq)
-                                s->confirm += 1; // FIN
-                            else {
-                                log_android(ANDROID_LOG_ERROR,
-                                            "%s no segment for FIN confirm", session);
-                                return 0;
-                            }
-                        }
+                        buffer_tcp(args, tcphdr, session, cur, NULL, 0, 1);
 
                     } else if (tcphdr->ack) {
                         if (cur->state == TCP_SYN_RECV)
@@ -2523,6 +2473,48 @@ jboolean handle_tcp(const struct arguments *args,
     }
 
     return 1;
+}
+
+void buffer_tcp(const struct arguments *args,
+                struct tcphdr *tcphdr,
+                const char *session, struct tcp_session *cur,
+                const uint8_t *data, uint16_t datalen,
+                uint16_t confirm) {
+    uint32_t seq = ntohl(tcphdr->seq);
+    if (compare_u16(seq, cur->remote_seq) < 0)
+        log_android(ANDROID_LOG_WARN, "%s already forwarded", session);
+    else {
+        struct segment *p = NULL;
+        struct segment *s = cur->forward;
+        while (s != NULL && compare_u16(s->seq, seq) < 0) {
+            p = s;
+            s = s->next;
+        }
+
+        if (s == NULL || compare_u16(s->seq, seq) > 0) {
+            log_android(ANDROID_LOG_DEBUG, "%s buffering %u...%u+%u",
+                        session, seq, seq + datalen, confirm);
+            struct segment *n = malloc(sizeof(struct segment));
+            n->seq = seq;
+            n->len = datalen;
+            n->psh = tcphdr->psh;
+            n->confirm = confirm;
+            n->data = malloc(datalen);
+            memcpy(n->data, data, datalen);
+            n->next = s;
+            if (p == NULL)
+                cur->forward = n;
+            else
+                p->next = n;
+        }
+        else if (s != NULL && s->seq == seq) {
+            if (s->len == datalen)
+                log_android(ANDROID_LOG_DEBUG, "%s already buffered", session);
+            else
+                log_android(ANDROID_LOG_ERROR, "%s overlapping %u/%u",
+                            session, s->len, datalen);
+        }
+    }
 }
 
 int open_icmp_socket(const struct arguments *args, const struct icmp_session *cur) {
