@@ -144,12 +144,13 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_pro">Pro functies</string>
   <string name="title_pro_trial_until">Pro functies op proef tot %1$s</string>
   <string name="title_pro_trial_ended">Pro functies proefperiode is beëindigd</string>
-  <string name="title_pro_description">De volgende gemaksfuncties zijn beschikbaar:</string>
+  <string name="title_pro_description">De volgende pro functies zijn beschikbaar:</string>
   <string name="title_pro_log">Weergave van geblokkeerd verkeer</string>
   <string name="title_pro_filter">Filter netwerkverkeer</string>
   <string name="title_pro_notify">Nieuwe applicatie meldingen</string>
   <string name="title_pro_speed">Netwerk snelheid grafiek melding</string>
   <string name="title_pro_theme">Uiterlijk (thema, kleuren)</string>
+  <string name="title_pro_all">Alle bovenstaande pro functies</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Ingeschakeld</string>
   <string name="title_pro_challenge">Uitdaging</string>

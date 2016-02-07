@@ -144,12 +144,13 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_pro">Funciones pagas</string>
   <string name="title_pro_trial_until">Prueba de funciones pagas hasta %1$s</string>
   <string name="title_pro_trial_ended">Finalizó el período de funciones pagas</string>
-  <string name="title_pro_description">The following convenience features are available:</string>
+  <string name="title_pro_description">The following pro features are available:</string>
   <string name="title_pro_log">Ver registro de tráfico bloqueado</string>
   <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Noticifaciones de aplicación nueva</string>
   <string name="title_pro_speed">Notificacion gráfica de velocidad de red</string>
   <string name="title_pro_theme">Apariencia (tema, colores)</string>
+  <string name="title_pro_all">All above pro features</string>
   <string name="title_pro_buy">Detalles</string>
   <string name="title_pro_bought">Activado</string>
   <string name="title_pro_challenge">Desafío</string>

@@ -143,12 +143,13 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_pro">Pro можливості</string>
   <string name="title_pro_trial_until">Розширені можливості пробної версії до %1$s</string>
   <string name="title_pro_trial_ended">Завершився пробний період розширених можливостей</string>
-  <string name="title_pro_description">Доступні перечислені нижче функції:</string>
+  <string name="title_pro_description">The following pro features are available:</string>
   <string name="title_pro_log">Перегляд звіту заблокованого трафіку</string>
   <string name="title_pro_filter">Фільтр мережевого трафіку</string>
   <string name="title_pro_notify">Нові сповідання додатків</string>
   <string name="title_pro_speed">Графік швидкості в сповіщеннях</string>
   <string name="title_pro_theme">Зовнішній вигляд (тема, кольори)</string>
+  <string name="title_pro_all">All above pro features</string>
   <string name="title_pro_buy">Деталі</string>
   <string name="title_pro_bought">Увімкнено</string>
   <string name="title_pro_challenge">Завдання</string>

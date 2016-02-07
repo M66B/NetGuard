@@ -19,11 +19,11 @@
   <string name="menu_invite">Пригласить</string>
   <string name="menu_support">Поддержка</string>
   <string name="menu_about">О приложении</string>
-  <string name="menu_protocol_other">Other</string>
-  <string name="menu_traffic_allowed">Allowed</string>
-  <string name="menu_traffic_blocked">Blocked</string>
+  <string name="menu_protocol_other">Другое</string>
+  <string name="menu_traffic_allowed">Разрешено</string>
+  <string name="menu_traffic_blocked">Заблокировано</string>
   <string name="menu_live">Обновления в реальном времени</string>
-  <string name="menu_refresh">Refresh</string>
+  <string name="menu_refresh">Обновить</string>
   <string name="menu_resolve">Показать названия</string>
   <string name="menu_pcap_enabled">PCAP включен</string>
   <string name="menu_pcap_export">PCAP экспорт</string>
@@ -118,8 +118,8 @@
   <string name="msg_downloading">Загрузка\n%1s</string>
   <string name="msg_downloaded">hosts-файл загружен</string>
   <string name="msg_download_last">Последняя загрузка: %s</string>
-  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
-  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
+  <string name="msg_forward_start" formatted="false">Начать пересылку протокола %1$s из порта %2$d к порту %3$d из %4$s?</string>
+  <string name="msg_forward_stop">Остановить пересылку протокола %1$s порта %2$d?</string>
   <string name="title_conditions">Условия</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>
@@ -134,19 +134,20 @@
   <string name="title_allow">Разрешить</string>
   <string name="title_block">Блокировать</string>
   <string name="title_root">root</string>
-  <string name="title_mediaserver">mediaserver</string>
+  <string name="title_mediaserver">медиасервер</string>
   <string name="title_notify">Уведомить о попытке доступа в интернет</string>
   <string name="title_log_whois">Протокол WHOIS: %1$s</string>
   <string name="title_log_port">Порт: %1$d</string>
   <string name="title_pro">Pro-функции</string>
   <string name="title_pro_trial_until">Pro-функции пробного периода до %1$s</string>
   <string name="title_pro_trial_ended">Pro-функции пробного периода закончились</string>
-  <string name="title_pro_description">Перечисленные ниже функции доступны:</string>
+  <string name="title_pro_description">The following pro features are available:</string>
   <string name="title_pro_log">Просмотр журнала заблокированного трафика</string>
   <string name="title_pro_filter">Фильтр сетевого трафика</string>
   <string name="title_pro_notify">Новые уведомления</string>
   <string name="title_pro_speed">График скорости сети</string>
   <string name="title_pro_theme">Внешний вид (темы, цвета)</string>
+  <string name="title_pro_all">All above pro features</string>
   <string name="title_pro_buy">Добавить</string>
   <string name="title_pro_bought">Добавлено</string>
   <string name="title_pro_challenge">Задание</string>

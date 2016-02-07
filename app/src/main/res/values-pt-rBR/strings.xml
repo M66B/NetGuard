@@ -20,11 +20,11 @@
   <string name="menu_invite">Convite</string>
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
-  <string name="menu_protocol_other">Other</string>
-  <string name="menu_traffic_allowed">Allowed</string>
-  <string name="menu_traffic_blocked">Blocked</string>
+  <string name="menu_protocol_other">Outro</string>
+  <string name="menu_traffic_allowed">Permitido</string>
+  <string name="menu_traffic_blocked">Bloqueado</string>
   <string name="menu_live">Atualizações ao vivo</string>
-  <string name="menu_refresh">Refresh</string>
+  <string name="menu_refresh">Atualizar</string>
   <string name="menu_resolve">Mostrar nomes</string>
   <string name="menu_pcap_enabled">PCAP ativado</string>
   <string name="menu_pcap_export">Exportar PCAP</string>
@@ -120,8 +120,8 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_downloading">Baixando\n%1s</string>
   <string name="msg_downloaded">Arquivos de hosts baixados</string>
   <string name="msg_download_last">Último download: %s</string>
-  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
-  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
+  <string name="msg_forward_start" formatted="false">Inicia redirecionamento de protocolo %1$s da porta %2$d para a porta %3$d de %4$s?</string>
+  <string name="msg_forward_stop">Parar redirecionamento do protocolo %1$s porta %2$d?</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
@@ -136,19 +136,20 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
   <string name="title_root">raiz</string>
-  <string name="title_mediaserver">mediaserver</string>
+  <string name="title_mediaserver">Servidor de Mídia</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
   <string name="title_pro">Versão PRO</string>
   <string name="title_pro_trial_until">Recursos da versão PRO disponíveis até %1$s</string>
   <string name="title_pro_trial_ended">O período de testes terminou</string>
-  <string name="title_pro_description">Os recursos a seguir estão disponíveis:</string>
+  <string name="title_pro_description">The following pro features are available:</string>
   <string name="title_pro_log">Visualizar registro de tráfego bloqueado</string>
   <string name="title_pro_filter">Filtrar tráfego de rede</string>
   <string name="title_pro_notify">Notificação de novos aplicativos</string>
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>
+  <string name="title_pro_all">All above pro features</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>

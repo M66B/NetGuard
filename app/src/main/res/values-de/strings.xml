@@ -118,8 +118,8 @@
   <string name="msg_downloading">Herunterladen\n%1s</string>
   <string name="msg_downloaded">Hosts-Datei heruntergeladen</string>
   <string name="msg_download_last">Letztes Herunterladen: %s</string>
-  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
-  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
+  <string name="msg_forward_start" formatted="false">Weiterleiten des Protokolls %1$s von Port %2$d zu Port %3$d über %4$s beginnen?</string>
+  <string name="msg_forward_stop">Weiterleiten des Protokolls %1$s Port %2$d stoppen?</string>
   <string name="title_conditions">Bedingungen</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
@@ -141,12 +141,13 @@
   <string name="title_pro">Pro-Funktionen</string>
   <string name="title_pro_trial_until">Pro-Funktionen-Testzeitraum bis %1$s</string>
   <string name="title_pro_trial_ended">Pro-Funktionen-Testzeitraum abgelaufen</string>
-  <string name="title_pro_description">Folgende Annehmlichkeiten stehen zur Verfügung:</string>
+  <string name="title_pro_description">The following pro features are available:</string>
   <string name="title_pro_log">Protokoll blockierter Verlehr anzeigen</string>
   <string name="title_pro_filter">Netzwerkverkehr filtern</string>
   <string name="title_pro_notify">Benachrichtigung über neue App</string>
   <string name="title_pro_speed">Netzwerkgeschwindigkeit Benachrichtigung</string>
   <string name="title_pro_theme">Aussehen (Design, Farben)</string>
+  <string name="title_pro_all">All above pro features</string>
   <string name="title_pro_buy">Detailinformationen</string>
   <string name="title_pro_bought">Aktiviert</string>
   <string name="title_pro_challenge">Challenge</string>

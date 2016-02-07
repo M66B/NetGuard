@@ -144,12 +144,13 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_pro">Funkcje Pro</string>
   <string name="title_pro_trial_until">Okres próbny funkcji Pro %1$s</string>
   <string name="title_pro_trial_ended">Okres próbny funkcji Pro zakończony</string>
-  <string name="title_pro_description">Następujące dogodne funkcje są dostępne:</string>
+  <string name="title_pro_description">The following pro features are available:</string>
   <string name="title_pro_log">View blocked traffic log</string>
   <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Powiadomienia z nowych aplikacji</string>
   <string name="title_pro_speed">Wykres prędkości sieci w powiadomieniach</string>
   <string name="title_pro_theme">Wygląd (motyw, kolor)</string>
+  <string name="title_pro_all">All above pro features</string>
   <string name="title_pro_buy">Detale</string>
   <string name="title_pro_bought">Włączone</string>
   <string name="title_pro_challenge">Wezwanie</string>

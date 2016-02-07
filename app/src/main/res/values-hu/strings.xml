@@ -144,12 +144,13 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_pro">Pro funkciók</string>
   <string name="title_pro_trial_until">Pro szolgáltatások kipróbálása eddig: %1$s</string>
   <string name="title_pro_trial_ended">Pro szolgáltatások kipróbálási ideje lejárt</string>
-  <string name="title_pro_description">A következő kényelmi funkciók állnak rendelkezésre:</string>
+  <string name="title_pro_description">The following pro features are available:</string>
   <string name="title_pro_log">Letiltott forgalom naplójának megnézése</string>
   <string name="title_pro_filter">Filter network traffic</string>
   <string name="title_pro_notify">Új alkalmazás értesítések</string>
   <string name="title_pro_speed">Hálózat sebesség grafikon értesítés</string>
   <string name="title_pro_theme">Megjelenés (téma, színek)</string>
+  <string name="title_pro_all">All above pro features</string>
   <string name="title_pro_buy">Részletek</string>
   <string name="title_pro_bought">Engedélyezve</string>
   <string name="title_pro_challenge">Hívás</string>
