@@ -265,6 +265,8 @@ public class ActivityPro extends AppCompatActivity {
         tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
         tvAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.VISIBLE : View.GONE);
 
-        llChallenge.setVisibility(IAB.isPurchased(SKU_DONATION, this) ? View.GONE : View.VISIBLE);
+        llChallenge.setVisibility(
+                IAB.isPurchased(SKU_DONATION, this) || !Util.isPlayStoreInstall(this)
+                        ? View.GONE : View.VISIBLE);
     }
 }
