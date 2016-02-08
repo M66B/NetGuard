@@ -1169,8 +1169,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     allowed = new Allowed();
                 } else {
                     allowed = new Allowed(fwd.raddr, fwd.rport);
-                    packet.daddr = fwd.raddr;
-                    packet.dport = fwd.rport;
+                    packet.data = "> " + fwd.raddr + ":" + fwd.rport;
                 }
             } else
                 allowed = new Allowed();
