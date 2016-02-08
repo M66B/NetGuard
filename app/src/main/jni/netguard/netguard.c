@@ -3334,8 +3334,8 @@ void log_packet(const struct arguments *args, jobject jpacket) {
     (*args->env)->CallVoidMethod(args->env, args->instance, midLogPacket, jpacket);
     jniCheckException(args->env);
 
-    (*args->env)->DeleteLocalRef(args->env, jpacket);
     (*args->env)->DeleteLocalRef(args->env, clsService);
+    (*args->env)->DeleteLocalRef(args->env, jpacket);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -3469,9 +3469,6 @@ struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket
             args->env, args->instance, midIsAddressAllowed, jpacket);
     jniCheckException(args->env);
 
-    (*args->env)->DeleteLocalRef(args->env, jpacket);
-    (*args->env)->DeleteLocalRef(args->env, clsService);
-
     if (jallowed != NULL) {
         if (fidRaddr == NULL) {
             const char *string = "Ljava/lang/String;";
@@ -3491,6 +3488,11 @@ struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket
 
         (*args->env)->DeleteLocalRef(args->env, jraddr);
     }
+
+
+    (*args->env)->DeleteLocalRef(args->env, jpacket);
+    (*args->env)->DeleteLocalRef(args->env, clsService);
+    (*args->env)->DeleteLocalRef(args->env, jallowed);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
