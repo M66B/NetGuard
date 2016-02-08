@@ -185,6 +185,46 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(
         log_android(ANDROID_LOG_WARN, "Not running thread %x", t);
 }
 
+JNIEXPORT jintArray JNICALL
+Java_eu_faircode_netguard_SinkholeService_jni_1get_1session_1count(JNIEnv *env, jobject instance) {
+    if (pthread_mutex_lock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
+
+    jintArray jarray = (*env)->NewIntArray(env, 3);
+    jint *jcount = (*env)->GetIntArrayElements(env, jarray, NULL);
+    jcount[0] = 0;
+    jcount[1] = 0;
+    jcount[2] = 0;
+
+    struct icmp_session *i = icmp_session;
+    while (i != NULL) {
+        if (i->socket >= 0)
+            jcount[0]++;
+        i = i->next;
+    }
+
+    struct udp_session *u = udp_session;
+    while (u != NULL) {
+        if (u->socket >= 0)
+            jcount[1]++;
+        u = u->next;
+    }
+
+    struct tcp_session *t = tcp_session;
+    while (t != NULL) {
+        if (t->socket >= 0)
+            jcount[2]++;
+        t = t->next;
+    }
+
+    if (pthread_mutex_unlock(&lock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+
+
+    (*env)->ReleaseIntArrayElements(env, jarray, jcount, NULL);
+    return jarray;
+}
+
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, jstring name_) {
     if (pthread_mutex_lock(&lock))

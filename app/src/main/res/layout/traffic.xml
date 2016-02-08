@@ -45,6 +45,16 @@
             android:text="▼"
             android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
             android:textColor="@color/colorReceive" />
+
+        <TextView
+            android:id="@+id/tvSessions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+            android:textSize="12sp"
+            android:typeface="monospace" />
     </LinearLayout>
 
     <TextView

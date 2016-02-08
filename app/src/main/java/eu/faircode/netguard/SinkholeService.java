@@ -146,6 +146,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_stop(int tun, boolean clear);
 
+    private native int[] jni_get_session_count();
+
     private static native void jni_pcap(String name);
 
     private native void jni_done();
@@ -480,6 +482,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             long frequency = Long.parseLong(prefs.getString("stats_frequency", "1000"));
             long samples = Long.parseLong(prefs.getString("stats_samples", "90"));
             float base = Long.parseLong(prefs.getString("stats_base", "5")) * 1000f;
+            boolean filter = prefs.getBoolean("filter", false);
+            boolean show_top = prefs.getBoolean("show_top", false);
+            int loglevel = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
 
             // Schedule next update
             mServiceHandler.sendEmptyMessageDelayed(MSG_STATS_UPDATE, frequency);
@@ -498,7 +503,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             float rxsec = 0;
             long ttx = TrafficStats.getTotalTxBytes();
             long trx = TrafficStats.getTotalRxBytes();
-            if (prefs.getBoolean("filter", false)) {
+            if (filter) {
                 ttx -= TrafficStats.getUidTxBytes(Process.myUid());
                 trx -= TrafficStats.getUidRxBytes(Process.myUid());
             }
@@ -512,7 +517,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
 
             // Calculate application speeds
-            if (prefs.getBoolean("show_top", false)) {
+            if (show_top) {
                 if (app.size() == 0) {
                     for (ApplicationInfo ainfo : getPackageManager().getInstalledApplications(0))
                         if (ainfo.uid != Process.myUid())
@@ -626,6 +631,18 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 remoteViews.setTextViewText(R.id.tvRx, getString(R.string.msg_kbsec, rxsec / 1000));
             else
                 remoteViews.setTextViewText(R.id.tvRx, getString(R.string.msg_mbsec, rxsec / 1000 / 1000));
+
+            if (filter && loglevel <= Log.WARN) {
+                int[] count = jni_get_session_count();
+                StringBuilder sb = new StringBuilder();
+                sb.append(count[0]);
+                sb.append('/');
+                sb.append(count[1]);
+                sb.append('/');
+                sb.append(count[2]);
+                remoteViews.setTextViewText(R.id.tvSessions, sb.toString());
+            } else
+                remoteViews.setTextViewText(R.id.tvSessions, "");
 
             // Show notification
             Intent main = new Intent(SinkholeService.this, ActivityMain.class);
@@ -840,7 +857,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             unprepare();
 
         if (log || filter) {
-            int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
+            int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
             jni_start(vpn.getFd(), mapForward.containsKey(53), prio);
         }
 
