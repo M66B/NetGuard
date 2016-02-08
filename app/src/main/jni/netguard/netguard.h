@@ -17,7 +17,7 @@
 #define UDP_KEEP_TIMEOUT 60 // seconds
 #define UDP_TIMEOUT_SCALE 25
 
-#define TCP_RECV_WINDOW 16384 // bytes
+#define TCP_RECV_WINDOW 16384 // bytes (maximum)
 #define TCP_SEND_WINDOW 16384 // bytes (maximum)
 #define TCP_INIT_TIMEOUT 30 // seconds ~net.inet.tcp.keepinit
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle

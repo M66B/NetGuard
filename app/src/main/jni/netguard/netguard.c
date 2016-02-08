@@ -28,6 +28,7 @@
 #include <pthread.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <dlfcn.h>
 
@@ -2455,8 +2456,9 @@ jboolean handle_tcp(const struct arguments *args,
 
             rst.source = tcphdr->source;
             rst.dest = tcphdr->dest;
-            write_rst(args, &rst);
+            rst.socket = -1;
 
+            write_rst(args, &rst);
             return 0;
         }
     }
@@ -3080,12 +3082,14 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
         csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ip6_hdr_pseudo));
     }
 
-    /*
-    int send_buf;
-    int olen = sizeof(send_buf);
-    if (!getsockopt(cur->socket, SOL_SOCKET, SO_SNDBUF, &send_buf, &olen))
-        log_android(ANDROID_LOG_WARN, "Send buffer socket %d size %d", cur->socket, send_buf);
-    */
+    int unsent = 0;
+    uint16_t window = TCP_RECV_WINDOW;
+    if (cur->socket >= 0) {
+        if (ioctl(cur->socket, SIOCOUTQ, &unsent))
+            log_android(ANDROID_LOG_WARN, "ioctl SIOCOUTQ %d: %s", errno, strerror(errno));
+        else
+            window = (uint16_t) (unsent < TCP_RECV_WINDOW ? TCP_RECV_WINDOW - unsent : 1);
+    }
 
     // Build TCP header
     memset(tcp, 0, sizeof(struct tcphdr));
@@ -3098,7 +3102,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     tcp->ack = (__u16) ack;
     tcp->fin = (__u16) fin;
     tcp->rst = (__u16) rst;
-    tcp->window = htons(TCP_RECV_WINDOW);
+    tcp->window = htons(window);
     tcp->urg_ptr;
 
     if (!tcp->ack)
