@@ -15,7 +15,7 @@
 #define UDP_TIMEOUT_53 15 // seconds
 #define UDP_TIMEOUT_ANY 300 // seconds
 #define UDP_KEEP_TIMEOUT 60 // seconds
-#define UDP_TIMEOUT_SCALE 10
+#define UDP_TIMEOUT_SCALE 25
 
 #define TCP_RECV_WINDOW 16384 // bytes
 #define TCP_SEND_WINDOW 16384 // bytes (maximum)
@@ -23,7 +23,7 @@
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
 #define TCP_CLOSE_TIMEOUT 3 // seconds
 #define TCP_KEEP_TIMEOUT 300 // seconds
-#define TCP_TIMEOUT_SCALE 20
+#define TCP_TIMEOUT_SCALE 50
 // https://en.wikipedia.org/wiki/Maximum_segment_lifetime
 
 #define UID_DELAY 1 // milliseconds
