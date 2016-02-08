@@ -711,7 +711,7 @@ int check_sessions(const struct arguments *args) {
         if (t->state != TCP_CLOSING && t->state != TCP_CLOSE && t->time + timeout < now) {
             // TODO send keep alives?
             log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ", session, now - t->time, timeout);
-            if (t->state == TCP_CLOSE_WAIT) {
+            if (t->state == TCP_CLOSE_WAIT && t->forward == NULL) {
                 t->remote_seq++; // remote FIN
                 if (write_fin_ack(args, t) >= 0) {
                     log_android(ANDROID_LOG_WARN, "%s finished idle", session);
@@ -719,8 +719,10 @@ int check_sessions(const struct arguments *args) {
                     t->state = TCP_LAST_ACK;
                 }
             }
-            else
+            else {
+                log_android(ANDROID_LOG_WARN, "%s reset idle", session);
                 write_rst(args, t);
+            }
         }
 
         // Check closing sessions
