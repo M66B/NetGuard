@@ -121,8 +121,8 @@
   <string name="msg_downloading">下载中\n%1s</string>
   <string name="msg_downloaded">Hosts 文件已下载</string>
   <string name="msg_download_last">最近下载: %s</string>
-  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
-  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
+  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>
   <string name="title_screen_other">亮屏时允许移动网络</string>
@@ -144,13 +144,13 @@
   <string name="title_pro">专业版功能</string>
   <string name="title_pro_trial_until">专业版功能试用截止至 %1$s</string>
   <string name="title_pro_trial_ended">专业版试用期已结束</string>
-  <string name="title_pro_description">The following pro features are available:</string>
+  <string name="title_pro_description">下列专业版功能可用:</string>
   <string name="title_pro_log">查看被拦截流量日志</string>
   <string name="title_pro_filter">过滤网络流量</string>
   <string name="title_pro_notify">新应用通知</string>
   <string name="title_pro_speed">网速示图通知</string>
   <string name="title_pro_theme">外观 (主题、 颜色)</string>
-  <string name="title_pro_all">All above pro features</string>
+  <string name="title_pro_all">以上所有专业版功能</string>
   <string name="title_pro_buy">详细信息</string>
   <string name="title_pro_bought">已启用</string>
   <string name="title_pro_challenge">验证口令</string>

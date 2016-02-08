@@ -117,8 +117,8 @@
   <string name="msg_downloading">A descarregar\n%1s</string>
   <string name="msg_downloaded">Ficheiro hosts descarregado</string>
   <string name="msg_download_last">Último descarregamento: %s</string>
-  <string name="msg_forward_start" formatted="false">Start forwarding of protocol %1$s from port %2$d to port %3$d of %4$s?</string>
-  <string name="msg_forward_stop">Stop forwarding of protocol %1$s port %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
+  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>

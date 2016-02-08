@@ -117,8 +117,8 @@
   <string name="msg_downloading">Scaricando\n%1s</string>
   <string name="msg_downloaded">File hosts scaricato</string>
   <string name="msg_download_last">Ultimo download: %s</string>
-  <string name="msg_forward_start" formatted="false">Inizio inoltro del protocollo %1$s dalla porta %2$d alla porta %3$d di %4$s?</string>
-  <string name="msg_forward_stop">Interruzione dell\'inoltro del protocollo %1$s con porta %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
+  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="title_conditions">Condizioni</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
   <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>

@@ -118,8 +118,8 @@
   <string name="msg_downloading">ダウンロード中\n%1s</string>
   <string name="msg_downloaded">Hosts ファイルをダウンロードしました</string>
   <string name="msg_download_last">最終ダウンロード: %s</string>
-  <string name="msg_forward_start" formatted="false">プロトコル %1$s ポート %2$d から %4$s のポート %3$d の転送を開始しますか?</string>
-  <string name="msg_forward_stop">プロトコル %1$s ポート %2$d の転送を停止しますか?</string>
+  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
+  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>
@@ -141,13 +141,13 @@
   <string name="title_pro">Pro版の機能</string>
   <string name="title_pro_trial_until">プロ版機能の試用は %1$s まで</string>
   <string name="title_pro_trial_ended">プロ版機能の試用期間は終了しました</string>
-  <string name="title_pro_description">The following pro features are available:</string>
+  <string name="title_pro_description">次の Pro 機能が利用可能です:</string>
   <string name="title_pro_log">ブロックされたトラフィックのログを表示</string>
   <string name="title_pro_filter">ネットワーク トラフィックのフィルター</string>
   <string name="title_pro_notify">新しいアプリケーションの通知</string>
   <string name="title_pro_speed">ネットワーク速度グラフ通知</string>
   <string name="title_pro_theme">外観 (テーマ、色)</string>
-  <string name="title_pro_all">All above pro features</string>
+  <string name="title_pro_all">上記すべての Pro 機能</string>
   <string name="title_pro_buy">詳細</string>
   <string name="title_pro_bought">有効</string>
   <string name="title_pro_challenge">チャレンジ</string>

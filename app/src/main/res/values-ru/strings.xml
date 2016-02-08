@@ -118,8 +118,8 @@
   <string name="msg_downloading">Загрузка\n%1s</string>
   <string name="msg_downloaded">hosts-файл загружен</string>
   <string name="msg_download_last">Последняя загрузка: %s</string>
-  <string name="msg_forward_start" formatted="false">Начать пересылку протокола %1$s из порта %2$d к порту %3$d из %4$s?</string>
-  <string name="msg_forward_stop">Остановить пересылку протокола %1$s порта %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
+  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="title_conditions">Условия</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>
@@ -141,13 +141,13 @@
   <string name="title_pro">Pro-функции</string>
   <string name="title_pro_trial_until">Pro-функции пробного периода до %1$s</string>
   <string name="title_pro_trial_ended">Pro-функции пробного периода закончились</string>
-  <string name="title_pro_description">The following pro features are available:</string>
+  <string name="title_pro_description">Доступны следующие Pro-функции:</string>
   <string name="title_pro_log">Просмотр журнала заблокированного трафика</string>
   <string name="title_pro_filter">Фильтр сетевого трафика</string>
   <string name="title_pro_notify">Новые уведомления</string>
   <string name="title_pro_speed">График скорости сети</string>
   <string name="title_pro_theme">Внешний вид (темы, цвета)</string>
-  <string name="title_pro_all">All above pro features</string>
+  <string name="title_pro_all">Все выше перечисленные Pro-функции</string>
   <string name="title_pro_buy">Добавить</string>
   <string name="title_pro_bought">Добавлено</string>
   <string name="title_pro_challenge">Задание</string>

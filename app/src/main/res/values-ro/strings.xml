@@ -118,8 +118,8 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_downloading">Se descarca\n%1s</string>
   <string name="msg_downloaded">Lista de domenii de blocat descarcata</string>
   <string name="msg_download_last">Ultima descarcare: %s</string>
-  <string name="msg_forward_start" formatted="false">Porneste redirectionarea protocolului %1$s de pe portul %2$d la %4$s portul %3$d?</string>
-  <string name="msg_forward_stop">Opreste redirectionarea protocolului %1$s de pe portul %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
+  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="title_conditions">Restrictii</string>
   <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
   <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>
@@ -141,13 +141,13 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_pro">Caracteristici versiune Pro</string>
   <string name="title_pro_trial_until">Perioada de testare a caracteristicilor versiunii Pro pana pe %1$s</string>
   <string name="title_pro_trial_ended">Perioada de testare a caracteristicilor versiunii Pro s-a incheiat</string>
-  <string name="title_pro_description">The following pro features are available:</string>
+  <string name="title_pro_description">Urmatoarele functii avansate sunt disponibile:</string>
   <string name="title_pro_log">Arata adresele blocate</string>
   <string name="title_pro_filter">Filtreaza traficul de retea</string>
   <string name="title_pro_notify">Notificare aplicatie nou instalata</string>
   <string name="title_pro_speed">Notificare cu grafic viteza conexiune</string>
   <string name="title_pro_theme">Tema, culori configurabile</string>
-  <string name="title_pro_all">All above pro features</string>
+  <string name="title_pro_all">Toate functiile avansate de mai sus</string>
   <string name="title_pro_buy">Detalii</string>
   <string name="title_pro_bought">Activat</string>
   <string name="title_pro_challenge">Intrebare de verificare</string>

@@ -120,8 +120,8 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_downloading">Baixando\n%1s</string>
   <string name="msg_downloaded">Arquivos de hosts baixados</string>
   <string name="msg_download_last">Último download: %s</string>
-  <string name="msg_forward_start" formatted="false">Inicia redirecionamento de protocolo %1$s da porta %2$d para a porta %3$d de %4$s?</string>
-  <string name="msg_forward_stop">Parar redirecionamento do protocolo %1$s porta %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
+  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
@@ -143,13 +143,13 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_pro">Versão PRO</string>
   <string name="title_pro_trial_until">Recursos da versão PRO disponíveis até %1$s</string>
   <string name="title_pro_trial_ended">O período de testes terminou</string>
-  <string name="title_pro_description">The following pro features are available:</string>
+  <string name="title_pro_description">Os seguintes recursos da versão PRO estão disponíveis:</string>
   <string name="title_pro_log">Visualizar registro de tráfego bloqueado</string>
   <string name="title_pro_filter">Filtrar tráfego de rede</string>
   <string name="title_pro_notify">Notificação de novos aplicativos</string>
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>
-  <string name="title_pro_all">All above pro features</string>
+  <string name="title_pro_all">Tudo sobre a versão PRO</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>
