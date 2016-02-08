@@ -41,8 +41,8 @@ struct arguments {
 };
 
 struct allowed {
-    char daddr[INET6_ADDRSTRLEN + 1];
-    uint16_t dport; // host notation
+    char raddr[INET6_ADDRSTRLEN + 1];
+    uint16_t rport; // host notation
 };
 
 struct segment {

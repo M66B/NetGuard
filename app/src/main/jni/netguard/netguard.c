@@ -126,7 +126,9 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
 
     loglevel = loglevel_;
     max_tun_msg = 0;
-    log_android(ANDROID_LOG_WARN, "Starting tun=%d level %d thread %x", tun, loglevel, thread_id);
+    log_android(ANDROID_LOG_WARN,
+                "Starting tun %d fwd53 %d level %d thread %x",
+                tun, fwd53, loglevel, thread_id);
 
     // Set blocking
     int flags = fcntl(tun, F_GETFL, 0);
@@ -1629,9 +1631,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     // Check if allowed
     int allowed = 0;
     struct allowed *redirect = NULL;
-    if (protocol == IPPROTO_UDP && dport == 53)
-        allowed = 1; // allow DNS
-    else if (protocol == IPPROTO_UDP && has_udp_session(args, pkt, payload))
+    if (protocol == IPPROTO_UDP && has_udp_session(args, pkt, payload))
         allowed = 1; // could be a lingering/blocked session
     else if (protocol == IPPROTO_TCP && !syn)
         allowed = 1; // assume existing session
@@ -1640,7 +1640,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
                 args, version, protocol, flags, source, sport, dest, dport, "", uid, 0);
         redirect = is_address_allowed(args, objPacket);
         allowed = (redirect != NULL);
-        if (redirect != NULL && (*redirect->daddr == 0 || redirect->dport == 0))
+        if (redirect != NULL && (*redirect->raddr == 0 || redirect->rport == 0))
             redirect = NULL;
     }
 
@@ -1995,18 +1995,19 @@ jboolean handle_udp(const struct arguments *args,
             addr6.sin6_port = cur->dest;
         }
     } else {
-        log_android(ANDROID_LOG_WARN, "UDP redirect to %s/%u",
-                    redirect->daddr, redirect->dport);
-        rversion = (strstr(redirect->daddr, ":") == NULL ? 4 : 6);
-        if (version == 4) {
+        rversion = (strstr(redirect->raddr, ":") == NULL ? 4 : 6);
+        log_android(ANDROID_LOG_WARN, "UDP%d redirect to %s/%u",
+                    rversion, redirect->raddr, redirect->rport);
+
+        if (rversion == 4) {
             addr4.sin_family = AF_INET;
-            inet_pton(AF_INET, redirect->daddr, &cur->daddr.ip4);
-            addr4.sin_port = htons(redirect->dport);
+            inet_pton(AF_INET, redirect->raddr, &addr4.sin_addr);
+            addr4.sin_port = htons(redirect->rport);
         }
         else {
             addr6.sin6_family = AF_INET6;
-            inet_pton(AF_INET6, redirect->daddr, &cur->daddr.ip6);
-            addr6.sin6_port = htons(redirect->dport);
+            inet_pton(AF_INET6, redirect->raddr, &addr6.sin6_addr);
+            addr6.sin6_port = htons(redirect->rport);
         }
     }
 
@@ -2650,18 +2651,19 @@ int open_tcp_socket(const struct arguments *args,
             addr6.sin6_port = cur->dest;
         }
     } else {
-        log_android(ANDROID_LOG_WARN, "TCP redirect to %s/%u",
-                    redirect->daddr, redirect->dport);
-        rversion = (strstr(redirect->daddr, ":") == NULL ? 4 : 6);
+        rversion = (strstr(redirect->raddr, ":") == NULL ? 4 : 6);
+        log_android(ANDROID_LOG_WARN, "TCP%d redirect to %s/%u",
+                    rversion, redirect->raddr, redirect->rport);
+
         if (rversion == 4) {
             addr4.sin_family = AF_INET;
-            inet_pton(AF_INET, redirect->daddr, &cur->daddr.ip4);
-            addr4.sin_port = htons(redirect->dport);
+            inet_pton(AF_INET, redirect->raddr, &addr4.sin_addr);
+            addr4.sin_port = htons(redirect->rport);
         }
         else {
             addr6.sin6_family = AF_INET6;
-            inet_pton(AF_INET6, redirect->daddr, &cur->daddr.ip6);
-            addr6.sin6_port = htons(redirect->dport);
+            inet_pton(AF_INET6, redirect->raddr, &addr6.sin6_addr);
+            addr6.sin6_port = htons(redirect->rport);
         }
     }
 
@@ -3444,8 +3446,8 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
 }
 
 static jmethodID midIsAddressAllowed = NULL;
-jfieldID fidAllowedDaddr = NULL;
-jfieldID fidAllowedDport = NULL;
+jfieldID fidRaddr = NULL;
+jfieldID fidRport = NULL;
 struct allowed allowed;
 
 struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket) {
@@ -3469,23 +3471,23 @@ struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket
     (*args->env)->DeleteLocalRef(args->env, clsService);
 
     if (jallowed != NULL) {
-        if (fidAllowedDaddr == NULL) {
+        if (fidRaddr == NULL) {
             const char *string = "Ljava/lang/String;";
-            fidAllowedDaddr = jniGetFieldID(args->env, clsAllowed, "daddr", string);
-            fidAllowedDport = jniGetFieldID(args->env, clsAllowed, "dport", "I");
+            fidRaddr = jniGetFieldID(args->env, clsAllowed, "raddr", string);
+            fidRport = jniGetFieldID(args->env, clsAllowed, "rport", "I");
         }
 
-        jstring jdaddr = (*args->env)->GetObjectField(args->env, jallowed, fidAllowedDaddr);
-        if (jdaddr == NULL)
-            *allowed.daddr = 0;
+        jstring jraddr = (*args->env)->GetObjectField(args->env, jallowed, fidRaddr);
+        if (jraddr == NULL)
+            *allowed.raddr = 0;
         else {
-            const char *daddr = (*args->env)->GetStringUTFChars(args->env, jdaddr, NULL);
-            strcpy(allowed.daddr, daddr);
-            (*args->env)->ReleaseStringUTFChars(args->env, jdaddr, daddr);
+            const char *raddr = (*args->env)->GetStringUTFChars(args->env, jraddr, NULL);
+            strcpy(allowed.raddr, raddr);
+            (*args->env)->ReleaseStringUTFChars(args->env, jraddr, raddr);
         }
-        allowed.dport = (uint16_t) (*args->env)->GetIntField(args->env, jallowed, fidAllowedDport);
+        allowed.rport = (uint16_t) (*args->env)->GetIntField(args->env, jallowed, fidRport);
 
-        (*args->env)->DeleteLocalRef(args->env, jdaddr);
+        (*args->env)->DeleteLocalRef(args->env, jraddr);
     }
 
 #ifdef PROFILE_JNI

@@ -106,6 +106,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
     private Map<Long, Map<InetAddress, Boolean>> mapUidIPFilters = new HashMap<>();
+    private Map<Integer, Forward> mapForward = new HashMap<>();
 
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
@@ -834,12 +835,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             prepareUidAllowed(listAllowed);
             prepareHostsBlocked();
             prepareUidIPFilters();
+            prepareForwarding();
         } else
             unprepare();
 
         if (log || filter) {
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
-            jni_start(vpn.getFd(), false, prio);
+            jni_start(vpn.getFd(), mapForward.containsKey(53), prio);
         }
 
         // Native needs to be started for name resolving
@@ -861,6 +863,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         mapUidAllowed.clear();
         mapHostsBlocked.clear();
         mapUidIPFilters.clear();
+        mapForward.clear();
     }
 
     private void prepareUidAllowed(List<Rule> listAllowed) {
@@ -914,7 +917,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         Map<Long, Map<InetAddress, Boolean>> map = new HashMap<>();
 
         DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
-
 
         Cursor cursor = dh.getDns();
         int colUid = cursor.getColumnIndex("uid");
@@ -975,6 +977,32 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
         }
         cursor.close();
+        dh.close();
+    }
+
+    private void prepareForwarding() {
+        mapForward.clear();
+
+        DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+
+        Cursor cursor = dh.getForward();
+        int colProtocol = cursor.getColumnIndex("protocol");
+        int colDPort = cursor.getColumnIndex("dport");
+        int colRAddr = cursor.getColumnIndex("raddr");
+        int colRPort = cursor.getColumnIndex("rport");
+        int colRUid = cursor.getColumnIndex("ruid");
+        while (cursor.moveToNext()) {
+            Forward fwd = new Forward();
+            fwd.protocol = cursor.getInt(colProtocol);
+            fwd.dport = cursor.getInt(colDPort);
+            fwd.raddr = cursor.getString(colRAddr);
+            fwd.rport = cursor.getInt(colRPort);
+            fwd.ruid = cursor.getInt(colRUid);
+            mapForward.put(fwd.dport, fwd);
+            Log.i(TAG, "Forward " + fwd);
+        }
+        cursor.close();
+
         dh.close();
     }
 
@@ -1133,10 +1161,25 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
         }
 
+        Allowed allowed = null;
+        if (packet.allowed) {
+            if (mapForward.containsKey(packet.dport)) {
+                Forward fwd = mapForward.get(packet.dport);
+                if (fwd.ruid == packet.uid) {
+                    allowed = new Allowed();
+                } else {
+                    allowed = new Allowed(fwd.raddr, fwd.rport);
+                    packet.daddr = fwd.raddr;
+                    packet.dport = fwd.rport;
+                }
+            } else
+                allowed = new Allowed();
+        }
+
         if (prefs.getBoolean("log", false) || prefs.getBoolean("log_app", false))
             logPacket(packet);
 
-        return (packet.allowed ? new Allowed() : null);
+        return allowed;
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {

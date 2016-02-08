@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 15;
+    private static final int DB_VERSION = 16;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -155,6 +155,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE INDEX idx_dns ON dns(qname, aname, resource)");
     }
 
+    private void createTableForward(SQLiteDatabase db) {
+        Log.i(TAG, "Creating forward table");
+        db.execSQL("CREATE TABLE forward (" +
+                " ID INTEGER PRIMARY KEY AUTOINCREMENT" +
+                ", protocol INTEGER NOT NULL" +
+                ", dport INTEGER NOT NULL" +
+                ", raddr TEXT NOT NULL" +
+                ", rport INTEGER NOT NULL" +
+                ", ruid INTEGER NOT NULL" +
+                ");");
+        db.execSQL("CREATE UNIQUE INDEX idx_forward ON forward(protocol, dport)");
+    }
+
     private boolean columnExists(SQLiteDatabase db, String table, String column) {
         Cursor cursor = null;
         try {
@@ -250,6 +263,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("DROP TABLE access");
                 createTableAccess(db);
                 oldVersion = 15;
+            }
+            if (oldVersion < 16) {
+                createTableForward(db);
+                oldVersion = 16;
             }
 
             if (oldVersion == DB_VERSION) {
@@ -468,6 +485,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.compileStatement("SELECT COUNT(*) FROM access WHERE block >=0 AND uid =" + uid).simpleQueryForLong();
     }
 
+    // DNS
+
     public DatabaseHelper insertDns(ResourceRecord rr) {
         synchronized (context.getApplicationContext()) {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -486,12 +505,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 if (db.insert("dns", null, cv) == -1)
                     Log.e(TAG, "Insert dns failed");
-                else
-                    Log.i(TAG, "Inserted " + rr);
             } else if (rows != 1)
                 Log.e(TAG, "Update dns failed rows=" + rows);
-            else
-                Log.i(TAG, "Updated " + rr);
         }
 
         return this;
@@ -533,6 +548,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{});
     }
 
+    // Forward
+
+    public DatabaseHelper addForward(int protocol, int dport, String raddr, int rport, int ruid) {
+        synchronized (context.getApplicationContext()) {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+            cv.put("protocol", protocol);
+            cv.put("dport", dport);
+            cv.put("raddr", raddr);
+            cv.put("rport", rport);
+            cv.put("ruid", ruid);
+
+            if (db.insert("forward", null, cv) < 0)
+                Log.e(TAG, "Insert forward failed");
+        }
+        return this;
+    }
+
+    public DatabaseHelper deleteForward(int protocol, int dport) {
+        synchronized (context.getApplicationContext()) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete("forward", "protocol = ? AND dport = ?",
+                    new String[]{Integer.toString(protocol), Integer.toString(dport)});
+        }
+        return this;
+    }
+
+    public Cursor getForward() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query("forward", null, null, null, null, null, null);
+    }
+
     public void addLogChangedListener(LogChangedListener listener) {
         logChangedListeners.add(listener);
     }
@@ -565,10 +613,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Batch notifications
         try {
             Thread.sleep(1000);
-            if (handler.hasMessages(msg.what)) {
-                Log.i(TAG, "Batching notifications what=" + msg.what);
+            if (handler.hasMessages(msg.what))
                 handler.removeMessages(msg.what);
-            }
         } catch (InterruptedException ignored) {
         }
 

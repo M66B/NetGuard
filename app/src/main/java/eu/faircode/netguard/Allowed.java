@@ -1,16 +1,16 @@
 package eu.faircode.netguard;
 
 public class Allowed {
-    public String daddr;
-    public int dport;
+    public String raddr;
+    public int rport;
 
     public Allowed() {
-        this.daddr = null;
-        this.dport = 0;
+        this.raddr = null;
+        this.rport = 0;
     }
 
-    public Allowed(String daddr, int dport) {
-        this.daddr = daddr;
-        this.dport = dport;
+    public Allowed(String raddr, int rport) {
+        this.raddr = raddr;
+        this.rport = rport;
     }
 }

@@ -23,6 +23,7 @@ package eu.faircode.netguard;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,9 +43,11 @@ public class ActivityForward extends Activity {
         setContentView(R.layout.forward);
 
         final int protocol = getIntent().getIntExtra("protocol", 0);
-        final int source = getIntent().getIntExtra("source", 0);
-        final int target = getIntent().getIntExtra("target", 0);
-        final int uid = getIntent().getIntExtra("uid", 0);
+        final int dport = getIntent().getIntExtra("dport", 0);
+        String addr = getIntent().getStringExtra("raddr");
+        final int rport = getIntent().getIntExtra("rport", 0);
+        final int ruid = getIntent().getIntExtra("ruid", 0);
+        final String raddr = (addr == null ? "127.0.0.1" : addr);
 
         String pname;
         if (protocol == 6)
@@ -56,11 +59,11 @@ public class ActivityForward extends Activity {
 
         TextView tvForward = (TextView) findViewById(R.id.tvForward);
         if (ACTION_START_PORT_FORWARD.equals(getIntent().getAction()))
-            tvForward.setText(getString(R.string.msg_forward_start,
-                    pname, source, target,
-                    TextUtils.join(", ", Util.getApplicationNames(uid, this))));
+            tvForward.setText(getString(R.string.msg_start_forward,
+                    pname, dport, raddr, rport,
+                    TextUtils.join(", ", Util.getApplicationNames(ruid, this))));
         else
-            tvForward.setText(getString(R.string.msg_forward_stop, pname, source));
+            tvForward.setText(getString(R.string.msg_stop_forward, pname, dport));
 
         Button btnOk = (Button) findViewById(R.id.btnOk);
         Button btnCancel = (Button) findViewById(R.id.btnCancel);
@@ -69,21 +72,37 @@ public class ActivityForward extends Activity {
             @Override
             public void onClick(View view) {
                 if (ACTION_START_PORT_FORWARD.equals(getIntent().getAction())) {
-                    // am start -a eu.faircode.netguard.START_PORT_FORWARD \
-                    // -n eu.faircode.netguard/eu.faircode.netguard.ActivityForward \
-                    // --ei protocol <protocol> \
-                    // --ei source <source> \
-                    // --ei target <target> \
-                    // --ei uid <uid> \
-                    // --user 0
+/*
+am start -a eu.faircode.netguard.START_PORT_FORWARD \
+-n eu.faircode.netguard/eu.faircode.netguard.ActivityForward \
+--ei protocol 17 \
+--ei dport 53 \
+--es raddr 8.8.4.4 \
+--ei rport 53 \
+--ei ruid 1 \
+--user 0
+*/
+                    Log.i(TAG, "Start forwarding protocol " + protocol + " port " + dport + " to " + raddr + ":" + rport + " uid " + ruid);
+                    DatabaseHelper dh = new DatabaseHelper(ActivityForward.this);
+                    dh.deleteForward(protocol, dport);
+                    dh.addForward(protocol, dport, raddr, rport, ruid);
+                    dh.close();
 
                 } else if (ACTION_STOP_PORT_FORWARD.equals(getIntent().getAction())) {
-                    // am start -a eu.faircode.netguard.STOP_PORT_FORWARD \
-                    // -n eu.faircode.netguard/eu.faircode.netguard.ActivityForward \
-                    // --ei protocol <protocol> \
-                    // --ei source <source> \
-                    // --user 0
+/*
+am start -a eu.faircode.netguard.STOP_PORT_FORWARD \
+-n eu.faircode.netguard/eu.faircode.netguard.ActivityForward \
+--ei protocol 17 \
+--ei dport 53 \
+--user 0
+*/
+                    Log.i(TAG, "Stop forwarding protocol " + protocol + " port " + dport);
+                    new DatabaseHelper(ActivityForward.this)
+                            .deleteForward(protocol, dport)
+                            .close();
                 }
+
+                SinkholeService.reload(null, "port forwarding", ActivityForward.this);
 
                 finish();
             }
