@@ -5,8 +5,8 @@ public class Allowed {
     public int dport;
 
     public Allowed() {
-        this.daddr = "test";
-        this.dport = 80;
+        this.daddr = null;
+        this.dport = 0;
     }
 
     public Allowed(String daddr, int dport) {

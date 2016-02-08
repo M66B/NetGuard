@@ -58,7 +58,6 @@ static pthread_mutex_t lock;
 static jboolean stopping = 0;
 static jboolean signaled = 0;
 
-static struct port_forward *port_forward = NULL;
 static struct icmp_session *icmp_session = NULL;
 static struct udp_session *udp_session = NULL;
 static struct tcp_session *tcp_session = NULL;
@@ -111,7 +110,6 @@ void JNI_OnUnload(JavaVM *vm, void *reserved) {
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
-    port_forward = NULL;
     icmp_session = NULL;
     udp_session = NULL;
     tcp_session = NULL;
@@ -124,7 +122,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1start(
-        JNIEnv *env, jobject instance, jint tun, jint loglevel_) {
+        JNIEnv *env, jobject instance, jint tun, jboolean fwd53, jint loglevel_) {
 
     loglevel = loglevel_;
     max_tun_msg = 0;
@@ -148,6 +146,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
         // args->env = will be set in thread
         args->instance = (*env)->NewGlobalRef(env, instance);
         args->tun = tun;
+        args->fwd53 = fwd53;
 
         // Start native thread
         int err = pthread_create(&thread_id, NULL, handle_events, (void *) args);
@@ -243,62 +242,6 @@ Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instanc
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_destroy failed");
 }
 
-
-// JNI ForwardService
-
-JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_ActivityForward_jni_1stop_1port_1forward(
-        JNIEnv *env, jobject instance, jint protocol, jint source) {
-    log_android(ANDROID_LOG_WARN, "Stop port forwarding to protocol %d port %d", protocol, source);
-
-    if (pthread_mutex_lock(&lock))
-        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
-
-    struct port_forward *l = NULL;
-    struct port_forward *f = port_forward;
-    while (f != NULL && f->protocol != protocol && f->source != source) {
-        l = f;
-        f = f->next;
-    }
-
-    if (f != NULL) {
-        if (l == NULL)
-            port_forward = f->next;
-        else
-            l->next = f->next;
-        free(f);
-    }
-
-    if (pthread_mutex_unlock(&lock))
-        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
-}
-
-JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_ActivityForward_jni_1start_1port_1forward(
-        JNIEnv *env, jobject instance, jint protocol, jint source, jint target, jint uid) {
-
-    Java_eu_faircode_netguard_ActivityForward_jni_1stop_1port_1forward(
-            env, instance, protocol, source);
-
-    log_android(ANDROID_LOG_WARN,
-                "Start port forwarding protocol %d from %d to %d uid %d",
-                protocol, source, target, uid);
-
-    if (pthread_mutex_lock(&lock))
-        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
-
-    struct port_forward *forward = malloc(sizeof(struct port_forward));
-    forward->protocol = protocol;
-    forward->source = source;
-    forward->target = target;
-    forward->uid = uid;
-    forward->next = port_forward;
-    port_forward = forward;
-
-    if (pthread_mutex_unlock(&lock))
-        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
-}
-
 // JNI Util
 
 JNIEXPORT jstring JNICALL
@@ -316,14 +259,6 @@ Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring na
 // Private functions
 
 void clear_sessions() {
-    struct port_forward *f = port_forward;
-    while (f != NULL) {
-        struct port_forward *p = f;
-        f = f->next;
-        free(p);
-    }
-    port_forward = NULL;
-
     struct icmp_session *i = icmp_session;
     while (i != NULL) {
         if (i->socket >= 0 && close(i->socket))
@@ -1643,15 +1578,10 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     }
     flags[flen] = 0;
 
-    struct port_forward *fwd53 = port_forward;
-    while (fwd53 != NULL && fwd53->protocol != IPPROTO_UDP && fwd53->source != 53)
-        fwd53 = fwd53->next;
-
     // Get uid
     jint uid = -1;
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6 ||
-        (protocol == IPPROTO_UDP &&
-         (dport != 53 || fwd53 != NULL) && !has_udp_session(pkt, payload)) ||
+        (protocol == IPPROTO_UDP && !has_udp_session(args, pkt, payload)) ||
         (protocol == IPPROTO_TCP && syn)) {
         log_android(ANDROID_LOG_INFO, "get uid %s/%u version %d protocol %d syn %d",
                     dest, dport, version, protocol, syn);
@@ -1698,16 +1628,20 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 
     // Check if allowed
     int allowed = 0;
+    struct allowed *redirect = NULL;
     if (protocol == IPPROTO_UDP && dport == 53)
         allowed = 1; // allow DNS
-    else if (protocol == IPPROTO_UDP && has_udp_session(pkt, payload))
+    else if (protocol == IPPROTO_UDP && has_udp_session(args, pkt, payload))
         allowed = 1; // could be a lingering/blocked session
     else if (protocol == IPPROTO_TCP && !syn)
-        allowed = 1; // assume session
+        allowed = 1; // assume existing session
     else {
         jobject objPacket = create_packet(
                 args, version, protocol, flags, source, sport, dest, dport, "", uid, 0);
-        allowed = (is_address_allowed(args, objPacket) != NULL);
+        redirect = is_address_allowed(args, objPacket);
+        allowed = (redirect != NULL);
+        if (redirect != NULL && (*redirect->daddr == 0 || redirect->dport == 0))
+            redirect = NULL;
     }
 
     // Handle allowed traffic
@@ -1715,9 +1649,9 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6)
             handle_icmp(args, pkt, length, payload, uid);
         else if (protocol == IPPROTO_UDP)
-            handle_udp(args, pkt, length, payload, uid);
+            handle_udp(args, pkt, length, payload, uid, redirect);
         else if (protocol == IPPROTO_TCP)
-            handle_tcp(args, pkt, length, payload, uid);
+            handle_tcp(args, pkt, length, payload, uid, redirect);
     }
     else {
         if (protocol == IPPROTO_UDP)
@@ -1860,12 +1794,15 @@ jboolean handle_icmp(const struct arguments *args,
     return 1;
 }
 
-int has_udp_session(const uint8_t *pkt, const uint8_t *payload) {
+int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload) {
     // Get headers
     const uint8_t version = (*pkt) >> 4;
     const struct iphdr *ip4 = (struct iphdr *) pkt;
     const struct ip6_hdr *ip6 = (struct ip6_hdr *) pkt;
     const struct udphdr *udphdr = (struct udphdr *) payload;
+
+    if (ntohs(udphdr->dest) == 53 && !args->fwd53)
+        return 1;
 
     // Search session
     struct udp_session *cur = udp_session;
@@ -1930,7 +1867,7 @@ void block_udp(const struct arguments *args,
 jboolean handle_udp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
-                    int uid) {
+                    int uid, struct allowed *redirect) {
     // Get headers
     const uint8_t version = (*pkt) >> 4;
     const struct iphdr *ip4 = (struct iphdr *) pkt;
@@ -2043,43 +1980,39 @@ jboolean handle_udp(const struct arguments *args,
 
     cur->time = time(NULL);
 
-    struct sockaddr_in server4;
-    struct sockaddr_in6 server6;
-    if (version == 4) {
-        server4.sin_family = AF_INET;
-        server4.sin_addr.s_addr = (__be32) ip4->daddr;
-        server4.sin_port = udphdr->dest;
+    int rversion;
+    struct sockaddr_in addr4;
+    struct sockaddr_in6 addr6;
+    if (redirect == NULL) {
+        rversion = cur->version;
+        if (cur->version == 4) {
+            addr4.sin_family = AF_INET;
+            addr4.sin_addr.s_addr = (__be32) cur->daddr.ip4;
+            addr4.sin_port = cur->dest;
+        } else {
+            addr6.sin6_family = AF_INET6;
+            memcpy(&addr6.sin6_addr, &cur->daddr.ip6, 16);
+            addr6.sin6_port = cur->dest;
+        }
     } else {
-        server6.sin6_family = AF_INET6;
-        memcpy(&server6.sin6_addr, &ip6->ip6_dst, 16);
-        server6.sin6_port = udphdr->dest;
-    }
-
-    // Port forwarding
-    struct port_forward *fwd = port_forward;
-    while (fwd != NULL && fwd->protocol != IPPROTO_UDP && fwd->source != ntohs(udphdr->dest))
-        fwd = fwd->next;
-    if (fwd != NULL) {
-        if (fwd->uid == cur->uid)
-            log_android(ANDROID_LOG_WARN, "UDP passthrough %u uid %d", fwd->source, cur->uid);
+        log_android(ANDROID_LOG_WARN, "UDP redirect to %s/%u",
+                    redirect->daddr, redirect->dport);
+        rversion = (strstr(redirect->daddr, ":") == NULL ? 4 : 6);
+        if (version == 4) {
+            addr4.sin_family = AF_INET;
+            inet_pton(AF_INET, redirect->daddr, &cur->daddr.ip4);
+            addr4.sin_port = htons(redirect->dport);
+        }
         else {
-            log_android(ANDROID_LOG_WARN, "UDP forward %u > %u uid %d",
-                        fwd->source, fwd->target, cur->uid);
-
-            if (cur->version == 4) {
-                inet_pton(AF_INET, "127.0.0.1", &server4.sin_addr);
-                server4.sin_port = htons(fwd->target);
-            }
-            else {
-                inet_pton(AF_INET6, "::1", &server6.sin6_addr);
-                server6.sin6_port = htons(fwd->target);
-            }
+            addr6.sin6_family = AF_INET6;
+            inet_pton(AF_INET6, redirect->daddr, &cur->daddr.ip6);
+            addr6.sin6_port = htons(redirect->dport);
         }
     }
 
     if (sendto(cur->socket, data, (socklen_t) datalen, MSG_NOSIGNAL,
-               (const struct sockaddr *) (version == 4 ? &server4 : &server6),
-               (socklen_t) (version == 4 ? sizeof(server4) : sizeof(server6))) != datalen) {
+               (const struct sockaddr *) (rversion == 4 ? &addr4 : &addr6),
+               (socklen_t) (version == 4 ? sizeof(addr4) : sizeof(addr6))) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %d: %s", errno, strerror(errno));
         if (errno != EINTR && errno != EAGAIN) {
             cur->state = UDP_FINISHING;
@@ -2310,7 +2243,7 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
-                    int uid) {
+                    int uid, struct allowed *redirect) {
     // Get headers
     const uint8_t version = (*pkt) >> 4;
     const struct iphdr *ip4 = (struct iphdr *) pkt;
@@ -2407,7 +2340,7 @@ jboolean handle_tcp(const struct arguments *args,
             }
 
             // Open socket
-            syn->socket = open_tcp_socket(args, syn);
+            syn->socket = open_tcp_socket(args, syn, redirect);
             if (syn->socket < 0) {
                 // Remote might retry
                 free(syn);
@@ -2678,7 +2611,8 @@ int open_udp_socket(const struct arguments *args, const struct udp_session *cur)
     return sock;
 }
 
-int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur) {
+int open_tcp_socket(const struct arguments *args,
+                    const struct tcp_session *cur, const struct allowed *redirect) {
     int sock;
 
     // Get TCP socket
@@ -2701,43 +2635,39 @@ int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur)
     }
 
     // Build target address
+    int rversion;
     struct sockaddr_in addr4;
     struct sockaddr_in6 addr6;
-    if (cur->version == 4) {
-        addr4.sin_family = AF_INET;
-        addr4.sin_addr.s_addr = (__be32) cur->daddr.ip4;
-        addr4.sin_port = cur->dest;
+    if (redirect == NULL) {
+        rversion = cur->version;
+        if (cur->version == 4) {
+            addr4.sin_family = AF_INET;
+            addr4.sin_addr.s_addr = (__be32) cur->daddr.ip4;
+            addr4.sin_port = cur->dest;
+        } else {
+            addr6.sin6_family = AF_INET6;
+            memcpy(&addr6.sin6_addr, &cur->daddr.ip6, 16);
+            addr6.sin6_port = cur->dest;
+        }
     } else {
-        addr6.sin6_family = AF_INET6;
-        memcpy(&addr6.sin6_addr, &cur->daddr.ip6, 16);
-        addr6.sin6_port = cur->dest;
-    }
-
-    // Port forwarding
-    struct port_forward *fwd = port_forward;
-    while (fwd != NULL && fwd->protocol != IPPROTO_TCP && fwd->source != ntohs(cur->dest))
-        fwd = fwd->next;
-    if (fwd != NULL) {
-        if (fwd->uid == cur->uid)
-            log_android(ANDROID_LOG_WARN, "TCP passthrough %u uid %d", fwd->source, cur->uid);
+        log_android(ANDROID_LOG_WARN, "TCP redirect to %s/%u",
+                    redirect->daddr, redirect->dport);
+        rversion = (strstr(redirect->daddr, ":") == NULL ? 4 : 6);
+        if (rversion == 4) {
+            addr4.sin_family = AF_INET;
+            inet_pton(AF_INET, redirect->daddr, &cur->daddr.ip4);
+            addr4.sin_port = htons(redirect->dport);
+        }
         else {
-            log_android(ANDROID_LOG_WARN, "TCP forward %u > %u uid %d",
-                        fwd->source, fwd->target, cur->uid);
-
-            if (cur->version == 4) {
-                inet_pton(AF_INET, "127.0.0.1", &addr4.sin_addr);
-                addr4.sin_port = htons(fwd->target);
-            }
-            else {
-                inet_pton(AF_INET6, "::1", &addr6.sin6_addr);
-                addr6.sin6_port = htons(fwd->target);
-            }
+            addr6.sin6_family = AF_INET6;
+            inet_pton(AF_INET6, redirect->daddr, &cur->daddr.ip6);
+            addr6.sin6_port = htons(redirect->dport);
         }
     }
 
     // Initiate connect
     int err = connect(sock,
-                      (const struct sockaddr *) (cur->version == 4 ? &addr4 : &addr6),
+                      (const struct sockaddr *) (rversion == 4 ? &addr4 : &addr6),
                       (socklen_t) (cur->version == 4
                                    ? sizeof(struct sockaddr_in)
                                    : sizeof(struct sockaddr_in6)));
@@ -3546,11 +3476,16 @@ struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket
         }
 
         jstring jdaddr = (*args->env)->GetObjectField(args->env, jallowed, fidAllowedDaddr);
-        const char *daddr = (*args->env)->GetStringUTFChars(args->env, jdaddr, NULL);
-        strcpy(allowed.daddr, daddr);
-        (*args->env)->ReleaseStringUTFChars(args->env, jdaddr, daddr);
-
+        if (jdaddr == NULL)
+            *allowed.daddr = 0;
+        else {
+            const char *daddr = (*args->env)->GetStringUTFChars(args->env, jdaddr, NULL);
+            strcpy(allowed.daddr, daddr);
+            (*args->env)->ReleaseStringUTFChars(args->env, jdaddr, daddr);
+        }
         allowed.dport = (uint16_t) (*args->env)->GetIntField(args->env, jallowed, fidAllowedDport);
+
+        (*args->env)->DeleteLocalRef(args->env, jdaddr);
     }
 
 #ifdef PROFILE_JNI

@@ -32,10 +32,6 @@ public class ActivityForward extends Activity {
     private static final String ACTION_START_PORT_FORWARD = "eu.faircode.netguard.START_PORT_FORWARD";
     private static final String ACTION_STOP_PORT_FORWARD = "eu.faircode.netguard.STOP_PORT_FORWARD";
 
-    private native void jni_start_port_forward(int protocol, int source, int target, int uid);
-
-    private native void jni_stop_port_forward(int protocol, int source);
-
     static {
         System.loadLibrary("netguard");
     }
@@ -78,15 +74,15 @@ public class ActivityForward extends Activity {
                     // --ei protocol <protocol> \
                     // --ei source <source> \
                     // --ei target <target> \
-                    // --ei uid <uid>
-                    jni_start_port_forward(protocol, source, target, uid);
+                    // --ei uid <uid> \
+                    // --user 0
 
                 } else if (ACTION_STOP_PORT_FORWARD.equals(getIntent().getAction())) {
                     // am start -a eu.faircode.netguard.STOP_PORT_FORWARD \
                     // -n eu.faircode.netguard/eu.faircode.netguard.ActivityForward \
                     // --ei protocol <protocol> \
                     // --ei source <source> \
-                    jni_stop_port_forward(protocol, source);
+                    // --user 0
                 }
 
                 finish();

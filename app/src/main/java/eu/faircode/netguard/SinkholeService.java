@@ -141,7 +141,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init();
 
-    private native void jni_start(int tun, int loglevel);
+    private native void jni_start(int tun, boolean fwd53, int loglevel);
 
     private native void jni_stop(int tun, boolean clear);
 
@@ -839,7 +839,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         if (log || filter) {
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.INFO)));
-            jni_start(vpn.getFd(), prio);
+            jni_start(vpn.getFd(), false, prio);
         }
 
         // Native needs to be started for name resolving

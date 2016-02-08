@@ -37,19 +37,12 @@ struct arguments {
     JNIEnv *env;
     jobject instance;
     int tun;
+    jboolean fwd53;
 };
 
 struct allowed {
     char daddr[INET6_ADDRSTRLEN + 1];
-    uint16_t dport;
-};
-
-struct port_forward {
-    uint8_t protocol;
-    uint16_t source;
-    uint16_t target;
-    uint16_t uid;
-    struct port_forward *next;
+    uint16_t dport; // host notation
 };
 
 struct segment {
@@ -301,7 +294,7 @@ jboolean handle_icmp(const struct arguments *args,
                      const uint8_t *payload,
                      int uid);
 
-int has_udp_session(const uint8_t *pkt, const uint8_t *payload);
+int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload);
 
 void block_udp(const struct arguments *args,
                const uint8_t *pkt, size_t length,
@@ -311,7 +304,7 @@ void block_udp(const struct arguments *args,
 jboolean handle_udp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
-                    int uid);
+                    int uid, struct allowed *redirect);
 
 int get_dns_query(const struct arguments *args, const struct udp_session *u,
                   const uint8_t *data, const size_t datalen,
@@ -327,7 +320,7 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
-                    int uid);
+                    int uid, struct allowed *redirect);
 
 void forward_tcp(const struct arguments *args,
                  const struct tcphdr *tcphdr,
@@ -338,7 +331,8 @@ int open_icmp_socket(const struct arguments *args, const struct icmp_session *cu
 
 int open_udp_socket(const struct arguments *args, const struct udp_session *cur);
 
-int open_tcp_socket(const struct arguments *args, const struct tcp_session *cur);
+int open_tcp_socket(const struct arguments *args,
+                    const struct tcp_session *cur, const struct allowed *redirect);
 
 int32_t get_local_port(const int sock);
 
