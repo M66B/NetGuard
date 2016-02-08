@@ -670,7 +670,7 @@ int check_sessions(const struct arguments *args) {
                 inet_ntop(AF_INET6, &i->saddr.ip6, source, sizeof(source));
                 inet_ntop(AF_INET6, &i->daddr.ip6, dest, sizeof(dest));
             }
-            log_android(ANDROID_LOG_INFO, "ICMP idle %d/%d sec stop %d from %s to %s",
+            log_android(ANDROID_LOG_WARN, "ICMP idle %d/%d sec stop %d from %s to %s",
                         now - i->time, timeout, i->stop, dest, source);
 
             if (close(i->socket))
@@ -712,7 +712,7 @@ int check_sessions(const struct arguments *args) {
         // Check session timeout
         int timeout = get_udp_timeout(u);
         if (u->state == UDP_ACTIVE && u->time + timeout < now) {
-            log_android(ANDROID_LOG_INFO, "UDP idle %d/%d sec state %d from %s/%u to %s/%u",
+            log_android(ANDROID_LOG_WARN, "UDP idle %d/%d sec state %d from %s/%u to %s/%u",
                         now - u->time, timeout, u->state,
                         source, ntohs(u->source), dest, ntohs(u->dest));
             u->state = UDP_FINISHING;
@@ -1509,6 +1509,11 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     // Get protocol, addresses & payload
     uint8_t version = (*pkt) >> 4;
     if (version == 4) {
+        if (length < sizeof(struct iphdr)) {
+            log_android("IP4 packet too short length %d", length);
+            return;
+        }
+
         struct iphdr *ip4hdr = (struct iphdr *) pkt;
 
         protocol = ip4hdr->protocol;
@@ -1537,6 +1542,11 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         }
     }
     else if (version == 6) {
+        if (length < sizeof(struct ip6_hdr)) {
+            log_android("IP6 packet too short length %d", length);
+            return;
+        }
+
         struct ip6_hdr *ip6hdr = (struct ip6_hdr *) pkt;
 
         // Skip extension headers
@@ -1581,6 +1591,11 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     uint16_t sport = 0;
     uint16_t dport = 0;
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6) {
+        if (length - (payload - pkt) < sizeof(struct icmp)) {
+            log_android(ANDROID_LOG_WARN, "ICMP packet too short");
+            return;
+        }
+
         struct icmp *icmp = (struct icmp *) payload;
 
         // http://lwn.net/Articles/443051/
@@ -1588,6 +1603,11 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         dport = ntohs(icmp->icmp_id);
 
     } else if (protocol == IPPROTO_UDP) {
+        if (length - (payload - pkt) < sizeof(struct udphdr)) {
+            log_android(ANDROID_LOG_WARN, "UDP packet too short");
+            return;
+        }
+
         struct udphdr *udp = (struct udphdr *) payload;
 
         sport = ntohs(udp->source);
@@ -1596,6 +1616,11 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         // TODO checksum (IPv6)
     }
     else if (protocol == IPPROTO_TCP) {
+        if (length - (payload - pkt) < sizeof(struct tcphdr)) {
+            log_android(ANDROID_LOG_WARN, "TCP packet too short");
+            return;
+        }
+
         struct tcphdr *tcp = (struct tcphdr *) payload;
 
         sport = ntohs(tcp->source);
@@ -1720,6 +1745,12 @@ jboolean handle_icmp(const struct arguments *args,
     const struct ip6_hdr *ip6 = (struct ip6_hdr *) pkt;
     struct icmp *icmp = (struct icmp *) payload;
     size_t icmplen = length - (payload - pkt);
+
+    if (icmp->icmp_type != ICMP_ECHO) {
+        log_android(ANDROID_LOG_WARN, "ICMP type %d code %d not supported",
+                    icmp->icmp_type, icmp->icmp_code);
+        return -1;
+    }
 
     // Search session
     struct icmp_session *cur = icmp_session;
