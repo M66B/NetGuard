@@ -20,7 +20,7 @@
 #define TCP_SEND_WINDOW 16384 // bytes (maximum)
 #define TCP_INIT_TIMEOUT 30 // seconds ~net.inet.tcp.keepinit
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
-#define TCP_CLOSE_TIMEOUT 30 // seconds
+#define TCP_CLOSE_TIMEOUT 3 // seconds
 #define TCP_KEEP_TIMEOUT 300 // seconds
 // https://en.wikipedia.org/wiki/Maximum_segment_lifetime
 
@@ -56,7 +56,6 @@ struct segment {
     uint32_t seq;
     uint16_t len;
     int psh;
-    int confirm;
     uint8_t *data;
     struct segment *next;
 };
@@ -324,11 +323,10 @@ jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *payload,
                     int uid);
 
-void buffer_tcp(const struct arguments *args,
-                struct tcphdr *tcphdr,
-                const char *session, struct tcp_session *cur,
-                const uint8_t *data, uint16_t datalen,
-                uint16_t confirm);
+void forward_tcp(const struct arguments *args,
+                 struct tcphdr *tcphdr,
+                 const char *session, struct tcp_session *cur,
+                 const uint8_t *data, uint16_t datalen);
 
 int open_icmp_socket(const struct arguments *args, const struct icmp_session *cur);
 
