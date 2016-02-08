@@ -397,14 +397,38 @@ void *handle_events(void *a) {
     while (!stopping) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
 
+        // Count sessions
+        int isessions = 0;
+        struct icmp_session *i = icmp_session;
+        while (i != NULL) {
+            if (!i->stop)
+                isessions++;
+            i = i->next;
+        }
+        int usessions = 0;
+        struct udp_session *u = udp_session;
+        while (u != NULL) {
+            if (u->state == UDP_ACTIVE)
+                usessions++;
+            u = u->next;
+        }
+        int tsessions = 0;
+        struct tcp_session *t = tcp_session;
+        while (t != NULL) {
+            if (t->state != TCP_CLOSING && t->state != TCP_CLOSE)
+                tsessions++;
+            t = t->next;
+        }
+
         // Check sessions
-        int sessions = check_sessions(args);
+        check_sessions(args, isessions, usessions, tsessions);
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1093893
-        int idle = (sessions == 0 && sdk >= 16);
-        log_android(ANDROID_LOG_DEBUG, "sessions %d idle %d sdk %d", sessions, idle, sdk);
+        int idle = (tsessions + usessions + tsessions == 0 && sdk >= 16);
+        log_android(ANDROID_LOG_DEBUG, "sessions ICMP %d UDP %d TCP %d idle %d sdk %d",
+                    isessions, usessions, tsessions, idle, sdk);
 
         // Next event time
-        ts.tv_sec = (sdk < 16 ? 5 : get_select_timeout());
+        ts.tv_sec = (sdk < 16 ? 5 : get_select_timeout(isessions, usessions, tsessions));
         ts.tv_nsec = 0;
         sigemptyset(&emptyset);
 
@@ -582,8 +606,8 @@ void check_allowed(const struct arguments *args) {
                     source, ntohs(u->source), dest, ntohs(u->dest), "", u->uid, 0);
             if (is_address_allowed(args, objPacket) == NULL) {
                 u->state = UDP_FINISHING;
-                log_android(ANDROID_LOG_WARN, "UDP terminate session socket %d uid %d", u->socket,
-                            u->uid);
+                log_android(ANDROID_LOG_WARN, "UDP terminate session socket %d uid %d",
+                            u->socket, u->uid);
             }
         }
         else if (u->state == UDP_BLOCKED) {
@@ -620,15 +644,15 @@ void check_allowed(const struct arguments *args) {
                     source, ntohs(t->source), dest, ntohs(t->dest), "", t->uid, 0);
             if (is_address_allowed(args, objPacket) == NULL) {
                 write_rst(args, t);
-                log_android(ANDROID_LOG_WARN, "TCP terminate socket %d uid %d", t->socket, t->uid);
+                log_android(ANDROID_LOG_WARN, "TCP terminate socket %d uid %d",
+                            t->socket, t->uid);
             }
         }
         t = t->next;
     }
 }
 
-int check_sessions(const struct arguments *args) {
-    int count = 0;
+void check_sessions(const struct arguments *args, int isessions, int usessions, int tsessions) {
     time_t now = time(NULL);
 
     // Check ICMP sessions
@@ -665,7 +689,6 @@ int check_sessions(const struct arguments *args) {
             free(c);
         }
         else {
-            count++;
             il = i;
             i = i->next;
         }
@@ -687,7 +710,7 @@ int check_sessions(const struct arguments *args) {
         }
 
         // Check session timeout
-        int timeout = get_udp_timeout(u);
+        int timeout = get_udp_timeout(u, usessions);
         if (u->state == UDP_ACTIVE && u->time + timeout < now) {
             log_android(ANDROID_LOG_WARN, "UDP idle %d/%d sec state %d from %s/%u to %s/%u",
                         now - u->time, timeout, u->state,
@@ -722,7 +745,6 @@ int check_sessions(const struct arguments *args) {
             free(c);
         }
         else {
-            count++;
             ul = u;
             u = u->next;
         }
@@ -747,10 +769,11 @@ int check_sessions(const struct arguments *args) {
                 source, ntohs(t->source), dest, ntohs(t->dest), strstate(t->state), t->socket);
 
         // Check session timeout
-        int timeout = get_tcp_timeout(t);
+        int timeout = get_tcp_timeout(t, tsessions);
         if (t->state != TCP_CLOSING && t->state != TCP_CLOSE && t->time + timeout < now) {
             // TODO send keep alives?
-            log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ", session, now - t->time, timeout);
+            log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ",
+                        session, now - t->time, timeout);
             if (t->state == TCP_CLOSE_WAIT && t->forward == NULL) {
                 t->remote_seq++; // remote FIN
                 if (write_fin_ack(args, t) >= 0) {
@@ -793,32 +816,30 @@ int check_sessions(const struct arguments *args) {
             free(c);
         }
         else {
-            count++;
             tl = t;
             t = t->next;
         }
     }
-
-    return count;
 }
 
-int get_select_timeout() {
+int get_select_timeout(int isessions, int usessions, int tsessions) {
     time_t now = time(NULL);
     int timeout = SELECT_TIMEOUT;
 
     struct icmp_session *i = icmp_session;
     while (i != NULL) {
-        if (i->stop) {
+        if (!i->stop) {
             int stimeout = i->time + ICMP_TIMEOUT - now + 1;
             if (stimeout > 0 && stimeout < timeout)
                 timeout = stimeout;
         }
         i = i->next;
     }
+
     struct udp_session *u = udp_session;
     while (u != NULL) {
         if (u->state == UDP_ACTIVE) {
-            int stimeout = u->time + get_udp_timeout(u) - now + 1;
+            int stimeout = u->time + get_udp_timeout(u, usessions) - now + 1;
             if (stimeout > 0 && stimeout < timeout)
                 timeout = stimeout;
         }
@@ -827,26 +848,43 @@ int get_select_timeout() {
 
     struct tcp_session *t = tcp_session;
     while (t != NULL) {
-        int stimeout = t->time + get_tcp_timeout(t) - now + 1;
-        if (stimeout > 0 && stimeout < timeout)
-            timeout = stimeout;
+        if (t->state != TCP_CLOSING && t->state != TCP_CLOSE) {
+            int stimeout = t->time + get_tcp_timeout(t, tsessions) - now + 1;
+            if (stimeout > 0 && stimeout < timeout)
+                timeout = stimeout;
+        }
         t = t->next;
     }
 
     return timeout;
 }
 
-int get_udp_timeout(const struct udp_session *u) {
-    return (ntohs(u->dest) == 53 ? UDP_TIMEOUT_53 : UDP_TIMEOUT_ANY);
+int get_udp_timeout(const struct udp_session *u, int sessions) {
+    int timeout = (ntohs(u->dest) == 53 ? UDP_TIMEOUT_53 : UDP_TIMEOUT_ANY);
+
+    int scale = sessions / UDP_TIMEOUT_SCALE;
+    if (scale < 1)
+        scale = 1;
+    timeout = timeout / scale;
+
+    return timeout;
 }
 
-int get_tcp_timeout(const struct tcp_session *t) {
+int get_tcp_timeout(const struct tcp_session *t, int sessions) {
+    int timeout;
     if (t->state == TCP_LISTEN || t->state == TCP_SYN_RECV)
-        return TCP_INIT_TIMEOUT;
+        timeout = TCP_INIT_TIMEOUT;
     else if (t->state == TCP_ESTABLISHED && t->socket >= 0)
-        return TCP_IDLE_TIMEOUT;
+        timeout = TCP_IDLE_TIMEOUT;
     else
-        return TCP_CLOSE_TIMEOUT;
+        timeout = TCP_CLOSE_TIMEOUT;
+
+    int scale = sessions / TCP_TIMEOUT_SCALE;
+    if (scale < 1)
+        scale = 1;
+    timeout = timeout / scale;
+
+    return timeout;
 }
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
@@ -995,7 +1033,8 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
                     log_android(ANDROID_LOG_ERROR, "ICMP getsockopt error %d: %s",
                                 errno, strerror(errno));
                 else if (serr)
-                    log_android(ANDROID_LOG_ERROR, "ICMP SO_ERROR %d: %s", serr, strerror(serr));
+                    log_android(ANDROID_LOG_ERROR, "ICMP SO_ERROR %d: %s",
+                                serr, strerror(serr));
 
                 cur->stop = 1;
             }
@@ -1031,11 +1070,12 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
                         // but for some unexplained reason this is not the case
                         // some bits seems to be set extra
                         struct icmp *icmp = (struct icmp *) buffer;
-                        log_android(cur->id == icmp->icmp_id ? ANDROID_LOG_INFO : ANDROID_LOG_WARN,
-                                    "ICMP recv bytes %d from %s for tun type %d code %d id %x/%x seq %d",
-                                    bytes, dest,
-                                    icmp->icmp_type, icmp->icmp_code,
-                                    cur->id, icmp->icmp_id, icmp->icmp_seq);
+                        log_android(
+                                cur->id == icmp->icmp_id ? ANDROID_LOG_INFO : ANDROID_LOG_WARN,
+                                "ICMP recv bytes %d from %s for tun type %d code %d id %x/%x seq %d",
+                                bytes, dest,
+                                icmp->icmp_type, icmp->icmp_code,
+                                cur->id, icmp->icmp_id, icmp->icmp_seq);
 
                         // restore original ID
                         icmp->icmp_id = cur->id;
@@ -1489,7 +1529,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     uint8_t version = (*pkt) >> 4;
     if (version == 4) {
         if (length < sizeof(struct iphdr)) {
-            log_android("IP4 packet too short length %d", length);
+            log_android(ANDROID_LOG_WARN, "IP4 packet too short length %d", length);
             return;
         }
 
@@ -1522,7 +1562,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     }
     else if (version == 6) {
         if (length < sizeof(struct ip6_hdr)) {
-            log_android("IP6 packet too short length %d", length);
+            log_android(ANDROID_LOG_WARN, "IP6 packet too short length %d", length);
             return;
         }
 
@@ -1725,7 +1765,7 @@ jboolean handle_icmp(const struct arguments *args,
     if (icmp->icmp_type != ICMP_ECHO) {
         log_android(ANDROID_LOG_WARN, "ICMP type %d code %d not supported",
                     icmp->icmp_type, icmp->icmp_code);
-        return -1;
+        return 0;
     }
 
     // Search session
@@ -2634,19 +2674,22 @@ int open_udp_socket(const struct arguments *args, const struct udp_session *cur)
 
             int loop = 1; // true
             if (setsockopt(sock, IPPROTO_IPV6, IPV6_MULTICAST_LOOP, &loop, sizeof(loop)))
-                log_android(ANDROID_LOG_ERROR, "UDP setsockopt IPV6_MULTICAST_LOOP error %d: %s",
+                log_android(ANDROID_LOG_ERROR,
+                            "UDP setsockopt IPV6_MULTICAST_LOOP error %d: %s",
                             errno, strerror(errno));
 
             int ttl = -1; // route default
             if (setsockopt(sock, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, &ttl, sizeof(ttl)))
-                log_android(ANDROID_LOG_ERROR, "UDP setsockopt IPV6_MULTICAST_HOPS error %d: %s",
+                log_android(ANDROID_LOG_ERROR,
+                            "UDP setsockopt IPV6_MULTICAST_HOPS error %d: %s",
                             errno, strerror(errno));
 
             struct ipv6_mreq mreq6;
             memcpy(&mreq6.ipv6mr_multiaddr, &cur->daddr.ip6, sizeof(struct in6_addr));
             mreq6.ipv6mr_interface = INADDR_ANY;
             if (setsockopt(sock, IPPROTO_IPV6, IPV6_ADD_MEMBERSHIP, &mreq6, sizeof(mreq6)))
-                log_android(ANDROID_LOG_ERROR, "UDP setsockopt IPV6_ADD_MEMBERSHIP error %d: %s",
+                log_android(ANDROID_LOG_ERROR,
+                            "UDP setsockopt IPV6_ADD_MEMBERSHIP error %d: %s",
                             errno, strerror(errno));
         }
     }
