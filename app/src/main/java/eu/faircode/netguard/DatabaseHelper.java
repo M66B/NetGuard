@@ -91,6 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         createTableLog(db);
         createTableAccess(db);
         createTableDns(db);
+        createTableForward(db);
     }
 
     @Override
