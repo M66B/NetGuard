@@ -171,7 +171,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(
             log_android(ANDROID_LOG_WARN, "pthread_kill error %d: %s", err, strerror(err));
         else {
             log_android(ANDROID_LOG_WARN, "Join thread %x", t);
-            int err = pthread_join(t, NULL);
+            err = pthread_join(t, NULL);
             if (err != 0)
                 log_android(ANDROID_LOG_WARN, "pthread_join error %d: %s", err, strerror(err));
         }
@@ -426,8 +426,8 @@ void *handle_events(void *a) {
         int idle = (sessions == 0 && sdk >= 16);
         log_android(ANDROID_LOG_DEBUG, "sessions %d idle %d sdk %d", sessions, idle, sdk);
 
-        // TODO calculate next event time
-        ts.tv_sec = SELECT_TIMEOUT;
+        // Next event time
+        ts.tv_sec = (sdk < 16 ? 5 : get_select_timeout());
         ts.tv_nsec = 0;
         sigemptyset(&emptyset);
 
@@ -710,7 +710,7 @@ int check_sessions(const struct arguments *args) {
         }
 
         // Check session timeout
-        int timeout = (ntohs(u->dest) == 53 ? UDP_TIMEOUT_53 : UDP_TIMEOUT_ANY);
+        int timeout = get_udp_timeout(u);
         if (u->state == UDP_ACTIVE && u->time + timeout < now) {
             log_android(ANDROID_LOG_INFO, "UDP idle %d/%d sec state %d from %s/%u to %s/%u",
                         now - u->time, timeout, u->state,
@@ -770,14 +770,7 @@ int check_sessions(const struct arguments *args) {
                 source, ntohs(t->source), dest, ntohs(t->dest), strstate(t->state), t->socket);
 
         // Check session timeout
-        int timeout = 0;
-        if (t->state == TCP_LISTEN || t->state == TCP_SYN_RECV)
-            timeout = TCP_INIT_TIMEOUT;
-        else if (t->state == TCP_ESTABLISHED && t->socket >= 0)
-            timeout = TCP_IDLE_TIMEOUT;
-        else
-            timeout = TCP_CLOSE_TIMEOUT;
-
+        int timeout = get_tcp_timeout(t);
         if (t->state != TCP_CLOSING && t->state != TCP_CLOSE && t->time + timeout < now) {
             // TODO send keep alives?
             log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ", session, now - t->time, timeout);
@@ -828,6 +821,53 @@ int check_sessions(const struct arguments *args) {
     }
 
     return count;
+}
+
+int get_select_timeout() {
+    time_t now = time(NULL);
+    int timeout = SELECT_TIMEOUT;
+
+    struct icmp_session *i = icmp_session;
+    while (i != NULL) {
+        if (i->stop) {
+            int stimeout = i->time + ICMP_TIMEOUT - now + 1;
+            if (stimeout > 0 && stimeout < timeout)
+                timeout = stimeout;
+        }
+        i = i->next;
+    }
+    struct udp_session *u = udp_session;
+    while (u != NULL) {
+        if (u->state == UDP_ACTIVE) {
+            int stimeout = u->time + get_udp_timeout(u) - now + 1;
+            if (stimeout > 0 && stimeout < timeout)
+                timeout = stimeout;
+        }
+        u = u->next;
+    }
+
+    struct tcp_session *t = tcp_session;
+    while (t != NULL) {
+        int stimeout = t->time + get_tcp_timeout(t) - now + 1;
+        if (stimeout > 0 && stimeout < timeout)
+            timeout = stimeout;
+        t = t->next;
+    }
+
+    return timeout;
+}
+
+int get_udp_timeout(const struct udp_session *u) {
+    return (ntohs(u->dest) == 53 ? UDP_TIMEOUT_53 : UDP_TIMEOUT_ANY);
+}
+
+int get_tcp_timeout(const struct tcp_session *t) {
+    if (t->state == TCP_LISTEN || t->state == TCP_SYN_RECV)
+        return TCP_INIT_TIMEOUT;
+    else if (t->state == TCP_ESTABLISHED && t->socket >= 0)
+        return TCP_IDLE_TIMEOUT;
+    else
+        return TCP_CLOSE_TIMEOUT;
 }
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
@@ -1632,7 +1672,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 #endif
 
     // Check if allowed
-    jboolean allowed = 0;
+    int allowed = 0;
     if (protocol == IPPROTO_UDP && dport == 53)
         allowed = 1; // allow DNS
     else if (protocol == IPPROTO_UDP && has_udp_session(pkt, payload))
@@ -2493,7 +2533,7 @@ jboolean handle_tcp(const struct arguments *args,
 }
 
 void forward_tcp(const struct arguments *args,
-                 struct tcphdr *tcphdr,
+                 const struct tcphdr *tcphdr,
                  const char *session, struct tcp_session *cur,
                  const uint8_t *data, uint16_t datalen) {
     uint32_t seq = ntohl(tcphdr->seq);
@@ -3005,7 +3045,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     tcp->dest = cur->source;
     tcp->seq = htonl(cur->local_seq);
     tcp->ack_seq = htonl((uint32_t) (cur->remote_seq + confirm));
-    tcp->doff = (sizeof(struct tcphdr) + optlen) >> 2;
+    tcp->doff = (__u16) ((sizeof(struct tcphdr) + optlen) >> 2);
     tcp->syn = (__u16) syn;
     tcp->ack = (__u16) ack;
     tcp->fin = (__u16) fin;
@@ -3479,7 +3519,7 @@ struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket
         strcpy(allowed.daddr, daddr);
         (*args->env)->ReleaseStringUTFChars(args->env, jdaddr, daddr);
 
-        allowed.dport = (*args->env)->GetIntField(args->env, jallowed, fidAllowedDport);
+        allowed.dport = (uint16_t) (*args->env)->GetIntField(args->env, jallowed, fidAllowedDport);
     }
 
 #ifdef PROFILE_JNI
@@ -3639,15 +3679,15 @@ void write_pcap(const void *ptr, size_t len) {
     }
 }
 
-int compare_u16(uint16_t s1, uint16_t s2) {
+int compare_u16(uint32_t s1, uint32_t s2) {
     // https://tools.ietf.org/html/rfc1982
     if (s1 == s2)
         return 0;
 
     int i1 = s1;
     int i2 = s2;
-    if ((i1 < i2 && i2 - i1 < 0x7FFF) ||
-        (i1 > i2 && i1 - i2 > 0x7FFF))
+    if ((i1 < i2 && i2 - i1 < 0x7FFFFFFF) ||
+        (i1 > i2 && i1 - i2 > 0x7FFFFFFF))
         return -1;
     else
         return 1;

@@ -2,7 +2,7 @@
 
 #define TAG "NetGuard.JNI"
 
-#define SELECT_TIMEOUT 10 // seconds
+#define SELECT_TIMEOUT 60 // seconds
 
 #define TUN_MAXMSG 32768 // bytes (device)
 #define ICMP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
@@ -270,6 +270,12 @@ void check_allowed(const struct arguments *args);
 
 int check_sessions(const struct arguments *args);
 
+int get_select_timeout();
+
+int get_udp_timeout(const struct udp_session *u);
+
+int get_tcp_timeout(const struct tcp_session *t);
+
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
 int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
@@ -324,7 +330,7 @@ jboolean handle_tcp(const struct arguments *args,
                     int uid);
 
 void forward_tcp(const struct arguments *args,
-                 struct tcphdr *tcphdr,
+                 const struct tcphdr *tcphdr,
                  const char *session, struct tcp_session *cur,
                  const uint8_t *data, uint16_t datalen);
 
@@ -413,7 +419,7 @@ void write_pcap_rec(const uint8_t *buffer, size_t len);
 
 void write_pcap(const void *ptr, size_t len);
 
-int compare_u16(uint16_t seq1, uint16_t seq2);
+int compare_u16(uint32_t seq1, uint32_t seq2);
 
 const char *strstate(const int state);
 
