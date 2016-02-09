@@ -127,8 +127,6 @@ public class ActivityForwarding extends AppCompatActivity {
                 final EditText etRPort = (EditText) view.findViewById(R.id.etRPort);
                 final EditText etRUid = (EditText) view.findViewById(R.id.etRUid);
 
-                etRAddr.setText("127.0.0.1");
-
                 dialog = new AlertDialog.Builder(this)
                         .setView(view)
                         .setCancelable(true)
