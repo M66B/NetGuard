@@ -82,7 +82,7 @@ am start -a eu.faircode.netguard.START_PORT_FORWARD \
 --ei ruid 1 \
 --user 0
 */
-                    Log.i(TAG, "Start forwarding protocol " + protocol + " port " + dport + " to " + raddr + ":" + rport + " uid " + ruid);
+                    Log.i(TAG, "Start forwarding protocol " + protocol + " port " + dport + " to " + raddr + "/" + rport + " uid " + ruid);
                     DatabaseHelper dh = new DatabaseHelper(ActivityForwardApproval.this);
                     dh.deleteForward(protocol, dport);
                     dh.addForward(protocol, dport, raddr, rport, ruid);

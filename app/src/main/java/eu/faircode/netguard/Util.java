@@ -77,6 +77,8 @@ public class Util {
 
     private static native String jni_getprop(String name);
 
+    private static native boolean is_numeric_address(String ip);
+
     static {
         System.loadLibrary("netguard");
     }
@@ -272,6 +274,10 @@ public class Util {
 
     public static String getDefaultDNS(Context context) {
         return jni_getprop("net.dns1");
+    }
+
+    public static boolean isNumericAddress(String ip) {
+        return is_numeric_address(ip);
     }
 
     public static boolean isInteractive(Context context) {

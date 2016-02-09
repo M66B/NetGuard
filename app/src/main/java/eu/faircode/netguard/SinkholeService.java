@@ -1180,7 +1180,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     allowed = new Allowed();
                 } else {
                     allowed = new Allowed(fwd.raddr, fwd.rport);
-                    packet.data = "> " + fwd.raddr + ":" + fwd.rport;
+                    packet.data = "> " + fwd.raddr + "/" + fwd.rport;
                 }
             } else
                 allowed = new Allowed();
@@ -1694,6 +1694,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             sb.append(df.format(cursor.getLong(colTime))).append(' ');
 
             String daddr = cursor.getString(colDAddr);
+            if (Util.isNumericAddress(daddr))
+                try {
+                    daddr = InetAddress.getByName(daddr).getHostName();
+                } catch (UnknownHostException ignored) {
+                }
             sb.append(daddr);
 
             int allowed = cursor.getInt(colAllowed);
@@ -1703,6 +1708,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 ForegroundColorSpan fgsp = new ForegroundColorSpan(allowed > 0 ? colorOn : colorOff);
                 sp.setSpan(fgsp, pos, pos + daddr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
+
             notification.addLine(sp);
         }
         cursor.close();

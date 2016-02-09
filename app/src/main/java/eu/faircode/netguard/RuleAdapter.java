@@ -562,7 +562,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                             popup.inflate(R.menu.access);
                             popup.getMenu().findItem(R.id.menu_host).setTitle(
                                     Util.getProtocolName(protocol, version, false) + " " +
-                                            daddr + (dport > 0 ? ":" + dport : ""));
+                                            daddr + (dport > 0 ? "/" + dport : ""));
                             popup.getMenu().findItem(R.id.menu_time).setTitle(
                                     SimpleDateFormat.getDateTimeInstance().format(time));
 

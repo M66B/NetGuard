@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.TypedValue;
@@ -33,6 +34,8 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 
 public class AccessAdapter extends CursorAdapter {
@@ -82,10 +85,10 @@ public class AccessAdapter extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
         // Get values
-        int version = cursor.getInt(colVersion);
-        int protocol = cursor.getInt(colProtocol);
-        String daddr = cursor.getString(colDaddr);
-        int dport = cursor.getInt(colDPort);
+        final int version = cursor.getInt(colVersion);
+        final int protocol = cursor.getInt(colProtocol);
+        final String daddr = cursor.getString(colDaddr);
+        final int dport = cursor.getInt(colDPort);
         long time = cursor.getLong(colTime);
         int allowed = cursor.getInt(colAllowed);
         int block = cursor.getInt(colBlock);
@@ -106,9 +109,29 @@ public class AccessAdapter extends CursorAdapter {
                 DrawableCompat.setTint(wrap, block > 0 ? colorOff : colorOn);
             }
         }
+
         tvDest.setText(
-                Util.getProtocolName(protocol, version, true) + " " +
-                        daddr + (dport > 0 ? ":" + dport : ""));
+                Util.getProtocolName(protocol, version, true) +
+                        " " + daddr + (dport > 0 ? "/" + dport : ""));
+
+        if (Util.isNumericAddress(daddr))
+            new AsyncTask<String, Object, String>() {
+                @Override
+                protected String doInBackground(String... args) {
+                    try {
+                        return InetAddress.getByName(args[0]).getHostName();
+                    } catch (UnknownHostException ignored) {
+                        return args[0];
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(String addr) {
+                    tvDest.setText(
+                            Util.getProtocolName(protocol, version, true) +
+                                    " " + addr + (dport > 0 ? "/" + dport : ""));
+                }
+            }.execute(daddr);
 
         if (allowed < 0)
             tvDest.setTextColor(colorText);

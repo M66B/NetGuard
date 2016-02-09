@@ -270,6 +270,26 @@ Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring na
     return (*env)->NewStringUTF(env, value);
 }
 
+JNIEXPORT jboolean JNICALL
+Java_eu_faircode_netguard_Util_is_1numeric_1address(JNIEnv *env, jclass type, jstring ip_) {
+    jboolean numeric = 0;
+    const char *ip = (*env)->GetStringUTFChars(env, ip_, 0);
+
+    struct addrinfo hints;
+    memset(&hints, 0, sizeof(struct addrinfo));
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_flags = AI_NUMERICHOST;
+    struct addrinfo *result;
+    int err = getaddrinfo(ip, NULL, &hints, &result);
+    if (err)
+        log_android(ANDROID_LOG_WARN, "getaddrinfo(%s) error %d: %s", ip, err, gai_strerror(err));
+    else
+        numeric = (result != NULL);
+
+    (*env)->ReleaseStringUTFChars(env, ip_, ip);
+    return numeric;
+}
+
 void report_exit(const struct arguments *args, const char *fmt, ...) {
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
     jmethodID mid = jniGetMethodID(args->env, cls, "nativeExit", "(Ljava/lang/String;)V");

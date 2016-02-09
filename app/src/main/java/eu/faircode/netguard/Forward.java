@@ -9,6 +9,6 @@ public class Forward {
 
     @Override
     public String toString() {
-        return "protocol=" + protocol + " port " + dport + " to " + raddr + ":" + rport + " uid " + ruid;
+        return "protocol=" + protocol + " port " + dport + " to " + raddr + "/" + rport + " uid " + ruid;
     }
 }
