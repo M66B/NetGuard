@@ -34,6 +34,7 @@ model {
     android.buildTypes {
         release {
             minifyEnabled = true
+            useProguard = true
             proguardFiles.add(file('proguard-rules.pro'))
             // TODO remove on stable release
             ndk.with {
@@ -42,6 +43,7 @@ model {
         }
         debug {
             ndk.with {
+                useProguard = false
                 debuggable = true
             }
         }
@@ -49,6 +51,9 @@ model {
     android.productFlavors {
         create("all") {
         }
+    }
+    android.lintOptions {
+          abortOnError false
     }
 }
 
