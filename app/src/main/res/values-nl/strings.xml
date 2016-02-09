@@ -31,13 +31,13 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_pcap_export">PCAP exporteren</string>
   <string name="menu_clear">Wissen</string>
   <string name="menu_reset">Herstellen</string>
-  <string name="menu_add">Add</string>
-  <string name="menu_delete">Delete</string>
+  <string name="menu_add">Toevoegen</string>
+  <string name="menu_delete">Verwijderen</string>
   <string name="title_protocol">Protocol</string>
-  <string name="title_dport">Source port</string>
-  <string name="title_raddr">Destination address</string>
-  <string name="title_rport">Destination port</string>
-  <string name="title_ruid">Destination application</string>
+  <string name="title_dport">Bronpoort</string>
+  <string name="title_raddr">Bestemmingsadres</string>
+  <string name="title_rport">Bestemmingspoort</string>
+  <string name="title_ruid">Doeltoepassing</string>
   <string name="setting_defaults">Standaard</string>
   <string name="setting_whitelist_wifi">Blokkeer Wi-Fi</string>
   <string name="setting_whitelist_other">Blokkeer mobiel</string>
@@ -170,5 +170,9 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <item>amber/blauw</item>
     <item>oranje/grijs</item>
     <item>groen</item>
+  </string-array>
+  <string-array name="protocolNames">
+    <item>UDP</item>
+    <item>TCP</item>
   </string-array>
 </resources>

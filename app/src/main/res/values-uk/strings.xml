@@ -170,4 +170,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <item>помаранчевий/сірий</item>
     <item>зелений</item>
   </string-array>
+  <string-array name="protocolNames">
+    <item>UDP</item>
+    <item>TCP</item>
+  </string-array>
 </resources>

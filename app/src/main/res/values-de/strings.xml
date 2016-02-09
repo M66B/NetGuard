@@ -30,13 +30,13 @@
   <string name="menu_pcap_export">PCAP exportieren</string>
   <string name="menu_clear">Bereinigen</string>
   <string name="menu_reset">Zurücksetzen</string>
-  <string name="menu_add">Add</string>
-  <string name="menu_delete">Delete</string>
-  <string name="title_protocol">Protocol</string>
-  <string name="title_dport">Source port</string>
-  <string name="title_raddr">Destination address</string>
-  <string name="title_rport">Destination port</string>
-  <string name="title_ruid">Destination application</string>
+  <string name="menu_add">Hinzufügen</string>
+  <string name="menu_delete">Löschen</string>
+  <string name="title_protocol">Protokoll</string>
+  <string name="title_dport">Quellport</string>
+  <string name="title_raddr">Zieladresse</string>
+  <string name="title_rport">Zielport</string>
+  <string name="title_ruid">Zielanwendung</string>
   <string name="setting_defaults">Standards</string>
   <string name="setting_whitelist_wifi">WLAN blockieren</string>
   <string name="setting_whitelist_other">Mobilfunk blockieren</string>
@@ -63,7 +63,7 @@
   <string name="setting_filter">Datenverkehr filtern</string>
   <string name="setting_resolved">Aufgelöste Domain-Namen speichern</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
-  <string name="setting_forwarding">Port forwarding</string>
+  <string name="setting_forwarding">Portweiterleitung</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
   <string name="setting_vpn6">VPN-IPv6: %s</string>
   <string name="setting_dns">VPN-DNS: %s</string>
@@ -167,5 +167,9 @@
     <item>Gelb/Blau</item>
     <item>Orange/Grau</item>
     <item>Grün</item>
+  </string-array>
+  <string-array name="protocolNames">
+    <item>UDP</item>
+    <item>TCP</item>
   </string-array>
 </resources>

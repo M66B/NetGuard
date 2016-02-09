@@ -31,13 +31,13 @@
   <string name="menu_pcap_export">PCAP 导出</string>
   <string name="menu_clear">清除</string>
   <string name="menu_reset">重置</string>
-  <string name="menu_add">Add</string>
-  <string name="menu_delete">Delete</string>
-  <string name="title_protocol">Protocol</string>
-  <string name="title_dport">Source port</string>
-  <string name="title_raddr">Destination address</string>
-  <string name="title_rport">Destination port</string>
-  <string name="title_ruid">Destination application</string>
+  <string name="menu_add">添加</string>
+  <string name="menu_delete">删除</string>
+  <string name="title_protocol">协议</string>
+  <string name="title_dport">源端口</string>
+  <string name="title_raddr">目标地址</string>
+  <string name="title_rport">目标端口</string>
+  <string name="title_ruid">目标应用程序</string>
   <string name="setting_defaults">默认</string>
   <string name="setting_whitelist_wifi">默认阻止Wi-Fi网络</string>
   <string name="setting_whitelist_other">默认阻止移动网络</string>
@@ -64,7 +64,7 @@
   <string name="setting_filter">过滤流量</string>
   <string name="setting_resolved">存储已解析的主机名称</string>
   <string name="setting_block_domains">屏蔽域名</string>
-  <string name="setting_forwarding">Port forwarding</string>
+  <string name="setting_forwarding">端口转发</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
@@ -170,5 +170,9 @@
     <item>琥珀色/蓝色</item>
     <item>橙色/灰色</item>
     <item>绿色</item>
+  </string-array>
+  <string-array name="protocolNames">
+    <item>UDP</item>
+    <item>TCP</item>
   </string-array>
 </resources>

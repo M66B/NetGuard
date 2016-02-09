@@ -30,13 +30,13 @@
   <string name="menu_pcap_export">PCAP エクスポート</string>
   <string name="menu_clear">クリア</string>
   <string name="menu_reset">リセット</string>
-  <string name="menu_add">Add</string>
-  <string name="menu_delete">Delete</string>
-  <string name="title_protocol">Protocol</string>
-  <string name="title_dport">Source port</string>
-  <string name="title_raddr">Destination address</string>
-  <string name="title_rport">Destination port</string>
-  <string name="title_ruid">Destination application</string>
+  <string name="menu_add">追加</string>
+  <string name="menu_delete">削除</string>
+  <string name="title_protocol">プロトコル</string>
+  <string name="title_dport">送信元ポート</string>
+  <string name="title_raddr">宛先アドレス</string>
+  <string name="title_rport">宛先ポート</string>
+  <string name="title_ruid">送信先アプリケーション</string>
   <string name="setting_defaults">デフォルト</string>
   <string name="setting_whitelist_wifi">デフォルトで Wi-Fi をブロック</string>
   <string name="setting_whitelist_other">デフォルトでモバイル通信をブロック</string>
@@ -63,7 +63,7 @@
   <string name="setting_filter">トラフィックをフィルター</string>
   <string name="setting_resolved">解決したドメイン名を保存</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
-  <string name="setting_forwarding">Port forwarding</string>
+  <string name="setting_forwarding">ポート転送</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
@@ -126,8 +126,8 @@
   <string name="msg_downloading">ダウンロード中\n%1s</string>
   <string name="msg_downloaded">Hosts ファイルをダウンロードしました</string>
   <string name="msg_download_last">最終ダウンロード: %s</string>
-  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
-  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
+  <string name="msg_start_forward" formatted="false">%1$s ポート %2$d から \'%5$s\' の %3$s:%4$d に転送を開始しますか?</string>
+  <string name="msg_stop_forward">%1$s ポート %2$d の転送を停止しますか?</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>
@@ -167,5 +167,9 @@
     <item>アンバー/ブルー</item>
     <item>オレンジ/グレー</item>
     <item>グリーン</item>
+  </string-array>
+  <string-array name="protocolNames">
+    <item>UDP</item>
+    <item>TCP</item>
   </string-array>
 </resources>

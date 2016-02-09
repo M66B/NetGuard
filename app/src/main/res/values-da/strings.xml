@@ -171,4 +171,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <item>orange/grå</item>
     <item>grøn</item>
   </string-array>
+  <string-array name="protocolNames">
+    <item>UDP</item>
+    <item>TCP</item>
+  </string-array>
 </resources>

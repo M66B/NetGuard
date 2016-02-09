@@ -167,4 +167,8 @@
     <item>arancione/grigio</item>
     <item>verde</item>
   </string-array>
+  <string-array name="protocolNames">
+    <item>UDP</item>
+    <item>TCP</item>
+  </string-array>
 </resources>
