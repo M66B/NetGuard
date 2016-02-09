@@ -110,6 +110,7 @@ struct tcp_session {
     jint uid;
     time_t time;
     int version;
+    uint16_t recv_window; // host notation
     uint16_t send_window; // host notation
 
     uint32_t remote_seq; // confirmed bytes received, host notation

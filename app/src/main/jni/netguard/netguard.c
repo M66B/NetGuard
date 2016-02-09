@@ -1372,10 +1372,33 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         }
                     }
                 } else {
+                    // Calculate recv window
+                    int unsent = 0;
+                    int window = TCP_RECV_WINDOW;
+                    if (cur->socket >= 0) {
+                        if (ioctl(cur->socket, SIOCOUTQ, &unsent))
+                            log_android(ANDROID_LOG_WARN, "ioctl SIOCOUTQ %d: %s",
+                                        errno, strerror(errno));
+                        else {
+                            struct segment *q = cur->forward;
+                            while (q != NULL) {
+                                unsent += q->len;
+                                q = q->next;
+                            }
+                            window = (unsent < TCP_RECV_WINDOW ? TCP_RECV_WINDOW - unsent : 0);
+                        }
+                    }
+
+                    int prev = cur->recv_window;
+                    cur->recv_window = window;
+                    if ((prev == 0 && window > 0) || (prev > 0 && window == 0))
+                        log_android(ANDROID_LOG_WARN, "%s recv window %d > %d",
+                                    session, prev, window);
+
                     // Always forward data
-                    if (FD_ISSET(cur->socket, wfds) && cur->forward != NULL) {
+                    int fwd = 0;
+                    if (FD_ISSET(cur->socket, wfds)) {
                         // Forward data
-                        int fwd = 0;
                         while (cur->forward != NULL && cur->forward->seq == cur->remote_seq) {
                             log_android(ANDROID_LOG_DEBUG, "%s fwd %u...%u",
                                         session,
@@ -1414,12 +1437,12 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                         s->seq + s->len - cur->remote_start);
                             s = s->next;
                         }
-
-                        // Acknowledge forwarded data
-                        // TODO send less ACKs?
-                        if (fwd)
-                            write_ack(args, cur, 0);
                     }
+
+                    // Acknowledge forwarded data
+                    // TODO send less ACKs?
+                    if (fwd || (prev == 0 && window > 0))
+                        write_ack(args, cur, 0);
 
                     if (cur->state == TCP_ESTABLISHED || cur->state == TCP_CLOSE_WAIT) {
                         // Check socket read
@@ -2392,6 +2415,7 @@ jboolean handle_tcp(const struct arguments *args,
             syn->time = time(NULL);
             syn->uid = uid;
             syn->version = version;
+            syn->recv_window = TCP_RECV_WINDOW;
             syn->send_window = ntohs(tcphdr->window);
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
             syn->local_seq = (uint32_t) rand(); // ISN local
@@ -2443,6 +2467,7 @@ jboolean handle_tcp(const struct arguments *args,
             struct tcp_session rst;
             memset(&rst, 0, sizeof(struct tcp_session));
             rst.version = 4;
+            rst.recv_window = TCP_RECV_WINDOW;
             rst.local_seq = ntohl(tcphdr->ack_seq);
             rst.remote_seq = ntohl(tcphdr->seq) + datalen + (tcphdr->fin ? 1 : 0);
 
@@ -3082,14 +3107,6 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
         csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ip6_hdr_pseudo));
     }
 
-    int unsent = 0;
-    uint16_t window = TCP_RECV_WINDOW;
-    if (cur->socket >= 0) {
-        if (ioctl(cur->socket, SIOCOUTQ, &unsent))
-            log_android(ANDROID_LOG_WARN, "ioctl SIOCOUTQ %d: %s", errno, strerror(errno));
-        else
-            window = (uint16_t) (unsent < TCP_RECV_WINDOW ? TCP_RECV_WINDOW - unsent : 1);
-    }
 
     // Build TCP header
     memset(tcp, 0, sizeof(struct tcphdr));
@@ -3102,7 +3119,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     tcp->ack = (__u16) ack;
     tcp->fin = (__u16) fin;
     tcp->rst = (__u16) rst;
-    tcp->window = htons(window);
+    tcp->window = htons(cur->recv_window);
     tcp->urg_ptr;
 
     if (!tcp->ack)
