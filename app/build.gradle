@@ -5,55 +5,64 @@ model {
         compileSdkVersion = 23
         buildToolsVersion = "23.0.2"
 
-        defaultConfig.with {
-            applicationId = "eu.faircode.netguard"
-            minSdkVersion.apiLevel = 14
-            targetSdkVersion.apiLevel = 23
+        defaultConfig {
+            applicationId "eu.faircode.netguard"
+            minSdkVersion.apiLevel 14
+            targetSdkVersion.apiLevel 23
             versionCode = 2016020901
             versionName = "0.86-beta"
             archivesBaseName = "NetGuard-v$versionName-$versionCode"
-        }
-    }
-    android.ndk {
-        platformVersion = "14"
-        moduleName = "netguard"
-        toolchain = "clang"
-        ldLibs.add("log")
-    }
-    android.sources {
-        main {
-            jni {
-                source {
-                    srcDir "src/main/jni/netguard"
-                }
-                exportedHeaders {
+
+            buildConfigFields {
+                create() {
+                    type "int"
+                    name "VALUE"
+                    value "1"
                 }
             }
         }
-    }
-    android.buildTypes {
-        release {
-            minifyEnabled = true
-            useProguard = true
-            proguardFiles.add(file('proguard-rules.pro'))
-            // TODO remove on stable release
-            ndk.with {
-                debuggable = true
+
+        ndk {
+            platformVersion = "14"
+            moduleName = "netguard"
+            toolchain = "clang"
+            ldLibs.add("log")
+        }
+
+        sources {
+            main {
+                jni {
+                    source {
+                        srcDir "src/main/jni/netguard"
+                    }
+                    exportedHeaders {
+                    }
+                }
             }
         }
-        debug {
-            ndk.with {
-                useProguard = false
-                debuggable = true
+
+        buildTypes {
+            release {
+                minifyEnabled true
+                useProguard = true
+                proguardFiles.add(file('proguard-rules.pro'))
+                // TODO remove on stable release
+                ndk {
+                    debuggable true
+                }
+            }
+            debug {
+                useProguard false
+                ndk {
+                    debuggable true
+                }
             }
         }
-    }
-    android.productFlavors {
-        create("all") {
+
+        productFlavors {
+            create("all") {
+            }
         }
-    }
-    android.lintOptions {
-        abortOnError false
     }
 }
 
