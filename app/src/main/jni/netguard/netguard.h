@@ -2,7 +2,7 @@
 
 #define TAG "NetGuard.JNI"
 
-#define SELECT_TIMEOUT 60 // seconds
+#define SELECT_TIMEOUT 600 // seconds
 
 #define TUN_MAXMSG 32768 // bytes (device)
 #define ICMP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
