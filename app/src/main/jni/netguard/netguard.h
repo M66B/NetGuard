@@ -1,6 +1,31 @@
 #include <jni.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <time.h>
+#include <unistd.h>
+#include <pthread.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <dlfcn.h>
+
+#include <arpa/inet.h>
+#include <netinet/ip.h>
+#include <netinet/ip6.h>
+#include <netinet/udp.h>
+#include <netinet/tcp.h>
+#include <netinet/ip_icmp.h>
+#include <netinet/icmp6.h>
+
+#include <android/log.h>
 
 #define TAG "NetGuard.JNI"
+
+// #define PROFILE_EVENTS 5
+// #define PROFILE_UID 5
+// #define PROFILE_JNI 5
 
 #define SELECT_TIMEOUT 600 // seconds
 
