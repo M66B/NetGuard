@@ -339,7 +339,9 @@ public class Util {
         else {
             PackageManager pm = context.getPackageManager();
             String[] pkgs = pm.getPackagesForUid(uid);
-            if (pkgs != null)
+            if (pkgs == null)
+                listResult.add(Integer.toString(uid));
+            else
                 for (String pkg : pkgs)
                     try {
                         ApplicationInfo info = pm.getApplicationInfo(pkg, 0);
@@ -421,7 +423,7 @@ public class Util {
         }
         if (p == null)
             return Integer.toString(protocol) + "/" + version;
-        return (brief ? p.substring(0, 1) + version : p + version);
+        return ((brief ? p.substring(0, 1) : p) + (version > 0 ? version : ""));
     }
 
     public interface DoubtListener {

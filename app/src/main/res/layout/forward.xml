@@ -1,60 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingEnd="8dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingStart="8dp"
+    tools:context=".ActivityForwarding">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvProtocol"
+            android:layout_width="32dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_launcher" />
+            android:textAppearance="@style/TextSmall" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvDPort"
+            android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:text="@string/app_name"
-            android:textAppearance="@style/TextLarge"
-            android:textStyle="bold" />
+            android:layout_gravity="end"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextSmall" />
+
+        <TextView
+            android:id="@+id/tvRAddr"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:textAppearance="@style/TextSmall" />
+
+        <TextView
+            android:id="@+id/tvRPort"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextSmall" />
+
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvForward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textAppearance="@style/TextMedium"
-        android:textStyle="bold" />
-
-    <RelativeLayout
+        android:id="@+id/tvRUid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp">
-
-        <Button
-            android:id="@+id/btnOk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="@android:string/ok" />
-
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="@android:string/cancel" />
-    </RelativeLayout>
-
+        android:layout_marginLeft="88dp"
+        android:layout_marginStart="88dp"
+        android:textAppearance="@style/TextSmall" />
 </LinearLayout>

@@ -1002,7 +1002,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
 
-        Cursor cursor = dh.getForward();
+        Cursor cursor = dh.getForwarding();
         int colProtocol = cursor.getColumnIndex("protocol");
         int colDPort = cursor.getColumnIndex("dport");
         int colRAddr = cursor.getColumnIndex("raddr");

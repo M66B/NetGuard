@@ -577,9 +577,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this;
     }
 
-    public Cursor getForward() {
+    public Cursor getForwarding() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.query("forward", null, null, null, null, null, null);
+        String query = "SELECT ID AS _id, *";
+        query += " FROM forward";
+        query += " ORDER BY dport";
+        return db.rawQuery(query, new String[]{});
     }
 
     public void addLogChangedListener(LogChangedListener listener) {

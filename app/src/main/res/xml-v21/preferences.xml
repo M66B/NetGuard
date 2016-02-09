@@ -124,6 +124,10 @@
             android:key="use_hosts"
             android:summary="@string/summary_block_domains"
             android:title="@string/setting_block_domains" />
+        <Preference
+            android:dependency="filter"
+            android:key="forwarding"
+            android:title="@string/setting_forwarding" />
         <EditTextPreference
             inputType="phone"
             android:hint="10.1.10.1"

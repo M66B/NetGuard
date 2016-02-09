@@ -28,7 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ActivityForward extends Activity {
+public class ActivityForwardApproval extends Activity {
     private static final String TAG = "NetGuard.Forward";
     private static final String ACTION_START_PORT_FORWARD = "eu.faircode.netguard.START_PORT_FORWARD";
     private static final String ACTION_STOP_PORT_FORWARD = "eu.faircode.netguard.STOP_PORT_FORWARD";
@@ -40,7 +40,7 @@ public class ActivityForward extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.forward);
+        setContentView(R.layout.forwardapproval);
 
         final int protocol = getIntent().getIntExtra("protocol", 0);
         final int dport = getIntent().getIntExtra("dport", 0);
@@ -74,7 +74,7 @@ public class ActivityForward extends Activity {
                 if (ACTION_START_PORT_FORWARD.equals(getIntent().getAction())) {
 /*
 am start -a eu.faircode.netguard.START_PORT_FORWARD \
--n eu.faircode.netguard/eu.faircode.netguard.ActivityForward \
+-n eu.faircode.netguard/eu.faircode.netguard.ActivityForwardApproval \
 --ei protocol 17 \
 --ei dport 53 \
 --es raddr 8.8.4.4 \
@@ -83,7 +83,7 @@ am start -a eu.faircode.netguard.START_PORT_FORWARD \
 --user 0
 */
                     Log.i(TAG, "Start forwarding protocol " + protocol + " port " + dport + " to " + raddr + ":" + rport + " uid " + ruid);
-                    DatabaseHelper dh = new DatabaseHelper(ActivityForward.this);
+                    DatabaseHelper dh = new DatabaseHelper(ActivityForwardApproval.this);
                     dh.deleteForward(protocol, dport);
                     dh.addForward(protocol, dport, raddr, rport, ruid);
                     dh.close();
@@ -91,18 +91,18 @@ am start -a eu.faircode.netguard.START_PORT_FORWARD \
                 } else if (ACTION_STOP_PORT_FORWARD.equals(getIntent().getAction())) {
 /*
 am start -a eu.faircode.netguard.STOP_PORT_FORWARD \
--n eu.faircode.netguard/eu.faircode.netguard.ActivityForward \
+-n eu.faircode.netguard/eu.faircode.netguard.ActivityForwardApproval \
 --ei protocol 17 \
 --ei dport 53 \
 --user 0
 */
                     Log.i(TAG, "Stop forwarding protocol " + protocol + " port " + dport);
-                    new DatabaseHelper(ActivityForward.this)
+                    new DatabaseHelper(ActivityForwardApproval.this)
                             .deleteForward(protocol, dport)
                             .close();
                 }
 
-                SinkholeService.reload(null, "port forwarding", ActivityForward.this);
+                SinkholeService.reload(null, "forwarding", ActivityForwardApproval.this);
 
                 finish();
             }

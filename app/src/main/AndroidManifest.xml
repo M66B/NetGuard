@@ -76,7 +76,17 @@
         </activity>
 
         <activity
-            android:name=".ActivityForward"
+            android:name=".ActivityForwarding"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/setting_forwarding"
+            android:parentActivityName=".ActivitySettings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ActivitySettings" />
+        </activity>
+
+        <activity
+            android:name=".ActivityForwardApproval"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppDialog">

@@ -88,7 +88,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
     protected void onCreate(Bundle savedInstanceState) {
         Util.setTheme(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.logview);
+        setContentView(R.layout.logging);
         running = true;
 
         // Action bar
