@@ -48,7 +48,7 @@
 #define TCP_SEND_WINDOW 16384 // bytes (maximum)
 #define TCP_INIT_TIMEOUT 30 // seconds ~net.inet.tcp.keepinit
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
-#define TCP_CLOSE_TIMEOUT 3 // seconds
+#define TCP_CLOSE_TIMEOUT 30 // seconds
 #define TCP_KEEP_TIMEOUT 300 // seconds
 #define TCP_TIMEOUT_SCALE 50
 // https://en.wikipedia.org/wiki/Maximum_segment_lifetime
@@ -291,7 +291,11 @@ void report_exit(const struct arguments *args, const char *fmt, ...);
 
 void check_allowed(const struct arguments *args);
 
-void check_sessions(const struct arguments *args, int isessions, int usessions, int tsessions);
+int check_icmp_sessions(const struct arguments *args);
+
+int check_udp_sessions(const struct arguments *args);
+
+int check_tcp_sessions(const struct arguments *args);
 
 int get_select_timeout(int isessions, int usessions, int tsessions);
 

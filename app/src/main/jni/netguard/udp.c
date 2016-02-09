@@ -33,6 +33,75 @@ int get_udp_timeout(const struct udp_session *u, int sessions) {
     return timeout;
 }
 
+int check_udp_sessions(const struct arguments *args) {
+    time_t now = time(NULL);
+
+    int count = 0;
+    struct udp_session *uc = udp_session;
+    while (uc != NULL) {
+        if (uc->state == UDP_ACTIVE)
+            count++;
+        uc = uc->next;
+    }
+
+    struct udp_session *ul = NULL;
+    struct udp_session *u = udp_session;
+    while (u != NULL) {
+        char source[INET6_ADDRSTRLEN + 1];
+        char dest[INET6_ADDRSTRLEN + 1];
+        if (u->version == 4) {
+            inet_ntop(AF_INET, &u->saddr.ip4, source, sizeof(source));
+            inet_ntop(AF_INET, &u->daddr.ip4, dest, sizeof(dest));
+        }
+        else {
+            inet_ntop(AF_INET6, &u->saddr.ip6, source, sizeof(source));
+            inet_ntop(AF_INET6, &u->daddr.ip6, dest, sizeof(dest));
+        }
+
+        // Check session timeout
+        int timeout = get_udp_timeout(u, count);
+        if (u->state == UDP_ACTIVE && u->time + timeout < now) {
+            log_android(ANDROID_LOG_WARN, "UDP idle %d/%d sec state %d from %s/%u to %s/%u",
+                        now - u->time, timeout, u->state,
+                        source, ntohs(u->source), dest, ntohs(u->dest));
+            u->state = UDP_FINISHING;
+        }
+
+        // Check finished sessions
+        if (u->state == UDP_FINISHING) {
+            log_android(ANDROID_LOG_INFO, "UDP close from %s/%u to %s/%u socket %d",
+                        source, ntohs(u->source), dest, ntohs(u->dest), u->socket);
+
+            if (close(u->socket))
+                log_android(ANDROID_LOG_ERROR, "UDP close %d error %d: %s",
+                            u->socket, errno, strerror(errno));
+            u->socket = -1;
+
+            u->time = time(NULL);
+            u->state = UDP_CLOSED;
+        }
+
+        // Cleanup lingering sessions
+        if ((u->state == UDP_CLOSED || u->state == UDP_BLOCKED) &&
+            u->time + UDP_KEEP_TIMEOUT < now) {
+            if (ul == NULL)
+                udp_session = u->next;
+            else
+                ul->next = u->next;
+
+            struct udp_session *c = u;
+            u = u->next;
+            free(c);
+        }
+        else {
+            ul = u;
+            u = u->next;
+        }
+    }
+
+    return count;
+}
+
 void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
     struct udp_session *cur = udp_session;
     while (cur != NULL) {

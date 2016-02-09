@@ -22,6 +22,58 @@
 extern struct icmp_session *icmp_session;
 extern FILE *pcap_file;
 
+int check_icmp_sessions(const struct arguments *args) {
+    time_t now = time(NULL);
+
+    int count = 0;
+    struct icmp_session *ic = icmp_session;
+    while (ic != NULL) {
+        if (!ic->stop)
+            count++;
+        ic = ic->next;
+    }
+
+    struct icmp_session *il = NULL;
+    struct icmp_session *i = icmp_session;
+    while (i != NULL) {
+        int timeout = ICMP_TIMEOUT;
+        if (i->stop || i->time + timeout < now) {
+            char source[INET6_ADDRSTRLEN + 1];
+            char dest[INET6_ADDRSTRLEN + 1];
+            if (i->version == 4) {
+                inet_ntop(AF_INET, &i->saddr.ip4, source, sizeof(source));
+                inet_ntop(AF_INET, &i->daddr.ip4, dest, sizeof(dest));
+            }
+            else {
+                inet_ntop(AF_INET6, &i->saddr.ip6, source, sizeof(source));
+                inet_ntop(AF_INET6, &i->daddr.ip6, dest, sizeof(dest));
+            }
+            log_android(ANDROID_LOG_WARN, "ICMP idle %d/%d sec stop %d from %s to %s",
+                        now - i->time, timeout, i->stop, dest, source);
+
+            if (close(i->socket))
+                log_android(ANDROID_LOG_ERROR, "ICMP close %d error %d: %s",
+                            i->socket, errno, strerror(errno));
+            i->socket = -1;
+
+            if (il == NULL)
+                icmp_session = i->next;
+            else
+                il->next = i->next;
+
+            struct icmp_session *c = i;
+            i = i->next;
+            free(c);
+        }
+        else {
+            il = i;
+            i = i->next;
+        }
+    }
+
+    return count;
+}
+
 void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
     struct icmp_session *cur = icmp_session;
     while (cur != NULL) {
