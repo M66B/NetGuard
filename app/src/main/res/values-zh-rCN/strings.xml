@@ -31,6 +31,13 @@
   <string name="menu_pcap_export">PCAP 导出</string>
   <string name="menu_clear">清除</string>
   <string name="menu_reset">重置</string>
+  <string name="menu_add">Add</string>
+  <string name="menu_delete">Delete</string>
+  <string name="title_protocol">Protocol</string>
+  <string name="title_dport">Source port</string>
+  <string name="title_raddr">Destination address</string>
+  <string name="title_rport">Destination port</string>
+  <string name="title_ruid">Destination application</string>
   <string name="setting_defaults">默认</string>
   <string name="setting_whitelist_wifi">默认阻止Wi-Fi网络</string>
   <string name="setting_whitelist_other">默认阻止移动网络</string>
@@ -57,6 +64,7 @@
   <string name="setting_filter">过滤流量</string>
   <string name="setting_resolved">存储已解析的主机名称</string>
   <string name="setting_block_domains">屏蔽域名</string>
+  <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
@@ -121,8 +129,8 @@
   <string name="msg_downloading">下载中\n%1s</string>
   <string name="msg_downloaded">Hosts 文件已下载</string>
   <string name="msg_download_last">最近下载: %s</string>
-  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
-  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
+  <string name="msg_start_forward" formatted="false">开始从 %1$s 端口 %2$d 转发至 \'%5$s\' 的 %3$s:%4$d?</string>
+  <string name="msg_stop_forward">停止转发 %1$s 端口 %2$d?</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>
   <string name="title_screen_other">亮屏时允许移动网络</string>

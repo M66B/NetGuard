@@ -29,6 +29,13 @@
   <string name="menu_pcap_export">Exportar PCAP</string>
   <string name="menu_clear">Limpar</string>
   <string name="menu_reset">Repor</string>
+  <string name="menu_add">Add</string>
+  <string name="menu_delete">Delete</string>
+  <string name="title_protocol">Protocol</string>
+  <string name="title_dport">Source port</string>
+  <string name="title_raddr">Destination address</string>
+  <string name="title_rport">Destination port</string>
+  <string name="title_ruid">Destination application</string>
   <string name="setting_defaults">Predefinições</string>
   <string name="setting_whitelist_wifi">Bloquear Wi-Fi</string>
   <string name="setting_whitelist_other">Bloquear Dados Móveis</string>
@@ -55,6 +62,7 @@
   <string name="setting_filter">Filtrar tráfego</string>
   <string name="setting_resolved">Armazenar os nomes de domínio resolvidos</string>
   <string name="setting_block_domains">Bloquear nomes de domínio</string>
+  <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">IPv4 VPN: %s</string>
   <string name="setting_vpn6">IPv4 VPN: %s</string>
   <string name="setting_dns">DNS da VPN: %s</string>

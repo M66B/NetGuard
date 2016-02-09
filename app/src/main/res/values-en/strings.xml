@@ -31,6 +31,13 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_pcap_export">PCAP export</string>
   <string name="menu_clear">Clear</string>
   <string name="menu_reset">Reset</string>
+  <string name="menu_add">Add</string>
+  <string name="menu_delete">Delete</string>
+  <string name="title_protocol">Protocol</string>
+  <string name="title_dport">Source port</string>
+  <string name="title_raddr">Destination address</string>
+  <string name="title_rport">Destination port</string>
+  <string name="title_ruid">Destination application</string>
   <string name="setting_defaults">Defaults</string>
   <string name="setting_whitelist_wifi">Block Wi-Fi by default</string>
   <string name="setting_whitelist_other">Block mobile by default</string>
@@ -57,6 +64,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_filter">Filter traffic</string>
   <string name="setting_resolved">Store resolved domain names</string>
   <string name="setting_block_domains">Block domain names</string>
+  <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>

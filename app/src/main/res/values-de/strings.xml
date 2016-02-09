@@ -30,6 +30,13 @@
   <string name="menu_pcap_export">PCAP exportieren</string>
   <string name="menu_clear">Bereinigen</string>
   <string name="menu_reset">Zurücksetzen</string>
+  <string name="menu_add">Add</string>
+  <string name="menu_delete">Delete</string>
+  <string name="title_protocol">Protocol</string>
+  <string name="title_dport">Source port</string>
+  <string name="title_raddr">Destination address</string>
+  <string name="title_rport">Destination port</string>
+  <string name="title_ruid">Destination application</string>
   <string name="setting_defaults">Standards</string>
   <string name="setting_whitelist_wifi">WLAN blockieren</string>
   <string name="setting_whitelist_other">Mobilfunk blockieren</string>
@@ -56,6 +63,7 @@
   <string name="setting_filter">Datenverkehr filtern</string>
   <string name="setting_resolved">Aufgelöste Domain-Namen speichern</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
+  <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
   <string name="setting_vpn6">VPN-IPv6: %s</string>
   <string name="setting_dns">VPN-DNS: %s</string>
@@ -118,8 +126,8 @@
   <string name="msg_downloading">Herunterladen\n%1s</string>
   <string name="msg_downloaded">Hosts-Datei heruntergeladen</string>
   <string name="msg_download_last">Letztes Herunterladen: %s</string>
-  <string name="msg_start_forward" formatted="false">Starte Weiterleitung von %2$d Port %1$s nach %3$s:%4$d von \'%5$s\'?</string>
-  <string name="msg_stop_forward">Stoppe Weiterleitung von %1$s Port %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Weiterleitung von %2$d Port %1$s nach %3$s:%4$d von \'%5$s\' starten?</string>
+  <string name="msg_stop_forward">Weiterleitung von %1$s Port %2$d stoppen?</string>
   <string name="title_conditions">Bedingungen</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
@@ -142,7 +150,7 @@
   <string name="title_pro_trial_until">Pro-Funktionen-Testzeitraum bis %1$s</string>
   <string name="title_pro_trial_ended">Pro-Funktionen-Testzeitraum abgelaufen</string>
   <string name="title_pro_description">Die folgenden Pro-Funktionen sind verfügbar:</string>
-  <string name="title_pro_log">Protokoll blockierter Verkehr anzeigen</string>
+  <string name="title_pro_log">Protokoll blockiertem Verkehr anzeigen</string>
   <string name="title_pro_filter">Netzwerkverkehr filtern</string>
   <string name="title_pro_notify">Benachrichtigung über neue App</string>
   <string name="title_pro_speed">Netzwerkgeschwindigkeit Benachrichtigung</string>

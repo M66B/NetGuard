@@ -29,6 +29,13 @@
   <string name="menu_pcap_export">PCAP экспорт</string>
   <string name="menu_clear">Очистить</string>
   <string name="menu_reset">Сброс</string>
+  <string name="menu_add">Add</string>
+  <string name="menu_delete">Delete</string>
+  <string name="title_protocol">Protocol</string>
+  <string name="title_dport">Source port</string>
+  <string name="title_raddr">Destination address</string>
+  <string name="title_rport">Destination port</string>
+  <string name="title_ruid">Destination application</string>
   <string name="setting_defaults">По умолчанию</string>
   <string name="setting_whitelist_wifi">Блокировать Wi-Fi по умолч.</string>
   <string name="setting_whitelist_other">Блокировать моб. сеть по умолч.</string>
@@ -55,6 +62,7 @@
   <string name="setting_filter">Фильтр трафика</string>
   <string name="setting_resolved">Хранить разрешения доменных имен</string>
   <string name="setting_block_domains">Блокировать доменные имена</string>
+  <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
