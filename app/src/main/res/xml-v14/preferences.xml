@@ -202,7 +202,7 @@
         android:key="category_development"
         android:title="Development">
         <ListPreference
-            android:defaultValue="5"
+            android:defaultValue="6"
             android:entries="@array/logLevelNames"
             android:entryValues="@array/logLevelValues"
             android:key="loglevel"
