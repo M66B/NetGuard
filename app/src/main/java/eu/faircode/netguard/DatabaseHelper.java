@@ -53,20 +53,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final static int MSG_LOG = 1;
     private final static int MSG_ACCESS = 2;
 
+    static {
+        hthread = new HandlerThread("DatabaseHelper");
+        hthread.start();
+        handler = new Handler(hthread.getLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                handleChangedNotification(msg);
+            }
+        };
+    }
+
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
-
-        if (hthread == null) {
-            hthread = new HandlerThread(getClass().getName());
-            hthread.start();
-            handler = new Handler(hthread.getLooper()) {
-                @Override
-                public void handleMessage(Message msg) {
-                    handleChangedNotification(msg);
-                }
-            };
-        }
 
         if (!once) {
             once = true;

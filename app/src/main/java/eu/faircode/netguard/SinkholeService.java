@@ -634,13 +634,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             if (filter && loglevel <= Log.WARN) {
                 int[] count = jni_get_session_count();
-                StringBuilder sb = new StringBuilder();
-                sb.append(count[0]);
-                sb.append('/');
-                sb.append(count[1]);
-                sb.append('/');
-                sb.append(count[2]);
-                remoteViews.setTextViewText(R.id.tvSessions, sb.toString());
+                remoteViews.setTextViewText(R.id.tvSessions, count[0] + "/" + count[1] + "/" + count[2]);
             } else
                 remoteViews.setTextViewText(R.id.tvSessions, "");
 

@@ -427,7 +427,7 @@ public class Util {
     }
 
     public interface DoubtListener {
-        public void onSure();
+        void onSure();
     }
 
     public static void areYouSure(Context context, int explanation, final DoubtListener listener) {

@@ -20,7 +20,6 @@ package eu.faircode.netguard;
 */
 
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
