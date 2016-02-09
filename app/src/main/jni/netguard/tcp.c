@@ -410,7 +410,7 @@ jboolean handle_tcp(const struct arguments *args,
                     write_rst(args, cur);
                     return 0;
                 }
-                forward_tcp(args, tcphdr, session, cur, data, datalen);
+                queue_tcp(args, tcphdr, session, cur, data, datalen);
             }
 
             if (tcphdr->rst /* +ACK */) {
@@ -495,10 +495,10 @@ jboolean handle_tcp(const struct arguments *args,
     return 1;
 }
 
-void forward_tcp(const struct arguments *args,
-                 const struct tcphdr *tcphdr,
-                 const char *session, struct tcp_session *cur,
-                 const uint8_t *data, uint16_t datalen) {
+void queue_tcp(const struct arguments *args,
+               const struct tcphdr *tcphdr,
+               const char *session, struct tcp_session *cur,
+               const uint8_t *data, uint16_t datalen) {
     uint32_t seq = ntohl(tcphdr->seq);
     if (compare_u16(seq, cur->remote_seq) < 0)
         log_android(ANDROID_LOG_WARN, "%s already forwarded", session);

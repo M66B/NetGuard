@@ -352,10 +352,10 @@ jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *payload,
                     int uid, struct allowed *redirect);
 
-void forward_tcp(const struct arguments *args,
-                 const struct tcphdr *tcphdr,
-                 const char *session, struct tcp_session *cur,
-                 const uint8_t *data, uint16_t datalen);
+void queue_tcp(const struct arguments *args,
+               const struct tcphdr *tcphdr,
+               const char *session, struct tcp_session *cur,
+               const uint8_t *data, uint16_t datalen);
 
 int open_icmp_socket(const struct arguments *args, const struct icmp_session *cur);
 
