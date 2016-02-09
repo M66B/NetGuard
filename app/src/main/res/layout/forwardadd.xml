@@ -29,6 +29,13 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/setting_forwarding"
+        android:textAppearance="@style/TextTitle" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,20 +51,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_protocol"
-                android:textAppearance="@style/TextMedium" />
+                android:textAppearance="@style/TextSmall" />
 
-            <EditText
-                android:id="@+id/etProtocol"
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/spProtocol"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:layout_marginTop="8dp"
+                android:entries="@array/protocolNames"
+                android:prompt="@string/title_protocol"
                 android:textAppearance="@style/TextMedium" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/title_dport"
-                android:textAppearance="@style/TextMedium" />
+                android:textAppearance="@style/TextSmall" />
 
             <EditText
                 android:id="@+id/etDPort"
@@ -69,20 +79,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/title_raddr"
-                android:textAppearance="@style/TextMedium" />
+                android:textAppearance="@style/TextSmall" />
 
             <EditText
                 android:id="@+id/etRAddr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:textAppearance="@style/TextMedium" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/title_rport"
-                android:textAppearance="@style/TextMedium" />
+                android:textAppearance="@style/TextSmall" />
 
             <EditText
                 android:id="@+id/etRPort"
@@ -94,8 +107,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/title_ruid"
-                android:textAppearance="@style/TextMedium" />
+                android:textAppearance="@style/TextSmall" />
 
             <EditText
                 android:id="@+id/etRUid"

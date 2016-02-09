@@ -220,5 +220,15 @@ Your internet traffic is not being sent to a remote VPN server.</string>
         <item>6</item>
     </string-array>
 
+    <string-array name="protocolNames">
+        <item>UDP</item>
+        <item>TCP</item>
+    </string-array>
+
+    <string-array name="protocolValues" translatable="false">
+        <item>17</item>
+        <item>6</item>
+    </string-array>
+
     <string name="fingerprint" translatable="false">ef46f813d2c8a064d72c936b9b96d1cccc989378</string>
 </resources>

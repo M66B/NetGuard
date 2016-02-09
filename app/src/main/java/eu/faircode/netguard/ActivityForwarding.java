@@ -35,6 +35,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.net.InetAddress;
@@ -66,7 +67,6 @@ public class ActivityForwarding extends AppCompatActivity {
         lvForwarding.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PackageManager pm = getPackageManager();
                 Cursor cursor = (Cursor) adapter.getItem(position);
                 final int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
                 final int dport = cursor.getInt(cursor.getColumnIndex("dport"));
@@ -75,7 +75,9 @@ public class ActivityForwarding extends AppCompatActivity {
 
                 PopupMenu popup = new PopupMenu(ActivityForwarding.this, view);
                 popup.inflate(R.menu.forward);
-                popup.getMenu().findItem(R.id.menu_port).setTitle(dport + " > " + raddr + "/" + rport);
+                popup.getMenu().findItem(R.id.menu_port).setTitle(
+                        Util.getProtocolName(protocol, 0, false) + " " +
+                                dport + " > " + raddr + "/" + rport);
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -119,7 +121,7 @@ public class ActivityForwarding extends AppCompatActivity {
             case R.id.menu_add:
                 LayoutInflater inflater = LayoutInflater.from(this);
                 View view = inflater.inflate(R.layout.forwardadd, null);
-                final EditText etProtocol = (EditText) view.findViewById(R.id.etProtocol);
+                final Spinner spProtocol = (Spinner) view.findViewById(R.id.spProtocol);
                 final EditText etDPort = (EditText) view.findViewById(R.id.etDPort);
                 final EditText etRAddr = (EditText) view.findViewById(R.id.etRAddr);
                 final EditText etRPort = (EditText) view.findViewById(R.id.etRPort);
@@ -129,12 +131,14 @@ public class ActivityForwarding extends AppCompatActivity {
 
                 dialog = new AlertDialog.Builder(this)
                         .setView(view)
-                        .setCancelable(false)
+                        .setCancelable(true)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
-                                    final int protocol = Integer.parseInt(etProtocol.getText().toString());
+                                    int pos = spProtocol.getSelectedItemPosition();
+                                    String[] values = getResources().getStringArray(R.array.protocolValues);
+                                    final int protocol = Integer.valueOf(values[pos]);
                                     final int dport = Integer.parseInt(etDPort.getText().toString());
                                     final String raddr = etRAddr.getText().toString();
                                     final int rport = Integer.parseInt(etRPort.getText().toString());
