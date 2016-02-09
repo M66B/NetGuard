@@ -26,7 +26,7 @@ int get_tcp_timeout(const struct tcp_session *t, int sessions) {
     int timeout;
     if (t->state == TCP_LISTEN || t->state == TCP_SYN_RECV)
         timeout = TCP_INIT_TIMEOUT;
-    else if (t->state == TCP_ESTABLISHED && t->socket >= 0)
+    else if (t->state == TCP_ESTABLISHED)
         timeout = TCP_IDLE_TIMEOUT;
     else
         timeout = TCP_CLOSE_TIMEOUT;
@@ -71,20 +71,8 @@ int check_tcp_sessions(const struct arguments *args) {
         int timeout = get_tcp_timeout(t, count);
         if (t->state != TCP_CLOSING && t->state != TCP_CLOSE && t->time + timeout < now) {
             // TODO send keep alives?
-            log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ",
-                        session, now - t->time, timeout);
-            if (t->state == TCP_CLOSE_WAIT && t->forward == NULL) {
-                t->remote_seq++; // remote FIN
-                if (write_fin_ack(args, t) >= 0) {
-                    log_android(ANDROID_LOG_WARN, "%s finished idle", session);
-                    t->local_seq++; // local FIN
-                    t->state = TCP_LAST_ACK;
-                }
-            }
-            else {
-                log_android(ANDROID_LOG_WARN, "%s reset idle", session);
-                write_rst(args, t);
-            }
+            log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ", session, now - t->time, timeout);
+            write_rst(args, t);
         }
 
         // Check closing sessions
@@ -126,12 +114,11 @@ int check_tcp_sessions(const struct arguments *args) {
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
     struct tcp_session *cur = tcp_session;
     while (cur != NULL) {
-        if (cur->socket >= 1) {
+        if (cur->socket >= 0) {
             int oldstate = cur->state;
             uint32_t oldlocal = cur->local_seq;
             uint32_t oldremote = cur->remote_seq;
 
-            // TODO if logging
             char source[INET6_ADDRSTRLEN + 1];
             char dest[INET6_ADDRSTRLEN + 1];
             if (cur->version == 4) {
@@ -169,11 +156,10 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 if (cur->state == TCP_LISTEN) {
                     // Check socket connect
                     if (FD_ISSET(cur->socket, wfds)) {
-                        cur->time = time(NULL);
-
                         log_android(ANDROID_LOG_INFO, "%s connected", session);
 
                         if (write_syn_ack(args, cur) >= 0) {
+                            cur->time = time(NULL);
                             cur->local_seq++; // local SYN
                             cur->remote_seq++; // remote SYN
                             cur->state = TCP_SYN_RECV;
@@ -226,7 +212,6 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                 }
                             } else {
                                 fwd = 1;
-                                cur->time = time(NULL);
                                 cur->remote_seq = cur->forward->seq + cur->forward->len;
 
                                 struct segment *p = cur->forward;
@@ -249,8 +234,10 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
 
                     // Acknowledge forwarded data
                     // TODO send less ACKs?
-                    if (fwd || (prev == 0 && window > 0))
-                        write_ack(args, cur, 0);
+                    if (fwd || (prev == 0 && window > 0)) {
+                        if (!write_ack(args, cur, 0))
+                            cur->time = time(NULL);
+                    }
 
                     if (cur->state == TCP_ESTABLISHED || cur->state == TCP_CLOSE_WAIT) {
                         // Check socket read
@@ -275,16 +262,19 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                 log_android(ANDROID_LOG_WARN, "%s recv eof", session);
 
                                 if (cur->forward == NULL) {
-                                    if (cur->state == TCP_CLOSE_WAIT) {
+                                    if (cur->state == TCP_CLOSE_WAIT)
                                         cur->remote_seq++; // remote FIN
-                                        if (write_fin_ack(args, cur) >= 0) {
-                                            log_android(ANDROID_LOG_WARN, "%s finished eof",
-                                                        session);
-                                            cur->local_seq++; // local FIN
-                                            cur->state = TCP_LAST_ACK;
-                                        }
-                                    } else
-                                        log_android(ANDROID_LOG_WARN, "%s close linger", session);
+                                    if (write_fin_ack(args, cur) >= 0) {
+                                        log_android(ANDROID_LOG_WARN, "%s FIN sent", session);
+                                        cur->local_seq++; // local FIN
+                                    }
+
+                                    if (cur->state == TCP_ESTABLISHED)
+                                        cur->state = TCP_FIN_WAIT1;
+                                    else if (cur->state == TCP_CLOSE_WAIT)
+                                        cur->state = TCP_LAST_ACK;
+                                    else
+                                        log_android(ANDROID_LOG_ERROR, "%s invalid close", session);
                                 }
                                 else {
                                     // There was still data to send
@@ -513,24 +503,22 @@ jboolean handle_tcp(const struct arguments *args,
 
                     } else if (tcphdr->fin /* +ACK */) {
                         if (cur->state == TCP_ESTABLISHED) {
-                            if (cur->socket < 0) {
-                                cur->remote_seq++; // remote FIN
-                                if (write_fin_ack(args, cur) >= 0) {
-                                    log_android(ANDROID_LOG_WARN, "%s finished closed", session);
-                                    cur->local_seq++; // local FIN
-                                    cur->state = TCP_LAST_ACK;
-                                }
-                            }
-                            else {
-                                log_android(ANDROID_LOG_WARN, "%s socket close wait", session);
-                                cur->state = TCP_CLOSE_WAIT;
-                                if (cur->send_window == 0)
-                                    log_android(ANDROID_LOG_WARN, "%s FIN send window 0", session);
-                            }
-                        } else if (cur->state == TCP_CLOSE_WAIT)
+                            log_android(ANDROID_LOG_WARN, "%s FIN received", session);
+                            cur->state = TCP_CLOSE_WAIT;
+                        }
+
+                        else if (cur->state == TCP_CLOSE_WAIT) {
                             log_android(ANDROID_LOG_WARN, "%s repeated FIN", session);
+                            // The socket is probably not closed yet
+                        }
+
+                        else if (cur->state == TCP_FIN_WAIT1) {
+                            log_android(ANDROID_LOG_WARN, "%s last ACK", session);
+                            if (write_ack(args, cur, 1) >= 0)
+                                cur->state = TCP_CLOSE;
+                        }
+
                         else {
-                            // Could be repeated FIN
                             log_android(ANDROID_LOG_ERROR, "%s invalid FIN", session);
                             return 0;
                         }
@@ -538,10 +526,18 @@ jboolean handle_tcp(const struct arguments *args,
                     } else if (tcphdr->ack) {
                         if (cur->state == TCP_SYN_RECV)
                             cur->state = TCP_ESTABLISHED;
+
                         else if (cur->state == TCP_ESTABLISHED) {
                             // Do nothing
-                        } else if (cur->state == TCP_LAST_ACK)
+                        }
+
+                        else if (cur->state == TCP_LAST_ACK)
                             cur->state = TCP_CLOSING;
+
+                        else if (cur->state == TCP_FIN_WAIT1) {
+                            // Do nothing
+                        }
+
                         else {
                             log_android(ANDROID_LOG_ERROR, "%s invalid state", session);
                             return 0;
