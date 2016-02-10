@@ -126,8 +126,8 @@
   <string name="msg_downloading">Загрузка\n%1s</string>
   <string name="msg_downloaded">hosts-файл загружен</string>
   <string name="msg_download_last">Последняя загрузка: %s</string>
-  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
-  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Начать пересылку из %1$s порта %2$d в %3$s:%4$d из %5$s?</string>
+  <string name="msg_stop_forward">Остановить пересылку из %1$s порта %2$d?</string>
   <string name="title_conditions">Условия</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>
@@ -143,7 +143,7 @@
   <string name="title_block">Блокировать</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">медиасервер</string>
-  <string name="title_nobody">nobody</string>
+  <string name="title_nobody">никто</string>
   <string name="title_notify">Уведомить о попытке доступа в интернет</string>
   <string name="title_log_whois">Протокол WHOIS: %1$s</string>
   <string name="title_log_port">Порт: %1$d</string>

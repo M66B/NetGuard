@@ -30,13 +30,13 @@
   <string name="menu_pcap_export">Exportar PCAP</string>
   <string name="menu_clear">Limpar</string>
   <string name="menu_reset">Resetar</string>
-  <string name="menu_add">Add</string>
-  <string name="menu_delete">Delete</string>
-  <string name="title_protocol">Protocol</string>
-  <string name="title_dport">Source port</string>
-  <string name="title_raddr">Destination address</string>
-  <string name="title_rport">Destination port</string>
-  <string name="title_ruid">Destination application</string>
+  <string name="menu_add">Adicionar</string>
+  <string name="menu_delete">Deletar</string>
+  <string name="title_protocol">Protocolo</string>
+  <string name="title_dport">Porta de origem</string>
+  <string name="title_raddr">Endereço de destino</string>
+  <string name="title_rport">Porta de destino</string>
+  <string name="title_ruid">Aplicativo de destino</string>
   <string name="setting_defaults">Padrões</string>
   <string name="setting_whitelist_wifi">Bloquear Wi-Fi</string>
   <string name="setting_whitelist_other">Bloquear Dados Móveis</string>
@@ -63,7 +63,7 @@
   <string name="setting_filter">Filtrar tráfego</string>
   <string name="setting_resolved">Armazenar nomes de domínios resolvidos</string>
   <string name="setting_block_domains">Bloquear nomes de domínio</string>
-  <string name="setting_forwarding">Port forwarding</string>
+  <string name="setting_forwarding">Encaminhamento de porta</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
@@ -128,8 +128,8 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_downloading">Baixando\n%1s</string>
   <string name="msg_downloaded">Arquivos de hosts baixados</string>
   <string name="msg_download_last">Último download: %s</string>
-  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
-  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Iniciar encaminhamento de %1$s porta %2$d para %3$s:%4$d de \'%5$s\'?</string>
+  <string name="msg_stop_forward">Parar encaminhamento de %1$s porta %2$d?</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
@@ -145,7 +145,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_block">Bloquear</string>
   <string name="title_root">raiz</string>
   <string name="title_mediaserver">Servidor de Mídia</string>
-  <string name="title_nobody">nobody</string>
+  <string name="title_nobody">ninguém</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
