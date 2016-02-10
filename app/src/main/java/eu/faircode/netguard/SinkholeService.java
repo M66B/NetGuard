@@ -1077,6 +1077,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     listAllowed.add(rule);
             }
 
+        Log.i(TAG, "Allowed " + listAllowed.size() + " of " + listRule.size());
+
         return listAllowed;
     }
 
