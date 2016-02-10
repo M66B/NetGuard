@@ -19,7 +19,67 @@
 
 #include "netguard.h"
 
+int max_tun_msg = 0;
 extern int loglevel;
+extern FILE *pcap_file;
+
+int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+    // Check tun error
+    if (FD_ISSET(args->tun, efds)) {
+        log_android(ANDROID_LOG_ERROR, "tun %d exception", args->tun);
+        if (fcntl(args->tun, F_GETFL) < 0) {
+            log_android(ANDROID_LOG_ERROR, "fcntl tun %d F_GETFL error %d: %s",
+                        args->tun, errno, strerror(errno));
+            report_exit(args, "fcntl tun %d F_GETFL error %d: %s",
+                        args->tun, errno, strerror(errno));
+        } else
+            report_exit(args, "tun %d exception", args->tun);
+        return -1;
+    }
+
+    // Check tun read
+    if (FD_ISSET(args->tun, rfds)) {
+        uint8_t *buffer = malloc(TUN_MAXMSG);
+        ssize_t length = read(args->tun, buffer, TUN_MAXMSG);
+        if (length < 0) {
+            free(buffer);
+
+            log_android(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
+            if (errno == EINTR || errno == EAGAIN)
+                // Retry later
+                return 0;
+            else {
+                report_exit(args, "tun read error %d: %s", errno, strerror(errno));
+                return -1;
+            }
+        }
+        else if (length > 0) {
+            // Write pcap record
+            if (pcap_file != NULL)
+                write_pcap_rec(buffer, (size_t) length);
+
+            if (length > max_tun_msg) {
+                max_tun_msg = length;
+                log_android(ANDROID_LOG_WARN, "Maximum tun msg length %d", max_tun_msg);
+            }
+
+            // Handle IP from tun
+            handle_ip(args, buffer, (size_t) length);
+
+            free(buffer);
+        }
+        else {
+            // tun eof
+            free(buffer);
+
+            log_android(ANDROID_LOG_ERROR, "tun %d empty read", args->tun);
+            report_exit(args, "tun %d empty read", args->tun);
+            return -1;
+        }
+    }
+
+    return 0;
+}
 
 // https://en.wikipedia.org/wiki/IPv6_packet#Extension_headers
 // http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
@@ -200,7 +260,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6 ||
         (protocol == IPPROTO_UDP && !has_udp_session(args, pkt, payload)) ||
         (protocol == IPPROTO_TCP && syn)) {
-        log_android(ANDROID_LOG_INFO, "get uid %s/%u version %d protocol %d syn %d",
+        log_android(ANDROID_LOG_INFO, "get uid %s/%u v%d p%d syn %d",
                     dest, dport, version, protocol, syn);
         int tries = 0;
         usleep(1000 * UID_DELAY);
@@ -221,14 +281,15 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
 
             // Retry delay
             if (uid < 0 && tries < UID_MAXTRY) {
-                log_android(ANDROID_LOG_WARN, "get uid %s/%u syn %d try %d",
-                            dest, dport, syn, tries);
+                log_android(ANDROID_LOG_WARN, "get uid %s/%u v%d p%d syn %d try %d",
+                            dest, dport, version, protocol, syn, tries);
                 usleep(1000 * UID_DELAYTRY);
             }
         }
 
         if (uid < 0)
-            log_android(ANDROID_LOG_ERROR, "uid not found");
+            log_android(ANDROID_LOG_ERROR, "uid %s/%u v%d p%d syn %d not found",
+                        dest, dport, version, protocol, syn);
     }
 
     log_android(ANDROID_LOG_DEBUG,

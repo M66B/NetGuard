@@ -25,55 +25,9 @@ extern pthread_mutex_t lock;
 extern jboolean stopping;
 extern jboolean signaled;
 
-struct icmp_session *icmp_session = NULL;
-struct udp_session *udp_session = NULL;
-struct tcp_session *tcp_session = NULL;
-
-void clear_sessions() {
-    struct icmp_session *i = icmp_session;
-    while (i != NULL) {
-        if (i->socket >= 0 && close(i->socket))
-            log_android(ANDROID_LOG_ERROR, "ICMP close %d error %d: %s",
-                        i->socket, errno, strerror(errno));
-        struct icmp_session *p = i;
-        i = i->next;
-        free(p);
-    }
-    icmp_session = NULL;
-
-    struct udp_session *u = udp_session;
-    while (u != NULL) {
-        if (u->socket >= 0 && close(u->socket))
-            log_android(ANDROID_LOG_ERROR, "UDP close %d error %d: %s",
-                        u->socket, errno, strerror(errno));
-        struct udp_session *p = u;
-        u = u->next;
-        free(p);
-    }
-    udp_session = NULL;
-
-    struct tcp_session *t = tcp_session;
-    while (t != NULL) {
-        if (t->socket >= 0 && close(t->socket))
-            log_android(ANDROID_LOG_ERROR, "TCP close %d error %d: %s",
-                        u->socket, errno, strerror(errno));
-        struct tcp_session *p = t;
-        t = t->next;
-        clear_tcp_data(p);
-        free(p);
-    }
-    tcp_session = NULL;
-}
-
-void clear_tcp_data(struct tcp_session *cur) {
-    struct segment *s = cur->forward;
-    while (s != NULL) {
-        struct segment *p = s;
-        s = s->next;
-        free(p->data);
-        free(p);
-    }
-}
+extern struct icmp_session *icmp_session = NULL;
+extern struct udp_session *udp_session = NULL;
+extern struct tcp_session *tcp_session = NULL;
 
 void handle_signal(int sig, siginfo_t *info, void *context) {
     log_android(ANDROID_LOG_DEBUG, "Signal %d", sig);

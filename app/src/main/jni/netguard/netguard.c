@@ -33,9 +33,6 @@ jboolean stopping = 0;
 jboolean signaled = 0;
 int loglevel = ANDROID_LOG_WARN;
 
-extern struct icmp_session *icmp_session;
-extern struct udp_session *udp_session;
-extern struct tcp_session *tcp_session;
 extern int max_tun_msg;
 extern FILE *pcap_file;
 
@@ -81,11 +78,16 @@ void JNI_OnUnload(JavaVM *vm, void *reserved) {
 // JNI SinkholeService
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env) {
-    icmp_session = NULL;
-    udp_session = NULL;
-    tcp_session = NULL;
+Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
     loglevel = ANDROID_LOG_WARN;
+
+    struct arguments args;
+    args.env = env;
+    args.instance = instance;
+    init_icmp(&args);
+    init_udp(&args);
+    init_tcp(&args);
+
     pcap_file = NULL;
 
     if (pthread_mutex_init(&lock, NULL))
@@ -149,8 +151,11 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(
                 log_android(ANDROID_LOG_WARN, "pthread_join error %d: %s", err, strerror(err));
         }
 
-        if (clear)
-            clear_sessions();
+        if (clear) {
+            clear_icmp();
+            clear_udp();
+            clear_tcp();
+        }
 
         log_android(ANDROID_LOG_WARN, "Stopped thread %x", t);
     } else
@@ -164,30 +169,9 @@ Java_eu_faircode_netguard_SinkholeService_jni_1get_1session_1count(JNIEnv *env, 
 
     jintArray jarray = (*env)->NewIntArray(env, 3);
     jint *jcount = (*env)->GetIntArrayElements(env, jarray, NULL);
-    jcount[0] = 0;
-    jcount[1] = 0;
-    jcount[2] = 0;
-
-    struct icmp_session *i = icmp_session;
-    while (i != NULL) {
-        if (i->socket >= 0)
-            jcount[0]++;
-        i = i->next;
-    }
-
-    struct udp_session *u = udp_session;
-    while (u != NULL) {
-        if (u->socket >= 0)
-            jcount[1]++;
-        u = u->next;
-    }
-
-    struct tcp_session *t = tcp_session;
-    while (t != NULL) {
-        if (t->socket >= 0)
-            jcount[2]++;
-        t = t->next;
-    }
+    jcount[0] = get_icmp_sessions();
+    jcount[1] = get_udp_sessions();
+    jcount[2] = get_tcp_sessions();
 
     if (pthread_mutex_unlock(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
@@ -250,7 +234,9 @@ JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instance) {
     log_android(ANDROID_LOG_INFO, "Done");
 
-    clear_sessions();
+    clear_icmp();
+    clear_udp();
+    clear_tcp();
 
     if (pthread_mutex_destroy(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_destroy failed");

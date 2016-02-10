@@ -19,8 +19,47 @@
 
 #include "netguard.h"
 
-extern struct tcp_session *tcp_session;
+struct tcp_session *tcp_session;
 extern FILE *pcap_file;
+
+void init_tcp(const struct arguments *args) {
+    tcp_session = NULL;
+}
+
+void clear_tcp() {
+    struct tcp_session *t = tcp_session;
+    while (t != NULL) {
+        if (t->socket >= 0 && close(t->socket))
+            log_android(ANDROID_LOG_ERROR, "TCP close %d error %d: %s",
+                        t->socket, errno, strerror(errno));
+        struct tcp_session *p = t;
+        t = t->next;
+        clear_tcp_data(p);
+        free(p);
+    }
+    tcp_session = NULL;
+}
+
+void clear_tcp_data(struct tcp_session *cur) {
+    struct segment *s = cur->forward;
+    while (s != NULL) {
+        struct segment *p = s;
+        s = s->next;
+        free(p->data);
+        free(p);
+    }
+}
+
+int get_tcp_sessions() {
+    int count = 0;
+    struct tcp_session *tc = tcp_session;
+    while (tc != NULL) {
+        if (tc->state != TCP_CLOSING && tc->state != TCP_CLOSE)
+            count++;
+        tc = tc->next;
+    }
+    return count;
+}
 
 int get_tcp_timeout(const struct tcp_session *t, int sessions) {
     int timeout;
@@ -42,13 +81,7 @@ int get_tcp_timeout(const struct tcp_session *t, int sessions) {
 int check_tcp_sessions(const struct arguments *args) {
     time_t now = time(NULL);
 
-    int count = 0;
-    struct tcp_session *tc = tcp_session;
-    while (tc != NULL) {
-        if (tc->state != TCP_CLOSING && tc->state != TCP_CLOSE)
-            count++;
-        tc = tc->next;
-    }
+    int count = get_tcp_sessions();
 
     struct tcp_session *tl = NULL;
     struct tcp_session *t = tcp_session;

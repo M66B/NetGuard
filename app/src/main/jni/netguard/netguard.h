@@ -279,10 +279,6 @@ typedef struct dhcp_option {
 
 // Prototypes
 
-void clear_sessions();
-
-void clear_tcp_data(struct tcp_session *cur);
-
 void handle_signal(int sig, siginfo_t *info, void *context);
 
 void *handle_events(void *a);
@@ -323,10 +319,22 @@ int is_upper_layer(int protocol);
 
 void handle_ip(const struct arguments *args, const uint8_t *buffer, size_t length);
 
+void init_icmp(const struct arguments *args);
+
+void clear_icmp();
+
+int get_icmp_sessions();
+
 jboolean handle_icmp(const struct arguments *args,
                      const uint8_t *pkt, size_t length,
                      const uint8_t *payload,
                      int uid);
+
+void init_udp(const struct arguments *args);
+
+void clear_udp();
+
+int get_udp_sessions();
 
 int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint8_t *payload);
 
@@ -350,6 +358,14 @@ int check_domain(const struct arguments *args, const struct udp_session *u,
 
 int check_dhcp(const struct arguments *args, const struct udp_session *u,
                const uint8_t *data, const size_t datalen);
+
+void init_tcp(const struct arguments *args);
+
+void clear_tcp();
+
+void clear_tcp_data(struct tcp_session *cur);
+
+int get_tcp_sessions();
 
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,

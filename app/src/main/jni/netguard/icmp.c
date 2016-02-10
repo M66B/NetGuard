@@ -19,12 +19,27 @@
 
 #include "netguard.h"
 
-extern struct icmp_session *icmp_session;
+struct icmp_session *icmp_session;
 extern FILE *pcap_file;
 
-int check_icmp_sessions(const struct arguments *args) {
-    time_t now = time(NULL);
+void init_icmp(const struct arguments *args) {
+    icmp_session = NULL;
+}
 
+void clear_icmp() {
+    struct icmp_session *i = icmp_session;
+    while (i != NULL) {
+        if (i->socket >= 0 && close(i->socket))
+            log_android(ANDROID_LOG_ERROR, "ICMP close %d error %d: %s",
+                        i->socket, errno, strerror(errno));
+        struct icmp_session *p = i;
+        i = i->next;
+        free(p);
+    }
+    icmp_session = NULL;
+}
+
+int get_icmp_sessions() {
     int count = 0;
     struct icmp_session *ic = icmp_session;
     while (ic != NULL) {
@@ -32,6 +47,13 @@ int check_icmp_sessions(const struct arguments *args) {
             count++;
         ic = ic->next;
     }
+    return count;
+}
+
+int check_icmp_sessions(const struct arguments *args) {
+    time_t now = time(NULL);
+
+    int count = get_icmp_sessions();
 
     struct icmp_session *il = NULL;
     struct icmp_session *i = icmp_session;

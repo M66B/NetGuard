@@ -19,8 +19,36 @@
 
 #include "netguard.h"
 
-extern struct udp_session *udp_session;
+struct udp_session *udp_session;
 extern FILE *pcap_file;
+
+void init_udp(const struct arguments *args) {
+    udp_session = NULL;
+}
+
+void clear_udp() {
+    struct udp_session *u = udp_session;
+    while (u != NULL) {
+        if (u->socket >= 0 && close(u->socket))
+            log_android(ANDROID_LOG_ERROR, "UDP close %d error %d: %s",
+                        -u->socket, errno, strerror(errno));
+        struct udp_session *p = u;
+        u = u->next;
+        free(p);
+    }
+    udp_session = NULL;
+}
+
+int get_udp_sessions() {
+    int count = 0;
+    struct udp_session *uc = udp_session;
+    while (uc != NULL) {
+        if (uc->state == UDP_ACTIVE)
+            count++;
+        uc = uc->next;
+    }
+    return count;
+}
 
 int get_udp_timeout(const struct udp_session *u, int sessions) {
     int timeout = (ntohs(u->dest) == 53 ? UDP_TIMEOUT_53 : UDP_TIMEOUT_ANY);
@@ -36,13 +64,7 @@ int get_udp_timeout(const struct udp_session *u, int sessions) {
 int check_udp_sessions(const struct arguments *args) {
     time_t now = time(NULL);
 
-    int count = 0;
-    struct udp_session *uc = udp_session;
-    while (uc != NULL) {
-        if (uc->state == UDP_ACTIVE)
-            count++;
-        uc = uc->next;
-    }
+    int count = get_udp_sessions();
 
     struct udp_session *ul = NULL;
     struct udp_session *u = udp_session;
