@@ -146,6 +146,7 @@
   <string name="title_block">阻止</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
+  <string name="title_nobody">nobody</string>
   <string name="title_notify">发生网络访问尝试时通知我</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">端口 %1$d</string>

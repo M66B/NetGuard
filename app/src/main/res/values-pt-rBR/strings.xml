@@ -145,6 +145,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_block">Bloquear</string>
   <string name="title_root">raiz</string>
   <string name="title_mediaserver">Servidor de Mídia</string>
+  <string name="title_nobody">nobody</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>

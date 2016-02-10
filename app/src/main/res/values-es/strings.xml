@@ -146,6 +146,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_block">Bloquear</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
+  <string name="title_nobody">nobody</string>
   <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Quién es %1$s</string>
   <string name="title_log_port">Puerto %1$d</string>

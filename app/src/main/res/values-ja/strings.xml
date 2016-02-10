@@ -143,6 +143,7 @@
   <string name="title_block">ブロック</string>
   <string name="title_root">ルート</string>
   <string name="title_mediaserver">メディアサーバー</string>
+  <string name="title_nobody">誰もいません</string>
   <string name="title_notify">インターネット アクセスの試みを通知</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">ポート %1$d</string>

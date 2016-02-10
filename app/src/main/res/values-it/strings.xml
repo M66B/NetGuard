@@ -142,6 +142,7 @@
   <string name="title_block">Blocca</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
+  <string name="title_nobody">nobody</string>
   <string name="title_notify">Notifica tentativi di accesso internet</string>
   <string name="title_log_whois">Identità %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
