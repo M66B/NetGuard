@@ -266,6 +266,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                 prefs.edit().putString("hosts_last", last).apply();
 
                                 if (running) {
+                                    getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
                                     pref_hosts_download.setSummary(getString(R.string.msg_download_last, last));
                                     Toast.makeText(ActivitySettings.this, R.string.msg_downloaded, Toast.LENGTH_LONG).show();
                                 }
@@ -849,12 +850,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     if (ex == null) {
                         Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
 
+                        getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
+
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ActivitySettings.this);
                         prefs.edit().remove("hosts_last").apply();
                         getPreferenceScreen().findPreference("hosts_download").setSummary(null);
 
                         SinkholeService.reload(null, "hosts", ActivitySettings.this);
-                        getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
                     } else
                         Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
                 }
