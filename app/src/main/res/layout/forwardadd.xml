@@ -118,7 +118,7 @@
                 android:id="@+id/etRUid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="1000"
+                android:hint="9999"
                 android:inputType="number"
                 android:textAppearance="@style/TextMedium" />
         </LinearLayout>

@@ -342,6 +342,10 @@ public class Util {
         List<String> listResult = new ArrayList<>();
         if (uid == 0)
             listResult.add(context.getString(R.string.title_root));
+        else if (uid == 1013)
+            listResult.add(context.getString(R.string.title_mediaserver));
+        else if (uid == 9999)
+            listResult.add(context.getString(R.string.title_nobody));
         else {
             PackageManager pm = context.getPackageManager();
             String[] pkgs = pm.getPackagesForUid(uid);
