@@ -64,7 +64,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         };
     }
 
-    public DatabaseHelper(Context context) {
+    private static DatabaseHelper dh = null;
+
+    public static DatabaseHelper getInstance(Context context) {
+        if (dh == null)
+            dh = new DatabaseHelper(context.getApplicationContext());
+        return dh;
+    }
+
+    @Override
+    public void close() {
+        Log.w(TAG, "Database is being closed");
+    }
+
+    private DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
 

@@ -83,10 +83,9 @@ am start -a eu.faircode.netguard.START_PORT_FORWARD \
 --user 0
 */
                     Log.i(TAG, "Start forwarding protocol " + protocol + " port " + dport + " to " + raddr + "/" + rport + " uid " + ruid);
-                    DatabaseHelper dh = new DatabaseHelper(ActivityForwardApproval.this);
+                    DatabaseHelper dh = DatabaseHelper.getInstance(ActivityForwardApproval.this);
                     dh.deleteForward(protocol, dport);
                     dh.addForward(protocol, dport, raddr, rport, ruid);
-                    dh.close();
 
                 } else if (ACTION_STOP_PORT_FORWARD.equals(getIntent().getAction())) {
 /*
@@ -97,9 +96,7 @@ am start -a eu.faircode.netguard.STOP_PORT_FORWARD \
 --user 0
 */
                     Log.i(TAG, "Stop forwarding protocol " + protocol + " port " + dport);
-                    new DatabaseHelper(ActivityForwardApproval.this)
-                            .deleteForward(protocol, dport)
-                            .close();
+                    DatabaseHelper.getInstance(ActivityForwardApproval.this).deleteForward(protocol, dport);
                 }
 
                 SinkholeService.reload(null, "forwarding", ActivityForwardApproval.this);

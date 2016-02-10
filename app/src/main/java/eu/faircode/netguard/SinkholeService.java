@@ -678,7 +678,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             boolean notify = prefs.getBoolean("notify_access", false);
             boolean system = prefs.getBoolean("manage_system", false);
 
-            DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+            DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
 
             // Get real name
             String dname = dh.getQName(packet.daddr);
@@ -699,14 +699,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             if (packet.uid < 0 && packet.dport != 53)
                 Log.w(TAG, "Unknown application packet=" + packet);
-
-            dh.close();
         }
 
         private void resolved(ResourceRecord rr) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             if (prefs.getBoolean("resolved", true))
-                new DatabaseHelper(SinkholeService.this).insertDns(rr).close();
+                DatabaseHelper.getInstance(SinkholeService.this).insertDns(rr);
         }
 
         private void set(Intent intent) {
@@ -927,7 +925,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void prepareUidIPFilters() {
         Map<Long, Map<InetAddress, Boolean>> map = new HashMap<>();
 
-        DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+        DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
 
         Cursor cursor = dh.getDns();
         int colUid = cursor.getColumnIndex("uid");
@@ -967,15 +965,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
         cursor.close();
 
-        dh.close();
-
         synchronized (mapUidIPFilters) {
             mapUidIPFilters = map;
         }
     }
 
     private void updateUidIPFilters() {
-        DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+        DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
         Cursor cursor = dh.getAccess();
         int colDAddr = cursor.getColumnIndex("daddr");
         while (cursor.moveToNext()) {
@@ -988,13 +984,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
         }
         cursor.close();
-        dh.close();
     }
 
     private void prepareForwarding() {
         mapForward.clear();
 
-        DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+        DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
 
         Cursor cursor = dh.getForwarding();
         int colProtocol = cursor.getColumnIndex("protocol");
@@ -1013,15 +1008,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Forward " + fwd);
         }
         cursor.close();
-
-        dh.close();
     }
 
     private void cleanupDNS() {
         // Keep records for a week
-        new DatabaseHelper(SinkholeService.this)
-                .cleanupDns(new Date().getTime() - 7 * 24 * 3600 * 1000L)
-                .close();
+        DatabaseHelper.getInstance(SinkholeService.this).cleanupDns(new Date().getTime() - 7 * 24 * 3600 * 1000L);
     }
 
     private List<Rule> getAllowedRules(List<Rule> listRule) {
@@ -1684,7 +1675,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         sp.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         notification.addLine(sp);
 
-        DatabaseHelper dh = new DatabaseHelper(SinkholeService.this);
+        DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
         Cursor cursor = dh.getAccessUnset(uid);
         int colDAddr = cursor.getColumnIndex("daddr");
         int colTime = cursor.getColumnIndex("time");
@@ -1712,7 +1703,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             notification.addLine(sp);
         }
         cursor.close();
-        dh.close();
 
         NotificationManagerCompat.from(this).notify(uid + 10000, notification.build());
     }

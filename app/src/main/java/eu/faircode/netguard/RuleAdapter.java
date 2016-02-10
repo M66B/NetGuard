@@ -68,7 +68,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private static final String TAG = "NetGuard.Adapter";
 
     private Activity context;
-    private DatabaseHelper dh;
     private RecyclerView rv;
     private boolean filter;
     private boolean debuggable;
@@ -193,11 +192,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
     }
 
-    public RuleAdapter(DatabaseHelper dh, Activity context) {
+    public RuleAdapter(Activity context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         this.context = context;
-        this.dh = dh;
         this.filter = prefs.getBoolean("filter", false);
         this.debuggable = Util.isDebuggable(context);
 
@@ -335,7 +333,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
             @Override
             protected Long doInBackground(Object... objects) {
-                return dh.getRuleCount(rule.info.applicationInfo.uid);
+                return DatabaseHelper.getInstance(context).getRuleCount(rule.info.applicationInfo.uid);
             }
 
             @Override
@@ -543,7 +541,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         // Show access rules
         if (rule.expanded) {
             // Access the database when expanded only
-            final AccessAdapter badapter = new AccessAdapter(context, dh.getAccess(rule.info.applicationInfo.uid));
+            final AccessAdapter badapter = new AccessAdapter(context,
+                    DatabaseHelper.getInstance(context).getAccess(rule.info.applicationInfo.uid));
             if (filter)
                 holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -571,15 +570,15 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                                 public boolean onMenuItemClick(MenuItem menuItem) {
                                     switch (menuItem.getItemId()) {
                                         case R.id.menu_allow:
-                                            dh.setAccess(id, 0);
+                                            DatabaseHelper.getInstance(context).setAccess(id, 0);
                                             SinkholeService.reload(null, "allow host", context);
                                             return true;
                                         case R.id.menu_block:
-                                            dh.setAccess(id, 1);
+                                            DatabaseHelper.getInstance(context).setAccess(id, 1);
                                             SinkholeService.reload(null, "block host", context);
                                             return true;
                                         case R.id.menu_reset:
-                                            dh.setAccess(id, -1);
+                                            DatabaseHelper.getInstance(context).setAccess(id, -1);
                                             SinkholeService.reload(null, "reset host", context);
                                             return true;
                                     }
@@ -637,7 +636,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
                 Util.areYouSure(view.getContext(), R.string.msg_reset_access, new Util.DoubtListener() {
                     @Override
                     public void onSure() {
-                        dh.clearAccess(rule.info.applicationInfo.uid);
+                        DatabaseHelper.getInstance(context).clearAccess(rule.info.applicationInfo.uid);
                         if (rv != null)
                             rv.scrollToPosition(position);
                     }

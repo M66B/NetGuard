@@ -982,8 +982,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private void filterExport(XmlSerializer serializer) throws IOException {
         PackageManager pm = getPackageManager();
-        DatabaseHelper dh = new DatabaseHelper(this);
-        Cursor cursor = dh.getAccess();
+        Cursor cursor = DatabaseHelper.getInstance(this).getAccess();
         int colUid = cursor.getColumnIndex("uid");
         int colVersion = cursor.getColumnIndex("version");
         int colProtocol = cursor.getColumnIndex("protocol");
@@ -1011,7 +1010,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
         }
         cursor.close();
-        dh.close();
     }
 
     private void xmlImport(InputStream in) throws IOException, SAXException, ParserConfigurationException {
@@ -1020,24 +1018,19 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         prefs.edit().putBoolean("enabled", false).apply();
         SinkholeService.stop("import", this);
 
-        DatabaseHelper dh = new DatabaseHelper(this);
-        dh.clearAccess();
-        try {
-            XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
-            XmlImportHandler handler = new XmlImportHandler(this, dh);
-            reader.setContentHandler(handler);
-            reader.parse(new InputSource(in));
+        DatabaseHelper.getInstance(this).clearAccess();
+        XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+        XmlImportHandler handler = new XmlImportHandler(this);
+        reader.setContentHandler(handler);
+        reader.parse(new InputSource(in));
 
-            xmlImport(handler.application, prefs);
-            xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
-            xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
-            xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
-            xmlImport(handler.screen_wifi, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
-            xmlImport(handler.screen_other, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
-            xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
-        } finally {
-            dh.close();
-        }
+        xmlImport(handler.application, prefs);
+        xmlImport(handler.wifi, getSharedPreferences("wifi", Context.MODE_PRIVATE));
+        xmlImport(handler.mobile, getSharedPreferences("other", Context.MODE_PRIVATE));
+        xmlImport(handler.unused, getSharedPreferences("unused", Context.MODE_PRIVATE));
+        xmlImport(handler.screen_wifi, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
+        xmlImport(handler.screen_other, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
+        xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
 
         // Upgrade imported settings
         Receiver.upgrade(true, this);
@@ -1075,7 +1068,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private class XmlImportHandler extends DefaultHandler {
         private Context context;
-        private DatabaseHelper dh;
         public boolean enabled = false;
         public Map<String, Object> application = new HashMap<>();
         public Map<String, Object> wifi = new HashMap<>();
@@ -1087,9 +1079,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         private Map<String, Object> current = null;
         private List<Integer> listUid = new ArrayList<>();
 
-        public XmlImportHandler(Context context, DatabaseHelper dh) {
+        public XmlImportHandler(Context context) {
             this.context = context;
-            this.dh = dh;
         }
 
         @Override
@@ -1186,11 +1177,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     if (!listUid.contains(packet.uid)) {
                         Log.i(TAG, "Clear filters uid=" + packet.uid);
                         listUid.add(packet.uid);
-                        dh.clearAccess(packet.uid);
+                        DatabaseHelper.getInstance(context).clearAccess(packet.uid);
                     }
 
                     Log.i(TAG, " Update access " + packet + " block=" + block);
-                    dh.updateAccess(packet, null, block);
+                    DatabaseHelper.getInstance(context).updateAccess(packet, null, block);
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.w(TAG, "Package not found pkg=" + pkg);
                 }

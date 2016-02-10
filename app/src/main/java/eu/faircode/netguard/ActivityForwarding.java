@@ -41,7 +41,6 @@ import java.net.InetAddress;
 
 public class ActivityForwarding extends AppCompatActivity {
     private boolean running;
-    private DatabaseHelper dh;
     private ListView lvForwarding;
     private ForwardingAdapter adapter;
     private AlertDialog dialog = null;
@@ -57,10 +56,8 @@ public class ActivityForwarding extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        dh = new DatabaseHelper(this);
-
         lvForwarding = (ListView) findViewById(R.id.lvForwarding);
-        adapter = new ForwardingAdapter(this, dh.getForwarding());
+        adapter = new ForwardingAdapter(this, DatabaseHelper.getInstance(this).getForwarding());
         lvForwarding.setAdapter(adapter);
 
         lvForwarding.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,9 +79,10 @@ public class ActivityForwarding extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.menu_delete) {
-                            dh.deleteForward(protocol, dport);
+                            DatabaseHelper.getInstance(ActivityForwarding.this).deleteForward(protocol, dport);
                             SinkholeService.reload(null, "forwarding", ActivityForwarding.this);
-                            adapter = new ForwardingAdapter(ActivityForwarding.this, dh.getForwarding());
+                            adapter = new ForwardingAdapter(ActivityForwarding.this,
+                                    DatabaseHelper.getInstance(ActivityForwarding.this).getForwarding());
                             lvForwarding.setAdapter(adapter);
                         }
                         return false;
@@ -98,7 +96,6 @@ public class ActivityForwarding extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        dh.close();
         running = false;
         if (dialog != null) {
             dialog.dismiss();
@@ -145,7 +142,8 @@ public class ActivityForwarding extends AppCompatActivity {
                                         protected Throwable doInBackground(Object... objects) {
                                             try {
                                                 InetAddress.getByName(raddr);
-                                                dh.addForward(protocol, dport, raddr, rport, ruid);
+                                                DatabaseHelper.getInstance(ActivityForwarding.this)
+                                                        .addForward(protocol, dport, raddr, rport, ruid);
                                                 return null;
                                             } catch (Throwable ex) {
                                                 return ex;
@@ -157,7 +155,8 @@ public class ActivityForwarding extends AppCompatActivity {
                                             if (running)
                                                 if (ex == null) {
                                                     SinkholeService.reload(null, "forwarding", ActivityForwarding.this);
-                                                    adapter = new ForwardingAdapter(ActivityForwarding.this, dh.getForwarding());
+                                                    adapter = new ForwardingAdapter(ActivityForwarding.this,
+                                                            DatabaseHelper.getInstance(ActivityForwarding.this).getForwarding());
                                                     lvForwarding.setAdapter(adapter);
                                                 } else
                                                     Toast.makeText(ActivityForwarding.this, ex.toString(), Toast.LENGTH_LONG).show();

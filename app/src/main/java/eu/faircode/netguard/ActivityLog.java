@@ -64,7 +64,6 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
     private LogAdapter adapter;
     private MenuItem menuSearch = null;
 
-    private DatabaseHelper dh;
     private boolean live;
     private boolean resolve;
     private InetAddress vpn4 = null;
@@ -129,11 +128,10 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         boolean allowed = prefs.getBoolean("traffic_allowed", true);
         boolean blocked = prefs.getBoolean("traffic_blocked", true);
 
-        dh = new DatabaseHelper(this);
-        adapter = new LogAdapter(this, dh.getLog(udp, tcp, other, allowed, blocked), resolve);
+        adapter = new LogAdapter(this, DatabaseHelper.getInstance(this).getLog(udp, tcp, other, allowed, blocked), resolve);
         adapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
-                return dh.searchLog(constraint.toString());
+                return DatabaseHelper.getInstance(ActivityLog.this).searchLog(constraint.toString());
             }
         });
 
@@ -220,7 +218,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
     protected void onResume() {
         super.onResume();
         if (live) {
-            dh.addLogChangedListener(listener);
+            DatabaseHelper.getInstance(this).addLogChangedListener(listener);
             updateAdapter();
         }
     }
@@ -229,13 +227,12 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
     protected void onPause() {
         super.onPause();
         if (live)
-            dh.removeLogChangedListener(listener);
+            DatabaseHelper.getInstance(this).removeLogChangedListener(listener);
     }
 
     @Override
     protected void onDestroy() {
         running = false;
-        dh.close();
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroy();
     }
@@ -364,10 +361,10 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 item.setChecked(!item.isChecked());
                 live = item.isChecked();
                 if (live) {
-                    dh.addLogChangedListener(listener);
+                    DatabaseHelper.getInstance(this).addLogChangedListener(listener);
                     updateAdapter();
                 } else
-                    dh.removeLogChangedListener(listener);
+                    DatabaseHelper.getInstance(this).removeLogChangedListener(listener);
                 return true;
 
             case R.id.menu_refresh:
@@ -395,7 +392,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 new AsyncTask<Object, Object, Object>() {
                     @Override
                     protected Object doInBackground(Object... objects) {
-                        dh.clearLog();
+                        DatabaseHelper.getInstance(ActivityLog.this).clearLog();
                         if (prefs.getBoolean("pcap", false)) {
                             SinkholeService.setPcap(null);
                             if (pcap_file.exists() && !pcap_file.delete())
@@ -436,7 +433,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
             boolean other = prefs.getBoolean("proto_other", true);
             boolean allowed = prefs.getBoolean("traffic_allowed", true);
             boolean blocked = prefs.getBoolean("traffic_blocked", true);
-            adapter.changeCursor(dh.getLog(udp, tcp, other, allowed, blocked));
+            adapter.changeCursor(DatabaseHelper.getInstance(this).getLog(udp, tcp, other, allowed, blocked));
             if (menuSearch != null && menuSearch.isActionViewExpanded()) {
                 SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
                 adapter.getFilter().filter(searchView.getQuery().toString());
