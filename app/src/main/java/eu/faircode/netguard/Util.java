@@ -757,7 +757,7 @@ public class Util {
                 // Build intent
                 Intent sendEmail = new Intent(Intent.ACTION_SEND);
                 sendEmail.setType("message/rfc822");
-                sendEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{"marcel+netguard@faircode.eu"});
+                sendEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{"marcel+netguard@faircode.eu" });
                 sendEmail.putExtra(Intent.EXTRA_SUBJECT, "NetGuard " + version + " logcat");
                 sendEmail.putExtra(Intent.EXTRA_TEXT, sb.toString());
                 sendEmail.putExtra(Intent.EXTRA_STREAM, uri);
@@ -779,12 +779,13 @@ public class Util {
 
     private static StringBuilder getLogcat() {
         StringBuilder builder = new StringBuilder();
-        Process process = null;
+        Process process1 = null;
+        Process process2 = null;
         BufferedReader br = null;
         try {
-            String[] command = new String[]{"logcat", "-d", "-v", "threadtime"};
-            process = Runtime.getRuntime().exec(command);
-            br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String[] command1 = new String[]{"logcat", "-d", "-v", "threadtime" };
+            process1 = Runtime.getRuntime().exec(command1);
+            br = new BufferedReader(new InputStreamReader(process1.getInputStream()));
             int count = 0;
             String line;
             while ((line = br.readLine()) != null) {
@@ -792,6 +793,13 @@ public class Util {
                 builder.append(line).append("\r\n");
             }
             Log.i(TAG, "Logcat lines=" + count);
+
+            String[] command2 = new String[]{"ls", "-l", "/proc/" + android.os.Process.myPid() + "/fd" };
+            process2 = Runtime.getRuntime().exec(command2);
+            br = new BufferedReader(new InputStreamReader(process2.getInputStream()));
+            while ((line = br.readLine()) != null)
+                builder.append(line).append("\r\n");
+
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         } finally {
@@ -800,9 +808,15 @@ public class Util {
                     br.close();
                 } catch (IOException ignored) {
                 }
-            if (process != null)
+            if (process2 != null)
                 try {
-                    process.destroy();
+                    process2.destroy();
+                } catch (Throwable ex) {
+                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+            if (process1 != null)
+                try {
+                    process1.destroy();
                 } catch (Throwable ex) {
                     Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }

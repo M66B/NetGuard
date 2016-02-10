@@ -633,11 +633,30 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             else
                 remoteViews.setTextViewText(R.id.tvRx, getString(R.string.msg_mbsec, rxsec / 1000 / 1000));
 
+            // Show session/file count
             if (filter && loglevel <= Log.WARN) {
                 int[] count = jni_get_session_count();
                 remoteViews.setTextViewText(R.id.tvSessions, count[0] + "/" + count[1] + "/" + count[2]);
-            } else
-                remoteViews.setTextViewText(R.id.tvSessions, "");
+
+                File proc = new File("/proc/sys/fs/file-nr");
+                BufferedReader br = null;
+                try {
+                    br = new BufferedReader(new FileReader(proc));
+                    String line = br.readLine();
+                    String[] filenr = line.split("\\s+");
+                    if (filenr.length == 3) {
+                        int perc = Integer.parseInt(filenr[0]) * 100 / Integer.parseInt(filenr[2]);
+                        remoteViews.setTextViewText(R.id.tvFiles, perc + "%");
+                    }
+                } catch (Throwable ignored) {
+                } finally {
+                    if (br != null)
+                        try {
+                            br.close();
+                        } catch (IOException ignored) {
+                        }
+                }
+            }
 
             // Show notification
             Intent main = new Intent(SinkholeService.this, ActivityMain.class);
