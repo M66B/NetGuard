@@ -372,7 +372,7 @@ int32_t get_local_port(const int sock);
 
 int write_syn_ack(const struct arguments *args, struct tcp_session *cur);
 
-int write_ack(const struct arguments *args, struct tcp_session *cur, size_t bytes);
+int write_ack(const struct arguments *args, struct tcp_session *cur);
 
 int write_data(const struct arguments *args, struct tcp_session *cur,
                const uint8_t *buffer, size_t length);
@@ -388,7 +388,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
                   uint8_t *data, size_t datalen);
 
 ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
-                  const uint8_t *data, size_t datalen, size_t confirm,
+                  const uint8_t *data, size_t datalen,
                   int syn, int ack, int fin, int rst);
 
 uint8_t char2nible(const char c);
