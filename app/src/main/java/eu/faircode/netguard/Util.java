@@ -785,9 +785,13 @@ public class Util {
             String[] command = new String[]{"logcat", "-d", "-v", "threadtime"};
             process = Runtime.getRuntime().exec(command);
             br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            int count = 0;
             String line;
-            while ((line = br.readLine()) != null)
+            while ((line = br.readLine()) != null) {
+                count++;
                 builder.append(line).append("\r\n");
+            }
+            Log.i(TAG, "Logcat lines=" + count);
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         } finally {
