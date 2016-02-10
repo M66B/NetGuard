@@ -79,7 +79,7 @@ am start -a eu.faircode.netguard.START_PORT_FORWARD \
 --ei dport 53 \
 --es raddr 8.8.4.4 \
 --ei rport 53 \
---ei ruid 1 \
+--ei ruid 9999 \
 --user 0
 */
                     Log.i(TAG, "Start forwarding protocol " + protocol + " port " + dport + " to " + raddr + "/" + rport + " uid " + ruid);

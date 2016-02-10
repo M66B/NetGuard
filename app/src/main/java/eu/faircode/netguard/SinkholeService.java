@@ -177,7 +177,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         private List<Float> gtx = new ArrayList<>();
         private List<Float> grx = new ArrayList<>();
 
-        private HashMap<ApplicationInfo, Long> app = new HashMap<>();
+        private HashMap<Integer, Long> mapUidBytes = new HashMap<>();
 
         public ServiceHandler(Looper looper) {
             super(looper);
@@ -458,7 +458,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 gt.clear();
                 gtx.clear();
                 grx.clear();
-                app.clear();
+                mapUidBytes.clear();
                 stats = true;
                 updateStats();
             }
@@ -518,39 +518,40 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // Calculate application speeds
             if (show_top) {
-                if (app.size() == 0) {
+                if (mapUidBytes.size() == 0) {
                     for (ApplicationInfo ainfo : getPackageManager().getInstalledApplications(0))
                         if (ainfo.uid != Process.myUid())
-                            app.put(ainfo, TrafficStats.getUidTxBytes(ainfo.uid) + TrafficStats.getUidRxBytes(ainfo.uid));
+                            mapUidBytes.put(ainfo.uid, TrafficStats.getUidTxBytes(ainfo.uid) + TrafficStats.getUidRxBytes(ainfo.uid));
 
                 } else if (t > 0) {
-                    TreeMap<Float, ApplicationInfo> mapSpeed = new TreeMap<>(new Comparator<Float>() {
+                    TreeMap<Float, Integer> mapSpeedUid = new TreeMap<>(new Comparator<Float>() {
                         @Override
                         public int compare(Float value, Float other) {
                             return -value.compareTo(other);
                         }
                     });
                     float dt = (ct - t) / 1000f;
-                    for (ApplicationInfo aInfo : app.keySet()) {
-                        long bytes = TrafficStats.getUidTxBytes(aInfo.uid) + TrafficStats.getUidRxBytes(aInfo.uid);
-                        float speed = (bytes - app.get(aInfo)) / dt;
+                    for (int uid : mapUidBytes.keySet()) {
+                        long bytes = TrafficStats.getUidTxBytes(uid) + TrafficStats.getUidRxBytes(uid);
+                        float speed = (bytes - mapUidBytes.get(uid)) / dt;
                         if (speed > 0) {
-                            mapSpeed.put(speed, aInfo);
-                            app.put(aInfo, bytes);
+                            mapSpeedUid.put(speed, uid);
+                            mapUidBytes.put(uid, bytes);
                         }
                     }
 
                     StringBuilder sb = new StringBuilder();
                     int i = 0;
-                    for (float s : mapSpeed.keySet()) {
+                    for (float speed : mapSpeedUid.keySet()) {
                         if (i++ >= 3)
                             break;
-                        if (s < 1000 * 1000)
-                            sb.append(getString(R.string.msg_kbsec, s / 1000));
+                        if (speed < 1000 * 1000)
+                            sb.append(getString(R.string.msg_kbsec, speed / 1000));
                         else
-                            sb.append(getString(R.string.msg_mbsec, s / 1000 / 1000));
+                            sb.append(getString(R.string.msg_mbsec, speed / 1000 / 1000));
                         sb.append(' ');
-                        sb.append(getPackageManager().getApplicationLabel(mapSpeed.get(s)).toString());
+                        List<String> apps = Util.getApplicationNames(mapSpeedUid.get(speed), SinkholeService.this);
+                        sb.append(apps.size() > 0 ? apps.get(0) : "?");
                         sb.append("\r\n");
                     }
                     if (sb.length() > 0)
@@ -698,7 +699,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
 
             if (packet.uid < 0 && packet.dport != 53)
-                Log.w(TAG, "Unknown application packet=" + packet);
+                Log.w(TAG, "Unknown application packet " + packet);
         }
 
         private void resolved(ResourceRecord rr) {

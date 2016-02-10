@@ -527,11 +527,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (vpn4 == null || TextUtils.isEmpty(vpn4.trim()))
                     throw new IllegalArgumentException("vpn4");
                 InetAddress.getByName(vpn4);
-                SinkholeService.reload(null, "changed " + name, this);
             } catch (Throwable ex) {
                 Log.w(TAG, ex.toString());
                 prefs.edit().remove("vpn4").apply();
             }
+            SinkholeService.reload(null, "changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn4", "10.1.10.1")));
 
         } else if ("vpn6".equals(name)) {
@@ -540,11 +540,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (vpn6 == null || TextUtils.isEmpty(vpn6.trim()))
                     throw new IllegalArgumentException("vpn6");
                 InetAddress.getByName(vpn6);
-                SinkholeService.reload(null, "changed " + name, this);
             } catch (Throwable ex) {
                 Log.w(TAG, ex.toString());
                 prefs.edit().remove("vpn6").apply();
             }
+            SinkholeService.reload(null, "changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
 
         } else if ("dns".equals(name)) {
@@ -553,11 +553,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (dns == null || TextUtils.isEmpty(dns.trim()))
                     throw new IllegalArgumentException("dns");
                 InetAddress.getByName(dns);
-                SinkholeService.reload(null, "changed " + name, this);
             } catch (Throwable ex) {
                 Log.w(TAG, ex.toString());
                 prefs.edit().remove("dns").apply();
             }
+            SinkholeService.reload(null, "changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_dns, prefs.getString("dns", Util.getDefaultDNS(this))));
 
         } else if ("show_stats".equals(name))
