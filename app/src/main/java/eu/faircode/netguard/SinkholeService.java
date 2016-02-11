@@ -421,6 +421,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     stopNative(prev, false);
                     stopVPN(prev);
                 }
+                if (vpn == null)
+                    throw new IllegalStateException("VPN start failed");
+
                 startNative(vpn, listAllowed);
             }
 
