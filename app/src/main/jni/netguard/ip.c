@@ -133,7 +133,7 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         daddr = &ip4hdr->daddr;
 
         if (ip4hdr->frag_off & IP_MF) {
-            log_android(ANDROID_LOG_ERROR, "IP fragment");
+            log_android(ANDROID_LOG_ERROR, "IP fragment offset %u", ip4hdr->frag_off & IP_OFFMASK);
             flags[flen++] = '+';
         }
 
