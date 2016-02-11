@@ -174,12 +174,14 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(
         log_android(ANDROID_LOG_WARN, "Not running thread %x", t);
 }
 
+#include <dirent.h>
+
 JNIEXPORT jintArray JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1get_1session_1count(JNIEnv *env, jobject instance) {
+Java_eu_faircode_netguard_SinkholeService_jni_1get_1stats(JNIEnv *env, jobject instance) {
     if (pthread_mutex_lock(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
-    jintArray jarray = (*env)->NewIntArray(env, 3);
+    jintArray jarray = (*env)->NewIntArray(env, 5);
     jint *jcount = (*env)->GetIntArrayElements(env, jarray, NULL);
     jcount[0] = get_icmp_sessions();
     jcount[1] = get_udp_sessions();
@@ -188,6 +190,20 @@ Java_eu_faircode_netguard_SinkholeService_jni_1get_1session_1count(JNIEnv *env, 
     if (pthread_mutex_unlock(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
 
+    jcount[3] = 0;
+    DIR *d = opendir("/proc/self/fd");
+    if (d) {
+        struct dirent *dir;
+        while ((dir = readdir(d)) != NULL)
+            if (dir->d_type != DT_DIR)
+                jcount[3]++;
+        closedir(d);
+    }
+
+    struct rlimit rlim;
+    memset(&rlim, 0, sizeof(struct rlimit));
+    getrlimit(RLIMIT_NOFILE, &rlim);
+    jcount[4] = rlim.rlim_cur;
 
     (*env)->ReleaseIntArrayElements(env, jarray, jcount, NULL);
     return jarray;

@@ -146,7 +146,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_stop(int tun, boolean clear);
 
-    private native int[] jni_get_session_count();
+    private native int[] jni_get_stats();
 
     private static native void jni_pcap(String name);
 
@@ -635,27 +635,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // Show session/file count
             if (filter && loglevel <= Log.WARN) {
-                int[] count = jni_get_session_count();
+                int[] count = jni_get_stats();
                 remoteViews.setTextViewText(R.id.tvSessions, count[0] + "/" + count[1] + "/" + count[2]);
-
-                File proc = new File("/proc/sys/fs/file-nr");
-                BufferedReader br = null;
-                try {
-                    br = new BufferedReader(new FileReader(proc));
-                    String line = br.readLine();
-                    String[] filenr = line.split("\\s+");
-                    if (filenr.length == 3) {
-                        int perc = Integer.parseInt(filenr[0]) * 100 / Integer.parseInt(filenr[2]);
-                        remoteViews.setTextViewText(R.id.tvFiles, perc + "%");
-                    }
-                } catch (Throwable ignored) {
-                } finally {
-                    if (br != null)
-                        try {
-                            br.close();
-                        } catch (IOException ignored) {
-                        }
-                }
+                remoteViews.setTextViewText(R.id.tvFiles, count[3] + "/" + count[4]);
             }
 
             // Show notification
