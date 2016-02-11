@@ -59,6 +59,12 @@ void *handle_events(void *a) {
     // Get SDK version
     sdk = sdk_int(env);
 
+    struct rlimit rlim;
+    if (getrlimit(RLIMIT_NOFILE, &rlim))
+        log_android(ANDROID_LOG_WARN, "getrlimit error %d: %s", errno, strerror(errno));
+    else
+        log_android(ANDROID_LOG_WARN, "getrlimit soft %d hard %d", rlim.rlim_cur, rlim.rlim_max);
+
     // Block SIGUSR1
     sigemptyset(&blockset);
     sigaddset(&blockset, SIGUSR1);

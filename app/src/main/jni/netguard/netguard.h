@@ -11,6 +11,7 @@
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <dlfcn.h>
+#include <sys/resource.h>
 
 #include <netdb.h>
 #include <arpa/inet.h>

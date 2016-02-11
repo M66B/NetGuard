@@ -59,6 +59,19 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     const char *rr = "eu/faircode/netguard/ResourceRecord";
     clsRR = jniGlobalRef(env, jniFindClass(env, rr));
 
+    // Raise file number limit to maximum
+    struct rlimit rlim;
+    if (getrlimit(RLIMIT_NOFILE, &rlim))
+        log_android(ANDROID_LOG_WARN, "getrlimit error %d: %s", errno, strerror(errno));
+    else {
+        rlim_t soft = rlim.rlim_cur;
+        rlim.rlim_cur = rlim.rlim_max;
+        if (setrlimit(RLIMIT_NOFILE, &rlim))
+            log_android(ANDROID_LOG_WARN, "setrlimit error %d: %s", errno, strerror(errno));
+        else
+            log_android(ANDROID_LOG_WARN, "raised file limit from %d to %d", soft, rlim.rlim_cur);
+    }
+
     return JNI_VERSION_1_6;
 }
 
