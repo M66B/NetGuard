@@ -320,6 +320,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
+                showErrorNotification(ex.toString());
+
                 if (!(ex instanceof IllegalStateException)) {
                     // Disable firewall
                     prefs.edit().putBoolean("enabled", false).apply();
@@ -427,6 +429,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 startNative(vpn, listAllowed);
             }
 
+            removeWarningNotifications();
             updateEnforcingNotification(listAllowed.size(), listRule.size());
         }
 
