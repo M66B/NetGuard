@@ -231,7 +231,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void handleIntent(Intent intent) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
 
             Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
             String reason = intent.getStringExtra(EXTRA_REASON);
@@ -272,7 +272,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     @Override
                     public void onSubscriptionsChanged() {
                         Log.i(TAG, "Subscriptions changed");
-                        SinkholeService.reload(null, "Subscriptions changed", SinkholeService.this);
+                        if (prefs.getBoolean("national_roaming", false))
+                            SinkholeService.reload(null, "Subscriptions changed", SinkholeService.this);
                     }
                 };
                 sm.addOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
