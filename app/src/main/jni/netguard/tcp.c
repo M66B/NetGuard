@@ -65,9 +65,12 @@ int get_tcp_timeout(const struct tcp_session *t, int sessions, int maxsessions) 
     int timeout;
     if (t->state == TCP_LISTEN || t->state == TCP_SYN_RECV)
         timeout = TCP_INIT_TIMEOUT;
-    else if (t->state == TCP_ESTABLISHED)
-        timeout = TCP_IDLE_TIMEOUT;
-    else
+    else if (t->state == TCP_ESTABLISHED) {
+        if (t->keep_alive)
+            timeout = TCP_IDLE_TIMEOUT;
+        else
+            timeout = TCP_IDLE_TIMEOUT / 2;
+    } else
         timeout = TCP_CLOSE_TIMEOUT;
 
     int scale = 100 - sessions * 100 / maxsessions;
@@ -96,28 +99,40 @@ void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessi
         sprintf(session, "TCP socket from %s/%u to %s/%u %s socket %d",
                 source, ntohs(t->source), dest, ntohs(t->dest), strstate(t->state), t->socket);
 
-        // Check session timeout
         int timeout = get_tcp_timeout(t, sessions, maxsessions);
-        if (t->state != TCP_CLOSING && t->state != TCP_CLOSE && t->time + timeout < now) {
-            // TODO send keep alives?
-            log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ", session, now - t->time, timeout);
-            write_rst(args, t);
-        }
 
-        // Check closing sessions
-        if (t->state == TCP_CLOSING) {
-            // eof closes socket
-            if (t->socket >= 0) {
-                if (close(t->socket))
-                    log_android(ANDROID_LOG_ERROR, "%s close error %d: %s",
-                                session, errno, strerror(errno));
-                else
-                    log_android(ANDROID_LOG_WARN, "%s close", session);
-                t->socket = -1;
+        // Keep alive
+        if (t->state == TCP_ESTABLISHED && t->keep_alive == 0 && t->time + timeout < now) {
+            log_android(ANDROID_LOG_WARN, "%s keep alive %d/%d sec ",
+                        session, now - t->time, timeout);
+            t->keep_alive = time(NULL);
+            t->local_seq--;
+            write_ack(args, t);
+            t->local_seq++;
+        }
+        else {
+            // Check session timeout
+            if (t->state != TCP_CLOSING && t->state != TCP_CLOSE && t->time + timeout < now) {
+                log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ", session, now - t->time,
+                            timeout);
+                write_rst(args, t);
             }
 
-            t->time = time(NULL);
-            t->state = TCP_CLOSE;
+            // Check closing sessions
+            if (t->state == TCP_CLOSING) {
+                // eof closes socket
+                if (t->socket >= 0) {
+                    if (close(t->socket))
+                        log_android(ANDROID_LOG_ERROR, "%s close error %d: %s",
+                                    session, errno, strerror(errno));
+                    else
+                        log_android(ANDROID_LOG_WARN, "%s close", session);
+                    t->socket = -1;
+                }
+
+                t->time = time(NULL);
+                t->state = TCP_CLOSE;
+            }
         }
 
         // Cleanup lingering sessions
@@ -434,6 +449,7 @@ jboolean handle_tcp(const struct arguments *args,
             // Register session
             struct tcp_session *syn = malloc(sizeof(struct tcp_session));
             syn->time = time(NULL);
+            syn->keep_alive = 0;
             syn->uid = uid;
             syn->version = version;
             syn->recv_window = TCP_RECV_WINDOW;
@@ -531,6 +547,7 @@ jboolean handle_tcp(const struct arguments *args,
             log_android(ANDROID_LOG_DEBUG, "%s handling", session);
 
             cur->time = time(NULL);
+            cur->keep_alive = 0;
             cur->send_window = ntohs(tcphdr->window);
 
             // Do not change the order of the conditions
