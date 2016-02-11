@@ -76,6 +76,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -524,11 +525,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("vpn4".equals(name)) {
             String vpn4 = prefs.getString("vpn4", null);
             try {
-                if (vpn4 == null || TextUtils.isEmpty(vpn4.trim()))
-                    throw new IllegalArgumentException("vpn4");
-                InetAddress.getByName(vpn4);
+                checkAddress(vpn4);
             } catch (Throwable ex) {
-                Log.w(TAG, ex.toString());
                 prefs.edit().remove("vpn4").apply();
             }
             SinkholeService.reload(null, "changed " + name, this);
@@ -537,11 +535,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("vpn6".equals(name)) {
             String vpn6 = prefs.getString("vpn6", null);
             try {
-                if (vpn6 == null || TextUtils.isEmpty(vpn6.trim()))
-                    throw new IllegalArgumentException("vpn6");
-                InetAddress.getByName(vpn6);
+                checkAddress(vpn6);
             } catch (Throwable ex) {
-                Log.w(TAG, ex.toString());
                 prefs.edit().remove("vpn6").apply();
             }
             SinkholeService.reload(null, "changed " + name, this);
@@ -550,11 +545,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("dns".equals(name)) {
             String dns = prefs.getString("dns", null);
             try {
-                if (dns == null || TextUtils.isEmpty(dns.trim()))
-                    throw new IllegalArgumentException("dns");
-                InetAddress.getByName(dns);
+                checkAddress(dns);
             } catch (Throwable ex) {
-                Log.w(TAG, ex.toString());
                 prefs.edit().remove("dns").apply();
             }
             SinkholeService.reload(null, "changed " + name, this);
@@ -577,6 +569,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         else if ("loglevel".equals(name))
             SinkholeService.reload(null, "changed " + name, this);
+    }
+
+    private void checkAddress(String address) throws IllegalArgumentException, UnknownHostException {
+        if (address == null || TextUtils.isEmpty(address.trim()))
+            throw new IllegalArgumentException("Bad address");
+        InetAddress idns = InetAddress.getByName(address);
+        if (idns.isLoopbackAddress() || idns.isAnyLocalAddress())
+            throw new IllegalArgumentException("Bad address");
     }
 
     @TargetApi(Build.VERSION_CODES.M)
