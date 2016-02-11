@@ -114,13 +114,22 @@
                 android:text="@string/title_ruid"
                 android:textAppearance="@style/TextSmall" />
 
-            <EditText
-                android:id="@+id/etRUid"
-                android:layout_width="match_parent"
+            <ProgressBar
+                android:id="@+id/pbRUid"
+                style="@android:style/Widget.ProgressBar.Small"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="9999"
-                android:inputType="number"
-                android:textAppearance="@style/TextMedium" />
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
+            <Spinner
+                android:id="@+id/spRUid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:prompt="@string/title_ruid"
+                android:textAppearance="@style/TextMedium"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

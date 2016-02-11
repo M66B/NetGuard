@@ -349,7 +349,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 state = State.enforcing;
                 Log.d(TAG, "Start foreground state=" + state.toString());
 
-                List<Rule> listRule = Rule.getRules(true, TAG, SinkholeService.this);
+                List<Rule> listRule = Rule.getRules(true, SinkholeService.this);
                 List<Rule> listAllowed = getAllowedRules(listRule);
 
                 vpn = startVPN(listAllowed);
@@ -381,7 +381,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 Log.d(TAG, "Start foreground state=" + state.toString());
             }
 
-            List<Rule> listRule = Rule.getRules(true, TAG, SinkholeService.this);
+            List<Rule> listRule = Rule.getRules(true, SinkholeService.this);
             List<Rule> listAllowed = getAllowedRules(listRule);
 
             if (filter &&

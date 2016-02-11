@@ -56,17 +56,17 @@ public class Rule {
     public boolean enabled;
     public Intent intent;
 
-    public boolean wifi_default;
-    public boolean other_default;
-    public boolean screen_wifi_default;
-    public boolean screen_other_default;
-    public boolean roaming_default;
+    public boolean wifi_default = false;
+    public boolean other_default = false;
+    public boolean screen_wifi_default = false;
+    public boolean screen_other_default = false;
+    public boolean roaming_default = false;
 
-    public boolean wifi_blocked;
-    public boolean other_blocked;
-    public boolean screen_wifi;
-    public boolean screen_other;
-    public boolean roaming;
+    public boolean wifi_blocked = false;
+    public boolean other_blocked = false;
+    public boolean screen_wifi = false;
+    public boolean screen_other = false;
+    public boolean roaming = false;
 
     public String[] related = null;
 
@@ -94,6 +94,12 @@ public class Rule {
             this.internet = true;
             this.enabled = true;
             this.intent = null;
+        } else if (info.applicationInfo.uid == 9999) {
+            this.name = context.getString(R.string.title_nobody);
+            this.system = true;
+            this.internet = true;
+            this.enabled = true;
+            this.intent = null;
         } else {
             this.name = info.applicationInfo.loadLabel(pm).toString();
             this.system = Util.isSystem(info.packageName, context);
@@ -115,7 +121,7 @@ public class Rule {
         }
     }
 
-    public static List<Rule> getRules(boolean all, String tag, Context context) {
+    public static List<Rule> getRules(boolean all, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
@@ -152,7 +158,6 @@ public class Rule {
                         String pkg = xml.getAttributeValue(null, "package");
                         boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
                         pre_wifi_blocked.put(pkg, pblocked);
-                        Log.d(tag, "Wifi " + pkg + " blocked=" + pblocked);
 
                     } else if ("other".equals(xml.getName())) {
                         String pkg = xml.getAttributeValue(null, "package");
@@ -160,26 +165,23 @@ public class Rule {
                         boolean proaming = xml.getAttributeBooleanValue(null, "roaming", default_roaming);
                         pre_other_blocked.put(pkg, pblocked);
                         pre_roaming.put(pkg, proaming);
-                        Log.d(tag, "Other " + pkg + " blocked=" + pblocked + " roaming=" + proaming);
 
                     } else if ("relation".equals(xml.getName())) {
                         String pkg = xml.getAttributeValue(null, "package");
                         String[] rel = xml.getAttributeValue(null, "related").split(",");
                         pre_related.put(pkg, rel);
-                        Log.d(tag, "Relation " + pkg + " related=" + TextUtils.join(",", rel));
 
                     } else if ("type".equals(xml.getName())) {
                         String pkg = xml.getAttributeValue(null, "package");
                         boolean system = xml.getAttributeBooleanValue(null, "system", true);
                         pre_system.put(pkg, system);
-                        Log.d(tag, "Type " + pkg + " system=" + system);
                     }
 
 
                 eventType = xml.next();
             }
         } catch (Throwable ex) {
-            Log.e(tag, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             Util.sendCrashReport(ex, context);
         }
 
@@ -209,6 +211,16 @@ public class Rule {
         media.applicationInfo.icon = 0;
         listPI.add(media);
 
+        // Add nobody
+        PackageInfo nobody = new PackageInfo();
+        nobody.packageName = "nobody";
+        nobody.versionCode = Build.VERSION.SDK_INT;
+        nobody.versionName = Build.VERSION.RELEASE;
+        nobody.applicationInfo = new ApplicationInfo();
+        nobody.applicationInfo.uid = 9999;
+        nobody.applicationInfo.icon = 0;
+        listPI.add(nobody);
+
         for (PackageInfo info : listPI) {
             Rule rule = new Rule(info, context);
 
@@ -221,20 +233,8 @@ public class Rule {
                             (show_disabled || rule.enabled) &&
                             info.applicationInfo.uid != Process.myUid())) {
 
-                if (info.applicationInfo.uid == Process.myUid()) {
-                    // Internet access is needed to resolve host names
-                    rule.wifi_default = false;
-                    rule.other_default = false;
-                    rule.screen_wifi_default = false;
-                    rule.screen_other_default = false;
-                    rule.roaming_default = false;
-
-                    rule.wifi_blocked = false;
-                    rule.other_blocked = false;
-                    rule.screen_wifi = false;
-                    rule.screen_other = false;
-                    rule.roaming = false;
-                } else {
+                // Internet access is needed to resolve host names
+                if (info.applicationInfo.uid != Process.myUid()) {
                     rule.wifi_default = (pre_wifi_blocked.containsKey(info.packageName) ? pre_wifi_blocked.get(info.packageName) : default_wifi);
                     rule.other_default = (pre_other_blocked.containsKey(info.packageName) ? pre_other_blocked.get(info.packageName) : default_other);
                     rule.screen_wifi_default = default_screen_wifi;
@@ -314,5 +314,10 @@ public class Rule {
         boolean default_other = prefs.getBoolean("whitelist_other", true);
         boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
         updateChanged(default_wifi, default_other, default_roaming);
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

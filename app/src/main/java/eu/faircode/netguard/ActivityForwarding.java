@@ -31,15 +31,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityForwarding extends AppCompatActivity {
+    private static final String TAG = "NetGuard.forwarding";
+
     private boolean running;
     private ListView lvForwarding;
     private ForwardingAdapter adapter;
@@ -121,7 +127,32 @@ public class ActivityForwarding extends AppCompatActivity {
                 final EditText etDPort = (EditText) view.findViewById(R.id.etDPort);
                 final EditText etRAddr = (EditText) view.findViewById(R.id.etRAddr);
                 final EditText etRPort = (EditText) view.findViewById(R.id.etRPort);
-                final EditText etRUid = (EditText) view.findViewById(R.id.etRUid);
+                final ProgressBar pbRuid = (ProgressBar) view.findViewById(R.id.pbRUid);
+                final Spinner spRuid = (Spinner) view.findViewById(R.id.spRUid);
+
+                final AsyncTask task = new AsyncTask<Object, Object, List<Rule>>() {
+                    @Override
+                    protected void onPreExecute() {
+                        pbRuid.setVisibility(View.VISIBLE);
+                        spRuid.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    protected List<Rule> doInBackground(Object... objects) {
+                        return Rule.getRules(false, ActivityForwarding.this);
+                    }
+
+                    @Override
+                    protected void onPostExecute(List<Rule> rules) {
+                        ArrayAdapter spinnerArrayAdapter =
+                                new ArrayAdapter(ActivityForwarding.this,
+                                        android.R.layout.simple_spinner_item, rules);
+                        spRuid.setAdapter(spinnerArrayAdapter);
+                        pbRuid.setVisibility(View.GONE);
+                        spRuid.setVisibility(View.VISIBLE);
+                    }
+                };
+                task.execute();
 
                 dialog = new AlertDialog.Builder(this)
                         .setView(view)
@@ -136,7 +167,7 @@ public class ActivityForwarding extends AppCompatActivity {
                                     final int dport = Integer.parseInt(etDPort.getText().toString());
                                     final String raddr = etRAddr.getText().toString();
                                     final int rport = Integer.parseInt(etRPort.getText().toString());
-                                    final int ruid = Integer.parseInt(etRUid.getText().toString());
+                                    final int ruid = ((Rule) spRuid.getSelectedItem()).info.applicationInfo.uid;
                                     new AsyncTask<Object, Object, Throwable>() {
                                         @Override
                                         protected Throwable doInBackground(Object... objects) {
@@ -170,6 +201,7 @@ public class ActivityForwarding extends AppCompatActivity {
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                task.cancel(false);
                                 dialog.dismiss();
                             }
                         })
