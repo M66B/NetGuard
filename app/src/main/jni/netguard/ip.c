@@ -23,7 +23,9 @@ int max_tun_msg = 0;
 extern int loglevel;
 extern FILE *pcap_file;
 
-int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+int check_tun(const struct arguments *args,
+              fd_set *rfds, fd_set *wfds, fd_set *efds,
+              int sessions, int maxsessions) {
     // Check tun error
     if (FD_ISSET(args->tun, efds)) {
         log_android(ANDROID_LOG_ERROR, "tun %d exception", args->tun);
@@ -64,7 +66,7 @@ int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *
             }
 
             // Handle IP from tun
-            handle_ip(args, buffer, (size_t) length);
+            handle_ip(args, buffer, (size_t) length, sessions, maxsessions);
 
             free(buffer);
         }
@@ -102,7 +104,9 @@ int is_upper_layer(int protocol) {
             protocol == IPPROTO_ICMPV6);
 }
 
-void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t length) {
+void handle_ip(const struct arguments *args,
+               const uint8_t *pkt, const size_t length,
+               int sessions, int maxsessions) {
     uint8_t protocol;
     void *saddr;
     void *daddr;
@@ -254,6 +258,18 @@ void handle_ip(const struct arguments *args, const uint8_t *pkt, const size_t le
         // TODO checksum
     }
     flags[flen] = 0;
+
+    // Limit number of sessions
+    if (sessions >= maxsessions) {
+        if ((protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6) ||
+            (protocol == IPPROTO_UDP && !has_udp_session(args, pkt, payload)) ||
+            (protocol == IPPROTO_TCP && syn)) {
+            log_android(ANDROID_LOG_ERROR,
+                        "%d of max %d sessions, dropping version %d protocol %d",
+                        sessions, maxsessions, protocol, version);
+            return;
+        }
+    }
 
     // Get uid
     jint uid = -1;

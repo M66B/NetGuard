@@ -302,7 +302,9 @@ int get_tcp_timeout(const struct tcp_session *t, int sessions);
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-int check_tun(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
+int check_tun(const struct arguments *args,
+              fd_set *rfds, fd_set *wfds, fd_set *efds,
+              int sessions, int maxsessions);
 
 void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
@@ -318,7 +320,9 @@ int is_lower_layer(int protocol);
 
 int is_upper_layer(int protocol);
 
-void handle_ip(const struct arguments *args, const uint8_t *buffer, size_t length);
+void handle_ip(const struct arguments *args,
+               const uint8_t *buffer, size_t length,
+               int sessions, int maxsessions);
 
 void init_icmp(const struct arguments *args);
 

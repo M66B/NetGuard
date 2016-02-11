@@ -59,11 +59,15 @@ void *handle_events(void *a) {
     // Get SDK version
     sdk = sdk_int(env);
 
+    int maxsessions = 1024;
     struct rlimit rlim;
     if (getrlimit(RLIMIT_NOFILE, &rlim))
         log_android(ANDROID_LOG_WARN, "getrlimit error %d: %s", errno, strerror(errno));
-    else
-        log_android(ANDROID_LOG_WARN, "getrlimit soft %d hard %d", rlim.rlim_cur, rlim.rlim_max);
+    else {
+        maxsessions = rlim.rlim_cur * 80 / 100;
+        log_android(ANDROID_LOG_WARN, "getrlimit soft %d hard %d max sessions %d",
+                    rlim.rlim_cur, rlim.rlim_max, maxsessions);
+    }
 
     // Block SIGUSR1
     sigemptyset(&blockset);
@@ -90,11 +94,12 @@ void *handle_events(void *a) {
         int isessions = check_icmp_sessions(args);
         int usessions = check_udp_sessions(args);
         int tsessions = check_tcp_sessions(args);
+        int sessions = isessions + usessions + tsessions;
 
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1093893
         int idle = (tsessions + usessions + tsessions == 0 && sdk >= 16);
-        log_android(ANDROID_LOG_DEBUG, "sessions ICMP %d UDP %d TCP %d idle %d sdk %d",
-                    isessions, usessions, tsessions, idle, sdk);
+        log_android(ANDROID_LOG_DEBUG, "sessions ICMP %d UDP %d TCP %d max %d/%d idle %d sdk %d",
+                    isessions, usessions, tsessions, sessions, maxsessions, idle, sdk);
 
         // Next event time
         ts.tv_sec = (sdk < 16 ? 5 : get_select_timeout(isessions, usessions, tsessions));
@@ -154,7 +159,7 @@ void *handle_events(void *a) {
 
             // Check upstream
             int error = 0;
-            if (check_tun(args, &rfds, &wfds, &efds) < 0)
+            if (check_tun(args, &rfds, &wfds, &efds, sessions, maxsessions) < 0)
                 error = 1;
             else {
 #ifdef PROFILE_EVENTS
