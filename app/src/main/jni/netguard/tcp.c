@@ -115,7 +115,10 @@ void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessi
             if (t->state != TCP_CLOSING && t->state != TCP_CLOSE && t->time + timeout < now) {
                 log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ", session, now - t->time,
                             timeout);
-                write_rst(args, t);
+                if (t->state == TCP_LISTEN)
+                    t->state = TCP_CLOSING;
+                else
+                    write_rst(args, t);
             }
 
             // Check closing sessions
