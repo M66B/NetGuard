@@ -29,13 +29,13 @@
   <string name="menu_pcap_export">Exportar PCAP</string>
   <string name="menu_clear">Limpar</string>
   <string name="menu_reset">Repor</string>
-  <string name="menu_add">Add</string>
-  <string name="menu_delete">Delete</string>
-  <string name="title_protocol">Protocol</string>
-  <string name="title_dport">Source port</string>
-  <string name="title_raddr">Destination address</string>
-  <string name="title_rport">Destination port</string>
-  <string name="title_ruid">Destination application</string>
+  <string name="menu_add">Adicionar</string>
+  <string name="menu_delete">Eliminar</string>
+  <string name="title_protocol">Protocolo</string>
+  <string name="title_dport">Porta de origem</string>
+  <string name="title_raddr">Endereço de destino</string>
+  <string name="title_rport">Porta de destino</string>
+  <string name="title_ruid">Aplicação de Destino</string>
   <string name="setting_defaults">Predefinições</string>
   <string name="setting_whitelist_wifi">Bloquear Wi-Fi</string>
   <string name="setting_whitelist_other">Bloquear Dados Móveis</string>
@@ -62,7 +62,7 @@
   <string name="setting_filter">Filtrar tráfego</string>
   <string name="setting_resolved">Armazenar os nomes de domínio resolvidos</string>
   <string name="setting_block_domains">Bloquear nomes de domínio</string>
-  <string name="setting_forwarding">Port forwarding</string>
+  <string name="setting_forwarding">Encaminhamento de porta</string>
   <string name="setting_vpn4">IPv4 VPN: %s</string>
   <string name="setting_vpn6">IPv4 VPN: %s</string>
   <string name="setting_dns">DNS da VPN: %s</string>
@@ -125,8 +125,8 @@
   <string name="msg_downloading">A descarregar\n%1s</string>
   <string name="msg_downloaded">Ficheiro hosts descarregado</string>
   <string name="msg_download_last">Último descarregamento: %s</string>
-  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
-  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Começar o encaminhamento do %1$s porto %2$d a %3$s:%4$d de \'%5$s\'?</string>
+  <string name="msg_stop_forward">Parar o encaminhamento de %2$d de porto %1$s?</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
@@ -142,20 +142,20 @@
   <string name="title_block">Bloquear</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
-  <string name="title_nobody">nobody</string>
+  <string name="title_nobody">ninguém</string>
   <string name="title_notify">Notificar das tentativas de acesso à internet</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
   <string name="title_pro">Versão PRO</string>
   <string name="title_pro_trial_until">Recursos da versão PRO disponíveis até %1$s</string>
   <string name="title_pro_trial_ended">O período de testes terminou</string>
-  <string name="title_pro_description">The following pro features are available:</string>
+  <string name="title_pro_description">Os seguintes recursos pro estão disponíveis:</string>
   <string name="title_pro_log">Visualizar registo de tráfego bloqueado</string>
   <string name="title_pro_filter">Filtrar o tráfego de rede</string>
   <string name="title_pro_notify">Notificação de novos aplicativos</string>
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>
-  <string name="title_pro_all">All above pro features</string>
+  <string name="title_pro_all">Todos os recursos pro acima</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>

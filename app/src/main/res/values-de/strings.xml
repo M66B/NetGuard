@@ -143,7 +143,7 @@
   <string name="title_block">Sperren</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">Medienserver</string>
-  <string name="title_nobody">nobody</string>
+  <string name="title_nobody">Niemand</string>
   <string name="title_notify">Benachrichtigen über Internetzugriffsversuche</string>
   <string name="title_log_whois">Wer ist %1$s</string>
   <string name="title_log_port">Port %1$d</string>
