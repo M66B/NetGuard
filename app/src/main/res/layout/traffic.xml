@@ -68,16 +68,6 @@
         android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
         android:textSize="10sp" />
 
-    <TextView
-        android:id="@+id/tvFiles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
-        android:textSize="10sp" />
-
     <ImageView
         android:id="@+id/ivTraffic"
         android:layout_width="match_parent"
