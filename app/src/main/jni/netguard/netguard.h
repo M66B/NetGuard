@@ -30,7 +30,7 @@
 // #define PROFILE_UID 5
 // #define PROFILE_JNI 5
 
-#define SELECT_TIMEOUT 600 // seconds
+#define SELECT_TIMEOUT 3600 // seconds
 
 #define TUN_MAXMSG 32768 // bytes (device)
 #define ICMP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
