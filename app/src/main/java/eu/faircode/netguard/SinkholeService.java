@@ -927,9 +927,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void prepareUidIPFilters() {
         Map<Long, Map<InetAddress, Boolean>> map = new HashMap<>();
 
-        DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
-
-        Cursor cursor = dh.getDns();
+        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getDns();
         int colUid = cursor.getColumnIndex("uid");
         int colVersion = cursor.getColumnIndex("version");
         int colProtocol = cursor.getColumnIndex("protocol");
@@ -973,8 +971,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private void updateUidIPFilters() {
-        DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
-        Cursor cursor = dh.getAccess();
+        // Android caches DNS for 10 minutes
+        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getAccess();
         int colDAddr = cursor.getColumnIndex("daddr");
         while (cursor.moveToNext()) {
             String daddr = cursor.getString(colDAddr);
@@ -991,9 +989,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void prepareForwarding() {
         mapForward.clear();
 
-        DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
-
-        Cursor cursor = dh.getForwarding();
+        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getForwarding();
         int colProtocol = cursor.getColumnIndex("protocol");
         int colDPort = cursor.getColumnIndex("dport");
         int colRAddr = cursor.getColumnIndex("raddr");
@@ -1679,8 +1675,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         sp.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         notification.addLine(sp);
 
-        DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
-        Cursor cursor = dh.getAccessUnset(uid);
+        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getAccessUnset(uid);
         int colDAddr = cursor.getColumnIndex("daddr");
         int colTime = cursor.getColumnIndex("time");
         int colAllowed = cursor.getColumnIndex("allowed");
