@@ -36,6 +36,7 @@
   <string name="title_raddr">Destination address</string>
   <string name="title_rport">Destination port</string>
   <string name="title_ruid">Destination application</string>
+  <string name="title_external">For an external server select \'nobody\'</string>
   <string name="setting_defaults">Impostazioni predefinite</string>
   <string name="setting_whitelist_wifi">Blocca Wi-Fi di default</string>
   <string name="setting_whitelist_other">Blocca rete dati di default</string>

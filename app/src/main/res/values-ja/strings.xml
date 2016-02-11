@@ -37,6 +37,7 @@
   <string name="title_raddr">宛先アドレス</string>
   <string name="title_rport">宛先ポート</string>
   <string name="title_ruid">送信先アプリケーション</string>
+  <string name="title_external">For an external server select \'nobody\'</string>
   <string name="setting_defaults">デフォルト</string>
   <string name="setting_whitelist_wifi">デフォルトで Wi-Fi をブロック</string>
   <string name="setting_whitelist_other">デフォルトでモバイル通信をブロック</string>

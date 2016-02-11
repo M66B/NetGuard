@@ -36,6 +36,7 @@
   <string name="title_raddr">Adresa destinatie</string>
   <string name="title_rport">Port destinatie</string>
   <string name="title_ruid">Aplicatie destinatie</string>
+  <string name="title_external">For an external server select \'nobody\'</string>
   <string name="setting_defaults">Setari implicite</string>
   <string name="setting_whitelist_wifi">Blocheaza Wi-Fi</string>
   <string name="setting_whitelist_other">Blocheaza datele mobile</string>

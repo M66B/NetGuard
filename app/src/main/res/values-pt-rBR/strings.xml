@@ -37,6 +37,7 @@
   <string name="title_raddr">Endereço de destino</string>
   <string name="title_rport">Porta de destino</string>
   <string name="title_ruid">Aplicativo de destino</string>
+  <string name="title_external">For an external server select \'nobody\'</string>
   <string name="setting_defaults">Padrões</string>
   <string name="setting_whitelist_wifi">Bloquear Wi-Fi</string>
   <string name="setting_whitelist_other">Bloquear Dados Móveis</string>

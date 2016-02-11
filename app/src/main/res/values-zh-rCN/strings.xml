@@ -38,6 +38,7 @@
   <string name="title_raddr">目标地址</string>
   <string name="title_rport">目标端口</string>
   <string name="title_ruid">目标应用程序</string>
+  <string name="title_external">For an external server select \'nobody\'</string>
   <string name="setting_defaults">默认</string>
   <string name="setting_whitelist_wifi">默认阻止Wi-Fi网络</string>
   <string name="setting_whitelist_other">默认阻止移动网络</string>

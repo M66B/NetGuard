@@ -37,6 +37,7 @@
   <string name="title_raddr">Zieladresse</string>
   <string name="title_rport">Zielport</string>
   <string name="title_ruid">Zielanwendung</string>
+  <string name="title_external">For an external server select \'nobody\'</string>
   <string name="setting_defaults">Standards</string>
   <string name="setting_whitelist_wifi">WLAN blockieren</string>
   <string name="setting_whitelist_other">Mobilfunk blockieren</string>

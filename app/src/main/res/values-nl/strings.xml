@@ -38,6 +38,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="title_raddr">Bestemmingsadres</string>
   <string name="title_rport">Bestemmingspoort</string>
   <string name="title_ruid">Doeltoepassing</string>
+  <string name="title_external">For an external server select \'nobody\'</string>
   <string name="setting_defaults">Standaard</string>
   <string name="setting_whitelist_wifi">Blokkeer Wi-Fi</string>
   <string name="setting_whitelist_other">Blokkeer mobiel</string>
