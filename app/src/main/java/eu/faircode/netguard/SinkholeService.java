@@ -785,7 +785,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         // Build VPN service
         final Builder builder = new Builder();
-        builder.setSession(getString(R.string.app_name) + " session");
+        builder.setSession(getString(R.string.app_name));
 
         // VPN address
         Log.i(TAG, "vpn4=" + last_vpn4 + " vpn6=" + last_vpn6);
@@ -794,6 +794,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         if (filter)
             builder.addDnsServer(last_dns);
+        // TODO addSearchDomain
 
         if (tethering) {
             // USB Tethering 192.168.42.x
@@ -815,6 +816,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
+        // In practice Android MSS is 8192 bytes
         builder.setMtu(32768);
 
         // Add list of allowed applications
