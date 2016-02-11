@@ -50,15 +50,22 @@ int get_icmp_sessions() {
     return count;
 }
 
-int check_icmp_sessions(const struct arguments *args) {
-    time_t now = time(NULL);
+int get_icmp_timeout(const struct icmp_session *u, int sessions, int maxsessions) {
+    int timeout = ICMP_TIMEOUT;
 
-    int count = get_icmp_sessions();
+    int scale = 100 - sessions * 100 / maxsessions;
+    timeout = timeout * scale / 100;
+
+    return timeout;
+}
+
+void check_icmp_sessions(const struct arguments *args, int sessions, int maxsessions) {
+    time_t now = time(NULL);
 
     struct icmp_session *il = NULL;
     struct icmp_session *i = icmp_session;
     while (i != NULL) {
-        int timeout = ICMP_TIMEOUT;
+        int timeout = get_icmp_timeout(i, sessions, maxsessions);
         if (i->stop || i->time + timeout < now) {
             char source[INET6_ADDRSTRLEN + 1];
             char dest[INET6_ADDRSTRLEN + 1];
@@ -92,8 +99,6 @@ int check_icmp_sessions(const struct arguments *args) {
             i = i->next;
         }
     }
-
-    return count;
 }
 
 void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {

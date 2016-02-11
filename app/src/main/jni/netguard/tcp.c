@@ -61,7 +61,7 @@ int get_tcp_sessions() {
     return count;
 }
 
-int get_tcp_timeout(const struct tcp_session *t, int sessions) {
+int get_tcp_timeout(const struct tcp_session *t, int sessions, int maxsessions) {
     int timeout;
     if (t->state == TCP_LISTEN || t->state == TCP_SYN_RECV)
         timeout = TCP_INIT_TIMEOUT;
@@ -70,18 +70,14 @@ int get_tcp_timeout(const struct tcp_session *t, int sessions) {
     else
         timeout = TCP_CLOSE_TIMEOUT;
 
-    int scale = sessions / TCP_TIMEOUT_SCALE;
-    if (scale < 1)
-        scale = 1;
-    timeout = timeout / scale;
+    int scale = 100 - sessions * 100 / maxsessions;
+    timeout = timeout * scale / 100;
 
     return timeout;
 }
 
-int check_tcp_sessions(const struct arguments *args) {
+void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessions) {
     time_t now = time(NULL);
-
-    int count = get_tcp_sessions();
 
     struct tcp_session *tl = NULL;
     struct tcp_session *t = tcp_session;
@@ -101,7 +97,7 @@ int check_tcp_sessions(const struct arguments *args) {
                 source, ntohs(t->source), dest, ntohs(t->dest), strstate(t->state), t->socket);
 
         // Check session timeout
-        int timeout = get_tcp_timeout(t, count);
+        int timeout = get_tcp_timeout(t, sessions, maxsessions);
         if (t->state != TCP_CLOSING && t->state != TCP_CLOSE && t->time + timeout < now) {
             // TODO send keep alives?
             log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ", session, now - t->time, timeout);
@@ -141,8 +137,6 @@ int check_tcp_sessions(const struct arguments *args) {
             t = t->next;
         }
     }
-
-    return count;
 }
 
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {

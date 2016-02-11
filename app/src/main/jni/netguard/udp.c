@@ -50,18 +50,16 @@ int get_udp_sessions() {
     return count;
 }
 
-int get_udp_timeout(const struct udp_session *u, int sessions) {
+int get_udp_timeout(const struct udp_session *u, int sessions, int maxsessions) {
     int timeout = (ntohs(u->dest) == 53 ? UDP_TIMEOUT_53 : UDP_TIMEOUT_ANY);
 
-    int scale = sessions / UDP_TIMEOUT_SCALE;
-    if (scale < 1)
-        scale = 1;
-    timeout = timeout / scale;
+    int scale = 100 - sessions * 100 / maxsessions;
+    timeout = timeout * scale / 100;
 
     return timeout;
 }
 
-int check_udp_sessions(const struct arguments *args) {
+void check_udp_sessions(const struct arguments *args, int sessions, int maxsessions) {
     time_t now = time(NULL);
 
     int count = get_udp_sessions();
@@ -81,7 +79,7 @@ int check_udp_sessions(const struct arguments *args) {
         }
 
         // Check session timeout
-        int timeout = get_udp_timeout(u, count);
+        int timeout = get_udp_timeout(u, sessions, maxsessions);
         if (u->state == UDP_ACTIVE && u->time + timeout < now) {
             log_android(ANDROID_LOG_WARN, "UDP idle %d/%d sec state %d from %s/%u to %s/%u",
                         now - u->time, timeout, u->state,
@@ -120,8 +118,6 @@ int check_udp_sessions(const struct arguments *args) {
             u = u->next;
         }
     }
-
-    return count;
 }
 
 void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {

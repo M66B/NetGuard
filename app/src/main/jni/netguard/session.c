@@ -90,11 +90,16 @@ void *handle_events(void *a) {
     while (!stopping) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
 
-        // Check sessions
-        int isessions = check_icmp_sessions(args);
-        int usessions = check_udp_sessions(args);
-        int tsessions = check_tcp_sessions(args);
+        // Count sessions
+        int isessions = get_icmp_sessions();
+        int usessions = get_udp_sessions();
+        int tsessions = get_tcp_sessions();
         int sessions = isessions + usessions + tsessions;
+
+        // Check sessions
+        check_icmp_sessions(args, sessions, maxsessions);
+        check_udp_sessions(args, sessions, maxsessions);
+        check_tcp_sessions(args, sessions, maxsessions);
 
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1093893
         int idle = (tsessions + usessions + tsessions == 0 && sdk >= 16);
@@ -102,7 +107,7 @@ void *handle_events(void *a) {
                     isessions, usessions, tsessions, sessions, maxsessions, idle, sdk);
 
         // Next event time
-        ts.tv_sec = (sdk < 16 ? 5 : get_select_timeout(isessions, usessions, tsessions));
+        ts.tv_sec = (sdk < 16 ? 5 : get_select_timeout(sessions, maxsessions));
         ts.tv_nsec = 0;
         sigemptyset(&emptyset);
 
@@ -213,14 +218,14 @@ void *handle_events(void *a) {
     return NULL;
 }
 
-int get_select_timeout(int isessions, int usessions, int tsessions) {
+int get_select_timeout(int sessions, int maxsessions) {
     time_t now = time(NULL);
     int timeout = SELECT_TIMEOUT;
 
     struct icmp_session *i = icmp_session;
     while (i != NULL) {
         if (!i->stop) {
-            int stimeout = i->time + ICMP_TIMEOUT - now + 1;
+            int stimeout = i->time + get_icmp_timeout(i, sessions, maxsessions) - now + 1;
             if (stimeout > 0 && stimeout < timeout)
                 timeout = stimeout;
         }
@@ -230,7 +235,7 @@ int get_select_timeout(int isessions, int usessions, int tsessions) {
     struct udp_session *u = udp_session;
     while (u != NULL) {
         if (u->state == UDP_ACTIVE) {
-            int stimeout = u->time + get_udp_timeout(u, usessions) - now + 1;
+            int stimeout = u->time + get_udp_timeout(u, sessions, maxsessions) - now + 1;
             if (stimeout > 0 && stimeout < timeout)
                 timeout = stimeout;
         }
@@ -240,7 +245,7 @@ int get_select_timeout(int isessions, int usessions, int tsessions) {
     struct tcp_session *t = tcp_session;
     while (t != NULL) {
         if (t->state != TCP_CLOSING && t->state != TCP_CLOSE) {
-            int stimeout = t->time + get_tcp_timeout(t, tsessions) - now + 1;
+            int stimeout = t->time + get_tcp_timeout(t, sessions, maxsessions) - now + 1;
             if (stimeout > 0 && stimeout < timeout)
                 timeout = stimeout;
         }

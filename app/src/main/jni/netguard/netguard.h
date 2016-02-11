@@ -43,7 +43,6 @@
 #define UDP_TIMEOUT_53 15 // seconds
 #define UDP_TIMEOUT_ANY 300 // seconds
 #define UDP_KEEP_TIMEOUT 60 // seconds
-#define UDP_TIMEOUT_SCALE 25
 
 #define TCP_RECV_WINDOW 16384 // bytes (maximum)
 #define TCP_SEND_WINDOW 16384 // bytes (maximum)
@@ -51,7 +50,6 @@
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
 #define TCP_CLOSE_TIMEOUT 30 // seconds
 #define TCP_KEEP_TIMEOUT 300 // seconds
-#define TCP_TIMEOUT_SCALE 50
 // https://en.wikipedia.org/wiki/Maximum_segment_lifetime
 
 #define UID_DELAY 1 // milliseconds
@@ -288,17 +286,19 @@ void report_exit(const struct arguments *args, const char *fmt, ...);
 
 void check_allowed(const struct arguments *args);
 
-int check_icmp_sessions(const struct arguments *args);
+void check_icmp_sessions(const struct arguments *args, int sessions, int maxsessions);
 
-int check_udp_sessions(const struct arguments *args);
+void check_udp_sessions(const struct arguments *args, int sessions, int maxsessions);
 
-int check_tcp_sessions(const struct arguments *args);
+void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessions);
 
-int get_select_timeout(int isessions, int usessions, int tsessions);
+int get_select_timeout(int sessions, int maxsessions);
 
-int get_udp_timeout(const struct udp_session *u, int sessions);
+int get_icmp_timeout(const struct icmp_session *u, int sessions, int maxsessions);
 
-int get_tcp_timeout(const struct tcp_session *t, int sessions);
+int get_udp_timeout(const struct udp_session *u, int sessions, int maxsessions);
+
+int get_tcp_timeout(const struct tcp_session *t, int sessions, int maxsessions);
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
