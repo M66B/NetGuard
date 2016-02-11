@@ -380,10 +380,14 @@ jboolean handle_tcp(const struct arguments *args,
         flags[flen++] = 'S';
     if (tcphdr->ack)
         flags[flen++] = 'A';
+    if (tcphdr->psh)
+        flags[flen++] = 'P';
     if (tcphdr->fin)
         flags[flen++] = 'F';
     if (tcphdr->rst)
         flags[flen++] = 'R';
+    if (tcphdr->urg)
+        flags[flen++] = 'U';
     flags[flen] = 0;
 
     char packet[250];
@@ -395,7 +399,7 @@ jboolean handle_tcp(const struct arguments *args,
             ntohl(tcphdr->seq) - (cur == NULL ? 0 : cur->remote_start),
             tcphdr->ack ? ntohl(tcphdr->ack_seq) - (cur == NULL ? 0 : cur->local_start) : 0,
             datalen, ntohs(tcphdr->window), uid);
-    log_android(ANDROID_LOG_DEBUG, packet);
+    log_android(tcphdr->urg ? ANDROID_LOG_WARN : ANDROID_LOG_DEBUG, packet);
 
     // Check session
     if (cur == NULL) {
