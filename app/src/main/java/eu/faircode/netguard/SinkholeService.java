@@ -1041,7 +1041,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         // Update metered state
         if (wifi && !useMetered)
             metered = false;
-        if (wifi && ssidHomes.size() > 0 && !ssidHomes.contains(ssidNetwork)) {
+        if (wifi && ssidHomes.size() > 0 &&
+                !(ssidHomes.contains(ssidNetwork) || ssidHomes.contains('"' + ssidNetwork + '"'))) {
             metered = true;
             Log.i(TAG, "!@home");
         }
