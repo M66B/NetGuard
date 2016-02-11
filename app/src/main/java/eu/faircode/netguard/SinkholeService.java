@@ -1035,12 +1035,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         // Update connected state
         last_connected = Util.isConnected(SinkholeService.this);
 
+        boolean org_metered = metered;
+        boolean org_roaming = roaming;
+
         // Update metered state
         if (wifi && !useMetered)
             metered = false;
         if (wifi && ssidHomes.size() > 0 && !ssidHomes.contains(ssidNetwork)) {
             metered = true;
-            Log.i(TAG, "Not at home");
+            Log.i(TAG, "!@home");
         }
         if (unmetered_2g && "2G".equals(generation))
             metered = false;
@@ -1059,9 +1062,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 " wifi=" + wifi +
                 " home=" + TextUtils.join(",", ssidHomes) +
                 " network=" + ssidNetwork +
-                " metered=" + metered +
+                " metered=" + metered + "/" + org_metered +
                 " generation=" + generation +
-                " roaming=" + roaming +
+                " roaming=" + roaming + "/" + org_roaming +
                 " interactive=" + last_interactive +
                 " tethering=" + tethering +
                 " filter=" + filter);
