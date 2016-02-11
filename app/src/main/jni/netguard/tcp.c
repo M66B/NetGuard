@@ -349,6 +349,7 @@ jboolean handle_tcp(const struct arguments *args,
     const struct ip6_hdr *ip6 = (struct ip6_hdr *) pkt;
     const struct tcphdr *tcphdr = (struct tcphdr *) payload;
     const uint8_t tcpoptlen = (uint8_t) ((tcphdr->doff - 5) * 4);
+    const uint8_t *tcpoptions = payload + sizeof(struct tcphdr);
     const uint8_t *data = payload + sizeof(struct tcphdr) + tcpoptlen;
     const uint16_t datalen = (const uint16_t) (length - (data - pkt));
 
@@ -404,7 +405,31 @@ jboolean handle_tcp(const struct arguments *args,
     // Check session
     if (cur == NULL) {
         if (tcphdr->syn) {
-            log_android(ANDROID_LOG_INFO, "%s new session", packet);
+            // Decode options
+            // http://www.iana.org/assignments/tcp-parameters/tcp-parameters.xhtml#tcp-parameters-1
+            uint16_t mss = 0;
+            int optlen = tcpoptlen;
+            uint8_t *options = tcpoptions;
+            while (optlen > 0) {
+                uint8_t kind = *options;
+                uint8_t len = *(options + 1);
+                if (kind == 0) // End of options list
+                    break;
+
+                if (kind == 2)
+                    mss = ntohs(*((uint16_t *) (options + 2)));
+
+                if (kind == 1) {
+                    optlen--;
+                    options++;
+                }
+                else {
+                    optlen -= len;
+                    options += len;
+                }
+            }
+
+            log_android(ANDROID_LOG_WARN, "%s new session mss %d", packet, mss);
 
             // Register session
             struct tcp_session *syn = malloc(sizeof(struct tcp_session));
