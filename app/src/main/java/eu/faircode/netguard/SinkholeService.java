@@ -756,7 +756,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (TextUtils.isEmpty(vpnDns.trim()))
                 throw new UnknownHostException("dns");
             InetAddress dns = InetAddress.getByName(vpnDns);
-            if (dns.isAnyLocalAddress() || dns.isLinkLocalAddress() || dns.isLoopbackAddress())
+            // Check legacy settings
+            if (dns.isLoopbackAddress() || dns.isAnyLocalAddress())
                 throw new UnknownHostException("dns");
             Log.i(TAG, "DNS using=" + dns);
             return dns;
