@@ -108,8 +108,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private Map<Long, Map<InetAddress, Boolean>> mapUidIPFilters = new HashMap<>();
     private Map<Integer, Forward> mapForward = new HashMap<>();
 
-    private volatile Looper mServiceLooper;
-    private volatile ServiceHandler mServiceHandler;
+    private volatile Looper commandLooper;
+    private volatile Looper logLooper;
+    private volatile Looper statsLooper;
+    private volatile CommandHandler commandHandler;
+    private volatile LogHandler logHandler;
+    private volatile StatsHandler statsHandler;
 
     private static final int NOTIFY_ENFORCING = 1;
     private static final int NOTIFY_WAITING = 2;
@@ -165,21 +169,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         return wlInstance;
     }
 
-    private final class ServiceHandler extends Handler {
-        private boolean stats = false;
-        private long when;
-
-        private long t = -1;
-        private long tx = -1;
-        private long rx = -1;
-
-        private List<Long> gt = new ArrayList<>();
-        private List<Float> gtx = new ArrayList<>();
-        private List<Float> grx = new ArrayList<>();
-
-        private HashMap<Integer, Long> mapUidBytes = new HashMap<>();
-
-        public ServiceHandler(Looper looper) {
+    private final class CommandHandler extends Handler {
+        public CommandHandler(Looper looper) {
             super(looper);
         }
 
@@ -190,43 +181,24 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     case MSG_SERVICE_INTENT:
                         handleIntent((Intent) msg.obj);
                         break;
-
-                    case MSG_STATS_START:
-                        startStats();
-                        break;
-
-                    case MSG_STATS_STOP:
-                        stopStats();
-                        break;
-
-                    case MSG_STATS_UPDATE:
-                        updateStats();
-                        break;
-
-                    case MSG_PACKET:
-                        log((Packet) msg.obj);
-                        break;
-
-                    case MSG_RR:
-                        resolved((ResourceRecord) msg.obj);
-                        break;
+                    default:
+                        Log.e(TAG, "Unknown command message=" + msg.what);
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 Util.sendCrashReport(ex, SinkholeService.this);
             } finally {
-                if (msg.what == MSG_SERVICE_INTENT)
-                    try {
-                        PowerManager.WakeLock wl = getLock(SinkholeService.this);
-                        if (wl.isHeld())
-                            wl.release();
-                        else
-                            Log.w(TAG, "Wakelock under-locked");
-                        Log.i(TAG, "Messages=" + hasMessages(0) + " wakelock=" + wlInstance.isHeld());
-                    } catch (Exception ex) {
-                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        Util.sendCrashReport(ex, SinkholeService.this);
-                    }
+                try {
+                    PowerManager.WakeLock wl = getLock(SinkholeService.this);
+                    if (wl.isHeld())
+                        wl.release();
+                    else
+                        Log.w(TAG, "Wakelock under-locked");
+                    Log.i(TAG, "Messages=" + hasMessages(0) + " wakelock=" + wlInstance.isHeld());
+                } catch (Exception ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, SinkholeService.this);
+                }
             }
         }
 
@@ -300,13 +272,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         break;
 
                     case stats:
-                        stopStats();
-                        startStats();
+                        statsHandler.sendEmptyMessage(MSG_STATS_STOP);
+                        statsHandler.sendEmptyMessage(MSG_STATS_START);
                         break;
 
                     case set:
                         set(intent);
                         break;
+
+                    default:
+                        Log.e(TAG, "Unknown command=" + cmd);
                 }
 
                 // Update main view
@@ -453,6 +428,145 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
         }
 
+        private void set(Intent intent) {
+            // Get arguments
+            int uid = intent.getIntExtra(EXTRA_UID, 0);
+            String network = intent.getStringExtra(EXTRA_NETWORK);
+            String pkg = intent.getStringExtra(EXTRA_PACKAGE);
+            boolean blocked = intent.getBooleanExtra(EXTRA_BLOCKED, false);
+            Log.i(TAG, "Set " + pkg + " " + network + "=" + blocked);
+
+            // Get defaults
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            boolean default_wifi = settings.getBoolean("whitelist_wifi", true);
+            boolean default_other = settings.getBoolean("whitelist_other", true);
+
+            // Update setting
+            SharedPreferences prefs = getSharedPreferences(network, Context.MODE_PRIVATE);
+            if (blocked == ("wifi".equals(network) ? default_wifi : default_other))
+                prefs.edit().remove(pkg).apply();
+            else
+                prefs.edit().putBoolean(pkg, blocked).apply();
+
+            // Apply rules
+            SinkholeService.reload(null, "notification", SinkholeService.this);
+
+            // Update notification
+            Receiver.notifyNewApplication(uid, SinkholeService.this);
+
+            // Update UI
+            Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+            LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
+        }
+    }
+
+    private final class LogHandler extends Handler {
+        public LogHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            try {
+                switch (msg.what) {
+                    case MSG_PACKET:
+                        log((Packet) msg.obj);
+                        break;
+
+                    case MSG_RR:
+                        resolved((ResourceRecord) msg.obj);
+                        break;
+
+                    default:
+                        Log.e(TAG, "Unknown log message=" + msg.what);
+                }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                Util.sendCrashReport(ex, SinkholeService.this);
+            }
+        }
+
+        private void log(Packet packet) {
+            // Get settings
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            boolean log = prefs.getBoolean("log", false);
+            boolean log_app = prefs.getBoolean("log_app", false);
+            boolean notify = prefs.getBoolean("notify_access", false);
+            boolean system = prefs.getBoolean("manage_system", false);
+
+            DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
+
+            // Get real name
+            String dname = dh.getQName(packet.daddr);
+
+            // Traffic log
+            if (log)
+                dh.insertLog(packet, dname, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
+
+            // Application log
+            if (log_app && packet.uid >= 0) {
+                if (!(packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */))
+                    packet.dport = 0;
+                if (dh.updateAccess(packet, dname, -1))
+                    if (notify && prefs.getBoolean("notify_" + packet.uid, true) &&
+                            (system || !Util.isSystem(packet.uid, SinkholeService.this)))
+                        showAccessNotification(packet.uid);
+            }
+
+            if (packet.uid < 0 && packet.dport != 53)
+                Log.w(TAG, "Unknown application packet " + packet);
+        }
+
+        private void resolved(ResourceRecord rr) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            if (prefs.getBoolean("resolved", true))
+                DatabaseHelper.getInstance(SinkholeService.this).insertDns(rr);
+        }
+    }
+
+    private final class StatsHandler extends Handler {
+        private boolean stats = false;
+        private long when;
+
+        private long t = -1;
+        private long tx = -1;
+        private long rx = -1;
+
+        private List<Long> gt = new ArrayList<>();
+        private List<Float> gtx = new ArrayList<>();
+        private List<Float> grx = new ArrayList<>();
+
+        private HashMap<Integer, Long> mapUidBytes = new HashMap<>();
+
+        public StatsHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            try {
+                switch (msg.what) {
+                    case MSG_STATS_START:
+                        startStats();
+                        break;
+
+                    case MSG_STATS_STOP:
+                        stopStats();
+                        break;
+
+                    case MSG_STATS_UPDATE:
+                        updateStats();
+                        break;
+
+                    default:
+                        Log.e(TAG, "Unknown stats message=" + msg.what);
+                }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                Util.sendCrashReport(ex, SinkholeService.this);
+            }
+        }
+
         private void startStats() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean enabled = (!stats && prefs.getBoolean("show_stats", false));
@@ -474,7 +588,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         private void stopStats() {
             Log.i(TAG, "Stats stop");
             stats = false;
-            mServiceHandler.removeMessages(MSG_STATS_UPDATE);
+            this.removeMessages(MSG_STATS_UPDATE);
             if (state == State.stats) {
                 Log.d(TAG, "Stop foreground state=" + state.toString());
                 stopForeground(true);
@@ -494,7 +608,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             int loglevel = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
 
             // Schedule next update
-            mServiceHandler.sendEmptyMessageDelayed(MSG_STATS_UPDATE, frequency);
+            this.sendEmptyMessageDelayed(MSG_STATS_UPDATE, frequency);
 
             long ct = SystemClock.elapsedRealtime();
 
@@ -677,74 +791,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 Log.d(TAG, "Start foreground state=" + state.toString());
             } else
                 NotificationManagerCompat.from(SinkholeService.this).notify(NOTIFY_TRAFFIC, builder.build());
-        }
-
-        private void log(Packet packet) {
-            // Get settings
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            boolean log = prefs.getBoolean("log", false);
-            boolean log_app = prefs.getBoolean("log_app", false);
-            boolean notify = prefs.getBoolean("notify_access", false);
-            boolean system = prefs.getBoolean("manage_system", false);
-
-            DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
-
-            // Get real name
-            String dname = dh.getQName(packet.daddr);
-
-            // Traffic log
-            if (log)
-                dh.insertLog(packet, dname, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
-
-            // Application log
-            if (log_app && packet.uid >= 0) {
-                if (!(packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */))
-                    packet.dport = 0;
-                if (dh.updateAccess(packet, dname, -1))
-                    if (notify && prefs.getBoolean("notify_" + packet.uid, true) &&
-                            (system || !Util.isSystem(packet.uid, SinkholeService.this)))
-                        showAccessNotification(packet.uid);
-            }
-
-            if (packet.uid < 0 && packet.dport != 53)
-                Log.w(TAG, "Unknown application packet " + packet);
-        }
-
-        private void resolved(ResourceRecord rr) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            if (prefs.getBoolean("resolved", true))
-                DatabaseHelper.getInstance(SinkholeService.this).insertDns(rr);
-        }
-
-        private void set(Intent intent) {
-            // Get arguments
-            int uid = intent.getIntExtra(EXTRA_UID, 0);
-            String network = intent.getStringExtra(EXTRA_NETWORK);
-            String pkg = intent.getStringExtra(EXTRA_PACKAGE);
-            boolean blocked = intent.getBooleanExtra(EXTRA_BLOCKED, false);
-            Log.i(TAG, "Set " + pkg + " " + network + "=" + blocked);
-
-            // Get defaults
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            boolean default_wifi = settings.getBoolean("whitelist_wifi", true);
-            boolean default_other = settings.getBoolean("whitelist_other", true);
-
-            // Update setting
-            SharedPreferences prefs = getSharedPreferences(network, Context.MODE_PRIVATE);
-            if (blocked == ("wifi".equals(network) ? default_wifi : default_other))
-                prefs.edit().remove(pkg).apply();
-            else
-                prefs.edit().putBoolean(pkg, blocked).apply();
-
-            // Apply rules
-            SinkholeService.reload(null, "notification", SinkholeService.this);
-
-            // Update notification
-            Receiver.notifyNewApplication(uid, SinkholeService.this);
-
-            // Update UI
-            Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
-            LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
         }
     }
 
@@ -1120,18 +1166,18 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void logPacket(Packet packet) {
-        Message msg = mServiceHandler.obtainMessage();
+        Message msg = logHandler.obtainMessage();
         msg.obj = packet;
         msg.what = MSG_PACKET;
-        mServiceHandler.sendMessage(msg);
+        logHandler.sendMessage(msg);
     }
 
     // Called from native code
     private void dnsResolved(ResourceRecord rr) {
-        Message msg = mServiceHandler.obtainMessage();
+        Message msg = logHandler.obtainMessage();
         msg.obj = rr;
         msg.what = MSG_RR;
-        mServiceHandler.sendMessage(msg);
+        logHandler.sendMessage(msg);
     }
 
     // Called from native code
@@ -1227,7 +1273,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
 
             // Start/stop stats
-            mServiceHandler.sendEmptyMessage(Util.isInteractive(SinkholeService.this) ? MSG_STATS_START : MSG_STATS_STOP);
+            statsHandler.sendEmptyMessage(Util.isInteractive(SinkholeService.this) ? MSG_STATS_START : MSG_STATS_STOP);
         }
     };
 
@@ -1356,11 +1402,20 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         Util.setTheme(this);
         super.onCreate();
 
-        HandlerThread thread = new HandlerThread(getString(R.string.app_name) + " handler");
-        thread.start();
+        HandlerThread commandThread = new HandlerThread(getString(R.string.app_name) + " command");
+        HandlerThread logThread = new HandlerThread(getString(R.string.app_name) + " log");
+        HandlerThread statsThread = new HandlerThread(getString(R.string.app_name) + " stats");
+        commandThread.start();
+        logThread.start();
+        statsThread.start();
 
-        mServiceLooper = thread.getLooper();
-        mServiceHandler = new ServiceHandler(mServiceLooper);
+        commandLooper = commandThread.getLooper();
+        logLooper = logThread.getLooper();
+        statsLooper = statsThread.getLooper();
+
+        commandHandler = new CommandHandler(commandLooper);
+        logHandler = new LogHandler(logLooper);
+        statsHandler = new StatsHandler(statsLooper);
 
         // Listen for interactive state changes
         last_interactive = Util.isInteractive(this);
@@ -1438,11 +1493,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
         // Queue command
-        Message msg = mServiceHandler.obtainMessage();
+        Message msg = commandHandler.obtainMessage();
         msg.arg1 = startId;
         msg.obj = intent;
         msg.what = MSG_SERVICE_INTENT;
-        mServiceHandler.sendMessage(msg);
+        commandHandler.sendMessage(msg);
 
         return START_STICKY;
     }
@@ -1466,7 +1521,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     public void onDestroy() {
         Log.i(TAG, "Destroy");
 
-        mServiceLooper.quit();
+        commandLooper.quit();
+        logLooper.quit();
+        statsLooper.quit();
 
         unregisterReceiver(interactiveStateReceiver);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
