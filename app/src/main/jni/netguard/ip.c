@@ -379,6 +379,8 @@ jint get_uid(const int protocol, const int version,
     gettimeofday(&start, NULL);
 #endif
 
+    // NETLINK is not available on Android due to SELinux policies :-(
+
     // Get proc file name
     char *fn = NULL;
     if (protocol == IPPROTO_ICMP && version == 4)
