@@ -513,7 +513,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         showAccessNotification(packet.uid);
             }
 
-            if (packet.uid < 0)
+            if (packet.uid < 0 && packet.dport != 53)
                 Log.w(TAG, "Unknown application packet " + packet);
         }
 
@@ -1191,13 +1191,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         packet.allowed = false;
         if (prefs.getBoolean("filter", false)) {
-            // https://android.googlesource.com/platform/system/core/+/master/include/private/android_filesystem_config.h
-            if (packet.uid < 2000 &&
-                    !(packet.uid == 0 || // root
-                            packet.uid == 1000 || // system server
-                            packet.uid == 1001 || // telephony subsystem
-                            packet.uid == 1013)) // mediaserver
-                packet.allowed = true; // allow unknown traffic
+            if (packet.uid < 0) // unknown
+                packet.allowed = true;
             else {
                 boolean filtered = false;
                 // Only TCP (6) and UDP (17) have port numbers
