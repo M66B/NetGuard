@@ -114,7 +114,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
     <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
     <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
-    <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
+    <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
 
     <string name="summary_stats">Show network speed graph in status bar notification</string>
     <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
