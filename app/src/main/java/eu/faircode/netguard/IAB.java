@@ -48,7 +48,7 @@ public class IAB implements ServiceConnection {
     private static final int IAB_VERSION = 3;
 
     public interface Delegate {
-        void onReady(IAB iab);
+        void onReady();
     }
 
     public IAB(Delegate delegate, Context context) {
@@ -75,7 +75,7 @@ public class IAB implements ServiceConnection {
     public void onServiceConnected(ComponentName name, IBinder binder) {
         Log.i(TAG, "Connected");
         service = IInAppBillingService.Stub.asInterface(binder);
-        delegate.onReady(this);
+        delegate.onReady();
     }
 
     @Override

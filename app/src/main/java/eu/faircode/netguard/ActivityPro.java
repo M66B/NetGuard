@@ -124,7 +124,7 @@ public class ActivityPro extends AppCompatActivity {
         try {
             iab = new IAB(new IAB.Delegate() {
                 @Override
-                public void onReady(final IAB iab) {
+                public void onReady() {
                     Log.i(TAG, "IAB ready");
                     try {
                         iab.updatePurchases();

@@ -69,6 +69,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private AlertDialog dialogVpn = null;
     private AlertDialog dialogAbout = null;
 
+    private IAB iab = null;
+
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_INVITE = 2;
     private static final int REQUEST_LOGCAT = 3;
@@ -254,9 +256,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Update IAB SKUs
         try {
-            new IAB(new IAB.Delegate() {
+            iab = new IAB(new IAB.Delegate() {
                 @Override
-                public void onReady(IAB iab) {
+                public void onReady() {
                     try {
                         iab.updatePurchases();
 
@@ -272,9 +274,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     } finally {
                         iab.unbind();
+                        iab = null;
                     }
                 }
-            }, this).bind();
+            }, this);
+            iab.bind();
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
@@ -335,6 +339,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (dialogAbout != null) {
             dialogAbout.dismiss();
             dialogAbout = null;
+        }
+
+        if (iab != null) {
+            iab.unbind();
+            iab = null;
         }
 
         super.onDestroy();
