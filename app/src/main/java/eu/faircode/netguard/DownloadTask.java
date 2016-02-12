@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class DownloadTask extends AsyncTask<Object, Integer, Object> {
     private static final String TAG = "NetGuard.Download";
@@ -68,13 +69,16 @@ public class DownloadTask extends AsyncTask<Object, Integer, Object> {
 
         InputStream in = null;
         OutputStream out = null;
-        HttpURLConnection connection = null;
+        URLConnection connection = null;
         try {
-            connection = (HttpURLConnection) url.openConnection();
+            connection = url.openConnection();
             connection.connect();
 
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-                throw new IOException(connection.getResponseCode() + " " + connection.getResponseMessage());
+            if (connection instanceof HttpURLConnection) {
+                HttpURLConnection httpConnection = (HttpURLConnection) connection;
+                if (httpConnection.getResponseCode() != HttpURLConnection.HTTP_OK)
+                    throw new IOException(httpConnection.getResponseCode() + " " + httpConnection.getResponseMessage());
+            }
 
             int contentLength = connection.getContentLength();
             Log.i(TAG, "Content length=" + contentLength);
@@ -110,8 +114,8 @@ public class DownloadTask extends AsyncTask<Object, Integer, Object> {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
 
-            if (connection != null)
-                connection.disconnect();
+            if (connection instanceof HttpURLConnection)
+                ((HttpURLConnection) connection).disconnect();
         }
     }
 
