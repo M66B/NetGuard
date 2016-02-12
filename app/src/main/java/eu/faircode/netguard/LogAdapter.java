@@ -149,16 +149,16 @@ public class LogAdapter extends CursorAdapter {
         tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
 
         if (connection <= 0)
-            ivConnection.setImageDrawable(null);
+            ivConnection.setImageResource(allowed > 0 ? R.drawable.host_allowed : R.drawable.host_blocked);
         else {
             if (allowed > 0)
                 ivConnection.setImageResource(connection == 1 ? R.drawable.wifi_on : R.drawable.other_on);
             else
                 ivConnection.setImageResource(connection == 1 ? R.drawable.wifi_off : R.drawable.other_off);
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                Drawable wrap = DrawableCompat.wrap(ivConnection.getDrawable());
-                DrawableCompat.setTint(wrap, allowed > 0 ? colorOn : colorOff);
-            }
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrap = DrawableCompat.wrap(ivConnection.getDrawable());
+            DrawableCompat.setTint(wrap, allowed > 0 ? colorOn : colorOff);
         }
 
         if (interactive <= 0)
