@@ -1013,8 +1013,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 map.put(key, new HashMap());
 
             try {
-                map.get(key).put(InetAddress.getByName(dresource), block);
                 Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
+                if (dresource == null) {
+                    if (Util.isNumericAddress(daddr))
+                        map.get(key).put(InetAddress.getByName(daddr), block);
+                } else
+                    map.get(key).put(InetAddress.getByName(dresource), block);
             } catch (UnknownHostException ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }

@@ -612,7 +612,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             String query = "SELECT a.uid, a.version, a.protocol, a.daddr, d.resource, a.dport, a.block";
             query += " FROM access AS a";
-            query += " JOIN dns AS d";
+            query += " LEFT JOIN dns AS d";
             query += "   ON d.qname = a.daddr";
             query += " WHERE a.block >= 0";
 
