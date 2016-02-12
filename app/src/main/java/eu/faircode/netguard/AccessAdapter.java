@@ -114,25 +114,6 @@ public class AccessAdapter extends CursorAdapter {
                 Util.getProtocolName(protocol, version, true) +
                         " " + daddr + (dport > 0 ? "/" + dport : ""));
 
-        if (Util.isNumericAddress(daddr))
-            new AsyncTask<String, Object, String>() {
-                @Override
-                protected String doInBackground(String... args) {
-                    try {
-                        return InetAddress.getByName(args[0]).getHostName();
-                    } catch (UnknownHostException ignored) {
-                        return args[0];
-                    }
-                }
-
-                @Override
-                protected void onPostExecute(String addr) {
-                    tvDest.setText(
-                            Util.getProtocolName(protocol, version, true) +
-                                    " " + addr + (dport > 0 ? "/" + dport : ""));
-                }
-            }.execute(daddr);
-
         if (allowed < 0)
             tvDest.setTextColor(colorText);
         else if (allowed > 0)
