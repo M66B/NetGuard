@@ -117,7 +117,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
 
     <string name="summary_stats">Show network speed graph in status bar notification</string>
-    <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
 
     <string-array name="default_wifi_home" />
 
@@ -146,6 +145,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
     <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
     <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
+    <string name="msg_import_last">Last import: %s</string>
     <string name="msg_downloading">Downloading\n%1s</string>
     <string name="msg_downloaded">Hosts file downloaded</string>
     <string name="msg_download_last">Last download: %s</string>

@@ -217,29 +217,34 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         });
 
         // Hosts file settings
-        Preference pref_hosts = screen.findPreference("hosts");
         Preference pref_block_domains = screen.findPreference("use_hosts");
+        Preference pref_hosts_import = screen.findPreference("hosts_import");
         EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
         final Preference pref_hosts_download = screen.findPreference("hosts_download");
-        String last = prefs.getString("hosts_last", null);
-        if (last != null)
-            pref_hosts_download.setSummary(getString(R.string.msg_download_last, last));
 
         if (Util.isPlayStoreInstall(this)) {
             PreferenceCategory pref_category = (PreferenceCategory) screen.findPreference("category_advanced_options");
             pref_category.removePreference(pref_block_domains);
+
             PreferenceCategory pref_backup = (PreferenceCategory) screen.findPreference("category_backup");
-            pref_backup.removePreference(pref_hosts);
+            pref_backup.removePreference(pref_hosts_import);
             pref_backup.removePreference(pref_hosts_url);
             pref_backup.removePreference(pref_hosts_download);
 
         } else {
             pref_block_domains.setEnabled(new File(getFilesDir(), "hosts.txt").exists());
 
+            String last_import = prefs.getString("hosts_last_import", null);
+            String last_download = prefs.getString("hosts_last_download", null);
+            if (last_import != null)
+                pref_hosts_import.setSummary(getString(R.string.msg_import_last, last_import));
+            if (last_download != null)
+                pref_hosts_download.setSummary(getString(R.string.msg_download_last, last_download));
+
             // Handle hosts import
             // https://github.com/Free-Software-for-Android/AdAway/wiki/HostsSources
-            pref_hosts.setEnabled(getIntentOpenHosts().resolveActivity(getPackageManager()) != null);
-            pref_hosts.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            pref_hosts_import.setEnabled(getIntentOpenHosts().resolveActivity(getPackageManager()) != null);
+            pref_hosts_import.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     startActivityForResult(getIntentOpenHosts(), ActivitySettings.REQUEST_HOSTS);
@@ -264,7 +269,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                 tmp.renameTo(hosts);
 
                                 String last = SimpleDateFormat.getDateTimeInstance().format(new Date().getTime());
-                                prefs.edit().putString("hosts_last", last).apply();
+                                prefs.edit().putString("hosts_last_download", last).apply();
 
                                 if (running) {
                                     getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
@@ -848,15 +853,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             protected void onPostExecute(Throwable ex) {
                 if (running) {
                     if (ex == null) {
-                        Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-
-                        getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
-
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ActivitySettings.this);
-                        prefs.edit().remove("hosts_last").apply();
-                        getPreferenceScreen().findPreference("hosts_download").setSummary(null);
+                        String last = SimpleDateFormat.getDateTimeInstance().format(new Date().getTime());
+                        prefs.edit().putString("hosts_last_import", last).apply();
 
-                        SinkholeService.reload(null, "hosts", ActivitySettings.this);
+                        if (running) {
+                            getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
+                            getPreferenceScreen().findPreference("hosts_import").setSummary(getString(R.string.msg_import_last, last));
+                            Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                        }
+
+                        SinkholeService.reload(null, "hosts import", ActivitySettings.this);
                     } else
                         Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
                 }
