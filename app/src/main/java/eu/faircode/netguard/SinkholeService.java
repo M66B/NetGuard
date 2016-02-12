@@ -1036,7 +1036,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 // This will result in native callbacks
                 InetAddress.getAllByName(daddr);
             } catch (UnknownHostException ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
         }
         cursor.close();
