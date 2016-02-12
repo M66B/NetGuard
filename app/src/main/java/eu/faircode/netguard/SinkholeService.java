@@ -1189,10 +1189,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private Allowed isAddressAllowed(Packet packet) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // Allow name resolving
-        if (packet.uid == Process.myUid())
-            return new Allowed();
-
         packet.allowed = false;
         if (prefs.getBoolean("filter", false)) {
             if (packet.uid < 0) // unknown
