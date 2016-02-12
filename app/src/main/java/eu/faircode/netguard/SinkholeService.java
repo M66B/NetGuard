@@ -1137,6 +1137,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming)))
                     listAllowed.add(rule);
             }
+        else
+            listAllowed.addAll(listRule);
 
         Log.i(TAG, "Allowed " + listAllowed.size() + " of " + listRule.size());
 
