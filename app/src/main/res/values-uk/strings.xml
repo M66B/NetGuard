@@ -98,9 +98,8 @@
   <string name="summary_access">Показувати сповіщення в панелі статусу коли додаток отримує доступ до нової інтернет адреси</string>
   <string name="summary_filter">Фільтрація IPпакетів, які проходять через VPN. Це може призвести до підвищеного споживання батареї.</string>
   <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
-  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Показувати графік швидкості мережі у панелі сповіщень</string>
-  <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">Ви впевнені?</string>
   <string name="msg_started">Визначити правила</string>
   <string name="msg_packages">%1$d дозволено, %2$d заблоковано</string>
@@ -126,6 +125,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_log_disabled">Журналювання трафіку вимкнуто, використовуйте перемикач вище, аби увімкнути журналювання. Це може підвищити споживання батареї.</string>
   <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
   <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
+  <string name="msg_import_last">Last import: %s</string>
   <string name="msg_downloading">Downloading\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="msg_download_last">Last download: %s</string>
@@ -137,7 +137,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_roaming">Блокувати у роумінгу</string>
   <string name="title_disabled">вимкнено</string>
   <string name="title_internet">немає доступу до інтернету</string>
-  <string name="title_launch">Запуск додатку</string>
+  <string name="title_related">Filter related</string>
   <string name="title_access">Спроби доступу</string>
   <string name="title_no_log"><u>Журналювання вимкнуто</u></string>
   <string name="title_precedence">Правила доступу мають вищій пріоритет над іншим правилами</string>

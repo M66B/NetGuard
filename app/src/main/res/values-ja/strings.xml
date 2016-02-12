@@ -37,7 +37,7 @@
   <string name="title_raddr">宛先アドレス</string>
   <string name="title_rport">宛先ポート</string>
   <string name="title_ruid">送信先アプリケーション</string>
-  <string name="title_external">For an external server select \'nobody\'</string>
+  <string name="title_external">外部サーバーは \'nobody\' を選択してください</string>
   <string name="setting_defaults">デフォルト</string>
   <string name="setting_whitelist_wifi">デフォルトで Wi-Fi をブロック</string>
   <string name="setting_whitelist_other">デフォルトでモバイル通信をブロック</string>
@@ -98,9 +98,8 @@
   <string name="summary_access">アプリケーションが、新しいインターネット アドレスにアクセスしようとするときに、ステータスバーに通知を表示します。</string>
   <string name="summary_filter">VPN のシンク穴を出る IP パケットをフィルター処理します。バッテリー使用量が増える場合があります。</string>
   <string name="summary_resolved">ドメイン名/IP アドレスをデータベースに格納します。これによりトラフィック ログがさらに便利になりますが、バッテリーの使用量が増えることがあります。</string>
-  <string name="summary_block_domains">ブロックされたドメイン名に対して \'名前エラー\' (NXDOMAIN) で応答しました。Hosts ファイルをインポートしていない場合、このスイッチは無効です。</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
-  <string name="summary_hosts">標準の hosts ファイルをインポートします。設定をエクスポートする場合、hosts ファイルはエクスポートされません。</string>
   <string name="msg_sure">よろしいですか?</string>
   <string name="msg_started">ルールを適用します</string>
   <string name="msg_packages">%1$d 許可、%2$d ブロック</string>
@@ -124,6 +123,7 @@
   <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
   <string name="msg_clear_rules">ルールと条件がデフォルト値にリセットされます</string>
   <string name="msg_reset_access">これは、許可/ブロックのルールがない、アクセス試行ログの行を削除します</string>
+  <string name="msg_import_last">Last import: %s</string>
   <string name="msg_downloading">ダウンロード中\n%1s</string>
   <string name="msg_downloaded">Hosts ファイルをダウンロードしました</string>
   <string name="msg_download_last">最終ダウンロード: %s</string>
@@ -135,7 +135,7 @@
   <string name="title_roaming">ローミング時にブロック</string>
   <string name="title_disabled">無効</string>
   <string name="title_internet">インターネット アクセス許可がありません</string>
-  <string name="title_launch">アプリケーションを開始</string>
+  <string name="title_related">Filter related</string>
   <string name="title_access">アクセスの試行</string>
   <string name="title_no_log"><u>ログは有効になっていません</u></string>
   <string name="title_precedence">アクセス ルールは他のルールよりも優先します</string>
@@ -144,7 +144,7 @@
   <string name="title_block">ブロック</string>
   <string name="title_root">ルート</string>
   <string name="title_mediaserver">メディアサーバー</string>
-  <string name="title_nobody">誰もいません</string>
+  <string name="title_nobody">nobody</string>
   <string name="title_notify">インターネット アクセスの試みを通知</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">ポート %1$d</string>

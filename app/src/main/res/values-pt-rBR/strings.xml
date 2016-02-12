@@ -37,7 +37,7 @@
   <string name="title_raddr">Endereço de destino</string>
   <string name="title_rport">Porta de destino</string>
   <string name="title_ruid">Aplicativo de destino</string>
-  <string name="title_external">For an external server select \'nobody\'</string>
+  <string name="title_external">Para um servidor externo, selecione \'ninguém\'</string>
   <string name="setting_defaults">Padrões</string>
   <string name="setting_whitelist_wifi">Bloquear Wi-Fi</string>
   <string name="setting_whitelist_other">Bloquear Dados Móveis</string>
@@ -98,9 +98,8 @@
   <string name="summary_access">Mostrar uma notificação quando um aplicativo tentar acessar um novo endereço de rede</string>
   <string name="summary_filter">Filtrar pacotes de IP que saem da VPN. Isso pode resultar em um maior uso da bateria.</string>
   <string name="summary_resolved">Armazenar nomes de domínios/endereços de IP em um banco de dados. Isso torna o registro de tráfego mais útil, mas pode resultar em uso extra de bateria.</string>
-  <string name="summary_block_domains">Responder com \'erro de nome\' (NXDOMAIN) para nomes de domínio bloqueados. Essa opção estará desabilitada caso nenhum arquivo de hosts tenha sido importado.</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
-  <string name="summary_hosts">Importar um arquivo de hosts padrão. Um arquivo de host não será exportado ao exportar configurações.</string>
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo Regras</string>
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
@@ -126,6 +125,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_log_disabled">Log de tráfego está desabilitado, utilize o botão acima para habilitar o log. Log do tráfego pode resultar no uso extra da bateria.</string>
   <string name="msg_clear_rules">Isto irá redefinir as regras e condições para os seus valores padrões</string>
   <string name="msg_reset_access">Isto irá apagar as linhas de registo relativas a tentativas de acesso sem regras de permitir/bloquear</string>
+  <string name="msg_import_last">Last import: %s</string>
   <string name="msg_downloading">Baixando\n%1s</string>
   <string name="msg_downloaded">Arquivos de hosts baixados</string>
   <string name="msg_download_last">Último download: %s</string>
@@ -137,7 +137,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_roaming">Bloquear quando em roaming</string>
   <string name="title_disabled">está desativado</string>
   <string name="title_internet">não tem permissão de acesso a internet</string>
-  <string name="title_launch">Iniciar aplicativo</string>
+  <string name="title_related">Filter related</string>
   <string name="title_access">Tentativas de acesso</string>
   <string name="title_no_log"><u>Registo não está habilitado.</u></string>
   <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>

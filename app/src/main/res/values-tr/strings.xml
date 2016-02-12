@@ -31,13 +31,13 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_pcap_export">PCAP export</string>
   <string name="menu_clear">Temizle</string>
   <string name="menu_reset">Sıfırla</string>
-  <string name="menu_add">Add</string>
-  <string name="menu_delete">Delete</string>
-  <string name="title_protocol">Protocol</string>
+  <string name="menu_add">Ekle</string>
+  <string name="menu_delete">Sil</string>
+  <string name="title_protocol">Protokol</string>
   <string name="title_dport">Source port</string>
   <string name="title_raddr">Destination address</string>
   <string name="title_rport">Destination port</string>
-  <string name="title_ruid">Destination application</string>
+  <string name="title_ruid">Hedef uygulama</string>
   <string name="title_external">For an external server select \'nobody\'</string>
   <string name="setting_defaults">Varsayılanlar</string>
   <string name="setting_whitelist_wifi">Varsayılan olarak Wİ-Fİ blokla</string>
@@ -99,9 +99,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
-  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Show network speed graph in status bar notification</string>
-  <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">Emin misiniz?</string>
   <string name="msg_started">Kuralları zorla</string>
   <string name="msg_packages">%1$d izin verilen, %2$d engellenen</string>
@@ -127,9 +126,10 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
   <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
-  <string name="msg_downloading">Downloading\n%1s</string>
+  <string name="msg_import_last">Last import: %s</string>
+  <string name="msg_downloading">İndiriliyor\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
-  <string name="msg_download_last">Last download: %s</string>
+  <string name="msg_download_last">Son indirme: %s</string>
   <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
   <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="title_conditions">Koşullar</string>
@@ -138,7 +138,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_roaming">Dolaşımda blokla</string>
   <string name="title_disabled">devre dışı</string>
   <string name="title_internet">İnternet izni yok</string>
-  <string name="title_launch">Uygulamayı başlat</string>
+  <string name="title_related">Filter related</string>
   <string name="title_access">Erişim girişimleri</string>
   <string name="title_no_log"><u>Günlüğe kaydetme etkin değil</u></string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
@@ -147,7 +147,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_block">Engelle</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
-  <string name="title_nobody">nobody</string>
+  <string name="title_nobody">hiçkimse</string>
   <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>

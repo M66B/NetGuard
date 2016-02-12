@@ -36,7 +36,7 @@
   <string name="title_raddr">Adresa destinatie</string>
   <string name="title_rport">Port destinatie</string>
   <string name="title_ruid">Aplicatie destinatie</string>
-  <string name="title_external">For an external server select \'nobody\'</string>
+  <string name="title_external">Pentru un server extern alegeti \'Proces fara utilizator\'</string>
   <string name="setting_defaults">Setari implicite</string>
   <string name="setting_whitelist_wifi">Blocheaza Wi-Fi</string>
   <string name="setting_whitelist_other">Blocheaza datele mobile</string>
@@ -97,9 +97,8 @@
   <string name="summary_access">Arata o notificare in bara de stare atunci cand o aplicatie incearca sa acceseze o noua adresa de internet</string>
   <string name="summary_filter">Filtreaza pachetele de date ce sunt trimise in \"gaura neagra\" a VPN-ului. Poate duce la un consum mai mare al bateriei.</string>
   <string name="summary_resolved">Pastreaza adrese IP si nume de domenii intr-o baza de date. Acest lucru face jurnalul de trafic mai util, dar ar putea duce la un consum suplimentar al bateriei.</string>
-  <string name="summary_block_domains">Raspunde cu \"nume de domeniu inexistent\" (NXDOMAIN) pentru domeniile blocate. Acesta optiune este dezactivata daca nu a fost importata o lista cu nume de domenii de blocat.</string>
+  <string name="summary_block_domains">Raspunde cu \"nume de domeniu inexistent\" (NXDOMAIN) pentru domeniile blocate. Acesta optiune este dezactivata daca nu a fost incarcata o lista cu nume de domenii de blocat.</string>
   <string name="summary_stats">Arata graficul de viteza al retelei in bara de notificari</string>
-  <string name="summary_hosts">Importa o lista standard de nume de domenii. Aceasta lista nu va fi exportata odata cu setarile.</string>
   <string name="msg_sure">Esti sigur(a)?</string>
   <string name="msg_started">Limitari activate</string>
   <string name="msg_packages">%1$d permise, %2$d blocate</string>
@@ -124,6 +123,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_log_disabled">Inregistrarea traficului in jurnal este dezactivata, utilizati butonul de mai sus pentru a o activa. Optiunea de inregistrare ar putea duce la un consumul suplimentar al bateriei.</string>
   <string name="msg_clear_rules">Se vor reseta regulile si conditiile la valorile implicite</string>
   <string name="msg_reset_access">Se vor sterge din jurnal adresele accesate ce nu au fost conditionate cu permite/blocheaza</string>
+  <string name="msg_import_last">Ultima importare: %s</string>
   <string name="msg_downloading">Se descarca\n%1s</string>
   <string name="msg_downloaded">Lista de domenii de blocat descarcata</string>
   <string name="msg_download_last">Ultima descarcare: %s</string>
@@ -135,7 +135,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_roaming">Blocheaza in roaming</string>
   <string name="title_disabled">Este dezactivata</string>
   <string name="title_internet">Nu are permisiunea de a accesa internetul</string>
-  <string name="title_launch">Porneste aplicatia</string>
+  <string name="title_related">Filtreaza aplicatii asociate</string>
   <string name="title_access">Incercari de a accesa</string>
   <string name="title_no_log"><u>Inregistrarea in jurnal nu este activata</u></string>
   <string name="title_precedence">Regulile de acces ale acestor adrese au prioritate</string>

@@ -99,9 +99,8 @@
   <string name="summary_access">某应用程序尝试访问一个新的网络地址时显示状态栏通知</string>
   <string name="summary_filter">筛选经由 VPN 重定向流出的 IP 数据包。这可能会导致额外耗电</string>
   <string name="summary_resolved">将主机名称/IP 地址储存至一个数据库中. 这将使流量记录更有用但可能会导致额外电量消耗.</string>
-  <string name="summary_block_domains">对已屏蔽的主机名称返回 \"名称错误\" (NXDomain). 无 hosts 文件导入情况下此选项会被禁用</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
-  <string name="summary_hosts">导入标准 hosts 文件。导出设置时，将不会导出 hosts 文件</string>
   <string name="msg_sure">是否确认?</string>
   <string name="msg_started">规则加载中</string>
   <string name="msg_packages">%1$d 已允许, %2$d 已拦截</string>
@@ -127,6 +126,7 @@
   <string name="msg_log_disabled">流量记录已禁用, 使用上方的开关以启用日志. 流量记录可能会导致额外电量消耗.</string>
   <string name="msg_clear_rules">此操作将重置所有规则和条件为默认值</string>
   <string name="msg_reset_access">此操作将删除访问尝试日志中无允许/阻止规则的记录</string>
+  <string name="msg_import_last">最后导入: %s</string>
   <string name="msg_downloading">下载中\n%1s</string>
   <string name="msg_downloaded">Hosts 文件已下载</string>
   <string name="msg_download_last">最近下载: %s</string>
@@ -138,7 +138,7 @@
   <string name="title_roaming">漫游时阻止</string>
   <string name="title_disabled">已禁用</string>
   <string name="title_internet">无网络访问权限</string>
-  <string name="title_launch">启动应用</string>
+  <string name="title_related">Filter related</string>
   <string name="title_access">访问尝试</string>
   <string name="title_no_log"><u>日志记录未启用</u></string>
   <string name="title_precedence">访问规则优先于其他规则</string>

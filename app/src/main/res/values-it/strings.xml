@@ -97,9 +97,8 @@
   <string name="summary_access">Visualizza una notifica nella barra di stato quando un\'applicazione tenta di accedere a un nuovo indirizzo internet</string>
   <string name="summary_filter">Filtra i pacchetti IP in uscita dal pozzo VPN. Questo potrebbe comportare un consumo aggiuntivo di batteria.</string>
   <string name="summary_resolved">Memorizza nomi di dominio/indirizzi IP in un database. Questo rende il registro del traffico più utile, ma potrebbe comportare un utilizzo supplementare di batteria.</string>
-  <string name="summary_block_domains">Rispondere con \"name error\" (NXDOMAIN) per i nomi di dominio bloccati. Questa opzione è disabilitata quando nessun file hosts è stato importato.</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
-  <string name="summary_hosts">Importare un file di host standard. Il file hosts non verrà esportato quando si esportano le impostazioni.</string>
   <string name="msg_sure">Sei sicuro?</string>
   <string name="msg_started">Regole applicate</string>
   <string name="msg_packages">%1$d permesse, %2$d bloccate</string>
@@ -123,6 +122,7 @@
   <string name="msg_log_disabled">La registrazione del traffico è disattivata, utilizzare l\'interruttore sopra per attivare la registrazione. La registrazione del traffico potrebbe comportare un utilizzo aggiuntivo di batteria.</string>
   <string name="msg_clear_rules">Questo reimposterà le regole e le condizioni ai valori predefiniti</string>
   <string name="msg_reset_access">Questa operazione cancellerà i tentativi di accesso registrati in assenza di regole di tipo consenti/blocca</string>
+  <string name="msg_import_last">Last import: %s</string>
   <string name="msg_downloading">Scaricando\n%1s</string>
   <string name="msg_downloaded">File hosts scaricato</string>
   <string name="msg_download_last">Ultimo download: %s</string>
@@ -134,7 +134,7 @@
   <string name="title_roaming">Blocca quando in roaming</string>
   <string name="title_disabled">è disabilitata</string>
   <string name="title_internet">non ha accesso a internet</string>
-  <string name="title_launch">Avvia applicazione</string>
+  <string name="title_related">Filter related</string>
   <string name="title_access">Tentativi di accesso</string>
   <string name="title_no_log"><u>Registrazione non attiva</u></string>
   <string name="title_precedence">Le regole di accesso hanno la precedenza sulle altre regole</string>

@@ -37,7 +37,7 @@
   <string name="title_raddr">Zieladresse</string>
   <string name="title_rport">Zielport</string>
   <string name="title_ruid">Zielanwendung</string>
-  <string name="title_external">For an external server select \'nobody\'</string>
+  <string name="title_external">Für einen externen Server wählen Sie \'Keiner\' aus</string>
   <string name="setting_defaults">Standards</string>
   <string name="setting_whitelist_wifi">WLAN blockieren</string>
   <string name="setting_whitelist_other">Mobilfunk blockieren</string>
@@ -98,9 +98,8 @@
   <string name="summary_access">Benachrichtigung in Statusleiste anzeigen, wenn eine App auf eine neue Internetadresse zugreifen möchte</string>
   <string name="summary_filter">IP Pakete filtern, die das VPN verlassen. Dies könnte zu erhöhtem Stromverbrauch führen.</string>
   <string name="summary_resolved">Domain-Namen/IP-Adressen in einer Datenbank speichern. Dies macht das Verkehrsprotokoll sinnvoller, kann aber zu höherem Batterieverbrauch führen.</string>
-  <string name="summary_block_domains">Antworten Sie mit \'Name Error\' (NXDOMAIN) für blockierte Domain-Namen. Diese Option ist deaktiviert, wenn keine Hosts-Datei importiert wurde.</string>
+  <string name="summary_block_domains">Antwortet für blockierte Domain-Namen mit \'Name Error\' (NXDOMAIN). Diese Option ist deaktiviert, wenn keine Hosts-Datei zur Verfügung steht.</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>
-  <string name="summary_hosts">Eine Standard-Hosts-Datei importieren. Eine Host-Datei wird beim Exportieren der Einstellungen nicht miteingeschlossen.</string>
   <string name="msg_sure">Sind Sie sicher?</string>
   <string name="msg_started">Regeln werden angewendet</string>
   <string name="msg_packages">%1$d erlaubt, %2$d blockiert</string>
@@ -124,6 +123,7 @@
   <string name="msg_log_disabled">Datenverkehrprotokollierung ist deaktiviert. Zum Aktivieren den Schalter oben verwenden. Die Protokollierung kann zu höherem Akku-Verbrauch führen.</string>
   <string name="msg_clear_rules">Dadurch werden die Regeln und Bedingungen auf ihre Standardwerte zurückgesetzt</string>
   <string name="msg_reset_access">Dadurch werden die Zeilen für die Zugriffsversuche im das Protokoll ohne der Erlaubt-/Blockier-Regeln gelöscht</string>
+  <string name="msg_import_last">Letzter Import: %s</string>
   <string name="msg_downloading">Herunterladen\n%1s</string>
   <string name="msg_downloaded">Hosts-Datei heruntergeladen</string>
   <string name="msg_download_last">Letztes Herunterladen: %s</string>
@@ -135,7 +135,7 @@
   <string name="title_roaming">Bei Roaming blockieren</string>
   <string name="title_disabled">ist deaktiviert</string>
   <string name="title_internet">hat keine Internet-Berechtigung</string>
-  <string name="title_launch">App starten</string>
+  <string name="title_related">Filterabhängig</string>
   <string name="title_access">Zugriffsversuche</string>
   <string name="title_no_log"><u>Protokollierung ist nicht aktiviert</u></string>
   <string name="title_precedence">Zugriffsregeln haben vor anderen Regeln Vorrang</string>
@@ -144,7 +144,7 @@
   <string name="title_block">Sperren</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">Medienserver</string>
-  <string name="title_nobody">Niemand</string>
+  <string name="title_nobody">Keiner</string>
   <string name="title_notify">Benachrichtigen über Internetzugriffsversuche</string>
   <string name="title_log_whois">Wer ist %1$s</string>
   <string name="title_log_port">Port %1$d</string>

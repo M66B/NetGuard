@@ -97,9 +97,8 @@
   <string name="summary_access">Mostrar uma notificação na barra de estado quando uma aplicação tentar aceder ao um novo endereço de internet</string>
   <string name="summary_filter">Filtrar pacotes de IP que saiem do sumidouro VPN. Isto pode resultar num uso adicional de bateria.</string>
   <string name="summary_resolved">Armazenar endereços de IP/nomes de domínio num banco de dados. Isto faz com que o registo de tráfego seja mais útil, mas pode resultar no uso da bateria extra.</string>
-  <string name="summary_block_domains">Responder com \'erro de nome\' (NXDOMAIN) para nomes de domínio bloqueados. Esta opção é desabilitada quando nenhum arquivo de hosts tenha sido importado.</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
-  <string name="summary_hosts">Importar um arquivo hosts padrão. Um arquivo de host não será exportado ao exportar configurações.</string>
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo regras</string>
   <string name="msg_packages">%1$d permitido, %2$d bloqueado</string>
@@ -123,6 +122,7 @@
   <string name="msg_log_disabled">Registo de tráfego desabilitado, use o botão acima para habilitar o registo. Registar o tráfego pode resultar numa utilização extra da bateria.</string>
   <string name="msg_clear_rules">Isto irá redefinir as regras e condições para os seus valores padrão</string>
   <string name="msg_reset_access">Isto irá apagar as linhas de registo relativas a tentativas de acesso sem regras de permitir/bloquear</string>
+  <string name="msg_import_last">Last import: %s</string>
   <string name="msg_downloading">A descarregar\n%1s</string>
   <string name="msg_downloaded">Ficheiro hosts descarregado</string>
   <string name="msg_download_last">Último descarregamento: %s</string>
@@ -134,7 +134,7 @@
   <string name="title_roaming">Bloquear quando em Roaming</string>
   <string name="title_disabled">está desativado</string>
   <string name="title_internet">não tem permissão de acesso a internet</string>
-  <string name="title_launch">Iniciar aplicativo</string>
+  <string name="title_related">Filter related</string>
   <string name="title_access">Tentativas de acesso</string>
   <string name="title_no_log"><u>Registo não está habilitado.</u></string>
   <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>

@@ -99,9 +99,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
   <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
-  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file has been imported.</string>
+  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Show network speed graph in status bar notification</string>
-  <string name="summary_hosts">Import a standard hosts file. A host file will not be exported when exporting settings.</string>
   <string name="msg_sure">Jste si jistý?</string>
   <string name="msg_started">Vynucení pravidel</string>
   <string name="msg_packages">%1$d allowed, %2$d blocked</string>
@@ -127,6 +126,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
   <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
+  <string name="msg_import_last">Last import: %s</string>
   <string name="msg_downloading">Downloading\n%1s</string>
   <string name="msg_downloaded">Hosts file downloaded</string>
   <string name="msg_download_last">Last download: %s</string>
@@ -138,7 +138,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_roaming">Blokovat při roamingu</string>
   <string name="title_disabled">je zakázáno</string>
   <string name="title_internet">has no internet permission</string>
-  <string name="title_launch">Spustit aplikaci</string>
+  <string name="title_related">Filter related</string>
   <string name="title_access">Pokusy o přístup</string>
   <string name="title_no_log"><u>Logging is not enabled</u></string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
