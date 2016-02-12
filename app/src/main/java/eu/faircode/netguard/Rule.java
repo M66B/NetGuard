@@ -31,7 +31,6 @@ import android.os.Build;
 import android.os.Process;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -68,6 +67,7 @@ public class Rule {
     public boolean screen_other = false;
     public boolean roaming = false;
 
+    public boolean relateduids = false;
     public String[] related = null;
 
     public float upspeed;
@@ -246,13 +246,16 @@ public class Rule {
                 rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
                 rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
 
+                // Related packages
                 List<String> listPkg = new ArrayList<>();
                 if (pre_related.containsKey(info.packageName))
                     listPkg.addAll(Arrays.asList(pre_related.get(info.packageName)));
                 String[] pkgs = pm.getPackagesForUid(info.applicationInfo.uid);
-                if (pkgs != null)
+                if (pkgs != null && pkgs.length > 1) {
+                    rule.relateduids = true;
                     listPkg.addAll(Arrays.asList(pkgs));
-                listPkg.remove(info.packageName);
+                    listPkg.remove(info.packageName);
+                }
                 rule.related = listPkg.toArray(new String[0]);
 
                 long up = TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid);

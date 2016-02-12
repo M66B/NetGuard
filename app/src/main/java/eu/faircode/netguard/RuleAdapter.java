@@ -70,7 +70,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     private Activity context;
     private RecyclerView rv;
     private boolean filter;
-    private boolean debuggable;
     private int colorText;
     private int colorAccent;
     private int colorChanged;
@@ -105,6 +104,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public TextView tvDisabled;
         public TextView tvInternet;
 
+        public Button btnRelated;
+        public ImageButton ibSettings;
+        public ImageButton ibLaunch;
+
         public ImageView ivWifiLegend;
         public CheckBox cbScreenWifi;
 
@@ -113,8 +116,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         public CheckBox cbRoaming;
 
         public ImageButton btnClear;
-        public ImageButton btnSettings;
-        public Button btnLaunch;
 
         public ListView lvAccess;
         public TextView tvNolog;
@@ -147,6 +148,10 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
             tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
 
+            btnRelated = (Button) itemView.findViewById(R.id.btnRelated);
+            ibSettings = (ImageButton) itemView.findViewById(R.id.ibSettings);
+            ibLaunch = (ImageButton) itemView.findViewById(R.id.ibLaunch);
+
             ivWifiLegend = (ImageView) itemView.findViewById(R.id.ivWifiLegend);
             cbScreenWifi = (CheckBox) itemView.findViewById(R.id.cbScreenWifi);
 
@@ -155,8 +160,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
 
             btnClear = (ImageButton) itemView.findViewById(R.id.btnClear);
-            btnSettings = (ImageButton) itemView.findViewById(R.id.btnSettings);
-            btnLaunch = (Button) itemView.findViewById(R.id.btnLaunch);
 
             lvAccess = (ListView) itemView.findViewById(R.id.lvAccess);
             tvNolog = (TextView) itemView.findViewById(R.id.tvNolog);
@@ -197,7 +200,6 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
 
         this.context = context;
         this.filter = prefs.getBoolean("filter", false);
-        this.debuggable = Util.isDebuggable(context);
 
         if (prefs.getBoolean("dark_theme", false))
             colorChanged = Color.argb(128, Color.red(Color.DKGRAY), Color.green(Color.DKGRAY), Color.blue(Color.DKGRAY));
@@ -394,12 +396,22 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         holder.tvDisabled.setVisibility(rule.enabled ? View.GONE : View.VISIBLE);
         holder.tvInternet.setVisibility(rule.internet ? View.GONE : View.VISIBLE);
 
+        // Show related
+        holder.btnRelated.setVisibility(rule.relateduids ? View.VISIBLE : View.GONE);
+        holder.btnRelated.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent main = new Intent(context, ActivityMain.class);
+                main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(rule.info.applicationInfo.uid));
+                context.startActivity(main);
+            }
+        });
+
         // Launch application settings
         final Intent settings = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         settings.setData(Uri.parse("package:" + rule.info.packageName));
-        holder.btnSettings.setVisibility(
-                !debuggable || settings.resolveActivity(context.getPackageManager()) == null ? View.GONE : View.VISIBLE);
-        holder.btnSettings.setOnClickListener(new View.OnClickListener() {
+        holder.ibSettings.setVisibility(settings.resolveActivity(context.getPackageManager()) == null ? View.GONE : View.VISIBLE);
+        holder.ibSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 context.startActivity(settings);
@@ -407,8 +419,8 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         });
 
         // Launch application
-        holder.btnLaunch.setVisibility(!debuggable || rule.intent == null ? View.GONE : View.VISIBLE);
-        holder.btnLaunch.setOnClickListener(new View.OnClickListener() {
+        holder.ibLaunch.setVisibility(rule.intent == null ? View.GONE : View.VISIBLE);
+        holder.ibLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 context.startActivity(rule.intent);
