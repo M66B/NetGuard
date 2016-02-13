@@ -609,6 +609,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT ID AS _id, *";
+            query += " FROM dns";
+            query += " ORDER BY qname";
+            return db.rawQuery(query, new String[]{});
+        } finally {
+            mLock.readLock().unlock();
+        }
+    }
+
+    public Cursor getAccessDns() {
+        mLock.readLock().lock();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
 
             String query = "SELECT a.uid, a.version, a.protocol, a.daddr, d.resource, a.dport, a.block";
             query += " FROM access AS a";

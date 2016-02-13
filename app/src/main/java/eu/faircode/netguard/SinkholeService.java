@@ -983,7 +983,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void prepareUidIPFilters() {
         Map<Long, Map<InetAddress, Boolean>> map = new HashMap<>();
 
-        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getDns();
+        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getAccessDns();
         int colUid = cursor.getColumnIndex("uid");
         int colVersion = cursor.getColumnIndex("version");
         int colProtocol = cursor.getColumnIndex("protocol");
@@ -1017,8 +1017,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 if (dresource == null) {
                     if (Util.isNumericAddress(daddr))
                         map.get(key).put(InetAddress.getByName(daddr), block);
-                } else
-                    map.get(key).put(InetAddress.getByName(dresource), block);
+                } else {
+                    if (Util.isNumericAddress(dresource))
+                        map.get(key).put(InetAddress.getByName(dresource), block);
+                    else
+                        Log.w(TAG, "Address not numeric " + daddr);
+                }
             } catch (UnknownHostException ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
@@ -1040,7 +1044,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 // This will result in native callbacks
                 InetAddress.getAllByName(daddr);
             } catch (UnknownHostException ex) {
-                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                Log.w(TAG, "Update " + ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
         }
         cursor.close();
@@ -1221,7 +1225,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                                 Log.i(TAG, "Filtering " + packet);
                             }
                         } catch (UnknownHostException ex) {
-                            Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                            Log.w(TAG, "Allowed " + ex.toString() + "\n" + Log.getStackTraceString(ex));
                         }
                 }
 

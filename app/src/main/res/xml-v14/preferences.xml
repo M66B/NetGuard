@@ -118,6 +118,9 @@
             android:key="resolved"
             android:summary="@string/summary_resolved"
             android:title="@string/setting_resolved" />
+        <Preference
+            android:key="show_resolved"
+            android:title="@string/setting_show_resolved" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:dependency="filter"

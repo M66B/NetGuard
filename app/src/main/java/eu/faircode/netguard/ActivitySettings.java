@@ -126,6 +126,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         final PreferenceScreen screen = getPreferenceScreen();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        PreferenceCategory cat_advanced = (PreferenceCategory) screen.findPreference("category_advanced_options");
+        PreferenceCategory cat_backup = (PreferenceCategory) screen.findPreference("category_backup");
+        PreferenceCategory cat_development = (PreferenceCategory) screen.findPreference("category_development");
+
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
         pref_auto_enable.setTitle(getString(R.string.setting_auto, prefs.getString("auto_enable", "0")));
@@ -163,10 +167,20 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
         // Filtering always enabled
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            PreferenceCategory options = (PreferenceCategory) screen.findPreference("category_advanced_options");
-            options.removePreference(screen.findPreference("filter"));
-        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            cat_advanced.removePreference(screen.findPreference("filter"));
+
+        // Show resolved
+        Preference pref_show_resolved = screen.findPreference("show_resolved");
+        if (!Util.isDebuggable(this))
+            cat_advanced.removePreference(pref_show_resolved);
+        pref_show_resolved.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(ActivitySettings.this, ActivityDns.class));
+                return true;
+            }
+        });
 
         // Handle port forwarding
         Preference pref_forwarding = screen.findPreference("forwarding");
@@ -223,13 +237,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         final Preference pref_hosts_download = screen.findPreference("hosts_download");
 
         if (Util.isPlayStoreInstall(this)) {
-            PreferenceCategory pref_category = (PreferenceCategory) screen.findPreference("category_advanced_options");
-            pref_category.removePreference(pref_block_domains);
-
-            PreferenceCategory pref_backup = (PreferenceCategory) screen.findPreference("category_backup");
-            pref_backup.removePreference(pref_hosts_import);
-            pref_backup.removePreference(pref_hosts_url);
-            pref_backup.removePreference(pref_hosts_download);
+            cat_advanced.removePreference(pref_block_domains);
+            cat_backup.removePreference(pref_hosts_import);
+            cat_backup.removePreference(pref_hosts_url);
+            cat_backup.removePreference(pref_hosts_download);
 
         } else {
             pref_block_domains.setEnabled(new File(getFilesDir(), "hosts.txt").exists());
@@ -305,7 +316,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Development
         if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta"))) {
-            screen.removePreference(screen.findPreference("category_development"));
+            screen.removePreference(cat_development);
             prefs.edit().remove("loglevel").apply();
         }
 
