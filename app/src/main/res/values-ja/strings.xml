@@ -98,7 +98,7 @@
   <string name="summary_access">アプリケーションが、新しいインターネット アドレスにアクセスしようとするときに、ステータスバーに通知を表示します。</string>
   <string name="summary_filter">VPN のシンク穴を出る IP パケットをフィルター処理します。バッテリー使用量が増える場合があります。</string>
   <string name="summary_resolved">ドメイン名/IP アドレスをデータベースに格納します。これによりトラフィック ログがさらに便利になりますが、バッテリーの使用量が増えることがあります。</string>
-  <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_block_domains">ブロックされたドメイン名は \'名前エラー\' (NXDOMAIN) で応答します。Hosts ファイルが使用できない場合、このスイッチは無効です。</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
   <string name="msg_sure">よろしいですか?</string>
   <string name="msg_started">ルールを適用します</string>
@@ -123,7 +123,7 @@
   <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
   <string name="msg_clear_rules">ルールと条件がデフォルト値にリセットされます</string>
   <string name="msg_reset_access">これは、許可/ブロックのルールがない、アクセス試行ログの行を削除します</string>
-  <string name="msg_import_last">Last import: %s</string>
+  <string name="msg_import_last">最後のインポート: %s</string>
   <string name="msg_downloading">ダウンロード中\n%1s</string>
   <string name="msg_downloaded">Hosts ファイルをダウンロードしました</string>
   <string name="msg_download_last">最終ダウンロード: %s</string>
@@ -135,7 +135,7 @@
   <string name="title_roaming">ローミング時にブロック</string>
   <string name="title_disabled">無効</string>
   <string name="title_internet">インターネット アクセス許可がありません</string>
-  <string name="title_related">Filter related</string>
+  <string name="title_related">フィルター関連</string>
   <string name="title_access">アクセスの試行</string>
   <string name="title_no_log"><u>ログは有効になっていません</u></string>
   <string name="title_precedence">アクセス ルールは他のルールよりも優先します</string>
