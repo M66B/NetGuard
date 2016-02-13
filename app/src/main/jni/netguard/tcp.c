@@ -637,6 +637,10 @@ jboolean handle_tcp(const struct arguments *args,
                         else if (cur->state == TCP_LAST_ACK)
                             cur->state = TCP_CLOSING;
 
+                        else if (cur->state == TCP_CLOSE_WAIT) {
+                            // ACK after FIN/ACK
+                        }
+
                         else if (cur->state == TCP_FIN_WAIT1) {
                             // Do nothing
                         }
