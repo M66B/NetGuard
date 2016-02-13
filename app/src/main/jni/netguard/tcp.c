@@ -109,6 +109,16 @@ void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessi
             t->local_seq--;
             write_ack(args, t);
             t->local_seq++;
+
+            // Keep alive
+            int on = 1;
+            if (setsockopt(t->socket, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)))
+                log_android(ANDROID_LOG_ERROR,
+                            "%s setsockopt SO_KEEPALIVE error %d: %s",
+                            session, errno, strerror(errno));
+            else
+                log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
+
         }
         else {
             // Check session timeout
@@ -640,7 +650,17 @@ jboolean handle_tcp(const struct arguments *args,
                     }
                 }
                 else {
-                    if (compare_u16(ntohl(tcphdr->ack_seq), cur->local_seq) < 0) {
+                    if ((uint32_t) (ntohl(tcphdr->ack_seq) + 1) == cur->local_seq) {
+                        // Keep alive
+                        int on = 1;
+                        if (setsockopt(cur->socket, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)))
+                            log_android(ANDROID_LOG_ERROR,
+                                        "%s setsockopt SO_KEEPALIVE error %d: %s",
+                                        session, errno, strerror(errno));
+                        else
+                            log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
+                    }
+                    else if (compare_u16(ntohl(tcphdr->ack_seq), cur->local_seq) < 0) {
                         log_android(ANDROID_LOG_WARN, "%s previous ACK", session);
                         return 1;
                     }
@@ -671,7 +691,9 @@ void queue_tcp(const struct arguments *args,
                const uint8_t *data, uint16_t datalen) {
     uint32_t seq = ntohl(tcphdr->seq);
     if (compare_u16(seq, cur->remote_seq) < 0)
-        log_android(ANDROID_LOG_WARN, "%s already forwarded", session);
+        log_android(ANDROID_LOG_WARN, "%s already forwarded %u..%u",
+                    session,
+                    seq - cur->remote_start, seq + datalen - cur->remote_start);
     else {
         struct segment *p = NULL;
         struct segment *s = cur->forward;
@@ -681,7 +703,9 @@ void queue_tcp(const struct arguments *args,
         }
 
         if (s == NULL || compare_u16(s->seq, seq) > 0) {
-            log_android(ANDROID_LOG_DEBUG, "%s queuing %u...%u", session, seq, seq + datalen);
+            log_android(ANDROID_LOG_DEBUG, "%s queuing %u...%u",
+                        session,
+                        seq - cur->remote_start, seq + datalen - cur->remote_start);
             struct segment *n = malloc(sizeof(struct segment));
             n->seq = seq;
             n->len = datalen;
@@ -697,17 +721,22 @@ void queue_tcp(const struct arguments *args,
         else if (s != NULL && s->seq == seq) {
             if (s->len == datalen)
                 log_android(ANDROID_LOG_WARN, "%s segment already queued %u..%u",
-                            session, s->seq, s->seq + s->len);
+                            session,
+                            s->seq - cur->remote_start, s->seq + s->len - cur->remote_start);
             else if (s->len < datalen) {
                 log_android(ANDROID_LOG_WARN, "%s segment smaller %u..%u > %u",
-                            session, s->seq, s->seq + s->len, s->seq + datalen);
+                            session,
+                            s->seq - cur->remote_start, s->seq + s->len - cur->remote_start,
+                            s->seq + datalen - cur->remote_start);
                 free(s->data);
                 s->data = malloc(datalen);
                 memcpy(s->data, data, datalen);
             }
             else
                 log_android(ANDROID_LOG_ERROR, "%s segment larger %u..%u < %u",
-                            session, s->seq, s->seq + s->len, s->seq + datalen);
+                            session,
+                            s->seq - cur->remote_start, s->seq + s->len - cur->remote_start,
+                            s->seq + datalen - cur->remote_start);
         }
     }
 }
