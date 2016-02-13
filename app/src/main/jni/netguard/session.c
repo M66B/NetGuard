@@ -344,6 +344,7 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
                     FD_SET(t->socket, efds);
 
                     // Check for incoming data
+                    // TODO take into account ACKed?
                     if (t->send_window > 0)
                         FD_SET(t->socket, rfds);
 

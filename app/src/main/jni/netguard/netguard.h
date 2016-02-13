@@ -143,6 +143,8 @@ struct tcp_session {
     uint32_t remote_start;
     uint32_t local_start;
 
+    uint32_t acked; // host notation
+
     union {
         __be32 ip4; // network notation
         struct in6_addr ip6;

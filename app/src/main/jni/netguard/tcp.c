@@ -293,9 +293,11 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     if (cur->state == TCP_ESTABLISHED || cur->state == TCP_CLOSE_WAIT) {
                         // Check socket read
                         // Send window can be changed in the mean time
+
                         if (FD_ISSET(cur->socket, rfds) && cur->send_window > 0) {
                             cur->time = time(NULL);
 
+                            // TODO take into account ACKed?
                             size_t len = (cur->send_window > TCP_SEND_WINDOW
                                           ? TCP_SEND_WINDOW
                                           : cur->send_window);
@@ -462,6 +464,7 @@ jboolean handle_tcp(const struct arguments *args,
             syn->local_seq = (uint32_t) rand(); // ISN local
             syn->remote_start = syn->remote_seq;
             syn->local_start = syn->local_seq;
+            syn->acked = 0;
 
             if (version == 4) {
                 syn->saddr.ip4 = (__be32) ip4->saddr;
@@ -531,11 +534,12 @@ jboolean handle_tcp(const struct arguments *args,
     else {
         char session[250];
         sprintf(session,
-                "%s %s loc %u rem %u",
+                "%s %s loc %u rem %u acked %u",
                 packet,
                 strstate(cur->state),
                 cur->local_seq - cur->local_start,
-                cur->remote_seq - cur->remote_start);
+                cur->remote_seq - cur->remote_start,
+                cur->acked - cur->local_start);
 
         // Session found
         if (cur->state == TCP_CLOSING || cur->state == TCP_CLOSE) {
@@ -627,6 +631,8 @@ jboolean handle_tcp(const struct arguments *args,
                         }
 
                     } else if (tcphdr->ack) {
+                        cur->acked = ntohl(tcphdr->ack_seq);
+
                         if (cur->state == TCP_SYN_RECV)
                             cur->state = TCP_ESTABLISHED;
 
@@ -657,7 +663,8 @@ jboolean handle_tcp(const struct arguments *args,
                     }
                 }
                 else {
-                    if ((uint32_t) (ntohl(tcphdr->ack_seq) + 1) == cur->local_seq) {
+                    uint32_t ack = ntohl(tcphdr->ack_seq);
+                    if ((uint32_t) (ack + 1) == cur->local_seq) {
                         // Keep alive
                         int on = 1;
                         if (setsockopt(cur->socket, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)))
@@ -666,15 +673,25 @@ jboolean handle_tcp(const struct arguments *args,
                                         session, errno, strerror(errno));
                         else
                             log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
-                    }
-                    else if (compare_u16(ntohl(tcphdr->ack_seq), cur->local_seq) < 0) {
-                        log_android(ANDROID_LOG_WARN, "%s previous ACK %d",
-                                    session, ntohl(tcphdr->ack_seq) - cur->local_seq);
+
+                    } else if (compare_u16(ack, cur->local_seq) < 0) {
+                        if (compare_u16(ack, cur->acked) <= 0)
+                            log_android(ack == cur->acked ? ANDROID_LOG_WARN : ANDROID_LOG_ERROR,
+                                        "%s repeated ACK %u/%u",
+                                        session,
+                                        ack - cur->local_start, cur->acked - cur->local_start);
+                        else {
+                            log_android(ANDROID_LOG_WARN, "%s previous ACK %d",
+                                        session, ack - cur->local_seq);
+                            cur->acked = ack;
+                        }
+
                         // TODO terminate connection if difference too large
                         return 1;
                     }
                     else {
                         log_android(ANDROID_LOG_ERROR, "%s future ACK", session);
+                        write_rst(args, cur);
                         return 0;
                     }
                 }
