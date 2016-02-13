@@ -105,6 +105,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
+    private Map<Integer, Integer> mapUidKnown = new HashMap<>();
     private Map<Long, Map<InetAddress, Boolean>> mapUidIPFilters = new HashMap<>();
     private Map<Integer, Forward> mapForward = new HashMap<>();
 
@@ -334,7 +335,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 if (vpn == null)
                     throw new IllegalStateException("VPN start failed");
 
-                startNative(vpn, listAllowed);
+                startNative(vpn, listAllowed, listRule);
 
                 removeWarningNotifications();
                 updateEnforcingNotification(listAllowed.size(), listRule.size());
@@ -378,7 +379,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 if (vpn == null)
                     throw new IllegalStateException("VPN start failed");
 
-                startNative(vpn, listAllowed);
+                startNative(vpn, listAllowed, listRule);
 
             } else {
                 Log.i(TAG, "VPN restart");
@@ -402,7 +403,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 if (vpn == null)
                     throw new IllegalStateException("VPN start failed");
 
-                startNative(vpn, listAllowed);
+                startNative(vpn, listAllowed, listRule);
             }
 
             removeWarningNotifications();
@@ -512,9 +513,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             (system || !Util.isSystem(packet.uid, SinkholeService.this)))
                         showAccessNotification(packet.uid);
             }
-
-            if (packet.uid < 0)
-                Log.w(TAG, "Unknown application packet " + packet);
         }
 
         private void resolved(ResourceRecord rr) {
@@ -890,7 +888,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    private void startNative(ParcelFileDescriptor vpn, List<Rule> listAllowed) {
+    private void startNative(ParcelFileDescriptor vpn, List<Rule> listAllowed, List<Rule> listRule) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
         boolean log = prefs.getBoolean("log", false);
         boolean filter = prefs.getBoolean("filter", false);
@@ -899,7 +897,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         // Prepare rules
         if (filter) {
-            prepareUidAllowed(listAllowed);
+            prepareUidAllowed(listAllowed, listRule);
             prepareHostsBlocked();
             prepareUidIPFilters();
             prepareForwarding();
@@ -928,15 +926,20 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private void unprepare() {
         mapUidAllowed.clear();
+        mapUidKnown.clear();
         mapHostsBlocked.clear();
         mapUidIPFilters.clear();
         mapForward.clear();
     }
 
-    private void prepareUidAllowed(List<Rule> listAllowed) {
+    private void prepareUidAllowed(List<Rule> listAllowed, List<Rule> listRule) {
         mapUidAllowed.clear();
         for (Rule rule : listAllowed)
             mapUidAllowed.put(rule.info.applicationInfo.uid, true);
+
+        mapUidKnown.clear();
+        for (Rule rule : listRule)
+            mapUidKnown.put(rule.info.applicationInfo.uid, rule.info.applicationInfo.uid);
     }
 
     private void prepareHostsBlocked() {
@@ -1141,11 +1144,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming)))
                     listAllowed.add(rule);
             }
-        else
-            listAllowed.addAll(listRule);
 
         Log.i(TAG, "Allowed " + listAllowed.size() + " of " + listRule.size());
-
         return listAllowed;
     }
 
@@ -1202,13 +1202,17 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         packet.allowed = false;
         if (prefs.getBoolean("filter", false)) {
             // https://android.googlesource.com/platform/system/core/+/master/include/private/android_filesystem_config.h
-            if (packet.uid < 2000 &&
-                    !(packet.uid == 0 || // root
-                            packet.uid == 1000 || // system server
-                            packet.uid == 1001 || // telephony subsystem
-                            packet.uid == 1013)) // mediaserver
-                packet.allowed = true; // allow unknown traffic
-            else {
+            if (packet.uid < 2000 && !last_connected) {
+                // Allow system applications in disconnected state
+                packet.allowed = true;
+                Log.w(TAG, "Allowing disconnected system " + packet);
+
+            } else if (packet.uid < 2000 && !mapUidKnown.containsKey(packet.uid)) {
+                // Allow unknown system traffic
+                packet.allowed = true;
+                Log.w(TAG, "Allowing unknown system " + packet);
+
+            } else {
                 boolean filtered = false;
                 // Only TCP (6) and UDP (17) have port numbers
                 int dport = (packet.protocol == 6 || packet.protocol == 17 ? packet.dport : 0);
