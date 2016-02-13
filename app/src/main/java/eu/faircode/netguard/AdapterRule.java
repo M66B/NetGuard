@@ -75,6 +75,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private int colorChanged;
     private int colorOn;
     private int colorOff;
+    private int iconSize;
     private boolean wifiActive = true;
     private boolean otherActive = true;
     private List<Rule> listAll = new ArrayList<>();
@@ -220,6 +221,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         colorOn = tv.data;
         context.getTheme().resolveAttribute(R.attr.colorOff, tv, true);
         colorOff = tv.data;
+
+        iconSize = Util.dips2pixels(48, context);
     }
 
     public void set(List<Rule> listRule) {
@@ -314,7 +317,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
         else {
             Uri uri = Uri.parse("android.resource://" + rule.info.packageName + "/" + rule.info.applicationInfo.icon);
-            Picasso.with(context).load(uri).into(holder.ivIcon);
+            Picasso.with(context).load(uri).resize(iconSize, iconSize).into(holder.ivIcon);
         }
 
         // Show application label

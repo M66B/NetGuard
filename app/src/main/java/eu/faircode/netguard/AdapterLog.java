@@ -67,6 +67,7 @@ public class AdapterLog extends CursorAdapter {
     private int colInteractive;
     private int colorOn;
     private int colorOff;
+    private int iconSize;
     private InetAddress dns = null;
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
@@ -95,6 +96,8 @@ public class AdapterLog extends CursorAdapter {
         colorOn = tv.data;
         context.getTheme().resolveAttribute(R.attr.colorOff, tv, true);
         colorOff = tv.data;
+
+        iconSize = Util.dips2pixels(24, context);
 
         try {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -199,7 +202,7 @@ public class AdapterLog extends CursorAdapter {
             Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
         else {
             Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
-            Picasso.with(context).load(uri).into(ivIcon);
+            Picasso.with(context).load(uri).resize(iconSize, iconSize).into(ivIcon);
         }
 
         // https://android.googlesource.com/platform/system/core/+/master/include/private/android_filesystem_config.h
