@@ -561,13 +561,15 @@ jboolean handle_tcp(const struct arguments *args,
             if (cur->keep_alive) {
                 cur->keep_alive = 0;
 
-                int on = 1;
-                if (setsockopt(cur->socket, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)))
-                    log_android(ANDROID_LOG_ERROR,
-                                "%s setsockopt SO_KEEPALIVE error %d: %s",
-                                session, errno, strerror(errno));
-                else
-                    log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
+                if (cur->state == TCP_ESTABLISHED) {
+                    int on = 1;
+                    if (setsockopt(cur->socket, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)))
+                        log_android(ANDROID_LOG_ERROR,
+                                    "%s setsockopt SO_KEEPALIVE error %d: %s",
+                                    session, errno, strerror(errno));
+                    else
+                        log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
+                }
             }
 
             // Do not change the order of the conditions
@@ -666,13 +668,17 @@ jboolean handle_tcp(const struct arguments *args,
                     uint32_t ack = ntohl(tcphdr->ack_seq);
                     if ((uint32_t) (ack + 1) == cur->local_seq) {
                         // Keep alive
-                        int on = 1;
-                        if (setsockopt(cur->socket, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)))
-                            log_android(ANDROID_LOG_ERROR,
-                                        "%s setsockopt SO_KEEPALIVE error %d: %s",
-                                        session, errno, strerror(errno));
+                        if (cur->state == TCP_ESTABLISHED) {
+                            int on = 1;
+                            if (setsockopt(cur->socket, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)))
+                                log_android(ANDROID_LOG_ERROR,
+                                            "%s setsockopt SO_KEEPALIVE error %d: %s",
+                                            session, errno, strerror(errno));
+                            else
+                                log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
+                        }
                         else
-                            log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
+                            log_android(ANDROID_LOG_WARN, "%s keep alive", session);
 
                     } else if (compare_u16(ack, cur->local_seq) < 0) {
                         if (compare_u16(ack, cur->acked) <= 0)
