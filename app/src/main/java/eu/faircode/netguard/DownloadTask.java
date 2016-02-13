@@ -1,5 +1,6 @@
 package eu.faircode.netguard;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,7 +35,7 @@ public class DownloadTask extends AsyncTask<Object, Integer, Object> {
         void onException(Throwable ex);
     }
 
-    public DownloadTask(Context context, URL url, File file, Listener listener) {
+    public DownloadTask(Activity context, URL url, File file, Listener listener) {
         this.context = context;
         this.url = url;
         this.file = file;

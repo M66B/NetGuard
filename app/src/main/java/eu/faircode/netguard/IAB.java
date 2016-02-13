@@ -52,7 +52,7 @@ public class IAB implements ServiceConnection {
     }
 
     public IAB(Delegate delegate, Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.delegate = delegate;
     }
 
