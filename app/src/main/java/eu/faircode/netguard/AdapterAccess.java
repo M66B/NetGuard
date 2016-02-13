@@ -38,9 +38,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 
-public class AccessAdapter extends CursorAdapter {
+public class AdapterAccess extends CursorAdapter {
     private static String TAG = "NetGuard.Access";
 
+    private int colID;
     private int colVersion;
     private int colProtocol;
     private int colDaddr;
@@ -53,8 +54,9 @@ public class AccessAdapter extends CursorAdapter {
     private int colorOn;
     private int colorOff;
 
-    public AccessAdapter(Context context, Cursor cursor) {
+    public AdapterAccess(Context context, Cursor cursor) {
         super(context, cursor, 0);
+        colID = cursor.getColumnIndex("ID");
         colVersion = cursor.getColumnIndex("version");
         colProtocol = cursor.getColumnIndex("protocol");
         colDaddr = cursor.getColumnIndex("daddr");
@@ -85,6 +87,7 @@ public class AccessAdapter extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
         // Get values
+        final long id = cursor.getLong(colID);
         final int version = cursor.getInt(colVersion);
         final int protocol = cursor.getInt(colProtocol);
         final String daddr = cursor.getString(colDaddr);
@@ -113,6 +116,28 @@ public class AccessAdapter extends CursorAdapter {
         tvDest.setText(
                 Util.getProtocolName(protocol, version, true) +
                         " " + daddr + (dport > 0 ? "/" + dport : ""));
+
+        if (Util.isNumericAddress(daddr)) {
+            tvDest.setTag(id);
+            new AsyncTask<String, Object, String>() {
+                @Override
+                protected String doInBackground(String... args) {
+                    try {
+                        return InetAddress.getByName(args[0]).getHostName();
+                    } catch (UnknownHostException ignored) {
+                        return args[0];
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(String addr) {
+                    if ((Long) tvDest.getTag() == id)
+                        tvDest.setText(
+                                Util.getProtocolName(protocol, version, true) +
+                                        " " + addr + (dport > 0 ? "/" + dport : ""));
+                }
+            }.execute(daddr);
+        }
 
         if (allowed < 0)
             tvDest.setTextColor(colorText);

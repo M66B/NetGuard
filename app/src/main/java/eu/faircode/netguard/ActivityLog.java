@@ -61,7 +61,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
     private boolean running = false;
     private ListView lvLog;
-    private LogAdapter adapter;
+    private AdapterLog adapter;
     private MenuItem menuSearch = null;
 
     private boolean live;
@@ -128,7 +128,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         boolean allowed = prefs.getBoolean("traffic_allowed", true);
         boolean blocked = prefs.getBoolean("traffic_blocked", true);
 
-        adapter = new LogAdapter(this, DatabaseHelper.getInstance(this).getLog(udp, tcp, other, allowed, blocked), resolve);
+        adapter = new AdapterLog(this, DatabaseHelper.getInstance(this).getLog(udp, tcp, other, allowed, blocked), resolve);
         adapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
                 return DatabaseHelper.getInstance(ActivityLog.this).searchLog(constraint.toString());

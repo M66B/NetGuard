@@ -63,7 +63,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private boolean running = false;
     private SwipeRefreshLayout swipeRefresh;
-    private RuleAdapter adapter = null;
+    private AdapterRule adapter = null;
     private MenuItem menuSearch = null;
     private AlertDialog dialogFirst = null;
     private AlertDialog dialogVpn = null;
@@ -184,7 +184,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(true);
         rvApplication.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RuleAdapter(this);
+        adapter = new AdapterRule(this);
         rvApplication.setAdapter(adapter);
 
         // Swipe to refresh

@@ -46,10 +46,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 
-public class LogAdapter extends CursorAdapter {
+public class AdapterLog extends CursorAdapter {
     private static String TAG = "NetGuard.Log";
 
     private boolean resolve;
+    private int colID;
     private int colTime;
     private int colVersion;
     private int colProtocol;
@@ -70,9 +71,10 @@ public class LogAdapter extends CursorAdapter {
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
 
-    public LogAdapter(Context context, Cursor cursor, boolean resolve) {
+    public AdapterLog(Context context, Cursor cursor, boolean resolve) {
         super(context, cursor, 0);
         this.resolve = resolve;
+        colID = cursor.getColumnIndex("ID");
         colTime = cursor.getColumnIndex("time");
         colVersion = cursor.getColumnIndex("version");
         colProtocol = cursor.getColumnIndex("protocol");
@@ -116,6 +118,7 @@ public class LogAdapter extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
         // Get values
+        final long id = cursor.getLong(colID);
         long time = cursor.getLong(colTime);
         int version = (cursor.isNull(colVersion) ? -1 : cursor.getInt(colVersion));
         int protocol = (cursor.isNull(colProtocol) ? -1 : cursor.getInt(colProtocol));
@@ -210,12 +213,12 @@ public class LogAdapter extends CursorAdapter {
         else
             tvUid.setText(Integer.toString(uid));
 
-        // TODO resolve source when inbound
         tvSAddr.setText(getKnownAddress(saddr));
 
         if (resolve && !isKnownAddress(daddr))
             if (dname == null) {
                 tvDaddr.setText(daddr);
+                tvDaddr.setTag(id);
                 new AsyncTask<String, Object, String>() {
                     @Override
                     protected String doInBackground(String... args) {
@@ -228,7 +231,8 @@ public class LogAdapter extends CursorAdapter {
 
                     @Override
                     protected void onPostExecute(String name) {
-                        tvDaddr.setText(name);
+                        if ((Long) tvDaddr.getTag() == id)
+                            tvDaddr.setText(name);
                     }
                 }.execute(daddr);
             } else

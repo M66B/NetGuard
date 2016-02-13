@@ -64,7 +64,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> implements Filterable {
+public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.Adapter";
 
     private Activity context;
@@ -195,7 +195,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         }
     }
 
-    public RuleAdapter(Activity context) {
+    public AdapterRule(Activity context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         this.context = context;
@@ -553,7 +553,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
         // Show access rules
         if (rule.expanded) {
             // Access the database when expanded only
-            final AccessAdapter badapter = new AccessAdapter(context,
+            final AdapterAccess badapter = new AdapterAccess(context,
                     DatabaseHelper.getInstance(context).getAccess(rule.info.applicationInfo.uid));
             if (filter)
                 holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -760,7 +760,7 @@ public class RuleAdapter extends RecyclerView.Adapter<RuleAdapter.ViewHolder> im
     }
 
     @Override
-    public RuleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AdapterRule.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.rule, parent, false));
     }
 

@@ -28,7 +28,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-public class ForwardingAdapter extends CursorAdapter {
+public class AdapterForwarding extends CursorAdapter {
     private static String TAG = "NetGuard.Forward";
 
     private int colProtocol;
@@ -37,7 +37,7 @@ public class ForwardingAdapter extends CursorAdapter {
     private int colRPort;
     private int colRUid;
 
-    public ForwardingAdapter(Context context, Cursor cursor) {
+    public AdapterForwarding(Context context, Cursor cursor) {
         super(context, cursor, 0);
         colProtocol = cursor.getColumnIndex("protocol");
         colDPort = cursor.getColumnIndex("dport");

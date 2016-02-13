@@ -20,22 +20,16 @@ package eu.faircode.netguard;
 */
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 
-public class DnsAdapter extends CursorAdapter {
+public class AdapterDns extends CursorAdapter {
     private static String TAG = "NetGuard.DNS";
 
     private int colTime;
@@ -44,7 +38,7 @@ public class DnsAdapter extends CursorAdapter {
     private int colResource;
     private int colTTL;
 
-    public DnsAdapter(Context context, Cursor cursor) {
+    public AdapterDns(Context context, Cursor cursor) {
         super(context, cursor, 0);
         colTime = cursor.getColumnIndex("time");
         colQName = cursor.getColumnIndex("qname");

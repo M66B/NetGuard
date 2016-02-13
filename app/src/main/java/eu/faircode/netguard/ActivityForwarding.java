@@ -40,7 +40,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityForwarding extends AppCompatActivity {
@@ -48,7 +47,7 @@ public class ActivityForwarding extends AppCompatActivity {
 
     private boolean running;
     private ListView lvForwarding;
-    private ForwardingAdapter adapter;
+    private AdapterForwarding adapter;
     private AlertDialog dialog = null;
 
     @Override
@@ -63,7 +62,7 @@ public class ActivityForwarding extends AppCompatActivity {
 
 
         lvForwarding = (ListView) findViewById(R.id.lvForwarding);
-        adapter = new ForwardingAdapter(this, DatabaseHelper.getInstance(this).getForwarding());
+        adapter = new AdapterForwarding(this, DatabaseHelper.getInstance(this).getForwarding());
         lvForwarding.setAdapter(adapter);
 
         lvForwarding.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -87,7 +86,7 @@ public class ActivityForwarding extends AppCompatActivity {
                         if (menuItem.getItemId() == R.id.menu_delete) {
                             DatabaseHelper.getInstance(ActivityForwarding.this).deleteForward(protocol, dport);
                             SinkholeService.reload(null, "forwarding", ActivityForwarding.this);
-                            adapter = new ForwardingAdapter(ActivityForwarding.this,
+                            adapter = new AdapterForwarding(ActivityForwarding.this,
                                     DatabaseHelper.getInstance(ActivityForwarding.this).getForwarding());
                             lvForwarding.setAdapter(adapter);
                         }
@@ -186,7 +185,7 @@ public class ActivityForwarding extends AppCompatActivity {
                                             if (running)
                                                 if (ex == null) {
                                                     SinkholeService.reload(null, "forwarding", ActivityForwarding.this);
-                                                    adapter = new ForwardingAdapter(ActivityForwarding.this,
+                                                    adapter = new AdapterForwarding(ActivityForwarding.this,
                                                             DatabaseHelper.getInstance(ActivityForwarding.this).getForwarding());
                                                     lvForwarding.setAdapter(adapter);
                                                 } else
