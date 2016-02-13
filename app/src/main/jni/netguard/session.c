@@ -138,6 +138,19 @@ void *handle_events(void *a) {
                                 "pselect interrupted tun %d thread %x", args->tun, thread_id);
                     continue;
                 }
+            } else if (errno == EBADF) {
+                struct stat sb;
+                if (fstat(args->tun, &sb) < 0) {
+                    log_android(ANDROID_LOG_ERROR,
+                                "tun socket %d select error %d: %s",
+                                args->tun, errno, strerror(errno));
+                    report_exit(args, "tun socket %d select error %d: %s",
+                                args->tun, errno, strerror(errno));
+                }
+                else {
+                    log_android(ANDROID_LOG_WARN, "pselect EBADF");
+                    break;
+                }
             } else {
                 log_android(ANDROID_LOG_ERROR,
                             "pselect tun %d thread %x error %d: %s",
@@ -256,6 +269,8 @@ int get_select_timeout(int sessions, int maxsessions) {
 }
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+    struct stat sb;
+
     // Initialize
     FD_ZERO(rfds);
     FD_ZERO(wfds);
@@ -270,10 +285,16 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     struct icmp_session *i = icmp_session;
     while (i != NULL) {
         if (!i->stop) {
-            FD_SET(i->socket, efds);
-            FD_SET(i->socket, rfds);
-            if (i->socket > max)
-                max = i->socket;
+            if (fstat(i->socket, &sb) < 0) {
+                log_android(ANDROID_LOG_WARN, "ICMP socket %d select error %d: %s",
+                            i->socket, errno, strerror(errno));
+                i->stop = 1;
+            } else {
+                FD_SET(i->socket, efds);
+                FD_SET(i->socket, rfds);
+                if (i->socket > max)
+                    max = i->socket;
+            }
         }
         i = i->next;
     }
@@ -282,10 +303,17 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     struct udp_session *u = udp_session;
     while (u != NULL) {
         if (u->state == UDP_ACTIVE) {
-            FD_SET(u->socket, efds);
-            FD_SET(u->socket, rfds);
-            if (u->socket > max)
-                max = u->socket;
+            if (fstat(u->socket, &sb) < 0) {
+                log_android(ANDROID_LOG_WARN, "UDP socket %d select error %d: %s",
+                            u->socket, errno, strerror(errno));
+                u->state = UDP_FINISHING;
+            }
+            else {
+                FD_SET(u->socket, efds);
+                FD_SET(u->socket, rfds);
+                if (u->socket > max)
+                    max = u->socket;
+            }
         }
         u = u->next;
     }
@@ -295,30 +323,37 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     while (t != NULL) {
         // Select sockets
         if (t->socket >= 0) {
-            if (t->state == TCP_LISTEN) {
-                // Check for errors
-                FD_SET(t->socket, efds);
-
-                // Check for connected = writable
-                FD_SET(t->socket, wfds);
-
-                if (t->socket > max)
-                    max = t->socket;
+            if (fstat(t->socket, &sb) < 0) {
+                log_android(ANDROID_LOG_WARN, "TCP socket %d select error %d: %s",
+                            t->socket, errno, strerror(errno));
+                write_rst(args, t);
             }
-            else if (t->state == TCP_ESTABLISHED || t->state == TCP_CLOSE_WAIT) {
-                // Check errors
-                FD_SET(t->socket, efds);
+            else {
+                if (t->state == TCP_LISTEN) {
+                    // Check for errors
+                    FD_SET(t->socket, efds);
 
-                // Check for incoming data
-                if (t->send_window > 0)
-                    FD_SET(t->socket, rfds);
-
-                // Check for outgoing data
-                if (t->forward != NULL)
+                    // Check for connected = writable
                     FD_SET(t->socket, wfds);
 
-                if (t->socket > max)
-                    max = t->socket;
+                    if (t->socket > max)
+                        max = t->socket;
+                }
+                else if (t->state == TCP_ESTABLISHED || t->state == TCP_CLOSE_WAIT) {
+                    // Check errors
+                    FD_SET(t->socket, efds);
+
+                    // Check for incoming data
+                    if (t->send_window > 0)
+                        FD_SET(t->socket, rfds);
+
+                    // Check for outgoing data
+                    if (t->forward != NULL)
+                        FD_SET(t->socket, wfds);
+
+                    if (t->socket > max)
+                        max = t->socket;
+                }
             }
         }
 
