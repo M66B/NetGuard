@@ -110,15 +110,6 @@ void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessi
             write_ack(args, t);
             t->local_seq++;
 
-            // Keep alive
-            int on = 1;
-            if (setsockopt(t->socket, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)))
-                log_android(ANDROID_LOG_ERROR,
-                            "%s setsockopt SO_KEEPALIVE error %d: %s",
-                            session, errno, strerror(errno));
-            else
-                log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
-
         }
         else {
             // Check session timeout
@@ -560,8 +551,20 @@ jboolean handle_tcp(const struct arguments *args,
             log_android(ANDROID_LOG_DEBUG, "%s handling", session);
 
             cur->time = time(NULL);
-            cur->keep_alive = 0;
             cur->send_window = ntohs(tcphdr->window);
+
+            // Enable socket keep alive
+            if (cur->keep_alive) {
+                cur->keep_alive = 0;
+
+                int on = 1;
+                if (setsockopt(cur->socket, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)))
+                    log_android(ANDROID_LOG_ERROR,
+                                "%s setsockopt SO_KEEPALIVE error %d: %s",
+                                session, errno, strerror(errno));
+                else
+                    log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
+            }
 
             // Do not change the order of the conditions
 
