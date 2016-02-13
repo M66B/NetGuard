@@ -373,12 +373,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.beginTransactionNonExclusive();
             try {
                 db.delete("log", null, new String[]{});
-                db.execSQL("VACUUM");
 
                 db.setTransactionSuccessful();
             } finally {
                 db.endTransaction();
             }
+
+            db.execSQL("VACUUM");
         } finally {
             mLock.writeLock().unlock();
         }
