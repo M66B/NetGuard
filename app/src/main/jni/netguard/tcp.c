@@ -661,7 +661,9 @@ jboolean handle_tcp(const struct arguments *args,
                             log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
                     }
                     else if (compare_u16(ntohl(tcphdr->ack_seq), cur->local_seq) < 0) {
-                        log_android(ANDROID_LOG_WARN, "%s previous ACK", session);
+                        log_android(ANDROID_LOG_WARN, "%s previous ACK %d",
+                                    session, ntohl(tcphdr->ack_seq) - cur->local_seq);
+                        // TODO terminate connection if difference too large
                         return 1;
                     }
                     else {
