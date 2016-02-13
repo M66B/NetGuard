@@ -116,7 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onConfigure(SQLiteDatabase db) {
-        //db.enableWriteAheadLogging();
+        db.enableWriteAheadLogging();
         super.onConfigure(db);
     }
 
@@ -310,49 +310,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                ContentValues cv = new ContentValues();
+                cv.put("time", packet.time);
+                cv.put("version", packet.version);
 
-            ContentValues cv = new ContentValues();
-            cv.put("time", packet.time);
-            cv.put("version", packet.version);
+                if (packet.protocol < 0)
+                    cv.putNull("protocol");
+                else
+                    cv.put("protocol", packet.protocol);
 
-            if (packet.protocol < 0)
-                cv.putNull("protocol");
-            else
-                cv.put("protocol", packet.protocol);
+                cv.put("flags", packet.flags);
 
-            cv.put("flags", packet.flags);
+                cv.put("saddr", packet.saddr);
+                if (packet.sport < 0)
+                    cv.putNull("sport");
+                else
+                    cv.put("sport", packet.sport);
 
-            cv.put("saddr", packet.saddr);
-            if (packet.sport < 0)
-                cv.putNull("sport");
-            else
-                cv.put("sport", packet.sport);
+                cv.put("daddr", packet.daddr);
+                if (packet.dport < 0)
+                    cv.putNull("dport");
+                else
+                    cv.put("dport", packet.dport);
 
-            cv.put("daddr", packet.daddr);
-            if (packet.dport < 0)
-                cv.putNull("dport");
-            else
-                cv.put("dport", packet.dport);
+                if (dname == null)
+                    cv.putNull("dname");
+                else
+                    cv.put("dname", dname);
 
-            if (dname == null)
-                cv.putNull("dname");
-            else
-                cv.put("dname", dname);
+                cv.put("data", packet.data);
 
-            cv.put("data", packet.data);
+                if (packet.uid < 0)
+                    cv.putNull("uid");
+                else
+                    cv.put("uid", packet.uid);
 
-            if (packet.uid < 0)
-                cv.putNull("uid");
-            else
-                cv.put("uid", packet.uid);
+                cv.put("allowed", packet.allowed ? 1 : 0);
 
-            cv.put("allowed", packet.allowed ? 1 : 0);
+                cv.put("connection", connection);
+                cv.put("interactive", interactive ? 1 : 0);
 
-            cv.put("connection", connection);
-            cv.put("interactive", interactive ? 1 : 0);
+                if (db.insert("log", null, cv) == -1)
+                    Log.e(TAG, "Insert log failed");
 
-            if (db.insert("log", null, cv) == -1)
-                Log.e(TAG, "Insert log failed");
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
         } finally {
             mLock.writeLock().unlock();
         }
@@ -363,9 +369,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void clearLog() {
         mLock.writeLock().lock();
         try {
-            SQLiteDatabase db = this.getReadableDatabase();
-            db.delete("log", null, new String[]{});
-            db.execSQL("VACUUM");
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                db.delete("log", null, new String[]{});
+                db.execSQL("VACUUM");
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
         } finally {
             mLock.writeLock().unlock();
         }
@@ -422,34 +435,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
-
-            ContentValues cv = new ContentValues();
-            cv.put("time", packet.time);
-            cv.put("allowed", packet.allowed ? 1 : 0);
-            if (block >= 0)
-                cv.put("block", block);
-
-            rows = db.update("access", cv, "uid = ? AND version = ? AND protocol = ? AND daddr = ? AND dport = ?",
-                    new String[]{
-                            Integer.toString(packet.uid),
-                            Integer.toString(packet.version),
-                            Integer.toString(packet.protocol),
-                            dname == null ? packet.daddr : dname,
-                            Integer.toString(packet.dport)});
-
-            if (rows == 0) {
-                cv.put("uid", packet.uid);
-                cv.put("version", packet.version);
-                cv.put("protocol", packet.protocol);
-                cv.put("daddr", dname == null ? packet.daddr : dname);
-                cv.put("dport", packet.dport);
-                if (block < 0)
+            db.beginTransactionNonExclusive();
+            try {
+                ContentValues cv = new ContentValues();
+                cv.put("time", packet.time);
+                cv.put("allowed", packet.allowed ? 1 : 0);
+                if (block >= 0)
                     cv.put("block", block);
 
-                if (db.insert("access", null, cv) == -1)
-                    Log.e(TAG, "Insert access failed");
-            } else if (rows != 1)
-                Log.e(TAG, "Update access failed rows=" + rows);
+                rows = db.update("access", cv, "uid = ? AND version = ? AND protocol = ? AND daddr = ? AND dport = ?",
+                        new String[]{
+                                Integer.toString(packet.uid),
+                                Integer.toString(packet.version),
+                                Integer.toString(packet.protocol),
+                                dname == null ? packet.daddr : dname,
+                                Integer.toString(packet.dport)});
+
+                if (rows == 0) {
+                    cv.put("uid", packet.uid);
+                    cv.put("version", packet.version);
+                    cv.put("protocol", packet.protocol);
+                    cv.put("daddr", dname == null ? packet.daddr : dname);
+                    cv.put("dport", packet.dport);
+                    if (block < 0)
+                        cv.put("block", block);
+
+                    if (db.insert("access", null, cv) == -1)
+                        Log.e(TAG, "Insert access failed");
+                } else if (rows != 1)
+                    Log.e(TAG, "Update access failed rows=" + rows);
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
         } finally {
             mLock.writeLock().unlock();
         }
@@ -462,13 +481,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                ContentValues cv = new ContentValues();
+                cv.put("block", block);
+                cv.put("allowed", -1);
 
-            ContentValues cv = new ContentValues();
-            cv.put("block", block);
-            cv.put("allowed", -1);
+                if (db.update("access", cv, "ID = ?", new String[]{Long.toString(id)}) != 1)
+                    Log.e(TAG, "Set access failed");
 
-            if (db.update("access", cv, "ID = ?", new String[]{Long.toString(id)}) != 1)
-                Log.e(TAG, "Set access failed");
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
         } finally {
             mLock.writeLock().unlock();
         }
@@ -479,8 +504,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void clearAccess() {
         mLock.writeLock().lock();
         try {
-            SQLiteDatabase db = this.getReadableDatabase();
-            db.delete("access", null, null);
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                db.delete("access", null, null);
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
         } finally {
             mLock.writeLock().unlock();
         }
@@ -491,8 +523,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void clearAccess(int uid) {
         mLock.writeLock().lock();
         try {
-            SQLiteDatabase db = this.getReadableDatabase();
-            db.delete("access", "uid = ? AND block < 0", new String[]{Integer.toString(uid)});
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                db.delete("access", "uid = ? AND block < 0", new String[]{Integer.toString(uid)});
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
         } finally {
             mLock.writeLock().unlock();
         }
@@ -556,23 +595,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                ContentValues cv = new ContentValues();
+                cv.put("time", rr.Time);
+                cv.put("ttl", rr.TTL);
 
-            ContentValues cv = new ContentValues();
-            cv.put("time", rr.Time);
-            cv.put("ttl", rr.TTL);
+                int rows = db.update("dns", cv, "qname = ? AND aname = ? AND resource = ?",
+                        new String[]{rr.QName, rr.AName, rr.Resource});
 
-            int rows = db.update("dns", cv, "qname = ? AND aname = ? AND resource = ?",
-                    new String[]{rr.QName, rr.AName, rr.Resource});
+                if (rows == 0) {
+                    cv.put("qname", rr.QName);
+                    cv.put("aname", rr.AName);
+                    cv.put("resource", rr.Resource);
 
-            if (rows == 0) {
-                cv.put("qname", rr.QName);
-                cv.put("aname", rr.AName);
-                cv.put("resource", rr.Resource);
+                    if (db.insert("dns", null, cv) == -1)
+                        Log.e(TAG, "Insert dns failed");
+                } else if (rows != 1)
+                    Log.e(TAG, "Update dns failed rows=" + rows);
 
-                if (db.insert("dns", null, cv) == -1)
-                    Log.e(TAG, "Insert dns failed");
-            } else if (rows != 1)
-                Log.e(TAG, "Update dns failed rows=" + rows);
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
         } finally {
             mLock.writeLock().unlock();
         }
@@ -583,10 +628,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
-            int rows = db.delete("dns", "time < ?", new String[]{Long.toString(time)});
-            Log.i(TAG, "Cleanup DNS" +
-                    " before=" + SimpleDateFormat.getDateTimeInstance().format(new Date(time)) +
-                    " rows=" + rows);
+            db.beginTransactionNonExclusive();
+            try {
+                int rows = db.delete("dns", "time < ?", new String[]{Long.toString(time)});
+                Log.i(TAG, "Cleanup DNS" +
+                        " before=" + SimpleDateFormat.getDateTimeInstance().format(new Date(time)) +
+                        " rows=" + rows);
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
         } finally {
             mLock.writeLock().unlock();
         }
@@ -643,16 +695,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                ContentValues cv = new ContentValues();
+                cv.put("protocol", protocol);
+                cv.put("dport", dport);
+                cv.put("raddr", raddr);
+                cv.put("rport", rport);
+                cv.put("ruid", ruid);
 
-            ContentValues cv = new ContentValues();
-            cv.put("protocol", protocol);
-            cv.put("dport", dport);
-            cv.put("raddr", raddr);
-            cv.put("rport", rport);
-            cv.put("ruid", ruid);
+                if (db.insert("forward", null, cv) < 0)
+                    Log.e(TAG, "Insert forward failed");
 
-            if (db.insert("forward", null, cv) < 0)
-                Log.e(TAG, "Insert forward failed");
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
         } finally {
             mLock.writeLock().unlock();
         }
@@ -664,8 +722,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
-            db.delete("forward", "protocol = ? AND dport = ?",
-                    new String[]{Integer.toString(protocol), Integer.toString(dport)});
+            db.beginTransactionNonExclusive();
+            try {
+                db.delete("forward", "protocol = ? AND dport = ?",
+                        new String[]{Integer.toString(protocol), Integer.toString(dport)});
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
         } finally {
             mLock.writeLock().unlock();
         }
