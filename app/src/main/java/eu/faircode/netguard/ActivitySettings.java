@@ -515,7 +515,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             // Show dialog
             if (prefs.getBoolean(name, false)) {
                 LayoutInflater inflater = LayoutInflater.from(ActivitySettings.this);
-                View view = inflater.inflate(R.layout.filter, null);
+                View view = inflater.inflate(R.layout.filter, null, false);
                 dialogFilter = new AlertDialog.Builder(ActivitySettings.this)
                         .setView(view)
                         .setCancelable(false)

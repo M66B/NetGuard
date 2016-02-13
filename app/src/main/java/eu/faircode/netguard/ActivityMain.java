@@ -113,7 +113,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
 
         // Action bar
-        View actionView = getLayoutInflater().inflate(R.layout.action, null);
+        View actionView = getLayoutInflater().inflate(R.layout.action, null, false);
         SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -135,7 +135,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         } else {
                             // Show dialog
                             LayoutInflater inflater = LayoutInflater.from(ActivityMain.this);
-                            View view = inflater.inflate(R.layout.vpn, null);
+                            View view = inflater.inflate(R.layout.vpn, null, false);
                             dialogVpn = new AlertDialog.Builder(ActivityMain.this)
                                     .setView(view)
                                     .setCancelable(false)
@@ -219,7 +219,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (!initialized) {
             // Create view
             LayoutInflater inflater = LayoutInflater.from(this);
-            View view = inflater.inflate(R.layout.first, null);
+            View view = inflater.inflate(R.layout.first, null, false);
             TextView tvFirst = (TextView) view.findViewById(R.id.tvFirst);
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -655,7 +655,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private void menu_about() {
         // Create view
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.about, null);
+        View view = inflater.inflate(R.layout.about, null, false);
         TextView tvVersion = (TextView) view.findViewById(R.id.tvVersion);
         Button btnRate = (Button) view.findViewById(R.id.btnRate);
         TextView tvLicense = (TextView) view.findViewById(R.id.tvLicense);

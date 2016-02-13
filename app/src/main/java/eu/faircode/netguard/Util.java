@@ -442,7 +442,7 @@ public class Util {
 
     public static void areYouSure(Context context, int explanation, final DoubtListener listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.sure, null);
+        View view = inflater.inflate(R.layout.sure, null, false);
         TextView tvExplanation = (TextView) view.findViewById(R.id.tvExplanation);
         tvExplanation.setText(explanation);
         new AlertDialog.Builder(context)
