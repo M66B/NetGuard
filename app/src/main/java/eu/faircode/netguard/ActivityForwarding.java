@@ -50,6 +50,19 @@ public class ActivityForwarding extends AppCompatActivity {
     private AdapterForwarding adapter;
     private AlertDialog dialog = null;
 
+    private DatabaseHelper.ForwardChangedListener listener = new DatabaseHelper.ForwardChangedListener() {
+        @Override
+        public void onChanged() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (adapter != null)
+                        adapter.changeCursor(DatabaseHelper.getInstance(ActivityForwarding.this).getForwarding());
+                }
+            });
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Util.setTheme(this);
@@ -97,6 +110,20 @@ public class ActivityForwarding extends AppCompatActivity {
                 popup.show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DatabaseHelper.getInstance(this).addForwardChangedListener(listener);
+        if (adapter != null)
+            adapter.changeCursor(DatabaseHelper.getInstance(ActivityForwarding.this).getForwarding());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DatabaseHelper.getInstance(this).removeForwardChangedListener(listener);
     }
 
     @Override

@@ -46,6 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
     private static List<AccessChangedListener> accessChangedListeners = new ArrayList<>();
+    private static List<ForwardChangedListener> forwardChangedListeners = new ArrayList<>();
 
     private Context context;
     private static HandlerThread hthread = null;
@@ -53,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private final static int MSG_LOG = 1;
     private final static int MSG_ACCESS = 2;
+    private final static int MSG_FORWARD = 3;
 
     private ReentrantReadWriteLock mLock = new ReentrantReadWriteLock(true);
 
@@ -654,6 +656,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } finally {
             mLock.writeLock().unlock();
         }
+
+        notifyForwardChanged();
     }
 
     public void deleteForward(int protocol, int dport) {
@@ -665,6 +669,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } finally {
             mLock.writeLock().unlock();
         }
+
+        notifyForwardChanged();
     }
 
     public Cursor getForwarding() {
@@ -696,6 +702,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         accessChangedListeners.remove(listener);
     }
 
+    public void addForwardChangedListener(ForwardChangedListener listener) {
+        forwardChangedListeners.add(listener);
+    }
+
+    public void removeForwardChangedListener(ForwardChangedListener listener) {
+        forwardChangedListeners.remove(listener);
+    }
+
     private void notifyLogChanged() {
         Message msg = handler.obtainMessage();
         msg.what = MSG_LOG;
@@ -705,6 +719,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void notifyAccessChanged() {
         Message msg = handler.obtainMessage();
         msg.what = MSG_ACCESS;
+        handler.sendMessage(msg);
+    }
+
+    private void notifyForwardChanged() {
+        Message msg = handler.obtainMessage();
+        msg.what = MSG_FORWARD;
         handler.sendMessage(msg);
     }
 
@@ -733,6 +753,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
+
+        } else if (msg.what == MSG_FORWARD) {
+            for (ForwardChangedListener listener : forwardChangedListeners)
+                try {
+                    listener.onChanged();
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
         }
     }
 
@@ -741,6 +769,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public interface AccessChangedListener {
+        void onChanged();
+    }
+
+    public interface ForwardChangedListener {
         void onChanged();
     }
 }
