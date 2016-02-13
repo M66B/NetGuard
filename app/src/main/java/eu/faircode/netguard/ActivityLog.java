@@ -380,8 +380,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
             case R.id.menu_pcap_enabled:
                 item.setChecked(!item.isChecked());
-                prefs.edit().putBoolean("pcap", item.isChecked()).apply();
-                SinkholeService.setPcap(item.isChecked() ? pcap_file : null);
+                SinkholeService.setPcap(item.isChecked(), ActivityLog.this);
                 return true;
 
             case R.id.menu_pcap_export:
@@ -394,10 +393,10 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                     protected Object doInBackground(Object... objects) {
                         DatabaseHelper.getInstance(ActivityLog.this).clearLog();
                         if (prefs.getBoolean("pcap", false)) {
-                            SinkholeService.setPcap(null);
+                            SinkholeService.setPcap(false, ActivityLog.this);
                             if (pcap_file.exists() && !pcap_file.delete())
                                 Log.w(TAG, "Delete PCAP failed");
-                            SinkholeService.setPcap(pcap_file);
+                            SinkholeService.setPcap(true, ActivityLog.this);
                         } else {
                             if (pcap_file.exists() && !pcap_file.delete())
                                 Log.w(TAG, "Delete PCAP failed");
@@ -481,7 +480,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 FileInputStream in = null;
                 try {
                     // Stop capture
-                    SinkholeService.setPcap(null);
+                    SinkholeService.setPcap(false, ActivityLog.this);
 
                     Uri target = data.getData();
                     if (data.hasExtra("org.openintents.extra.DIR_PATH"))
@@ -522,10 +521,8 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
                     // Resume capture
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ActivityLog.this);
-                    if (prefs.getBoolean("pcap", false)) {
-                        File pcap_file = new File(getCacheDir(), "netguard.pcap");
-                        SinkholeService.setPcap(pcap_file);
-                    }
+                    if (prefs.getBoolean("pcap", false))
+                        SinkholeService.setPcap(true, ActivityLog.this);
                 }
             }
 

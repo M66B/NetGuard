@@ -34,6 +34,8 @@ int loglevel = ANDROID_LOG_WARN;
 
 extern int max_tun_msg;
 extern FILE *pcap_file;
+extern int pcap_record_size;
+extern long pcap_file_size;
 
 // JNI
 
@@ -210,7 +212,13 @@ Java_eu_faircode_netguard_SinkholeService_jni_1get_1stats(JNIEnv *env, jobject i
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, jstring name_) {
+Java_eu_faircode_netguard_SinkholeService_jni_1pcap(
+        JNIEnv *env, jclass type,
+        jstring name_, jint record_size, jint file_size) {
+
+    pcap_record_size = record_size;
+    pcap_file_size = file_size;
+
     if (pthread_mutex_lock(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
@@ -229,11 +237,12 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
 
             pcap_file = NULL;
         }
-        log_android(ANDROID_LOG_INFO, "PCAP disabled");
+        log_android(ANDROID_LOG_WARN, "PCAP disabled");
     }
     else {
         const char *name = (*env)->GetStringUTFChars(env, name_, 0);
-        log_android(ANDROID_LOG_INFO, "PCAP file %s", name);
+        log_android(ANDROID_LOG_WARN, "PCAP file %s record size %d truncate @%ld",
+                    name, pcap_record_size, pcap_file_size);
 
         pcap_file = fopen(name, "ab+");
         if (pcap_file == NULL)
@@ -244,10 +253,13 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(JNIEnv *env, jclass type, js
                 log_android(ANDROID_LOG_ERROR, "PCAP fcntl O_NONBLOCK error %d: %s",
                             errno, strerror(errno));
 
-            if (ftell(pcap_file) == 0) {
-                log_android(ANDROID_LOG_INFO, "Initializing PCAP");
+            long size = ftell(pcap_file);
+            if (size == 0) {
+                log_android(ANDROID_LOG_WARN, "PCAP initialize");
                 write_pcap_hdr();
             }
+            else
+                log_android(ANDROID_LOG_WARN, "PCAP current size %ld", size);
         }
 
         (*env)->ReleaseStringUTFChars(env, name_, name);

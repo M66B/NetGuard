@@ -20,6 +20,8 @@
 #include "netguard.h"
 
 FILE *pcap_file = NULL;
+int pcap_record_size = 64;
+long pcap_file_size = 2 * 1024 * 1024;
 
 void write_pcap_hdr() {
     struct pcap_hdr_s pcap_hdr;
@@ -28,7 +30,7 @@ void write_pcap_hdr() {
     pcap_hdr.version_minor = 4;
     pcap_hdr.thiszone = 0;
     pcap_hdr.sigfigs = 0;
-    pcap_hdr.snaplen = MAX_PCAP_RECORD;
+    pcap_hdr.snaplen = pcap_record_size;
     pcap_hdr.network = LINKTYPE_RAW;
     write_pcap(&pcap_hdr, sizeof(struct pcap_hdr_s));
 }
@@ -38,7 +40,7 @@ void write_pcap_rec(const uint8_t *buffer, size_t length) {
     if (clock_gettime(CLOCK_REALTIME, &ts))
         log_android(ANDROID_LOG_ERROR, "clock_gettime error %d: %s", errno, strerror(errno));
 
-    size_t plen = (length < MAX_PCAP_RECORD ? length : MAX_PCAP_RECORD);
+    size_t plen = (length < pcap_record_size ? length : pcap_record_size);
     struct pcaprec_hdr_s pcap_rec;
 
     pcap_rec.ts_sec = (guint32_t) ts.tv_sec;
@@ -57,7 +59,7 @@ void write_pcap(const void *ptr, size_t len) {
         long fsize = ftell(pcap_file);
         log_android(ANDROID_LOG_VERBOSE, "PCAP wrote %d @%ld", len, fsize);
 
-        if (fsize > MAX_PCAP_FILE) {
+        if (fsize > pcap_file_size) {
             log_android(ANDROID_LOG_WARN, "PCAP truncate @%ld", fsize);
             if (ftruncate(fileno(pcap_file), sizeof(struct pcap_hdr_s)))
                 log_android(ANDROID_LOG_ERROR, "PCAP ftruncate error %d: %s",
