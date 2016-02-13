@@ -48,7 +48,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static List<AccessChangedListener> accessChangedListeners = new ArrayList<>();
     private static List<ForwardChangedListener> forwardChangedListeners = new ArrayList<>();
 
-    private Context context;
     private static HandlerThread hthread = null;
     private static Handler handler = null;
 
@@ -86,7 +85,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-        this.context = context;
 
         if (!once) {
             once = true;
