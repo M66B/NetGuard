@@ -62,6 +62,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final String TAG = "NetGuard.Main";
 
     private boolean running = false;
+    private SwitchCompat swEnabled;
     private SwipeRefreshLayout swipeRefresh;
     private AdapterRule adapter = null;
     private MenuItem menuSearch = null;
@@ -81,10 +82,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
     public static final String EXTRA_SEARCH = "Search";
     public static final String EXTRA_APPROVE = "Approve";
+    public static final String EXTRA_LOGCAT = "Logcat";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Create");
+        Util.logExtras(getIntent());
 
         if (Build.VERSION.SDK_INT < MIN_SDK) {
             super.onCreate(savedInstanceState);
@@ -114,7 +117,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Action bar
         View actionView = getLayoutInflater().inflate(R.layout.action, null, false);
-        SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
+        swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(actionView);
@@ -283,19 +286,34 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
 
-        // Approve request
-        if (getIntent().hasExtra(EXTRA_APPROVE) && !enabled) {
-            Log.i(TAG, "Requesting VPN approval");
-            swEnabled.toggle();
-        }
+        checkExtras(getIntent());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         Log.i(TAG, "New intent");
+        Util.logExtras(intent);
         super.onNewIntent(intent);
-        if (Build.VERSION.SDK_INT >= MIN_SDK)
+
+        if (Build.VERSION.SDK_INT >= MIN_SDK) {
             updateApplicationList(intent.getStringExtra(EXTRA_SEARCH));
+            checkExtras(intent);
+        }
+    }
+
+    private void checkExtras(Intent intent) {
+        // Approve request
+        if (intent.hasExtra(EXTRA_APPROVE)) {
+            Log.i(TAG, "Requesting VPN approval");
+            swEnabled.toggle();
+        }
+
+        if (intent.hasExtra(EXTRA_LOGCAT)) {
+            Log.i(TAG, "Requesting logcat");
+            Intent logcat = getIntentLogcat();
+            if (logcat.resolveActivity(getPackageManager()) != null)
+                startActivityForResult(logcat, REQUEST_LOGCAT);
+        }
     }
 
     @Override

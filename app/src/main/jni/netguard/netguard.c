@@ -338,6 +338,28 @@ void report_exit(const struct arguments *args, const char *fmt, ...) {
     (*args->env)->DeleteLocalRef(args->env, cls);
 }
 
+void report_error(const struct arguments *args, const char *fmt, ...) {
+    jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
+    jmethodID mid = jniGetMethodID(args->env, cls, "nativeError", "(Ljava/lang/String;)V");
+
+    jstring jreason = NULL;
+    if (fmt != NULL) {
+        char line[1024];
+        va_list argptr;
+        va_start(argptr, fmt);
+        vsprintf(line, fmt, argptr);
+        jreason = (*args->env)->NewStringUTF(args->env, line);
+        va_end(argptr);
+    }
+
+    (*args->env)->CallVoidMethod(args->env, args->instance, mid, jreason);
+    jniCheckException(args->env);
+
+    if (jreason != NULL)
+        (*args->env)->DeleteLocalRef(args->env, jreason);
+    (*args->env)->DeleteLocalRef(args->env, cls);
+}
+
 static jmethodID midProtect = NULL;
 
 int protect_socket(const struct arguments *args, int socket) {

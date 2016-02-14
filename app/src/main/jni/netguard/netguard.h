@@ -285,6 +285,8 @@ void *handle_events(void *a);
 
 void report_exit(const struct arguments *args, const char *fmt, ...);
 
+void report_error(const struct arguments *args, const char *fmt, ...);
+
 void check_allowed(const struct arguments *args);
 
 void check_icmp_sessions(const struct arguments *args, int sessions, int maxsessions);

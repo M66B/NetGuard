@@ -120,8 +120,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private static final int NOTIFY_WAITING = 2;
     private static final int NOTIFY_DISABLED = 3;
     private static final int NOTIFY_AUTOSTART = 4;
-    private static final int NOTIFY_ERROR = 5;
-    private static final int NOTIFY_TRAFFIC = 6;
+    private static final int NOTIFY_EXIT = 5;
+    private static final int NOTIFY_ERROR = 6;
+    private static final int NOTIFY_TRAFFIC = 7;
 
     public static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
@@ -307,7 +308,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
-                showErrorNotification(ex.toString());
+                showExitNotification(ex.toString());
 
                 if (!(ex instanceof IllegalStateException)) {
                     // Disable firewall
@@ -1175,13 +1176,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (reason != null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", false).apply();
-            showErrorNotification(reason);
+            showExitNotification(reason);
         }
     }
 
     // Called from native code
     private void nativeError(String message) {
-        Log.e(TAG, "Native error message=" + message);
+        Log.w(TAG, "Native message=" + message);
+        showErrorNotification(message);
     }
 
     // Called from native code
@@ -1693,7 +1695,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void showAutoStartNotification() {
         Intent main = new Intent(this, ActivityMain.class);
         main.putExtra(ActivityMain.EXTRA_APPROVE, true);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getActivity(this, NOTIFY_AUTOSTART, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
@@ -1717,7 +1719,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         NotificationManagerCompat.from(this).notify(NOTIFY_AUTOSTART, notification.build());
     }
 
-    private void showErrorNotification(String reason) {
+    private void showExitNotification(String reason) {
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -1740,6 +1742,33 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
         notification.bigText(getString(R.string.msg_error));
         notification.setSummaryText(reason);
+
+        NotificationManagerCompat.from(this).notify(NOTIFY_EXIT, notification.build());
+    }
+
+    private void showErrorNotification(String message) {
+        Intent main = new Intent(this, ActivityMain.class);
+        main.putExtra(ActivityMain.EXTRA_LOGCAT, true);
+        PendingIntent pi = PendingIntent.getActivity(this, NOTIFY_ERROR, main, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorOff, tv, true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_error_white_24dp)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(message)
+                .setContentIntent(pi)
+                .setColor(tv.data)
+                .setOngoing(false)
+                .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setCategory(Notification.CATEGORY_STATUS)
+                    .setVisibility(Notification.VISIBILITY_SECRET);
+        }
+
+        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
+        notification.bigText(message);
 
         NotificationManagerCompat.from(this).notify(NOTIFY_ERROR, notification.build());
     }

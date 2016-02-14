@@ -139,6 +139,7 @@ void handle_ip(const struct arguments *args,
         if (ip4hdr->frag_off & IP_MF) {
             log_android(ANDROID_LOG_ERROR, "IP fragment offset %u", ip4hdr->frag_off & IP_OFFMASK);
             flags[flen++] = '+';
+            report_error(args, "TCP fragmentation");
         }
 
         uint8_t ipoptlen = (uint8_t) ((ip4hdr->ihl - 5) * 4);
@@ -259,6 +260,9 @@ void handle_ip(const struct arguments *args,
 
         // TODO checksum
     }
+    else if (protocol)
+        report_error(args, "Unknown protocol %d", protocol);
+
     flags[flen] = 0;
 
     // Limit number of sessions
