@@ -117,9 +117,13 @@ public class AdapterAccess extends CursorAdapter {
                 Util.getProtocolName(protocol, version, true) +
                         " " + daddr + (dport > 0 ? "/" + dport : ""));
 
-        if (Util.isNumericAddress(daddr)) {
-            tvDest.setTag(id);
+        if (Util.isNumericAddress(daddr) && tvDest.getTag() == null)
             new AsyncTask<String, Object, String>() {
+                @Override
+                protected void onPreExecute() {
+                    tvDest.setTag(id);
+                }
+
                 @Override
                 protected String doInBackground(String... args) {
                     try {
@@ -135,9 +139,9 @@ public class AdapterAccess extends CursorAdapter {
                         tvDest.setText(
                                 Util.getProtocolName(protocol, version, true) +
                                         " " + addr + (dport > 0 ? "/" + dport : ""));
+                    tvDest.setTag(null);
                 }
             }.execute(daddr);
-        }
 
         if (allowed < 0)
             tvDest.setTextColor(colorText);

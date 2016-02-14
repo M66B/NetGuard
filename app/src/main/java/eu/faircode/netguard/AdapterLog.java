@@ -220,24 +220,31 @@ public class AdapterLog extends CursorAdapter {
 
         if (resolve && !isKnownAddress(daddr))
             if (dname == null) {
-                tvDaddr.setText(daddr);
-                tvDaddr.setTag(id);
-                new AsyncTask<String, Object, String>() {
-                    @Override
-                    protected String doInBackground(String... args) {
-                        try {
-                            return InetAddress.getByName(args[0]).getHostName();
-                        } catch (UnknownHostException ignored) {
-                            return args[0];
+                if (tvDaddr.getTag() == null) {
+                    tvDaddr.setText(daddr);
+                    new AsyncTask<String, Object, String>() {
+                        @Override
+                        protected void onPreExecute() {
+                            tvDaddr.setTag(id);
                         }
-                    }
 
-                    @Override
-                    protected void onPostExecute(String name) {
-                        if ((Long) tvDaddr.getTag() == id)
-                            tvDaddr.setText(name);
-                    }
-                }.execute(daddr);
+                        @Override
+                        protected String doInBackground(String... args) {
+                            try {
+                                return InetAddress.getByName(args[0]).getHostName();
+                            } catch (UnknownHostException ignored) {
+                                return args[0];
+                            }
+                        }
+
+                        @Override
+                        protected void onPostExecute(String name) {
+                            if ((Long) tvDaddr.getTag() == id)
+                                tvDaddr.setText(name);
+                            tvDaddr.setTag(null);
+                        }
+                    }.execute(daddr);
+                }
             } else
                 tvDaddr.setText(dname);
         else
