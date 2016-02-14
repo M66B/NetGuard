@@ -57,7 +57,7 @@ public class AdapterLog extends CursorAdapter {
     private int colFlags;
     private int colSAddr;
     private int colSPort;
-    private int colDaddr;
+    private int colDAddr;
     private int colDPort;
     private int colDName;
     private int colUid;
@@ -82,7 +82,7 @@ public class AdapterLog extends CursorAdapter {
         colFlags = cursor.getColumnIndex("flags");
         colSAddr = cursor.getColumnIndex("saddr");
         colSPort = cursor.getColumnIndex("sport");
-        colDaddr = cursor.getColumnIndex("daddr");
+        colDAddr = cursor.getColumnIndex("daddr");
         colDPort = cursor.getColumnIndex("dport");
         colDName = cursor.getColumnIndex("dname");
         colUid = cursor.getColumnIndex("uid");
@@ -128,7 +128,7 @@ public class AdapterLog extends CursorAdapter {
         String flags = cursor.getString(colFlags);
         String saddr = cursor.getString(colSAddr);
         int sport = (cursor.isNull(colSPort) ? -1 : cursor.getInt(colSPort));
-        String daddr = cursor.getString(colDaddr);
+        String daddr = cursor.getString(colDAddr);
         int dport = (cursor.isNull(colDPort) ? -1 : cursor.getInt(colDPort));
         String dname = (cursor.isNull(colDName) ? null : cursor.getString(colDName));
         int uid = (cursor.isNull(colUid) ? -1 : cursor.getInt(colUid));
