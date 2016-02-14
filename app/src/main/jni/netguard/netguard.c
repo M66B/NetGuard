@@ -338,9 +338,9 @@ void report_exit(const struct arguments *args, const char *fmt, ...) {
     (*args->env)->DeleteLocalRef(args->env, cls);
 }
 
-void report_error(const struct arguments *args, const char *fmt, ...) {
+void report_error(const struct arguments *args, jint error, const char *fmt, ...) {
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
-    jmethodID mid = jniGetMethodID(args->env, cls, "nativeError", "(Ljava/lang/String;)V");
+    jmethodID mid = jniGetMethodID(args->env, cls, "nativeError", "(ILjava/lang/String;)V");
 
     jstring jreason = NULL;
     if (fmt != NULL) {
@@ -352,7 +352,7 @@ void report_error(const struct arguments *args, const char *fmt, ...) {
         va_end(argptr);
     }
 
-    (*args->env)->CallVoidMethod(args->env, args->instance, mid, jreason);
+    (*args->env)->CallVoidMethod(args->env, args->instance, mid, error, jreason);
     jniCheckException(args->env);
 
     if (jreason != NULL)

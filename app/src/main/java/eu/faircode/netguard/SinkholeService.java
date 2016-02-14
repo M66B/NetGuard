@@ -1181,9 +1181,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     // Called from native code
-    private void nativeError(String message) {
-        Log.w(TAG, "Native message=" + message);
-        showErrorNotification(message);
+    private void nativeError(int error, String message) {
+        Log.w(TAG, "Native error " + error + ": " + message);
+        showErrorNotification(error, message);
     }
 
     // Called from native code
@@ -1746,7 +1746,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         NotificationManagerCompat.from(this).notify(NOTIFY_EXIT, notification.build());
     }
 
-    private void showErrorNotification(String message) {
+    private void showErrorNotification(int error, String message) {
         Intent main = new Intent(this, ActivityMain.class);
         main.putExtra(ActivityMain.EXTRA_LOGCAT, true);
         PendingIntent pi = PendingIntent.getActivity(this, NOTIFY_ERROR, main, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -1758,6 +1758,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(message)
                 .setContentIntent(pi)
+                .setNumber(error)
                 .setColor(tv.data)
                 .setOngoing(false)
                 .setAutoCancel(true);
@@ -1770,7 +1771,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
         notification.bigText(message);
 
-        NotificationManagerCompat.from(this).notify(NOTIFY_ERROR, notification.build());
+        NotificationManagerCompat.from(this).notify(error + 100, notification.build());
     }
 
     private void showAccessNotification(int uid) {
