@@ -61,12 +61,15 @@
   <string name="setting_log_app">Журнал доступа к сети интернет</string>
   <string name="setting_access">Уведомить при доступе в интернет</string>
   <string name="setting_filter">Фильтр трафика</string>
+  <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">Хранить разрешения доменных имен</string>
   <string name="setting_block_domains">Блокировать доменные имена</string>
   <string name="setting_forwarding">Перенаправление портов</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
+  <string name="setting_pcap_record_size">PCAP record size: %s B</string>
+  <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
   <string name="setting_stats_category">Скорость в статус-баре</string>
   <string name="setting_stats">Показать скорость в статус-баре</string>
   <string name="setting_stats_top">Показать топовое приложение</string>
@@ -95,7 +98,8 @@
   <string name="summary_system">Определить правила для системных приложений (для профи)</string>
   <string name="summary_log_app">Журнал попыток доступа приложений к сети интернет. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_access">Показывать оповещение в статус-баре, когда приложение получает доступ к новому интернет адресу</string>
-  <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
+  <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
+  <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
   <string name="summary_resolved">Хранить доменные имена и IP-адреса в базе данных. Это делает журнал трафика более полезным, но может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>

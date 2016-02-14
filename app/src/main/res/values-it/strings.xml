@@ -61,12 +61,15 @@
   <string name="setting_log_app">Registra accessi a internet</string>
   <string name="setting_access">Notifica accessi a internet</string>
   <string name="setting_filter">Filtra traffico</string>
+  <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">Memorizza i nomi di dominio già risolti</string>
   <string name="setting_block_domains">Blocca nomi di dominio</string>
   <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
+  <string name="setting_pcap_record_size">PCAP record size: %s B</string>
+  <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
   <string name="setting_stats_category">Notifica di velocità</string>
   <string name="setting_stats">Visualizza velocità tra le notifiche</string>
   <string name="setting_stats_top">Visualizza applicazioni principali</string>
@@ -95,7 +98,8 @@
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
   <string name="summary_log_app">Registra i tentativi di accesso a internet delle applicazioni. Potrebbe causare utilizzo aggiuntivo di batteria.</string>
   <string name="summary_access">Visualizza una notifica nella barra di stato quando un\'applicazione tenta di accedere a un nuovo indirizzo internet</string>
-  <string name="summary_filter">Filtra i pacchetti IP in uscita dal pozzo VPN. Questo potrebbe comportare un consumo aggiuntivo di batteria.</string>
+  <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
+  <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
   <string name="summary_resolved">Memorizza nomi di dominio/indirizzi IP in un database. Questo rende il registro del traffico più utile, ma potrebbe comportare un utilizzo supplementare di batteria.</string>
   <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>

@@ -113,6 +113,12 @@
             android:summary="@string/summary_filter"
             android:title="@string/setting_filter" />
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="filter"
+            android:key="filter_allowed"
+            android:summary="@string/summary_filter_allowed"
+            android:title="@string/setting_filter_allowed" />
+        <CheckBoxPreference
             android:defaultValue="true"
             android:dependency="filter"
             android:key="resolved"

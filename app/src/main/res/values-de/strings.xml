@@ -62,12 +62,15 @@
   <string name="setting_log_app">Internetzugriff protokollieren</string>
   <string name="setting_access">Bei Internet-Zugriff benachrichtigen</string>
   <string name="setting_filter">Datenverkehr filtern</string>
+  <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">Aufgelöste Domain-Namen speichern</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
   <string name="setting_forwarding">Portweiterleitung</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
   <string name="setting_vpn6">VPN-IPv6: %s</string>
   <string name="setting_dns">VPN-DNS: %s</string>
+  <string name="setting_pcap_record_size">PCAP record size: %s B</string>
+  <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
   <string name="setting_stats_category">Geschwindigkeitsbenachrichtigung</string>
   <string name="setting_stats">Netzwerkgeschwindigkeit anzeigen</string>
   <string name="setting_stats_top">Top-Anwendungen anzeigen</string>
@@ -96,7 +99,8 @@
   <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
   <string name="summary_log_app">Protokoll zeichnet den Internetzugriff von Anwendungen auf (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_access">Benachrichtigung in Statusleiste anzeigen, wenn eine App auf eine neue Internetadresse zugreifen möchte</string>
-  <string name="summary_filter">IP Pakete filtern, die das VPN verlassen. Dies könnte zu erhöhtem Batterieerbrauch führen.</string>
+  <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
+  <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
   <string name="summary_resolved">Domain-Namen/IP-Adressen in einer Datenbank speichern. Dies macht das Verkehrsprotokoll sinnvoller, kann aber zu höherem Batterieverbrauch führen.</string>
   <string name="summary_block_domains">Antwortet für blockierte Domain-Namen mit \'Name Error\' (NXDOMAIN). Diese Option ist deaktiviert, wenn keine Hosts-Datei zur Verfügung steht.</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>

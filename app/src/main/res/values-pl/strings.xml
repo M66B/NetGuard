@@ -63,12 +63,15 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">Log internet access</string>
   <string name="setting_access">Notify on internet access</string>
   <string name="setting_filter">Filter traffic</string>
+  <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">Store resolved domain names</string>
   <string name="setting_block_domains">Block domain names</string>
   <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
+  <string name="setting_pcap_record_size">PCAP record size: %s B</string>
+  <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
   <string name="setting_stats_category">Wykres prędkości</string>
   <string name="setting_stats">Pokazuj wskaźnik prędkości</string>
   <string name="setting_stats_top">Pokaż aplikacje z najwyższym transferem</string>
@@ -97,7 +100,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_system">Stwórz reguły dla aplikacji systemowych (zaawansowane)</string>
   <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
   <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
-  <string name="summary_filter">Filter IP packets going out of the VPN sinkhole. This might result in extra battery usage.</string>
+  <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
+  <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
   <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
   <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Pokazuj wykres prędkości sieci w powiadomieniach aplikacji</string>

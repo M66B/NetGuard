@@ -806,6 +806,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
+        boolean filter_allowed = prefs.getBoolean("filter_allowed", false);
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -855,7 +856,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
-        else if (filter && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+        else if (filter && !filter_allowed && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             DatabaseHelper dh = DatabaseHelper.getInstance(this);
             for (Rule rule : listAllowed) {
                 long count = dh.getBlockedRuleCount(rule.info.applicationInfo.uid);

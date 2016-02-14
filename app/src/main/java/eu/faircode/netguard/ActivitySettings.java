@@ -167,8 +167,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
         // Filtering always enabled
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             cat_advanced.removePreference(screen.findPreference("filter"));
+            cat_advanced.removePreference(screen.findPreference("filter_allowed"));
+        }
 
         // Show resolved
         Preference pref_show_resolved = screen.findPreference("show_resolved");
@@ -543,7 +545,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 dialogFilter.show();
             }
 
-        } else if ("use_hosts".equals(name))
+        } else if ("filter_allowed".equals(name))
+            SinkholeService.reload(null, "changed " + name, this);
+
+        else if ("use_hosts".equals(name))
             SinkholeService.reload(null, "changed " + name, this);
 
         else if ("vpn4".equals(name)) {

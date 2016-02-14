@@ -62,12 +62,15 @@
   <string name="setting_log_app">Журнал доступу до мережі інтернет</string>
   <string name="setting_access">Сповіщення під час доступу до інтернету</string>
   <string name="setting_filter">Фільтр трафіку</string>
+  <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">Store resolved domain names</string>
   <string name="setting_block_domains">Блокувати доменні імена</string>
   <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
+  <string name="setting_pcap_record_size">PCAP record size: %s B</string>
+  <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
   <string name="setting_stats_category">Швидкість в сповіщенні</string>
   <string name="setting_stats">Показувати сповіщення о швидкості</string>
   <string name="setting_stats_top">Показати топові додатки</string>
@@ -96,7 +99,8 @@
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
   <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
   <string name="summary_access">Показувати сповіщення в панелі статусу коли додаток отримує доступ до нової інтернет адреси</string>
-  <string name="summary_filter">Фільтрація IPпакетів, які проходять через VPN. Це може призвести до підвищеного споживання батареї.</string>
+  <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
+  <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
   <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
   <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Показувати графік швидкості мережі у панелі сповіщень</string>
