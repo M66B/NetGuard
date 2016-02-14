@@ -214,7 +214,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_settings_white_24dp" />
+                android:src="?attr/iconSettings" />
 
             <ImageButton
                 android:id="@+id/ibLaunch"
@@ -223,7 +223,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/ic_launch_white_24dp" />
+                android:src="?attr/iconLaunch" />
         </LinearLayout>
 
         <TextView
@@ -310,7 +310,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="4dp"
-            android:src="@drawable/ic_delete_white_24dp" />
+            android:src="?attr/iconDelete" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -362,7 +362,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_delete_white_24dp" />
+                android:src="?attr/iconDelete" />
 
             <TextView
                 android:id="@+id/tvStatistics"
