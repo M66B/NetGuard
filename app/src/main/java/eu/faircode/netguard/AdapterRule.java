@@ -267,36 +267,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         // Get rule
         final Rule rule = listFiltered.get(position);
 
-        // Rule change listener
-        CompoundButton.OnCheckedChangeListener cbListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Update rule
-                String network = ((buttonView == holder.cbWifi) ? "wifi" : "other");
-                updateRule(rule, network, isChecked);
-                rule.updateChanged(context);
-
-                // Update relations
-                if (rule.related == null)
-                    notifyItemChanged(position);
-                else {
-                    for (String pkg : rule.related)
-                        for (Rule related : listAll)
-                            if (related.info.packageName.equals(pkg)) {
-                                updateRule(related, network, isChecked);
-                                updateScreenWifi(related, rule.screen_wifi);
-                                updateScreenOther(related, rule.screen_other);
-                                updateRoaming(related, rule.roaming);
-                                related.updateChanged(context);
-                            }
-                    notifyDataSetChanged();
-                }
-
-                // Apply updated rule
-                SinkholeService.reload(network, "rule changed", context);
-            }
-        };
-
         // Handle expanding/collapsing
         holder.llApplication.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,7 +328,13 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             Drawable wrap = DrawableCompat.wrap(CompoundButtonCompat.getButtonDrawable(holder.cbWifi));
             DrawableCompat.setTint(wrap, rule.wifi_blocked ? colorOff : colorOn);
         }
-        holder.cbWifi.setOnCheckedChangeListener(cbListener);
+        holder.cbWifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                rule.wifi_blocked = isChecked;
+                updateRule(rule, true, listAll);
+            }
+        });
 
         holder.ivScreenWifi.setAlpha(wifiActive ? 1 : 0.5f);
         holder.ivScreenWifi.setVisibility(rule.screen_wifi && rule.wifi_blocked ? View.VISIBLE : View.INVISIBLE);
@@ -375,7 +351,13 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             Drawable wrap = DrawableCompat.wrap(CompoundButtonCompat.getButtonDrawable(holder.cbOther));
             DrawableCompat.setTint(wrap, rule.other_blocked ? colorOff : colorOn);
         }
-        holder.cbOther.setOnCheckedChangeListener(cbListener);
+        holder.cbOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                rule.other_blocked = isChecked;
+                updateRule(rule, true, listAll);
+            }
+        });
 
         holder.ivScreenOther.setAlpha(otherActive ? 1 : 0.5f);
         holder.ivScreenOther.setVisibility(rule.screen_other && rule.other_blocked ? View.VISIBLE : View.INVISIBLE);
@@ -443,25 +425,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.cbScreenWifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Update rule
-                updateScreenWifi(rule, isChecked);
-                rule.updateChanged(context);
-
-                // Update relations
-                if (rule.related == null)
-                    notifyItemChanged(position);
-                else {
-                    for (String pkg : rule.related)
-                        for (Rule related : listAll)
-                            if (related.info.packageName.equals(pkg)) {
-                                updateScreenWifi(related, rule.screen_wifi);
-                                related.updateChanged(context);
-                            }
-                    notifyDataSetChanged();
-                }
-
-                // Apply updated rule
-                SinkholeService.reload(null, "rule changed", context);
+                rule.screen_wifi = isChecked;
+                updateRule(rule, true, listAll);
             }
         });
 
@@ -479,25 +444,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.cbScreenOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Update rule
-                updateScreenOther(rule, isChecked);
-                rule.updateChanged(context);
-
-                // Update relations
-                if (rule.related == null)
-                    notifyItemChanged(position);
-                else {
-                    for (String pkg : rule.related)
-                        for (Rule related : listAll)
-                            if (related.info.packageName.equals(pkg)) {
-                                updateScreenOther(related, rule.screen_other);
-                                related.updateChanged(context);
-                            }
-                    notifyDataSetChanged();
-                }
-
-                // Apply updated rule
-                SinkholeService.reload(null, "rule changed", context);
+                rule.screen_other = isChecked;
+                updateRule(rule, true, listAll);
             }
         });
 
@@ -510,25 +458,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             @TargetApi(Build.VERSION_CODES.M)
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Update rule
-                updateRoaming(rule, isChecked);
-                rule.updateChanged(context);
-
-                // Update relations
-                if (rule.related == null)
-                    notifyItemChanged(position);
-                else {
-                    for (String pkg : rule.related)
-                        for (Rule related : listAll)
-                            if (related.info.packageName.equals(pkg)) {
-                                updateRoaming(related, rule.roaming);
-                                related.updateChanged(context);
-                            }
-                    notifyDataSetChanged();
-                }
-
-                // Apply updated rule
-                SinkholeService.reload(null, "rule changed", context);
+                rule.roaming = isChecked;
+                updateRule(rule, true, listAll);
 
                 // Request permissions
                 if (isChecked && !Util.hasPhoneStatePermission(context))
@@ -663,59 +594,66 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.tvStatistics.setText(context.getString(R.string.msg_mbday, rule.upspeed, rule.downspeed));
     }
 
-    private void updateRule(Rule rule, String network, boolean blocked) {
-        SharedPreferences prefs = context.getSharedPreferences(network, Context.MODE_PRIVATE);
-
-        if ("wifi".equals(network)) {
-            rule.wifi_blocked = blocked;
-            if (rule.wifi_blocked == rule.wifi_default) {
-                Log.i(TAG, "Removing " + rule.info.packageName + " " + network);
-                prefs.edit().remove(rule.info.packageName).apply();
-            } else {
-                Log.i(TAG, "Setting " + rule.info.packageName + " " + network + "=" + blocked);
-                prefs.edit().putBoolean(rule.info.packageName, blocked).apply();
-            }
-        }
-
-        if ("other".equals(network)) {
-            rule.other_blocked = blocked;
-            if (rule.other_blocked == rule.other_default) {
-                Log.i(TAG, "Removing " + rule.info.packageName + " " + network);
-                prefs.edit().remove(rule.info.packageName).apply();
-            } else {
-                Log.i(TAG, "Setting " + rule.info.packageName + " " + network + "=" + blocked);
-                prefs.edit().putBoolean(rule.info.packageName, blocked).apply();
-            }
-        }
-
-        NotificationManagerCompat.from(context).cancel(rule.info.applicationInfo.uid);
-    }
-
-    private void updateScreenWifi(Rule rule, boolean enabled) {
-        rule.screen_wifi = enabled;
+    private void updateRule(Rule rule, boolean root, List<Rule> listAll) {
+        SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
+        SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
         SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
+        SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
+        SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
+
+        if (rule.wifi_blocked == rule.wifi_default)
+            wifi.edit().remove(rule.info.packageName).apply();
+        else
+            wifi.edit().putBoolean(rule.info.packageName, rule.wifi_blocked).apply();
+
+        if (rule.other_blocked == rule.other_default)
+            other.edit().remove(rule.info.packageName).apply();
+        else
+            other.edit().putBoolean(rule.info.packageName, rule.other_blocked).apply();
+
         if (rule.screen_wifi == rule.screen_wifi_default)
             screen_wifi.edit().remove(rule.info.packageName).apply();
         else
             screen_wifi.edit().putBoolean(rule.info.packageName, rule.screen_wifi).apply();
-    }
 
-    private void updateScreenOther(Rule rule, boolean enabled) {
-        rule.screen_other = enabled;
-        SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
         if (rule.screen_other == rule.screen_other_default)
             screen_other.edit().remove(rule.info.packageName).apply();
         else
             screen_other.edit().putBoolean(rule.info.packageName, rule.screen_other).apply();
-    }
 
-    private void updateRoaming(Rule rule, boolean enabled) {
-        rule.roaming = enabled;
-        SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
         if (rule.roaming == rule.roaming_default)
             roaming.edit().remove(rule.info.packageName).apply();
         else
             roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();
+
+        rule.updateChanged(context);
+        Log.i(TAG, "Updated " + rule);
+
+        List<Rule> listModified = new ArrayList<>();
+        for (String pkg : rule.related) {
+            for (Rule related : listAll)
+                if (related.info.packageName.equals(pkg)) {
+                    related.wifi_blocked = rule.wifi_blocked;
+                    related.other_blocked = rule.other_blocked;
+                    related.screen_wifi = rule.screen_wifi;
+                    related.screen_other = rule.screen_other;
+                    related.roaming = rule.roaming;
+                    listModified.add(related);
+                }
+        }
+
+        List<Rule> listSearch = (root ? new ArrayList<>(listAll) : listAll);
+        listSearch.remove(rule);
+        for (Rule modified : listModified)
+            listSearch.remove(modified);
+        for (Rule modified : listModified)
+            updateRule(modified, false, listSearch);
+
+        if (root) {
+            notifyDataSetChanged();
+            NotificationManagerCompat.from(context).cancel(rule.info.applicationInfo.uid);
+            SinkholeService.reload(null, "rule changed", context);
+        }
     }
 
     @Override

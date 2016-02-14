@@ -319,6 +319,9 @@ public class Rule {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.name +
+                " blocked=" + wifi_blocked + "/" + other_blocked +
+                " screen=" + screen_wifi + "/" + screen_other +
+                " roaming=" + roaming;
     }
 }
