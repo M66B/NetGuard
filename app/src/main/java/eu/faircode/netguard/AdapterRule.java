@@ -71,7 +71,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private RecyclerView rv;
     private boolean filter;
     private int colorText;
-    private int colorAccent;
     private int colorChanged;
     private int colorOn;
     private int colorOff;
@@ -215,8 +214,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         }
 
         TypedValue tv = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.colorAccent, tv, true);
-        colorAccent = tv.data;
         context.getTheme().resolveAttribute(R.attr.colorOn, tv, true);
         colorOn = tv.data;
         context.getTheme().resolveAttribute(R.attr.colorOff, tv, true);
@@ -294,7 +291,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.tvName.setText(rule.name);
 
         // Show application state
-        int color = rule.system ? colorAccent : colorText;
+        int color = rule.system ? colorOff : colorText;
         if (!rule.internet || !rule.enabled)
             color = Color.argb(128, Color.red(color), Color.green(color), Color.blue(color));
         holder.tvName.setTextColor(color);
