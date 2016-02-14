@@ -1205,6 +1205,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         return (mapHostsBlocked.containsKey(name) && mapHostsBlocked.get(name));
     }
 
+    private boolean isSupported(int protocol) {
+        return (protocol == 1 /* ICMPv4 */ ||
+                protocol == 59 /* ICMPv6 */ ||
+                protocol == 6 /* TCP */ ||
+                protocol == 17 /* UDP */);
+    }
+
     // Called from native code
     private Allowed isAddressAllowed(Packet packet) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -1212,12 +1219,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         packet.allowed = false;
         if (prefs.getBoolean("filter", false)) {
             // https://android.googlesource.com/platform/system/core/+/master/include/private/android_filesystem_config.h
-            if (packet.uid < 2000 && !last_connected) {
+            if (packet.uid < 2000 &&
+                    !last_connected && isSupported(packet.protocol)) {
                 // Allow system applications in disconnected state
                 packet.allowed = true;
                 Log.w(TAG, "Allowing disconnected system " + packet);
 
-            } else if (packet.uid < 2000 && !mapUidKnown.containsKey(packet.uid)) {
+            } else if (packet.uid < 2000 &&
+                    !mapUidKnown.containsKey(packet.uid) && isSupported(packet.protocol)) {
                 // Allow unknown system traffic
                 packet.allowed = true;
                 Log.w(TAG, "Allowing unknown system " + packet);
