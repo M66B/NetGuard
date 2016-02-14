@@ -94,11 +94,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
-    private boolean last_tethering = false;
-    private boolean last_filter = false;
-    private String last_vpn4 = null;
-    private String last_vpn6 = null;
-    private InetAddress last_dns = null;
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
@@ -374,48 +369,26 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             List<Rule> listRule = Rule.getRules(true, SinkholeService.this);
             List<Rule> listAllowed = getAllowedRules(listRule);
 
-            if (filter &&
-                    filter == last_filter &&
-                    tethering == last_tethering &&
-                    vpn4.equals(last_vpn4) &&
-                    vpn6.equals(last_vpn6) &&
-                    dns.equals(last_dns)) {
-                Log.i(TAG, "Native restart");
-
-                if (vpn != null)
-                    stopNative(vpn, false);
-
-                if (vpn == null)
-                    vpn = startVPN(listAllowed);
-                if (vpn == null)
-                    throw new IllegalStateException("VPN start failed");
-
-                startNative(vpn, listAllowed, listRule);
-
-            } else {
-                Log.i(TAG, "VPN restart");
-
-                // Attempt seamless handover
-                ParcelFileDescriptor prev = vpn;
+            // Attempt seamless handover
+            ParcelFileDescriptor prev = vpn;
+            vpn = startVPN(listAllowed);
+            if (prev != null && vpn == null) {
+                Log.w(TAG, "Handover failed");
+                stopVPN(prev);
+                prev = null;
                 vpn = startVPN(listAllowed);
-                if (prev != null && vpn == null) {
-                    Log.w(TAG, "Handover failed");
-                    stopVPN(prev);
-                    prev = null;
-                    vpn = startVPN(listAllowed);
-                    if (vpn == null)
-                        throw new IllegalStateException("Handover failed");
-                }
-
-                if (prev != null) {
-                    stopNative(prev, false);
-                    stopVPN(prev);
-                }
                 if (vpn == null)
-                    throw new IllegalStateException("VPN start failed");
-
-                startNative(vpn, listAllowed, listRule);
+                    throw new IllegalStateException("Handover failed");
             }
+
+            if (prev != null) {
+                stopNative(prev, false);
+                stopVPN(prev);
+            }
+            if (vpn == null)
+                throw new IllegalStateException("VPN start failed");
+
+            startNative(vpn, listAllowed, listRule);
 
             removeWarningNotifications();
             updateEnforcingNotification(listAllowed.size(), listRule.size());
@@ -834,24 +807,22 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
 
-        last_filter = filter;
-        last_tethering = tethering;
-        last_vpn4 = prefs.getString("vpn4", "10.1.10.1");
-        last_vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
-        last_dns = getDns(SinkholeService.this);
-
         // Build VPN service
         final Builder builder = new Builder();
         builder.setSession(getString(R.string.app_name));
 
         // VPN address
-        Log.i(TAG, "vpn4=" + last_vpn4 + " vpn6=" + last_vpn6);
-        builder.addAddress(last_vpn4, 32);
-        builder.addAddress(last_vpn6, 64);
+        String vpn4 = prefs.getString("vpn4", "10.1.10.1");
+        String vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
+        Log.i(TAG, "vpn4=" + vpn4 + " vpn6=" + vpn6);
+        builder.addAddress(vpn4, 32);
+        builder.addAddress(vpn6, 64);
 
-        if (filter)
-            builder.addDnsServer(last_dns);
-        // TODO addSearchDomain
+        if (filter) {
+            InetAddress dns = getDns(SinkholeService.this);
+            builder.addDnsServer(dns);
+            // TODO addSearchDomain
+        }
 
         if (tethering) {
             // USB Tethering 192.168.42.x
@@ -884,6 +855,20 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
+        else if (filter && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            DatabaseHelper dh = DatabaseHelper.getInstance(this);
+            for (Rule rule : listAllowed) {
+                long count = dh.getBlockedRuleCount(rule.info.applicationInfo.uid);
+                if (count == 0) {
+                    try {
+                        builder.addDisallowedApplication(rule.info.packageName);
+                    } catch (PackageManager.NameNotFoundException ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    }
+                } else
+                    Log.i(TAG, "Routing allowed " + rule + " filter rules=" + count);
+            }
+        }
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);

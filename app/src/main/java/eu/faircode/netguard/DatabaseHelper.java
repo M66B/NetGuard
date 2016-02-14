@@ -582,7 +582,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.compileStatement("SELECT COUNT(*) FROM access WHERE block >=0 AND uid =" + uid).simpleQueryForLong();
+            return db.compileStatement("SELECT COUNT(*) FROM access WHERE block >= 0 AND uid =" + uid).simpleQueryForLong();
+        } finally {
+            mLock.readLock().unlock();
+        }
+    }
+
+    public long getBlockedRuleCount(int uid) {
+        mLock.readLock().lock();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            return db.compileStatement("SELECT COUNT(*) FROM access WHERE block > 0 AND uid =" + uid).simpleQueryForLong();
         } finally {
             mLock.readLock().unlock();
         }
