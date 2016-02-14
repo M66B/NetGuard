@@ -159,7 +159,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     public static void setPcap(boolean enabled, Context context) {
         File pcap = (enabled ? new File(context.getCacheDir(), "netguard.pcap") : null);
-        jni_pcap(pcap == null ? null : pcap.getAbsolutePath(), 64, 2 * 1024 * 1024);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String r = prefs.getString("pcap_record_size", null);
+        if (TextUtils.isEmpty(r))
+            r = "64";
+        String f = prefs.getString("pcap_file_size", null);
+        if (TextUtils.isEmpty(f))
+            f = "2";
+        int record_size = Integer.parseInt(r);
+        int file_size = Integer.parseInt(f) * 1024 * 1024;
+        jni_pcap(pcap == null ? null : pcap.getAbsolutePath(), record_size, file_size);
     }
 
     synchronized private static PowerManager.WakeLock getLock(Context context) {

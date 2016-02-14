@@ -200,6 +200,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_dns.getEditText().setHint(def_dns);
         pref_dns.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns)));
 
+        // PCAP parameters
+        screen.findPreference("pcap_record_size").setTitle(getString(R.string.setting_pcap_record_size, prefs.getString("pcap_record_size", "64")));
+        screen.findPreference("pcap_file_size").setTitle(getString(R.string.setting_pcap_file_size, prefs.getString("pcap_file_size", "2")));
+
         // Handle stats
         EditTextPreference pref_stats_base = (EditTextPreference) screen.findPreference("stats_base");
         EditTextPreference pref_stats_frequency = (EditTextPreference) screen.findPreference("stats_frequency");
@@ -429,6 +433,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
         }
 
+        Object value = prefs.getAll().get(name);
+        if (value instanceof String && "".equals(value))
+            prefs.edit().remove(name).apply();
+
         // Dependencies
         if ("whitelist_wifi".equals(name) ||
                 "screen_wifi".equals(name))
@@ -567,6 +575,20 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
             SinkholeService.reload(null, "changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_dns, prefs.getString("dns", Util.getDefaultDNS(this))));
+        } else if ("pcap_record_size".equals(name) || "pcap_file_size".equals(name)) {
+            if ("pcap_record_size".equals(name))
+                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_pcap_record_size, prefs.getString(name, "64")));
+            else
+                getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_pcap_file_size, prefs.getString(name, "2")));
+
+            SinkholeService.setPcap(false, this);
+
+            File pcap_file = new File(getCacheDir(), "netguard.pcap");
+            if (pcap_file.exists() && !pcap_file.delete())
+                Log.w(TAG, "Delete PCAP failed");
+
+            if (prefs.getBoolean("pcap", false))
+                SinkholeService.setPcap(true, this);
 
         } else if ("show_stats".equals(name))
             SinkholeService.reloadStats("changed " + name, this);

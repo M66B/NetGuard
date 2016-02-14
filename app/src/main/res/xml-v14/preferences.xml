@@ -144,6 +144,14 @@
             android:dependency="filter"
             android:inputType="text"
             android:key="dns" />
+        <EditTextPreference
+            android:defaultValue="64"
+            android:inputType="number"
+            android:key="pcap_record_size" />
+        <EditTextPreference
+            android:defaultValue="2"
+            android:inputType="number"
+            android:key="pcap_file_size" />
     </PreferenceCategory>
 
     <PreferenceCategory
