@@ -281,38 +281,8 @@ void handle_ip(const struct arguments *args,
     jint uid = -1;
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6 ||
         (protocol == IPPROTO_UDP && !has_udp_session(args, pkt, payload)) ||
-        (protocol == IPPROTO_TCP && syn)) {
-        log_android(ANDROID_LOG_INFO, "get uid %s/%u v%d p%d syn %d",
-                    dest, dport, version, protocol, syn);
-        int tries = 0;
-        usleep(1000 * UID_DELAY);
-        while (uid < 0 && tries++ < UID_MAXTRY) {
-            // Check IPv6 table first
-            int dump = (tries == UID_MAXTRY);
-            if (version == 4) {
-                int8_t saddr128[16];
-                memset(saddr128, 0, 10);
-                saddr128[10] = (uint8_t) 0xFF;
-                saddr128[11] = (uint8_t) 0xFF;
-                memcpy(saddr128 + 12, saddr, 4);
-                uid = get_uid(protocol, 6, saddr128, sport, dump);
-            }
-
-            if (uid < 0)
-                uid = get_uid(protocol, version, saddr, sport, dump);
-
-            // Retry delay
-            if (uid < 0 && tries < UID_MAXTRY) {
-                log_android(ANDROID_LOG_WARN, "get uid %s/%u v%d p%d syn %d try %d",
-                            dest, dport, version, protocol, syn, tries);
-                usleep(1000 * UID_DELAYTRY);
-            }
-        }
-
-        if (uid < 0)
-            log_android(ANDROID_LOG_ERROR, "uid %s/%u v%d p%d syn %d not found",
-                        dest, dport, version, protocol, syn);
-    }
+        (protocol == IPPROTO_TCP && syn))
+        uid = get_uid_retry(protocol, version, saddr, sport);
 
     log_android(ANDROID_LOG_DEBUG,
                 "Packet v%d %s/%u > %s/%u proto %d flags %s uid %d",
@@ -365,6 +335,42 @@ void handle_ip(const struct arguments *args,
     if (mselapsed > PROFILE_EVENTS)
         log_android(ANDROID_LOG_WARN, "handle protocol %f", mselapsed);
 #endif
+}
+
+jint get_uid_retry(const int protocol, const int version,
+                   const void *saddr, const uint16_t sport) {
+    log_android(ANDROID_LOG_INFO, "get uid v%d p%d %s/%u", version, protocol, saddr, sport);
+
+    jint uid = -1;
+    int tries = 0;
+    usleep(1000 * UID_DELAY);
+    while (uid < 0 && tries++ < UID_MAXTRY) {
+        // Check IPv6 table first
+        if (version == 4) {
+            int8_t saddr128[16];
+            memset(saddr128, 0, 10);
+            saddr128[10] = (uint8_t) 0xFF;
+            saddr128[11] = (uint8_t) 0xFF;
+            memcpy(saddr128 + 12, saddr, 4);
+            uid = get_uid(protocol, 6, saddr128, sport, tries == UID_MAXTRY);
+        }
+
+        if (uid < 0)
+            uid = get_uid(protocol, version, saddr, sport, tries == UID_MAXTRY);
+
+        // Retry delay
+        if (uid < 0 && tries < UID_MAXTRY) {
+            log_android(ANDROID_LOG_WARN, "get uid v%d p%d %s/%u try %d",
+                        version, protocol, saddr, sport, tries);
+            usleep(1000 * UID_DELAYTRY);
+        }
+    }
+
+    if (uid < 0)
+        log_android(ANDROID_LOG_ERROR, "uid v%d p%d %s/%u not found",
+                    version, protocol, saddr, sport);
+
+    return uid;
 }
 
 jint get_uid(const int protocol, const int version,

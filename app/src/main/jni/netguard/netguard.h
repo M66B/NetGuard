@@ -419,6 +419,9 @@ uint8_t char2nible(const char c);
 
 void hex2bytes(const char *hex, uint8_t *buffer);
 
+jint get_uid_retry(const int protocol, const int version,
+                   const void *saddr, const uint16_t sport);
+
 jint get_uid(const int protocol, const int version,
              const void *saddr, const uint16_t sport, int dump);
 
