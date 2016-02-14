@@ -941,8 +941,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private void prepareHostsBlocked() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-        boolean use_hosts = prefs.getBoolean("use_hosts", false);
+        boolean use_hosts = prefs.getBoolean("filter_allowed", false) && prefs.getBoolean("use_hosts", false);
         File hosts = new File(getFilesDir(), "hosts.txt");
+        Log.i(TAG, hosts + "=" + use_hosts);
 
         mapHostsBlocked.clear();
 

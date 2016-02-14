@@ -120,19 +120,16 @@
             android:title="@string/setting_filter_allowed" />
         <eu.faircode.netguard.SwitchPreference
             android:defaultValue="true"
+            android:dependency="filter_allowed"
+            android:key="use_hosts"
+            android:summary="@string/summary_block_domains"
+            android:title="@string/setting_block_domains" />
+        <eu.faircode.netguard.SwitchPreference
+            android:defaultValue="true"
             android:dependency="filter"
             android:key="resolved"
             android:summary="@string/summary_resolved"
             android:title="@string/setting_resolved" />
-        <Preference
-            android:key="show_resolved"
-            android:title="@string/setting_show_resolved" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="true"
-            android:dependency="filter"
-            android:key="use_hosts"
-            android:summary="@string/summary_block_domains"
-            android:title="@string/setting_block_domains" />
         <Preference
             android:dependency="filter"
             android:key="forwarding"
@@ -200,7 +197,6 @@
             android:key="import"
             android:title="@string/setting_import" />
         <Preference
-            android:dependency="filter"
             android:key="hosts_import"
             android:title="@string/setting_hosts" />
         <EditTextPreference
@@ -224,6 +220,9 @@
             android:key="loglevel"
             android:summary="Log level verbose, debug and info will impact performance and battery usage"
             android:title="Native log level" />
+        <Preference
+            android:key="show_resolved"
+            android:title="@string/setting_show_resolved" />
     </PreferenceCategory>
 
     <PreferenceCategory
