@@ -206,7 +206,7 @@ typedef struct pcaprec_hdr_s {
 #define DNS_QTYPE_A 1 // IPv4
 #define DNS_QTYPE_AAAA 28 // IPv6
 
-#define DNS_QNAME_MAX 63
+#define DNS_QNAME_MAX 255
 #define DNS_TTL (10 * 60) // seconds
 
 struct dns_header {

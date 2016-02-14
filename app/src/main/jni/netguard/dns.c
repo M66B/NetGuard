@@ -26,9 +26,7 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
     uint8_t noff = 0;
     uint16_t ptr = off;
     uint8_t len = *(data + ptr);
-    uint8_t parts = 0;
-    while (len && parts < 10) {
-        parts++;
+    while (len) {
         if (len & 0xC0) {
             ptr = (uint16_t) ((len & 0x3F) * 256 + *(data + ptr + 1));
             len = *(data + ptr);
@@ -38,7 +36,7 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
                 off += 2;
             }
         }
-        else if (ptr + 1 + len <= datalen) {
+        else if (ptr + 1 + len <= datalen && noff + len <= DNS_QNAME_MAX) {
             memcpy(qname + noff, data + ptr + 1, len);
             *(qname + noff + len) = '.';
             noff += (len + 1);
@@ -52,12 +50,12 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
     ptr++;
 
     if (len > 0 || noff == 0) {
-        log_android(ANDROID_LOG_ERROR, "DNS qname invalid len %d noff %d part %d", len, noff,
-                    parts);
+        log_android(ANDROID_LOG_ERROR, "DNS qname invalid len %d noff %d", len, noff);
         return -1;
     }
 
     *(qname + noff - 1) = 0;
+    log_android(ANDROID_LOG_DEBUG, "qname %s", qname);
 
     return (c ? off : ptr);
 }
