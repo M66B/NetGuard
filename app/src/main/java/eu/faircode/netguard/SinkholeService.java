@@ -94,8 +94,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
-    private boolean last_tethering = false;
+    private boolean last_manage_system = false;
     private boolean last_filter = false;
+    private boolean last_tethering = false;
     private String last_vpn4 = null;
     private String last_vpn6 = null;
     private InetAddress last_dns = null;
@@ -357,6 +358,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean tethering = prefs.getBoolean("tethering", false);
             boolean filter = prefs.getBoolean("filter", false);
+            boolean manage_system = prefs.getBoolean("manage_system", false);
             String vpn4 = prefs.getString("vpn4", "10.1.10.1");
             String vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
             InetAddress dns = getDns(SinkholeService.this);
@@ -375,6 +377,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             List<Rule> listAllowed = getAllowedRules(listRule);
 
             if (filter &&
+                    manage_system == last_manage_system &&
                     filter == last_filter &&
                     tethering == last_tethering &&
                     vpn4.equals(last_vpn4) &&
@@ -831,9 +834,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private ParcelFileDescriptor startVPN(List<Rule> listAllowed) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean tethering = prefs.getBoolean("tethering", false);
+        boolean manage_system = prefs.getBoolean("manage_system", false);
         boolean filter = prefs.getBoolean("filter", false);
+        boolean tethering = prefs.getBoolean("tethering", false);
 
+        last_manage_system = manage_system;
         last_filter = filter;
         last_tethering = tethering;
         last_vpn4 = prefs.getString("vpn4", "10.1.10.1");
@@ -884,6 +889,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
+        else if (filter && !manage_system && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
+            for (Rule rule : listAllowed)
+                if (rule.system)
+                    try {
+                        builder.addDisallowedApplication(rule.info.packageName);
+                    } catch (PackageManager.NameNotFoundException ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    }
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
