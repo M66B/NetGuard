@@ -174,8 +174,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Show resolved
         Preference pref_show_resolved = screen.findPreference("show_resolved");
-        if (!Util.isDebuggable(this))
-            cat_advanced.removePreference(pref_show_resolved);
         pref_show_resolved.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
