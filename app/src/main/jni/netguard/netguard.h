@@ -419,11 +419,12 @@ uint8_t char2nible(const char c);
 
 void hex2bytes(const char *hex, uint8_t *buffer);
 
-jint get_uid_retry(const int protocol, const int version,
+jint get_uid_retry(const int version, const int protocol,
                    const void *saddr, const uint16_t sport);
 
-jint get_uid(const int protocol, const int version,
-             const void *saddr, const uint16_t sport, int dump);
+jint get_uid(const int version, const int protocol,
+             const void *saddr, const uint16_t sport,
+             int dump);
 
 int protect_socket(const struct arguments *args, int socket);
 
