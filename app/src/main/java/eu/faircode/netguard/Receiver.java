@@ -222,12 +222,16 @@ public class Receiver extends BroadcastReceiver {
             } else {
                 editor.putBoolean("whitelist_wifi", false);
                 editor.putBoolean("whitelist_other", false);
-                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1)
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1) {
                     editor.putBoolean("filter", true); // Optional
+                    editor.putBoolean("filter_allowed", true); // Optional
+                }
             }
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 editor.putBoolean("filter", true); // Mandatory
+                editor.putBoolean("filter_allowed", true); // Mandatory
+            }
 
             editor.putInt("version", newVersion);
             editor.apply();
