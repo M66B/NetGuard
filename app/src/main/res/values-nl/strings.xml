@@ -65,6 +65,7 @@
   <string name="setting_filter_allowed">Toegestaan verkeer filteren</string>
   <string name="setting_resolved">Bewaar opgeloste domeinnamen</string>
   <string name="setting_track_usage">Bijhouden van netwerkgebruik</string>
+  <string name="setting_reset_usage">Reset netwerkgebruik</string>
   <string name="setting_block_domains">Blokkeer domeinnamen</string>
   <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
@@ -128,6 +129,8 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
+  <string name="msg_mb">%1$.3f▲ %2$.3f▼ MB</string>
+  <string name="msg_gb">%1$.3f▲ %2$.3f▼ GB</string>
   <string name="msg_filter">Het gebruik van filteren zorgt ervoor dat Android gegevens- en batterijgebruik aan NetGuard toewijst - Android denkt dat de gegevens en batterij door NetGuard worden gebruikt i.p.v. door de originele apps.</string>
   <string name="msg_log_disabled">Internetverkeer loggen is uitgeschakeld. Gebruik de schakelaar hierboven om het loggen in te schakelen. Internetverkeer loggen kan het batterijgebruik verhogen.</string>
   <string name="msg_clear_rules">Dit zet alle regels en instellingen terug naar de standaardinstelling</string>

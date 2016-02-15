@@ -64,6 +64,7 @@
   <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">Хранить разрешения доменных имен</string>
   <string name="setting_track_usage">Track network usage</string>
+  <string name="setting_reset_usage">Reset network usage</string>
   <string name="setting_block_domains">Блокировать доменные имена</string>
   <string name="setting_forwarding">Перенаправление портов</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -126,6 +127,8 @@
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
+  <string name="msg_mb">%1$.3f▲ %2$.3f▼ MB</string>
+  <string name="msg_gb">%1$.3f▲ %2$.3f▼ GB</string>
   <string name="msg_filter">Использование данной функции приводит к тому, что Android передает данные и использование энергии в пользование NetGuard; Android будет считать, что данные и энергия используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
   <string name="msg_log_disabled">Ведение журнала трафика отключено, используйте переключатель выше для его включения. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="msg_clear_rules">Это сбросит правила и условия на их значения по умолчанию</string>

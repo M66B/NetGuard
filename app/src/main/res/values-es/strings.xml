@@ -64,6 +64,7 @@
   <string name="setting_filter_allowed">Filtrar el tráfico permitido</string>
   <string name="setting_resolved">Almacenar nombres de dominio resueltos</string>
   <string name="setting_track_usage">Track network usage</string>
+  <string name="setting_reset_usage">Reset network usage</string>
   <string name="setting_block_domains">Bloquear nombres de dominio</string>
   <string name="setting_forwarding">Reenvío de puertos</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -125,6 +126,8 @@
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
+  <string name="msg_mb">%1$.3f▲ %2$.3f▼ MB</string>
+  <string name="msg_gb">%1$.3f▲ %2$.3f▼ GB</string>
   <string name="msg_filter">Usar filtrado hará que Android atribuya el uso de datos y energía a NetGuard - Android asume que el uso de datos y energía los utiliza NetGuard, en lugar de las aplicaciones originales</string>
   <string name="msg_log_disabled">El registro del tráfico está desactivado, utilice el interruptor de arriba para activar el registro. El registro del tráfico podría consumir más batería.</string>
   <string name="msg_clear_rules">Esto restablecerá las reglas y condiciones a sus valores originales</string>

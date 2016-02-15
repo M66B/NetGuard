@@ -65,6 +65,7 @@
   <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">解決したドメイン名を保存</string>
   <string name="setting_track_usage">Track network usage</string>
+  <string name="setting_reset_usage">Reset network usage</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
   <string name="setting_forwarding">ポート転送</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -126,6 +127,8 @@
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
+  <string name="msg_mb">%1$.3f▲ %2$.3f▼ MB</string>
+  <string name="msg_gb">%1$.3f▲ %2$.3f▼ GB</string>
   <string name="msg_filter">NetGuard でフィルタリングを使用すると、Android のデータと電力使用につながります - Android は、元のアプリケーションではなく NetGuard によってデータと電力を使用しているとみなします。</string>
   <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
   <string name="msg_clear_rules">ルールと条件がデフォルト値にリセットされます</string>

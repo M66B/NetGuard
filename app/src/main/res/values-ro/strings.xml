@@ -64,6 +64,7 @@
   <string name="setting_filter_allowed">Filtreaza conexiunile permise</string>
   <string name="setting_resolved">Pastreaza numele de domenii rezolvate</string>
   <string name="setting_track_usage">Track network usage</string>
+  <string name="setting_reset_usage">Reset network usage</string>
   <string name="setting_block_domains">Blocheaza domenii</string>
   <string name="setting_forwarding">Redirectionare port</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -126,6 +127,8 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
   <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
+  <string name="msg_mb">%1$.3f▲ %2$.3f▼ MB</string>
+  <string name="msg_gb">%1$.3f▲ %2$.3f▼ GB</string>
   <string name="msg_filter">Android va asocia consumul de baterie si date lui NetGuard atunci cand activati filtrarea. De fapt aplicatiile ce acceseaza internetul consuma</string>
   <string name="msg_log_disabled">Inregistrarea traficului in jurnal este dezactivata, utilizati butonul de mai sus pentru a o activa. Optiunea de inregistrare ar putea duce la un consumul suplimentar al bateriei.</string>
   <string name="msg_clear_rules">Se vor reseta regulile si conditiile la valorile implicite</string>
