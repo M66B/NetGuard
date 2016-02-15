@@ -194,6 +194,13 @@
             android:textStyle="italic"
             android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/tvStatistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="4dp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -351,26 +358,12 @@
             android:textAppearance="@style/TextSmall"
             android:textStyle="italic" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/btnClearAccess"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginTop="4dp"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/btnClearAccess"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="?attr/iconDelete" />
-
-            <TextView
-                android:id="@+id/tvStatistics"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
+            android:src="?attr/iconDelete" />
     </LinearLayout>
 </LinearLayout>
