@@ -98,6 +98,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
 
+    private long last_hosts_modified = 0;
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
     private Map<Integer, Integer> mapUidKnown = new HashMap<>();
@@ -943,41 +944,50 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
         boolean use_hosts = prefs.getBoolean("filter_allowed", false) && prefs.getBoolean("use_hosts", false);
         File hosts = new File(getFilesDir(), "hosts.txt");
-        Log.i(TAG, hosts + "=" + use_hosts);
+        if (!use_hosts || !hosts.exists() || !hosts.canRead()) {
+            Log.i(TAG, "Hosts file use=" + use_hosts + " exists=" + hosts.exists());
+            mapHostsBlocked.clear();
+            return;
+        }
+
+        boolean changed = (hosts.lastModified() != last_hosts_modified);
+        if (!changed && mapHostsBlocked.size() > 0) {
+            Log.i(TAG, "Hosts file unchanged");
+            return;
+        }
+        last_hosts_modified = hosts.lastModified();
 
         mapHostsBlocked.clear();
 
-        if (use_hosts && hosts.exists() && hosts.canRead()) {
-            int count = 0;
-            BufferedReader br = null;
-            try {
-                br = new BufferedReader(new FileReader(hosts));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    int hash = line.indexOf('#');
-                    if (hash >= 0)
-                        line = line.substring(0, hash);
-                    line = line.trim();
-                    if (line.length() > 0) {
-                        String[] words = line.split("\\s+");
-                        if (words.length == 2) {
-                            count++;
-                            mapHostsBlocked.put(words[1], true);
-                        } else
-                            Log.i(TAG, "Invalid hosts file line: " + line);
-                    }
+        int count = 0;
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(hosts));
+            String line;
+            while ((line = br.readLine()) != null) {
+                int hash = line.indexOf('#');
+                if (hash >= 0)
+                    line = line.substring(0, hash);
+                line = line.trim();
+                if (line.length() > 0) {
+                    String[] words = line.split("\\s+");
+                    if (words.length == 2) {
+                        count++;
+                        mapHostsBlocked.put(words[1], true);
+                    } else
+                        Log.i(TAG, "Invalid hosts file line: " + line);
                 }
-                Log.i(TAG, count + " hosts read");
-            } catch (IOException ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            } finally {
-                if (br != null)
-                    try {
-                        br.close();
-                    } catch (IOException exex) {
-                        Log.e(TAG, exex.toString() + "\n" + Log.getStackTraceString(exex));
-                    }
             }
+            Log.i(TAG, count + " hosts read");
+        } catch (IOException ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        } finally {
+            if (br != null)
+                try {
+                    br.close();
+                } catch (IOException exex) {
+                    Log.e(TAG, exex.toString() + "\n" + Log.getStackTraceString(exex));
+                }
         }
     }
 
