@@ -65,6 +65,7 @@
   <string name="setting_filter">过滤流量</string>
   <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">存储已解析的主机名称</string>
+  <string name="setting_track_usage">Track network usage</string>
   <string name="setting_block_domains">屏蔽域名</string>
   <string name="setting_forwarding">端口转发</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -103,6 +104,7 @@
   <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
   <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
   <string name="summary_resolved">将主机名称/IP 地址储存至一个数据库中. 这将使流量记录更有用但可能会导致额外电量消耗.</string>
+  <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
   <string name="msg_sure">是否确认?</string>
@@ -126,6 +128,7 @@
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/天</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
+  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
   <string name="msg_filter">使用过滤功能将导致系统认为 NetGuard 使用了额外的电量和数据流量, 尽管这些使用量是由原应用所致.</string>
   <string name="msg_log_disabled">流量记录已禁用, 使用上方的开关以启用日志. 流量记录可能会导致额外电量消耗.</string>
   <string name="msg_clear_rules">此操作将重置所有规则和条件为默认值</string>

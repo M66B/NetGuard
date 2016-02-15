@@ -64,6 +64,7 @@
   <string name="setting_filter">トラフィックをフィルター</string>
   <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">解決したドメイン名を保存</string>
+  <string name="setting_track_usage">Track network usage</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
   <string name="setting_forwarding">ポート転送</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -102,6 +103,7 @@
   <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
   <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
   <string name="summary_resolved">ドメイン名/IP アドレスをデータベースに格納します。これによりトラフィック ログがさらに便利になりますが、バッテリーの使用量が増えることがあります。</string>
+  <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
   <string name="summary_block_domains">ブロックされたドメイン名は \'名前エラー\' (NXDOMAIN) で応答します。Hosts ファイルが使用できない場合、このスイッチは無効です。</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
   <string name="msg_sure">よろしいですか?</string>
@@ -123,6 +125,7 @@
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/日</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
+  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
   <string name="msg_filter">NetGuard でフィルタリングを使用すると、Android のデータと電力使用につながります - Android は、元のアプリケーションではなく NetGuard によってデータと電力を使用しているとみなします。</string>
   <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
   <string name="msg_clear_rules">ルールと条件がデフォルト値にリセットされます</string>

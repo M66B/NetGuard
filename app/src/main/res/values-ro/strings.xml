@@ -63,6 +63,7 @@
   <string name="setting_filter">Filtru de trafic</string>
   <string name="setting_filter_allowed">Filtreaza conexiunile permise</string>
   <string name="setting_resolved">Pastreaza numele de domenii rezolvate</string>
+  <string name="setting_track_usage">Track network usage</string>
   <string name="setting_block_domains">Blocheaza domenii</string>
   <string name="setting_forwarding">Redirectionare port</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -101,6 +102,7 @@
   <string name="summary_filter">Filtreaza pachetele IP ce ies prin tunelul VPN. Aceasta optiune poate duce la un consum in plus al bateriei.</string>
   <string name="summary_filter_allowed">Directioneaza conexiunile permise in tunelul VPN pentru a le monitoriza. Aceasta optiune poate duce la un consum in plus al bateriei.</string>
   <string name="summary_resolved">Pastreaza adrese IP si nume de domenii intr-o baza de date. Acest lucru face jurnalul de trafic mai util, dar ar putea duce la un consum suplimentar al bateriei.</string>
+  <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Raspunde cu \"nume de domeniu inexistent\" (NXDOMAIN) pentru domeniile blocate. Acesta optiune este dezactivata daca nu a fost incarcata o lista cu nume de domenii de blocat.</string>
   <string name="summary_stats">Arata graficul de viteza al retelei in bara de notificari</string>
   <string name="msg_sure">Esti sigur(a)?</string>
@@ -123,6 +125,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/zi</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
+  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
   <string name="msg_filter">Android va asocia consumul de baterie si date lui NetGuard atunci cand activati filtrarea. De fapt aplicatiile ce acceseaza internetul consuma</string>
   <string name="msg_log_disabled">Inregistrarea traficului in jurnal este dezactivata, utilizati butonul de mai sus pentru a o activa. Optiunea de inregistrare ar putea duce la un consumul suplimentar al bateriei.</string>
   <string name="msg_clear_rules">Se vor reseta regulile si conditiile la valorile implicite</string>

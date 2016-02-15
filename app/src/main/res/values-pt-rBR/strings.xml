@@ -64,6 +64,7 @@
   <string name="setting_filter">Filtrar tráfego</string>
   <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">Armazenar nomes de domínios resolvidos</string>
+  <string name="setting_track_usage">Track network usage</string>
   <string name="setting_block_domains">Bloquear nomes de domínio</string>
   <string name="setting_forwarding">Encaminhamento de porta</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -102,6 +103,7 @@
   <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
   <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
   <string name="summary_resolved">Armazenar nomes de domínios/endereços de IP em um banco de dados. Isso torna o registro de tráfego mais útil, mas pode resultar em uso extra de bateria.</string>
+  <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
   <string name="msg_sure">Tem certeza?</string>
@@ -125,6 +127,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dia</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
+  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
   <string name="msg_filter">Usar filtragem pode fazer com que o Android atribua uso de dados e consumo de energia ao NetGuard - Android assume que o uso de dados e consumo de bateria são usados pelo NetGuard e não pelas aplicações originais</string>
   <string name="msg_log_disabled">Log de tráfego está desabilitado, utilize o botão acima para habilitar o log. Log do tráfego pode resultar no uso extra da bateria.</string>
   <string name="msg_clear_rules">Isto irá redefinir as regras e condições para os seus valores padrões</string>

@@ -63,6 +63,7 @@
   <string name="setting_filter">Filtra traffico</string>
   <string name="setting_filter_allowed">Filtra il traffico consentito</string>
   <string name="setting_resolved">Memorizza i nomi di dominio già risolti</string>
+  <string name="setting_track_usage">Track network usage</string>
   <string name="setting_block_domains">Blocca nomi di dominio</string>
   <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -101,6 +102,7 @@
   <string name="summary_filter">Filtra i pacchetti IP in uscita dal tunnel VPN. Questo potrebbe comportare un consumo aggiuntivo di batteria.</string>
   <string name="summary_filter_allowed">Instrada il traffico consentito nel tunnel VPN per monitorarlo. Potrebbe causare utilizzo supplementare di batteria.</string>
   <string name="summary_resolved">Memorizza nomi di dominio/indirizzi IP in un database. Questo rende il registro del traffico più utile, ma potrebbe comportare un utilizzo supplementare di batteria.</string>
+  <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Rispondi con \"name error\" (NXDOMAIN) per i nomi di dominio bloccati. Questa opzione è disattivata quando non è disponibile alcun file hosts.</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
   <string name="msg_sure">Sei sicuro?</string>
@@ -122,6 +124,7 @@
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/giorno</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
+  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
   <string name="msg_filter">A causa dell\'utilizzo del filtraggio, Android attribuirà il consumo di dati ed energia a NetGuard - Android assume che i dati e la batteria vengano utilizzati da NetGuard invece che dalle rispettive applicazioni</string>
   <string name="msg_log_disabled">La registrazione del traffico è disattivata, utilizzare l\'interruttore sopra per attivare la registrazione. La registrazione del traffico potrebbe comportare un utilizzo aggiuntivo di batteria.</string>
   <string name="msg_clear_rules">Questo reimposterà le regole e le condizioni ai valori predefiniti</string>

@@ -64,6 +64,7 @@
   <string name="setting_filter">Datenverkehr filtern</string>
   <string name="setting_filter_allowed">Erlaubten Datenverkehr filtern</string>
   <string name="setting_resolved">Aufgelöste Domain-Namen speichern</string>
+  <string name="setting_track_usage">Track network usage</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
   <string name="setting_forwarding">Portweiterleitung</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
@@ -102,6 +103,7 @@
   <string name="summary_filter">IP-Pakete filtern, die den VPN-Tunnel verlassen. Dies kann aber zu höherem Batterieverbrauch führen.</string>
   <string name="summary_filter_allowed">Erlaubten Datenverkehr zum Überwachen durch VPN-Tunnel führen. Dies kann aber zu höherem Batterieverbrauch führen.</string>
   <string name="summary_resolved">Domain-Namen/IP-Adressen in einer Datenbank speichern. Dies macht das Verkehrsprotokoll sinnvoller, kann aber zu höherem Batterieverbrauch führen.</string>
+  <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Antwortet für blockierte Domain-Namen mit \'Name Error\' (NXDOMAIN). Diese Option ist deaktiviert, wenn keine Hosts-Datei zur Verfügung steht.</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>
   <string name="msg_sure">Sind Sie sicher?</string>
@@ -123,6 +125,7 @@
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/Tag</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
+  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
   <string name="msg_filter">Bei Verwendung von Filterung werden Daten- und Energiewerte getriggert und Android nimmt an, dass die Daten und Energie von NetGuard, anstatt der ursprünglichen Anwendungen verbraucht wird.</string>
   <string name="msg_log_disabled">Datenverkehrprotokollierung ist deaktiviert. Zum Aktivieren den Schalter oben verwenden. Die Protokollierung kann zu höherem Batterieverbrauch führen.</string>
   <string name="msg_clear_rules">Dadurch werden die Regeln und Bedingungen auf ihre Standardwerte zurückgesetzt</string>
