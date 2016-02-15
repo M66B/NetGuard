@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 16;
+    private static final int DB_VERSION = 17;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -156,6 +156,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", time INTEGER NOT NULL" +
                 ", allowed INTEGER NULL" +
                 ", block INTEGER NOT NULL" +
+                ", sent INTEGER NULL" +
+                ", received INTEGER NULL" +
                 ");");
         db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, version, protocol, daddr, dport)");
     }
@@ -285,6 +287,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (oldVersion < 16) {
                 createTableForward(db);
                 oldVersion = 16;
+            }
+            if (oldVersion < 17) {
+                if (!columnExists(db, "access", "sent"))
+                    db.execSQL("ALTER TABLE access ADD COLUMN sent INTEGER NULL");
+                if (!columnExists(db, "access", "received"))
+                    db.execSQL("ALTER TABLE access ADD COLUMN received INTEGER NULL");
+                oldVersion = 17;
             }
 
             if (oldVersion == DB_VERSION) {
@@ -473,6 +482,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         notifyAccessChanged();
         return (rows == 0);
+    }
+
+    // TODO optimize with raw SQL
+    public void updateUsage(Usage usage, String dname) {
+        mLock.writeLock().lock();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                String selection = "uid = ? AND version = ? AND protocol = ? AND daddr = ? AND dport = ?";
+                String[] selectionArgs = new String[]{
+                        Integer.toString(usage.Uid),
+                        Integer.toString(usage.Version),
+                        Integer.toString(usage.Protocol),
+                        dname == null ? usage.DAddr : dname,
+                        Integer.toString(usage.DPort)
+                };
+
+                Cursor cursor = db.query("access", new String[]{"sent", "received"}, selection, selectionArgs, null, null, null);
+                long sent = 0;
+                long received = 0;
+                int colSent = cursor.getColumnIndex("sent");
+                int colReceived = cursor.getColumnIndex("received");
+                if (cursor.moveToNext()) {
+                    sent = cursor.isNull(colSent) ? 0 : cursor.getLong(colSent);
+                    received = cursor.isNull(colReceived) ? 0 : cursor.getLong(colReceived);
+                }
+                cursor.close();
+
+                ContentValues cv = new ContentValues();
+                cv.put("sent", sent + usage.Sent);
+                cv.put("received", received + usage.Received);
+
+                int rows = db.update("access", cv, selection, selectionArgs);
+                if (rows != 1)
+                    Log.e(TAG, "Update usage failed rows=" + rows);
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            mLock.writeLock().unlock();
+        }
+
+        notifyAccessChanged();
     }
 
     public void setAccess(long id, int block) {

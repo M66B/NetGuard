@@ -139,6 +139,13 @@ void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessi
             }
         }
 
+        if ((t->state == TCP_CLOSING || t->state == TCP_CLOSE) && (t->sent || t->received)) {
+            account_usage(args, t->version, IPPROTO_TCP,
+                          dest, ntohs(t->dest), t->uid, t->sent, t->received);
+            t->sent = 0;
+            t->received = 0;
+        }
+
         // Cleanup lingering sessions
         if (t->state == TCP_CLOSE && t->time + TCP_KEEP_TIMEOUT < now) {
             if (tl == NULL)
@@ -266,6 +273,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                 }
                             } else {
                                 fwd = 1;
+                                cur->sent += cur->forward->len;
                                 cur->remote_seq = cur->forward->seq + cur->forward->len;
 
                                 struct segment *p = cur->forward;
@@ -344,6 +352,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                             } else {
                                 // Socket read data
                                 log_android(ANDROID_LOG_DEBUG, "%s recv bytes %d", session, bytes);
+                                cur->received += bytes;
 
                                 // Forward to tun
                                 if (write_data(args, cur, buffer, (size_t) bytes) >= 0)
@@ -468,6 +477,8 @@ jboolean handle_tcp(const struct arguments *args,
             syn->remote_start = syn->remote_seq;
             syn->local_start = syn->local_seq;
             syn->acked = 0;
+            syn->sent = 0;
+            syn->received = 0;
 
             if (version == 4) {
                 syn->saddr.ip4 = (__be32) ip4->saddr;

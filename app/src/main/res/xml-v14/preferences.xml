@@ -119,6 +119,12 @@
             android:summary="@string/summary_filter_allowed"
             android:title="@string/setting_filter_allowed" />
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="filter_allowed"
+            android:key="track_usage"
+            android:summary="@string/summary_track_usage"
+            android:title="@string/setting_track_usage" />
+        <CheckBoxPreference
             android:defaultValue="true"
             android:dependency="filter_allowed"
             android:key="use_hosts"

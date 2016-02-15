@@ -133,6 +133,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private static final int MSG_STATS_UPDATE = 3;
     private static final int MSG_PACKET = 4;
     private static final int MSG_RR = 5;
+    private static final int MSG_USAGE = 6;
 
     private enum State {none, waiting, enforcing, stats}
 
@@ -463,6 +464,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         resolved((ResourceRecord) msg.obj);
                         break;
 
+                    case MSG_USAGE:
+                        usage((Usage) msg.obj);
+                        break;
+
                     default:
                         Log.e(TAG, "Unknown log message=" + msg.what);
                 }
@@ -504,6 +509,18 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             if (prefs.getBoolean("resolved", true))
                 DatabaseHelper.getInstance(SinkholeService.this).insertDns(rr);
+        }
+
+        private void usage(Usage usage) {
+            if (usage.Uid >= 0) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                if (prefs.getBoolean("filter_allowed", false) && prefs.getBoolean("track_usage", false)) {
+                    DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
+                    String dname = dh.getQName(usage.DAddr);
+                    Log.i(TAG, "Usage account " + usage + " dname=" + dname);
+                    dh.updateUsage(usage, dname);
+                }
+            }
         }
     }
 
@@ -1274,6 +1291,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             logPacket(packet);
 
         return allowed;
+    }
+
+    // Called from native code
+    private void accountUsage(Usage usage) {
+        Message msg = logHandler.obtainMessage();
+        msg.obj = usage;
+        msg.what = MSG_USAGE;
+        logHandler.sendMessage(msg);
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {

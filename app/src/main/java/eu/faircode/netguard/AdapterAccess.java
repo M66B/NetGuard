@@ -49,6 +49,8 @@ public class AdapterAccess extends CursorAdapter {
     private int colTime;
     private int colAllowed;
     private int colBlock;
+    private int colSent;
+    private int colReceived;
 
     private int colorText;
     private int colorOn;
@@ -64,6 +66,8 @@ public class AdapterAccess extends CursorAdapter {
         colTime = cursor.getColumnIndex("time");
         colAllowed = cursor.getColumnIndex("allowed");
         colBlock = cursor.getColumnIndex("block");
+        colSent = cursor.getColumnIndex("sent");
+        colReceived = cursor.getColumnIndex("received");
 
         TypedArray ta = context.getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
         try {
@@ -95,11 +99,14 @@ public class AdapterAccess extends CursorAdapter {
         long time = cursor.getLong(colTime);
         int allowed = cursor.getInt(colAllowed);
         int block = cursor.getInt(colBlock);
+        long sent = cursor.isNull(colSent) ? -1 : cursor.getLong(colSent);
+        long received = cursor.isNull(colReceived) ? -1 : cursor.getLong(colReceived);
 
         // Get views
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
         ImageView ivBlock = (ImageView) view.findViewById(R.id.ivBlock);
         final TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
+        TextView tvTraffic = (TextView) view.findViewById(R.id.tvTraffic);
 
         // Set values
         tvTime.setText(new SimpleDateFormat("dd HH:mm").format(time));
@@ -149,5 +156,10 @@ public class AdapterAccess extends CursorAdapter {
             tvDest.setTextColor(colorOn);
         else
             tvDest.setTextColor(colorOff);
+
+        tvTraffic.setVisibility(sent > 0 || received > 0 ? View.VISIBLE : View.GONE);
+        tvTraffic.setText(context.getString(R.string.msg_kb,
+                (sent > 0 ? sent / 1024f : 0),
+                (received > 0 ? received / 1024f : 0)));
     }
 }

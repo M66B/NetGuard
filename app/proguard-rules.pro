@@ -37,6 +37,7 @@
     void dnsResolved(eu.faircode.netguard.ResourceRecord);
     boolean isDomainBlocked(java.lang.String);
     eu.faircode.netguard.Allowed isAddressAllowed(eu.faircode.netguard.Packet);
+    void accountUsage(eu.faircode.netguard.Usage);
 }
 
 #Support library

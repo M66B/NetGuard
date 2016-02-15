@@ -62,8 +62,6 @@ int get_udp_timeout(const struct udp_session *u, int sessions, int maxsessions) 
 void check_udp_sessions(const struct arguments *args, int sessions, int maxsessions) {
     time_t now = time(NULL);
 
-    int count = get_udp_sessions();
-
     struct udp_session *ul = NULL;
     struct udp_session *u = udp_session;
     while (u != NULL) {
@@ -99,6 +97,13 @@ void check_udp_sessions(const struct arguments *args, int sessions, int maxsessi
 
             u->time = time(NULL);
             u->state = UDP_CLOSED;
+        }
+
+        if (u->state == UDP_CLOSED && (u->sent || u->received)) {
+            account_usage(args, u->version, IPPROTO_UDP,
+                          dest, ntohs(u->dest), u->uid, u->sent, u->received);
+            u->sent = 0;
+            u->received = 0;
         }
 
         // Cleanup lingering sessions
@@ -168,6 +173,8 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                             inet_ntop(AF_INET6, &cur->daddr.ip6, dest, sizeof(dest));
                         log_android(ANDROID_LOG_INFO, "UDP recv bytes %d from %s/%u for tun",
                                     bytes, dest, ntohs(cur->dest));
+
+                        cur->received += bytes;
 
                         // Process DNS response
                         if (ntohs(cur->dest) == 53)
@@ -310,6 +317,9 @@ jboolean handle_udp(const struct arguments *args,
         u->uid = uid;
         u->version = version;
 
+        u->sent = 0;
+        u->received = 0;
+
         if (version == 4) {
             u->saddr.ip4 = (__be32) ip4->saddr;
             u->daddr.ip4 = (__be32) ip4->daddr;
@@ -416,6 +426,8 @@ jboolean handle_udp(const struct arguments *args,
             return 0;
         }
     }
+    else
+        cur->sent += datalen;
 
     return 1;
 }

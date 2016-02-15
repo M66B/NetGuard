@@ -23,25 +23,24 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ResourceRecord {
+public class Usage {
     public long Time;
-    public String QName;
-    public String AName;
-    public String Resource;
-    public int TTL;
+    public int Version;
+    public int Protocol;
+    public String DAddr;
+    public int DPort;
+    public int Uid;
+    public long Sent;
+    public long Received;
 
     private static DateFormat formatter = SimpleDateFormat.getDateTimeInstance();
-
-    public ResourceRecord() {
-    }
 
     @Override
     public String toString() {
         return formatter.format(new Date(Time).getTime()) +
-                " Q " + QName +
-                " A " + AName +
-                " R " + Resource +
-                " TTL " + TTL +
-                " " + formatter.format(new Date(Time + TTL * 1000L).getTime());
+                " v" + Version + " p" + Protocol +
+                " " + DAddr + "/" + DPort +
+                " uid " + Uid +
+                " out " + Sent + " in " + Received;
     }
 }

@@ -112,6 +112,9 @@ struct udp_session {
     jint uid;
     int version;
 
+    uint64_t sent;
+    uint64_t received;
+
     union {
         __be32 ip4; // network notation
         struct in6_addr ip6;
@@ -144,6 +147,9 @@ struct tcp_session {
     uint32_t local_start;
 
     uint32_t acked; // host notation
+
+    uint64_t sent;
+    uint64_t received;
 
     union {
         __be32 ip4; // network notation
@@ -470,6 +476,9 @@ jobject create_packet(const struct arguments *args,
                       const char *data,
                       jint uid,
                       jboolean allowed);
+
+void account_usage(const struct arguments *args, jint version, jint protocol,
+                   const char *daddr, jint dport, jint uid, jlong sent, jlong received);
 
 void write_pcap_hdr();
 

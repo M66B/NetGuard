@@ -74,6 +74,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_filter">Filter traffic</string>
     <string name="setting_filter_allowed">Filter allowed traffic</string>
     <string name="setting_resolved">Store resolved domain names</string>
+    <string name="setting_track_usage">Track network usage</string>
     <string name="setting_show_resolved" translatable="false">Show resolved domain names</string>
     <string name="setting_block_domains">Block domain names</string>
     <string name="setting_forwarding">Port forwarding</string>
@@ -119,6 +120,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
     <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
     <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
+    <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
     <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
 
     <string name="summary_stats">Show network speed graph in status bar notification</string>
@@ -146,6 +148,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_mbday">&#177; %1$.3f&#9650; %2$.3f&#9660; MB/day</string>
     <string name="msg_kbsec">%7.3f KB/s</string>
     <string name="msg_mbsec">%7.3f MB/s</string>
+    <string name="msg_kb">%1$.3f&#9650; %2$.3f&#9660; KB</string>
     <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
     <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
     <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
