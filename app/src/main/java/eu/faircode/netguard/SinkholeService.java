@@ -377,6 +377,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (prev != null && vpn == null) {
                 Log.w(TAG, "Handover failed");
                 stopVPN(prev);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ignored) {
+                }
                 prev = null;
                 vpn = startVPN(listAllowed);
                 if (vpn == null)
