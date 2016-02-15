@@ -172,13 +172,30 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             cat_advanced.removePreference(screen.findPreference("filter_allowed"));
         }
 
-        // Show resolved
-        Preference pref_show_resolved = screen.findPreference("show_resolved");
-        pref_show_resolved.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference pref_reset_usage = screen.findPreference("reset_usage");
+        pref_reset_usage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(ActivitySettings.this, ActivityDns.class));
-                return true;
+                new AsyncTask<Object, Object, Throwable>() {
+                    @Override
+                    protected Throwable doInBackground(Object... objects) {
+                        try {
+                            DatabaseHelper.getInstance(ActivitySettings.this).resetUsage(-1);
+                            return null;
+                        } catch (Throwable ex) {
+                            return ex;
+                        }
+                    }
+
+                    @Override
+                    protected void onPostExecute(Throwable ex) {
+                        if (ex == null)
+                            Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }.execute();
+                return false;
             }
         });
 
@@ -323,6 +340,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             screen.removePreference(cat_development);
             prefs.edit().remove("loglevel").apply();
         }
+
+        // Show resolved
+        Preference pref_show_resolved = screen.findPreference("show_resolved");
+        pref_show_resolved.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(ActivitySettings.this, ActivityDns.class));
+                return true;
+            }
+        });
 
         // Handle technical info
         Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {

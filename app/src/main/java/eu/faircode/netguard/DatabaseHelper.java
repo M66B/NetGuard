@@ -592,6 +592,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         notifyAccessChanged();
     }
 
+    public void resetUsage(int uid) {
+        mLock.writeLock().lock();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                ContentValues cv = new ContentValues();
+                cv.putNull("sent");
+                cv.putNull("received");
+                db.update("access", cv,
+                        (uid < 0 ? null : "uid = ?"),
+                        (uid < 0 ? null : new String[]{Integer.toString(uid)}));
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            mLock.writeLock().unlock();
+        }
+
+        notifyAccessChanged();
+    }
+
     public Cursor getAccess(int uid) {
         mLock.readLock().lock();
         try {
