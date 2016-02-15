@@ -158,8 +158,17 @@ public class AdapterAccess extends CursorAdapter {
             tvDest.setTextColor(colorOff);
 
         tvTraffic.setVisibility(sent > 0 || received > 0 ? View.VISIBLE : View.GONE);
-        tvTraffic.setText(context.getString(R.string.msg_kb,
-                (sent > 0 ? sent / 1024f : 0),
-                (received > 0 ? received / 1024f : 0)));
+        if (sent > 1024 * 1204 * 1024L || received > 1024 * 1024 * 1024L)
+            tvTraffic.setText(context.getString(R.string.msg_gb,
+                    (sent > 0 ? sent / (1024 * 1024 * 1024f) : 0),
+                    (received > 0 ? received / (1024 * 1024 * 1024f) : 0)));
+        else if (sent > 1204 * 1024L || received > 1024 * 1024L)
+            tvTraffic.setText(context.getString(R.string.msg_mb,
+                    (sent > 0 ? sent / (1024 * 1024f) : 0),
+                    (received > 0 ? received / (1024 * 1024f) : 0)));
+        else
+            tvTraffic.setText(context.getString(R.string.msg_kb,
+                    (sent > 0 ? sent / 1024f : 0),
+                    (received > 0 ? received / 1024f : 0)));
     }
 }
