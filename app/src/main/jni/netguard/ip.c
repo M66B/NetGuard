@@ -260,7 +260,7 @@ void handle_ip(const struct arguments *args,
 
         // TODO checksum
     }
-    else if (protocol)
+    else if (protocol != IPPROTO_HOPOPTS && protocol != IPPROTO_IGMP && protocol != IPPROTO_ESP)
         report_error(args, 1, "Unknown protocol %d", protocol);
 
     flags[flen] = 0;
