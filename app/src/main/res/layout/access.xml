@@ -41,6 +41,7 @@
             android:gravity="end|right"
             android:singleLine="true"
             android:textAppearance="@style/TextSmall"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:typeface="monospace" />
     </LinearLayout>
 </LinearLayout>
