@@ -490,53 +490,56 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, final int bposition, long bid) {
-                        if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
-                            Cursor cursor = (Cursor) badapter.getItem(bposition);
-                            final long id = cursor.getLong(cursor.getColumnIndex("ID"));
-                            int version = cursor.getInt(cursor.getColumnIndex("version"));
-                            int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
-                            String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
-                            int dport = cursor.getInt(cursor.getColumnIndex("dport"));
-                            long time = cursor.getLong(cursor.getColumnIndex("time"));
-                            int block = cursor.getInt(cursor.getColumnIndex("block"));
+                        Cursor cursor = (Cursor) badapter.getItem(bposition);
+                        final long id = cursor.getLong(cursor.getColumnIndex("ID"));
+                        int version = cursor.getInt(cursor.getColumnIndex("version"));
+                        int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
+                        String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
+                        int dport = cursor.getInt(cursor.getColumnIndex("dport"));
+                        long time = cursor.getLong(cursor.getColumnIndex("time"));
+                        int block = cursor.getInt(cursor.getColumnIndex("block"));
 
-                            PopupMenu popup = new PopupMenu(context, context.findViewById(R.id.vwPopupAnchor));
-                            popup.inflate(R.menu.access);
-                            popup.getMenu().findItem(R.id.menu_host).setTitle(
-                                    Util.getProtocolName(protocol, version, false) + " " +
-                                            daddr + (dport > 0 ? "/" + dport : ""));
-                            popup.getMenu().findItem(R.id.menu_time).setTitle(
-                                    SimpleDateFormat.getDateTimeInstance().format(time));
+                        PopupMenu popup = new PopupMenu(context, context.findViewById(R.id.vwPopupAnchor));
+                        popup.inflate(R.menu.access);
+                        popup.getMenu().findItem(R.id.menu_host).setTitle(
+                                Util.getProtocolName(protocol, version, false) + " " +
+                                        daddr + (dport > 0 ? "/" + dport : ""));
+                        popup.getMenu().findItem(R.id.menu_time).setTitle(
+                                SimpleDateFormat.getDateTimeInstance().format(time));
 
-                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                @Override
-                                public boolean onMenuItemClick(MenuItem menuItem) {
-                                    switch (menuItem.getItemId()) {
-                                        case R.id.menu_allow:
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.menu_allow:
+                                        if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                             DatabaseHelper.getInstance(context).setAccess(id, 0);
                                             SinkholeService.reload(null, "allow host", context);
-                                            return true;
-                                        case R.id.menu_block:
+                                        } else
+                                            context.startActivity(new Intent(context, ActivityPro.class));
+                                        return true;
+                                    case R.id.menu_block:
+                                        if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                             DatabaseHelper.getInstance(context).setAccess(id, 1);
                                             SinkholeService.reload(null, "block host", context);
-                                            return true;
-                                        case R.id.menu_reset:
-                                            DatabaseHelper.getInstance(context).setAccess(id, -1);
-                                            SinkholeService.reload(null, "reset host", context);
-                                            return true;
-                                    }
-                                    return false;
+                                        } else
+                                            context.startActivity(new Intent(context, ActivityPro.class));
+                                        return true;
+                                    case R.id.menu_reset:
+                                        DatabaseHelper.getInstance(context).setAccess(id, -1);
+                                        SinkholeService.reload(null, "reset host", context);
+                                        return true;
                                 }
-                            });
+                                return false;
+                            }
+                        });
 
-                            if (block == 0)
-                                popup.getMenu().removeItem(R.id.menu_allow);
-                            else if (block == 1)
-                                popup.getMenu().removeItem(R.id.menu_block);
+                        if (block == 0)
+                            popup.getMenu().removeItem(R.id.menu_allow);
+                        else if (block == 1)
+                            popup.getMenu().removeItem(R.id.menu_block);
 
-                            popup.show();
-                        } else
-                            context.startActivity(new Intent(context, ActivityPro.class));
+                        popup.show();
                     }
                 });
             else
