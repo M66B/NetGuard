@@ -40,7 +40,7 @@ uint16_t calc_checksum(uint16_t start, const uint8_t *buffer, size_t length) {
     return (uint16_t) sum;
 }
 
-int compare_u16(uint32_t s1, uint32_t s2) {
+int compare_u32(uint32_t s1, uint32_t s2) {
     // https://tools.ietf.org/html/rfc1982
     if (s1 == s2)
         return 0;

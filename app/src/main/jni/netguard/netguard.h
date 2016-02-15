@@ -317,6 +317,8 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
 
 void parse_dns_response(const struct arguments *args, const uint8_t *data, const size_t datalen);
 
+size_t get_send_window(const struct tcp_session *cur);
+
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
 int is_lower_layer(int protocol);
@@ -475,7 +477,7 @@ void write_pcap_rec(const uint8_t *buffer, size_t len);
 
 void write_pcap(const void *ptr, size_t len);
 
-int compare_u16(uint32_t seq1, uint32_t seq2);
+int compare_u32(uint32_t seq1, uint32_t seq2);
 
 const char *strstate(const int state);
 

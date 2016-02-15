@@ -158,6 +158,13 @@ void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessi
     }
 }
 
+size_t get_send_window(const struct tcp_session *cur) {
+    uint32_t behind = (compare_u32(cur->acked, cur->local_seq) <= 0
+                       ? cur->local_seq - cur->acked : cur->acked);
+    uint32_t window = (behind > cur->send_window ? 0 : cur->send_window - behind);
+    return (window > TCP_SEND_WINDOW ? TCP_SEND_WINDOW : window);
+}
+
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
     struct tcp_session *cur = tcp_session;
     while (cur != NULL) {
@@ -280,7 +287,6 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     }
 
                     // Acknowledge forwarded data
-                    // TODO send less ACKs?
                     if (fwd || (prev == 0 && window > 0)) {
                         if (fwd && cur->forward == NULL && cur->state == TCP_CLOSE_WAIT) {
                             log_android(ANDROID_LOG_WARN, "%s confirm FIN", session);
@@ -294,15 +300,12 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         // Check socket read
                         // Send window can be changed in the mean time
 
-                        if (FD_ISSET(cur->socket, rfds) && cur->send_window > 0) {
+                        size_t send_window = get_send_window(cur);
+                        if (FD_ISSET(cur->socket, rfds) && send_window > 0) {
                             cur->time = time(NULL);
 
-                            // TODO take into account ACKed?
-                            size_t len = (cur->send_window > TCP_SEND_WINDOW
-                                          ? TCP_SEND_WINDOW
-                                          : cur->send_window);
-                            uint8_t *buffer = malloc(len);
-                            ssize_t bytes = recv(cur->socket, buffer, len, 0);
+                            uint8_t *buffer = malloc(send_window);
+                            ssize_t bytes = recv(cur->socket, buffer, send_window, 0);
                             if (bytes < 0) {
                                 // Socket error
                                 log_android(ANDROID_LOG_ERROR, "%s recv error %d: %s",
@@ -680,8 +683,8 @@ jboolean handle_tcp(const struct arguments *args,
                         else
                             log_android(ANDROID_LOG_WARN, "%s keep alive", session);
 
-                    } else if (compare_u16(ack, cur->local_seq) < 0) {
-                        if (compare_u16(ack, cur->acked) <= 0)
+                    } else if (compare_u32(ack, cur->local_seq) < 0) {
+                        if (compare_u32(ack, cur->acked) <= 0)
                             log_android(ack == cur->acked ? ANDROID_LOG_WARN : ANDROID_LOG_ERROR,
                                         "%s repeated ACK %u/%u",
                                         session,
@@ -722,19 +725,19 @@ void queue_tcp(const struct arguments *args,
                const char *session, struct tcp_session *cur,
                const uint8_t *data, uint16_t datalen) {
     uint32_t seq = ntohl(tcphdr->seq);
-    if (compare_u16(seq, cur->remote_seq) < 0)
+    if (compare_u32(seq, cur->remote_seq) < 0)
         log_android(ANDROID_LOG_WARN, "%s already forwarded %u..%u",
                     session,
                     seq - cur->remote_start, seq + datalen - cur->remote_start);
     else {
         struct segment *p = NULL;
         struct segment *s = cur->forward;
-        while (s != NULL && compare_u16(s->seq, seq) < 0) {
+        while (s != NULL && compare_u32(s->seq, seq) < 0) {
             p = s;
             s = s->next;
         }
 
-        if (s == NULL || compare_u16(s->seq, seq) > 0) {
+        if (s == NULL || compare_u32(s->seq, seq) > 0) {
             log_android(ANDROID_LOG_DEBUG, "%s queuing %u...%u",
                         session,
                         seq - cur->remote_start, seq + datalen - cur->remote_start);
