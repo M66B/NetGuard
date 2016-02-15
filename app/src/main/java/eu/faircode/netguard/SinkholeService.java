@@ -370,22 +370,43 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             List<Rule> listRule = Rule.getRules(true, SinkholeService.this);
             List<Rule> listAllowed = getAllowedRules(listRule);
 
-            // Attempt seamless handover
-            ParcelFileDescriptor prev = vpn;
-            vpn = startVPN(listAllowed);
-            if (prev != null && vpn == null) {
-                Log.w(TAG, "Handover failed");
-                stopVPN(prev);
-                prev = null;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+                if (vpn != null) {
+                    stopNative(vpn, false);
+                    stopVPN(vpn);
+                    vpn = null;
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ignored) {
+                    }
+                }
                 vpn = startVPN(listAllowed);
-                if (vpn == null)
-                    throw new IllegalStateException("Handover failed");
+
+            } else {
+                // Attempt seamless handover
+                ParcelFileDescriptor prev = vpn;
+                vpn = startVPN(listAllowed);
+
+                if (prev != null && vpn == null) {
+                    Log.w(TAG, "Handover failed");
+                    stopNative(prev, false);
+                    stopVPN(prev);
+                    prev = null;
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ignored) {
+                    }
+                    vpn = startVPN(listAllowed);
+                    if (vpn == null)
+                        throw new IllegalStateException("Handover failed");
+                }
+
+                if (prev != null) {
+                    stopNative(prev, false);
+                    stopVPN(prev);
+                }
             }
 
-            if (prev != null) {
-                stopNative(prev, false);
-                stopVPN(prev);
-            }
             if (vpn == null)
                 throw new IllegalStateException("VPN start failed");
 
