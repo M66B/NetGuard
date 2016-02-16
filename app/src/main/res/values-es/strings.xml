@@ -63,8 +63,8 @@
   <string name="setting_filter">Filtrar tráfico</string>
   <string name="setting_filter_allowed">Filtrar el tráfico permitido</string>
   <string name="setting_resolved">Almacenar nombres de dominio resueltos</string>
-  <string name="setting_track_usage">Track network usage</string>
-  <string name="setting_reset_usage">Reset network usage</string>
+  <string name="setting_track_usage">Registrar el uso de la red</string>
+  <string name="setting_reset_usage">Restablecer el uso de la red</string>
   <string name="setting_block_domains">Bloquear nombres de dominio</string>
   <string name="setting_forwarding">Reenvío de puertos</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -103,7 +103,7 @@
   <string name="summary_filter">Filtrar paquetes IP, por fuera del túnel VPN. Esto podría consumir más batería.</string>
   <string name="summary_filter_allowed">Dirige el tráfico permitido dentro del túnel VPN para registrarlo. Esto podría consumir más batería.</string>
   <string name="summary_resolved">Guardar nombres de dominio/direcciones IP en una base de datos. Esto hace más útil el registro del tráfico, pero podría consumir más batería.</string>
-  <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
+  <string name="summary_track_usage">Registrar número de bytes enviados y recibidos para cada aplicación y dirección. Esto podría consumir más batería.</string>
   <string name="summary_block_domains">Responde con \'error de nombre\' (NXDOMAIN) para nombres de dominio bloqueados. Este interruptor se desactiva cuando no hay ningún archivo hosts disponible.</string>
   <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>
   <string name="msg_sure">¿Estás seguro?</string>

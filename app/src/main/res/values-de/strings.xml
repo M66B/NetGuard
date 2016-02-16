@@ -65,7 +65,7 @@
   <string name="setting_filter_allowed">Erlaubten Datenverkehr filtern</string>
   <string name="setting_resolved">Aufgelöste Domain-Namen speichern</string>
   <string name="setting_track_usage">Netzwerknutzung verfolgen</string>
-  <string name="setting_reset_usage">Reset network usage</string>
+  <string name="setting_reset_usage">Netzwerknutzung zurücksetzen</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
   <string name="setting_forwarding">Portweiterleitung</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
