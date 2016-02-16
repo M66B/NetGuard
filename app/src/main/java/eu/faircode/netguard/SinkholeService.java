@@ -478,7 +478,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             try {
                 switch (msg.what) {
                     case MSG_PACKET:
-                        log((Packet) msg.obj);
+                        log((Packet) msg.obj, msg.arg1, msg.arg2 > 0);
                         break;
 
                     case MSG_RR:
@@ -498,7 +498,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
         }
 
-        private void log(Packet packet) {
+        private void log(Packet packet, int connection, boolean interactive) {
             // Get settings
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean log = prefs.getBoolean("log", false);
@@ -513,7 +513,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // Traffic log
             if (log)
-                dh.insertLog(packet, dname, (last_connected ? last_metered ? 2 : 1 : 0), last_interactive);
+                dh.insertLog(packet, dname, connection, interactive);
 
             // Application log
             if (log_app && packet.uid >= 0) {
@@ -1226,6 +1226,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         Message msg = logHandler.obtainMessage();
         msg.obj = packet;
         msg.what = MSG_PACKET;
+        msg.arg1 = (last_connected ? (last_metered ? 2 : 1) : 0);
+        msg.arg2 = (last_interactive ? 1 : 0);
         logHandler.sendMessage(msg);
     }
 
