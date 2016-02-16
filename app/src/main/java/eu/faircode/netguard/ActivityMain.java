@@ -512,13 +512,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     if (adapter != null) {
                         adapter.set(result);
 
-                        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-                        if (search == null) {
-                            if (menuSearch != null && menuSearch.isActionViewExpanded())
-                                adapter.getFilter().filter(searchView.getQuery().toString());
-                        } else {
-                            MenuItemCompat.expandActionView(menuSearch);
-                            searchView.setQuery(search, true);
+                        if (menuSearch != null) {
+                            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+                            if (search == null) {
+                                if (menuSearch.isActionViewExpanded())
+                                    adapter.getFilter().filter(searchView.getQuery().toString());
+                            } else {
+                                MenuItemCompat.expandActionView(menuSearch);
+                                searchView.setQuery(search, true);
+                            }
                         }
                     }
 
