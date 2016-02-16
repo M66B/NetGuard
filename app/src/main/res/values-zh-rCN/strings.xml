@@ -129,9 +129,9 @@
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/天</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
-  <string name="msg_mb">%1$.3f▲ %2$.3f▼ MB</string>
-  <string name="msg_gb">%1$.3f▲ %2$.3f▼ GB</string>
+  <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
+  <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
+  <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_filter">使用过滤功能将导致系统认为 NetGuard 使用了额外的电量和数据流量, 尽管这些使用量是由原应用所致.</string>
   <string name="msg_log_disabled">流量记录已禁用, 使用上方的开关以启用日志. 流量记录可能会导致额外电量消耗.</string>
   <string name="msg_clear_rules">此操作将重置所有规则和条件为默认值</string>

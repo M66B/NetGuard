@@ -126,9 +126,9 @@
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/Tag</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
-  <string name="msg_mb">%1$.3f▲ %2$.3f▼ MB</string>
-  <string name="msg_gb">%1$.3f▲ %2$.3f▼ GB</string>
+  <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
+  <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
+  <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_filter">Bei Verwendung von Filterung werden Daten- und Energiewerte getriggert und Android nimmt an, dass die Daten und Energie von NetGuard, anstatt der ursprünglichen Anwendungen verbraucht wird.</string>
   <string name="msg_log_disabled">Datenverkehrprotokollierung ist deaktiviert. Zum Aktivieren den Schalter oben verwenden. Die Protokollierung kann zu höherem Batterieverbrauch führen.</string>
   <string name="msg_clear_rules">Dadurch werden die Regeln und Bedingungen auf ihre Standardwerte zurückgesetzt</string>

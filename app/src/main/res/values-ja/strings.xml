@@ -126,9 +126,9 @@
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/日</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
-  <string name="msg_mb">%1$.3f▲ %2$.3f▼ MB</string>
-  <string name="msg_gb">%1$.3f▲ %2$.3f▼ GB</string>
+  <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
+  <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
+  <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_filter">NetGuard でフィルタリングを使用すると、Android のデータと電力使用につながります - Android は、元のアプリケーションではなく NetGuard によってデータと電力を使用しているとみなします。</string>
   <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
   <string name="msg_clear_rules">ルールと条件がデフォルト値にリセットされます</string>

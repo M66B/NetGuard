@@ -129,9 +129,9 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dag</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
-  <string name="msg_mb">%1$.3f▲ %2$.3f▼ MB</string>
-  <string name="msg_gb">%1$.3f▲ %2$.3f▼ GB</string>
+  <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
+  <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
+  <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
   <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>

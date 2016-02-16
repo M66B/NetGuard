@@ -125,9 +125,9 @@
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/giorno</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="msg_kb">%1$.3f▲ %2$.3f▼ KB</string>
-  <string name="msg_mb">%1$.3f▲ %2$.3f▼ MB</string>
-  <string name="msg_gb">%1$.3f▲ %2$.3f▼ GB</string>
+  <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
+  <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
+  <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_filter">A causa dell\'utilizzo del filtraggio, Android attribuirà il consumo di dati ed energia a NetGuard - Android assume che i dati e la batteria vengano utilizzati da NetGuard invece che dalle rispettive applicazioni</string>
   <string name="msg_log_disabled">La registrazione del traffico è disattivata, utilizzare l\'interruttore sopra per attivare la registrazione. La registrazione del traffico potrebbe comportare un utilizzo aggiuntivo di batteria.</string>
   <string name="msg_clear_rules">Questo reimposterà le regole e le condizioni ai valori predefiniti</string>
