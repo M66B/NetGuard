@@ -80,6 +80,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int MIN_SDK = Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
+    public static final String EXTRA_REFRESH = "Refresh";
     public static final String EXTRA_SEARCH = "Search";
     public static final String EXTRA_APPROVE = "Approve";
     public static final String EXTRA_LOGCAT = "Logcat";
@@ -296,7 +297,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         super.onNewIntent(intent);
 
         if (Build.VERSION.SDK_INT >= MIN_SDK) {
-            updateApplicationList(intent.getStringExtra(EXTRA_SEARCH));
+            if (intent.hasExtra(EXTRA_REFRESH))
+                updateApplicationList(intent.getStringExtra(EXTRA_SEARCH));
+            else
+                updateSearch(intent.getStringExtra(EXTRA_SEARCH));
             checkExtras(intent);
         }
     }
@@ -511,15 +515,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 if (running) {
                     if (adapter != null) {
                         adapter.set(result);
-
-                        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
-                        if (search == null) {
-                            if (menuSearch != null && menuSearch.isActionViewExpanded())
-                                adapter.getFilter().filter(searchView.getQuery().toString());
-                        } else {
-                            MenuItemCompat.expandActionView(menuSearch);
-                            searchView.setQuery(search, true);
-                        }
+                        updateSearch(search);
                     }
 
                     if (swipeRefresh != null) {
@@ -529,6 +525,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 }
             }
         }.execute();
+    }
+
+    private void updateSearch(String search) {
+        if (menuSearch != null) {
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+            if (search == null) {
+                if (menuSearch.isActionViewExpanded())
+                    adapter.getFilter().filter(searchView.getQuery().toString());
+            } else {
+                MenuItemCompat.expandActionView(menuSearch);
+                searchView.setQuery(search, true);
+            }
+        }
     }
 
     @Override

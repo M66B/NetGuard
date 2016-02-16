@@ -116,6 +116,7 @@ public class Receiver extends BroadcastReceiver {
 
             // Build notification
             Intent main = new Intent(context, ActivityMain.class);
+            main.putExtra(ActivityMain.EXTRA_REFRESH, true);
             main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
             PendingIntent pi = PendingIntent.getActivity(context, uid, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
