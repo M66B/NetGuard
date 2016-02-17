@@ -1063,7 +1063,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 mapUidIPFilters.put(key, new HashMap());
 
             try {
-                //Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
+                // Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
                 if (dresource == null) {
                     if (Util.isNumericAddress(daddr))
                         mapUidIPFilters.get(key).put(InetAddress.getByName(daddr), block);
@@ -1094,6 +1094,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
         }
         cursor.close();
+        Log.i(TAG, "UID/IP filters updated");
     }
 
     private void prepareForwarding() {
