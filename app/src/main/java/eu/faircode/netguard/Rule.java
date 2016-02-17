@@ -319,9 +319,7 @@ public class Rule {
 
     @Override
     public String toString() {
-        return this.name +
-                " blocked=" + wifi_blocked + "/" + other_blocked +
-                " screen=" + screen_wifi + "/" + screen_other +
-                " roaming=" + roaming;
+        // This is used in the port forwarding dialog application selector
+        return this.name;
     }
 }
