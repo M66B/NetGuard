@@ -221,6 +221,7 @@ public class Receiver extends BroadcastReceiver {
                     // TODO: delete unused
                 }
             } else {
+                Log.i(TAG, "Initializing sdk=" + Build.VERSION.SDK_INT);
                 editor.putBoolean("whitelist_wifi", false);
                 editor.putBoolean("whitelist_other", false);
                 if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -230,6 +231,7 @@ public class Receiver extends BroadcastReceiver {
             }
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                Log.i(TAG, "Forcing filter mode sdk=" + Build.VERSION.SDK_INT);
                 editor.putBoolean("filter", true); // Mandatory
                 editor.putBoolean("filter_allowed", true); // Mandatory
             }
