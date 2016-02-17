@@ -253,7 +253,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
             if (swEnabled.isChecked() != log)
                 swEnabled.setChecked(log);
 
-            SinkholeService.reload(null, "changed " + name, ActivityLog.this);
+            SinkholeService.reload("changed " + name, ActivityLog.this);
         }
     }
 

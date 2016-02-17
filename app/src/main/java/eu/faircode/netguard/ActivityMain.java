@@ -200,7 +200,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                SinkholeService.reload(null, "pull", ActivityMain.this);
+                SinkholeService.reload("pull", ActivityMain.this);
                 updateApplicationList(null);
             }
         });
@@ -406,7 +406,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_ROAMING)
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                SinkholeService.reload("other", "permission granted", this);
+                SinkholeService.reload("permission granted", this);
     }
 
     @Override

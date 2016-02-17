@@ -99,7 +99,7 @@ am start -a eu.faircode.netguard.STOP_PORT_FORWARD \
                     DatabaseHelper.getInstance(ActivityForwardApproval.this).deleteForward(protocol, dport);
                 }
 
-                SinkholeService.reload(null, "forwarding", ActivityForwardApproval.this);
+                SinkholeService.reload("forwarding", ActivityForwardApproval.this);
 
                 finish();
             }
