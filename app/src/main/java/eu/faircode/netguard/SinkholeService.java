@@ -958,6 +958,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void stopNative(ParcelFileDescriptor vpn, boolean clear) {
         Log.i(TAG, "Stop native clear=" + clear);
         jni_stop(vpn.getFd(), clear);
+        unprepare();
     }
 
     private void unprepare() {
