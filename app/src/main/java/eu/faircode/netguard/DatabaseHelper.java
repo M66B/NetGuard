@@ -139,8 +139,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ");");
         db.execSQL("CREATE INDEX idx_log_time ON log(time)");
         db.execSQL("CREATE INDEX idx_log_dest ON log(daddr)");
-        db.execSQL("CREATE INDEX idx_log_dport ON log(dport)");
         db.execSQL("CREATE INDEX idx_log_dname ON log(dname)");
+        db.execSQL("CREATE INDEX idx_log_dport ON log(dport)");
         db.execSQL("CREATE INDEX idx_log_uid ON log(uid)");
     }
 
@@ -396,8 +396,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getLog(boolean udp, boolean tcp, boolean other, boolean allowed, boolean blocked) {
         mLock.readLock().lock();
         try {
-            // There is no index on protocol/allowed for write performance
             SQLiteDatabase db = this.getReadableDatabase();
+            // There is an index on time
+            // There is no index on protocol/allowed for write performance
             String query = "SELECT ID AS _id, *";
             query += " FROM log";
             query += " WHERE (0 = 1";
@@ -424,6 +425,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
+            // There is a segmented index on daadr, dname, dport and uid
             String query = "SELECT ID AS _id, *";
             query += " FROM log";
             query += " WHERE daddr LIKE ? OR dname LIKE ? OR dport = ? OR uid = ?";
@@ -450,6 +452,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 if (block >= 0)
                     cv.put("block", block);
 
+                // There is a segmented index on uid, version, protocol, daddr and dport
                 rows = db.update("access", cv, "uid = ? AND version = ? AND protocol = ? AND daddr = ? AND dport = ?",
                         new String[]{
                                 Integer.toString(packet.uid),
@@ -491,6 +494,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             db.beginTransactionNonExclusive();
             try {
+                // There is a segmented index on uid, version, protocol, daddr and dport
                 String selection = "uid = ? AND version = ? AND protocol = ? AND daddr = ? AND dport = ?";
                 String[] selectionArgs = new String[]{
                         Integer.toString(usage.Uid),
@@ -579,6 +583,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             db.beginTransactionNonExclusive();
             try {
+                // There is a segmented index on uid
+                // There is no index on block for write performance
                 db.delete("access", "uid = ? AND block < 0", new String[]{Integer.toString(uid)});
 
                 db.setTransactionSuccessful();
@@ -595,6 +601,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void resetUsage(int uid) {
         mLock.writeLock().lock();
         try {
+            // There is a segmented index on uid
             SQLiteDatabase db = this.getWritableDatabase();
             db.beginTransactionNonExclusive();
             try {
@@ -620,6 +627,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
+            // There is a segmented index on uid
+            // There is no index on time for write performance
             String query = "SELECT ID AS _id, *";
             query += " FROM access WHERE uid = ?";
             query += " ORDER BY time DESC";
@@ -634,6 +643,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
+            // There is a segmented index on uid
+            // There is no index on block for write performance
             return db.query("access", null, "block >= 0", null, null, null, "uid");
         } finally {
             mLock.readLock().unlock();
@@ -644,6 +655,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
+            // There is a segmented index on uid and daddr
+            // There is no index on allowed and time for write performance
             String query = "SELECT MAX(time) AS time, daddr, allowed";
             query += " FROM access";
             query += " WHERE uid = ?";
@@ -660,6 +673,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
+            // There is a segmented index on uid
+            // There is no index on block for write performance
             return db.compileStatement("SELECT COUNT(*) FROM access WHERE block >= 0 AND uid =" + uid).simpleQueryForLong();
         } finally {
             mLock.readLock().unlock();
@@ -670,6 +685,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
+            // There is a segmented index on uid
+            // There is no index on block for write performance
             return db.compileStatement("SELECT COUNT(*) FROM access WHERE block > 0 AND uid =" + uid).simpleQueryForLong();
         } finally {
             mLock.readLock().unlock();
@@ -717,6 +734,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             db.beginTransactionNonExclusive();
             try {
+                // There is no index on time for write performance
                 int rows = db.delete("dns", "time < ?", new String[]{Long.toString(time)});
                 Log.i(TAG, "Cleanup DNS" +
                         " before=" + SimpleDateFormat.getDateTimeInstance().format(new Date(time)) +
@@ -735,6 +753,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
+            // There is a segmented index on resource
             return db.compileStatement(
                     "SELECT qname FROM dns WHERE resource = '" + ip.replace("'", "''") + "'")
                     .simpleQueryForString();
@@ -750,6 +769,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
+            // There is a segmented index on qname
             String query = "SELECT ID AS _id, *";
             query += " FROM dns";
             query += " ORDER BY qname";
@@ -764,6 +784,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getReadableDatabase();
 
+            // There is a segmented index on qname
+            // There is a segmented index on daddr
+            // There is no index on block for write performance
             String query = "SELECT a.uid, a.version, a.protocol, a.daddr, d.resource, a.dport, a.block";
             query += " FROM access AS a";
             query += " LEFT JOIN dns AS d";
