@@ -46,6 +46,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,6 +54,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private boolean running = false;
     private SwitchCompat swEnabled;
+    private ImageView ivMetered;
     private SwipeRefreshLayout swipeRefresh;
     private AdapterRule adapter = null;
     private MenuItem menuSearch = null;
@@ -116,9 +119,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 SinkholeService.stop("UI", this);
         }
 
+        getSupportActionBar().setTitle(null);
+
         // Action bar
-        View actionView = getLayoutInflater().inflate(R.layout.action, null, false);
+        final View actionView = getLayoutInflater().inflate(R.layout.action, null, false);
         swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
+        ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(actionView);
@@ -177,6 +183,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
                 } else
                     SinkholeService.stop("switch off", ActivityMain.this);
+            }
+        });
+
+        // Network is metered
+        ivMetered.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast toast = Toast.makeText(ActivityMain.this, R.string.msg_metered, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, actionView.getLeft(), actionView.getBottom());
+                toast.show();
+                return true;
             }
         });
 
@@ -465,7 +482,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Util.logExtras(intent);
 
             if (adapter != null)
-                if (intent.hasExtra("connected") && intent.hasExtra("metered"))
+                if (intent.hasExtra("connected") && intent.hasExtra("metered")) {
+                    ivMetered.setVisibility(Util.isMeteredNetwork(ActivityMain.this) ? View.VISIBLE : View.GONE);
+
                     if (intent.getBooleanExtra("connected", false))
                         if (intent.getBooleanExtra("metered", false))
                             adapter.setMobileActive();
@@ -473,7 +492,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                             adapter.setWifiActive();
                     else
                         adapter.setDisconnected();
-                else
+                } else
                     updateApplicationList(null);
         }
     };

@@ -4,12 +4,28 @@
     android:background="?attr/colorPrimary"
     android:orientation="horizontal">
 
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_security_white_24dp" />
+
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/swEnabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:saveEnabled="false" />
+
+    <ImageView
+        android:id="@+id/ivMetered"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_attach_money_white_24dp"
+        android:visibility="gone" />
 </LinearLayout>
