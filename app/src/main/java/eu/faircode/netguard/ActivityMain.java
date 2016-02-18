@@ -119,15 +119,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 SinkholeService.stop("UI", this);
         }
 
-        getSupportActionBar().setTitle(null);
-
         // Action bar
-        final View actionView = getLayoutInflater().inflate(R.layout.action, null, false);
+        final View actionView = getLayoutInflater().inflate(R.layout.actionmain, null, false);
+        ImageView ivIcon = (ImageView) actionView.findViewById(R.id.ivIcon);
         swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
         ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
 
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setCustomView(actionView);
+        // Icon, no title
+        getSupportActionBar().setTitle(null);
 
         // On/off switch
         swEnabled.setChecked(enabled);
@@ -196,6 +195,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
             }
         });
+
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(actionView);
 
         // Disabled warning
         TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);

@@ -91,7 +91,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         running = true;
 
         // Action bar
-        View actionView = getLayoutInflater().inflate(R.layout.action, null, false);
+        View actionView = getLayoutInflater().inflate(R.layout.actionlog, null, false);
         SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
