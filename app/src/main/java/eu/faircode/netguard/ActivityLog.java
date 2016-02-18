@@ -380,6 +380,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
             case R.id.menu_pcap_enabled:
                 item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("pcap", item.isChecked()).apply();
                 SinkholeService.setPcap(item.isChecked(), ActivityLog.this);
                 return true;
 
