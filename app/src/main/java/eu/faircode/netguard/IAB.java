@@ -48,7 +48,7 @@ public class IAB implements ServiceConnection {
     private static final int IAB_VERSION = 3;
 
     public interface Delegate {
-        void onReady();
+        void onReady(IAB iab);
     }
 
     public IAB(Delegate delegate, Context context) {
@@ -75,7 +75,7 @@ public class IAB implements ServiceConnection {
     public void onServiceConnected(ComponentName name, IBinder binder) {
         Log.i(TAG, "Connected");
         service = IInAppBillingService.Stub.asInterface(binder);
-        delegate.onReady();
+        delegate.onReady(this);
     }
 
     @Override
@@ -149,6 +149,8 @@ public class IAB implements ServiceConnection {
     }
 
     public PendingIntent getBuyIntent(String sku) throws RemoteException {
+        if (service == null)
+            return null;
         Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "netguard");
         Log.i(TAG, "getBuyIntent");
         Util.logBundle(bundle);

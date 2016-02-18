@@ -19,6 +19,7 @@ package eu.faircode.netguard;
     Copyright 2015-2016 by Marcel Bokhorst (M66B)
 */
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -124,7 +125,7 @@ public class ActivityPro extends AppCompatActivity {
         try {
             iab = new IAB(new IAB.Delegate() {
                 @Override
-                public void onReady() {
+                public void onReady(final IAB iab) {
                     Log.i(TAG, "IAB ready");
                     try {
                         iab.updatePurchases();
@@ -141,18 +142,22 @@ public class ActivityPro extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 try {
+                                    PendingIntent pi = null;
                                     if (view == btnLog)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_LOG).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                        pi = iab.getBuyIntent(SKU_LOG);
                                     else if (view == btnFilter)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_FILTER).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                        pi = iab.getBuyIntent(SKU_FILTER);
                                     else if (view == btnNotify)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_NOTIFY).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                        pi = iab.getBuyIntent(SKU_NOTIFY);
                                     else if (view == btnSpeed)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_SPEED).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                        pi = iab.getBuyIntent(SKU_SPEED);
                                     else if (view == btnTheme)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_THEME).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                        pi = iab.getBuyIntent(SKU_THEME);
                                     else if (view == btnAll)
-                                        startIntentSenderForResult(iab.getBuyIntent(SKU_PRO1).getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                        pi = iab.getBuyIntent(SKU_PRO1);
+
+                                    if (pi != null)
+                                        startIntentSenderForResult(pi.getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                 } catch (Throwable ex) {
                                     Log.i(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                                     Util.sendCrashReport(ex, ActivityPro.this);

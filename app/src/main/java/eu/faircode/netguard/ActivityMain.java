@@ -262,7 +262,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         try {
             iab = new IAB(new IAB.Delegate() {
                 @Override
-                public void onReady() {
+                public void onReady(IAB iab) {
                     try {
                         iab.updatePurchases();
 
@@ -278,7 +278,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     } finally {
                         iab.unbind();
-                        iab = null;
                     }
                 }
             }, this);
