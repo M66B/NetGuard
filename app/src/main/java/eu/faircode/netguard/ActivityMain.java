@@ -64,8 +64,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final String TAG = "NetGuard.Main";
 
     private boolean running = false;
-    private SwitchCompat swEnabled;
+    private ImageView ivIcon;
     private ImageView ivQueue;
+    private SwitchCompat swEnabled;
     private ImageView ivMetered;
     private SwipeRefreshLayout swipeRefresh;
     private AdapterRule adapter = null;
@@ -126,9 +127,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Action bar
         final View actionView = getLayoutInflater().inflate(R.layout.actionmain, null, false);
-        ImageView ivIcon = (ImageView) actionView.findViewById(R.id.ivIcon);
-        swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
+        ivIcon = (ImageView) actionView.findViewById(R.id.ivIcon);
         ivQueue = (ImageView) actionView.findViewById(R.id.ivQueue);
+        swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
         ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
 
         // Icon, no title
@@ -517,7 +518,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
             int size = intent.getIntExtra(EXTRA_SIZE, -1);
-            ivQueue.setVisibility(size == 0 ? View.INVISIBLE : View.VISIBLE);
+            ivIcon.setVisibility(size == 0 ? View.VISIBLE : View.GONE);
+            ivQueue.setVisibility(size == 0 ? View.GONE : View.VISIBLE);
         }
     };
 
