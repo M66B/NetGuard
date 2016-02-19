@@ -139,6 +139,7 @@
   <string name="msg_start_forward" formatted="false">Inizia ad inoltrare da %1$s porta %2$d a %3$s:%4$d di \'%5$s\'?</string>
   <string name="msg_stop_forward">Interrompere l\'inoltro di %1$s porta %2$d?</string>
   <string name="msg_metered">La rete è a consumo</string>
+  <string name="msg_queue">NetGuard is busy</string>
   <string name="title_conditions">Condizioni</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
   <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>

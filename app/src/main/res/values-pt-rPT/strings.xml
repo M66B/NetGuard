@@ -139,6 +139,7 @@
   <string name="msg_start_forward" formatted="false">Começar o encaminhamento do %1$s porto %2$d a %3$s:%4$d de \'%5$s\'?</string>
   <string name="msg_stop_forward">Parar o encaminhamento de %2$d de porto %1$s?</string>
   <string name="msg_metered">Network is metered</string>
+  <string name="msg_queue">NetGuard is busy</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>

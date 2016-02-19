@@ -140,6 +140,7 @@
   <string name="msg_start_forward" formatted="false">%1$s ポート %2$d から \'%5$s\' の %3$s:%4$d に転送を開始しますか?</string>
   <string name="msg_stop_forward">%1$s ポート %2$d の転送を停止しますか?</string>
   <string name="msg_metered">Network is metered</string>
+  <string name="msg_queue">NetGuard is busy</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>

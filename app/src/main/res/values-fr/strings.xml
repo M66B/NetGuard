@@ -141,6 +141,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_start_forward" formatted="false">Lancer la redirection du %1$s port %2$d au %3$s:%4$d de \'%5$s\' ?</string>
   <string name="msg_stop_forward">Arrêter la redirection du %1$s port %2$d ?</string>
   <string name="msg_metered">L\'utilisation du réseau est limitée</string>
+  <string name="msg_queue">NetGuard is busy</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">Autoriser Wi-Fi si écran allumé</string>
   <string name="title_screen_other">Autoriser données mobiles si écran allumé</string>

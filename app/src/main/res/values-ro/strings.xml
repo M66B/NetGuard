@@ -140,6 +140,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_start_forward" formatted="false">Porneste redirectionarea de la %1$s port %2$d la %3$s:%4$d al \'%5$s\'?</string>
   <string name="msg_stop_forward">Opreste redirectionarea %1$s port %2$d?</string>
   <string name="msg_metered">Reteaua este contorizata</string>
+  <string name="msg_queue">NetGuard este ocupat</string>
   <string name="title_conditions">Restrictii</string>
   <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
   <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>

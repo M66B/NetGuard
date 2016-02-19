@@ -143,6 +143,7 @@
   <string name="msg_start_forward" formatted="false">开始从 %1$s 端口 %2$d 转发至 \'%5$s\' 的 %3$s:%4$d?</string>
   <string name="msg_stop_forward">停止转发 %1$s 端口 %2$d?</string>
   <string name="msg_metered">Network is metered</string>
+  <string name="msg_queue">NetGuard is busy</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>
   <string name="title_screen_other">亮屏时允许移动网络</string>

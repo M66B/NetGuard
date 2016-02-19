@@ -140,6 +140,7 @@
   <string name="msg_start_forward" formatted="false">Weiterleitung von %2$d Port %1$s nach %3$s:%4$d von \'%5$s\' starten?</string>
   <string name="msg_stop_forward">Weiterleitung von %1$s Port %2$d stoppen?</string>
   <string name="msg_metered">Netzwerk wird gemessen</string>
+  <string name="msg_queue">NetGuard is busy</string>
   <string name="title_conditions">Bedingungen</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>

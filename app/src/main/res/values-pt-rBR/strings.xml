@@ -142,6 +142,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_start_forward" formatted="false">Iniciar encaminhamento de %1$s porta %2$d para %3$s:%4$d de \'%5$s\'?</string>
   <string name="msg_stop_forward">Parar encaminhamento de %1$s porta %2$d?</string>
   <string name="msg_metered">A rede é limitada</string>
+  <string name="msg_queue">NetGuard is busy</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
