@@ -57,8 +57,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private ReentrantReadWriteLock mLock = new ReentrantReadWriteLock(true);
 
-    // TODO precompiled statements
-
     static {
         hthread = new HandlerThread("DatabaseHelper");
         hthread.start();

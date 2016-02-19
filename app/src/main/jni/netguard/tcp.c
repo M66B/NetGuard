@@ -706,7 +706,6 @@ jboolean handle_tcp(const struct arguments *args,
                             cur->acked = ack;
                         }
 
-                        // TODO terminate connection if difference too large
                         return 1;
                     }
                     else {
