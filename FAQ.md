@@ -70,7 +70,10 @@ like [AFWall+](https://github.com/ukanth/afwall), might be a better option and w
 <a name="FAQ6"></a>
 **(6) Will NetGuard send my internet traffic to an external (VPN) server?**
 
-No. It cannot even do this because NetGuard does not even have *internet* permission.
+No, depending on the mode of operation basically one of two things will happen with your internet traffic:
+
+* When IP filtering is disabled, blocked internet traffic will be routed into the local VPN which will operate as sinkhole (in effect dropping all blocked traffic)
+* When IP filtering is enabled, both blocked and allowed internet traffic will be routed into the local VPN and only allowed traffic will be forwarded to the intended destination (so not to a VPN server)
 
 <a name="FAQ7"></a>
 **(7) Why are applications without internet permission shown?**
