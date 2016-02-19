@@ -28,27 +28,28 @@ Features:
 &bull; No root required
 &bull; Simple to use
 &bull; Open source
-&bull; No extra battery usage
-&bull; No bandwidth reduction
 &bull; No calling home
 &bull; No tracking or analytics
-&bull; No ads
-&bull; No internet permission required
+&bull; No advertisements
+&bull; Android 4.0 and later supported
 &bull; IPv4/IPv6 TCP/UDP supported
+&bull; Tethering supported
+&bull; Multiple users supported
 &bull; Optionally allow when screen on
 &bull; Optionally block when roaming
 &bull; Optionally block system applications
-&bull; Material design
+&bull; Optionally log traffic; search and filter access attempts
+&bull; Optionally filter addresses per application per domain
+&bull; Optionally record network usage per application per domain
+&bull; Optionally notify on internet access
+&bull; Optionally forward ports, also to external addresses
+&bull; Optionally export PCAP files to analyze traffic
+&bull; Optionally display network speed graph
+&bull; Material design, with selectable theme
 
 There is no other no-root firewall offering all these features.
-Most other firewall solutions are closed source, will use extra battery and will reduce the overall network speed.
 
-Most of these features are the result of sending selected traffic to a VPN sinkhole, instead of filtering all internet traffic.
-This means that advanced features, like address-based filtering (needed for hosts blocking), traffic logging, and on-demand configuration, are not possible.
-
-Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.
-
-For up to date info on device compatibility, questions and answers please read more here: http://forum.xda-developers.com/showthread.php?t=3233012
+For questions and answers please read more here: http://forum.xda-developers.com/showthread.php?t=3233012
 
 If you like to help people less fluent in English, you can help translate NetGuard in your language: https://crowdin.com/project/netguard/
 
