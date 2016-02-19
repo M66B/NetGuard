@@ -179,8 +179,27 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private final class CommandHandler extends Handler {
+        public int queue = 0;
+
         public CommandHandler(Looper looper) {
             super(looper);
+        }
+
+        private void reportQueueSize() {
+            Intent ruleset = new Intent(ActivityMain.ACTION_QUEUE_CHANGED);
+            ruleset.putExtra(ActivityMain.EXTRA_SIZE, queue);
+            LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
+        }
+
+        public void queue(Intent intent) {
+            synchronized (this) {
+                queue++;
+                reportQueueSize();
+            }
+            Message msg = commandHandler.obtainMessage();
+            msg.obj = intent;
+            msg.what = MSG_SERVICE_INTENT;
+            commandHandler.sendMessage(msg);
         }
 
         @Override
@@ -197,6 +216,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 Util.sendCrashReport(ex, SinkholeService.this);
             } finally {
+                synchronized (this) {
+                    queue--;
+                    reportQueueSize();
+                }
                 try {
                     PowerManager.WakeLock wl = getLock(SinkholeService.this);
                     if (wl.isHeld())
@@ -295,8 +318,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
                 // Update main view
                 Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
-                ruleset.putExtra("connected", last_connected);
-                ruleset.putExtra("metered", last_metered);
+                ruleset.putExtra(ActivityMain.EXTRA_CONNECTED, last_connected);
+                ruleset.putExtra(ActivityMain.EXTRA_METERED, last_metered);
                 LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
 
                 // Update widgets
@@ -1571,12 +1594,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " reason=" + reason +
                 " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
-        // Queue command
-        Message msg = commandHandler.obtainMessage();
-        msg.arg1 = startId;
-        msg.obj = intent;
-        msg.what = MSG_SERVICE_INTENT;
-        commandHandler.sendMessage(msg);
+        commandHandler.queue(intent);
 
         return START_STICKY;
     }

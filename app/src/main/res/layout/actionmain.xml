@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/ivIcon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_security_white_24dp" />
 
@@ -21,12 +21,20 @@
         android:saveEnabled="false" />
 
     <ImageView
-        android:id="@+id/ivMetered"
+        android:id="@+id/ivQueue"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:src="@drawable/ic_hourglass_empty_white_24dp"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/ivMetered"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/ic_attach_money_white_24dp"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 </LinearLayout>

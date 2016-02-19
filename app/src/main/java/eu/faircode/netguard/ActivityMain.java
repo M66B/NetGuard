@@ -65,6 +65,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private boolean running = false;
     private SwitchCompat swEnabled;
+    private ImageView ivQueue;
     private ImageView ivMetered;
     private SwipeRefreshLayout swipeRefresh;
     private AdapterRule adapter = null;
@@ -83,10 +84,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int MIN_SDK = Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
+    public static final String ACTION_QUEUE_CHANGED = "eu.faircode.netguard.ACTION_QUEUE_CHANGED";
     public static final String EXTRA_REFRESH = "Refresh";
     public static final String EXTRA_SEARCH = "Search";
     public static final String EXTRA_APPROVE = "Approve";
     public static final String EXTRA_LOGCAT = "Logcat";
+    public static final String EXTRA_CONNECTED = "Connected";
+    public static final String EXTRA_METERED = "Metered";
+    public static final String EXTRA_SIZE = "Size";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +128,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         final View actionView = getLayoutInflater().inflate(R.layout.actionmain, null, false);
         ImageView ivIcon = (ImageView) actionView.findViewById(R.id.ivIcon);
         swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
+        ivQueue = (ImageView) actionView.findViewById(R.id.ivQueue);
         ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
 
         // Icon, no title
@@ -228,8 +234,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Listen for rule set changes
-        IntentFilter iff = new IntentFilter(ACTION_RULES_CHANGED);
-        LocalBroadcastManager.getInstance(this).registerReceiver(onRulesetChanged, iff);
+        IntentFilter ifr = new IntentFilter(ACTION_RULES_CHANGED);
+        LocalBroadcastManager.getInstance(this).registerReceiver(onRulesChanged, ifr);
+
+        // Listen for queue changes
+        IntentFilter ifq = new IntentFilter(ACTION_QUEUE_CHANGED);
+        LocalBroadcastManager.getInstance(this).registerReceiver(onQueueChanged, ifq);
 
         // Listen for added/removed applications
         IntentFilter intentFilter = new IntentFilter();
@@ -365,7 +375,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(onRulesetChanged);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(onRulesChanged);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(onQueueChanged);
         unregisterReceiver(packageChangedReceiver);
 
         if (dialogFirst != null) {
@@ -477,18 +488,18 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
     };
 
-    private BroadcastReceiver onRulesetChanged = new BroadcastReceiver() {
+    private BroadcastReceiver onRulesChanged = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
 
             if (adapter != null)
-                if (intent.hasExtra("connected") && intent.hasExtra("metered")) {
-                    ivMetered.setVisibility(Util.isMeteredNetwork(ActivityMain.this) ? View.VISIBLE : View.GONE);
+                if (intent.hasExtra(EXTRA_CONNECTED) && intent.hasExtra(EXTRA_METERED)) {
+                    ivMetered.setVisibility(Util.isMeteredNetwork(ActivityMain.this) ? View.VISIBLE : View.INVISIBLE);
 
-                    if (intent.getBooleanExtra("connected", false))
-                        if (intent.getBooleanExtra("metered", false))
+                    if (intent.getBooleanExtra(EXTRA_CONNECTED, false))
+                        if (intent.getBooleanExtra(EXTRA_METERED, false))
                             adapter.setMobileActive();
                         else
                             adapter.setWifiActive();
@@ -496,6 +507,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         adapter.setDisconnected();
                 } else
                     updateApplicationList(null);
+        }
+    };
+
+    private BroadcastReceiver onQueueChanged = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(intent);
+            int size = intent.getIntExtra(EXTRA_SIZE, -1);
+            ivQueue.setVisibility(size == 0 ? View.INVISIBLE : View.VISIBLE);
         }
     };
 
