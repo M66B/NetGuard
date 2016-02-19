@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 17;
+    private static final int DB_VERSION = 18;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -160,6 +160,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", received INTEGER NULL" +
                 ");");
         db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, version, protocol, daddr, dport)");
+        db.execSQL("CREATE INDEX idx_access_block ON access(block)");
     }
 
     private void createTableDns(SQLiteDatabase db) {
@@ -172,7 +173,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", resource TEXT NOT NULL" +
                 ", ttl INTEGER NULL" +
                 ");");
-        db.execSQL("CREATE INDEX idx_dns ON dns(qname, aname, resource)");
+        db.execSQL("CREATE UNIQUE INDEX idx_dns ON dns(qname, aname, resource)");
+        db.execSQL("CREATE INDEX idx_dns_resource ON dns(resource)");
     }
 
     private void createTableForward(SQLiteDatabase db) {
@@ -294,6 +296,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 if (!columnExists(db, "access", "received"))
                     db.execSQL("ALTER TABLE access ADD COLUMN received INTEGER NULL");
                 oldVersion = 17;
+            }
+            if (oldVersion < 18) {
+                db.execSQL("CREATE INDEX IF NOT EXISTS idx_access_block ON access(block)");
+                db.execSQL("DROP INDEX idx_dns");
+                db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS idx_dns ON dns(qname, aname, resource)");
+                db.execSQL("CREATE INDEX IF NOT EXISTS idx_dns_resource ON dns(resource)");
+                oldVersion = 18;
             }
 
             if (oldVersion == DB_VERSION) {
@@ -425,7 +434,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            // There is a segmented index on daadr, dname, dport and uid
+            // There is an index on daddr, dname, dport and uid
             String query = "SELECT ID AS _id, *";
             query += " FROM log";
             query += " WHERE daddr LIKE ? OR dname LIKE ? OR dport = ? OR uid = ?";
@@ -630,7 +639,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // There is a segmented index on uid
             // There is no index on time for write performance
             String query = "SELECT ID AS _id, *";
-            query += " FROM access WHERE uid = ?";
+            query += " FROM access";
+            query += " WHERE uid = ?";
             query += " ORDER BY time DESC";
             query += " LIMIT 50";
             return db.rawQuery(query, new String[]{Integer.toString(uid)});
@@ -644,7 +654,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             // There is a segmented index on uid
-            // There is no index on block for write performance
+            // There is an index on block
             return db.query("access", null, "block >= 0", null, null, null, "uid");
         } finally {
             mLock.readLock().unlock();
@@ -674,7 +684,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             // There is a segmented index on uid
-            // There is no index on block for write performance
+            // There is an index on block
             return db.compileStatement("SELECT COUNT(*) FROM access WHERE block >= 0 AND uid =" + uid).simpleQueryForLong();
         } finally {
             mLock.readLock().unlock();
@@ -686,7 +696,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             // There is a segmented index on uid
-            // There is no index on block for write performance
+            // There is an index on block
             return db.compileStatement("SELECT COUNT(*) FROM access WHERE block > 0 AND uid =" + uid).simpleQueryForLong();
         } finally {
             mLock.readLock().unlock();
@@ -784,9 +794,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getReadableDatabase();
 
-            // There is a segmented index on qname
-            // There is a segmented index on daddr
-            // There is no index on block for write performance
+            // There is a segmented index on dns.qname
+            // There is no index on access.daddr for write performance
+            // There is an index on access.block
             String query = "SELECT a.uid, a.version, a.protocol, a.daddr, d.resource, a.dport, a.block";
             query += " FROM access AS a";
             query += " LEFT JOIN dns AS d";
