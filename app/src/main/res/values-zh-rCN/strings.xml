@@ -19,6 +19,7 @@
   <string name="menu_log">显示日志</string>
   <string name="menu_settings">设置</string>
   <string name="menu_invite">邀请</string>
+  <string name="menu_legend">Legend</string>
   <string name="menu_support">软件支持</string>
   <string name="menu_about">关于</string>
   <string name="menu_protocol_other">其它</string>
@@ -144,6 +145,15 @@
   <string name="msg_stop_forward">停止转发 %1$s 端口 %2$d?</string>
   <string name="msg_metered">Network is metered</string>
   <string name="msg_queue">NetGuard is busy</string>
+  <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
+  <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
+  <string name="title_metered_allowed">Metered traffic is allowed</string>
+  <string name="title_metered_blocked">Metered traffic is blocked</string>
+  <string name="title_host_allowed">Address is allowed</string>
+  <string name="title_host_blocked">Address is blocked</string>
+  <string name="title_interactive_allowed">Allow when screen is on</string>
+  <string name="title_roaming_blocked">Block when roaming</string>
+  <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>
   <string name="title_screen_other">亮屏时允许移动网络</string>

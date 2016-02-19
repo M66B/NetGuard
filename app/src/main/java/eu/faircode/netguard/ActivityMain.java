@@ -73,6 +73,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private MenuItem menuSearch = null;
     private AlertDialog dialogFirst = null;
     private AlertDialog dialogVpn = null;
+    private AlertDialog dialogLegend = null;
     private AlertDialog dialogAbout = null;
 
     private IAB iab = null;
@@ -417,6 +418,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             dialogVpn.dismiss();
             dialogVpn = null;
         }
+        if (dialogLegend != null) {
+            dialogLegend.dismiss();
+            dialogLegend = null;
+        }
         if (dialogAbout != null) {
             dialogAbout.dismiss();
             dialogAbout = null;
@@ -739,6 +744,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 startActivityForResult(getIntentInvite(this), REQUEST_INVITE);
                 return true;
 
+            case R.id.menu_legend:
+                menu_legend();
+                return true;
+
             case R.id.menu_support:
                 startActivity(getIntentSupport());
                 return true;
@@ -750,6 +759,25 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void menu_legend() {
+        // Create view
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.legend, null, false);
+
+        // Show dialog
+        dialogLegend = new AlertDialog.Builder(this)
+                .setView(view)
+                .setCancelable(true)
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        dialogLegend = null;
+                    }
+                })
+                .create();
+        dialogLegend.show();
     }
 
     private void menu_about() {

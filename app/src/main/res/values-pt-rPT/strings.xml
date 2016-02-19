@@ -17,6 +17,7 @@
   <string name="menu_log">Mostrar registo</string>
   <string name="menu_settings">Configurações</string>
   <string name="menu_invite">Convite</string>
+  <string name="menu_legend">Legend</string>
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
   <string name="menu_protocol_other">Outro</string>
@@ -140,6 +141,15 @@
   <string name="msg_stop_forward">Parar o encaminhamento de %2$d de porto %1$s?</string>
   <string name="msg_metered">Network is metered</string>
   <string name="msg_queue">NetGuard is busy</string>
+  <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
+  <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
+  <string name="title_metered_allowed">Metered traffic is allowed</string>
+  <string name="title_metered_blocked">Metered traffic is blocked</string>
+  <string name="title_host_allowed">Address is allowed</string>
+  <string name="title_host_blocked">Address is blocked</string>
+  <string name="title_interactive_allowed">Allow when screen is on</string>
+  <string name="title_roaming_blocked">Block when roaming</string>
+  <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>

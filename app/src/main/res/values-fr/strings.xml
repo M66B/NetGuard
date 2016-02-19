@@ -17,6 +17,7 @@
   <string name="menu_log">Afficher le journal</string>
   <string name="menu_settings">Paramètres</string>
   <string name="menu_invite">Inviter</string>
+  <string name="menu_legend">Legend</string>
   <string name="menu_support">Aide</string>
   <string name="menu_about">À propos</string>
   <string name="menu_protocol_other">Autre</string>
@@ -142,6 +143,15 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_stop_forward">Arrêter la redirection du %1$s port %2$d ?</string>
   <string name="msg_metered">L\'utilisation du réseau est limitée</string>
   <string name="msg_queue">NetGuard is busy</string>
+  <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
+  <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
+  <string name="title_metered_allowed">Metered traffic is allowed</string>
+  <string name="title_metered_blocked">Metered traffic is blocked</string>
+  <string name="title_host_allowed">Address is allowed</string>
+  <string name="title_host_blocked">Address is blocked</string>
+  <string name="title_interactive_allowed">Allow when screen is on</string>
+  <string name="title_roaming_blocked">Block when roaming</string>
+  <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">Autoriser Wi-Fi si écran allumé</string>
   <string name="title_screen_other">Autoriser données mobiles si écran allumé</string>

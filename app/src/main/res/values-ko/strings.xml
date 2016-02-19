@@ -19,6 +19,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_log">Show log</string>
   <string name="menu_settings">Settings</string>
   <string name="menu_invite">Invite</string>
+  <string name="menu_legend">Legend</string>
   <string name="menu_support">지원</string>
   <string name="menu_about">넷가드 정보</string>
   <string name="menu_protocol_other">Other</string>
@@ -144,6 +145,15 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="msg_metered">Network is metered</string>
   <string name="msg_queue">NetGuard is busy</string>
+  <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
+  <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
+  <string name="title_metered_allowed">Metered traffic is allowed</string>
+  <string name="title_metered_blocked">Metered traffic is blocked</string>
+  <string name="title_host_allowed">Address is allowed</string>
+  <string name="title_host_blocked">Address is blocked</string>
+  <string name="title_interactive_allowed">Allow when screen is on</string>
+  <string name="title_roaming_blocked">Block when roaming</string>
+  <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
   <string name="title_screen_other">Allow mobile when screen is on</string>

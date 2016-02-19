@@ -60,6 +60,9 @@
         android:id="@+id/menu_invite"
         android:title="@string/menu_invite" />
     <item
+        android:id="@+id/menu_legend"
+        android:title="@string/menu_legend" />
+    <item
         android:id="@+id/menu_support"
         android:title="@string/menu_support" />
     <item
