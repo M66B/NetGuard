@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 18;
+    private static final int DB_VERSION = 19;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -156,6 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", block INTEGER NOT NULL" +
                 ", sent INTEGER NULL" +
                 ", received INTEGER NULL" +
+                ", connections INTEGER NULL" +
                 ");");
         db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, version, protocol, daddr, dport)");
         db.execSQL("CREATE INDEX idx_access_block ON access(block)");
@@ -301,6 +302,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS idx_dns ON dns(qname, aname, resource)");
                 db.execSQL("CREATE INDEX IF NOT EXISTS idx_dns_resource ON dns(resource)");
                 oldVersion = 18;
+            }
+            if (oldVersion < 19) {
+                if (!columnExists(db, "access", "connections"))
+                    db.execSQL("ALTER TABLE access ADD COLUMN connections INTEGER NULL");
+                oldVersion = 19;
             }
 
             if (oldVersion == DB_VERSION) {
@@ -511,20 +517,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         Integer.toString(usage.DPort)
                 };
 
-                Cursor cursor = db.query("access", new String[]{"sent", "received"}, selection, selectionArgs, null, null, null);
+                Cursor cursor = db.query("access", new String[]{"sent", "received", "connections"}, selection, selectionArgs, null, null, null);
                 long sent = 0;
                 long received = 0;
+                int connections = 0;
                 int colSent = cursor.getColumnIndex("sent");
                 int colReceived = cursor.getColumnIndex("received");
+                int colConnections = cursor.getColumnIndex("connections");
                 if (cursor.moveToNext()) {
                     sent = cursor.isNull(colSent) ? 0 : cursor.getLong(colSent);
                     received = cursor.isNull(colReceived) ? 0 : cursor.getLong(colReceived);
+                    connections = cursor.isNull(colConnections) ? 0 : cursor.getInt(colConnections);
                 }
                 cursor.close();
 
                 ContentValues cv = new ContentValues();
                 cv.put("sent", sent + usage.Sent);
                 cv.put("received", received + usage.Received);
+                cv.put("connections", connections + 1);
 
                 int rows = db.update("access", cv, selection, selectionArgs);
                 if (rows != 1)
