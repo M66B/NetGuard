@@ -63,8 +63,8 @@
   <string name="setting_filter">Filtra traffico</string>
   <string name="setting_filter_allowed">Filtra il traffico consentito</string>
   <string name="setting_resolved">Memorizza i nomi di dominio già risolti</string>
-  <string name="setting_track_usage">Track network usage</string>
-  <string name="setting_reset_usage">Reset network usage</string>
+  <string name="setting_track_usage">Tieni traccia dell\'utilizzo della rete</string>
+  <string name="setting_reset_usage">Reimposta dati sull\'utilizzo della rete</string>
   <string name="setting_block_domains">Blocca nomi di dominio</string>
   <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -89,7 +89,7 @@
   <string name="setting_technical_networks">Reti</string>
   <string name="setting_technical_subscription">Sottoscrizioni</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
-  <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo é acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
+  <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo è acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
   <string name="summary_tethering">Il traffico in tethering non può essere filtrato</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
@@ -103,7 +103,7 @@
   <string name="summary_filter">Filtra i pacchetti IP in uscita dal tunnel VPN. Questo potrebbe comportare un consumo aggiuntivo di batteria.</string>
   <string name="summary_filter_allowed">Instrada il traffico consentito nel tunnel VPN per monitorarlo. Potrebbe causare utilizzo supplementare di batteria.</string>
   <string name="summary_resolved">Memorizza nomi di dominio/indirizzi IP in un database. Questo rende il registro del traffico più utile, ma potrebbe comportare un utilizzo supplementare di batteria.</string>
-  <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
+  <string name="summary_track_usage">Tieni traccia del numero di byte inviati e ricevuti per ogni applicazione e indirizzo. Questo potrebbe causare un utilizzo supplementare di batteria.</string>
   <string name="summary_block_domains">Rispondi con \"name error\" (NXDOMAIN) per i nomi di dominio bloccati. Questa opzione è disattivata quando non è disponibile alcun file hosts.</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
   <string name="msg_sure">Sei sicuro?</string>
@@ -138,6 +138,7 @@
   <string name="msg_download_last">Ultimo download: %s</string>
   <string name="msg_start_forward" formatted="false">Inizia ad inoltrare da %1$s porta %2$d a %3$s:%4$d di \'%5$s\'?</string>
   <string name="msg_stop_forward">Interrompere l\'inoltro di %1$s porta %2$d?</string>
+  <string name="msg_metered">La rete è a consumo</string>
   <string name="title_conditions">Condizioni</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
   <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>

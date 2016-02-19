@@ -62,17 +62,17 @@
   <string name="setting_log_app">インター ネット アクセスをログ</string>
   <string name="setting_access">インター ネット アクセス時に通知</string>
   <string name="setting_filter">トラフィックをフィルター</string>
-  <string name="setting_filter_allowed">Filter allowed traffic</string>
+  <string name="setting_filter_allowed">許可されるトラフィックをフィルター</string>
   <string name="setting_resolved">解決したドメイン名を保存</string>
-  <string name="setting_track_usage">Track network usage</string>
-  <string name="setting_reset_usage">Reset network usage</string>
+  <string name="setting_track_usage">ネットワークの使用状況を追跡</string>
+  <string name="setting_reset_usage">ネットワークの使用状況をリセット</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
   <string name="setting_forwarding">ポート転送</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
-  <string name="setting_pcap_record_size">PCAP record size: %s B</string>
-  <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
+  <string name="setting_pcap_record_size">PCAP レコードサイズ: %s B</string>
+  <string name="setting_pcap_file_size">PCAP 最大。ファイルサイズ: %s MB</string>
   <string name="setting_stats_category">速度通知</string>
   <string name="setting_stats">速度通知を表示</string>
   <string name="setting_stats_top">トップ アプリケーションを表示</string>
@@ -101,10 +101,10 @@
   <string name="summary_system">システムアプリケーションのルールを定義 (上級者向け)</string>
   <string name="summary_log_app">アプリケーションのインターネットへのアクセスをログ記録します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_access">アプリケーションが、新しいインターネット アドレスにアクセスしようとするときに、ステータスバーに通知を表示します。</string>
-  <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
-  <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
+  <string name="summary_filter">VPN トンネルを出る IP パケットをフィルターします。バッテリー使用量が増えることがあります。</string>
+  <string name="summary_filter_allowed">許可するトラフィックを VPN トンネルにルートさせて、許可するトラフィックを監視します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_resolved">ドメイン名/IP アドレスをデータベースに格納します。これによりトラフィック ログがさらに便利になりますが、バッテリーの使用量が増えることがあります。</string>
-  <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
+  <string name="summary_track_usage">各アプリケーションとアドレスごとの送受信バイト数を追跡します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_block_domains">ブロックされたドメイン名は \'名前エラー\' (NXDOMAIN) で応答します。Hosts ファイルが使用できない場合、このスイッチは無効です。</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
   <string name="msg_sure">よろしいですか?</string>
@@ -139,6 +139,7 @@
   <string name="msg_download_last">最終ダウンロード: %s</string>
   <string name="msg_start_forward" formatted="false">%1$s ポート %2$d から \'%5$s\' の %3$s:%4$d に転送を開始しますか?</string>
   <string name="msg_stop_forward">%1$s ポート %2$d の転送を停止しますか?</string>
+  <string name="msg_metered">Network is metered</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>

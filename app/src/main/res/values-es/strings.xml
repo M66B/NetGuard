@@ -138,6 +138,7 @@
   <string name="msg_download_last">Última descarga: %s</string>
   <string name="msg_start_forward" formatted="false">¿Iniciar reenvío desde el puerto %1$s, %2$d hacia %3$s:%4$d de \'%5$s\'?</string>
   <string name="msg_stop_forward">¿Parar reenvío del puerto %1$s, %2$d?</string>
+  <string name="msg_metered">La red está medida</string>
   <string name="title_conditions">Condiciones</string>
   <string name="title_screen_wifi">Permitir Wi-Fi con la pantalla encendida</string>
   <string name="title_screen_other">Permitir red móvil con la pantalla encendida</string>
