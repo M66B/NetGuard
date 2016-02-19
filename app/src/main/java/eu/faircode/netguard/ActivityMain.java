@@ -135,6 +135,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Icon, no title
         getSupportActionBar().setTitle(null);
 
+        // Netguard is busy
+        ivQueue.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast toast = Toast.makeText(ActivityMain.this, R.string.msg_queue, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, actionView.getLeft(), actionView.getBottom());
+                toast.show();
+                return true;
+            }
+        });
+
         // On/off switch
         swEnabled.setChecked(enabled);
         swEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
