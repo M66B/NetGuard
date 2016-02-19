@@ -135,12 +135,25 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Icon, no title
         getSupportActionBar().setTitle(null);
 
+        ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                menu_about();
+                return true;
+            }
+        });
+
         // Netguard is busy
         ivQueue.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                int location[] = new int[2];
+                actionView.getLocationOnScreen(location);
                 Toast toast = Toast.makeText(ActivityMain.this, R.string.msg_queue, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, actionView.getLeft(), actionView.getBottom());
+                toast.setGravity(
+                        Gravity.TOP | Gravity.LEFT,
+                        location[0] + ivQueue.getLeft(),
+                        Math.round(location[1] + ivQueue.getBottom() - toast.getView().getPaddingTop()));
                 toast.show();
                 return true;
             }
@@ -207,8 +220,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         ivMetered.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                int location[] = new int[2];
+                actionView.getLocationOnScreen(location);
                 Toast toast = Toast.makeText(ActivityMain.this, R.string.msg_metered, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, actionView.getLeft(), actionView.getBottom());
+                toast.setGravity(
+                        Gravity.TOP | Gravity.LEFT,
+                        location[0] + ivMetered.getLeft(),
+                        Math.round(location[1] + ivMetered.getBottom() - toast.getView().getPaddingTop()));
                 toast.show();
                 return true;
             }
