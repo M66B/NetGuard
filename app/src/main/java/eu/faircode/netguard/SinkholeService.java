@@ -95,6 +95,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
+    private boolean powersaving = false;
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
     private ParcelFileDescriptor vpn = null;
@@ -501,6 +502,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         @Override
         public void handleMessage(Message msg) {
             try {
+                if (powersaving && (msg.what == MSG_PACKET || msg.what == MSG_USAGE))
+                    return;
+
                 switch (msg.what) {
                     case MSG_PACKET:
                         log((Packet) msg.obj, msg.arg1, msg.arg2 > 0);
@@ -1390,7 +1394,24 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
 
             // Start/stop stats
-            statsHandler.sendEmptyMessage(Util.isInteractive(SinkholeService.this) ? MSG_STATS_START : MSG_STATS_STOP);
+            statsHandler.sendEmptyMessage(
+                    Util.isInteractive(SinkholeService.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
+        }
+    };
+
+    private BroadcastReceiver powerSaveReceiver = new BroadcastReceiver() {
+        @Override
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(intent);
+
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            powersaving = pm.isPowerSaveMode();
+            Log.i(TAG, "Power saving=" + powersaving);
+
+            statsHandler.sendEmptyMessage(
+                    Util.isInteractive(SinkholeService.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
         }
     };
 
@@ -1542,6 +1563,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         ifInteractive.addAction(ACTION_SCREEN_OFF_DELAYED);
         registerReceiver(interactiveStateReceiver, ifInteractive);
 
+        // Listen for power save mode
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+            powersaving = pm.isPowerSaveMode();
+            IntentFilter ifPower = new IntentFilter();
+            ifPower.addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED);
+            registerReceiver(powerSaveReceiver, ifPower);
+        }
+
         // Listen for user switches
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             IntentFilter ifUser = new IntentFilter();
@@ -1638,6 +1668,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         statsLooper.quit();
 
         unregisterReceiver(interactiveStateReceiver);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            unregisterReceiver(powerSaveReceiver);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             unregisterReceiver(userReceiver);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
