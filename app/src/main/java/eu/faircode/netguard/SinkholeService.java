@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -104,6 +105,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private Map<Integer, Integer> mapUidKnown = new HashMap<>();
     private Map<Long, Map<InetAddress, Boolean>> mapUidIPFilters = new HashMap<>();
     private Map<Integer, Forward> mapForward = new HashMap<>();
+    private Map<Integer, Boolean> mapNoNotify = new HashMap<>();
 
     private volatile Looper commandLooper;
     private volatile Looper logLooper;
@@ -526,8 +528,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             boolean log = prefs.getBoolean("log", false);
             boolean log_app = prefs.getBoolean("log_app", false);
-            boolean notify = prefs.getBoolean("notify_access", false);
-            boolean system = prefs.getBoolean("manage_system", false);
 
             DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
 
@@ -543,8 +543,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 if (!(packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */))
                     packet.dport = 0;
                 if (dh.updateAccess(packet, dname, -1))
-                    if (notify && prefs.getBoolean("notify_" + packet.uid, true) &&
-                            (system || !Util.isSystem(packet.uid, SinkholeService.this)))
+                    if (mapNoNotify.containsKey(packet.uid) && mapNoNotify.get(packet.uid))
                         showAccessNotification(packet.uid);
             }
         }
@@ -960,6 +959,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             prepareHostsBlocked();
             prepareUidIPFilters();
             prepareForwarding();
+            prepareNotify(listRule);
         } else
             unprepare();
 
@@ -990,6 +990,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         mapHostsBlocked.clear();
         mapUidIPFilters.clear();
         mapForward.clear();
+        mapNoNotify.clear();
     }
 
     private void prepareUidAllowed(List<Rule> listAllowed, List<Rule> listRule) {
@@ -1140,6 +1141,20 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Forward " + fwd);
         }
         cursor.close();
+    }
+
+    private void prepareNotify(List<Rule> listRule) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences nprefs = getSharedPreferences("notify", Context.MODE_PRIVATE);
+        boolean notify = prefs.getBoolean("notify_access", false);
+        boolean system = prefs.getBoolean("manage_system", false);
+
+        mapNoNotify.clear();
+
+        if (notify)
+            for (Rule rule : listRule)
+                if (nprefs.getBoolean(rule.info.packageName, true) && (system || !rule.system))
+                    mapNoNotify.put(rule.info.applicationInfo.uid, true);
     }
 
     private void cleanupDNS() {

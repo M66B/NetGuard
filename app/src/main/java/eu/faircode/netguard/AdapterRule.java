@@ -563,15 +563,24 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         });
 
         // Show disable access notifications setting
-        boolean notify = prefs.getBoolean("notify_access", false);
-        final String key = "notify_" + rule.info.applicationInfo.uid;
+        final SharedPreferences nprefs = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
         holder.cbNotify.setOnCheckedChangeListener(null);
-        holder.cbNotify.setEnabled(notify);
-        holder.cbNotify.setChecked(prefs.getBoolean(key, true));
+        holder.cbNotify.setEnabled(prefs.getBoolean("notify_access", false));
+        holder.cbNotify.setChecked(nprefs.getBoolean(rule.info.packageName, true));
         holder.cbNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                prefs.edit().putBoolean(key, isChecked).apply();
+                if (isChecked)
+                    nprefs.edit().remove(rule.info.packageName).apply();
+                else
+                    nprefs.edit().putBoolean(rule.info.packageName, isChecked).apply();
+
+                for (String pkg : rule.related)
+                    if (isChecked)
+                        nprefs.edit().remove(pkg).apply();
+                    else
+                        nprefs.edit().putBoolean(pkg, isChecked).apply();
+                SinkholeService.reload("notify changed", context);
             }
         });
 

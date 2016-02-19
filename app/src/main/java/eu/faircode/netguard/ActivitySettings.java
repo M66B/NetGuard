@@ -828,8 +828,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         return intent;
     }
 
-    // TODO translate uid to package name for notify.<uid> setting
-
     private void handleExport(final Intent data) {
         new AsyncTask<Object, Object, Throwable>() {
             @Override
@@ -999,6 +997,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlExport(getSharedPreferences("screen_other", Context.MODE_PRIVATE), serializer);
         serializer.endTag(null, "screen_other");
 
+        serializer.startTag(null, "notify");
+        xmlExport(getSharedPreferences("notify", Context.MODE_PRIVATE), serializer);
+        serializer.endTag(null, "notify");
+
         serializer.startTag(null, "filter");
         filterExport(serializer);
         serializer.endTag(null, "filter");
@@ -1101,6 +1103,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlImport(handler.screen_wifi, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
         xmlImport(handler.screen_other, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
         xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
+        xmlImport(handler.notify, getSharedPreferences("notify", Context.MODE_PRIVATE));
 
         // Upgrade imported settings
         Receiver.upgrade(true, this);
@@ -1146,6 +1149,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         public Map<String, Object> screen_wifi = new HashMap<>();
         public Map<String, Object> screen_other = new HashMap<>();
         public Map<String, Object> roaming = new HashMap<>();
+        public Map<String, Object> notify = new HashMap<>();
         private Map<String, Object> current = null;
         private List<Integer> listUid = new ArrayList<>();
 
@@ -1178,6 +1182,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             else if (qName.equals("roaming"))
                 current = roaming;
+
+            else if (qName.equals("notify"))
+                current = notify;
 
             else if (qName.equals("filter"))
                 current = null;
