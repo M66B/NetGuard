@@ -496,15 +496,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             if (adapter != null)
                 if (intent.hasExtra(EXTRA_CONNECTED) && intent.hasExtra(EXTRA_METERED)) {
-                    ivMetered.setVisibility(Util.isMeteredNetwork(ActivityMain.this) ? View.VISIBLE : View.INVISIBLE);
-
-                    if (intent.getBooleanExtra(EXTRA_CONNECTED, false))
+                    if (intent.getBooleanExtra(EXTRA_CONNECTED, false)) {
                         if (intent.getBooleanExtra(EXTRA_METERED, false))
                             adapter.setMobileActive();
                         else
                             adapter.setWifiActive();
-                    else
+                        ivMetered.setVisibility(Util.isMeteredNetwork(ActivityMain.this) ? View.VISIBLE : View.INVISIBLE);
+                    } else {
                         adapter.setDisconnected();
+                        ivMetered.setVisibility(View.INVISIBLE);
+                    }
                 } else
                     updateApplicationList(null);
         }

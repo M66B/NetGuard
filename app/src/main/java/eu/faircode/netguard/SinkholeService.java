@@ -318,8 +318,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
                 // Update main view
                 Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
-                ruleset.putExtra(ActivityMain.EXTRA_CONNECTED, last_connected);
-                ruleset.putExtra(ActivityMain.EXTRA_METERED, last_metered);
+                ruleset.putExtra(ActivityMain.EXTRA_CONNECTED, cmd == Command.stop ? false : last_connected);
+                ruleset.putExtra(ActivityMain.EXTRA_METERED, cmd == Command.stop ? false : last_metered);
                 LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
 
                 // Update widgets
