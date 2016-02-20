@@ -28,27 +28,27 @@ Caracteristici:
 &bull; Nu necesita acces root
 &bull; Simplu de utilizat
 &bull; Software cu sursa deschisa
-&bull; Nu foloseste baterie in plus
-&bull; Nu reduce latimea de banda
 &bull; Nu transmite datele nicaieri
 &bull; Nu urmareste activitatea si nici nu o analizeaza
 &bull; Fara reclama
-&bull; Nu necesita acces la internet
+&bull; Suport Android 4.0 si ulterior
 &bull; Suporta IPv4/IPv6 TCP/UDP
+&bull; Suporta partajarea conexiunii
+&bull; Suporta utilizatori multiplii
 &bull; Optional permite cand ecranul e pornit
 &bull; Optional blocheaza in roaming
 &bull; Optional blocheaza aplicatiile de sistem
-&bull; Design Material
+&bull; Optional jurnal de trafic; cauta si filtreaza lista de accesari
+&bull; Optional permita/blocheaza accesul per aplicatie si per domeniu
+&bull; Optional notifica la accesarea internetului
+&bull; Optional redirectioneaza porturi atat local cat si spre servere externe
+&bull; Optional exporta fisiere PCAP pentru analiza traficului
+&bull; Optional afiseaza grafic viteza conexiune
+&bull; Design Material cu multiple teme
 
 Nu există nici un alt firewall, ce nu necesita root, care sa ofere toate aceste caracteristici.
-Majoritatea celorlalte solutii firewall sunt proprietare cu sursa inchisa, vor consuma bateria in plus si vor reduce viteza de ansamblu a conexiunilor.
 
-Majoritatea functiilor sunt rezultatul trimiterii traficului selectat intr-o "gaura neagra", in loc sa fie filtrat tot traficul de internet.
-Acest lucru presupune ca functii avansate, cum ar fi filtrarea adreselor (necesara pentru blocarea unor gazde), urmarirea traficului si detectarea aplicatiilor la acces, nu sunt posibile.
-
-Cum NetGuard efectiv nu are permisiunea de a accesa internetul, esti sigur ca traficul tau de internet nu este redirectionat nicaieri.
-
-Pentru informatii la zi despre compatibilitatea dispozitivelor, intrebari si raspunsuri va rugam sa cititi mai multe aici: http://forum.xda-developers.com/showthread.php?t=3233012
+Pentru intrebari si raspunsuri va rugam sa cititi mai multe aici: http://forum.xda-developers.com/showthread.php?t=3233012
 
 Daca vrei sa ii ajuti pe cei ce nu vorbesc limba engleza, poti ajuta la traducerea NetGuard in limba ta materna: https://crowdin.com/project/netguard/
 
