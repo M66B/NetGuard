@@ -625,6 +625,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ContentValues cv = new ContentValues();
                 cv.putNull("sent");
                 cv.putNull("received");
+                cv.putNull("connections");
                 db.update("access", cv,
                         (uid < 0 ? null : "uid = ?"),
                         (uid < 0 ? null : new String[]{Integer.toString(uid)}));

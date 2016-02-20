@@ -34,14 +34,32 @@
             android:singleLine="true"
             android:textAppearance="@style/TextSmall" />
 
-        <TextView
-            android:id="@+id/tvTraffic"
+        <LinearLayout
+            android:id="@+id/llTraffic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end|right"
-            android:singleLine="true"
-            android:textAppearance="@style/TextSmall"
-            android:textSize="10sp"
-            android:typeface="monospace" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvConnections"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textAppearance="@style/TextSmall"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvTraffic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:singleLine="true"
+                android:textAppearance="@style/TextSmall"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

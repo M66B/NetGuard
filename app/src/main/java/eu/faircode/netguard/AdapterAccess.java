@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.net.InetAddress;
@@ -109,6 +110,8 @@ public class AdapterAccess extends CursorAdapter {
         TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
         ImageView ivBlock = (ImageView) view.findViewById(R.id.ivBlock);
         final TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
+        LinearLayout llTraffic = (LinearLayout) view.findViewById(R.id.llTraffic);
+        TextView tvConnections = (TextView) view.findViewById(R.id.tvConnections);
         TextView tvTraffic = (TextView) view.findViewById(R.id.tvTraffic);
 
         // Set values
@@ -160,21 +163,21 @@ public class AdapterAccess extends CursorAdapter {
         else
             tvDest.setTextColor(colorOff);
 
-        tvTraffic.setVisibility(connections > 0 || sent > 0 || received > 0 ? View.VISIBLE : View.GONE);
-        StringBuilder sb = new StringBuilder();
-        sb.append('#').append(connections).append(' ');
+        llTraffic.setVisibility(connections > 0 || sent > 0 || received > 0 ? View.VISIBLE : View.GONE);
+        if (connections > 0)
+            tvConnections.setText(context.getString(R.string.msg_count, connections));
+
         if (sent > 1024 * 1204 * 1024L || received > 1024 * 1024 * 1024L)
-            sb.append(context.getString(R.string.msg_gb,
+            tvTraffic.setText(context.getString(R.string.msg_gb,
                     (sent > 0 ? sent / (1024 * 1024 * 1024f) : 0),
                     (received > 0 ? received / (1024 * 1024 * 1024f) : 0)));
         else if (sent > 1204 * 1024L || received > 1024 * 1024L)
-            sb.append(context.getString(R.string.msg_mb,
+            tvTraffic.setText(context.getString(R.string.msg_mb,
                     (sent > 0 ? sent / (1024 * 1024f) : 0),
                     (received > 0 ? received / (1024 * 1024f) : 0)));
         else
-            sb.append(context.getString(R.string.msg_kb,
+            tvTraffic.setText(context.getString(R.string.msg_kb,
                     (sent > 0 ? sent / 1024f : 0),
                     (received > 0 ? received / 1024f : 0)));
-        tvTraffic.setText(sb.toString());
     }
 }

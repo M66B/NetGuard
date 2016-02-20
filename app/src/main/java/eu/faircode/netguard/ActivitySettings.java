@@ -176,25 +176,30 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_reset_usage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                new AsyncTask<Object, Object, Throwable>() {
+                Util.areYouSure(ActivitySettings.this, R.string.setting_reset_usage, new Util.DoubtListener() {
                     @Override
-                    protected Throwable doInBackground(Object... objects) {
-                        try {
-                            DatabaseHelper.getInstance(ActivitySettings.this).resetUsage(-1);
-                            return null;
-                        } catch (Throwable ex) {
-                            return ex;
-                        }
-                    }
+                    public void onSure() {
+                        new AsyncTask<Object, Object, Throwable>() {
+                            @Override
+                            protected Throwable doInBackground(Object... objects) {
+                                try {
+                                    DatabaseHelper.getInstance(ActivitySettings.this).resetUsage(-1);
+                                    return null;
+                                } catch (Throwable ex) {
+                                    return ex;
+                                }
+                            }
 
-                    @Override
-                    protected void onPostExecute(Throwable ex) {
-                        if (ex == null)
-                            Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                            @Override
+                            protected void onPostExecute(Throwable ex) {
+                                if (ex == null)
+                                    Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }.execute();
                     }
-                }.execute();
+                });
                 return false;
             }
         });
