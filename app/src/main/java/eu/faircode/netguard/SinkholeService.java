@@ -554,7 +554,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         private void resolved(ResourceRecord rr) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            if (prefs.getBoolean("resolved", true))
+            if (prefs.getBoolean("filter_allowed", false) && prefs.getBoolean("resolved", true))
                 DatabaseHelper.getInstance(SinkholeService.this).insertDns(rr);
         }
 
