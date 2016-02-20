@@ -226,7 +226,7 @@ public class Receiver extends BroadcastReceiver {
                 editor.putBoolean("whitelist_other", false);
             }
 
-            if (Build.VERSION.SDK_INT < VERSION_CODES.LOLLIPOP_MR1) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
                 Log.i(TAG, "Forcing filter mode sdk=" + Build.VERSION.SDK_INT);
                 editor.putBoolean("filter", true); // Mandatory
                 editor.putBoolean("filter_allowed", true); // Mandatory
