@@ -19,9 +19,9 @@ Applications can individually be allowed or denied access to your Wi-Fi and/or m
 
 Blocking access to the internet can help:
 
-&bull; reduce your data usage
-&bull; save your battery
-&bull; increase your privacy
+&bull; reduce your data usage  
+&bull; save your battery  
+&bull; increase your privacy  
 
 Features:
 
