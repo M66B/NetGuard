@@ -135,7 +135,7 @@
                     android:layout_height="16dp"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_horizontal"
-                    android:text="R"
+                    android:text="@string/title_roaming_symbol"
                     android:textAppearance="@style/TextSmall"
                     android:textColor="?attr/colorOff"
                     android:textSize="14sp" />
@@ -298,7 +298,7 @@
                     android:layout_height="16dp"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_horizontal"
-                    android:text="R"
+                    android:text="@string/title_roaming_symbol"
                     android:textAppearance="@style/TextSmall"
                     android:textColor="?attr/colorOff"
                     android:textSize="14sp" />
