@@ -224,7 +224,7 @@ public class Receiver extends BroadcastReceiver {
                 Log.i(TAG, "Initializing sdk=" + Build.VERSION.SDK_INT);
                 editor.putBoolean("whitelist_wifi", false);
                 editor.putBoolean("whitelist_other", false);
-                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1) {
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
                     editor.putBoolean("filter", true); // Optional
                     editor.putBoolean("filter_allowed", true); // Optional
                 }
