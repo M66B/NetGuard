@@ -121,7 +121,7 @@ public class Rule {
         }
     }
 
-    public static List<Rule> getRules(boolean all, Context context) {
+    public static List<Rule> getRules(final boolean all, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
@@ -288,7 +288,7 @@ public class Rule {
             Collections.sort(listRules, new Comparator<Rule>() {
                 @Override
                 public int compare(Rule rule, Rule other) {
-                    if (rule.changed == other.changed) {
+                    if (all || rule.changed == other.changed) {
                         Collator collator = Collator.getInstance(Locale.getDefault());
                         collator.setStrength(Collator.SECONDARY); // Case sensitive, process accents etc
                         int i = collator.compare(rule.name, other.name);
