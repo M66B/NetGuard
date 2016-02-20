@@ -53,7 +53,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="@drawable/ic_hourglass_empty_white_24dp" />
+                    android:src="?attr/iconQueue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="@drawable/ic_attach_money_white_24dp" />
+                    android:src="?attr/iconMetered" />
 
                 <TextView
                     android:layout_width="wrap_content"
