@@ -131,6 +131,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ Ko</string>
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ Mo</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ Go</string>
+  <string name="msg_count">%dx</string>
   <string name="msg_filter">Utiliser le filtrage fera qu\'Android affectera l\'utilisation de données et de batterie à NetGuard - Android estime que les données et la consommation de batterie sont utilisées par NetGuard, plutôt que par les applications d\'origine</string>
   <string name="msg_log_disabled">La journalisation du trafic est désactivée, utilisez le bouton ci-dessus pour activer la journalisation. La journalisation du trafic peut entraîner une surconsommation de la batterie.</string>
   <string name="msg_clear_rules">Cela réinitialisera les règles et conditions à leurs valeurs par défaut</string>
@@ -168,6 +169,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">personne</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">Notifier les tentatives d\'accès à internet</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>

@@ -132,6 +132,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
+  <string name="msg_count">%dx</string>
   <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
   <string name="msg_log_disabled">Журналювання трафіку вимкнуто, використовуйте перемикач вище, аби увімкнути журналювання. Це може підвищити споживання батареї.</string>
   <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
@@ -169,6 +170,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nobody</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Порт %1$d</string>

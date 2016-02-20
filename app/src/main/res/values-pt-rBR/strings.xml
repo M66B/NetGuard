@@ -18,7 +18,7 @@
   <string name="menu_log">Mostrar registro</string>
   <string name="menu_settings">Configurações</string>
   <string name="menu_invite">Convite</string>
-  <string name="menu_legend">Legend</string>
+  <string name="menu_legend">Legenda</string>
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
   <string name="menu_protocol_other">Outro</string>
@@ -132,6 +132,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ KB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ KB</string>
+  <string name="msg_count">%dx</string>
   <string name="msg_filter">Usar filtragem pode fazer com que o Android atribua uso de dados e consumo de energia ao NetGuard - Android assume que o uso de dados e consumo de bateria são usados pelo NetGuard e não pelas aplicações originais</string>
   <string name="msg_log_disabled">Log de tráfego está desabilitado, utilize o botão acima para habilitar o log. Log do tráfego pode resultar no uso extra da bateria.</string>
   <string name="msg_clear_rules">Isto irá redefinir as regras e condições para os seus valores padrões</string>
@@ -143,16 +144,16 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_start_forward" formatted="false">Iniciar encaminhamento de %1$s porta %2$d para %3$s:%4$d de \'%5$s\'?</string>
   <string name="msg_stop_forward">Parar encaminhamento de %1$s porta %2$d?</string>
   <string name="msg_metered">A rede é limitada</string>
-  <string name="msg_queue">NetGuard is busy</string>
-  <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
-  <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
-  <string name="title_metered_allowed">Metered traffic is allowed</string>
-  <string name="title_metered_blocked">Metered traffic is blocked</string>
-  <string name="title_host_allowed">Address is allowed</string>
-  <string name="title_host_blocked">Address is blocked</string>
-  <string name="title_interactive_allowed">Allow when screen is on</string>
-  <string name="title_roaming_blocked">Block when roaming</string>
-  <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
+  <string name="msg_queue">NetGuard esta ocupado</string>
+  <string name="title_unmetered_allowed">Tráfego ilimitado permitido</string>
+  <string name="title_unmetered_blocked">Tráfego ilimitado bloqueado</string>
+  <string name="title_metered_allowed">Tráfego limitado permitido</string>
+  <string name="title_metered_blocked">Tráfego limitado bloqueado</string>
+  <string name="title_host_allowed">Endereço permitido</string>
+  <string name="title_host_blocked">Endereço bloqueado</string>
+  <string name="title_interactive_allowed">Permitir quando a tela estiver ligada</string>
+  <string name="title_roaming_blocked">Bloquear quando em roaming</string>
+  <string name="title_metered">Por padrão, uma conexão Wi-Fi é considerada ilimitada e uma conexão móvel limitada</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
@@ -169,6 +170,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_root">raiz</string>
   <string name="title_mediaserver">Servidor de Mídia</string>
   <string name="title_nobody">ninguém</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>

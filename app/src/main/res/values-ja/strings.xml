@@ -130,6 +130,7 @@
   <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
+  <string name="msg_count">%dx</string>
   <string name="msg_filter">NetGuard でフィルタリングを使用すると、Android のデータと電力使用につながります - Android は、元のアプリケーションではなく NetGuard によってデータと電力を使用しているとみなします。</string>
   <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
   <string name="msg_clear_rules">ルールと条件がデフォルト値にリセットされます</string>
@@ -167,6 +168,7 @@
   <string name="title_root">ルート</string>
   <string name="title_mediaserver">メディアサーバー</string>
   <string name="title_nobody">nobody</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">インターネット アクセスの試みを通知</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">ポート %1$d</string>
