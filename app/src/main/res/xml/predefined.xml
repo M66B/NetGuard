@@ -10,6 +10,14 @@
 
     <wifi
         blocked="false"
+        package="eu.faircode.netguard" />
+    <other
+        blocked="false"
+        package="eu.faircode.netguard"
+        roaming="false" />
+
+    <wifi
+        blocked="false"
         package="com.google.android.apps.adm" />
     <other
         blocked="false"
