@@ -27,6 +27,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
@@ -34,7 +35,9 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AlertDialog;
@@ -762,9 +765,40 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private void menu_legend() {
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorOn, tv, true);
+        int colorOn = tv.data;
+        getTheme().resolveAttribute(R.attr.colorOff, tv, true);
+        int colorOff = tv.data;
+
         // Create view
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.legend, null, false);
+        ImageView ivWifiOn = (ImageView) view.findViewById(R.id.ivWifiOn);
+        ImageView ivWifiOff = (ImageView) view.findViewById(R.id.ivWifiOff);
+        ImageView ivOtherOn = (ImageView) view.findViewById(R.id.ivOtherOn);
+        ImageView ivOtherOff = (ImageView) view.findViewById(R.id.ivOtherOff);
+        ImageView ivScreenOn = (ImageView) view.findViewById(R.id.ivScreenOn);
+        ImageView ivHostAllowed = (ImageView) view.findViewById(R.id.ivHostAllowed);
+        ImageView ivHostBlocked = (ImageView) view.findViewById(R.id.ivHostBlocked);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrapWifiOn = DrawableCompat.wrap(ivWifiOn.getDrawable());
+            Drawable wrapWifiOff = DrawableCompat.wrap(ivWifiOff.getDrawable());
+            Drawable wrapOtherOn = DrawableCompat.wrap(ivOtherOn.getDrawable());
+            Drawable wrapOtherOff = DrawableCompat.wrap(ivOtherOff.getDrawable());
+            Drawable wrapScreenOn = DrawableCompat.wrap(ivScreenOn.getDrawable());
+            Drawable wrapHostAllowed = DrawableCompat.wrap(ivHostAllowed.getDrawable());
+            Drawable wrapHostBlocked = DrawableCompat.wrap(ivHostBlocked.getDrawable());
+
+            DrawableCompat.setTint(wrapWifiOn, colorOn);
+            DrawableCompat.setTint(wrapWifiOff, colorOff);
+            DrawableCompat.setTint(wrapOtherOn, colorOn);
+            DrawableCompat.setTint(wrapOtherOff, colorOff);
+            DrawableCompat.setTint(wrapScreenOn, colorOn);
+            DrawableCompat.setTint(wrapHostAllowed, colorOn);
+            DrawableCompat.setTint(wrapHostBlocked, colorOff);
+        }
+
 
         // Show dialog
         dialogLegend = new AlertDialog.Builder(this)

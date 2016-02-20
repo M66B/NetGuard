@@ -93,6 +93,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivWifiOn"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
@@ -115,6 +116,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivWifiOff"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
@@ -137,6 +139,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivOtherOn"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
@@ -159,6 +162,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivOtherOff"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
@@ -181,6 +185,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivScreenOn"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
@@ -227,6 +232,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivHostAllowed"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
@@ -249,6 +255,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ivHostBlocked"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
