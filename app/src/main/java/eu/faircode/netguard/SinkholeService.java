@@ -1128,23 +1128,26 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void prepareForwarding() {
         mapForward.clear();
 
-        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getForwarding();
-        int colProtocol = cursor.getColumnIndex("protocol");
-        int colDPort = cursor.getColumnIndex("dport");
-        int colRAddr = cursor.getColumnIndex("raddr");
-        int colRPort = cursor.getColumnIndex("rport");
-        int colRUid = cursor.getColumnIndex("ruid");
-        while (cursor.moveToNext()) {
-            Forward fwd = new Forward();
-            fwd.protocol = cursor.getInt(colProtocol);
-            fwd.dport = cursor.getInt(colDPort);
-            fwd.raddr = cursor.getString(colRAddr);
-            fwd.rport = cursor.getInt(colRPort);
-            fwd.ruid = cursor.getInt(colRUid);
-            mapForward.put(fwd.dport, fwd);
-            Log.i(TAG, "Forward " + fwd);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean("filter_allowed", false)) {
+            Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getForwarding();
+            int colProtocol = cursor.getColumnIndex("protocol");
+            int colDPort = cursor.getColumnIndex("dport");
+            int colRAddr = cursor.getColumnIndex("raddr");
+            int colRPort = cursor.getColumnIndex("rport");
+            int colRUid = cursor.getColumnIndex("ruid");
+            while (cursor.moveToNext()) {
+                Forward fwd = new Forward();
+                fwd.protocol = cursor.getInt(colProtocol);
+                fwd.dport = cursor.getInt(colDPort);
+                fwd.raddr = cursor.getString(colRAddr);
+                fwd.rport = cursor.getInt(colRPort);
+                fwd.ruid = cursor.getInt(colRUid);
+                mapForward.put(fwd.dport, fwd);
+                Log.i(TAG, "Forward " + fwd);
+            }
+            cursor.close();
         }
-        cursor.close();
     }
 
     private void prepareNotify(List<Rule> listRule) {

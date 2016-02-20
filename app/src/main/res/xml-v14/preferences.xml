@@ -140,7 +140,7 @@
             android:summary="@string/summary_resolved"
             android:title="@string/setting_resolved" />
         <Preference
-            android:dependency="filter"
+            android:dependency="filter_allowed"
             android:key="forwarding"
             android:title="@string/setting_forwarding" />
         <EditTextPreference
