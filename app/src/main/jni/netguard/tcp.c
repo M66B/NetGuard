@@ -605,7 +605,6 @@ jboolean handle_tcp(const struct arguments *args,
 
             if (tcphdr->rst /* +ACK */) {
                 // No sequence check
-                // TODO half-duplex close sequence
                 // http://tools.ietf.org/html/rfc1122#page-87
                 log_android(ANDROID_LOG_WARN, "%s received reset", session);
                 cur->state = TCP_CLOSING;
@@ -791,7 +790,6 @@ int open_tcp_socket(const struct arguments *args,
     int sock;
 
     // Get TCP socket
-    // TODO socket options?
     if ((sock = socket(cur->version == 4 ? PF_INET : PF_INET6, SOCK_STREAM, 0)) < 0) {
         log_android(ANDROID_LOG_ERROR, "socket error %d: %s", errno, strerror(errno));
         return -1;

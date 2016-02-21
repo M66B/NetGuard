@@ -19,7 +19,6 @@
 
 #include "netguard.h"
 
-// TODO TCP fragmentation
 // It is assumed that no packets will get lost and that packets arrive in order
 // https://android.googlesource.com/platform/frameworks/base.git/+/master/services/core/jni/com_android_server_connectivity_Vpn.cpp
 

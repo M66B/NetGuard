@@ -192,7 +192,6 @@ void handle_ip(const struct arguments *args,
 
         payload = (uint8_t *) (pkt + sizeof(struct ip6_hdr) + off);
 
-        // TODO check length
         // TODO checksum
     }
     else {

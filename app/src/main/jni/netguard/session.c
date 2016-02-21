@@ -133,7 +133,6 @@ void *handle_events(void *a) {
                     report_exit(args, NULL);
                     break;
                 } else {
-                    // TODO check if SIGUSR1 is free
                     log_android(ANDROID_LOG_DEBUG,
                                 "pselect interrupted tun %d thread %x", args->tun, thread_id);
                     continue;

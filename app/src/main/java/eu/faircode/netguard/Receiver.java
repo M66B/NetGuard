@@ -217,8 +217,6 @@ public class Receiver extends BroadcastReceiver {
                     }
                     edit_screen_wifi.apply();
                     edit_screen_other.apply();
-
-                    // TODO: delete unused
                 }
             } else {
                 Log.i(TAG, "Initializing sdk=" + Build.VERSION.SDK_INT);
