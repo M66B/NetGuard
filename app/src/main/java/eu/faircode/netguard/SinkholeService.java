@@ -864,6 +864,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
+        boolean system = prefs.getBoolean("manage_system", false);
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -906,22 +907,23 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         builder.setMtu(32768);
 
         // Add list of allowed applications
-        if (last_connected && !filter)
-            for (Rule rule : listAllowed)
-                try {
-                    builder.addDisallowedApplication(rule.info.packageName);
-                } catch (PackageManager.NameNotFoundException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-        else if (filter)
-            for (Rule rule : listRule)
-                if (!rule.apply)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            if (last_connected && !filter)
+                for (Rule rule : listAllowed)
                     try {
-                        Log.i(TAG, "Not routing " + rule.info.packageName);
                         builder.addDisallowedApplication(rule.info.packageName);
                     } catch (PackageManager.NameNotFoundException ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     }
+            else if (filter)
+                for (Rule rule : listRule)
+                    if (!rule.apply || (!system && rule.system))
+                        try {
+                            Log.i(TAG, "Not routing " + rule.info.packageName);
+                            builder.addDisallowedApplication(rule.info.packageName);
+                        } catch (PackageManager.NameNotFoundException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
