@@ -40,4 +40,6 @@
 
     <color name="colorSend">#FF0000</color>
     <color name="colorReceive">#0000FF</color>
+
+    <color name="colorGrayed">#AAAAAA</color>
 </resources>

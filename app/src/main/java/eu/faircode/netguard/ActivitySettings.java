@@ -167,10 +167,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
         // Filtering always enabled
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             cat_advanced.removePreference(screen.findPreference("filter"));
-            cat_advanced.removePreference(screen.findPreference("filter_allowed"));
-        }
 
         Preference pref_reset_usage = screen.findPreference("reset_usage");
         pref_reset_usage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -575,10 +573,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 dialogFilter.show();
             }
 
-        } else if ("filter_allowed".equals(name))
-            SinkholeService.reload("changed " + name, this);
-
-        else if ("use_hosts".equals(name))
+        } else if ("use_hosts".equals(name))
             SinkholeService.reload("changed " + name, this);
 
         else if ("vpn4".equals(name)) {
@@ -1002,6 +997,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlExport(getSharedPreferences("screen_other", Context.MODE_PRIVATE), serializer);
         serializer.endTag(null, "screen_other");
 
+        serializer.startTag(null, "apply");
+        xmlExport(getSharedPreferences("apply", Context.MODE_PRIVATE), serializer);
+        serializer.endTag(null, "apply");
+
         serializer.startTag(null, "notify");
         xmlExport(getSharedPreferences("notify", Context.MODE_PRIVATE), serializer);
         serializer.endTag(null, "notify");
@@ -1108,6 +1107,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlImport(handler.screen_wifi, getSharedPreferences("screen_wifi", Context.MODE_PRIVATE));
         xmlImport(handler.screen_other, getSharedPreferences("screen_other", Context.MODE_PRIVATE));
         xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
+        xmlImport(handler.apply, getSharedPreferences("apply", Context.MODE_PRIVATE));
         xmlImport(handler.notify, getSharedPreferences("notify", Context.MODE_PRIVATE));
 
         // Upgrade imported settings
@@ -1154,6 +1154,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         public Map<String, Object> screen_wifi = new HashMap<>();
         public Map<String, Object> screen_other = new HashMap<>();
         public Map<String, Object> roaming = new HashMap<>();
+        public Map<String, Object> apply = new HashMap<>();
         public Map<String, Object> notify = new HashMap<>();
         private Map<String, Object> current = null;
         private List<Integer> listUid = new ArrayList<>();
@@ -1187,6 +1188,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             else if (qName.equals("roaming"))
                 current = roaming;
+
+            else if (qName.equals("apply"))
+                current = apply;
 
             else if (qName.equals("notify"))
                 current = notify;

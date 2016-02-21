@@ -35,6 +35,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v7.widget.RecyclerView;
@@ -74,6 +75,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private int colorChanged;
     private int colorOn;
     private int colorOff;
+    private int colorGrayed;
     private int iconSize;
     private boolean wifiActive = true;
     private boolean otherActive = true;
@@ -103,6 +105,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public TextView tvVersion;
         public TextView tvDisabled;
         public TextView tvInternet;
+
+        public CheckBox cbApply;
 
         public Button btnRelated;
         public ImageButton ibSettings;
@@ -147,6 +151,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             tvVersion = (TextView) itemView.findViewById(R.id.tvVersion);
             tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
             tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
+
+            cbApply = (CheckBox) itemView.findViewById(R.id.cbApply);
 
             btnRelated = (Button) itemView.findViewById(R.id.btnRelated);
             ibSettings = (ImageButton) itemView.findViewById(R.id.ibSettings);
@@ -218,6 +224,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         colorOn = tv.data;
         context.getTheme().resolveAttribute(R.attr.colorOff, tv, true);
         colorOff = tv.data;
+
+        colorGrayed = ContextCompat.getColor(context, R.color.colorGrayed);
 
         iconSize = Util.dips2pixels(48, context);
     }
@@ -321,9 +329,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.cbWifi.setAlpha(wifiActive ? 1 : 0.5f);
         holder.cbWifi.setOnCheckedChangeListener(null);
         holder.cbWifi.setChecked(rule.wifi_blocked);
+        holder.cbWifi.setEnabled(rule.apply);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrap = DrawableCompat.wrap(CompoundButtonCompat.getButtonDrawable(holder.cbWifi));
-            DrawableCompat.setTint(wrap, rule.wifi_blocked ? colorOff : colorOn);
+            DrawableCompat.setTint(wrap, rule.apply ? (rule.wifi_blocked ? colorOff : colorOn) : colorGrayed);
         }
         holder.cbWifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -333,20 +342,22 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             }
         });
 
+        holder.ivScreenWifi.setEnabled(rule.apply);
         holder.ivScreenWifi.setAlpha(wifiActive ? 1 : 0.5f);
         holder.ivScreenWifi.setVisibility(rule.screen_wifi && rule.wifi_blocked ? View.VISIBLE : View.INVISIBLE);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrap = DrawableCompat.wrap(holder.ivScreenWifi.getDrawable());
-            DrawableCompat.setTint(wrap, colorOn);
+            DrawableCompat.setTint(wrap, rule.apply ? colorOn : colorGrayed);
         }
 
         // Mobile settings
         holder.cbOther.setAlpha(otherActive ? 1 : 0.5f);
         holder.cbOther.setOnCheckedChangeListener(null);
         holder.cbOther.setChecked(rule.other_blocked);
+        holder.cbOther.setEnabled(rule.apply);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrap = DrawableCompat.wrap(CompoundButtonCompat.getButtonDrawable(holder.cbOther));
-            DrawableCompat.setTint(wrap, rule.other_blocked ? colorOff : colorOn);
+            DrawableCompat.setTint(wrap, rule.apply ? (rule.other_blocked ? colorOff : colorOn) : colorGrayed);
         }
         holder.cbOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -356,13 +367,15 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             }
         });
 
+        holder.ivScreenOther.setEnabled(rule.apply);
         holder.ivScreenOther.setAlpha(otherActive ? 1 : 0.5f);
         holder.ivScreenOther.setVisibility(rule.screen_other && rule.other_blocked ? View.VISIBLE : View.INVISIBLE);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrap = DrawableCompat.wrap(holder.ivScreenOther.getDrawable());
-            DrawableCompat.setTint(wrap, colorOn);
+            DrawableCompat.setTint(wrap, rule.apply ? colorOn : colorGrayed);
         }
 
+        holder.tvRoaming.setTextColor(rule.apply ? colorOff : colorGrayed);
         holder.tvRoaming.setAlpha(otherActive ? 1 : 0.5f);
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.screen_other) ? View.VISIBLE : View.INVISIBLE);
 
@@ -377,6 +390,18 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         // Show application state
         holder.tvDisabled.setVisibility(rule.enabled ? View.GONE : View.VISIBLE);
         holder.tvInternet.setVisibility(rule.internet ? View.GONE : View.VISIBLE);
+
+        // Apply
+        holder.cbApply.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? View.GONE : View.VISIBLE);
+        holder.cbApply.setOnCheckedChangeListener(null);
+        holder.cbApply.setChecked(rule.apply);
+        holder.cbApply.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                rule.apply = isChecked;
+                updateRule(rule, true, listAll);
+            }
+        });
 
         // Show related
         holder.btnRelated.setVisibility(rule.relateduids ? View.VISIBLE : View.GONE);
@@ -412,7 +437,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         // Show Wi-Fi screen on condition
         holder.cbScreenWifi.setOnCheckedChangeListener(null);
         holder.cbScreenWifi.setChecked(rule.screen_wifi);
-        holder.cbScreenWifi.setEnabled(rule.wifi_blocked);
+        holder.cbScreenWifi.setEnabled(rule.wifi_blocked && rule.apply);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrap = DrawableCompat.wrap(holder.ivWifiLegend.getDrawable());
@@ -436,7 +461,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         // Show mobile screen on condition
         holder.cbScreenOther.setOnCheckedChangeListener(null);
         holder.cbScreenOther.setChecked(rule.screen_other);
-        holder.cbScreenOther.setEnabled(rule.other_blocked);
+        holder.cbScreenOther.setEnabled(rule.other_blocked && rule.apply);
 
         holder.cbScreenOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -449,7 +474,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         // Show roaming condition
         holder.cbRoaming.setOnCheckedChangeListener(null);
         holder.cbRoaming.setChecked(rule.roaming);
-        holder.cbRoaming.setEnabled(!rule.other_blocked || rule.screen_other);
+        holder.cbRoaming.setEnabled((!rule.other_blocked || rule.screen_other) && rule.apply);
 
         holder.cbRoaming.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -563,24 +588,14 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         });
 
         // Show disable access notifications setting
-        final SharedPreferences nprefs = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
         holder.cbNotify.setOnCheckedChangeListener(null);
         holder.cbNotify.setEnabled(prefs.getBoolean("notify_access", false));
-        holder.cbNotify.setChecked(nprefs.getBoolean(rule.info.packageName, true));
+        holder.cbNotify.setChecked(rule.notify);
         holder.cbNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked)
-                    nprefs.edit().remove(rule.info.packageName).apply();
-                else
-                    nprefs.edit().putBoolean(rule.info.packageName, isChecked).apply();
-
-                for (String pkg : rule.related)
-                    if (isChecked)
-                        nprefs.edit().remove(pkg).apply();
-                    else
-                        nprefs.edit().putBoolean(pkg, isChecked).apply();
-                SinkholeService.reload("notify changed", context);
+                rule.notify = isChecked;
+                updateRule(rule, true, listAll);
             }
         });
 
@@ -609,6 +624,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
         SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
+        SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
+        SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
 
         if (rule.wifi_blocked == rule.wifi_default)
             wifi.edit().remove(rule.info.packageName).apply();
@@ -635,6 +652,16 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         else
             roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();
 
+        if (rule.apply)
+            apply.edit().remove(rule.info.packageName).apply();
+        else
+            apply.edit().putBoolean(rule.info.packageName, rule.apply).apply();
+
+        if (rule.notify)
+            notify.edit().remove(rule.info.packageName).apply();
+        else
+            notify.edit().putBoolean(rule.info.packageName, rule.notify).apply();
+
         rule.updateChanged(context);
         Log.i(TAG, "Updated " + rule);
 
@@ -647,6 +674,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     related.screen_wifi = rule.screen_wifi;
                     related.screen_other = rule.screen_other;
                     related.roaming = rule.roaming;
+                    related.apply = rule.apply;
+                    related.notify = rule.notify;
                     listModified.add(related);
                 }
         }

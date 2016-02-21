@@ -365,7 +365,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 List<Rule> listRule = Rule.getRules(true, SinkholeService.this);
                 List<Rule> listAllowed = getAllowedRules(listRule);
 
-                vpn = startVPN(listAllowed);
+                vpn = startVPN(listAllowed, listRule);
                 if (vpn == null)
                     throw new IllegalStateException("VPN start failed");
 
@@ -377,13 +377,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void reload() {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            boolean tethering = prefs.getBoolean("tethering", false);
-            boolean filter = prefs.getBoolean("filter", false);
-            String vpn4 = prefs.getString("vpn4", "10.1.10.1");
-            String vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
-            InetAddress dns = getDns(SinkholeService.this);
-
             if (state != State.enforcing) {
                 if (state != State.none) {
                     Log.d(TAG, "Stop foreground state=" + state.toString());
@@ -407,12 +400,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     } catch (InterruptedException ignored) {
                     }
                 }
-                vpn = startVPN(listAllowed);
+                vpn = startVPN(listAllowed, listRule);
 
             } else {
                 // Attempt seamless handover
                 ParcelFileDescriptor prev = vpn;
-                vpn = startVPN(listAllowed);
+                vpn = startVPN(listAllowed, listRule);
 
                 if (prev != null && vpn == null) {
                     Log.w(TAG, "Handover failed");
@@ -423,7 +416,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         Thread.sleep(3000);
                     } catch (InterruptedException ignored) {
                     }
-                    vpn = startVPN(listAllowed);
+                    vpn = startVPN(listAllowed, listRule);
                     if (vpn == null)
                         throw new IllegalStateException("Handover failed");
                 }
@@ -554,14 +547,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         private void resolved(ResourceRecord rr) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            if (prefs.getBoolean("filter_allowed", false) && prefs.getBoolean("resolved", true))
+            if (prefs.getBoolean("filter", false) && prefs.getBoolean("resolved", true))
                 DatabaseHelper.getInstance(SinkholeService.this).insertDns(rr);
         }
 
         private void usage(Usage usage) {
             if (usage.Uid >= 0) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-                if (prefs.getBoolean("filter_allowed", false) && prefs.getBoolean("track_usage", false)) {
+                if (prefs.getBoolean("filter", false) && prefs.getBoolean("track_usage", false)) {
                     DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
                     String dname = dh.getQName(usage.DAddr);
                     Log.i(TAG, "Usage account " + usage + " dname=" + dname);
@@ -867,11 +860,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private ParcelFileDescriptor startVPN(List<Rule> listAllowed) {
+    private ParcelFileDescriptor startVPN(List<Rule> listAllowed, List<Rule> listRule) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
-        boolean filter_allowed = prefs.getBoolean("filter_allowed", false);
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -921,20 +913,15 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
-        else if (filter && !filter_allowed && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            DatabaseHelper dh = DatabaseHelper.getInstance(this);
-            for (Rule rule : listAllowed) {
-                long count = dh.getBlockedRuleCount(rule.info.applicationInfo.uid);
-                if (count == 0) {
+        else if (filter)
+            for (Rule rule : listRule)
+                if (!rule.apply)
                     try {
+                        Log.i(TAG, "Not routing " + rule.info.packageName);
                         builder.addDisallowedApplication(rule.info.packageName);
                     } catch (PackageManager.NameNotFoundException ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     }
-                } else
-                    Log.i(TAG, "Routing allowed " + rule + " filter rules=" + count);
-            }
-        }
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
@@ -1009,7 +996,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private void prepareHostsBlocked() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-        boolean use_hosts = prefs.getBoolean("filter_allowed", false) && prefs.getBoolean("use_hosts", false);
+        boolean use_hosts = prefs.getBoolean("filter", false) && prefs.getBoolean("use_hosts", false);
         File hosts = new File(getFilesDir(), "hosts.txt");
         if (!use_hosts || !hosts.exists() || !hosts.canRead()) {
             Log.i(TAG, "Hosts file use=" + use_hosts + " exists=" + hosts.exists());
@@ -1129,7 +1116,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         mapForward.clear();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean("filter_allowed", false)) {
+        if (prefs.getBoolean("filter", false)) {
             Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getForwarding();
             int colProtocol = cursor.getColumnIndex("protocol");
             int colDPort = cursor.getColumnIndex("dport");
@@ -1152,7 +1139,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private void prepareNotify(List<Rule> listRule) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences nprefs = getSharedPreferences("notify", Context.MODE_PRIVATE);
         boolean notify = prefs.getBoolean("notify_access", false);
         boolean system = prefs.getBoolean("manage_system", false);
 
@@ -1160,7 +1146,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         if (notify)
             for (Rule rule : listRule)
-                if (nprefs.getBoolean(rule.info.packageName, true) && (system || !rule.system))
+                if (rule.notify && (system || !rule.system))
                     mapNoNotify.put(rule.info.applicationInfo.uid, true);
     }
 

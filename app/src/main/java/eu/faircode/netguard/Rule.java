@@ -67,6 +67,9 @@ public class Rule {
     public boolean screen_other = false;
     public boolean roaming = false;
 
+    public boolean apply = true;
+    public boolean notify = true;
+
     public boolean relateduids = false;
     public String[] related = null;
 
@@ -128,6 +131,8 @@ public class Rule {
         SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
         SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
+        SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
+        SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
 
         // Get settings
         boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
@@ -245,6 +250,9 @@ public class Rule {
                 rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default);
                 rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
                 rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
+
+                rule.apply = apply.getBoolean(info.packageName, true);
+                rule.notify = notify.getBoolean(info.packageName, true);
 
                 // Related packages
                 List<String> listPkg = new ArrayList<>();

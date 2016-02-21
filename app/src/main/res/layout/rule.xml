@@ -87,7 +87,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/screen_on" />
+                    android:src="@drawable/screen" />
 
                 <View
                     android:layout_width="16dp"
@@ -127,7 +127,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/screen_on" />
+                    android:src="@drawable/screen" />
 
                 <TextView
                     android:id="@+id/tvRoaming"
@@ -200,6 +200,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="4dp" />
+
+        <CheckBox
+            android:id="@+id/cbApply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/title_apply" />
 
         <LinearLayout
             android:layout_width="wrap_content"
