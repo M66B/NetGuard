@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -136,9 +137,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
         ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
 
-        // Icon, no title
-        getSupportActionBar().setTitle(null);
-
+        // Icon
         ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -146,6 +145,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
             }
         });
+
+        // Title
+        getSupportActionBar().setTitle(null);
+        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                == Configuration.SCREENLAYOUT_SIZE_LARGE)
+            actionView.findViewById(R.id.tvTitle).setVisibility(View.VISIBLE);
 
         // Netguard is busy
         ivQueue.setOnLongClickListener(new View.OnLongClickListener() {
