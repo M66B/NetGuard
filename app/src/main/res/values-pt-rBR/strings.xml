@@ -63,7 +63,6 @@
   <string name="setting_log_app">Registrar acesso à internet</string>
   <string name="setting_access">Notificar ao acessar a internet</string>
   <string name="setting_filter">Filtrar tráfego</string>
-  <string name="setting_filter_allowed">Filtrar o tráfego permitido</string>
   <string name="setting_resolved">Armazenar nomes de domínios resolvidos</string>
   <string name="setting_track_usage">Controlar o uso de rede</string>
   <string name="setting_reset_usage">Redefinir o uso da rede</string>
@@ -103,7 +102,6 @@
   <string name="summary_log_app">Registar tentativas de acesso à internet para aplicações. Isto pode resultar no uso extra da bateria.</string>
   <string name="summary_access">Mostrar uma notificação quando um aplicativo tentar acessar um novo endereço de rede</string>
   <string name="summary_filter">Filtrar pacotes de IP que saem da VPN. Isso pode resultar em um maior uso da bateria.</string>
-  <string name="summary_filter_allowed">Rotear e monitorar tráfego permitido dentro do túnel VPN. Isso pode resultar no uso extra da bateria.</string>
   <string name="summary_resolved">Armazenar nomes de domínios/endereços de IP em um banco de dados. Isso torna o registro de tráfego mais útil, mas pode resultar em uso extra de bateria.</string>
   <string name="summary_track_usage">Controle o número de bytes enviados e recebidos para cada aplicativo e endereço. Isso pode resultar no uso da bateria extra.</string>
   <string name="summary_block_domains">Responder com \'erro de nome\' (NXDOMAIN) para nomes de domínio bloqueados. Essa opção é desabilitada quando nenhum arquivo de hosts está disponível.</string>
@@ -154,9 +152,11 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_interactive_allowed">Permitir quando a tela estiver ligada</string>
   <string name="title_roaming_blocked">Bloquear quando em roaming</string>
   <string name="title_metered">Por padrão, uma conexão Wi-Fi é considerada ilimitada e uma conexão móvel limitada</string>
+  <string name="title_apply">Apply rules and conditions</string>
   <string name="title_conditions">Condições</string>
   <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bloquear quando em roaming</string>
   <string name="title_disabled">está desativado</string>
   <string name="title_internet">não tem permissão de acesso a internet</string>
@@ -170,7 +170,6 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_root">raiz</string>
   <string name="title_mediaserver">Servidor de Mídia</string>
   <string name="title_nobody">ninguém</string>
-  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>

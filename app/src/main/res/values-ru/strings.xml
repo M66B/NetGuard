@@ -62,7 +62,6 @@
   <string name="setting_log_app">Журнал доступа к сети интернет</string>
   <string name="setting_access">Уведомить при доступе в интернет</string>
   <string name="setting_filter">Фильтр трафика</string>
-  <string name="setting_filter_allowed">Фильтр разрешенного трафика</string>
   <string name="setting_resolved">Хранить разрешения доменных имен</string>
   <string name="setting_track_usage">Отслеживание использования сети</string>
   <string name="setting_reset_usage">Сброс сетевого использования</string>
@@ -102,7 +101,6 @@
   <string name="summary_log_app">Журнал попыток доступа приложений к сети интернет. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_access">Показывать оповещение в статус-баре, когда приложение получает доступ к новому интернет адресу</string>
   <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
-  <string name="summary_filter_allowed">Маршрут разрешит трафик в VPN для контроля разрешенного трафика. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_resolved">Хранить доменные имена и IP-адреса в базе данных. Это делает журнал трафика более полезным, но может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_track_usage">Отслеживать количество отправленных и полученных байтов для каждого приложения и адресов. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_block_domains">Ответить на \'название ошибки\' (NXDOMAIN) для заблокированных доменных имен. Этот переключатель выключен, если hosts-файл отсутствует.</string>
@@ -152,9 +150,11 @@
   <string name="title_interactive_allowed">Разрешить, когда экран включен</string>
   <string name="title_roaming_blocked">Блокировать в роуминге</string>
   <string name="title_metered">По умолчанию Wi-Fi соединение считается безлимитным, а мобильная связь лимитированной</string>
+  <string name="title_apply">Apply rules and conditions</string>
   <string name="title_conditions">Условия</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Блокировать в роуминге</string>
   <string name="title_disabled">отключено</string>
   <string name="title_internet">не имеет доступа в интернет</string>
@@ -168,7 +168,6 @@
   <string name="title_root">root</string>
   <string name="title_mediaserver">медиасервер</string>
   <string name="title_nobody">никто</string>
-  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">Уведомить о попытке доступа в интернет</string>
   <string name="title_log_whois">Протокол WHOIS: %1$s</string>
   <string name="title_log_port">Порт: %1$d</string>

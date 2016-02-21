@@ -62,7 +62,6 @@
   <string name="setting_log_app">سجل الوصول للإنترنت</string>
   <string name="setting_access">إخطار عند الوصول إلى الإنترنت</string>
   <string name="setting_filter">تصفية الحركة</string>
-  <string name="setting_filter_allowed">تصفية الحركة المسموحة</string>
   <string name="setting_resolved">تخزين أسماء النطاقات المحلولة</string>
   <string name="setting_track_usage">متابعة استخدام الشبكة</string>
   <string name="setting_reset_usage">إعادة تعيين استخدام الشبكة</string>
@@ -102,7 +101,6 @@
   <string name="summary_log_app">تسجل محاولات وصول التطبيقات إلى الإنترنت. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_access">إظهار تنبيه على شريط المعلومات عندما يحاول تطبيق الوصول إلى عنوان إنترنت جديد</string>
   <string name="summary_filter">تصفية حزم IP الخارجة من نفق VPN. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
-  <string name="summary_filter_allowed">توجيه الحركة المسموح لها إلى داخل نفق VPN لرصد الحركة المسموح بها. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_resolved">تخزين عناوين IP/أسماء المجالات إلى قاعدة بيانات. هذا يجعل سجل الحركة أكثر فائدة، ولكن قد يؤدي إلى استخدام إضافي للبطارية.</string>
   <string name="summary_track_usage">تتبع عدد وحدات البايت المرسلة والمتلقاة لكل تطبيق وعنوان. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_block_domains">الاستجابة ب \'اسم خاطئ\' (NXDOMAIN) عند حظر أسماء النطاقات. يعطل هذا الخيار عند عدم وجود ملف مضيفين.</string>
@@ -153,9 +151,11 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_interactive_allowed">السماح عند تشغيل الشاشة</string>
   <string name="title_roaming_blocked">حظر أثناء التجوال</string>
   <string name="title_metered">بشكل افتراضي، تعتبر شبكات الاتصال اللاسلكي غير مقاسة واتصال الهاتف مقاس</string>
+  <string name="title_apply">Apply rules and conditions</string>
   <string name="title_conditions">الشروط</string>
   <string name="title_screen_wifi">تسمح خدمة الواي فـاي عند تشغيل الشاشة</string>
   <string name="title_screen_other">يسمح المحمول عند تشغيل الشاشة</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">مـنـع خـدمـة الـجـوال</string>
   <string name="title_disabled">يتم تعطيل</string>
   <string name="title_internet">لـيـس لـديـة إذن الإنـتـرنـت</string>
@@ -169,7 +169,6 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_root">الجذر</string>
   <string name="title_mediaserver">خادم الوسائط</string>
   <string name="title_nobody">لا أحد</string>
-  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">تنبيه عن محاولات الوصول إلى إنترنت</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>

@@ -63,7 +63,6 @@
   <string name="setting_log_app">インター ネット アクセスをログ</string>
   <string name="setting_access">インター ネット アクセス時に通知</string>
   <string name="setting_filter">トラフィックをフィルター</string>
-  <string name="setting_filter_allowed">許可されるトラフィックをフィルター</string>
   <string name="setting_resolved">解決したドメイン名を保存</string>
   <string name="setting_track_usage">ネットワークの使用状況を追跡</string>
   <string name="setting_reset_usage">ネットワークの使用状況をリセット</string>
@@ -103,7 +102,6 @@
   <string name="summary_log_app">アプリケーションのインターネットへのアクセスをログ記録します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_access">アプリケーションが、新しいインターネット アドレスにアクセスしようとするときに、ステータスバーに通知を表示します。</string>
   <string name="summary_filter">VPN トンネルを出る IP パケットをフィルターします。バッテリー使用量が増えることがあります。</string>
-  <string name="summary_filter_allowed">許可するトラフィックを VPN トンネルにルートさせて、許可するトラフィックを監視します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_resolved">ドメイン名/IP アドレスをデータベースに格納します。これによりトラフィック ログがさらに便利になりますが、バッテリーの使用量が増えることがあります。</string>
   <string name="summary_track_usage">各アプリケーションとアドレスごとの送受信バイト数を追跡します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_block_domains">ブロックされたドメイン名は \'名前エラー\' (NXDOMAIN) で応答します。Hosts ファイルが使用できない場合、このスイッチは無効です。</string>
@@ -152,9 +150,11 @@
   <string name="title_interactive_allowed">画面がオンの場合に許可</string>
   <string name="title_roaming_blocked">ローミング時にブロック</string>
   <string name="title_metered">デフォルトで Wi-Fi 接続は無制限、そしてモバイル接続は従量制と見なされます</string>
+  <string name="title_apply">Apply rules and conditions</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">ローミング時にブロック</string>
   <string name="title_disabled">無効</string>
   <string name="title_internet">インターネット アクセス許可がありません</string>
@@ -168,7 +168,6 @@
   <string name="title_root">ルート</string>
   <string name="title_mediaserver">メディアサーバー</string>
   <string name="title_nobody">nobody</string>
-  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">インターネット アクセスの試みを通知</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">ポート %1$d</string>

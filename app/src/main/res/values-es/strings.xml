@@ -62,7 +62,6 @@
   <string name="setting_log_app">Registrar acceso a Internet</string>
   <string name="setting_access">Notificar sobre acceso a Internet</string>
   <string name="setting_filter">Filtrar tráfico</string>
-  <string name="setting_filter_allowed">Filtrar el tráfico permitido</string>
   <string name="setting_resolved">Almacenar nombres de dominio resueltos</string>
   <string name="setting_track_usage">Registrar el uso de la red</string>
   <string name="setting_reset_usage">Restablecer el uso de la red</string>
@@ -102,7 +101,6 @@
   <string name="summary_log_app">Registrar intentos de acceso a Internet para aplicaciones. Esto podría consumir más batería.</string>
   <string name="summary_access">Mostrar una notificación en la barra de estado cuando una aplicación intente acceder a una nueva dirección de Internet</string>
   <string name="summary_filter">Filtrar paquetes IP, por fuera del túnel VPN. Esto podría consumir más batería.</string>
-  <string name="summary_filter_allowed">Dirige el tráfico permitido dentro del túnel VPN para registrarlo. Esto podría consumir más batería.</string>
   <string name="summary_resolved">Guardar nombres de dominio/direcciones IP en una base de datos. Esto hace más útil el registro del tráfico, pero podría consumir más batería.</string>
   <string name="summary_track_usage">Registrar número de bytes enviados y recibidos para cada aplicación y dirección. Esto podría consumir más batería.</string>
   <string name="summary_block_domains">Responde con \'error de nombre\' (NXDOMAIN) para nombres de dominio bloqueados. Este interruptor se desactiva cuando no hay ningún archivo hosts disponible.</string>
@@ -151,9 +149,11 @@
   <string name="title_interactive_allowed">Allow when screen is on</string>
   <string name="title_roaming_blocked">Block when roaming</string>
   <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
+  <string name="title_apply">Apply rules and conditions</string>
   <string name="title_conditions">Condiciones</string>
   <string name="title_screen_wifi">Permitir Wi-Fi con la pantalla encendida</string>
   <string name="title_screen_other">Permitir red móvil con la pantalla encendida</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bloquear cuando esté en roaming</string>
   <string name="title_disabled">está desactivado</string>
   <string name="title_internet">no tiene permiso a Internet</string>
@@ -167,7 +167,6 @@
   <string name="title_root">raíz</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nadie</string>
-  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">Notificar intentos de acceso a Internet</string>
   <string name="title_log_whois">Quién es %1$s</string>
   <string name="title_log_port">Puerto %1$d</string>

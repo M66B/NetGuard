@@ -64,7 +64,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">Protokolovat přístup k Internetu</string>
   <string name="setting_access">Upozornění na připojení k Internetu</string>
   <string name="setting_filter">Filtrování provozu</string>
-  <string name="setting_filter_allowed">Filter allowed traffic</string>
   <string name="setting_resolved">Store resolved domain names</string>
   <string name="setting_track_usage">Track network usage</string>
   <string name="setting_reset_usage">Reset network usage</string>
@@ -104,7 +103,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
   <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
-  <string name="summary_filter_allowed">Route allowed traffic into the VPN tunnel to monitor allowed traffic. This might result in extra battery usage.</string>
   <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
   <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
@@ -155,9 +153,11 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_interactive_allowed">Allow when screen is on</string>
   <string name="title_roaming_blocked">Block when roaming</string>
   <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
+  <string name="title_apply">Apply rules and conditions</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">Povolit Wi-Fi při zapnuté obrazovce</string>
   <string name="title_screen_other">Povolit mobilní data při zapnutí obrazovky</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Blokovat při roamingu</string>
   <string name="title_disabled">je zakázáno</string>
   <string name="title_internet">has no internet permission</string>
@@ -171,7 +171,6 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nobody</string>
-  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">Notify internet access attempts</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>

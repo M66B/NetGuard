@@ -62,7 +62,6 @@
   <string name="setting_log_app">Enregistrer les accès à internet dans le journal</string>
   <string name="setting_access">Notifier l\'accès à internet</string>
   <string name="setting_filter">Filtrer le trafic</string>
-  <string name="setting_filter_allowed">Filtrer le trafic autorisé</string>
   <string name="setting_resolved">Stocker les noms de domaine résolus</string>
   <string name="setting_track_usage">Surveiller l\'utilisation du réseau</string>
   <string name="setting_reset_usage">Réinitialiser l\'utilisation du réseau</string>
@@ -102,7 +101,6 @@
   <string name="summary_log_app">Enregistrer dans le journal les tentatives d\'accès à Internet des applications. Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_access">Afficher une notification dans la barre d\'état quand une application essaie d\'accéder à une nouvelle adresse Internet</string>
   <string name="summary_filter">Filtrer les paquets IP sortant du tunnel VPN. Cela peut entraîner une surconsommation de la batterie.</string>
-  <string name="summary_filter_allowed">Diriger le trafic autorisé dans le tunnel VPN pour surveiller le trafic autorisé. Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_resolved">Stocker les adresses IP et les noms de domaine dans une base de données. Cela rend la journalisation du trafic plus utile, mais peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_track_usage">Surveiller le nombre d\'octets envoyés et reçus pour chaque application et adresse. Ceci peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_block_domains">Renvoyer \"name error\" (NXDOMAIN) pour les noms de domaine bloqués. Cette option est désactivée quand aucun fichier hosts n\'est disponible.</string>
@@ -153,9 +151,11 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_interactive_allowed">Autoriser lorsque l\'écran est allumé</string>
   <string name="title_roaming_blocked">Bloquer en itinérance</string>
   <string name="title_metered">Par défaut, une connexion Wi-Fi est considérée comme illimitée et une connexion mobile limitée</string>
+  <string name="title_apply">Apply rules and conditions</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">Autoriser Wi-Fi si écran allumé</string>
   <string name="title_screen_other">Autoriser données mobiles si écran allumé</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bloquer si itinérance</string>
   <string name="title_disabled">est désactivé</string>
   <string name="title_internet">n\'a aucune autorisation internet</string>
@@ -169,7 +169,6 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">personne</string>
-  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">Notifier les tentatives d\'accès à internet</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>

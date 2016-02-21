@@ -63,7 +63,6 @@
   <string name="setting_log_app">Internetzugriff protokollieren</string>
   <string name="setting_access">Bei Internet-Zugriff benachrichtigen</string>
   <string name="setting_filter">Datenverkehr filtern</string>
-  <string name="setting_filter_allowed">Erlaubten Datenverkehr filtern</string>
   <string name="setting_resolved">Aufgelöste Domain-Namen speichern</string>
   <string name="setting_track_usage">Netzwerknutzung verfolgen</string>
   <string name="setting_reset_usage">Netzwerknutzung zurücksetzen</string>
@@ -103,7 +102,6 @@
   <string name="summary_log_app">Protokoll zeichnet den Internetzugriff von Anwendungen auf (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_access">Benachrichtigung in Statusleiste anzeigen, wenn eine App auf eine neue Internetadresse zugreifen möchte</string>
   <string name="summary_filter">IP-Pakete filtern, die den VPN-Tunnel verlassen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
-  <string name="summary_filter_allowed">Erlaubten Datenverkehr zum Überwachen durch VPN-Tunnel führen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_resolved">Domain-Namen/IP-Adressen in einer Datenbank speichern. Dies macht das Verkehrsprotokoll sinnvoller, kann aber zu höherem Batterieverbrauch führen.</string>
   <string name="summary_track_usage">Anzahl der gesendeten und empfangenen Bytes für jede Anwendung und Adresse verfolgen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_block_domains">Antwortet für blockierte Domain-Namen mit \'Name Error\' (NXDOMAIN). Diese Option ist deaktiviert, wenn keine Hosts-Datei zur Verfügung steht.</string>
@@ -152,9 +150,11 @@
   <string name="title_interactive_allowed">Erlauben, wenn Bildschirm an</string>
   <string name="title_roaming_blocked">Bei Roaming blockieren</string>
   <string name="title_metered">Standardmäßig wird eine WLAN-Verbindung als ungemessen und eine mobile Verbindung als gemessen betrachtet</string>
+  <string name="title_apply">Apply rules and conditions</string>
   <string name="title_conditions">Bedingungen</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
+  <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bei Roaming blockieren</string>
   <string name="title_disabled">ist deaktiviert</string>
   <string name="title_internet">hat keine Internet-Berechtigung</string>
@@ -168,7 +168,6 @@
   <string name="title_root">root</string>
   <string name="title_mediaserver">Medienserver</string>
   <string name="title_nobody">Keiner</string>
-  <string name="title_roaming_symbol">R</string>
   <string name="title_notify">Benachrichtigen über Internetzugriffsversuche</string>
   <string name="title_log_whois">Wer ist %1$s</string>
   <string name="title_log_port">Port %1$d</string>
