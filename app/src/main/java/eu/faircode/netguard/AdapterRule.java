@@ -496,6 +496,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 Util.areYouSure(view.getContext(), R.string.msg_clear_rules, new Util.DoubtListener() {
                     @Override
                     public void onSure() {
+                        holder.cbApply.setChecked(true);
                         holder.cbWifi.setChecked(rule.wifi_default);
                         holder.cbOther.setChecked(rule.other_default);
                         holder.cbScreenWifi.setChecked(rule.screen_wifi_default);
@@ -589,7 +590,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         // Show disable access notifications setting
         holder.cbNotify.setOnCheckedChangeListener(null);
-        holder.cbNotify.setEnabled(prefs.getBoolean("notify_access", false));
+        holder.cbNotify.setEnabled(prefs.getBoolean("notify_access", false) && rule.apply);
         holder.cbNotify.setChecked(rule.notify);
         holder.cbNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
