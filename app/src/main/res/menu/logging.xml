@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:netguard="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/menu_search"
+        netguard:actionViewClass="android.support.v7.widget.SearchView"
+        netguard:showAsAction="always|collapseActionView" />
+
+    <item
+        android:id="@+id/menu_filter"
+        android:icon="@drawable/ic_filter_list_white_24dp"
+        android:title="@string/menu_filter"
+        netguard:showAsAction="always|collapseActionView">
+        <menu>
+            <item
+                android:id="@+id/menu_protocol_udp"
+                android:checkable="true"
+                android:title="@string/menu_protocol_udp" />
+            <item
+                android:id="@+id/menu_protocol_tcp"
+                android:checkable="true"
+                android:title="@string/menu_protocol_tcp" />
+            <item
+                android:id="@+id/menu_protocol_other"
+                android:checkable="true"
+                android:title="@string/menu_protocol_other" />
+            <item
+                android:id="@+id/menu_traffic_allowed"
+                android:checkable="true"
+                android:title="@string/menu_traffic_allowed" />
+            <item
+                android:id="@+id/menu_traffic_blocked"
+                android:checkable="true"
+                android:title="@string/menu_traffic_blocked" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_log_live"
+        android:checkable="true"
+        android:checked="true"
+        android:title="@string/menu_live" />
+    <item
+        android:id="@+id/menu_refresh"
+        android:enabled="false"
+        android:title="@string/menu_refresh" />
+    <item
+        android:id="@+id/menu_log_resolve"
+        android:checkable="true"
+        android:checked="false"
+        android:title="@string/menu_resolve" />
+    <item
+        android:id="@+id/menu_pcap_enabled"
+        android:checkable="true"
+        android:title="@string/menu_pcap_enabled" />
+    <item
+        android:id="@+id/menu_pcap_export"
+        android:title="@string/menu_pcap_export" />
+    <item
+        android:id="@+id/menu_log_clear"
+        android:title="@string/menu_clear" />
+    <item
+        android:id="@+id/menu_log_support"
+        android:title="@string/menu_support" />
+</menu>

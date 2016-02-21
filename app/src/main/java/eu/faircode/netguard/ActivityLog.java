@@ -150,6 +150,8 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 PackageManager pm = getPackageManager();
                 Cursor cursor = (Cursor) adapter.getItem(position);
                 long time = cursor.getLong(cursor.getColumnIndex("time"));
+                int version = cursor.getInt(cursor.getColumnIndex("version"));
+                int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
                 final String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
                 final int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
                 final String saddr = cursor.getString(cursor.getColumnIndex("saddr"));
@@ -176,37 +178,57 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
                 // Build popup menu
                 PopupMenu popup = new PopupMenu(ActivityLog.this, findViewById(R.id.vwPopupAnchor));
+                popup.inflate(R.menu.log);
 
+                // Application name
                 if (uid >= 0)
-                    popup.getMenu().add(Menu.NONE, 1, 1, TextUtils.join(", ", Util.getApplicationNames(uid, ActivityLog.this)));
+                    popup.getMenu().findItem(R.id.menu_application).setTitle(TextUtils.join(", ", Util.getApplicationNames(uid, ActivityLog.this)));
+                else
+                    popup.getMenu().removeItem(R.id.menu_application);
 
+                // Destination IP
+                popup.getMenu().findItem(R.id.menu_protocol).setTitle(Util.getProtocolName(protocol, version, false));
+
+                // Whois
                 final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + ip));
-                popup.getMenu().add(Menu.NONE, 2, 2, getString(R.string.title_log_whois, ip))
-                        .setEnabled(pm.resolveActivity(lookupIP, 0) != null);
+                if (pm.resolveActivity(lookupIP, 0) == null)
+                    popup.getMenu().removeItem(R.id.menu_whois);
+                else
+                    popup.getMenu().findItem(R.id.menu_whois).setTitle(getString(R.string.title_log_whois, ip));
 
+                // Lookup port
                 final Intent lookupPort = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.speedguide.net/port.php?port=" + port));
-                if (port > 0)
-                    popup.getMenu().add(Menu.NONE, 3, 3, getString(R.string.title_log_port, dport))
-                            .setEnabled(pm.resolveActivity(lookupPort, 0) != null);
+                if (port <= 0 || pm.resolveActivity(lookupPort, 0) == null)
+                    popup.getMenu().removeItem(R.id.menu_port);
+                else
+                    popup.getMenu().findItem(R.id.menu_port).setTitle(getString(R.string.title_log_port, dport));
 
-                popup.getMenu().add(Menu.NONE, 4, 4, SimpleDateFormat.getDateTimeInstance().format(time))
-                        .setEnabled(false);
+                // Time
+                popup.getMenu().findItem(R.id.menu_time).setTitle(SimpleDateFormat.getDateTimeInstance().format(time));
 
+                // Handle click
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        if (menuItem.getItemId() == 1) {
-                            Intent main = new Intent(ActivityLog.this, ActivityMain.class);
-                            main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
-                            startActivity(main);
-                        } else if (menuItem.getItemId() == 2)
-                            startActivity(lookupIP);
-                        else if (menuItem.getItemId() == 3)
-                            startActivity(lookupPort);
-                        return false;
+                        switch (menuItem.getItemId()) {
+                            case R.id.menu_application:
+                                Intent main = new Intent(ActivityLog.this, ActivityMain.class);
+                                main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
+                                startActivity(main);
+                                return true;
+                            case R.id.menu_whois:
+                                startActivity(lookupIP);
+                                return true;
+                            case R.id.menu_port:
+                                startActivity(lookupPort);
+                                return true;
+                            default:
+                                return false;
+                        }
                     }
                 });
 
+                // Show
                 popup.show();
             }
         });
@@ -260,7 +282,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.log, menu);
+        inflater.inflate(R.menu.logging, menu);
 
         menuSearch = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
