@@ -150,7 +150,7 @@
   <string name="title_interactive_allowed">Erlauben, wenn Bildschirm an</string>
   <string name="title_roaming_blocked">Bei Roaming blockieren</string>
   <string name="title_metered">Standardmäßig wird eine WLAN-Verbindung als ungemessen und eine mobile Verbindung als gemessen betrachtet</string>
-  <string name="title_apply">Apply rules and conditions</string>
+  <string name="title_apply">Regeln und Bedingungen anwenden</string>
   <string name="title_conditions">Bedingungen</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>

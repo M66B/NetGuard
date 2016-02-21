@@ -150,7 +150,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_interactive_allowed">Permite doar cand ecranul este pornit</string>
   <string name="title_roaming_blocked">Blocheaza in roaming</string>
   <string name="title_metered">In mod implicit conexiunile Wi-Fi sunt considerate necontorizate iar cele mobile drept contorizate</string>
-  <string name="title_apply">Apply rules and conditions</string>
+  <string name="title_apply">Aplica regulile si conditiile</string>
   <string name="title_conditions">Restrictii</string>
   <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
   <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>

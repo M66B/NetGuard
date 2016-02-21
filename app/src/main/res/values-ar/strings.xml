@@ -68,16 +68,16 @@
   <string name="setting_block_domains">حظر أسماء نطاقات</string>
   <string name="setting_forwarding">توجيه المنفذ</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
-  <string name="setting_vpn6">VPN IPv6: %s</string>
+  <string name="setting_vpn6">VPN IPv4: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
-  <string name="setting_pcap_record_size">PCAP record size: %s B</string>
-  <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
+  <string name="setting_pcap_record_size">سجل PCAP حجمه: %s ب</string>
+  <string name="setting_pcap_file_size">حجم ملف PCAP الأعلى: s% م ب</string>
   <string name="setting_stats_category">تنبيه السرعة</string>
   <string name="setting_stats">إظهار تنبيه السرعه</string>
   <string name="setting_stats_top">إظهار التطبيقات الأعلى</string>
   <string name="setting_stats_base">خط السرعة الأساسي: %s كيلوبايت/ثانية</string>
-  <string name="setting_stats_frequency">Sample interval: %s ms</string>
-  <string name="setting_stats_samples">Number of samples: %s s</string>
+  <string name="setting_stats_frequency">الفاصل الزمني للعينة: %s دقيقة</string>
+  <string name="setting_stats_samples">عدد العينات: %s s</string>
   <string name="setting_backup">نسخة احتياطية</string>
   <string name="setting_export">تصدير الإعدادات</string>
   <string name="setting_import">استيراد الإعدادات</string>
@@ -113,12 +113,10 @@
   <string name="msg_disabled">التطبيق غير مُفعّل, قم بتفعيل التطبيق من الخيار أعلاه.</string>
   <string name="msg_revoked">تـم تـعـطـيـل NetGuard، مـن الـمـحـتـمـل إسـتـخـدام تـطـبـيـق VPN عـلـى أسـاس آخـر</string>
   <string name="msg_error">تــم تــعــطــيــل NetGuard، بــســبــب خــطــأ داخــلــي</string>
-  <string name="msg_installed">\'%1$s\' installed</string>
-  <string name="msg_access">%1$s attempted internet access</string>
+  <string name="msg_installed">\'%1$s\' مثبت</string>
+  <string name="msg_access">%1$s محاولة للوصول إلى إنترنت</string>
   <string name="msg_completed">اكتمل الإجراء</string>
-  <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Your internet traffic is not being sent to a remote VPN server.</string>
+  <string name="msg_vpn">يستخدم NetGuard شبكة VPN محلية لتصفية حركة الانترنت. لهذا، يرجى السماح لاتصال VPN في مربع الحوار القادم. حركة الانترنت الخاصة بك لا يتم ارسالها الى خادم VPN بعيد.</string>
   <string name="msg_autostart">لا يمكن بدء NetGuard بشكل تلقائي عند التشغيل بسبب وجود خلل في إصدار الاندرويد الخاص بك</string>
   <string name="msg_try">جـرّب حـارس الـشـبـكـة (NetGuard)</string>
   <string name="msg_terms">بالــتـبـرع مـعـنـاه مـوافـقـتـك عـلـى الأحـكـام والـشـروط. <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
@@ -126,20 +124,20 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>
-  <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
-  <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
+  <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ كيلو بايت</string>
+  <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ ميجا بايت</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-  <string name="msg_count">%dx</string>
-  <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
+  <string name="msg_count">%dس</string>
+  <string name="msg_filter">استخدام التصفية سيتسبب بأن ينسب الأندرويد استخدام البيانات والطاقة الى NetGuard - يفترض الأندرويد أن البيانات والطاقة تستخدمان من قبل NetGuard بدلاً من التطبيقات الأصلية</string>
   <string name="msg_log_disabled">تسجيل الحركة معطل، استخدم رمز التبديل أعلاه لتمكين التسجيل. قد يؤدي تسجيل الحركة الى استخدام إضافي للبطارية.</string>
   <string name="msg_clear_rules">هذا سوف يعيد تعيين القواعد والشروط إلى قيمها الافتراضية</string>
   <string name="msg_reset_access">هذا سيؤدي إلى حذف خطوط سجل محاولة الوصول دون قواعد السماح/الحظر</string>
-  <string name="msg_import_last">Last import: %s</string>
+  <string name="msg_import_last">آخر استيراد: %s</string>
   <string name="msg_downloading">Downloading\n%1s</string>
   <string name="msg_downloaded">تحميل ملف مضيفين</string>
-  <string name="msg_download_last">Last download: %s</string>
-  <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
-  <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
+  <string name="msg_download_last">آخر تحميل: %s</string>
+  <string name="msg_start_forward" formatted="false">بدء التوجيه من %1$s منفذ %2$d الى %3$s:%4$d من %5$s؟</string>
+  <string name="msg_stop_forward">إيقاف إعادة توجيه %1$s منفذ %2$d؟</string>
   <string name="msg_metered">الشبكة مقاسة</string>
   <string name="msg_queue">NetGuard مشغول</string>
   <string name="title_unmetered_allowed">الحركة الغير مقاسة مسموحة</string>
@@ -151,7 +149,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_interactive_allowed">السماح عند تشغيل الشاشة</string>
   <string name="title_roaming_blocked">حظر أثناء التجوال</string>
   <string name="title_metered">بشكل افتراضي، تعتبر شبكات الاتصال اللاسلكي غير مقاسة واتصال الهاتف مقاس</string>
-  <string name="title_apply">Apply rules and conditions</string>
+  <string name="title_apply">تطبيق القواعد والشروط</string>
   <string name="title_conditions">الشروط</string>
   <string name="title_screen_wifi">تسمح خدمة الواي فـاي عند تشغيل الشاشة</string>
   <string name="title_screen_other">يسمح المحمول عند تشغيل الشاشة</string>
@@ -171,7 +169,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_nobody">لا أحد</string>
   <string name="title_notify">تنبيه عن محاولات الوصول إلى إنترنت</string>
   <string name="title_log_whois">Whois %1$s</string>
-  <string name="title_log_port">Port %1$d</string>
+  <string name="title_log_port">منفذ %1$d</string>
   <string name="title_pro">ميزات النسخة الكاملة</string>
   <string name="title_pro_trial_until">تجربة ميزات النسخة الكاملة إلى</string>
   <string name="title_pro_trial_ended">انتهت الفترة التجريبية لميزات النسخة الكاملة</string>

@@ -140,7 +140,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_download_last">Dernier téléchargement : %s</string>
   <string name="msg_start_forward" formatted="false">Lancer la redirection du %1$s port %2$d au %3$s:%4$d de \'%5$s\' ?</string>
   <string name="msg_stop_forward">Arrêter la redirection du %1$s port %2$d ?</string>
-  <string name="msg_metered">L\'utilisation du réseau est limitée</string>
+  <string name="msg_metered">Le réseau est limité</string>
   <string name="msg_queue">NetGuard est occupé</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>
   <string name="title_unmetered_blocked">Le trafic illimité est bloqué</string>
@@ -148,10 +148,10 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_metered_blocked">Le trafic limité est bloqué</string>
   <string name="title_host_allowed">L\'adresse est autorisée</string>
   <string name="title_host_blocked">L\'adresse est bloquée</string>
-  <string name="title_interactive_allowed">Autoriser lorsque l\'écran est allumé</string>
+  <string name="title_interactive_allowed">Autoriser si l\'écran est allumé</string>
   <string name="title_roaming_blocked">Bloquer en itinérance</string>
   <string name="title_metered">Par défaut, une connexion Wi-Fi est considérée comme illimitée et une connexion mobile limitée</string>
-  <string name="title_apply">Apply rules and conditions</string>
+  <string name="title_apply">Appliquer les règles et conditions</string>
   <string name="title_conditions">Conditions</string>
   <string name="title_screen_wifi">Autoriser Wi-Fi si écran allumé</string>
   <string name="title_screen_other">Autoriser données mobiles si écran allumé</string>
