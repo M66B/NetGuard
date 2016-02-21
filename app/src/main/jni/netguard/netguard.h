@@ -33,7 +33,7 @@
 
 #define SELECT_TIMEOUT 3600 // seconds
 
-#define TUN_MAXMSG 32768 // bytes (device)
+#define TUN_MAXMSG 10000 // bytes (device)
 #define ICMP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
 #define ICMP6_MAXMSG (IPV6_MAXPACKET - 40 - 8) // bytes (socket)
 #define UDP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
