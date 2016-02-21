@@ -834,29 +834,31 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    public static InetAddress getDns(Context context) {
+    public static List<InetAddress> getDns(Context context) {
+        List<InetAddress> listDns = new ArrayList<>();
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String sysDns = Util.getDefaultDNS(context);
-        String vpnDns = prefs.getString("dns", sysDns);
-        Log.i(TAG, "DNS system=" + sysDns + " VPN=" + vpnDns);
-        try {
-            if (TextUtils.isEmpty(vpnDns.trim()))
-                throw new UnknownHostException("dns");
-            InetAddress dns = InetAddress.getByName(vpnDns);
-            // Check legacy settings
-            if (dns.isLoopbackAddress() || dns.isAnyLocalAddress())
-                throw new UnknownHostException("dns");
-            Log.i(TAG, "DNS using=" + dns);
-            return dns;
-        } catch (Throwable ignored) {
+        List<String> sysDns = Util.getDefaultDNS(context);
+        String vpnDns = prefs.getString("dns", null);
+        Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN=" + vpnDns);
+
+        if (vpnDns != null)
             try {
-                InetAddress def = InetAddress.getByName("8.8.8.8");
-                Log.i(TAG, "DNS using=" + def);
-                return def;
-            } catch (UnknownHostException ignored1) {
-                return null;
+                InetAddress dns = InetAddress.getByName(vpnDns);
+                if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()))
+                    listDns.add(dns);
+            } catch (Throwable ignored) {
             }
-        }
+
+        for (String def_dns : sysDns)
+            try {
+                InetAddress ddns = InetAddress.getByName(def_dns);
+                if (!listDns.contains(ddns))
+                    listDns.add(ddns);
+            } catch (Throwable ignored) {
+            }
+
+        return listDns;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -878,8 +880,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         builder.addAddress(vpn6, 64);
 
         if (filter) {
-            InetAddress dns = getDns(SinkholeService.this);
-            builder.addDnsServer(dns);
+            for (InetAddress dns : getDns(SinkholeService.this)) {
+                Log.i(TAG, "dns=" + dns);
+                builder.addDnsServer(dns);
+            }
             // TODO addSearchDomain
         }
 
