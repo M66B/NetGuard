@@ -306,7 +306,7 @@ Some pointers on how to set up AFWall+:
 
 There is no conclusive answer to this question, but my advice is to use a hosts file which is at least maintained.
 You can find some suggestions [here](https://github.com/M66B/NetGuard/issues/277),
-where you also can find which hosts file netguard.me/hosts serves.
+where you also can find which hosts file *netguard.me/hosts* serves.
 
 <br />
 
