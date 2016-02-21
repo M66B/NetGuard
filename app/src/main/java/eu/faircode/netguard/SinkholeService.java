@@ -871,7 +871,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         for (String def_dns : sysDns)
             try {
                 InetAddress ddns = InetAddress.getByName(def_dns);
-                if (!listDns.contains(ddns))
+                if (!listDns.contains(ddns) &&
+                        !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()))
                     listDns.add(ddns);
             } catch (Throwable ignored) {
             }
