@@ -916,17 +916,36 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             // USB Tethering 192.168.42.x
             // Wi-Fi Tethering 192.168.43.x
             // https://en.wikipedia.org/wiki/IPv4#Special-use_addresses
-            for (int r = 1; r <= 223; r++)
-                if (r == 192) {
-                    for (int s = 1; s <= 255; s++)
-                        if (s == 168) {
-                            for (int t = 1; t <= 255; t++)
-                                if (t != 42 && t != 43)
-                                    builder.addRoute(String.format("%d.%d.%d.0", r, s, t), 24);
-                        } else
-                            builder.addRoute(String.format("%d.%d.0.0", r, s), 16);
-                } else if (r != 127)
-                    builder.addRoute(String.format("%d.0.0.0", r), 8);
+            builder.addRoute("0.0.0.0", 2); // 0-63
+            builder.addRoute("64.0.0.0", 3); // 64-95
+            builder.addRoute("96.0.0.0", 4); // 96-111
+            builder.addRoute("112.0.0.0", 5); // 112-119
+            builder.addRoute("120.0.0.0", 6); // 120-123
+            builder.addRoute("124.0.0.0", 7); // 124-125
+            builder.addRoute("126.0.0.0", 8); // 126
+            // skip 127.0.0.0/8 - localhost
+            builder.addRoute("128.0.0.0", 2); // 128-191
+            builder.addRoute("192.0.0.0", 9); // 192.0-192.127
+            builder.addRoute("192.128.0.0", 11); // 192.128-192.159
+            builder.addRoute("192.160.0.0", 13); // 192.160-192.167
+            builder.addRoute("192.168.0.0", 19); // 192.168.0-192.168.31
+            builder.addRoute("192.168.32.0", 21); // 192.168.32-192.168.39
+            builder.addRoute("192.168.40.0", 23); // 192.168.40-192.168.41
+            // skip 192.168.42 - 192.168.43 - tethering
+            builder.addRoute("192.168.44.0", 22); // 192.168.44-192.168.47
+            builder.addRoute("192.168.48.0", 20); // 192.168.48-192.168.63
+            builder.addRoute("192.168.64.0", 18); // 192.168.64-192.168.127
+            builder.addRoute("192.168.128.0", 17); // 192.168.128-192.168.255
+            builder.addRoute("192.169.0.0", 16); // 192.169
+            builder.addRoute("192.170.0.0", 15); // 192.170-192.171
+            builder.addRoute("192.172.0.0", 14); // 192.172-192.175
+            builder.addRoute("192.176.0.0", 12); // 192.176-191.191
+            builder.addRoute("192.192.0.0", 10); // 192.192-192.255
+            builder.addRoute("193.0.0.0", 8); // 193
+            builder.addRoute("194.0.0.0", 7); // 194-195
+            builder.addRoute("196.0.0.0", 6); // 196-199
+            builder.addRoute("200.0.0.0", 5); // 200-207
+            builder.addRoute("208.0.0.0", 4); // 208-223
         } else
             builder.addRoute("0.0.0.0", 0);
 
