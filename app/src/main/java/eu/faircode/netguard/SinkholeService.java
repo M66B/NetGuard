@@ -946,6 +946,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             builder.addRoute("196.0.0.0", 6); // 196-199
             builder.addRoute("200.0.0.0", 5); // 200-207
             builder.addRoute("208.0.0.0", 4); // 208-223
+
+            builder.addRoute("224.0.0.0", 4); // 224-239
+            builder.addRoute("240.0.0.0", 4); // 240-255
         } else
             builder.addRoute("0.0.0.0", 0);
 
