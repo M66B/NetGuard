@@ -98,6 +98,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean powersaving = false;
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
+
+    private SinkholeService.Builder last_builder = null;
     private ParcelFileDescriptor vpn = null;
 
     private long last_hosts_modified = 0;
@@ -365,7 +367,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 List<Rule> listRule = Rule.getRules(true, SinkholeService.this);
                 List<Rule> listAllowed = getAllowedRules(listRule);
 
-                vpn = startVPN(listAllowed, listRule);
+                last_builder = getBuilder(listAllowed, listRule);
+                vpn = startVPN(last_builder);
                 if (vpn == null)
                     throw new IllegalStateException("VPN start failed");
 
@@ -377,6 +380,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void reload() {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+
             if (state != State.enforcing) {
                 if (state != State.none) {
                     Log.d(TAG, "Stop foreground state=" + state.toString());
@@ -392,6 +397,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
                 if (vpn != null) {
+                    Log.i(TAG, "Legacy restart");
                     stopNative(vpn, false);
                     stopVPN(vpn);
                     vpn = null;
@@ -400,30 +406,41 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     } catch (InterruptedException ignored) {
                     }
                 }
-                vpn = startVPN(listAllowed, listRule);
+                last_builder = getBuilder(listAllowed, listRule);
+                vpn = startVPN(last_builder);
 
             } else {
-                // Attempt seamless handover
-                ParcelFileDescriptor prev = vpn;
-                vpn = startVPN(listAllowed, listRule);
+                SinkholeService.Builder builder = getBuilder(listAllowed, listRule);
+                if (prefs.getBoolean("filter", false) && builder.equals(last_builder)) {
+                    Log.i(TAG, "Native restart");
+                    stopNative(vpn, false);
 
-                if (prev != null && vpn == null) {
-                    Log.w(TAG, "Handover failed");
-                    stopNative(prev, false);
-                    stopVPN(prev);
-                    prev = null;
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException ignored) {
+                } else {
+                    last_builder = builder;
+                    Log.i(TAG, "VPN restart");
+
+                    // Attempt seamless handover
+                    ParcelFileDescriptor prev = vpn;
+                    vpn = startVPN(builder);
+
+                    if (prev != null && vpn == null) {
+                        Log.w(TAG, "Handover failed");
+                        stopNative(prev, false);
+                        stopVPN(prev);
+                        prev = null;
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException ignored) {
+                        }
+                        vpn = startVPN(last_builder);
+                        if (vpn == null)
+                            throw new IllegalStateException("Handover failed");
                     }
-                    vpn = startVPN(listAllowed, listRule);
-                    if (vpn == null)
-                        throw new IllegalStateException("Handover failed");
-                }
 
-                if (prev != null) {
-                    stopNative(prev, false);
-                    stopVPN(prev);
+                    if (prev != null) {
+                        stopNative(prev, false);
+                        stopVPN(prev);
+                    }
                 }
             }
 
@@ -441,6 +458,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 stopNative(vpn, true);
                 stopVPN(vpn);
                 vpn = null;
+                unprepare();
             }
             if (state == State.enforcing) {
                 Log.d(TAG, "Stop foreground state=" + state.toString());
@@ -862,14 +880,23 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private ParcelFileDescriptor startVPN(List<Rule> listAllowed, List<Rule> listRule) {
+    private ParcelFileDescriptor startVPN(Builder builder) {
+        try {
+            return builder.establish();
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            return null;
+        }
+    }
+
+    private Builder getBuilder(List<Rule> listAllowed, List<Rule> listRule) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
         boolean system = prefs.getBoolean("manage_system", false);
 
         // Build VPN service
-        final Builder builder = new Builder();
+        Builder builder = new Builder();
         builder.setSession(getString(R.string.app_name));
 
         // VPN address
@@ -879,13 +906,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         builder.addAddress(vpn4, 32);
         builder.addAddress(vpn6, 64);
 
-        if (filter) {
+        if (filter)
             for (InetAddress dns : getDns(SinkholeService.this)) {
                 Log.i(TAG, "dns=" + dns);
                 builder.addDnsServer(dns);
             }
-            // TODO addSearchDomain
-        }
 
         if (tethering) {
             // USB Tethering 192.168.42.x
@@ -934,13 +959,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setConfigureIntent(pi);
 
-        // Start VPN service
-        try {
-            return builder.establish();
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            return null;
-        }
+        return builder;
     }
 
     private void startNative(ParcelFileDescriptor vpn, List<Rule> listAllowed, List<Rule> listRule) {
@@ -978,7 +997,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void stopNative(ParcelFileDescriptor vpn, boolean clear) {
         Log.i(TAG, "Stop native clear=" + clear);
         jni_stop(vpn.getFd(), clear);
-        unprepare();
     }
 
     private void unprepare() {
@@ -1692,6 +1710,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 stopNative(vpn, true);
                 stopVPN(vpn);
                 vpn = null;
+                unprepare();
             }
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -1947,6 +1966,79 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void removeWarningNotifications() {
         NotificationManagerCompat.from(this).cancel(NOTIFY_DISABLED);
         NotificationManagerCompat.from(this).cancel(NOTIFY_ERROR);
+    }
+
+    private class Builder extends VpnService.Builder {
+        private List<String> listAddress = new ArrayList<>();
+        private List<String> listRoute = new ArrayList<>();
+        private List<InetAddress> listDns = new ArrayList<>();
+        private List<String> listDisallowed = new ArrayList<>();
+
+        @Override
+        public Builder addAddress(String address, int prefixLength) {
+            listAddress.add(address + "/" + prefixLength);
+            super.addAddress(address, prefixLength);
+            return this;
+        }
+
+        @Override
+        public Builder addRoute(String address, int prefixLength) {
+            listRoute.add(address + "/" + prefixLength);
+            super.addRoute(address, prefixLength);
+            return this;
+        }
+
+        @Override
+        public Builder addDnsServer(InetAddress address) {
+            listDns.add(address);
+            super.addDnsServer(address);
+            return this;
+        }
+
+        @Override
+        public Builder addDisallowedApplication(String packageName) throws PackageManager.NameNotFoundException {
+            listDisallowed.add(packageName);
+            super.addDisallowedApplication(packageName);
+            return this;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            Builder other = (Builder) obj;
+
+            if (other == null)
+                return false;
+
+            if (this.listAddress.size() != other.listAddress.size())
+                return false;
+
+            if (this.listRoute.size() != other.listRoute.size())
+                return false;
+
+            if (this.listDns.size() != other.listDns.size())
+                return false;
+
+            if (this.listDisallowed.size() != other.listDisallowed.size())
+                return false;
+
+            for (String address : this.listAddress)
+                if (!other.listAddress.contains(address))
+                    return false;
+
+            for (String route : this.listRoute)
+                if (!other.listRoute.contains(route))
+                    return false;
+
+            for (InetAddress dns : this.listDns)
+                if (!other.listDns.contains(dns))
+                    return false;
+
+            for (String pkg : this.listDisallowed)
+                if (!other.listDisallowed.contains(pkg))
+                    return false;
+
+            return true;
+        }
     }
 
     public static void run(String reason, Context context) {
