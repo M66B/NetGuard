@@ -948,8 +948,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             builder.addRoute("200.0.0.0", 5); // 200-207
             builder.addRoute("208.0.0.0", 4); // 208-223
 
-            builder.addRoute("224.0.0.0", 4); // 224-239
-            builder.addRoute("240.0.0.0", 4); // 240-255
+            try {
+                builder.addRoute("224.0.0.0", 4); // 224-239
+                builder.addRoute("240.0.0.0", 4); // 240-255
+            } catch (Throwable ex) {
+                // Some Android versions do not accept broadcast addresses
+                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
         } else
             builder.addRoute("0.0.0.0", 0);
 
