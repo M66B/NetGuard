@@ -25,27 +25,32 @@ Blocking access to the internet can help:
 
 Features:
 
-&bull; No root required
-&bull; Simple to use
-&bull; Open source
-&bull; No calling home
-&bull; No tracking or analytics
-&bull; No advertisements
-&bull; Android 4.0 and later supported
-&bull; IPv4/IPv6 TCP/UDP supported
-&bull; Tethering supported
-&bull; Multiple users supported
-&bull; Optionally allow when screen on
-&bull; Optionally block when roaming
-&bull; Optionally block system applications
-&bull; Optionally log traffic; search and filter access attempts
-&bull; Optionally filter addresses per application per domain
-&bull; Optionally record network usage per application per domain
-&bull; Optionally notify on internet access
-&bull; Optionally forward ports, also to external addresses
-&bull; Optionally export PCAP files to analyze traffic
-&bull; Optionally display network speed graph
-&bull; Material design, with selectable theme
+&bull; No root required  
+&bull; Simple to use  
+&bull; Open source  
+&bull; No calling home  
+&bull; No tracking or analytics  
+&bull; No advertisements  
+&bull; Android 4.0 and later supported  
+&bull; IPv4/IPv6 TCP/UDP supported  
+&bull; Tethering supported  
+&bull; Multiple users supported  
+&bull; Optionally allow when screen on  
+&bull; Optionally block when roaming  
+&bull; Optionally block system applications  
+&bull; Optionally forward ports, also to external addresses  
+&bull; Optionally notify on internet access  
+&bull; Material design theme with light and dark versions  
+
+PRO Features:
+
+&bull; Optionally notify on new app install  
+&bull; Optionally log traffic; search and filter access attempts  
+&bull; Optionally export PCAP files to analyze traffic  
+&bull; Optionally filter addresses per application per domain  
+&bull; Optionally record network usage per application per domain  
+&bull; Optionally display network speed graph  
+&bull; 5 more color themes in both light and dark versions  
 
 There is no other no-root firewall offering all these features.
 
