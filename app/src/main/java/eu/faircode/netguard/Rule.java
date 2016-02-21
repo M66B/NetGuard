@@ -314,7 +314,8 @@ public class Rule {
                 (other_blocked != default_other) ||
                 (wifi_blocked && screen_wifi != screen_wifi_default) ||
                 (other_blocked && screen_other != screen_other_default) ||
-                ((!other_blocked || screen_other) && roaming != default_roaming));
+                ((!other_blocked || screen_other) && roaming != default_roaming) ||
+                !apply);
     }
 
     public void updateChanged(Context context) {
