@@ -312,7 +312,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (oldVersion == DB_VERSION) {
                 db.setVersion(oldVersion);
                 db.setTransactionSuccessful();
-                Log.e(TAG, DB_NAME + " upgraded to " + DB_VERSION);
+                Log.i(TAG, DB_NAME + " upgraded to " + DB_VERSION);
             } else
                 throw new IllegalArgumentException(DB_NAME + " upgraded to " + oldVersion + " but required " + DB_VERSION);
 
