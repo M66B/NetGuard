@@ -150,7 +150,7 @@
   <string name="title_interactive_allowed">Разрешить, когда экран включен</string>
   <string name="title_roaming_blocked">Блокировать в роуминге</string>
   <string name="title_metered">По умолчанию Wi-Fi соединение считается безлимитным, а мобильная связь лимитированной</string>
-  <string name="title_apply">Apply rules and conditions</string>
+  <string name="title_apply">Применить правила и условия</string>
   <string name="title_conditions">Условия</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>

@@ -42,7 +42,7 @@
   <string name="setting_defaults">Padrões</string>
   <string name="setting_whitelist_wifi">Bloquear Wi-Fi</string>
   <string name="setting_whitelist_other">Bloquear Dados Móveis</string>
-  <string name="setting_screen_wifi">Permitir Wi-Fi com ao ligar a tela</string>
+  <string name="setting_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
   <string name="setting_screen_other">Permitir Dados Móveis ao ligar a tela</string>
   <string name="setting_whitelist_roaming">Bloquear roaming</string>
   <string name="setting_options">Opções</string>
@@ -149,13 +149,13 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_metered_blocked">Tráfego limitado bloqueado</string>
   <string name="title_host_allowed">Endereço permitido</string>
   <string name="title_host_blocked">Endereço bloqueado</string>
-  <string name="title_interactive_allowed">Permitir quando a tela estiver ligada</string>
+  <string name="title_interactive_allowed">Permitir com a tela ligada</string>
   <string name="title_roaming_blocked">Bloquear quando em roaming</string>
   <string name="title_metered">Por padrão, uma conexão Wi-Fi é considerada ilimitada e uma conexão móvel limitada</string>
-  <string name="title_apply">Apply rules and conditions</string>
+  <string name="title_apply">Aplicar regras e condições</string>
   <string name="title_conditions">Condições</string>
-  <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
-  <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
+  <string name="title_screen_wifi">Permitir Wi-Fi com a tela ligada</string>
+  <string name="title_screen_other">Permitir Dados Móveis com a tela ligada</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bloquear quando em roaming</string>
   <string name="title_disabled">está desativado</string>

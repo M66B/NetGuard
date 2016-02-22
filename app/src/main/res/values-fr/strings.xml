@@ -59,7 +59,7 @@
   <string name="setting_national_roaming">Ignorer l\'itinérance nationale</string>
   <string name="setting_advanced_options">Options avancées</string>
   <string name="setting_system">Gérer les applications système</string>
-  <string name="setting_log_app">Enregistrer les accès à internet dans le journal</string>
+  <string name="setting_log_app">Journaliser les accès à internet</string>
   <string name="setting_access">Notifier l\'accès à internet</string>
   <string name="setting_filter">Filtrer le trafic</string>
   <string name="setting_resolved">Stocker les noms de domaine résolus</string>
@@ -90,7 +90,7 @@
   <string name="setting_technical_subscription">Souscriptions</string>
   <string name="summary_auto">Après désactivation via le widget, activer automatiquement de nouveau NetGuard après le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
   <string name="summary_delay">Après avoir éteint l\'écran, garder les règles d\'écran allumé actives pendant le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
-  <string name="summary_tethering">Le trafic partagé ne peut pas être filtré</string>
+  <string name="summary_tethering">Impossible de filtrer le trafic partagé</string>
   <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour les autres Wi-Fi)</string>
   <string name="summary_metered">Appliquer les règles de réseaux mobiles aux réseaux Wi-Fi limités (payants, partagés)</string>
   <string name="summary_metered_2g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 2G</string>
@@ -148,8 +148,8 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_metered_blocked">Le trafic limité est bloqué</string>
   <string name="title_host_allowed">L\'adresse est autorisée</string>
   <string name="title_host_blocked">L\'adresse est bloquée</string>
-  <string name="title_interactive_allowed">Autoriser si l\'écran est allumé</string>
-  <string name="title_roaming_blocked">Bloquer en itinérance</string>
+  <string name="title_interactive_allowed">Autoriser si écran allumé</string>
+  <string name="title_roaming_blocked">Bloquer si itinérance</string>
   <string name="title_metered">Par défaut, une connexion Wi-Fi est considérée comme illimitée et une connexion mobile limitée</string>
   <string name="title_apply">Appliquer les règles et conditions</string>
   <string name="title_conditions">Conditions</string>
