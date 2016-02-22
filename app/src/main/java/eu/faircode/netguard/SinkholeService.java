@@ -1960,7 +1960,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         sp.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         notification.addLine(sp);
 
-        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getAccessUnset(uid);
+        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getAccessUnset(uid, 7);
         int colDAddr = cursor.getColumnIndex("daddr");
         int colTime = cursor.getColumnIndex("time");
         int colAllowed = cursor.getColumnIndex("allowed");
