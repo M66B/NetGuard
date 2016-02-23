@@ -17,7 +17,7 @@
   <string name="menu_log">Mostra registro</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_invite">Invita</string>
-  <string name="menu_legend">Legend</string>
+  <string name="menu_legend">Legenda</string>
   <string name="menu_support">Supporto</string>
   <string name="menu_about">Info</string>
   <string name="menu_protocol_other">Altro</string>
@@ -26,6 +26,7 @@
   <string name="menu_live">Aggiornamenti in tempo reale</string>
   <string name="menu_refresh">Aggiorna</string>
   <string name="menu_resolve">Mostra nomi</string>
+  <string name="menu_organization">Show organization</string>
   <string name="menu_pcap_enabled">PCAP abilitati</string>
   <string name="menu_pcap_export">Esporta PCAP</string>
   <string name="menu_clear">Pulisci</string>
@@ -139,17 +140,17 @@
   <string name="msg_start_forward" formatted="false">Inizia ad inoltrare da %1$s porta %2$d a %3$s:%4$d di \'%5$s\'?</string>
   <string name="msg_stop_forward">Interrompere l\'inoltro di %1$s porta %2$d?</string>
   <string name="msg_metered">La rete è a consumo</string>
-  <string name="msg_queue">NetGuard is busy</string>
-  <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
-  <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
-  <string name="title_metered_allowed">Metered traffic is allowed</string>
-  <string name="title_metered_blocked">Metered traffic is blocked</string>
-  <string name="title_host_allowed">Address is allowed</string>
-  <string name="title_host_blocked">Address is blocked</string>
-  <string name="title_interactive_allowed">Allow when screen is on</string>
-  <string name="title_roaming_blocked">Block when roaming</string>
-  <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
-  <string name="title_apply">Apply rules and conditions</string>
+  <string name="msg_queue">NetGuard è occupato</string>
+  <string name="title_unmetered_allowed">Il traffico non al consumo è consentito</string>
+  <string name="title_unmetered_blocked">Il traffico non al consumo è bloccato</string>
+  <string name="title_metered_allowed">Il traffico al consumo è consentito</string>
+  <string name="title_metered_blocked">Il traffico al consumo è bloccato</string>
+  <string name="title_host_allowed">L\'indirizzo è consentito</string>
+  <string name="title_host_blocked">L\'indirizzo è bloccato</string>
+  <string name="title_interactive_allowed">Permetti quando lo schermo è acceso</string>
+  <string name="title_roaming_blocked">Blocca quando in roaming</string>
+  <string name="title_metered">Per impostazione predefinita, le connessioni Wi-Fi sono considerate non a pagamento e le connessioni mobili al consumo</string>
+  <string name="title_apply">Applicare regole e condizioni</string>
   <string name="title_conditions">Condizioni</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
   <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>
@@ -157,7 +158,7 @@
   <string name="title_roaming">Blocca quando in roaming</string>
   <string name="title_disabled">è disabilitata</string>
   <string name="title_internet">non ha accesso a internet</string>
-  <string name="title_related">Filtro correlati</string>
+  <string name="title_related">Filtra app correlate</string>
   <string name="title_access">Tentativi di accesso</string>
   <string name="title_no_log"><u>Registrazione non attiva</u></string>
   <string name="title_precedence">Le regole di accesso hanno la precedenza sulle altre regole</string>

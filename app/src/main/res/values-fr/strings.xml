@@ -26,6 +26,7 @@
   <string name="menu_live">Mises à jour en direct</string>
   <string name="menu_refresh">Actualiser</string>
   <string name="menu_resolve">Afficher les noms</string>
+  <string name="menu_organization">Show organization</string>
   <string name="menu_pcap_enabled">PCAP activé</string>
   <string name="menu_pcap_export">Exporter PCAP</string>
   <string name="menu_clear">Effacer</string>
@@ -90,7 +91,7 @@
   <string name="setting_technical_subscription">Souscriptions</string>
   <string name="summary_auto">Après désactivation via le widget, activer automatiquement de nouveau NetGuard après le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
   <string name="summary_delay">Après avoir éteint l\'écran, garder les règles d\'écran allumé actives pendant le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
-  <string name="summary_tethering">Impossible de filtrer le trafic partagé</string>
+  <string name="summary_tethering">Le trafic partagé ne peut pas être filtré</string>
   <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour les autres Wi-Fi)</string>
   <string name="summary_metered">Appliquer les règles de réseaux mobiles aux réseaux Wi-Fi limités (payants, partagés)</string>
   <string name="summary_metered_2g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 2G</string>

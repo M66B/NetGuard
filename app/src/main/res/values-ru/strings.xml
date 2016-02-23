@@ -26,6 +26,7 @@
   <string name="menu_live">Обновления в реальном времени</string>
   <string name="menu_refresh">Обновить</string>
   <string name="menu_resolve">Показать названия</string>
+  <string name="menu_organization">Show organization</string>
   <string name="menu_pcap_enabled">PCAP включен</string>
   <string name="menu_pcap_export">PCAP экспорт</string>
   <string name="menu_clear">Очистить</string>

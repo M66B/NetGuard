@@ -17,7 +17,7 @@
   <string name="menu_log">Mostrar registro</string>
   <string name="menu_settings">Ajustes</string>
   <string name="menu_invite">Invitar</string>
-  <string name="menu_legend">Legend</string>
+  <string name="menu_legend">Simbolos</string>
   <string name="menu_support">Soporte</string>
   <string name="menu_about">Acerca de</string>
   <string name="menu_protocol_other">Otros</string>
@@ -26,6 +26,7 @@
   <string name="menu_live">Actualizaciones en vivo</string>
   <string name="menu_refresh">Actualizar</string>
   <string name="menu_resolve">Mostrar nombres</string>
+  <string name="menu_organization">Show organization</string>
   <string name="menu_pcap_enabled">PCAP habilitado</string>
   <string name="menu_pcap_export">Exportar PCAP</string>
   <string name="menu_clear">Vaciar</string>
@@ -139,17 +140,17 @@
   <string name="msg_start_forward" formatted="false">¿Iniciar reenvío desde el puerto %1$s, %2$d hacia %3$s:%4$d de \'%5$s\'?</string>
   <string name="msg_stop_forward">¿Parar reenvío del puerto %1$s, %2$d?</string>
   <string name="msg_metered">La red está medida</string>
-  <string name="msg_queue">NetGuard is busy</string>
-  <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
-  <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
-  <string name="title_metered_allowed">Metered traffic is allowed</string>
-  <string name="title_metered_blocked">Metered traffic is blocked</string>
-  <string name="title_host_allowed">Address is allowed</string>
-  <string name="title_host_blocked">Address is blocked</string>
-  <string name="title_interactive_allowed">Allow when screen is on</string>
-  <string name="title_roaming_blocked">Block when roaming</string>
+  <string name="msg_queue">NetGuard está ocupado</string>
+  <string name="title_unmetered_allowed">Trafico no Medido Permitido</string>
+  <string name="title_unmetered_blocked">Trafico no Medido Bloqueado</string>
+  <string name="title_metered_allowed">Trafico Medido Permitido</string>
+  <string name="title_metered_blocked">Trafico Medido Bloqueado</string>
+  <string name="title_host_allowed">Dirección Permitida</string>
+  <string name="title_host_blocked">Dirección Bloqueada</string>
+  <string name="title_interactive_allowed">Permitir con Pantalla Encendida</string>
+  <string name="title_roaming_blocked">Bloquear en Roaming</string>
   <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
-  <string name="title_apply">Apply rules and conditions</string>
+  <string name="title_apply">Aplicar reglas y condiciones</string>
   <string name="title_conditions">Condiciones</string>
   <string name="title_screen_wifi">Permitir Wi-Fi con la pantalla encendida</string>
   <string name="title_screen_other">Permitir red móvil con la pantalla encendida</string>

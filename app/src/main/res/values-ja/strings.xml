@@ -27,6 +27,7 @@
   <string name="menu_live">ライブアップデート</string>
   <string name="menu_refresh">更新</string>
   <string name="menu_resolve">名前を表示</string>
+  <string name="menu_organization">Show organization</string>
   <string name="menu_pcap_enabled">PCAP を有効にしました</string>
   <string name="menu_pcap_export">PCAP エクスポート</string>
   <string name="menu_clear">クリア</string>
@@ -150,7 +151,7 @@
   <string name="title_interactive_allowed">画面がオンの場合に許可</string>
   <string name="title_roaming_blocked">ローミング時にブロック</string>
   <string name="title_metered">デフォルトで Wi-Fi 接続は無制限、そしてモバイル接続は従量制と見なされます</string>
-  <string name="title_apply">Apply rules and conditions</string>
+  <string name="title_apply">ルールと条件を適用</string>
   <string name="title_conditions">条件</string>
   <string name="title_screen_wifi">画面がオンのときに Wi-Fi を許可する</string>
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>

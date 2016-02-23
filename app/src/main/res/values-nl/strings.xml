@@ -27,6 +27,7 @@
   <string name="menu_live">Live updates</string>
   <string name="menu_refresh">Verversen</string>
   <string name="menu_resolve">Toon namen</string>
+  <string name="menu_organization">Show organization</string>
   <string name="menu_pcap_enabled">PCAP ingeschakeld</string>
   <string name="menu_pcap_export">PCAP exporteren</string>
   <string name="menu_clear">Wissen</string>

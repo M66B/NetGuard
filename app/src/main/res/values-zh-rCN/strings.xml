@@ -28,6 +28,7 @@
   <string name="menu_live">实时更新</string>
   <string name="menu_refresh">刷新</string>
   <string name="menu_resolve">显示名称</string>
+  <string name="menu_organization">Show organization</string>
   <string name="menu_pcap_enabled">PCAP 已启用</string>
   <string name="menu_pcap_export">PCAP 导出</string>
   <string name="menu_clear">清除</string>

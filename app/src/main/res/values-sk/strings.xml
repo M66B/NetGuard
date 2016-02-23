@@ -28,6 +28,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_live">Živé aktualizácie</string>
   <string name="menu_refresh">Obnoviť</string>
   <string name="menu_resolve">Zobraziť názvy</string>
+  <string name="menu_organization">Show organization</string>
   <string name="menu_pcap_enabled">PCAP enabled</string>
   <string name="menu_pcap_export">Exportovať PCAP</string>
   <string name="menu_clear">Vyčistiť</string>
