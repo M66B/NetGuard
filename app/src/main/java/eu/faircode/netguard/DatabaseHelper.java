@@ -500,7 +500,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (rows == 0);
     }
 
-    // TODO optimize with raw SQL
     public void updateUsage(Usage usage, String dname) {
         mLock.writeLock().lock();
         try {

@@ -46,7 +46,6 @@ model {
                 minifyEnabled true
                 useProguard = true
                 proguardFiles.add(file('proguard-rules.pro'))
-                // TODO remove on stable release
                 ndk {
                     debuggable true
                 }
