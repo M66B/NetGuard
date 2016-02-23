@@ -127,6 +127,14 @@
                     android:textAppearance="@style/TextSmall"
                     android:textSize="12sp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvOrganization"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextSmall"
+                android:textSize="10sp"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

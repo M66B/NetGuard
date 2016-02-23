@@ -148,10 +148,11 @@ public class AdapterAccess extends CursorAdapter {
 
                 @Override
                 protected void onPostExecute(String addr) {
-                    if ((Long) tvDest.getTag() == id)
+                    Object tag = tvDest.getTag();
+                    if (tag != null && (Long) tag == id)
                         tvDest.setText(
                                 Util.getProtocolName(protocol, version, true) +
-                                        " " + addr + (dport > 0 ? "/" + dport : ""));
+                                        " >" + addr + (dport > 0 ? "/" + dport : ""));
                     tvDest.setTag(null);
                 }
             }.execute(daddr);

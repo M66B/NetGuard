@@ -31,6 +31,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="menu_live">Live updates</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_resolve">Show names</string>
+    <string name="menu_organization">Show organization</string>
     <string name="menu_pcap_enabled">PCAP enabled</string>
     <string name="menu_pcap_export">PCAP export</string>
     <string name="menu_clear">Clear</string>

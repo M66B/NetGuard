@@ -62,6 +62,8 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -69,6 +71,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -473,6 +476,34 @@ public class Util {
                     }
                 })
                 .create().show();
+    }
+
+    private static Map<String, String> mapIPOrganization = new HashMap<>();
+
+    public static String getOrganization(String ip) throws Exception {
+        synchronized (mapIPOrganization) {
+            if (mapIPOrganization.containsKey(ip))
+                return mapIPOrganization.get(ip);
+        }
+        BufferedReader reader = null;
+        try {
+            URL url = new URL("http://ipinfo.io/" + ip + "/org");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setReadTimeout(15 * 1000);
+            connection.connect();
+            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String organization = reader.readLine();
+            if ("undefined".equals(organization))
+                organization = null;
+            synchronized (mapIPOrganization) {
+                mapIPOrganization.put(ip, organization);
+            }
+            return organization;
+        } finally {
+            if (reader != null)
+                reader.close();
+        }
     }
 
     public static String md5(String text, String salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {

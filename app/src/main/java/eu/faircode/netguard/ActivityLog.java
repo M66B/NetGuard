@@ -66,6 +66,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
     private boolean live;
     private boolean resolve;
+    private boolean organization;
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
 
@@ -103,6 +104,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         // Get settings
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         resolve = prefs.getBoolean("resolve", false);
+        organization = prefs.getBoolean("organization", false);
         boolean log = prefs.getBoolean("log", false);
 
         // Show disabled message
@@ -128,7 +130,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         boolean allowed = prefs.getBoolean("traffic_allowed", true);
         boolean blocked = prefs.getBoolean("traffic_blocked", true);
 
-        adapter = new AdapterLog(this, DatabaseHelper.getInstance(this).getLog(udp, tcp, other, allowed, blocked), resolve);
+        adapter = new AdapterLog(this, DatabaseHelper.getInstance(this).getLog(udp, tcp, other, allowed, blocked), resolve, organization);
         adapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
                 return DatabaseHelper.getInstance(ActivityLog.this).searchLog(constraint.toString());
@@ -331,6 +333,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
         menu.findItem(R.id.menu_refresh).setEnabled(!menu.findItem(R.id.menu_log_live).isChecked());
         menu.findItem(R.id.menu_log_resolve).setChecked(prefs.getBoolean("resolve", false));
+        menu.findItem(R.id.menu_log_organization).setChecked(prefs.getBoolean("organization", false));
         menu.findItem(R.id.menu_pcap_enabled).setEnabled(prefs.getBoolean("filter", false));
         menu.findItem(R.id.menu_pcap_enabled).setChecked(prefs.getBoolean("pcap", false));
         menu.findItem(R.id.menu_pcap_export).setEnabled(pcap_file.exists() && export);
@@ -397,6 +400,13 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 item.setChecked(!item.isChecked());
                 prefs.edit().putBoolean("resolve", item.isChecked()).apply();
                 adapter.setResolve(item.isChecked());
+                adapter.notifyDataSetChanged();
+                return true;
+
+            case R.id.menu_log_organization:
+                item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("organization", item.isChecked()).apply();
+                adapter.setOrganization(item.isChecked());
                 adapter.notifyDataSetChanged();
                 return true;
 

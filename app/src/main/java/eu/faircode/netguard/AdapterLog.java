@@ -51,6 +51,7 @@ public class AdapterLog extends CursorAdapter {
     private static String TAG = "NetGuard.Log";
 
     private boolean resolve;
+    private boolean organization;
     private int colID;
     private int colTime;
     private int colVersion;
@@ -73,9 +74,10 @@ public class AdapterLog extends CursorAdapter {
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
 
-    public AdapterLog(Context context, Cursor cursor, boolean resolve) {
+    public AdapterLog(Context context, Cursor cursor, boolean resolve, boolean organization) {
         super(context, cursor, 0);
         this.resolve = resolve;
+        this.organization = organization;
         colID = cursor.getColumnIndex("ID");
         colTime = cursor.getColumnIndex("time");
         colVersion = cursor.getColumnIndex("version");
@@ -114,6 +116,10 @@ public class AdapterLog extends CursorAdapter {
         this.resolve = resolve;
     }
 
+    public void setOrganization(boolean organization) {
+        this.organization = organization;
+    }
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.log, parent, false);
@@ -146,15 +152,17 @@ public class AdapterLog extends CursorAdapter {
         TextView tvSPort = (TextView) view.findViewById(R.id.tvSPort);
         final TextView tvDaddr = (TextView) view.findViewById(R.id.tvDAddr);
         TextView tvDPort = (TextView) view.findViewById(R.id.tvDPort);
+        final TextView tvOrganization = (TextView) view.findViewById(R.id.tvOrganization);
         ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
         TextView tvData = (TextView) view.findViewById(R.id.tvData);
         ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
         ImageView ivInteractive = (ImageView) view.findViewById(R.id.ivInteractive);
 
-        // Set values
+        // Show time
         tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
 
+        // Show connection type
         if (connection <= 0)
             ivConnection.setImageResource(allowed > 0 ? R.drawable.host_allowed : R.drawable.host_blocked);
         else {
@@ -168,6 +176,7 @@ public class AdapterLog extends CursorAdapter {
             DrawableCompat.setTint(wrap, allowed > 0 ? colorOn : colorOff);
         }
 
+        // Show if screen on
         if (interactive <= 0)
             ivInteractive.setImageDrawable(null);
         else {
@@ -178,10 +187,14 @@ public class AdapterLog extends CursorAdapter {
             }
         }
 
+        // Show protocol name
         tvProtocol.setText(Util.getProtocolName(protocol, version, false));
 
+        // SHow TCP flags
         tvFlags.setText(flags);
+        tvFlags.setVisibility(TextUtils.isEmpty(flags) ? View.GONE : View.VISIBLE);
 
+        // Show source and destination port
         if (protocol == 6 || protocol == 17) {
             tvSPort.setText(sport < 0 ? "" : getKnownPort(sport));
             tvDPort.setText(dport < 0 ? "" : getKnownPort(dport));
@@ -217,8 +230,10 @@ public class AdapterLog extends CursorAdapter {
         else
             tvUid.setText(Integer.toString(uid));
 
+        // Show source address
         tvSAddr.setText(getKnownAddress(saddr));
 
+        // Show destination address
         if (resolve && !isKnownAddress(daddr))
             if (dname == null) {
                 if (tvDaddr.getTag() == null) {
@@ -240,8 +255,9 @@ public class AdapterLog extends CursorAdapter {
 
                         @Override
                         protected void onPostExecute(String name) {
-                            if ((Long) tvDaddr.getTag() == id)
-                                tvDaddr.setText(name);
+                            Object tag = tvDaddr.getTag();
+                            if (tag != null && (Long) tag == id)
+                                tvDaddr.setText(">" + name);
                             tvDaddr.setTag(null);
                         }
                     }.execute(daddr);
@@ -251,6 +267,39 @@ public class AdapterLog extends CursorAdapter {
         else
             tvDaddr.setText(getKnownAddress(daddr));
 
+        // Show organization
+        tvOrganization.setVisibility(View.GONE);
+        if (organization) {
+            if (!isKnownAddress(daddr) && tvOrganization.getTag() == null)
+                new AsyncTask<String, Object, String>() {
+                    @Override
+                    protected void onPreExecute() {
+                        tvOrganization.setTag(id);
+                    }
+
+                    @Override
+                    protected String doInBackground(String... args) {
+                        try {
+                            return Util.getOrganization(args[0]);
+                        } catch (Throwable ex) {
+                            Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                            return null;
+                        }
+                    }
+
+                    @Override
+                    protected void onPostExecute(String organization) {
+                        Object tag = tvOrganization.getTag();
+                        if (organization != null && tag != null && (Long) tag == id) {
+                            tvOrganization.setText(organization);
+                            tvOrganization.setVisibility(View.VISIBLE);
+                        }
+                        tvOrganization.setTag(null);
+                    }
+                }.execute(daddr);
+        }
+
+        // Show extra data
         if (TextUtils.isEmpty(data)) {
             tvData.setText("");
             tvData.setVisibility(View.GONE);

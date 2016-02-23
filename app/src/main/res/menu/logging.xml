@@ -52,6 +52,11 @@
         android:checked="false"
         android:title="@string/menu_resolve" />
     <item
+        android:id="@+id/menu_log_organization"
+        android:checkable="true"
+        android:checked="false"
+        android:title="@string/menu_organization" />
+    <item
         android:id="@+id/menu_pcap_enabled"
         android:checkable="true"
         android:title="@string/menu_pcap_enabled" />
