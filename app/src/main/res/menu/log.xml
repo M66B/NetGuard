@@ -14,6 +14,12 @@
         android:id="@+id/menu_port"
         android:title="" />
     <item
+        android:id="@+id/menu_allow"
+        android:title="@string/title_allow" />
+    <item
+        android:id="@+id/menu_block"
+        android:title="@string/title_block" />
+    <item
         android:id="@+id/menu_time"
         android:enabled="false"
         android:title="" />

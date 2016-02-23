@@ -154,11 +154,13 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 long time = cursor.getLong(cursor.getColumnIndex("time"));
                 int version = cursor.getInt(cursor.getColumnIndex("version"));
                 int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
-                final String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
-                final int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
                 final String saddr = cursor.getString(cursor.getColumnIndex("saddr"));
                 final int sport = (cursor.isNull(cursor.getColumnIndex("sport")) ? -1 : cursor.getInt(cursor.getColumnIndex("sport")));
+                final String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
+                final int dport = (cursor.isNull(cursor.getColumnIndex("dport")) ? -1 : cursor.getInt(cursor.getColumnIndex("dport")));
+                final String dname = cursor.getString(cursor.getColumnIndex("dname"));
                 final int uid = (cursor.isNull(cursor.getColumnIndex("uid")) ? -1 : cursor.getInt(cursor.getColumnIndex("uid")));
+                int allowed = (cursor.isNull(cursor.getColumnIndex("allowed")) ? -1 : cursor.getInt(cursor.getColumnIndex("allowed")));
 
                 // Get external address
                 InetAddress addr = null;
@@ -205,6 +207,20 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 else
                     popup.getMenu().findItem(R.id.menu_port).setTitle(getString(R.string.title_log_port, dport));
 
+                if (!prefs.getBoolean("filter", false)) {
+                    popup.getMenu().removeItem(R.id.menu_allow);
+                    popup.getMenu().removeItem(R.id.menu_block);
+                }
+
+                final Packet packet = new Packet();
+                packet.version = version;
+                packet.protocol = protocol;
+                packet.daddr = daddr;
+                packet.dport = dport;
+                packet.time = time;
+                packet.uid = uid;
+                packet.allowed = (allowed > 0);
+
                 // Time
                 popup.getMenu().findItem(R.id.menu_time).setTitle(SimpleDateFormat.getDateTimeInstance().format(time));
 
@@ -213,17 +229,43 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
-                            case R.id.menu_application:
+                            case R.id.menu_application: {
                                 Intent main = new Intent(ActivityLog.this, ActivityMain.class);
                                 main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
                                 startActivity(main);
                                 return true;
+                            }
+
                             case R.id.menu_whois:
                                 startActivity(lookupIP);
                                 return true;
+
                             case R.id.menu_port:
                                 startActivity(lookupPort);
                                 return true;
+
+                            case R.id.menu_allow:
+                                if (IAB.isPurchased(ActivityPro.SKU_FILTER, ActivityLog.this)) {
+                                    DatabaseHelper.getInstance(ActivityLog.this).updateAccess(packet, dname, 0);
+                                    SinkholeService.reload("allow host", ActivityLog.this);
+                                    Intent main = new Intent(ActivityLog.this, ActivityMain.class);
+                                    main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
+                                    startActivity(main);
+                                } else
+                                    startActivity(new Intent(ActivityLog.this, ActivityPro.class));
+                                return true;
+
+                            case R.id.menu_block:
+                                if (IAB.isPurchased(ActivityPro.SKU_FILTER, ActivityLog.this)) {
+                                    DatabaseHelper.getInstance(ActivityLog.this).updateAccess(packet, dname, 1);
+                                    SinkholeService.reload("block host", ActivityLog.this);
+                                    Intent main = new Intent(ActivityLog.this, ActivityMain.class);
+                                    main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
+                                    startActivity(main);
+                                } else
+                                    startActivity(new Intent(ActivityLog.this, ActivityPro.class));
+                                return true;
+
                             default:
                                 return false;
                         }
