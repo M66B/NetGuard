@@ -636,6 +636,20 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Search
         menuSearch = menu.findItem(R.id.menu_search);
+        MenuItemCompat.setOnActionExpandListener(menuSearch, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                if (getIntent().hasExtra(EXTRA_SEARCH))
+                    finish();
+                return true;
+            }
+        });
+
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
