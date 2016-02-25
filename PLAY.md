@@ -13,9 +13,9 @@ A simple way to block access to the internet per application
 
 Long description
 ----------------
-NetGuard provides a simple way to block access to the internet - no root required.
+NetGuard provides simple and advanced ways to block access to the internet - no root required.
 
-Applications can individually be allowed or denied access to your Wi-Fi and/or mobile connection.
+Applications and addresses can individually be allowed or denied access to your Wi-Fi and/or mobile connection.
 
 Blocking access to the internet can help:
 
@@ -25,32 +25,31 @@ Blocking access to the internet can help:
 
 Features:
 
-&bull; No root required  
-&bull; Simple to use  
-&bull; Open source  
-&bull; No calling home  
-&bull; No tracking or analytics  
-&bull; No advertisements  
-&bull; Android 4.0 and later supported  
-&bull; IPv4/IPv6 TCP/UDP supported  
-&bull; Tethering supported  
-&bull; Multiple users supported  
-&bull; Optionally allow when screen on  
-&bull; Optionally block when roaming  
-&bull; Optionally block system applications  
-&bull; Optionally forward ports, also to external addresses  
-&bull; Optionally notify on internet access  
-&bull; Material design theme with light and dark versions  
+&bull; Simple to use
+&bull; No root required
+&bull; 100% open source
+&bull; No calling home
+&bull; No tracking or analytics
+&bull; No advertisements
+&bull; Android 4.0 and later supported
+&bull; IPv4/IPv6 TCP/UDP supported
+&bull; Tethering supported
+&bull; Multiple device users supported
+&bull; Optionally allow when screen on
+&bull; Optionally block when roaming
+&bull; Optionally block system applications
+&bull; Optionally forward ports, also to external addresses
+&bull; Optionally notify when an application accesses the internet
+&bull; Optionally record network usage per application per address
+&bull; Material design theme with light and dark theme
 
-PRO Features:
+PRO features:
 
-&bull; Optionally notify on new app install  
-&bull; Optionally log traffic; search and filter access attempts  
-&bull; Optionally export PCAP files to analyze traffic  
-&bull; Optionally filter addresses per application per domain  
-&bull; Optionally record network usage per application per domain  
-&bull; Optionally display network speed graph  
-&bull; 5 more color themes in both light and dark versions  
+&bull; Log all outgoing traffic; search and filter access attempts; export PCAP files to analyze traffic
+&bull; Allow/block individual addresses per application
+&bull; New application notifications; configure NetGuard directly from the notification
+&bull; Display network speed graph in a status bar notification
+&bull; Select from five additional themes in both light and dark version
 
 There is no other no-root firewall offering all these features.
 
