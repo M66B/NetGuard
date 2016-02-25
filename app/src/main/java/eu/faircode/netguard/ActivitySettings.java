@@ -583,6 +583,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 checkAddress(vpn4);
             } catch (Throwable ex) {
                 prefs.edit().remove("vpn4").apply();
+                Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
             SinkholeService.reload("changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn4", "10.1.10.1")));
@@ -593,6 +594,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 checkAddress(vpn6);
             } catch (Throwable ex) {
                 prefs.edit().remove("vpn6").apply();
+                Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
             SinkholeService.reload("changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
@@ -603,6 +605,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 checkAddress(dns);
             } catch (Throwable ex) {
                 prefs.edit().remove("dns").apply();
+                Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
             SinkholeService.reload("changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(
@@ -894,7 +897,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     return null;
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, ActivitySettings.this);
                     return ex;
                 } finally {
                     if (out != null)
@@ -946,6 +948,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     return null;
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    Util.sendCrashReport(ex, ActivitySettings.this);
                     return ex;
                 } finally {
                     if (in != null)
