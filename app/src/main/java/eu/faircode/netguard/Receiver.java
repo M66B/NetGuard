@@ -67,8 +67,10 @@ public class Receiver extends BroadcastReceiver {
                 context.getSharedPreferences("roaming", Context.MODE_PRIVATE).edit().remove(packageName).apply();
 
                 int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
-                if (uid > 0)
-                    NotificationManagerCompat.from(context).cancel(uid);
+                if (uid > 0) {
+                    NotificationManagerCompat.from(context).cancel(uid); // installed notification
+                    NotificationManagerCompat.from(context).cancel(uid + 10000); // access notification
+                }
             }
 
         } else {
