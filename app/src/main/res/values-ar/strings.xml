@@ -72,7 +72,7 @@
   <string name="setting_vpn6">VPN IPv4: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">سجل PCAP حجمه: %s ب</string>
-  <string name="setting_pcap_file_size">حجم ملف PCAP الأعلى: s% م ب</string>
+  <string name="setting_pcap_file_size">حجم ملف PCAP الأعلى: %s م ب</string>
   <string name="setting_stats_category">تنبيه السرعة</string>
   <string name="setting_stats">إظهار تنبيه السرعه</string>
   <string name="setting_stats_top">إظهار التطبيقات الأعلى</string>
