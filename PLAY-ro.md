@@ -13,9 +13,9 @@ Un mod simplu de a bloca accesul aplicatiilor la internet
 
 Long description
 ----------------
-NetGuard ofera un mod simplu de a bloca accesul la internet ce nu necesita acces root.
+NetGuard ofera modalitati simple si avansate de a bloca accesul la internet, ce nu necesita acces root.
 
-Accesul aplicatiilor la conexiunile Wi-Fi si/sau mobile poate fi permis sau blocat la nivel individual.
+Accesul aplicatiilor la conexiunile Wi-Fi si/sau mobile poate fi permis sau blocat atat la nivel individual cat si la nivel de adresa.
 
 Blocarea accesului la internet poate ajuta la:
 
@@ -25,26 +25,31 @@ Blocarea accesului la internet poate ajuta la:
 
 Caracteristici:
 
-&bull; Nu necesita acces root
 &bull; Simplu de utilizat
-&bull; Software cu sursa deschisa
+&bull; Nu necesita acces root
+&bull; 100% software cu sursa deschisa
 &bull; Nu transmite datele nicaieri
 &bull; Nu urmareste activitatea si nici nu o analizeaza
 &bull; Fara reclama
-&bull; Suport Android 4.0 si ulterior
+&bull; Suporta Android 4.0 si ulterior
 &bull; Suporta IPv4/IPv6 TCP/UDP
 &bull; Suporta partajarea conexiunii
 &bull; Suporta utilizatori multiplii
-&bull; Optional permite cand ecranul e pornit
+&bull; Optional permite cand ecranul este pornit
 &bull; Optional blocheaza in roaming
 &bull; Optional blocheaza aplicatiile de sistem
-&bull; Optional jurnal de trafic; cauta si filtreaza lista de accesari
-&bull; Optional permita/blocheaza accesul per aplicatie si per domeniu
-&bull; Optional notifica la accesarea internetului
 &bull; Optional redirectioneaza porturi atat local cat si spre servere externe
-&bull; Optional exporta fisiere PCAP pentru analiza traficului
-&bull; Optional afiseaza grafic viteza conexiune
-&bull; Design Material cu multiple teme
+&bull; Optional notifica la accesarea internetului
+&bull; Optional inregistreaza utilizarea conexiunii per aplicatie si per adresa
+&bull; Design Material cu tema deschisa si inchisa
+
+Caracteristici PRO:
+
+&bull; Jurnal de trafic; cauta si filtreaza lista de accesari; exporta fisiere PCAP pentru analiza traficului
+&bull; Permite/blocheaza accesul per aplicatie si per domeniu
+&bull; Notificare aplicatie noua instalata; configureaza NetGuard direct din notificare
+&bull; Grafic viteza conexiune intr-o notificare
+&bull; Alege din cele 5 teme aditionale atat in versiune deschisa cat si inchisa
 
 Nu există nici un alt firewall, ce nu necesita root, care sa ofere toate aceste caracteristici.
 
