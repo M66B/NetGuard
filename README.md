@@ -41,7 +41,7 @@ Since NetGuard has no internet permission, you know your internet traffic is not
 
 Requirements:
 
-* Android 5.0 or later
+* Android 4.0 or later
 * A [compatible device](#compatibility)
 
 Downloads:
@@ -49,7 +49,6 @@ Downloads:
 * [GitHub](https://github.com/M66B/NetGuard/releases)
 * [On Google Play](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
 * [On Google Play](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
-* [F-Droid](https://f-droid.org/repository/browse/?fdfilter=netguard&fdid=eu.faircode.netguard) (unsupported)
 * [XDA Labs App](http://forum.xda-developers.com/android/apps-games/labs-t3241866) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
 
 Usage:
@@ -62,41 +61,18 @@ You can use the settings menu to change from black list to white list mode.
 * Orange = denied internet access
 * Green = allowed internet access
 
-<img src="screenshot1.png" width="320" height="569" />
+<img src="https://raw.githubusercontent.com/M66B/NetGuard/master/screenshots/01-main.png" width="320" height="569" />
+<img src="https://raw.githubusercontent.com/M66B/NetGuard/master/screenshots/02-main-details.png" width="320" height="569" />
+<img src="https://raw.githubusercontent.com/M66B/NetGuard/master/screenshots/03-main-access.png" width="320" height="569" />
+<img src="https://raw.githubusercontent.com/M66B/NetGuard/master/screenshots/08-notifications.png" width="320" height="569" />
 
-<img src="screenshot2.png" width="320" height="569" />
+For more screenshots, see [here](https://github.com/M66B/NetGuard/tree/master/screenshots).
 
 Compatibility
 -------------
 
-Devices / ROMs with a broken VPN implementation:
-
-* Allwinner™ bt1077 / Android ? (reported in the Google Play™ store app) (all traffic blocked)
-* Asus™ ZenFone 2 / Android 5.0.2, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63619542&postcount=121) (all traffic blocked)
-* Asus™ ZenFone 4 / Android 5.0 (reported in the Google Play™ store app) (all traffic blocked)
-* Asus™ ZenFone 5 / Android 5.0 (reported through Google Play™ store app feedback) (VPN prepare fails)
-* Asus™ ZenPad S 8.0 / Android 5.0, [reported on Github](https://github.com/M66B/NetGuard/issues/168) (all traffic blocked)
-* BQ™ Aquaris E5/M5 / Android 5.0.2/5.0 (reported in the Google Play™ store app) (all traffic blocked)
-* Lenovo™ Yoga Tablet Pro-1380L / 2 Pro / Android 5.0.1, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=63784102&postcount=278) (all traffic blocked)
-* LGE G Vista / Android 5.0 (reported through Google Play™ store app feedback) (VPN establish fails)
-* Marshall London / Android 5.02, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=64778998&postcount=885) (all traffic blocked)
-* Samsung™ Galaxy A3 / Android 5.0.2, [reported on XDA](http://forum.xda-developers.com/showpost.php?p=64142621&postcount=509) (all traffic blocked)
-* Samsung™ Galaxy A5 / Android 5.0.2, [reported on Github](https://github.com/M66B/NetGuard/issues/20) (all traffic blocked)
-* Samsung™ Galaxy Note3 / Android 5.0 (reported through Google Play™ store app feedback) (VPN prepare fails)
-* Samsung™ Galaxy Note4 / Android 5.1.1 (reported through Google Play™ store app feedback and on XDA) (telephone unresponsive)
-* Samsung™ Galaxy Note5 / Android ? (reported through Google Play™ store app feedback and on XDA) (?)
-* Samsung™ Galaxy S5 / Android ? [reported on Github](https://github.com/M66B/NetGuard/issues/223) (VPN start fails on boot)
-* Samsung™ Galaxy Tab S4 / Android ? (reported in the Google Play™ store app) (VPN start fails on boot)
-* Sony™ Xperia™ M4 Aqua Dual / Android 5.0 (reported in the Google Play™ store app) (all traffic blocked)
-* Symphony Teleca™ / Micromax™ Canvas Knight 2 E471 / Android 5.0.2 (reported by e-mail) (VPN establish fails)
-* TCT Mobile Limited™ (Alcatel) 6039Y / Android / Android 5.0 (reported in the Google Play™ store app) (all traffic blocked)
-* TCT Mobile Limited™ (Alcatel) OneTouch Idol 3 / Android 5.0.2 (reported in the Google Play™ store app) (all traffic blocked)
-
 NetGuard will crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 
-Wi-Fi/USB tethering and Wi-Fi will not work when NetGuard is enabled due to a bug in Android ([issue](https://github.com/M66B/NetGuard/issues/42)).
-
-Unfortunately it is not possible to workaround any of these Android problems.
 
 <a name="FAQ"></a>
 Frequently Asked Questions (FAQ)
@@ -117,11 +93,6 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ4"></a>
 [**(4) Will NetGuard use extra battery power?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ4)
 
-<a name="FAQ5"></a>
-[**(5) Can you add usage statistics?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ5)<br />
-[**(5) Can you add popups to allow/block applications?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ5)<br />
-[**(5) Can you add selective allowing/blocking applications/IP addresses?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ5)
-
 <a name="FAQ6"></a>
 [**(6) Will NetGuard send my internet traffic to an external (VPN) server?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ6)
 
@@ -136,9 +107,6 @@ Frequently Asked Questions (FAQ)
 
 <a name="FAQ10"></a>
 [**(10) Will you provide a Tasker plug-in?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ10)
-
-<a name="FAQ12"></a>
-[**(12) Can you add on demand asking to block/allow access?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ12)
 
 <a name="FAQ13"></a>
 [**(13) How can I remove the ongoing NetGuard entry in the notification screen?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ13)
@@ -188,10 +156,6 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ30"></a>
 [**(30) Can I also run AFWall+ on the same device?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ30)
 
-<a name="FAQ31"></a>
-[**(31) Which hosts file should I use?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ31)
-
-
 Permissions
 -----------
 
@@ -220,32 +184,7 @@ Translations:
 * Translations to other languages are welcomed
 * You can translate online [here](https://crowdin.com/project/netguard/)
 * If your language is not listed, please send a message to marcel(plus)netguard(at)faircode(dot)eu
-
-Current translations:
-
-1. Arabic
-1. Simplified Chinese
-1. Czech
-1. Danish
-1. Dutch
-1. English
-1. French
-1. German
-1. Greek
-1. Hungarian
-1. Italian
-1. Japanese
-1. Korean
-1. Polish
-1. Portuguese/Brazilian
-1. Romanian
-1. Russian
-1. Slovak
-1. Spanish
-1. Turkish
-1. Ukrainian
-
-You can see the actual status of all translations [here](https://crowdin.com/project/netguard).
+* You can see the status of all translations [here](https://crowdin.com/project/netguard).
 
 Please note that you agree to the license below by contributing, including the copyright.
 
@@ -262,7 +201,7 @@ License
 
 [GNU General Public License version 3](http://www.gnu.org/licenses/gpl.txt)
 
-Copyright (c) 2015 Marcel Bokhorst ([M66B](http://forum.xda-developers.com/member.php?u=2799345))
+Copyright (c) 2015-2016 Marcel Bokhorst ([M66B](http://forum.xda-developers.com/member.php?u=2799345))
 
 All rights reserved
 

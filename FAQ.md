@@ -53,20 +53,6 @@ However, the network speed graph notification will use extra battery power.
 This is why the notification is shown only when the screen is on.
 You can decrease the update frequency using the settings to reduce the battery usage.
 
-<a name="FAQ5"></a>
-**(5) Can you add usage statistics?**<br />
-**(5) Can you add popups to allow/block applications?**<br />
-**(5) Can you add selective allowing/blocking applications/IP addresses?**
-
-Unfortunately, this is not possible without using significant battery power
-and adding complex code to do network translation from OSI layer 3 to layer 4
-(and thus implementing a TCP/IP stack), which will inevitably introduce bugs as well.
-This is how most (perhaps all) other no-root firewalls work.
-NetGuard is unique, because it doesn't implement a TCP/IP stack, and is therefore both highly efficient and simple.
-
-For more advanced use cases, rooting your device and using an iptables based firewall,
-like [AFWall+](https://github.com/ukanth/afwall), might be a better option and will not sacrifice any battery power.
-
 <a name="FAQ6"></a>
 **(6) Will NetGuard send my internet traffic to an external (VPN) server?**
 
@@ -106,13 +92,6 @@ to apply the rules with the conditions '*Allow when screen is on*' and '*Block w
 
 If disabling NetGuard is allowed to Tasker, any application can disabled NetGuard too.
 Allowing to disable a security application from other applications is not a good idea.
-
-<a name="FAQ12"></a>
-**(12) Can you add on demand asking to block/allow access?**
-
-Besides that this requires questionable Android permissions,
-it is not possible to implement this, given the way NetGuard works.
-For more details, see [question 5](#FAQ5).
 
 <a name="FAQ13"></a>
 **(13) How can I remove the ongoing NetGuard entry in the notification screen?**
@@ -157,10 +136,7 @@ is incorrectly attributed to NetGuard instead to the Google Play™ store app.
 <a name="FAQ18"></a>
 **(18) Why can't I find NetGuard in the Google Play™ store app?**
 
-NetGuard requires at least Android 5.0, so it is not available in the Google Play™ store app for devices running older Android versions.
-
-Some devices have an Android version with a bug in the services NetGuard depends upon.
-These devices are blacklisted in the Google Play™ store app. Read about them in the [compatibility section](https://github.com/M66B/NetGuard#compatibility).
+NetGuard requires at least Android 4.0, so it is not available in the Google Play™ store app for devices running older Android versions.
 
 <a name="FAQ19"></a>
 **(19) Why does aplication XYZ still have internet access?**
@@ -200,8 +176,7 @@ This cannot be done from the application, because NetGuard is not an application
 <a name="FAQ22"></a>
 **(22) Can I tether / use Wi-Fi calling while using NetGuard?**
 
-Due to a bug in Android this is not possible.
-See [here](https://github.com/M66B/NetGuard/issues/42) for more information.
+Yes, but this needs to be enabled in the settings.
 
 <a name="FAQ24"></a>
 **(24) Can you remove the notification from the status bar?**
@@ -227,31 +202,20 @@ See also [question 0](#FAQ0).
 The columns have the following meaning:
 
 1. Time (tap on a log entry to see the date)
-1. Wi-Fi / mobile connection
-1. Interactive state (screen on)
-1. Protocol (see below)
-1. Port (tap on a log entry to lookup a port)
-1. Packet flags (see below)
-1. Application icon (tap on a log entry to see the application name)
-1. Application uid
-1. IPv4 or IPv6 address (tap on a log entry to lookup an IP address)
-
-From version 0.77:
-
-1. Time (tap on a log entry to see the date)
 1. Application icon (tap on a log entry to see the application name)
 1. Application uid
 1. Wi-Fi / mobile connection, green=allowed, red=blocked
-1. Interactive state (screen on)
+1. Interactive state (screen on or off)
 1. Protocol (see below) and packet flags (see below)
 1. Source and destination port (tap on a log entry to lookup a destination port)
 1. Source and destination IPv4 or IPv6 address (tap on a log entry to lookup a destination IP address)
+1. Organization name owning the IP address (need to be enabled through the menu)
 
 Protocols:
 
-* I = ICMP
-* T = TCP
-* U = UDP
+* ICMP
+* TCP
+* UDP
 * Number = one of the protocols in [this list](https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)
 * 4 = IPv4
 * 6 = IPv6
@@ -300,13 +264,6 @@ Some pointers on how to set up AFWall+:
 * if using filtering, NetGuard will _need_ internet access (Wi-Fi and/or mobile) in AFWall+
 * if using filtering, when you un/reinstall NetGuard, remember to RE-allow NetGuard in AFWall+
 * if using filtering, applications _need_ VPN internet access (check the box to show that option in AFWall+ settings)
-
-<a name="FAQ31"></a>
-**(31) Which hosts file should I use?**
-
-There is no conclusive answer to this question, but my advice is to use a hosts file which is at least maintained.
-You can find some suggestions [here](https://github.com/M66B/NetGuard/issues/277),
-where you also can find which hosts file *netguard.me/hosts* serves.
 
 <br />
 
