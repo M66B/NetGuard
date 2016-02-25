@@ -148,9 +148,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Title
         getSupportActionBar().setTitle(null);
-        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
-                == Configuration.SCREENLAYOUT_SIZE_LARGE)
-            actionView.findViewById(R.id.tvTitle).setVisibility(View.VISIBLE);
 
         // Netguard is busy
         ivQueue.setOnLongClickListener(new View.OnLongClickListener() {
