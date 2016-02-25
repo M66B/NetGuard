@@ -26,7 +26,7 @@
   <string name="menu_live">Mises à jour en direct</string>
   <string name="menu_refresh">Actualiser</string>
   <string name="menu_resolve">Afficher les noms</string>
-  <string name="menu_organization">Show organization</string>
+  <string name="menu_organization">Afficher l\'organisation</string>
   <string name="menu_pcap_enabled">PCAP activé</string>
   <string name="menu_pcap_export">Exporter PCAP</string>
   <string name="menu_clear">Effacer</string>

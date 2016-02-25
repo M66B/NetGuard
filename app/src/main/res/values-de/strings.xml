@@ -27,7 +27,7 @@
   <string name="menu_live">Live-Updates</string>
   <string name="menu_refresh">Aktualisieren</string>
   <string name="menu_resolve">Namen anzeigen</string>
-  <string name="menu_organization">Show organization</string>
+  <string name="menu_organization">Organisation zeigen</string>
   <string name="menu_pcap_enabled">PCAP aktiviert</string>
   <string name="menu_pcap_export">PCAP exportieren</string>
   <string name="menu_clear">Bereinigen</string>
@@ -150,7 +150,7 @@
   <string name="title_host_blocked">Adresse ist blockiert</string>
   <string name="title_interactive_allowed">Erlauben, wenn Bildschirm an</string>
   <string name="title_roaming_blocked">Bei Roaming blockieren</string>
-  <string name="title_metered">Standardmäßig wird eine WLAN-Verbindung als ungemessen und eine mobile Verbindung als gemessen betrachtet</string>
+  <string name="title_metered">Standardmäßig wird eine WLAN-Verbindung als ungemessen und eine mobile Verbindung als gemessen betrachtet.</string>
   <string name="title_apply">Regeln und Bedingungen anwenden</string>
   <string name="title_conditions">Bedingungen</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>

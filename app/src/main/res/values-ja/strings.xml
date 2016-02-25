@@ -27,7 +27,7 @@
   <string name="menu_live">ライブアップデート</string>
   <string name="menu_refresh">更新</string>
   <string name="menu_resolve">名前を表示</string>
-  <string name="menu_organization">Show organization</string>
+  <string name="menu_organization">組織を表示</string>
   <string name="menu_pcap_enabled">PCAP を有効にしました</string>
   <string name="menu_pcap_export">PCAP エクスポート</string>
   <string name="menu_clear">クリア</string>
