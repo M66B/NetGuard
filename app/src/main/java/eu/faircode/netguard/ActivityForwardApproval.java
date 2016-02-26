@@ -28,6 +28,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 public class ActivityForwardApproval extends Activity {
     private static final String TAG = "NetGuard.Forward";
     private static final String ACTION_START_PORT_FORWARD = "eu.faircode.netguard.START_PORT_FORWARD";
@@ -48,6 +51,15 @@ public class ActivityForwardApproval extends Activity {
         final int rport = getIntent().getIntExtra("rport", 0);
         final int ruid = getIntent().getIntExtra("ruid", 0);
         final String raddr = (addr == null ? "127.0.0.1" : addr);
+
+        try {
+            InetAddress iraddr = InetAddress.getByName(raddr);
+            if (rport < 1024 && (iraddr.isLoopbackAddress() || iraddr.isAnyLocalAddress()))
+                throw new IllegalArgumentException("Port forwarding to privileged port on local address not possible");
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            finish();
+        }
 
         String pname;
         if (protocol == 6)
