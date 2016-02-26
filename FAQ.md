@@ -177,6 +177,8 @@ This cannot be done from the application, because NetGuard is not an application
 **(22) Can I tether / use Wi-Fi calling while using NetGuard?**
 
 Yes, but this needs to be enabled in the settings.
+If it works depends on your Android version,
+because some Android versions have a bug preventing tethering and the VPN service to work together.
 
 <a name="FAQ24"></a>
 **(24) Can you remove the notification from the status bar?**
