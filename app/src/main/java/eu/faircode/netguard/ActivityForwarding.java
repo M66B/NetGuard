@@ -194,6 +194,10 @@ public class ActivityForwarding extends AppCompatActivity {
                                     final String raddr = etRAddr.getText().toString();
                                     final int rport = Integer.parseInt(etRPort.getText().toString());
                                     final int ruid = ((Rule) spRuid.getSelectedItem()).info.applicationInfo.uid;
+
+                                    if (rport < 1024)
+                                        throw new IllegalArgumentException("Port forwarding to privileged port not possible");
+
                                     new AsyncTask<Object, Object, Throwable>() {
                                         @Override
                                         protected Throwable doInBackground(Object... objects) {

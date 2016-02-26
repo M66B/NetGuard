@@ -49,6 +49,11 @@ public class ActivityForwardApproval extends Activity {
         final int ruid = getIntent().getIntExtra("ruid", 0);
         final String raddr = (addr == null ? "127.0.0.1" : addr);
 
+        if (rport < 1024) {
+            Log.w(TAG, "Port forwarding to privileged port not possible");
+            finish();
+        }
+
         String pname;
         if (protocol == 6)
             pname = getString(R.string.menu_protocol_tcp);
