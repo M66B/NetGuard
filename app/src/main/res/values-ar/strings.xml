@@ -91,7 +91,7 @@
   <string name="setting_technical_subscription">الإشتراكات</string>
   <string name="summary_auto">بعد تعطيل استخدام الويدجت، تلقائياً يعمل NetGuard مرة أخرى بعد عدد محدد من الدقائف \n ادخل صفر لتعطيل هذا الخيار</string>
   <string name="summary_delay">بعد إغلاق الشاشة، إبقاء الشاشة على القواعد النشطة لعدد مختار من الدقائق (ادخل صفر لتعطيل هذا الخيار)</string>
-  <string name="summary_tethering">لا يمكن تصفية الحركة المربوطة</string>
+  <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
   <string name="summary_wifi_home">تطبيق قواعد شبكة اللاسلكية للشبكة المحددة فقط (تطبيق قواعد شبكة الجوال لباقي شبكات Wi-fi)</string>
   <string name="summary_metered">تـــطـــبـــيـــق قـــواعـــد شـــبـــكـــة الـــجـــوال لـــشـــبـــكـــات لاســـلـــكـــي (مـــربـــوطــة، مـــدفـــوعـــة) مـــقـــنـــنـــة</string>
   <string name="summary_metered_2g">تـــطـــبـــيـــق قـــواعـــد شـــبـــكـــة لاســـلـــكـــى لـــلـــجـــيـــل الـــثـــانـــي لإتـــصـــل الـــبـــيـــانـــات</string>

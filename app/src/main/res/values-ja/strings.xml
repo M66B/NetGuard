@@ -92,7 +92,7 @@
   <string name="setting_technical_subscription">サブスクリプション</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
-  <string name="summary_tethering">テザリングのトラフィックをフィルターできません</string>
+  <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>
   <string name="summary_metered">従量制 (有料、テザリング) Wi-Fi ネットワークにモバイル ネットワーク ルールを適用します</string>
   <string name="summary_metered_2g">2G データ接続の Wi-Fi ネットワーク ルールを適用します</string>

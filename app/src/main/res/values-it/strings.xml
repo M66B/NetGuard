@@ -91,7 +91,7 @@
   <string name="setting_technical_subscription">Sottoscrizioni</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo è acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
-  <string name="summary_tethering">Il traffico in tethering non può essere filtrato</string>
+  <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
   <string name="summary_metered_2g">Applica le regole valide per il Wi-Fi alle connessioni 2G</string>

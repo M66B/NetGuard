@@ -94,7 +94,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_auto">\"在禁用小工具之後,自動在設定的時間後啟動網路守門人
 輸入0來關閉這項設定\"</string>
   <string name="summary_delay">在關閉螢幕後, 在所選數目分鐘內繼續保持螢幕開啟時的規則 (輸入0以禁用此選項)</string>
-  <string name="summary_tethering">Tethered traffic cannot be filtered</string>
+  <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
   <string name="summary_wifi_home">只為選定的網路套用Wi-Fi規則(未被選定的將套用行動網路規則)</string>
   <string name="summary_metered">套用行動網路規則到計量型(付費,限量)Wi-Fi</string>
   <string name="summary_metered_2g">套用Wi-Fi規則到2G連接</string>

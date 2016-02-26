@@ -91,7 +91,7 @@
   <string name="setting_technical_subscription">Abonamente</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_delay">Dupa oprirea ecranului, pastreza regulile ecran pornit pentru numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
-  <string name="summary_tethering">Traficul hot-spot nu poate fi filtrat</string>
+  <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
   <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (pentru alte retele Wi-Fi se aplica regulile de date mobile)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
   <string name="summary_metered_2g">Aplica regulile Wi-Fi pentru conexiunile de date 2G</string>

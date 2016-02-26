@@ -92,7 +92,7 @@
   <string name="setting_technical_subscription">Abos</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert (Null eingeben zum Deaktivieren dieser Option)</string>
   <string name="summary_delay">Nachdem Ausschalten des Bildschirms, diesen aufgrund der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren dieser Option)</string>
-  <string name="summary_tethering">Hinweis: Tethering-Verkehr kann nicht gefiltert werden</string>
+  <string name="summary_tethering">Abhängig von der Android Version kann Tethering funktionieren. Dieser Verkehr kann nicht gefiltert werden.</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
   <string name="summary_metered">Mobilfunk-Regeln gemessenen (bezahlten, tethering) WLAN-Netzwerken anwenden</string>
   <string name="summary_metered_2g">WLAN-Netzwerk-Regeln für 2G-Datenverbindungen anwenden</string>
