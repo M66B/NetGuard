@@ -29,7 +29,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class ActivityForwardApproval extends Activity {
     private static final String TAG = "NetGuard.Forward";
