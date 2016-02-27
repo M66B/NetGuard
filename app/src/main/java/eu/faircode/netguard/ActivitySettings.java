@@ -650,6 +650,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private void checkAddress(String address) throws IllegalArgumentException, UnknownHostException {
         if (address == null || TextUtils.isEmpty(address.trim()))
             throw new IllegalArgumentException("Bad address");
+        if (!Util.isNumericAddress(address))
+            throw new IllegalArgumentException("Bad address");
         InetAddress idns = InetAddress.getByName(address);
         if (idns.isLoopbackAddress() || idns.isAnyLocalAddress())
             throw new IllegalArgumentException("Bad address");
