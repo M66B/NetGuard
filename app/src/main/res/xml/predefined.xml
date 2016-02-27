@@ -27,6 +27,9 @@
     <wifi
         blocked="false"
         package="com.google.android.backuptransport" />
+    <other
+        blocked="false"
+        package="com.google.android.backuptransport" />
 
     <wifi
         blocked="false"
