@@ -78,7 +78,6 @@
   <string name="setting_stats_category">网速通知</string>
   <string name="setting_stats">显示网速通知</string>
   <string name="setting_stats_top">显示高网络流量应用</string>
-  <string name="setting_stats_base">网速基准: %s KB/秒</string>
   <string name="setting_stats_frequency">采样频率: %s ms</string>
   <string name="setting_stats_samples">样本数: %s s</string>
   <string name="setting_backup">备份</string>

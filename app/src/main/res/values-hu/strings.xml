@@ -78,7 +78,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_stats_category">Sebesség értesítés</string>
   <string name="setting_stats">Mutassa a sebesség értesítést</string>
   <string name="setting_stats_top">Csúcs alkalmazások mutatása</string>
-  <string name="setting_stats_base">Sebesség alap: %s KB/s</string>
   <string name="setting_stats_frequency">Mintavétel intervallum: %s ms</string>
   <string name="setting_stats_samples">Minták száma: %s s</string>
   <string name="setting_backup">Biztonsági mentés</string>

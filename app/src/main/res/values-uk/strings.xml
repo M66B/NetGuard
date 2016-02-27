@@ -77,7 +77,6 @@
   <string name="setting_stats_category">Швидкість в сповіщенні</string>
   <string name="setting_stats">Показувати сповіщення о швидкості</string>
   <string name="setting_stats_top">Показати топові додатки</string>
-  <string name="setting_stats_base">Базова швидкість: %s КБ/с</string>
   <string name="setting_stats_frequency">Частота замірів: %s мс</string>
   <string name="setting_stats_samples">Число замірів: %s s</string>
   <string name="setting_backup">Резервне копіювання</string>

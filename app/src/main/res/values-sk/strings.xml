@@ -78,7 +78,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_stats_category">Oznámenie o rýchlosti</string>
   <string name="setting_stats">Zobraziť oznámenie o rýchlosti</string>
   <string name="setting_stats_top">Zobraziť top aplikácie</string>
-  <string name="setting_stats_base">Základná rýchlosť: %s KB/s</string>
   <string name="setting_stats_frequency">Interval vzorkovania: %s ms</string>
   <string name="setting_stats_samples">Počet vzoriek: %s s</string>
   <string name="setting_backup">Zálohovať</string>

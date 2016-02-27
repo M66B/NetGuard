@@ -76,7 +76,6 @@
   <string name="setting_stats_category">Notificação de velocidade</string>
   <string name="setting_stats">Mostrar notificação de velocidade</string>
   <string name="setting_stats_top">Mostrar aplicações principais</string>
-  <string name="setting_stats_base">Velocidade de referência: %s KB/s</string>
   <string name="setting_stats_frequency">Frequência da amostra: %s ms</string>
   <string name="setting_stats_samples">Número de amostras: %s s</string>
   <string name="setting_backup">Cópia de Segurança</string>

@@ -78,7 +78,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_stats_category">Wykres prędkości</string>
   <string name="setting_stats">Pokazuj wskaźnik prędkości</string>
   <string name="setting_stats_top">Pokaż aplikacje z najwyższym transferem</string>
-  <string name="setting_stats_base">Prędkość odniesienia: %s KB/s</string>
   <string name="setting_stats_frequency">Częstotliwość próbkowania: %s ms</string>
   <string name="setting_stats_samples">Ilość próbek: %s s</string>
   <string name="setting_backup">Kopia zapasowa</string>

@@ -76,7 +76,6 @@
   <string name="setting_stats_category">Notification de vitesse</string>
   <string name="setting_stats">Afficher la notification de vitesse</string>
   <string name="setting_stats_top">Afficher le top applications</string>
-  <string name="setting_stats_base">Base de vitesse : %s Ko/s</string>
   <string name="setting_stats_frequency">Intervalle d\'échantillonnage : %s ms</string>
   <string name="setting_stats_samples">Nombre d\'échantillons : %s s</string>
   <string name="setting_backup">Sauvegarde</string>
@@ -91,7 +90,7 @@
   <string name="setting_technical_subscription">Souscriptions</string>
   <string name="summary_auto">Après désactivation via le widget, activer automatiquement de nouveau NetGuard après le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
   <string name="summary_delay">Après avoir éteint l\'écran, garder les règles d\'écran allumé actives pendant le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
-  <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
+  <string name="summary_tethering">Selon la version d\'Android, le partage de connexion peut fonctionner ou non. Le trafic partagé ne peut pas être filtré.</string>
   <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour les autres Wi-Fi)</string>
   <string name="summary_metered">Appliquer les règles de réseaux mobiles aux réseaux Wi-Fi limités (payants, partagés)</string>
   <string name="summary_metered_2g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 2G</string>

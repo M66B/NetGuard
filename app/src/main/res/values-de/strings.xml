@@ -77,7 +77,6 @@
   <string name="setting_stats_category">Geschwindigkeitsbenachrichtigung</string>
   <string name="setting_stats">Netzwerkgeschwindigkeit anzeigen</string>
   <string name="setting_stats_top">Top-Anwendungen anzeigen</string>
-  <string name="setting_stats_base">Geschwindigkeit: %s KB/s</string>
   <string name="setting_stats_frequency">Abtastfrequenz: %s ms</string>
   <string name="setting_stats_samples">Abtastanzahl: %s s</string>
   <string name="setting_backup">Sicherung</string>

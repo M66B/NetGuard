@@ -76,7 +76,6 @@
   <string name="setting_stats_category">Notificare viteza conexiune</string>
   <string name="setting_stats">Arata notificare viteza</string>
   <string name="setting_stats_top">Arata aplicatiile consumatoare</string>
-  <string name="setting_stats_base">Viteza de referinta: %s KB/s</string>
   <string name="setting_stats_frequency">Interval de esantionare: %s ms</string>
   <string name="setting_stats_samples">Numar de esantioane: %s s</string>
   <string name="setting_backup">Copie de siguranta</string>
@@ -91,7 +90,7 @@
   <string name="setting_technical_subscription">Abonamente</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_delay">Dupa oprirea ecranului, pastreza regulile ecran pornit pentru numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
-  <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
+  <string name="summary_tethering">In functie de versiunea de Android, partajarea conexiunii (tethering/hotspot) ar putea functiona sau nu. Traficul partajat nu poate fi filtrat.</string>
   <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (pentru alte retele Wi-Fi se aplica regulile de date mobile)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
   <string name="summary_metered_2g">Aplica regulile Wi-Fi pentru conexiunile de date 2G</string>

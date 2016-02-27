@@ -26,7 +26,7 @@
   <string name="menu_live">Aggiornamenti in tempo reale</string>
   <string name="menu_refresh">Aggiorna</string>
   <string name="menu_resolve">Mostra nomi</string>
-  <string name="menu_organization">Show organization</string>
+  <string name="menu_organization">Mostra organizzazione</string>
   <string name="menu_pcap_enabled">PCAP abilitati</string>
   <string name="menu_pcap_export">Esporta PCAP</string>
   <string name="menu_clear">Pulisci</string>
@@ -76,7 +76,6 @@
   <string name="setting_stats_category">Notifica di velocità</string>
   <string name="setting_stats">Visualizza velocità tra le notifiche</string>
   <string name="setting_stats_top">Visualizza applicazioni principali</string>
-  <string name="setting_stats_base">Velocità di riferimento: %s KB/s</string>
   <string name="setting_stats_frequency">Intervallo di campionamento: %s ms</string>
   <string name="setting_stats_samples">Numero di campioni: s %s</string>
   <string name="setting_backup">Backup</string>
@@ -91,7 +90,7 @@
   <string name="setting_technical_subscription">Sottoscrizioni</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo è acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
-  <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
+  <string name="summary_tethering">A seconda della versione di Android, il tethering potrebbe non funzionare. Non è possibile filtrare il traffico in tethering.</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
   <string name="summary_metered_2g">Applica le regole valide per il Wi-Fi alle connessioni 2G</string>

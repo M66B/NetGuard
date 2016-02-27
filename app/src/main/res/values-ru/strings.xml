@@ -76,7 +76,6 @@
   <string name="setting_stats_category">Скорость в статус-баре</string>
   <string name="setting_stats">Показать скорость в статус-баре</string>
   <string name="setting_stats_top">Показать топовое приложение</string>
-  <string name="setting_stats_base">Скорость сети: %s КБ/с</string>
   <string name="setting_stats_frequency">Частота замеров: %s мс</string>
   <string name="setting_stats_samples">Число замеров: %s с</string>
   <string name="setting_backup">Резервное копирование</string>

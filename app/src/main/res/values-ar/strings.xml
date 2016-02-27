@@ -76,7 +76,6 @@
   <string name="setting_stats_category">تنبيه السرعة</string>
   <string name="setting_stats">إظهار تنبيه السرعه</string>
   <string name="setting_stats_top">إظهار التطبيقات الأعلى</string>
-  <string name="setting_stats_base">خط السرعة الأساسي: %s كيلوبايت/ثانية</string>
   <string name="setting_stats_frequency">الفاصل الزمني للعينة: %s دقيقة</string>
   <string name="setting_stats_samples">عدد العينات: %s s</string>
   <string name="setting_backup">نسخة احتياطية</string>

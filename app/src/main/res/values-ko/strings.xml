@@ -78,7 +78,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_stats_category">Speed notification</string>
   <string name="setting_stats">Show speed notification</string>
   <string name="setting_stats_top">Show top applications</string>
-  <string name="setting_stats_base">Speed baseline: %s KB/s</string>
   <string name="setting_stats_frequency">Sample interval: %s ms</string>
   <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Backup</string>

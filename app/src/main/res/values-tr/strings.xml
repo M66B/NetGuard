@@ -78,7 +78,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_stats_category">Hız bildirimi</string>
   <string name="setting_stats">Hız bildirimini göster</string>
   <string name="setting_stats_top">En iyi uygulamaları göster</string>
-  <string name="setting_stats_base">Temel hız: %s KB/s</string>
   <string name="setting_stats_frequency">Örnek aralık: %s ms</string>
   <string name="setting_stats_samples">Number of samples: %s s</string>
   <string name="setting_backup">Yedekleme</string>

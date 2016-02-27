@@ -78,7 +78,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_stats_category">網速通知</string>
   <string name="setting_stats">顯示網速通知</string>
   <string name="setting_stats_top">顯示最高使用量Apps</string>
-  <string name="setting_stats_base">網速底限: %s KB/s</string>
   <string name="setting_stats_frequency">取樣間隔: %s ms</string>
   <string name="setting_stats_samples">取樣數: %s s</string>
   <string name="setting_backup">備份</string>

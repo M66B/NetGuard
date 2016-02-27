@@ -77,7 +77,6 @@
   <string name="setting_stats_category">Snelheidsmelding</string>
   <string name="setting_stats">Snelheidsmelding weergeven</string>
   <string name="setting_stats_top">Toon top toepassingen</string>
-  <string name="setting_stats_base">Snelheid basislijn: %s KB/s</string>
   <string name="setting_stats_frequency">Monsterinterval: %s ms</string>
   <string name="setting_stats_samples">Aantal monsters: %s s</string>
   <string name="setting_backup">Reservekopie</string>
