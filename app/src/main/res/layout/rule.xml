@@ -165,7 +165,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextSmall" />
+            android:textAppearance="@style/TextSmall"
+            android:textIsSelectable="true" />
 
         <TextView
             android:id="@+id/tvVersion"
