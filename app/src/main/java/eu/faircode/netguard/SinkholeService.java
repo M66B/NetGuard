@@ -817,6 +817,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 int[] count = jni_get_stats();
                 remoteViews.setTextViewText(R.id.tvSessions, count[0] + "/" + count[1] + "/" + count[2]);
                 remoteViews.setTextViewText(R.id.tvFiles, count[3] + "/" + count[4]);
+            } else {
+                remoteViews.setTextViewText(R.id.tvSessions, "");
+                remoteViews.setTextViewText(R.id.tvFiles, "");
             }
 
             // Show notification
