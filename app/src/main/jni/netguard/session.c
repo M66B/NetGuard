@@ -145,10 +145,11 @@ void *handle_events(void *a) {
                                 args->tun, errno, strerror(errno));
                     report_exit(args, "tun socket %d select error %d: %s",
                                 args->tun, errno, strerror(errno));
+                    break;
                 }
                 else {
                     log_android(ANDROID_LOG_WARN, "pselect EBADF");
-                    break;
+                    continue;
                 }
             } else {
                 log_android(ANDROID_LOG_ERROR,
