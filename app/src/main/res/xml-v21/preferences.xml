@@ -174,11 +174,6 @@
             android:key="show_top"
             android:title="@string/setting_stats_top" />
         <EditTextPreference
-            android:defaultValue="5"
-            android:dependency="show_stats"
-            android:inputType="number"
-            android:key="stats_base" />
-        <EditTextPreference
             android:defaultValue="1000"
             android:dependency="show_stats"
             android:inputType="number"

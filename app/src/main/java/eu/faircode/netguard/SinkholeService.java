@@ -660,7 +660,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
             long frequency = Long.parseLong(prefs.getString("stats_frequency", "1000"));
             long samples = Long.parseLong(prefs.getString("stats_samples", "90"));
-            float base = Long.parseLong(prefs.getString("stats_base", "5")) * 1000f;
             boolean filter = prefs.getBoolean("filter", false);
             boolean show_top = prefs.getBoolean("show_top", false);
             int loglevel = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
@@ -753,14 +752,19 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             canvas.drawColor(Color.TRANSPARENT);
 
             // Determine max
+            float max = 0;
             long xmax = 0;
-            float ymax = base * 1.5f;
+            float ymax = 0;
             for (int i = 0; i < gt.size(); i++) {
                 long t = gt.get(i);
                 float tx = gtx.get(i);
                 float rx = grx.get(i);
                 if (t > xmax)
                     xmax = t;
+                if (tx > max)
+                    max = tx;
+                if (rx > max)
+                    max = rx;
                 if (tx > ymax)
                     ymax = tx;
                 if (rx > ymax)
@@ -789,8 +793,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // Draw base line
             paint.setStrokeWidth(Util.dips2pixels(1, SinkholeService.this));
-            paint.setColor(Color.GRAY);
-            float y = height - height * base / ymax;
+            paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorGrayed));
+            float y = height / 2;
             canvas.drawLine(0, y, width, y, paint);
 
             // Draw paths
@@ -811,6 +815,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 remoteViews.setTextViewText(R.id.tvRx, getString(R.string.msg_kbsec, rxsec / 1000));
             else
                 remoteViews.setTextViewText(R.id.tvRx, getString(R.string.msg_mbsec, rxsec / 1000 / 1000));
+
+            if (max < 1000 * 1000)
+                remoteViews.setTextViewText(R.id.tvMax, getString(R.string.msg_kbsec, max / 1000));
+            else
+                remoteViews.setTextViewText(R.id.tvMax, getString(R.string.msg_mbsec, max / 1000 / 1000));
 
             // Show session/file count
             if (filter && loglevel <= Log.WARN) {

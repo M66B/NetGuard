@@ -225,10 +225,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         screen.findPreference("pcap_file_size").setTitle(getString(R.string.setting_pcap_file_size, prefs.getString("pcap_file_size", "2")));
 
         // Handle stats
-        EditTextPreference pref_stats_base = (EditTextPreference) screen.findPreference("stats_base");
         EditTextPreference pref_stats_frequency = (EditTextPreference) screen.findPreference("stats_frequency");
         EditTextPreference pref_stats_samples = (EditTextPreference) screen.findPreference("stats_samples");
-        pref_stats_base.setTitle(getString(R.string.setting_stats_base, prefs.getString("stats_base", "5")));
         pref_stats_frequency.setTitle(getString(R.string.setting_stats_frequency, prefs.getString("stats_frequency", "1000")));
         pref_stats_samples.setTitle(getString(R.string.setting_stats_samples, prefs.getString("stats_samples", "90")));
 
@@ -630,9 +628,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if ("show_stats".equals(name))
             SinkholeService.reloadStats("changed " + name, this);
-
-        else if ("stats_base".equals(name))
-            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_base, prefs.getString(name, "5")));
 
         else if ("stats_frequency".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_frequency, prefs.getString(name, "1000")));
