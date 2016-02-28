@@ -1,7 +1,7 @@
 # NetGuard
 
-*NetGuard* provides a simple way to block access to the internet - no root required.
-Applications can individually be allowed or denied access to your Wi-Fi and/or mobile connection.
+*NetGuard* provides simple and advanced ways to block access to the internet - no root required.
+Applications and addresses can individually be allowed or denied access to your Wi-Fi and/or mobile connection.
 
 Blocking access to the internet can help:
 
@@ -13,31 +13,33 @@ NetGuard is the first free and open source no-root firewall for Android.
 
 Features:
 
-* No root required
 * Simple to use
-* Open source
-* No extra battery usage
-* No bandwidth reduction
+* No root required
+* 100% open source
 * No calling home
 * No tracking or analytics
-* No ads
-* No internet permission required
+* No advertisements
+* Android 4.0 and later supported
 * IPv4/IPv6 TCP/UDP supported
+* Tethering supported
+* Multiple device users supported
 * Optionally allow when screen on
 * Optionally block when roaming
 * Optionally block system applications
-* Graphical network speed display
-* Material design
+* Optionally forward ports, also to external addresses
+* Optionally notify when an application accesses the internet
+* Optionally record network usage per application per address
+* Material design theme with light and dark theme
+
+PRO features:
+
+* Log all outgoing traffic; search and filter access attempts; export PCAP files to analyze traffic
+* Allow/block individual addresses per application
+* New application notifications; configure NetGuard directly from the notification
+* Display network speed graph in a status bar notification
+* Select from five additional themes in both light and dark version
 
 There is no other no-root firewall offering all these features.
-Most other firewall solutions will use extra battery and reduce the overall network speed.
-
-Most of these features are the result of sending selected traffic to a sinkhole, instead of filtering all internet traffic.
-This means that advanced features, like address based filtering (needed for ad blocking), traffic logging, and on-demand configuration, are not possible.
-Routing selected traffic into a sinkhole relies on an API introduced in Android 5.0 (Lollipop),
-therefore older Android versions unfortunately cannot be supported.
-
-Since NetGuard has no internet permission, you know your internet traffic is not being sent anywhere.
 
 Requirements:
 
@@ -56,10 +58,10 @@ Usage:
 * Enable the firewall using the switch in the action bar
 * Allow/deny Wi-Fi/mobile internet access using the icons along the right side of the application list
 
-You can use the settings menu to change from black list to white list mode.
+You can use the settings menu to change from blacklist mode (allow all in *Settings* but block unwanted applications in list) to whitelist mode (block all in *Settings* but allow favorite applications in list).
 
-* Orange = denied internet access
-* Green = allowed internet access
+* Red/orange/yellow/amber = internet access denied
+* Teal/blue/purple/grey = internet access allowd
 
 <img src="https://raw.githubusercontent.com/M66B/NetGuard/master/screenshots/01-main.png" width="320" height="569" />
 <img src="https://raw.githubusercontent.com/M66B/NetGuard/master/screenshots/02-main-details.png" width="320" height="569" />
