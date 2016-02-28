@@ -684,6 +684,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (filter) {
                 ttx -= TrafficStats.getUidTxBytes(Process.myUid());
                 trx -= TrafficStats.getUidRxBytes(Process.myUid());
+                if (ttx < 0)
+                    ttx = 0;
+                if (trx < 0)
+                    trx = 0;
             }
             if (t > 0 && tx > 0 && rx > 0) {
                 float dt = (ct - t) / 1000f;
