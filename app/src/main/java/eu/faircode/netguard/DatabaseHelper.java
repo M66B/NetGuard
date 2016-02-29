@@ -868,6 +868,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         notifyForwardChanged();
     }
 
+    public void deleteForward() {
+        mLock.writeLock().lock();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                db.delete("forward", null, null);
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            mLock.writeLock().unlock();
+        }
+
+        notifyForwardChanged();
+    }
+
     public void deleteForward(int protocol, int dport) {
         mLock.writeLock().lock();
         try {

@@ -1014,6 +1014,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         filterExport(serializer);
         serializer.endTag(null, "filter");
 
+        serializer.startTag(null, "forward");
+        forwardExport(serializer);
+        serializer.endTag(null, "forward");
+
         serializer.endTag(null, "netguard");
         serializer.endDocument();
         serializer.flush();
@@ -1071,14 +1075,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         int colDPort = cursor.getColumnIndex("dport");
         int colTime = cursor.getColumnIndex("time");
         int colBlock = cursor.getColumnIndex("block");
-        while (cursor.moveToNext()) {
-            int uid = cursor.getInt(colUid);
-            String pkgs[] = pm.getPackagesForUid(uid);
-            if (pkgs == null) {
-                Log.w(TAG, "No packages for uid=" + uid);
-                continue;
-            }
-            for (String pkg : pkgs) {
+        while (cursor.moveToNext())
+            for (String pkg : getPackages(cursor.getInt(colUid))) {
                 serializer.startTag(null, "rule");
                 serializer.attribute(null, "pkg", pkg);
                 serializer.attribute(null, "version", Integer.toString(cursor.getInt(colVersion)));
@@ -1089,8 +1087,44 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 serializer.attribute(null, "block", Integer.toString(cursor.getInt(colBlock)));
                 serializer.endTag(null, "rule");
             }
-        }
         cursor.close();
+    }
+
+    private void forwardExport(XmlSerializer serializer) throws IOException {
+        PackageManager pm = getPackageManager();
+        Cursor cursor = DatabaseHelper.getInstance(this).getForwarding();
+        int colProtocol = cursor.getColumnIndex("protocol");
+        int colDPort = cursor.getColumnIndex("dport");
+        int colRAddr = cursor.getColumnIndex("raddr");
+        int colRPort = cursor.getColumnIndex("rport");
+        int colRUid = cursor.getColumnIndex("ruid");
+        while (cursor.moveToNext())
+            for (String pkg : getPackages(cursor.getInt(colRUid))) {
+                serializer.startTag(null, "port");
+                serializer.attribute(null, "pkg", pkg);
+                serializer.attribute(null, "protocol", Integer.toString(cursor.getInt(colProtocol)));
+                serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
+                serializer.attribute(null, "raddr", cursor.getString(colRAddr));
+                serializer.attribute(null, "rport", Integer.toString(cursor.getInt(colRPort)));
+                serializer.endTag(null, "port");
+            }
+        cursor.close();
+    }
+
+    private String[] getPackages(int uid) {
+        if (uid == 0)
+            return new String[]{"root"};
+        else if (uid == 1013)
+            return new String[]{"mediaserver"};
+        else if (uid == 9999)
+            return new String[]{"nobody"};
+        else {
+            String pkgs[] = getPackageManager().getPackagesForUid(uid);
+            if (pkgs == null)
+                return new String[0];
+            else
+                return pkgs;
+        }
     }
 
     private void xmlImport(InputStream in) throws IOException, SAXException, ParserConfigurationException {
@@ -1099,7 +1133,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         prefs.edit().putBoolean("enabled", false).apply();
         SinkholeService.stop("import", this);
 
-        DatabaseHelper.getInstance(this).clearAccess();
         XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         XmlImportHandler handler = new XmlImportHandler(this);
         reader.setContentHandler(handler);
@@ -1162,7 +1195,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         public Map<String, Object> apply = new HashMap<>();
         public Map<String, Object> notify = new HashMap<>();
         private Map<String, Object> current = null;
-        private List<Integer> listUid = new ArrayList<>();
 
         public XmlImportHandler(Context context) {
             this.context = context;
@@ -1200,10 +1232,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else if (qName.equals("notify"))
                 current = notify;
 
-            else if (qName.equals("filter"))
+            else if (qName.equals("filter")) {
                 current = null;
+                Log.i(TAG, "Clearing filters");
+                DatabaseHelper.getInstance(context).clearAccess();
 
-            else if (qName.equals("setting")) {
+            } else if (qName.equals("forward")) {
+                current = null;
+                Log.i(TAG, "Clearing forwards");
+                DatabaseHelper.getInstance(context).deleteForward();
+
+            } else if (qName.equals("setting")) {
                 String key = attributes.getValue("key");
                 String type = attributes.getValue("type");
                 String value = attributes.getValue("value");
@@ -1247,6 +1286,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                             Log.e(TAG, "Unknown type key=" + key);
                     }
                 }
+
             } else if (qName.equals("rule")) {
                 String pkg = attributes.getValue("pkg");
 
@@ -1263,26 +1303,39 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 int block = Integer.parseInt(attributes.getValue("block"));
 
                 try {
-                    if ("root".equals(pkg))
-                        packet.uid = 0;
-                    else
-                        packet.uid = getPackageManager().getApplicationInfo(pkg, 0).uid;
-
-                    // This assumes ordered export
-                    if (!listUid.contains(packet.uid)) {
-                        Log.i(TAG, "Clear filters uid=" + packet.uid);
-                        listUid.add(packet.uid);
-                        DatabaseHelper.getInstance(context).clearAccess(packet.uid);
-                    }
-
-                    Log.i(TAG, " Update access " + packet + " block=" + block);
+                    packet.uid = getUid(pkg);
                     DatabaseHelper.getInstance(context).updateAccess(packet, null, block);
+                } catch (PackageManager.NameNotFoundException ex) {
+                    Log.w(TAG, "Package not found pkg=" + pkg);
+                }
+
+            } else if (qName.equals("port")) {
+                String pkg = attributes.getValue("pkg");
+                int protocol = Integer.parseInt(attributes.getValue("protocol"));
+                int dport = Integer.parseInt(attributes.getValue("dport"));
+                String raddr = attributes.getValue("raddr");
+                int rport = Integer.parseInt(attributes.getValue("rport"));
+
+                try {
+                    int uid = getUid(pkg);
+                    DatabaseHelper.getInstance(context).addForward(protocol, dport, raddr, rport, uid);
                 } catch (PackageManager.NameNotFoundException ex) {
                     Log.w(TAG, "Package not found pkg=" + pkg);
                 }
 
             } else
                 Log.e(TAG, "Unknown element qname=" + qName);
+        }
+
+        private int getUid(String pkg) throws PackageManager.NameNotFoundException {
+            if ("root".equals(pkg))
+                return 0;
+            else if ("mediaserver".equals(pkg))
+                return 1013;
+            else if ("nobody".equals(pkg))
+                return 9999;
+            else
+                return getPackageManager().getApplicationInfo(pkg, 0).uid;
         }
     }
 }
