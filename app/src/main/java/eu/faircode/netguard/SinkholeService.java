@@ -40,6 +40,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.TrafficStats;
 import android.net.VpnService;
 import android.os.Build;
@@ -2013,10 +2014,17 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private class Builder extends VpnService.Builder {
+        private NetworkInfo networkInfo;
         private List<String> listAddress = new ArrayList<>();
         private List<String> listRoute = new ArrayList<>();
         private List<InetAddress> listDns = new ArrayList<>();
         private List<String> listDisallowed = new ArrayList<>();
+
+        private Builder() {
+            super();
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            networkInfo = cm.getActiveNetworkInfo();
+        }
 
         @Override
         public Builder addAddress(String address, int prefixLength) {
@@ -2051,6 +2059,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             Builder other = (Builder) obj;
 
             if (other == null)
+                return false;
+
+            if (this.networkInfo == null || other.networkInfo == null ||
+                    this.networkInfo.getType() != other.networkInfo.getType())
                 return false;
 
             if (this.listAddress.size() != other.listAddress.size())
