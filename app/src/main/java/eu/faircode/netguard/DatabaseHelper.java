@@ -794,9 +794,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             // There is a segmented index on resource
-            return db.compileStatement(
-                    "SELECT qname FROM dns WHERE resource = '" + ip.replace("'", "''") + "'")
-                    .simpleQueryForString();
+            String query = "SELECT qname";
+            query += " FROM dns";
+            query += " WHERE resource = '" + ip.replace("'", "''") + "'";
+            query += " ORDER BY time DESC";
+            query += " LIMIT 1";
+            return db.compileStatement(query).simpleQueryForString();
         } catch (SQLiteDoneException ignored) {
             // Not found
             return null;
