@@ -226,6 +226,11 @@
             android:dependency="filter"
             android:key="forcerestart"
             android:title="@string/setting_forcerestart" />
+        <eu.faircode.netguard.SwitchPreference
+            android:defaultValue="false"
+            android:dependency="filter"
+            android:key="routedns"
+            android:title="@string/setting_routedns" />
     </PreferenceCategory>
 
     <PreferenceCategory

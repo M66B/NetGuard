@@ -80,6 +80,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.Inet4Address;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -986,6 +987,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
         boolean system = prefs.getBoolean("manage_system", false);
+        boolean routedns = prefs.getBoolean("routedns", false);
 
         // Build VPN service
         Builder builder = new Builder();
@@ -1002,6 +1004,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             for (InetAddress dns : getDns(SinkholeService.this)) {
                 Log.i(TAG, "dns=" + dns);
                 builder.addDnsServer(dns);
+
+                if (routedns)
+                    if (dns instanceof Inet4Address)
+                        builder.addRoute(dns, 32);
+                    else
+                        builder.addRoute(dns, 128);
             }
 
         if (tethering) {

@@ -226,6 +226,11 @@
             android:dependency="filter"
             android:key="forcerestart"
             android:title="@string/setting_forcerestart" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="filter"
+            android:key="routedns"
+            android:title="@string/setting_routedns" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -242,3 +247,4 @@
             android:title="@string/setting_technical_subscription" />
     </PreferenceCategory>
 </PreferenceScreen>
+
