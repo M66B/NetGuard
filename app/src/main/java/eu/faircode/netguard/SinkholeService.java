@@ -950,25 +950,34 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         List<String> sysDns = Util.getDefaultDNS(context);
         String vpnDns = prefs.getString("dns", null);
+        boolean ignoresysdns = prefs.getBoolean("ignoresysdns", false);
         Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN=" + vpnDns);
 
-        if (vpnDns != null)
+        if (vpnDns != null) {
             try {
                 InetAddress dns = InetAddress.getByName(vpnDns);
                 if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()))
                     listDns.add(dns);
             } catch (Throwable ignored) {
             }
+        } else
+            if (ignoresysdns)
+                try {
+                    InetAddress dns = InetAddress.getByName("8.8.8.8");
+                    if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()))
+                        listDns.add(dns);
+                } catch (Throwable ignored) {
+                }
 
-        for (String def_dns : sysDns)
-            try {
-                InetAddress ddns = InetAddress.getByName(def_dns);
-                if (!listDns.contains(ddns) &&
-                        !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()))
-                    listDns.add(ddns);
-            } catch (Throwable ignored) {
-            }
-
+        if (!ignoresysdns)
+            for (String def_dns : sysDns)
+                try {
+                    InetAddress ddns = InetAddress.getByName(def_dns);
+                    if (!listDns.contains(ddns) &&
+                            !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()))
+                        listDns.add(ddns);
+                } catch (Throwable ignored) {
+                }
         return listDns;
     }
 

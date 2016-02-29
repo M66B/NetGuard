@@ -231,6 +231,11 @@
             android:dependency="filter"
             android:key="routedns"
             android:title="@string/setting_routedns" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="filter"
+            android:key="ignoresysdns"
+            android:title="@string/setting_ignoresysdns" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -247,4 +252,3 @@
             android:title="@string/setting_technical_subscription" />
     </PreferenceCategory>
 </PreferenceScreen>
-
