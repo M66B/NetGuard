@@ -408,10 +408,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             List<Rule> listRule = Rule.getRules(true, SinkholeService.this);
             List<Rule> listAllowed = getAllowedRules(listRule);
+            SinkholeService.Builder builder = getBuilder(listAllowed, listRule);
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+                last_builder = builder;
+                Log.i(TAG, "Legacy restart");
+
                 if (vpn != null) {
-                    Log.i(TAG, "Legacy restart");
                     stopNative(vpn, false);
                     stopVPN(vpn);
                     vpn = null;
@@ -420,11 +423,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     } catch (InterruptedException ignored) {
                     }
                 }
-                last_builder = getBuilder(listAllowed, listRule);
                 vpn = startVPN(last_builder);
 
             } else {
-                SinkholeService.Builder builder = getBuilder(listAllowed, listRule);
                 if (prefs.getBoolean("filter", false) && builder.equals(last_builder)) {
                     Log.i(TAG, "Native restart");
                     stopNative(vpn, false);
