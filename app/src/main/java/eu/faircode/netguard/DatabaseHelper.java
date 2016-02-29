@@ -406,6 +406,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         notifyLogChanged();
     }
 
+    public void cleanupLog(long time) {
+        mLock.writeLock().lock();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                // There an index on time
+                int rows = db.delete("log", "time < ?", new String[]{Long.toString(time)});
+                Log.i(TAG, "Cleanup log" +
+                        " before=" + SimpleDateFormat.getDateTimeInstance().format(new Date(time)) +
+                        " rows=" + rows);
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            mLock.writeLock().unlock();
+        }
+    }
+
     public Cursor getLog(boolean udp, boolean tcp, boolean other, boolean allowed, boolean blocked) {
         mLock.readLock().lock();
         try {
@@ -748,7 +769,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void cleanupDns(long time) {
-        // There is no index on time for write performance
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();

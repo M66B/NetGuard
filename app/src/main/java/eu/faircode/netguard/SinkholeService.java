@@ -520,6 +520,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
 
         private void householding(Intent intent) {
+            // Keep log records for three days
+            DatabaseHelper.getInstance(SinkholeService.this).cleanupLog(new Date().getTime() - 3 * 24 * 3600 * 1000L);
+
             // Keep DNS records for a week
             DatabaseHelper.getInstance(SinkholeService.this).cleanupDns(new Date().getTime() - 7 * 24 * 3600 * 1000L);
 
