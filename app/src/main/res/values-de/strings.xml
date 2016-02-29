@@ -141,6 +141,7 @@
   <string name="msg_stop_forward">Weiterleitung von %1$s Port %2$d stoppen?</string>
   <string name="msg_metered">Netzwerk wird gemessen</string>
   <string name="msg_queue">NetGuard ist beschäftigt</string>
+  <string name="msg_update">Update available, tap to download</string>
   <string name="title_unmetered_allowed">Ungemessener Verkehr ist erlaubt</string>
   <string name="title_unmetered_blocked">Ungemessener Verkehr ist blockiert</string>
   <string name="title_metered_allowed">Gemessener Verkehr ist erlaubt</string>

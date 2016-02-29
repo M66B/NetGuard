@@ -144,6 +144,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="msg_metered">Network is metered</string>
   <string name="msg_queue">NetGuard is busy</string>
+  <string name="msg_update">Update available, tap to download</string>
   <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
   <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
   <string name="title_metered_allowed">Metered traffic is allowed</string>

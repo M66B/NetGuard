@@ -140,6 +140,7 @@
   <string name="msg_stop_forward">Parar o encaminhamento de %2$d de porto %1$s?</string>
   <string name="msg_metered">Rede é limitada</string>
   <string name="msg_queue">NetGuard está ocupado</string>
+  <string name="msg_update">Update available, tap to download</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado é permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado é bloqueado</string>
   <string name="title_metered_allowed">Tráfego limitado é permitido</string>

@@ -142,6 +142,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_stop_forward">Arrêter la redirection du %1$s port %2$d ?</string>
   <string name="msg_metered">Le réseau est limité</string>
   <string name="msg_queue">NetGuard est occupé</string>
+  <string name="msg_update">Update available, tap to download</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>
   <string name="title_unmetered_blocked">Le trafic illimité est bloqué</string>
   <string name="title_metered_allowed">Le trafic limité est autorisé</string>

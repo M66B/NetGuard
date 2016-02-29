@@ -26,7 +26,7 @@
   <string name="menu_live">Обновления в реальном времени</string>
   <string name="menu_refresh">Обновить</string>
   <string name="menu_resolve">Показать названия</string>
-  <string name="menu_organization">Show organization</string>
+  <string name="menu_organization">Показать организацию</string>
   <string name="menu_pcap_enabled">PCAP включен</string>
   <string name="menu_pcap_export">PCAP экспорт</string>
   <string name="menu_clear">Очистить</string>
@@ -90,7 +90,7 @@
   <string name="setting_technical_subscription">Подписки</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
-  <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
+  <string name="summary_tethering">В зависимости от версии Андроид, привязывание может либо работать, либо не работать. Привязанный трафик не может быть отфильтрован.</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
   <string name="summary_metered">Применить правила для лимитированных (платных, ограниченных) Wi-Fi сетей</string>
   <string name="summary_metered_2g">Применить правила Wi-Fi-сети для передачи данных через 2G</string>
@@ -141,6 +141,7 @@
   <string name="msg_stop_forward">Остановить пересылку из %1$s порта %2$d?</string>
   <string name="msg_metered">Лимитированные сети</string>
   <string name="msg_queue">NetGuard занят</string>
+  <string name="msg_update">Update available, tap to download</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
   <string name="title_unmetered_blocked">Безлимитный трафик блокируется</string>
   <string name="title_metered_allowed">Лимитированный трафик разрешен</string>
