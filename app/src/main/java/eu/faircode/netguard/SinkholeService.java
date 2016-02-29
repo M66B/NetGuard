@@ -395,6 +395,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         private void reload() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            boolean forcerestart = prefs.getBoolean("forcerestart", false);
 
             if (state != State.enforcing) {
                 if (state != State.none) {
@@ -410,7 +411,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             List<Rule> listAllowed = getAllowedRules(listRule);
             SinkholeService.Builder builder = getBuilder(listAllowed, listRule);
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) || forcerestart) {
                 last_builder = builder;
                 Log.i(TAG, "Legacy restart");
 

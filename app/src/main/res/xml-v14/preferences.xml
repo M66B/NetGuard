@@ -221,6 +221,11 @@
         <Preference
             android:key="show_resolved"
             android:title="@string/setting_show_resolved" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="filter"
+            android:key="forcerestart"
+            android:title="@string/setting_forcerestart" />
     </PreferenceCategory>
 
     <PreferenceCategory

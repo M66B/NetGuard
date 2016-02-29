@@ -85,6 +85,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_dns">VPN DNS: %s</string>
     <string name="setting_pcap_record_size">PCAP record size: %s B</string>
     <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
+    <string name="setting_forcerestart" translatable="false">Force full VPN restart on reload</string>
 
     <string name="setting_stats_category">Speed notification</string>
     <string name="setting_stats">Show speed notification</string>
