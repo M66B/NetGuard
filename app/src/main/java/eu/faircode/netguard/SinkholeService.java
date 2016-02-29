@@ -30,7 +30,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -42,6 +41,7 @@ import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.TrafficStats;
+import android.net.Uri;
 import android.net.VpnService;
 import android.os.Build;
 import android.os.Handler;
@@ -70,15 +70,22 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -87,6 +94,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class SinkholeService extends VpnService implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Service";
@@ -125,6 +134,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private static final int NOTIFY_EXIT = 5;
     private static final int NOTIFY_ERROR = 6;
     private static final int NOTIFY_TRAFFIC = 7;
+    private static final int NOTIFY_UPDATE = 8;
 
     public static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
@@ -143,7 +153,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private enum State {none, waiting, enforcing, stats}
 
-    public enum Command {run, start, reload, stop, stats, set}
+    public enum Command {run, start, reload, stop, stats, set, householding}
 
     private static volatile PowerManager.WakeLock wlInstance = null;
 
@@ -302,7 +312,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
                     case reload:
                         reload();
-                        cleanupDNS();
                         break;
 
                     case stop:
@@ -316,6 +325,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
                     case set:
                         set(intent);
+                        break;
+
+                    case householding:
+                        householding(intent);
                         break;
 
                     default:
@@ -503,6 +516,62 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             // Update UI
             Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
             LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
+        }
+
+
+        private void householding(Intent intent) {
+            // Keep DNS records for a week
+            DatabaseHelper.getInstance(SinkholeService.this).cleanupDns(new Date().getTime() - 7 * 24 * 3600 * 1000L);
+
+            // Check for update
+            if (!Util.isPlayStoreInstall(SinkholeService.this))
+                checkUpdate();
+        }
+
+        private void checkUpdate() {
+            StringBuilder json = new StringBuilder();
+            HttpsURLConnection urlConnection = null;
+            try {
+                URL url = new URL("https://api.github.com/repos/M66B/NetGuard/releases/latest");
+                urlConnection = (HttpsURLConnection) url.openConnection();
+                BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                String line;
+                while ((line = br.readLine()) != null)
+                    json.append(line);
+
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+
+            try {
+                JSONObject jroot = new JSONObject(json.toString());
+                if (jroot.has("tag_name") && jroot.has("assets")) {
+                    JSONArray jassets = jroot.getJSONArray("assets");
+                    if (jassets.length() > 0) {
+                        JSONObject jasset = jassets.getJSONObject(0);
+                        if (jasset.has("name") && jasset.has("browser_download_url")) {
+                            String version = jroot.getString("tag_name");
+                            String name = jasset.getString("name");
+                            String url = jasset.getString("browser_download_url");
+                            Log.i(TAG, "Tag " + version + " name " + name + " url " + url);
+
+                            Version current = new Version(Util.getSelfVersionName(SinkholeService.this));
+                            Version available = new Version(version);
+                            if (current.compareTo(available) < 0) {
+                                Log.i(TAG, "Update available from " + current + " to " + available);
+                                showUpdateNotification(name, url);
+                            } else
+                                Log.i(TAG, "Up-to-date current version " + current);
+                        }
+                    }
+                }
+            } catch (JSONException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
         }
     }
 
@@ -1219,11 +1288,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     mapNoNotify.put(rule.info.applicationInfo.uid, true);
     }
 
-    private void cleanupDNS() {
-        // Keep records for a week
-        DatabaseHelper.getInstance(SinkholeService.this).cleanupDns(new Date().getTime() - 7 * 24 * 3600 * 1000L);
-    }
-
     private List<Rule> getAllowedRules(List<Rule> listRule) {
         List<Rule> listAllowed = new ArrayList<>();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -1655,6 +1719,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
+
+        // Setup house holding
+        Intent alarmIntent = new Intent(this, SinkholeService.class);
+        alarmIntent.putExtra(EXTRA_COMMAND, Command.householding);
+        PendingIntent pi = PendingIntent.getService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + 60 * 1000, AlarmManager.INTERVAL_HALF_DAY, pi);
     }
 
     @Override
@@ -2006,6 +2078,33 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         cursor.close();
 
         NotificationManagerCompat.from(this).notify(uid + 10000, notification.build());
+    }
+
+    private void showUpdateNotification(String name, String url) {
+        Intent download = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        PendingIntent pi = PendingIntent.getActivity(this, 0, download, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_security_white_24dp)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_update))
+                .setContentIntent(pi)
+                .setColor(tv.data)
+                .setOngoing(false)
+                .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setCategory(Notification.CATEGORY_STATUS)
+                    .setVisibility(Notification.VISIBILITY_SECRET);
+        }
+
+        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
+        notification.bigText(getString(R.string.msg_update));
+        notification.setSummaryText(name);
+
+        NotificationManagerCompat.from(this).notify(NOTIFY_UPDATE, notification.build());
     }
 
     private void removeWarningNotifications() {
