@@ -279,15 +279,18 @@ public class Util {
     }
 
     public static List<String> getDefaultDNS(Context context) {
-        String dns1 = jni_getprop("net.dns1");
-        String dns2 = jni_getprop("net.dns2");
         List<String> listDns = new ArrayList<>();
-        if (!TextUtils.isEmpty(dns1))
-            listDns.add(dns1);
-        if (!TextUtils.isEmpty(dns2))
-            listDns.add(dns2);
-        if (TextUtils.isEmpty(dns1) && TextUtils.isEmpty(dns2))
-            listDns.add("8.8.8.8");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (prefs.getBoolean("usedefdns", true)) {
+            String dns1 = jni_getprop("net.dns1");
+            String dns2 = jni_getprop("net.dns2");
+            if (!TextUtils.isEmpty(dns1))
+                listDns.add(dns1);
+            if (!TextUtils.isEmpty(dns2))
+                listDns.add(dns2);
+            if (TextUtils.isEmpty(dns1) && TextUtils.isEmpty(dns2))
+                listDns.add("8.8.8.8");
+        }
         return listDns;
     }
 
