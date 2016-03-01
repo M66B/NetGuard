@@ -614,7 +614,7 @@ public class Util {
             for (Network network : cm.getAllNetworks()) {
                 NetworkInfo ni = cm.getNetworkInfo(network);
                 if (ni != null)
-                    listNI.add(cm.getNetworkInfo(network));
+                    listNI.add(ni);
             }
 
         for (NetworkInfo ni : listNI) {
