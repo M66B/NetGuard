@@ -78,6 +78,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_track_usage">Track network usage</string>
     <string name="setting_reset_usage">Reset network usage</string>
     <string name="setting_show_resolved" translatable="false">Show resolved domain names</string>
+    <string name="setting_ignoresysdns" translatable="false">Ignore system DNS</string>
     <string name="setting_block_domains">Block domain names</string>
     <string name="setting_forwarding">Port forwarding</string>
     <string name="setting_vpn4">VPN IPv4: %s</string>
