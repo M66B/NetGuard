@@ -69,13 +69,9 @@ int get_tcp_timeout(const struct tcp_session *t, int sessions, int maxsessions) 
         if (t->keep_alive)
             timeout = TCP_IDLE_TIMEOUT;
         else
-            timeout = TCP_KEEPALIVE_AFTER;
-    } else {
-        if (t->state == TCP_CLOSE_WAIT)
-            timeout = TCP_IDLE_TIMEOUT;
-        else
-            timeout = TCP_CLOSE_TIMEOUT;
-    }
+            timeout = TCP_IDLE_TIMEOUT / 2;
+    } else
+        timeout = TCP_CLOSE_TIMEOUT;
 
     int scale = 100 - sessions * 100 / maxsessions;
     timeout = timeout * scale / 100;
@@ -630,14 +626,6 @@ jboolean handle_tcp(const struct arguments *args,
                             }
                             else
                                 cur->state = TCP_CLOSE_WAIT;
-
-                            int on = 1;
-                            if (setsockopt(cur->socket, SOL_SOCKET, SO_KEEPALIVE, &on, sizeof(on)))
-                                log_android(ANDROID_LOG_ERROR,
-                                            "%s setsockopt SO_KEEPALIVE error %d: %s",
-                                            session, errno, strerror(errno));
-                            else
-                                log_android(ANDROID_LOG_WARN, "%s enabled keep alive", session);
                         }
 
                         else if (cur->state == TCP_CLOSE_WAIT) {
