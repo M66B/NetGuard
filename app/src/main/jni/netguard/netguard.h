@@ -136,7 +136,6 @@ struct udp_session {
 struct tcp_session {
     jint uid;
     time_t time;
-    time_t keep_alive;
     int version;
     uint16_t recv_window; // host notation
     uint16_t send_window; // host notation
