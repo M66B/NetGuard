@@ -41,13 +41,13 @@ then no, because NetGuard needs to use this service. Android allows only one app
 <a name="FAQ3"></a>
 **(3) Can I use NetGuard on any Android version?**
 
-No, the minimum required Android version is 5.0 (Lollipop)
+No, the minimum required Android version is 4.0 (Lollipop)
 because NetGuard uses the [addDisallowedApplication](http://developer.android.com/reference/android/net/VpnService.Builder.html#addDisallowedApplication(java.lang.String)) method.
 
 <a name="FAQ4"></a>
 **(4) Will NetGuard use extra battery power?**
 
-No, unlike most of the similar closed source alternatives.
+If you didn't enable IP filtering, probably not.
 
 However, the network speed graph notification will use extra battery power.
 This is why the notification is shown only when the screen is on.
@@ -72,9 +72,9 @@ By showing all applications, NetGuard allows you to control internet access even
 
 You need 3 packages (applications) enabled (use search in NetGuard to find them quickly):
 
-* com.android.vending
-* com.google.android.gms
-* com.android.providers.downloads
+* com.android.vending (Play store)
+* com.google.android.gms (Play services)
+* com.android.providers.downloads (Download manager)
 
 Since the Google Play™ store app has a tendency to check for updates or even download them all by itself (even if no account is associated),
 one can keep it in check by enabling "*Allow when device in use*" for all 3 of these packages.
@@ -186,7 +186,7 @@ because some Android versions have a bug preventing tethering and the VPN servic
 Android can kill background services at any time.
 This can only be prevented by turning a background service into a foreground service.
 Android requires an ongoing notification for all foreground services
-to make you aware of potential battery usage.
+to make you aware of potential battery usage (see [question 4](#FAQ4)).
 So, the notification cannot be removed without causing instability.
 However, the notification is being marked as low priority,
 which should result in moving it to the bottom of the list.
