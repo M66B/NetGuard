@@ -283,7 +283,10 @@ public class Util {
         String vpnDns = prefs.getString("dns", null);
         boolean ignoresysdns = prefs.getBoolean("ignoresysdns", false);
         List<String> listDns = new ArrayList<>();
-        if (!ignoresysdns) {
+        if (ignoresysdns)
+            if (TextUtils.isEmpty(vpnDns))
+                listDns.add("8.8.8.8");
+        else {
             String dns1 = jni_getprop("net.dns1");
             String dns2 = jni_getprop("net.dns2");
             if (!TextUtils.isEmpty(dns1))
@@ -293,9 +296,6 @@ public class Util {
             if (TextUtils.isEmpty(dns1) && TextUtils.isEmpty(dns2))
                 listDns.add("8.8.8.8");
         }
-        else
-            if (TextUtils.isEmpty(vpnDns))
-                listDns.add("8.8.8.8");
         return listDns;
     }
 
