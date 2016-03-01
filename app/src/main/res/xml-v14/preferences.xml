@@ -221,10 +221,6 @@
         <Preference
             android:key="show_resolved"
             android:title="@string/setting_show_resolved" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="usedefdns"
-            android:title="@string/setting_use_defdns" />
     </PreferenceCategory>
 
     <PreferenceCategory
