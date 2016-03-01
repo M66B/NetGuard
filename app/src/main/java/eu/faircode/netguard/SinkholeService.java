@@ -157,6 +157,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private static volatile PowerManager.WakeLock wlInstance = null;
 
+    private static final String ACTION_HOUSE_HOLDING = "eu.faircode.netguard.HOUSE_HOLDING";
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
 
     private native void jni_init();
@@ -1726,7 +1727,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         // Setup house holding
         Intent alarmIntent = new Intent(this, SinkholeService.class);
-        alarmIntent.putExtra(EXTRA_COMMAND, Command.householding);
+        alarmIntent.setAction(ACTION_HOUSE_HOLDING);
         PendingIntent pi = PendingIntent.getService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -1767,6 +1768,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             intent = new Intent(this, SinkholeService.class);
             intent.putExtra(EXTRA_COMMAND, enabled ? Command.start : Command.stop);
         }
+
+        if (ACTION_HOUSE_HOLDING.equals(intent.getAction()))
+            intent.putExtra(EXTRA_COMMAND, Command.householding);
 
         Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
         String reason = intent.getStringExtra(EXTRA_REASON);
