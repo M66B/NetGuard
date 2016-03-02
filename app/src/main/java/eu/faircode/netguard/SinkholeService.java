@@ -80,6 +80,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.Inet4Address;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -396,6 +397,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         private void reload() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            boolean forcerestart = prefs.getBoolean("forcerestart", false);
 
             if (state != State.enforcing) {
                 if (state != State.none) {
@@ -411,7 +413,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             List<Rule> listAllowed = getAllowedRules(listRule);
             SinkholeService.Builder builder = getBuilder(listAllowed, listRule);
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) || forcerestart) {
                 last_builder = builder;
                 Log.i(TAG, "Legacy restart");
 
@@ -949,25 +951,34 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         List<String> sysDns = Util.getDefaultDNS(context);
         String vpnDns = prefs.getString("dns", null);
+        boolean ignoresysdns = prefs.getBoolean("ignoresysdns", false);
         Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN=" + vpnDns);
 
-        if (vpnDns != null)
+        if (vpnDns != null) {
             try {
                 InetAddress dns = InetAddress.getByName(vpnDns);
                 if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()))
                     listDns.add(dns);
             } catch (Throwable ignored) {
             }
+        } else
+            if (ignoresysdns)
+                try {
+                    InetAddress dns = InetAddress.getByName("8.8.8.8");
+                    if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()))
+                        listDns.add(dns);
+                } catch (Throwable ignored) {
+                }
 
-        for (String def_dns : sysDns)
-            try {
-                InetAddress ddns = InetAddress.getByName(def_dns);
-                if (!listDns.contains(ddns) &&
-                        !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()))
-                    listDns.add(ddns);
-            } catch (Throwable ignored) {
-            }
-
+        if (!ignoresysdns)
+            for (String def_dns : sysDns)
+                try {
+                    InetAddress ddns = InetAddress.getByName(def_dns);
+                    if (!listDns.contains(ddns) &&
+                            !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()))
+                        listDns.add(ddns);
+                } catch (Throwable ignored) {
+                }
         return listDns;
     }
 
@@ -986,6 +997,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
         boolean system = prefs.getBoolean("manage_system", false);
+        boolean routedns = prefs.getBoolean("routedns", false);
 
         // Build VPN service
         Builder builder = new Builder();
@@ -1002,6 +1014,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             for (InetAddress dns : getDns(SinkholeService.this)) {
                 Log.i(TAG, "dns=" + dns);
                 builder.addDnsServer(dns);
+
+                if (routedns)
+                    if (dns instanceof Inet4Address)
+                        builder.addRoute(dns, 32);
+                    else
+                        builder.addRoute(dns, 128);
             }
 
         if (tethering) {

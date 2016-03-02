@@ -221,6 +221,21 @@
         <Preference
             android:key="show_resolved"
             android:title="@string/setting_show_resolved" />
+        <eu.faircode.netguard.SwitchPreference
+            android:defaultValue="false"
+            android:dependency="filter"
+            android:key="forcerestart"
+            android:title="@string/setting_forcerestart" />
+        <eu.faircode.netguard.SwitchPreference
+            android:defaultValue="false"
+            android:dependency="filter"
+            android:key="routedns"
+            android:title="@string/setting_routedns" />
+        <eu.faircode.netguard.SwitchPreference
+            android:defaultValue="false"
+            android:dependency="filter"
+            android:key="ignoresysdns"
+            android:title="@string/setting_ignoresysdns" />
     </PreferenceCategory>
 
     <PreferenceCategory

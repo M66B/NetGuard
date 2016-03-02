@@ -216,9 +216,15 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         screen.findPreference("vpn4").setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn4", "10.1.10.1")));
         screen.findPreference("vpn6").setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
         EditTextPreference pref_dns = (EditTextPreference) screen.findPreference("dns");
-        List<String> def_dns = Util.getDefaultDNS(this);
-        pref_dns.getEditText().setHint(def_dns.get(0));
-        pref_dns.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns.get(0))));
+        boolean ignoresysdns = prefs.getBoolean("ignoresysdns", false);
+        if (ignoresysdns) {
+            pref_dns.getEditText().setHint("8.8.8.8");
+            pref_dns.setTitle(getString(R.string.setting_dns, prefs.getString("dns", "8.8.8.8")));
+        } else {
+            List<String> def_dns = Util.getDefaultDNS(this);
+            pref_dns.getEditText().setHint(def_dns.get(0));
+            pref_dns.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns.get(0))));
+        }
 
         // PCAP parameters
         screen.findPreference("pcap_record_size").setTitle(getString(R.string.setting_pcap_record_size, prefs.getString("pcap_record_size", "64")));
@@ -601,6 +607,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if ("dns".equals(name)) {
             String dns = prefs.getString("dns", null);
+            boolean ignoresysdns = prefs.getBoolean("ignoresysdns", false);
             try {
                 checkAddress(dns);
             } catch (Throwable ex) {
@@ -609,8 +616,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
             SinkholeService.reload("changed " + name, this);
-            getPreferenceScreen().findPreference(name).setTitle(
-                    getString(R.string.setting_dns, prefs.getString("dns", Util.getDefaultDNS(this).get(0))));
+            if (ignoresysdns)
+                getPreferenceScreen().findPreference(name).setTitle(
+                        getString(R.string.setting_dns, prefs.getString("dns", "8.8.8.8")));
+            else
+                getPreferenceScreen().findPreference(name).setTitle(
+                        getString(R.string.setting_dns, prefs.getString("dns", Util.getDefaultDNS(this).get(0))));
         } else if ("pcap_record_size".equals(name) || "pcap_file_size".equals(name)) {
             if ("pcap_record_size".equals(name))
                 getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_pcap_record_size, prefs.getString(name, "64")));
