@@ -1084,9 +1084,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private void startNative(ParcelFileDescriptor vpn, List<Rule> listAllowed, List<Rule> listRule) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
         boolean log = prefs.getBoolean("log", false);
+        boolean log_app = prefs.getBoolean("log_app", false);
         boolean filter = prefs.getBoolean("filter", false);
 
-        Log.i(TAG, "Start native log=" + log + " filter=" + filter);
+        Log.i(TAG, "Start native log=" + log + "/" + log_app + " filter=" + filter);
+
+        unprepare();
 
         // Prepare rules
         if (filter) {
@@ -1094,11 +1097,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             prepareHostsBlocked();
             prepareUidIPFilters();
             prepareForwarding();
-            prepareNotify(listRule);
-        } else
-            unprepare();
+        }
 
-        if (log || filter) {
+        if (log_app)
+            prepareNotify(listRule);
+
+        if (log || log_app || filter) {
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
             jni_start(vpn.getFd(), mapForward.containsKey(53), prio);
         }
