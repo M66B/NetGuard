@@ -148,7 +148,7 @@ public class ActivityForwarding extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_add:
                 LayoutInflater inflater = LayoutInflater.from(this);
-                View view = inflater.inflate(R.layout.forwardadd, null);
+                View view = inflater.inflate(R.layout.forwardadd, null, false);
                 final Spinner spProtocol = (Spinner) view.findViewById(R.id.spProtocol);
                 final EditText etDPort = (EditText) view.findViewById(R.id.etDPort);
                 final EditText etRAddr = (EditText) view.findViewById(R.id.etRAddr);
