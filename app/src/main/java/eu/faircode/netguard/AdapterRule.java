@@ -704,7 +704,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 if (query == null)
                     listResult.addAll(listAll);
                 else {
-                    query = query.toString().toLowerCase();
+                    query = query.toString().toLowerCase().trim();
                     int uid;
                     try {
                         uid = Integer.parseInt(query.toString());
