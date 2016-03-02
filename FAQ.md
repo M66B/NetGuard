@@ -267,6 +267,13 @@ Some pointers on how to set up AFWall+:
 * if using filtering, when you un/reinstall NetGuard, remember to RE-allow NetGuard in AFWall+
 * if using filtering, applications _need_ VPN internet access (check the box to show that option in AFWall+ settings)
 
+<a name="FAQ31"></a>
+**(31) Why can some applications be configured as a group only?**
+
+For a lot of purposes, including network access, Android groups applications on uid and not on package/application name.
+Especially system applications often have the same uid, despite having a different package and application name.
+These applications can only be allowed/blocked access to the internet as a group.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.

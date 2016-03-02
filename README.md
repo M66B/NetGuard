@@ -158,6 +158,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ30"></a>
 [**(30) Can I also run AFWall+ on the same device?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ30)
 
+<a name="FAQ31"></a>
+[**(31) Why can some applications be configured as a group only?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ31)
+
 Permissions
 -----------
 
