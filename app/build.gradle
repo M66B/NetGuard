@@ -9,8 +9,8 @@ model {
             applicationId "eu.faircode.netguard"
             minSdkVersion.apiLevel 14
             targetSdkVersion.apiLevel 23
-            versionCode = 2016030102
-            versionName = "2.2"
+            versionCode = 2016030301
+            versionName = "2.3"
             archivesBaseName = "NetGuard-v$versionName-$versionCode"
 
             buildConfigFields {
