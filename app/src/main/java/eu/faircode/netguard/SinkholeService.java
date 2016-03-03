@@ -951,7 +951,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         String vpnDns = prefs.getString("dns", null);
         Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN=" + vpnDns);
 
-        if (vpnDns != null) {
+        if (vpnDns != null)
             try {
                 InetAddress dns = InetAddress.getByName(vpnDns);
                 if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()))
@@ -959,15 +959,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             } catch (Throwable ignored) {
             }
 
-            for (String def_dns : sysDns)
-                try {
-                    InetAddress ddns = InetAddress.getByName(def_dns);
-                    if (!listDns.contains(ddns) &&
-                            !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()))
-                        listDns.add(ddns);
-                } catch (Throwable ignored) {
-                }
-        }
+        for (String def_dns : sysDns)
+            try {
+                InetAddress ddns = InetAddress.getByName(def_dns);
+                if (!listDns.contains(ddns) &&
+                        !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()))
+                    listDns.add(ddns);
+            } catch (Throwable ignored) {
+            }
 
         return listDns;
     }
