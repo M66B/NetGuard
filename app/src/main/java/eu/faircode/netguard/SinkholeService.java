@@ -870,7 +870,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setStyle(Paint.Style.STROKE);
 
-            // Draw base line
+            // Draw scale line
             paint.setStrokeWidth(Util.dips2pixels(1, SinkholeService.this));
             paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorGrayed));
             float y = height / 2;
@@ -896,9 +896,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 remoteViews.setTextViewText(R.id.tvRx, getString(R.string.msg_mbsec, rxsec / 1000 / 1000));
 
             if (max < 1000 * 1000)
-                remoteViews.setTextViewText(R.id.tvMax, getString(R.string.msg_kbsec, max / 1000));
+                remoteViews.setTextViewText(R.id.tvMax, getString(R.string.msg_kbsec, max / 2 / 1000));
             else
-                remoteViews.setTextViewText(R.id.tvMax, getString(R.string.msg_mbsec, max / 1000 / 1000));
+                remoteViews.setTextViewText(R.id.tvMax, getString(R.string.msg_mbsec, max / 2 / 1000 / 1000));
 
             // Show session/file count
             if (filter && loglevel <= Log.WARN) {
