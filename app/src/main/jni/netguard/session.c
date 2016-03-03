@@ -344,8 +344,7 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
                     FD_SET(t->socket, efds);
 
                     // Check for incoming data
-                    size_t send_window = get_send_window(t);
-                    if (send_window > 0)
+                    if (get_send_window(t) > 0)
                         FD_SET(t->socket, rfds);
 
                     // Check for outgoing data

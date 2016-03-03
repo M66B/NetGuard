@@ -34,6 +34,8 @@
 #define SELECT_TIMEOUT 3600 // seconds
 
 #define TUN_MAXMSG 10000 // bytes (device)
+#define MSS4_DEFAULT (TUN_MAXMSG - sizeof(struct iphdr) - sizeof(struct tcphdr)) // bytes
+#define MSS6_DEFAULT (TUN_MAXMSG - sizeof(struct ip6_hdr) - sizeof(struct tcphdr)) // bytes
 #define ICMP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
 #define ICMP6_MAXMSG (IPV6_MAXPACKET - 40 - 8) // bytes (socket)
 #define UDP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
@@ -45,8 +47,6 @@
 #define UDP_TIMEOUT_ANY 300 // seconds
 #define UDP_KEEP_TIMEOUT 60 // seconds
 
-#define TCP_RECV_WINDOW 49152 // bytes (maximum)
-#define TCP_SEND_WINDOW 49152 // bytes (maximum)
 #define TCP_INIT_TIMEOUT 30 // seconds ~net.inet.tcp.keepinit
 #define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
 #define TCP_CLOSE_TIMEOUT 30 // seconds
@@ -137,8 +137,11 @@ struct tcp_session {
     jint uid;
     time_t time;
     int version;
-    uint16_t recv_window; // host notation
-    uint16_t send_window; // host notation
+    uint16_t mss;
+    uint8_t recv_scale;
+    uint8_t send_scale;
+    uint32_t recv_window; // host notation, scaled
+    uint32_t send_window; // host notation, scaled
 
     uint32_t remote_seq; // confirmed bytes received, host notation
     uint32_t local_seq; // confirmed bytes sent, host notation
@@ -322,7 +325,11 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
 
 void parse_dns_response(const struct arguments *args, const uint8_t *data, const size_t datalen);
 
-size_t get_send_window(const struct tcp_session *cur);
+uint32_t get_send_window(const struct tcp_session *cur);
+
+int get_receive_buffer(const struct tcp_session *cur);
+
+uint32_t get_receive_window(const struct tcp_session *cur);
 
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 

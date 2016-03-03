@@ -150,11 +150,54 @@ void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessi
     }
 }
 
-size_t get_send_window(const struct tcp_session *cur) {
+uint32_t get_send_window(const struct tcp_session *cur) {
     uint32_t behind = (compare_u32(cur->acked, cur->local_seq) <= 0
                        ? cur->local_seq - cur->acked : cur->acked);
-    uint32_t window = (behind > cur->send_window ? 0 : cur->send_window - behind);
-    return (window > TCP_SEND_WINDOW ? TCP_SEND_WINDOW : window);
+    uint32_t window = (behind < cur->send_window ? cur->send_window - behind : 0);
+    return window;
+}
+
+int get_receive_buffer(const struct tcp_session *cur) {
+    if (cur->socket < 0)
+        return 0;
+
+    // Get send buffer size
+    int sendbuf = 0;
+    int sendbufsize = sizeof(sendbuf);
+    if (getsockopt(cur->socket, SOL_SOCKET, SO_SNDBUF, &sendbuf, &sendbufsize) < 0)
+        log_android(ANDROID_LOG_WARN, "getsockopt SO_RCVBUF %d: %s", errno, strerror(errno));
+
+    if (sendbuf == 0)
+        return 8192; // Safe default
+
+    // Get unsent data size
+    int unsent = 0;
+    if (ioctl(cur->socket, SIOCOUTQ, &unsent))
+        log_android(ANDROID_LOG_WARN, "ioctl SIOCOUTQ %d: %s", errno, strerror(errno));
+
+    return (unsent < sendbuf / 2 ? sendbuf / 2 - unsent : 0);
+}
+
+uint32_t get_receive_window(const struct tcp_session *cur) {
+    // Get data to forward size
+    uint32_t toforward = 0;
+    struct segment *q = cur->forward;
+    while (q != NULL) {
+        toforward += q->len;
+        q = q->next;
+    }
+
+    uint32_t window = get_receive_buffer(cur);
+
+    uint32_t max = ((uint32_t) 0xFFFF) << cur->recv_scale;
+    if (window > max)
+        window = max;
+
+    window = (toforward < window ? window - toforward : 0);
+    if ((window >> cur->recv_scale) == 0)
+        window = 0;
+
+    return window;
 }
 
 void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
@@ -212,11 +255,15 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         }
                     }
                 } else {
+
                     // Always forward data
                     int fwd = 0;
                     if (FD_ISSET(cur->socket, wfds)) {
                         // Forward data
-                        while (cur->forward != NULL && cur->forward->seq == cur->remote_seq) {
+                        uint32_t buffer_size = get_receive_buffer(cur);
+                        while (cur->forward != NULL &&
+                               cur->forward->seq == cur->remote_seq &&
+                               cur->forward->len < buffer_size) {
                             log_android(ANDROID_LOG_DEBUG, "%s fwd %u...%u",
                                         session,
                                         cur->forward->seq - cur->remote_start,
@@ -235,6 +282,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                 }
                             } else {
                                 fwd = 1;
+                                buffer_size -= cur->forward->len;
                                 cur->sent += cur->forward->len;
                                 cur->remote_seq = cur->forward->seq + cur->forward->len;
 
@@ -256,27 +304,12 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         }
                     }
 
-                    // Calculate recv window
-                    int unsent = 0;
-                    int window = TCP_RECV_WINDOW;
-                    if (cur->socket >= 0) {
-                        if (ioctl(cur->socket, SIOCOUTQ, &unsent))
-                            log_android(ANDROID_LOG_WARN, "ioctl SIOCOUTQ %d: %s",
-                                        errno, strerror(errno));
-                        else {
-                            struct segment *q = cur->forward;
-                            while (q != NULL) {
-                                unsent += q->len;
-                                q = q->next;
-                            }
-                            window = (unsent < TCP_RECV_WINDOW ? TCP_RECV_WINDOW - unsent : 0);
-                        }
-                    }
-
-                    int prev = cur->recv_window;
-                    cur->recv_window = (uint16_t) window;
+                    // Get receive window
+                    uint32_t window = get_receive_window(cur);
+                    uint32_t prev = cur->recv_window;
+                    cur->recv_window = window;
                     if ((prev == 0 && window > 0) || (prev > 0 && window == 0))
-                        log_android(ANDROID_LOG_WARN, "%s recv window %d > %d",
+                        log_android(ANDROID_LOG_WARN, "%s recv window %u > %u",
                                     session, prev, window);
 
                     // Acknowledge forwarded data
@@ -293,12 +326,14 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         // Check socket read
                         // Send window can be changed in the mean time
 
-                        size_t send_window = get_send_window(cur);
+                        uint32_t send_window = get_send_window(cur);
                         if (FD_ISSET(cur->socket, rfds) && send_window > 0) {
                             cur->time = time(NULL);
 
-                            uint8_t *buffer = malloc(send_window);
-                            ssize_t bytes = recv(cur->socket, buffer, send_window, 0);
+                            uint32_t buffer_size = (send_window > cur->mss
+                                                    ? cur->mss : send_window);
+                            uint8_t *buffer = malloc(buffer_size);
+                            ssize_t bytes = recv(cur->socket, buffer, (size_t) buffer_size, 0);
                             if (bytes < 0) {
                                 // Socket error
                                 log_android(ANDROID_LOG_ERROR, "%s recv error %d: %s",
@@ -425,7 +460,7 @@ jboolean handle_tcp(const struct arguments *args,
         if (tcphdr->syn) {
             // Decode options
             // http://www.iana.org/assignments/tcp-parameters/tcp-parameters.xhtml#tcp-parameters-1
-            uint16_t mss = 0;
+            uint16_t mss = (version == 4 ? MSS4_DEFAULT : MSS6_DEFAULT);
             uint8_t ws = 0;
             int optlen = tcpoptlen;
             uint8_t *options = tcpoptions;
@@ -451,15 +486,19 @@ jboolean handle_tcp(const struct arguments *args,
                 }
             }
 
-            log_android(ANDROID_LOG_WARN, "%s new session mss %d ws %d", packet, mss, ws);
+            log_android(ANDROID_LOG_WARN, "%s new session mss %d ws %d window %d",
+                        packet, mss, ws, ntohs(tcphdr->window) << ws);
 
             // Register session
             struct tcp_session *syn = malloc(sizeof(struct tcp_session));
             syn->time = time(NULL);
             syn->uid = uid;
             syn->version = version;
-            syn->recv_window = TCP_RECV_WINDOW;
-            syn->send_window = ntohs(tcphdr->window);
+            syn->mss = mss;
+            syn->recv_scale = ws;
+            syn->send_scale = ws;
+            syn->recv_window = 0;
+            syn->send_window = ((uint32_t) ntohs(tcphdr->window)) << syn->send_scale;
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
             syn->local_seq = (uint32_t) rand(); // ISN local
             syn->remote_start = syn->remote_seq;
@@ -501,6 +540,8 @@ jboolean handle_tcp(const struct arguments *args,
                 return 0;
             }
 
+            syn->recv_window = get_receive_window(syn);
+
             log_android(ANDROID_LOG_DEBUG, "TCP socket %d lport %d",
                         syn->socket, get_local_port(syn->socket));
 
@@ -513,7 +554,6 @@ jboolean handle_tcp(const struct arguments *args,
             struct tcp_session rst;
             memset(&rst, 0, sizeof(struct tcp_session));
             rst.version = 4;
-            rst.recv_window = TCP_RECV_WINDOW;
             rst.local_seq = ntohl(tcphdr->ack_seq);
             rst.remote_seq = ntohl(tcphdr->seq) + datalen + (tcphdr->fin ? 1 : 0);
 
@@ -557,7 +597,7 @@ jboolean handle_tcp(const struct arguments *args,
             log_android(ANDROID_LOG_DEBUG, "%s handling", session);
 
             cur->time = time(NULL);
-            cur->send_window = ntohs(tcphdr->window);
+            cur->send_window = ntohs(tcphdr->window) << cur->send_scale;
 
             // Do not change the order of the conditions
 
@@ -876,7 +916,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     char dest[INET6_ADDRSTRLEN + 1];
 
     // Build packet
-    int optlen = (syn ? 4 : 0);
+    int optlen = (syn ? 4 + 4 : 0);
     uint8_t *options;
     if (cur->version == 4) {
         len = sizeof(struct iphdr) + sizeof(struct tcphdr) + optlen + datalen;
@@ -951,7 +991,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     tcp->ack = (__u16) ack;
     tcp->fin = (__u16) fin;
     tcp->rst = (__u16) rst;
-    tcp->window = htons(cur->recv_window);
+    tcp->window = htons(cur->recv_window >> cur->recv_scale);
     tcp->urg_ptr;
 
     if (!tcp->ack)
@@ -961,8 +1001,14 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     if (syn) {
         *(options) = 2; // MSS
         *(options + 1) = 4; // total option length
-        *((uint16_t *) (options + 2)) = // option value
-                htons(TUN_MAXMSG - sizeof(struct ip6_hdr) - sizeof(struct tcphdr) - 4);
+        *((uint16_t *) (options + 2)) =
+                (cur->version == 4 ? MSS4_DEFAULT : MSS6_DEFAULT); // option value
+
+        *(options + 4) = 3; // window scale
+        *(options + 5) = 3; // total option length
+        *(options + 6) = cur->recv_scale;
+
+        *(options + 7) = 0; // End, padding
     }
 
     // Continue checksum
