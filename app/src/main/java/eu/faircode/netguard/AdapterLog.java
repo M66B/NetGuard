@@ -104,7 +104,7 @@ public class AdapterLog extends CursorAdapter {
 
         try {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            dns = SinkholeService.getDns(context).get(0);
+            dns = InetAddress.getByName(prefs.getString("dns", Util.getDefaultDNS(context).get(0)));
             vpn4 = InetAddress.getByName(prefs.getString("vpn4", "10.1.10.1"));
             vpn6 = InetAddress.getByName(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"));
         } catch (UnknownHostException ex) {
