@@ -426,6 +426,7 @@ jboolean handle_tcp(const struct arguments *args,
             // Decode options
             // http://www.iana.org/assignments/tcp-parameters/tcp-parameters.xhtml#tcp-parameters-1
             uint16_t mss = 0;
+            uint8_t ws = 0;
             int optlen = tcpoptlen;
             uint8_t *options = tcpoptions;
             while (optlen > 0) {
@@ -434,8 +435,11 @@ jboolean handle_tcp(const struct arguments *args,
                 if (kind == 0) // End of options list
                     break;
 
-                if (kind == 2)
+                if (kind == 2 && len == 4)
                     mss = ntohs(*((uint16_t *) (options + 2)));
+
+                else if (kind == 3 && len == 3)
+                    ws = *(options + 2);
 
                 if (kind == 1) {
                     optlen--;
@@ -447,7 +451,7 @@ jboolean handle_tcp(const struct arguments *args,
                 }
             }
 
-            log_android(ANDROID_LOG_WARN, "%s new session mss %d", packet, mss);
+            log_android(ANDROID_LOG_WARN, "%s new session mss %d ws %d", packet, mss, ws);
 
             // Register session
             struct tcp_session *syn = malloc(sizeof(struct tcp_session));
