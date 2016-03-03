@@ -205,7 +205,7 @@ The columns have the following meaning:
 
 1. Time (tap on a log entry to see the date)
 1. Application icon (tap on a log entry to see the application name)
-1. Application uid
+1. Application UID
 1. Wi-Fi / mobile connection, green=allowed, red=blocked
 1. Interactive state (screen on or off)
 1. Protocol (see below) and packet flags (see below)
@@ -241,7 +241,7 @@ This is probably done by briefly connecting to some Google server.
 If this is not the case, there will be an '!' in the Wi-Fi or mobile icon in the system status bar.
 
 Recent Android versions seem not to switch connectivity from mobile to Wi-Fi when the Wi-Fi network is not really connected,
-even though there is a connection to the Wi-Fi network (or the other way around).
+even though there is a connection to the Wi-Fi network (or the other way around). On Android 6.0 and later you might get a notification asking you if you want to keep this connection on or not.
 To prevent a bad user experience there is a predefined rule to default allow the Google connectivity services.
 
 You can find all predefined rules [here](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/xml/predefined.xml).
@@ -270,9 +270,10 @@ Some pointers on how to set up AFWall+:
 <a name="FAQ31"></a>
 **(31) Why can some applications be configured as a group only?**
 
-For a lot of purposes, including network access, Android groups applications on uid and not on package/application name.
-Especially system applications often have the same uid, despite having a different package and application name.
+For a lot of purposes, including network access, Android groups applications on UID and not on package/application name.
+Especially system applications often have the same UID, despite having a different package and application name, these are set up like this by the ROM manufacturer at build time.
 These applications can only be allowed/blocked access to the internet as a group.
+
 
 <br />
 
