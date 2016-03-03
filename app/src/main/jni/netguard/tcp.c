@@ -212,29 +212,6 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         }
                     }
                 } else {
-                    // Calculate recv window
-                    int unsent = 0;
-                    int window = TCP_RECV_WINDOW;
-                    if (cur->socket >= 0) {
-                        if (ioctl(cur->socket, SIOCOUTQ, &unsent))
-                            log_android(ANDROID_LOG_WARN, "ioctl SIOCOUTQ %d: %s",
-                                        errno, strerror(errno));
-                        else {
-                            struct segment *q = cur->forward;
-                            while (q != NULL) {
-                                unsent += q->len;
-                                q = q->next;
-                            }
-                            window = (unsent < TCP_RECV_WINDOW ? TCP_RECV_WINDOW - unsent : 0);
-                        }
-                    }
-
-                    int prev = cur->recv_window;
-                    cur->recv_window = (uint16_t) window;
-                    if ((prev == 0 && window > 0) || (prev > 0 && window == 0))
-                        log_android(ANDROID_LOG_WARN, "%s recv window %d > %d",
-                                    session, prev, window);
-
                     // Always forward data
                     int fwd = 0;
                     if (FD_ISSET(cur->socket, wfds)) {
@@ -278,6 +255,29 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                             s = s->next;
                         }
                     }
+
+                    // Calculate recv window
+                    int unsent = 0;
+                    int window = TCP_RECV_WINDOW;
+                    if (cur->socket >= 0) {
+                        if (ioctl(cur->socket, SIOCOUTQ, &unsent))
+                            log_android(ANDROID_LOG_WARN, "ioctl SIOCOUTQ %d: %s",
+                                        errno, strerror(errno));
+                        else {
+                            struct segment *q = cur->forward;
+                            while (q != NULL) {
+                                unsent += q->len;
+                                q = q->next;
+                            }
+                            window = (unsent < TCP_RECV_WINDOW ? TCP_RECV_WINDOW - unsent : 0);
+                        }
+                    }
+
+                    int prev = cur->recv_window;
+                    cur->recv_window = (uint16_t) window;
+                    if ((prev == 0 && window > 0) || (prev > 0 && window == 0))
+                        log_android(ANDROID_LOG_WARN, "%s recv window %d > %d",
+                                    session, prev, window);
 
                     // Acknowledge forwarded data
                     if (fwd || (prev == 0 && window > 0)) {
