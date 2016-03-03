@@ -140,7 +140,7 @@
   <string name="msg_stop_forward">¿Parar reenvío del puerto %1$s, %2$d?</string>
   <string name="msg_metered">La red está medida</string>
   <string name="msg_queue">NetGuard está ocupado</string>
-  <string name="msg_update">Update available, tap to download</string>
+  <string name="msg_update">Actualización disponible, pulse para descargar</string>
   <string name="title_unmetered_allowed">Tráfico ilimitado permitido</string>
   <string name="title_unmetered_blocked">Tráfico ilimitado bloqueado</string>
   <string name="title_metered_allowed">Tráfico medido permitido</string>
@@ -173,7 +173,7 @@
   <string name="title_log_port">Puerto %1$d</string>
   <string name="title_pro">Características Pro</string>
   <string name="title_pro_trial_until">Prueba de características Pro hasta %1$s</string>
-  <string name="title_pro_trial_ended">Finalizó el período de característcias Pro</string>
+  <string name="title_pro_trial_ended">Finalizó el período de funciones pagas</string>
   <string name="title_pro_description">Las siguientes características pagas están disponibles:</string>
   <string name="title_pro_log">Ver registro de tráfico bloqueado</string>
   <string name="title_pro_filter">Filtrar tráfico de red</string>
