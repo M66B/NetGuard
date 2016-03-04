@@ -162,13 +162,14 @@ int get_receive_buffer(const struct tcp_session *cur) {
         return 0;
 
     // Get send buffer size
+    // /proc/sys/net/core/wmem_default
     int sendbuf = 0;
     int sendbufsize = sizeof(sendbuf);
     if (getsockopt(cur->socket, SOL_SOCKET, SO_SNDBUF, &sendbuf, &sendbufsize) < 0)
         log_android(ANDROID_LOG_WARN, "getsockopt SO_RCVBUF %d: %s", errno, strerror(errno));
 
     if (sendbuf == 0)
-        return 8192; // Safe default
+        sendbuf = 16384; // Safe default
 
     // Get unsent data size
     int unsent = 0;
@@ -183,7 +184,7 @@ uint32_t get_receive_window(const struct tcp_session *cur) {
     uint32_t toforward = 0;
     struct segment *q = cur->forward;
     while (q != NULL) {
-        toforward += q->len;
+        toforward += (q->len - q->sent);
         q = q->next;
     }
 
@@ -262,15 +263,19 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                         // Forward data
                         uint32_t buffer_size = get_receive_buffer(cur);
                         while (cur->forward != NULL &&
-                               cur->forward->seq == cur->remote_seq &&
-                               cur->forward->len < buffer_size) {
-                            log_android(ANDROID_LOG_DEBUG, "%s fwd %u...%u",
+                               cur->forward->seq + cur->forward->sent == cur->remote_seq &&
+                               cur->forward->len - cur->forward->sent < buffer_size) {
+                            log_android(ANDROID_LOG_DEBUG, "%s fwd %u...%u sent %u",
                                         session,
                                         cur->forward->seq - cur->remote_start,
-                                        cur->forward->seq + cur->forward->len - cur->remote_start);
+                                        cur->forward->seq + cur->forward->len - cur->remote_start,
+                                        cur->forward->sent);
 
-                            if (send(cur->socket, cur->forward->data, cur->forward->len,
-                                     MSG_NOSIGNAL | (cur->forward->psh ? 0 : MSG_MORE)) < 0) {
+                            ssize_t sent = send(cur->socket,
+                                                cur->forward->data + cur->forward->sent,
+                                                cur->forward->len - cur->forward->sent,
+                                                MSG_NOSIGNAL | (cur->forward->psh ? 0 : MSG_MORE));
+                            if (sent < 0) {
                                 log_android(ANDROID_LOG_ERROR, "%s send error %d: %s",
                                             session, errno, strerror(errno));
                                 if (errno == EINTR || errno == EAGAIN) {
@@ -282,24 +287,33 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                                 }
                             } else {
                                 fwd = 1;
-                                buffer_size -= cur->forward->len;
-                                cur->sent += cur->forward->len;
-                                cur->remote_seq = cur->forward->seq + cur->forward->len;
+                                buffer_size -= sent;
+                                cur->sent += sent;
+                                cur->forward->sent += sent;
+                                cur->remote_seq = cur->forward->seq + cur->forward->sent;
 
-                                struct segment *p = cur->forward;
-                                cur->forward = cur->forward->next;
-                                free(p->data);
-                                free(p);
+                                if (cur->forward->len == cur->forward->sent) {
+                                    struct segment *p = cur->forward;
+                                    cur->forward = cur->forward->next;
+                                    free(p->data);
+                                    free(p);
+                                } else {
+                                    log_android(ANDROID_LOG_WARN,
+                                                "%s partial send %u/%u",
+                                                session, cur->forward->sent, cur->forward->len);
+                                    break;
+                                }
                             }
                         }
 
                         // Log data buffered
                         struct segment *s = cur->forward;
                         while (s != NULL) {
-                            log_android(ANDROID_LOG_WARN, "%s queued %u...%u",
+                            log_android(ANDROID_LOG_WARN, "%s queued %u...%u sent %u",
                                         session,
                                         s->seq - cur->remote_start,
-                                        s->seq + s->len - cur->remote_start);
+                                        s->seq + s->len - cur->remote_start,
+                                        s->sent);
                             s = s->next;
                         }
                     }
@@ -497,7 +511,6 @@ jboolean handle_tcp(const struct arguments *args,
             syn->mss = mss;
             syn->recv_scale = ws;
             syn->send_scale = ws;
-            syn->recv_window = 0;
             syn->send_window = ((uint32_t) ntohs(tcphdr->window)) << syn->send_scale;
             syn->remote_seq = ntohl(tcphdr->seq); // ISN remote
             syn->local_seq = (uint32_t) rand(); // ISN local
@@ -526,6 +539,7 @@ jboolean handle_tcp(const struct arguments *args,
                 syn->forward = malloc(sizeof(struct segment));
                 syn->forward->seq = syn->remote_seq;
                 syn->forward->len = datalen;
+                syn->forward->sent = 0;
                 syn->forward->psh = tcphdr->psh;
                 syn->forward->data = malloc(datalen);
                 memcpy(syn->forward->data, data, datalen);
@@ -766,6 +780,7 @@ void queue_tcp(const struct arguments *args,
             struct segment *n = malloc(sizeof(struct segment));
             n->seq = seq;
             n->len = datalen;
+            n->sent = 0;
             n->psh = tcphdr->psh;
             n->data = malloc(datalen);
             memcpy(n->data, data, datalen);
@@ -916,7 +931,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     char dest[INET6_ADDRSTRLEN + 1];
 
     // Build packet
-    int optlen = (syn ? 4 + 4 : 0);
+    int optlen = (syn ? 4 + 3 + 1 : 0);
     uint8_t *options;
     if (cur->version == 4) {
         len = sizeof(struct iphdr) + sizeof(struct tcphdr) + optlen + datalen;
