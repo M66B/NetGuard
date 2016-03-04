@@ -51,6 +51,7 @@
   <string name="setting_dark">Gebruik donker thema</string>
   <string name="setting_auto">Zet weer aan na %1$s minuten</string>
   <string name="setting_delay">Vertraag scherm uit %1$s minuten</string>
+  <string name="setting_update">Check for updates</string>
   <string name="setting_network_options">Netwerkopties</string>
   <string name="setting_tethering">Sta tethering toe</string>
   <string name="setting_wifi_home">Wi-Fi thuisnetwerk: %1$s</string>
@@ -91,6 +92,7 @@
   <string name="setting_technical_subscription">Abonnementen</string>
   <string name="summary_auto">Na het uitschakelen van de widget automatisch NetGuard weer inschakelen na het geselecteerde aantal minuten (voer nul in om deze optie uit te schakelen)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
+  <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
   <string name="summary_wifi_home">Pas de Wi-Fi-netwerkregels alleen toe op de geselecteerde netwerken (en regels voor mobiele netwerken op andere Wi-Fi-netwerken)</string>
   <string name="summary_metered">Pas regels voor mobiele netwerken op gemeten (betaalde, getetherde) Wi-Fi-netwerken toe</string>

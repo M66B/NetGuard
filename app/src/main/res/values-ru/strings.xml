@@ -50,6 +50,7 @@
   <string name="setting_dark">Использовать темную тему</string>
   <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
   <string name="setting_delay">Задержка экрана %1$s минут(ы)</string>
+  <string name="setting_update">Check for updates</string>
   <string name="setting_network_options">Параметры сети</string>
   <string name="setting_tethering">Разрешить привязку</string>
   <string name="setting_wifi_home">Домашняя сеть Wi-Fi: %1$s</string>
@@ -90,6 +91,7 @@
   <string name="setting_technical_subscription">Подписки</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
+  <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">В зависимости от версии Андроид, привязывание может либо работать, либо не работать. Привязанный трафик не может быть отфильтрован.</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
   <string name="summary_metered">Применить правила для лимитированных (платных, ограниченных) Wi-Fi сетей</string>

@@ -5,7 +5,7 @@
   <string name="app_android">NetGuard erfordert Android 4.0 oder höher</string>
   <string name="app_license">Mit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Die App wurde mit großer Sorgfalt entwickelt und getestet. Es ist leider trotzdem unmöglich zu garantieren, dass NetGuard auf jedem Gerät fehlerfrei funktioniert.
-\n\nDurch die Verwendung von NetGuard stimmen Sie der <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a> zu</string>
+\n\nDurch die Verwendung von NetGuard, stimmen Sie der <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a> zu</string>
   <string name="menu_search">Nach Apps suchen</string>
   <string name="menu_filter">Anwendungsfilter</string>
   <string name="menu_app_user">Benutzeranwendungen anzeigen</string>
@@ -51,13 +51,14 @@
   <string name="setting_dark">Dunkles Design verwenden</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
+  <string name="setting_update">Check for updates</string>
   <string name="setting_network_options">Netzwerkoptionen</string>
   <string name="setting_tethering">Tethering erlauben</string>
   <string name="setting_wifi_home">WLAN-Heimnetzwerk: %1$s</string>
-  <string name="setting_metered">Getaktetes WLAN-Netzwerk handhaben</string>
-  <string name="setting_metered_2g">2G als getaktet betrachten</string>
-  <string name="setting_metered_3g">3G als “nicht getaktet“ betrachten</string>
-  <string name="setting_metered_4g">LTE als “nicht getaktet“ betrachten</string>
+  <string name="setting_metered">Volumenbeschränktes WLAN-Netzwerk handhaben</string>
+  <string name="setting_metered_2g">2G als “nicht volumenbeschränkt“ betrachten</string>
+  <string name="setting_metered_3g">3G als “nicht volumenbeschränkt“ betrachten</string>
+  <string name="setting_metered_4g">LTE als “nicht volumenbeschränkt“ betrachten</string>
   <string name="setting_national_roaming">Nationales Roaming ignorieren</string>
   <string name="setting_advanced_options">Erweiterte Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
@@ -91,9 +92,10 @@
   <string name="setting_technical_subscription">Abos</string>
   <string name="summary_auto">Nach dem Deaktivieren über das Widget, wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert (Null eingeben zum Deaktivieren dieser Option)</string>
   <string name="summary_delay">Nach Ausschalten des Bildschirms, diesen während der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren dieser Option)</string>
-  <string name="summary_tethering">Abhängig von der Android Version kann Tethering funktionieren (oder auch nicht). Dieser Verkehr kann nicht gefiltert werden.</string>
+  <string name="summary_update">Check for new releases on GitHub twice daily</string>
+  <string name="summary_tethering">Abhängig von der Android Version kann Tethering funktionieren. Dieser Verkehr kann nicht gefiltert werden.</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
-  <string name="summary_metered">Mobilfunk-Regeln auf getaktete (bezahlte, tethering) WLAN-Netzwerke anwenden</string>
+  <string name="summary_metered">Mobilfunk-Regeln auf volumenbeschränkte (bezahlte, tethering) WLAN-Netzwerke anwenden</string>
   <string name="summary_metered_2g">WLAN-Regeln für 2G-Datenverbindungen anwenden</string>
   <string name="summary_metered_3g">WLAN-Regeln für 3G-Datenverbindungen anwenden</string>
   <string name="summary_metered_4g">WLAN-Regeln für LTE-Datenverbindungen anwenden</string>
@@ -117,8 +119,8 @@
   <string name="msg_installed">\'%1$s\' installiert</string>
   <string name="msg_access">%1$s versucht Internetzugriff</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
-  <string name="msg_vpn">NetGuard verwendet ein lokales VPN um den Internetverkehr zu filtern. Gestatten Sie aus diesem Grund eine VPN-Verbindung im nächsten Dialogfenster. Ihr Internetverkehr wird nicht an einen VPN-Server gesendet!</string>
-  <string name="msg_autostart">NetGuard konnte aufgrund eines Fehlers Ihrer Android Version beim Booten nicht automatisch starten</string>
+  <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um den Internetverkehr zu filtern. Gestatten Sie aus diesem Grund eine VPN-Verbindung im nächsten Dialogfenster. Ihr Internetverkehr wird nicht an einen VPN-Server gesendet!</string>
+  <string name="msg_autostart">NetGuard konnte aufgrund eines Fehlers Ihrer aktuellen Android Version beim Booten nicht automatisch starten</string>
   <string name="msg_try">NetGuard ausprobieren</string>
   <string name="msg_terms">Durch eine Spende stimmen Sie der <a href="http://www.netguard.me/#terms">AGB</a> zu.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
@@ -139,18 +141,18 @@
   <string name="msg_download_last">Letztes Herunterladen: %s</string>
   <string name="msg_start_forward" formatted="false">Weiterleitung von %2$d Port %1$s nach %3$s:%4$d von \'%5$s\' starten?</string>
   <string name="msg_stop_forward">Weiterleitung von %1$s Port %2$d stoppen?</string>
-  <string name="msg_metered">Getaktetes Netzwerk</string>
+  <string name="msg_metered">Volumenbeschränktes Netzwerk</string>
   <string name="msg_queue">NetGuard ist beschäftigt</string>
-  <string name="msg_update">Neue Version verfügbar, tippen zum herunterladen</string>
-  <string name="title_unmetered_allowed">Getakteter Netzwerkverkehr ist erlaubt</string>
-  <string name="title_unmetered_blocked">Nicht getakteter Netzwerkverkehr ist blockiert</string>
-  <string name="title_metered_allowed">Getakteter Netzwerkverkehr ist erlaubt</string>
-  <string name="title_metered_blocked">Getakteter Netzwerkverkehr ist blockiert</string>
+  <string name="msg_update">Neue Version verfügbar, tippen zum Herunterladen</string>
+  <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
+  <string name="title_unmetered_blocked">Nicht volumenbeschränkter Verkehr ist blockiert</string>
+  <string name="title_metered_allowed">Volumenbeschränkter Verkehr ist erlaubt</string>
+  <string name="title_metered_blocked">Volumenbeschränkter Verkehr ist blockiert</string>
   <string name="title_host_allowed">Adresse ist erlaubt</string>
   <string name="title_host_blocked">Adresse ist blockiert</string>
-  <string name="title_interactive_allowed">Erlauben, wenn Bildschirm eingeschaltet ist</string>
+  <string name="title_interactive_allowed">Erlauben, wenn Bildschirm an</string>
   <string name="title_roaming_blocked">Bei Roaming blockieren</string>
-  <string name="title_metered">Standardmäßig wird eine WLAN-Verbindung als nicht getaktet und eine mobile Verbindung als getaktet betrachtet.</string>
+  <string name="title_metered">Standardmäßig wird eine WLAN-Verbindung als nicht volumenbeschränkt und eine mobile Verbindung als volumenbeschränkt betrachtet.</string>
   <string name="title_apply">Regeln und Bedingungen anwenden</string>
   <string name="title_conditions">Bedingungen</string>
   <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>

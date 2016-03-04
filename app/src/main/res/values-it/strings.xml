@@ -50,6 +50,7 @@
   <string name="setting_dark">Usa il tema scuro</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
+  <string name="setting_update">Check for updates</string>
   <string name="setting_network_options">Opzioni di rete</string>
   <string name="setting_tethering">Permetti il tethering</string>
   <string name="setting_wifi_home">Reti Wi-Fi domestiche: %1$s</string>
@@ -90,6 +91,7 @@
   <string name="setting_technical_subscription">Sottoscrizioni</string>
   <string name="summary_auto">Dopo aver disabilitato NetGuard tramite il widget, riabilita automaticamente NetGuard dopo il numero di minuti specificato\nInserisci zero per disabilitare questa opzione</string>
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo è acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
+  <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">A seconda della versione di Android, il tethering potrebbe non funzionare. Non è possibile filtrare il traffico in tethering.</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>

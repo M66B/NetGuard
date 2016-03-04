@@ -50,6 +50,7 @@
   <string name="setting_dark">Usar tema oscuro</string>
   <string name="setting_auto">Activar automáticamente después de %1$s minutos</string>
   <string name="setting_delay">Retardar apagado de pantalla en %1$s minutos</string>
+  <string name="setting_update">Check for updates</string>
   <string name="setting_network_options">Opciones de red</string>
   <string name="setting_tethering">Permitir anclaje a red</string>
   <string name="setting_wifi_home">Red Wi-Fi hogareña: %1$s</string>
@@ -90,6 +91,7 @@
   <string name="setting_technical_subscription">Suscripciones</string>
   <string name="summary_auto">Después de desactivar usando el widget, activar automáticamente NetGuard nuevamente luego del número de minutos seleccionado\nIngresar cero para deshabilitar esta opción</string>
   <string name="summary_delay">Después de apagar la pantalla, mantener la pantalla de reglas activas para el número seleccionado de minutos (ingrese cero para desactivar esta opción)</string>
+  <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">Dependiendo de la versión de Android, el anclaje a red puede funcionar o no. El tráfico por anclaje no puede filtrarse.</string>
   <string name="summary_wifi_home">Aplicar sólo reglas de red Wi-Fi en la red seleccionada (aplicar reglas de red móvil para otras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar reglas de red móvil a redes Wi-Fi medidas (pagas, por anclaje)</string>

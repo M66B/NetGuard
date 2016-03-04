@@ -50,6 +50,7 @@
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_delay">Temporizare la oprirea ecranului %1$s minute</string>
+  <string name="setting_update">Check for updates</string>
   <string name="setting_network_options">Optiuni conexiune</string>
   <string name="setting_tethering">Permite partajarea conexiunii</string>
   <string name="setting_wifi_home">Retea Wi-Fi de domiciliu: %1$s</string>
@@ -90,6 +91,7 @@
   <string name="setting_technical_subscription">Abonamente</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_delay">Dupa oprirea ecranului, pastreza regulile ecran pornit pentru numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
+  <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">In functie de versiunea de Android, partajarea conexiunii (tethering/hotspot) ar putea functiona sau nu. Traficul partajat nu poate fi filtrat.</string>
   <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (pentru alte retele Wi-Fi se aplica regulile de date mobile)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>

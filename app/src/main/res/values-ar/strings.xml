@@ -50,6 +50,7 @@
   <string name="setting_dark">استخدم المظهر الداكن</string>
   <string name="setting_auto">تمكين تلقائي بعد %1$s دقيقة/دقائق</string>
   <string name="setting_delay">تــأخــيــر تــعــتــيــم الــشــاشــة %1$s دقــيــقــة</string>
+  <string name="setting_update">Check for updates</string>
   <string name="setting_network_options">خيارات الشبكة</string>
   <string name="setting_tethering">السماح بالربط(مشاركة الانترنت)</string>
   <string name="setting_wifi_home">شبكات الاتصال اللاسلكي المنزلية: %1$s</string>
@@ -90,6 +91,7 @@
   <string name="setting_technical_subscription">الإشتراكات</string>
   <string name="summary_auto">بعد تعطيل NetGuard باستخدام الويدجت، فعل NetGuard تلقائيا مرة أخرى بعد عدد محدد من الدقائق  (ادخل صفر لتعطيل هذا الخيار)</string>
   <string name="summary_delay">بعد إغلاق الشاشة، إبقاء الشاشة على القواعد نشطة لعدد محدد من الدقائق (ادخل صفر لتعطيل هذا الخيار)</string>
+  <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">وفقا لاصدار الأندرويد، ربط الانترنت قد يعمل وقد لا يعمل، الانترنت المربوط(المشارك) لا يمكن تصفيتة.</string>
   <string name="summary_wifi_home">تطبيق قواعد الشبكة اللاسلكية للشبكة المحددة فقط (تطبيق قواعد شبكة الجوال لباقي الشبكات اللاسلكية)</string>
   <string name="summary_metered">تطبيق قواعد شبكة الهاتف النقال للشبكات اللاسلكية المقاسة (مدفوعة الأجر، المربوطة)</string>
