@@ -179,7 +179,10 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(
         log_android(ANDROID_LOG_WARN, "Not running thread %x", t);
 }
 
-#include <dirent.h>
+JNIEXPORT jint JNICALL
+Java_eu_faircode_netguard_SinkholeService_jni_1get_1mtu(JNIEnv *env, jobject instance) {
+    return TUN_MAXMSG;
+}
 
 JNIEXPORT jintArray JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1get_1stats(JNIEnv *env, jobject instance) {

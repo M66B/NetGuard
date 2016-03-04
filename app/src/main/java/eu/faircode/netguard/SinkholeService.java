@@ -166,6 +166,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     private native void jni_stop(int tun, boolean clear);
 
+    private native int jni_get_mtu();
+
     private native int[] jni_get_stats();
 
     private static native void jni_pcap(String name, int record_size, int file_size);
@@ -1052,8 +1054,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
-        // In practice Android MSS is 8192 bytes
-        builder.setMtu(10000);
+        builder.setMtu(jni_get_mtu());
 
         // Add list of allowed applications
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)

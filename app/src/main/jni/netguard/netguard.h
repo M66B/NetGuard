@@ -7,6 +7,7 @@
 #include <pthread.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <dirent.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
@@ -33,7 +34,7 @@
 
 #define SELECT_TIMEOUT 3600 // seconds
 
-#define TUN_MAXMSG 10000 // bytes (device)
+#define TUN_MAXMSG 10000 // MTU bytes (device)
 #define MSS4_DEFAULT (TUN_MAXMSG - sizeof(struct iphdr) - sizeof(struct tcphdr)) // bytes
 #define MSS6_DEFAULT (TUN_MAXMSG - sizeof(struct ip6_hdr) - sizeof(struct tcphdr)) // bytes
 #define ICMP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
