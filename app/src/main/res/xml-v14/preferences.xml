@@ -47,6 +47,11 @@
             android:inputType="number"
             android:key="screen_delay"
             android:summary="@string/summary_delay" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="update_check"
+            android:summary="@string/summary_update"
+            android:title="@string/setting_update" />
     </PreferenceCategory>
 
     <PreferenceCategory

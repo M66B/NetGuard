@@ -126,6 +126,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         final PreferenceScreen screen = getPreferenceScreen();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        PreferenceCategory cat_options = (PreferenceCategory) screen.findPreference("category_options");
         PreferenceCategory cat_advanced = (PreferenceCategory) screen.findPreference("category_advanced_options");
         PreferenceCategory cat_backup = (PreferenceCategory) screen.findPreference("category_backup");
         PreferenceCategory cat_development = (PreferenceCategory) screen.findPreference("category_development");
@@ -259,6 +260,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         final Preference pref_hosts_download = screen.findPreference("hosts_download");
 
         if (Util.isPlayStoreInstall(this)) {
+            cat_options.removePreference(screen.findPreference("update_check"));
             cat_advanced.removePreference(pref_block_domains);
             cat_backup.removePreference(pref_hosts_import);
             cat_backup.removePreference(pref_hosts_url);

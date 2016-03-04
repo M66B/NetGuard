@@ -529,7 +529,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             DatabaseHelper.getInstance(SinkholeService.this).cleanupDns(new Date().getTime() - 7 * 24 * 3600 * 1000L);
 
             // Check for update
-            if (!Util.isPlayStoreInstall(SinkholeService.this))
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            if (!Util.isPlayStoreInstall(SinkholeService.this) && prefs.getBoolean("update_check", true))
                 checkUpdate();
         }
 
