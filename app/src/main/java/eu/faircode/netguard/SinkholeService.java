@@ -632,7 +632,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 dh.insertLog(packet, dname, connection, interactive);
 
             // Application log
-            if (log_app && packet.uid >= 0) {
+            if (log_app && packet.uid >= 0 && !(packet.uid == 0 && packet.protocol == 17 && packet.dport == 53)) {
                 if (!(packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */))
                     packet.dport = 0;
                 if (dh.updateAccess(packet, dname, -1))
@@ -648,9 +648,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void usage(Usage usage) {
-            if (usage.Uid >= 0) {
+            if (usage.Uid >= 0 && !(usage.Uid == 0 && usage.Protocol == 17 && usage.DPort == 53)) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-                if (prefs.getBoolean("filter", false) && prefs.getBoolean("track_usage", false)) {
+                boolean filter = prefs.getBoolean("filter", false);
+                boolean log_app = prefs.getBoolean("log_app", false);
+                boolean track_usage = prefs.getBoolean("track_usage", false);
+                if (filter && log_app && track_usage) {
                     DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
                     String dname = dh.getQName(usage.DAddr);
                     Log.i(TAG, "Usage account " + usage + " dname=" + dname);
