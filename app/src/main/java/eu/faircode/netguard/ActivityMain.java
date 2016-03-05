@@ -834,14 +834,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Create view
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.about, null, false);
-        TextView tvVersion = (TextView) view.findViewById(R.id.tvVersion);
+        TextView tvVersionName = (TextView) view.findViewById(R.id.tvVersionName);
+        TextView tvVersionCode = (TextView) view.findViewById(R.id.tvVersionCode);
         Button btnRate = (Button) view.findViewById(R.id.btnRate);
         TextView tvLicense = (TextView) view.findViewById(R.id.tvLicense);
 
         // Show version
-        tvVersion.setText(Util.getSelfVersionName(this));
+        tvVersionName.setText(Util.getSelfVersionName(this));
         if (!Util.hasValidFingerprint(this))
-            tvVersion.setTextColor(Color.GRAY);
+            tvVersionName.setTextColor(Color.GRAY);
+        tvVersionCode.setText(Integer.toString(Util.getSelfVersionCode(this)));
 
         // Handle license
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
