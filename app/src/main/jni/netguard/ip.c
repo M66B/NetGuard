@@ -254,8 +254,9 @@ void handle_ip(const struct arguments *args,
             flags[flen++] = 'F';
         if (tcp->rst)
             flags[flen++] = 'R';
+
         if (tcp->urg)
-            flags[flen++] = 'U';
+            report_error(args, 3, "TCP out of band data");
 
         // TODO checksum
     }

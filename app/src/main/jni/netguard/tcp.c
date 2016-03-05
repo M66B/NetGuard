@@ -1007,7 +1007,6 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     tcp->fin = (__u16) fin;
     tcp->rst = (__u16) rst;
     tcp->window = htons(cur->recv_window >> cur->recv_scale);
-    tcp->urg_ptr;
 
     if (!tcp->ack)
         tcp->ack_seq = 0;
