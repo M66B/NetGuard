@@ -51,7 +51,7 @@
   <string name="setting_dark">Ativa tema escuro</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
-  <string name="setting_update">Check for updates</string>
+  <string name="setting_update">Procurar por atualizações</string>
   <string name="setting_network_options">Opções de rede</string>
   <string name="setting_tethering">Permitir tethering</string>
   <string name="setting_wifi_home">Redes Wi-Fi Domésticas: %1$s</string>
@@ -92,7 +92,7 @@
   <string name="setting_technical_subscription">Inscrições</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
-  <string name="summary_update">Check for new releases on GitHub twice daily</string>
+  <string name="summary_update">Procurar por novos releases no GitHub duas vezes ao dia</string>
   <string name="summary_tethering">Dependendo da versão do Android, tethering pode não funcionar. Trafego via tethering não pode ser filtrado.</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis à outras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi limitadas (pagas, via tethering)</string>

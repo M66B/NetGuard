@@ -51,7 +51,7 @@
   <string name="setting_dark">ダークテーマを使用する</string>
   <string name="setting_auto">%1$s 分後に自動的に有効にする</string>
   <string name="setting_delay">%1$s 分、画面オフを遅延</string>
-  <string name="setting_update">Check for updates</string>
+  <string name="setting_update">アップデートの確認</string>
   <string name="setting_network_options">ネットワーク オプション</string>
   <string name="setting_tethering">テザリングを許可</string>
   <string name="setting_wifi_home">Wi-Fi ホームネットワーク: %1$s</string>
@@ -92,7 +92,7 @@
   <string name="setting_technical_subscription">サブスクリプション</string>
   <string name="summary_auto">ウィジェットの使用を無効にした後、自動的に選択した分数の後で再度 NetGuard を有効にします\nこのオプションを無効にするには 0 を入力してください</string>
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
-  <string name="summary_update">Check for new releases on GitHub twice daily</string>
+  <string name="summary_update">新しいリリースを Github で毎日 2 回確認します</string>
   <string name="summary_tethering">Android のバージョンによって、テザリングが動作する、または動作しない可能性があります。テザリングされたトラフィックはフィルターできません。</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>
   <string name="summary_metered">従量制 (有料、テザリング) Wi-Fi ネットワークにモバイル ネットワーク ルールを適用します</string>
