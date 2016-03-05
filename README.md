@@ -164,14 +164,14 @@ Frequently Asked Questions (FAQ)
 Permissions
 -----------
 
-* INTERNET: to forward allowed traffic to the internet
-* ACCESS_NETWORK_STATE: to check if the device is connected to the internet through Wi-Fi
-* READ_PHONE_STATE ('*make and manage phone calls*'): to detect mobile network changes, see [here](http://forum.xda-developers.com/showpost.php?p=64107371&postcount=489) for more details
-* ACCESS_WIFI_STATE: to detect Wi-Fi network changes
-* RECEIVE_BOOT_COMPLETED: to start the firewall when booting the device
-* WAKE_LOCK: to reliably reload rules in the background on connectivity changes
-* WRITE_EXTERNAL_STORAGE: to export settings on Android versions before 5.0 (Lollipop) (there is no need to grant this permission on later Android versions)
-* com.android.vending.BILLING: to accept donations via in-app billing
+* INTERNET ('*Full network access*'): to forward allowed traffic to the internet
+* ACCESS_NETWORK_STATE ('*View network connections*'): to check if the device is connected to the internet through Wi-Fi
+* READ_PHONE_STATE ('*Device ID & call information*'): to detect mobile network changes, see [here](http://forum.xda-developers.com/showpost.php?p=64107371&postcount=489) for more details
+* ACCESS_WIFI_STATE ('*Wi-Fi connection information*'): to detect Wi-Fi network changes
+* RECEIVE_BOOT_COMPLETED ('*Run at startup*'): to start the firewall when booting the device
+* WAKE_LOCK ('*Prevent device from sleeping*'): to reliably reload rules in the background on connectivity changes
+* READ/WRITE_EXTERNAL_STORAGE ('*Photos/Media/Files*'): to export/import settings on Android versions before 5.0 (Lollipop) (there is no need to grant this permission on later Android versions)
+* com.android.vending.BILLING: to use in-app billing
 
 Support
 -------
