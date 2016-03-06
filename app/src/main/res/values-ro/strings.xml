@@ -91,7 +91,7 @@
   <string name="setting_technical_subscription">Abonamente</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_delay">Dupa oprirea ecranului, pastreza regulile ecran pornit pentru numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
-  <string name="summary_update">De doua ori pe zi se va verifica daca fost publicata pe GitHub o noua versiune</string>
+  <string name="summary_update">De doua ori pe zi se va verifica daca a fost publicata pe GitHub o noua versiune</string>
   <string name="summary_tethering">In functie de versiunea de Android, partajarea conexiunii (tethering/hotspot) ar putea functiona sau nu. Traficul partajat nu poate fi filtrat.</string>
   <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (pentru alte retele Wi-Fi se aplica regulile de date mobile)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
