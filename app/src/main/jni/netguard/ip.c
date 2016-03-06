@@ -425,6 +425,9 @@ jint get_uid(const int version, const int protocol,
     int i = 0;
     while (fgets(line, sizeof(line), fd) != NULL) {
         if (i++) {
+            *hex = 0;
+            port = -1;
+            u = -1;
             if (version == 4)
                 fields = sscanf(
                         line,
@@ -435,7 +438,8 @@ jint get_uid(const int version, const int protocol,
                         line,
                         "%*d: %32s:%X %*X:%*X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld",
                         hex, &port, &u);
-            if (fields == 3) {
+            if (fields == 3 &&
+                (version == 4 ? strlen(hex) == 8 : strlen(hex) == 32) && port >= 0 && u >= 0) {
                 hex2bytes(hex, version == 4 ? addr4 : addr6);
                 if (version == 4)
                     ((uint32_t *) addr4)[0] = htonl(((uint32_t *) addr4)[0]);
