@@ -121,6 +121,8 @@ To avoid this problem, at least temporary, close all applications and/or service
 Because F-Droid doesn't support reproducible builds.
 Read [here](https://blog.torproject.org/blog/deterministic-builds-part-one-cyberwar-and-global-compromise) why this is important.
 
+Another reason is that F-Droid builds are more often than not outdated, leaving users with an old version with known bugs.
+
 <a name="FAQ16"></a>
 **(16) Why are some applications shown dimmed?**
 
