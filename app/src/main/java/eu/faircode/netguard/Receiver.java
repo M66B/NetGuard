@@ -62,9 +62,11 @@ public class Receiver extends BroadcastReceiver {
                 Log.i(TAG, "Deleting settings package=" + packageName);
                 context.getSharedPreferences("wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences("other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                context.getSharedPreferences("apply", Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences("screen_other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
                 context.getSharedPreferences("roaming", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                context.getSharedPreferences("notify", Context.MODE_PRIVATE).edit().remove(packageName).apply();
 
                 int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
                 if (uid > 0) {

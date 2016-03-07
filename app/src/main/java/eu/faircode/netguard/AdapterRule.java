@@ -622,10 +622,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private void updateRule(Rule rule, boolean root, List<Rule> listAll) {
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
+        SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
         SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
         SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
-        SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
         SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
 
         if (rule.wifi_blocked == rule.wifi_default)
@@ -637,6 +637,11 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             other.edit().remove(rule.info.packageName).apply();
         else
             other.edit().putBoolean(rule.info.packageName, rule.other_blocked).apply();
+
+        if (rule.apply)
+            apply.edit().remove(rule.info.packageName).apply();
+        else
+            apply.edit().putBoolean(rule.info.packageName, rule.apply).apply();
 
         if (rule.screen_wifi == rule.screen_wifi_default)
             screen_wifi.edit().remove(rule.info.packageName).apply();
@@ -653,11 +658,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         else
             roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();
 
-        if (rule.apply)
-            apply.edit().remove(rule.info.packageName).apply();
-        else
-            apply.edit().putBoolean(rule.info.packageName, rule.apply).apply();
-
         if (rule.notify)
             notify.edit().remove(rule.info.packageName).apply();
         else
@@ -672,10 +672,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 if (related.info.packageName.equals(pkg)) {
                     related.wifi_blocked = rule.wifi_blocked;
                     related.other_blocked = rule.other_blocked;
+                    related.apply = rule.apply;
                     related.screen_wifi = rule.screen_wifi;
                     related.screen_other = rule.screen_other;
                     related.roaming = rule.roaming;
-                    related.apply = rule.apply;
                     related.notify = rule.notify;
                     listModified.add(related);
                 }
