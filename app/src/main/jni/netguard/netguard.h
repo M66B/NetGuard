@@ -113,6 +113,7 @@ struct udp_session {
     time_t time;
     jint uid;
     int version;
+    uint16_t mss;
 
     uint64_t sent;
     uint64_t received;
@@ -403,7 +404,8 @@ void queue_tcp(const struct arguments *args,
 
 int open_icmp_socket(const struct arguments *args, const struct icmp_session *cur);
 
-int open_udp_socket(const struct arguments *args, const struct udp_session *cur);
+int open_udp_socket(const struct arguments *args,
+                    const struct udp_session *cur, const struct allowed *redirect);
 
 int open_tcp_socket(const struct arguments *args,
                     const struct tcp_session *cur, const struct allowed *redirect);

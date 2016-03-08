@@ -816,9 +816,14 @@ void queue_tcp(const struct arguments *args,
 int open_tcp_socket(const struct arguments *args,
                     const struct tcp_session *cur, const struct allowed *redirect) {
     int sock;
+    int version;
+    if (redirect == NULL)
+        version = cur->version;
+    else
+        version = (strstr(redirect->raddr, ":") == NULL ? 4 : 6);
 
     // Get TCP socket
-    if ((sock = socket(cur->version == 4 ? PF_INET : PF_INET6, SOCK_STREAM, 0)) < 0) {
+    if ((sock = socket(version == 4 ? PF_INET : PF_INET6, SOCK_STREAM, 0)) < 0) {
         log_android(ANDROID_LOG_ERROR, "socket error %d: %s", errno, strerror(errno));
         return -1;
     }
@@ -836,12 +841,10 @@ int open_tcp_socket(const struct arguments *args,
     }
 
     // Build target address
-    int rversion;
     struct sockaddr_in addr4;
     struct sockaddr_in6 addr6;
     if (redirect == NULL) {
-        rversion = cur->version;
-        if (cur->version == 4) {
+        if (version == 4) {
             addr4.sin_family = AF_INET;
             addr4.sin_addr.s_addr = (__be32) cur->daddr.ip4;
             addr4.sin_port = cur->dest;
@@ -851,11 +854,10 @@ int open_tcp_socket(const struct arguments *args,
             addr6.sin6_port = cur->dest;
         }
     } else {
-        rversion = (strstr(redirect->raddr, ":") == NULL ? 4 : 6);
         log_android(ANDROID_LOG_WARN, "TCP%d redirect to %s/%u",
-                    rversion, redirect->raddr, redirect->rport);
+                    version, redirect->raddr, redirect->rport);
 
-        if (rversion == 4) {
+        if (version == 4) {
             addr4.sin_family = AF_INET;
             inet_pton(AF_INET, redirect->raddr, &addr4.sin_addr);
             addr4.sin_port = htons(redirect->rport);
@@ -869,8 +871,8 @@ int open_tcp_socket(const struct arguments *args,
 
     // Initiate connect
     int err = connect(sock,
-                      (const struct sockaddr *) (rversion == 4 ? &addr4 : &addr6),
-                      (socklen_t) (cur->version == 4
+                      (const struct sockaddr *) (version == 4 ? &addr4 : &addr6),
+                      (socklen_t) (version == 4
                                    ? sizeof(struct sockaddr_in)
                                    : sizeof(struct sockaddr_in6)));
     if (err < 0 && errno != EINPROGRESS) {

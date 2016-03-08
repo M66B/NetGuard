@@ -149,9 +149,8 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 if (FD_ISSET(cur->socket, rfds)) {
                     cur->time = time(NULL);
 
-                    uint16_t blen = (uint16_t) (cur->version == 4 ? UDP4_MAXMSG : UDP6_MAXMSG);
-                    uint8_t *buffer = malloc(blen);
-                    ssize_t bytes = recv(cur->socket, buffer, blen, 0);
+                    uint8_t *buffer = malloc(cur->mss);
+                    ssize_t bytes = recv(cur->socket, buffer, cur->mss, 0);
                     if (bytes < 0) {
                         // Socket error
                         log_android(ANDROID_LOG_WARN, "UDP recv error %d: %s",
@@ -317,6 +316,13 @@ jboolean handle_udp(const struct arguments *args,
         u->uid = uid;
         u->version = version;
 
+        int rversion;
+        if (redirect == NULL)
+            rversion = u->version;
+        else
+            rversion = (strstr(redirect->raddr, ":") == NULL ? 4 : 6);
+        u->mss = (rversion == 4 ? UDP4_MAXMSG : UDP6_MAXMSG);
+
         u->sent = 0;
         u->received = 0;
 
@@ -334,7 +340,7 @@ jboolean handle_udp(const struct arguments *args,
         u->next = NULL;
 
         // Open UDP socket
-        u->socket = open_udp_socket(args, u);
+        u->socket = open_udp_socket(args, u, redirect);
         if (u->socket < 0) {
             free(u);
             return 0;
@@ -419,7 +425,7 @@ jboolean handle_udp(const struct arguments *args,
 
     if (sendto(cur->socket, data, (socklen_t) datalen, MSG_NOSIGNAL,
                (const struct sockaddr *) (rversion == 4 ? &addr4 : &addr6),
-               (socklen_t) (version == 4 ? sizeof(addr4) : sizeof(addr6))) != datalen) {
+               (socklen_t) (rversion == 4 ? sizeof(addr4) : sizeof(addr6))) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %d: %s", errno, strerror(errno));
         if (errno != EINTR && errno != EAGAIN) {
             cur->state = UDP_FINISHING;
@@ -432,11 +438,17 @@ jboolean handle_udp(const struct arguments *args,
     return 1;
 }
 
-int open_udp_socket(const struct arguments *args, const struct udp_session *cur) {
+int open_udp_socket(const struct arguments *args,
+                    const struct udp_session *cur, const struct allowed *redirect) {
     int sock;
+    int version;
+    if (redirect == NULL)
+        version = cur->version;
+    else
+        version = (strstr(redirect->raddr, ":") == NULL ? 4 : 6);
 
     // Get UDP socket
-    sock = socket(cur->version == 4 ? PF_INET : PF_INET6, SOCK_DGRAM, IPPROTO_UDP);
+    sock = socket(version == 4 ? PF_INET : PF_INET6, SOCK_DGRAM, IPPROTO_UDP);
     if (sock < 0) {
         log_android(ANDROID_LOG_ERROR, "UDP socket error %d: %s", errno, strerror(errno));
         return -1;
