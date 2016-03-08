@@ -26,9 +26,10 @@ Features:
 * Optionally allow when screen on
 * Optionally block when roaming
 * Optionally block system applications
-* Optionally forward ports, also to external addresses
+* Optionally forward ports, also to external addresses (not available if installed from the Play store)
 * Optionally notify when an application accesses the internet
 * Optionally record network usage per application per address
+* Optionally block ads using a hosts file (not available if installed from the Play store)
 * Material design theme with light and dark theme
 
 PRO features:

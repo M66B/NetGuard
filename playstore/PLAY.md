@@ -38,7 +38,6 @@ Features:
 &bull; Optionally allow when screen on
 &bull; Optionally block when roaming
 &bull; Optionally block system applications
-&bull; Optionally forward ports, also to external addresses
 &bull; Optionally notify when an application accesses the internet
 &bull; Optionally record network usage per application per address
 &bull; Material design theme with light and dark theme

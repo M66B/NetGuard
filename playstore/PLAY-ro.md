@@ -38,7 +38,6 @@ Caracteristici:
 &bull; Optional permite cand ecranul este pornit
 &bull; Optional blocheaza in roaming
 &bull; Optional blocheaza aplicatiile de sistem
-&bull; Optional redirectioneaza porturi atat local cat si spre servere externe
 &bull; Optional notifica la accesarea internetului
 &bull; Optional inregistreaza utilizarea conexiunii per aplicatie si per adresa
 &bull; Design Material cu tema deschisa si inchisa

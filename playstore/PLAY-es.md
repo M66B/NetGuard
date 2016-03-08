@@ -38,7 +38,6 @@ Características:
 &bull; Opcionalmente, permite con la pantalla encendida
 &bull; Opcionalmente, bloquea con roaming
 &bull; Opcionalmente, bloquea aplicaciones del sistema
-&bull; Opcionalmente, reenvía puertos, también a direcciones externas
 &bull; Opcionalmente, notifica cuando una aplicación accede a Internet
 &bull; Opcionalmente, registra el uso de la red por aplicación por dirección
 &bull; Apariencia material design con tema claro y oscuro

@@ -262,6 +262,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         if (Util.isPlayStoreInstall(this)) {
             cat_options.removePreference(screen.findPreference("update_check"));
             cat_advanced.removePreference(pref_block_domains);
+            cat_advanced.removePreference(pref_forwarding);
             cat_backup.removePreference(pref_hosts_import);
             cat_backup.removePreference(pref_hosts_url);
             cat_backup.removePreference(pref_hosts_download);
