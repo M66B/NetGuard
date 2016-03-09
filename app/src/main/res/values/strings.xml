@@ -86,6 +86,9 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_dns">VPN DNS: %s</string>
     <string name="setting_pcap_record_size">PCAP record size: %s B</string>
     <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
+    <string name="setting_proxy">Proxy server: %s</string>
+    <string name="setting_proxy_username">Proxy username</string>
+    <string name="setting_proxy_password">Proxy password</string>
 
     <string name="setting_stats_category">Speed notification</string>
     <string name="setting_stats">Show speed notification</string>
@@ -123,6 +126,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
     <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
     <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
+    <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
 
     <string name="summary_stats">Show network speed graph in status bar notification</string>
 
