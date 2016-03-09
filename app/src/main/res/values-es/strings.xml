@@ -54,7 +54,7 @@
   <string name="setting_network_options">Opciones de red</string>
   <string name="setting_tethering">Permitir anclaje a red</string>
   <string name="setting_wifi_home">Red Wi-Fi hogareña: %1$s</string>
-  <string name="setting_metered">Gestionar redes Wi-Fi medidas</string>
+  <string name="setting_metered">Manejo de redes Wi-Fi de uso medido</string>
   <string name="setting_metered_2g">Considerar 2G ilimitado</string>
   <string name="setting_metered_3g">Considerar 3G ilimitado</string>
   <string name="setting_metered_4g">Considerar LTE ilimitado</string>
