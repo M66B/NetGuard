@@ -162,6 +162,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ31"></a>
 [**(31) Why can some applications be configured as a group only?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ31)
 
+<a name="FAQ32"></a>
+[**(32) Why is the battery/network usage of NetGuard so high**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ32)
+
 Permissions
 -----------
 

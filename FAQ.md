@@ -278,6 +278,12 @@ For a lot of purposes, including network access, Android groups applications on 
 Especially system applications often have the same UID, despite having a different package and application name, these are set up like this by the ROM manufacturer at build time.
 These applications can only be allowed/blocked access to the internet as a group.
 
+<a name="FAQ32"></a>
+**(32) Why is the battery/network usage of NetGuard so high?**
+
+This is because Android contributes battery and network usage which is normally contributed to other applications
+to NetGuard in IP filtering mode.
+IP filtering mode is always enabled on Android version before 5.0 and optionally enabled on later Android versions.
 
 <br />
 
