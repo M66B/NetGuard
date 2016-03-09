@@ -1662,7 +1662,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     @Override
     public void onCreate() {
-        Log.i(TAG, "Create");
+        Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
