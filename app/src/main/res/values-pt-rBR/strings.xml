@@ -14,6 +14,7 @@
   <string name="menu_app_disabled">Mostrar apps desabilitados</string>
   <string name="menu_sort">Ordenar aplicativos</string>
   <string name="menu_sort_name">Ordenar por nome</string>
+  <string name="menu_sort_uid">Sort on uid</string>
   <string name="menu_sort_data">Ordenar por uso de dados</string>
   <string name="menu_log">Mostrar registro</string>
   <string name="menu_settings">Configurações</string>
@@ -65,7 +66,6 @@
   <string name="setting_log_app">Registrar acesso à internet</string>
   <string name="setting_access">Notificar ao acessar a internet</string>
   <string name="setting_filter">Filtrar tráfego</string>
-  <string name="setting_resolved">Armazenar nomes de domínios resolvidos</string>
   <string name="setting_track_usage">Controlar o uso de rede</string>
   <string name="setting_reset_usage">Redefinir o uso da rede</string>
   <string name="setting_block_domains">Bloquear nomes de domínio</string>
@@ -75,6 +75,9 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">Tamanho de registro PCAP: %s B</string>
   <string name="setting_pcap_file_size">Tamanho máximo de arquivo PCAP: %s MB</string>
+  <string name="setting_proxy">Proxy server: %s</string>
+  <string name="setting_proxy_username">Proxy username</string>
+  <string name="setting_proxy_password">Proxy password</string>
   <string name="setting_stats_category">Notificação de velocidade</string>
   <string name="setting_stats">Mostrar notificação de velocidade</string>
   <string name="setting_stats_top">Mostrar apps mais usados</string>
@@ -104,9 +107,9 @@
   <string name="summary_log_app">Registar tentativas de acesso à internet para aplicações. Isto pode resultar no uso extra da bateria.</string>
   <string name="summary_access">Mostrar uma notificação quando um aplicativo tentar acessar um novo endereço de rede</string>
   <string name="summary_filter">Filtrar pacotes de IP que saem da VPN. Isso pode resultar em um maior uso da bateria.</string>
-  <string name="summary_resolved">Armazenar nomes de domínios/endereços de IP em um banco de dados. Isso torna o registro de tráfego mais útil, mas pode resultar em uso extra de bateria.</string>
   <string name="summary_track_usage">Controle o número de bytes enviados e recebidos para cada aplicativo e endereço. Isso pode resultar no uso da bateria extra.</string>
   <string name="summary_block_domains">Responder com \'erro de nome\' (NXDOMAIN) para nomes de domínio bloqueados. Essa opção é desabilitada quando nenhum arquivo de hosts está disponível.</string>
+  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo Regras</string>

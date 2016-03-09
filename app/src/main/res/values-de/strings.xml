@@ -14,6 +14,7 @@
   <string name="menu_app_disabled">Deaktivierte Anwendungen anzeigen</string>
   <string name="menu_sort">Anwendungen sortieren</string>
   <string name="menu_sort_name">Nach Name sortieren</string>
+  <string name="menu_sort_uid">Sort on uid</string>
   <string name="menu_sort_data">Nach Datennutzung sortieren</string>
   <string name="menu_log">Protokoll anzeigen</string>
   <string name="menu_settings">Einstellungen</string>
@@ -65,7 +66,6 @@
   <string name="setting_log_app">Internetzugriff protokollieren</string>
   <string name="setting_access">Bei Internet-Zugriff benachrichtigen</string>
   <string name="setting_filter">Datenverkehr filtern</string>
-  <string name="setting_resolved">Aufgelöste Domain-Namen speichern</string>
   <string name="setting_track_usage">Netzwerknutzung verfolgen</string>
   <string name="setting_reset_usage">Netzwerknutzung zurücksetzen</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
@@ -75,6 +75,9 @@
   <string name="setting_dns">VPN-DNS: %s</string>
   <string name="setting_pcap_record_size">PCAP-Datensatzgröße: %s B</string>
   <string name="setting_pcap_file_size">PCAP-Dateigröße (max): %s MB</string>
+  <string name="setting_proxy">Proxy server: %s</string>
+  <string name="setting_proxy_username">Proxy username</string>
+  <string name="setting_proxy_password">Proxy password</string>
   <string name="setting_stats_category">Geschwindigkeitsbenachrichtigung</string>
   <string name="setting_stats">Netzwerkgeschwindigkeit anzeigen</string>
   <string name="setting_stats_top">Top-Anwendungen anzeigen</string>
@@ -104,9 +107,9 @@
   <string name="summary_log_app">Protokoll zeichnet den Internetzugriff von Anwendungen auf (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_access">Benachrichtigung in Statusleiste anzeigen, wenn eine App auf eine neue Internetadresse zugreifen möchte</string>
   <string name="summary_filter">IP-Pakete filtern, die den VPN-Tunnel verlassen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
-  <string name="summary_resolved">Domain-Namen/IP-Adressen in einer Datenbank speichern. Dies macht das Verkehrsprotokoll lesbarer, kann aber zu höherem Batterieverbrauch führen.</string>
   <string name="summary_track_usage">Anzahl der gesendeten und empfangenen Bytes für jede Anwendung und Adresse verfolgen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_block_domains">Antwortet für blockierte Domain-Namen mit \'Name Error\' (NXDOMAIN). Diese Option ist deaktiviert, wenn keine Hosts-Datei zur Verfügung steht.</string>
+  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>
   <string name="msg_sure">Sind Sie sicher?</string>
   <string name="msg_started">Regeln werden angewendet</string>

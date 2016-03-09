@@ -15,6 +15,7 @@
   <string name="menu_app_disabled">显示已禁用应用</string>
   <string name="menu_sort">应用排序</string>
   <string name="menu_sort_name">按名称排序</string>
+  <string name="menu_sort_uid">Sort on uid</string>
   <string name="menu_sort_data">按数据使用量排序</string>
   <string name="menu_log">显示日志</string>
   <string name="menu_settings">设置</string>
@@ -66,7 +67,6 @@
   <string name="setting_log_app">网络访问日志</string>
   <string name="setting_access">网络连接通知</string>
   <string name="setting_filter">过滤流量</string>
-  <string name="setting_resolved">存储已解析的主机名称</string>
   <string name="setting_track_usage">跟踪网络使用记录</string>
   <string name="setting_reset_usage">重置网络使用记录</string>
   <string name="setting_block_domains">屏蔽域名</string>
@@ -76,6 +76,9 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">PCAP 记录大小: %s B</string>
   <string name="setting_pcap_file_size">PCAP 最大文件大小: %s MB</string>
+  <string name="setting_proxy">Proxy server: %s</string>
+  <string name="setting_proxy_username">Proxy username</string>
+  <string name="setting_proxy_password">Proxy password</string>
   <string name="setting_stats_category">网速通知</string>
   <string name="setting_stats">显示网速通知</string>
   <string name="setting_stats_top">显示高网络流量应用</string>
@@ -105,9 +108,9 @@
   <string name="summary_log_app">记录应用程序的网络访问尝试. 这可能会导致额外的电量消耗</string>
   <string name="summary_access">某应用程序尝试访问一个新的网络地址时显示状态栏通知</string>
   <string name="summary_filter">筛选经由 VPN 重定向导出的 IP 数据包. 这可能会导致额外电量消耗.</string>
-  <string name="summary_resolved">将主机名称/IP 地址储存至一个数据库中. 这将使流量记录更有用但可能会导致额外电量消耗.</string>
   <string name="summary_track_usage">跟踪每个应用程序和地址发送和接收的字节数. 这可能会导致额外电量消耗.</string>
   <string name="summary_block_domains">对已阻止的主机域名使用\"域名错误\" (NXDOMAIN) 作为应答. 无 hosts 文件可用时此开关会被禁用.</string>
+  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
   <string name="msg_sure">是否确认?</string>
   <string name="msg_started">规则加载中</string>

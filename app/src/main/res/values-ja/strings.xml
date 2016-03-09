@@ -14,6 +14,7 @@
   <string name="menu_app_disabled">無効になっているアプリケーションを表示</string>
   <string name="menu_sort">アプリケーションの並び替え</string>
   <string name="menu_sort_name">名前で並べ替え</string>
+  <string name="menu_sort_uid">Sort on uid</string>
   <string name="menu_sort_data">データ使用状況で並べ替え</string>
   <string name="menu_log">ログを表示</string>
   <string name="menu_settings">設定</string>
@@ -65,7 +66,6 @@
   <string name="setting_log_app">インター ネット アクセスをログ</string>
   <string name="setting_access">インター ネット アクセス時に通知</string>
   <string name="setting_filter">トラフィックをフィルター</string>
-  <string name="setting_resolved">解決したドメイン名を保存</string>
   <string name="setting_track_usage">ネットワークの使用状況を追跡</string>
   <string name="setting_reset_usage">ネットワークの使用状況をリセット</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
@@ -75,6 +75,9 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">PCAP レコードサイズ: %s B</string>
   <string name="setting_pcap_file_size">PCAP 最大。ファイルサイズ: %s MB</string>
+  <string name="setting_proxy">Proxy server: %s</string>
+  <string name="setting_proxy_username">Proxy username</string>
+  <string name="setting_proxy_password">Proxy password</string>
   <string name="setting_stats_category">速度通知</string>
   <string name="setting_stats">速度通知を表示</string>
   <string name="setting_stats_top">トップ アプリケーションを表示</string>
@@ -104,9 +107,9 @@
   <string name="summary_log_app">アプリケーションのインターネットへのアクセスをログ記録します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_access">アプリケーションが、新しいインターネット アドレスにアクセスしようとするときに、ステータスバーに通知を表示します。</string>
   <string name="summary_filter">VPN トンネルを出る IP パケットをフィルターします。バッテリー使用量が増えることがあります。</string>
-  <string name="summary_resolved">ドメイン名/IP アドレスをデータベースに格納します。これによりトラフィック ログがさらに便利になりますが、バッテリーの使用量が増えることがあります。</string>
   <string name="summary_track_usage">各アプリケーションとアドレスごとの送受信バイト数を追跡します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_block_domains">ブロックされたドメイン名は \'名前エラー\' (NXDOMAIN) で応答します。Hosts ファイルが使用できない場合、このスイッチは無効です。</string>
+  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
   <string name="msg_sure">よろしいですか?</string>
   <string name="msg_started">ルールを適用します</string>

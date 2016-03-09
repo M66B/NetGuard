@@ -13,6 +13,7 @@
   <string name="menu_app_disabled">Pokaż aplikacje wyłączone</string>
   <string name="menu_sort">Sortuj aplikacje</string>
   <string name="menu_sort_name">Sortuj wg nazwy</string>
+  <string name="menu_sort_uid">Sort on uid</string>
   <string name="menu_sort_data">Sortuj wg użycia danych</string>
   <string name="menu_log">Wyświetl dziennik</string>
   <string name="menu_settings">Ustawienia</string>
@@ -64,7 +65,6 @@
   <string name="setting_log_app">Loguj dostęp do internetu</string>
   <string name="setting_access">Powiadom o próbie dostępu do internetu</string>
   <string name="setting_filter">Filtruj ruch</string>
-  <string name="setting_resolved">Przechowuj rozwiązane nazwy domen</string>
   <string name="setting_track_usage">Rejestruj użycie sieci</string>
   <string name="setting_reset_usage">Resetuj użycie sieci</string>
   <string name="setting_block_domains">Blokuj nazwy domen</string>
@@ -74,6 +74,9 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">Wielkość rekordu PCAP: %s B</string>
   <string name="setting_pcap_file_size">Maksymalna wielkość pliku PCAP: %s MB</string>
+  <string name="setting_proxy">Proxy server: %s</string>
+  <string name="setting_proxy_username">Proxy username</string>
+  <string name="setting_proxy_password">Proxy password</string>
   <string name="setting_stats_category">Wykres prędkości</string>
   <string name="setting_stats">Pokazuj wskaźnik prędkości</string>
   <string name="setting_stats_top">Pokaż aplikacje z najwyższym transferem</string>
@@ -103,9 +106,9 @@
   <string name="summary_log_app">Log aplikacji próbujących uzyskać dostęp do internetu. Może spowodować większe użycie baterii.</string>
   <string name="summary_access">Pokaż na pasku powiadomień jeśli aplikacja próbuje uzyskać dostęp do nowego adresu internetowego</string>
   <string name="summary_filter">Filtruj pakiety wychodzące z tunelu VPN. Może spowodować większe użycie baterii.</string>
-  <string name="summary_resolved">Przechowuj nazwy domen/adresy IP w bazie. To sprawia, że log ruchu będzie bardziej czytelny, jednakże może spowodować większe użycie baterii.</string>
   <string name="summary_track_usage">Rejestruj ilość bajtów wysłanych i odebranych dla każdej aplikacji i adresu. Może zwiększyć użycie baterii.</string>
   <string name="summary_block_domains">Odpowiadaj jako \'name error\' (NXDOMAIN) dla zablokowanych nazw domen. Przełącznik ten jest wyłączony gdy plik hosts nie jest dostępny.</string>
+  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
   <string name="summary_stats">Pokazuj wykres prędkości sieci w powiadomieniach aplikacji</string>
   <string name="msg_sure">Czy jesteś pewien?</string>
   <string name="msg_started">Wymuś Reguły</string>
@@ -116,7 +119,7 @@
   <string name="msg_revoked">NetGuard został wyłączony, prawdopodobnie poprzez inną aplikację bazującą na VPN</string>
   <string name="msg_error">Ze względu na błąd wewnętrzny NetGuard została wyłączony</string>
   <string name="msg_installed">\'%1$s\' zainstalowane</string>
-  <string name="msg_access">%1$s prób dostępu do internetu</string>
+  <string name="msg_access">%1$s żąda dostępu do internetu</string>
   <string name="msg_completed">Wykonano</string>
   <string name="msg_vpn">NetGuard używa lokalnego VPN aby filtrować ruch. Z tego powodu proszę umożliwić połączenie VPN w kolejnym oknie dialogowym. Twój ruch internetowy nie będzie wysyłany do zdalnego serwera VPN.</string>
   <string name="msg_autostart">NetGuard nie może zostać uruchomiony automatycznie przy starcie systemu ze względu na błąd w twojej wersji Androida</string>
@@ -183,7 +186,7 @@
   <string name="title_pro_speed">Wykres prędkości sieci w powiadomieniach</string>
   <string name="title_pro_theme">Wygląd (motyw, kolor)</string>
   <string name="title_pro_all">Wszystkie powyższe cechy Pro</string>
-  <string name="title_pro_buy">Detale</string>
+  <string name="title_pro_buy">Pokaż</string>
   <string name="title_pro_bought">Włączone</string>
   <string name="title_pro_challenge">Wezwanie</string>
   <string name="title_pro_reponse">Odpowiedź</string>

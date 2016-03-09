@@ -13,6 +13,7 @@
   <string name="menu_app_disabled">Показать отключенные приложения</string>
   <string name="menu_sort">Сортировка приложений</string>
   <string name="menu_sort_name">Сортировать по имени</string>
+  <string name="menu_sort_uid">Sort on uid</string>
   <string name="menu_sort_data">Сортировать по исп. данным</string>
   <string name="menu_log">Журнал</string>
   <string name="menu_settings">Настройки</string>
@@ -64,7 +65,6 @@
   <string name="setting_log_app">Журнал доступа к сети интернет</string>
   <string name="setting_access">Уведомить при доступе в интернет</string>
   <string name="setting_filter">Фильтр трафика</string>
-  <string name="setting_resolved">Хранить разрешения доменных имен</string>
   <string name="setting_track_usage">Отслеживание использования сети</string>
   <string name="setting_reset_usage">Сброс сетевого использования</string>
   <string name="setting_block_domains">Блокировать доменные имена</string>
@@ -74,6 +74,9 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">Размер записи PCAP: %s Б</string>
   <string name="setting_pcap_file_size">Макс. размер PCAP файла: %s МБ</string>
+  <string name="setting_proxy">Proxy server: %s</string>
+  <string name="setting_proxy_username">Proxy username</string>
+  <string name="setting_proxy_password">Proxy password</string>
   <string name="setting_stats_category">Скорость в статус-баре</string>
   <string name="setting_stats">Показать скорость в статус-баре</string>
   <string name="setting_stats_top">Показать топовое приложение</string>
@@ -103,9 +106,9 @@
   <string name="summary_log_app">Журнал попыток доступа приложений к сети интернет. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_access">Показывать оповещение в статус-баре, когда приложение получает доступ к новому интернет адресу</string>
   <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
-  <string name="summary_resolved">Хранить доменные имена и IP-адреса в базе данных. Это делает журнал трафика более полезным, но может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_track_usage">Отслеживать количество отправленных и полученных байтов для каждого приложения и адресов. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_block_domains">Ответить на \'название ошибки\' (NXDOMAIN) для заблокированных доменных имен. Этот переключатель выключен, если hosts-файл отсутствует.</string>
+  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>
   <string name="msg_sure">Вы уверены?</string>
   <string name="msg_started">Определить правила</string>

@@ -13,6 +13,7 @@
   <string name="menu_app_disabled">Visualizza applicazioni disabilitate</string>
   <string name="menu_sort">Ordina applicazioni</string>
   <string name="menu_sort_name">Ordina per nome</string>
+  <string name="menu_sort_uid">Sort on uid</string>
   <string name="menu_sort_data">Ordina per utilizzo dati</string>
   <string name="menu_log">Mostra registro</string>
   <string name="menu_settings">Impostazioni</string>
@@ -64,7 +65,6 @@
   <string name="setting_log_app">Registra accessi a internet</string>
   <string name="setting_access">Notifica accessi a internet</string>
   <string name="setting_filter">Filtra traffico</string>
-  <string name="setting_resolved">Memorizza i nomi di dominio già risolti</string>
   <string name="setting_track_usage">Tieni traccia dell\'utilizzo della rete</string>
   <string name="setting_reset_usage">Reimposta dati sull\'utilizzo della rete</string>
   <string name="setting_block_domains">Blocca nomi di dominio</string>
@@ -74,6 +74,9 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">Dimensioni record PCAP: %s B</string>
   <string name="setting_pcap_file_size">Dimensione max. file PCAP: %s MB</string>
+  <string name="setting_proxy">Proxy server: %s</string>
+  <string name="setting_proxy_username">Proxy username</string>
+  <string name="setting_proxy_password">Proxy password</string>
   <string name="setting_stats_category">Notifica di velocità</string>
   <string name="setting_stats">Visualizza velocità tra le notifiche</string>
   <string name="setting_stats_top">Visualizza applicazioni principali</string>
@@ -103,9 +106,9 @@
   <string name="summary_log_app">Registra i tentativi di accesso a internet delle applicazioni. Potrebbe causare utilizzo aggiuntivo di batteria.</string>
   <string name="summary_access">Visualizza una notifica nella barra di stato quando un\'applicazione tenta di accedere a un nuovo indirizzo internet</string>
   <string name="summary_filter">Filtra i pacchetti IP in uscita dal tunnel VPN. Questo potrebbe comportare un consumo aggiuntivo di batteria.</string>
-  <string name="summary_resolved">Memorizza nomi di dominio/indirizzi IP in un database. Questo rende il registro del traffico più utile, ma potrebbe comportare un utilizzo supplementare di batteria.</string>
   <string name="summary_track_usage">Tieni traccia del numero di byte inviati e ricevuti per ogni applicazione e indirizzo. Questo potrebbe causare un utilizzo supplementare di batteria.</string>
   <string name="summary_block_domains">Rispondi con \"name error\" (NXDOMAIN) per i nomi di dominio bloccati. Questa opzione è disattivata quando non è disponibile alcun file hosts.</string>
+  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
   <string name="msg_sure">Sei sicuro?</string>
   <string name="msg_started">Regole applicate</string>

@@ -15,6 +15,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_app_disabled">Devre dışı uygulamaları göster</string>
   <string name="menu_sort">Uygulamaları sırala</string>
   <string name="menu_sort_name">Ada göre sırala</string>
+  <string name="menu_sort_uid">Sort on uid</string>
   <string name="menu_sort_data">Veri kullanımına göre sırala</string>
   <string name="menu_log">Günlüğü göster</string>
   <string name="menu_settings">Ayarlar</string>
@@ -66,7 +67,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">İnternet erişim günlüğü</string>
   <string name="setting_access">Notify on internet access</string>
   <string name="setting_filter">Filter traffic</string>
-  <string name="setting_resolved">Store resolved domain names</string>
   <string name="setting_track_usage">Track network usage</string>
   <string name="setting_reset_usage">Reset network usage</string>
   <string name="setting_block_domains">Block domain names</string>
@@ -76,6 +76,9 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">PCAP record size: %s B</string>
   <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
+  <string name="setting_proxy">Proxy server: %s</string>
+  <string name="setting_proxy_username">Proxy username</string>
+  <string name="setting_proxy_password">Proxy password</string>
   <string name="setting_stats_category">Hız bildirimi</string>
   <string name="setting_stats">Hız bildirimini göster</string>
   <string name="setting_stats_top">En iyi uygulamaları göster</string>
@@ -105,9 +108,9 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
   <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
   <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
-  <string name="summary_resolved">Store domain names/IP addresses into a database. This makes the traffic log more useful, but might result in extra battery usage.</string>
   <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
   <string name="summary_stats">Show network speed graph in status bar notification</string>
   <string name="msg_sure">Emin misiniz?</string>
   <string name="msg_started">Kuralları zorla</string>
