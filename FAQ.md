@@ -87,6 +87,8 @@ but leave the network icons set to red (hence blocked).The little human icon wil
 The VPN service will be restarted when you turn the screen on or off and when connectivity changes (Wi-Fi, mobile)
 to apply the rules with the conditions '*Allow when screen is on*' and '*Block when roaming*'.
 
+See [here](http://forum.xda-developers.com/showpost.php?p=65723629&postcount=1788) for more details.
+
 <a name="FAQ10"></a>
 **(10) Will you provide a Tasker plug-in?**
 
