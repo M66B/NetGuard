@@ -42,6 +42,9 @@
                     android:id="@+id/menu_sort_name"
                     android:title="@string/menu_sort_name" />
                 <item
+                    android:id="@+id/menu_sort_uid"
+                    android:title="@string/menu_sort_uid" />
+                <item
                     android:id="@+id/menu_sort_data"
                     android:title="@string/menu_sort_data" />
             </group>

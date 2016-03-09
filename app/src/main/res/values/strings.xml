@@ -15,6 +15,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="menu_app_disabled">Show disabled applications</string>
     <string name="menu_sort">Sort applications</string>
     <string name="menu_sort_name">Sort on name</string>
+    <string name="menu_sort_uid">Sort on uid</string>
     <string name="menu_sort_data">Sort on data usage</string>
     <string name="menu_log">Show log</string>
     <string name="menu_settings">Settings</string>

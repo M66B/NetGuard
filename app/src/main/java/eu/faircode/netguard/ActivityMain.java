@@ -701,6 +701,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         String sort = prefs.getString("sort", "name");
         if ("data".equals(sort))
             menu.findItem(R.id.menu_sort_data).setChecked(true);
+        else if ("uid".equals(sort))
+            menu.findItem(R.id.menu_sort_uid).setChecked(true);
         else
             menu.findItem(R.id.menu_sort_name).setChecked(true);
 
@@ -737,6 +739,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             case R.id.menu_sort_name:
                 item.setChecked(true);
                 prefs.edit().putString("sort", "name").apply();
+                return true;
+
+            case R.id.menu_sort_uid:
+                item.setChecked(true);
+                prefs.edit().putString("sort", "uid").apply();
                 return true;
 
             case R.id.menu_sort_data:

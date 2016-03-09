@@ -278,6 +278,9 @@ public class Rule {
             }
         }
 
+        final Collator collator = Collator.getInstance(Locale.getDefault());
+        collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
+
         // Sort rule list
         String sort = prefs.getString("sort", "name");
         if ("data".equals(sort))
@@ -288,8 +291,24 @@ public class Rule {
                         return 1;
                     else if (rule.totalbytes > other.totalbytes)
                         return -1;
-                    else
-                        return 0;
+                    else {
+                        int i = collator.compare(rule.name, other.name);
+                        return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+                    }
+                }
+            });
+        else if ("uid".equals(sort))
+            Collections.sort(listRules, new Comparator<Rule>() {
+                @Override
+                public int compare(Rule rule, Rule other) {
+                    if (rule.info.applicationInfo.uid < other.info.applicationInfo.uid)
+                        return -1;
+                    else if (rule.info.applicationInfo.uid > other.info.applicationInfo.uid)
+                        return 1;
+                    else {
+                        int i = collator.compare(rule.name, other.name);
+                        return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+                    }
                 }
             });
         else
@@ -297,8 +316,6 @@ public class Rule {
                 @Override
                 public int compare(Rule rule, Rule other) {
                     if (all || rule.changed == other.changed) {
-                        Collator collator = Collator.getInstance(Locale.getDefault());
-                        collator.setStrength(Collator.SECONDARY); // Case sensitive, process accents etc
                         int i = collator.compare(rule.name, other.name);
                         return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
                     }
