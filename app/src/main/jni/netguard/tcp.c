@@ -188,7 +188,7 @@ uint32_t get_receive_window(const struct tcp_session *cur) {
         q = q->next;
     }
 
-    uint32_t window = get_receive_buffer(cur);
+    uint32_t window = (uint32_t) get_receive_buffer(cur);
 
     uint32_t max = ((uint32_t) 0xFFFF) << cur->recv_scale;
     if (window > max)
@@ -261,7 +261,7 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                     int fwd = 0;
                     if (FD_ISSET(cur->socket, wfds)) {
                         // Forward data
-                        uint32_t buffer_size = get_receive_buffer(cur);
+                        uint32_t buffer_size = (uint32_t) get_receive_buffer(cur);
                         while (cur->forward != NULL &&
                                cur->forward->seq + cur->forward->sent == cur->remote_seq &&
                                cur->forward->len - cur->forward->sent < buffer_size) {
@@ -474,7 +474,7 @@ jboolean handle_tcp(const struct arguments *args,
         if (tcphdr->syn) {
             // Decode options
             // http://www.iana.org/assignments/tcp-parameters/tcp-parameters.xhtml#tcp-parameters-1
-            uint16_t mss = (version == 4 ? MSS4_DEFAULT : MSS6_DEFAULT);
+            uint16_t mss = (uint16_t) (version == 4 ? MSS4_DEFAULT : MSS6_DEFAULT);
             uint8_t ws = 0;
             int optlen = tcpoptlen;
             uint8_t *options = tcpoptions;
@@ -1018,7 +1018,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
         *(options) = 2; // MSS
         *(options + 1) = 4; // total option length
         *((uint16_t *) (options + 2)) =
-                (cur->version == 4 ? MSS4_DEFAULT : MSS6_DEFAULT); // option value
+                (uint16_t) (cur->version == 4 ? MSS4_DEFAULT : MSS6_DEFAULT); // option value
 
         *(options + 4) = 3; // window scale
         *(options + 5) = 3; // total option length
