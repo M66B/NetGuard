@@ -47,6 +47,9 @@
         related="com.android.providers.downloads" />
 
     <type
+        package="com.android.chrome"
+        system="false" />
+    <type
         package="com.facebook.katana"
         system="false" />
     <type

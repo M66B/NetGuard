@@ -614,6 +614,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             SinkholeService.reload("changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(
                     getString(R.string.setting_dns, prefs.getString("dns", Util.getDefaultDNS(this).get(0))));
+
         } else if ("pcap_record_size".equals(name) || "pcap_file_size".equals(name)) {
             if ("pcap_record_size".equals(name))
                 getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_pcap_record_size, prefs.getString(name, "64")));
