@@ -30,7 +30,7 @@ public class ApplicationEx extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "Create version=" + Util.getSelfVersionName(this));
+        Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "(" + Util.getSelfVersionCode(this) + ")");
 
         mPrevHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
