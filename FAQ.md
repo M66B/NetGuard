@@ -282,7 +282,7 @@ These applications can only be allowed/blocked access to the internet as a group
 **(32) Why is the battery/network usage of NetGuard so high?**
 
 This is because Android contributes battery and network usage which is normally contributed to other applications
-to NetGuard in IP filtering mode.
+to NetGuard in IP filtering mode. The total battery usage is slightly higher when IP filtering mode is enabled.
 IP filtering mode is always enabled on Android version before 5.0 and optionally enabled on later Android versions.
 
 <br />
