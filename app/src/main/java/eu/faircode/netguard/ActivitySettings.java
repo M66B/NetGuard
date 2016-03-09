@@ -713,7 +713,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         PreferenceScreen screen = getPreferenceScreen();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        boolean granted = (grantResults[0] == PackageManager.PERMISSION_GRANTED);
+        boolean granted = (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
 
         if (requestCode == REQUEST_METERED2) {
             prefs.edit().putBoolean("unmetered_2g", granted).apply();
