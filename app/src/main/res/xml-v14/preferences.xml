@@ -132,12 +132,6 @@
             android:key="use_hosts"
             android:summary="@string/summary_block_domains"
             android:title="@string/setting_block_domains" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:dependency="filter"
-            android:key="resolved"
-            android:summary="@string/summary_resolved"
-            android:title="@string/setting_resolved" />
         <Preference
             android:dependency="filter"
             android:key="forwarding"

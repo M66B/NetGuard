@@ -148,8 +148,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private static final int MSG_STATS_STOP = 2;
     private static final int MSG_STATS_UPDATE = 3;
     private static final int MSG_PACKET = 4;
-    private static final int MSG_RR = 5;
-    private static final int MSG_USAGE = 6;
+    private static final int MSG_USAGE = 5;
 
     private enum State {none, waiting, enforcing, stats}
 
@@ -599,10 +598,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         log((Packet) msg.obj, msg.arg1, msg.arg2 > 0);
                         break;
 
-                    case MSG_RR:
-                        resolved((ResourceRecord) msg.obj);
-                        break;
-
                     case MSG_USAGE:
                         usage((Usage) msg.obj);
                         break;
@@ -639,12 +634,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     if (mapNoNotify.containsKey(packet.uid) && mapNoNotify.get(packet.uid))
                         showAccessNotification(packet.uid);
             }
-        }
-
-        private void resolved(ResourceRecord rr) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            if (prefs.getBoolean("filter", false) && prefs.getBoolean("resolved", true))
-                DatabaseHelper.getInstance(SinkholeService.this).insertDns(rr);
         }
 
         private void usage(Usage usage) {
@@ -1100,7 +1089,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (filter) {
             prepareUidAllowed(listAllowed, listRule);
             prepareHostsBlocked();
-            prepareUidIPFilters();
+            prepareUidIPFilters(null);
             prepareForwarding();
         }
 
@@ -1111,15 +1100,6 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
             jni_start(vpn.getFd(), mapForward.containsKey(53), prio);
         }
-
-        // Native needs to be started for name resolving
-        if (filter)
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    updateUidIPFilters();
-                }
-            }).start();
     }
 
     private void stopNative(ParcelFileDescriptor vpn, boolean clear) {
@@ -1197,10 +1177,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    private void prepareUidIPFilters() {
-        mapUidIPFilters.clear();
+    private void prepareUidIPFilters(String dname) {
+        if (dname == null)
+            mapUidIPFilters.clear();
 
-        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getAccessDns();
+        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getAccessDns(dname);
         int colUid = cursor.getColumnIndex("uid");
         int colVersion = cursor.getColumnIndex("version");
         int colProtocol = cursor.getColumnIndex("protocol");
@@ -1226,42 +1207,28 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 dport = 0;
             long key = (version << 40) | (protocol << 32) | (dport << 16) | uid;
 
-            if (!mapUidIPFilters.containsKey(key))
-                mapUidIPFilters.put(key, new HashMap());
+            synchronized (mapUidIPFilters) {
+                if (!mapUidIPFilters.containsKey(key))
+                    mapUidIPFilters.put(key, new HashMap());
 
-            try {
-                // Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
-                if (dresource == null) {
-                    if (Util.isNumericAddress(daddr))
-                        mapUidIPFilters.get(key).put(InetAddress.getByName(daddr), block);
-                } else {
-                    if (Util.isNumericAddress(dresource))
-                        mapUidIPFilters.get(key).put(InetAddress.getByName(dresource), block);
-                    else
-                        Log.w(TAG, "Address not numeric " + daddr);
+                try {
+                    if (dname != null)
+                        Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
+                    if (dresource == null) {
+                        if (Util.isNumericAddress(daddr))
+                            mapUidIPFilters.get(key).put(InetAddress.getByName(daddr), block);
+                    } else {
+                        if (Util.isNumericAddress(dresource))
+                            mapUidIPFilters.get(key).put(InetAddress.getByName(dresource), block);
+                        else
+                            Log.w(TAG, "Address not numeric " + daddr);
+                    }
+                } catch (UnknownHostException ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
-            } catch (UnknownHostException ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
         }
         cursor.close();
-    }
-
-    private void updateUidIPFilters() {
-        // Android caches DNS for 10 minutes
-        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getAccess();
-        int colDAddr = cursor.getColumnIndex("daddr");
-        while (cursor.moveToNext()) {
-            String daddr = cursor.getString(colDAddr);
-            try {
-                // This will result in native callbacks
-                InetAddress.getAllByName(daddr);
-            } catch (UnknownHostException ex) {
-                Log.w(TAG, "Update " + ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
-        }
-        cursor.close();
-        Log.i(TAG, "UID/IP filters updated");
     }
 
     private void prepareForwarding() {
@@ -1409,10 +1376,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void dnsResolved(ResourceRecord rr) {
-        Message msg = logHandler.obtainMessage();
-        msg.obj = rr;
-        msg.what = MSG_RR;
-        logHandler.sendMessage(msg);
+        if (DatabaseHelper.getInstance(SinkholeService.this).insertDns(rr)) {
+            Log.i(TAG, "New IP " + rr);
+            prepareUidIPFilters(rr.QName);
+        }
     }
 
     // Called from native code
@@ -1465,10 +1432,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         } catch (UnknownHostException ex) {
                             Log.w(TAG, "Allowed " + ex.toString() + "\n" + Log.getStackTraceString(ex));
                         }
-                }
 
-                if (!filtered)
-                    packet.allowed = (mapUidAllowed.containsKey(packet.uid) && mapUidAllowed.get(packet.uid));
+                    if (!filtered)
+                        packet.allowed = (mapUidAllowed.containsKey(packet.uid) && mapUidAllowed.get(packet.uid));
+                }
             }
         }
 

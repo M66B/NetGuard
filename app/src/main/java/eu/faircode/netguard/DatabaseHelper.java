@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 19;
+    private static final int DB_VERSION = 20;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -159,6 +159,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", connections INTEGER NULL" +
                 ");");
         db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, version, protocol, daddr, dport)");
+        db.execSQL("CREATE INDEX idx_access_daddr ON access(daddr)");
         db.execSQL("CREATE INDEX idx_access_block ON access(block)");
     }
 
@@ -307,6 +308,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 if (!columnExists(db, "access", "connections"))
                     db.execSQL("ALTER TABLE access ADD COLUMN connections INTEGER NULL");
                 oldVersion = 19;
+            }
+            if (oldVersion < 20) {
+                db.execSQL("CREATE INDEX IF NOT EXISTS idx_access_daddr ON access(daddr)");
+                oldVersion = 20;
             }
 
             if (oldVersion == DB_VERSION) {
@@ -621,7 +626,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.beginTransactionNonExclusive();
             try {
                 // There is a segmented index on uid
-                // There is no index on block for write performance
+                // There is an index on block
                 db.delete("access", "uid = ? AND block < 0", new String[]{Integer.toString(uid)});
 
                 db.setTransactionSuccessful();
@@ -694,7 +699,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            // There is a segmented index on uid and daddr
+            // There is a segmented index on uid, block and daddr
             // There is no index on allowed and time for write performance
             String query = "SELECT MAX(time) AS time, daddr, allowed";
             query += " FROM access";
@@ -722,21 +727,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public long getBlockedRuleCount(int uid) {
-        mLock.readLock().lock();
-        try {
-            SQLiteDatabase db = this.getReadableDatabase();
-            // There is a segmented index on uid
-            // There is an index on block
-            return db.compileStatement("SELECT COUNT(*) FROM access WHERE block > 0 AND uid =" + uid).simpleQueryForLong();
-        } finally {
-            mLock.readLock().unlock();
-        }
-    }
-
     // DNS
 
-    public void insertDns(ResourceRecord rr) {
+    public boolean insertDns(ResourceRecord rr) {
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -760,6 +753,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     Log.e(TAG, "Update dns failed rows=" + rows);
 
                 db.setTransactionSuccessful();
+
+                return (rows == 0);
             } finally {
                 db.endTransaction();
             }
@@ -822,21 +817,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getAccessDns() {
+    public Cursor getAccessDns(String dname) {
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
 
             // There is a segmented index on dns.qname
-            // There is no index on access.daddr for write performance
-            // There is an index on access.block
+            // There is an index on access.daddr and access.block
             String query = "SELECT a.uid, a.version, a.protocol, a.daddr, d.resource, a.dport, a.block";
             query += " FROM access AS a";
             query += " LEFT JOIN dns AS d";
             query += "   ON d.qname = a.daddr";
             query += " WHERE a.block >= 0";
+            if (dname != null)
+                query += " AND a.daddr = ?";
 
-            return db.rawQuery(query, new String[]{});
+            return db.rawQuery(query, dname == null ? new String[]{} : new String[]{dname});
         } finally {
             mLock.readLock().unlock();
         }
