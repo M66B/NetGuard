@@ -584,6 +584,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 checkAddress(vpn4);
             } catch (Throwable ex) {
                 prefs.edit().remove("vpn4").apply();
+                ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
                 if (!TextUtils.isEmpty(vpn4))
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
@@ -596,6 +597,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 checkAddress(vpn6);
             } catch (Throwable ex) {
                 prefs.edit().remove("vpn6").apply();
+                ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
                 if (!TextUtils.isEmpty(vpn6))
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
@@ -608,6 +610,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 checkAddress(dns);
             } catch (Throwable ex) {
                 prefs.edit().remove("dns").apply();
+                ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
                 if (!TextUtils.isEmpty(dns))
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
