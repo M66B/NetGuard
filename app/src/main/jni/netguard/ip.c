@@ -321,6 +321,8 @@ void handle_ip(const struct arguments *args,
             if (res < 0)
                 log_android(ANDROID_LOG_ERROR, "Proxy write error %d: %s",
                             errno, strerror((errno)));
+            else if (res != length)
+                log_android(ANDROID_LOG_ERROR, "Proxy write %d/%d", res, length);
         }
         else {
             if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6)
