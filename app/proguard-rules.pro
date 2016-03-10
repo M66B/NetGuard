@@ -30,6 +30,8 @@
 
 #JNI callbacks
 -keep class eu.faircode.netguard.Packet { *; }
+-keep class eu.faircode.netguard.ResourceRecord { *; }
+-keep class eu.faircode.netguard.Usage { *; }
 -keep class eu.faircode.netguard.SinkholeService {
     void nativeExit(java.lang.String);
     void nativeError(int, java.lang.String);
