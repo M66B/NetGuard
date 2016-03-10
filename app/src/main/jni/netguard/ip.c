@@ -394,7 +394,7 @@ void handle_ip(const struct arguments *args,
 
     // Handle allowed traffic
     if (allowed) {
-        if (proxy_fd) {
+        if (proxy_fd && !(protocol == IPPROTO_UDP && dport == 53)) {
             ssize_t res = write(proxy_fd, pkt, length);
             if (res < 0)
                 log_android(ANDROID_LOG_ERROR, "Proxy write error %d: %s",
