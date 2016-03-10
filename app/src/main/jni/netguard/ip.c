@@ -46,12 +46,14 @@ int check_tun(const struct arguments *args,
         if (length < 0) {
             free(buffer);
 
-            log_android(ANDROID_LOG_ERROR, "tun read error %d: %s", errno, strerror(errno));
+            log_android(ANDROID_LOG_ERROR, "tun %d read error %d: %s",
+                        args->tun, errno, strerror(errno));
             if (errno == EINTR || errno == EAGAIN)
                 // Retry later
                 return 0;
             else {
-                report_exit(args, "tun read error %d: %s", errno, strerror(errno));
+                report_exit(args, "tun %d read error %d: %s",
+                            args->tun, errno, strerror(errno));
                 return -1;
             }
         }
