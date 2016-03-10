@@ -23,6 +23,8 @@ int max_tun_msg = 0;
 extern int loglevel;
 extern FILE *pcap_file;
 
+extern int proxy_fd;
+
 int check_tun(const struct arguments *args,
               fd_set *rfds, fd_set *wfds, fd_set *efds,
               int sessions, int maxsessions) {
@@ -314,12 +316,20 @@ void handle_ip(const struct arguments *args,
 
     // Handle allowed traffic
     if (allowed) {
-        if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6)
-            handle_icmp(args, pkt, length, payload, uid);
-        else if (protocol == IPPROTO_UDP)
-            handle_udp(args, pkt, length, payload, uid, redirect);
-        else if (protocol == IPPROTO_TCP)
-            handle_tcp(args, pkt, length, payload, uid, redirect);
+        if (proxy_fd) {
+            ssize_t res = write(proxy_fd, pkt, length);
+            if (res < 0)
+                log_android(ANDROID_LOG_ERROR, "Proxy write error %d: %s",
+                            errno, strerror((errno)));
+        }
+        else {
+            if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6)
+                handle_icmp(args, pkt, length, payload, uid);
+            else if (protocol == IPPROTO_UDP)
+                handle_udp(args, pkt, length, payload, uid, redirect);
+            else if (protocol == IPPROTO_TCP)
+                handle_tcp(args, pkt, length, payload, uid, redirect);
+        }
     }
     else {
         if (protocol == IPPROTO_UDP)

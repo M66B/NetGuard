@@ -36,6 +36,8 @@ extern FILE *pcap_file;
 extern int pcap_record_size;
 extern long pcap_file_size;
 
+int proxy_fd = 0;
+
 // JNI
 
 jclass clsPacket;
@@ -106,6 +108,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instanc
     init_tcp(&args);
 
     pcap_file = NULL;
+    proxy_fd = 0;
 
     if (pthread_mutex_init(&lock, NULL))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_init failed");
@@ -320,6 +323,12 @@ Java_eu_faircode_netguard_Util_is_1numeric_1address(JNIEnv *env, jclass type, js
 
     (*env)->ReleaseStringUTFChars(env, ip_, ip);
     return numeric;
+}
+
+JNIEXPORT void JNICALL
+Java_eu_faircode_netguard_ProxyService_jni_1set_1proxy(JNIEnv *env, jobject instance, jint fd) {
+    proxy_fd = fd;
+    // TODO terminate existing connections
 }
 
 void report_exit(const struct arguments *args, const char *fmt, ...) {
