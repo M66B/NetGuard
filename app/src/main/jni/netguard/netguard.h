@@ -34,9 +34,6 @@
 
 #define SELECT_TIMEOUT 3600 // seconds
 
-#define TUN_MAXMSG 10000 // MTU bytes (device)
-#define MSS4_DEFAULT (TUN_MAXMSG - sizeof(struct iphdr) - sizeof(struct tcphdr)) // bytes
-#define MSS6_DEFAULT (TUN_MAXMSG - sizeof(struct ip6_hdr) - sizeof(struct tcphdr)) // bytes
 #define ICMP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
 #define ICMP6_MAXMSG (IPV6_MAXPACKET - 40 - 8) // bytes (socket)
 #define UDP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
@@ -315,6 +312,10 @@ int get_udp_timeout(const struct udp_session *u, int sessions, int maxsessions);
 int get_tcp_timeout(const struct tcp_session *t, int sessions, int maxsessions);
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
+
+uint16_t get_mtu();
+
+uint16_t get_default_mss(int version);
 
 int check_tun(const struct arguments *args,
               fd_set *rfds, fd_set *wfds, fd_set *efds,

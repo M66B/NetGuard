@@ -28,8 +28,9 @@ public class ProxyService extends IntentService {
     private static final String INTENT_START = "eu.faircode.netguard.START_PROXY";
     private static final String INTENT_STOP = "eu.faircode.netguard.STOP_PROXY";
     private static final String EXTRA_PFD = "PFD";
+    private static final String EXTRA_MTU = "MTU";
 
-    private native void jni_set_proxy(int fd);
+    private native void jni_set_proxy(int fd, int mtu);
 
     public ProxyService() {
         super(TAG);
@@ -38,12 +39,15 @@ public class ProxyService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         if (INTENT_START.equals(intent.getAction())) {
-            if (intent.hasExtra(EXTRA_PFD)) {
+            if (intent.hasExtra(EXTRA_PFD) && intent.hasExtra(EXTRA_MTU)) {
                 ParcelFileDescriptor pfd = (ParcelFileDescriptor) intent.getSerializableExtra(EXTRA_PFD);
-                jni_set_proxy(pfd.getFd());
+                int mtu = intent.getIntExtra(EXTRA_MTU, 0);
+                jni_set_proxy(pfd.getFd(), mtu);
+                SinkholeService.reload("proxy start", this);
             }
         } else if (INTENT_STOP.equals(intent.getAction())) {
-            jni_set_proxy(0);
+            jni_set_proxy(0, 0);
+            SinkholeService.reload("proxy stop", this);
         }
     }
 }

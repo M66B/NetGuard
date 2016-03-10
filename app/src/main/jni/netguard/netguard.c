@@ -37,6 +37,7 @@ extern int pcap_record_size;
 extern long pcap_file_size;
 
 int proxy_fd = 0;
+int proxy_mtu = 0;
 
 // JNI
 
@@ -184,7 +185,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(
 
 JNIEXPORT jint JNICALL
 Java_eu_faircode_netguard_SinkholeService_jni_1get_1mtu(JNIEnv *env, jobject instance) {
-    return TUN_MAXMSG;
+    return get_mtu();
 }
 
 JNIEXPORT jintArray JNICALL
@@ -326,12 +327,14 @@ Java_eu_faircode_netguard_Util_is_1numeric_1address(JNIEnv *env, jclass type, js
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_ProxyService_jni_1set_1proxy(JNIEnv *env, jobject instance, jint fd) {
-    if (proxy_fd != fd) {
+Java_eu_faircode_netguard_ProxyService_jni_1set_1proxy(JNIEnv *env, jobject instance,
+                                                       jint fd, jint mtu) {
+    if (proxy_fd != fd || proxy_mtu != mtu) {
         clear_icmp();
         clear_udp();
         clear_tcp();
         proxy_fd = fd;
+        proxy_mtu = mtu;
     }
 }
 

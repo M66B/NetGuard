@@ -474,7 +474,7 @@ jboolean handle_tcp(const struct arguments *args,
         if (tcphdr->syn) {
             // Decode options
             // http://www.iana.org/assignments/tcp-parameters/tcp-parameters.xhtml#tcp-parameters-1
-            uint16_t mss = (uint16_t) (version == 4 ? MSS4_DEFAULT : MSS6_DEFAULT);
+            uint16_t mss = get_default_mss(version);
             uint8_t ws = 0;
             int optlen = tcpoptlen;
             uint8_t *options = tcpoptions;
@@ -1017,8 +1017,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     if (syn) {
         *(options) = 2; // MSS
         *(options + 1) = 4; // total option length
-        *((uint16_t *) (options + 2)) =
-                (uint16_t) (cur->version == 4 ? MSS4_DEFAULT : MSS6_DEFAULT); // option value
+        *((uint16_t *) (options + 2)) = get_default_mss(cur->version);
 
         *(options + 4) = 3; // window scale
         *(options + 5) = 3; // total option length
