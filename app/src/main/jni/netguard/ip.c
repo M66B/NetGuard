@@ -94,6 +94,72 @@ int check_tun(const struct arguments *args,
         }
     }
 
+    if (proxy_fd) {
+        // Check proxy error
+        if (FD_ISSET(proxy_fd, efds)) {
+            log_android(ANDROID_LOG_ERROR, "proxy %d exception", proxy_fd);
+            if (fcntl(proxy_fd, F_GETFL) < 0) {
+                log_android(ANDROID_LOG_ERROR, "fcntl proxy %d F_GETFL error %d: %s",
+                            proxy_fd, errno, strerror(errno));
+                report_exit(args, "fcntl proxy %d F_GETFL error %d: %s",
+                            proxy_fd, errno, strerror(errno));
+            } else
+                report_exit(args, "proxy %d exception", proxy_fd);
+            return -1;
+        }
+
+        // Check proxy read
+        if (FD_ISSET(proxy_fd, rfds)) {
+            uint8_t *buffer = malloc(get_mtu());
+            ssize_t length = read(proxy_fd, buffer, get_mtu());
+            if (length < 0) {
+                free(buffer);
+
+                log_android(ANDROID_LOG_ERROR, "proxy %d read error %d: %s",
+                            proxy_fd, errno, strerror(errno));
+                if (errno == EINTR || errno == EAGAIN)
+                    // Retry later
+                    return 0;
+                else {
+                    report_exit(args, "proxy %d read error %d: %s",
+                                proxy_fd, errno, strerror(errno));
+                    return -1;
+                }
+            }
+            else if (length > 0) {
+                // Forward to tun
+                ssize_t res = write(proxy_fd, buffer, length);
+                if (res < 0) {
+                    free(buffer);
+                    log_android(ANDROID_LOG_ERROR, "proxy %d write error %d: %s",
+                                proxy_fd, errno, strerror(errno));
+                    report_exit(args, "proxy %d write error %d: %s",
+                                proxy_fd, errno, strerror(errno));
+                    return -1;
+
+                } else if (res != length) {
+                    free(buffer);
+                    log_android(ANDROID_LOG_ERROR, "proxy %d write %d/%d",
+                                proxy_fd, res, length);
+                }
+                else {
+                    // Write pcap record
+                    if (pcap_file != NULL)
+                        write_pcap_rec(buffer, (size_t) length);
+                    free(buffer);
+                }
+            }
+            else {
+                // proxy eof
+                free(buffer);
+
+                log_android(ANDROID_LOG_ERROR, "proxy %d empty read", proxy_fd);
+                report_exit(args, "proxy %d empty read", proxy_fd);
+                return -1;
+            }
+        }
+    }
+
     return 0;
 }
 

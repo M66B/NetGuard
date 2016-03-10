@@ -29,6 +29,8 @@ extern struct icmp_session *icmp_session = NULL;
 extern struct udp_session *udp_session = NULL;
 extern struct tcp_session *tcp_session = NULL;
 
+extern int proxy_fd;
+
 void handle_signal(int sig, siginfo_t *info, void *context) {
     log_android(ANDROID_LOG_DEBUG, "Signal %d", sig);
     signaled = 1;
@@ -280,6 +282,14 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     FD_SET(args->tun, rfds);
     FD_SET(args->tun, efds);
     int max = args->tun;
+
+    // Select proxy
+    if (proxy_fd) {
+        FD_SET(proxy_fd, rfds);
+        FD_SET(proxy_fd, efds);
+        if (proxy_fd > max)
+            max = proxy_fd;
+    }
 
     // Select ICMP sockets
     struct icmp_session *i = icmp_session;
