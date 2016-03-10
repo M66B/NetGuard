@@ -13,7 +13,7 @@
   <string name="menu_app_disabled">Afficher les applications désactivées</string>
   <string name="menu_sort">Trier les applications</string>
   <string name="menu_sort_name">Trier par nom</string>
-  <string name="menu_sort_uid">Sort on uid</string>
+  <string name="menu_sort_uid">Trier par UID</string>
   <string name="menu_sort_data">Trier par utilisation des données</string>
   <string name="menu_log">Afficher le journal</string>
   <string name="menu_settings">Paramètres</string>
@@ -74,9 +74,9 @@
   <string name="setting_dns">VPN DNS : %s</string>
   <string name="setting_pcap_record_size">Taille d\'enregistrement PCAP : %s o</string>
   <string name="setting_pcap_file_size">Taille max. du fichier PCAP : %s Mo</string>
-  <string name="setting_proxy">Proxy server: %s</string>
-  <string name="setting_proxy_username">Proxy username</string>
-  <string name="setting_proxy_password">Proxy password</string>
+  <string name="setting_proxy">Serveur proxy : %s</string>
+  <string name="setting_proxy_username">Nom d\'utilisateur du proxy</string>
+  <string name="setting_proxy_password">Mot de passe du proxy</string>
   <string name="setting_stats_category">Notification de vitesse</string>
   <string name="setting_stats">Afficher la notification de vitesse</string>
   <string name="setting_stats_top">Afficher le top applications</string>
@@ -108,7 +108,7 @@
   <string name="summary_filter">Filtrer les paquets IP sortant du tunnel VPN. Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_track_usage">Surveiller le nombre d\'octets envoyés et reçus pour chaque application et adresse. Ceci peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_block_domains">Renvoyer \"name error\" (NXDOMAIN) pour les noms de domaine bloqués. Cette option est désactivée quand aucun fichier hosts n\'est disponible.</string>
-  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
+  <string name="summary_proxy">Adresse IP du proxy SOCKS5 et numéro de port</string>
   <string name="summary_stats">Afficher le graphique de vitesse réseau dans une notification de la barre d\'état</string>
   <string name="msg_sure">Êtes-vous sûr ?</string>
   <string name="msg_started">Application des règles</string>

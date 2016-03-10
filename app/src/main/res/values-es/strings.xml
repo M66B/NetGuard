@@ -13,7 +13,7 @@
   <string name="menu_app_disabled">Mostrar aplicaciones desactivadas</string>
   <string name="menu_sort">Ordenar aplicaciones</string>
   <string name="menu_sort_name">Ordenar por nombre</string>
-  <string name="menu_sort_uid">Sort on uid</string>
+  <string name="menu_sort_uid">Ordenar por uid</string>
   <string name="menu_sort_data">Ordenar por uso de datos</string>
   <string name="menu_log">Mostrar registro</string>
   <string name="menu_settings">Ajustes</string>
@@ -74,9 +74,9 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">Tamaño de registro PCAP: %s B</string>
   <string name="setting_pcap_file_size">Máximo tamaño del archivo PCAP: %s MB</string>
-  <string name="setting_proxy">Proxy server: %s</string>
-  <string name="setting_proxy_username">Proxy username</string>
-  <string name="setting_proxy_password">Proxy password</string>
+  <string name="setting_proxy">Servidor proxy: %s</string>
+  <string name="setting_proxy_username">Nombre de usuario del Proxy</string>
+  <string name="setting_proxy_password">Contraseña del proxy</string>
   <string name="setting_stats_category">Notificación de velocidad</string>
   <string name="setting_stats">Mostrar notificación de velocidad</string>
   <string name="setting_stats_top">Mostrar aplicaciones principales</string>
@@ -108,7 +108,7 @@
   <string name="summary_filter">Filtrar paquetes IP, por fuera del túnel VPN. Esto podría consumir más batería.</string>
   <string name="summary_track_usage">Registrar número de bytes enviados y recibidos para cada aplicación y dirección. Esto podría consumir más batería.</string>
   <string name="summary_block_domains">Responde con \'error de nombre\' (NXDOMAIN) para nombres de dominio bloqueados. Este interruptor se desactiva cuando no hay ningún archivo hosts disponible.</string>
-  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
+  <string name="summary_proxy">Dirección IP del proxy SOCKS5 y número del puerto</string>
   <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>
   <string name="msg_sure">¿Estás seguro?</string>
   <string name="msg_started">Aplicando reglas</string>
