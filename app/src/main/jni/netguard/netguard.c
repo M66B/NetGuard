@@ -327,8 +327,12 @@ Java_eu_faircode_netguard_Util_is_1numeric_1address(JNIEnv *env, jclass type, js
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_ProxyService_jni_1set_1proxy(JNIEnv *env, jobject instance, jint fd) {
-    proxy_fd = fd;
-    // TODO terminate existing connections
+    if (proxy_fd != fd) {
+        clear_icmp();
+        clear_udp();
+        clear_tcp();
+        proxy_fd = fd;
+    }
 }
 
 void report_exit(const struct arguments *args, const char *fmt, ...) {
