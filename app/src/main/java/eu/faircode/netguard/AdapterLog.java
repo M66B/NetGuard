@@ -212,7 +212,7 @@ public class AdapterLog extends CursorAdapter {
                 info = pm.getApplicationInfo(pkg[0], 0);
             } catch (PackageManager.NameNotFoundException ignored) {
             }
-        if (info == null && uid != 0)
+        if (info == null)
             ivIcon.setImageDrawable(null);
         else if (info.icon == 0)
             Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
