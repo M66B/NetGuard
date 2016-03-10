@@ -1068,7 +1068,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     free(buffer);
 
     if (res != len) {
-        log_android(ANDROID_LOG_ERROR, "TCP write %d wrote %d", res, len);
+        log_android(ANDROID_LOG_ERROR, "TCP write %d/%d", res, len);
         return -1;
     }
 

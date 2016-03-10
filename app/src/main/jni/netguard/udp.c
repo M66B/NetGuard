@@ -602,7 +602,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
     free(buffer);
 
     if (res != len) {
-        log_android(ANDROID_LOG_ERROR, "write %d wrote %d", res, len);
+        log_android(ANDROID_LOG_ERROR, "write %d/%d", res, len);
         return -1;
     }
 
