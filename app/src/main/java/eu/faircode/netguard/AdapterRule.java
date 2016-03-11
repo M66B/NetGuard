@@ -540,20 +540,20 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                     case R.id.menu_allow:
                                         if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                             DatabaseHelper.getInstance(context).setAccess(id, 0);
-                                            SinkholeService.reload("allow host", context);
+                                            ServiceSinkhole.reload("allow host", context);
                                         } else
                                             context.startActivity(new Intent(context, ActivityPro.class));
                                         return true;
                                     case R.id.menu_block:
                                         if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                             DatabaseHelper.getInstance(context).setAccess(id, 1);
-                                            SinkholeService.reload("block host", context);
+                                            ServiceSinkhole.reload("block host", context);
                                         } else
                                             context.startActivity(new Intent(context, ActivityPro.class));
                                         return true;
                                     case R.id.menu_reset:
                                         DatabaseHelper.getInstance(context).setAccess(id, -1);
-                                        SinkholeService.reload("reset host", context);
+                                        ServiceSinkhole.reload("reset host", context);
                                         return true;
                                 }
                                 return false;
@@ -691,7 +691,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         if (root) {
             notifyDataSetChanged();
             NotificationManagerCompat.from(context).cancel(rule.info.applicationInfo.uid);
-            SinkholeService.reload("rule changed", context);
+            ServiceSinkhole.reload("rule changed", context);
         }
     }
 

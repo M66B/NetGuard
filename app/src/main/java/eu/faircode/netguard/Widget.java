@@ -62,7 +62,7 @@ public class Widget extends AppWidgetProvider {
 
         if (INTENT_OFF.equals(intent.getAction())) {
             prefs.edit().putBoolean("enabled", false).apply();
-            SinkholeService.stop("widget", context);
+            ServiceSinkhole.stop("widget", context);
 
             // Auto enable
             int auto = Integer.parseInt(prefs.getString("auto_enable", "0"));
@@ -77,7 +77,7 @@ public class Widget extends AppWidgetProvider {
         } else if (INTENT_ON.equals(intent.getAction()))
             try {
                 prefs.edit().putBoolean("enabled", true).apply();
-                SinkholeService.start("widget", context);
+                ServiceSinkhole.start("widget", context);
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 Util.sendCrashReport(ex, context);

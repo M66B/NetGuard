@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -38,7 +37,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AlertDialog;
@@ -125,9 +123,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         if (!getIntent().hasExtra(EXTRA_APPROVE)) {
             if (enabled)
-                SinkholeService.start("UI", this);
+                ServiceSinkhole.start("UI", this);
             else
-                SinkholeService.stop("UI", this);
+                ServiceSinkhole.stop("UI", this);
         }
 
         // Action bar
@@ -218,7 +216,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
 
                 } else
-                    SinkholeService.stop("switch off", ActivityMain.this);
+                    ServiceSinkhole.stop("switch off", ActivityMain.this);
             }
         });
 
@@ -261,7 +259,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                SinkholeService.reload("pull", ActivityMain.this);
+                ServiceSinkhole.reload("pull", ActivityMain.this);
                 updateApplicationList(null);
             }
         });
@@ -450,7 +448,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
             if (resultCode == RESULT_OK)
-                SinkholeService.start("prepared", this);
+                ServiceSinkhole.start("prepared", this);
 
         } else if (requestCode == REQUEST_INVITE) {
             // Do nothing
@@ -475,7 +473,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_ROAMING)
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                SinkholeService.reload("permission granted", this);
+                ServiceSinkhole.reload("permission granted", this);
     }
 
     @Override

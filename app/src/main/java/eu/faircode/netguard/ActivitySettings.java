@@ -313,7 +313,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                     Toast.makeText(ActivitySettings.this, R.string.msg_downloaded, Toast.LENGTH_LONG).show();
                                 }
 
-                                SinkholeService.reload("hosts file download", ActivitySettings.this);
+                                ServiceSinkhole.reload("hosts file download", ActivitySettings.this);
                             }
 
                             @Override
@@ -472,20 +472,20 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Dependencies
         if ("whitelist_wifi".equals(name) ||
                 "screen_wifi".equals(name))
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
 
         else if ("whitelist_other".equals(name) ||
                 "screen_other".equals(name))
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
 
         else if ("whitelist_roaming".equals(name)) {
             if (prefs.getBoolean(name, false)) {
                 if (Util.hasPhoneStatePermission(this))
-                    SinkholeService.reload("changed " + name, this);
+                    ServiceSinkhole.reload("changed " + name, this);
                 else
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_INTERNATIONAL);
             } else
-                SinkholeService.reload("changed " + name, this);
+                ServiceSinkhole.reload("changed " + name, this);
 
         } else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
@@ -497,7 +497,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             recreate();
 
         else if ("tethering".equals(name))
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
 
         else if ("wifi_homes".equals(name)) {
             MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) getPreferenceScreen().findPreference(name);
@@ -506,17 +506,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
             else
                 pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
 
         } else if ("use_metered".equals(name))
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
 
         else if ("unmetered_2g".equals(name) ||
                 "unmetered_3g".equals(name) ||
                 "unmetered_4g".equals(name)) {
             if (prefs.getBoolean(name, false)) {
                 if (Util.hasPhoneStatePermission(this))
-                    SinkholeService.reload("changed " + name, this);
+                    ServiceSinkhole.reload("changed " + name, this);
                 else {
                     if ("unmetered_2g".equals(name))
                         requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED2);
@@ -526,16 +526,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED4);
                 }
             } else
-                SinkholeService.reload("changed " + name, this);
+                ServiceSinkhole.reload("changed " + name, this);
 
         } else if ("national_roaming".equals(name)) {
             if (prefs.getBoolean(name, false)) {
                 if (Util.hasPhoneStatePermission(this))
-                    SinkholeService.reload("changed " + name, this);
+                    ServiceSinkhole.reload("changed " + name, this);
                 else
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_NATIONAL);
             } else
-                SinkholeService.reload("changed " + name, this);
+                ServiceSinkhole.reload("changed " + name, this);
 
 
         } else if ("manage_system".equals(name)) {
@@ -543,14 +543,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             if (!manage)
                 prefs.edit().putBoolean("show_user", true).apply();
             prefs.edit().putBoolean("show_system", manage).apply();
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
 
         } else if ("log_app".equals(name)) {
             Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
             LocalBroadcastManager.getInstance(this).sendBroadcast(ruleset);
 
         } else if ("filter".equals(name)) {
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
 
             // Show dialog
             if (prefs.getBoolean(name, false)) {
@@ -576,7 +576,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
 
         } else if ("use_hosts".equals(name))
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
 
         else if ("vpn4".equals(name)) {
             String vpn4 = prefs.getString("vpn4", null);
@@ -588,7 +588,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (!TextUtils.isEmpty(vpn4))
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn4", "10.1.10.1")));
 
         } else if ("vpn6".equals(name)) {
@@ -601,7 +601,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (!TextUtils.isEmpty(vpn6))
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
 
         } else if ("dns".equals(name)) {
@@ -614,7 +614,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (!TextUtils.isEmpty(dns))
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(
                     getString(R.string.setting_dns, prefs.getString("dns", Util.getDefaultDNS(this).get(0))));
 
@@ -624,17 +624,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             else
                 getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_pcap_file_size, prefs.getString(name, "2")));
 
-            SinkholeService.setPcap(false, this);
+            ServiceSinkhole.setPcap(false, this);
 
             File pcap_file = new File(getCacheDir(), "netguard.pcap");
             if (pcap_file.exists() && !pcap_file.delete())
                 Log.w(TAG, "Delete PCAP failed");
 
             if (prefs.getBoolean("pcap", false))
-                SinkholeService.setPcap(true, this);
+                ServiceSinkhole.setPcap(true, this);
 
         } else if ("show_stats".equals(name))
-            SinkholeService.reloadStats("changed " + name, this);
+            ServiceSinkhole.reloadStats("changed " + name, this);
 
         else if ("stats_frequency".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_frequency, prefs.getString(name, "1000")));
@@ -646,7 +646,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             getPreferenceScreen().findPreference(name).setSummary(prefs.getString(name, "http://www.netguard.me/hosts"));
 
         else if ("loglevel".equals(name))
-            SinkholeService.reload("changed " + name, this);
+            ServiceSinkhole.reload("changed " + name, this);
     }
 
     private void checkAddress(String address) throws IllegalArgumentException, UnknownHostException {
@@ -737,7 +737,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         }
 
         if (granted)
-            SinkholeService.reload("permission granted", this);
+            ServiceSinkhole.reload("permission granted", this);
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
@@ -935,7 +935,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                             Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
                         }
 
-                        SinkholeService.reload("hosts import", ActivitySettings.this);
+                        ServiceSinkhole.reload("hosts import", ActivitySettings.this);
                     } else
                         Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
                 }
@@ -972,7 +972,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 if (running) {
                     if (ex == null) {
                         Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
-                        SinkholeService.reloadStats("import", ActivitySettings.this);
+                        ServiceSinkhole.reloadStats("import", ActivitySettings.this);
                         // Update theme, request permissions
                         recreate();
                     } else
@@ -1138,7 +1138,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.unregisterOnSharedPreferenceChangeListener(this);
         prefs.edit().putBoolean("enabled", false).apply();
-        SinkholeService.stop("import", this);
+        ServiceSinkhole.stop("import", this);
 
         XMLReader reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         XmlImportHandler handler = new XmlImportHandler(this);

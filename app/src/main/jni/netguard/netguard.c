@@ -92,10 +92,10 @@ void JNI_OnUnload(JavaVM *vm, void *reserved) {
     }
 }
 
-// JNI SinkholeService
+// JNI ServiceSinkhole
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instance) {
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1init(JNIEnv *env, jobject instance) {
     loglevel = ANDROID_LOG_WARN;
 
     struct arguments args;
@@ -112,7 +112,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1init(JNIEnv *env, jobject instanc
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1start(
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1start(
         JNIEnv *env, jobject instance, jint tun, jboolean fwd53, jint loglevel_) {
 
     loglevel = loglevel_;
@@ -151,7 +151,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1start(
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1stop(
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1stop(
         JNIEnv *env, jobject instance, jint tun, jboolean clear) {
     pthread_t t = thread_id;
     log_android(ANDROID_LOG_WARN, "Stop tun %d clear %d thread %x", tun, (int) clear, t);
@@ -180,12 +180,12 @@ Java_eu_faircode_netguard_SinkholeService_jni_1stop(
 }
 
 JNIEXPORT jint JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1get_1mtu(JNIEnv *env, jobject instance) {
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1get_1mtu(JNIEnv *env, jobject instance) {
     return TUN_MAXMSG;
 }
 
 JNIEXPORT jintArray JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1get_1stats(JNIEnv *env, jobject instance) {
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1get_1stats(JNIEnv *env, jobject instance) {
     if (pthread_mutex_lock(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
@@ -218,7 +218,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1get_1stats(JNIEnv *env, jobject i
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1pcap(
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1pcap(
         JNIEnv *env, jclass type,
         jstring name_, jint record_size, jint file_size) {
 
@@ -277,7 +277,7 @@ Java_eu_faircode_netguard_SinkholeService_jni_1pcap(
 
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_SinkholeService_jni_1done(JNIEnv *env, jobject instance) {
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1done(JNIEnv *env, jobject instance) {
     log_android(ANDROID_LOG_INFO, "Done");
 
     clear_icmp();
