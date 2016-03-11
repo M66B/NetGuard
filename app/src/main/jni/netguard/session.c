@@ -25,9 +25,9 @@ extern pthread_mutex_t lock;
 extern jboolean stopping;
 extern jboolean signaled;
 
-extern struct icmp_session *icmp_session = NULL;
-extern struct udp_session *udp_session = NULL;
-extern struct tcp_session *tcp_session = NULL;
+extern struct icmp_session *icmp_session;
+extern struct udp_session *udp_session;
+extern struct tcp_session *tcp_session;
 
 void handle_signal(int sig, siginfo_t *info, void *context) {
     log_android(ANDROID_LOG_DEBUG, "Signal %d", sig);
@@ -64,7 +64,7 @@ void *handle_events(void *a) {
     if (getrlimit(RLIMIT_NOFILE, &rlim))
         log_android(ANDROID_LOG_WARN, "getrlimit error %d: %s", errno, strerror(errno));
     else {
-        maxsessions = rlim.rlim_cur * 80 / 100;
+        maxsessions = (int) (rlim.rlim_cur * 80 / 100);
         log_android(ANDROID_LOG_WARN, "getrlimit soft %d hard %d max sessions %d",
                     rlim.rlim_cur, rlim.rlim_max, maxsessions);
     }

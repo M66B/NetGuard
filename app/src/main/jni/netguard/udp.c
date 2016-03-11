@@ -19,7 +19,7 @@
 
 #include "netguard.h"
 
-struct udp_session *udp_session;
+struct udp_session *udp_session = NULL;
 extern FILE *pcap_file;
 
 void init_udp(const struct arguments *args) {
@@ -321,7 +321,7 @@ jboolean handle_udp(const struct arguments *args,
             rversion = u->version;
         else
             rversion = (strstr(redirect->raddr, ":") == NULL ? 4 : 6);
-        u->mss = (rversion == 4 ? UDP4_MAXMSG : UDP6_MAXMSG);
+        u->mss = (uint16_t) (rversion == 4 ? UDP4_MAXMSG : UDP6_MAXMSG);
 
         u->sent = 0;
         u->received = 0;

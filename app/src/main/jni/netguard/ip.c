@@ -29,9 +29,9 @@ uint16_t get_mtu() {
 
 uint16_t get_default_mss(int version) {
     if (version == 4)
-        return (get_mtu() - sizeof(struct iphdr) - sizeof(struct tcphdr));
+        return (uint16_t) (get_mtu() - sizeof(struct iphdr) - sizeof(struct tcphdr));
     else
-        return (get_mtu() - sizeof(struct ip6_hdr) - sizeof(struct tcphdr));
+        return (uint16_t) (get_mtu() - sizeof(struct ip6_hdr) - sizeof(struct tcphdr));
 }
 
 int check_tun(const struct arguments *args,

@@ -20,7 +20,7 @@
 #include "netguard.h"
 
 FILE *pcap_file = NULL;
-int pcap_record_size = 64;
+size_t pcap_record_size = 64;
 long pcap_file_size = 2 * 1024 * 1024;
 
 void write_pcap_hdr() {
