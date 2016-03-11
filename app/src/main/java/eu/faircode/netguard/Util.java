@@ -595,6 +595,11 @@ public class Util {
                 sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            sb.append(String.format("Battery optimizing %B\r\n", !pm.isIgnoringBatteryOptimizations(context.getPackageName())));
+        }
+
         if (sb.length() > 2)
             sb.setLength(sb.length() - 2);
 
