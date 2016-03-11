@@ -188,7 +188,12 @@ Please do not use GitHub for questions.
 Contributing
 ------------
 
-Translations:
+*Building*
+
+* Android Studio 1.5.1
+* Android NDK r10e
+
+*Translating*
 
 * Translations to other languages are welcomed
 * You can translate online [here](https://crowdin.com/project/netguard/)
