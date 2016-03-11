@@ -116,7 +116,7 @@
         </service>
 
         <service
-            android:name=".ProxyService"
+            android:name=".ServiceProxy"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>

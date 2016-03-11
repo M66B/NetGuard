@@ -327,7 +327,7 @@ Java_eu_faircode_netguard_Util_is_1numeric_1address(JNIEnv *env, jclass type, js
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_ProxyService_jni_1set_1proxy(JNIEnv *env, jobject instance,
+Java_eu_faircode_netguard_ServiceProxy_jni_1set_1proxy(JNIEnv *env, jobject instance,
                                                        jint fd, jint mtu) {
     if (proxy_fd != fd || proxy_mtu != mtu) {
         clear_icmp();

@@ -26,17 +26,16 @@ import android.content.SharedPreferences;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.content.LocalBroadcastManager;
 
-public class ProxyService extends IntentService {
+public class ServiceProxy extends IntentService {
     private static final String TAG = "NetGuard.Proxy";
     private static final String INTENT_START = "eu.faircode.netguard.START_PROXY";
     private static final String INTENT_STOP = "eu.faircode.netguard.STOP_PROXY";
     private static final String EXTRA_PFD = "PFD";
     private static final String EXTRA_MTU = "MTU";
-    private static final String EXTRA_PKG = "PKG";
 
     private native void jni_set_proxy(int fd, int mtu);
 
-    public ProxyService() {
+    public ServiceProxy() {
         super(TAG);
     }
 
@@ -47,12 +46,6 @@ public class ProxyService extends IntentService {
                 ParcelFileDescriptor pfd = (ParcelFileDescriptor) intent.getSerializableExtra(EXTRA_PFD);
                 int mtu = intent.getIntExtra(EXTRA_MTU, 0);
                 jni_set_proxy(pfd.getFd(), mtu);
-                if (intent.hasExtra(EXTRA_PKG)) {
-                    SharedPreferences apply = getSharedPreferences("apply", Context.MODE_PRIVATE);
-                    apply.edit().putBoolean(intent.getStringExtra(EXTRA_PKG), false).apply();
-                    Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
-                    LocalBroadcastManager.getInstance(this).sendBroadcast(ruleset);
-                }
                 SinkholeService.reload("proxy start", this);
             }
         } else if (INTENT_STOP.equals(intent.getAction())) {
