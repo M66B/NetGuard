@@ -168,7 +168,7 @@ Frequently Asked Questions (FAQ)
 Permissions
 -----------
 
-* INTERNET ('*Full network access*'): to forward allowed traffic to the internet
+* INTERNET ('*Full network access*'): to forward allowed (filtered) traffic to the internet
 * ACCESS_NETWORK_STATE ('*View network connections*'): to check if the device is connected to the internet through Wi-Fi
 * READ_PHONE_STATE ('*Device ID & call information*'): to detect mobile network changes, see [here](http://forum.xda-developers.com/showpost.php?p=64107371&postcount=489) for more details
 * ACCESS_WIFI_STATE ('*Wi-Fi connection information*'): to detect Wi-Fi network changes
