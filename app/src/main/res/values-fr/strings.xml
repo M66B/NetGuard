@@ -179,8 +179,6 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Fonctionnalités Pro</string>
-  <string name="title_pro_trial_until">Essai des fonctionnalités Pro jusque %1$s</string>
-  <string name="title_pro_trial_ended">Fin de la période d\'essai des fonctionnalités Pro</string>
   <string name="title_pro_description">Les fonctionnalités Pro suivantes sont disponibles :</string>
   <string name="title_pro_log">Voir le journal du trafic bloqué</string>
   <string name="title_pro_filter">Filtrer le trafic réseau</string>

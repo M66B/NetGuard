@@ -13,7 +13,7 @@
   <string name="menu_app_disabled">Показать отключенные приложения</string>
   <string name="menu_sort">Сортировка приложений</string>
   <string name="menu_sort_name">Сортировать по имени</string>
-  <string name="menu_sort_uid">Sort on uid</string>
+  <string name="menu_sort_uid">Сортировать по UID</string>
   <string name="menu_sort_data">Сортировать по исп. данным</string>
   <string name="menu_log">Журнал</string>
   <string name="menu_settings">Настройки</string>
@@ -51,7 +51,7 @@
   <string name="setting_dark">Использовать темную тему</string>
   <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
   <string name="setting_delay">Задержка экрана %1$s минут(ы)</string>
-  <string name="setting_update">Check for updates</string>
+  <string name="setting_update">Проверить наличие обновлений</string>
   <string name="setting_network_options">Параметры сети</string>
   <string name="setting_tethering">Разрешить привязку</string>
   <string name="setting_wifi_home">Домашняя сеть Wi-Fi: %1$s</string>
@@ -74,9 +74,9 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">Размер записи PCAP: %s Б</string>
   <string name="setting_pcap_file_size">Макс. размер PCAP файла: %s МБ</string>
-  <string name="setting_proxy">Proxy server: %s</string>
-  <string name="setting_proxy_username">Proxy username</string>
-  <string name="setting_proxy_password">Proxy password</string>
+  <string name="setting_proxy">Прокси-сервер: %s</string>
+  <string name="setting_proxy_username">Название прокси</string>
+  <string name="setting_proxy_password">Пароль прокси</string>
   <string name="setting_stats_category">Скорость в статус-баре</string>
   <string name="setting_stats">Показать скорость в статус-баре</string>
   <string name="setting_stats_top">Показать топовое приложение</string>
@@ -94,7 +94,7 @@
   <string name="setting_technical_subscription">Подписки</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
-  <string name="summary_update">Check for new releases on GitHub twice daily</string>
+  <string name="summary_update">Проверять наличие новых версий на GitHub два раза в день</string>
   <string name="summary_tethering">В зависимости от версии Андроид, привязывание может либо работать, либо не работать. Привязанный трафик не может быть отфильтрован.</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
   <string name="summary_metered">Применить правила для лимитированных (платных, ограниченных) Wi-Fi сетей</string>
@@ -108,7 +108,7 @@
   <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_track_usage">Отслеживать количество отправленных и полученных байтов для каждого приложения и адресов. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_block_domains">Ответить на \'название ошибки\' (NXDOMAIN) для заблокированных доменных имен. Этот переключатель выключен, если hosts-файл отсутствует.</string>
-  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
+  <string name="summary_proxy">IP адрес SOCKS5 прокси-сервера и номер порта</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>
   <string name="msg_sure">Вы уверены?</string>
   <string name="msg_started">Определить правила</string>
@@ -146,7 +146,7 @@
   <string name="msg_stop_forward">Остановить пересылку из %1$s порта %2$d?</string>
   <string name="msg_metered">Лимитированные сети</string>
   <string name="msg_queue">NetGuard занят</string>
-  <string name="msg_update">Update available, tap to download</string>
+  <string name="msg_update">Доступно обновление, нажмите, чтобы загрузить</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
   <string name="title_unmetered_blocked">Безлимитный трафик блокируется</string>
   <string name="title_metered_allowed">Лимитированный трафик разрешен</string>
@@ -160,7 +160,7 @@
   <string name="title_conditions">Условия</string>
   <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>
-  <string name="title_roaming_symbol">R</string>
+  <string name="title_roaming_symbol">Р</string>
   <string name="title_roaming">Блокировать в роуминге</string>
   <string name="title_disabled">отключено</string>
   <string name="title_internet">не имеет доступа в интернет</string>
@@ -178,8 +178,6 @@
   <string name="title_log_whois">Протокол WHOIS: %1$s</string>
   <string name="title_log_port">Порт: %1$d</string>
   <string name="title_pro">Pro-функции</string>
-  <string name="title_pro_trial_until">Pro-функции пробного периода до %1$s</string>
-  <string name="title_pro_trial_ended">Pro-функции пробного периода закончились</string>
   <string name="title_pro_description">Доступны следующие Pro-функции:</string>
   <string name="title_pro_log">Просмотр журнала заблокированного трафика</string>
   <string name="title_pro_filter">Фильтр сетевого трафика</string>

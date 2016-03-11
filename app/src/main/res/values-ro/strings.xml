@@ -178,8 +178,6 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_log_whois">Identitate %1$s</string>
   <string name="title_log_port">Portul %1$d</string>
   <string name="title_pro">Caracteristici versiune Pro</string>
-  <string name="title_pro_trial_until">Perioada de testare a caracteristicilor versiunii Pro pana pe %1$s</string>
-  <string name="title_pro_trial_ended">Perioada de testare a caracteristicilor versiunii Pro s-a incheiat</string>
   <string name="title_pro_description">Urmatoarele functii avansate sunt disponibile:</string>
   <string name="title_pro_log">Arata jurnalul de trafic</string>
   <string name="title_pro_filter">Filtreaza traficul de retea</string>

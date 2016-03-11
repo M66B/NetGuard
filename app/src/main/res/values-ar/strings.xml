@@ -177,8 +177,6 @@
   <string name="title_log_whois">بيانات تسجيل اسم النطاق %1$s</string>
   <string name="title_log_port">منفذ %1$d</string>
   <string name="title_pro">ميزات النسخة الكاملة</string>
-  <string name="title_pro_trial_until">تجربة ميزات النسخة الكاملة إلى</string>
-  <string name="title_pro_trial_ended">انتهت الفترة التجريبية لميزات النسخة الكاملة</string>
   <string name="title_pro_description">تتوفر ميزات النسخة الكاملة التالية:</string>
   <string name="title_pro_log">عرض سجل الحركة المحظورة</string>
   <string name="title_pro_filter">تصفية حركة الشبكة</string>

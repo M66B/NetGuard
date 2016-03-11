@@ -181,8 +181,6 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Pro funkciók</string>
-  <string name="title_pro_trial_until">Pro szolgáltatások kipróbálása eddig: %1$s</string>
-  <string name="title_pro_trial_ended">Pro szolgáltatások kipróbálási ideje lejárt</string>
   <string name="title_pro_description">The following pro features are available:</string>
   <string name="title_pro_log">Letiltott forgalom naplójának megnézése</string>
   <string name="title_pro_filter">Filter network traffic</string>

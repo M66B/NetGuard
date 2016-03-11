@@ -177,8 +177,6 @@
   <string name="title_log_whois">Quién es %1$s</string>
   <string name="title_log_port">Puerto %1$d</string>
   <string name="title_pro">Características Pro</string>
-  <string name="title_pro_trial_until">Prueba de características Pro hasta %1$s</string>
-  <string name="title_pro_trial_ended">Finalizó el período de funciones pagas</string>
   <string name="title_pro_description">Las siguientes características pagas están disponibles:</string>
   <string name="title_pro_log">Ver registro de tráfico bloqueado</string>
   <string name="title_pro_filter">Filtrar tráfico de red</string>

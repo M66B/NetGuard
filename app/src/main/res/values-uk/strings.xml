@@ -178,8 +178,6 @@
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Порт %1$d</string>
   <string name="title_pro">Pro можливості</string>
-  <string name="title_pro_trial_until">Розширені можливості пробної версії до %1$s</string>
-  <string name="title_pro_trial_ended">Завершився пробний період розширених можливостей</string>
   <string name="title_pro_description">Доступно наступні розширені (Pro) можливості:</string>
   <string name="title_pro_log">Перегляд звіту заблокованого трафіку</string>
   <string name="title_pro_filter">Фільтр мережевого трафіку</string>

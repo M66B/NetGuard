@@ -64,7 +64,7 @@
   <string name="setting_advanced_options">Erweiterte Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_log_app">Internetzugriff protokollieren</string>
-  <string name="setting_access">Bei Internet-Zugriff benachrichtigen</string>
+  <string name="setting_access">Bei Internetzugriff benachrichtigen</string>
   <string name="setting_filter">Datenverkehr filtern</string>
   <string name="setting_track_usage">Netzwerknutzung verfolgen</string>
   <string name="setting_reset_usage">Netzwerknutzung zurücksetzen</string>
@@ -75,7 +75,7 @@
   <string name="setting_dns">VPN-DNS: %s</string>
   <string name="setting_pcap_record_size">PCAP-Datensatzgröße: %s B</string>
   <string name="setting_pcap_file_size">PCAP-Dateigröße (max): %s MB</string>
-  <string name="setting_proxy">Proxy Server: %s</string>
+  <string name="setting_proxy">Proxy-Server: %s</string>
   <string name="setting_proxy_username">Proxy-Benutzername</string>
   <string name="setting_proxy_password">Proxy-Passwort</string>
   <string name="setting_stats_category">Geschwindigkeitsbenachrichtigung</string>
@@ -89,7 +89,7 @@
   <string name="setting_hosts">Hosts-Datei importieren</string>
   <string name="setting_hosts_url">Hosts-Datei-Download-URL</string>
   <string name="setting_hosts_download">Hosts-Datei herunterladen</string>
-  <string name="setting_technical">Technische information</string>
+  <string name="setting_technical">Technische Information</string>
   <string name="setting_technical_general">Allgemein</string>
   <string name="setting_technical_networks">Netzwerke</string>
   <string name="setting_technical_subscription">Abos</string>
@@ -118,12 +118,12 @@
   <string name="msg_waiting">Auf Ereignis warten</string>
   <string name="msg_disabled">NetGuard ist deaktiviert. Verwenden Sie den Schalter, um NetGuard zu aktivieren.</string>
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer anderen VPN-Anwendung</string>
-  <string name="msg_error">Netguard wurde aufgrund eines internen Fehlers beendet</string>
+  <string name="msg_error">NetGuard wurde aufgrund eines internen Fehlers beendet</string>
   <string name="msg_installed">\'%1$s\' installiert</string>
   <string name="msg_access">%1$s versucht Internetzugriff</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
   <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um den Internetverkehr zu filtern. Gestatten Sie aus diesem Grund eine VPN-Verbindung im nächsten Dialogfenster. Ihr Internetverkehr wird nicht an einen VPN-Server gesendet!</string>
-  <string name="msg_autostart">NetGuard konnte aufgrund eines Fehlers Ihrer aktuellen Android Version beim Booten nicht automatisch starten</string>
+  <string name="msg_autostart">NetGuard konnte aufgrund eines Fehlers Ihrer aktuellen Android-Version beim Booten nicht automatisch starten</string>
   <string name="msg_try">NetGuard ausprobieren</string>
   <string name="msg_terms">Durch eine Spende stimmen Sie der <a href="http://www.netguard.me/#terms">AGB</a> zu.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
@@ -178,8 +178,6 @@
   <string name="title_log_whois">Wer ist %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Pro-Funktionen</string>
-  <string name="title_pro_trial_until">Pro-Funktionen-Testzeitraum bis %1$s</string>
-  <string name="title_pro_trial_ended">Pro-Funktionen-Testzeitraum abgelaufen</string>
   <string name="title_pro_description">Die folgenden Pro-Funktionen sind verfügbar:</string>
   <string name="title_pro_log">Protokoll des blockierten Verkehrs anzeigen</string>
   <string name="title_pro_filter">Netzwerkverkehr filtern</string>
@@ -189,7 +187,7 @@
   <string name="title_pro_all">Alles über Pro-Funktionen</string>
   <string name="title_pro_buy">Detailinformationen</string>
   <string name="title_pro_bought">Aktiviert</string>
-  <string name="title_pro_challenge">Challenge</string>
+  <string name="title_pro_challenge">Puzzle</string>
   <string name="title_pro_reponse">Antwort</string>
   <string-array name="themeNames">
     <item>Blaugrün/Orange</item>
