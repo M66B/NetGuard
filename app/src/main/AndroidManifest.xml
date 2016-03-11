@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="eu.faircode.netguard">
 
+    <permission
+        android:name="eu.faircode.netguard.ADMIN"
+        android:description="@string/admin_description"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/admin_label"
+        android:permissionGroup="android.permission-group.NETWORK"
+        android:protectionLevel="dangerous" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -118,7 +126,8 @@
         <service
             android:name=".ServiceProxy"
             android:exported="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:permission="eu.faircode.netguard.ADMIN">
             <intent-filter>
                 <action android:name="eu.faircode.netguard.START_PROXY" />
                 <action android:name="eu.faircode.netguard.STOP_PROXY" />
