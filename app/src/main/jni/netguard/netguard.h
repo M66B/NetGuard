@@ -311,11 +311,11 @@ int get_udp_timeout(const struct udp_session *u, int sessions, int maxsessions);
 
 int get_tcp_timeout(const struct tcp_session *t, int sessions, int maxsessions);
 
-int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
-
 uint16_t get_mtu();
 
 uint16_t get_default_mss(int version);
+
+int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
 int check_tun(const struct arguments *args,
               fd_set *rfds, fd_set *wfds, fd_set *efds,
