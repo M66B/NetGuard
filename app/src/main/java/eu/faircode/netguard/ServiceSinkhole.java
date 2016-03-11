@@ -420,7 +420,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     stopVPN(vpn);
                     vpn = null;
                     try {
-                        Thread.sleep(3000);
+                        Thread.sleep(500);
                     } catch (InterruptedException ignored) {
                     }
                 }
