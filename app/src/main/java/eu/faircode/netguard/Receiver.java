@@ -84,13 +84,13 @@ public class Receiver extends BroadcastReceiver {
             try {
                 if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
                     if (prefs.getBoolean("enabled", false) || prefs.getBoolean("show_stats", false))
-                        SinkholeService.start("receiver", context);
+                        ServiceSinkhole.start("receiver", context);
 
                 } else if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
                     if (prefs.getBoolean("enabled", false))
-                        SinkholeService.start("receiver", context);
+                        ServiceSinkhole.start("receiver", context);
                     else if (prefs.getBoolean("show_stats", false))
-                        SinkholeService.run("receiver", context);
+                        ServiceSinkhole.run("receiver", context);
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -98,7 +98,7 @@ public class Receiver extends BroadcastReceiver {
             }
 
             if (Util.isInteractive(context))
-                SinkholeService.reloadStats("receiver", context);
+                ServiceSinkhole.reloadStats("receiver", context);
         }
     }
 
@@ -147,12 +147,12 @@ public class Receiver extends BroadcastReceiver {
             boolean other = prefs_other.getBoolean(packages[0], prefs.getBoolean("whitelist_other", true));
 
             // Build Wi-Fi action
-            Intent riWifi = new Intent(context, SinkholeService.class);
-            riWifi.putExtra(SinkholeService.EXTRA_COMMAND, SinkholeService.Command.set);
-            riWifi.putExtra(SinkholeService.EXTRA_NETWORK, "wifi");
-            riWifi.putExtra(SinkholeService.EXTRA_UID, uid);
-            riWifi.putExtra(SinkholeService.EXTRA_PACKAGE, packages[0]);
-            riWifi.putExtra(SinkholeService.EXTRA_BLOCKED, !wifi);
+            Intent riWifi = new Intent(context, ServiceSinkhole.class);
+            riWifi.putExtra(ServiceSinkhole.EXTRA_COMMAND, ServiceSinkhole.Command.set);
+            riWifi.putExtra(ServiceSinkhole.EXTRA_NETWORK, "wifi");
+            riWifi.putExtra(ServiceSinkhole.EXTRA_UID, uid);
+            riWifi.putExtra(ServiceSinkhole.EXTRA_PACKAGE, packages[0]);
+            riWifi.putExtra(ServiceSinkhole.EXTRA_BLOCKED, !wifi);
 
             PendingIntent piWifi = PendingIntent.getService(context, uid, riWifi, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.addAction(
@@ -162,12 +162,12 @@ public class Receiver extends BroadcastReceiver {
             );
 
             // Build mobile action
-            Intent riOther = new Intent(context, SinkholeService.class);
-            riOther.putExtra(SinkholeService.EXTRA_COMMAND, SinkholeService.Command.set);
-            riOther.putExtra(SinkholeService.EXTRA_NETWORK, "other");
-            riOther.putExtra(SinkholeService.EXTRA_UID, uid);
-            riOther.putExtra(SinkholeService.EXTRA_PACKAGE, packages[0]);
-            riOther.putExtra(SinkholeService.EXTRA_BLOCKED, !other);
+            Intent riOther = new Intent(context, ServiceSinkhole.class);
+            riOther.putExtra(ServiceSinkhole.EXTRA_COMMAND, ServiceSinkhole.Command.set);
+            riOther.putExtra(ServiceSinkhole.EXTRA_NETWORK, "other");
+            riOther.putExtra(ServiceSinkhole.EXTRA_UID, uid);
+            riOther.putExtra(ServiceSinkhole.EXTRA_PACKAGE, packages[0]);
+            riOther.putExtra(ServiceSinkhole.EXTRA_BLOCKED, !other);
             PendingIntent piOther = PendingIntent.getService(context, uid + 10000, riOther, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.addAction(
                     other ? R.drawable.other_on : R.drawable.other_off,

@@ -247,7 +247,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                             case R.id.menu_allow:
                                 if (IAB.isPurchased(ActivityPro.SKU_FILTER, ActivityLog.this)) {
                                     DatabaseHelper.getInstance(ActivityLog.this).updateAccess(packet, dname, 0);
-                                    SinkholeService.reload("allow host", ActivityLog.this);
+                                    ServiceSinkhole.reload("allow host", ActivityLog.this);
                                     Intent main = new Intent(ActivityLog.this, ActivityMain.class);
                                     main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
                                     startActivity(main);
@@ -258,7 +258,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                             case R.id.menu_block:
                                 if (IAB.isPurchased(ActivityPro.SKU_FILTER, ActivityLog.this)) {
                                     DatabaseHelper.getInstance(ActivityLog.this).updateAccess(packet, dname, 1);
-                                    SinkholeService.reload("block host", ActivityLog.this);
+                                    ServiceSinkhole.reload("block host", ActivityLog.this);
                                     Intent main = new Intent(ActivityLog.this, ActivityMain.class);
                                     main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
                                     startActivity(main);
@@ -319,7 +319,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
             if (swEnabled.isChecked() != log)
                 swEnabled.setChecked(log);
 
-            SinkholeService.reload("changed " + name, ActivityLog.this);
+            ServiceSinkhole.reload("changed " + name, ActivityLog.this);
         }
     }
 
@@ -455,7 +455,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
             case R.id.menu_pcap_enabled:
                 item.setChecked(!item.isChecked());
                 prefs.edit().putBoolean("pcap", item.isChecked()).apply();
-                SinkholeService.setPcap(item.isChecked(), ActivityLog.this);
+                ServiceSinkhole.setPcap(item.isChecked(), ActivityLog.this);
                 return true;
 
             case R.id.menu_pcap_export:
@@ -468,10 +468,10 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                     protected Object doInBackground(Object... objects) {
                         DatabaseHelper.getInstance(ActivityLog.this).clearLog();
                         if (prefs.getBoolean("pcap", false)) {
-                            SinkholeService.setPcap(false, ActivityLog.this);
+                            ServiceSinkhole.setPcap(false, ActivityLog.this);
                             if (pcap_file.exists() && !pcap_file.delete())
                                 Log.w(TAG, "Delete PCAP failed");
-                            SinkholeService.setPcap(true, ActivityLog.this);
+                            ServiceSinkhole.setPcap(true, ActivityLog.this);
                         } else {
                             if (pcap_file.exists() && !pcap_file.delete())
                                 Log.w(TAG, "Delete PCAP failed");
@@ -555,7 +555,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 FileInputStream in = null;
                 try {
                     // Stop capture
-                    SinkholeService.setPcap(false, ActivityLog.this);
+                    ServiceSinkhole.setPcap(false, ActivityLog.this);
 
                     Uri target = data.getData();
                     if (data.hasExtra("org.openintents.extra.DIR_PATH"))
@@ -597,7 +597,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                     // Resume capture
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ActivityLog.this);
                     if (prefs.getBoolean("pcap", false))
-                        SinkholeService.setPcap(true, ActivityLog.this);
+                        ServiceSinkhole.setPcap(true, ActivityLog.this);
                 }
             }
 

@@ -45,7 +45,6 @@ import com.squareup.picasso.Picasso;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 public class AdapterLog extends CursorAdapter {
     private static String TAG = "NetGuard.Log";
@@ -104,7 +103,7 @@ public class AdapterLog extends CursorAdapter {
 
         try {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            dns = SinkholeService.getDns(context).get(0);
+            dns = ServiceSinkhole.getDns(context).get(0);
             vpn4 = InetAddress.getByName(prefs.getString("vpn4", "10.1.10.1"));
             vpn6 = InetAddress.getByName(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"));
         } catch (UnknownHostException ex) {

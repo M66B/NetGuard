@@ -85,7 +85,6 @@ import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -97,7 +96,7 @@ import java.util.TreeMap;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class SinkholeService extends VpnService implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class ServiceSinkhole extends VpnService implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Service";
 
     private State state = State.none;
@@ -109,7 +108,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
 
-    private SinkholeService.Builder last_builder = null;
+    private ServiceSinkhole.Builder last_builder = null;
     private ParcelFileDescriptor vpn = null;
 
     private long last_hosts_modified = 0;
@@ -206,7 +205,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         private void reportQueueSize() {
             Intent ruleset = new Intent(ActivityMain.ACTION_QUEUE_CHANGED);
             ruleset.putExtra(ActivityMain.EXTRA_SIZE, queue);
-            LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
+            LocalBroadcastManager.getInstance(ServiceSinkhole.this).sendBroadcast(ruleset);
         }
 
         public void queue(Intent intent) {
@@ -232,14 +231,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, SinkholeService.this);
+                Util.sendCrashReport(ex, ServiceSinkhole.this);
             } finally {
                 synchronized (this) {
                     queue--;
                     reportQueueSize();
                 }
                 try {
-                    PowerManager.WakeLock wl = getLock(SinkholeService.this);
+                    PowerManager.WakeLock wl = getLock(ServiceSinkhole.this);
                     if (wl.isHeld())
                         wl.release();
                     else
@@ -247,13 +246,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     Log.i(TAG, "Messages=" + hasMessages(0) + " wakelock=" + wlInstance.isHeld());
                 } catch (Exception ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, SinkholeService.this);
+                    Util.sendCrashReport(ex, ServiceSinkhole.this);
                 }
             }
         }
 
         private void handleIntent(Intent intent) {
-            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
 
             Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
             String reason = intent.getStringExtra(EXTRA_REASON);
@@ -262,7 +261,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // Check if prepared
             if (cmd == Command.start || cmd == Command.reload)
-                if (VpnService.prepare(SinkholeService.this) != null) {
+                if (VpnService.prepare(ServiceSinkhole.this) != null) {
                     Log.w(TAG, "VPN not prepared");
                     prefs.edit().putBoolean("enabled", false).apply();
                     showAutoStartNotification();
@@ -279,7 +278,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             // Listen for phone state changes
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             if (tm != null && !phone_state &&
-                    Util.hasPhoneStatePermission(SinkholeService.this)) {
+                    Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
                 tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE | PhoneStateListener.LISTEN_SERVICE_STATE);
                 phone_state = true;
                 Log.i(TAG, "Listening to service state changes");
@@ -288,14 +287,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             // Listen for data SIM changes
             if (subscriptionsChangedListener == null &&
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 &&
-                    Util.hasPhoneStatePermission(SinkholeService.this)) {
-                SubscriptionManager sm = SubscriptionManager.from(SinkholeService.this);
+                    Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
+                SubscriptionManager sm = SubscriptionManager.from(ServiceSinkhole.this);
                 subscriptionsChangedListener = new SubscriptionManager.OnSubscriptionsChangedListener() {
                     @Override
                     public void onSubscriptionsChanged() {
                         Log.i(TAG, "Subscriptions changed");
                         if (prefs.getBoolean("national_roaming", false))
-                            SinkholeService.reload("Subscriptions changed", SinkholeService.this);
+                            ServiceSinkhole.reload("Subscriptions changed", ServiceSinkhole.this);
                     }
                 };
                 sm.addOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
@@ -341,10 +340,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
                 ruleset.putExtra(ActivityMain.EXTRA_CONNECTED, cmd == Command.stop ? false : last_connected);
                 ruleset.putExtra(ActivityMain.EXTRA_METERED, cmd == Command.stop ? false : last_metered);
-                LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
+                LocalBroadcastManager.getInstance(ServiceSinkhole.this).sendBroadcast(ruleset);
 
                 // Update widgets
-                Widget.updateWidgets(SinkholeService.this);
+                Widget.updateWidgets(ServiceSinkhole.this);
 
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -354,10 +353,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 if (!(ex instanceof IllegalStateException)) {
                     // Disable firewall
                     prefs.edit().putBoolean("enabled", false).apply();
-                    Widget.updateWidgets(SinkholeService.this);
+                    Widget.updateWidgets(ServiceSinkhole.this);
 
                     // Report exception
-                    Util.sendCrashReport(ex, SinkholeService.this);
+                    Util.sendCrashReport(ex, ServiceSinkhole.this);
                 }
             }
         }
@@ -380,7 +379,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 state = State.enforcing;
                 Log.d(TAG, "Start foreground state=" + state.toString());
 
-                List<Rule> listRule = Rule.getRules(true, SinkholeService.this);
+                List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
                 List<Rule> listAllowed = getAllowedRules(listRule);
 
                 last_builder = getBuilder(listAllowed, listRule);
@@ -396,7 +395,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         }
 
         private void reload() {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
 
             if (state != State.enforcing) {
                 if (state != State.none) {
@@ -408,9 +407,9 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 Log.d(TAG, "Start foreground state=" + state.toString());
             }
 
-            List<Rule> listRule = Rule.getRules(true, SinkholeService.this);
+            List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
             List<Rule> listAllowed = getAllowedRules(listRule);
-            SinkholeService.Builder builder = getBuilder(listAllowed, listRule);
+            ServiceSinkhole.Builder builder = getBuilder(listAllowed, listRule);
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
                 last_builder = builder;
@@ -480,7 +479,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             if (state == State.enforcing) {
                 Log.d(TAG, "Stop foreground state=" + state.toString());
                 stopForeground(true);
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                 if (prefs.getBoolean("show_stats", false)) {
                     startForeground(NOTIFY_WAITING, getWaitingNotification());
                     state = State.waiting;
@@ -499,7 +498,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Set " + pkg + " " + network + "=" + blocked);
 
             // Get defaults
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
             boolean default_wifi = settings.getBoolean("whitelist_wifi", true);
             boolean default_other = settings.getBoolean("whitelist_other", true);
 
@@ -511,27 +510,27 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 prefs.edit().putBoolean(pkg, blocked).apply();
 
             // Apply rules
-            SinkholeService.reload("notification", SinkholeService.this);
+            ServiceSinkhole.reload("notification", ServiceSinkhole.this);
 
             // Update notification
-            Receiver.notifyNewApplication(uid, SinkholeService.this);
+            Receiver.notifyNewApplication(uid, ServiceSinkhole.this);
 
             // Update UI
             Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
-            LocalBroadcastManager.getInstance(SinkholeService.this).sendBroadcast(ruleset);
+            LocalBroadcastManager.getInstance(ServiceSinkhole.this).sendBroadcast(ruleset);
         }
 
 
         private void householding(Intent intent) {
             // Keep log records for three days
-            DatabaseHelper.getInstance(SinkholeService.this).cleanupLog(new Date().getTime() - 3 * 24 * 3600 * 1000L);
+            DatabaseHelper.getInstance(ServiceSinkhole.this).cleanupLog(new Date().getTime() - 3 * 24 * 3600 * 1000L);
 
             // Keep DNS records for a week
-            DatabaseHelper.getInstance(SinkholeService.this).cleanupDns(new Date().getTime() - 7 * 24 * 3600 * 1000L);
+            DatabaseHelper.getInstance(ServiceSinkhole.this).cleanupDns(new Date().getTime() - 7 * 24 * 3600 * 1000L);
 
             // Check for update
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
-            if (!Util.isPlayStoreInstall(SinkholeService.this) && prefs.getBoolean("update_check", true))
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+            if (!Util.isPlayStoreInstall(ServiceSinkhole.this) && prefs.getBoolean("update_check", true))
                 checkUpdate();
         }
 
@@ -566,7 +565,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                             String url = jasset.getString("browser_download_url");
                             Log.i(TAG, "Tag " + version + " name " + name + " url " + url);
 
-                            Version current = new Version(Util.getSelfVersionName(SinkholeService.this));
+                            Version current = new Version(Util.getSelfVersionName(ServiceSinkhole.this));
                             Version available = new Version(version);
                             if (current.compareTo(available) < 0) {
                                 Log.i(TAG, "Update available from " + current + " to " + available);
@@ -607,17 +606,17 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, SinkholeService.this);
+                Util.sendCrashReport(ex, ServiceSinkhole.this);
             }
         }
 
         private void log(Packet packet, int connection, boolean interactive) {
             // Get settings
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
             boolean log = prefs.getBoolean("log", false);
             boolean log_app = prefs.getBoolean("log_app", false);
 
-            DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
+            DatabaseHelper dh = DatabaseHelper.getInstance(ServiceSinkhole.this);
 
             // Get real name
             String dname = dh.getQName(packet.daddr);
@@ -638,12 +637,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         private void usage(Usage usage) {
             if (usage.Uid >= 0 && !(usage.Uid == 0 && usage.Protocol == 17 && usage.DPort == 53)) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                 boolean filter = prefs.getBoolean("filter", false);
                 boolean log_app = prefs.getBoolean("log_app", false);
                 boolean track_usage = prefs.getBoolean("track_usage", false);
                 if (filter && log_app && track_usage) {
-                    DatabaseHelper dh = DatabaseHelper.getInstance(SinkholeService.this);
+                    DatabaseHelper dh = DatabaseHelper.getInstance(ServiceSinkhole.this);
                     String dname = dh.getQName(usage.DAddr);
                     Log.i(TAG, "Usage account " + usage + " dname=" + dname);
                     dh.updateUsage(usage, dname);
@@ -691,12 +690,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, SinkholeService.this);
+                Util.sendCrashReport(ex, ServiceSinkhole.this);
             }
         }
 
         private void startStats() {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
             boolean enabled = (!stats && prefs.getBoolean("show_stats", false));
             Log.i(TAG, "Stats start enabled=" + enabled);
             if (enabled) {
@@ -722,12 +721,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 stopForeground(true);
                 state = State.none;
             } else
-                NotificationManagerCompat.from(SinkholeService.this).cancel(NOTIFY_TRAFFIC);
+                NotificationManagerCompat.from(ServiceSinkhole.this).cancel(NOTIFY_TRAFFIC);
         }
 
         private void updateStats() {
             RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.traffic);
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
             long frequency = Long.parseLong(prefs.getString("stats_frequency", "1000"));
             long samples = Long.parseLong(prefs.getString("stats_samples", "90"));
             boolean filter = prefs.getBoolean("filter", false);
@@ -802,7 +801,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                         else
                             sb.append(getString(R.string.msg_mbsec, speed / 1000 / 1000));
                         sb.append(' ');
-                        List<String> apps = Util.getApplicationNames(mapSpeedUid.get(speed), SinkholeService.this);
+                        List<String> apps = Util.getApplicationNames(mapSpeedUid.get(speed), ServiceSinkhole.this);
                         sb.append(apps.size() > 0 ? apps.get(0) : "?");
                         sb.append("\r\n");
                     }
@@ -817,8 +816,8 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             rx = trx;
 
             // Create bitmap
-            int height = Util.dips2pixels(96, SinkholeService.this);
-            int width = Util.dips2pixels(96 * 5, SinkholeService.this);
+            int height = Util.dips2pixels(96, ServiceSinkhole.this);
+            int width = Util.dips2pixels(96 * 5, ServiceSinkhole.this);
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
             // Create canvas
@@ -866,16 +865,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             paint.setStyle(Paint.Style.STROKE);
 
             // Draw scale line
-            paint.setStrokeWidth(Util.dips2pixels(1, SinkholeService.this));
-            paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorGrayed));
+            paint.setStrokeWidth(Util.dips2pixels(1, ServiceSinkhole.this));
+            paint.setColor(ContextCompat.getColor(ServiceSinkhole.this, R.color.colorGrayed));
             float y = height / 2;
             canvas.drawLine(0, y, width, y, paint);
 
             // Draw paths
-            paint.setStrokeWidth(Util.dips2pixels(2, SinkholeService.this));
-            paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorSend));
+            paint.setStrokeWidth(Util.dips2pixels(2, ServiceSinkhole.this));
+            paint.setColor(ContextCompat.getColor(ServiceSinkhole.this, R.color.colorSend));
             canvas.drawPath(ptx, paint);
-            paint.setColor(ContextCompat.getColor(SinkholeService.this, R.color.colorReceive));
+            paint.setColor(ContextCompat.getColor(ServiceSinkhole.this, R.color.colorReceive));
             canvas.drawPath(prx, paint);
 
             // Update remote view
@@ -906,12 +905,12 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             }
 
             // Show notification
-            Intent main = new Intent(SinkholeService.this, ActivityMain.class);
-            PendingIntent pi = PendingIntent.getActivity(SinkholeService.this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent main = new Intent(ServiceSinkhole.this, ActivityMain.class);
+            PendingIntent pi = PendingIntent.getActivity(ServiceSinkhole.this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
             TypedValue tv = new TypedValue();
             getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(SinkholeService.this)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(ServiceSinkhole.this)
                     .setWhen(when)
                     .setSmallIcon(R.drawable.ic_equalizer_white_24dp)
                     .setContent(remoteViews)
@@ -934,7 +933,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                 state = State.stats;
                 Log.d(TAG, "Start foreground state=" + state.toString());
             } else
-                NotificationManagerCompat.from(SinkholeService.this).notify(NOTIFY_TRAFFIC, builder.build());
+                NotificationManagerCompat.from(ServiceSinkhole.this).notify(NOTIFY_TRAFFIC, builder.build());
         }
     }
 
@@ -994,7 +993,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         builder.addAddress(vpn6, 128);
 
         if (filter)
-            for (InetAddress dns : getDns(SinkholeService.this)) {
+            for (InetAddress dns : getDns(ServiceSinkhole.this)) {
                 Log.i(TAG, "dns=" + dns);
                 builder.addDnsServer(dns);
             }
@@ -1078,7 +1077,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private void startNative(ParcelFileDescriptor vpn, List<Rule> listAllowed, List<Rule> listRule) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
         boolean log = prefs.getBoolean("log", false);
         boolean log_app = prefs.getBoolean("log_app", false);
         boolean filter = prefs.getBoolean("filter", false);
@@ -1129,7 +1128,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private void prepareHostsBlocked() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
         boolean use_hosts = prefs.getBoolean("filter", false) && prefs.getBoolean("use_hosts", false);
         File hosts = new File(getFilesDir(), "hosts.txt");
         if (!use_hosts || !hosts.exists() || !hosts.canRead()) {
@@ -1183,7 +1182,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         if (dname == null)
             mapUidIPFilters.clear();
 
-        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getAccessDns(dname);
+        Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessDns(dname);
         int colUid = cursor.getColumnIndex("uid");
         int colVersion = cursor.getColumnIndex("version");
         int colProtocol = cursor.getColumnIndex("protocol");
@@ -1238,7 +1237,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean("filter", false)) {
-            Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getForwarding();
+            Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getForwarding();
             int colProtocol = cursor.getColumnIndex("protocol");
             int colDPort = cursor.getColumnIndex("dport");
             int colRAddr = cursor.getColumnIndex("raddr");
@@ -1285,13 +1284,13 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         boolean unmetered_2g = prefs.getBoolean("unmetered_2g", false);
         boolean unmetered_3g = prefs.getBoolean("unmetered_3g", false);
         boolean unmetered_4g = prefs.getBoolean("unmetered_4g", false);
-        boolean roaming = Util.isRoaming(SinkholeService.this);
+        boolean roaming = Util.isRoaming(ServiceSinkhole.this);
         boolean national = prefs.getBoolean("national_roaming", false);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
 
         // Update connected state
-        last_connected = Util.isConnected(SinkholeService.this);
+        last_connected = Util.isConnected(ServiceSinkhole.this);
 
         boolean org_metered = metered;
         boolean org_roaming = roaming;
@@ -1378,7 +1377,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void dnsResolved(ResourceRecord rr) {
-        if (DatabaseHelper.getInstance(SinkholeService.this).insertDns(rr)) {
+        if (DatabaseHelper.getInstance(ServiceSinkhole.this).insertDns(rr)) {
             Log.i(TAG, "New IP " + rr);
             prepareUidIPFilters(rr.QName);
         }
@@ -1475,7 +1474,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
             int delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
             boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
 
@@ -1485,11 +1484,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             if (interactive || delay == 0) {
                 last_interactive = interactive;
-                reload("interactive state changed", SinkholeService.this);
+                reload("interactive state changed", ServiceSinkhole.this);
             } else {
                 if (ACTION_SCREEN_OFF_DELAYED.equals(intent.getAction())) {
                     last_interactive = interactive;
-                    reload("interactive state changed", SinkholeService.this);
+                    reload("interactive state changed", ServiceSinkhole.this);
                 } else {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
                         am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
@@ -1500,7 +1499,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // Start/stop stats
             statsHandler.sendEmptyMessage(
-                    Util.isInteractive(SinkholeService.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
+                    Util.isInteractive(ServiceSinkhole.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
         }
     };
 
@@ -1516,7 +1515,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Power saving=" + powersaving);
 
             statsHandler.sendEmptyMessage(
-                    Util.isInteractive(SinkholeService.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
+                    Util.isInteractive(ServiceSinkhole.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
         }
     };
 
@@ -1531,7 +1530,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "User foreground=" + user_foreground + " user=" + (Process.myUid() / 100000));
 
             if (user_foreground) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                 if (prefs.getBoolean("enabled", false)) {
                     // Allow service of background user to stop
                     try {
@@ -1539,10 +1538,10 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
                     } catch (InterruptedException ignored) {
                     }
 
-                    start("foreground", SinkholeService.this);
+                    start("foreground", ServiceSinkhole.this);
                 }
             } else
-                stop("background", SinkholeService.this);
+                stop("background", ServiceSinkhole.this);
         }
     };
 
@@ -1558,7 +1557,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
 
             // Reload rules when coming from idle mode
             if (!pm.isDeviceIdleMode())
-                reload("idle state changed", SinkholeService.this);
+                reload("idle state changed", ServiceSinkhole.this);
         }
     };
 
@@ -1575,7 +1574,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             // Reload rules
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            reload("connectivity changed", SinkholeService.this);
+            reload("connectivity changed", ServiceSinkhole.this);
         }
     };
 
@@ -1586,18 +1585,18 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         @Override
         public void onDataConnectionStateChanged(int state, int networkType) {
             if (state == TelephonyManager.DATA_CONNECTED) {
-                String current_generation = Util.getNetworkGeneration(SinkholeService.this);
+                String current_generation = Util.getNetworkGeneration(ServiceSinkhole.this);
                 Log.i(TAG, "Data connected generation=" + current_generation);
 
                 if (last_generation == null || !last_generation.equals(current_generation)) {
                     Log.i(TAG, "New network generation=" + current_generation);
                     last_generation = current_generation;
 
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                     if (prefs.getBoolean("unmetered_2g", false) ||
                             prefs.getBoolean("unmetered_3g", false) ||
                             prefs.getBoolean("unmetered_4g", false))
-                        reload("data connection state changed", SinkholeService.this);
+                        reload("data connection state changed", ServiceSinkhole.this);
                 }
             }
         }
@@ -1605,16 +1604,16 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         @Override
         public void onServiceStateChanged(ServiceState serviceState) {
             if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
-                int current_international = (Util.isInternational(SinkholeService.this) ? 1 : 0);
+                int current_international = (Util.isInternational(ServiceSinkhole.this) ? 1 : 0);
                 Log.i(TAG, "In service international=" + current_international);
 
                 if (last_international != current_international) {
                     Log.i(TAG, "New international=" + current_international);
                     last_international = current_international;
 
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SinkholeService.this);
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                     if (prefs.getBoolean("national_roaming", false))
-                        reload("service state changed", SinkholeService.this);
+                        reload("service state changed", ServiceSinkhole.this);
                 }
             }
         }
@@ -1625,7 +1624,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            reload("package added", SinkholeService.this);
+            reload("package added", ServiceSinkhole.this);
         }
     };
 
@@ -1704,7 +1703,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         registerReceiver(packageAddedReceiver, ifPackage);
 
         // Setup house holding
-        Intent alarmIntent = new Intent(this, SinkholeService.class);
+        Intent alarmIntent = new Intent(this, ServiceSinkhole.class);
         alarmIntent.setAction(ACTION_HOUSE_HOLDING);
         PendingIntent pi = PendingIntent.getService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -1743,7 +1742,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
             boolean enabled = prefs.getBoolean("enabled", false);
 
             // Recreate intent
-            intent = new Intent(this, SinkholeService.class);
+            intent = new Intent(this, ServiceSinkhole.class);
             intent.putExtra(EXTRA_COMMAND, enabled ? Command.start : Command.stop);
         }
 
@@ -2000,11 +1999,11 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     private void showAccessNotification(int uid) {
-        String name = TextUtils.join(", ", Util.getApplicationNames(uid, SinkholeService.this));
+        String name = TextUtils.join(", ", Util.getApplicationNames(uid, ServiceSinkhole.this));
 
-        Intent main = new Intent(SinkholeService.this, ActivityMain.class);
+        Intent main = new Intent(ServiceSinkhole.this, ActivityMain.class);
         main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
-        PendingIntent pi = PendingIntent.getActivity(SinkholeService.this, uid + 10000, main, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getActivity(ServiceSinkhole.this, uid + 10000, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorOn, tv, true);
@@ -2035,7 +2034,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
         sp.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         notification.addLine(sp);
 
-        Cursor cursor = DatabaseHelper.getInstance(SinkholeService.this).getAccessUnset(uid, 7);
+        Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessUnset(uid, 7);
         int colDAddr = cursor.getColumnIndex("daddr");
         int colTime = cursor.getColumnIndex("time");
         int colAllowed = cursor.getColumnIndex("allowed");
@@ -2194,14 +2193,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     public static void run(String reason, Context context) {
-        Intent intent = new Intent(context, SinkholeService.class);
+        Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.run);
         intent.putExtra(EXTRA_REASON, reason);
         context.startService(intent);
     }
 
     public static void start(String reason, Context context) {
-        Intent intent = new Intent(context, SinkholeService.class);
+        Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         intent.putExtra(EXTRA_REASON, reason);
         context.startService(intent);
@@ -2210,7 +2209,7 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     public static void reload(String reason, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getBoolean("enabled", false)) {
-            Intent intent = new Intent(context, SinkholeService.class);
+            Intent intent = new Intent(context, ServiceSinkhole.class);
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             intent.putExtra(EXTRA_REASON, reason);
             context.startService(intent);
@@ -2218,14 +2217,14 @@ public class SinkholeService extends VpnService implements SharedPreferences.OnS
     }
 
     public static void stop(String reason, Context context) {
-        Intent intent = new Intent(context, SinkholeService.class);
+        Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         intent.putExtra(EXTRA_REASON, reason);
         context.startService(intent);
     }
 
     public static void reloadStats(String reason, Context context) {
-        Intent intent = new Intent(context, SinkholeService.class);
+        Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.stats);
         intent.putExtra(EXTRA_REASON, reason);
         context.startService(intent);
