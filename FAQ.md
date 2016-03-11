@@ -184,6 +184,9 @@ Yes, but this needs to be enabled in the settings.
 If it works depends on your Android version,
 because some Android versions have a bug preventing tethering and the VPN service to work together.
 
+Some devices hibernate Wi-Fi preventing tethering to work when the screen is off.
+This behavior can be disabled in the Android enhanced/advanced Wi-Fi settings.
+
 <a name="FAQ24"></a>
 **(24) Can you remove the notification from the status bar?**
 
