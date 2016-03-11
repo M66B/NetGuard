@@ -23,6 +23,17 @@ int max_tun_msg = 0;
 extern int loglevel;
 extern FILE *pcap_file;
 
+uint16_t get_mtu() {
+    return 10000;
+}
+
+uint16_t get_default_mss(int version) {
+    if (version == 4)
+        return (get_mtu() - sizeof(struct iphdr) - sizeof(struct tcphdr));
+    else
+        return (get_mtu() - sizeof(struct ip6_hdr) - sizeof(struct tcphdr));
+}
+
 int check_tun(const struct arguments *args,
               fd_set *rfds, fd_set *wfds, fd_set *efds,
               int sessions, int maxsessions) {
@@ -41,8 +52,8 @@ int check_tun(const struct arguments *args,
 
     // Check tun read
     if (FD_ISSET(args->tun, rfds)) {
-        uint8_t *buffer = malloc(TUN_MAXMSG);
-        ssize_t length = read(args->tun, buffer, TUN_MAXMSG);
+        uint8_t *buffer = malloc(get_mtu());
+        ssize_t length = read(args->tun, buffer, get_mtu());
         if (length < 0) {
             free(buffer);
 

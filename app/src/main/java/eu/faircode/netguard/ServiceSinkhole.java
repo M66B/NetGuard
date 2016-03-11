@@ -1045,7 +1045,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
-        builder.setMtu(jni_get_mtu());
+        int mtu = jni_get_mtu();
+        Log.i(TAG, "MTU=" + mtu);
+        builder.setMtu(mtu);
 
         // Add list of allowed applications
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -2097,6 +2099,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private class Builder extends VpnService.Builder {
         private NetworkInfo networkInfo;
+        private int mtu;
         private List<String> listAddress = new ArrayList<>();
         private List<String> listRoute = new ArrayList<>();
         private List<InetAddress> listDns = new ArrayList<>();
@@ -2106,6 +2109,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             super();
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             networkInfo = cm.getActiveNetworkInfo();
+        }
+
+        @Override
+        public VpnService.Builder setMtu(int mtu) {
+            this.mtu = mtu;
+            super.setMtu(mtu);
+            return this;
         }
 
         @Override
@@ -2145,6 +2155,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             if (this.networkInfo == null || other.networkInfo == null ||
                     this.networkInfo.getType() != other.networkInfo.getType())
+                return false;
+
+            if (this.mtu != other.mtu)
                 return false;
 
             if (this.listAddress.size() != other.listAddress.size())

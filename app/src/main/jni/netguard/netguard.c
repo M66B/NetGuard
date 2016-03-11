@@ -181,7 +181,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1stop(
 
 JNIEXPORT jint JNICALL
 Java_eu_faircode_netguard_ServiceSinkhole_jni_1get_1mtu(JNIEnv *env, jobject instance) {
-    return TUN_MAXMSG;
+    return get_mtu();
 }
 
 JNIEXPORT jintArray JNICALL
