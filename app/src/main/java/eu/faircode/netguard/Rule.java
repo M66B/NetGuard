@@ -149,7 +149,8 @@ public class Rule {
         }
     }
 
-    public static void updatePackages(Context context) {
+    public static void clearCache(Context context) {
+        Log.i(TAG, "Clearing cache");
         synchronized (context.getApplicationContext()) {
             cachePackageInfo = null;
             cacheLabel.clear();
