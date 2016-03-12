@@ -1084,18 +1084,24 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         Log.i(TAG, "Start native log=" + log + "/" + log_app + " filter=" + filter);
 
-        unprepare();
-
         // Prepare rules
         if (filter) {
             prepareUidAllowed(listAllowed, listRule);
             prepareHostsBlocked();
             prepareUidIPFilters(null);
             prepareForwarding();
+        } else {
+            mapUidAllowed.clear();
+            mapUidKnown.clear();
+            mapHostsBlocked.clear();
+            mapUidIPFilters.clear();
+            mapForward.clear();
         }
 
         if (log_app)
             prepareNotify(listRule);
+        else
+            mapNoNotify.clear();
 
         if (log || log_app || filter) {
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
