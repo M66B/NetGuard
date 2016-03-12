@@ -353,6 +353,21 @@ public class Util {
         return false;
     }
 
+    public static boolean isEnabled(PackageInfo info, Context context) {
+        int setting;
+        try {
+            PackageManager pm = context.getPackageManager();
+            setting = pm.getApplicationEnabledSetting(info.packageName);
+        } catch (IllegalArgumentException ex) {
+            setting = PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
+            Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
+        if (setting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
+            return info.applicationInfo.enabled;
+        else
+            return (setting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
+    }
+
     public static List<String> getApplicationNames(int uid, Context context) {
         List<String> listResult = new ArrayList<>();
         if (uid == 0)

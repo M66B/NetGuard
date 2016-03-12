@@ -81,9 +81,87 @@ public class Rule {
 
     public boolean expanded = false;
 
-    private Rule(PackageInfo info, Context context) {
-        PackageManager pm = context.getPackageManager();
+    private static List<PackageInfo> cachePackageInfo = null;
+    private static Map<PackageInfo, String> cacheLabel = new HashMap<>();
+    private static Map<String, Boolean> cacheSystem = new HashMap<>();
+    private static Map<String, Boolean> cacheInternet = new HashMap<>();
+    private static Map<PackageInfo, Boolean> cacheEnabled = new HashMap<>();
+    private static Map<String, Intent> cacheIntent = new HashMap<>();
+    private static Map<Integer, String[]> cachePackages = new HashMap<>();
 
+    private static List<PackageInfo> getPackages(Context context) {
+        synchronized (context.getApplicationContext()) {
+            if (cachePackageInfo == null) {
+                PackageManager pm = context.getPackageManager();
+                cachePackageInfo = pm.getInstalledPackages(0);
+            }
+            return new ArrayList<>(cachePackageInfo);
+        }
+    }
+
+    private static String getLabel(PackageInfo info, Context context) {
+        synchronized (context.getApplicationContext()) {
+            if (!cacheLabel.containsKey(info)) {
+                PackageManager pm = context.getPackageManager();
+                cacheLabel.put(info, info.applicationInfo.loadLabel(pm).toString());
+            }
+            return cacheLabel.get(info);
+        }
+    }
+
+    private static boolean isSystem(String packageName, Context context) {
+        synchronized (context.getApplicationContext()) {
+            if (!cacheSystem.containsKey(packageName))
+                cacheSystem.put(packageName, Util.isSystem(packageName, context));
+            return cacheSystem.get(packageName);
+        }
+    }
+
+    private static boolean hasInternet(String packageName, Context context) {
+        synchronized (context.getApplicationContext()) {
+            if (!cacheInternet.containsKey(packageName))
+                cacheInternet.put(packageName, Util.hasInternet(packageName, context));
+            return cacheInternet.get(packageName);
+        }
+    }
+
+    private static boolean isEnabled(PackageInfo info, Context context) {
+        synchronized (context.getApplicationContext()) {
+            if (!cacheEnabled.containsKey(info))
+                cacheEnabled.put(info, Util.isEnabled(info, context));
+            return cacheEnabled.get(info);
+        }
+    }
+
+    private static Intent getIntent(String packageName, Context context) {
+        synchronized (context.getApplicationContext()) {
+            if (!cacheIntent.containsKey(packageName))
+                cacheIntent.put(packageName, context.getPackageManager().getLaunchIntentForPackage(packageName));
+            return cacheIntent.get(packageName);
+        }
+    }
+
+    private static String[] getPackages(int uid, Context context) {
+        synchronized (context.getApplicationContext()) {
+            if (!cachePackages.containsKey(uid))
+                cachePackages.put(uid, context.getPackageManager().getPackagesForUid(uid));
+            return cachePackages.get(uid);
+        }
+    }
+
+    public static void updatePackages(Context context) {
+        synchronized (context.getApplicationContext()) {
+            cachePackageInfo = null;
+            cacheLabel.clear();
+            cacheSystem.clear();
+            cacheInternet.clear();
+            cacheEnabled.clear();
+            cacheIntent.clear();
+            cachePackages.clear();
+        }
+    }
+
+    private Rule(PackageInfo info, Context context) {
         this.info = info;
         if (info.applicationInfo.uid == 0) {
             this.name = context.getString(R.string.title_root);
@@ -104,23 +182,11 @@ public class Rule {
             this.enabled = true;
             this.intent = null;
         } else {
-            this.name = info.applicationInfo.loadLabel(pm).toString();
-            this.system = Util.isSystem(info.packageName, context);
-            this.internet = Util.hasInternet(info.packageName, context);
-
-            int setting;
-            try {
-                setting = pm.getApplicationEnabledSetting(info.packageName);
-            } catch (IllegalArgumentException ex) {
-                setting = PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
-                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
-            if (setting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
-                this.enabled = info.applicationInfo.enabled;
-            else
-                this.enabled = (setting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
-
-            this.intent = pm.getLaunchIntentForPackage(info.packageName);
+            this.name = getLabel(info, context);
+            this.system = isSystem(info.packageName, context);
+            this.internet = hasInternet(info.packageName, context);
+            this.enabled = isEnabled(info, context);
+            this.intent = getIntent(info.packageName, context);
         }
     }
 
@@ -192,9 +258,7 @@ public class Rule {
 
         // Build rule list
         List<Rule> listRules = new ArrayList<>();
-
-        PackageManager pm = context.getPackageManager();
-        List<PackageInfo> listPI = pm.getInstalledPackages(0);
+        List<PackageInfo> listPI = getPackages(context);
 
         // Add root
         PackageInfo root = new PackageInfo();
@@ -258,7 +322,7 @@ public class Rule {
                 List<String> listPkg = new ArrayList<>();
                 if (pre_related.containsKey(info.packageName))
                     listPkg.addAll(Arrays.asList(pre_related.get(info.packageName)));
-                String[] pkgs = pm.getPackagesForUid(info.applicationInfo.uid);
+                String[] pkgs = getPackages(info.applicationInfo.uid, context);
                 if (pkgs != null && pkgs.length > 1) {
                     rule.relateduids = true;
                     listPkg.addAll(Arrays.asList(pkgs));
