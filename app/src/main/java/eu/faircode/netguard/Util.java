@@ -63,6 +63,9 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -71,6 +74,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -639,15 +643,35 @@ public class Util {
             }
 
         for (NetworkInfo ni : listNI) {
-            sb.append(ni.getTypeName())
-                    .append('/')
-                    .append(ni.getSubtypeName())
+            sb.append(ni.getTypeName()).append('/').append(ni.getSubtypeName())
                     .append(' ').append(ni.getDetailedState())
                     .append(TextUtils.isEmpty(ni.getExtraInfo()) ? "" : " " + ni.getExtraInfo())
                     .append(ni.getType() == ConnectivityManager.TYPE_MOBILE ? " " + Util.getNetworkGeneration(ni.getSubtype()) : "")
                     .append(ni.isRoaming() ? " R" : "")
                     .append(ani != null && ni.getType() == ani.getType() && ni.getSubtype() == ani.getSubtype() ? " *" : "")
                     .append("\r\n");
+        }
+
+        try {
+            Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+            if (nis != null) {
+                sb.append("\r\n");
+                while (nis.hasMoreElements()) {
+                    NetworkInterface ni = nis.nextElement();
+                    if (ni != null) {
+                        List<InterfaceAddress> ias = ni.getInterfaceAddresses();
+                        if (ias != null)
+                            for (InterfaceAddress ia : ias)
+                                sb.append(ni.getName())
+                                        .append(' ').append(ia.getAddress().getHostAddress())
+                                        .append('/').append(ia.getNetworkPrefixLength())
+                                        .append(' ').append(ni.getMTU())
+                                        .append("\r\n");
+                    }
+                }
+            }
+        } catch (Throwable ex) {
+            sb.append(ex.toString()).append("\r\n");
         }
 
         if (sb.length() > 2)
