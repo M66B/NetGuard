@@ -1674,7 +1674,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         registerReceiver(interactiveStateReceiver, ifInteractive);
 
         // Listen for power save mode
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !Util.isPlayStoreInstall(this)) {
             PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
             powersaving = pm.isPowerSaveMode();
             IntentFilter ifPower = new IntentFilter();
