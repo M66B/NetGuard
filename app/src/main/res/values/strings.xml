@@ -140,6 +140,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="msg_disabled">NetGuard is disabled, use the switch above to enable NetGuard</string>
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
     <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
+    <string name="msg_start_failed">The Android VPN service could not be started, which is most likely caused by a bug in your Android version.
+Restarting your device or revoking the VPN permission using the Android settings from NetGuard might (temporarily) solve this problem.</string>
     <string name="msg_installed">\'%1$s\' installed</string>
     <string name="msg_access">%1$s attempted internet access</string>
     <string name="msg_completed">Action completed</string>

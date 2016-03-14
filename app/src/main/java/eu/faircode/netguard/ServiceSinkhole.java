@@ -348,12 +348,14 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
-                showExitNotification(ex.toString());
-
-                if (!(ex instanceof IllegalStateException)) {
+                if (ex instanceof IllegalStateException)
+                    showErrorNotification(4, getString(R.string.msg_start_failed));
+                else {
                     // Disable firewall
                     prefs.edit().putBoolean("enabled", false).apply();
                     Widget.updateWidgets(ServiceSinkhole.this);
+
+                    showExitNotification(ex.toString());
 
                     // Report exception
                     Util.sendCrashReport(ex, ServiceSinkhole.this);
