@@ -855,7 +855,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     return null;
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, ActivitySettings.this);
                     return ex;
                 } finally {
                     if (out != null)
@@ -955,7 +954,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     return null;
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, ActivitySettings.this);
                     return ex;
                 } finally {
                     if (in != null)
