@@ -33,7 +33,7 @@ int loglevel = ANDROID_LOG_WARN;
 
 extern int max_tun_msg;
 extern FILE *pcap_file;
-extern int pcap_record_size;
+extern size_t pcap_record_size;
 extern long pcap_file_size;
 
 int proxy_fd = 0;
@@ -215,7 +215,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1get_1stats(JNIEnv *env, jobject i
     struct rlimit rlim;
     memset(&rlim, 0, sizeof(struct rlimit));
     getrlimit(RLIMIT_NOFILE, &rlim);
-    jcount[4] = rlim.rlim_cur;
+    jcount[4] = (jint) rlim.rlim_cur;
 
     (*env)->ReleaseIntArrayElements(env, jarray, jcount, NULL);
     return jarray;
@@ -226,7 +226,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1pcap(
         JNIEnv *env, jclass type,
         jstring name_, jint record_size, jint file_size) {
 
-    pcap_record_size = record_size;
+    pcap_record_size = (size_t) record_size;
     pcap_file_size = file_size;
 
     if (pthread_mutex_lock(&lock))
@@ -320,7 +320,7 @@ Java_eu_faircode_netguard_Util_is_1numeric_1address(JNIEnv *env, jclass type, js
     if (err)
         log_android(ANDROID_LOG_DEBUG, "getaddrinfo(%s) error %d: %s", ip, err, gai_strerror(err));
     else
-        numeric = (result != NULL);
+        numeric = (jboolean) (result != NULL);
 
     (*env)->ReleaseStringUTFChars(env, ip_, ip);
     return numeric;

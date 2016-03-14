@@ -353,6 +353,21 @@ public class Util {
         return false;
     }
 
+    public static boolean isEnabled(PackageInfo info, Context context) {
+        int setting;
+        try {
+            PackageManager pm = context.getPackageManager();
+            setting = pm.getApplicationEnabledSetting(info.packageName);
+        } catch (IllegalArgumentException ex) {
+            setting = PackageManager.COMPONENT_ENABLED_STATE_DEFAULT;
+            Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
+        if (setting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
+            return info.applicationInfo.enabled;
+        else
+            return (setting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
+    }
+
     public static List<String> getApplicationNames(int uid, Context context) {
         List<String> listResult = new ArrayList<>();
         if (uid == 0)
@@ -594,6 +609,12 @@ public class Util {
             if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
                 sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
         }
+
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            sb.append(String.format("Power saving %B\r\n", pm.isPowerSaveMode()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            sb.append(String.format("Battery optimizing %B\r\n", !pm.isIgnoringBatteryOptimizations(context.getPackageName())));
 
         if (sb.length() > 2)
             sb.setLength(sb.length() - 2);

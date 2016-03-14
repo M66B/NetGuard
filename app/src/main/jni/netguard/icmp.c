@@ -19,7 +19,7 @@
 
 #include "netguard.h"
 
-struct icmp_session *icmp_session;
+struct icmp_session *icmp_session = NULL;
 extern FILE *pcap_file;
 
 void init_icmp(const struct arguments *args) {

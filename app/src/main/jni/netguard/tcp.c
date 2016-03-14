@@ -19,7 +19,7 @@
 
 #include "netguard.h"
 
-struct tcp_session *tcp_session;
+struct tcp_session *tcp_session = NULL;
 extern FILE *pcap_file;
 
 void init_tcp(const struct arguments *args) {
@@ -274,7 +274,9 @@ void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                             ssize_t sent = send(cur->socket,
                                                 cur->forward->data + cur->forward->sent,
                                                 cur->forward->len - cur->forward->sent,
-                                                MSG_NOSIGNAL | (cur->forward->psh ? 0 : MSG_MORE));
+                                                (unsigned int) (MSG_NOSIGNAL | (cur->forward->psh
+                                                                                ? 0
+                                                                                : MSG_MORE)));
                             if (sent < 0) {
                                 log_android(ANDROID_LOG_ERROR, "%s send error %d: %s",
                                             session, errno, strerror(errno));
