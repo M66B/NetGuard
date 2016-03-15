@@ -1000,7 +1000,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 builder.addDnsServer(dns);
             }
 
-        if (tethering) {
+        if (tethering && filter) {
             // USB Tethering 192.168.42.x
             // Wi-Fi Tethering 192.168.43.x
             // https://en.wikipedia.org/wiki/IPv4#Special-use_addresses
