@@ -89,6 +89,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public ImageView ivIcon;
         public ImageView ivExpander;
         public TextView tvName;
+        public TextView tvDescription;
 
         public TextView tvHosts;
 
@@ -135,6 +136,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             ivIcon = (ImageView) itemView.findViewById(R.id.ivIcon);
             ivExpander = (ImageView) itemView.findViewById(R.id.ivExpander);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
+            tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
 
             tvHosts = (TextView) itemView.findViewById(R.id.tvHosts);
 
@@ -297,6 +299,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         // Show application label
         holder.tvName.setText(rule.name);
+        holder.tvDescription.setVisibility(rule.description == null ? View.GONE : View.VISIBLE);
+        holder.tvDescription.setText(rule.description);
 
         // Show application state
         int color = rule.system ? colorOff : colorText;

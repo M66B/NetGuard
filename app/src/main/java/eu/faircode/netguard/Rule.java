@@ -50,6 +50,7 @@ public class Rule {
 
     public PackageInfo info;
     public String name;
+    public String description;
     public boolean system;
     public boolean internet;
     public boolean enabled;
@@ -83,6 +84,7 @@ public class Rule {
 
     private static List<PackageInfo> cachePackageInfo = null;
     private static Map<PackageInfo, String> cacheLabel = new HashMap<>();
+    private static Map<PackageInfo, String> cacheDescription = new HashMap<>();
     private static Map<String, Boolean> cacheSystem = new HashMap<>();
     private static Map<String, Boolean> cacheInternet = new HashMap<>();
     private static Map<PackageInfo, Boolean> cacheEnabled = new HashMap<>();
@@ -106,6 +108,17 @@ public class Rule {
                 cacheLabel.put(info, info.applicationInfo.loadLabel(pm).toString());
             }
             return cacheLabel.get(info);
+        }
+    }
+
+    private static String getDescription(PackageInfo info, Context context) {
+        synchronized (context.getApplicationContext()) {
+            if (!cacheDescription.containsKey(info)) {
+                PackageManager pm = context.getPackageManager();
+                CharSequence description = info.applicationInfo.loadDescription(pm);
+                cacheDescription.put(info, description == null ? null : description.toString());
+            }
+            return cacheDescription.get(info);
         }
     }
 
@@ -154,6 +167,7 @@ public class Rule {
         synchronized (context.getApplicationContext()) {
             cachePackageInfo = null;
             cacheLabel.clear();
+            cacheDescription.clear();
             cacheSystem.clear();
             cacheInternet.clear();
             cacheEnabled.clear();
@@ -166,24 +180,28 @@ public class Rule {
         this.info = info;
         if (info.applicationInfo.uid == 0) {
             this.name = context.getString(R.string.title_root);
+            this.description = null;
             this.system = true;
             this.internet = true;
             this.enabled = true;
             this.intent = null;
         } else if (info.applicationInfo.uid == 1013) {
             this.name = context.getString(R.string.title_mediaserver);
+            this.description = null;
             this.system = true;
             this.internet = true;
             this.enabled = true;
             this.intent = null;
         } else if (info.applicationInfo.uid == 9999) {
             this.name = context.getString(R.string.title_nobody);
+            this.description = null;
             this.system = true;
             this.internet = true;
             this.enabled = true;
             this.intent = null;
         } else {
             this.name = getLabel(info, context);
+            this.description = getDescription(info, context);
             this.system = isSystem(info.packageName, context);
             this.internet = hasInternet(info.packageName, context);
             this.enabled = isEnabled(info, context);

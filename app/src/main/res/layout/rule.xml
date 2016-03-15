@@ -176,6 +176,15 @@
             android:textAppearance="@style/TextSmall" />
 
         <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="@style/TextSmall"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/tvInternet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
