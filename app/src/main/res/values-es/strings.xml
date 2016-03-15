@@ -118,6 +118,7 @@
   <string name="msg_disabled">NetGuard está desactivado, utiliza el interruptor de arriba para habilitar NetGuard</string>
   <string name="msg_revoked">NetGuard se a desactivado, probablemente por usar otra aplicación de VPN</string>
   <string name="msg_error">NetGuard se desactivó debido a un error interno</string>
+  <string name="msg_start_failed">No se pudo iniciar el servicio VPN de Android, probablemente sea causado por un error en tu versión de Android. Reiniciar el dispositivo o revocar el permiso VPN utilizando los ajustes de Android de NetGuard (si es posible), podría (temporalmente) resolver este problema.</string>
   <string name="msg_installed">\'%1$s\' instalado</string>
   <string name="msg_access">%1$s intentó acceder a Internet</string>
   <string name="msg_completed">Acción completada</string>
@@ -133,6 +134,8 @@
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
+  <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_filter">Usar filtrado hará que Android atribuya el uso de datos y energía a NetGuard - Android asume que el uso de datos y energía los utiliza NetGuard, en lugar de las aplicaciones originales</string>
   <string name="msg_log_disabled">El registro del tráfico está desactivado, utilice el interruptor de arriba para activar el registro. El registro del tráfico podría consumir más batería.</string>
   <string name="msg_clear_rules">Esto restablecerá las reglas y condiciones a sus valores originales</string>
@@ -174,6 +177,7 @@
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nadie</string>
   <string name="title_notify">Notificar intentos de acceso a Internet</string>
+  <string name="title_dontask">Don\'t ask again</string>
   <string name="title_log_whois">Quién es %1$s</string>
   <string name="title_log_port">Puerto %1$d</string>
   <string name="title_pro">Características Pro</string>

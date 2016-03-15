@@ -118,6 +118,8 @@
   <string name="msg_disabled">التطبيق غير مُفعّل, قم بتفعيل التطبيق من الخيار أعلاه.</string>
   <string name="msg_revoked">تـم تـعـطـيـل NetGuard، مـن الـمـحـتـمـل إسـتـخـدام تـطـبـيـق VPN آخر</string>
   <string name="msg_error">تم تعطيل NetGuard، بسبب خطأ داخلي</string>
+  <string name="msg_start_failed">The Android VPN service could not be started, which is most likely caused by a bug in your Android version.
+Restarting your device or revoking the VPN permission using the Android settings from NetGuard (if possible) might (temporarily) solve this problem.</string>
   <string name="msg_installed">\'%1$s\' مثبت</string>
   <string name="msg_access">%1$s حاولت الوصول إلى الإنترنت</string>
   <string name="msg_completed">اكتمل الإجراء</string>
@@ -133,6 +135,8 @@
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ ميجا بايت</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ جيجابايت</string>
   <string name="msg_count">%dس</string>
+  <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_filter">استخدام التصفية سيتسبب بأن ينسب الأندرويد استخدام البيانات والطاقة الى NetGuard - يفترض الأندرويد أن البيانات والطاقة تستخدمان من قبل NetGuard بدلاً من التطبيقات الأصلية</string>
   <string name="msg_log_disabled">تسجيل الحركة معطل، استخدم رمز التبديل أعلاه لتمكين التسجيل. قد يؤدي تسجيل الحركة الى استخدام إضافي للبطارية.</string>
   <string name="msg_clear_rules">هذا سوف يعيد تعيين القواعد والشروط إلى قيمها الافتراضية</string>
@@ -174,6 +178,7 @@
   <string name="title_mediaserver">خادم الوسائط</string>
   <string name="title_nobody">لا أحد</string>
   <string name="title_notify">تنبيه عن محاولات الوصول إلى إنترنت</string>
+  <string name="title_dontask">Don\'t ask again</string>
   <string name="title_log_whois">بيانات تسجيل اسم النطاق %1$s</string>
   <string name="title_log_port">منفذ %1$d</string>
   <string name="title_pro">ميزات النسخة الكاملة</string>
