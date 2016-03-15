@@ -75,9 +75,6 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">Wielkość rekordu PCAP: %s B</string>
   <string name="setting_pcap_file_size">Maksymalna wielkość pliku PCAP: %s MB</string>
-  <string name="setting_proxy">Proxy server: %s</string>
-  <string name="setting_proxy_username">Proxy username</string>
-  <string name="setting_proxy_password">Proxy password</string>
   <string name="setting_stats_category">Wykres prędkości</string>
   <string name="setting_stats">Pokazuj wskaźnik prędkości</string>
   <string name="setting_stats_top">Pokaż aplikacje z najwyższym transferem</string>

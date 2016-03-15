@@ -77,9 +77,6 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">PCAP record size: %s B</string>
   <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
-  <string name="setting_proxy">Proxy server: %s</string>
-  <string name="setting_proxy_username">Proxy username</string>
-  <string name="setting_proxy_password">Proxy password</string>
   <string name="setting_stats_category">Speed notification</string>
   <string name="setting_stats">Zobrazit oznámení o rychlosti</string>
   <string name="setting_stats_top">Show top applications</string>

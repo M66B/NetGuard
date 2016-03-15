@@ -75,9 +75,6 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">Marime inregistrare PCAP: %s B</string>
   <string name="setting_pcap_file_size">Marime max. fisier PCAP: %s MB</string>
-  <string name="setting_proxy">Server proxy: %s</string>
-  <string name="setting_proxy_username">Nume utilizator proxy</string>
-  <string name="setting_proxy_password">Parola utilizator proxy</string>
   <string name="setting_stats_category">Notificare viteza conexiune</string>
   <string name="setting_stats">Arata notificare viteza</string>
   <string name="setting_stats_top">Arata aplicatiile consumatoare</string>

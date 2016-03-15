@@ -75,9 +75,6 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">Размер записи PCAP: %s Б</string>
   <string name="setting_pcap_file_size">Макс. размер PCAP файла: %s МБ</string>
-  <string name="setting_proxy">Прокси-сервер: %s</string>
-  <string name="setting_proxy_username">Название прокси</string>
-  <string name="setting_proxy_password">Пароль прокси</string>
   <string name="setting_stats_category">Скорость в статус-баре</string>
   <string name="setting_stats">Показать скорость в статус-баре</string>
   <string name="setting_stats_top">Показать топовое приложение</string>

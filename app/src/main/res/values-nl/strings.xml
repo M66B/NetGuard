@@ -76,9 +76,6 @@
   <string name="setting_dns">VPN-DNS: %s</string>
   <string name="setting_pcap_record_size">PCAP record grootte: %s B</string>
   <string name="setting_pcap_file_size">PCAP max. bestandsgrootte: %s MB</string>
-  <string name="setting_proxy">Proxyserver: %s</string>
-  <string name="setting_proxy_username">Proxy gebruikersnaam</string>
-  <string name="setting_proxy_password">Proxy wachtwoord</string>
   <string name="setting_stats_category">Snelheidsmelding</string>
   <string name="setting_stats">Snelheidsmelding weergeven</string>
   <string name="setting_stats_top">Toon top toepassingen</string>

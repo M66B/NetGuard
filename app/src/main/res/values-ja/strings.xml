@@ -76,9 +76,6 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">PCAP レコードサイズ: %s B</string>
   <string name="setting_pcap_file_size">PCAP 最大。ファイルサイズ: %s MB</string>
-  <string name="setting_proxy">プロキシ サーバー: %s</string>
-  <string name="setting_proxy_username">プロキシのユーザー名</string>
-  <string name="setting_proxy_password">プロキシのパスワード</string>
   <string name="setting_stats_category">速度通知</string>
   <string name="setting_stats">速度通知を表示</string>
   <string name="setting_stats_top">トップ アプリケーションを表示</string>

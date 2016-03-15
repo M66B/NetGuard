@@ -75,9 +75,6 @@
   <string name="setting_dns">VPN DNS: %s</string>
   <string name="setting_pcap_record_size">גודל רשומת PCAP: %s B</string>
   <string name="setting_pcap_file_size">חסם גודל קובץ PCAP: %s MB</string>
-  <string name="setting_proxy">שרת ה-proxy: %s</string>
-  <string name="setting_proxy_username">שם משתמש ה-proxy</string>
-  <string name="setting_proxy_password">סיסמת Proxy</string>
   <string name="setting_stats_category">התראת מהירות</string>
   <string name="setting_stats">הצג התראת מהירות</string>
   <string name="setting_stats_top">הצג את היישומים העליונים</string>
