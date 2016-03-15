@@ -13,7 +13,7 @@
   <string name="menu_app_disabled">Mostrar aplicações desabilitadas</string>
   <string name="menu_sort">Ordenar aplicações</string>
   <string name="menu_sort_name">Ordenar por nome</string>
-  <string name="menu_sort_uid">Sort on uid</string>
+  <string name="menu_sort_uid">Ordenar por uid</string>
   <string name="menu_sort_data">Ordenar por uso de dados</string>
   <string name="menu_log">Mostrar registo</string>
   <string name="menu_settings">Configurações</string>
@@ -51,7 +51,7 @@
   <string name="setting_dark">Ativar tema escuro</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
-  <string name="setting_update">Check for updates</string>
+  <string name="setting_update">Procurar actualizações</string>
   <string name="setting_network_options">Opções de rede</string>
   <string name="setting_tethering">Permitir tethering</string>
   <string name="setting_wifi_home">Rede Wi-Fi Doméstica: %1$s</string>
@@ -74,9 +74,9 @@
   <string name="setting_dns">DNS da VPN: %s</string>
   <string name="setting_pcap_record_size">Tamanho de registo PCAP: %s B</string>
   <string name="setting_pcap_file_size">Tamanho máx. do ficheiro PCAP: %s MB</string>
-  <string name="setting_proxy">Proxy server: %s</string>
-  <string name="setting_proxy_username">Proxy username</string>
-  <string name="setting_proxy_password">Proxy password</string>
+  <string name="setting_proxy">Servidor proxy: %s</string>
+  <string name="setting_proxy_username">Nome de utilizador do proxy</string>
+  <string name="setting_proxy_password">Palavra-passe do Proxy</string>
   <string name="setting_stats_category">Notificação de velocidade</string>
   <string name="setting_stats">Mostrar notificação de velocidade</string>
   <string name="setting_stats_top">Mostrar aplicações principais</string>
@@ -94,7 +94,7 @@
   <string name="setting_technical_subscription">Subscrições</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
-  <string name="summary_update">Check for new releases on GitHub twice daily</string>
+  <string name="summary_update">Procurar novos lançamentos no GitHub duas vezes por dia</string>
   <string name="summary_tethering">Dependendo da versão do Android, tethering pode ou não trabalhar. O tráfego em tethering não pode ser filtrado.</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis às outras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi compartilhadas (pagas, limitadas)</string>
@@ -108,7 +108,7 @@
   <string name="summary_filter">Filtrar pacotes de IP que saiem do sumidouro VPN. Isto pode resultar num uso adicional de bateria.</string>
   <string name="summary_track_usage">Controlar o número de bytes enviados e recebidos para cada aplicação e endereço. Isto pode resultar num uso adicional da bateria.</string>
   <string name="summary_block_domains">Responder com \'erro de nome\' (NXDOMAIN) para nomes de domínio bloqueados. Esta opção é desabilitada quando nenhum ficheiro de hosts está disponível.</string>
-  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
+  <string name="summary_proxy">Endereço IP do servidor proxy SOCKS5 e número de porta</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo regras</string>
@@ -118,6 +118,8 @@
   <string name="msg_disabled">NetGuard desativado, use o interruptor acima para o ativar</string>
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN está a ser usado</string>
   <string name="msg_error">NetGuard foi desativado devido a um erro interno</string>
+  <string name="msg_start_failed">The Android VPN service could not be started, which is most likely caused by a bug in your Android version.
+Restarting your device or revoking the VPN permission using the Android settings from NetGuard (if possible) might (temporarily) solve this problem.</string>
   <string name="msg_installed">\'%1$s\' instalado</string>
   <string name="msg_access">%1$s tentaram acesso à internet</string>
   <string name="msg_completed">Ação concluída</string>
@@ -133,6 +135,8 @@
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
+  <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_filter">Usando a filtragem faz com que o Android atribua o uso de dados e energia ao NetGuard - o Android assume que os dados e a energia estão a ser usados pelo NetGuard, em vez de pelas aplicações originais</string>
   <string name="msg_log_disabled">Registo de tráfego desabilitado, use o botão acima para habilitar o registo. Registar o tráfego pode resultar numa utilização extra da bateria.</string>
   <string name="msg_clear_rules">Isto irá redefinir as regras e condições para os seus valores padrão</string>
@@ -174,6 +178,7 @@
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">ninguém</string>
   <string name="title_notify">Notificar das tentativas de acesso à internet</string>
+  <string name="title_dontask">Don\'t ask again</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
   <string name="title_pro">Versão PRO</string>

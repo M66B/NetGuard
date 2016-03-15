@@ -166,16 +166,16 @@ when connectivity changes from Wi-Fi/mobile, screen on/off and roaming/not roami
 **(21) Does doze mode affect NetGuard?**
 
 I am not sure, because the [doze mode documentation](http://developer.android.com/training/monitoring-device-state/doze-standby.html)
-is not clear if broadcast receivers will be disabled in doze mode.
-If broadcast receivers are being disabled, then the rules might not be reloaded at the correct time or not at all
-when connectivity changes from Wi-Fi to mobile or the other way around.
+is not clear if the [Android VPN service](http://developer.android.com/reference/android/net/VpnService.html) will be affected.
+
 To be sure you can disable battery optimizations for NetGuard manually like this:
 
 ```
 Android settings > Battery > three dot menu > Battery optimizations > Dropdown > All apps > NetGuard > Don't optimize > Done
 ```
 
-This cannot be done from the application, because NetGuard is not an application type allowed to do this.
+This cannot be done from the application,
+because according to Google NetGuard is [not an application type allowed to do this](http://developer.android.com/training/monitoring-device-state/doze-standby.html#whitelisting-cases).
 
 <a name="FAQ22"></a>
 **(22) Can I tether / use Wi-Fi calling while using NetGuard?**

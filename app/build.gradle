@@ -9,8 +9,8 @@ model {
             applicationId = "eu.faircode.netguard"
             minSdkVersion.apiLevel = 14
             targetSdkVersion.apiLevel = 23
-            versionCode = 2016031203
-            versionName = "2.7"
+            versionCode = 2016031501
+            versionName = "2.8"
             archivesBaseName = "NetGuard-v$versionName-$versionCode"
 
             buildConfigFields {
@@ -67,7 +67,7 @@ model {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.+'
-    compile 'com.android.support:recyclerview-v7:23.1.+'
+    compile 'com.android.support:appcompat-v7:23.2.+'
+    compile 'com.android.support:recyclerview-v7:23.2.+'
     compile 'com.squareup.picasso:picasso:2.5.+'
 }

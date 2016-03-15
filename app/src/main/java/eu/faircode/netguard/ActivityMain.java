@@ -32,7 +32,9 @@ import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -55,6 +57,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -75,6 +78,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private MenuItem menuSearch = null;
     private AlertDialog dialogFirst = null;
     private AlertDialog dialogVpn = null;
+    private AlertDialog dialogDoze = null;
     private AlertDialog dialogLegend = null;
     private AlertDialog dialogAbout = null;
 
@@ -219,6 +223,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     ServiceSinkhole.stop("switch off", ActivityMain.this);
             }
         });
+        if (enabled)
+            checkDoze();
 
         // Network is metered
         ivMetered.setOnLongClickListener(new View.OnLongClickListener() {
@@ -259,6 +265,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Rule.clearCache(ActivityMain.this);
                 ServiceSinkhole.reload("pull", ActivityMain.this);
                 updateApplicationList(null);
             }
@@ -421,6 +428,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             dialogVpn.dismiss();
             dialogVpn = null;
         }
+        if (dialogDoze != null) {
+            dialogDoze.dismiss();
+            dialogDoze = null;
+        }
         if (dialogLegend != null) {
             dialogLegend.dismiss();
             dialogLegend = null;
@@ -447,8 +458,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             // Handle VPN approval
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
-            if (resultCode == RESULT_OK)
+            if (resultCode == RESULT_OK) {
                 ServiceSinkhole.start("prepared", this);
+                checkDoze();
+            }
 
         } else if (requestCode == REQUEST_INVITE) {
             // Do nothing
@@ -617,6 +630,44 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             } else {
                 MenuItemCompat.expandActionView(menuSearch);
                 searchView.setQuery(search, true);
+            }
+        }
+    }
+
+    private void checkDoze() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(getPackageName())) {
+                final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                if (!prefs.getBoolean("nodoze", false)) {
+                    LayoutInflater inflater = LayoutInflater.from(this);
+                    View view = inflater.inflate(R.layout.doze, null, false);
+                    final CheckBox cbDontAsk = (CheckBox) view.findViewById(R.id.cbDontAsk);
+                    dialogDoze = new AlertDialog.Builder(this)
+                            .setView(view)
+                            .setCancelable(true)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    prefs.edit().putBoolean("nodoze", cbDontAsk.isChecked()).apply();
+                                    startActivity(new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS));
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    prefs.edit().putBoolean("nodoze", cbDontAsk.isChecked()).apply();
+                                }
+                            })
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialogInterface) {
+                                    dialogDoze = null;
+                                }
+                            })
+                            .create();
+                    dialogDoze.show();
+                }
             }
         }
     }

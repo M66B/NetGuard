@@ -119,6 +119,7 @@
   <string name="msg_disabled">NetGuard ist deaktiviert. Verwenden Sie den Schalter, um NetGuard zu aktivieren.</string>
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer anderen VPN-Anwendung</string>
   <string name="msg_error">NetGuard wurde aufgrund eines internen Fehlers beendet</string>
+  <string name="msg_start_failed">Der Android VPN-Dienst konnte nicht gestartet werden, das wird meistens durch einen Fehler in Ihrer Android-Version verursacht. Ein Neustart Ihres Geräts oder das Aufheben der VPN-Berechtigung in den Android Einstellungen aus NetGuard (wenn möglich) könnte (vorübergehend) dieses Problem lösen.</string>
   <string name="msg_installed">\'%1$s\' installiert</string>
   <string name="msg_access">%1$s versucht Internetzugriff</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
@@ -134,6 +135,8 @@
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
+  <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_filter">Bei Verwendung von Filterung werden Daten- und Energiewerte erfasst und Android nimmt an, dass Daten und Energie von NetGuard statt von der ursprünglichen Anwendungen verbraucht werden</string>
   <string name="msg_log_disabled">Datenverkehrprotokollierung ist deaktiviert. Zum Aktivieren den Schalter oben verwenden. Die Protokollierung kann zu höherem Batterieverbrauch führen.</string>
   <string name="msg_clear_rules">Dadurch werden die Regeln und Bedingungen auf ihre Standardwerte zurückgesetzt</string>
@@ -175,6 +178,7 @@
   <string name="title_mediaserver">Medienserver</string>
   <string name="title_nobody">Keiner</string>
   <string name="title_notify">Benachrichtigen bei Internetzugriffsversuchen</string>
+  <string name="title_dontask">Nicht mehr fragen</string>
   <string name="title_log_whois">Wer ist %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Pro-Funktionen</string>

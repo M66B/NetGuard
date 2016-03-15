@@ -119,6 +119,8 @@
   <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar boven om NetGuard aan te zetten</string>
   <string name="msg_revoked">NetGuard is uitgezet, waarschijnlijk door een andere VPN applicatie</string>
   <string name="msg_error">NetGuard is uitgeschakeld wegens een interne fout</string>
+  <string name="msg_start_failed">The Android VPN service could not be started, which is most likely caused by a bug in your Android version.
+Restarting your device or revoking the VPN permission using the Android settings from NetGuard (if possible) might (temporarily) solve this problem.</string>
   <string name="msg_installed">\'%1$s\' geïnstalleerd</string>
   <string name="msg_access">%1$s benaderde het internet</string>
   <string name="msg_completed">Actie uitgevoerd</string>
@@ -136,6 +138,8 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
+  <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_filter">Het gebruik van filteren zorgt ervoor dat Android gegevens- en batterijgebruik aan NetGuard toewijst - Android denkt dat de gegevens en batterij door NetGuard worden gebruikt i.p.v. door de originele apps.</string>
   <string name="msg_log_disabled">Internetverkeer loggen is uitgeschakeld. Gebruik de schakelaar hierboven om het loggen in te schakelen. Internetverkeer loggen kan het batterijgebruik verhogen.</string>
   <string name="msg_clear_rules">Dit zet alle regels en instellingen terug naar de standaardinstelling</string>
@@ -177,6 +181,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">niemand</string>
   <string name="title_notify">Notify internet access attempts</string>
+  <string name="title_dontask">Don\'t ask again</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Poort %1$d</string>
   <string name="title_pro">Pro functies</string>
