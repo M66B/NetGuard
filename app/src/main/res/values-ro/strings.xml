@@ -118,6 +118,8 @@
   <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
   <string name="msg_revoked">NetGuard a fost dezactivat, probabil de o alta aplicatie ce foloseste o conexiune VPN</string>
   <string name="msg_error">NetGuard a fost dezactivat datorită unei erori interne</string>
+  <string name="msg_start_failed">Serviciul VPN Android nu a putut fi pornit, probabil din cauza unei erori din versiune dumneavoastra de Android.
+Repornirea dispozitivului sau anularea permisiunii VPN pentru NetGuard din setarile Android (daca e posibil) ar putea rezolva aceasta problema (temporar).</string>
   <string name="msg_installed">\'%1$s\' instalat</string>
   <string name="msg_access">%1$s a incercat sa acceseze internetul</string>
   <string name="msg_completed">Actiune realizata</string>
@@ -134,6 +136,8 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
+  <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_filter">Android va asocia consumul de baterie si date lui NetGuard atunci cand activati filtrarea. De fapt aplicatiile ce acceseaza internetul consuma</string>
   <string name="msg_log_disabled">Inregistrarea traficului in jurnal este dezactivata, utilizati butonul de mai sus pentru a o activa. Optiunea de inregistrare ar putea duce la un consumul suplimentar al bateriei.</string>
   <string name="msg_clear_rules">Se vor reseta regulile si conditiile la valorile implicite</string>
@@ -175,6 +179,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_mediaserver">Proces Mediaserver</string>
   <string name="title_nobody">Proces fara utilizator</string>
   <string name="title_notify">Notifica la incercarile de acces la internet</string>
+  <string name="title_dontask">Don\'t ask again</string>
   <string name="title_log_whois">Identitate %1$s</string>
   <string name="title_log_port">Portul %1$d</string>
   <string name="title_pro">Caracteristici versiune Pro</string>

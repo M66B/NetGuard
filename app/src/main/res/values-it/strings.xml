@@ -118,6 +118,8 @@
   <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
   <string name="msg_revoked">NetGuard è stata disabilitata, probabilmente a causa di un\'altra applicazione che usa il servizio VPN</string>
   <string name="msg_error">NetGuard è stato disattivato a causa di un errore interno</string>
+  <string name="msg_start_failed">The Android VPN service could not be started, which is most likely caused by a bug in your Android version.
+Restarting your device or revoking the VPN permission using the Android settings from NetGuard (if possible) might (temporarily) solve this problem.</string>
   <string name="msg_installed">\'%1$s\' installata</string>
   <string name="msg_access">%1$s tentativi di accesso internet</string>
   <string name="msg_completed">Azione completata</string>
@@ -133,6 +135,8 @@
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
+  <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_filter">A causa dell\'utilizzo del filtraggio, Android attribuirà il consumo di dati ed energia a NetGuard - Android assume che i dati e la batteria vengano utilizzati da NetGuard invece che dalle rispettive applicazioni</string>
   <string name="msg_log_disabled">La registrazione del traffico è disattivata, utilizzare l\'interruttore sopra per attivare la registrazione. La registrazione del traffico potrebbe comportare un utilizzo aggiuntivo di batteria.</string>
   <string name="msg_clear_rules">Questo reimposterà le regole e le condizioni ai valori predefiniti</string>
@@ -174,6 +178,7 @@
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nessuno</string>
   <string name="title_notify">Notifica tentativi di accesso internet</string>
+  <string name="title_dontask">Don\'t ask again</string>
   <string name="title_log_whois">Identità %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
   <string name="title_pro">Funzionalità a pagamento</string>

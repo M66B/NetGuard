@@ -118,6 +118,8 @@
   <string name="msg_disabled">NetGuard jest wyłączony, użyj przełącznika u góry by go uruchomić</string>
   <string name="msg_revoked">NetGuard został wyłączony, prawdopodobnie poprzez inną aplikację bazującą na VPN</string>
   <string name="msg_error">Ze względu na błąd wewnętrzny NetGuard została wyłączony</string>
+  <string name="msg_start_failed">The Android VPN service could not be started, which is most likely caused by a bug in your Android version.
+Restarting your device or revoking the VPN permission using the Android settings from NetGuard (if possible) might (temporarily) solve this problem.</string>
   <string name="msg_installed">\'%1$s\' zainstalowane</string>
   <string name="msg_access">%1$s żąda dostępu do internetu</string>
   <string name="msg_completed">Wykonano</string>
@@ -133,6 +135,8 @@
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
+  <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_filter">Użycie filtrowanie spowoduje, że Android przekaże sterowanie użyciem danych do NetGuard - Android będzie używał NetGuard zamiast dedykowanej aplikacji do kontroli danych</string>
   <string name="msg_log_disabled">Logowanie ruchu jest wyłączone, użyj przełącznika aby włączyć. Logowanie ruchu może zwiększyć użycie baterii.</string>
   <string name="msg_clear_rules">Spowoduje to zresetowanie reguł i warunków do wartości domyślnych</string>
@@ -174,6 +178,7 @@
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nobody</string>
   <string name="title_notify">Powiadom o próbach dostępu do internetu</string>
+  <string name="title_dontask">Don\'t ask again</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Funkcje Pro</string>

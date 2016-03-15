@@ -120,6 +120,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_disabled">NetGuard devre dışı, NetGuard etkinleştirmek için yukarıdaki anahtarını kullanın.</string>
   <string name="msg_revoked">NetGuard, büyük olasılıkla başka bir VPN tabanlı uygulama kullanılarak devre dışı bırakıldı</string>
   <string name="msg_error">NetGuard bur iç hata nedeniyle devre dışı bırakıldı</string>
+  <string name="msg_start_failed">The Android VPN service could not be started, which is most likely caused by a bug in your Android version.
+Restarting your device or revoking the VPN permission using the Android settings from NetGuard (if possible) might (temporarily) solve this problem.</string>
   <string name="msg_installed">\'%1$s\' yüklü</string>
   <string name="msg_access">%1$s attempted internet access</string>
   <string name="msg_completed">Eylem tamamlandı</string>
@@ -137,6 +139,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
+  <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
   <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
@@ -178,6 +182,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">hiçkimse</string>
   <string name="title_notify">Notify internet access attempts</string>
+  <string name="title_dontask">Don\'t ask again</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
   <string name="title_pro">Pro özellikleri</string>
