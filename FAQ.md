@@ -198,6 +198,11 @@ So, the notification cannot be removed without causing instability.
 However, the notification is being marked as low priority,
 which should result in moving it to the bottom of the list.
 
+The key icon and/or the VPN running notification,
+which is shown by Android and not by NetGuard, can unfortunately not be removed.
+The [Google documentation](http://developer.android.com/reference/android/net/VpnService.html) says:
+"*A system-managed notification is shown during the lifetime of a VPN connection*".
+
 <a name="FAQ25"></a>
 **(25) Can you add a 'select all'?**
 
