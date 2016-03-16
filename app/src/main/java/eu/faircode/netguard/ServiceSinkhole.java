@@ -994,6 +994,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         builder.addAddress(vpn4, 32);
         builder.addAddress(vpn6, 128);
 
+        // DNS address
         if (filter)
             for (InetAddress dns : getDns(ServiceSinkhole.this)) {
                 Log.i(TAG, "dns=" + dns);
@@ -1047,6 +1048,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
+        // MTU
         int mtu = jni_get_mtu();
         Log.i(TAG, "MTU=" + mtu);
         builder.setMtu(mtu);
