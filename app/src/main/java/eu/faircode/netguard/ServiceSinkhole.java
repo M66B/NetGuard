@@ -324,10 +324,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         statsHandler.sendEmptyMessage(MSG_STATS_START);
                         break;
 
-                    case set:
-                        set(intent);
-                        break;
-
                     case householding:
                         householding(intent);
                         break;
@@ -490,38 +486,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     state = State.none;
             }
         }
-
-        private void set(Intent intent) {
-            // Get arguments
-            int uid = intent.getIntExtra(EXTRA_UID, 0);
-            String network = intent.getStringExtra(EXTRA_NETWORK);
-            String pkg = intent.getStringExtra(EXTRA_PACKAGE);
-            boolean blocked = intent.getBooleanExtra(EXTRA_BLOCKED, false);
-            Log.i(TAG, "Set " + pkg + " " + network + "=" + blocked);
-
-            // Get defaults
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-            boolean default_wifi = settings.getBoolean("whitelist_wifi", true);
-            boolean default_other = settings.getBoolean("whitelist_other", true);
-
-            // Update setting
-            SharedPreferences prefs = getSharedPreferences(network, Context.MODE_PRIVATE);
-            if (blocked == ("wifi".equals(network) ? default_wifi : default_other))
-                prefs.edit().remove(pkg).apply();
-            else
-                prefs.edit().putBoolean(pkg, blocked).apply();
-
-            // Apply rules
-            ServiceSinkhole.reload("notification", ServiceSinkhole.this);
-
-            // Update notification
-            Receiver.notifyNewApplication(uid, ServiceSinkhole.this);
-
-            // Update UI
-            Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
-            LocalBroadcastManager.getInstance(ServiceSinkhole.this).sendBroadcast(ruleset);
-        }
-
 
         private void householding(Intent intent) {
             // Keep log records for three days
@@ -1764,9 +1728,43 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " reason=" + reason +
                 " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
-        commandHandler.queue(intent);
+        if (cmd == Command.set)
+            set(intent);
+        else
+            commandHandler.queue(intent);
 
         return START_STICKY;
+    }
+
+    private void set(Intent intent) {
+        // Get arguments
+        int uid = intent.getIntExtra(EXTRA_UID, 0);
+        String network = intent.getStringExtra(EXTRA_NETWORK);
+        String pkg = intent.getStringExtra(EXTRA_PACKAGE);
+        boolean blocked = intent.getBooleanExtra(EXTRA_BLOCKED, false);
+        Log.i(TAG, "Set " + pkg + " " + network + "=" + blocked);
+
+        // Get defaults
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+        boolean default_wifi = settings.getBoolean("whitelist_wifi", true);
+        boolean default_other = settings.getBoolean("whitelist_other", true);
+
+        // Update setting
+        SharedPreferences prefs = getSharedPreferences(network, Context.MODE_PRIVATE);
+        if (blocked == ("wifi".equals(network) ? default_wifi : default_other))
+            prefs.edit().remove(pkg).apply();
+        else
+            prefs.edit().putBoolean(pkg, blocked).apply();
+
+        // Apply rules
+        ServiceSinkhole.reload("notification", ServiceSinkhole.this);
+
+        // Update notification
+        Receiver.notifyNewApplication(uid, ServiceSinkhole.this);
+
+        // Update UI
+        Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+        LocalBroadcastManager.getInstance(ServiceSinkhole.this).sendBroadcast(ruleset);
     }
 
     @Override
