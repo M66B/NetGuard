@@ -309,57 +309,60 @@ public class Rule {
         nobody.applicationInfo.icon = 0;
         listPI.add(nobody);
 
-        for (PackageInfo info : listPI) {
-            Rule rule = new Rule(info, context);
+        for (PackageInfo info : listPI)
+            try {
+                Rule rule = new Rule(info, context);
 
-            if (pre_system.containsKey(info.packageName))
-                rule.system = pre_system.get(info.packageName);
-            if (info.applicationInfo.uid == Process.myUid())
-                rule.system = true;
+                if (pre_system.containsKey(info.packageName))
+                    rule.system = pre_system.get(info.packageName);
+                if (info.applicationInfo.uid == Process.myUid())
+                    rule.system = true;
 
-            if (all ||
-                    ((rule.system ? show_system : show_user) &&
-                            (show_nointernet || rule.internet) &&
-                            (show_disabled || rule.enabled))) {
+                if (all ||
+                        ((rule.system ? show_system : show_user) &&
+                                (show_nointernet || rule.internet) &&
+                                (show_disabled || rule.enabled))) {
 
-                rule.wifi_default = (pre_wifi_blocked.containsKey(info.packageName) ? pre_wifi_blocked.get(info.packageName) : default_wifi);
-                rule.other_default = (pre_other_blocked.containsKey(info.packageName) ? pre_other_blocked.get(info.packageName) : default_other);
-                rule.screen_wifi_default = default_screen_wifi;
-                rule.screen_other_default = default_screen_other;
-                rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
+                    rule.wifi_default = (pre_wifi_blocked.containsKey(info.packageName) ? pre_wifi_blocked.get(info.packageName) : default_wifi);
+                    rule.other_default = (pre_other_blocked.containsKey(info.packageName) ? pre_other_blocked.get(info.packageName) : default_other);
+                    rule.screen_wifi_default = default_screen_wifi;
+                    rule.screen_other_default = default_screen_other;
+                    rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
 
-                rule.wifi_blocked = (!(rule.system && !manage_system) && wifi.getBoolean(info.packageName, rule.wifi_default));
-                rule.other_blocked = (!(rule.system && !manage_system) && other.getBoolean(info.packageName, rule.other_default));
-                rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default);
-                rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
-                rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
+                    rule.wifi_blocked = (!(rule.system && !manage_system) && wifi.getBoolean(info.packageName, rule.wifi_default));
+                    rule.other_blocked = (!(rule.system && !manage_system) && other.getBoolean(info.packageName, rule.other_default));
+                    rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default);
+                    rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
+                    rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
 
-                rule.apply = apply.getBoolean(info.packageName, true);
-                rule.notify = notify.getBoolean(info.packageName, true);
+                    rule.apply = apply.getBoolean(info.packageName, true);
+                    rule.notify = notify.getBoolean(info.packageName, true);
 
-                // Related packages
-                List<String> listPkg = new ArrayList<>();
-                if (pre_related.containsKey(info.packageName))
-                    listPkg.addAll(Arrays.asList(pre_related.get(info.packageName)));
-                String[] pkgs = getPackages(info.applicationInfo.uid, context);
-                if (pkgs != null && pkgs.length > 1) {
-                    rule.relateduids = true;
-                    listPkg.addAll(Arrays.asList(pkgs));
-                    listPkg.remove(info.packageName);
+                    // Related packages
+                    List<String> listPkg = new ArrayList<>();
+                    if (pre_related.containsKey(info.packageName))
+                        listPkg.addAll(Arrays.asList(pre_related.get(info.packageName)));
+                    String[] pkgs = getPackages(info.applicationInfo.uid, context);
+                    if (pkgs != null && pkgs.length > 1) {
+                        rule.relateduids = true;
+                        listPkg.addAll(Arrays.asList(pkgs));
+                        listPkg.remove(info.packageName);
+                    }
+                    rule.related = listPkg.toArray(new String[0]);
+
+                    long up = TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid);
+                    long down = TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid);
+                    rule.totalbytes = up + down;
+                    rule.upspeed = (float) up * 24 * 3600 * 1000 / 1024f / 1024f / now;
+                    rule.downspeed = (float) down * 24 * 3600 * 1000 / 1024f / 1024f / now;
+
+                    rule.updateChanged(default_wifi, default_other, default_roaming);
+
+                    listRules.add(rule);
                 }
-                rule.related = listPkg.toArray(new String[0]);
-
-                long up = TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid);
-                long down = TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid);
-                rule.totalbytes = up + down;
-                rule.upspeed = (float) up * 24 * 3600 * 1000 / 1024f / 1024f / now;
-                rule.downspeed = (float) down * 24 * 3600 * 1000 / 1024f / 1024f / now;
-
-                rule.updateChanged(default_wifi, default_other, default_roaming);
-
-                listRules.add(rule);
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
-        }
 
         final Collator collator = Collator.getInstance(Locale.getDefault());
         collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
