@@ -46,9 +46,9 @@ public class Receiver extends BroadcastReceiver {
 
         if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
             // Application added
-            if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
-                Rule.clearCache(context);
+            Rule.clearCache(context);
 
+            if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
                 // Show notification
                 if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context)) {
                     int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
@@ -58,8 +58,7 @@ public class Receiver extends BroadcastReceiver {
 
         } else if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
             // Application removed
-            if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false))
-                Rule.clearCache(context);
+            Rule.clearCache(context);
 
             if (intent.getBooleanExtra(Intent.EXTRA_DATA_REMOVED, false)) {
                 // Remove settings
