@@ -33,7 +33,8 @@ model {
             main {
                 jni {
                     source {
-                        srcDir "src/main/jni/netguard"
+                        srcDirs.removeAll()
+                        srcDirs.add('src/main/jni/netguard')
                     }
                     exportedHeaders {
                     }
