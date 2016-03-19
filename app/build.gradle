@@ -51,7 +51,9 @@ model {
                 }
             }
             debug {
-                useProguard = false
+                minifyEnabled = true
+                useProguard = true
+                proguardFiles.add(file('proguard-rules.pro'))
                 ndk {
                     debuggable = true
                 }
