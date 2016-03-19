@@ -802,7 +802,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private Intent getIntentCreateExport() {
         Intent intent;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             if (Util.isPackageInstalled("org.openintents.filemanager", this)) {
                 intent = new Intent("org.openintents.action.PICK_DIRECTORY");
             } else {
@@ -820,7 +820,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private Intent getIntentOpenExport() {
         Intent intent;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
             intent = new Intent(Intent.ACTION_GET_CONTENT);
         else
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -831,7 +831,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private Intent getIntentOpenHosts() {
         Intent intent;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
             intent = new Intent(Intent.ACTION_GET_CONTENT);
         else
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);

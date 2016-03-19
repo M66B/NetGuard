@@ -517,7 +517,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
     private Intent getIntentPCAPDocument() {
         Intent intent;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             if (Util.isPackageInstalled("org.openintents.filemanager", this)) {
                 intent = new Intent("org.openintents.action.PICK_DIRECTORY");
             } else {
