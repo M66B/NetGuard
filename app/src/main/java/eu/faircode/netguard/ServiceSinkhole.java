@@ -162,7 +162,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private native void jni_start(int tun, boolean fwd53, int loglevel);
 
-    private native void jni_stop(int tun, boolean clear);
+    private native void jni_stop(int tun, boolean datagram, boolean stream);
 
     private native int jni_get_mtu();
 
@@ -414,7 +414,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 Log.i(TAG, "Legacy restart");
 
                 if (vpn != null) {
-                    stopNative(vpn, false);
+                    stopNative(vpn, false, false);
                     stopVPN(vpn);
                     vpn = null;
                     try {
@@ -427,7 +427,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             } else {
                 if (prefs.getBoolean("filter", false) && builder.equals(last_builder)) {
                     Log.i(TAG, "Native restart");
-                    stopNative(vpn, false);
+                    stopNative(vpn, false, false);
 
                 } else {
                     last_builder = builder;
@@ -439,7 +439,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
                     if (prev != null && vpn == null) {
                         Log.w(TAG, "Handover failed");
-                        stopNative(prev, false);
+                        stopNative(prev, false, false);
                         stopVPN(prev);
                         prev = null;
                         try {
@@ -452,7 +452,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     }
 
                     if (prev != null) {
-                        stopNative(prev, false);
+                        stopNative(prev, false, false);
                         stopVPN(prev);
                     }
                 }
@@ -469,7 +469,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         private void stop() {
             if (vpn != null) {
-                stopNative(vpn, true);
+                stopNative(vpn, true, true);
                 stopVPN(vpn);
                 vpn = null;
                 unprepare();
@@ -1077,9 +1077,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    private void stopNative(ParcelFileDescriptor vpn, boolean clear) {
-        Log.i(TAG, "Stop native clear=" + clear);
-        jni_stop(vpn.getFd(), clear);
+    private void stopNative(ParcelFileDescriptor vpn, boolean datagram, boolean stream) {
+        Log.i(TAG, "Stop native clear=" + datagram + "/" + stream);
+        jni_stop(vpn.getFd(), datagram, stream);
     }
 
     private void unprepare() {
@@ -1817,7 +1817,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         try {
             if (vpn != null) {
-                stopNative(vpn, true);
+                stopNative(vpn, true, true);
                 stopVPN(vpn);
                 vpn = null;
                 unprepare();
