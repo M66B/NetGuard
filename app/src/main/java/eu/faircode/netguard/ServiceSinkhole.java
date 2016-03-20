@@ -932,9 +932,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private ParcelFileDescriptor startVPN(Builder builder) {
+    private ParcelFileDescriptor startVPN(Builder builder) throws SecurityException {
         try {
             return builder.establish();
+        } catch (SecurityException ex) {
+            throw ex;
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             return null;
