@@ -46,8 +46,6 @@ public class Receiver extends BroadcastReceiver {
 
         if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
             // Application added
-            Rule.clearCache(context);
-
             if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
                 // Show notification
                 if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context)) {

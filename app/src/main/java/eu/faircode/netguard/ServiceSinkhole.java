@@ -1598,6 +1598,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
+            Rule.clearCache(ServiceSinkhole.this);
             reload("package added", ServiceSinkhole.this);
         }
     };
