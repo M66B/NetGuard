@@ -425,7 +425,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 vpn = startVPN(last_builder);
 
             } else {
-                if (prefs.getBoolean("filter", false) && builder.equals(last_builder)) {
+                if (vpn != null && prefs.getBoolean("filter", false) && builder.equals(last_builder)) {
                     Log.i(TAG, "Native restart");
                     stopNative(vpn, false, false);
 
