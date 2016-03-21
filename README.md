@@ -190,8 +190,8 @@ Contributing
 
 *Building*
 
-* Android Studio 2.1
-* Android NDK r11
+* [Android Studio 2.1](http://developer.android.com/sdk/)
+* [Android NDK r11](http://developer.android.com/tools/sdk/ndk/)
 
 *Translating*
 
