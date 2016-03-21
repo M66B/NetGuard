@@ -55,6 +55,7 @@ public class Rule {
     public boolean internet;
     public boolean enabled;
     public Intent intent;
+    public boolean pkg = true;
 
     public boolean wifi_default = false;
     public boolean other_default = false;
@@ -185,6 +186,7 @@ public class Rule {
             this.internet = true;
             this.enabled = true;
             this.intent = null;
+            this.pkg = false;
         } else if (info.applicationInfo.uid == 1013) {
             this.name = context.getString(R.string.title_mediaserver);
             this.description = null;
@@ -192,6 +194,7 @@ public class Rule {
             this.internet = true;
             this.enabled = true;
             this.intent = null;
+            this.pkg = false;
         } else if (info.applicationInfo.uid == 9999) {
             this.name = context.getString(R.string.title_nobody);
             this.description = null;
@@ -199,6 +202,7 @@ public class Rule {
             this.internet = true;
             this.enabled = true;
             this.intent = null;
+            this.pkg = false;
         } else {
             this.name = getLabel(info, context);
             this.description = getDescription(info, context);
