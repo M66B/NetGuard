@@ -1,7 +1,7 @@
 Ad blocking
 -----------
 
-* Download/install the latest version [from GitHub](https://github.com/M66B/NetGuard/releases)
+* Download/install the latest NetGuard version [from GitHub](https://github.com/M66B/NetGuard/releases)
 * Enable the setting '*Filter traffic*' (always enabled on Android 5.0 or earlier)
 * Enable the setting '*Block domain names*' (default enabled)
 * Import or download a hosts file using the appropriate option
@@ -10,6 +10,7 @@ Ad blocking
 * Test if it works by opening [this page](http://www.netguard.me/test)
 * Enjoy ad blocking
 
+Note that applications, like the browser, may cache data, so you might need to clear caches.
 
 Which hosts (domains) will be blocked depends on the hosts file being used.
 
