@@ -244,7 +244,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     else
                         Log.w(TAG, "Wakelock under-locked");
                     Log.i(TAG, "Messages=" + hasMessages(0) + " wakelock=" + wlInstance.isHeld());
-                } catch (Exception ex) {
+                } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     Util.sendCrashReport(ex, ServiceSinkhole.this);
                 }
@@ -1707,6 +1707,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null && intent.hasExtra(EXTRA_COMMAND) &&
+                intent.getSerializableExtra(EXTRA_COMMAND) == Command.set) {
+            set(intent);
+            return START_STICKY;
+        }
+
         // Keep awake
         getLock(this).acquire();
 
@@ -1731,11 +1737,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " reason=" + reason +
                 " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
-        if (cmd == Command.set)
-            set(intent);
-        else
-            commandHandler.queue(intent);
-
+        commandHandler.queue(intent);
         return START_STICKY;
     }
 
