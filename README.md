@@ -198,6 +198,7 @@ Building is simple, if you install the right tools:
 The native code is built as part of the Android Studio project.
 
 It is expected that you can solve build problems yourself, so there is no support on building.
+It builds fine on Linux so one can use [VirtualBox](http://virtualbox.org) + [Lubuntu](http://lubuntu.net) + [Android Studio package](https://paolorotolo.github.io/android-studio/) to get a VM setup that is known to be working.
 If you cannot build yourself, there are prebuilt version of NetGuard available [here](https://github.com/M66B/NetGuard/releases).
 
 *Translating*
