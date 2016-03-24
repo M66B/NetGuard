@@ -636,8 +636,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private void checkDoze() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            final Intent doze = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            if (!pm.isIgnoringBatteryOptimizations(getPackageName())) {
+            if (!pm.isIgnoringBatteryOptimizations(getPackageName()) &&
+                    getPackageManager().resolveActivity(doze, 0) != null) {
                 final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 if (!prefs.getBoolean("nodoze", false)) {
                     LayoutInflater inflater = LayoutInflater.from(this);
@@ -650,7 +652,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     prefs.edit().putBoolean("nodoze", cbDontAsk.isChecked()).apply();
-                                    startActivity(new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS));
+                                    startActivity(doze);
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
