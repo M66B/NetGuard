@@ -190,8 +190,15 @@ Contributing
 
 *Building*
 
+Building is simple, if you install the right tools:
+
 * [Android Studio 2.1](http://developer.android.com/sdk/)
 * [Android NDK r11](http://developer.android.com/tools/sdk/ndk/)
+
+The native code is built as part of the Android Studio project.
+
+It is expected that you can solve build problems yourself, so there is no support on building.
+If you cannot build yourself, there are prebuilt version of NetGuard available [here](https://github.com/M66B/NetGuard/releases).
 
 *Translating*
 
