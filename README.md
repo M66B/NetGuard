@@ -168,6 +168,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ33"></a>
 [**(33) Can you add profiles?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ33)
 
+<a name="FAQ34"></a>
+[**(34) Can you add the condition 'when on foreground'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ34)
+
 Permissions
 -----------
 

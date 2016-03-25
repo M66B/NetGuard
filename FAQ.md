@@ -303,6 +303,12 @@ however they need to be generally usable to be included.
 
 As a workaround you can use the export/import function to apply specific settings in specific circumstances.
 
+<a name="FAQ34"></a>
+**(34) Can you add the condition 'when on foreground'?**
+
+Recent Android versions do not allow an application to query if other applications are in the foreground or background anymore,
+so this cannot be added. You can use the condition '*when screen is on*' instead.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
