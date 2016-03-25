@@ -293,6 +293,16 @@ This is because Android contributes battery and network usage which is normally 
 to NetGuard in IP filtering mode. The total battery usage is slightly higher when IP filtering mode is enabled.
 IP filtering mode is always enabled on Android version before 5.0 and optionally enabled on later Android versions.
 
+<a name="FAQ33"></a>
+**(33) Can you add profiles?**
+
+Profiles are inconvenient because they need to be operated manually.
+Conditions like '*When screen is on*' are on the other hand convenient because they work automatic.
+Therefore profiles will not be added, but you are welcome to propose new conditions,
+however they need to be generally usable to be included.
+
+As a workaround you can use the export/import function to apply specific settings in specific circumstances.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
