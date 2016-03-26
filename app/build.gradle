@@ -3,7 +3,7 @@ apply plugin: 'com.android.model.application'
 model {
     android {
         compileSdkVersion = 23
-        buildToolsVersion = "23.0.2"
+        buildToolsVersion = "23.0.3"
 
         defaultConfig {
             applicationId = "eu.faircode.netguard"
@@ -47,16 +47,16 @@ model {
                 minifyEnabled = true
                 useProguard = true
                 proguardFiles.add(file('proguard-rules.pro'))
-                ndk {
-                    debuggable = true
+                ndk.with {
+                    debuggable = false
                 }
             }
             debug {
                 minifyEnabled = true
                 useProguard = true
                 proguardFiles.add(file('proguard-rules.pro'))
-                ndk {
-                    debuggable = true
+                ndk.with {
+                    debuggable = false
                 }
             }
         }

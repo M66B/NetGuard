@@ -301,8 +301,8 @@ JNIEXPORT jstring JNICALL
 Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring name_) {
     const char *name = (*env)->GetStringUTFChars(env, name_, 0);
 
-    char value[250] = "";
-    __system_property_get(env, name, value);
+    char value[PROP_VALUE_MAX + 1] = "";
+    __system_property_get(name, value);
 
     (*env)->ReleaseStringUTFChars(env, name_, name);
 
