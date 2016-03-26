@@ -8,7 +8,7 @@ Ad blocking
 * Disable browser compression (Chrome: three dot menu > Settings > Data Saver > Off)
 * Wait 10 minutes to let the Android DNS cache time out
 * Test if it works by opening [this page](http://www.netguard.me/test)
-* Enjoy ad blocking
+* Enjoy ad blocking, but don't forget to support application developers
 
 Note that applications, like the browser, may cache data, so you might need to clear caches.
 
