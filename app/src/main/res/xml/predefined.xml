@@ -33,6 +33,13 @@
 
     <wifi
         blocked="false"
+        package="com.google.android.gms" />
+    <other
+        blocked="false"
+        package="com.google.android.gms" />
+
+    <wifi
+        blocked="false"
         package="com.google.android.apps.gcs" />
     <other
         blocked="false"
