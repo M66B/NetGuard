@@ -397,6 +397,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         // Apply
         holder.cbApply.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? View.GONE : View.VISIBLE);
+        holder.cbApply.setEnabled(rule.pkg);
         holder.cbApply.setOnCheckedChangeListener(null);
         holder.cbApply.setChecked(rule.apply);
         holder.cbApply.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

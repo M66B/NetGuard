@@ -244,7 +244,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     else
                         Log.w(TAG, "Wakelock under-locked");
                     Log.i(TAG, "Messages=" + hasMessages(0) + " wakelock=" + wlInstance.isHeld());
-                } catch (Exception ex) {
+                } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     Util.sendCrashReport(ex, ServiceSinkhole.this);
                 }
@@ -425,7 +425,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 vpn = startVPN(last_builder);
 
             } else {
-                if (prefs.getBoolean("filter", false) && builder.equals(last_builder)) {
+                if (vpn != null && prefs.getBoolean("filter", false) && builder.equals(last_builder)) {
                     Log.i(TAG, "Native restart");
                     stopNative(vpn, false, false);
 
@@ -932,9 +932,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private ParcelFileDescriptor startVPN(Builder builder) {
+    private ParcelFileDescriptor startVPN(Builder builder) throws SecurityException {
         try {
             return builder.establish();
+        } catch (SecurityException ex) {
+            throw ex;
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             return null;
@@ -1598,6 +1600,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
+            Rule.clearCache(ServiceSinkhole.this);
             reload("package added", ServiceSinkhole.this);
         }
     };
@@ -1704,6 +1707,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null && intent.hasExtra(EXTRA_COMMAND) &&
+                intent.getSerializableExtra(EXTRA_COMMAND) == Command.set) {
+            set(intent);
+            return START_STICKY;
+        }
+
         // Keep awake
         getLock(this).acquire();
 
@@ -1728,11 +1737,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " reason=" + reason +
                 " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
-        if (cmd == Command.set)
-            set(intent);
-        else
-            commandHandler.queue(intent);
-
+        commandHandler.queue(intent);
         return START_STICKY;
     }
 

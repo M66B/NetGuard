@@ -29,7 +29,7 @@ Features:
 * Optionally forward ports, also to external addresses (not available if installed from the Play store)
 * Optionally notify when an application accesses the internet
 * Optionally record network usage per application per address
-* Optionally block ads using a hosts file (not available if installed from the Play store)
+* Optionally [block ads using a hosts file](https://github.com/M66B/NetGuard/blob/master/ADBLOCKING.md) (not available if installed from the Play store)
 * Material design theme with light and dark theme
 
 PRO features:
@@ -165,6 +165,12 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ32"></a>
 [**(32) Why is the battery/network usage of NetGuard so high**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ32)
 
+<a name="FAQ33"></a>
+[**(33) Can you add profiles?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ33)
+
+<a name="FAQ34"></a>
+[**(34) Can you add the condition 'when on foreground'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ34)
+
 Permissions
 -----------
 
@@ -190,8 +196,16 @@ Contributing
 
 *Building*
 
-* Android Studio 2.1
-* Android NDK r11
+Building is simple, if you install the right tools:
+
+* [Android Studio 2.1](http://developer.android.com/sdk/)
+* [Android NDK r11](http://developer.android.com/tools/sdk/ndk/)
+
+The native code is built as part of the Android Studio project.
+
+It is expected that you can solve build problems yourself, so there is no support on building.
+It builds fine on Linux so one can use [VirtualBox](http://virtualbox.org) + [Lubuntu](http://lubuntu.net) + [Android Studio package](https://paolorotolo.github.io/android-studio/) to get a VM setup that is known to be working.
+If you cannot build yourself, there are prebuilt versions of NetGuard available [here](https://github.com/M66B/NetGuard/releases).
 
 *Translating*
 

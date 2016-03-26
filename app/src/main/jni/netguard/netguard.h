@@ -46,7 +46,7 @@
 #define UDP_KEEP_TIMEOUT 60 // seconds
 
 #define TCP_INIT_TIMEOUT 30 // seconds ~net.inet.tcp.keepinit
-#define TCP_IDLE_TIMEOUT 300 // seconds ~net.inet.tcp.keepidle
+#define TCP_IDLE_TIMEOUT 3600 // seconds ~net.inet.tcp.keepidle
 #define TCP_CLOSE_TIMEOUT 30 // seconds
 #define TCP_KEEP_TIMEOUT 300 // seconds
 // https://en.wikipedia.org/wiki/Maximum_segment_lifetime

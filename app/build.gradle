@@ -9,8 +9,8 @@ model {
             applicationId = "eu.faircode.netguard"
             minSdkVersion.apiLevel = 14
             targetSdkVersion.apiLevel = 23
-            versionCode = 2016031801
-            versionName = "2.10"
+            versionCode = 2016032201
+            versionName = "2.12"
             archivesBaseName = "NetGuard-v$versionName-$versionCode"
 
             buildConfigFields {
@@ -33,7 +33,8 @@ model {
             main {
                 jni {
                     source {
-                        srcDir "src/main/jni/netguard"
+                        srcDirs.removeAll()
+                        srcDirs.add('src/main/jni/netguard')
                     }
                     exportedHeaders {
                     }
@@ -51,7 +52,9 @@ model {
                 }
             }
             debug {
-                useProguard = false
+                minifyEnabled = true
+                useProguard = true
+                proguardFiles.add(file('proguard-rules.pro'))
                 ndk {
                     debuggable = true
                 }

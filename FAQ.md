@@ -293,6 +293,22 @@ This is because Android contributes battery and network usage which is normally 
 to NetGuard in IP filtering mode. The total battery usage is slightly higher when IP filtering mode is enabled.
 IP filtering mode is always enabled on Android version before 5.0 and optionally enabled on later Android versions.
 
+<a name="FAQ33"></a>
+**(33) Can you add profiles?**
+
+Profiles are inconvenient because they need to be operated manually.
+Conditions like '*When screen is on*' are on the other hand convenient because they work automatic.
+Therefore profiles will not be added, but you are welcome to propose new conditions,
+however they need to be generally usable to be included.
+
+As a workaround you can use the export/import function to apply specific settings in specific circumstances.
+
+<a name="FAQ34"></a>
+**(34) Can you add the condition 'when on foreground'?**
+
+Recent Android versions do not allow an application to query if other applications are in the foreground or background anymore,
+so this cannot be added. You can use the condition '*when screen is on*' instead.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.

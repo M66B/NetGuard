@@ -15,7 +15,7 @@
   <string name="menu_app_disabled">Mostrar apps desabilitados</string>
   <string name="menu_sort">Ordenar aplicativos</string>
   <string name="menu_sort_name">Ordenar por nome</string>
-  <string name="menu_sort_uid">Sort on uid</string>
+  <string name="menu_sort_uid">Ordenar por UID</string>
   <string name="menu_sort_data">Ordenar por uso de dados</string>
   <string name="menu_log">Mostrar registro</string>
   <string name="menu_settings">Configurações</string>
@@ -179,7 +179,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_mediaserver">Servidor de Mídia</string>
   <string name="title_nobody">ninguém</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
-  <string name="title_dontask">Don\'t ask again</string>
+  <string name="title_dontask">Não pergunte novamente</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
   <string name="title_pro">Versão PRO</string>
