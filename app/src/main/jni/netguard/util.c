@@ -60,24 +60,6 @@ int sdk_int(JNIEnv *env) {
     return (*env)->GetStaticIntField(env, clsVersion, fid);
 }
 
-typedef int (*PFN_SYS_PROP_GET)(const char *, char *);
-
-int __system_property_get(JNIEnv *env, const char *name, char *value) {
-    static PFN_SYS_PROP_GET __real_system_property_get = NULL;
-    if (!__real_system_property_get) {
-        void *handle = dlopen("libc.so", sdk_int(env) >= 21 ? RTLD_NOLOAD : 0);
-        if (!handle)
-            log_android(ANDROID_LOG_ERROR, "dlopen(libc.so): %s", dlerror());
-        else {
-            __real_system_property_get = (PFN_SYS_PROP_GET) dlsym(
-                    handle, "__system_property_get");
-            if (!__real_system_property_get)
-                log_android(ANDROID_LOG_ERROR, "dlsym(__system_property_get()): %s", dlerror());
-        }
-    }
-    return (*__real_system_property_get)(name, value);
-}
-
 void log_android(int prio, const char *fmt, ...) {
     if (prio >= loglevel) {
         char line[1024];

@@ -25,6 +25,7 @@
 #include <netinet/icmp6.h>
 
 #include <android/log.h>
+#include <sys/system_properties.h>
 
 #define TAG "NetGuard.JNI"
 
@@ -54,8 +55,6 @@
 #define UID_DELAY 1 // milliseconds
 #define UID_DELAYTRY 10 // milliseconds
 #define UID_MAXTRY 3
-
-#define RTLD_NOLOAD 4
 
 struct arguments {
     JNIEnv *env;
@@ -462,8 +461,6 @@ jobject jniNewObject(JNIEnv *env, jclass cls, jmethodID constructor, const char 
 int jniCheckException(JNIEnv *env);
 
 int sdk_int(JNIEnv *env);
-
-int __system_property_get(JNIEnv *env, const char *name, char *value);
 
 void log_android(int prio, const char *fmt, ...);
 
