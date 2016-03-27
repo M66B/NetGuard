@@ -191,6 +191,8 @@ Support
 
 Please do not use GitHub for questions.
 
+**There is no support on ad blocking.**
+
 Contributing
 ------------
 
