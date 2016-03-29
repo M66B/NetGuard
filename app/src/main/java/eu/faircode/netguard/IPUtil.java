@@ -43,7 +43,7 @@ public class IPUtil {
         while (to >= from) {
             byte prefix = 32;
             while (prefix > 0) {
-                long mask = (0xFFFFFFFF00000000L >> (prefix - 1)) % 0x0100000000L;
+                long mask = prefix2mask(prefix - 1);
                 if ((from & mask) != from)
                     break;
                 prefix--;
@@ -64,6 +64,10 @@ public class IPUtil {
         return listResult;
     }
 
+    private static long prefix2mask(int bits) {
+        return (0xFFFFFFFF00000000L >> bits) & 0xFFFFFFFFL;
+    }
+
     private static long inet2long(InetAddress addr) {
         long result = 0;
         for (byte b : addr.getAddress())
@@ -71,20 +75,28 @@ public class IPUtil {
         return result;
     }
 
-    private static InetAddress long2inet(long addr) throws UnknownHostException {
-        byte[] b = new byte[4];
-        for (int i = b.length - 1; i >= 0; i--) {
-            b[i] = (byte) (addr & 0xFF);
-            addr = addr >> 8;
+    private static InetAddress long2inet(long addr) {
+        try {
+            byte[] b = new byte[4];
+            for (int i = b.length - 1; i >= 0; i--) {
+                b[i] = (byte) (addr & 0xFF);
+                addr = addr >> 8;
+            }
+            return InetAddress.getByAddress(b);
+        } catch (UnknownHostException ignore) {
+            return null;
         }
-        return InetAddress.getByAddress(b);
     }
 
-    public static String minus1(String addr) throws UnknownHostException {
-        return long2inet(inet2long(InetAddress.getByName(addr)) - 1).getHostAddress();
+    public static InetAddress minus1(InetAddress addr) {
+        return long2inet(inet2long(addr) - 1);
     }
 
-    public static class CIDR {
+    public static InetAddress plus1(InetAddress addr) {
+        return long2inet(inet2long(addr) + 1);
+    }
+
+    public static class CIDR implements Comparable<CIDR> {
         public InetAddress address;
         public int prefix;
 
@@ -93,9 +105,33 @@ public class IPUtil {
             this.prefix = prefix;
         }
 
+        public CIDR(String ip, int prefix) {
+            try {
+                this.address = InetAddress.getByName(ip);
+                this.prefix = prefix;
+            } catch (UnknownHostException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+        }
+
+        public InetAddress getStart() {
+            return long2inet(inet2long(this.address) & prefix2mask(this.prefix));
+        }
+
+        public InetAddress getEnd() {
+            return long2inet((inet2long(this.address) & prefix2mask(this.prefix)) + (1L << (32 - this.prefix)) - 1);
+        }
+
         @Override
         public String toString() {
-            return address.getHostAddress() + "/" + prefix;
+            return address.getHostAddress() + "/" + prefix + "=" + getStart().getHostAddress() + "..." + getEnd().getHostAddress();
+        }
+
+        @Override
+        public int compareTo(CIDR other) {
+            Long lcidr = IPUtil.inet2long(this.address);
+            Long lother = IPUtil.inet2long(other.address);
+            return lcidr.compareTo(lother);
         }
     }
 }

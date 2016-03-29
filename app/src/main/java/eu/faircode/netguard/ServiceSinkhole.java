@@ -31,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -85,6 +86,7 @@ import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -967,37 +969,47 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 builder.addDnsServer(dns);
             }
 
+        // Exclude IP ranges
+        List<IPUtil.CIDR> listExclude = new ArrayList<>();
+        listExclude.add(new IPUtil.CIDR("127.0.0.0", 8)); // localhost
         if (tethering) {
             // USB Tethering 192.168.42.x
             // Wi-Fi Tethering 192.168.43.x
-            // https://en.wikipedia.org/wiki/IPv4#Special-use_addresses
+            listExclude.add(new IPUtil.CIDR("192.168.42.0", 23));
+        }
+        Configuration config = getResources().getConfiguration();
+        if (config.mcc == -1 && config.mnc == -1) {
+            // T-Mobile Wi-Fi calling
+            listExclude.add(new IPUtil.CIDR("66.94.2.0", 24));
+            listExclude.add(new IPUtil.CIDR("66.94.6.0", 23));
+            listExclude.add(new IPUtil.CIDR("66.94.8.0", 22));
+            listExclude.add(new IPUtil.CIDR("208.54.0.0", 16));
+        }
+        listExclude.add(new IPUtil.CIDR("224.0.0.0", 3)); // broadcast
 
-            try {
-                for (IPUtil.CIDR cidr : IPUtil.toCIDR("0.0.0.0", IPUtil.minus1("127.0.0.0")))
-                    builder.addRoute(cidr.address, cidr.prefix);
+        Collections.sort(listExclude);
 
-                // Skip 127.0.0.0/8 - localhost
-
-                for (IPUtil.CIDR cidr : IPUtil.toCIDR("128.0.0.0", IPUtil.minus1("192.168.42.0")))
-                    builder.addRoute(cidr.address, cidr.prefix);
-
-                // Skip 192.168.42 - 192.168.43 - tethering
-
-                for (IPUtil.CIDR cidr : IPUtil.toCIDR("192.168.44.0", IPUtil.minus1("224.0.0.0")))
-                    builder.addRoute(cidr.address, cidr.prefix);
-            } catch (UnknownHostException ex) {
-                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        try {
+            InetAddress start = InetAddress.getByName("0.0.0.0");
+            for (IPUtil.CIDR exclude : listExclude) {
+                Log.i(TAG, "Exclude " + exclude.getStart().getHostAddress() + "..." + exclude.getEnd().getHostAddress());
+                for (IPUtil.CIDR include : IPUtil.toCIDR(start, IPUtil.minus1(exclude.getStart())))
+                    try {
+                        builder.addRoute(include.address, include.prefix);
+                    } catch (Throwable ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    }
+                start = IPUtil.plus1(exclude.getEnd());
             }
-
-            try {
-                for (IPUtil.CIDR cidr : IPUtil.toCIDR("224.0.0.0", "255.255.255.255"))
-                    builder.addRoute(cidr.address, cidr.prefix);
-            } catch (Throwable ex) {
-                // Some Android versions do not accept broadcast addresses
-                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
-        } else
-            builder.addRoute("0.0.0.0", 0);
+            for (IPUtil.CIDR include : IPUtil.toCIDR("224.0.0.0", "255.255.255.255"))
+                try {
+                    builder.addRoute(include.address, include.prefix);
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+        } catch (UnknownHostException ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
 
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
