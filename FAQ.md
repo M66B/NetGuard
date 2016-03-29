@@ -113,7 +113,7 @@ To read about the need for the notification in the first place, see [question 24
 <a name="FAQ14"></a>
 **(14) Why can't I select OK to approve the VPN connection request?**
 
-There might be another application on top of the VPN connection request dialog.
+There might be another (invisible) application on top of the VPN connection request dialog.
 Some known (screen dimming) applications which can cause this are *Lux Brightness*, *Night Mode* and *Twilight*.
 To avoid this problem, at least temporary, close all applications and/or services which may be running in the background.
 
@@ -149,10 +149,9 @@ If you block internet access for an application, there is no way around it.
 However, applications could access the internet through other applications, like Google Play services.
 You can prevent this by blocking internet access for the other application as well.
 
-Note that some applications keep trying to access the internet,
-which is done by sending a connection request packet.
+Note that some applications keep trying to access the internet, which is done by sending a connection request packet.
 This packet goes into the VPN sinkhole when internet access for the application is blocked.
-This packet consists of less than 100 bytes and is counted as outgoing traffic
+This packet consists of less than 100 bytes and is counted by Android as outgoing traffic
 and will be visible in the speed graph notification as well.
 
 <a name="FAQ20"></a>

@@ -2026,6 +2026,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
+                .setGroup("AccessAttempt")
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_access, name))
                 .setContentIntent(pi)
