@@ -978,7 +978,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             listExclude.add(new IPUtil.CIDR("192.168.42.0", 23));
         }
         Configuration config = getResources().getConfiguration();
-        if (config.mcc == -1 && config.mnc == -1) {
+        if (config.mcc == 310 && config.mnc == 260) {
             // T-Mobile Wi-Fi calling
             listExclude.add(new IPUtil.CIDR("66.94.2.0", 24));
             listExclude.add(new IPUtil.CIDR("66.94.6.0", 23));
