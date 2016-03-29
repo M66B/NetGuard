@@ -1003,8 +1003,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             builder.addRoute("208.0.0.0", 4); // 208-223
 
             try {
-                builder.addRoute("224.0.0.0", 4); // 224-239
-                builder.addRoute("240.0.0.0", 4); // 240-255
+                builder.addRoute("224.0.0.0", 3); // 224-255
             } catch (Throwable ex) {
                 // Some Android versions do not accept broadcast addresses
                 Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
