@@ -499,6 +499,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("tethering".equals(name))
             ServiceSinkhole.reload("changed " + name, this);
 
+        else if ("lan".equals(name))
+            ServiceSinkhole.reload("changed " + name, this);
+
         else if ("wifi_homes".equals(name)) {
             MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) getPreferenceScreen().findPreference(name);
             Set<String> ssid = prefs.getStringSet(name, new HashSet<String>());
