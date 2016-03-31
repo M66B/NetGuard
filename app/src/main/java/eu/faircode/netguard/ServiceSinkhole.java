@@ -80,7 +80,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -89,6 +93,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -948,6 +953,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private Builder getBuilder(List<Rule> listAllowed, List<Rule> listRule) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean tethering = prefs.getBoolean("tethering", false);
+        boolean lan = prefs.getBoolean("lan", false);
         boolean filter = prefs.getBoolean("filter", false);
         boolean system = prefs.getBoolean("manage_system", false);
 
@@ -972,11 +978,30 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         // Exclude IP ranges
         List<IPUtil.CIDR> listExclude = new ArrayList<>();
         listExclude.add(new IPUtil.CIDR("127.0.0.0", 8)); // localhost
+
         if (tethering) {
             // USB Tethering 192.168.42.x
             // Wi-Fi Tethering 192.168.43.x
             listExclude.add(new IPUtil.CIDR("192.168.42.0", 23));
         }
+
+        if (lan) {
+            try {
+                Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+                while (nis.hasMoreElements()) {
+                    NetworkInterface ni = nis.nextElement();
+                    for (InterfaceAddress ia : ni.getInterfaceAddresses())
+                        if (ia.getAddress() instanceof Inet4Address) {
+                            IPUtil.CIDR local = new IPUtil.CIDR(ia.getAddress(), ia.getNetworkPrefixLength());
+                            Log.i(TAG, "Excluding " + ni.getName() + " " + local);
+                            listExclude.add(local);
+                        }
+                }
+            } catch (SocketException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+        }
+
         Configuration config = getResources().getConfiguration();
         if (config.mcc == 310 && config.mnc == 260) {
             // T-Mobile Wi-Fi calling
