@@ -57,6 +57,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="setting_update">Güncellemeleri kontrol et</string>
   <string name="setting_network_options">Bağlantı seçenekleri</string>
   <string name="setting_tethering">İnternet paylaşımı aktif</string>
+  <string name="setting_lan">Allow LAN access</string>
   <string name="setting_wifi_home">Wi-Fi ev ağları: %1$s</string>
   <string name="setting_metered">Wi-Fi veri sayacını kullan</string>
   <string name="setting_metered_2g">2G veri kullanımını dikkate al</string>
@@ -96,6 +97,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="summary_delay">Seçilen süre sonuna kadar aktif kuralları uygulayıp ekranı kapat (bu seçeneği devre dışı bırakmak için sıfır girin)</string>
   <string name="summary_update">Yeni sürümler için GitHub üzerinden günde iki defa kontrol et</string>
   <string name="summary_tethering">Android sürümüne bağlı olarak, internet paylaşımı çalışabilir yada çalışmayabilir. Paylaşılan internet trafiği filtrelenemez.</string>
+  <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_wifi_home">Sadece seçilen ağ için Wi-Fi kurallarını uygula (diğer Wi-Fi ağları için mobil ağ kurallarını uygula)</string>
   <string name="summary_metered">Wi-Fi üzerinden paylaşılan veri için mobil ağ kurallarını uygula</string>
   <string name="summary_metered_2g">2G bağlantısı için Wi-Fi kurallarını uygula</string>

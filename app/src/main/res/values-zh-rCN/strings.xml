@@ -57,6 +57,7 @@
   <string name="setting_update">检查更新</string>
   <string name="setting_network_options">网络选项</string>
   <string name="setting_tethering">允许网络共享</string>
+  <string name="setting_lan">Allow LAN access</string>
   <string name="setting_wifi_home">Wi-Fi 家庭网络: %1$s</string>
   <string name="setting_metered">控制按流量计费Wi-Fi网络</string>
   <string name="setting_metered_2g">2G非按流量计费</string>
@@ -96,6 +97,7 @@
   <string name="summary_delay">关屏后，保持亮屏规则在指定的分钟数内有效 (输入零以禁用此选项)</string>
   <string name="summary_update">每日两次检查 GitHub 上的更新</string>
   <string name="summary_tethering">根据 Android 版本不同, 网络共享可能可以或可能无法正常工作. 共享网络流量无法被过滤.</string>
+  <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_wifi_home">仅将Wi-Fi网络规则应用于所选定的网络 (将移动网络规则应用于其他Wi-Fi网络)</string>
   <string name="summary_metered">将移动网络规则应用于按流量计费的 (付费, 共享) Wi-Fi网络</string>
   <string name="summary_metered_2g">将Wi-Fi网络规则应用于2G数据连接</string>

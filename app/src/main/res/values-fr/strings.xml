@@ -55,6 +55,7 @@
   <string name="setting_update">Vérifier les mises à jour</string>
   <string name="setting_network_options">Options de réseau</string>
   <string name="setting_tethering">Autoriser le partage</string>
+  <string name="setting_lan">Allow LAN access</string>
   <string name="setting_wifi_home">Réseaux Wi-Fi domicile : %1$s</string>
   <string name="setting_metered">Gérer les réseaux Wi-Fi limités</string>
   <string name="setting_metered_2g">Considérer 2G illimités</string>
@@ -94,6 +95,7 @@
   <string name="summary_delay">Après avoir éteint l\'écran, garder les règles d\'écran allumé actives pendant le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
   <string name="summary_update">Vérifier les nouvelles versions sur GitHub deux fois par jour</string>
   <string name="summary_tethering">Selon la version d\'Android, le partage de connexion peut fonctionner ou non. Le trafic partagé ne peut pas être filtré.</string>
+  <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour les autres Wi-Fi)</string>
   <string name="summary_metered">Appliquer les règles de réseaux mobiles aux réseaux Wi-Fi limités (payants, partagés)</string>
   <string name="summary_metered_2g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 2G</string>
