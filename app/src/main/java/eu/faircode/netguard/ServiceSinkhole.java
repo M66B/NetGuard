@@ -1476,6 +1476,22 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
 
+            // Check if rules needs to be reloaded
+            boolean process = false;
+            List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
+            for (Rule rule : listRule) {
+                boolean blocked = (last_metered ? rule.other_blocked : rule.wifi_blocked);
+                boolean screen = (last_metered ? rule.screen_other : rule.screen_wifi);
+                if (blocked && screen) {
+                    process = true;
+                    break;
+                }
+            }
+            if (!process) {
+                Log.i(TAG, "No changed rules on interactive state change");
+                return;
+            }
+
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
             int delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
             boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
