@@ -990,7 +990,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
                 while (nis.hasMoreElements()) {
                     NetworkInterface ni = nis.nextElement();
-                    if (nis != null)
+                    if (ni != null && ni.isUp() && !ni.isLoopback() &&
+                            ni.getName() != null && !ni.getName().startsWith("tun"))
                         for (InterfaceAddress ia : ni.getInterfaceAddresses())
                             if (ia.getAddress() instanceof Inet4Address) {
                                 IPUtil.CIDR local = new IPUtil.CIDR(ia.getAddress(), ia.getNetworkPrefixLength());
