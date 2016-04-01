@@ -56,6 +56,7 @@
   <string name="setting_update">Controleren op updates</string>
   <string name="setting_network_options">Netwerkopties</string>
   <string name="setting_tethering">Sta tethering toe</string>
+  <string name="setting_lan">Allow LAN access</string>
   <string name="setting_wifi_home">Wi-Fi thuisnetwerk: %1$s</string>
   <string name="setting_metered">Behandel gemeten Wi-Fi netwerken</string>
   <string name="setting_metered_2g">Beschouw 2G als ongemeten</string>
@@ -95,6 +96,7 @@
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
+  <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_wifi_home">Pas de Wi-Fi-netwerkregels alleen toe op de geselecteerde netwerken (en regels voor mobiele netwerken op andere Wi-Fi-netwerken)</string>
   <string name="summary_metered">Pas regels voor mobiele netwerken op gemeten (betaalde, getetherde) Wi-Fi-netwerken toe</string>
   <string name="summary_metered_2g">Pas Wi-Fi-netwerkregels toe op 2G-verbindingen</string>

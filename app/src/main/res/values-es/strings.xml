@@ -55,6 +55,7 @@
   <string name="setting_update">Buscar actualizaciones</string>
   <string name="setting_network_options">Opciones de red</string>
   <string name="setting_tethering">Permitir anclaje a red</string>
+  <string name="setting_lan">Allow LAN access</string>
   <string name="setting_wifi_home">Red Wi-Fi hogareña: %1$s</string>
   <string name="setting_metered">Gestionar redes Wi-Fi medidas</string>
   <string name="setting_metered_2g">Considerar 2G ilimitado</string>
@@ -94,6 +95,7 @@
   <string name="summary_delay">Después de apagar la pantalla, mantener la pantalla de reglas activas para el número seleccionado de minutos (ingrese cero para desactivar esta opción)</string>
   <string name="summary_update">Busca nuevos lanzamientos en GitHub, dos veces al día</string>
   <string name="summary_tethering">Dependiendo de la versión de Android, el anclaje a red puede funcionar o no. El tráfico por anclaje no puede filtrarse.</string>
+  <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_wifi_home">Aplicar sólo reglas de red Wi-Fi en la red seleccionada (aplicar reglas de red móvil para otras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar reglas de red móvil a redes Wi-Fi medidas (de pago, por anclaje)</string>
   <string name="summary_metered_2g">Aplicar reglas de red Wi-Fi para conexiones de datos 2G</string>

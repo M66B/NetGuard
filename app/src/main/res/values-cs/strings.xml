@@ -57,6 +57,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_update">Zkontrolovat aktualizace</string>
   <string name="setting_network_options">Možnosti sítě</string>
   <string name="setting_tethering">Povolit tethering</string>
+  <string name="setting_lan">Allow LAN access</string>
   <string name="setting_wifi_home">Domácí sítě Wi-Fi: %1$s</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
   <string name="setting_metered_2g">Consider 2G unmetered</string>
@@ -96,6 +97,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="summary_delay">Po vypnutí obrazovky, ponechat v platnosti pravidla pro zapnutou obrazovku po zvolený počet minut (vepište nulu pro deaktivaci)</string>
   <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">V závislosti na verzi Androidu, sdílení internetu může, nebo nemusí fungovat. Sdílený síťový provoz nelze filtrovat.</string>
+  <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_wifi_home">Použít pravidla Wi-Fi pouze pro zvolené sítě (ostatní Wi-Fi sítě budou používat pravidla pro mobilní sítě)</string>
   <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
   <string name="summary_metered_2g">Použít pravidla Wi-Fi pro 2G datová spojení</string>

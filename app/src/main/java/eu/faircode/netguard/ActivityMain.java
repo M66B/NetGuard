@@ -159,7 +159,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 actionView.getLocationOnScreen(location);
                 Toast toast = Toast.makeText(ActivityMain.this, R.string.msg_queue, Toast.LENGTH_LONG);
                 toast.setGravity(
-                        Gravity.TOP | Gravity.START,
+                        Gravity.TOP | Gravity.LEFT,
                         location[0] + ivQueue.getLeft(),
                         Math.round(location[1] + ivQueue.getBottom() - toast.getView().getPaddingTop()));
                 toast.show();
@@ -234,7 +234,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 actionView.getLocationOnScreen(location);
                 Toast toast = Toast.makeText(ActivityMain.this, R.string.msg_metered, Toast.LENGTH_LONG);
                 toast.setGravity(
-                        Gravity.TOP | Gravity.START,
+                        Gravity.TOP | Gravity.LEFT,
                         location[0] + ivMetered.getLeft(),
                         Math.round(location[1] + ivMetered.getBottom() - toast.getView().getPaddingTop()));
                 toast.show();

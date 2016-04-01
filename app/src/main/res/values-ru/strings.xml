@@ -55,6 +55,7 @@
   <string name="setting_update">Проверять наличие обновлений</string>
   <string name="setting_network_options">Параметры сети</string>
   <string name="setting_tethering">Разрешить привязку</string>
+  <string name="setting_lan">Разрешить доступ к LAN</string>
   <string name="setting_wifi_home">Домашняя сеть Wi-Fi: %1$s</string>
   <string name="setting_metered">Регулировать огранич. Wi-Fi сети</string>
   <string name="setting_metered_2g">Не учитывать 2G</string>
@@ -94,6 +95,7 @@
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_update">Проверять наличие новых версий на GitHub два раза в день</string>
   <string name="summary_tethering">В зависимости от версии Android, привязывание может либо работать, либо не работать. Привязанный трафик не может быть отфильтрован.</string>
+  <string name="summary_lan">Разрешить приложениям подключаться к локальным сетевым адресам таким, как 10.0.0.0/8, 172.16.0.0/12 и 192.168.0.0/16</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
   <string name="summary_metered">Применить правила для лимитированных (платных, ограниченных) Wi-Fi сетей</string>
   <string name="summary_metered_2g">Применить правила Wi-Fi-сети для передачи данных через 2G</string>

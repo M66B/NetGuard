@@ -57,6 +57,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_update">Check for updates</string>
   <string name="setting_network_options">Network options</string>
   <string name="setting_tethering">Allow tethering</string>
+  <string name="setting_lan">Allow LAN access</string>
   <string name="setting_wifi_home">Otthoni Wi-Fi hálózat: %1$s</string>
   <string name="setting_metered">Mért Wi-Fi hálózatok kezelése</string>
   <string name="setting_metered_2g">Méretlen 2G megfontolása</string>
@@ -96,6 +97,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_delay">A képernyő kikapcsolása után a szabályok a megadott perc időtartamig aktívak maradnak (a nulla beírása letiltja ezt az opciót)</string>
   <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
+  <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_wifi_home">Wi-Fi hálózat szabályok alkalmazása csak a kiválasztott hálózatokra (a többi Wi-Fi hálózatra a Mobil hálózati szabályokat alkalmazza)</string>
   <string name="summary_metered">Mobil hálózati szabályok alkalmazása a mért (fizetős, kábeles) Wi-Fi hálózatokra</string>
   <string name="summary_metered_2g">Wi-Fi hálózat szabályok alkalmazása a 2G adatátviteli kapcsolatokra</string>

@@ -56,6 +56,7 @@
   <string name="setting_update">Procurar por atualizações</string>
   <string name="setting_network_options">Opções de rede</string>
   <string name="setting_tethering">Permitir tethering</string>
+  <string name="setting_lan">Allow LAN access</string>
   <string name="setting_wifi_home">Redes Wi-Fi Domésticas: %1$s</string>
   <string name="setting_metered">Manipular redes Wi-Fi Limitadas</string>
   <string name="setting_metered_2g">Considerar 2G ilimitado</string>
@@ -95,6 +96,7 @@
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_update">Procurar por novos releases no GitHub duas vezes ao dia</string>
   <string name="summary_tethering">Dependendo da versão do Android, tethering pode não funcionar. Trafego via tethering não pode ser filtrado.</string>
+  <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis à outras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi limitadas (pagas, via tethering)</string>
   <string name="summary_metered_2g">Aplicar regras Wi-Fi para conexões 2G</string>
