@@ -2,16 +2,16 @@ apply plugin: 'com.android.model.application'
 
 model {
     android {
-        compileSdkVersion = 23
-        buildToolsVersion = "23.0.3"
+        compileSdkVersion = 23 // "android-N"
+        buildToolsVersion = "23.0.3" // "24.0.0 rc2"
 
         defaultConfig {
             applicationId = "eu.faircode.netguard"
             minSdkVersion.apiLevel = 14
-            targetSdkVersion.apiLevel = 23
+            targetSdkVersion.apiLevel = 23 // 24
             versionCode = 2016033102
             versionName = "2.16"
-            archivesBaseName = "NetGuard-v$versionName-$versionCode"
+            archivesBaseName = "NetGuard-v$versionName-$versionCode-sdk-$targetSdkVersion.apiLevel"
 
             buildConfigFields {
                 create() {
@@ -20,6 +20,11 @@ model {
                     value "1"
                 }
             }
+        }
+
+        compileOptions.with {
+            sourceCompatibility JavaVersion.VERSION_1_7
+            targetCompatibility JavaVersion.VERSION_1_7
         }
 
         ndk {
