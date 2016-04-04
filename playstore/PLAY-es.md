@@ -35,14 +35,14 @@ Características:
 &bull; Soporta IPv4/IPv6, TCP/UDP
 &bull; Soporta anclaje a red (tethering)
 &bull; Soporta múltiples dispositivos de usuarios
-&bull; Opcionalmente, permite con la pantalla encendida
-&bull; Opcionalmente, bloquea con roaming
-&bull; Opcionalmente, bloquea aplicaciones del sistema
-&bull; Opcionalmente, notifica cuando una aplicación accede a Internet
-&bull; Opcionalmente, registra el uso de la red por aplicación por dirección
+&bull; (Opcional) permite con la pantalla encendida
+&bull; (Opcional) bloquea con roaming
+&bull; (Opcional) bloquea aplicaciones del sistema
+&bull; (Opcional) notifica cuando una aplicación accede a Internet
+&bull; (Opcional) registra el uso de la red por aplicación por dirección
 &bull; Apariencia material design con tema claro y oscuro
 
-Características pagas (PRO):
+Características de pago (PRO):
 
 &bull; Registra todo el tráfico saliente; busca y filtra intentos de acceso; exporta archivos PCAP para analizar el tráfico
 &bull; Permite/bloquea direcciones individuales por aplicación
