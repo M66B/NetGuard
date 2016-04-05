@@ -308,6 +308,16 @@ As a workaround you can use the export/import function to apply specific setting
 Recent Android versions do not allow an application to query if other applications are in the foreground or background anymore,
 so this cannot be added. You can use the condition '*when screen is on*' instead.
 
+<a name="FAQ35"></a>
+**(35) Why does the VPN not start?**
+
+NetGuard "asks" Android to start the local VPN service,
+but some Android versions contain a bug which prevents the VPN from starting (automatically).
+Sometimes this is caused by updating NetGuard.
+Unfortunately this cannot be fixed from NetGuard.
+What you can try is to restart your device and/or revoke the VPN permissions from NetGuard using the Android settings.
+Sometimes it helps to uninstall and install NetGuard again (be sure to export your settings first).
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.

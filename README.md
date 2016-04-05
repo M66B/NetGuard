@@ -171,6 +171,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ34"></a>
 [**(34) Can you add the condition 'when on foreground'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ34)
 
+<a name="FAQ35"></a>
+[**(35) Why does the VPN not start?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ35)
+
 Permissions
 -----------
 
