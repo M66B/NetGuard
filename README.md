@@ -174,6 +174,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ35"></a>
 [**(35) Why does the VPN not start?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ35)
 
+<a name="FAQ36"></a>
+[**(36) Can you add PIN or password protection?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ36)
+
 Permissions
 -----------
 
