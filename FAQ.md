@@ -318,6 +318,12 @@ Unfortunately this cannot be fixed from NetGuard.
 What you can try is to restart your device and/or revoke the VPN permissions from NetGuard using the Android settings.
 Sometimes it helps to uninstall and install NetGuard again (be sure to export your settings first).
 
+<a name="FAQ36"></a>
+**(36) Can you add PIN or password protection?**
+
+Since turning off the VPN service using the Android settings cannot be prevented,
+there is little use in adding PIN or password protection.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [here](http://forum.xda-developers.com/showthread.php?t=3233012)**.
