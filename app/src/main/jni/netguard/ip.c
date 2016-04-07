@@ -436,6 +436,7 @@ jint get_uid(const int version, const int protocol,
     // Scan proc file
     jint u;
     int i = 0;
+    *line = 0;
     while (fgets(line, sizeof(line), fd) != NULL) {
         if (i++) {
             *hex = 0;
