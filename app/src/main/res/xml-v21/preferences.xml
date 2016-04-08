@@ -67,6 +67,10 @@
             android:key="lan"
             android:summary="@string/summary_lan"
             android:title="@string/setting_lan" />
+        <eu.faircode.netguard.SwitchPreference
+            android:defaultValue="true"
+            android:key="ip6"
+            android:title="@string/setting_ip6" />
         <MultiSelectListPreference
             android:defaultValue="@array/default_wifi_home"
             android:key="wifi_homes"

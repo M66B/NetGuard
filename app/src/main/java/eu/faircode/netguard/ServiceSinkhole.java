@@ -954,6 +954,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean lan = prefs.getBoolean("lan", false);
+        boolean ip6 = prefs.getBoolean("ip6", true);
         boolean filter = prefs.getBoolean("filter", false);
         boolean system = prefs.getBoolean("manage_system", false);
 
@@ -963,16 +964,21 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         // VPN address
         String vpn4 = prefs.getString("vpn4", "10.1.10.1");
-        String vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
-        Log.i(TAG, "vpn4=" + vpn4 + " vpn6=" + vpn6);
+        Log.i(TAG, "vpn4=" + vpn4);
         builder.addAddress(vpn4, 32);
-        builder.addAddress(vpn6, 128);
+        if (ip6) {
+            String vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
+            Log.i(TAG, "vpn6=" + vpn6);
+            builder.addAddress(vpn6, 128);
+        }
 
         // DNS address
         if (filter)
             for (InetAddress dns : getDns(ServiceSinkhole.this)) {
-                Log.i(TAG, "dns=" + dns);
-                builder.addDnsServer(dns);
+                if (ip6 || dns instanceof Inet4Address) {
+                    Log.i(TAG, "dns=" + dns);
+                    builder.addDnsServer(dns);
+                }
             }
 
         // Exclude IP ranges
@@ -1038,7 +1044,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
 
-        builder.addRoute("0:0:0:0:0:0:0:0", 0);
+        Log.i(TAG, "IPv6=" + ip6);
+        if (ip6)
+            builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
         // MTU
         int mtu = jni_get_mtu();
