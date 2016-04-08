@@ -51,12 +51,14 @@
   <string name="setting_options">אפשרויות</string>
   <string name="setting_theme">ערכת נושא: %1$s</string>
   <string name="setting_dark">השתמש בערכת נושא כהה</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">אפשר אוטומטית לאחר %1$s דקות</string>
   <string name="setting_delay">השהה כיבוי מסך לאחרי %1$s דקות</string>
   <string name="setting_update">בדוק עבור עדכונים</string>
   <string name="setting_network_options">אפשרויות רשת</string>
   <string name="setting_tethering">אפשר מודם סללורי</string>
   <string name="setting_lan">Allow LAN access</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">רשתות Wi-Fi ביתיות: %1$s</string>
   <string name="setting_metered">טפל בתעבורת Wi-Fi מדודה</string>
   <string name="setting_metered_2g">התייחס ל2G כתעבורה נימנת</string>
@@ -92,6 +94,7 @@
   <string name="setting_technical_general">כללי</string>
   <string name="setting_technical_networks">רשתות</string>
   <string name="setting_technical_subscription">מנויים</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">לאחר ניטרול דרך הווידגט, אפשר לNetGuard להתחיל באופן אוטמטי לאחר מספר הדקות שנבחר (הזן אפס על מנת לבטל אופציה זאת)</string>
   <string name="summary_delay">לאחר כיבוי המסך, המשך להשתמש בחוקי מסך דולק למשך מספר הדקות שנבחר (הזן 0 כדי לבטל אפשרות זו)</string>
   <string name="summary_update">בדוק עבור עדכונים חדשים דרך GitHub באופן יומי</string>

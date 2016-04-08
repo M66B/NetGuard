@@ -50,12 +50,14 @@
   <string name="setting_options">Optiuni</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_delay">Temporizare la oprirea ecranului %1$s minute</string>
   <string name="setting_update">Verifica actualizari</string>
   <string name="setting_network_options">Optiuni conexiune</string>
   <string name="setting_tethering">Permite partajarea conexiunii</string>
   <string name="setting_lan">Permite acces LAN</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">Retea Wi-Fi de domiciliu: %1$s</string>
   <string name="setting_metered">Gestionati conexiunile Wi-Fi contorizate</string>
   <string name="setting_metered_2g">Considera 2G necontorizat</string>
@@ -91,6 +93,7 @@
   <string name="setting_technical_general">Generale</string>
   <string name="setting_technical_networks">Retele</string>
   <string name="setting_technical_subscription">Abonamente</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">Dupa dezactivare din widget, activeaza automat NetGuard dupa numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_delay">Dupa oprirea ecranului, pastreza regulile ecran pornit pentru numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_update">De doua ori pe zi se va verifica daca a fost publicata pe GitHub o noua versiune</string>

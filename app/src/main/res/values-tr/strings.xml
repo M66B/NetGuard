@@ -52,12 +52,14 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="setting_options">Seçenekler</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Koyu renk Temayı Kullan</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">%1$s dakika sonra otomatik etkinleştir</string>
   <string name="setting_delay">Ekranın kapanmasını %1$s dakika ertele</string>
   <string name="setting_update">Güncellemeleri kontrol et</string>
   <string name="setting_network_options">Bağlantı seçenekleri</string>
   <string name="setting_tethering">İnternet paylaşımı aktif</string>
   <string name="setting_lan">Yerel ağ erişimine izin ver</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">Wi-Fi ev ağları: %1$s</string>
   <string name="setting_metered">Wi-Fi veri sayacını kullan</string>
   <string name="setting_metered_2g">2G veri kullanımını dikkate al</string>
@@ -93,6 +95,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="setting_technical_general">Genel</string>
   <string name="setting_technical_networks">Ağlar</string>
   <string name="setting_technical_subscription">Abonelikler</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">Widget kullanarak devre dışı bıraktıktan sonra, NetGuardı otomatik olarak tekrar etkinleştirmek için bir süre girin (bu seçeneği devre dışı bırakmak için sıfır girin)</string>
   <string name="summary_delay">Seçilen süre sonuna kadar aktif kuralları uygulayıp ekranı kapat (bu seçeneği devre dışı bırakmak için sıfır girin)</string>
   <string name="summary_update">Yeni sürümler için GitHub üzerinden günde iki defa kontrol et</string>

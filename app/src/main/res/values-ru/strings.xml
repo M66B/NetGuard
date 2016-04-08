@@ -50,12 +50,14 @@
   <string name="setting_options">Опции</string>
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Использовать темную тему</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
   <string name="setting_delay">Задержка экрана %1$s минут(ы)</string>
   <string name="setting_update">Проверять наличие обновлений</string>
   <string name="setting_network_options">Параметры сети</string>
   <string name="setting_tethering">Разрешить привязку</string>
   <string name="setting_lan">Разрешить доступ к LAN</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">Домашняя сеть Wi-Fi: %1$s</string>
   <string name="setting_metered">Регулировать огранич. Wi-Fi сети</string>
   <string name="setting_metered_2g">Не учитывать 2G</string>
@@ -91,6 +93,7 @@
   <string name="setting_technical_general">Общее</string>
   <string name="setting_technical_networks">Сеть</string>
   <string name="setting_technical_subscription">Подписки</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">После отключения через виджет, автоматически включить NetGuard снова после указанного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_update">Проверять наличие новых версий на GitHub два раза в день</string>

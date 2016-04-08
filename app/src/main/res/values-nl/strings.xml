@@ -51,12 +51,14 @@
   <string name="setting_options">Opties</string>
   <string name="setting_theme">Thema: %1$s</string>
   <string name="setting_dark">Gebruik donker thema</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">Zet weer aan na %1$s minuten</string>
   <string name="setting_delay">Vertraag scherm uit %1$s minuten</string>
   <string name="setting_update">Controleren op updates</string>
   <string name="setting_network_options">Netwerkopties</string>
   <string name="setting_tethering">Sta tethering toe</string>
   <string name="setting_lan">Allow LAN access</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">Wi-Fi thuisnetwerk: %1$s</string>
   <string name="setting_metered">Behandel gemeten Wi-Fi netwerken</string>
   <string name="setting_metered_2g">Beschouw 2G als ongemeten</string>
@@ -92,6 +94,7 @@
   <string name="setting_technical_general">Algemeen</string>
   <string name="setting_technical_networks">Netwerken</string>
   <string name="setting_technical_subscription">Abonnementen</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">Na het uitschakelen van de widget automatisch NetGuard weer inschakelen na het geselecteerde aantal minuten (voer nul in om deze optie uit te schakelen)</string>
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_update">Check for new releases on GitHub twice daily</string>

@@ -50,12 +50,14 @@
   <string name="setting_options">خيارات</string>
   <string name="setting_theme">المظهر: %1$s</string>
   <string name="setting_dark">استخدم المظهر الداكن</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">تمكين تلقائي بعد %1$s دقيقة/دقائق</string>
   <string name="setting_delay">تــأخــيــر تــعــتــيــم الــشــاشــة %1$s دقــيــقــة</string>
   <string name="setting_update">Check for updates</string>
   <string name="setting_network_options">خيارات الشبكة</string>
   <string name="setting_tethering">السماح بالربط(مشاركة الانترنت)</string>
   <string name="setting_lan">Allow LAN access</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">شبكات الاتصال اللاسلكي المنزلية: %1$s</string>
   <string name="setting_metered">تعامل مع الشبكات اللاسلكية المقاسة</string>
   <string name="setting_metered_2g">إعـــتـــبـــر الـــجـــيـــل الـــثـــانـــي غـــيـــر مـــقـــاس</string>
@@ -91,6 +93,7 @@
   <string name="setting_technical_general">الاعدادات العامة</string>
   <string name="setting_technical_networks">الشبكات</string>
   <string name="setting_technical_subscription">الإشتراكات</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">بعد تعطيل NetGuard باستخدام الويدجت، فعل NetGuard تلقائيا مرة أخرى بعد عدد محدد من الدقائق  (ادخل صفر لتعطيل هذا الخيار)</string>
   <string name="summary_delay">بعد إغلاق الشاشة، إبقاء الشاشة على القواعد نشطة لعدد محدد من الدقائق (ادخل صفر لتعطيل هذا الخيار)</string>
   <string name="summary_update">Check for new releases on GitHub twice daily</string>

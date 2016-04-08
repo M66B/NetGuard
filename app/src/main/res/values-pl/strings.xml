@@ -50,12 +50,14 @@
   <string name="setting_options">Opcje</string>
   <string name="setting_theme">Motyw: %1$s</string>
   <string name="setting_dark">Użyj ciemnej skórki</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">Automatyczne włączenie po %1$s min</string>
   <string name="setting_delay">Opóźnienie wyłączenia reguł ekranu %1$s min</string>
   <string name="setting_update">Sprawdź aktualizacje</string>
   <string name="setting_network_options">Opcje sieciowe</string>
   <string name="setting_tethering">Umożliwiaj tethering</string>
   <string name="setting_lan">Allow LAN access</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">Gniazdo sieci Wi-Fi: %1$s</string>
   <string name="setting_metered">Obsługuj taryfowe sieci Wi-Fi</string>
   <string name="setting_metered_2g">Przyjmuj 2G za nietaryfowe</string>
@@ -91,6 +93,7 @@
   <string name="setting_technical_general">Główne</string>
   <string name="setting_technical_networks">Sieci</string>
   <string name="setting_technical_subscription">Subskrypcje</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">Po wyłączeniu poprzez widget, automatycznie włącz NetGuard po podanej liczbie minut (wprowadzenie zera wyłącza tą opcję)</string>
   <string name="summary_delay">Po wyłączeniu ekranu, podtrzymuj działanie reguły \"Zezwól na ... przy włączonym ekranie\" przez podaną liczbę minut (wprowadzenie zera wyłącza tą opcję)</string>
   <string name="summary_update">Sprawdzaj nowe wersje na GitHub, dwa razy dziennie</string>

@@ -51,12 +51,14 @@
   <string name="setting_options">Опції</string>
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Використовувати темну тему</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_delay">Затримка екрану %1$s хвилин</string>
   <string name="setting_update">Перевірити наявність оновлень</string>
   <string name="setting_network_options">Параметри мережі</string>
   <string name="setting_tethering">Дозволити прив\'язку</string>
   <string name="setting_lan">Allow LAN access</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">Домашня Wi-Fi мережа: %1$s</string>
   <string name="setting_metered">Регулювати лімітовані Wi-Fi мережі</string>
   <string name="setting_metered_2g">Не враховувати 2G</string>
@@ -92,6 +94,7 @@
   <string name="setting_technical_general">Загальне</string>
   <string name="setting_technical_networks">Мережі</string>
   <string name="setting_technical_subscription">Підписки</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">При відключені через віджет, NetGuard буде автоматично увімкнуто через вказану кількість хвилин\nВведіть 0, аби відключити цю функцію</string>
   <string name="summary_delay">Тримати екран активним на протязі обраної кількості хвилин після вимикання. (0 - вимикає функцію)</string>
   <string name="summary_update">Перевіряти на нові випуски з GitHub двічі на день</string>

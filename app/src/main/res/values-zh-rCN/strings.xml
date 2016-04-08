@@ -52,12 +52,14 @@
   <string name="setting_options">选项:</string>
   <string name="setting_theme">主题: %1$s</string>
   <string name="setting_dark">使用暗色主题</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
   <string name="setting_delay">推迟 %1$s 分钟关屏</string>
   <string name="setting_update">检查更新</string>
   <string name="setting_network_options">网络选项</string>
   <string name="setting_tethering">允许网络共享</string>
   <string name="setting_lan">允许 LAN 访问</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">Wi-Fi 家庭网络: %1$s</string>
   <string name="setting_metered">控制按流量计费Wi-Fi网络</string>
   <string name="setting_metered_2g">2G非按流量计费</string>
@@ -93,6 +95,7 @@
   <string name="setting_technical_general">常规​​​​​</string>
   <string name="setting_technical_networks">网络</string>
   <string name="setting_technical_subscription">付费订阅</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">禁用小部件后, 在设定分钟后自动再次启用NetGuard\n输入零以禁用此选项</string>
   <string name="summary_delay">关屏后，保持亮屏规则在指定的分钟数内有效 (输入零以禁用此选项)</string>
   <string name="summary_update">每日两次检查 GitHub 上的更新</string>

@@ -52,12 +52,14 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_options">Možnosti</string>
   <string name="setting_theme">Vzhled: %1$s</string>
   <string name="setting_dark">Použít tmavý motiv</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">Automaticky povolit po %1$s minutách</string>
   <string name="setting_delay">Delay screen off %1$s minutes</string>
   <string name="setting_update">Zkontrolovat aktualizace</string>
   <string name="setting_network_options">Možnosti sítě</string>
   <string name="setting_tethering">Povolit tethering</string>
   <string name="setting_lan">Allow LAN access</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">Domácí sítě Wi-Fi: %1$s</string>
   <string name="setting_metered">Handle metered Wi-Fi networks</string>
   <string name="setting_metered_2g">Consider 2G unmetered</string>
@@ -93,6 +95,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_technical_general">Hlavní</string>
   <string name="setting_technical_networks">Sítě</string>
   <string name="setting_technical_subscription">Předplatné</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">Po zakázání skrze widget, automaticky povolit NetGuard po zvoleném počtu minut (vepište nulu pro deaktivaci)</string>
   <string name="summary_delay">Po vypnutí obrazovky, ponechat v platnosti pravidla pro zapnutou obrazovku po zvolený počet minut (vepište nulu pro deaktivaci)</string>
   <string name="summary_update">Check for new releases on GitHub twice daily</string>

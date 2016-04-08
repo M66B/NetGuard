@@ -51,12 +51,14 @@
   <string name="setting_options">Opções</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Ativa tema escuro</string>
+  <string name="setting_install">Notify on new install</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
   <string name="setting_update">Procurar por atualizações</string>
   <string name="setting_network_options">Opções de rede</string>
   <string name="setting_tethering">Permitir tethering</string>
   <string name="setting_lan">Allow LAN access</string>
+  <string name="setting_ip6">Enable IPv6 traffic</string>
   <string name="setting_wifi_home">Redes Wi-Fi Domésticas: %1$s</string>
   <string name="setting_metered">Manipular redes Wi-Fi Limitadas</string>
   <string name="setting_metered_2g">Considerar 2G ilimitado</string>
@@ -92,6 +94,7 @@
   <string name="setting_technical_general">Geral</string>
   <string name="setting_technical_networks">Redes</string>
   <string name="setting_technical_subscription">Inscrições</string>
+  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_update">Procurar por novos releases no GitHub duas vezes ao dia</string>
