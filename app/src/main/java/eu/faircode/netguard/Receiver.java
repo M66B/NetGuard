@@ -44,11 +44,13 @@ public class Receiver extends BroadcastReceiver {
         Log.i(TAG, "Received " + intent);
         Util.logExtras(intent);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
         if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
             // Application added
             if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
                 // Show notification
-                if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context)) {
+                if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context) && prefs.getBoolean("install", true)) {
                     int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
                     notifyNewApplication(uid, context);
                 }
@@ -82,7 +84,6 @@ public class Receiver extends BroadcastReceiver {
             upgrade(true, context);
 
             // Start service
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             try {
                 if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
                     if (prefs.getBoolean("enabled", false) || prefs.getBoolean("show_stats", false))

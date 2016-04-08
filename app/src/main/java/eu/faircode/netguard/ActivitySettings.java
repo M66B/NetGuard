@@ -463,6 +463,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 startActivity(new Intent(this, ActivityPro.class));
                 return;
             }
+        } else if ("install".equals(name)) {
+            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_NOTIFY, this)) {
+                prefs.edit().putBoolean(name, false).apply();
+                ((TwoStatePreference) getPreferenceScreen().findPreference(name)).setChecked(false);
+                startActivity(new Intent(this, ActivityPro.class));
+                return;
+            }
         }
 
         Object value = prefs.getAll().get(name);

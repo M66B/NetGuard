@@ -37,6 +37,11 @@
             android:defaultValue="false"
             android:key="dark_theme"
             android:title="@string/setting_dark" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="install"
+            android:summary="@string/summary_install"
+            android:title="@string/setting_install" />
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="number"

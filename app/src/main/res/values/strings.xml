@@ -59,6 +59,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_options">Options</string>
     <string name="setting_theme">Theme: %1$s</string>
     <string name="setting_dark">Use dark theme</string>
+    <string name="setting_install">Notify on new install</string>
     <string name="setting_auto">Auto enable after %1$s minutes</string>
     <string name="setting_delay">Delay screen off %1$s minutes</string>
     <string name="setting_update">Check for updates</string>
@@ -108,6 +109,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_technical_networks">Networks</string>
     <string name="setting_technical_subscription">Subscriptions</string>
 
+    <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
     <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
     <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
     <string name="summary_update">Check for new releases on GitHub twice daily</string>
