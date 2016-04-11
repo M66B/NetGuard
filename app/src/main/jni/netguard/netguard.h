@@ -54,7 +54,7 @@
 
 #define UID_DELAY 1 // milliseconds
 #define UID_DELAYTRY 10 // milliseconds
-#define UID_MAXTRY 3
+#define UID_MAXTRY 10
 
 struct arguments {
     JNIEnv *env;
