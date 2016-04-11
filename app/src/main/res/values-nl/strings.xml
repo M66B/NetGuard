@@ -51,14 +51,14 @@
   <string name="setting_options">Opties</string>
   <string name="setting_theme">Thema: %1$s</string>
   <string name="setting_dark">Gebruik donker thema</string>
-  <string name="setting_install">Notify on new install</string>
+  <string name="setting_install">> Notificatie bij nieuwe installaties</string>
   <string name="setting_auto">Zet weer aan na %1$s minuten</string>
   <string name="setting_delay">Vertraag scherm uit %1$s minuten</string>
   <string name="setting_update">Controleren op updates</string>
   <string name="setting_network_options">Netwerkopties</string>
   <string name="setting_tethering">Sta tethering toe</string>
-  <string name="setting_lan">Allow LAN access</string>
-  <string name="setting_ip6">Enable IPv6 traffic</string>
+  <string name="setting_lan">LAN-toegang toestaan</string>
+  <string name="setting_ip6">IPv6-verkeer inschakelen</string>
   <string name="setting_wifi_home">Wi-Fi thuisnetwerk: %1$s</string>
   <string name="setting_metered">Behandel gemeten Wi-Fi netwerken</string>
   <string name="setting_metered_2g">Beschouw 2G als ongemeten</string>
@@ -100,6 +100,7 @@
   <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
   <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
+  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">Pas de Wi-Fi-netwerkregels alleen toe op de geselecteerde netwerken (en regels voor mobiele netwerken op andere Wi-Fi-netwerken)</string>
   <string name="summary_metered">Pas regels voor mobiele netwerken op gemeten (betaalde, getetherde) Wi-Fi-netwerken toe</string>
   <string name="summary_metered_2g">Pas Wi-Fi-netwerkregels toe op 2G-verbindingen</string>
@@ -156,6 +157,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_metered">Netwerk is gemeten</string>
   <string name="msg_queue">NetGuard is bezig</string>
   <string name="msg_update">Update beschikbaar, tik om te downloaden</string>
+  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
   <string name="title_unmetered_allowed">Ongelimiteerde verkeer is toegestaan</string>
   <string name="title_unmetered_blocked">Ongelimiteerde verkeer wordt geblokkeerd</string>
   <string name="title_metered_allowed">Gemeten verkeer is toegestaan</string>

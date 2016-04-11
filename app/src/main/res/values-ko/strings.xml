@@ -101,6 +101,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
   <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
+  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
   <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
   <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections</string>
@@ -157,6 +158,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_metered">Network is metered</string>
   <string name="msg_queue">NetGuard is busy</string>
   <string name="msg_update">Update available, tap to download</string>
+  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
   <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
   <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
   <string name="title_metered_allowed">Metered traffic is allowed</string>

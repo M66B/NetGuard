@@ -99,6 +99,7 @@
   <string name="summary_update">Procurar novos lançamentos no GitHub duas vezes por dia</string>
   <string name="summary_tethering">Dependendo da versão do Android, tethering pode ou não trabalhar. O tráfego em tethering não pode ser filtrado.</string>
   <string name="summary_lan">Permitir que as aplicações se conectem a endereços de rede local, como 10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16</string>
+  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis às outras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi compartilhadas (pagas, limitadas)</string>
   <string name="summary_metered_2g">Aplicar regras Wi-Fi para conexões 2G</string>
@@ -152,6 +153,7 @@ Reiniciar seu dispositivo ou revogar a permissão de VPN usando as configuraçõ
   <string name="msg_metered">Rede é limitada</string>
   <string name="msg_queue">NetGuard está ocupado</string>
   <string name="msg_update">Actualização disponivel, toque para descarregar</string>
+  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado é permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado é bloqueado</string>
   <string name="title_metered_allowed">Tráfego limitado é permitido</string>

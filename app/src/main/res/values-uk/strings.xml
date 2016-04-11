@@ -100,6 +100,7 @@
   <string name="summary_update">Перевіряти на нові випуски з GitHub двічі на день</string>
   <string name="summary_tethering">В залежності від версії Android, прив\'язування може або працювати, або ні. Прив\'язаний трафік не може бути відфільтрований.</string>
   <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
+  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">Застосувати правила Wi-Fi мережі лише для обраної (для інших застосовуються правила мобільної мережі)</string>
   <string name="summary_metered">Застосувати правила до лімітованих (платних, обмежених) Wi-Fi мереж</string>
   <string name="summary_metered_2g">Застосувати правила Wi-Fi мережі до 2G з\'єднання</string>
@@ -154,6 +155,7 @@ Restarting your device or revoking the VPN permission using the Android settings
   <string name="msg_metered">Лімітована мережа</string>
   <string name="msg_queue">NetGuard зайнятий</string>
   <string name="msg_update">Доступне оновлення, торкніться для завантаження</string>
+  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
   <string name="title_unmetered_allowed">Безлімітний трафік дозволено</string>
   <string name="title_unmetered_blocked">Безлімітний трафік заблоковано</string>
   <string name="title_metered_allowed">Лімітований трафік дозволено</string>

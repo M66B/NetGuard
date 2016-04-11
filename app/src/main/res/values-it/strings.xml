@@ -99,6 +99,7 @@
   <string name="summary_update">Cerca nuove versioni su GitHub due volte al giorno</string>
   <string name="summary_tethering">A seconda della versione di Android, il tethering potrebbe non funzionare. Non è possibile filtrare il traffico in tethering.</string>
   <string name="summary_lan">Consenti alle applicazioni di connettersi ad indirizzi della rete locale, come, ad esempio, 10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16</string>
+  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
   <string name="summary_metered_2g">Applica le regole valide per il Wi-Fi alle connessioni 2G</string>
@@ -151,6 +152,7 @@
   <string name="msg_metered">La rete è a consumo</string>
   <string name="msg_queue">NetGuard è occupato</string>
   <string name="msg_update">Aggiornamento disponibile, clicca per scaricare</string>
+  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
   <string name="title_unmetered_allowed">Il traffico non al consumo è consentito</string>
   <string name="title_unmetered_blocked">Il traffico non al consumo è bloccato</string>
   <string name="title_metered_allowed">Il traffico al consumo è consentito</string>

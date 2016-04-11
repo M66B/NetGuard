@@ -100,6 +100,7 @@
   <string name="summary_update">בדוק עבור עדכונים חדשים דרך GitHub באופן יומי</string>
   <string name="summary_tethering">בהתאם לגירסת אנדרואיד, ייתכן ומודם סללורי לא יפעל. לא ניתן לסנן תעבורת מודם סללורי.</string>
   <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
+  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">השתמש בחוקי רשת Wi-Fi רק לרשת שנבחרה (בחוקי רשת סללורית עבור רשתות Wi-Fi אחרות)</string>
   <string name="summary_metered">החל כללי רשת סללורית לתעבורה נימנת (בתשלום, מודם סלולרי)</string>
   <string name="summary_metered_2g">החל חוקי רשת Wi-Fi עבור חיבור נתונים 2G</string>
@@ -153,6 +154,7 @@
   <string name="msg_metered">הרשת מנוטרת</string>
   <string name="msg_queue">NetGuard עמוס</string>
   <string name="msg_update">עדכון זמין, הקש כדי להוריד</string>
+  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
   <string name="title_unmetered_allowed">תעבורה חופשית מאופשרת</string>
   <string name="title_unmetered_blocked">תעבורה חופשית חסומה</string>
   <string name="title_metered_allowed">מרשה תעבורה נימנת</string>
