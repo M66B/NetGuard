@@ -60,6 +60,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -121,6 +122,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enabled = prefs.getBoolean("enabled", false);
         boolean initialized = prefs.getBoolean("initialized", false);
+        prefs.edit().remove("hint_system").apply();
 
         // Upgrade
         Receiver.upgrade(initialized, this);
@@ -268,6 +270,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 Rule.clearCache(ActivityMain.this);
                 ServiceSinkhole.reload("pull", ActivityMain.this);
                 updateApplicationList(null);
+            }
+        });
+
+        final LinearLayout llSystem = (LinearLayout) findViewById(R.id.llSystem);
+        Button btnSystem = (Button) findViewById(R.id.btnSystem);
+        boolean system = prefs.getBoolean("manage_system", false);
+        boolean hint = prefs.getBoolean("hint_system", true);
+        llSystem.setVisibility(!system && hint ? View.VISIBLE : View.GONE);
+        btnSystem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs.edit().putBoolean("hint_system", false).apply();
+                llSystem.setVisibility(View.GONE);
             }
         });
 
@@ -521,6 +536,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         else if ("manage_system".equals(name)) {
             invalidateOptionsMenu();
             updateApplicationList(null);
+            LinearLayout llSystem = (LinearLayout) findViewById(R.id.llSystem);
+            boolean system = prefs.getBoolean("manage_system", false);
+            boolean hint = prefs.getBoolean("hint_system", true);
+            llSystem.setVisibility(!system && hint ? View.VISIBLE : View.GONE);
 
         } else if ("theme".equals(name) || "dark_theme".equals(name))
             recreate();
