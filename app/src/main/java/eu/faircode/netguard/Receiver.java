@@ -74,6 +74,8 @@ public class Receiver extends BroadcastReceiver {
 
                 int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
                 if (uid > 0) {
+                    DatabaseHelper.getInstance(context).clearAccess(uid, false);
+
                     NotificationManagerCompat.from(context).cancel(uid); // installed notification
                     NotificationManagerCompat.from(context).cancel(uid + 10000); // access notification
                 }

@@ -612,7 +612,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 Util.areYouSure(view.getContext(), R.string.msg_reset_access, new Util.DoubtListener() {
                     @Override
                     public void onSure() {
-                        DatabaseHelper.getInstance(context).clearAccess(rule.info.applicationInfo.uid);
+                        DatabaseHelper.getInstance(context).clearAccess(rule.info.applicationInfo.uid, true);
                         if (rv != null)
                             rv.scrollToPosition(position);
                     }
