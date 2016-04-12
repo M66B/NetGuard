@@ -99,7 +99,7 @@
   <string name="summary_update">Проверять наличие новых версий на GitHub два раза в день</string>
   <string name="summary_tethering">В зависимости от версии Android, привязывание может либо работать, либо не работать. Привязанный трафик не может быть отфильтрован.</string>
   <string name="summary_lan">Разрешить приложениям подключаться к локальным сетевым адресам таким, как 10.0.0.0/8, 172.16.0.0/12 и 192.168.0.0/16</string>
-  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
+  <string name="summary_ip6">Пересылка трафика IPv6 к NetGuard может быть выборочно разрешена или заблокирована</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
   <string name="summary_metered">Применить правила для лимитированных (платных, ограниченных) Wi-Fi сетей</string>
   <string name="summary_metered_2g">Применить правила Wi-Fi-сети для передачи данных через 2G</string>
@@ -153,7 +153,7 @@
   <string name="msg_metered">Лимитированные сети</string>
   <string name="msg_queue">NetGuard занят</string>
   <string name="msg_update">Доступно обновление, нажмите, чтобы загрузить</string>
-  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_system">Управление системными приложениями может быть включено в дополнительных опциях</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
   <string name="title_unmetered_blocked">Безлимитный трафик блокируется</string>
   <string name="title_metered_allowed">Лимитированный трафик разрешен</string>

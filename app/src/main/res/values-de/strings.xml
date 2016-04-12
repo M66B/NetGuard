@@ -100,7 +100,7 @@
   <string name="summary_update">Es wird auf GitHub zweimal täglich nach neuen Versionen gesucht</string>
   <string name="summary_tethering">Abhängig von der Android Version kann Tethering funktionieren. Dieser Verkehr kann nicht gefiltert werden.</string>
   <string name="summary_lan">Apps den Zugriff auf lokale Netzwerkadressen wie 10.0.0.0/8, 172.16.0.0/12 und 192.168.0.0/16 erlauben.</string>
-  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
+  <string name="summary_ip6">IP6-Datenverkehr an NetGuard weiterleiten, so dass es selektiv zugelassen oder blockiert werden kann</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
   <string name="summary_metered">Mobilfunk-Regeln auf volumenbeschränkte (bezahlte, tethering) WLAN-Netzwerke anwenden</string>
   <string name="summary_metered_2g">WLAN-Regeln für 2G-Datenverbindungen anwenden</string>
@@ -153,7 +153,7 @@
   <string name="msg_metered">Volumenbeschränktes Netzwerk</string>
   <string name="msg_queue">NetGuard ist beschäftigt</string>
   <string name="msg_update">Neue Version verfügbar, tippen zum Herunterladen</string>
-  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_system">Verwalten von Systemanwendungen kann in den erweiterten Optionen aktiviert werden</string>
   <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
   <string name="title_unmetered_blocked">Nicht volumenbeschränkter Verkehr ist blockiert</string>
   <string name="title_metered_allowed">Volumenbeschränkter Verkehr ist erlaubt</string>

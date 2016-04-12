@@ -158,7 +158,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="msg_metered">Bağlantı veri kullanımı</string>
   <string name="msg_queue">NetGuard meşgul</string>
   <string name="msg_update">Güncelleme hazır, indirmek için dokunun</string>
-  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_system">Sistem uygulamalarını yönet gelişmiş seçenekler de etkin olabilir</string>
   <string name="title_unmetered_allowed">İzin verilmiş hesaplanamayan veri kullanımı</string>
   <string name="title_unmetered_blocked">Engellenmiş hesaplanamayan veri kullanımı</string>
   <string name="title_metered_allowed">İzin verilmiş veri kullanımı</string>

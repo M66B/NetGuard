@@ -101,7 +101,7 @@
   <string name="summary_update">每日两次检查 GitHub 上的更新</string>
   <string name="summary_tethering">根据 Android 版本不同, 网络共享可能可以或可能无法正常工作. 共享网络流量无法被过滤.</string>
   <string name="summary_lan">允许应用连接至局域网地址, 如 10.0.0.0/8, 172.16.0.0/12 及 192.168.0.0/16</string>
-  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
+  <string name="summary_ip6">将 IPv6 流量导至 NetGuardu并进行选择性允许或阻止</string>
   <string name="summary_wifi_home">仅将Wi-Fi网络规则应用于所选定的网络 (将移动网络规则应用于其他Wi-Fi网络)</string>
   <string name="summary_metered">将移动网络规则应用于按流量计费的 (付费, 共享) Wi-Fi网络</string>
   <string name="summary_metered_2g">将Wi-Fi网络规则应用于2G数据连接</string>
@@ -158,7 +158,7 @@
   <string name="msg_metered">网络按流量计费</string>
   <string name="msg_queue">NetGuard 正忙</string>
   <string name="msg_update">有可用更新, 请点击下载</string>
-  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_system">您可在高级选项中启用管理系统应用</string>
   <string name="title_unmetered_allowed">已允许非按流量计费的网络数据</string>
   <string name="title_unmetered_blocked">已阻止非按流量计费的网络数据</string>
   <string name="title_metered_allowed">已允许按流量计费的网络数据</string>

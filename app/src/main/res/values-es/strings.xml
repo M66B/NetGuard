@@ -50,7 +50,7 @@
   <string name="setting_options">Opciones</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Usar tema oscuro</string>
-  <string name="setting_install">Notificar sobre instalaciones nuevas</string>
+  <string name="setting_install">Notificar nuevas instalaciones</string>
   <string name="setting_auto">Activar automáticamente después de %1$s minutos</string>
   <string name="setting_delay">Retardar apagado de pantalla en %1$s minutos</string>
   <string name="setting_update">Buscar actualizaciones</string>
@@ -99,7 +99,7 @@
   <string name="summary_update">Busca nuevos lanzamientos en GitHub, dos veces al día</string>
   <string name="summary_tethering">Dependiendo de la versión de Android, el anclaje a red puede funcionar o no. El tráfico por anclaje no puede filtrarse.</string>
   <string name="summary_lan">Permite a las aplicaciones conectarse a las direcciones de la red local, como 10.0.0.0/8, 172.16.0.0/12 y 192.168.0.0/16</string>
-  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
+  <string name="summary_ip6">La ruta de tráfico IPv6 a NetGuard, puede permitirse o bloquearse selectivamente</string>
   <string name="summary_wifi_home">Aplicar sólo reglas de red Wi-Fi en la red seleccionada (aplicar reglas de red móvil para otras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar reglas de red móvil a redes Wi-Fi medidas (de pago, por anclaje)</string>
   <string name="summary_metered_2g">Aplicar reglas de red Wi-Fi para conexiones de datos 2G</string>
@@ -152,7 +152,7 @@
   <string name="msg_metered">La red está medida</string>
   <string name="msg_queue">NetGuard está ocupado</string>
   <string name="msg_update">Actualización disponible, pulse para descargar</string>
-  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_system">La gestión de las aplicaciones del sistema, puede activarse en las opciones avanzadas</string>
   <string name="title_unmetered_allowed">Tráfico ilimitado permitido</string>
   <string name="title_unmetered_blocked">Tráfico ilimitado bloqueado</string>
   <string name="title_metered_allowed">Tráfico medido permitido</string>
