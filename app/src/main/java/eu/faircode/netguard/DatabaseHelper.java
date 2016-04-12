@@ -619,7 +619,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         notifyAccessChanged();
     }
 
-    public void clearAccess(int uid) {
+    public void clearAccess(int uid, boolean keeprules) {
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -627,7 +627,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             try {
                 // There is a segmented index on uid
                 // There is an index on block
-                db.delete("access", "uid = ? AND block < 0", new String[]{Integer.toString(uid)});
+                if (keeprules)
+                    db.delete("access", "uid = ? AND block < 0", new String[]{Integer.toString(uid)});
+                else
+                    db.delete("access", "uid = ?", new String[]{Integer.toString(uid)});
 
                 db.setTransactionSuccessful();
             } finally {

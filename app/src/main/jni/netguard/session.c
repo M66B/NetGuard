@@ -70,6 +70,8 @@ void *handle_events(void *a) {
         log_android(ANDROID_LOG_WARN, "getrlimit soft %d hard %d max sessions %d",
                     rlim.rlim_cur, rlim.rlim_max, maxsessions);
     }
+    if (maxsessions > FD_SETSIZE)
+        maxsessions = FD_SETSIZE;
 
     // Block SIGUSR1
     sigemptyset(&blockset);

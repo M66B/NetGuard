@@ -130,6 +130,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         PreferenceCategory cat_advanced = (PreferenceCategory) screen.findPreference("category_advanced_options");
         PreferenceCategory cat_backup = (PreferenceCategory) screen.findPreference("category_backup");
         PreferenceCategory cat_development = (PreferenceCategory) screen.findPreference("category_development");
+        PreferenceScreen screen_development = (PreferenceScreen) screen.findPreference("screen_development");
 
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
@@ -342,7 +343,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Development
         Preference pref_show_resolved = screen.findPreference("show_resolved");
         if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta"))) {
-            screen.removePreference(cat_development);
+            screen.removePreference(screen_development);
             prefs.edit().remove("loglevel").apply();
         } else if (!Util.isDebuggable(this))
             cat_development.removePreference(pref_show_resolved);
@@ -463,6 +464,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 startActivity(new Intent(this, ActivityPro.class));
                 return;
             }
+        } else if ("install".equals(name)) {
+            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_NOTIFY, this)) {
+                prefs.edit().putBoolean(name, false).apply();
+                ((TwoStatePreference) getPreferenceScreen().findPreference(name)).setChecked(false);
+                startActivity(new Intent(this, ActivityPro.class));
+                return;
+            }
         }
 
         Object value = prefs.getAll().get(name);
@@ -500,6 +508,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             ServiceSinkhole.reload("changed " + name, this);
 
         else if ("lan".equals(name))
+            ServiceSinkhole.reload("changed " + name, this);
+
+        else if ("ip6".equals(name))
             ServiceSinkhole.reload("changed " + name, this);
 
         else if ("wifi_homes".equals(name)) {

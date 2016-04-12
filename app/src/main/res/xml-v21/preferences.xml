@@ -1,245 +1,273 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:key="category_defaults"
-        android:title="@string/setting_defaults">
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="true"
-            android:key="whitelist_wifi"
-            android:title="@string/setting_whitelist_wifi" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="true"
-            android:key="whitelist_other"
-            android:title="@string/setting_whitelist_other" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="screen_wifi"
-            android:title="@string/setting_screen_wifi" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="screen_other"
-            android:title="@string/setting_screen_other" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="whitelist_roaming"
-            android:title="@string/setting_whitelist_roaming" />
-    </PreferenceCategory>
+    <PreferenceScreen android:title="@string/setting_defaults">
+        <PreferenceCategory
+            android:key="category_defaults"
+            android:title="@string/setting_defaults">
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="true"
+                android:key="whitelist_wifi"
+                android:title="@string/setting_whitelist_wifi" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="true"
+                android:key="whitelist_other"
+                android:title="@string/setting_whitelist_other" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="screen_wifi"
+                android:title="@string/setting_screen_wifi" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="screen_other"
+                android:title="@string/setting_screen_other" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="whitelist_roaming"
+                android:title="@string/setting_whitelist_roaming" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 
-    <PreferenceCategory
-        android:key="category_options"
-        android:title="@string/setting_options">
-        <ListPreference
-            android:defaultValue="teal"
-            android:entries="@array/themeNames"
-            android:entryValues="@array/themeValues"
-            android:key="theme" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="dark_theme"
-            android:title="@string/setting_dark" />
-        <EditTextPreference
-            android:defaultValue="0"
-            android:inputType="number"
-            android:key="auto_enable"
-            android:summary="@string/summary_auto" />
-        <EditTextPreference
-            android:defaultValue="0"
-            android:inputType="number"
-            android:key="screen_delay"
-            android:summary="@string/summary_delay" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="true"
-            android:key="update_check"
-            android:summary="@string/summary_update"
-            android:title="@string/setting_update" />
-    </PreferenceCategory>
+    <PreferenceScreen android:title="@string/setting_options">
+        <PreferenceCategory
+            android:key="category_options"
+            android:title="@string/setting_options">
+            <ListPreference
+                android:defaultValue="teal"
+                android:entries="@array/themeNames"
+                android:entryValues="@array/themeValues"
+                android:key="theme" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="dark_theme"
+                android:title="@string/setting_dark" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="true"
+                android:key="install"
+                android:summary="@string/summary_install"
+                android:title="@string/setting_install" />
+            <EditTextPreference
+                android:defaultValue="0"
+                android:inputType="number"
+                android:key="auto_enable"
+                android:summary="@string/summary_auto" />
+            <EditTextPreference
+                android:defaultValue="0"
+                android:inputType="number"
+                android:key="screen_delay"
+                android:summary="@string/summary_delay" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="true"
+                android:key="update_check"
+                android:summary="@string/summary_update"
+                android:title="@string/setting_update" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 
-    <PreferenceCategory
-        android:key="category_options"
-        android:title="@string/setting_network_options">
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="tethering"
-            android:summary="@string/summary_tethering"
-            android:title="@string/setting_tethering" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="lan"
-            android:summary="@string/summary_lan"
-            android:title="@string/setting_lan" />
-        <MultiSelectListPreference
-            android:defaultValue="@array/default_wifi_home"
-            android:key="wifi_homes"
-            android:summary="@string/summary_wifi_home" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="use_metered"
-            android:summary="@string/summary_metered"
-            android:title="@string/setting_metered" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="unmetered_2g"
-            android:summary="@string/summary_metered_2g"
-            android:title="@string/setting_metered_2g" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="unmetered_3g"
-            android:summary="@string/summary_metered_3g"
-            android:title="@string/setting_metered_3g" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="unmetered_4g"
-            android:summary="@string/summary_metered_4g"
-            android:title="@string/setting_metered_4g" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="national_roaming"
-            android:summary="@string/summary_national_roaming"
-            android:title="@string/setting_national_roaming" />
-    </PreferenceCategory>
+    <PreferenceScreen android:title="@string/setting_network_options">
+        <PreferenceCategory
+            android:key="category_options"
+            android:title="@string/setting_network_options">
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="tethering"
+                android:summary="@string/summary_tethering"
+                android:title="@string/setting_tethering" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="lan"
+                android:summary="@string/summary_lan"
+                android:title="@string/setting_lan" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="true"
+                android:key="ip6"
+                android:summary="@string/summary_ip6"
+                android:title="@string/setting_ip6" />
+            <MultiSelectListPreference
+                android:defaultValue="@array/default_wifi_home"
+                android:key="wifi_homes"
+                android:summary="@string/summary_wifi_home" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="use_metered"
+                android:summary="@string/summary_metered"
+                android:title="@string/setting_metered" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="unmetered_2g"
+                android:summary="@string/summary_metered_2g"
+                android:title="@string/setting_metered_2g" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="unmetered_3g"
+                android:summary="@string/summary_metered_3g"
+                android:title="@string/setting_metered_3g" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="unmetered_4g"
+                android:summary="@string/summary_metered_4g"
+                android:title="@string/setting_metered_4g" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="national_roaming"
+                android:summary="@string/summary_national_roaming"
+                android:title="@string/setting_national_roaming" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 
-    <PreferenceCategory
-        android:key="category_advanced_options"
-        android:title="@string/setting_advanced_options">
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="manage_system"
-            android:summary="@string/summary_system"
-            android:title="@string/setting_system" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="log_app"
-            android:summary="@string/summary_log_app"
-            android:title="@string/setting_log_app" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:dependency="log_app"
-            android:key="notify_access"
-            android:summary="@string/summary_access"
-            android:title="@string/setting_access" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="filter"
-            android:summary="@string/summary_filter"
-            android:title="@string/setting_filter" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:dependency="filter"
-            android:key="track_usage"
-            android:summary="@string/summary_track_usage"
-            android:title="@string/setting_track_usage" />
-        <Preference
-            android:key="reset_usage"
-            android:title="@string/setting_reset_usage" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="true"
-            android:dependency="filter"
-            android:key="use_hosts"
-            android:summary="@string/summary_block_domains"
-            android:title="@string/setting_block_domains" />
-        <Preference
-            android:dependency="filter"
-            android:key="forwarding"
-            android:title="@string/setting_forwarding" />
-        <EditTextPreference
-            inputType="phone"
-            android:hint="10.1.10.1"
-            android:inputType="phone"
-            android:key="vpn4" />
-        <EditTextPreference
-            android:hint="fd00:1:fd00:1:fd00:1:fd00:1"
-            android:inputType="text"
-            android:key="vpn6" />
-        <EditTextPreference
-            android:dependency="filter"
-            android:inputType="text"
-            android:key="dns" />
-        <EditTextPreference
-            android:defaultValue="64"
-            android:inputType="number"
-            android:key="pcap_record_size" />
-        <EditTextPreference
-            android:defaultValue="2"
-            android:inputType="number"
-            android:key="pcap_file_size" />
-    </PreferenceCategory>
+    <PreferenceScreen android:title="@string/setting_advanced_options">
+        <PreferenceCategory
+            android:key="category_advanced_options"
+            android:title="@string/setting_advanced_options">
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="manage_system"
+                android:summary="@string/summary_system"
+                android:title="@string/setting_system" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="log_app"
+                android:summary="@string/summary_log_app"
+                android:title="@string/setting_log_app" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:dependency="log_app"
+                android:key="notify_access"
+                android:summary="@string/summary_access"
+                android:title="@string/setting_access" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="filter"
+                android:summary="@string/summary_filter"
+                android:title="@string/setting_filter" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:dependency="filter"
+                android:key="track_usage"
+                android:summary="@string/summary_track_usage"
+                android:title="@string/setting_track_usage" />
+            <Preference
+                android:key="reset_usage"
+                android:title="@string/setting_reset_usage" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="true"
+                android:dependency="filter"
+                android:key="use_hosts"
+                android:summary="@string/summary_block_domains"
+                android:title="@string/setting_block_domains" />
+            <Preference
+                android:dependency="filter"
+                android:key="forwarding"
+                android:title="@string/setting_forwarding" />
+            <EditTextPreference
+                inputType="phone"
+                android:hint="10.1.10.1"
+                android:inputType="phone"
+                android:key="vpn4" />
+            <EditTextPreference
+                android:hint="fd00:1:fd00:1:fd00:1:fd00:1"
+                android:inputType="text"
+                android:key="vpn6" />
+            <EditTextPreference
+                android:dependency="filter"
+                android:inputType="text"
+                android:key="dns" />
+            <EditTextPreference
+                android:defaultValue="64"
+                android:inputType="number"
+                android:key="pcap_record_size" />
+            <EditTextPreference
+                android:defaultValue="2"
+                android:inputType="number"
+                android:key="pcap_file_size" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 
-    <PreferenceCategory
-        android:key="category_stats"
-        android:title="@string/setting_stats_category">
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:key="show_stats"
-            android:summary="@string/summary_stats"
-            android:title="@string/setting_stats" />
-        <eu.faircode.netguard.SwitchPreference
-            android:defaultValue="false"
-            android:dependency="show_stats"
-            android:key="show_top"
-            android:title="@string/setting_stats_top" />
-        <EditTextPreference
-            android:defaultValue="1000"
-            android:dependency="show_stats"
-            android:inputType="number"
-            android:key="stats_frequency" />
-        <EditTextPreference
-            android:defaultValue="90"
-            android:dependency="show_stats"
-            android:inputType="number"
-            android:key="stats_samples" />
-    </PreferenceCategory>
+    <PreferenceScreen android:title="@string/setting_stats_category">
+        <PreferenceCategory
+            android:key="category_stats"
+            android:title="@string/setting_stats_category">
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:key="show_stats"
+                android:summary="@string/summary_stats"
+                android:title="@string/setting_stats" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
+                android:dependency="show_stats"
+                android:key="show_top"
+                android:title="@string/setting_stats_top" />
+            <EditTextPreference
+                android:defaultValue="1000"
+                android:dependency="show_stats"
+                android:inputType="number"
+                android:key="stats_frequency" />
+            <EditTextPreference
+                android:defaultValue="90"
+                android:dependency="show_stats"
+                android:inputType="number"
+                android:key="stats_samples" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 
-    <PreferenceCategory
-        android:key="category_backup"
-        android:title="@string/setting_backup">
-        <Preference
-            android:key="export"
-            android:title="@string/setting_export" />
-        <Preference
-            android:key="import"
-            android:title="@string/setting_import" />
-        <Preference
-            android:dependency="filter"
-            android:key="hosts_import"
-            android:title="@string/setting_hosts" />
-        <EditTextPreference
-            android:defaultValue="http://www.netguard.me/hosts"
-            android:dependency="filter"
-            android:hint="http://www.netguard.me/hosts"
-            android:key="hosts_url"
-            android:title="@string/setting_hosts_url" />
-        <Preference
-            android:dependency="hosts_url"
-            android:key="hosts_download"
-            android:title="@string/setting_hosts_download" />
-    </PreferenceCategory>
+    <PreferenceScreen android:title="@string/setting_backup">
+        <PreferenceCategory
+            android:key="category_backup"
+            android:title="@string/setting_backup">
+            <Preference
+                android:key="export"
+                android:title="@string/setting_export" />
+            <Preference
+                android:key="import"
+                android:title="@string/setting_import" />
+            <Preference
+                android:dependency="filter"
+                android:key="hosts_import"
+                android:title="@string/setting_hosts" />
+            <EditTextPreference
+                android:defaultValue="http://www.netguard.me/hosts"
+                android:dependency="filter"
+                android:hint="http://www.netguard.me/hosts"
+                android:key="hosts_url"
+                android:title="@string/setting_hosts_url" />
+            <Preference
+                android:dependency="hosts_url"
+                android:key="hosts_download"
+                android:title="@string/setting_hosts_download" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 
-    <PreferenceCategory
-        android:key="category_development"
+    <PreferenceScreen
+        android:key="screen_development"
         android:title="Development">
-        <ListPreference
-            android:defaultValue="6"
-            android:entries="@array/logLevelNames"
-            android:entryValues="@array/logLevelValues"
-            android:key="loglevel"
-            android:summary="Log level verbose, debug and info will impact performance and battery usage"
-            android:title="Native log level" />
-        <Preference
-            android:key="show_resolved"
-            android:title="@string/setting_show_resolved" />
-    </PreferenceCategory>
+        <PreferenceCategory
+            android:key="category_development"
+            android:title="Development">
+            <ListPreference
+                android:defaultValue="6"
+                android:entries="@array/logLevelNames"
+                android:entryValues="@array/logLevelValues"
+                android:key="loglevel"
+                android:summary="Log level verbose, debug and info will impact performance and battery usage"
+                android:title="Native log level" />
+            <Preference
+                android:key="show_resolved"
+                android:title="@string/setting_show_resolved" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 
-    <PreferenceCategory
-        android:key="category_technical"
-        android:title="@string/setting_technical">
-        <Preference
-            android:key="technical_info"
-            android:title="@string/setting_technical_general" />
-        <Preference
-            android:key="technical_network"
-            android:title="@string/setting_technical_networks" />
-        <Preference
-            android:key="technical_subscription"
-            android:title="@string/setting_technical_subscription" />
-    </PreferenceCategory>
+    <PreferenceScreen android:title="@string/setting_technical">
+        <PreferenceCategory
+            android:key="category_technical"
+            android:title="@string/setting_technical">
+            <Preference
+                android:key="technical_info"
+                android:title="@string/setting_technical_general" />
+            <Preference
+                android:key="technical_network"
+                android:title="@string/setting_technical_networks" />
+            <Preference
+                android:key="technical_subscription"
+                android:title="@string/setting_technical_subscription" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 </PreferenceScreen>
