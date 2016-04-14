@@ -130,7 +130,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         PreferenceCategory cat_advanced = (PreferenceCategory) screen.findPreference("category_advanced_options");
         PreferenceCategory cat_backup = (PreferenceCategory) screen.findPreference("category_backup");
         PreferenceCategory cat_development = (PreferenceCategory) screen.findPreference("category_development");
-        PreferenceScreen screen_development = (PreferenceScreen) screen.findPreference("screen_development");
 
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
@@ -343,7 +342,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Development
         Preference pref_show_resolved = screen.findPreference("show_resolved");
         if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta"))) {
-            screen.removePreference(screen_development);
+            screen.removePreference(cat_development);
             prefs.edit().remove("loglevel").apply();
         } else if (!Util.isDebuggable(this))
             cat_development.removePreference(pref_show_resolved);
