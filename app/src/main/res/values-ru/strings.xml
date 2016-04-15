@@ -64,7 +64,7 @@
   <string name="setting_metered_3g">Не учитывать 3G</string>
   <string name="setting_metered_4g">Не учитывать LTE</string>
   <string name="setting_national_roaming">Игнорировать роуминг внутри страны</string>
-  <string name="setting_advanced_options">Дополнительные параметры</string>
+  <string name="setting_advanced_options">Дополнительные опции</string>
   <string name="setting_system">Управлять сист. приложениями</string>
   <string name="setting_log_app">Журнал доступа к сети интернет</string>
   <string name="setting_access">Уведомить при доступе в интернет</string>
