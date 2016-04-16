@@ -34,11 +34,12 @@ uint16_t get_default_mss(int version) {
         return (uint16_t) (get_mtu() - sizeof(struct ip6_hdr) - sizeof(struct tcphdr));
 }
 
-int check_tun(const struct arguments *args,
+int check_tun(const struct arguments *args, int *ready,
               fd_set *rfds, fd_set *wfds, fd_set *efds,
               int sessions, int maxsessions) {
     // Check tun error
     if (FD_ISSET(args->tun, efds)) {
+        (*ready)--;
         log_android(ANDROID_LOG_ERROR, "tun %d exception", args->tun);
         if (fcntl(args->tun, F_GETFL) < 0) {
             log_android(ANDROID_LOG_ERROR, "fcntl tun %d F_GETFL error %d: %s",
@@ -52,6 +53,7 @@ int check_tun(const struct arguments *args,
 
     // Check tun read
     if (FD_ISSET(args->tun, rfds)) {
+        (*ready)--;
         uint8_t *buffer = malloc(get_mtu());
         ssize_t length = read(args->tun, buffer, get_mtu());
         if (length < 0) {

@@ -125,12 +125,17 @@ void check_udp_sessions(const struct arguments *args, int sessions, int maxsessi
     }
 }
 
-void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+void check_udp_sockets(const struct arguments *args, int *ready,
+                       fd_set *rfds, fd_set *wfds, fd_set *efds) {
+    struct udp_session *prev = NULL;
     struct udp_session *cur = udp_session;
-    while (cur != NULL) {
+    while (cur != NULL && *ready) {
+        int pready = *ready;
+
         if (cur->socket >= 0) {
             // Check socket error
             if (FD_ISSET(cur->socket, efds)) {
+                (*ready)--;
                 cur->time = time(NULL);
 
                 int serr = 0;
@@ -147,6 +152,7 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
             else {
                 // Check socket read
                 if (FD_ISSET(cur->socket, rfds)) {
+                    (*ready)--;
                     cur->time = time(NULL);
 
                     uint8_t *buffer = malloc(cur->mss);
@@ -192,7 +198,16 @@ void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds,
                 }
             }
         }
-        cur = cur->next;
+
+        if (prev == NULL || *ready == pready) {
+            prev = cur;
+            cur = cur->next;
+        } else {
+            prev->next = cur->next;
+            cur->next = udp_session;
+            udp_session = cur;
+            cur = prev->next;
+        }
     }
 }
 
