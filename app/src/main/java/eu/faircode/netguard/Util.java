@@ -450,24 +450,37 @@ public class Util {
     public static String getProtocolName(int protocol, int version, boolean brief) {
         // https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
         String p = null;
+        String b = null;
         switch (protocol) {
             case 0:
                 p = "HOPO";
+                b = "H";
+                break;
+            case 2:
+                p = "IGMP";
+                b = "G";
                 break;
             case 1:
             case 58:
                 p = "ICMP";
+                b = "I";
                 break;
             case 6:
                 p = "TCP";
+                b = "T";
                 break;
             case 17:
                 p = "UDP";
+                b = "U";
+                break;
+            case 50:
+                p = "ESP";
+                b = "E";
                 break;
         }
         if (p == null)
             return Integer.toString(protocol) + "/" + version;
-        return ((brief ? p.substring(0, 1) : p) + (version > 0 ? version : ""));
+        return ((brief ? b : p) + (version > 0 ? version : ""));
     }
 
     public interface DoubtListener {
