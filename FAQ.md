@@ -81,6 +81,8 @@ one can keep it in check by enabling "*Allow when device in use*" for all 3 of t
 Click on the down arrow on the left side of an application name and check that option,
 but leave the network icons set to red (hence blocked).The little human icon will appear for those packages.
 
+Note that NetGuard does not require any Google service to be installed.
+
 <a name="FAQ9"></a>
 **(9) Why is the VPN service being restarted?**
 
@@ -109,6 +111,9 @@ this operation will disable any information or warning notifications from NetGua
 like the new application installed notification.
 
 To read about the need for the notification in the first place, see [question 24](#FAQ24).
+
+Some Android versions display an additional notification, which might include a key icon.
+This notification can unfortunately not be removed.
 
 <a name="FAQ14"></a>
 **(14) Why can't I select OK to approve the VPN connection request?**
@@ -227,6 +232,8 @@ The columns have the following meaning:
 Protocols:
 
 * ICMP
+* IGMP
+* ESP (IPSec)
 * TCP
 * UDP
 * Number = one of the protocols in [this list](https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers)

@@ -19,6 +19,7 @@ Features:
 * No calling home
 * No tracking or analytics
 * No advertisements
+* Actively developed and supported
 * Android 4.0 and later supported
 * IPv4/IPv6 TCP/UDP supported
 * Tethering supported

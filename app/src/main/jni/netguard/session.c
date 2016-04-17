@@ -181,7 +181,7 @@ void *handle_events(void *a) {
 
             // Check upstream
             int error = 0;
-            if (check_tun(args, &rfds, &wfds, &efds, sessions, maxsessions) < 0)
+            if (check_tun(args, &ready, &rfds, &wfds, &efds, sessions, maxsessions) < 0)
                 error = 1;
             else {
 #ifdef PROFILE_EVENTS
@@ -195,14 +195,17 @@ void *handle_events(void *a) {
 #endif
 
                 // Check ICMP downstream
-                check_icmp_sockets(args, &rfds, &wfds, &efds);
+                check_icmp_sockets(args, &ready, &rfds, &wfds, &efds);
 
                 // Check UDP downstream
-                check_udp_sockets(args, &rfds, &wfds, &efds);
+                check_udp_sockets(args, &ready, &rfds, &wfds, &efds);
 
                 // Check TCP downstream
-                check_tcp_sockets(args, &rfds, &wfds, &efds);
+                check_tcp_sockets(args, &ready, &rfds, &wfds, &efds);
             }
+
+            if (ready > 0)
+                log_android(ANDROID_LOG_ERROR, "Ready %d", ready);
 
             if (pthread_mutex_unlock(&lock))
                 log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");

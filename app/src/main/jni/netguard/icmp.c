@@ -101,12 +101,17 @@ void check_icmp_sessions(const struct arguments *args, int sessions, int maxsess
     }
 }
 
-void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
+void check_icmp_sockets(const struct arguments *args, int *ready,
+                        fd_set *rfds, fd_set *wfds, fd_set *efds) {
+    struct icmp_session *prev = NULL;
     struct icmp_session *cur = icmp_session;
-    while (cur != NULL) {
+    while (cur != NULL && *ready) {
+        int pready = *ready;
+
         if (cur->socket >= 0) {
             // Check socket error
             if (FD_ISSET(cur->socket, efds)) {
+                (*ready)--;
                 cur->time = time(NULL);
 
                 int serr = 0;
@@ -124,6 +129,7 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
             else {
                 // Check socket read
                 if (FD_ISSET(cur->socket, rfds)) {
+                    (*ready)--;
                     cur->time = time(NULL);
 
                     uint16_t blen = (uint16_t) (cur->version == 4 ? ICMP4_MAXMSG : ICMP6_MAXMSG);
@@ -185,7 +191,16 @@ void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds
                 }
             }
         }
-        cur = cur->next;
+
+        if (prev == NULL || *ready == pready) {
+            prev = cur;
+            cur = cur->next;
+        } else {
+            prev->next = cur->next;
+            cur->next = icmp_session;
+            icmp_session = cur;
+            cur = prev->next;
+        }
     }
 }
 
