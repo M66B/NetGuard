@@ -31,6 +31,7 @@ Caracteristici:
 &bull; Nu transmite datele nicaieri
 &bull; Nu urmareste activitatea si nici nu o analizeaza
 &bull; Fara reclama
+&bull; Dezvoltare si asistenta continuua
 &bull; Suporta Android 4.0 si ulterior
 &bull; Suporta IPv4/IPv6 TCP/UDP
 &bull; Suporta partajarea conexiunii
@@ -52,7 +53,7 @@ Caracteristici PRO:
 
 Nu există nici un alt firewall, ce nu necesita root, care sa ofere toate aceste caracteristici.
 
-Pentru intrebari si raspunsuri va rugam sa cititi mai multe aici: http://forum.xda-developers.com/showthread.php?t=3233012
+Pentru intrebari sau probleme puteti trimite un email la marcel+netguard@faircode.eu
 
 Daca vrei sa ii ajuti pe cei ce nu vorbesc limba engleza, poti ajuta la traducerea NetGuard in limba ta materna: https://crowdin.com/project/netguard/
 
