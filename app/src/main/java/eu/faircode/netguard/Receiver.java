@@ -119,7 +119,7 @@ public class Receiver extends BroadcastReceiver {
             // Get application info
             PackageManager pm = context.getPackageManager();
             String[] packages = pm.getPackagesForUid(uid);
-            if (packages.length < 1)
+            if (packages == null || packages.length < 1)
                 throw new PackageManager.NameNotFoundException(Integer.toString(uid));
             boolean internet = Util.hasInternet(uid, context);
 
