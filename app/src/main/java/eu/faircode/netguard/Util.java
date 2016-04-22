@@ -785,13 +785,17 @@ public class Util {
         AsyncTask task = new AsyncTask<Object, Object, Intent>() {
             @Override
             protected Intent doInBackground(Object... objects) {
-                // Get device info
                 StringBuilder sb = new StringBuilder();
+                sb.append(context.getString(R.string.msg_issue));
+                sb.append("\r\n\r\n\r\n\r\n");
+
+                // Get version info
                 String version = getSelfVersionName(context);
                 sb.append(String.format("NetGuard: %s/%d\r\n", version, getSelfVersionCode(context)));
                 sb.append(String.format("Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
                 sb.append("\r\n");
 
+                // Get device info
                 sb.append(String.format("Brand: %s\r\n", Build.BRAND));
                 sb.append(String.format("Manufacturer: %s\r\n", Build.MANUFACTURER));
                 sb.append(String.format("Model: %s\r\n", Build.MODEL));
@@ -832,10 +836,6 @@ public class Util {
                 Map<String, ?> all = prefs.getAll();
                 for (String key : all.keySet())
                     sb.append("Setting: ").append(key).append('=').append(all.get(key)).append("\r\n");
-                sb.append("\r\n");
-
-                // Finalize message
-                sb.append("Please describe your problem:\r\n");
                 sb.append("\r\n");
 
                 // Write logcat
