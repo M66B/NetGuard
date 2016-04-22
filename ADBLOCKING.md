@@ -21,6 +21,11 @@ Note that:
 
 Which hosts (domains) will be blocked depends on the hosts file being used.
 
+The NetGuard version from GitHub:
+
+* is signed with the same signature as the version from the Play store, so any purchases will be restored
+* will automatically notify you if there are updates (this can be switched off in the settings)
+
 NetGuard provides the [StevenBlack hosts file](https://github.com/StevenBlack/hosts) download with the following additions:
 
 * reports.crashlytics.com
