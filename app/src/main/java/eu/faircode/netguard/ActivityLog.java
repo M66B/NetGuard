@@ -205,7 +205,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 if (port <= 0 || pm.resolveActivity(lookupPort, 0) == null)
                     popup.getMenu().removeItem(R.id.menu_port);
                 else
-                    popup.getMenu().findItem(R.id.menu_port).setTitle(getString(R.string.title_log_port, dport));
+                    popup.getMenu().findItem(R.id.menu_port).setTitle(getString(R.string.title_log_port, port));
 
                 if (!prefs.getBoolean("filter", false)) {
                     popup.getMenu().removeItem(R.id.menu_allow);

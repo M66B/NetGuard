@@ -25,6 +25,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -521,6 +522,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, final int bposition, long bid) {
+                        PackageManager pm = context.getPackageManager();
                         Cursor cursor = (Cursor) badapter.getItem(bposition);
                         final long id = cursor.getLong(cursor.getColumnIndex("ID"));
                         int version = cursor.getInt(cursor.getColumnIndex("version"));
@@ -532,9 +534,25 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
                         PopupMenu popup = new PopupMenu(context, context.findViewById(R.id.vwPopupAnchor));
                         popup.inflate(R.menu.access);
+
                         popup.getMenu().findItem(R.id.menu_host).setTitle(
                                 Util.getProtocolName(protocol, version, false) + " " +
                                         daddr + (dport > 0 ? "/" + dport : ""));
+
+                        // Whois
+                        final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + daddr));
+                        if (pm.resolveActivity(lookupIP, 0) == null)
+                            popup.getMenu().removeItem(R.id.menu_whois);
+                        else
+                            popup.getMenu().findItem(R.id.menu_whois).setTitle(context.getString(R.string.title_log_whois, daddr));
+
+                        // Lookup port
+                        final Intent lookupPort = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.speedguide.net/port.php?port=" + dport));
+                        if (dport <= 0 || pm.resolveActivity(lookupPort, 0) == null)
+                            popup.getMenu().removeItem(R.id.menu_port);
+                        else
+                            popup.getMenu().findItem(R.id.menu_port).setTitle(context.getString(R.string.title_log_port, dport));
+
                         popup.getMenu().findItem(R.id.menu_time).setTitle(
                                 SimpleDateFormat.getDateTimeInstance().format(time));
 
@@ -542,6 +560,14 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
                                 switch (menuItem.getItemId()) {
+                                    case R.id.menu_whois:
+                                        context.startActivity(lookupIP);
+                                        return true;
+
+                                    case R.id.menu_port:
+                                        context.startActivity(lookupPort);
+                                        return true;
+
                                     case R.id.menu_allow:
                                         if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                             DatabaseHelper.getInstance(context).setAccess(id, 0);
@@ -549,6 +575,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                         } else
                                             context.startActivity(new Intent(context, ActivityPro.class));
                                         return true;
+
                                     case R.id.menu_block:
                                         if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                             DatabaseHelper.getInstance(context).setAccess(id, 1);
@@ -556,6 +583,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                         } else
                                             context.startActivity(new Intent(context, ActivityPro.class));
                                         return true;
+
                                     case R.id.menu_reset:
                                         DatabaseHelper.getInstance(context).setAccess(id, -1);
                                         ServiceSinkhole.reload("reset host", context);

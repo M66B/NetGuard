@@ -5,6 +5,12 @@
         android:enabled="false"
         android:title="" />
     <item
+        android:id="@+id/menu_whois"
+        android:title="" />
+    <item
+        android:id="@+id/menu_port"
+        android:title="" />
+    <item
         android:id="@+id/menu_allow"
         android:title="@string/title_allow" />
     <item
