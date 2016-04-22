@@ -151,7 +151,8 @@ NetGuard requires at least Android 4.0, so it is not available in the Google Pla
 **(19) Why does aplication XYZ still have internet access?**
 
 If you block internet access for an application, there is no way around it.
-However, applications could access the internet through other applications, like Google Play services.
+However, applications could access the internet through other applications.
+Google Play services is handling push messages for most applications for example.
 You can prevent this by blocking internet access for the other application as well.
 
 Note that some applications keep trying to access the internet, which is done by sending a connection request packet.
