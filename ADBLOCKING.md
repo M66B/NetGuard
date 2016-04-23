@@ -6,11 +6,11 @@ Instructions:
 * Download/install the latest NetGuard version [from GitHub](https://github.com/M66B/NetGuard/releases)
 * Enable the setting '*Filter traffic*' (always enabled on Android 5.0 or earlier)
 * Enable the setting '*Block domain names*' (default enabled)
-* Import or download [a hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) using the appropriate option
+* Import or download [a hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) using the NetGuard settings
 * Disable browser compression (Chrome: three dot menu > Settings > Data Saver > Off)
 * Wait 10 minutes to let the Android DNS cache time out
 * Test if it works by opening [this page](http://www.netguard.me/test)
-* Enjoy ad blocking, but don't forget to support application developers
+* Enjoy ad blocking, but don't forget to support application developers in other ways
 
 Note that:
 
@@ -19,12 +19,12 @@ Note that:
 * YouTube ads are not domain based and cannot be blocked
 * **ad blocking is not available when NetGuard was installed from the Play store!**
 
-Which hosts (domains) will be blocked depends on the hosts file being used.
-
 The NetGuard version from GitHub:
 
 * is signed with the same signature as the version from the Play store, so any purchases will be restored
 * will automatically notify you if there are updates (this can be switched off in the settings)
+
+Which hosts (ad servers) will be blocked depends on the hosts file being used.
 
 NetGuard provides the [StevenBlack hosts file](https://github.com/StevenBlack/hosts) download with the following additions:
 
