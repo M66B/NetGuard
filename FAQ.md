@@ -61,6 +61,9 @@ No, depending on the mode of operation basically one of two things will happen w
 * When IP filtering is disabled, blocked internet traffic will be routed into the local VPN which will operate as sinkhole (in effect dropping all blocked traffic)
 * When IP filtering is enabled, both blocked and allowed internet traffic will be routed into the local VPN and only allowed traffic will be forwarded to the intended destination (so not to a VPN server)
 
+The [Android VPN service](http://developer.android.com/reference/android/net/VpnService.html) is being used to locally route all internet traffic to NetGuard so no root is required to build a firewall application.
+NetGuard is unlike all other no-root firewalls applications 100% open source, so when you are in doubt you can check [the source code](https://github.com/M66B/NetGuard/) yourself.
+
 <a name="FAQ7"></a>
 **(7) Why are applications without internet permission shown?**
 
