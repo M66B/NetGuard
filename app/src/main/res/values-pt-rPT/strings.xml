@@ -108,7 +108,7 @@
   <string name="summary_national_roaming">Não aplicar regras de Roaming quando o chip SIM e a rede móvel forem do mesmo país</string>
   <string name="summary_system">Definir regras para aplicações de sistema (para utilizadores experientes)</string>
   <string name="summary_log_app">Registar tentativas de acesso à internet para aplicações. Isto pode resultar no uso extra da bateria.</string>
-  <string name="summary_access">Mostrar uma notificação na barra de estado quando uma aplicação tentar aceder ao um novo endereço de internet</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
   <string name="summary_filter">Filtrar pacotes de IP que saiem do sumidouro VPN. Isto pode resultar num uso adicional de bateria.</string>
   <string name="summary_track_usage">Controlar o número de bytes enviados e recebidos para cada aplicação e endereço. Isto pode resultar num uso adicional da bateria.</string>
   <string name="summary_block_domains">Responder com \'erro de nome\' (NXDOMAIN) para nomes de domínio bloqueados. Esta opção é desabilitada quando nenhum ficheiro de hosts está disponível.</string>
@@ -154,6 +154,7 @@ Reiniciar seu dispositivo ou revogar a permissão de VPN usando as configuraçõ
   <string name="msg_queue">NetGuard está ocupado</string>
   <string name="msg_update">Actualização disponivel, toque para descarregar</string>
   <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado é permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado é bloqueado</string>
   <string name="title_metered_allowed">Tráfego limitado é permitido</string>

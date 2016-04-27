@@ -52,7 +52,7 @@
   <string name="setting_dark">Utiliser le thème sombre</string>
   <string name="setting_install">Notifier les nouvelles installations</string>
   <string name="setting_auto">Activer automatiquement après %1$s minutes</string>
-  <string name="setting_delay">Délai après extinction de l\'écran de %1$s minutes</string>
+  <string name="setting_delay">Délai après éteint l\'écran de %1$s minutes</string>
   <string name="setting_update">Vérifier les mises à jour</string>
   <string name="setting_network_options">Options de réseau</string>
   <string name="setting_tethering">Autoriser le partage</string>
@@ -71,7 +71,7 @@
   <string name="setting_filter">Filtrer le trafic</string>
   <string name="setting_track_usage">Surveiller l\'utilisation du réseau</string>
   <string name="setting_reset_usage">Réinitialiser l\'utilisation du réseau</string>
-  <string name="setting_block_domains">Bloquer des noms de domaine</string>
+  <string name="setting_block_domains">Bloquer les noms de domaine</string>
   <string name="setting_forwarding">Redirection de port</string>
   <string name="setting_vpn4">VPN IPv4 : %s</string>
   <string name="setting_vpn6">VPN IPv6 : %s</string>
@@ -93,7 +93,7 @@
   <string name="setting_technical_general">Général</string>
   <string name="setting_technical_networks">Réseaux</string>
   <string name="setting_technical_subscription">Souscriptions</string>
-  <string name="summary_install">Afficher la notification dans la barre d\'état pour configurer directement les applications nouvellement installées (fonctionnalité Pro)</string>
+  <string name="summary_install">Afficher une notification dans la barre d\'état pour configurer directement les applications nouvellement installées (fonctionnalité Pro)</string>
   <string name="summary_auto">Après désactivation via le widget, activer automatiquement de nouveau NetGuard après le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
   <string name="summary_delay">Après avoir éteint l\'écran, garder les règles d\'écran allumé actives pendant le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
   <string name="summary_update">Vérifier les nouvelles versions sur GitHub deux fois par jour</string>
@@ -107,13 +107,13 @@
   <string name="summary_metered_4g">Appliquer les règles de réseau Wi-Fi pour les connexions de données LTE</string>
   <string name="summary_national_roaming">Ne pas appliquer les règles d\'itinérance lorsque la SIM et le réseau mobile du pays sont les mêmes</string>
   <string name="summary_system">Définir les règles pour les applications système (pour experts)</string>
-  <string name="summary_log_app">Enregistrer dans le journal les tentatives d\'accès à Internet des applications. Cela peut entraîner une surconsommation de la batterie.</string>
-  <string name="summary_access">Afficher une notification dans la barre d\'état quand une application essaie d\'accéder à une nouvelle adresse Internet</string>
+  <string name="summary_log_app">Journaliser les tentatives d\'accès à internet des applications. Cela peut entraîner une surconsommation de la batterie.</string>
+  <string name="summary_access">Afficher une notification dans la barre d\'état quand une application tente d\'accéder à une nouvelle adresse internet (lorsque le filtrage est désactivé, seules les tentatives d\'accès internet bloquées seront notifiées)</string>
   <string name="summary_filter">Filtrer les paquets IP sortant du tunnel VPN. Cela peut entraîner une surconsommation de la batterie.</string>
-  <string name="summary_track_usage">Surveiller le nombre d\'octets envoyés et reçus pour chaque application et adresse. Ceci peut entraîner une surconsommation de la batterie.</string>
+  <string name="summary_track_usage">Surveiller le nombre d\'octets envoyés et reçus pour chaque application et adresse. Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_block_domains">Renvoyer \"name error\" (NXDOMAIN) pour les noms de domaine bloqués. Cette option est désactivée quand aucun fichier hosts n\'est disponible.</string>
   <string name="summary_proxy">Adresse IP du proxy SOCKS5 et numéro de port</string>
-  <string name="summary_stats">Afficher le graphique de vitesse réseau dans une notification de la barre d\'état</string>
+  <string name="summary_stats">Afficher un graphique de la vitesse du réseau dans une notification de la barre d\'état</string>
   <string name="msg_sure">Êtes-vous sûr ?</string>
   <string name="msg_started">Application des règles</string>
   <string name="msg_packages">%1$d autorisée(s), %2$d bloquée(s)</string>
@@ -125,7 +125,7 @@
   <string name="msg_start_failed">Le service VPN Android n\'a pas pu démarrer, ce qui est probablement dû à un bug dans votre version Android.
 Redémarrer votre appareil ou révoquer l\'autorisation du VPN en utilisant les paramètres Android depuis NetGuard (si possible) pourrait (temporairement) résoudre ce problème.</string>
   <string name="msg_installed">%1$s installé</string>
-  <string name="msg_access">%1$s a tenté d\'accéder à internet</string>
+  <string name="msg_access">%1$s tente d\'accéder à internet</string>
   <string name="msg_completed">Action terminée</string>
   <string name="msg_vpn">NetGuard utilise un VPN local pour filtrer le trafic Internet.
 Pour cette raison, veuillez autoriser la connexion VPN dans le message suivant.
@@ -156,6 +156,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_queue">NetGuard est occupé</string>
   <string name="msg_update">Mise à jour disponible, appuyez pour télécharger</string>
   <string name="msg_system">La gestion des applications système peut être activée dans les options avancées</string>
+  <string name="msg_issue">Veuillez décrire le problème et indiquer l\'heure à laquelle il est survenu :</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>
   <string name="title_unmetered_blocked">Le trafic illimité est bloqué</string>
   <string name="title_metered_allowed">Le trafic limité est autorisé</string>
@@ -173,7 +174,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_roaming">Bloquer si itinérance</string>
   <string name="title_disabled">est désactivé</string>
   <string name="title_internet">n\'a aucune autorisation internet</string>
-  <string name="title_related">Filtré</string>
+  <string name="title_related">Filtrer lié</string>
   <string name="title_access">Tentatives d\'accès</string>
   <string name="title_no_log"><u>Journalisation non activée</u></string>
   <string name="title_precedence">Les règles d\'accès ont la priorité sur les autres</string>

@@ -108,7 +108,7 @@
   <string name="summary_national_roaming">Non applicare le regole di roaming quando il paese della carta SIM e della rete mobile è lo stesso</string>
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
   <string name="summary_log_app">Registra i tentativi di accesso a internet delle applicazioni. Potrebbe causare utilizzo aggiuntivo di batteria.</string>
-  <string name="summary_access">Visualizza una notifica nella barra di stato quando un\'applicazione tenta di accedere a un nuovo indirizzo internet</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
   <string name="summary_filter">Filtra i pacchetti IP in uscita dal tunnel VPN. Questo potrebbe comportare un consumo aggiuntivo di batteria.</string>
   <string name="summary_track_usage">Tieni traccia del numero di byte inviati e ricevuti per ogni applicazione e indirizzo. Questo potrebbe causare un utilizzo supplementare di batteria.</string>
   <string name="summary_block_domains">Rispondi con \"name error\" (NXDOMAIN) per i nomi di dominio bloccati. Questa opzione è disattivata quando non è disponibile alcun file hosts.</string>
@@ -153,6 +153,7 @@
   <string name="msg_queue">NetGuard è occupato</string>
   <string name="msg_update">Aggiornamento disponibile, clicca per scaricare</string>
   <string name="msg_system">La gestione delle applicazioni di sistema può essere attivata tramite le opzioni avanzate</string>
+  <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_unmetered_allowed">Il traffico non al consumo è consentito</string>
   <string name="title_unmetered_blocked">Il traffico non al consumo è bloccato</string>
   <string name="title_metered_allowed">Il traffico al consumo è consentito</string>

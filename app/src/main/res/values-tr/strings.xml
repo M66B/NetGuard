@@ -110,7 +110,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="summary_national_roaming">SIM kart yurtdışında kullanılmıyorsa dolaşım kurallarını etkinleştirm</string>
   <string name="summary_system">Sistem uygulamaları kuralları tanımlayın (uzman için)</string>
   <string name="summary_log_app">Uygulamaların internet erişimini kaydetmek ekstra batarya kullanımına neden olabilir.</string>
-  <string name="summary_access">Bir uygulama yeni bir internet adresine erişmeye çalışırsa durum çubuğunda bir bildirim göster</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
   <string name="summary_filter">IP paket filtresi VPN tünel üserinden çıkış yaptığı için ekstra batarya kullanımına neden olabilir.</string>
   <string name="summary_track_usage">Her bir uygulama için alınan ve gönderilen veri miktarını izleyin. Bu, ekstra batarya kullanımına neden olabilir.</string>
   <string name="summary_block_domains">Engellenen alan adları için \'name error\' (NXDOMAIN) ile yanıt ver. Hosts dosyası mevcut değilse bu ayarı aktifleştirmeyin.</string>
@@ -159,6 +159,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="msg_queue">NetGuard meşgul</string>
   <string name="msg_update">Güncelleme hazır, indirmek için dokunun</string>
   <string name="msg_system">Sistem uygulamalarını yönet gelişmiş seçenekler de etkin olabilir</string>
+  <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_unmetered_allowed">İzin verilmiş hesaplanamayan veri kullanımı</string>
   <string name="title_unmetered_blocked">Engellenmiş hesaplanamayan veri kullanımı</string>
   <string name="title_metered_allowed">İzin verilmiş veri kullanımı</string>

@@ -109,7 +109,7 @@
   <string name="summary_national_roaming">لا تـطـبـق قـواعـد الـتـجـوال عـنـدمـا تـكـون الشريحة ودولـة شـبـكـة الـمـحـمـول هـي نـفـسـهـا</string>
   <string name="summary_system">تحديد القواعد لتطبيقات نظام (للخبراء)</string>
   <string name="summary_log_app">تسجل محاولات وصول التطبيقات إلى الإنترنت. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
-  <string name="summary_access">إظهار تنبيه على شريط المعلومات عندما يحاول تطبيق الوصول إلى عنوان إنترنت جديد</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
   <string name="summary_filter">تصفية حزم IP الخارجة من نفق VPN. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_track_usage">تتبع عدد وحدات البايت المرسلة والمتلقاة لكل تطبيق وعنوان. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_block_domains">الاستجابة ب \'اسم خاطئ\' (NXDOMAIN) لأسماء النطاقات المحظورة. يعطل هذا الخيار عند عدم وجود ملف المضيفين.</string>
@@ -155,6 +155,7 @@
   <string name="msg_queue">NetGuard مشغول</string>
   <string name="msg_update">يوجد تحديث متوفرة، اضغط لتحميله</string>
   <string name="msg_system">يمكنك تمكين إدارة تطبيقات النظام في الخيارات المتقدمة</string>
+  <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_unmetered_allowed">الحركة الغير مقاسة مسموحة</string>
   <string name="title_unmetered_blocked">الحركة الغير مقاسة محظورة</string>
   <string name="title_metered_allowed">الحركة المقاسة مسموحة</string>

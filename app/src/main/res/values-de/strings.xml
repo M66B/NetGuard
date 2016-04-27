@@ -109,7 +109,7 @@
   <string name="summary_national_roaming">Roaming-Regeln nicht anwenden, wenn die Nationalität für SIM und mobiles Netzwerk identisch sind</string>
   <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
   <string name="summary_log_app">Protokoll zeichnet den Internetzugriff von Anwendungen auf (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
-  <string name="summary_access">Benachrichtigung in Statusleiste anzeigen, wenn eine App auf eine neue Internetadresse zugreifen möchte</string>
+  <string name="summary_access">Benachrichtigungsleiste anzeigen, wenn eine Anwendung versucht, auf eine neue Internetadresse zuzugreifen (bei deaktivierter Filterung werden nur blockierte Internet-Zugriffsversuche angezeigt)</string>
   <string name="summary_filter">IP-Pakete filtern, die den VPN-Tunnel verlassen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_track_usage">Anzahl der gesendeten und empfangenen Bytes für jede Anwendung und Adresse verfolgen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_block_domains">Antwortet für blockierte Domain-Namen mit \'Name Error\' (NXDOMAIN). Diese Option ist deaktiviert, wenn keine Hosts-Datei zur Verfügung steht.</string>
@@ -154,6 +154,7 @@
   <string name="msg_queue">NetGuard ist beschäftigt</string>
   <string name="msg_update">Neue Version verfügbar, tippen zum Herunterladen</string>
   <string name="msg_system">Verwalten von Systemanwendungen kann in den erweiterten Optionen aktiviert werden</string>
+  <string name="msg_issue">Bitte beschreiben Sie Ihr Problem und geben Sie den Zeitpunkt an:</string>
   <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
   <string name="title_unmetered_blocked">Nicht volumenbeschränkter Verkehr ist blockiert</string>
   <string name="title_metered_allowed">Volumenbeschränkter Verkehr ist erlaubt</string>

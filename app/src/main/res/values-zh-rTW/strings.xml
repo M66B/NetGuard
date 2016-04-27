@@ -111,7 +111,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_national_roaming">當Sim卡和行動網路所在國家相同時不套用漫遊規則</string>
   <string name="summary_system">為系統程式定義規則(專家用)</string>
   <string name="summary_log_app">Log attempts to access the internet for applications. This might result in extra battery usage.</string>
-  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
   <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
   <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
   <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
@@ -160,6 +160,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_queue">NetGuard is busy</string>
   <string name="msg_update">Update available, tap to download</string>
   <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
   <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
   <string name="title_metered_allowed">Metered traffic is allowed</string>

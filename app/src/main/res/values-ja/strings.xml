@@ -109,7 +109,7 @@
   <string name="summary_national_roaming">SIM およびモバイル ネットワークの国が同じときは、ローミングのルールを適用しません</string>
   <string name="summary_system">システムアプリケーションのルールを定義 (上級者向け)</string>
   <string name="summary_log_app">アプリケーションのインターネットへのアクセスをログ記録します。バッテリー使用量が増えることがあります。</string>
-  <string name="summary_access">アプリケーションが、新しいインターネット アドレスにアクセスしようとするときに、ステータスバーに通知を表示します。</string>
+  <string name="summary_access">アプリケーションが新しいインターネット アドレスにアクセスしようとするとき、ステータス バーに通知を表示します (フィルターを無効にすると、ブロックしたインターネット アクセスの試行のみ通知されます)</string>
   <string name="summary_filter">VPN トンネルを出る IP パケットをフィルターします。バッテリー使用量が増えることがあります。</string>
   <string name="summary_track_usage">各アプリケーションとアドレスごとの送受信バイト数を追跡します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_block_domains">ブロックされたドメイン名は \'名前エラー\' (NXDOMAIN) で応答します。Hosts ファイルが使用できない場合、このスイッチは無効です。</string>
@@ -155,6 +155,7 @@
   <string name="msg_queue">NetGuard はビジーです</string>
   <string name="msg_update">アップデートが利用できます。タップするとダウンロードします</string>
   <string name="msg_system">システム アプリケーションの管理は、詳細なオプションで有効にすることができます</string>
+  <string name="msg_issue">問題の説明と、問題の時間を示してください:</string>
   <string name="title_unmetered_allowed">無制限のトラフィックを許可</string>
   <string name="title_unmetered_blocked">無制限のトラフィックをブロック</string>
   <string name="title_metered_allowed">従量制のトラフィックを許可</string>

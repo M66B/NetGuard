@@ -108,7 +108,7 @@
   <string name="summary_national_roaming">Nu folosi regulile de roaming atunci cand tara de origine a SIM-ului si tara retelei mobile sunt identice</string>
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (pentru experti)</string>
   <string name="summary_log_app">Inregistreaza in jurnal incercarile de acces la internet ale aplicatiilor. Aceasta poate duce la un consum mai mare al bateriei.</string>
-  <string name="summary_access">Arata o notificare in bara de stare atunci cand o aplicatie incearca sa acceseze o noua adresa de internet</string>
+  <string name="summary_access">Arata o notificare in bara de stare atunci cand o aplicatie incearca sa acceseze o noua adresa de internet (atunci cand filtrare este dezactivata, numai accesul internet blocat va aparea in notificare)</string>
   <string name="summary_filter">Filtreaza pachetele IP ce ies prin tunelul VPN. Aceasta optiune poate duce la un consum in plus al bateriei.</string>
   <string name="summary_track_usage">Urmareste numarul de octeti trimisi si primiti de fiecare aplicatie si adresa. Aceasta poate duce la un consum mai mare al bateriei.</string>
   <string name="summary_block_domains">Raspunde cu \"nume de domeniu inexistent\" (NXDOMAIN) pentru domeniile blocate. Acesta optiune este dezactivata daca nu a fost incarcata o lista cu nume de domenii de blocat.</string>
@@ -156,6 +156,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_queue">NetGuard este ocupat</string>
   <string name="msg_update">Actualizare disponibila, atinge pentru a descarca</string>
   <string name="msg_system">Gestionarea aplicatiilor de sistem se activeaza din optiunile avansate</string>
+  <string name="msg_issue">Va rog sa descrieti problema si sa indicati momentul cand s-a produs problema:</string>
   <string name="title_unmetered_allowed">Traficul de date necontorizat este permis</string>
   <string name="title_unmetered_blocked">Traficul de date necontorizat este blocat</string>
   <string name="title_metered_allowed">Traficul de date contorizat este permis</string>

@@ -109,7 +109,7 @@
   <string name="summary_national_roaming">אל תאפשר להחיל חוקי נדידת נתונים כאשר מדינת הסים והרשת זהים</string>
   <string name="summary_system">הגדר חוקים עבור יישומי מערכת (למומחים)</string>
   <string name="summary_log_app">רשום ביומן נסיונות גישה לאינטרנט ע”י יישומים. עלול להגביר צריכת סוללה.</string>
-  <string name="summary_access">הצג התראה כאשר יישום מנסה לגשת לכתובת אינטרנט חדשה</string>
+  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
   <string name="summary_filter">סינון מנות IP ביציאה מערוץ VPN. עלול להגביר צריכת סוללה.</string>
   <string name="summary_track_usage">עקוב אחרי מספר הבתים שנשלחו והתקבלו לכל יישום או כתובת. עלול להגביר צריכת סוללה.</string>
   <string name="summary_block_domains">מגיבי עם \'שגיאת שם\' (NXDOMAIN) לשמות מתחם חסומים. בורר זה אינו זמין כאשר קובץ hosts לא זמין.</string>
@@ -155,6 +155,7 @@
   <string name="msg_queue">NetGuard עמוס</string>
   <string name="msg_update">עדכון זמין, הקש כדי להוריד</string>
   <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_unmetered_allowed">תעבורה חופשית מאופשרת</string>
   <string name="title_unmetered_blocked">תעבורה חופשית חסומה</string>
   <string name="title_metered_allowed">מרשה תעבורה נימנת</string>

@@ -110,7 +110,7 @@
   <string name="summary_national_roaming">SIM卡与移动网络为相同国家时不使用漫游规则</string>
   <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
   <string name="summary_log_app">记录应用程序的网络访问尝试. 这可能会导致额外的电量消耗</string>
-  <string name="summary_access">某应用程序尝试访问一个新的网络地址时显示状态栏通知</string>
+  <string name="summary_access">当应用程序试图访问一个新的互联网地址时显示状态栏通知 (过滤禁用时仅通知被阻止网络的访问尝试)</string>
   <string name="summary_filter">筛选经由 VPN 重定向导出的 IP 数据包. 这可能会导致额外电量消耗.</string>
   <string name="summary_track_usage">跟踪每个应用程序和地址发送和接收的字节数. 这可能会导致额外电量消耗.</string>
   <string name="summary_block_domains">对已阻止的主机域名使用\"域名错误\" (NXDOMAIN) 作为应答. 无 hosts 文件可用时此开关会被禁用.</string>
@@ -159,6 +159,7 @@
   <string name="msg_queue">NetGuard 正忙</string>
   <string name="msg_update">有可用更新, 请点击下载</string>
   <string name="msg_system">您可在高级选项中启用管理系统应用</string>
+  <string name="msg_issue">请具体描述问题及问题发生的时间:</string>
   <string name="title_unmetered_allowed">已允许非按流量计费的网络数据</string>
   <string name="title_unmetered_blocked">已阻止非按流量计费的网络数据</string>
   <string name="title_metered_allowed">已允许按流量计费的网络数据</string>
