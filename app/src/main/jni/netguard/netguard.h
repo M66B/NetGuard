@@ -316,15 +316,13 @@ uint16_t get_default_mss(int version);
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-int check_tun(const struct arguments *args, int *ready,
+int check_tun(const struct arguments *args,
               fd_set *rfds, fd_set *wfds, fd_set *efds,
               int sessions, int maxsessions);
 
-void check_icmp_sockets(const struct arguments *args, int *ready,
-                        fd_set *rfds, fd_set *wfds, fd_set *efds);
+void check_icmp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
-void check_udp_sockets(const struct arguments *args, int *ready,
-                       fd_set *rfds, fd_set *wfds, fd_set *efds);
+void check_udp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
 int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qname);
 
@@ -336,8 +334,7 @@ int get_receive_buffer(const struct tcp_session *cur);
 
 uint32_t get_receive_window(const struct tcp_session *cur);
 
-void check_tcp_sockets(const struct arguments *args, int *ready,
-                       fd_set *rfds, fd_set *wfds, fd_set *efds);
+void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds);
 
 int is_lower_layer(int protocol);
 

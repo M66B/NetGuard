@@ -201,13 +201,9 @@ uint32_t get_receive_window(const struct tcp_session *cur) {
     return window;
 }
 
-void check_tcp_sockets(const struct arguments *args, int *ready,
-                       fd_set *rfds, fd_set *wfds, fd_set *efds) {
-    struct tcp_session *prev = NULL;
+void check_tcp_sockets(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
     struct tcp_session *cur = tcp_session;
-    while (cur != NULL && *ready) {
-        int pready = *ready;
-
+    while (cur != NULL) {
         if (cur->socket >= 0) {
             int oldstate = cur->state;
             uint32_t oldlocal = cur->local_seq;
@@ -231,7 +227,6 @@ void check_tcp_sockets(const struct arguments *args, int *ready,
 
             // Check socket error
             if (FD_ISSET(cur->socket, efds)) {
-                (*ready)--;
                 cur->time = time(NULL);
 
                 int serr = 0;
@@ -251,7 +246,6 @@ void check_tcp_sockets(const struct arguments *args, int *ready,
                 if (cur->state == TCP_LISTEN) {
                     // Check socket connect
                     if (FD_ISSET(cur->socket, wfds)) {
-                        (*ready)--;
                         log_android(ANDROID_LOG_INFO, "%s connected", session);
 
                         cur->remote_seq++; // remote SYN
@@ -266,7 +260,6 @@ void check_tcp_sockets(const struct arguments *args, int *ready,
                     // Always forward data
                     int fwd = 0;
                     if (FD_ISSET(cur->socket, wfds)) {
-                        (*ready)--;
                         // Forward data
                         uint32_t buffer_size = (uint32_t) get_receive_buffer(cur);
                         while (cur->forward != NULL &&
@@ -351,7 +344,6 @@ void check_tcp_sockets(const struct arguments *args, int *ready,
 
                         uint32_t send_window = get_send_window(cur);
                         if (FD_ISSET(cur->socket, rfds) && send_window > 0) {
-                            (*ready)--;
                             cur->time = time(NULL);
 
                             uint32_t buffer_size = (send_window > cur->mss
@@ -412,16 +404,7 @@ void check_tcp_sockets(const struct arguments *args, int *ready,
                 cur->remote_seq != oldremote)
                 log_android(ANDROID_LOG_DEBUG, "%s new state", session);
         }
-
-        if (prev == NULL || *ready == pready) {
-            prev = cur;
-            cur = cur->next;
-        } else {
-            prev->next = cur->next;
-            cur->next = tcp_session;
-            tcp_session = cur;
-            cur = prev->next;
-        }
+        cur = cur->next;
     }
 }
 
