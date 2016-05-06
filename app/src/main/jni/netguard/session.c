@@ -19,6 +19,8 @@
 
 #include "netguard.h"
 
+int ebadf = 0;
+
 extern JavaVM *jvm;
 extern pthread_t thread_id;
 extern pthread_mutex_t lock;
@@ -64,7 +66,7 @@ void *handle_events(void *a) {
     if (getrlimit(RLIMIT_NOFILE, &rlim))
         log_android(ANDROID_LOG_WARN, "getrlimit error %d: %s", errno, strerror(errno));
     else {
-        maxsessions = (int) (rlim.rlim_cur * 80 / 100);
+        maxsessions = (int) (rlim.rlim_cur * 50 / 100);
         log_android(ANDROID_LOG_WARN, "getrlimit soft %d hard %d max sessions %d",
                     rlim.rlim_cur, rlim.rlim_max, maxsessions);
     }
@@ -87,6 +89,7 @@ void *handle_events(void *a) {
 
     stopping = 0;
     signaled = 0;
+    ebadf = 0;
 
     // Loop
     while (!stopping) {
@@ -150,8 +153,13 @@ void *handle_events(void *a) {
                     break;
                 }
                 else {
-                    log_android(ANDROID_LOG_WARN, "pselect EBADF");
-                    continue;
+                    if (ebadf++ < 10) {
+                        log_android(ANDROID_LOG_WARN, "pselect EBADF, try %d", ebadf);
+                        continue;
+                    } else {
+                        report_exit(args, "pselect error %d: %s", errno, strerror(errno));
+                        break;
+                    }
                 }
             } else {
                 log_android(ANDROID_LOG_ERROR,
