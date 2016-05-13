@@ -57,6 +57,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="setting_delay">Ekranın kapanmasını %1$s dakika ertele</string>
   <string name="setting_update">Güncellemeleri kontrol et</string>
   <string name="setting_network_options">Bağlantı seçenekleri</string>
+  <string name="setting_subnet">Subnet routing</string>
   <string name="setting_tethering">İnternet paylaşımı aktif</string>
   <string name="setting_lan">Yerel ağ erişimine izin ver</string>
   <string name="setting_ip6">IPv6 trafiğini etkinleştir</string>
@@ -100,6 +101,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="summary_delay">Seçilen süre sonuna kadar aktif kuralları uygulayıp ekranı kapat (bu seçeneği devre dışı bırakmak için sıfır girin)</string>
   <string name="summary_update">Yeni sürümler için GitHub üzerinden günde iki defa kontrol et</string>
   <string name="summary_tethering">Android sürümüne bağlı olarak, internet paylaşımı çalışabilir yada çalışmayabilir. Paylaşılan internet trafiği filtrelenemez.</string>
+  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">Uygulamaların 10.0.0.0/8, 172.16.0.0/12 ve 192.168.0.0/16 gibi yerel ağ adreslerine bağlanmasına izin ver</string>
   <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">Sadece seçilen ağ için Wi-Fi kurallarını uygula (diğer Wi-Fi ağları için mobil ağ kurallarını uygula)</string>

@@ -55,6 +55,7 @@
   <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
   <string name="setting_update">Verifica la presenza di aggiornamenti</string>
   <string name="setting_network_options">Opzioni di rete</string>
+  <string name="setting_subnet">Subnet routing</string>
   <string name="setting_tethering">Permetti il tethering</string>
   <string name="setting_lan">Consenti l\'accesso alla LAN</string>
   <string name="setting_ip6">Abilita il traffico IPv6</string>
@@ -98,6 +99,7 @@
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo è acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
   <string name="summary_update">Cerca nuove versioni su GitHub due volte al giorno</string>
   <string name="summary_tethering">A seconda della versione di Android, il tethering potrebbe non funzionare. Non è possibile filtrare il traffico in tethering.</string>
+  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">Consenti alle applicazioni di connettersi ad indirizzi della rete locale, come, ad esempio, 10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16</string>
   <string name="summary_ip6">Instrada il traffico IP versione 6 a NetGuard così da consentirlo o bloccarlo in modo selettivo</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>

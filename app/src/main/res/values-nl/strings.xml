@@ -56,6 +56,7 @@
   <string name="setting_delay">Vertraag scherm uit %1$s minuten</string>
   <string name="setting_update">Controleren op updates</string>
   <string name="setting_network_options">Netwerkopties</string>
+  <string name="setting_subnet">Subnet routing</string>
   <string name="setting_tethering">Sta tethering toe</string>
   <string name="setting_lan">LAN-toegang toestaan</string>
   <string name="setting_ip6">IPv6-verkeer inschakelen</string>
@@ -99,6 +100,7 @@
   <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
   <string name="summary_update">Check for new releases on GitHub twice daily</string>
   <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
+  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">Pas de Wi-Fi-netwerkregels alleen toe op de geselecteerde netwerken (en regels voor mobiele netwerken op andere Wi-Fi-netwerken)</string>

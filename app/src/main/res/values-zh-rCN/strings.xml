@@ -57,6 +57,7 @@
   <string name="setting_delay">推迟 %1$s 分钟关屏</string>
   <string name="setting_update">检查更新</string>
   <string name="setting_network_options">网络选项</string>
+  <string name="setting_subnet">Subnet routing</string>
   <string name="setting_tethering">允许网络共享</string>
   <string name="setting_lan">允许 LAN 访问</string>
   <string name="setting_ip6">启用 IPv6 通讯</string>
@@ -100,6 +101,7 @@
   <string name="summary_delay">关屏后，保持亮屏规则在指定的分钟数内有效 (输入零以禁用此选项)</string>
   <string name="summary_update">每日两次检查 GitHub 上的更新</string>
   <string name="summary_tethering">根据 Android 版本不同, 网络共享可能可以或可能无法正常工作. 共享网络流量无法被过滤.</string>
+  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">允许应用连接至局域网地址, 如 10.0.0.0/8, 172.16.0.0/12 及 192.168.0.0/16</string>
   <string name="summary_ip6">将 IPv6 流量导至 NetGuardu并进行选择性允许或阻止</string>
   <string name="summary_wifi_home">仅将Wi-Fi网络规则应用于所选定的网络 (将移动网络规则应用于其他Wi-Fi网络)</string>

@@ -56,6 +56,7 @@
   <string name="setting_delay">Затримка екрану %1$s хвилин</string>
   <string name="setting_update">Перевірити наявність оновлень</string>
   <string name="setting_network_options">Параметри мережі</string>
+  <string name="setting_subnet">Subnet routing</string>
   <string name="setting_tethering">Дозволити прив\'язку</string>
   <string name="setting_lan">Allow LAN access</string>
   <string name="setting_ip6">Enable IPv6 traffic</string>
@@ -99,6 +100,7 @@
   <string name="summary_delay">Тримати екран активним на протязі обраної кількості хвилин після вимикання. (0 - вимикає функцію)</string>
   <string name="summary_update">Перевіряти на нові випуски з GitHub двічі на день</string>
   <string name="summary_tethering">В залежності від версії Android, прив\'язування може або працювати, або ні. Прив\'язаний трафік не може бути відфільтрований.</string>
+  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">Застосувати правила Wi-Fi мережі лише для обраної (для інших застосовуються правила мобільної мережі)</string>

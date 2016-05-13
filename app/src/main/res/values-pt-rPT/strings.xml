@@ -55,6 +55,7 @@
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
   <string name="setting_update">Procurar actualizações</string>
   <string name="setting_network_options">Opções de rede</string>
+  <string name="setting_subnet">Subnet routing</string>
   <string name="setting_tethering">Permitir tethering</string>
   <string name="setting_lan">Permitir o acesso à LAN</string>
   <string name="setting_ip6">Enable IPv6 traffic</string>
@@ -98,6 +99,7 @@
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_update">Procurar novos lançamentos no GitHub duas vezes por dia</string>
   <string name="summary_tethering">Dependendo da versão do Android, tethering pode ou não trabalhar. O tráfego em tethering não pode ser filtrado.</string>
+  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">Permitir que as aplicações se conectem a endereços de rede local, como 10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16</string>
   <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis às outras redes Wi-Fi)</string>

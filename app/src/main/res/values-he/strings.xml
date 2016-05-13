@@ -56,6 +56,7 @@
   <string name="setting_delay">השהה כיבוי מסך לאחרי %1$s דקות</string>
   <string name="setting_update">בדוק עבור עדכונים</string>
   <string name="setting_network_options">אפשרויות רשת</string>
+  <string name="setting_subnet">Subnet routing</string>
   <string name="setting_tethering">אפשר מודם סללורי</string>
   <string name="setting_lan">Allow LAN access</string>
   <string name="setting_ip6">Enable IPv6 traffic</string>
@@ -99,6 +100,7 @@
   <string name="summary_delay">לאחר כיבוי המסך, המשך להשתמש בחוקי מסך דולק למשך מספר הדקות שנבחר (הזן 0 כדי לבטל אפשרות זו)</string>
   <string name="summary_update">בדוק עבור עדכונים חדשים דרך GitHub באופן יומי</string>
   <string name="summary_tethering">בהתאם לגירסת אנדרואיד, ייתכן ומודם סללורי לא יפעל. לא ניתן לסנן תעבורת מודם סללורי.</string>
+  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">השתמש בחוקי רשת Wi-Fi רק לרשת שנבחרה (בחוקי רשת סללורית עבור רשתות Wi-Fi אחרות)</string>

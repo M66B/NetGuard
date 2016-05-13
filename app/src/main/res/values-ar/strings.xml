@@ -55,6 +55,7 @@
   <string name="setting_delay">تــأخــيــر تــعــتــيــم الــشــاشــة %1$s دقــيــقــة</string>
   <string name="setting_update">التحقق من التحديثات</string>
   <string name="setting_network_options">خيارات الشبكة</string>
+  <string name="setting_subnet">Subnet routing</string>
   <string name="setting_tethering">السماح بالربط(مشاركة الانترنت)</string>
   <string name="setting_lan">السماح بالوصول إلى شبكة الاتصال المحلية</string>
   <string name="setting_ip6">تمكين حركة مرور IPv6</string>
@@ -99,6 +100,7 @@
   <string name="summary_delay">بعد إغلاق الشاشة، إبقاء الشاشة على القواعد نشطة لعدد محدد من الدقائق (ادخل صفر لتعطيل هذا الخيار)</string>
   <string name="summary_update">التحقق من وجود إصدارات جديدة في GitHub مرتين يوميا</string>
   <string name="summary_tethering">وفقا لاصدار الأندرويد، ربط الانترنت قد يعمل وقد لا يعمل، الانترنت المربوط(المشارك) لا يمكن تصفيتة.</string>
+  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">السماح للتطبيقات بالاتصال بعناوين شبكة الاتصال المحلية, مثل 10.0.0.0/8، 172.16.0.0/12، و 192.168.0.0/16</string>
   <string name="summary_ip6">توجيه حركة مرور IP الإصدار 6 إلى NetGuard حيث يمكن بشكل انتقائي السماح بها أو المنع</string>
   <string name="summary_wifi_home">تطبيق قواعد الشبكة اللاسلكية للشبكة المحددة فقط (تطبيق قواعد شبكة الجوال لباقي الشبكات اللاسلكية)</string>

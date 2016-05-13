@@ -55,6 +55,7 @@
   <string name="setting_delay">Délai après éteint l\'écran de %1$s minutes</string>
   <string name="setting_update">Vérifier les mises à jour</string>
   <string name="setting_network_options">Options de réseau</string>
+  <string name="setting_subnet">Subnet routing</string>
   <string name="setting_tethering">Autoriser le partage</string>
   <string name="setting_lan">Autoriser l\'accès au réseau local</string>
   <string name="setting_ip6">Activer le trafic IPv6</string>
@@ -98,6 +99,7 @@
   <string name="summary_delay">Après avoir éteint l\'écran, garder les règles d\'écran allumé actives pendant le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
   <string name="summary_update">Vérifier les nouvelles versions sur GitHub deux fois par jour</string>
   <string name="summary_tethering">Selon la version d\'Android, le partage de connexion peut fonctionner ou non. Le trafic partagé ne peut pas être filtré.</string>
+  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">Autoriser les applications de se connecter à des adresses de réseau local, comme 10.0.0.0/8, 172.16.0.0/12 et 192.168.0.0/16</string>
   <string name="summary_ip6">Diriger le trafic IP version 6 vers NetGuard de sorte qu\'il peut être sélectivement autorisé ou bloqué</string>
   <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour les autres Wi-Fi)</string>

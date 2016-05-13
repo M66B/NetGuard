@@ -55,6 +55,7 @@
   <string name="setting_delay">Opóźnienie wyłączenia reguł ekranu %1$s min</string>
   <string name="setting_update">Sprawdź aktualizacje</string>
   <string name="setting_network_options">Opcje sieciowe</string>
+  <string name="setting_subnet">Subnet routing</string>
   <string name="setting_tethering">Umożliwiaj tethering</string>
   <string name="setting_lan">Allow LAN access</string>
   <string name="setting_ip6">Enable IPv6 traffic</string>
@@ -98,6 +99,7 @@
   <string name="summary_delay">Po wyłączeniu ekranu, podtrzymuj działanie reguły \"Zezwól na ... przy włączonym ekranie\" przez podaną liczbę minut (wprowadzenie zera wyłącza tą opcję)</string>
   <string name="summary_update">Sprawdzaj nowe wersje na GitHub, dwa razy dziennie</string>
   <string name="summary_tethering">W zależności od wersji Androida tethering może działać bądź nie. Ruch tetheringu nie może być filtrowany.</string>
+  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
   <string name="summary_wifi_home">Zastosuj reguły sieci Wi-Fi tylko do zaznaczonej sieci (do pozostałych sieci Wi-Fi zastosowane zostaną reguły sieci komórkowej)</string>
