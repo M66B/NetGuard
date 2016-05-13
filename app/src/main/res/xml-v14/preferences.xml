@@ -64,11 +64,18 @@
         android:title="@string/setting_network_options">
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="subnet"
+            android:summary="@string/summary_subnet"
+            android:title="@string/setting_subnet" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="subnet"
             android:key="tethering"
             android:summary="@string/summary_tethering"
             android:title="@string/setting_tethering" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:dependency="subnet"
             android:key="lan"
             android:summary="@string/summary_lan"
             android:title="@string/setting_lan" />

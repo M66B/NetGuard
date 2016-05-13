@@ -952,6 +952,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private Builder getBuilder(List<Rule> listAllowed, List<Rule> listRule) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean subnet = prefs.getBoolean("subnet", false);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean lan = prefs.getBoolean("lan", false);
         boolean ip6 = prefs.getBoolean("ip6", true);
@@ -981,68 +982,72 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
             }
 
-        // Exclude IP ranges
-        List<IPUtil.CIDR> listExclude = new ArrayList<>();
-        listExclude.add(new IPUtil.CIDR("127.0.0.0", 8)); // localhost
+        // Subnet routing
+        if (subnet) {
+            // Exclude IP ranges
+            List<IPUtil.CIDR> listExclude = new ArrayList<>();
+            listExclude.add(new IPUtil.CIDR("127.0.0.0", 8)); // localhost
 
-        if (tethering) {
-            // USB Tethering 192.168.42.x
-            // Wi-Fi Tethering 192.168.43.x
-            listExclude.add(new IPUtil.CIDR("192.168.42.0", 23));
-        }
-
-        if (lan) {
-            try {
-                Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
-                while (nis.hasMoreElements()) {
-                    NetworkInterface ni = nis.nextElement();
-                    if (ni != null && ni.isUp() && !ni.isLoopback() &&
-                            ni.getName() != null && !ni.getName().startsWith("tun"))
-                        for (InterfaceAddress ia : ni.getInterfaceAddresses())
-                            if (ia.getAddress() instanceof Inet4Address) {
-                                IPUtil.CIDR local = new IPUtil.CIDR(ia.getAddress(), ia.getNetworkPrefixLength());
-                                Log.i(TAG, "Excluding " + ni.getName() + " " + local);
-                                listExclude.add(local);
-                            }
-                }
-            } catch (SocketException ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            if (tethering) {
+                // USB Tethering 192.168.42.x
+                // Wi-Fi Tethering 192.168.43.x
+                listExclude.add(new IPUtil.CIDR("192.168.42.0", 23));
             }
-        }
 
-        Configuration config = getResources().getConfiguration();
-        if (config.mcc == 310 && config.mnc == 260) {
-            // T-Mobile Wi-Fi calling
-            listExclude.add(new IPUtil.CIDR("66.94.2.0", 24));
-            listExclude.add(new IPUtil.CIDR("66.94.6.0", 23));
-            listExclude.add(new IPUtil.CIDR("66.94.8.0", 22));
-            listExclude.add(new IPUtil.CIDR("208.54.0.0", 16));
-        }
-        listExclude.add(new IPUtil.CIDR("224.0.0.0", 3)); // broadcast
+            if (lan) {
+                try {
+                    Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+                    while (nis.hasMoreElements()) {
+                        NetworkInterface ni = nis.nextElement();
+                        if (ni != null && ni.isUp() && !ni.isLoopback() &&
+                                ni.getName() != null && !ni.getName().startsWith("tun"))
+                            for (InterfaceAddress ia : ni.getInterfaceAddresses())
+                                if (ia.getAddress() instanceof Inet4Address) {
+                                    IPUtil.CIDR local = new IPUtil.CIDR(ia.getAddress(), ia.getNetworkPrefixLength());
+                                    Log.i(TAG, "Excluding " + ni.getName() + " " + local);
+                                    listExclude.add(local);
+                                }
+                    }
+                } catch (SocketException ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+            }
 
-        Collections.sort(listExclude);
+            Configuration config = getResources().getConfiguration();
+            if (config.mcc == 310 && config.mnc == 260) {
+                // T-Mobile Wi-Fi calling
+                listExclude.add(new IPUtil.CIDR("66.94.2.0", 24));
+                listExclude.add(new IPUtil.CIDR("66.94.6.0", 23));
+                listExclude.add(new IPUtil.CIDR("66.94.8.0", 22));
+                listExclude.add(new IPUtil.CIDR("208.54.0.0", 16));
+            }
+            listExclude.add(new IPUtil.CIDR("224.0.0.0", 3)); // broadcast
 
-        try {
-            InetAddress start = InetAddress.getByName("0.0.0.0");
-            for (IPUtil.CIDR exclude : listExclude) {
-                Log.i(TAG, "Exclude " + exclude.getStart().getHostAddress() + "..." + exclude.getEnd().getHostAddress());
-                for (IPUtil.CIDR include : IPUtil.toCIDR(start, IPUtil.minus1(exclude.getStart())))
+            Collections.sort(listExclude);
+
+            try {
+                InetAddress start = InetAddress.getByName("0.0.0.0");
+                for (IPUtil.CIDR exclude : listExclude) {
+                    Log.i(TAG, "Exclude " + exclude.getStart().getHostAddress() + "..." + exclude.getEnd().getHostAddress());
+                    for (IPUtil.CIDR include : IPUtil.toCIDR(start, IPUtil.minus1(exclude.getStart())))
+                        try {
+                            builder.addRoute(include.address, include.prefix);
+                        } catch (Throwable ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
+                    start = IPUtil.plus1(exclude.getEnd());
+                }
+                for (IPUtil.CIDR include : IPUtil.toCIDR("224.0.0.0", "255.255.255.255"))
                     try {
                         builder.addRoute(include.address, include.prefix);
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     }
-                start = IPUtil.plus1(exclude.getEnd());
+            } catch (UnknownHostException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
-            for (IPUtil.CIDR include : IPUtil.toCIDR("224.0.0.0", "255.255.255.255"))
-                try {
-                    builder.addRoute(include.address, include.prefix);
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-        } catch (UnknownHostException ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
+        } else
+            builder.addRoute("0.0.0.0", 0);
 
         Log.i(TAG, "IPv6=" + ip6);
         if (ip6)

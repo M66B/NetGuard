@@ -503,6 +503,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("theme".equals(name) || "dark_theme".equals(name))
             recreate();
 
+        else if ("subnet".equals(name))
+            ServiceSinkhole.reload("changed " + name, this);
+
         else if ("tethering".equals(name))
             ServiceSinkhole.reload("changed " + name, this);
 

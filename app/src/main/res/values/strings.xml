@@ -65,6 +65,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_update">Check for updates</string>
 
     <string name="setting_network_options">Network options</string>
+    <string name="setting_subnet">Subnet routing</string>
     <string name="setting_tethering">Allow tethering</string>
     <string name="setting_lan">Allow LAN access</string>
     <string name="setting_ip6">Enable IPv6 traffic</string>
@@ -115,6 +116,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="summary_update">Check for new releases on GitHub twice daily</string>
 
     <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
+    <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
     <string name="summary_lan">Allow applications to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
     <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
     <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
