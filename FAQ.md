@@ -335,6 +335,22 @@ Sometimes it helps to uninstall and install NetGuard again (be sure to export yo
 Since turning off the VPN service using the Android settings cannot be prevented,
 there is little use in adding PIN or password protection.
 
+<a name="FAQ37"></a>
+**(37) Why are the pro features so expensive?**
+
+The right question is "*why are there so many taxes and fees*":
+
+* VAT: 25% (depending on your country)
+* Google fee: 30%
+* Income tax: 50%
+
+So, what is left for the developer is just a fraction of what you pay.
+
+Despite NetGuard being *really* a lot of work, only some of the convenience and advanced features are paid,
+which means that NetGuard is basically free to use.
+
+Also note that most free applications will appear not to be sustainable in the end, whereas NetGuard is properly maintained and supported.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.

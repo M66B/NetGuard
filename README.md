@@ -178,6 +178,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ36"></a>
 [**(36) Can you add PIN or password protection?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ36)
 
+<a name="FAQ37"></a>
+[**(37) Why are the pro features so expensive?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ37)
+
 Permissions
 -----------
 
