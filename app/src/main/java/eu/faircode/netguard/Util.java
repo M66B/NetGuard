@@ -571,6 +571,8 @@ public class Util {
     public static void sendCrashReport(Throwable ex, final Context context) {
         if (!isPlayStoreInstall(context))
             return;
+        if (!(Util.isDebuggable(context) || Util.getSelfVersionName(context).contains("beta")))
+            return;
 
         try {
             ApplicationErrorReport report = new ApplicationErrorReport();
