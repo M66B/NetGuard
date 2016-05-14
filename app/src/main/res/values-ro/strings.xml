@@ -55,7 +55,7 @@
   <string name="setting_delay">Temporizare la oprirea ecranului %1$s minute</string>
   <string name="setting_update">Verifica actualizari</string>
   <string name="setting_network_options">Optiuni conexiune</string>
-  <string name="setting_subnet">Subnet routing</string>
+  <string name="setting_subnet">Rutare subretea</string>
   <string name="setting_tethering">Permite partajarea conexiunii</string>
   <string name="setting_lan">Permite acces LAN</string>
   <string name="setting_ip6">Permite traficul IPv6</string>
@@ -99,7 +99,7 @@
   <string name="summary_delay">Dupa oprirea ecranului, pastreza regulile ecran pornit pentru numarul selectat de minute (valoarea zero dezactiveaza optiunea)</string>
   <string name="summary_update">De doua ori pe zi se va verifica daca a fost publicata pe GitHub o noua versiune</string>
   <string name="summary_tethering">In functie de versiunea de Android, partajarea conexiunii (tethering/hotspot) ar putea functiona sau nu. Traficul partajat nu poate fi filtrat.</string>
-  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
+  <string name="summary_subnet">Ar putea ajuta la apelurile prin Wi-Fi, dar la fel de bine ar putea declansa erori prezente in Android si ar putea creste consumul de baterie</string>
   <string name="summary_lan">Permite aplicatiilor sa se conecteze la adresele de retea locala precum 10.0.0.0/8, 172.16.0.0/12 si 192.168.0.0/16</string>
   <string name="summary_ip6">Ruteaza traficul IPv6 in NetGuard pentru a putea fi permis sau blocat selectiv</string>
   <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (pentru alte retele Wi-Fi se aplica regulile de date mobile)</string>

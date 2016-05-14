@@ -56,7 +56,7 @@
   <string name="setting_delay">%1$s 分、画面オフを遅延</string>
   <string name="setting_update">アップデートの確認</string>
   <string name="setting_network_options">ネットワーク オプション</string>
-  <string name="setting_subnet">Subnet routing</string>
+  <string name="setting_subnet">サブネットのルーティング</string>
   <string name="setting_tethering">テザリングを許可</string>
   <string name="setting_lan">LAN アクセスを許可</string>
   <string name="setting_ip6">IPv6 トラフィックを有効にする</string>
@@ -100,7 +100,7 @@
   <string name="summary_delay">選択した分数のルールで画面をオンにした後、画面をオフにします (0 を入力するとこのオプションを無効にします)</string>
   <string name="summary_update">新しいリリースを Github で毎日 2 回確認します</string>
   <string name="summary_tethering">Android のバージョンによって、テザリングが動作する、または動作しない可能性があります。テザリングされたトラフィックはフィルターできません。</string>
-  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
+  <string name="summary_subnet">サブネットのルーティングを有効にします; Wi-Fi の通話を有効にすることができるかもしれませんが Android のバグを誘発したり、バッテリー使用量が増加する可能性があります。</string>
   <string name="summary_lan">10.0.0.0/8、172.16.0.0/12、192.168.0.0/16 のような、ローカル エリア ネットワークのアドレスに接続するアプリケーションを許可します</string>
   <string name="summary_ip6">NetGuard に IP バージョン 6 トラフィックをルーティングして、許可かブロックを選択することができます。</string>
   <string name="summary_wifi_home">選択したネットワークにのみ Wi-Fi ネットワークのルールを適用します (他の Wi-Fi ネットワークにはモバイルネットワークのルールを適用します)</string>

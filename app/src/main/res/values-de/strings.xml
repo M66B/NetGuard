@@ -56,7 +56,7 @@
   <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
   <string name="setting_update">Nach Aktualisierungen suchen</string>
   <string name="setting_network_options">Netzwerkoptionen</string>
-  <string name="setting_subnet">Subnet routing</string>
+  <string name="setting_subnet">Subnet-Routing</string>
   <string name="setting_tethering">Tethering erlauben</string>
   <string name="setting_lan">LAN-Zugriff erlauben</string>
   <string name="setting_ip6">IPv6-Datenverkehr aktivieren</string>
@@ -100,7 +100,7 @@
   <string name="summary_delay">Nach Ausschalten des Bildschirms, diesen während der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren dieser Option)</string>
   <string name="summary_update">Es wird auf GitHub zweimal täglich nach neuen Versionen gesucht</string>
   <string name="summary_tethering">Abhängig von der Android Version kann Tethering funktionieren. Dieser Verkehr kann nicht gefiltert werden.</string>
-  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
+  <string name="summary_subnet">Subnet-Routing aktivieren ermöglicht möglicherweise das Telefonieren über WLAN, triggert aber auch das Auftreten von Fehler in Android und läßt den Batterieverbrauch steigen</string>
   <string name="summary_lan">Apps den Zugriff auf lokale Netzwerkadressen wie 10.0.0.0/8, 172.16.0.0/12 und 192.168.0.0/16 erlauben.</string>
   <string name="summary_ip6">IP6-Datenverkehr an NetGuard weiterleiten, so dass es selektiv zugelassen oder blockiert werden kann</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
