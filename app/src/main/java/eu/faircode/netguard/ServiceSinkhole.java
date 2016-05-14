@@ -106,6 +106,13 @@ import javax.net.ssl.HttpsURLConnection;
 public class ServiceSinkhole extends VpnService implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Service";
 
+    private boolean registeredInteractiveState = false;
+    private boolean registeredPowerSave = false;
+    private boolean registeredUser = false;
+    private boolean registeredIdleState = false;
+    private boolean registeredConnectivityChanged = false;
+    private boolean registeredPackageAdded = false;
+
     private State state = State.none;
     private boolean user_foreground = true;
     private boolean last_connected = false;
@@ -1609,6 +1616,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     };
 
+    private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "Received " + intent);
+            Util.logExtras(intent);
+            Rule.clearCache(ServiceSinkhole.this);
+            reload("package added", ServiceSinkhole.this);
+        }
+    };
+
     private PhoneStateListener phoneStateListener = new PhoneStateListener() {
         private String last_generation = null;
         private int last_international = -1;
@@ -1650,16 +1667,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     };
 
-    private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
-            Util.logExtras(intent);
-            Rule.clearCache(ServiceSinkhole.this);
-            reload("package added", ServiceSinkhole.this);
-        }
-    };
-
     @Override
     public void onCreate() {
         Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
@@ -1698,6 +1705,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
         ifInteractive.addAction(ACTION_SCREEN_OFF_DELAYED);
         registerReceiver(interactiveStateReceiver, ifInteractive);
+        registeredInteractiveState = true;
 
         // Listen for power save mode
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !Util.isPlayStoreInstall(this)) {
@@ -1706,6 +1714,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             IntentFilter ifPower = new IntentFilter();
             ifPower.addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED);
             registerReceiver(powerSaveReceiver, ifPower);
+            registeredPowerSave = true;
         }
 
         // Listen for user switches
@@ -1714,6 +1723,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             ifUser.addAction(Intent.ACTION_USER_BACKGROUND);
             ifUser.addAction(Intent.ACTION_USER_FOREGROUND);
             registerReceiver(userReceiver, ifUser);
+            registeredUser = true;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1721,18 +1731,21 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             IntentFilter ifIdle = new IntentFilter();
             ifIdle.addAction(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED);
             registerReceiver(idleStateReceiver, ifIdle);
+            registeredIdleState = true;
         }
 
         // Listen for connectivity updates
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangedReceiver, ifConnectivity);
+        registeredConnectivityChanged = true;
 
         // Listen for added applications
         IntentFilter ifPackage = new IntentFilter();
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
+        registeredPackageAdded = true;
 
         // Setup house holding
         Intent alarmIntent = new Intent(this, ServiceSinkhole.class);
@@ -1850,15 +1863,30 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         logLooper.quit();
         statsLooper.quit();
 
-        unregisterReceiver(interactiveStateReceiver);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (registeredInteractiveState) {
+            unregisterReceiver(interactiveStateReceiver);
+            registeredInteractiveState = false;
+        }
+        if (registeredPowerSave) {
             unregisterReceiver(powerSaveReceiver);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            registeredPowerSave = false;
+        }
+        if (registeredUser) {
             unregisterReceiver(userReceiver);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            registeredUser = false;
+        }
+        if (registeredIdleState) {
             unregisterReceiver(idleStateReceiver);
-        unregisterReceiver(connectivityChangedReceiver);
-        unregisterReceiver(packageAddedReceiver);
+            registeredIdleState = false;
+        }
+        if (registeredConnectivityChanged) {
+            unregisterReceiver(connectivityChangedReceiver);
+            registeredConnectivityChanged = false;
+        }
+        if (registeredPackageAdded) {
+            unregisterReceiver(packageAddedReceiver);
+            registeredPackageAdded = false;
+        }
 
         if (phone_state) {
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
