@@ -195,6 +195,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                                             if (running) {
                                                 Log.i(TAG, "Start intent=" + prepare);
                                                 try {
+                                                    // com.android.vpndialogs.ConfirmDialog required
                                                     startActivityForResult(prepare, REQUEST_VPN);
                                                 } catch (Throwable ex) {
                                                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
