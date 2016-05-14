@@ -70,8 +70,9 @@ public class IPUtil {
 
     private static long inet2long(InetAddress addr) {
         long result = 0;
-        for (byte b : addr.getAddress())
-            result = result << 8 | (b & 0xFF);
+        if (addr != null)
+            for (byte b : addr.getAddress())
+                result = result << 8 | (b & 0xFF);
         return result;
     }
 
