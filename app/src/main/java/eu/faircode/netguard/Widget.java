@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.VpnService;
 import android.os.Build;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -59,6 +60,11 @@ public class Widget extends AppWidgetProvider {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
         am.cancel(pi);
+
+        // Vibrate
+        Vibrator vs = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vs.hasVibrator())
+            vs.vibrate(50);
 
         if (INTENT_OFF.equals(intent.getAction())) {
             prefs.edit().putBoolean("enabled", false).apply();
