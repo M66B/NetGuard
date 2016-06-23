@@ -143,6 +143,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private static final int SERVICE_HOUSEHOLDING = 1;
     private static final int SERVICE_GRAPH_ON = 2;
     private static final int SERVICE_GRAPH_OFF = 3;
+    private static final int SERVICE_OFF = 4;
 
     private static final int NOTIFY_ENFORCING = 1;
     private static final int NOTIFY_WAITING = 2;
@@ -337,6 +338,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         break;
 
                     case stop:
+                        if ("off".equals(option))
+                            prefs.edit().putBoolean("enabled", false).apply();
                         stop();
                         break;
 
@@ -1960,7 +1963,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     .setPriority(Notification.PRIORITY_MIN);
         }
 
-
         if (IAB.isPurchased(ActivityPro.SKU_SPEED, this)) {
             Intent riGraph = new Intent(this, ServiceSinkhole.class);
             riGraph.putExtra(ServiceSinkhole.EXTRA_COMMAND, ServiceSinkhole.Command.stats);
@@ -1968,6 +1970,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             PendingIntent piGraph = PendingIntent.getService(this, SERVICE_GRAPH_ON, riGraph, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.addAction(R.drawable.ic_equalizer_white_24dp, getString(R.string.title_graph), piGraph);
         }
+
+        Intent riOff = new Intent(this, ServiceSinkhole.class);
+        riOff.putExtra(ServiceSinkhole.EXTRA_COMMAND, ServiceSinkhole.Command.stop);
+        riOff.putExtra(ServiceSinkhole.EXTRA_OPTION, "off");
+        PendingIntent piOff = PendingIntent.getService(this, SERVICE_OFF, riOff, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.addAction(R.drawable.ic_power_settings_new_white_24dp, getString(R.string.title_off), piOff);
 
         if (allowed > 0 || blocked > 0 || hosts > 0) {
             NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
