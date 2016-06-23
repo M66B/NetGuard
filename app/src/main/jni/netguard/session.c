@@ -19,8 +19,6 @@
 
 #include "netguard.h"
 
-int ebadf = 0;
-
 extern JavaVM *jvm;
 extern pthread_t thread_id;
 extern pthread_mutex_t lock;
@@ -89,7 +87,6 @@ void *handle_events(void *a) {
 
     stopping = 0;
     signaled = 0;
-    ebadf = 0;
 
     // Loop
     while (!stopping) {
@@ -143,23 +140,18 @@ void *handle_events(void *a) {
                     continue;
                 }
             } else if (errno == EBADF) {
-                struct stat sb;
-                if (fstat(args->tun, &sb) < 0) {
+                if (is_valid_fd(args->tun)) {
+                    log_android(ANDROID_LOG_ERROR, "pselect  error %d: %s", errno, strerror(errno));
+                    report_exit(args, "pselect error %d: %s", errno, strerror(errno));
+                    break;
+                }
+                else {
                     log_android(ANDROID_LOG_ERROR,
                                 "tun socket %d select error %d: %s",
                                 args->tun, errno, strerror(errno));
                     report_exit(args, "tun socket %d select error %d: %s",
                                 args->tun, errno, strerror(errno));
                     break;
-                }
-                else {
-                    if (ebadf++ < 10) {
-                        log_android(ANDROID_LOG_WARN, "pselect EBADF, try %d", ebadf);
-                        continue;
-                    } else {
-                        report_exit(args, "pselect error %d: %s", errno, strerror(errno));
-                        break;
-                    }
                 }
             } else {
                 log_android(ANDROID_LOG_ERROR,
@@ -279,8 +271,6 @@ int get_select_timeout(int sessions, int maxsessions) {
 }
 
 int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set *efds) {
-    struct stat sb;
-
     // Initialize
     FD_ZERO(rfds);
     FD_ZERO(wfds);
@@ -295,15 +285,15 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     struct icmp_session *i = icmp_session;
     while (i != NULL) {
         if (!i->stop) {
-            if (fstat(i->socket, &sb) < 0) {
-                log_android(ANDROID_LOG_WARN, "ICMP socket %d select error %d: %s",
-                            i->socket, errno, strerror(errno));
-                i->stop = 1;
-            } else {
+            if (is_valid_fd(i->socket)) {
                 FD_SET(i->socket, efds);
                 FD_SET(i->socket, rfds);
                 if (i->socket > max)
                     max = i->socket;
+            } else {
+                log_android(ANDROID_LOG_WARN, "ICMP socket %d select error %d: %s",
+                            i->socket, errno, strerror(errno));
+                i->stop = 1;
             }
         }
         i = i->next;
@@ -313,16 +303,16 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     struct udp_session *u = udp_session;
     while (u != NULL) {
         if (u->state == UDP_ACTIVE) {
-            if (fstat(u->socket, &sb) < 0) {
-                log_android(ANDROID_LOG_WARN, "UDP socket %d select error %d: %s",
-                            u->socket, errno, strerror(errno));
-                u->state = UDP_FINISHING;
-            }
-            else {
+            if (is_valid_fd(u->socket)) {
                 FD_SET(u->socket, efds);
                 FD_SET(u->socket, rfds);
                 if (u->socket > max)
                     max = u->socket;
+            }
+            else {
+                log_android(ANDROID_LOG_WARN, "UDP socket %d select error %d: %s",
+                            u->socket, errno, strerror(errno));
+                u->state = UDP_FINISHING;
             }
         }
         u = u->next;
@@ -333,12 +323,7 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
     while (t != NULL) {
         // Select sockets
         if (t->socket >= 0) {
-            if (fstat(t->socket, &sb) < 0) {
-                log_android(ANDROID_LOG_WARN, "TCP socket %d select error %d: %s",
-                            t->socket, errno, strerror(errno));
-                write_rst(args, t);
-            }
-            else {
+            if (is_valid_fd(t->socket)) {
                 if (t->state == TCP_LISTEN) {
                     // Check for errors
                     FD_SET(t->socket, efds);
@@ -364,6 +349,11 @@ int get_selects(const struct arguments *args, fd_set *rfds, fd_set *wfds, fd_set
                     if (t->socket > max)
                         max = t->socket;
                 }
+            }
+            else {
+                log_android(ANDROID_LOG_WARN, "TCP socket %d select error %d: %s",
+                            t->socket, errno, strerror(errno));
+                write_rst(args, t);
             }
         }
 

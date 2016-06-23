@@ -152,3 +152,7 @@ int32_t get_local_port(const int sock) {
         return ntohs(sin.sin_port);
 }
 
+int is_valid_fd(const int fd) {
+    return fcntl(fd, F_GETFL) != -1 || errno != EBADF;
+}
+
