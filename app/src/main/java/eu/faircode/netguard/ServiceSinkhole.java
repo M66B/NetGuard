@@ -140,6 +140,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private volatile LogHandler logHandler;
     private volatile StatsHandler statsHandler;
 
+    private static final int SERVICE_HOUSEHOLDING = 1;
+    private static final int SERVICE_GRAPH_ON = 2;
+    private static final int SERVICE_GRAPH_OFF = 3;
+
     private static final int NOTIFY_ENFORCING = 1;
     private static final int NOTIFY_WAITING = 2;
     private static final int NOTIFY_DISABLED = 3;
@@ -150,6 +154,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private static final int NOTIFY_UPDATE = 8;
 
     public static final String EXTRA_COMMAND = "Command";
+    public static final String EXTRA_OPTION = "Option";
     private static final String EXTRA_REASON = "Reason";
     public static final String EXTRA_NETWORK = "Network";
     public static final String EXTRA_UID = "UID";
@@ -269,8 +274,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
 
             Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
+            String option = intent.getStringExtra(EXTRA_OPTION);
             String reason = intent.getStringExtra(EXTRA_REASON);
-            Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason +
+            Log.i(TAG, "Executing intent=" + intent +
+                    " command=" + cmd + " option=" + option + " reason=" + reason +
                     " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
             // Check if prepared
@@ -334,6 +341,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         break;
 
                     case stats:
+                        if ("start".equals(option))
+                            prefs.edit().putBoolean("show_stats", true).apply();
+                        else if ("stop".equals(option))
+                            prefs.edit().putBoolean("show_stats", false).apply();
                         statsHandler.sendEmptyMessage(MSG_STATS_STOP);
                         statsHandler.sendEmptyMessage(MSG_STATS_START);
                         break;
@@ -888,6 +899,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Intent main = new Intent(ServiceSinkhole.this, ActivityMain.class);
             PendingIntent pi = PendingIntent.getActivity(ServiceSinkhole.this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            Intent riGraph = new Intent(ServiceSinkhole.this, ServiceSinkhole.class);
+            riGraph.putExtra(ServiceSinkhole.EXTRA_COMMAND, ServiceSinkhole.Command.stats);
+            riGraph.putExtra(ServiceSinkhole.EXTRA_OPTION, "stop");
+            PendingIntent piGraph = PendingIntent.getService(ServiceSinkhole.this, SERVICE_GRAPH_OFF, riGraph, PendingIntent.FLAG_UPDATE_CURRENT);
+
             TypedValue tv = new TypedValue();
             getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(ServiceSinkhole.this)
@@ -896,8 +912,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     .setContent(remoteViews)
                     .setContentIntent(pi)
                     .setColor(tv.data)
-                    .setOngoing(true)
-                    .setAutoCancel(false);
+                    .setOngoing(false)
+                    .setAutoCancel(false)
+                    .setDeleteIntent(piGraph);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 builder.setCategory(Notification.CATEGORY_STATUS)
@@ -1750,7 +1767,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         // Setup house holding
         Intent alarmIntent = new Intent(this, ServiceSinkhole.class);
         alarmIntent.setAction(ACTION_HOUSE_HOLDING);
-        PendingIntent pi = PendingIntent.getService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getService(this, SERVICE_HOUSEHOLDING, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + 60 * 1000, AlarmManager.INTERVAL_HALF_DAY, pi);
@@ -1941,6 +1958,15 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             builder.setCategory(Notification.CATEGORY_STATUS)
                     .setVisibility(Notification.VISIBILITY_SECRET)
                     .setPriority(Notification.PRIORITY_MIN);
+        }
+
+
+        if (IAB.isPurchased(ActivityPro.SKU_SPEED, this)) {
+            Intent riGraph = new Intent(this, ServiceSinkhole.class);
+            riGraph.putExtra(ServiceSinkhole.EXTRA_COMMAND, ServiceSinkhole.Command.stats);
+            riGraph.putExtra(ServiceSinkhole.EXTRA_OPTION, "start");
+            PendingIntent piGraph = PendingIntent.getService(this, SERVICE_GRAPH_ON, riGraph, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.addAction(R.drawable.ic_equalizer_white_24dp, getString(R.string.title_graph), piGraph);
         }
 
         if (allowed > 0 || blocked > 0 || hosts > 0) {
