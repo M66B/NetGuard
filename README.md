@@ -211,7 +211,7 @@ Contributing
 Building is simple, if you install the right tools:
 
 * [Android Studio 2.1](http://developer.android.com/sdk/)
-* [Android NDK r11](http://developer.android.com/tools/sdk/ndk/)
+* [Android NDK r12](http://developer.android.com/tools/sdk/ndk/)
 
 The native code is built as part of the Android Studio project.
 

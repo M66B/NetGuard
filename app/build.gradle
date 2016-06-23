@@ -2,13 +2,13 @@ apply plugin: 'com.android.model.application'
 
 model {
     android {
-        compileSdkVersion = 23 // "android-N"
-        buildToolsVersion = "23.0.3" // "24.0.0 rc2"
+        compileSdkVersion = 24
+        buildToolsVersion = "24"
 
         defaultConfig {
             applicationId = "eu.faircode.netguard"
             minSdkVersion.apiLevel = 14
-            targetSdkVersion.apiLevel = 23 // 24
+            targetSdkVersion.apiLevel = 23
             versionCode = 2016051401
             versionName = "2.25"
             archivesBaseName = "NetGuard-v$versionName-$versionCode-sdk-$targetSdkVersion.apiLevel"
