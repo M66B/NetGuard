@@ -170,7 +170,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private static final int MSG_PACKET = 4;
     private static final int MSG_USAGE = 5;
 
-    private enum State {none, waiting, enforcing}
+    private enum State {none, waiting, enforcing, stats}
 
     public enum Command {run, start, reload, stop, stats, set, householding}
 
@@ -507,7 +507,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             if (state == State.enforcing) {
                 Log.d(TAG, "Stop foreground state=" + state.toString());
                 stopForeground(true);
-                state = State.none;
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                if (prefs.getBoolean("show_stats", false)) {
+                    startForeground(NOTIFY_WAITING, getWaitingNotification());
+                    state = State.waiting;
+                    Log.d(TAG, "Start foreground state=" + state.toString());
+                } else
+                    state = State.none;
             }
         }
 
@@ -706,7 +712,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Stats stop");
             stats = false;
             this.removeMessages(MSG_STATS_UPDATE);
-            NotificationManagerCompat.from(ServiceSinkhole.this).cancel(NOTIFY_TRAFFIC);
+            if (state == State.stats) {
+                Log.d(TAG, "Stop foreground state=" + state.toString());
+                stopForeground(true);
+                state = State.none;
+            } else
+                NotificationManagerCompat.from(ServiceSinkhole.this).cancel(NOTIFY_TRAFFIC);
         }
 
         private void updateStats() {
@@ -915,7 +926,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         .setVisibility(Notification.VISIBILITY_PUBLIC);
             }
 
-            NotificationManagerCompat.from(ServiceSinkhole.this).notify(NOTIFY_TRAFFIC, builder.build());
+            if (state == State.none || state == State.waiting) {
+                if (state != State.none) {
+                    Log.d(TAG, "Stop foreground state=" + state.toString());
+                    stopForeground(true);
+                }
+                startForeground(NOTIFY_TRAFFIC, builder.build());
+                state = State.stats;
+                Log.d(TAG, "Start foreground state=" + state.toString());
+            } else
+                NotificationManagerCompat.from(ServiceSinkhole.this).notify(NOTIFY_TRAFFIC, builder.build());
         }
     }
 
