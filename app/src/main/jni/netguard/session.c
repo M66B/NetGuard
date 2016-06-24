@@ -114,7 +114,6 @@ void *handle_events(void *a) {
         int tsessions = 0;
         struct ng_session *s = ng_session;
         while (s != NULL) {
-            int del = 0;
             if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
                 if (!s->icmp.stop)
                     isessions++;
@@ -132,16 +131,40 @@ void *handle_events(void *a) {
         int sessions = isessions + usessions + tsessions;
 
         // Check sessions
+        time_t now = time(NULL);
+        int timeout = SELECT_TIMEOUT;
         struct ng_session *sl = NULL;
         s = ng_session;
         while (s != NULL) {
             int del = 0;
-            if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6)
+            if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
                 del = check_icmp_session(args, s, sessions, maxsessions);
-            else if (s->protocol == IPPROTO_UDP)
+                if (!s->icmp.stop) {
+                    int stimeout =
+                            s->icmp.time + get_icmp_timeout(&s->icmp, sessions, maxsessions) - now +
+                            1;
+                    if (stimeout > 0 && stimeout < timeout)
+                        timeout = stimeout;
+                }
+            }
+            else if (s->protocol == IPPROTO_UDP) {
                 del = check_udp_session(args, s, sessions, maxsessions);
-            else if (s->protocol == IPPROTO_TCP)
+                if (s->udp.state == UDP_ACTIVE) {
+                    int stimeout =
+                            s->udp.time + get_udp_timeout(&s->udp, sessions, maxsessions) - now + 1;
+                    if (stimeout > 0 && stimeout < timeout)
+                        timeout = stimeout;
+                }
+            }
+            else if (s->protocol == IPPROTO_TCP) {
                 del = check_tcp_session(args, s, sessions, maxsessions);
+                if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE) {
+                    int stimeout =
+                            s->tcp.time + get_tcp_timeout(&s->tcp, sessions, maxsessions) - now + 1;
+                    if (stimeout > 0 && stimeout < timeout)
+                        timeout = stimeout;
+                }
+            }
 
             if (del) {
                 if (sl == NULL)
@@ -160,11 +183,8 @@ void *handle_events(void *a) {
             }
         }
 
-        log_android(ANDROID_LOG_DEBUG, "sessions ICMP %d UDP %d TCP %d max %d/%d",
-                    isessions, usessions, tsessions, sessions, maxsessions);
-
-        // Next event time
-        int timeout = get_select_timeout(sessions, maxsessions);
+        log_android(ANDROID_LOG_DEBUG, "sessions ICMP %d UDP %d TCP %d max %d/%d timeout %d s",
+                    isessions, usessions, tsessions, sessions, maxsessions, timeout);
 
         // Poll
         struct epoll_event ev;
@@ -217,8 +237,8 @@ void *handle_events(void *a) {
             gettimeofday(&start, NULL);
 #endif
 
-            // Check upstream
             int error = 0;
+
             if (ev.data.ptr == &ev_pipe) {
                 stopping = 1;
                 uint8_t buffer[1];
@@ -228,6 +248,7 @@ void *handle_events(void *a) {
                     log_android(ANDROID_LOG_WARN, "Read pipe");
 
             } else if (ev.data.ptr == NULL) {
+                // Check upstream
                 if (check_tun(args, &ev, epoll_fd, sessions, maxsessions) < 0)
                     error = 1;
 
@@ -286,44 +307,6 @@ void *handle_events(void *a) {
     log_android(ANDROID_LOG_WARN, "Stopped events tun=%d thread %x", args->tun, thread_id);
     thread_id = 0;
     return NULL;
-}
-
-int get_select_timeout(int sessions, int maxsessions) {
-    time_t now = time(NULL);
-    int timeout = SELECT_TIMEOUT;
-
-    struct ng_session *s = ng_session;
-    while (s != NULL) {
-        if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
-            if (!s->icmp.stop) {
-                int stimeout =
-                        s->icmp.time + get_icmp_timeout(&s->icmp, sessions, maxsessions) - now + 1;
-                if (stimeout > 0 && stimeout < timeout)
-                    timeout = stimeout;
-            }
-
-        } else if (s->protocol == IPPROTO_UDP) {
-            if (s->udp.state == UDP_ACTIVE) {
-                int stimeout =
-                        s->udp.time + get_udp_timeout(&s->udp, sessions, maxsessions) - now + 1;
-                if (stimeout > 0 && stimeout < timeout)
-                    timeout = stimeout;
-            }
-
-        } else if (s->protocol == IPPROTO_TCP) {
-            if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE) {
-                int stimeout =
-                        s->tcp.time + get_tcp_timeout(&s->tcp, sessions, maxsessions) - now + 1;
-                if (stimeout > 0 && stimeout < timeout)
-                    timeout = stimeout;
-            }
-
-        }
-
-        s = s->next;
-    }
-
-    return timeout;
 }
 
 void check_allowed(const struct arguments *args) {

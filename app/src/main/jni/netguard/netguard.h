@@ -316,8 +316,6 @@ int check_tcp_session(const struct arguments *args,
                       struct ng_session *s,
                       int sessions, int maxsessions);
 
-int get_select_timeout(int sessions, int maxsessions);
-
 int get_icmp_timeout(const struct icmp_session *u, int sessions, int maxsessions);
 
 int get_udp_timeout(const struct udp_session *u, int sessions, int maxsessions);
