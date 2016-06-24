@@ -190,18 +190,20 @@ void *handle_events(void *a) {
         else {
             if (ev.data.ptr != &ev_pipe) {
                 if (ev.data.ptr == NULL)
-                    log_android(ANDROID_LOG_DEBUG, "epoll ready %d in %d out %d err %d",
-                                ready,
-                                (ev.events & EPOLLIN) != 0,
-                                (ev.events & EPOLLOUT) != 0,
-                                (ev.events & EPOLLERR) != 0);
-                else
-                    log_android(ANDROID_LOG_DEBUG,
-                                "epoll ready %d in %d out %d err %d prot %d sock %d",
+                    log_android(ANDROID_LOG_DEBUG, "epoll ready %d in %d out %d err %d hup %d",
                                 ready,
                                 (ev.events & EPOLLIN) != 0,
                                 (ev.events & EPOLLOUT) != 0,
                                 (ev.events & EPOLLERR) != 0,
+                                (ev.events & EPOLLHUP) != 0);
+                else
+                    log_android(ANDROID_LOG_DEBUG,
+                                "epoll ready %d in %d out %d err %d hup %d prot %d sock %d",
+                                ready,
+                                (ev.events & EPOLLIN) != 0,
+                                (ev.events & EPOLLOUT) != 0,
+                                (ev.events & EPOLLERR) != 0,
+                                (ev.events & EPOLLHUP) != 0,
                                 ((struct ng_session *) ev.data.ptr)->protocol,
                                 ((struct ng_session *) ev.data.ptr)->socket);
             }
