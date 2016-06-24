@@ -94,8 +94,6 @@ public class Receiver extends BroadcastReceiver {
                 } else if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
                     if (prefs.getBoolean("enabled", false))
                         ServiceSinkhole.start("receiver", context);
-                    else if (prefs.getBoolean("show_stats", false))
-                        ServiceSinkhole.reloadStats("receiver", context);
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
