@@ -126,7 +126,7 @@ void *handle_events(void *a) {
     while (!stopping) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
 
-        // Count/check sessions
+        // Count sessions
         int isessions = 0;
         int usessions = 0;
         int tsessions = 0;
@@ -207,20 +207,6 @@ void *handle_events(void *a) {
                     log_android(ANDROID_LOG_DEBUG,
                                 "epoll interrupted tun %d thread %x", args->tun, thread_id);
                     continue;
-                }
-            } else if (errno == EBADF) {
-                if (is_valid_fd(args->tun)) {
-                    log_android(ANDROID_LOG_ERROR, "epoll error %d: %s", errno, strerror(errno));
-                    report_exit(args, "epoll error %d: %s", errno, strerror(errno));
-                    break;
-                }
-                else {
-                    log_android(ANDROID_LOG_ERROR,
-                                "tun socket %d epoll error %d: %s",
-                                args->tun, errno, strerror(errno));
-                    report_exit(args, "tun socket %d epoll error %d: %s",
-                                args->tun, errno, strerror(errno));
-                    break;
                 }
             } else {
                 log_android(ANDROID_LOG_ERROR,

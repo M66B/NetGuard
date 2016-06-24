@@ -413,8 +413,6 @@ int open_tcp_socket(const struct arguments *args,
 
 int32_t get_local_port(const int sock);
 
-int is_valid_fd(const int fd);
-
 int write_syn_ack(const struct arguments *args, struct tcp_session *cur);
 
 int write_ack(const struct arguments *args, struct tcp_session *cur);
