@@ -20,10 +20,9 @@
 #include "netguard.h"
 
 extern JavaVM *jvm;
+extern int pipefds[2];
 extern pthread_t thread_id;
 extern pthread_mutex_t lock;
-extern jboolean stopping;
-extern jboolean signaled;
 
 struct ng_session *ng_session = NULL;
 
@@ -46,18 +45,9 @@ void clear() {
     ng_session = NULL;
 }
 
-void handle_signal(int sig, siginfo_t *info, void *context) {
-    log_android(ANDROID_LOG_DEBUG, "Signal %d", sig);
-    signaled = 1;
-}
-
 void *handle_events(void *a) {
-    int sdk;
     int epoll_fd;
     struct timespec ts;
-    sigset_t blockset;
-    sigset_t emptyset;
-    struct sigaction sa;
 
     struct arguments *args = (struct arguments *) a;
     log_android(ANDROID_LOG_WARN, "Start events tun=%d thread %x", args->tun, thread_id);
@@ -71,9 +61,7 @@ void *handle_events(void *a) {
     }
     args->env = env;
 
-    // Get SDK version
-    sdk = sdk_int(env);
-
+    // Get max sessions
     int maxsessions = 1024;
     struct rlimit rlim;
     if (getrlimit(RLIMIT_NOFILE, &rlim))
@@ -84,28 +72,27 @@ void *handle_events(void *a) {
                     rlim.rlim_cur, rlim.rlim_max, maxsessions);
     }
 
-    // Block SIGUSR1
-    sigemptyset(&blockset);
-    sigaddset(&blockset, SIGUSR1);
-    sigprocmask(SIG_BLOCK, &blockset, NULL);
-
-    /// Handle SIGUSR1
-    sa.sa_sigaction = handle_signal;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_RESTART;
-    sigaction(SIGUSR1, &sa, NULL);
-
     // Terminate existing sessions not allowed anymore
     check_allowed(args);
 
-    stopping = 0;
-    signaled = 0;
+    int stopping = 0;
 
     // Open epoll fd
     epoll_fd = epoll_create(1);
     if (epoll_fd < 0) {
         log_android(ANDROID_LOG_ERROR, "epoll create error %d: %s", errno, strerror(errno));
         report_exit(args, "epoll create error %d: %s", errno, strerror(errno));
+        stopping = 1;
+    }
+
+    // Monitor stop events
+    struct epoll_event ev_pipe;
+    memset(&ev_pipe, 0, sizeof(struct epoll_event));
+    ev_pipe.events = EPOLLIN;
+    ev_pipe.data.ptr = &ev_pipe;
+    if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, pipefds[0], &ev_pipe)) {
+        log_android(ANDROID_LOG_ERROR, "epoll add pipe error %d: %s", errno, strerror(errno));
+        report_exit(args, "epoll add pipe error %d: %s", errno, strerror(errno));
         stopping = 1;
     }
 
@@ -119,8 +106,6 @@ void *handle_events(void *a) {
         report_exit(args, "epoll add tun error %d: %s", errno, strerror(errno));
         stopping = 1;
     }
-
-    sigemptyset(&emptyset);
 
     // Loop
     while (!stopping) {
@@ -178,36 +163,24 @@ void *handle_events(void *a) {
             }
         }
 
-        // https://bugzilla.mozilla.org/show_bug.cgi?id=1093893
-        int idle = (tsessions + usessions + tsessions == 0 && sdk >= 16);
-        log_android(ANDROID_LOG_DEBUG, "sessions ICMP %d UDP %d TCP %d max %d/%d idle %d sdk %d",
-                    isessions, usessions, tsessions, sessions, maxsessions, idle, sdk);
+        log_android(ANDROID_LOG_DEBUG, "sessions ICMP %d UDP %d TCP %d max %d/%d",
+                    isessions, usessions, tsessions, sessions, maxsessions);
 
         // Next event time
-        ts.tv_sec = (sdk < 16 ? 5 : get_select_timeout(sessions, maxsessions));
+        ts.tv_sec = get_select_timeout(sessions, maxsessions);
         ts.tv_nsec = 0;
 
         // TODO: check if tun is writable?
 
         // Poll
         struct epoll_event ev;
-        sigset_t origmask;
-        pthread_sigmask(SIG_SETMASK, &emptyset, &origmask);
         int ready = epoll_wait(epoll_fd, &ev, 1, ts.tv_sec * 1000);
-        pthread_sigmask(SIG_SETMASK, &origmask, NULL);
 
         if (ready < 0) {
             if (errno == EINTR) {
-                if (stopping && signaled) { ;
-                    log_android(ANDROID_LOG_WARN,
-                                "epoll signaled tun %d thread %x", args->tun, thread_id);
-                    report_exit(args, NULL);
-                    break;
-                } else {
-                    log_android(ANDROID_LOG_DEBUG,
-                                "epoll interrupted tun %d thread %x", args->tun, thread_id);
-                    continue;
-                }
+                log_android(ANDROID_LOG_DEBUG,
+                            "epoll interrupted tun %d thread %x", args->tun, thread_id);
+                continue;
             } else {
                 log_android(ANDROID_LOG_ERROR,
                             "epoll tun %d thread %x error %d: %s",
@@ -221,13 +194,23 @@ void *handle_events(void *a) {
         if (ready == 0)
             log_android(ANDROID_LOG_DEBUG, "epoll timeout");
         else {
-            log_android(ANDROID_LOG_DEBUG, "epoll ready %d in %d out %d err %d prot %d sock %d",
-                        ready,
-                        (ev.events & EPOLLIN) != 0,
-                        (ev.events & EPOLLOUT) != 0,
-                        (ev.events & EPOLLERR) != 0,
-                        (ev.data.ptr == NULL ? -1 : ((struct ng_session *) ev.data.ptr)->protocol),
-                        (ev.data.ptr == NULL ? -1 : ((struct ng_session *) ev.data.ptr)->socket));
+            if (ev.data.ptr != &ev_pipe) {
+                if (ev.data.ptr == NULL)
+                    log_android(ANDROID_LOG_DEBUG, "epoll ready %d in %d out %d err %d",
+                                ready,
+                                (ev.events & EPOLLIN) != 0,
+                                (ev.events & EPOLLOUT) != 0,
+                                (ev.events & EPOLLERR) != 0);
+                else
+                    log_android(ANDROID_LOG_DEBUG,
+                                "epoll ready %d in %d out %d err %d prot %d sock %d",
+                                ready,
+                                (ev.events & EPOLLIN) != 0,
+                                (ev.events & EPOLLOUT) != 0,
+                                (ev.events & EPOLLERR) != 0,
+                                ((struct ng_session *) ev.data.ptr)->protocol,
+                                ((struct ng_session *) ev.data.ptr)->socket);
+            }
 
             if (pthread_mutex_lock(&lock))
                 log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
@@ -240,9 +223,18 @@ void *handle_events(void *a) {
 
             // Check upstream
             int error = 0;
-            if (ev.data.ptr == NULL) {
+            if (ev.data.ptr == &ev_pipe) {
+                stopping = 1;
+                uint8_t buffer[1];
+                if (read(pipefds[0], buffer, 1) < 0)
+                    log_android(ANDROID_LOG_WARN, "Read pipe error %d: %s", errno, strerror(errno));
+                else
+                    log_android(ANDROID_LOG_WARN, "Read pipe");
+
+            } else if (ev.data.ptr == NULL) {
                 if (check_tun(args, &ev, epoll_fd, sessions, maxsessions) < 0)
                     error = 1;
+
             } else {
 #ifdef PROFILE_EVENTS
                 gettimeofday(&end, NULL);

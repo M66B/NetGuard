@@ -25,10 +25,9 @@
 // Global variables
 
 JavaVM *jvm = NULL;
+int pipefds[2];
 pthread_t thread_id = 0;
 pthread_mutex_t lock;
-jboolean stopping = 0;
-jboolean signaled = 0;
 int loglevel = ANDROID_LOG_WARN;
 
 extern int max_tun_msg;
@@ -108,6 +107,17 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1init(JNIEnv *env, jobject instanc
 
     if (pthread_mutex_init(&lock, NULL))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_init failed");
+
+    // Create signal pipe
+    if (pipe(pipefds))
+        log_android(ANDROID_LOG_ERROR, "Create pipe error %d: %s", errno, strerror(errno));
+    else
+        for (int i = 0; i < 2; i++) {
+            int flags = fcntl(pipefds[i], F_GETFL, 0);
+            if (flags < 0 || fcntl(pipefds[i], F_SETFL, flags | O_NONBLOCK) < 0)
+                log_android(ANDROID_LOG_ERROR, "fcntl pipefds[%d] O_NONBLOCK error %d: %s",
+                            i, errno, strerror(errno));
+        }
 }
 
 JNIEXPORT void JNICALL
@@ -155,14 +165,12 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1stop(
     pthread_t t = thread_id;
     log_android(ANDROID_LOG_WARN, "Stop tun %d  thread %x", tun, t);
     if (t && pthread_kill(t, 0) == 0) {
-        stopping = 1;
-        log_android(ANDROID_LOG_WARN, "Kill thread %x", t);
-        int err = pthread_kill(t, SIGUSR1);
-        if (err != 0)
-            log_android(ANDROID_LOG_WARN, "pthread_kill error %d: %s", err, strerror(err));
+        log_android(ANDROID_LOG_WARN, "Write pipe thread %x", t);
+        if (write(pipefds[1], "x", 1) < 0)
+            log_android(ANDROID_LOG_WARN, "Write pipe error %d: %s", errno, strerror(errno));
         else {
             log_android(ANDROID_LOG_WARN, "Join thread %x", t);
-            err = pthread_join(t, NULL);
+            int err = pthread_join(t, NULL);
             if (err != 0)
                 log_android(ANDROID_LOG_WARN, "pthread_join error %d: %s", err, strerror(err));
         }
@@ -295,6 +303,10 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1done(JNIEnv *env, jobject instanc
 
     if (pthread_mutex_destroy(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_destroy failed");
+
+    for (int i = 0; i < 2; i++)
+        if (close(pipefds[i]))
+            log_android(ANDROID_LOG_ERROR, "Close pipe error %d: %s", errno, strerror(errno));
 }
 
 // JNI Util
