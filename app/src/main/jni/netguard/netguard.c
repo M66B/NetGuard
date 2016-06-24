@@ -101,9 +101,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1init(JNIEnv *env, jobject instanc
     struct arguments args;
     args.env = env;
     args.instance = instance;
-    init_icmp(&args);
-    init_udp(&args);
-    init_tcp(&args);
+    init(&args);
 
     pcap_file = NULL;
 
@@ -152,11 +150,9 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1start(
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_ServiceSinkhole_jni_1stop(
-        JNIEnv *env, jobject instance, jint tun,
-        jboolean datagram, jboolean stream) {
+        JNIEnv *env, jobject instance, jint tun, jboolean clr) {
     pthread_t t = thread_id;
-    log_android(ANDROID_LOG_WARN, "Stop tun %d clear %d/%d thread %x",
-                tun, (int) datagram, (int) stream, t);
+    log_android(ANDROID_LOG_WARN, "Stop tun %d  thread %x", tun, t);
     if (t && pthread_kill(t, 0) == 0) {
         stopping = 1;
         log_android(ANDROID_LOG_WARN, "Kill thread %x", t);
@@ -170,12 +166,8 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1stop(
                 log_android(ANDROID_LOG_WARN, "pthread_join error %d: %s", err, strerror(err));
         }
 
-        if (datagram) {
-            clear_icmp();
-            clear_udp();
-        }
-        if (stream)
-            clear_tcp();
+        if (clr)
+            clear();
 
         log_android(ANDROID_LOG_WARN, "Stopped thread %x", t);
     } else
@@ -283,9 +275,7 @@ JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_ServiceSinkhole_jni_1done(JNIEnv *env, jobject instance) {
     log_android(ANDROID_LOG_INFO, "Done");
 
-    clear_icmp();
-    clear_udp();
-    clear_tcp();
+    clear();
 
     if (pthread_mutex_destroy(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_destroy failed");

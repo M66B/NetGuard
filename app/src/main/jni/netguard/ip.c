@@ -35,10 +35,11 @@ uint16_t get_default_mss(int version) {
 }
 
 int check_tun(const struct arguments *args,
-              fd_set *rfds, fd_set *wfds, fd_set *efds,
+              const struct epoll_event *ev,
+              const int epoll_fd,
               int sessions, int maxsessions) {
     // Check tun error
-    if (FD_ISSET(args->tun, efds)) {
+    if (ev->events & EPOLLERR) {
         log_android(ANDROID_LOG_ERROR, "tun %d exception", args->tun);
         if (fcntl(args->tun, F_GETFL) < 0) {
             log_android(ANDROID_LOG_ERROR, "fcntl tun %d F_GETFL error %d: %s",
@@ -51,7 +52,7 @@ int check_tun(const struct arguments *args,
     }
 
     // Check tun read
-    if (FD_ISSET(args->tun, rfds)) {
+    if (ev->events & EPOLLIN) {
         uint8_t *buffer = malloc(get_mtu());
         ssize_t length = read(args->tun, buffer, get_mtu());
         if (length < 0) {
@@ -79,7 +80,7 @@ int check_tun(const struct arguments *args,
             }
 
             // Handle IP from tun
-            handle_ip(args, buffer, (size_t) length, sessions, maxsessions);
+            handle_ip(args, buffer, (size_t) length, epoll_fd, sessions, maxsessions);
 
             free(buffer);
         }
@@ -119,6 +120,7 @@ int is_upper_layer(int protocol) {
 
 void handle_ip(const struct arguments *args,
                const uint8_t *pkt, const size_t length,
+               const int epoll_fd,
                int sessions, int maxsessions) {
     uint8_t protocol;
     void *saddr;
@@ -328,11 +330,11 @@ void handle_ip(const struct arguments *args,
     // Handle allowed traffic
     if (allowed) {
         if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6)
-            handle_icmp(args, pkt, length, payload, uid);
+            handle_icmp(args, pkt, length, payload, uid, epoll_fd);
         else if (protocol == IPPROTO_UDP)
-            handle_udp(args, pkt, length, payload, uid, redirect);
+            handle_udp(args, pkt, length, payload, uid, redirect, epoll_fd);
         else if (protocol == IPPROTO_TCP)
-            handle_tcp(args, pkt, length, payload, uid, redirect);
+            handle_tcp(args, pkt, length, payload, uid, redirect, epoll_fd);
     }
     else {
         if (protocol == IPPROTO_UDP)
