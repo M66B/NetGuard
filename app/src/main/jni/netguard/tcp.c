@@ -441,6 +441,10 @@ jboolean handle_tcp(const struct arguments *args,
             datalen, ntohs(tcphdr->window), uid);
     log_android(tcphdr->urg ? ANDROID_LOG_WARN : ANDROID_LOG_DEBUG, packet);
 
+    // Drop URG data
+    if (tcphdr->urg)
+        return 1;
+
     // Check session
     if (cur == NULL) {
         if (tcphdr->syn) {

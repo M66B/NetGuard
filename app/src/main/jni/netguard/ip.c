@@ -270,9 +270,6 @@ void handle_ip(const struct arguments *args,
         if (tcp->rst)
             flags[flen++] = 'R';
 
-        if (tcp->urg)
-            report_error(args, 3, "TCP out of band data");
-
         // TODO checksum
     }
     else if (protocol != IPPROTO_HOPOPTS && protocol != IPPROTO_IGMP && protocol != IPPROTO_ESP)
