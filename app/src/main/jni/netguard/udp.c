@@ -22,17 +22,6 @@
 extern struct ng_session *ng_session;
 extern FILE *pcap_file;
 
-int get_udp_sessions() {
-    int count = 0;
-    struct ng_session *s = ng_session;
-    while (s != NULL) {
-        if (s->protocol == IPPROTO_UDP && s->udp.state == UDP_ACTIVE)
-            count++;
-        s = s->next;
-    }
-    return count;
-}
-
 int get_udp_timeout(const struct udp_session *u, int sessions, int maxsessions) {
     int timeout = (ntohs(u->dest) == 53 ? UDP_TIMEOUT_53 : UDP_TIMEOUT_ANY);
 

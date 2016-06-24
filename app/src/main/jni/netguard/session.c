@@ -127,9 +127,25 @@ void *handle_events(void *a) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
 
         // Count sessions
-        int isessions = get_icmp_sessions();
-        int usessions = get_udp_sessions();
-        int tsessions = get_tcp_sessions();
+        int isessions = 0;
+        int usessions = 0;
+        int tsessions = 0;
+        struct ng_session *s = ng_session;
+        while (s != NULL) {
+            if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
+                if (!s->icmp.stop)
+                    isessions++;
+            }
+            else if (s->protocol == IPPROTO_UDP) {
+                if (s->udp.state == UDP_ACTIVE)
+                    usessions++;
+            }
+            else if (s->protocol == IPPROTO_TCP) {
+                if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE)
+                    tsessions++;
+            }
+            s = s->next;
+        }
         int sessions = isessions + usessions + tsessions;
 
         // Check sessions

@@ -32,6 +32,7 @@ jboolean signaled = 0;
 int loglevel = ANDROID_LOG_WARN;
 
 extern int max_tun_msg;
+extern struct ng_session *ng_session;
 extern FILE *pcap_file;
 extern size_t pcap_record_size;
 extern long pcap_file_size;
@@ -186,9 +187,24 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1get_1stats(JNIEnv *env, jobject i
 
     jintArray jarray = (*env)->NewIntArray(env, 5);
     jint *jcount = (*env)->GetIntArrayElements(env, jarray, NULL);
-    jcount[0] = get_icmp_sessions();
-    jcount[1] = get_udp_sessions();
-    jcount[2] = get_tcp_sessions();
+
+
+    struct ng_session *s = ng_session;
+    while (s != NULL) {
+        if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
+            if (!s->icmp.stop)
+                jcount[0]++;
+        }
+        else if (s->protocol == IPPROTO_UDP) {
+            if (s->udp.state == UDP_ACTIVE)
+                jcount[1]++;
+        }
+        else if (s->protocol == IPPROTO_TCP) {
+            if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE)
+                jcount[2]++;
+        }
+        s = s->next;
+    }
 
     if (pthread_mutex_unlock(&lock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");

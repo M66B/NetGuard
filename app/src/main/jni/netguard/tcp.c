@@ -32,17 +32,6 @@ void clear_tcp_data(struct tcp_session *cur) {
     }
 }
 
-int get_tcp_sessions() {
-    int count = 0;
-    struct ng_session *s = ng_session;
-    while (s != NULL) {
-        if (s->protocol == IPPROTO_TCP && s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE)
-            count++;
-        s = s->next;
-    }
-    return count;
-}
-
 int get_tcp_timeout(const struct tcp_session *t, int sessions, int maxsessions) {
     int timeout;
     if (t->state == TCP_LISTEN || t->state == TCP_SYN_RECV)

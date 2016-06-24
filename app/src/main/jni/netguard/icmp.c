@@ -22,17 +22,6 @@
 extern struct ng_session *ng_session;
 extern FILE *pcap_file;
 
-int get_icmp_sessions() {
-    int count = 0;
-    struct ng_session *s = ng_session;
-    while (s != NULL) {
-        if ((s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) && !s->icmp.stop)
-            count++;
-        s = s->next;
-    }
-    return count;
-}
-
 int get_icmp_timeout(const struct icmp_session *u, int sessions, int maxsessions) {
     int timeout = ICMP_TIMEOUT;
 
