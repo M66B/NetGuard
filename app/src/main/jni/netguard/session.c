@@ -46,9 +46,6 @@ void clear() {
 }
 
 void *handle_events(void *a) {
-    int epoll_fd;
-    struct timespec ts;
-
     struct arguments *args = (struct arguments *) a;
     log_android(ANDROID_LOG_WARN, "Start events tun=%d thread %x", args->tun, thread_id);
 
@@ -78,7 +75,7 @@ void *handle_events(void *a) {
     int stopping = 0;
 
     // Open epoll fd
-    epoll_fd = epoll_create(1);
+    int epoll_fd = epoll_create(1);
     if (epoll_fd < 0) {
         log_android(ANDROID_LOG_ERROR, "epoll create error %d: %s", errno, strerror(errno));
         report_exit(args, "epoll create error %d: %s", errno, strerror(errno));
@@ -167,14 +164,11 @@ void *handle_events(void *a) {
                     isessions, usessions, tsessions, sessions, maxsessions);
 
         // Next event time
-        ts.tv_sec = get_select_timeout(sessions, maxsessions);
-        ts.tv_nsec = 0;
-
-        // TODO: check if tun is writable?
+        int timeout = get_select_timeout(sessions, maxsessions);
 
         // Poll
         struct epoll_event ev;
-        int ready = epoll_wait(epoll_fd, &ev, 1, ts.tv_sec * 1000);
+        int ready = epoll_wait(epoll_fd, &ev, 1, timeout * 1000);
 
         if (ready < 0) {
             if (errno == EINTR) {
