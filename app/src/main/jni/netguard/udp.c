@@ -88,7 +88,7 @@ void check_udp_socket(const struct arguments *args, const struct epoll_event *ev
     struct ng_session *s = (struct ng_session *) ev->data.ptr;
 
     // Check socket error
-    if ((ev->events & EPOLLERR) || (ev->events & EPOLLHUP)) {
+    if (ev->events & EPOLLERR) {
         s->udp.time = time(NULL);
 
         int serr = 0;
@@ -312,7 +312,7 @@ jboolean handle_udp(const struct arguments *args,
 
         // Monitor events
         memset(&s->ev, 0, sizeof(struct epoll_event));
-        s->ev.events = EPOLLIN;
+        s->ev.events = EPOLLIN | EPOLLERR;
         s->ev.data.ptr = s;
         if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, s->socket, &s->ev))
             log_android(ANDROID_LOG_ERROR, "epoll add udp error %d: %s", errno, strerror(errno));

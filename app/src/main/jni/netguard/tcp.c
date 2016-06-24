@@ -187,7 +187,7 @@ void check_tcp_socket(const struct arguments *args,
             s->tcp.remote_seq - s->tcp.remote_start);
 
     // Check socket error
-    if ((ev->events & EPOLLERR) || (ev->events && EPOLLHUP)) {
+    if (ev->events & EPOLLERR) {
         s->tcp.time = time(NULL);
 
         int serr = 0;
@@ -535,7 +535,7 @@ jboolean handle_tcp(const struct arguments *args,
 
             // Monitor events
             memset(&s->ev, 0, sizeof(struct epoll_event));
-            s->ev.events = EPOLLOUT;
+            s->ev.events = EPOLLOUT | EPOLLERR;
             s->ev.data.ptr = s;
             if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, s->socket, &s->ev))
                 log_android(ANDROID_LOG_ERROR, "epoll add tcp error %d: %s", errno,
