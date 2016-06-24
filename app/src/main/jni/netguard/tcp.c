@@ -47,86 +47,67 @@ int get_tcp_timeout(const struct tcp_session *t, int sessions, int maxsessions) 
     return timeout;
 }
 
-void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessions) {
+int check_tcp_session(const struct arguments *args, struct ng_session *s,
+                      int sessions, int maxsessions) {
     time_t now = time(NULL);
 
-    struct ng_session *sl = NULL;
-    struct ng_session *s = ng_session;
-    while (s != NULL) {
-        if (s->protocol == IPPROTO_TCP) {
-            char source[INET6_ADDRSTRLEN + 1];
-            char dest[INET6_ADDRSTRLEN + 1];
-            if (s->tcp.version == 4) {
-                inet_ntop(AF_INET, &s->tcp.saddr.ip4, source, sizeof(source));
-                inet_ntop(AF_INET, &s->tcp.daddr.ip4, dest, sizeof(dest));
-            } else {
-                inet_ntop(AF_INET6, &s->tcp.saddr.ip6, source, sizeof(source));
-                inet_ntop(AF_INET6, &s->tcp.daddr.ip6, dest, sizeof(dest));
-            }
-
-            char session[250];
-            sprintf(session, "TCP socket from %s/%u to %s/%u %s socket %d",
-                    source, ntohs(s->tcp.source), dest, ntohs(s->tcp.dest),
-                    strstate(s->tcp.state), s->socket);
-
-            int timeout = get_tcp_timeout(&s->tcp, sessions, maxsessions);
-
-            // Check session timeout
-            if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE &&
-                s->tcp.time + timeout < now) {
-                log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ", session, now - s->tcp.time,
-                            timeout);
-                if (s->tcp.state == TCP_LISTEN)
-                    s->tcp.state = TCP_CLOSING;
-                else
-                    write_rst(args, &s->tcp);
-            }
-
-            // Check closing sessions
-            if (s->tcp.state == TCP_CLOSING) {
-                // eof closes socket
-                if (s->socket >= 0) {
-                    if (close(s->socket))
-                        log_android(ANDROID_LOG_ERROR, "%s close error %d: %s",
-                                    session, errno, strerror(errno));
-                    else
-                        log_android(ANDROID_LOG_WARN, "%s close", session);
-                    s->socket = -1;
-                }
-
-                s->tcp.time = time(NULL);
-                s->tcp.state = TCP_CLOSE;
-            }
-
-            if ((s->tcp.state == TCP_CLOSING || s->tcp.state == TCP_CLOSE) &&
-                (s->tcp.sent || s->tcp.received)) {
-                account_usage(args, s->tcp.version, IPPROTO_TCP,
-                              dest, ntohs(s->tcp.dest), s->tcp.uid, s->tcp.sent, s->tcp.received);
-                s->tcp.sent = 0;
-                s->tcp.received = 0;
-            }
-
-            // Cleanup lingering sessions
-            if (s->tcp.state == TCP_CLOSE && s->tcp.time + TCP_KEEP_TIMEOUT < now) {
-                if (sl == NULL)
-                    ng_session = s->next;
-                else
-                    sl->next = s->next;
-
-                struct ng_session *c = s;
-                s = s->next;
-                clear_tcp_data(&c->tcp);
-                free(c);
-            }
-            else {
-                sl = s;
-                s = s->next;
-            }
-        } else {
-            sl = s;
-            s = s->next;
-        }
+    char source[INET6_ADDRSTRLEN + 1];
+    char dest[INET6_ADDRSTRLEN + 1];
+    if (s->tcp.version == 4) {
+        inet_ntop(AF_INET, &s->tcp.saddr.ip4, source, sizeof(source));
+        inet_ntop(AF_INET, &s->tcp.daddr.ip4, dest, sizeof(dest));
+    } else {
+        inet_ntop(AF_INET6, &s->tcp.saddr.ip6, source, sizeof(source));
+        inet_ntop(AF_INET6, &s->tcp.daddr.ip6, dest, sizeof(dest));
     }
+
+    char session[250];
+    sprintf(session, "TCP socket from %s/%u to %s/%u %s socket %d",
+            source, ntohs(s->tcp.source), dest, ntohs(s->tcp.dest),
+            strstate(s->tcp.state), s->socket);
+
+    int timeout = get_tcp_timeout(&s->tcp, sessions, maxsessions);
+
+    // Check session timeout
+    if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE &&
+        s->tcp.time + timeout < now) {
+        log_android(ANDROID_LOG_WARN, "%s idle %d/%d sec ", session, now - s->tcp.time,
+                    timeout);
+        if (s->tcp.state == TCP_LISTEN)
+            s->tcp.state = TCP_CLOSING;
+        else
+            write_rst(args, &s->tcp);
+    }
+
+    // Check closing sessions
+    if (s->tcp.state == TCP_CLOSING) {
+        // eof closes socket
+        if (s->socket >= 0) {
+            if (close(s->socket))
+                log_android(ANDROID_LOG_ERROR, "%s close error %d: %s",
+                            session, errno, strerror(errno));
+            else
+                log_android(ANDROID_LOG_WARN, "%s close", session);
+            s->socket = -1;
+        }
+
+        s->tcp.time = time(NULL);
+        s->tcp.state = TCP_CLOSE;
+    }
+
+    if ((s->tcp.state == TCP_CLOSING || s->tcp.state == TCP_CLOSE) &&
+        (s->tcp.sent || s->tcp.received)) {
+        account_usage(args, s->tcp.version, IPPROTO_TCP,
+                      dest, ntohs(s->tcp.dest), s->tcp.uid, s->tcp.sent, s->tcp.received);
+        s->tcp.sent = 0;
+        s->tcp.received = 0;
+    }
+
+    // Cleanup lingering sessions
+    if (s->tcp.state == TCP_CLOSE && s->tcp.time + TCP_KEEP_TIMEOUT < now)
+        return 1;
+
+    return 0;
 }
 
 uint32_t get_send_window(const struct tcp_session *cur) {

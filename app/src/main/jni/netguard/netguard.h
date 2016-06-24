@@ -304,11 +304,17 @@ void init(const struct arguments *args);
 
 void clear();
 
-void check_icmp_sessions(const struct arguments *args, int sessions, int maxsessions);
+int check_icmp_session(const struct arguments *args,
+                       struct ng_session *s,
+                       int sessions, int maxsessions);
 
-void check_udp_sessions(const struct arguments *args, int sessions, int maxsessions);
+int check_udp_session(const struct arguments *args,
+                      struct ng_session *s,
+                      int sessions, int maxsessions);
 
-void check_tcp_sessions(const struct arguments *args, int sessions, int maxsessions);
+int check_tcp_session(const struct arguments *args,
+                      struct ng_session *s,
+                      int sessions, int maxsessions);
 
 int get_select_timeout(int sessions, int maxsessions);
 

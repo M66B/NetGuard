@@ -126,12 +126,13 @@ void *handle_events(void *a) {
     while (!stopping) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
 
-        // Count sessions
+        // Count/check sessions
         int isessions = 0;
         int usessions = 0;
         int tsessions = 0;
         struct ng_session *s = ng_session;
         while (s != NULL) {
+            int del = 0;
             if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
                 if (!s->icmp.stop)
                     isessions++;
@@ -149,9 +150,33 @@ void *handle_events(void *a) {
         int sessions = isessions + usessions + tsessions;
 
         // Check sessions
-        check_icmp_sessions(args, sessions, maxsessions);
-        check_udp_sessions(args, sessions, maxsessions);
-        check_tcp_sessions(args, sessions, maxsessions);
+        struct ng_session *sl = NULL;
+        s = ng_session;
+        while (s != NULL) {
+            int del = 0;
+            if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6)
+                del = check_icmp_session(args, s, sessions, maxsessions);
+            else if (s->protocol == IPPROTO_UDP)
+                del = check_udp_session(args, s, sessions, maxsessions);
+            else if (s->protocol == IPPROTO_TCP)
+                del = check_tcp_session(args, s, sessions, maxsessions);
+
+            if (del) {
+                if (sl == NULL)
+                    ng_session = s->next;
+                else
+                    sl->next = s->next;
+
+                struct ng_session *c = s;
+                s = s->next;
+                if (c->protocol == IPPROTO_TCP)
+                    clear_tcp_data(&c->tcp);
+                free(c);
+            } else {
+                sl = s;
+                s = s->next;
+            }
+        }
 
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1093893
         int idle = (tsessions + usessions + tsessions == 0 && sdk >= 16);

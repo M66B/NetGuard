@@ -31,51 +31,34 @@ int get_icmp_timeout(const struct icmp_session *u, int sessions, int maxsessions
     return timeout;
 }
 
-void check_icmp_sessions(const struct arguments *args, int sessions, int maxsessions) {
+int check_icmp_session(const struct arguments *args, struct ng_session *s,
+                       int sessions, int maxsessions) {
     time_t now = time(NULL);
 
-    struct ng_session *sl = NULL;
-    struct ng_session *s = ng_session;
-    while (s != NULL) {
-        if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
-            int timeout = get_icmp_timeout(&s->icmp, sessions, maxsessions);
-            if (s->icmp.stop || s->icmp.time + timeout < now) {
-                char source[INET6_ADDRSTRLEN + 1];
-                char dest[INET6_ADDRSTRLEN + 1];
-                if (s->icmp.version == 4) {
-                    inet_ntop(AF_INET, &s->icmp.saddr.ip4, source, sizeof(source));
-                    inet_ntop(AF_INET, &s->icmp.daddr.ip4, dest, sizeof(dest));
-                }
-                else {
-                    inet_ntop(AF_INET6, &s->icmp.saddr.ip6, source, sizeof(source));
-                    inet_ntop(AF_INET6, &s->icmp.daddr.ip6, dest, sizeof(dest));
-                }
-                log_android(ANDROID_LOG_WARN, "ICMP idle %d/%d sec stop %d from %s to %s",
-                            now - s->icmp.time, timeout, s->icmp.stop, dest, source);
-
-                if (close(s->socket))
-                    log_android(ANDROID_LOG_ERROR, "ICMP close %d error %d: %s",
-                                s->socket, errno, strerror(errno));
-                s->socket = -1;
-
-                if (sl == NULL)
-                    ng_session = s->next;
-                else
-                    sl->next = s->next;
-
-                struct ng_session *c = s;
-                s = s->next;
-                free(c);
-            }
-            else {
-                sl = s;
-                s = s->next;
-            }
-        } else {
-            sl = s;
-            s = s->next;
+    int timeout = get_icmp_timeout(&s->icmp, sessions, maxsessions);
+    if (s->icmp.stop || s->icmp.time + timeout < now) {
+        char source[INET6_ADDRSTRLEN + 1];
+        char dest[INET6_ADDRSTRLEN + 1];
+        if (s->icmp.version == 4) {
+            inet_ntop(AF_INET, &s->icmp.saddr.ip4, source, sizeof(source));
+            inet_ntop(AF_INET, &s->icmp.daddr.ip4, dest, sizeof(dest));
         }
+        else {
+            inet_ntop(AF_INET6, &s->icmp.saddr.ip6, source, sizeof(source));
+            inet_ntop(AF_INET6, &s->icmp.daddr.ip6, dest, sizeof(dest));
+        }
+        log_android(ANDROID_LOG_WARN, "ICMP idle %d/%d sec stop %d from %s to %s",
+                    now - s->icmp.time, timeout, s->icmp.stop, dest, source);
+
+        if (close(s->socket))
+            log_android(ANDROID_LOG_ERROR, "ICMP close %d error %d: %s",
+                        s->socket, errno, strerror(errno));
+        s->socket = -1;
+
+        return 1;
     }
+
+    return 0;
 }
 
 void check_icmp_socket(const struct arguments *args, const struct epoll_event *ev) {
