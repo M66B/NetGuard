@@ -209,7 +209,6 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_allow">Allow</string>
     <string name="title_block">Block</string>
     <string name="title_graph">Graph</string>
-    <string name="title_off">Off</string>
     <string name="title_root">root</string>
     <string name="title_mediaserver">mediaserver</string>
     <string name="title_nobody">nobody</string>

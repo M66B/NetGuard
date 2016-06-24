@@ -649,11 +649,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             if (prefs.getBoolean("pcap", false))
                 ServiceSinkhole.setPcap(true, this);
 
-        } else if ("show_stats".equals(name)) {
-            ((TwoStatePreference) getPreferenceScreen().findPreference(name)).setChecked(prefs.getBoolean(name, false));
+        } else if ("show_stats".equals(name))
             ServiceSinkhole.reloadStats("changed " + name, this);
 
-        } else if ("stats_frequency".equals(name))
+        else if ("stats_frequency".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_frequency, prefs.getString(name, "1000")));
 
         else if ("stats_samples".equals(name))
