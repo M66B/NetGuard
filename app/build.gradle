@@ -2,7 +2,7 @@ apply plugin: 'com.android.model.application'
 
 model {
     android {
-        compileSdkVersion = 24
+        compileSdkVersion = 23
         buildToolsVersion = "24"
 
         defaultConfig {
