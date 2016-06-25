@@ -255,18 +255,15 @@ void *handle_events(void *a) {
                                 ((struct ng_session *) ev[i].data.ptr)->socket);
 
                     struct ng_session *session = (struct ng_session *) ev[i].data.ptr;
-                    do {
-                        if (session->protocol == IPPROTO_ICMP ||
-                            session->protocol == IPPROTO_ICMPV6)
-                            check_icmp_socket(args, &ev[i]);
-                        else if (session->protocol == IPPROTO_UDP)
+                    if (session->protocol == IPPROTO_ICMP ||
+                        session->protocol == IPPROTO_ICMPV6)
+                        check_icmp_socket(args, &ev[i]);
+                    else if (session->protocol == IPPROTO_UDP) {
+                        while (!(ev[i].events & EPOLLERR) && (ev[i].events & EPOLLIN) &&
+                               is_readable(session->socket))
                             check_udp_socket(args, &ev[i]);
-                        else if (session->protocol == IPPROTO_TCP) {
-                            check_tcp_socket(args, &ev[i], epoll_fd);
-                        }
-                    } while (!(ev[i].events & EPOLLERR) &&
-                             (ev[i].events & EPOLLIN) &&
-                             is_readable(session->socket));
+                    } else if (session->protocol == IPPROTO_TCP)
+                        check_tcp_socket(args, &ev[i], epoll_fd);
                 }
 
                 if (error)
