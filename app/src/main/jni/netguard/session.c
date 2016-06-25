@@ -132,7 +132,7 @@ void *handle_events(void *a) {
 
         // Check sessions
         time_t now = time(NULL);
-        int timeout = SELECT_TIMEOUT;
+        int timeout = EPOLL_TIMEOUT;
         struct ng_session *sl = NULL;
         s = ng_session;
         while (s != NULL) {
@@ -186,8 +186,8 @@ void *handle_events(void *a) {
                     isessions, usessions, tsessions, sessions, maxsessions, timeout);
 
         // Poll
-        struct epoll_event ev;
-        int ready = epoll_wait(epoll_fd, &ev, 1, timeout * 1000);
+        struct epoll_event ev[EPOLL_EVENTS];
+        int ready = epoll_wait(epoll_fd, ev, EPOLL_EVENTS, timeout * 1000);
 
         if (ready < 0) {
             if (errno == EINTR) {
@@ -207,69 +207,58 @@ void *handle_events(void *a) {
         if (ready == 0)
             log_android(ANDROID_LOG_DEBUG, "epoll timeout");
         else {
-            if (ev.data.ptr != &ev_pipe) {
-                if (ev.data.ptr == NULL)
-                    log_android(ANDROID_LOG_DEBUG, "epoll ready %d in %d out %d err %d hup %d",
-                                ready,
-                                (ev.events & EPOLLIN) != 0,
-                                (ev.events & EPOLLOUT) != 0,
-                                (ev.events & EPOLLERR) != 0,
-                                (ev.events & EPOLLHUP) != 0);
-                else
-                    log_android(ANDROID_LOG_DEBUG,
-                                "epoll ready %d in %d out %d err %d hup %d prot %d sock %d",
-                                ready,
-                                (ev.events & EPOLLIN) != 0,
-                                (ev.events & EPOLLOUT) != 0,
-                                (ev.events & EPOLLERR) != 0,
-                                (ev.events & EPOLLHUP) != 0,
-                                ((struct ng_session *) ev.data.ptr)->protocol,
-                                ((struct ng_session *) ev.data.ptr)->socket);
-            }
 
             if (pthread_mutex_lock(&lock))
                 log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
-#ifdef PROFILE_EVENTS
-            struct timeval start, end;
-            float mselapsed;
-            gettimeofday(&start, NULL);
-#endif
-
             int error = 0;
 
-            if (ev.data.ptr == &ev_pipe) {
-                stopping = 1;
-                uint8_t buffer[1];
-                if (read(pipefds[0], buffer, 1) < 0)
-                    log_android(ANDROID_LOG_WARN, "Read pipe error %d: %s", errno, strerror(errno));
-                else
-                    log_android(ANDROID_LOG_WARN, "Read pipe");
+            for (int i = 0; i < ready; i++) {
+                if (ev[i].data.ptr == &ev_pipe) {
+                    stopping = 1;
+                    uint8_t buffer[1];
+                    if (read(pipefds[0], buffer, 1) < 0)
+                        log_android(ANDROID_LOG_WARN, "Read pipe error %d: %s",
+                                    errno, strerror(errno));
+                    else
+                        log_android(ANDROID_LOG_WARN, "Read pipe");
+                    break;
 
-            } else if (ev.data.ptr == NULL) {
-                // Check upstream
-                if (check_tun(args, &ev, epoll_fd, sessions, maxsessions) < 0)
-                    error = 1;
+                } else if (ev[i].data.ptr == NULL) {
+                    log_android(ANDROID_LOG_DEBUG, "epoll ready %d/%d in %d out %d err %d hup %d",
+                                i, ready,
+                                (ev[i].events & EPOLLIN) != 0,
+                                (ev[i].events & EPOLLOUT) != 0,
+                                (ev[i].events & EPOLLERR) != 0,
+                                (ev[i].events & EPOLLHUP) != 0);
 
-            } else {
-#ifdef PROFILE_EVENTS
-                gettimeofday(&end, NULL);
-                mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                            (end.tv_usec - start.tv_usec) / 1000.0;
-                if (mselapsed > PROFILE_EVENTS)
-                    log_android(ANDROID_LOG_WARN, "tun %f", mselapsed);
+                    // Check upstream
+                    if (check_tun(args, &ev[i], epoll_fd, sessions, maxsessions) < 0)
+                        error = 1;
 
-                gettimeofday(&start, NULL);
-#endif
+                } else {
+                    log_android(ANDROID_LOG_DEBUG,
+                                "epoll ready %d/%d in %d out %d err %d hup %d prot %d sock %d",
+                                i, ready,
+                                (ev[i].events & EPOLLIN) != 0,
+                                (ev[i].events & EPOLLOUT) != 0,
+                                (ev[i].events & EPOLLERR) != 0,
+                                (ev[i].events & EPOLLHUP) != 0,
+                                ((struct ng_session *) ev[i].data.ptr)->protocol,
+                                ((struct ng_session *) ev[i].data.ptr)->socket);
 
-                // Check downstream
-                struct ng_session *session = (struct ng_session *) ev.data.ptr;
-                if (session->protocol == IPPROTO_ICMP || session->protocol == IPPROTO_ICMPV6)
-                    check_icmp_socket(args, &ev);
-                else if (session->protocol == IPPROTO_UDP)
-                    check_udp_socket(args, &ev);
-                else if (session->protocol == IPPROTO_TCP)
-                    check_tcp_socket(args, &ev, epoll_fd);
+                    // Check downstream
+                    struct ng_session *session = (struct ng_session *) ev[i].data.ptr;
+                    if (session->protocol == IPPROTO_ICMP || session->protocol == IPPROTO_ICMPV6)
+                        check_icmp_socket(args, &ev[i]);
+                    else if (session->protocol == IPPROTO_UDP)
+                        check_udp_socket(args, &ev[i]);
+                    else if (session->protocol == IPPROTO_TCP)
+                        check_tcp_socket(args, &ev[i], epoll_fd);
+                }
+
+                if (error)
+                    break;
             }
 
             if (pthread_mutex_unlock(&lock))
@@ -277,14 +266,6 @@ void *handle_events(void *a) {
 
             if (error)
                 break;
-
-#ifdef PROFILE_EVENTS
-            gettimeofday(&end, NULL);
-            mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                        (end.tv_usec - start.tv_usec) / 1000.0;
-            if (mselapsed > PROFILE_EVENTS)
-                log_android(ANDROID_LOG_WARN, "sockets %f", mselapsed);
-#endif
         }
     }
 

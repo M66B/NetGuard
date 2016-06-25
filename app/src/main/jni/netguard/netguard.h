@@ -30,11 +30,11 @@
 
 #define TAG "NetGuard.JNI"
 
-// #define PROFILE_EVENTS 5
 // #define PROFILE_UID 5
 // #define PROFILE_JNI 5
 
-#define SELECT_TIMEOUT 3600 // seconds
+#define EPOLL_TIMEOUT 3600 // seconds
+#define EPOLL_EVENTS 20
 
 #define ICMP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
 #define ICMP6_MAXMSG (IPV6_MAXPACKET - 40 - 8) // bytes (socket)

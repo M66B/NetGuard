@@ -131,12 +131,6 @@ void handle_ip(const struct arguments *args,
     int flen = 0;
     uint8_t *payload;
 
-#ifdef PROFILE_EVENTS
-    float mselapsed;
-    struct timeval start, end;
-    gettimeofday(&start, NULL);
-#endif
-
     // Get protocol, addresses & payload
     uint8_t version = (*pkt) >> 4;
     if (version == 4) {
@@ -300,14 +294,6 @@ void handle_ip(const struct arguments *args,
                 "Packet v%d %s/%u > %s/%u proto %d flags %s uid %d",
                 version, source, sport, dest, dport, protocol, flags, uid);
 
-#ifdef PROFILE_EVENTS
-    gettimeofday(&end, NULL);
-    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > PROFILE_EVENTS)
-        log_android(ANDROID_LOG_WARN, "handle ip %f", mselapsed);
-#endif
-
     // Check if allowed
     int allowed = 0;
     struct allowed *redirect = NULL;
@@ -339,14 +325,6 @@ void handle_ip(const struct arguments *args,
         log_android(ANDROID_LOG_WARN, "Address v%d p%d %s/%u syn %d not allowed",
                     version, protocol, dest, dport, syn);
     }
-
-#ifdef PROFILE_EVENTS
-    gettimeofday(&end, NULL);
-    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
-                (end.tv_usec - start.tv_usec) / 1000.0;
-    if (mselapsed > PROFILE_EVENTS)
-        log_android(ANDROID_LOG_WARN, "handle protocol %f", mselapsed);
-#endif
 }
 
 jint get_uid_retry(const int version, const int protocol,
