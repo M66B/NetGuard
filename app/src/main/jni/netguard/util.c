@@ -152,3 +152,18 @@ int32_t get_local_port(const int sock) {
         return ntohs(sin.sin_port);
 }
 
+int is_readable(int fd) {
+    struct pollfd p;
+    p.fd = fd;
+    p.events = POLLIN;
+    p.revents = 0;
+    int r = poll(&p, 1, 0);
+    if (r < 0) {
+        log_android(ANDROID_LOG_ERROR, "poll readable error %d: %s", errno, strerror(errno));
+        return 0;
+    }
+    else if (r == 0)
+        return 0;
+    else
+        return (p.revents & POLLIN);
+}

@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include <poll.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
@@ -498,3 +499,5 @@ int compare_u32(uint32_t seq1, uint32_t seq2);
 const char *strstate(const int state);
 
 char *hex(const u_int8_t *data, const size_t len);
+
+int is_readable(int fd);

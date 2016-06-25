@@ -233,8 +233,9 @@ void *handle_events(void *a) {
                                 (ev[i].events & EPOLLHUP) != 0);
 
                     // Check upstream
-                    if (check_tun(args, &ev[i], epoll_fd, sessions, maxsessions) < 0)
-                        error = 1;
+                    while (!error && is_readable(args->tun))
+                        if (check_tun(args, &ev[i], epoll_fd, sessions, maxsessions) < 0)
+                            error = 1;
 
                 } else {
                     log_android(ANDROID_LOG_DEBUG,
