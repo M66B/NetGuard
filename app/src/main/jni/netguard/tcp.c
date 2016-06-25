@@ -121,10 +121,16 @@ int monitor_tcp_session(const struct arguments *args, struct ng_session *s, int 
     else if (s->tcp.state == TCP_ESTABLISHED || s->tcp.state == TCP_CLOSE_WAIT) {
 
         // Check for incoming data
-        if (get_send_window(&s->tcp) > 0)
-            events = events | EPOLLIN;
-        else
+        if (is_writable(args->tun)) {
+            if (get_send_window(&s->tcp) > 0)
+                events = events | EPOLLIN;
+            else
+                recheck = 1;
+        }
+        else {
+            log_android(ANDROID_LOG_WARN, "tun not writable");
             recheck = 1;
+        }
 
         // Check for outgoing data
         if (s->tcp.forward != NULL) {
@@ -342,60 +348,64 @@ void check_tcp_socket(const struct arguments *args,
                 // Check socket read
                 // Send window can be changed in the mean time
 
-                uint32_t send_window = get_send_window(&s->tcp);
-                if ((ev->events & EPOLLIN) && send_window > 0) {
-                    s->tcp.time = time(NULL);
+                if (is_writable(args->tun)) {
+                    uint32_t send_window = get_send_window(&s->tcp);
+                    if ((ev->events & EPOLLIN) && send_window > 0) {
+                        s->tcp.time = time(NULL);
 
-                    uint32_t buffer_size = (send_window > s->tcp.mss
-                                            ? s->tcp.mss : send_window);
-                    uint8_t *buffer = malloc(buffer_size);
-                    ssize_t bytes = recv(s->socket, buffer, (size_t) buffer_size, 0);
-                    if (bytes < 0) {
-                        // Socket error
-                        log_android(ANDROID_LOG_ERROR, "%s recv error %d: %s",
-                                    session, errno, strerror(errno));
+                        uint32_t buffer_size = (send_window > s->tcp.mss
+                                                ? s->tcp.mss : send_window);
+                        uint8_t *buffer = malloc(buffer_size);
+                        ssize_t bytes = recv(s->socket, buffer, (size_t) buffer_size, 0);
+                        if (bytes < 0) {
+                            // Socket error
+                            log_android(ANDROID_LOG_ERROR, "%s recv error %d: %s",
+                                        session, errno, strerror(errno));
 
-                        if (errno != EINTR && errno != EAGAIN)
-                            write_rst(args, &s->tcp);
-                    }
-                    else if (bytes == 0) {
-                        log_android(ANDROID_LOG_WARN, "%s recv eof", session);
+                            if (errno != EINTR && errno != EAGAIN)
+                                write_rst(args, &s->tcp);
+                        }
+                        else if (bytes == 0) {
+                            log_android(ANDROID_LOG_WARN, "%s recv eof", session);
 
-                        if (s->tcp.forward == NULL) {
-                            if (write_fin_ack(args, &s->tcp) >= 0) {
-                                log_android(ANDROID_LOG_WARN, "%s FIN sent", session);
-                                s->tcp.local_seq++; // local FIN
+                            if (s->tcp.forward == NULL) {
+                                if (write_fin_ack(args, &s->tcp) >= 0) {
+                                    log_android(ANDROID_LOG_WARN, "%s FIN sent", session);
+                                    s->tcp.local_seq++; // local FIN
+                                }
+
+                                if (s->tcp.state == TCP_ESTABLISHED)
+                                    s->tcp.state = TCP_FIN_WAIT1;
+                                else if (s->tcp.state == TCP_CLOSE_WAIT)
+                                    s->tcp.state = TCP_LAST_ACK;
+                                else
+                                    log_android(ANDROID_LOG_ERROR, "%s invalid close", session);
+                            }
+                            else {
+                                // There was still data to send
+                                log_android(ANDROID_LOG_ERROR, "%s close with queue", session);
+                                write_rst(args, &s->tcp);
                             }
 
-                            if (s->tcp.state == TCP_ESTABLISHED)
-                                s->tcp.state = TCP_FIN_WAIT1;
-                            else if (s->tcp.state == TCP_CLOSE_WAIT)
-                                s->tcp.state = TCP_LAST_ACK;
-                            else
-                                log_android(ANDROID_LOG_ERROR, "%s invalid close", session);
+                            if (close(s->socket))
+                                log_android(ANDROID_LOG_ERROR, "%s close error %d: %s",
+                                            session, errno, strerror(errno));
+                            s->socket = -1;
+
+                        } else {
+                            // Socket read data
+                            log_android(ANDROID_LOG_DEBUG, "%s recv bytes %d send window %u",
+                                        session, bytes, send_window);
+                            s->tcp.received += bytes;
+
+                            // Forward to tun
+                            if (write_data(args, &s->tcp, buffer, (size_t) bytes) >= 0)
+                                s->tcp.local_seq += bytes;
                         }
-                        else {
-                            // There was still data to send
-                            log_android(ANDROID_LOG_ERROR, "%s close with queue", session);
-                            write_rst(args, &s->tcp);
-                        }
-
-                        if (close(s->socket))
-                            log_android(ANDROID_LOG_ERROR, "%s close error %d: %s",
-                                        session, errno, strerror(errno));
-                        s->socket = -1;
-
-                    } else {
-                        // Socket read data
-                        log_android(ANDROID_LOG_DEBUG, "%s recv bytes %d", session, bytes);
-                        s->tcp.received += bytes;
-
-                        // Forward to tun
-                        if (write_data(args, &s->tcp, buffer, (size_t) bytes) >= 0)
-                            s->tcp.local_seq += bytes;
+                        free(buffer);
                     }
-                    free(buffer);
-                }
+                } else
+                    log_android(ANDROID_LOG_WARN, "tun not writable, left data");
             }
         }
     }
