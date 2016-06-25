@@ -501,3 +501,4 @@ const char *strstate(const int state);
 char *hex(const u_int8_t *data, const size_t len);
 
 int is_readable(int fd);
+int is_writable(int fd);

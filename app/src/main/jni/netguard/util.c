@@ -152,10 +152,10 @@ int32_t get_local_port(const int sock) {
         return ntohs(sin.sin_port);
 }
 
-int is_readable(int fd) {
+int is_event(int fd, short event) {
     struct pollfd p;
     p.fd = fd;
-    p.events = POLLIN;
+    p.events = event;
     p.revents = 0;
     int r = poll(&p, 1, 0);
     if (r < 0) {
@@ -165,5 +165,13 @@ int is_readable(int fd) {
     else if (r == 0)
         return 0;
     else
-        return (p.revents & POLLIN);
+        return (p.revents & event);
+}
+
+int is_readable(int fd) {
+    return is_event(fd, POLLIN);
+}
+
+int is_writable(int fd) {
+    return is_event(fd, POLLOUT);
 }
