@@ -343,6 +343,14 @@
             android:text="@string/title_access"
             android:textAppearance="@style/TextTitle" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/title_precedence"
+            android:textAppearance="@style/TextSmall"
+            android:textStyle="italic" />
+
         <eu.faircode.netguard.ExpandedListView
             android:id="@+id/lvAccess"
             android:layout_width="match_parent"
@@ -366,14 +374,6 @@
             android:layout_marginTop="4dp"
             android:text="@string/title_notify"
             android:textAppearance="@style/TextSmall" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/title_precedence"
-            android:textAppearance="@style/TextSmall"
-            android:textStyle="italic" />
 
         <ImageButton
             android:id="@+id/btnClearAccess"
