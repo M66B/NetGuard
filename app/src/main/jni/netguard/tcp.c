@@ -123,8 +123,17 @@ int monitor_tcp_session(const struct arguments *args, struct ng_session *s, int 
         // Check for incoming data
         if (get_send_window(&s->tcp) > 0)
             events = events | EPOLLIN;
-        else
+        else {
             recheck = 1;
+
+            if (s->tcp.keep_alive != s->tcp.remote_seq) {
+                s->tcp.keep_alive = s->tcp.remote_seq;
+                log_android(ANDROID_LOG_WARN, "Sending keep alive to update send window");
+                s->tcp.remote_seq--;
+                write_ack(args, &s->tcp);
+                s->tcp.remote_seq++;
+            }
+        }
 
         // Check for outgoing data
         if (s->tcp.forward != NULL) {
@@ -524,6 +533,7 @@ jboolean handle_tcp(const struct arguments *args,
             s->tcp.remote_start = s->tcp.remote_seq;
             s->tcp.local_start = s->tcp.local_seq;
             s->tcp.acked = 0;
+            s->tcp.keep_alive = 0;
             s->tcp.sent = 0;
             s->tcp.received = 0;
 
