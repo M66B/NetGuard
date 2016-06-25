@@ -317,6 +317,8 @@ int check_tcp_session(const struct arguments *args,
                       struct ng_session *s,
                       int sessions, int maxsessions);
 
+int monitor_tcp_session(const struct arguments *args, struct ng_session *s, int epoll_fd);
+
 int get_icmp_timeout(const struct icmp_session *u, int sessions, int maxsessions);
 
 int get_udp_timeout(const struct udp_session *u, int sessions, int maxsessions);
@@ -501,4 +503,5 @@ const char *strstate(const int state);
 char *hex(const u_int8_t *data, const size_t len);
 
 int is_readable(int fd);
+
 int is_writable(int fd);

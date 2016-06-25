@@ -110,6 +110,45 @@ int check_tcp_session(const struct arguments *args, struct ng_session *s,
     return 0;
 }
 
+int monitor_tcp_session(const struct arguments *args, struct ng_session *s, int epoll_fd) {
+    int recheck = 0;
+    unsigned int events = EPOLLERR;
+
+    if (s->tcp.state == TCP_LISTEN) {
+        // Check for connected = writable
+        events = events | EPOLLOUT;
+    }
+    else if (s->tcp.state == TCP_ESTABLISHED || s->tcp.state == TCP_CLOSE_WAIT) {
+
+        // Check for incoming data
+        if (get_send_window(&s->tcp) > 0)
+            events = events | EPOLLIN;
+        else
+            recheck = 1;
+
+        // Check for outgoing data
+        if (s->tcp.forward != NULL) {
+            uint32_t buffer_size = (uint32_t) get_receive_buffer(s);
+            if (s->tcp.forward->seq + s->tcp.forward->sent == s->tcp.remote_seq &&
+                s->tcp.forward->len - s->tcp.forward->sent < buffer_size)
+                events = events | EPOLLOUT;
+            else
+                recheck = 1;
+        }
+    }
+
+    if (events != s->ev.events) {
+        s->ev.events = events;
+        if (epoll_ctl(epoll_fd, EPOLL_CTL_MOD, s->socket, &s->ev))
+            log_android(ANDROID_LOG_ERROR, "epoll mod tcp error %d: %s", errno, strerror(errno));
+        else
+            log_android(ANDROID_LOG_DEBUG, "epoll mod tcp socket %d in %d out %d",
+                        s->socket, (events & EPOLLIN) != 0, (events & EPOLLOUT) != 0);
+    }
+
+    return recheck;
+}
+
 uint32_t get_send_window(const struct tcp_session *cur) {
     uint32_t behind = (compare_u32(cur->acked, cur->local_seq) <= 0
                        ? cur->local_seq - cur->acked : cur->acked);
@@ -278,16 +317,6 @@ void check_tcp_socket(const struct arguments *args,
                                 seg->seq + seg->len - s->tcp.remote_start,
                                 seg->sent);
                     seg = seg->next;
-                }
-
-                // Disable output monitoring
-                if (s->tcp.forward == NULL) {
-                    s->ev.events = s->ev.events & ~EPOLLOUT;
-                    if (epoll_ctl(epoll_fd, EPOLL_CTL_MOD, s->socket, &s->ev))
-                        log_android(ANDROID_LOG_ERROR, "epoll mod tcp error %d: %s",
-                                    errno, strerror(errno));
-                    else
-                        log_android(ANDROID_LOG_DEBUG, "%s epoll mod tcp !out", session);
                 }
             }
 
@@ -660,18 +689,10 @@ jboolean handle_tcp(const struct arguments *args,
                     } else if (tcphdr->ack) {
                         cur->tcp.acked = ntohl(tcphdr->ack_seq);
 
-                        if (cur->tcp.state == TCP_SYN_RECV) {
+                        if (cur->tcp.state == TCP_SYN_RECV)
                             cur->tcp.state = TCP_ESTABLISHED;
 
-                            // Monitor input
-                            cur->ev.events = cur->ev.events | EPOLLIN;
-                            if (epoll_ctl(epoll_fd, EPOLL_CTL_MOD, cur->socket, &cur->ev))
-                                log_android(ANDROID_LOG_ERROR, "epoll mod tcp error %d: %s",
-                                            errno, strerror(errno));
-                            else
-                                log_android(ANDROID_LOG_DEBUG, "%s epoll mod tcp in", session);
-
-                        } else if (cur->tcp.state == TCP_ESTABLISHED) {
+                        else if (cur->tcp.state == TCP_ESTABLISHED) {
                             // Do nothing
                         }
 
@@ -734,28 +755,6 @@ jboolean handle_tcp(const struct arguments *args,
                         write_rst(args, &cur->tcp);
                         return 0;
                     }
-                }
-            }
-
-            // Change output monitoring
-            if (cur->tcp.forward == NULL) {
-                if (cur->ev.events & EPOLLOUT) {
-                    cur->ev.events = cur->ev.events & ~EPOLLOUT;
-                    if (epoll_ctl(epoll_fd, EPOLL_CTL_MOD, cur->socket, &cur->ev))
-                        log_android(ANDROID_LOG_ERROR, "epoll mod tcp error %d: %s",
-                                    errno, strerror(errno));
-                    else
-                        log_android(ANDROID_LOG_DEBUG, "%s epoll mod tcp !out", session);
-                }
-            }
-            else {
-                if (!(cur->ev.events & EPOLLOUT)) {
-                    cur->ev.events = cur->ev.events | EPOLLOUT;
-                    if (epoll_ctl(epoll_fd, EPOLL_CTL_MOD, cur->socket, &cur->ev))
-                        log_android(ANDROID_LOG_ERROR, "epoll mod tcp error %d: %s",
-                                    errno, strerror(errno));
-                    else
-                        log_android(ANDROID_LOG_DEBUG, "%s epoll mod tcp out", session);
                 }
             }
 

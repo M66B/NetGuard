@@ -74,7 +74,7 @@ void *handle_events(void *a) {
 
     int stopping = 0;
 
-    // Open epoll fd
+    // Open epoll file
     int epoll_fd = epoll_create(1);
     if (epoll_fd < 0) {
         log_android(ANDROID_LOG_ERROR, "epoll create error %d: %s", errno, strerror(errno));
@@ -85,7 +85,7 @@ void *handle_events(void *a) {
     // Monitor stop events
     struct epoll_event ev_pipe;
     memset(&ev_pipe, 0, sizeof(struct epoll_event));
-    ev_pipe.events = EPOLLIN;
+    ev_pipe.events = EPOLLIN | EPOLLERR;
     ev_pipe.data.ptr = &ev_pipe;
     if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, pipefds[0], &ev_pipe)) {
         log_android(ANDROID_LOG_ERROR, "epoll add pipe error %d: %s", errno, strerror(errno));
@@ -133,6 +133,7 @@ void *handle_events(void *a) {
         // Check sessions
         time_t now = time(NULL);
         int timeout = EPOLL_TIMEOUT;
+        int recheck = 0;
         struct ng_session *sl = NULL;
         s = ng_session;
         while (s != NULL) {
@@ -163,6 +164,8 @@ void *handle_events(void *a) {
                     if (stimeout > 0 && stimeout < timeout)
                         timeout = stimeout;
                 }
+                if (s->socket >= 0)
+                    recheck = recheck | monitor_tcp_session(args, s, epoll_fd);
             }
 
             if (del) {
@@ -182,12 +185,13 @@ void *handle_events(void *a) {
             }
         }
 
-        log_android(ANDROID_LOG_DEBUG, "sessions ICMP %d UDP %d TCP %d max %d/%d timeout %d s",
-                    isessions, usessions, tsessions, sessions, maxsessions, timeout);
+        log_android(ANDROID_LOG_DEBUG,
+                    "sessions ICMP %d UDP %d TCP %d max %d/%d timeout %d recheck %d",
+                    isessions, usessions, tsessions, sessions, maxsessions, timeout, recheck);
 
         // Poll
         struct epoll_event ev[EPOLL_EVENTS];
-        int ready = epoll_wait(epoll_fd, ev, EPOLL_EVENTS, timeout * 1000);
+        int ready = epoll_wait(epoll_fd, ev, EPOLL_EVENTS, recheck ? 100 : timeout * 1000);
 
         if (ready < 0) {
             if (errno == EINTR) {
@@ -215,6 +219,7 @@ void *handle_events(void *a) {
 
             for (int i = 0; i < ready; i++) {
                 if (ev[i].data.ptr == &ev_pipe) {
+                    // Check pipe
                     stopping = 1;
                     uint8_t buffer[1];
                     if (read(pipefds[0], buffer, 1) < 0)
@@ -225,6 +230,7 @@ void *handle_events(void *a) {
                     break;
 
                 } else if (ev[i].data.ptr == NULL) {
+                    // Check upstream
                     log_android(ANDROID_LOG_DEBUG, "epoll ready %d/%d in %d out %d err %d hup %d",
                                 i, ready,
                                 (ev[i].events & EPOLLIN) != 0,
@@ -232,12 +238,12 @@ void *handle_events(void *a) {
                                 (ev[i].events & EPOLLERR) != 0,
                                 (ev[i].events & EPOLLHUP) != 0);
 
-                    // Check upstream
                     while (!error && is_readable(args->tun))
                         if (check_tun(args, &ev[i], epoll_fd, sessions, maxsessions) < 0)
                             error = 1;
 
                 } else {
+                    // Check downstream
                     log_android(ANDROID_LOG_DEBUG,
                                 "epoll ready %d/%d in %d out %d err %d hup %d prot %d sock %d",
                                 i, ready,
@@ -248,7 +254,6 @@ void *handle_events(void *a) {
                                 ((struct ng_session *) ev[i].data.ptr)->protocol,
                                 ((struct ng_session *) ev[i].data.ptr)->socket);
 
-                    // Check downstream
                     struct ng_session *session = (struct ng_session *) ev[i].data.ptr;
                     do {
                         if (session->protocol == IPPROTO_ICMP ||
@@ -276,7 +281,7 @@ void *handle_events(void *a) {
         }
     }
 
-    // Close epoll fd
+    // Close epoll file
     if (epoll_fd >= 0 && close(epoll_fd))
         log_android(ANDROID_LOG_ERROR,
                     "epoll close error %d: %s", errno, strerror(errno));
