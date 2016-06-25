@@ -505,7 +505,7 @@ jboolean handle_tcp(const struct arguments *args,
                 }
             }
 
-            log_android(ANDROID_LOG_WARN, "%s new session mss %d ws %d window %d",
+            log_android(ANDROID_LOG_WARN, "%s new session mss %u ws %u window %u",
                         packet, mss, ws, ntohs(tcphdr->window) << ws);
 
             // Register session
@@ -571,8 +571,8 @@ jboolean handle_tcp(const struct arguments *args,
             s->ev.events = EPOLLOUT | EPOLLERR;
             s->ev.data.ptr = s;
             if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, s->socket, &s->ev))
-                log_android(ANDROID_LOG_ERROR, "epoll add tcp error %d: %s", errno,
-                            strerror(errno));
+                log_android(ANDROID_LOG_ERROR, "epoll add tcp error %d: %s",
+                            errno, strerror(errno));
 
             s->next = ng_session;
             ng_session = s;
@@ -743,7 +743,7 @@ jboolean handle_tcp(const struct arguments *args,
                                     ack - cur->tcp.local_start,
                                     cur->tcp.acked - cur->tcp.local_start);
                         else {
-                            log_android(ANDROID_LOG_WARN, "%s previous ACK %d",
+                            log_android(ANDROID_LOG_WARN, "%s previous ACK %u",
                                         session, ack - cur->tcp.local_seq);
                             cur->tcp.acked = ack;
                         }
@@ -761,7 +761,7 @@ jboolean handle_tcp(const struct arguments *args,
             if (cur->tcp.state != oldstate ||
                 cur->tcp.local_seq != oldlocal ||
                 cur->tcp.remote_seq != oldremote)
-                log_android(ANDROID_LOG_INFO, "%s > %s loc %d rem %d",
+                log_android(ANDROID_LOG_INFO, "%s > %s loc %u rem %u",
                             session,
                             strstate(cur->tcp.state),
                             cur->tcp.local_seq - cur->tcp.local_start,
