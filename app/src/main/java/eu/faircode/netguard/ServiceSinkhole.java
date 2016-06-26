@@ -1786,13 +1786,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         // Keep awake
         getLock(this).acquire();
 
+        // Get state
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean enabled = prefs.getBoolean("enabled", false);
+
         // Handle service restart
         if (intent == null) {
             Log.i(TAG, "Restart");
-
-            // Get enabled
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            boolean enabled = prefs.getBoolean("enabled", false);
 
             // Recreate intent
             intent = new Intent(this, ServiceSinkhole.class);
@@ -1803,6 +1803,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             intent.putExtra(EXTRA_COMMAND, Command.householding);
 
         Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
+        if (cmd == null)
+            intent.putExtra(EXTRA_COMMAND, enabled ? Command.start : Command.stop);
         String reason = intent.getStringExtra(EXTRA_REASON);
         Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " reason=" + reason +
                 " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
