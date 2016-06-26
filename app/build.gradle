@@ -7,7 +7,7 @@ model {
 
         defaultConfig {
             applicationId = "eu.faircode.netguard"
-            minSdkVersion.apiLevel = 19
+            minSdkVersion.apiLevel = 14
             targetSdkVersion.apiLevel = 23
             versionCode = 2016062601
             versionName = "2.26"
@@ -28,7 +28,7 @@ model {
         }
 
         ndk {
-            platformVersion = "19"
+            platformVersion = "14"
             moduleName = "netguard"
             toolchain = "clang"
             ldLibs.add("log")
