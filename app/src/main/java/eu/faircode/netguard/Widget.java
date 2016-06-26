@@ -62,9 +62,11 @@ public class Widget extends AppWidgetProvider {
         am.cancel(pi);
 
         // Vibrate
-        Vibrator vs = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        if (vs.hasVibrator())
-            vs.vibrate(50);
+        if (INTENT_OFF.equals(intent.getAction()) || INTENT_ON.equals(intent.getAction())) {
+            Vibrator vs = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (vs.hasVibrator())
+                vs.vibrate(50);
+        }
 
         if (INTENT_OFF.equals(intent.getAction())) {
             prefs.edit().putBoolean("enabled", false).apply();
