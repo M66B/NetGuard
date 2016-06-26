@@ -27,6 +27,8 @@ The firewall can only start when Android "allows" it to start,
 so it will not offer protection during early boot-up (although your network may not be loaded at that time).
 It will, however, be much better than nothing, especially if you are not rebooting often.
 
+Android N will allow NetGuard to be an [Always-On VPN](https://developer.android.com/preview/features/afw.html#always-on-vpn).
+
 If you want to protect yourself more, you can (at least in theory) disable Wi-Fi and mobile data before rebooting,
 and only enable them on reboot, after the firewall service has started (and the small key icon is visible in the status bar).
 
