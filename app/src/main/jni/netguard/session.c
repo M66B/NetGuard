@@ -105,8 +105,12 @@ void *handle_events(void *a) {
     }
 
     // Loop
+    long long last_check = 0;
     while (!stopping) {
         log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
+
+        int recheck = 0;
+        int timeout = EPOLL_TIMEOUT;
 
         // Count sessions
         int isessions = 0;
@@ -125,64 +129,71 @@ void *handle_events(void *a) {
             else if (s->protocol == IPPROTO_TCP) {
                 if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE)
                     tsessions++;
+                if (s->socket >= 0)
+                    recheck = recheck | monitor_tcp_session(args, s, epoll_fd);
             }
             s = s->next;
         }
         int sessions = isessions + usessions + tsessions;
 
         // Check sessions
-        time_t now = time(NULL);
-        int timeout = EPOLL_TIMEOUT;
-        int recheck = 0;
-        struct ng_session *sl = NULL;
-        s = ng_session;
-        while (s != NULL) {
-            int del = 0;
-            if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
-                del = check_icmp_session(args, s, sessions, maxsessions);
-                if (!s->icmp.stop && !del) {
-                    int stimeout = s->icmp.time +
-                                   get_icmp_timeout(&s->icmp, sessions, maxsessions) - now + 1;
-                    if (stimeout > 0 && stimeout < timeout)
-                        timeout = stimeout;
-                }
-            }
-            else if (s->protocol == IPPROTO_UDP) {
-                del = check_udp_session(args, s, sessions, maxsessions);
-                if (s->udp.state == UDP_ACTIVE && !del) {
-                    int stimeout = s->udp.time +
-                                   get_udp_timeout(&s->udp, sessions, maxsessions) - now + 1;
-                    if (stimeout > 0 && stimeout < timeout)
-                        timeout = stimeout;
-                }
-            }
-            else if (s->protocol == IPPROTO_TCP) {
-                del = check_tcp_session(args, s, sessions, maxsessions);
-                if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE && !del) {
-                    int stimeout = s->tcp.time +
-                                   get_tcp_timeout(&s->tcp, sessions, maxsessions) - now + 1;
-                    if (stimeout > 0 && stimeout < timeout)
-                        timeout = stimeout;
-                }
-                if (s->socket >= 0)
-                    recheck = recheck | monitor_tcp_session(args, s, epoll_fd);
-            }
+        long long ms = get_ms();
+        if (ms - last_check > EPOLL_MIN_CHECK) {
+            last_check = ms;
 
-            if (del) {
-                if (sl == NULL)
-                    ng_session = s->next;
-                else
-                    sl->next = s->next;
+            time_t now = time(NULL);
+            struct ng_session *sl = NULL;
+            s = ng_session;
+            while (s != NULL) {
+                int del = 0;
+                if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
+                    del = check_icmp_session(args, s, sessions, maxsessions);
+                    if (!s->icmp.stop && !del) {
+                        int stimeout = s->icmp.time +
+                                       get_icmp_timeout(&s->icmp, sessions, maxsessions) - now + 1;
+                        if (stimeout > 0 && stimeout < timeout)
+                            timeout = stimeout;
+                    }
+                }
+                else if (s->protocol == IPPROTO_UDP) {
+                    del = check_udp_session(args, s, sessions, maxsessions);
+                    if (s->udp.state == UDP_ACTIVE && !del) {
+                        int stimeout = s->udp.time +
+                                       get_udp_timeout(&s->udp, sessions, maxsessions) - now + 1;
+                        if (stimeout > 0 && stimeout < timeout)
+                            timeout = stimeout;
+                    }
+                }
+                else if (s->protocol == IPPROTO_TCP) {
+                    del = check_tcp_session(args, s, sessions, maxsessions);
+                    if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE && !del) {
+                        int stimeout = s->tcp.time +
+                                       get_tcp_timeout(&s->tcp, sessions, maxsessions) - now + 1;
+                        if (stimeout > 0 && stimeout < timeout)
+                            timeout = stimeout;
+                    }
+                }
 
-                struct ng_session *c = s;
-                s = s->next;
-                if (c->protocol == IPPROTO_TCP)
-                    clear_tcp_data(&c->tcp);
-                free(c);
-            } else {
-                sl = s;
-                s = s->next;
+                if (del) {
+                    if (sl == NULL)
+                        ng_session = s->next;
+                    else
+                        sl->next = s->next;
+
+                    struct ng_session *c = s;
+                    s = s->next;
+                    if (c->protocol == IPPROTO_TCP)
+                        clear_tcp_data(&c->tcp);
+                    free(c);
+                } else {
+                    sl = s;
+                    s = s->next;
+                }
             }
+        }
+        else {
+            recheck = 1;
+            log_android(ANDROID_LOG_DEBUG, "Skipped session checks");
         }
 
         log_android(ANDROID_LOG_DEBUG,
@@ -191,7 +202,8 @@ void *handle_events(void *a) {
 
         // Poll
         struct epoll_event ev[EPOLL_EVENTS];
-        int ready = epoll_wait(epoll_fd, ev, EPOLL_EVENTS, recheck ? 100 : timeout * 1000);
+        int ready = epoll_wait(epoll_fd, ev, EPOLL_EVENTS,
+                               recheck ? EPOLL_MIN_CHECK : timeout * 1000);
 
         if (ready < 0) {
             if (errno == EINTR) {

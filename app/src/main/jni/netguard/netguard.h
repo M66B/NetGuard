@@ -36,6 +36,7 @@
 
 #define EPOLL_TIMEOUT 3600 // seconds
 #define EPOLL_EVENTS 20
+#define EPOLL_MIN_CHECK 100 // milliseconds
 
 #define ICMP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
 #define ICMP6_MAXMSG (IPV6_MAXPACKET - 40 - 8) // bytes (socket)
@@ -506,3 +507,5 @@ char *hex(const u_int8_t *data, const size_t len);
 int is_readable(int fd);
 
 int is_writable(int fd);
+
+long long get_ms();
