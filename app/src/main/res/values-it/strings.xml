@@ -154,8 +154,8 @@
   <string name="msg_metered">La rete è a consumo</string>
   <string name="msg_queue">NetGuard è occupato</string>
   <string name="msg_update">Aggiornamento disponibile, clicca per scaricare</string>
-  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
-  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_whitelist">L\'accesso a internet è consentito in modo predefinito, questo può essere cambiato nelle impostazioni</string>
+  <string name="msg_push">I messaggi push sono gestiti principalmente dal componente di sistema Play Services, al quale è consentito l\'accesso a internet in modo predefinito</string>
   <string name="msg_system">La gestione delle applicazioni di sistema può essere attivata tramite le opzioni avanzate</string>
   <string name="msg_issue">Si prega di descrivere il problema ed indicare il tempo di esso:</string>
   <string name="title_unmetered_allowed">Il traffico non al consumo è consentito</string>
