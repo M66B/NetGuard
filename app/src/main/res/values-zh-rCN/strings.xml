@@ -160,6 +160,8 @@
   <string name="msg_metered">网络按流量计费</string>
   <string name="msg_queue">NetGuard 正忙</string>
   <string name="msg_update">有可用更新, 请点击下载</string>
+  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
+  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
   <string name="msg_system">您可在高级选项中启用管理系统应用</string>
   <string name="msg_issue">请具体描述问题及问题发生的时间:</string>
   <string name="title_unmetered_allowed">已允许非按流量计费的网络数据</string>

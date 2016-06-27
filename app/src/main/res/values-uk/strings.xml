@@ -157,7 +157,9 @@ Restarting your device or revoking the VPN permission using the Android settings
   <string name="msg_metered">Лімітована мережа</string>
   <string name="msg_queue">NetGuard зайнятий</string>
   <string name="msg_update">Доступне оновлення, торкніться для завантаження</string>
-  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
+  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_system">Managing system applications can be enabled in the settings</string>
   <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_unmetered_allowed">Безлімітний трафік дозволено</string>
   <string name="title_unmetered_blocked">Безлімітний трафік заблоковано</string>

@@ -160,7 +160,9 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_metered">Network is metered</string>
   <string name="msg_queue">NetGuard is busy</string>
   <string name="msg_update">Update available, tap to download</string>
-  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
+  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_system">Managing system applications can be enabled in the settings</string>
   <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
   <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>

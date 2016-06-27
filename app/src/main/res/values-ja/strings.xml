@@ -156,6 +156,8 @@
   <string name="msg_metered">ネットワークは従量制です</string>
   <string name="msg_queue">NetGuard はビジーです</string>
   <string name="msg_update">アップデートが利用できます。タップするとダウンロードします</string>
+  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
+  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
   <string name="msg_system">システム アプリケーションの管理は、詳細なオプションで有効にすることができます</string>
   <string name="msg_issue">問題の説明と、問題の時間を示してください:</string>
   <string name="title_unmetered_allowed">無制限のトラフィックを許可</string>

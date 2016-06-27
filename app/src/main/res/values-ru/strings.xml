@@ -155,6 +155,8 @@
   <string name="msg_metered">Лимитированные сети</string>
   <string name="msg_queue">NetGuard занят</string>
   <string name="msg_update">Доступно обновление, нажмите, чтобы загрузить</string>
+  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
+  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
   <string name="msg_system">Управление системными приложениями может быть включено в дополнительных опциях</string>
   <string name="msg_issue">Пожалуйста, опишите проблему и укажите момент возникновения проблемы:</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>

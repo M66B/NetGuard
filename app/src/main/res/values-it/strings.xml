@@ -10,8 +10,8 @@
   <string name="menu_filter">Filtra applicazioni</string>
   <string name="menu_app_user">Mostra applicazioni utente</string>
   <string name="menu_app_system">Mostra applicazioni di sistema</string>
-  <string name="menu_app_nointernet">Visualizza applicazioni senza permesso internet</string>
-  <string name="menu_app_disabled">Visualizza applicazioni disabilitate</string>
+  <string name="menu_app_nointernet">Visualizza applicazioni senza accesso internet</string>
+  <string name="menu_app_disabled">Mostra applicazioni disabilitate</string>
   <string name="menu_sort">Ordina applicazioni</string>
   <string name="menu_sort_name">Ordina per nome</string>
   <string name="menu_sort_uid">Ordina per uid</string>
@@ -42,7 +42,7 @@
   <string name="title_ruid">Applicazione di destinazione</string>
   <string name="title_external">Per un server esterno selezionare \'nessuno\'</string>
   <string name="setting_defaults">Impostazioni predefinite</string>
-  <string name="setting_whitelist_wifi">Blocca Wi-Fi di default</string>
+  <string name="setting_whitelist_wifi">Blocca Wi-Fi</string>
   <string name="setting_whitelist_other">Blocca rete dati di default</string>
   <string name="setting_screen_wifi">Permetti il Wi-Fi di default quando lo schermo è accesso</string>
   <string name="setting_screen_other">Permetti reti mobili di default quando lo schermo è accesso</string>
@@ -55,7 +55,7 @@
   <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
   <string name="setting_update">Verifica la presenza di aggiornamenti</string>
   <string name="setting_network_options">Opzioni di rete</string>
-  <string name="setting_subnet">Subnet routing</string>
+  <string name="setting_subnet">Routing sottorete</string>
   <string name="setting_tethering">Permetti il tethering</string>
   <string name="setting_lan">Consenti l\'accesso alla LAN</string>
   <string name="setting_ip6">Abilita il traffico IPv6</string>
@@ -99,7 +99,7 @@
   <string name="summary_delay">Dopo aver spento lo schermo, mantieni attive le regole valide quando lo schermo è acceso per il numero di minuti selezionato (inserire zero per disattivare questa opzione)</string>
   <string name="summary_update">Cerca nuove versioni su GitHub due volte al giorno</string>
   <string name="summary_tethering">A seconda della versione di Android, il tethering potrebbe non funzionare. Non è possibile filtrare il traffico in tethering.</string>
-  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
+  <string name="summary_subnet">Abilita routing sottorete; potrebbe permettere chiamate Wi-Fi, ma anche qualche bug di Android ed aumentare il consumo di batteria</string>
   <string name="summary_lan">Consenti alle applicazioni di connettersi ad indirizzi della rete locale, come, ad esempio, 10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16</string>
   <string name="summary_ip6">Instrada il traffico IP versione 6 a NetGuard così da consentirlo o bloccarlo in modo selettivo</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
@@ -154,6 +154,8 @@
   <string name="msg_metered">La rete è a consumo</string>
   <string name="msg_queue">NetGuard è occupato</string>
   <string name="msg_update">Aggiornamento disponibile, clicca per scaricare</string>
+  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
+  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
   <string name="msg_system">La gestione delle applicazioni di sistema può essere attivata tramite le opzioni avanzate</string>
   <string name="msg_issue">Si prega di descrivere il problema ed indicare il tempo di esso:</string>
   <string name="title_unmetered_allowed">Il traffico non al consumo è consentito</string>

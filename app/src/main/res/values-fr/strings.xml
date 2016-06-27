@@ -157,6 +157,8 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_metered">Le réseau est limité</string>
   <string name="msg_queue">NetGuard est occupé</string>
   <string name="msg_update">Mise à jour disponible, appuyez pour télécharger</string>
+  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
+  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
   <string name="msg_system">La gestion des applications système peut être activée dans les options avancées</string>
   <string name="msg_issue">Veuillez décrire le problème et indiquer l\'heure à laquelle il est survenu :</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>

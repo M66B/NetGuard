@@ -156,7 +156,9 @@ Restarting your device or revoking the VPN permission using the Android settings
   <string name="msg_metered">Sieć jest taryfowa</string>
   <string name="msg_queue">NetGuard jest zajęty</string>
   <string name="msg_update">Aktualizacja jest dostępna, stuknij aby pobrać</string>
-  <string name="msg_system">Managing system applications can be enabled in the advanced options</string>
+  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
+  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_system">Managing system applications can be enabled in the settings</string>
   <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="title_unmetered_allowed">Połączenia nietaryfowe są dozwolone</string>
   <string name="title_unmetered_blocked">Połączenia nietaryfowe są zablokowane</string>
