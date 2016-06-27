@@ -42,6 +42,33 @@
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <LinearLayout
+            android:id="@+id/llWhitelist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvWhitelist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/msg_whitelist"
+                android:textAppearance="@style/TextSmall" />
+
+            <Button
+                android:id="@+id/btnWhitelist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@android:string/ok"
+                android:textAppearance="@style/TextSmall" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/llSystem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

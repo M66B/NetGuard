@@ -273,12 +273,27 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        // Hint white listing
+        final LinearLayout llWhitelist = (LinearLayout) findViewById(R.id.llWhitelist);
+        Button btnWhitelist = (Button) findViewById(R.id.btnWhitelist);
+        boolean whitelist_wifi = prefs.getBoolean("whitelist_wifi", false);
+        boolean whitelist_other = prefs.getBoolean("whitelist_other", false);
+        boolean hintWhitelist = prefs.getBoolean("hint_whitelist", true);
+        llWhitelist.setVisibility(!(whitelist_wifi || whitelist_other) && hintWhitelist ? View.VISIBLE : View.GONE);
+        btnWhitelist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs.edit().putBoolean("hint_whitelist", false).apply();
+                llWhitelist.setVisibility(View.GONE);
+            }
+        });
+
         // Hint system applications
         final LinearLayout llSystem = (LinearLayout) findViewById(R.id.llSystem);
         Button btnSystem = (Button) findViewById(R.id.btnSystem);
         boolean system = prefs.getBoolean("manage_system", false);
-        boolean hint = prefs.getBoolean("hint_system", true);
-        llSystem.setVisibility(!system && hint ? View.VISIBLE : View.GONE);
+        boolean hintSystem = prefs.getBoolean("hint_system", true);
+        llSystem.setVisibility(!system && hintSystem ? View.VISIBLE : View.GONE);
         btnSystem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -531,12 +546,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 "show_nointernet".equals(name) ||
                 "show_disabled".equals(name) ||
                 "sort".equals(name) ||
-                "imported".equals(name))
+                "imported".equals(name)) {
             updateApplicationList(null);
 
-        else if ("manage_system".equals(name)) {
+            final LinearLayout llWhitelist = (LinearLayout) findViewById(R.id.llWhitelist);
+            boolean whitelist_wifi = prefs.getBoolean("whitelist_wifi", false);
+            boolean whitelist_other = prefs.getBoolean("whitelist_other", false);
+            boolean hintWhitelist = prefs.getBoolean("hint_whitelist", true);
+            llWhitelist.setVisibility(!(whitelist_wifi || whitelist_other) && hintWhitelist ? View.VISIBLE : View.GONE);
+
+        } else if ("manage_system".equals(name)) {
             invalidateOptionsMenu();
             updateApplicationList(null);
+
             LinearLayout llSystem = (LinearLayout) findViewById(R.id.llSystem);
             boolean system = prefs.getBoolean("manage_system", false);
             boolean hint = prefs.getBoolean("hint_system", true);
