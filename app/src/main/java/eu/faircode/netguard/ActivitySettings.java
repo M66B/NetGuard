@@ -40,7 +40,6 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -126,10 +125,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         final PreferenceScreen screen = getPreferenceScreen();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        PreferenceCategory cat_options = (PreferenceCategory) screen.findPreference("category_options");
-        PreferenceCategory cat_advanced = (PreferenceCategory) screen.findPreference("category_advanced_options");
-        PreferenceCategory cat_backup = (PreferenceCategory) screen.findPreference("category_backup");
-        PreferenceCategory cat_development = (PreferenceCategory) screen.findPreference("category_development");
+        PreferenceScreen cat_options = (PreferenceScreen) screen.findPreference("screen_options");
+        PreferenceScreen cat_advanced = (PreferenceScreen) screen.findPreference("screen_advanced_options");
+        PreferenceScreen cat_backup = (PreferenceScreen) screen.findPreference("screen_backup");
+        PreferenceScreen cat_development = (PreferenceScreen) screen.findPreference("screen_development");
 
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
