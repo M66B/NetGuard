@@ -288,6 +288,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        // Hint push messages
+        final LinearLayout llPush = (LinearLayout) findViewById(R.id.llPush);
+        Button btnPush = (Button) findViewById(R.id.btnPush);
+        boolean hintPush = prefs.getBoolean("hint_push", true);
+        llPush.setVisibility(hintPush ? View.VISIBLE : View.GONE);
+        btnPush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs.edit().putBoolean("hint_push", false).apply();
+                llPush.setVisibility(View.GONE);
+            }
+        });
+
         // Hint system applications
         final LinearLayout llSystem = (LinearLayout) findViewById(R.id.llSystem);
         Button btnSystem = (Button) findViewById(R.id.btnSystem);
