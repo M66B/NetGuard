@@ -122,7 +122,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enabled = prefs.getBoolean("enabled", false);
         boolean initialized = prefs.getBoolean("initialized", false);
-        prefs.edit().remove("hint_system").apply();
 
         // Upgrade
         Receiver.upgrade(initialized, this);
@@ -274,6 +273,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        // Hint system applications
         final LinearLayout llSystem = (LinearLayout) findViewById(R.id.llSystem);
         Button btnSystem = (Button) findViewById(R.id.btnSystem);
         boolean system = prefs.getBoolean("manage_system", false);
