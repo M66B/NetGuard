@@ -145,7 +145,7 @@ struct tcp_session {
     uint32_t local_start;
 
     uint32_t acked; // host notation
-    uint32_t keep_alive; // host notation
+    long long last_keep_alive;
 
     uint64_t sent;
     uint64_t received;
