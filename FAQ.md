@@ -353,6 +353,13 @@ which means that NetGuard is basically free to use.
 
 Also note that most free applications will appear not to be sustainable in the end, whereas NetGuard is properly maintained and supported.
 
+<a name="FAQ38"></a>
+**(38) Why did NetGuard stop running?**
+
+On most devices, NetGuard will keep running in the background with its foreground service.
+On some devices (in particular some Samsung models), where there are lots of applications competing for memory, Android may still stop NetGuard as a last resort.
+Unfortunately this cannot be fixed from NetGuard, and can be considered a shortcoming of the device and/or as a bug in Android.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.

@@ -181,6 +181,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ37"></a>
 [**(37) Why are the pro features so expensive?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ37)
 
+<a name="FAQ38"></a>
+[**(38) Why did NetGuard stop running?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ38)
+
 Permissions
 -----------
 
