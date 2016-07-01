@@ -18,6 +18,7 @@ Note that:
 * applications, browsers mostly, that have a *"data saver"* like feature that proxies requests through their servers (eg. Opera w/ Turbo, Opera Max app, Puffin, Chrome w/ data saver, UC Browser, Yandex w/ Turbo, Apus Browser, KK Browser, Onavo Extend, Maxthon) will not have ads blocked as NetGuard can't even see those domain requests
 * the test page only works using the hosts file downloaded from [here](http://www.netguard.me/hosts) (the default)
 * YouTube ads are not domain based and cannot be blocked
+* NetGuard does not use the IP adresses in the hosts file, because it doesn't route blocked domains to localhost
 * **ad blocking is not available when NetGuard was installed from the Play store!**
 
 The NetGuard version from GitHub:
