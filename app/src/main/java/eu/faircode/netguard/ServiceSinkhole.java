@@ -1768,6 +1768,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG, "Received " + intent);
+        Util.logExtras(intent);
+
+        // Check for set command
         if (intent != null && intent.hasExtra(EXTRA_COMMAND) &&
                 intent.getSerializableExtra(EXTRA_COMMAND) == Command.set) {
             set(intent);
