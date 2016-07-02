@@ -154,33 +154,7 @@ public class Util {
 
     public static boolean isInternational(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
-                && hasPhoneStatePermission(context)) {
-            int dataSubId;
-            try {
-                dataSubId = Settings.Global.getInt(context.getContentResolver(), "multi_sim_data_call", -1);
-            } catch (Throwable ignored) {
-                dataSubId = -1;
-            }
-            if (dataSubId >= 0) {
-                SubscriptionManager sm = SubscriptionManager.from(context);
-                SubscriptionInfo si = sm.getActiveSubscriptionInfo(dataSubId);
-                if (si != null && si.getCountryIso() != null)
-                    try {
-                        Method getNetworkCountryIso = tm.getClass().getMethod("getNetworkCountryIsoForSubscription", int.class);
-                        getNetworkCountryIso.setAccessible(true);
-                        String networkCountryIso = (String) getNetworkCountryIso.invoke(tm, dataSubId);
-                        Log.d(TAG, "SIM=" + si.getCountryIso() + " network=" + networkCountryIso);
-                        return !si.getCountryIso().equals(networkCountryIso);
-                    } catch (Throwable ex) {
-                        Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        sendCrashReport(ex, context);
-                    }
-            }
-        }
-
-        return (tm == null || tm.getSimCountryIso() == null || !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
+        return (tm != null && tm.getSimCountryIso() != null && !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
     }
 
     public static String getNetworkGeneration(int networkType) {
