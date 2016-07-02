@@ -274,15 +274,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason +
                     " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
-            // Check if prepared
-            if (cmd == Command.start || cmd == Command.reload)
-                if (VpnService.prepare(ServiceSinkhole.this) != null) {
-                    Log.w(TAG, "VPN not prepared");
-                    prefs.edit().putBoolean("enabled", false).apply();
-                    showAutoStartNotification();
-                    return;
-                }
-
             // Check if foreground
             if (cmd != Command.stop)
                 if (!user_foreground) {
