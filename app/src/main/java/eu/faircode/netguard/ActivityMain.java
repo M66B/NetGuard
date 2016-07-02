@@ -32,7 +32,6 @@ import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -692,9 +691,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private void checkDoze() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final Intent doze = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            if (!pm.isIgnoringBatteryOptimizations(getPackageName()) &&
-                    getPackageManager().resolveActivity(doze, 0) != null) {
+            if (Util.batteryOptimizing(this) && getPackageManager().resolveActivity(doze, 0) != null) {
                 final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 if (!prefs.getBoolean("nodoze", false)) {
                     LayoutInflater inflater = LayoutInflater.from(this);
@@ -726,6 +723,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     dialogDoze.show();
                 }
             }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         }
     }
 

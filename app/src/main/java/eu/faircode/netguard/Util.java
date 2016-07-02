@@ -669,6 +669,12 @@ public class Util {
         return sb.toString();
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    public static boolean batteryOptimizing(Context context) {
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        return !pm.isIgnoringBatteryOptimizations(context.getPackageName());
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     public static String getSubscriptionInfo(Context context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1)
