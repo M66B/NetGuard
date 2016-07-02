@@ -607,7 +607,9 @@ public class Util {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             sb.append(String.format("Power saving %B\r\n", pm.isPowerSaveMode()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            sb.append(String.format("Battery optimizing %B\r\n", !pm.isIgnoringBatteryOptimizations(context.getPackageName())));
+            sb.append(String.format("Battery optimizing %B\r\n", batteryOptimizing(context)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            sb.append(String.format("Data saving %B\r\n", dataSaving(context)));
 
         if (sb.length() > 2)
             sb.setLength(sb.length() - 2);
@@ -673,6 +675,12 @@ public class Util {
     public static boolean batteryOptimizing(Context context) {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         return !pm.isIgnoringBatteryOptimizations(context.getPackageName());
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    public static boolean dataSaving(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return (cm.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)

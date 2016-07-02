@@ -717,14 +717,55 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                                 @Override
                                 public void onDismiss(DialogInterface dialogInterface) {
                                     dialogDoze = null;
+                                    checkDataSaving();
+                                }
+                            })
+                            .create();
+                    dialogDoze.show();
+                } else
+                    checkDataSaving();
+            } else
+                checkDataSaving();
+        }
+    }
+
+    private void checkDataSaving() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            final Intent settings = new Intent(
+                    Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS,
+                    Uri.parse("package:" + getPackageName()));
+            if (Util.dataSaving(this) && getPackageManager().resolveActivity(settings, 0) != null) {
+                final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                if (!prefs.getBoolean("nodata", false)) {
+                    LayoutInflater inflater = LayoutInflater.from(this);
+                    View view = inflater.inflate(R.layout.datasaving, null, false);
+                    final CheckBox cbDontAsk = (CheckBox) view.findViewById(R.id.cbDontAsk);
+                    dialogDoze = new AlertDialog.Builder(this)
+                            .setView(view)
+                            .setCancelable(true)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    prefs.edit().putBoolean("nodata", cbDontAsk.isChecked()).apply();
+                                    startActivity(settings);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    prefs.edit().putBoolean("nodata", cbDontAsk.isChecked()).apply();
+                                }
+                            })
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialogInterface) {
+                                    dialogDoze = null;
                                 }
                             })
                             .create();
                     dialogDoze.show();
                 }
             }
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         }
     }
 
