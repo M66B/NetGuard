@@ -593,8 +593,6 @@ public class Util {
         sb.append(String.format("Metered %B\r\n", isMeteredNetwork(context)));
         sb.append(String.format("Roaming %B\r\n", isRoaming(context)));
 
-        sb.append(String.format("Type %s\r\n", getPhoneTypeName(tm.getPhoneType())));
-
         if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
             sb.append(String.format("SIM %s/%s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName(), tm.getSimOperator()));
         if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
@@ -642,11 +640,10 @@ public class Util {
 
         try {
             Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
-            if (nis != null) {
-                sb.append("\r\n");
+            if (nis != null)
                 while (nis.hasMoreElements()) {
                     NetworkInterface ni = nis.nextElement();
-                    if (ni != null) {
+                    if (ni != null && !"lo".equals(ni.getName())) {
                         List<InterfaceAddress> ias = ni.getInterfaceAddresses();
                         if (ias != null)
                             for (InterfaceAddress ia : ias)
@@ -657,7 +654,6 @@ public class Util {
                                         .append("\r\n");
                     }
                 }
-            }
         } catch (Throwable ex) {
             sb.append(ex.toString()).append("\r\n");
         }
