@@ -595,13 +595,10 @@ public class Util {
 
         sb.append(String.format("Type %s\r\n", getPhoneTypeName(tm.getPhoneType())));
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1
-                || !hasPhoneStatePermission(context)) {
-            if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
-                sb.append(String.format("SIM %s/%s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName(), tm.getSimOperator()));
-            if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
-                sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
-        }
+        if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
+            sb.append(String.format("SIM %s/%s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName(), tm.getSimOperator()));
+        if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
+            sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
 
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -700,34 +697,9 @@ public class Util {
                 .append(sm.getActiveSubscriptionInfoCountMax())
                 .append("\r\n");
 
-        int dataSubId;
-        try {
-            dataSubId = Settings.Global.getInt(context.getContentResolver(), "multi_sim_data_call", -1);
-        } catch (Throwable ignored) {
-            dataSubId = -1;
-        }
-
-        Method getNetworkCountryIso = null;
-        Method getNetworkOperator = null;
-        Method getNetworkOperatorName = null;
-        Method getDataEnabled = null;
-        try {
-            getNetworkCountryIso = tm.getClass().getMethod("getNetworkCountryIsoForSubscription", int.class);
-            getNetworkOperator = tm.getClass().getMethod("getNetworkOperatorForSubscription", int.class);
-            getNetworkOperatorName = tm.getClass().getMethod("getNetworkOperatorName", int.class);
-            getDataEnabled = tm.getClass().getMethod("getDataEnabled", int.class);
-
-            getNetworkCountryIso.setAccessible(true);
-            getNetworkOperator.setAccessible(true);
-            getNetworkOperatorName.setAccessible(true);
-            getDataEnabled.setAccessible(true);
-        } catch (NoSuchMethodException ex) {
-            Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
-
         List<SubscriptionInfo> subscriptions = sm.getActiveSubscriptionInfoList();
         if (subscriptions != null)
-            for (SubscriptionInfo si : subscriptions) {
+            for (SubscriptionInfo si : subscriptions)
                 sb.append("SIM ")
                         .append(si.getSimSlotIndex() + 1)
                         .append('/')
@@ -739,31 +711,7 @@ public class Util {
                         .append(' ')
                         .append(si.getCarrierName())
                         .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
-                        .append(si.getSubscriptionId() == dataSubId ? " *" : "")
                         .append("\r\n");
-                if (getNetworkCountryIso != null &&
-                        getNetworkOperator != null &&
-                        getNetworkOperatorName != null &&
-                        getDataEnabled != null)
-                    try {
-                        sb.append("Network ")
-                                .append(si.getSimSlotIndex() + 1)
-                                .append('/')
-                                .append(si.getSubscriptionId())
-                                .append(' ')
-                                .append(getNetworkCountryIso.invoke(tm, si.getSubscriptionId()))
-                                .append('/')
-                                .append(getNetworkOperator.invoke(tm, si.getSubscriptionId()))
-                                .append(' ')
-                                .append(getNetworkOperatorName.invoke(tm, si.getSubscriptionId()))
-                                .append(sm.isNetworkRoaming(si.getSubscriptionId()) ? " R" : "")
-                                .append(' ')
-                                .append(String.format("%B", getDataEnabled.invoke(tm, si.getSubscriptionId())))
-                                .append("\r\n");
-                    } catch (IllegalAccessException | InvocationTargetException ex) {
-                        Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    }
-            }
 
         if (sb.length() > 2)
             sb.setLength(sb.length() - 2);
