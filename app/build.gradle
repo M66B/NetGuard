@@ -2,13 +2,13 @@ apply plugin: 'com.android.model.application'
 
 model {
     android {
-        compileSdkVersion = 23
+        compileSdkVersion = 24
         buildToolsVersion = "24"
 
         defaultConfig {
             applicationId = "eu.faircode.netguard"
             minSdkVersion.apiLevel = 14
-            targetSdkVersion.apiLevel = 23
+            targetSdkVersion.apiLevel = 24
             versionCode = 2016062701
             versionName = "2.27"
             archivesBaseName = "NetGuard-v$versionName-$versionCode-sdk-$targetSdkVersion.apiLevel"
@@ -75,7 +75,7 @@ model {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.2.+'
-    compile 'com.android.support:recyclerview-v7:23.2.+'
+    compile 'com.android.support:appcompat-v7:24.+'
+    compile 'com.android.support:recyclerview-v7:24.+'
     compile 'com.squareup.picasso:picasso:2.5.+'
 }
