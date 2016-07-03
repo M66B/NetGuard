@@ -348,10 +348,12 @@ The right question is "*why are there so many taxes and fees*":
 
 So, what is left for the developer is just a fraction of what you pay.
 
-Despite NetGuard being *really* a lot of work, only some of the convenience and advanced features are paid,
-which means that NetGuard is basically free to use.
+Despite NetGuard being *really* a lot of work, only some of the convenience and advanced features needs to be purchased,
+which means that NetGuard is basically free to use
+and that you don't need to pay anything to reduce your data usage, increase battery life and increase your privacy.
 
-Also note that most free applications will appear not to be sustainable in the end, whereas NetGuard is properly maintained and supported.
+Also note that most free applications will appear not to be sustainable in the end, whereas NetGuard is properly maintained and supported,
+and that free applications may have a catch, like sending privacy sensitive information to the internet.
 
 <a name="FAQ38"></a>
 **(38) Why did NetGuard stop running?**
