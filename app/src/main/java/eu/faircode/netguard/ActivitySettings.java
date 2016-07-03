@@ -151,9 +151,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Wi-Fi home
         MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) screen.findPreference("wifi_homes");
-        Set<String> ssid = prefs.getStringSet("wifi_homes", new HashSet<String>());
-        if (ssid.size() > 0)
-            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssid)));
+        Set<String> ssids = prefs.getStringSet("wifi_homes", new HashSet<String>());
+        if (ssids.size() > 0)
+            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssids)));
         else
             pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
 
@@ -163,6 +163,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         if (configs != null)
             for (WifiConfiguration config : configs)
                 listSSID.add(config.SSID == null ? "NULL" : config.SSID);
+        for (String ssid : ssids)
+            if (!listSSID.contains(ssid))
+                listSSID.add(ssid);
         pref_wifi_homes.setEntries(listSSID.toArray(new CharSequence[0]));
         pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
