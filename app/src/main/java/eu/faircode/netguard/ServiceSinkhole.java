@@ -1129,7 +1129,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private void stopNative(ParcelFileDescriptor vpn, boolean clear) {
         Log.i(TAG, "Stop native clear=" + clear);
-        jni_stop(vpn.getFd(), clear);
+        try {
+            jni_stop(vpn.getFd(), clear);
+        } catch (Throwable ex) {
+            // File descriptor might be closed
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            jni_stop(-1, clear);
+        }
     }
 
     private void unprepare() {
