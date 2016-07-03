@@ -144,6 +144,8 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Pentru o functionare consistenta, optimizarile Android de baterie trebuie dezactivate pentru NetGuard.
 \n\nIn urmatoarea fereastra de dialog selectati de sus \"Toate aplicatiile\" apoi selectati NetGuard in lista si confirmati \"Nu se optimizeaza\".</string>
+  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
+\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">Android va asocia consumul de baterie si date lui NetGuard atunci cand activati filtrarea. De fapt aplicatiile ce acceseaza internetul consuma</string>
   <string name="msg_log_disabled">Inregistrarea traficului in jurnal este dezactivata, utilizati butonul de mai sus pentru a o activa. Optiunea de inregistrare ar putea duce la un consumul suplimentar al bateriei.</string>
   <string name="msg_clear_rules">Se vor reseta regulile si conditiile la valorile implicite</string>
@@ -157,8 +159,8 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_metered">Reteaua este contorizata</string>
   <string name="msg_queue">NetGuard este ocupat</string>
   <string name="msg_update">Actualizare disponibila, atinge pentru a descarca</string>
-  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
-  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_whitelist">Accesul la internet este permis in mod implicit, acest lucru poate fi schimbat in meniul setari</string>
+  <string name="msg_push">Mesajele \"push\" sunt de obicei gestionate de componentele de sistem ale serviciilor Google Play. carora le este permis in mod implicit accesul la internet</string>
   <string name="msg_system">Gestionarea aplicatiilor de sistem se activeaza din optiunile avansate</string>
   <string name="msg_issue">Va rog sa descrieti problema si sa indicati momentul cand s-a produs problema:</string>
   <string name="title_unmetered_allowed">Traficul de date necontorizat este permis</string>

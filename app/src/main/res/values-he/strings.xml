@@ -143,6 +143,8 @@
   <string name="msg_count">%dx</string>
   <string name="msg_doze">עבור תוצאות עקביות, ייעול הסוללה של אנדרואיד צריך להיות מכובה עבור NetGuard.
 \n\n עבור הדו שיח הבא.בחר ב\"כל האפלקציות\" בחלק העליון, בחר בNetGuard מתוך הרשימה וסמן \"אל תייעל\".</string>
+  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
+\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">שימוש בסינון יגרום לאנדרואיד לשייך לNetGuard את השימוש בתעבורת נתונים ובסוללה - אנדרואיד יניח שNetGuard משתמש בתעבורה ובסוללה, ולא היישומים המקוריים.</string>
   <string name="msg_log_disabled">רישום תעבורת הנתונים מנוטרל, אנא השתמש במתג מעל כדי לאפשר רישום. רישום התעבורה עלול להגביר את צריכת הסוללה.</string>
   <string name="msg_clear_rules">זה יאפס את הכללים והתנאים לערכי ברירת המחדל שלהם</string>

@@ -141,6 +141,8 @@
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Para obtener resultados consistentes, las optimizaciones de batería de Android deberían desactivarse para NetGuard. \n\nEn el siguiente diálogo, seleccione \'Todas las aplicaciones\' en la parte superior, pulse en NetGuard en la lista y seleccione y confirme \'No optimizar\'.</string>
+  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
+\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">Usar filtrado hará que Android atribuya el uso de datos y energía a NetGuard - Android asume que el uso de datos y energía los utiliza NetGuard, en lugar de las aplicaciones originales</string>
   <string name="msg_log_disabled">El registro de tráfico está desactivado. Utilice el interruptor de arriba para activarlo. El registro de tráfico podría aumentar el uso de la batería.</string>
   <string name="msg_clear_rules">Esto restablecerá las reglas y condiciones a sus valores originales</string>
@@ -154,8 +156,8 @@
   <string name="msg_metered">La red está medida</string>
   <string name="msg_queue">NetGuard está ocupado</string>
   <string name="msg_update">Actualización disponible, pulse para descargar</string>
-  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
-  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_whitelist">El acceso a Internet está permitido por defecto, esto puede cambiarse en los ajustes</string>
+  <string name="msg_push">Los mensajes push son gestionados en su mayoría por el componente del sistema Play Services, el cuál permite acceder a Internet por defecto</string>
   <string name="msg_system">La gestión de las aplicaciones del sistema puede activarse en las opciones avanzadas</string>
   <string name="msg_issue">Por favor, describa el problema e indique el tiempo del mismo:</string>
   <string name="title_unmetered_allowed">Tráfico ilimitado permitido</string>

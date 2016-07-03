@@ -141,6 +141,8 @@
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Per ottenere risultati consistenti, le ottimizzazioni di batteria di Android per l\'applicazione NetGuard dovrebbero essere disattivate. \n\nNella finestra di dialogo successiva, selezionare \"Tutte le applicazioni\" dalla lista in alto, cliccare su NetGuard e selezionare e confermare \"Non ottimizzare\".</string>
+  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
+\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">A causa dell\'utilizzo del filtraggio, Android attribuirà il consumo di dati ed energia a NetGuard - Android assume che i dati e la batteria vengano utilizzati da NetGuard invece che dalle rispettive applicazioni</string>
   <string name="msg_log_disabled">La registrazione del traffico è disattivata, utilizzare l\'interruttore sopra per attivare la registrazione. La registrazione del traffico potrebbe comportare un utilizzo aggiuntivo di batteria.</string>
   <string name="msg_clear_rules">Questo reimposterà le regole e le condizioni ai valori predefiniti</string>

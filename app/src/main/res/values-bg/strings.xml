@@ -143,6 +143,8 @@
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ Гб</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">За правилната работа на приложението моля, не активирайте оптимизация на батерията за NetGuard. \n\nв следващия диалогов прозорец, изберете \"Всички приложения\" в горната част, докоснете върху NetGuard в списъка. Изберете и потвърдете \"Не оптимизирай\".</string>
+  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
+\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">Използването на филтриране ще доведе до увеличена статистика за трафик на данни и батерия за NetGuard. Android ще причисли използвания трафик на даннит и консумация на батерия към NetGuard, а не към приложенията, които реално са обвързани с това действие</string>
   <string name="msg_log_disabled">Rегистрирането на трафика е изключено, използвайте опцията по-горе за да разрешите регистрирането. Регистрирането на трафика може да доведе до допълнителна употреба на батерията.</string>
   <string name="msg_clear_rules">Това ще се нулира правилата и условията към стойностите им по подразбиране</string>
@@ -156,8 +158,8 @@
   <string name="msg_metered">Трафикът е ограничен</string>
   <string name="msg_queue">NetGuard е зает</string>
   <string name="msg_update">Налична е актуализация, докоснете за сваляне</string>
-  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
-  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_whitelist">Интернет достъпът е разрешен по подразбиране, това може да се промени в настройките</string>
+  <string name="msg_push">\"Push\" съобщенията се обработват предимно от системния комонент \"Play services\", който по подразбиране е с разрешен достъп до интернет</string>
   <string name="msg_system">Управлението на системните приложения може да бъде активирано в разширените настройки</string>
   <string name="msg_issue">Моля, опишете проблема и отбележете часа на възникването му:</string>
   <string name="title_unmetered_allowed">Неограниченият трафик (Wi-Fi) е разрешен</string>

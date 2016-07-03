@@ -55,7 +55,7 @@
   <string name="setting_delay">Délai après éteint l\'écran de %1$s minutes</string>
   <string name="setting_update">Vérifier les mises à jour</string>
   <string name="setting_network_options">Options de réseau</string>
-  <string name="setting_subnet">Subnet routing</string>
+  <string name="setting_subnet">Routage de sous-réseau</string>
   <string name="setting_tethering">Autoriser le partage</string>
   <string name="setting_lan">Autoriser l\'accès au réseau local</string>
   <string name="setting_ip6">Activer le trafic IPv6</string>
@@ -99,7 +99,7 @@
   <string name="summary_delay">Après avoir éteint l\'écran, garder les règles d\'écran allumé actives pendant le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
   <string name="summary_update">Vérifier les nouvelles versions sur GitHub deux fois par jour</string>
   <string name="summary_tethering">Selon la version d\'Android, le partage de connexion peut fonctionner ou non. Le trafic partagé ne peut pas être filtré.</string>
-  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
+  <string name="summary_subnet">Activer le routage de sous-réseau ; pourrait permettre les appels Wi-Fi, mais pourrait aussi déclencher des bogues dans Android et augmenter l’utilisation de la batterie</string>
   <string name="summary_lan">Autoriser les applications de se connecter à des adresses de réseau local, comme 10.0.0.0/8, 172.16.0.0/12 et 192.168.0.0/16</string>
   <string name="summary_ip6">Diriger le trafic IP version 6 vers NetGuard de sorte qu\'il peut être sélectivement autorisé ou bloqué</string>
   <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour les autres Wi-Fi)</string>
@@ -144,6 +144,8 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ Go</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Pour des résultats cohérents, les optimisations Android de la batterie devraient être désactivées pour NetGuard.\n\nDans la fenêtre suivante, sélectionnez « Toutes les applications » en haut, appuyez sur NetGuard dans la liste, puis sélectionnez et confirmez « Ne pas optimiser ».</string>
+  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
+\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">Utiliser le filtrage fera qu\'Android affectera l\'utilisation de données et de batterie à NetGuard - Android estime que les données et la consommation de batterie sont utilisées par NetGuard, plutôt que par les applications d\'origine</string>
   <string name="msg_log_disabled">La journalisation du trafic est désactivée, utilisez le bouton ci-dessus pour activer la journalisation. La journalisation du trafic peut entraîner une surconsommation de la batterie.</string>
   <string name="msg_clear_rules">Cela réinitialisera les règles et conditions à leurs valeurs par défaut</string>
@@ -157,8 +159,8 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_metered">Le réseau est limité</string>
   <string name="msg_queue">NetGuard est occupé</string>
   <string name="msg_update">Mise à jour disponible, appuyez pour télécharger</string>
-  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
-  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_whitelist">L’accès Internet est autorisé par défaut, cela peut être modifié dans les paramètres</string>
+  <string name="msg_push">Les messages Push sont principalement gérés par le composant système Play services, qui est autorisé à accéder à internet par défaut</string>
   <string name="msg_system">La gestion des applications système peut être activée dans les options avancées</string>
   <string name="msg_issue">Veuillez décrire le problème et indiquer l\'heure à laquelle il est survenu :</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>

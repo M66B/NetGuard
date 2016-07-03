@@ -144,6 +144,8 @@ Restarting your device or revoking the VPN permission using the Android settings
   <string name="msg_count">%dx</string>
   <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
 \n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
+  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
+\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">Використання даної функції призводить до того, що Android передає дані та споживання енергії у користування NetGuard; Android буда вважати, що дані та енергія використовуються NetGuard\'ом, а не стандартними, для роботи цієї функції, додатками</string>
   <string name="msg_log_disabled">Журналювання трафіку вимкнуто, використовуйте перемикач вище, аби увімкнути журналювання. Це може підвищити споживання батареї.</string>
   <string name="msg_clear_rules">Це скине правила та умови на типові значення</string>
