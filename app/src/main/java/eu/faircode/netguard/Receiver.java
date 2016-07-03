@@ -127,11 +127,16 @@ public class Receiver extends BroadcastReceiver {
             context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_security_white_24dp)
-                    .setContentTitle(context.getString(R.string.app_name))
-                    .setContentText(context.getString(R.string.msg_installed, name))
                     .setContentIntent(pi)
                     .setColor(tv.data)
                     .setAutoCancel(true);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                builder.setContentTitle(name)
+                        .setContentText(context.getString(R.string.msg_installed_n));
+            else
+                builder.setContentTitle(context.getString(R.string.app_name))
+                        .setContentText(context.getString(R.string.msg_installed, name));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 builder.setCategory(Notification.CATEGORY_STATUS)
@@ -178,7 +183,10 @@ public class Receiver extends BroadcastReceiver {
                 NotificationManagerCompat.from(context).notify(uid, builder.build());
             else {
                 NotificationCompat.BigTextStyle expanded = new NotificationCompat.BigTextStyle(builder);
-                expanded.bigText(context.getString(R.string.msg_installed, name));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    expanded.bigText(context.getString(R.string.msg_installed_n));
+                else
+                    expanded.bigText(context.getString(R.string.msg_installed, name));
                 expanded.setSummaryText(context.getString(R.string.title_internet));
                 NotificationManagerCompat.from(context).notify(uid, expanded.build());
             }

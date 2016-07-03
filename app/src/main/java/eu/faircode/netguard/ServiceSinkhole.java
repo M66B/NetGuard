@@ -2097,12 +2097,17 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
                 .setGroup("AccessAttempt")
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.msg_access, name))
                 .setContentIntent(pi)
                 .setColor(colorOff)
                 .setOngoing(false)
                 .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            builder.setContentTitle(name)
+                    .setContentText(getString(R.string.msg_access_n));
+        else
+            builder.setContentTitle(getString(R.string.app_name))
+                    .setContentText(getString(R.string.msg_access, name));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder.setCategory(Notification.CATEGORY_STATUS)
@@ -2112,11 +2117,15 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         DateFormat df = new SimpleDateFormat("dd HH:mm");
 
         NotificationCompat.InboxStyle notification = new NotificationCompat.InboxStyle(builder);
-        String sname = getString(R.string.msg_access, name);
-        int pos = sname.indexOf(name);
-        Spannable sp = new SpannableString(sname);
-        sp.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        notification.addLine(sp);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            notification.addLine(getString(R.string.msg_access_n));
+        else {
+            String sname = getString(R.string.msg_access, name);
+            int pos = sname.indexOf(name);
+            Spannable sp = new SpannableString(sname);
+            sp.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            notification.addLine(sp);
+        }
 
         Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessUnset(uid, 7);
         int colDAddr = cursor.getColumnIndex("daddr");
@@ -2136,13 +2145,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             int allowed = cursor.getInt(colAllowed);
             if (allowed >= 0) {
-                pos = sb.indexOf(daddr);
-                sp = new SpannableString(sb);
+                int pos = sb.indexOf(daddr);
+                Spannable sp = new SpannableString(sb);
                 ForegroundColorSpan fgsp = new ForegroundColorSpan(allowed > 0 ? colorOn : colorOff);
                 sp.setSpan(fgsp, pos, pos + daddr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-
-            notification.addLine(sp);
+                notification.addLine(sp);
+            } else
+                notification.addLine(sb);
         }
         cursor.close();
 
