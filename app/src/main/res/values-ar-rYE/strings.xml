@@ -124,14 +124,14 @@
   <string name="msg_waiting">في انتظار الحدث</string>
   <string name="msg_disabled">التطبيق غير مُفعّل, قم بتفعيل التطبيق من الخيار أعلاه.</string>
   <string name="msg_revoked">تـم تـعـطـيـل NetGuard، مـن الـمـحـتـمـل إسـتـخـدام تـطـبـيـق VPN آخر</string>
-  <string name="msg_error">تم تعطيل NetGuard، بسبب خطأ داخلي</string>
-  <string name="msg_start_failed">لا يمكن بدء تشغيل خدمة VPN Android , على الأرجح بسبب خلل في نسخة Android الخاص بك.
-اعادة تشغيل الجهاز او الغاء VPN باستخدام اعدادات اذن من NetGuard Android (اذا امكن ذلك) (مؤقتا) لحل هذه المشكلة.</string>
   <string name="msg_installed">\'%1$s\' مثبت</string>
+  <string name="msg_installed_n">Has been installed</string>
   <string name="msg_access">%1$s حاولت الوصول إلى الإنترنت</string>
+  <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">اكتمل الإجراء</string>
   <string name="msg_vpn">يستخدم NetGuard شبكة VPN محلية لتصفية حركة الانترنت. لهذا، يرجى السماح لاتصال VPN في مربع الحوار القادم. حركة الانترنت الخاصة بك لا يتم ارسالها الى خادم VPN بعيد.</string>
   <string name="msg_autostart">لا يمكن بدء NetGuard بشكل تلقائي عند التشغيل بسبب وجود خلل في إصدار الاندرويد الخاص بك</string>
+  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
   <string name="msg_try">جـرّب NetGuard</string>
   <string name="msg_terms">عند تبرعك فهذا يعني انك مواقق على الشروط والاحكام. <a href="http://www.netguard.me/#terms">احكام &amp; شروط</a></string>
   <string name="msg_dimming">إن لم تستطع الضغط على موافق في مربع الحوار التالي فهذا معناه انه يوجد برنامج آخر يتحكم في الشاشة.</string>

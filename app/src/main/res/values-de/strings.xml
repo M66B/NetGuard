@@ -124,13 +124,14 @@
   <string name="msg_waiting">Auf Ereignis warten</string>
   <string name="msg_disabled">NetGuard ist deaktiviert. Verwenden Sie den Schalter, um NetGuard zu aktivieren.</string>
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer anderen VPN-Anwendung</string>
-  <string name="msg_error">NetGuard wurde aufgrund eines internen Fehlers beendet</string>
-  <string name="msg_start_failed">Der Android VPN-Dienst konnte nicht gestartet werden, das wird meistens durch einen Fehler in Ihrer Android-Version verursacht. Ein Neustart Ihres Geräts oder das Aufheben der VPN-Berechtigung in den Android Einstellungen aus NetGuard (wenn möglich) könnte (vorübergehend) dieses Problem lösen.</string>
   <string name="msg_installed">\'%1$s\' installiert</string>
+  <string name="msg_installed_n">Has been installed</string>
   <string name="msg_access">%1$s versucht Internetzugriff</string>
+  <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
   <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um den Internetverkehr zu filtern. Gestatten Sie aus diesem Grund eine VPN-Verbindung im nächsten Dialogfenster. Ihr Internetverkehr wird nicht an einen VPN-Server gesendet!</string>
   <string name="msg_autostart">NetGuard konnte aufgrund eines Fehlers Ihrer aktuellen Android-Version beim Booten nicht automatisch starten</string>
+  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
   <string name="msg_try">NetGuard ausprobieren</string>
   <string name="msg_terms">Durch eine Spende stimmen Sie der <a href="http://www.netguard.me/#terms">AGB</a> zu.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>

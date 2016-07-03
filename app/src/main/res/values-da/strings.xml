@@ -125,16 +125,16 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="msg_waiting">Afventer begivenhed</string>
   <string name="msg_disabled">NetGuard is disabled, use the switch above to enable NetGuard</string>
   <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based application</string>
-  <string name="msg_error">NetGuard has been disabled, because of an internal error</string>
-  <string name="msg_start_failed">The Android VPN service could not be started, which is most likely caused by a bug in your Android version.
-Restarting your device or revoking the VPN permission using the Android settings from NetGuard (if possible) might (temporarily) solve this problem.</string>
   <string name="msg_installed">\'%1$s\' installeret</string>
+  <string name="msg_installed_n">Has been installed</string>
   <string name="msg_access">%1$s attempted internet access</string>
+  <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">Handling fuldført</string>
   <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
 For this reason, please allow a VPN connection in the next dialog.
 Your internet traffic is not being sent to a remote VPN server.</string>
-  <string name="msg_autostart">NetGuard could not be started automatically on boot because of a bug in your Android version</string>
+  <string name="msg_autostart">NetGuard could not start automatically. This is likely because of a bug in your Android version.</string>
+  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
   <string name="msg_try">Prøv NetGuard</string>
   <string name="msg_terms">Ved at donere, accepterer du <a href="http://www.netguard.me/#terms">vilkårene og betingelserne</a></string>
   <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) application is likely manipulating the screen.</string>

@@ -124,14 +124,14 @@
   <string name="msg_waiting">イベントの待機中</string>
   <string name="msg_disabled">NetGuard は無効です。NetGuard を有効にするには上のスイッチを使用してください</string>
   <string name="msg_revoked">NetGuard が無効にされました。別の VPN ベースのアプリケーションを使用した可能性があります</string>
-  <string name="msg_error">内部エラーのため、NetGuard が無効になりました</string>
-  <string name="msg_start_failed">Android VPN サービスが開始できませんでした。お使いの Android バージョンのバグによって引き起こされた可能性が最も高いです。
-デバイスの再起動、または (可能であれば) Android の設定を使用して NetGuard から VPN アクセス許可を取り消すと (一時的に) この問題が解決する可能性があります。</string>
   <string name="msg_installed">\'%1$s\' インストールしました</string>
+  <string name="msg_installed_n">Has been installed</string>
   <string name="msg_access">%1$s がインターネット アクセスを試みました。</string>
+  <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">操作を完了しました</string>
   <string name="msg_vpn">NetGuard は、ローカル VPN を使用してインターネット トラフィックをフィルターします。このため、次のダイアログ ボックスで VPN 接続を許可してください。インター ネット トラフィックはリモート VPN サーバーには送信されません。</string>
   <string name="msg_autostart">お使いの Android のバージョンのバグのため、起動時に自動的に NetGuard を開始できませんでした</string>
+  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
   <string name="msg_try">NetGuard を試してください</string>
   <string name="msg_terms">寄付によって <a href="http://www.netguard.me/#terms">利用規約</a> に同意します</string>
   <string name="msg_dimming">次のダイアログ ボックスで OK を押すことができない場合、別の (画面調光) アプリケーションが画面を操作している可能性があります。</string>
@@ -143,8 +143,7 @@
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">一貫性のある結果のため、NetGuard は Android のバッテリー最適化を無効にする必要があります。\n\nIn 次のダイアログで、上部の「すべてのアプリ」を選択し、リストで NetGuard をタップし、「最適化しない」を選択および確認してください。</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">一貫性のある結果を得るために、NetGuard は Android のデータの保存オプションを無効にする必要があります\n\n次のダイアログで、オプション「バック グラウンド データ」と「無制限のデータ使用」を有効にしてください。</string>
   <string name="msg_filter">NetGuard でフィルタリングを使用すると、Android のデータと電力使用につながります - Android は、元のアプリケーションではなく NetGuard によってデータと電力を使用しているとみなします。</string>
   <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
   <string name="msg_clear_rules">ルールと条件がデフォルト値にリセットされます</string>

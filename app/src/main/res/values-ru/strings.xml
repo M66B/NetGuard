@@ -123,14 +123,15 @@
   <string name="msg_waiting">Ожидание события</string>
   <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для его включения</string>
   <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>
-  <string name="msg_error">NetGuard был отключен по причине внутренней ошибки</string>
-  <string name="msg_start_failed">Не удалось запустить службу Android VPN, которая,  скорее всего, вызвана ошибкой вашей версии Android. Перезапуск устройства или отмена разрешения VPN, с помощью настройки Android из NetGuard (если возможно), может (временно) решить эту проблему.</string>
   <string name="msg_installed">\'%1$s\' установлено</string>
+  <string name="msg_installed_n">Has been installed</string>
   <string name="msg_access">%1$s попыток доступа в интернет</string>
+  <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">Действие завершено</string>
   <string name="msg_vpn">NetGuard использует локальный VPN для фильтрации интернет-трафика.
 По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне. Удаленному VPN-серверу ваш интернет-трафик не отправляется.</string>
   <string name="msg_autostart">NetGuard не может быть запущен автоматически при загрузке из-за ошибки в вашей версии Android</string>
+  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
   <string name="msg_try">Попробуйте новый фаервол NetGuard</string>
   <string name="msg_terms">Делая пожертвование, Вы соглашаетесь с <a href="http://www.netguard.me/#terms">условиями &amp; положениями</a></string>
   <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>

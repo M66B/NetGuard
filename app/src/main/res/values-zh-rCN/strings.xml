@@ -125,16 +125,16 @@
   <string name="msg_waiting">等待事件</string>
   <string name="msg_disabled">NetGuard已被停用, 请使用上方的开关启用NetGuard</string>
   <string name="msg_revoked">NetGuard已被停用, 可能是由于您启动了另一个基于VPN的应用</string>
-  <string name="msg_error">由于内部错误 NetGuard 已被禁用</string>
-  <string name="msg_start_failed">无法启动 Android VPN 服务, 这可能是由您所使用 Android 版本中的 bug 造成的.
-重启您的设备或从系统设置中撤销 NetGuard 的 VPN 权限 (如可行) 可能可以 (暂时) 修复此问题.</string>
   <string name="msg_installed">\'%1$s\' 已安装</string>
+  <string name="msg_installed_n">Has been installed</string>
   <string name="msg_access">%1$s 尝试进行网络连接</string>
+  <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">操作完成</string>
   <string name="msg_vpn">NetGuard 使用一个本地 VPN 对网络流量进行过滤.
 因此请在下一个对话框中允许建立网络连接.
 您的网络流量不会被导向任何远程 VPN 服务器.</string>
   <string name="msg_autostart">由于您使用的 Android 版本存在 bug, NetGuard 无法开机自启.</string>
+  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
   <string name="msg_try">试用NetGuard</string>
   <string name="msg_terms">捐赠即表明您同意 <a href="http://www.netguard.me/#terms">条款与条件</a></string>
   <string name="msg_dimming">如果您在下一个对话框中无法点击确定, 可能是另一个应用正在控制屏幕(如屏幕亮度调节软件).</string>

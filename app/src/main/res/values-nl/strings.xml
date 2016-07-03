@@ -124,16 +124,16 @@
   <string name="msg_waiting">Wachten op gebeurtenis</string>
   <string name="msg_disabled">NetGuard staat uit, gebruik de schakelaar boven om NetGuard aan te zetten</string>
   <string name="msg_revoked">NetGuard is uitgezet, waarschijnlijk door een andere VPN applicatie</string>
-  <string name="msg_error">NetGuard is uitgeschakeld wegens een interne fout</string>
-  <string name="msg_start_failed">The Android VPN service could not be started, which is most likely caused by a bug in your Android version.
-Restarting your device or revoking the VPN permission using the Android settings from NetGuard (if possible) might (temporarily) solve this problem.</string>
   <string name="msg_installed">\'%1$s\' geïnstalleerd</string>
+  <string name="msg_installed_n">Has been installed</string>
   <string name="msg_access">%1$s benaderde het internet</string>
+  <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">Actie uitgevoerd</string>
   <string name="msg_vpn">NetGuard maakt gebruik van een lokale VPN om internetverkeer te filteren.
 Vanwege deze reden vragen wij u de VPN-verbinding in het volgende dialoogvenster toe te staan.
 Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_autostart">NetGuard kon niet automatisch worden gestart tijdens het opstarten vanwege een bug in uw Android-versie</string>
+  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
   <string name="msg_try">Probeer NetGuard</string>
   <string name="msg_terms">Door te doneren gaat u akkoord met de <a href="http://www.netguard.me/#terms">voorwaarden</a></string>
   <string name="msg_dimming">Als u niet op \'Oké\' kan drukken in het volgende dialoogvenster, is een (schermdimmende) app waarschijnlijk actief.</string>

@@ -124,13 +124,14 @@
   <string name="msg_waiting">ממתין לאירוע</string>
   <string name="msg_disabled">NetGuard מנוטרל, השתמש במתג מעל כדי לאפשר את NetGuard</string>
   <string name="msg_revoked">NetGuard מנוטרל, ככל הנראה בגלל שימוש ביישום מבוסס VPN אחר</string>
-  <string name="msg_error">NetGuard נוטרל, עקב שגיאה פנימית</string>
-  <string name="msg_start_failed">שירות VPN לא הופעל, קרוב לוודאי בגלל באג בגירסת Android שלך. הפעלה מחדש של המכשיר או ביטול ההרשאת VPN באמצעות הגדרות אנדרואיד מNetGuard (במידת האפשר) עשוי לפתור (באופן זמני) את הבעיה.</string>
   <string name="msg_installed">\'%1$s\' מותקן</string>
+  <string name="msg_installed_n">Has been installed</string>
   <string name="msg_access">%1$s ניסה לגשת לאינטרנט</string>
+  <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">הפעולה הסתיימה</string>
   <string name="msg_vpn">NetGuard משתמש ב- VPN המקומי לסינון תעבורת האינטרנט. מסיבה זו, אנא אפשר חיבור VPN בתיבת הדו-שיח הבאה. תעבורת האינטרנט שלך אינה נשלחת לשרת VPN מרוחק.</string>
   <string name="msg_autostart">לא היתה אפשרות להפעיל את NetGuard באופן אוטומטי באתחול עקב באג בגירסת האנדרואיד</string>
+  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
   <string name="msg_try">נסה את NetGuard</string>
   <string name="msg_terms">בתרומתך אתה מסכים ל <a href="http://www.netguard.me/#terms"> תנאים והגבלות</a></string>
   <string name="msg_dimming">אם אין אפשרות ללחוץ על אישור בתיבת הדו-שיח הבאה, סביר להניח שיישום אחר (מסך עמעום) מתמרן את המסך.</string>

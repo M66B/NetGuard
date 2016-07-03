@@ -123,15 +123,16 @@
   <string name="msg_waiting">Изчакване за събитие</string>
   <string name="msg_disabled">NetGuard е изключен, използвайте опцията по-горе, за да активирате NetGuard</string>
   <string name="msg_revoked">NetGuard се изключи, най-вероятно използвате друго VPN базирано приложение</string>
-  <string name="msg_error">NetGuard се изключи поради вътрешна грешка</string>
-  <string name="msg_start_failed">Андроид VPN услугата не може да се стартира, което най-вероятно е причинено от грешка в Android версията на вашето устройство. Рестартиране на устройството, или отмяна на VPN разрешението в Android настройките, от NetGuard (ако е възможно) може (временно) да реши този проблем.</string>
   <string name="msg_installed">\"%1$s\" инсталирани</string>
+  <string name="msg_installed_n">Has been installed</string>
   <string name="msg_access">%1$s опита за достъп до интернет</string>
+  <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">Действието е завършено</string>
   <string name="msg_vpn">NetGuard използва локаленVPN за филтриране на интернет трафика.
 Поради тази причина моля, разрешете VPN свързването в следващия диалогов прозорец.
 Вашият интернет трафик не се изпраща към отдалечен VPN сървър.</string>
   <string name="msg_autostart">NetGuard не може да се стартира автоматично при стартиране на системата поради грешка в Android версията</string>
+  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
   <string name="msg_try">Опитайте NetGuard</string>
   <string name="msg_terms">Чрез даряването, вие се съгласявате с <a href="http://www.netguard.me/#terms"> общите условия</a></string>
   <string name="msg_dimming">Ако не можете да натиснете OK в следващия диалогов прозорец, то вероятно друго приложение манипулира екрана (затъмняване на екрана).</string>

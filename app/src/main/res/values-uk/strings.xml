@@ -124,14 +124,14 @@
   <string name="msg_waiting">Очікування події</string>
   <string name="msg_disabled">NetGuard вимкнено, аби увімкнути, використовуй перемикач, що знаходиться вище</string>
   <string name="msg_revoked">NetGuard було вимкнено, скоріш за все через використання іншого VPN-підключення</string>
-  <string name="msg_error">NetGuard вимкнуто через внутрішню помилку</string>
-  <string name="msg_start_failed">The Android VPN service could not be started, which is most likely caused by a bug in your Android version.
-Restarting your device or revoking the VPN permission using the Android settings from NetGuard (if possible) might (temporarily) solve this problem.</string>
   <string name="msg_installed">%1$s встановлено</string>
+  <string name="msg_installed_n">Has been installed</string>
   <string name="msg_access">Спроб доступу до інтернету: %1$s</string>
+  <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">Дію завершено</string>
   <string name="msg_vpn">NetGuard використовує локальний VPN для фільтрації інтернет трафіку. По цій причині, будь ласка, дозвольте VPN підключення в наступному діалоговому вікні. Віддаленому VPN-серверу ваш трафік не надсилається.</string>
   <string name="msg_autostart">NetGuard не може бути запущений автоматично під час запуску, через ваду у вашій системі Android</string>
+  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
   <string name="msg_try">Спробуйте NetGuard</string>
   <string name="msg_terms">Здійснюючи пожертвування, ви погоджуєтесь із <a href="http://www.netguard.me/#terms">умовами &amp; положення</a></string>
   <string name="msg_dimming">Якщо Вам не вдається натиснути Гаразд у наступному діалоговому вікні (затемнення екрану), то скоріш за все, якийсь інший додаток використовує екран.</string>
