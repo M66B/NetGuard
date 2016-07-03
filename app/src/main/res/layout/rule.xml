@@ -344,6 +344,28 @@
             android:textAppearance="@style/TextTitle" />
 
         <TextView
+            android:id="@+id/tvNoLog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/title_no_log"
+            android:textAppearance="@style/TextSmall"
+            android:textColor="?attr/colorOff"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvNoFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/title_no_filter"
+            android:textAppearance="@style/TextSmall"
+            android:textColor="?attr/colorOff"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -356,16 +378,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp" />
-
-        <TextView
-            android:id="@+id/tvNolog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/title_no_log"
-            android:textAppearance="@style/TextSmall"
-            android:textStyle="bold"
-            android:visibility="gone" />
 
         <CheckBox
             android:id="@+id/cbNotify"

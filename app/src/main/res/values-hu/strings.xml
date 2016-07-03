@@ -183,6 +183,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_related">Kapcsolódás szűrő</string>
   <string name="title_access">Hozzáférési kísérletek</string>
   <string name="title_no_log"><u>A naplózás nincs engedélyezve.</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Hozzáférési szabályok elsőbbséget élveznek más szabályokkal szemben</string>
   <string name="title_rate">Értékelje</string>
   <string name="title_allow">Engedélyezés</string>

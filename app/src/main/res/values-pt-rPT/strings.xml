@@ -181,6 +181,7 @@
   <string name="title_related">Filtrar relacionados</string>
   <string name="title_access">Tentativas de acesso</string>
   <string name="title_no_log"><u>Registo não está habilitado.</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>

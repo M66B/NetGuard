@@ -185,6 +185,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_related">Verwante filteren</string>
   <string name="title_access">Toegangspogingen</string>
   <string name="title_no_log"><u>Logging is not enabled</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Beoordeel</string>
   <string name="title_allow">Toestaan</string>

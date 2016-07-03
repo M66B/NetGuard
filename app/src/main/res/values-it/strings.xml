@@ -181,6 +181,7 @@
   <string name="title_related">Filtra app correlate</string>
   <string name="title_access">Tentativi di accesso</string>
   <string name="title_no_log"><u>Registrazione non attiva</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Le regole di accesso hanno la precedenza sulle altre regole</string>
   <string name="title_rate">Vota</string>
   <string name="title_allow">Permetti</string>

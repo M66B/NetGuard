@@ -181,6 +181,7 @@
   <string name="title_related">フィルター関連</string>
   <string name="title_access">アクセスの試行</string>
   <string name="title_no_log"><u>ログは有効になっていません</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">アクセス ルールは他のルールよりも優先します</string>
   <string name="title_rate">評価</string>
   <string name="title_allow">許可</string>

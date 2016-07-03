@@ -186,6 +186,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_related">Filter related</string>
   <string name="title_access">Pokusy o přístup</string>
   <string name="title_no_log"><u>Logging is not enabled</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">Ohodnotit</string>
   <string name="title_allow">Povolit</string>

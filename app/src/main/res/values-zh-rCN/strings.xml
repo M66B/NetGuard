@@ -186,6 +186,7 @@
   <string name="title_related">筛选相关</string>
   <string name="title_access">访问尝试</string>
   <string name="title_no_log"><u>日志记录未启用</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">访问规则优先于其他规则</string>
   <string name="title_rate">评分</string>
   <string name="title_allow">允许</string>

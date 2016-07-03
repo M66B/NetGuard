@@ -187,6 +187,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_related">Filter related</string>
   <string name="title_access">Access attempts</string>
   <string name="title_no_log"><u>Logging is not enabled</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_rate">評分</string>
   <string name="title_allow">允許</string>

@@ -181,6 +181,7 @@
   <string name="title_related">Filtro relacionado</string>
   <string name="title_access">Intentos de acceso</string>
   <string name="title_no_log"><u>El registro está desactivado</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Las reglas de acceso prevalecen sobre otras reglas</string>
   <string name="title_rate">Calificar</string>
   <string name="title_allow">Permitir</string>

@@ -71,7 +71,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
     private Activity context;
     private RecyclerView rv;
-    private boolean filter;
     private int colorText;
     private int colorChanged;
     private int colorOn;
@@ -124,7 +123,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public ImageButton btnClear;
 
         public ListView lvAccess;
-        public TextView tvNolog;
+        public TextView tvNoLog;
+        public TextView tvNoFilter;
         public CheckBox cbNotify;
         public ImageButton btnClearAccess;
         public TextView tvStatistics;
@@ -171,7 +171,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             btnClear = (ImageButton) itemView.findViewById(R.id.btnClear);
 
             lvAccess = (ListView) itemView.findViewById(R.id.lvAccess);
-            tvNolog = (TextView) itemView.findViewById(R.id.tvNolog);
+            tvNoLog = (TextView) itemView.findViewById(R.id.tvNoLog);
+            tvNoFilter = (TextView) itemView.findViewById(R.id.tvNoFilter);
             cbNotify = (CheckBox) itemView.findViewById(R.id.cbNotify);
             btnClearAccess = (ImageButton) itemView.findViewById(R.id.btnClearAccess);
             tvStatistics = (TextView) itemView.findViewById(R.id.tvStatistics);
@@ -208,7 +209,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         this.context = context;
-        this.filter = prefs.getBoolean("filter", false);
 
         if (prefs.getBoolean("dark_theme", false))
             colorChanged = Color.argb(128, Color.red(Color.DKGRAY), Color.green(Color.DKGRAY), Color.blue(Color.DKGRAY));
@@ -513,113 +513,121 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             }
         });
 
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // Show logging is disabled
+        boolean log_app = prefs.getBoolean("log_app", false);
+        holder.tvNoLog.setVisibility(log_app ? View.GONE : View.VISIBLE);
+        holder.tvNoLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, ActivitySettings.class));
+            }
+        });
+
+        // Show filtering is disabled
+        boolean filter = prefs.getBoolean("filter", false);
+        holder.tvNoFilter.setVisibility(filter ? View.GONE : View.VISIBLE);
+        holder.tvNoFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, ActivitySettings.class));
+            }
+        });
+
         // Show access rules
         if (rule.expanded) {
             // Access the database when expanded only
             final AdapterAccess badapter = new AdapterAccess(context,
                     DatabaseHelper.getInstance(context).getAccess(rule.info.applicationInfo.uid));
-            if (filter)
-                holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, final int bposition, long bid) {
-                        PackageManager pm = context.getPackageManager();
-                        Cursor cursor = (Cursor) badapter.getItem(bposition);
-                        final long id = cursor.getLong(cursor.getColumnIndex("ID"));
-                        int version = cursor.getInt(cursor.getColumnIndex("version"));
-                        int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
-                        String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
-                        int dport = cursor.getInt(cursor.getColumnIndex("dport"));
-                        long time = cursor.getLong(cursor.getColumnIndex("time"));
-                        int block = cursor.getInt(cursor.getColumnIndex("block"));
+            holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, final int bposition, long bid) {
+                    PackageManager pm = context.getPackageManager();
+                    Cursor cursor = (Cursor) badapter.getItem(bposition);
+                    final long id = cursor.getLong(cursor.getColumnIndex("ID"));
+                    int version = cursor.getInt(cursor.getColumnIndex("version"));
+                    int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
+                    String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
+                    int dport = cursor.getInt(cursor.getColumnIndex("dport"));
+                    long time = cursor.getLong(cursor.getColumnIndex("time"));
+                    int block = cursor.getInt(cursor.getColumnIndex("block"));
 
-                        PopupMenu popup = new PopupMenu(context, context.findViewById(R.id.vwPopupAnchor));
-                        popup.inflate(R.menu.access);
+                    PopupMenu popup = new PopupMenu(context, context.findViewById(R.id.vwPopupAnchor));
+                    popup.inflate(R.menu.access);
 
-                        popup.getMenu().findItem(R.id.menu_host).setTitle(
-                                Util.getProtocolName(protocol, version, false) + " " +
-                                        daddr + (dport > 0 ? "/" + dport : ""));
+                    popup.getMenu().findItem(R.id.menu_host).setTitle(
+                            Util.getProtocolName(protocol, version, false) + " " +
+                                    daddr + (dport > 0 ? "/" + dport : ""));
 
-                        // Whois
-                        final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + daddr));
-                        if (pm.resolveActivity(lookupIP, 0) == null)
-                            popup.getMenu().removeItem(R.id.menu_whois);
-                        else
-                            popup.getMenu().findItem(R.id.menu_whois).setTitle(context.getString(R.string.title_log_whois, daddr));
+                    // Whois
+                    final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + daddr));
+                    if (pm.resolveActivity(lookupIP, 0) == null)
+                        popup.getMenu().removeItem(R.id.menu_whois);
+                    else
+                        popup.getMenu().findItem(R.id.menu_whois).setTitle(context.getString(R.string.title_log_whois, daddr));
 
-                        // Lookup port
-                        final Intent lookupPort = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.speedguide.net/port.php?port=" + dport));
-                        if (dport <= 0 || pm.resolveActivity(lookupPort, 0) == null)
-                            popup.getMenu().removeItem(R.id.menu_port);
-                        else
-                            popup.getMenu().findItem(R.id.menu_port).setTitle(context.getString(R.string.title_log_port, dport));
+                    // Lookup port
+                    final Intent lookupPort = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.speedguide.net/port.php?port=" + dport));
+                    if (dport <= 0 || pm.resolveActivity(lookupPort, 0) == null)
+                        popup.getMenu().removeItem(R.id.menu_port);
+                    else
+                        popup.getMenu().findItem(R.id.menu_port).setTitle(context.getString(R.string.title_log_port, dport));
 
-                        popup.getMenu().findItem(R.id.menu_time).setTitle(
-                                SimpleDateFormat.getDateTimeInstance().format(time));
+                    popup.getMenu().findItem(R.id.menu_time).setTitle(
+                            SimpleDateFormat.getDateTimeInstance().format(time));
 
-                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem menuItem) {
-                                switch (menuItem.getItemId()) {
-                                    case R.id.menu_whois:
-                                        context.startActivity(lookupIP);
-                                        return true;
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.menu_whois:
+                                    context.startActivity(lookupIP);
+                                    return true;
 
-                                    case R.id.menu_port:
-                                        context.startActivity(lookupPort);
-                                        return true;
+                                case R.id.menu_port:
+                                    context.startActivity(lookupPort);
+                                    return true;
 
-                                    case R.id.menu_allow:
-                                        if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
-                                            DatabaseHelper.getInstance(context).setAccess(id, 0);
-                                            ServiceSinkhole.reload("allow host", context);
-                                        } else
-                                            context.startActivity(new Intent(context, ActivityPro.class));
-                                        return true;
+                                case R.id.menu_allow:
+                                    if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
+                                        DatabaseHelper.getInstance(context).setAccess(id, 0);
+                                        ServiceSinkhole.reload("allow host", context);
+                                    } else
+                                        context.startActivity(new Intent(context, ActivityPro.class));
+                                    return true;
 
-                                    case R.id.menu_block:
-                                        if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
-                                            DatabaseHelper.getInstance(context).setAccess(id, 1);
-                                            ServiceSinkhole.reload("block host", context);
-                                        } else
-                                            context.startActivity(new Intent(context, ActivityPro.class));
-                                        return true;
+                                case R.id.menu_block:
+                                    if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
+                                        DatabaseHelper.getInstance(context).setAccess(id, 1);
+                                        ServiceSinkhole.reload("block host", context);
+                                    } else
+                                        context.startActivity(new Intent(context, ActivityPro.class));
+                                    return true;
 
-                                    case R.id.menu_reset:
-                                        DatabaseHelper.getInstance(context).setAccess(id, -1);
-                                        ServiceSinkhole.reload("reset host", context);
-                                        return true;
-                                }
-                                return false;
+                                case R.id.menu_reset:
+                                    DatabaseHelper.getInstance(context).setAccess(id, -1);
+                                    ServiceSinkhole.reload("reset host", context);
+                                    return true;
                             }
-                        });
+                            return false;
+                        }
+                    });
 
-                        if (block == 0)
-                            popup.getMenu().removeItem(R.id.menu_allow);
-                        else if (block == 1)
-                            popup.getMenu().removeItem(R.id.menu_block);
+                    if (block == 0)
+                        popup.getMenu().removeItem(R.id.menu_allow);
+                    else if (block == 1)
+                        popup.getMenu().removeItem(R.id.menu_block);
 
-                        popup.show();
-                    }
-                });
-            else
-                holder.lvAccess.setOnItemClickListener(null);
+                    popup.show();
+                }
+            });
 
             holder.lvAccess.setAdapter(badapter);
         } else {
             holder.lvAccess.setAdapter(null);
             holder.lvAccess.setOnItemClickListener(null);
         }
-
-        // Show logging is disabled
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean log_app = prefs.getBoolean("log_app", false);
-        holder.tvNolog.setVisibility(log_app ? View.GONE : View.VISIBLE);
-        holder.tvNolog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, ActivitySettings.class));
-            }
-        });
 
         // Show disable access notifications setting
         holder.cbNotify.setOnCheckedChangeListener(null);

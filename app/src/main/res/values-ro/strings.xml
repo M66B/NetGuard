@@ -183,6 +183,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_related">Filtreaza aplicatii asociate</string>
   <string name="title_access">Incercari de a accesa</string>
   <string name="title_no_log"><u>Inregistrarea in jurnal nu este activata</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Regulile de acces ale acestor adrese au prioritate</string>
   <string name="title_rate">Evalueaza aplicatia</string>
   <string name="title_allow">Permite</string>

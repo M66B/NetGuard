@@ -182,6 +182,7 @@
   <string name="title_related">Filterabhängig</string>
   <string name="title_access">Zugriffsversuche</string>
   <string name="title_no_log"><u>Protokollierung ist nicht aktiviert</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Zugriffsregeln haben vor anderen Regeln Vorrang</string>
   <string name="title_rate">Bewerten</string>
   <string name="title_allow">Erlauben</string>

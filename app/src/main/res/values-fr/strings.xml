@@ -183,6 +183,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_related">Filtrer lié</string>
   <string name="title_access">Tentatives d\'accès</string>
   <string name="title_no_log"><u>Journalisation non activée</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Les règles d\'accès ont la priorité sur les autres</string>
   <string name="title_rate">Évaluer</string>
   <string name="title_allow">Autoriser</string>

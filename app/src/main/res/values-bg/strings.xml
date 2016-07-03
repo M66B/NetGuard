@@ -183,6 +183,7 @@
   <string name="title_related">Поради текущ филтър</string>
   <string name="title_access">Опити за достъп</string>
   <string name="title_no_log"><u>Регистрирането не е разрешено</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Правилата за достъп имат предимство пред други правила</string>
   <string name="title_rate">Оценете</string>
   <string name="title_allow">Разрешаване</string>

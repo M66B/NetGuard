@@ -183,6 +183,7 @@
   <string name="title_related">Фільтрувати пов’язані</string>
   <string name="title_access">Спроби доступу</string>
   <string name="title_no_log"><u>Журналювання вимкнуто</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Правила доступу мають вищій пріоритет над іншим правилами</string>
   <string name="title_rate">Оцінити</string>
   <string name="title_allow">Дозволити</string>

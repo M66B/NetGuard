@@ -186,6 +186,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="title_related">İlgili filtre</string>
   <string name="title_access">Erişim girişimleri</string>
   <string name="title_no_log"><u>Günlüğe kaydetme etkin değil</u></string>
+  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
   <string name="title_precedence">Erişim kuralları diğer kurallara göre önceliklidir</string>
   <string name="title_rate">Oyla</string>
   <string name="title_allow">İzin Ver</string>
