@@ -43,8 +43,9 @@ then no, because NetGuard needs to use this service. Android allows only one app
 <a name="FAQ3"></a>
 **(3) Can I use NetGuard on any Android version?**
 
-No, the minimum required Android version is 4.0 (Lollipop)
-because NetGuard uses the [addDisallowedApplication](http://developer.android.com/reference/android/net/VpnService.Builder.html#addDisallowedApplication(java.lang.String)) method.
+No, the minimum required Android version is 4.0 (KitKat)
+because NetGuard uses the [Android VPN service](https://developer.android.com/reference/android/net/VpnService.html),
+which was added in Android 4.0.
 
 <a name="FAQ4"></a>
 **(4) Will NetGuard use extra battery power?**
