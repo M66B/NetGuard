@@ -160,7 +160,6 @@ public class ActivityPro extends AppCompatActivity {
                                         startIntentSenderForResult(pi.getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
                                 } catch (Throwable ex) {
                                     Log.i(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                                    Util.sendCrashReport(ex, ActivityPro.this);
                                 }
                             }
                         };

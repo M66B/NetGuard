@@ -37,7 +37,6 @@ public class ApplicationEx extends Application {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, ApplicationEx.this);
                 if (mPrevHandler != null)
                     mPrevHandler.uncaughtException(thread, ex);
             }

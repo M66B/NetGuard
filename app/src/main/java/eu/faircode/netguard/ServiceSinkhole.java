@@ -144,11 +144,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private static final int NOTIFY_WAITING = 2;
     private static final int NOTIFY_DISABLED = 3;
     private static final int NOTIFY_AUTOSTART = 4;
-    private static final int NOTIFY_EXIT = 5;
-    private static final int NOTIFY_ERROR = 6;
-    private static final int NOTIFY_NATIVE = 7;
-    private static final int NOTIFY_TRAFFIC = 8;
-    private static final int NOTIFY_UPDATE = 9;
+    private static final int NOTIFY_ERROR = 5;
+    private static final int NOTIFY_TRAFFIC = 6;
+    private static final int NOTIFY_UPDATE = 7;
 
     public static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
@@ -246,7 +244,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, ServiceSinkhole.this);
             } finally {
                 synchronized (this) {
                     queue--;
@@ -261,7 +258,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Log.i(TAG, "Messages=" + hasMessages(0) + " wakelock=" + wlInstance.isHeld());
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, ServiceSinkhole.this);
                 }
             }
         }
@@ -273,15 +269,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             String reason = intent.getStringExtra(EXTRA_REASON);
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason +
                     " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
-
-            // Check if prepared
-            if (cmd == Command.start || cmd == Command.reload)
-                if (VpnService.prepare(ServiceSinkhole.this) != null) {
-                    Log.w(TAG, "VPN not prepared");
-                    prefs.edit().putBoolean("enabled", false).apply();
-                    showAutoStartNotification();
-                    return;
-                }
 
             // Check if foreground
             if (cmd != Command.stop)
@@ -359,18 +346,17 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
-                if (ex instanceof IllegalStateException) {
-                    if (Util.isConnected(ServiceSinkhole.this))
-                        showErrorNotification(NOTIFY_ERROR, getString(R.string.msg_start_failed) + "\n\n" + ex.toString());
+                if (VpnService.prepare(ServiceSinkhole.this) == null) {
+                    Log.w(TAG, "VPN not prepared");
+                    showAutoStartNotification();
+                    showErrorNotification(ex.toString());
+                    // Retried on connectivity change
                 } else {
+                    showErrorNotification(ex.toString());
+
                     // Disable firewall
                     prefs.edit().putBoolean("enabled", false).apply();
                     Widget.updateWidgets(ServiceSinkhole.this);
-
-                    showExitNotification(ex.toString());
-
-                    // Report exception
-                    Util.sendCrashReport(ex, ServiceSinkhole.this);
                 }
             }
         }
@@ -588,7 +574,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, ServiceSinkhole.this);
             }
         }
 
@@ -672,7 +657,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, ServiceSinkhole.this);
             }
         }
 
@@ -1375,7 +1359,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             pfd.close();
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Util.sendCrashReport(ex, this);
         }
     }
 
@@ -1383,16 +1366,18 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private void nativeExit(String reason) {
         Log.w(TAG, "Native exit reason=" + reason);
         if (reason != null) {
+            showErrorNotification(reason);
+
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", false).apply();
-            showExitNotification(reason);
+            Widget.updateWidgets(this);
         }
     }
 
     // Called from native code
     private void nativeError(int error, String message) {
         Log.w(TAG, "Native error " + error + ": " + message);
-        showErrorNotification(NOTIFY_NATIVE, message);
+        showErrorNotification(message);
     }
 
     // Called from native code
@@ -2069,7 +2054,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         NotificationManagerCompat.from(this).notify(NOTIFY_AUTOSTART, notification.build());
     }
 
-    private void showExitNotification(String reason) {
+    private void showErrorNotification(String message) {
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -2078,7 +2063,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_error_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.msg_error))
+                .setContentText(getString(R.string.msg_error, message))
                 .setContentIntent(pi)
                 .setColor(tv.data)
                 .setOngoing(false)
@@ -2090,37 +2075,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
 
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
-        notification.bigText(getString(R.string.msg_error));
-        notification.setSummaryText(reason);
+        notification.bigText(getString(R.string.msg_error, message));
+        notification.setSummaryText(message);
 
-        NotificationManagerCompat.from(this).notify(NOTIFY_EXIT, notification.build());
-    }
-
-    private void showErrorNotification(int id, String message) {
-        Intent main = new Intent(this, ActivityMain.class);
-        main.putExtra(ActivityMain.EXTRA_LOGCAT, true);
-        PendingIntent pi = PendingIntent.getActivity(this, id, main, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        TypedValue tv = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorOff, tv, true);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_error_white_24dp)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(message)
-                .setContentIntent(pi)
-                .setColor(tv.data)
-                .setOngoing(false)
-                .setAutoCancel(true);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_SECRET);
-        }
-
-        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
-        notification.bigText(message);
-
-        NotificationManagerCompat.from(this).notify(id, notification.build());
+        NotificationManagerCompat.from(this).notify(NOTIFY_ERROR, notification.build());
     }
 
     private void showAccessNotification(int uid) {
@@ -2220,9 +2178,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private void removeWarningNotifications() {
         NotificationManagerCompat.from(this).cancel(NOTIFY_DISABLED);
-        NotificationManagerCompat.from(this).cancel(NOTIFY_EXIT);
+        NotificationManagerCompat.from(this).cancel(NOTIFY_AUTOSTART);
         NotificationManagerCompat.from(this).cancel(NOTIFY_ERROR);
-        NotificationManagerCompat.from(this).cancel(NOTIFY_NATIVE);
     }
 
     private class Builder extends VpnService.Builder {

@@ -197,7 +197,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                                                     startActivityForResult(prepare, REQUEST_VPN);
                                                 } catch (Throwable ex) {
                                                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                                                    Util.sendCrashReport(ex, ActivityMain.this);
                                                     onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
                                                     prefs.edit().putBoolean("enabled", false).apply();
                                                 }
@@ -216,7 +215,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     } catch (Throwable ex) {
                         // Prepare failed
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        Util.sendCrashReport(ex, ActivityMain.this);
                         prefs.edit().putBoolean("enabled", false).apply();
                     }
 

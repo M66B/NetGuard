@@ -88,7 +88,6 @@ public class Widget extends AppWidgetProvider {
                 ServiceSinkhole.start("widget", context);
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, context);
             }
     }
 
@@ -112,11 +111,9 @@ public class Widget extends AppWidgetProvider {
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, context);
             }
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            Util.sendCrashReport(ex, context);
         }
     }
 

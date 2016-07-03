@@ -93,7 +93,6 @@ public class Receiver extends BroadcastReceiver {
                     ServiceSinkhole.run("receiver", context);
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                Util.sendCrashReport(ex, context);
             }
 
             if (Util.isInteractive(context))

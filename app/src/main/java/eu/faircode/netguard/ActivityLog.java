@@ -578,7 +578,6 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                     return null;
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Util.sendCrashReport(ex, ActivityLog.this);
                     return ex;
                 } finally {
                     if (out != null)
