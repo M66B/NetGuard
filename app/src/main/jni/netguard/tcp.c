@@ -149,8 +149,10 @@ int monitor_tcp_session(const struct arguments *args, struct ng_session *s, int 
 
     if (events != s->ev.events) {
         s->ev.events = events;
-        if (epoll_ctl(epoll_fd, EPOLL_CTL_MOD, s->socket, &s->ev))
+        if (epoll_ctl(epoll_fd, EPOLL_CTL_MOD, s->socket, &s->ev)) {
+            s->tcp.state = TCP_CLOSING;
             log_android(ANDROID_LOG_ERROR, "epoll mod tcp error %d: %s", errno, strerror(errno));
+        }
         else
             log_android(ANDROID_LOG_DEBUG, "epoll mod tcp socket %d in %d out %d",
                         s->socket, (events & EPOLLIN) != 0, (events & EPOLLOUT) != 0);
