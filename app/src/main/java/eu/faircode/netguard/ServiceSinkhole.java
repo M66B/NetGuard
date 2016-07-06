@@ -346,21 +346,19 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
-                if (cmd == Command.start || cmd == Command.reload) {
-                    if (VpnService.prepare(ServiceSinkhole.this) == null) {
-                        Log.w(TAG, "VPN not prepared");
-                        showAutoStartNotification();
-                        showErrorNotification(ex.toString());
-                        // Retried on connectivity change
-                    } else if (Util.isConnected(ServiceSinkhole.this)) {
-                        showErrorNotification(ex.toString());
-
-                        // Disable firewall
-                        prefs.edit().putBoolean("enabled", false).apply();
-                        Widget.updateWidgets(ServiceSinkhole.this);
-                    }
-                } else
+                if ((cmd == Command.start || cmd == Command.reload) &&
+                        VpnService.prepare(ServiceSinkhole.this) == null) {
+                    Log.w(TAG, "VPN not prepared");
+                    showAutoStartNotification();
                     showErrorNotification(ex.toString());
+                    // Retried on connectivity change
+                } else {
+                    showErrorNotification(ex.toString());
+
+                    // Disable firewall
+                    prefs.edit().putBoolean("enabled", false).apply();
+                    Widget.updateWidgets(ServiceSinkhole.this);
+                }
             }
         }
 
