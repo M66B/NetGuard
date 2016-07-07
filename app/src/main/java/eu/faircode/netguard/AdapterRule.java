@@ -546,10 +546,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     PackageManager pm = context.getPackageManager();
                     Cursor cursor = (Cursor) badapter.getItem(bposition);
                     final long id = cursor.getLong(cursor.getColumnIndex("ID"));
-                    int version = cursor.getInt(cursor.getColumnIndex("version"));
-                    int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
-                    String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
-                    int dport = cursor.getInt(cursor.getColumnIndex("dport"));
+                    final int version = cursor.getInt(cursor.getColumnIndex("version"));
+                    final int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
+                    final String daddr = cursor.getString(cursor.getColumnIndex("daddr"));
+                    final int dport = cursor.getInt(cursor.getColumnIndex("dport"));
                     long time = cursor.getLong(cursor.getColumnIndex("time"));
                     int block = cursor.getInt(cursor.getColumnIndex("block"));
 
@@ -593,6 +593,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                     if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                         DatabaseHelper.getInstance(context).setAccess(id, 0);
                                         ServiceSinkhole.reload("allow host", context);
+                                        if (ServiceJob.can(context))
+                                            ServiceJob.submit(rule, version, protocol, daddr, dport, 0, context);
                                     } else
                                         context.startActivity(new Intent(context, ActivityPro.class));
                                     return true;
@@ -601,6 +603,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                     if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                         DatabaseHelper.getInstance(context).setAccess(id, 1);
                                         ServiceSinkhole.reload("block host", context);
+                                        if (ServiceJob.can(context))
+                                            ServiceJob.submit(rule, version, protocol, daddr, dport, 1, context);
                                     } else
                                         context.startActivity(new Intent(context, ActivityPro.class));
                                     return true;
@@ -608,6 +612,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                 case R.id.menu_reset:
                                     DatabaseHelper.getInstance(context).setAccess(id, -1);
                                     ServiceSinkhole.reload("reset host", context);
+                                    if (ServiceJob.can(context))
+                                        ServiceJob.submit(rule, version, protocol, daddr, dport, -1, context);
                                     return true;
                             }
                             return false;
@@ -734,6 +740,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             NotificationManagerCompat.from(context).cancel(rule.info.applicationInfo.uid);
             ServiceSinkhole.reload("rule changed", context);
         }
+
+        if (ServiceJob.can(context))
+            ServiceJob.submit(rule, context);
     }
 
     @Override
