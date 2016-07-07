@@ -125,13 +125,13 @@
   <string name="msg_disabled">NetGuard は無効です。NetGuard を有効にするには上のスイッチを使用してください</string>
   <string name="msg_revoked">NetGuard が無効にされました。別の VPN ベースのアプリケーションを使用した可能性があります</string>
   <string name="msg_installed">\'%1$s\' インストールしました</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">インストールされています</string>
   <string name="msg_access">%1$s がインターネット アクセスを試みました。</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">インターネット アクセスを試みました</string>
   <string name="msg_completed">操作を完了しました</string>
   <string name="msg_vpn">NetGuard は、ローカル VPN を使用してインターネット トラフィックをフィルターします。このため、次のダイアログ ボックスで VPN 接続を許可してください。インター ネット トラフィックはリモート VPN サーバーには送信されません。</string>
   <string name="msg_autostart">お使いの Android のバージョンのバグのため、起動時に自動的に NetGuard を開始できませんでした</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">予想しないエラーが発生しました: \'%s\'</string>
   <string name="msg_try">NetGuard を試してください</string>
   <string name="msg_terms">寄付によって <a href="http://www.netguard.me/#terms">利用規約</a> に同意します</string>
   <string name="msg_dimming">次のダイアログ ボックスで OK を押すことができない場合、別の (画面調光) アプリケーションが画面を操作している可能性があります。</string>
@@ -181,7 +181,7 @@
   <string name="title_related">フィルター関連</string>
   <string name="title_access">アクセスの試行</string>
   <string name="title_no_log"><u>ログは有効になっていません</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>フィルタリングは有効になっていません</u></string>
   <string name="title_precedence">アクセス ルールは他のルールよりも優先します</string>
   <string name="title_rate">評価</string>
   <string name="title_allow">許可</string>

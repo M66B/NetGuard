@@ -55,7 +55,7 @@
   <string name="setting_delay">تــأخــيــر تــعــتــيــم الــشــاشــة %1$s دقــيــقــة</string>
   <string name="setting_update">التحقق من التحديثات</string>
   <string name="setting_network_options">خيارات الشبكة</string>
-  <string name="setting_subnet">Subnet routing</string>
+  <string name="setting_subnet">توجيه الشبكة الفرعية</string>
   <string name="setting_tethering">السماح بالربط(مشاركة الانترنت)</string>
   <string name="setting_lan">السماح بالوصول إلى شبكة الاتصال المحلية</string>
   <string name="setting_ip6">تمكين حركة مرور IPv6</string>
@@ -100,7 +100,7 @@
   <string name="summary_delay">بعد إغلاق الشاشة، إبقاء الشاشة على القواعد نشطة لعدد محدد من الدقائق (ادخل صفر لتعطيل هذا الخيار)</string>
   <string name="summary_update">التحقق من وجود إصدارات جديدة في GitHub مرتين يوميا</string>
   <string name="summary_tethering">وفقا لاصدار الأندرويد، ربط الانترنت قد يعمل وقد لا يعمل، الانترنت المربوط(المشارك) لا يمكن تصفيتة.</string>
-  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
+  <string name="summary_subnet">تمكين توجيه الشبكة الفرعية؛ يمكن تمكين الاتصال اللاسلكي، لكن قد تؤدي أيضا الخلل في الروبوت وزيادة استخدام البطارية</string>
   <string name="summary_lan">السماح للتطبيقات بالاتصال بعناوين شبكة الاتصال المحلية, مثل 10.0.0.0/8، 172.16.0.0/12، و 192.168.0.0/16</string>
   <string name="summary_ip6">توجيه حركة مرور IP الإصدار 6 إلى NetGuard حيث يمكن بشكل انتقائي السماح بها أو المنع</string>
   <string name="summary_wifi_home">تطبيق قواعد الشبكة اللاسلكية للشبكة المحددة فقط (تطبيق قواعد شبكة الجوال لباقي الشبكات اللاسلكية)</string>
@@ -111,7 +111,7 @@
   <string name="summary_national_roaming">لا تـطـبـق قـواعـد الـتـجـوال عـنـدمـا تـكـون الشريحة ودولـة شـبـكـة الـمـحـمـول هـي نـفـسـهـا</string>
   <string name="summary_system">تحديد القواعد لتطبيقات نظام (للخبراء)</string>
   <string name="summary_log_app">تسجل محاولات وصول التطبيقات إلى الإنترنت. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
-  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
+  <string name="summary_access">إظهار إعلام شريط المعلومات عندما يحاول تطبيق الوصول إلى عنوان إنترنت جديد (عند التصفية معطل، إلا محاولات الوصول إلى الإنترنت المحظورة فسيتم الإخطار)</string>
   <string name="summary_filter">تصفية حزم IP الخارجة من نفق VPN. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_track_usage">تتبع عدد وحدات البايت المرسلة والمتلقاة لكل تطبيق وعنوان. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_block_domains">الاستجابة ب \'اسم خاطئ\' (NXDOMAIN) لأسماء النطاقات المحظورة. يعطل هذا الخيار عند عدم وجود ملف المضيفين.</string>
@@ -125,13 +125,13 @@
   <string name="msg_disabled">التطبيق غير مُفعّل, قم بتفعيل التطبيق من الخيار أعلاه.</string>
   <string name="msg_revoked">تـم تـعـطـيـل NetGuard، مـن الـمـحـتـمـل إسـتـخـدام تـطـبـيـق VPN آخر</string>
   <string name="msg_installed">\'%1$s\' مثبت</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">قد تم التثبيت</string>
   <string name="msg_access">%1$s حاولت الوصول إلى الإنترنت</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">محاولة الدخول للإنترنت</string>
   <string name="msg_completed">اكتمل الإجراء</string>
   <string name="msg_vpn">يستخدم NetGuard شبكة VPN محلية لتصفية حركة الانترنت. لهذا، يرجى السماح لاتصال VPN في مربع الحوار القادم. حركة الانترنت الخاصة بك لا يتم ارسالها الى خادم VPN بعيد.</string>
   <string name="msg_autostart">لا يمكن بدء NetGuard بشكل تلقائي عند التشغيل بسبب وجود خلل في إصدار الاندرويد الخاص بك</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">حدث خطأ غير متوقع: \'%s\'</string>
   <string name="msg_try">جـرّب NetGuard</string>
   <string name="msg_terms">عند تبرعك فهذا يعني انك مواقق على الشروط والاحكام. <a href="http://www.netguard.me/#terms">احكام &amp; شروط</a></string>
   <string name="msg_dimming">إن لم تستطع الضغط على موافق في مربع الحوار التالي فهذا معناه انه يوجد برنامج آخر يتحكم في الشاشة.</string>
@@ -143,8 +143,7 @@
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ جيجابايت</string>
   <string name="msg_count">%dس</string>
   <string name="msg_doze">للحصول على نتائج متناسقة، يجب تعطيل تحسينات البطارية للاندرويد لـ NetGuard. عن طريق \n\n ، حدد \"جميع التطبيقات\" في الجزء العلوي، انقر على NetGuard في القائمة وتحديد وتأكيد \"تعطيل تحسينات البطارية\".</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">للحصول على نتائج متسقة، يجب تعطيل البيانات الروبوت توفير خيارات ل NetGuard \n\nIn مربع الحوار التالي، تمكين خيارات \"بيانات أساسية\" و \"استخدام البيانات غير المقيد\"</string>
   <string name="msg_filter">استخدام التصفية سيتسبب بأن ينسب الأندرويد استخدام البيانات والطاقة الى NetGuard - يفترض الأندرويد أن البيانات والطاقة تستخدمان من قبل NetGuard بدلاً من التطبيقات الأصلية</string>
   <string name="msg_log_disabled">تسجيل الحركة معطل، استخدم رمز التبديل أعلاه لتمكين التسجيل. قد يؤدي تسجيل الحركة الى استخدام إضافي للبطارية.</string>
   <string name="msg_clear_rules">هذا سوف يعيد تعيين القواعد والشروط إلى قيمها الافتراضية</string>
@@ -158,10 +157,10 @@
   <string name="msg_metered">الشبكة مقاسة</string>
   <string name="msg_queue">NetGuard مشغول</string>
   <string name="msg_update">يوجد تحديث متوفرة، اضغط لتحميله</string>
-  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
-  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_whitelist">الدخول للإنترنت مسموح بشكل إفتراضي، وهذا يمكن تغييرة في الإعدادات</string>
+  <string name="msg_push">معظم الرسائل يتم معالجتها بواسطة خدمات النظام المتاحة، وهي التى مسموحة بدخول الإنترنت بشكل إفتراضي</string>
   <string name="msg_system">يمكنك تمكين إدارة تطبيقات النظام في الخيارات المتقدمة</string>
-  <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
+  <string name="msg_issue">الرجاء أوصف المشكلة وبيّن وقت المشكلة</string>
   <string name="title_unmetered_allowed">الحركة الغير مقاسة مسموحة</string>
   <string name="title_unmetered_blocked">الحركة الغير مقاسة محظورة</string>
   <string name="title_metered_allowed">الحركة المقاسة مسموحة</string>
@@ -182,7 +181,7 @@
   <string name="title_related">تصفية ذي الصلة</string>
   <string name="title_access">محاولات الوصول</string>
   <string name="title_no_log"><u>التسجيل غير مفعل</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter">التنقية ليست متوفرة</string>
   <string name="title_precedence">قواعد الوصول لها الأسبقية على غيرها من القواعد</string>
   <string name="title_rate">قيم البرنامج</string>
   <string name="title_allow">اســمــح</string>

@@ -125,13 +125,13 @@
   <string name="msg_disabled">NetGuard ist deaktiviert. Verwenden Sie den Schalter, um NetGuard zu aktivieren.</string>
   <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer anderen VPN-Anwendung</string>
   <string name="msg_installed">\'%1$s\' installiert</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">Wurde installiert</string>
   <string name="msg_access">%1$s versucht Internetzugriff</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">Versucht Internetzugriff</string>
   <string name="msg_completed">Aktion abgeschlossen</string>
   <string name="msg_vpn">NetGuard verwendet ein lokales VPN, um den Internetverkehr zu filtern. Gestatten Sie aus diesem Grund eine VPN-Verbindung im nächsten Dialogfenster. Ihr Internetverkehr wird nicht an einen VPN-Server gesendet!</string>
   <string name="msg_autostart">NetGuard konnte aufgrund eines Fehlers Ihrer aktuellen Android-Version beim Booten nicht automatisch starten</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">Unerwarteter Fehler ist aufgetreten: \'%s\'</string>
   <string name="msg_try">NetGuard ausprobieren</string>
   <string name="msg_terms">Durch eine Spende stimmen Sie der <a href="http://www.netguard.me/#terms">AGB</a> zu.</string>
   <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
@@ -143,8 +143,7 @@
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Für konsistente Ergebnisse sollte für NetGuard die Android-Batterie-Optimierungen  deaktiviert werden.\n\nIm nächsten Dialogfenster wählen Sie ganz oben \"Alle Apps\", tippen auf NetGuard in der Liste und wählen und bestätigen \"Nicht optimieren\".</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">Für konsistente Ergebnisse sollte die Android-Daten-Speicher-Optionen für NetGuard deaktiviert werden\n\nIm nächsten Fenster aktivieren Sie die Optionen \"Hintergrunddaten\" und \"Uneingeschränkte Datennutzung\"</string>
   <string name="msg_filter">Bei Verwendung von Filterung werden Daten- und Energiewerte erfasst und Android nimmt an, dass Daten und Energie von NetGuard statt von der ursprünglichen Anwendungen verbraucht werden</string>
   <string name="msg_log_disabled">Datenverkehrprotokollierung ist deaktiviert. Zum Aktivieren den Schalter oben verwenden. Die Protokollierung kann zu höherem Batterieverbrauch führen.</string>
   <string name="msg_clear_rules">Dadurch werden die Regeln und Bedingungen auf ihre Standardwerte zurückgesetzt</string>
@@ -182,7 +181,7 @@
   <string name="title_related">Filterabhängig</string>
   <string name="title_access">Zugriffsversuche</string>
   <string name="title_no_log"><u>Protokollierung ist nicht aktiviert</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>Filterung ist nicht aktiviert</u></string>
   <string name="title_precedence">Zugriffsregeln haben vor anderen Regeln Vorrang</string>
   <string name="title_rate">Bewerten</string>
   <string name="title_allow">Erlauben</string>

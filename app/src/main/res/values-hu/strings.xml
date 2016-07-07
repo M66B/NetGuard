@@ -124,15 +124,15 @@
   <string name="msg_disabled">A NetGuard letiltva. Használja a kapcsolót a NetGuard engedélyezéshez</string>
   <string name="msg_revoked">A NetGuard letiltva. Valószínűleg egy másik VPN alapú alkalmazással</string>
   <string name="msg_installed">\'%1$s\' telepítve</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">Telepítve van</string>
   <string name="msg_access">%1$s internet hozzáférési kísérlet</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">Internet hozzáférési kísérlet</string>
   <string name="msg_completed">Művelet befejezve</string>
   <string name="msg_vpn">A NetGuard helyi VPN-t használ az internetes forgalom szűréséhez.
 Ezért kérjük, hogy engedélyezze a VPN kapcsolatot a következő párbeszéd ablakban.
 Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="msg_autostart">A NetGuard nem indul el automatikusan a rendszer indításakor, mert egy hiba van ebben az Android verzióban</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">Váratlan hiba történt: \'%s\'</string>
   <string name="msg_try">NetGuard kipróbálása</string>
   <string name="msg_terms">A támogató elfogadja a <a href="http://www.netguard.me/#terms">felhasználási feltételeket</a></string>
   <string name="msg_dimming">Ha nem nyomja meg az OK gombot a következő párbeszédablakban, a másik (a képernyő fényerő) alkalmazás valószínűleg módosul a képernyőn.</string>
@@ -144,8 +144,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">A következetes eredményekhez az Androidos akkumulátor optimalizálásban a NetGuard-ot kivétellé kell tenni.\n\nA következő párbeszédablakban válassza felül az \"Összes alkalmazás\", érintse meg a NetGuard feliratot és válassza a \"Ne optimalizálja\" részt.</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">A következetes eredmény érdekében az Android adat mentés opciót le kell tiltani a NetGuard-ban\n\nA következő párbeszédablakban engedélyezni kell a \"Háttér adat\" és \"Korlátlan adat használat\" opciót.</string>
   <string name="msg_filter">A szűrés használatával az adat és az energia használat attributumait a NetGuard-hoz sorolja. Az Android azt feltételezi, hogy ezeket a NetGuard használta fel és nem az eredeti alkalmazás</string>
   <string name="msg_log_disabled">Forgalom naplózása le van tiltva, a fenti kapcsoló segítségével engedélyezheti a naplózást. A forgalom naplózása extra akkumulátor használattal jár.</string>
   <string name="msg_clear_rules">Ez alaphelyzetbe állítja a szabályok és feltételek értékeit</string>
@@ -183,7 +182,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_related">Kapcsolódás szűrő</string>
   <string name="title_access">Hozzáférési kísérletek</string>
   <string name="title_no_log"><u>A naplózás nincs engedélyezve.</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>Szűrés nincs engedélyezve</u></string>
   <string name="title_precedence">Hozzáférési szabályok elsőbbséget élveznek más szabályokkal szemben</string>
   <string name="title_rate">Értékelje</string>
   <string name="title_allow">Engedélyezés</string>

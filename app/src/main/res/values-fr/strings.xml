@@ -124,15 +124,15 @@
   <string name="msg_disabled">NetGuard est désactivé, utilisez le bouton ci-dessus pour activer NetGuard</string>
   <string name="msg_revoked">NetGuard a été désactivé, probablement en utilisant une autre application VPN</string>
   <string name="msg_installed">%1$s installé</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">A été installé</string>
   <string name="msg_access">%1$s tente d\'accéder à internet</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">A tenté d\'accéder à internet</string>
   <string name="msg_completed">Action terminée</string>
   <string name="msg_vpn">NetGuard utilise un VPN local pour filtrer le trafic Internet.
 Pour cette raison, veuillez autoriser la connexion VPN dans le message suivant.
 Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_autostart">NetGuard pourrait ne pas se lancer automatiquement au démarrage à cause d\'un bug dans votre version Android</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">Une erreur inattendue s’est produite : \'%s\'</string>
   <string name="msg_try">Essayer NetGuard</string>
   <string name="msg_terms">En faisant un don vous acceptez les <a href="http://www.netguard.me/#terms">termes et conditions</a></string>
   <string name="msg_dimming">Si vous ne pouvez pas appuyer sur OK dans la fenêtre suivante, une autre application (filtre de luminosité) manipule probablement l\'écran.</string>
@@ -144,8 +144,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ Go</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Pour des résultats cohérents, les optimisations Android de la batterie devraient être désactivées pour NetGuard.\n\nDans la fenêtre suivante, sélectionnez « Toutes les applications » en haut, appuyez sur NetGuard dans la liste, puis sélectionnez et confirmez « Ne pas optimiser ».</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">Pour des résultats cohérents, les options de limitation de données de Android doivent être désactivées pour NetGuard \n\nDans la boîte de dialogue suivante, activez les options « Données en arrière-plan » et « Utilisation de données sans restriction »</string>
   <string name="msg_filter">Utiliser le filtrage fera qu\'Android affectera l\'utilisation de données et de batterie à NetGuard - Android estime que les données et la consommation de batterie sont utilisées par NetGuard, plutôt que par les applications d\'origine</string>
   <string name="msg_log_disabled">La journalisation du trafic est désactivée, utilisez le bouton ci-dessus pour activer la journalisation. La journalisation du trafic peut entraîner une surconsommation de la batterie.</string>
   <string name="msg_clear_rules">Cela réinitialisera les règles et conditions à leurs valeurs par défaut</string>
@@ -183,7 +182,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_related">Filtrer lié</string>
   <string name="title_access">Tentatives d\'accès</string>
   <string name="title_no_log"><u>Journalisation non activée</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>Le filtrage n’est pas activé</u></string>
   <string name="title_precedence">Les règles d\'accès ont la priorité sur les autres</string>
   <string name="title_rate">Évaluer</string>
   <string name="title_allow">Autoriser</string>

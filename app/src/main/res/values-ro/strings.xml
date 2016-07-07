@@ -124,14 +124,14 @@
   <string name="msg_disabled">NetGuard este momentan dezactivat, foloseste comutatorul de mai sus pentru a il activa</string>
   <string name="msg_revoked">NetGuard a fost dezactivat, probabil de o alta aplicatie ce foloseste o conexiune VPN</string>
   <string name="msg_installed">\'%1$s\' instalat</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">A fost instalat</string>
   <string name="msg_access">%1$s a incercat sa acceseze internetul</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">Tentativa de acces la internet</string>
   <string name="msg_completed">Actiune realizata</string>
   <string name="msg_vpn">NetGuard utilizeaza o contexiune VPN locala pentru a filtra traficul pe internet.
 Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmatoare. Traficul de internet nu este trimis la un server VPN extern.</string>
   <string name="msg_autostart">NetGuard nu a putut fi pornit automat dupa repornirea dispozitivului din cauza unei erori din aceasta versiune de Android</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">A intervenit o eroare neasteptata: \'%s\'</string>
   <string name="msg_try">Incearca NetGuard</string>
   <string name="msg_terms">Donand esti de acord cu <a href="http://www.netguard.me/#terms">termenii si conditiile</a></string>
   <string name="msg_dimming">Daca in urmatoarea fereastra de dialog nu poti apasa OK inseamna ca o aplicatie ce manipuleaza ecranul (luminozitatea sau nuanta) blocheaza interactiunea.</string>
@@ -144,8 +144,8 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Pentru o functionare consistenta, optimizarile Android de baterie trebuie dezactivate pentru NetGuard.
 \n\nIn urmatoarea fereastra de dialog selectati de sus \"Toate aplicatiile\" apoi selectati NetGuard in lista si confirmati \"Nu se optimizeaza\".</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">Pentru rezultate consecvente, optiunile Android de economisire a datelor ar trebui dezactivate pentru NetGuard
+\n\nIn caseta de dialog urmatoare, activati optiunile \"Date de fundal\" si \"Utilizare de date nelimitata\"</string>
   <string name="msg_filter">Android va asocia consumul de baterie si date lui NetGuard atunci cand activati filtrarea. De fapt aplicatiile ce acceseaza internetul consuma</string>
   <string name="msg_log_disabled">Inregistrarea traficului in jurnal este dezactivata, utilizati butonul de mai sus pentru a o activa. Optiunea de inregistrare ar putea duce la un consumul suplimentar al bateriei.</string>
   <string name="msg_clear_rules">Se vor reseta regulile si conditiile la valorile implicite</string>
@@ -183,7 +183,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_related">Filtreaza aplicatii asociate</string>
   <string name="title_access">Incercari de a accesa</string>
   <string name="title_no_log"><u>Inregistrarea in jurnal nu este activata</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>Filtrarea nu este activata</u></string>
   <string name="title_precedence">Regulile de acces ale acestor adrese au prioritate</string>
   <string name="title_rate">Evalueaza aplicatia</string>
   <string name="title_allow">Permite</string>

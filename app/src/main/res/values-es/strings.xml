@@ -73,7 +73,7 @@
   <string name="setting_track_usage">Registrar uso de red</string>
   <string name="setting_reset_usage">Restablecer uso de red</string>
   <string name="setting_block_domains">Bloquear nombres de dominio</string>
-  <string name="setting_forwarding">Reenvío de puertos</string>
+  <string name="setting_forwarding">Redirección de puertos</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
@@ -124,13 +124,13 @@
   <string name="msg_disabled">NetGuard está desactivado. Utilice el interruptor de arriba para activarlo.</string>
   <string name="msg_revoked">NetGuard ha sido desactivado, probablemente por usar otra aplicación de VPN</string>
   <string name="msg_installed">\'%1$s\' instalado</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">Ha sido instalado</string>
   <string name="msg_access">%1$s intentó acceder a Internet</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">Intento de acceso a Internet</string>
   <string name="msg_completed">Acción completada</string>
   <string name="msg_vpn">NetGuard utiliza una VPN local para filtrar el tráfico de Internet. Por esta razón, permita una conexión VPN en el siguiente cuadro de diálogo. El tráfico de Internet no será enviado a un servidor VPN remoto.</string>
   <string name="msg_autostart">NetGuard podría no iniciarse automáticamente en el arranque debido a un error en su versión de Android</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">Se produjo un error inesperado: \'%s\'</string>
   <string name="msg_try">Prueba NetGuard</string>
   <string name="msg_terms">Al donar aceptas los <a href="http://www.netguard.me/#terms"> términos y condiciones</a></string>
   <string name="msg_dimming">Si no puede pulsar \'Aceptar\' en el próximo diálogo, otra aplicación (de atenuación de pantalla) esté probablemente manipulando la pantalla.</string>
@@ -142,8 +142,7 @@
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Para obtener resultados consistentes, las optimizaciones de batería de Android deberían desactivarse para NetGuard. \n\nEn el siguiente diálogo, seleccione \'Todas las aplicaciones\' en la parte superior, pulse en NetGuard en la lista y seleccione y confirme \'No optimizar\'.</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">Para obtener resultados consistentes, las opciones de ahorro de datos de Android deben estar desactivadas para NetGuard.\n\nEn el siguiente cuadro de diálogo, active las opciones \"Datos en segundo plano\" y \"Uso de datos ilimitado\".</string>
   <string name="msg_filter">Usar filtrado hará que Android atribuya el uso de datos y energía a NetGuard - Android asume que el uso de datos y energía los utiliza NetGuard, en lugar de las aplicaciones originales</string>
   <string name="msg_log_disabled">El registro de tráfico está desactivado. Utilice el interruptor de arriba para activarlo. El registro de tráfico podría aumentar el uso de la batería.</string>
   <string name="msg_clear_rules">Esto restablecerá las reglas y condiciones a sus valores originales</string>
@@ -158,7 +157,7 @@
   <string name="msg_queue">NetGuard está ocupado</string>
   <string name="msg_update">Actualización disponible, pulse para descargar</string>
   <string name="msg_whitelist">El acceso a Internet está permitido por defecto, esto puede cambiarse en los ajustes</string>
-  <string name="msg_push">Los mensajes push son gestionados en su mayoría por el componente del sistema Play Services, el cuál permite acceder a Internet por defecto</string>
+  <string name="msg_push">Las notificaciones Push son gestionadas principalmente por el componente del sistema \"Play Services\", que está autorizado para acceder a Internet por defecto</string>
   <string name="msg_system">La gestión de las aplicaciones del sistema puede activarse en las opciones avanzadas</string>
   <string name="msg_issue">Por favor, describa el problema e indique el tiempo del mismo:</string>
   <string name="title_unmetered_allowed">Tráfico ilimitado permitido</string>
@@ -181,7 +180,7 @@
   <string name="title_related">Filtro relacionado</string>
   <string name="title_access">Intentos de acceso</string>
   <string name="title_no_log"><u>El registro está desactivado</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>El filtrado no está activado</u></string>
   <string name="title_precedence">Las reglas de acceso prevalecen sobre otras reglas</string>
   <string name="title_rate">Calificar</string>
   <string name="title_allow">Permitir</string>
