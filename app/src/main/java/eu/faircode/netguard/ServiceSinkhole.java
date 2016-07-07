@@ -348,9 +348,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
                 if (cmd == Command.start || cmd == Command.reload) {
                     if (VpnService.prepare(ServiceSinkhole.this) == null) {
-                        Log.w(TAG, "VPN not prepared");
-                        showAutoStartNotification();
-                        showErrorNotification(ex.toString());
+                        Log.w(TAG, "VPN not prepared connected=" + last_connected);
+                        if (last_connected) {
+                            showAutoStartNotification();
+                            showErrorNotification(ex.toString());
+                        }
                         // Retried on connectivity change
                     } else {
                         showErrorNotification(ex.toString());
