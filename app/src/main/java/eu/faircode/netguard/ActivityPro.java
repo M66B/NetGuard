@@ -106,7 +106,6 @@ public class ActivityPro extends AppCompatActivity {
                 ServiceSinkhole.reload("submit changed", ActivityPro.this);
             }
         });
-        cbSubmit.setEnabled(IAB.isPurchasedAny(this));
         cbSubmit.setVisibility(ServiceJob.can(false, this) ? View.VISIBLE : View.GONE);
 
         // Challenge
@@ -271,6 +270,7 @@ public class ActivityPro extends AppCompatActivity {
         TextView tvSpeed = (TextView) findViewById(R.id.tvSpeed);
         TextView tvTheme = (TextView) findViewById(R.id.tvTheme);
         TextView tvAll = (TextView) findViewById(R.id.tvAll);
+        CheckBox cbSubmit = (CheckBox) findViewById(R.id.cbSubmit);
         LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
 
         btnLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.GONE : View.VISIBLE);
@@ -286,6 +286,8 @@ public class ActivityPro extends AppCompatActivity {
         tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
         tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
         tvAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.VISIBLE : View.GONE);
+
+        cbSubmit.setEnabled(IAB.isPurchasedAny(this));
 
         llChallenge.setVisibility(
                 IAB.isPurchased(SKU_DONATION, this) || Util.isPlayStoreInstall(this)
