@@ -1352,9 +1352,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
                 if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming)))
                     listAllowed.add(rule);
-                else if (rule.info.applicationInfo.uid == Process.myUid())
-                    if (prefs.getBoolean("submit", true))
-                        listAllowed.add(rule);
             }
 
         Log.i(TAG, "Allowed " + listAllowed.size() + " of " + listRule.size());
@@ -1408,11 +1405,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private boolean isDomainBlocked(String name) {
-        if ("crowd.netguard.me".equals(name)) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            if (prefs.getBoolean("submit", true))
-                return false;
-        }
         return (mapHostsBlocked.containsKey(name) && mapHostsBlocked.get(name));
     }
 

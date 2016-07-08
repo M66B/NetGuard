@@ -38,14 +38,10 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -71,9 +67,10 @@ public class ServiceJob extends JobService {
                 try {
                     String android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
                     JSONObject json = new JSONObject();
-                    json.put("android_id", Util.sha256(android_id, ""));
-                    json.put("android_sdk", Build.VERSION.SDK_INT);
+                    json.put("device", Util.sha256(android_id, ""));
+                    json.put("sdk", Build.VERSION.SDK_INT);
                     json.put("netguard", Util.getSelfVersionCode(ServiceJob.this));
+
                     for (String name : params[0].getExtras().keySet())
                         json.put(name, params[0].getExtras().get(name));
 
@@ -131,9 +128,9 @@ public class ServiceJob extends JobService {
         return sb.toString();
     }
 
-    public static boolean can(Context context) {
+    public static boolean can(boolean submit, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return (prefs.getBoolean("submit", true) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+        return ((!submit || prefs.getBoolean("submit", true)) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
 
     public static void submit(Rule rule, Context context) {

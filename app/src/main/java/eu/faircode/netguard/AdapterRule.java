@@ -34,6 +34,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
@@ -272,6 +273,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
         // Get rule
         final Rule rule = listFiltered.get(position);
 
@@ -397,8 +400,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.tvInternet.setVisibility(rule.internet ? View.GONE : View.VISIBLE);
 
         // Apply
+        boolean submit = (rule.info.applicationInfo.uid == Process.myUid() && prefs.getBoolean("submit", true));
         holder.cbApply.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? View.GONE : View.VISIBLE);
-        holder.cbApply.setEnabled(rule.pkg);
+        holder.cbApply.setEnabled(rule.pkg && !submit);
         holder.cbApply.setOnCheckedChangeListener(null);
         holder.cbApply.setChecked(rule.apply);
         holder.cbApply.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -513,8 +517,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             }
         });
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
         // Show logging is disabled
         boolean log_app = prefs.getBoolean("log_app", false);
         holder.tvNoLog.setVisibility(log_app ? View.GONE : View.VISIBLE);
@@ -593,7 +595,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                     if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                         DatabaseHelper.getInstance(context).setAccess(id, 0);
                                         ServiceSinkhole.reload("allow host", context);
-                                        if (ServiceJob.can(context))
+                                        if (ServiceJob.can(true, context))
                                             ServiceJob.submit(rule, version, protocol, daddr, dport, 0, context);
                                     } else
                                         context.startActivity(new Intent(context, ActivityPro.class));
@@ -603,7 +605,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                     if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                         DatabaseHelper.getInstance(context).setAccess(id, 1);
                                         ServiceSinkhole.reload("block host", context);
-                                        if (ServiceJob.can(context))
+                                        if (ServiceJob.can(true, context))
                                             ServiceJob.submit(rule, version, protocol, daddr, dport, 1, context);
                                     } else
                                         context.startActivity(new Intent(context, ActivityPro.class));
@@ -612,7 +614,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                 case R.id.menu_reset:
                                     DatabaseHelper.getInstance(context).setAccess(id, -1);
                                     ServiceSinkhole.reload("reset host", context);
-                                    if (ServiceJob.can(context))
+                                    if (ServiceJob.can(true, context))
                                         ServiceJob.submit(rule, version, protocol, daddr, dport, -1, context);
                                     return true;
                             }
@@ -741,7 +743,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             ServiceSinkhole.reload("rule changed", context);
         }
 
-        if (ServiceJob.can(context))
+        if (ServiceJob.can(true, context))
             ServiceJob.submit(rule, context);
     }
 

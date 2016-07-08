@@ -178,6 +178,14 @@ public class IAB implements ServiceConnection {
                 prefs.getBoolean(ActivityPro.SKU_DONATION, false));
     }
 
+    public static boolean isPurchasedAny(Context context) {
+        return isPurchased(ActivityPro.SKU_LOG, context) ||
+                isPurchased(ActivityPro.SKU_FILTER, context) ||
+                isPurchased(ActivityPro.SKU_NOTIFY, context) ||
+                isPurchased(ActivityPro.SKU_SPEED, context) ||
+                isPurchased(ActivityPro.SKU_THEME, context);
+    }
+
     public static String getResult(int responseCode) {
         switch (responseCode) {
             case 0:

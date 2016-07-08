@@ -1283,6 +1283,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                             } else if ("show_stats".equals(key)) {
                                 if (!IAB.isPurchased(ActivityPro.SKU_SPEED, context))
                                     return;
+                            } else if ("submit".equals(key)) {
+                                if (!IAB.isPurchasedAny(context))
+                                    return;
                             }
 
                             if ("hosts_last_import".equals(key) || "hosts_last_download".equals(key))

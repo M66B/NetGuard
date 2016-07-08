@@ -234,6 +234,7 @@ public class Rule {
         boolean show_system = prefs.getBoolean("show_system", false);
         boolean show_nointernet = prefs.getBoolean("show_nointernet", true);
         boolean show_disabled = prefs.getBoolean("show_disabled", true);
+        boolean submit = prefs.getBoolean("submit", true);
 
         long now = SystemClock.elapsedRealtime();
 
@@ -338,7 +339,10 @@ public class Rule {
                     rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
                     rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
 
-                    rule.apply = apply.getBoolean(info.packageName, true);
+                    if (info.applicationInfo.uid == Process.myUid() && submit)
+                        rule.apply = false;
+                    else
+                        rule.apply = apply.getBoolean(info.packageName, true);
                     rule.notify = notify.getBoolean(info.packageName, true);
 
                     // Related packages

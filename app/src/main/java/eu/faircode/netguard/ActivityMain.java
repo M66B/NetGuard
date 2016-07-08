@@ -331,12 +331,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         registerReceiver(packageChangedReceiver, intentFilter);
 
         // First use
-        if (!initialized) {
+        boolean submitting = prefs.getBoolean("submitting", false);
+        if (!initialized || !submitting) {
             // Create view
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.first, null, false);
+
             TextView tvFirst = (TextView) view.findViewById(R.id.tvFirst);
+            TextView tvSubmit = (TextView) view.findViewById(R.id.tvSubmit);
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
+            tvSubmit.setVisibility(ServiceJob.can(false, this) ? View.VISIBLE : View.GONE);
 
             // Show dialog
             dialogFirst = new AlertDialog.Builder(this)
@@ -345,8 +349,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (running)
+                            if (running) {
                                 prefs.edit().putBoolean("initialized", true).apply();
+                                prefs.edit().putBoolean("submitting", true).apply();
+                            }
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -576,6 +582,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         } else if ("theme".equals(name) || "dark_theme".equals(name))
             recreate();
+
+        else if ("submit".equals(name))
+            updateApplicationList(null);
     }
 
     private DatabaseHelper.AccessChangedListener accessChangedListener = new DatabaseHelper.AccessChangedListener() {

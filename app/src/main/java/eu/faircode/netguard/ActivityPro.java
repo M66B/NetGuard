@@ -21,8 +21,10 @@ package eu.faircode.netguard;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -33,6 +35,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -90,6 +94,20 @@ public class ActivityPro extends AppCompatActivity {
         Linkify.addLinks(tvSpeedTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SPEED, null, filter);
         Linkify.addLinks(tvThemeTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_THEME, null, filter);
         Linkify.addLinks(tvAllTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_PRO1, null, filter);
+
+        // Submit
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        CheckBox cbSubmit = (CheckBox) findViewById(R.id.cbSubmit);
+        cbSubmit.setChecked(prefs.getBoolean("submit", true));
+        cbSubmit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+                prefs.edit().putBoolean("submit", isChecked).apply();
+                ServiceSinkhole.reload("submit changed", ActivityPro.this);
+            }
+        });
+        cbSubmit.setEnabled(IAB.isPurchasedAny(this));
+        cbSubmit.setVisibility(ServiceJob.can(false, this) ? View.VISIBLE : View.GONE);
 
         // Challenge
         TextView tvChallenge = (TextView) findViewById(R.id.tvChallenge);
