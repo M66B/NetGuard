@@ -5,8 +5,8 @@ Instructions:
 
 * Download/install the latest NetGuard version [from GitHub](https://github.com/M66B/NetGuard/releases)
 * Enable the setting '*Filter traffic*' in the advanced options (always enabled on Android 5.0 or earlier)
-* Import or download [a hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) using the NetGuard backup settings
 * Enable the setting '*Block domain names*' in the advanced options (default enabled)
+* Import or download [a hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) using the NetGuard backup settings
 * Disable browser compression (Chrome: three dot menu > Settings > Data Saver > Off)
 * Wait 10 minutes to let the Android DNS cache time out
 * Test if it works by opening [this page](http://www.netguard.me/test)

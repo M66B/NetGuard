@@ -270,8 +270,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             cat_backup.removePreference(pref_hosts_download);
 
         } else {
-            pref_block_domains.setEnabled(new File(getFilesDir(), "hosts.txt").exists());
-
             String last_import = prefs.getString("hosts_last_import", null);
             String last_download = prefs.getString("hosts_last_download", null);
             if (last_import != null)
@@ -310,7 +308,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                 prefs.edit().putString("hosts_last_download", last).apply();
 
                                 if (running) {
-                                    getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
                                     pref_hosts_download.setSummary(getString(R.string.msg_download_last, last));
                                     Toast.makeText(ActivitySettings.this, R.string.msg_downloaded, Toast.LENGTH_LONG).show();
                                 }
@@ -947,7 +944,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         prefs.edit().putString("hosts_last_import", last).apply();
 
                         if (running) {
-                            getPreferenceScreen().findPreference("use_hosts").setEnabled(true);
                             getPreferenceScreen().findPreference("hosts_import").setSummary(getString(R.string.msg_import_last, last));
                             Toast.makeText(ActivitySettings.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
                         }
