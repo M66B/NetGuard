@@ -363,6 +363,24 @@ On most devices, NetGuard will keep running in the background with its foregroun
 On some devices (in particular some Samsung models), where there are lots of applications competing for memory, Android may still stop NetGuard as a last resort.
 Unfortunately this cannot be fixed from NetGuard, and can be considered a shortcoming of the device and/or as a bug in Android.
 
+<a name="FAQ39"></a>
+**(39) Which usage data will be shared?**
+
+The free version of NetGuard will share anonymized usage data.
+This can be disabled after purchasing one or more of the pro features.
+
+The following data will be shared:
+
+* The SHA256 hashed [Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)
+* The [Android version](https://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+* The application package name
+* The localized application name
+* Whether Wi-Fi and mobile connections will be blocked or allowed and which conditions apply (when screen on, roaming)
+* Whether access attempts will be notified
+* Which internet addresses (protocol, version, host, port) will be allowed and blocked
+
+This data cannot be used to identify you, so your privacy is guaranteed.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.

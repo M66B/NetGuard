@@ -184,6 +184,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ38"></a>
 [**(38) Why did NetGuard stop running?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ38)
 
+<a name="FAQ39"></a>
+[**(39) Which usage data will be shared?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ39)
+
 Permissions
 -----------
 
