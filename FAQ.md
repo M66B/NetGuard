@@ -374,8 +374,7 @@ The following data will be shared:
 
 * The [SHA256](https://en.wikipedia.org/wiki/SHA-2) hashed [Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)
 * The [Android version](https://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
-* The application package name
-* The localized application name
+* The application name and version
 * Whether Wi-Fi and mobile connections will be blocked or allowed and which conditions apply (when screen on, roaming)
 * Whether access attempts will be notified
 * Which internet addresses (protocol, version, host, port) will be allowed and blocked

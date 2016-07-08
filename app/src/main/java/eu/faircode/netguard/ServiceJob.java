@@ -174,6 +174,8 @@ public class ServiceJob extends JobService {
 
         // Add application data
         bundle.putString("package", rule.info.packageName);
+        bundle.putInt("version_code", rule.info.versionCode);
+        bundle.putString("version_name", rule.info.versionName);
         bundle.putString("label", rule.info.applicationInfo.loadLabel(pm).toString());
 
         // Cancel overlapping jobs
