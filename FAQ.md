@@ -366,12 +366,13 @@ Unfortunately this cannot be fixed from NetGuard, and can be considered a shortc
 <a name="FAQ39"></a>
 **(39) Which usage data will be shared?**
 
-The free version of NetGuard will share anonymized usage data.
-This can be disabled after purchasing one or more of the pro features.
+The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you,
+by understanding how end users work with NetGuard.
+This can optionally be disabled after purchasing one or more of the pro features.
 
 The following data will be shared:
 
-* The SHA256 hashed [Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)
+* The [SHA256](https://en.wikipedia.org/wiki/SHA-2) hashed [Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)
 * The [Android version](https://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
 * The application package name
 * The localized application name
