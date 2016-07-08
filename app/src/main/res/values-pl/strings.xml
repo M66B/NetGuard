@@ -6,6 +6,8 @@
   <string name="app_android">NetGuard wymaga Android 4.0 lub nowszy</string>
   <string name="app_license">Używając NetGuard, zgadzasz się z <a href="//www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Wielka staranność została podjęta aby rozwijać i testować NetGuard, jednakże nie jest możliwa gwarancja, iż NetGuard będzie działać poprawnie na każdym urządzeniu.\n\nUżywając NetGuard zgadzasz się z licencją <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
+This can optionally be disabled after purchasing one or more of the pro features.</string>
   <string name="menu_search">Szukaj aplikacji</string>
   <string name="menu_filter">Filtruj aplikacje</string>
   <string name="menu_app_user">Pokaż aplikacje użytkownika</string>
@@ -202,6 +204,7 @@
   <string name="title_pro_speed">Wykres prędkości sieci w powiadomieniach</string>
   <string name="title_pro_theme">Wygląd (motyw, kolor)</string>
   <string name="title_pro_all">Wszystkie powyższe cechy Pro</string>
+  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
   <string name="title_pro_buy">Pokaż</string>
   <string name="title_pro_bought">Włączone</string>
   <string name="title_pro_challenge">Wezwanie</string>

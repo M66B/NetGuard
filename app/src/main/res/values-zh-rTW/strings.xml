@@ -8,6 +8,8 @@
   <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
+This can optionally be disabled after purchasing one or more of the pro features.</string>
   <string name="menu_search">搜尋App</string>
   <string name="menu_filter">篩選程式</string>
   <string name="menu_app_user">顯示使用者程式</string>
@@ -207,6 +209,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_pro_speed">網路速度圖通知</string>
   <string name="title_pro_theme">外觀 (主題, 顏色)</string>
   <string name="title_pro_all">All above pro features</string>
+  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
   <string name="title_pro_buy">詳細資訊</string>
   <string name="title_pro_bought">啟用</string>
   <string name="title_pro_challenge">驗證密碼</string>

@@ -7,6 +7,8 @@
   <string name="app_license">Door NetGuard te gebruiken, gaat u akkoord met de <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">NetGuard is met veel zorg ontwikkeld en getest. Ondanks deze inspanningen is het onmogelijk te garanderen dat NetGuard feilloos werkt op elk apparaat.
 \n\nDoor gebruik te maken van NetGuard, gaat u akkoord met de <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public Licence versie 3</a></string>
+  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
+This can optionally be disabled after purchasing one or more of the pro features.</string>
   <string name="menu_search">Zoek naar toepassing</string>
   <string name="menu_filter">Filter toepassingen</string>
   <string name="menu_app_user">Toon gebruikerstoepassingen</string>
@@ -205,6 +207,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_pro_speed">Netwerk snelheid grafiek melding</string>
   <string name="title_pro_theme">Uiterlijk (thema, kleuren)</string>
   <string name="title_pro_all">Alle bovenstaande pro functies</string>
+  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Ingeschakeld</string>
   <string name="title_pro_challenge">Uitdaging</string>

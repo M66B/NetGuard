@@ -7,6 +7,8 @@
   <string name="app_license">Mit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License Version 3</a></string>
   <string name="app_first">Die App wurde mit großer Sorgfalt entwickelt und getestet. Es ist leider trotzdem unmöglich zu garantieren, dass NetGuard auf jedem Gerät fehlerfrei funktioniert.
 \n\nDurch die Verwendung von NetGuard, stimmen Sie der <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License Version 3</a> zu</string>
+  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
+This can optionally be disabled after purchasing one or more of the pro features.</string>
   <string name="menu_search">Nach App suchen</string>
   <string name="menu_filter">Anwendungen filtern</string>
   <string name="menu_app_user">Benutzeranwendungen anzeigen</string>
@@ -201,6 +203,7 @@
   <string name="title_pro_speed">Netzwerkgeschwindigkeitsgraphbenachrichtigung</string>
   <string name="title_pro_theme">Aussehen (Design, Farben)</string>
   <string name="title_pro_all">Alles über Pro-Funktionen</string>
+  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
   <string name="title_pro_buy">Detailinformationen</string>
   <string name="title_pro_bought">Aktiviert</string>
   <string name="title_pro_challenge">Puzzle</string>

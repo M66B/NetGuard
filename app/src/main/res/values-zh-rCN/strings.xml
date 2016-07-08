@@ -8,6 +8,8 @@
   <string name="app_first">开发者在开发和测试NetGuard过程中已悉心尽力,
 但开发者无法确保本软件在所有设备上均可正常运行.
 \n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
+  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
+This can optionally be disabled after purchasing one or more of the pro features.</string>
   <string name="menu_search">搜索应用</string>
   <string name="menu_filter">筛选应用</string>
   <string name="menu_app_user">显示用户应用</string>
@@ -206,6 +208,7 @@
   <string name="title_pro_speed">网速示图通知</string>
   <string name="title_pro_theme">外观 (主题、 颜色)</string>
   <string name="title_pro_all">以上所有专业版功能</string>
+  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
   <string name="title_pro_buy">详细信息</string>
   <string name="title_pro_bought">已启用</string>
   <string name="title_pro_challenge">验证口令</string>

@@ -7,6 +7,8 @@
   <string name="app_license">Використовуючи NetGuard, ви погоджуєтесь із <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Було докладено багато зусиль до розробки та тестування NetGuard, проте не можливо гарантувати, що додаток буде правильно працювати на кожнрму пристрої.
 \n\nВикористовуючи NetGuard, ви погоджуєтесь із <a href="http://www.gnu.org/licenses/gpl.txt">Відкритою ліцензійною угодою GNU версії 3</a></string>
+  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
+This can optionally be disabled after purchasing one or more of the pro features.</string>
   <string name="menu_search">Пошук додатку</string>
   <string name="menu_filter">Фільтр додатків</string>
   <string name="menu_app_user">Додатки користувача</string>
@@ -203,6 +205,7 @@
   <string name="title_pro_speed">Графік швидкості в сповіщеннях</string>
   <string name="title_pro_theme">Зовнішній вигляд (тема, кольори)</string>
   <string name="title_pro_all">Всі вище зазначені pro-можливості</string>
+  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
   <string name="title_pro_buy">Деталі</string>
   <string name="title_pro_bought">Увімкнено</string>
   <string name="title_pro_challenge">Завдання</string>

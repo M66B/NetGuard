@@ -6,6 +6,8 @@
   <string name="app_android">Для работы NetGuard требуется Android 4.0 или более поздняя версия</string>
   <string name="app_license">Используя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="app_first">Было уделено большое внимание разработке и тестированию NetGuard, однако нельзя гарантировать, что NetGuard будет правильно работать на каждом устройстве. \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
+  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
+This can optionally be disabled after purchasing one or more of the pro features.</string>
   <string name="menu_search">Поиск приложения</string>
   <string name="menu_filter">Фильтр приложений</string>
   <string name="menu_app_user">Показать пользовательские приложения</string>
@@ -202,6 +204,7 @@
   <string name="title_pro_speed">График скорости сети</string>
   <string name="title_pro_theme">Внешний вид (темы, цвета)</string>
   <string name="title_pro_all">Все выше перечисленные Pro-функции</string>
+  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
   <string name="title_pro_buy">Добавить</string>
   <string name="title_pro_bought">Добавлено</string>
   <string name="title_pro_challenge">Задание</string>

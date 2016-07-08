@@ -8,6 +8,8 @@
   <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
+This can optionally be disabled after purchasing one or more of the pro features.</string>
   <string name="menu_search">Hľadať aplikáciu</string>
   <string name="menu_filter">Filtrovať aplikácie</string>
   <string name="menu_app_user">Zobraziť používateľské aplikácie</string>
@@ -206,6 +208,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_pro_speed">Oznámenie s grafom rýchlosti siete</string>
   <string name="title_pro_theme">Vzhľad (téma, farby)</string>
   <string name="title_pro_all">Všetky vyššie uvedené PRO funkcie</string>
+  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
   <string name="title_pro_buy">Detaily</string>
   <string name="title_pro_bought">Povolené</string>
   <string name="title_pro_challenge">Výzva</string>
