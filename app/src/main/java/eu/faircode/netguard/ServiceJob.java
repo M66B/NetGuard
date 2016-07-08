@@ -208,7 +208,7 @@ public class ServiceJob extends JobService {
         ComponentName serviceName = new ComponentName(context, ServiceJob.class);
         JobInfo job = new JobInfo.Builder(++id, serviceName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .setRequiresDeviceIdle(!Util.isDebuggable(context))
+                .setMinimumLatency(15 * 1000)
                 .setExtras(bundle)
                 .setPersisted(true)
                 .build();
