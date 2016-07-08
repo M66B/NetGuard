@@ -177,6 +177,35 @@ public class ServiceJob extends JobService {
     }
 
     private static void submit(PersistableBundle bundle, Context context) {
+        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        for (JobInfo pending : scheduler.getAllPendingJobs()) {
+            String type = pending.getExtras().getString("type");
+            if (type != null && type.equals(bundle.getString("type"))) {
+                if (type.equals("rule")) {
+                    String pkg = pending.getExtras().getString("package");
+                    if (pkg != null && pkg.equals(bundle.getString("package"))) {
+                        Log.i(TAG, "Canceling id=" + pending.getId());
+                        scheduler.cancel(pending.getId());
+                    }
+                } else if (type.equals("host")) {
+                    String pkg = pending.getExtras().getString("package");
+                    int version = pending.getExtras().getInt("version");
+                    int protocol = pending.getExtras().getInt("protocol");
+                    String daddr = pending.getExtras().getString("daddr");
+                    int dport = pending.getExtras().getInt("dport");
+                    if (pkg != null && pkg.equals(bundle.getString("package")) &&
+                            version == bundle.getInt("version") &&
+                            protocol == bundle.getInt("protocol") &&
+                            daddr != null && daddr.equals(bundle.getString("daddr")) &&
+                            dport == bundle.getInt("dport")) {
+                        Log.i(TAG, "Canceling id=" + pending.getId());
+                        scheduler.cancel(pending.getId());
+                    }
+                }
+            }
+        }
+
         ComponentName serviceName = new ComponentName(context, ServiceJob.class);
         JobInfo job = new JobInfo.Builder(++id, serviceName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
@@ -184,8 +213,6 @@ public class ServiceJob extends JobService {
                 .setExtras(bundle)
                 .setPersisted(true)
                 .build();
-
-        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         scheduler.schedule(job);
 
         Log.i(TAG, "Scheduled job=" + job.getId());
