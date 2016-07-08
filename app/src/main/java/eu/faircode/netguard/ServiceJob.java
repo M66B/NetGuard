@@ -134,12 +134,8 @@ public class ServiceJob extends JobService {
     }
 
     public static void submit(Rule rule, Context context) {
-        PackageManager pm = context.getPackageManager();
-
         PersistableBundle bundle = new PersistableBundle();
         bundle.putString("type", "rule");
-        bundle.putString("package", rule.info.packageName);
-        bundle.putString("label", rule.info.applicationInfo.loadLabel(pm).toString());
 
         bundle.putInt("wifi_default", rule.wifi_default ? 1 : 0);
         bundle.putInt("other_default", rule.other_default ? 1 : 0);
@@ -156,29 +152,31 @@ public class ServiceJob extends JobService {
         bundle.putInt("apply", rule.apply ? 1 : 0);
         bundle.putInt("notify", rule.notify ? 1 : 0);
 
-        submit(bundle, context);
+        submit(rule, bundle, context);
     }
 
-    public static void submit(Rule rule, int version, int protocol, String daddr, int dport, int access, Context context) {
-        PackageManager pm = context.getPackageManager();
-
+    public static void submit(Rule rule, int version, int protocol, String daddr, int dport, int blocked, Context context) {
         PersistableBundle bundle = new PersistableBundle();
         bundle.putString("type", "host");
-        bundle.putString("package", rule.info.packageName);
-        bundle.putString("label", rule.info.applicationInfo.loadLabel(pm).toString());
 
         bundle.putInt("version", version);
         bundle.putInt("protocol", protocol);
         bundle.putString("daddr", daddr);
         bundle.putInt("dport", dport);
-        bundle.putInt("access", access);
+        bundle.putInt("blocked", blocked);
 
-        submit(bundle, context);
+        submit(rule, bundle, context);
     }
 
-    private static void submit(PersistableBundle bundle, Context context) {
+    private static void submit(Rule rule, PersistableBundle bundle, Context context) {
+        PackageManager pm = context.getPackageManager();
         JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
 
+        // Add application data
+        bundle.putString("package", rule.info.packageName);
+        bundle.putString("label", rule.info.applicationInfo.loadLabel(pm).toString());
+
+        // Cancel overlapping jobs
         for (JobInfo pending : scheduler.getAllPendingJobs()) {
             String type = pending.getExtras().getString("type");
             if (type != null && type.equals(bundle.getString("type"))) {
@@ -206,6 +204,7 @@ public class ServiceJob extends JobService {
             }
         }
 
+        // Schedule job
         ComponentName serviceName = new ComponentName(context, ServiceJob.class);
         JobInfo job = new JobInfo.Builder(++id, serviceName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
