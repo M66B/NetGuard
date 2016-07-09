@@ -178,6 +178,7 @@ public class ServiceJob extends JobService {
         bundle.putInt("version_code", rule.info.versionCode);
         bundle.putString("version_name", rule.info.versionName);
         bundle.putString("label", rule.info.applicationInfo.loadLabel(pm).toString());
+        bundle.putInt("system", rule.system ? 1 : 0);
         bundle.putString("installer", pm.getInstallerPackageName(rule.info.packageName));
 
         // Cancel overlapping jobs
