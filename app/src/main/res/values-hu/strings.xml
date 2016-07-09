@@ -6,8 +6,8 @@
   <string name="app_android">A NetGuard használatához Android 4.0 vagy újabb szükséges</string>
   <string name="app_license">NetGuard használatával elfogadja a<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Nagy figyelmet fordítanak arra, hogy fejlesszék és teszteljék NetGuard-ot, de arra lehetetlen garanciát vállalni, hogy a NetGuard minden eszközön jól fog működni. \n\nA NetGuard használatával elfogadja a <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License version 3</a> licencet</string>
-  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
-This can optionally be disabled after purchasing one or more of the pro features.</string>
+  <string name="app_submit">A NetGuard ingyenes változata megosztja az anonimizált használati adatait, amelyek révén pontosabban tudja a NetGuard megvédeni, ha megértjük, hogy milyen a végfelhasználók használják a NetGuard-ot.
+Ez letiltható a megvásárlása után egy vagy több Pro szolgáltatással együtt.</string>
   <string name="menu_search">Alkalmazás keresése</string>
   <string name="menu_filter">Alkalmazás szűrő</string>
   <string name="menu_app_user">Felhasználói alkalmazások mutatása</string>
@@ -204,7 +204,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_pro_speed">Hálózat sebesség grafikon értesítés</string>
   <string name="title_pro_theme">Megjelenés (téma, színek)</string>
   <string name="title_pro_all">Az összes fenti pro funkció</string>
-  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
+  <string name="title_pro_submit">Anonim használati adatok megosztása a NetGuard javítása érdekében</string>
   <string name="title_pro_buy">Részletek</string>
   <string name="title_pro_bought">Engedélyezve</string>
   <string name="title_pro_challenge">Hívás</string>

@@ -6,8 +6,10 @@
   <string name="app_android">يتطلب NetGuard إصدار أندرويد 4.0 أو أحدث</string>
   <string name="app_license">بــإســتــخــدام NetGuard، مــعــنــاه أنــك مــوافــق عــلـى <a href="http://www.gnu.org/licenses/gpl.txt"> رخــصــة BNU الــعــمــومــيــة الــعــامــة الإصــدار 3</a></string>
   <string name="app_first">تم تطوير واختبار NetGuard بعناية فائقة؛ لكن من المستحيل ضمان عمل NetGuard بشكل صحيح على كل جهاز. \n\nBy باستخدامك NetGuard؛ فإنك توافق على <a href="http://www.gnu.org/licenses/gpl.txt"> رخصة جنو العمومية الإصدار 3</a></string>
-  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
-This can optionally be disabled after purchasing one or more of the pro features.</string>
+  <string name="app_submit">
+إن النسخة المجانية من NetGuard ستتبادل المعطيات لتحسين كيفية حمايتك، وذلك عن طريق معرفة كيفية التعامل مع .NetGuard
+مع العلم بأن هذا يمكن تعطيلة إختيارياً بعد شراء واحدة أو أكثر من الميزات المستقبلية.
+</string>
   <string name="menu_search">البحث عن تطبيقات</string>
   <string name="menu_filter">تــصــفــيــة الــتــطــبــيــقــات</string>
   <string name="menu_app_user">إظهار تطبيقات المستخدم</string>
@@ -203,7 +205,7 @@ This can optionally be disabled after purchasing one or more of the pro features
   <string name="title_pro_speed">تنبيه رسم بياني لسرعة الشبكة</string>
   <string name="title_pro_theme">المظهر (المظهر، ألوان)</string>
   <string name="title_pro_all">كل ميزات النسخة الكاملة أعلاه</string>
-  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
+  <string name="title_pro_submit">تبادل بيانات الإستخدام، مجهولة المصدر، لتحسين NetGuard</string>
   <string name="title_pro_buy">تفاصيل</string>
   <string name="title_pro_bought">ممكن</string>
   <string name="title_pro_challenge">تحدّي</string>
