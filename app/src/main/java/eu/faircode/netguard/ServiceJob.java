@@ -97,12 +97,19 @@ public class ServiceJob extends JobService {
                     Log.i(TAG, "Response=" + response);
 
                     jobFinished(params[0], false);
+
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     jobFinished(params[0], true);
+
                 } finally {
                     if (urlConnection != null)
                         urlConnection.disconnect();
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ignored) {
+                    }
                 }
 
                 return null;
