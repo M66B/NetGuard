@@ -6,8 +6,7 @@
   <string name="app_android">NetGuard requer Android 4.0 ou posterior</string>
   <string name="app_license">Ao usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Houve grande cuidado em desenvolver e testar o NetGuard, no entanto é impossível garantir que o NetGuard funcionará correctamente em todos os dispositivos.\n\nAo utilizar o NetGuard você concorda com a <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License versão 3</a></string>
-  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
-This can optionally be disabled after purchasing one or more of the pro features.</string>
+  <string name="app_submit">A versão gratuita do NetGuard partilhará dados de utilização anónimos para melhorar a forma como o NetGuard o protege, compreendendo como os utilizadores finais trabalham com o NetGuard. Isto pode ser opcionalmente desativado depois de comprar uma ou mais funcionalidades pro.</string>
   <string name="menu_search">Procurar aplicação</string>
   <string name="menu_filter">Filtrar aplicações</string>
   <string name="menu_app_user">Mostrar aplicações de utilizador</string>
@@ -52,15 +51,15 @@ This can optionally be disabled after purchasing one or more of the pro features
   <string name="setting_options">Opções</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Ativar tema escuro</string>
-  <string name="setting_install">Notify on new install</string>
+  <string name="setting_install">Notificação com nova instalação</string>
   <string name="setting_auto">Auto habilitar após %1$s minutos</string>
   <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
   <string name="setting_update">Procurar actualizações</string>
   <string name="setting_network_options">Opções de rede</string>
-  <string name="setting_subnet">Subnet routing</string>
+  <string name="setting_subnet">Encaminhamento Subnet</string>
   <string name="setting_tethering">Permitir tethering</string>
   <string name="setting_lan">Permitir o acesso à LAN</string>
-  <string name="setting_ip6">Enable IPv6 traffic</string>
+  <string name="setting_ip6">Ativar tráfego IPv6</string>
   <string name="setting_wifi_home">Rede Wi-Fi Doméstica: %1$s</string>
   <string name="setting_metered">Manipular redes Wi-Fi Limitadas</string>
   <string name="setting_metered_2g">Considerar 2G ilimitado</string>

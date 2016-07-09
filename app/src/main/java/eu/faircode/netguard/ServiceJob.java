@@ -26,12 +26,10 @@ import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.PersistableBundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -137,11 +135,6 @@ public class ServiceJob extends JobService {
         return sb.toString();
     }
 
-    public static boolean can(boolean submit, Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return ((!submit || prefs.getBoolean("submit", true)) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
-    }
-
     public static void submit(Rule rule, Context context) {
         PersistableBundle bundle = new PersistableBundle();
         bundle.putString("type", "rule");
@@ -221,7 +214,7 @@ public class ServiceJob extends JobService {
         ComponentName serviceName = new ComponentName(context, ServiceJob.class);
         JobInfo job = new JobInfo.Builder(++id, serviceName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .setMinimumLatency(15 * 1000)
+                .setMinimumLatency(Util.isDebuggable(context) ? 10 * 1000 : 60 * 1000)
                 .setExtras(bundle)
                 .setPersisted(true)
                 .build();

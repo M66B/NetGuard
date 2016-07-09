@@ -106,7 +106,7 @@ public class ActivityPro extends AppCompatActivity {
                 ServiceSinkhole.reload("submit changed", ActivityPro.this);
             }
         });
-        cbSubmit.setVisibility(ServiceJob.can(false, this) ? View.VISIBLE : View.GONE);
+        cbSubmit.setVisibility(Util.canSubmit(false, this) ? View.VISIBLE : View.GONE);
 
         // Challenge
         TextView tvChallenge = (TextView) findViewById(R.id.tvChallenge);

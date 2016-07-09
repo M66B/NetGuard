@@ -340,7 +340,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             TextView tvFirst = (TextView) view.findViewById(R.id.tvFirst);
             TextView tvSubmit = (TextView) view.findViewById(R.id.tvSubmit);
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
-            tvSubmit.setVisibility(ServiceJob.can(false, this) ? View.VISIBLE : View.GONE);
+            tvSubmit.setVisibility(Util.canSubmit(false, this) ? View.VISIBLE : View.GONE);
 
             // Show dialog
             dialogFirst = new AlertDialog.Builder(this)
