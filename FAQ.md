@@ -381,6 +381,8 @@ The following data will be shared:
 
 This data cannot be used to identify you, so your privacy is guaranteed.
 
+Usage data will be queued for sending over an unmetered connection (mostly Wi-Fi) when settings are being changed.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.
