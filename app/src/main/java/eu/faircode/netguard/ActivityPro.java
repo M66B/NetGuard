@@ -104,6 +104,8 @@ public class ActivityPro extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton button, boolean isChecked) {
                 prefs.edit().putBoolean("submit", isChecked).apply();
                 ServiceSinkhole.reload("submit changed", ActivityPro.this);
+                if (!isChecked && Util.canSubmit(false, ActivityPro.this))
+                    ServiceJob.cancelAll(ActivityPro.this);
             }
         });
         cbSubmit.setVisibility(Util.canSubmit(false, this) ? View.VISIBLE : View.GONE);

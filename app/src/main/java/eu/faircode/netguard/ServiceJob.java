@@ -222,4 +222,9 @@ public class ServiceJob extends JobService {
 
         Log.i(TAG, "Scheduled job=" + job.getId());
     }
+
+    public static void cancelAll(Context context) {
+        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        scheduler.cancelAll();
+    }
 }
