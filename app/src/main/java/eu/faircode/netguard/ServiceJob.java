@@ -70,6 +70,7 @@ public class ServiceJob extends JobService {
                     json.put("device", Util.sha256(android_id, ""));
                     json.put("sdk", Build.VERSION.SDK_INT);
                     json.put("netguard", Util.getSelfVersionCode(ServiceJob.this));
+                    json.put("store", getPackageManager().getInstallerPackageName(getPackageName()));
 
                     for (String name : params[0].getExtras().keySet())
                         json.put(name, params[0].getExtras().get(name));
@@ -177,6 +178,7 @@ public class ServiceJob extends JobService {
         bundle.putInt("version_code", rule.info.versionCode);
         bundle.putString("version_name", rule.info.versionName);
         bundle.putString("label", rule.info.applicationInfo.loadLabel(pm).toString());
+        bundle.putString("installer", pm.getInstallerPackageName(rule.info.packageName));
 
         // Cancel overlapping jobs
         for (JobInfo pending : scheduler.getAllPendingJobs()) {
