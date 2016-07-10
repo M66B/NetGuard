@@ -27,6 +27,8 @@ import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.PersistableBundle;
@@ -40,6 +42,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -174,11 +177,25 @@ public class ServiceJob extends JobService {
         PackageManager pm = context.getPackageManager();
         JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
 
+        // Get english application label
+        String label;
+        try {
+            Configuration config = new Configuration();
+            config.setLocale(new Locale("en"));
+            Resources res = pm.getResourcesForApplication(rule.info.packageName);
+            res.updateConfiguration(config, res.getDisplayMetrics());
+            label = res.getString(rule.info.applicationInfo.labelRes);
+        } catch (PackageManager.NameNotFoundException ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            label = rule.info.applicationInfo.loadLabel(pm).toString();
+        }
+        Log.i(TAG, "label=" + label);
+
         // Add application data
         bundle.putString("package", rule.info.packageName);
         bundle.putInt("version_code", rule.info.versionCode);
         bundle.putString("version_name", rule.info.versionName);
-        bundle.putString("label", rule.info.applicationInfo.loadLabel(pm).toString());
+        bundle.putString("label", label);
         bundle.putInt("system", rule.system ? 1 : 0);
         bundle.putString("installer", pm.getInstallerPackageName(rule.info.packageName));
 
