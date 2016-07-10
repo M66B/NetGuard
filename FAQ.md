@@ -375,6 +375,7 @@ The following data will be shared:
 * The [SHA256](https://en.wikipedia.org/wiki/SHA-2) hashed [Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)
 * The [device name](https://developer.android.com/reference/android/os/Build.html#DEVICE)
 * The [Android version](https://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
+* The configured [country](https://developer.android.com/reference/java/util/Locale.html#getCountry()) (this is not the country where the device is located)
 * The application name, version and installer and whether the application is a user installed or a system application
 * Whether Wi-Fi and mobile connections will be blocked or allowed and which conditions apply (when screen on, roaming)
 * Whether access attempts will be notified

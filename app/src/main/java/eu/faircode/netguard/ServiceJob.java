@@ -68,9 +68,12 @@ public class ServiceJob extends JobService {
                 try {
                     String android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
                     JSONObject json = new JSONObject();
+
                     json.put("device", Util.sha256(android_id, ""));
                     json.put("product", Build.DEVICE);
                     json.put("sdk", Build.VERSION.SDK_INT);
+                    json.put("country", Locale.getDefault().getCountry());
+
                     json.put("netguard", Util.getSelfVersionCode(ServiceJob.this));
                     json.put("store", getPackageManager().getInstallerPackageName(getPackageName()));
 
