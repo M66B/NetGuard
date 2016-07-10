@@ -58,13 +58,13 @@ public class ServiceJob extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        Log.i(TAG, "Execute job=" + params.getJobId());
+        Log.i(TAG, "Start job=" + params.getJobId());
 
         new AsyncTask<JobParameters, Object, Object>() {
 
             @Override
             protected JobParameters doInBackground(JobParameters... params) {
-                Log.i(TAG, "Start job=" + params[0].getJobId());
+                Log.i(TAG, "Executing job=" + params[0].getJobId());
 
                 HttpsURLConnection urlConnection = null;
                 try {
@@ -133,7 +133,7 @@ public class ServiceJob extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters params) {
-        Log.i(TAG, "Start job=" + params.getJobId());
+        Log.i(TAG, "Stop job=" + params.getJobId());
         return true;
     }
 
@@ -245,9 +245,10 @@ public class ServiceJob extends JobService {
                 .setExtras(bundle)
                 .setPersisted(true)
                 .build();
-        scheduler.schedule(job);
-
-        Log.i(TAG, "Scheduled job=" + job.getId());
+        if (scheduler.schedule(job) == JobScheduler.RESULT_SUCCESS)
+            Log.i(TAG, "Scheduled job=" + job.getId() + " success");
+        else
+            Log.e(TAG, "Scheduled job=" + job.getId() + " failed");
     }
 
     public static void cancelAll(Context context) {
