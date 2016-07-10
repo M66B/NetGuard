@@ -6,8 +6,7 @@
   <string name="app_android">NetGuard requiert Android 4.0 ou ultérieur</string>
   <string name="app_license">En utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Un grand soin a été apporté pour développer et tester NetGuard, cependant il est impossible de garantir que NetGuard fonctionnera correctement sur tous les appareils.\n\nEn utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
-This can optionally be disabled after purchasing one or more of the pro features.</string>
+  <string name="app_submit">La version gratuite de NetGuard enverra des données d’utilisation anonymes afin d’améliorer la façon dont NetGuard vous protège, en comprenant comment les utilisateurs utilisent NetGuard. Ceci peut éventuellement être désactivé après l’achat d’une ou plusieurs fonctionnalités pro.</string>
   <string name="menu_search">Rechercher une application</string>
   <string name="menu_filter">Filtrer les applications</string>
   <string name="menu_app_user">Afficher les applications utilisateur</string>
@@ -204,7 +203,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_pro_speed">Notification d\'un graphique de vitesse réseau</string>
   <string name="title_pro_theme">Apparence (thème, couleurs)</string>
   <string name="title_pro_all">Toutes les fonctionnalités Pro ci-dessus</string>
-  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
+  <string name="title_pro_submit">Envoyer des données d’utilisation anonymes afin d’améliorer NetGuard</string>
   <string name="title_pro_buy">Détails</string>
   <string name="title_pro_bought">Activé</string>
   <string name="title_pro_challenge">Code</string>
