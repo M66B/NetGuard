@@ -105,8 +105,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
         Util.logExtras(getIntent());
+        
+        boolean hasVpnDialogsPackage = Util.isPackageInstalled("com.android.vpndialogs", this);
+        if (!hasVpnDialogsPackage) {
+            Log.i(TAG, "com.android.vpndialogs was not found."");
+        }
 
-        if (Build.VERSION.SDK_INT < MIN_SDK) {
+        if (Build.VERSION.SDK_INT < MIN_SDK  || !hasVpnDialogsPackage) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.android);
             return;
