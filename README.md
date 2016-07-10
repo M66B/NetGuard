@@ -75,7 +75,7 @@ For more screenshots, see [here](https://github.com/M66B/NetGuard/tree/master/sc
 Compatibility
 -------------
 
-NetGuard will crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
+NetGuard will not work when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 
 
 <a name="FAQ"></a>
