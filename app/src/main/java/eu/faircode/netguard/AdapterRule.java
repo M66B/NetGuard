@@ -65,6 +65,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> implements Filterable {
@@ -677,6 +678,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
         SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
+        SharedPreferences history = context.getSharedPreferences("history", Context.MODE_PRIVATE);
 
         if (rule.wifi_blocked == rule.wifi_default)
             wifi.edit().remove(rule.info.packageName).apply();
@@ -712,6 +714,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             notify.edit().remove(rule.info.packageName).apply();
         else
             notify.edit().putBoolean(rule.info.packageName, rule.notify).apply();
+
+        rule.last_modified = new Date().getTime();
+        history.edit().putLong(rule.info.packageName + ":modified", rule.last_modified).apply();
 
         rule.updateChanged(context);
         Log.i(TAG, "Updated " + rule);

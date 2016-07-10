@@ -26,6 +26,7 @@ import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -42,6 +43,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -102,6 +104,11 @@ public class ServiceJob extends JobService {
                     Log.i(TAG, "Response=" + response);
 
                     jobFinished(params[0], false);
+
+                    if ("rule".equals(params[0].getExtras().getString("type"))) {
+                        SharedPreferences history = getSharedPreferences("history", Context.MODE_PRIVATE);
+                        history.edit().putLong(params[0].getExtras().getString("package") + ":submitted", new Date().getTime()).apply();
+                    }
 
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));

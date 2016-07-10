@@ -80,6 +80,8 @@ public class Rule {
     public float totalbytes;
 
     public boolean changed;
+    public long last_modified;
+    public long last_submitted;
 
     public boolean expanded = false;
 
@@ -222,6 +224,7 @@ public class Rule {
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
         SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
         SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
+        SharedPreferences history = context.getSharedPreferences("history", Context.MODE_PRIVATE);
 
         // Get settings
         boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
@@ -344,6 +347,9 @@ public class Rule {
                     else
                         rule.apply = apply.getBoolean(info.packageName, true);
                     rule.notify = notify.getBoolean(info.packageName, true);
+
+                    rule.last_modified = history.getLong(info.packageName + ":modified", 0);
+                    rule.last_submitted = history.getLong(info.packageName + ":submitted", 0);
 
                     // Related packages
                     List<String> listPkg = new ArrayList<>();
