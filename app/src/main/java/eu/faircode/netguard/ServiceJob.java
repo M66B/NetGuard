@@ -195,7 +195,7 @@ public class ServiceJob extends JobService {
             Resources res = pm.getResourcesForApplication(rule.info.packageName);
             res.updateConfiguration(config, res.getDisplayMetrics());
             label = res.getString(rule.info.applicationInfo.labelRes);
-        } catch (PackageManager.NameNotFoundException ex) {
+        } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             label = rule.info.applicationInfo.loadLabel(pm).toString();
         }
