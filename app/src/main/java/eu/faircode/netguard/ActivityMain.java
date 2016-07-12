@@ -346,7 +346,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             dialogFirst = new AlertDialog.Builder(this)
                     .setView(view)
                     .setCancelable(false)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.app_agree, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (running) {
@@ -355,7 +355,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                             }
                         }
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.app_disagree, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (running)

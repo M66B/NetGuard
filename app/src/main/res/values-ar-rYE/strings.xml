@@ -10,6 +10,8 @@
 إن النسخة المجانية من NetGuard ستتبادل المعطيات لتحسين كيفية حمايتك، وذلك عن طريق معرفة كيفية التعامل مع .NetGuard
 مع العلم بأن هذا يمكن تعطيلة إختيارياً بعد شراء واحدة أو أكثر من الميزات المستقبلية.
 </string>
+  <string name="app_agree">I agree</string>
+  <string name="app_disagree">I disagree</string>
   <string name="menu_search">البحث عن تطبيقات</string>
   <string name="menu_filter">تــصــفــيــة الــتــطــبــيــقــات</string>
   <string name="menu_app_user">إظهار تطبيقات المستخدم</string>
