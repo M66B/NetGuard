@@ -8,6 +8,8 @@
   <string name="app_first">Было уделено большое внимание разработке и тестированию NetGuard, однако нельзя гарантировать, что NetGuard будет правильно работать на каждом устройстве. \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="app_submit">Бесплатная версия NetGuard будет делиться анонимными данными об использовании программы, что позволит улучшить NetGuard, увеличить вашу безопасность и понять, как пользователи работают с NetGuard.
 При необходимости это можно отключить, купив одну или несколько Pro-функций.</string>
+  <string name="app_agree">I agree</string>
+  <string name="app_disagree">I disagree</string>
   <string name="menu_search">Поиск приложения</string>
   <string name="menu_filter">Фильтр приложений</string>
   <string name="menu_app_user">Показать пользовательские приложения</string>

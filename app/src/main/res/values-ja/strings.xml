@@ -8,6 +8,8 @@
   <string name="app_first">NetGuard は細心の注意を行って開発およびテストしました。しかしながら NetGuard がすべてのデバイスで正常に動作を保証することは不可能です。
 \n\nNetGuard を使用することで <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾契約書バージョン 3</a> に同意します</string>
   <string name="app_submit">NetGuard の無料版は、エンド ・ ユーザーの NetGuard 操作方法を理解することによって、NetGuard があなたを保護する方法を改善するため、匿名の使用状況データを共有します。プロ機能を 1 つ以上購入した後、このオプションを無効にできます。</string>
+  <string name="app_agree">I agree</string>
+  <string name="app_disagree">I disagree</string>
   <string name="menu_search">アプリケーションの検索</string>
   <string name="menu_filter">アプリケーションをフィルター</string>
   <string name="menu_app_user">ユーザー アプリケーションを表示</string>

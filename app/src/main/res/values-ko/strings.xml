@@ -10,6 +10,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_submit">The free version of NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.
 This can optionally be disabled after purchasing one or more of the pro features.</string>
+  <string name="app_agree">I agree</string>
+  <string name="app_disagree">I disagree</string>
   <string name="menu_search">앱 검색</string>
   <string name="menu_filter">Filter applications</string>
   <string name="menu_app_user">Show user applications</string>

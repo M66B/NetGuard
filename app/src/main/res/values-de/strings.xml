@@ -8,6 +8,8 @@
   <string name="app_first">Die App wurde mit großer Sorgfalt entwickelt und getestet. Es ist leider trotzdem unmöglich zu garantieren, dass NetGuard auf jedem Gerät fehlerfrei funktioniert.
 \n\nDurch die Verwendung von NetGuard, stimmen Sie der <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License Version 3</a> zu</string>
   <string name="app_submit">Die kostenlose Version von NetGuard teilt anonymisierte Nutzungsdaten zur Verbesserung wie NetGuard Sie schützt bzw. wie die App von Endbenutzern verwendet wird. Dies kann wahlweise nach dem Kauf eines oder mehrerer der Pro-Funktionen deaktiviert werden.</string>
+  <string name="app_agree">I agree</string>
+  <string name="app_disagree">I disagree</string>
   <string name="menu_search">Nach App suchen</string>
   <string name="menu_filter">Anwendungen filtern</string>
   <string name="menu_app_user">Benutzeranwendungen anzeigen</string>

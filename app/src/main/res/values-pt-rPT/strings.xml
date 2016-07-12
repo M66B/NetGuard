@@ -7,6 +7,8 @@
   <string name="app_license">Ao usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Houve grande cuidado em desenvolver e testar o NetGuard, no entanto é impossível garantir que o NetGuard funcionará correctamente em todos os dispositivos.\n\nAo utilizar o NetGuard você concorda com a <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License versão 3</a></string>
   <string name="app_submit">A versão gratuita do NetGuard partilhará dados de utilização anónimos para melhorar a forma como o NetGuard o protege, compreendendo como os utilizadores finais trabalham com o NetGuard. Isto pode ser opcionalmente desativado depois de comprar uma ou mais funcionalidades pro.</string>
+  <string name="app_agree">I agree</string>
+  <string name="app_disagree">I disagree</string>
   <string name="menu_search">Procurar aplicação</string>
   <string name="menu_filter">Filtrar aplicações</string>
   <string name="menu_app_user">Mostrar aplicações de utilizador</string>

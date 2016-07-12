@@ -10,6 +10,8 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
 \n\nNetGuard kullanarak, <a href="http://www.gnu.org/licenses/gpl.txt">Genel Kamu Lisansını (GNUv3) kabul etmiş sayılırsınız.</a></string>
   <string name="app_submit">The free version of NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.
 This can optionally be disabled after purchasing one or more of the pro features.</string>
+  <string name="app_agree">I agree</string>
+  <string name="app_disagree">I disagree</string>
   <string name="menu_search">Uygulama ara</string>
   <string name="menu_filter">Uygulama filtresi</string>
   <string name="menu_app_user">Kullanıcı uygulamalarını göster</string>
