@@ -6,7 +6,7 @@
   <string name="app_android">NetGuard requiere Android 4.0 o superior</string>
   <string name="app_license">Al utilizar NetGuard, aceptas la <a href="http://www.gnu.org/licenses/gpl.txt">Licencia Pública General GNU versión 3</a></string>
   <string name="app_first">Se ha tenido gran cuidado para desarrollar y probar NetGuard, sin embargo, es imposible garantizar que NetGuard funcione correctamente en todos los dispositivos. \n\nAl utilizar NetGuard, aceptas la <a href="http://www.gnu.org/licenses/gpl.txt"> Licencia Pública General GNU versión 3</a></string>
-  <string name="app_submit">La versión gratuita de NetGuard compartirá datos de uso anónimos para mejorar el cómo NetGuard lo protege, mediante la comprensión de cómo los usuarios trabajan con NetGuard. Esto, se puede desactivar opcionalmente luego de comprar una o más características de pago.</string>
+  <string name="app_submit">La versión gratuita de NetGuard compartirá datos de uso anónimos para mejorar la protección, analizando cómo los usuarios finales utilizan la aplicación. Esto se puede desactivar opcionalmente después de comprar una o más características de pago.</string>
   <string name="menu_search">Buscar aplicación</string>
   <string name="menu_filter">Filtrar aplicaciones</string>
   <string name="menu_app_user">Mostrar aplicaciones del usuario</string>

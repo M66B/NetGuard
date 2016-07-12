@@ -8,7 +8,7 @@
   <string name="app_first">Velká péče byla vložena do vývoje a testování NetGuardu,
 přesto není možné zaručit jeho bezchybné fungování na každém zařízení.
 \n\nPoužíváním NetGuardu souhlasíte s <a href="http://www.gnu.org/licenses/gpl.txt">Obecnou veřejnou licencí GNU verze 3</a></string>
-  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
+  <string name="app_submit">The free version of NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.
 This can optionally be disabled after purchasing one or more of the pro features.</string>
   <string name="menu_search">Hledat aplikaci</string>
   <string name="menu_filter">Filtr aplikací</string>

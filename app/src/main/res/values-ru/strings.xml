@@ -6,8 +6,8 @@
   <string name="app_android">Для работы NetGuard требуется Android 4.0 или более поздняя версия</string>
   <string name="app_license">Используя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="app_first">Было уделено большое внимание разработке и тестированию NetGuard, однако нельзя гарантировать, что NetGuard будет правильно работать на каждом устройстве. \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
-  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
-This can optionally be disabled after purchasing one or more of the pro features.</string>
+  <string name="app_submit">Бесплатная версия NetGuard будет делиться анонимными данными об использовании программы, что позволит улучшить NetGuard, увеличить вашу безопасность и понять, как пользователи работают с NetGuard.
+При необходимости это можно отключить, купив одну или несколько Pro-функций.</string>
   <string name="menu_search">Поиск приложения</string>
   <string name="menu_filter">Фильтр приложений</string>
   <string name="menu_app_user">Показать пользовательские приложения</string>
@@ -57,7 +57,7 @@ This can optionally be disabled after purchasing one or more of the pro features
   <string name="setting_delay">Задержка экрана %1$s минут(ы)</string>
   <string name="setting_update">Проверять наличие обновлений</string>
   <string name="setting_network_options">Параметры сети</string>
-  <string name="setting_subnet">Subnet routing</string>
+  <string name="setting_subnet">Маршрутизация подсети</string>
   <string name="setting_tethering">Разрешить привязку</string>
   <string name="setting_lan">Разрешить доступ к LAN</string>
   <string name="setting_ip6">Включить IPv6-трафик</string>
@@ -101,7 +101,7 @@ This can optionally be disabled after purchasing one or more of the pro features
   <string name="summary_delay">После выключения экрана, держать экран активным в течение выбранного количества минут (введите ноль, чтобы отключить эту опцию)</string>
   <string name="summary_update">Проверять наличие новых версий на GitHub два раза в день</string>
   <string name="summary_tethering">В зависимости от версии Android, привязывание может либо работать, либо не работать. Привязанный трафик не может быть отфильтрован.</string>
-  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
+  <string name="summary_subnet">Включение маршрутизации подсети; может дать возможность использования Wi-Fi звонков, но также может вызвать ошибки в Android и увеличить расход заряда батареи</string>
   <string name="summary_lan">Разрешить приложениям подключаться к локальным сетевым адресам таким, как 10.0.0.0/8, 172.16.0.0/12 и 192.168.0.0/16</string>
   <string name="summary_ip6">Пересылка трафика IPv6 к NetGuard может быть выборочно разрешена или заблокирована</string>
   <string name="summary_wifi_home">Применить правила Wi-Fi сети только для выбранной сети (для других Wi-Fi сетей применяются правила мобильной сети)</string>
@@ -126,14 +126,14 @@ This can optionally be disabled after purchasing one or more of the pro features
   <string name="msg_disabled">NetGuard отключен, используйте переключатель выше для его включения</string>
   <string name="msg_revoked">NetGuard был отключен, скорее всего, из-за применения другого VPN-подключения</string>
   <string name="msg_installed">\'%1$s\' установлено</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">Было установлено</string>
   <string name="msg_access">%1$s попыток доступа в интернет</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">Попытка доступа в интернет</string>
   <string name="msg_completed">Действие завершено</string>
   <string name="msg_vpn">NetGuard использует локальный VPN для фильтрации интернет-трафика.
 По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне. Удаленному VPN-серверу ваш интернет-трафик не отправляется.</string>
   <string name="msg_autostart">NetGuard не может быть запущен автоматически при загрузке из-за ошибки в вашей версии Android</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">Произошла непредвиденная ошибка: \'%s\'</string>
   <string name="msg_try">Попробуйте новый фаервол NetGuard</string>
   <string name="msg_terms">Делая пожертвование, Вы соглашаетесь с <a href="http://www.netguard.me/#terms">условиями &amp; положениями</a></string>
   <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>
@@ -145,8 +145,8 @@ This can optionally be disabled after purchasing one or more of the pro features
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ ГБ</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Для достижения стабильных результатов экономия заряда аккумулятора Android для NetGuard должна быть отключена. \n\nВ следующем диалоговом окне, в верхней части, выберите «Все приложения», найдите NetGuard в списке и выберете его, затем выберите «Не экономить» и подтвердите.</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">Для достижения стабильных результатов, ограничение данных Android должно быть отключено для NetGuard.
+\n\nВ следующем диалоговом окне включите опции \"Фоновые данные\" и \"Неограниченное использование данных\"</string>
   <string name="msg_filter">Использование данной функции приводит к тому, что Android передает данные и использование энергии в пользование NetGuard; Android будет считать, что данные и энергия используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
   <string name="msg_log_disabled">Ведение журнала трафика отключено, используйте переключатель выше для его включения. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="msg_clear_rules">Это сбросит правила и условия на их значения по умолчанию</string>
@@ -160,8 +160,8 @@ This can optionally be disabled after purchasing one or more of the pro features
   <string name="msg_metered">Лимитированные сети</string>
   <string name="msg_queue">NetGuard занят</string>
   <string name="msg_update">Доступно обновление, нажмите, чтобы загрузить</string>
-  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
-  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_whitelist">Доступ в интернет разрешен по умолчанию, это может быть изменено в настройках</string>
+  <string name="msg_push">Push-сообщения, в основном, обрабатываются системными компонентами Google Play, которым по умолчанию разрешен доступ в Интернет</string>
   <string name="msg_system">Управление системными приложениями может быть включено в дополнительных опциях</string>
   <string name="msg_issue">Пожалуйста, опишите проблему и укажите момент возникновения проблемы:</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
@@ -184,7 +184,7 @@ This can optionally be disabled after purchasing one or more of the pro features
   <string name="title_related">Фильтровать связные</string>
   <string name="title_access">Попытки доступа</string>
   <string name="title_no_log"><u>Ведение журнала не включено</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>Фильтрация не включена</u></string>
   <string name="title_precedence">Правила доступа имеют приоритет над другими правилами</string>
   <string name="title_rate">Оценить</string>
   <string name="title_allow">Разрешить</string>
@@ -204,7 +204,7 @@ This can optionally be disabled after purchasing one or more of the pro features
   <string name="title_pro_speed">График скорости сети</string>
   <string name="title_pro_theme">Внешний вид (темы, цвета)</string>
   <string name="title_pro_all">Все выше перечисленные Pro-функции</string>
-  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
+  <string name="title_pro_submit">Делиться анонимными данными для улучшения NetGuard</string>
   <string name="title_pro_buy">Добавить</string>
   <string name="title_pro_bought">Добавлено</string>
   <string name="title_pro_challenge">Задание</string>

@@ -95,14 +95,14 @@
   <string name="setting_technical_general">Geral</string>
   <string name="setting_technical_networks">Redes</string>
   <string name="setting_technical_subscription">Subscrições</string>
-  <string name="summary_install">Show status bar notification to directly configure newly installed applications (pro feature)</string>
+  <string name="summary_install">Mostrar notificação na barra de notificações para configurar diretamente aplicações acabadas de instalar (funcionalidade pro)</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
   <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_update">Procurar novos lançamentos no GitHub duas vezes por dia</string>
   <string name="summary_tethering">Dependendo da versão do Android, tethering pode ou não trabalhar. O tráfego em tethering não pode ser filtrado.</string>
-  <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
+  <string name="summary_subnet">Ativar encaminhamento subnet; pode permitir chamadas Wi-Fi, mas pode também desencadear bugs no Android e aumento do uso da bateria</string>
   <string name="summary_lan">Permitir que as aplicações se conectem a endereços de rede local, como 10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16</string>
-  <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
+  <string name="summary_ip6">Encaminhar tráfego IP versão 6 para o NetGuard para que possa ser seletivamente permitido ou bloqueado</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis às outras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi compartilhadas (pagas, limitadas)</string>
   <string name="summary_metered_2g">Aplicar regras Wi-Fi para conexões 2G</string>
@@ -111,7 +111,7 @@
   <string name="summary_national_roaming">Não aplicar regras de Roaming quando o chip SIM e a rede móvel forem do mesmo país</string>
   <string name="summary_system">Definir regras para aplicações de sistema (para utilizadores experientes)</string>
   <string name="summary_log_app">Registar tentativas de acesso à internet para aplicações. Isto pode resultar no uso extra da bateria.</string>
-  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
+  <string name="summary_access">Mostrar uma notificação na barra de estado quando uma aplicação tenta aceder um endereço de internet novo (quando a filtragem está desativada, só serão indicadas tentativas de acesso bloqueadas)</string>
   <string name="summary_filter">Filtrar pacotes de IP que saiem do sumidouro VPN. Isto pode resultar num uso adicional de bateria.</string>
   <string name="summary_track_usage">Controlar o número de bytes enviados e recebidos para cada aplicação e endereço. Isto pode resultar num uso adicional da bateria.</string>
   <string name="summary_block_domains">Responder com \'erro de nome\' (NXDOMAIN) para nomes de domínio bloqueados. Esta opção é desabilitada quando nenhum ficheiro de hosts está disponível.</string>
@@ -125,13 +125,13 @@
   <string name="msg_disabled">NetGuard desativado, use o interruptor acima para o ativar</string>
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN está a ser usado</string>
   <string name="msg_installed">\'%1$s\' instalado</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">Foi instalada</string>
   <string name="msg_access">%1$s tentaram acesso à internet</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">Tentativa de acesso à internet</string>
   <string name="msg_completed">Ação concluída</string>
   <string name="msg_vpn">NetGuard usa uma VPN local para filtrar o tráfego de internet. Por este motivo, por favor, permita uma conexão VPN na caixa de diálogo seguinte. O seu tráfego de internet não está a ser enviado para um servidor VPN remoto.</string>
   <string name="msg_autostart">NetGuard não pôde ser iniciado automaticamente na inicialização por causa de um bug na sua versão do Android</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">Ocorreu um erro inesperado: \'%s\'</string>
   <string name="msg_try">Testar NetGuard</string>
   <string name="msg_terms">Doando, você concorda com os <a href="http://www.netguard.me/#terms">termos &amp; condições</a></string>
   <string name="msg_dimming">Caso não consiga pressionar OK no dialogo a seguir, então provavelmente alguma aplicacão (screen dimming) está a manipular a tela.</string>
@@ -143,8 +143,7 @@
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Para resultados consistentes, as otimizações de bateria Android devem ser desabilitadas para NetGuard. \n\nNa próxima caixa de diálogo, selecione \"Todos os apps\" na parte superior, toque no NetGuard na lista e selecione e confirme \"Não otimizar\".</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">Para resultados consistentes, as opções de guardar dados do Android devem ser desativados para o NetGuard \n\nNo próxima caixa de diálogo, ative as opções \"dados em segundo plano\" e \"uso de dados sem restrições\"</string>
   <string name="msg_filter">Usando a filtragem faz com que o Android atribua o uso de dados e energia ao NetGuard - o Android assume que os dados e a energia estão a ser usados pelo NetGuard, em vez de pelas aplicações originais</string>
   <string name="msg_log_disabled">Registo de tráfego desabilitado, use o botão acima para habilitar o registo. Registar o tráfego pode resultar numa utilização extra da bateria.</string>
   <string name="msg_clear_rules">Isto irá redefinir as regras e condições para os seus valores padrão</string>
@@ -158,10 +157,10 @@
   <string name="msg_metered">Rede é limitada</string>
   <string name="msg_queue">NetGuard está ocupado</string>
   <string name="msg_update">Actualização disponivel, toque para descarregar</string>
-  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
-  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
-  <string name="msg_system">Managing system applications can be enabled in the settings</string>
-  <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
+  <string name="msg_whitelist">Acesso à internet é permitido por omissão, isto pode ser mudado nas definições</string>
+  <string name="msg_push">Mensagens push são geridas principalmente pelo componente de serviço do Play, a que é permitido o acesso à internet por omissão</string>
+  <string name="msg_system">Gerir aplicações de sistema pode ser ativado nas definições</string>
+  <string name="msg_issue">Por favor descreva o problema e indique o momento do problema:</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado é permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado é bloqueado</string>
   <string name="title_metered_allowed">Tráfego limitado é permitido</string>
@@ -182,7 +181,7 @@
   <string name="title_related">Filtrar relacionados</string>
   <string name="title_access">Tentativas de acesso</string>
   <string name="title_no_log"><u>Registo não está habilitado.</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>A filtragem não está ativa</u></string>
   <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>
@@ -202,7 +201,7 @@
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>
   <string name="title_pro_all">Todos os recursos pro acima</string>
-  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
+  <string name="title_pro_submit">Partilhar dados de uso anónimos para melhorar o NetGuard</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>

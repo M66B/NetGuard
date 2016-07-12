@@ -6,8 +6,8 @@
   <string name="app_android">NetGuard richiede Android 4.0 o versioni successive</string>
   <string name="app_license">Utilizzando NetGuard, acconsenti a quanto contenuto nella seguente licenza: <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Si è posta grande cura nello sviluppo e test di NetGuard, tuttavia è impossibile garantire che NetGuard funzionerà correttamente su tutti i dispositivi. \n\nUtilizzando NetGuard, accetti la <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License versione 3</a></string>
-  <string name="app_submit">The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you, by understanding how end users work with NetGuard.
-This can optionally be disabled after purchasing one or more of the pro features.</string>
+  <string name="app_submit">La versione gratuita di NetGuard condividerà dati di utilizzo anonimi per migliorare la protezione che ti offre, analizzando come gli utenti usano NetGuard.
+Ciò può essere disabilitato in modo facoltativo dopo l\'acquisto di una o più delle funzionalità pro.</string>
   <string name="menu_search">Cerca applicazione</string>
   <string name="menu_filter">Filtra applicazioni</string>
   <string name="menu_app_user">Mostra applicazioni utente</string>
@@ -202,7 +202,7 @@ This can optionally be disabled after purchasing one or more of the pro features
   <string name="title_pro_speed">Grafico della velocità di rete nelle notifiche</string>
   <string name="title_pro_theme">Aspetto (tema, colori)</string>
   <string name="title_pro_all">Tutte le funzionalità aggiuntive sopra</string>
-  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
+  <string name="title_pro_submit">Condividi dati di utilizzo anonimi per migliorare NetGuard</string>
   <string name="title_pro_buy">Dettagli</string>
   <string name="title_pro_bought">Abilitato</string>
   <string name="title_pro_challenge">Domanda di verifica</string>
