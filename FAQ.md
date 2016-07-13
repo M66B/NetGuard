@@ -370,16 +370,14 @@ On Android version 5.0 or newer, the free version of NetGuard will share anonymi
 by understanding how end users work with NetGuard.
 This can optionally be disabled after purchasing one or more of the pro features.
 
-The following data will be shared:
+The following data will be shared when changing application settings:
 
-* The [SHA256](https://en.wikipedia.org/wiki/SHA-2) hashed [Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)
+* The [SHA256](https://en.wikipedia.org/wiki/SHA-2) hashed [Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID) (needed to prevent multiple records of the same setting)
 * The [device name](https://developer.android.com/reference/android/os/Build.html#DEVICE) *
 * The [Android version](https://developer.android.com/reference/android/os/Build.VERSION_CODES.html) *
 * The [country](https://developer.android.com/reference/java/util/Locale.html#getCountry()) configured when initializing Android *
-* The application name, version and installer and whether the application is a user installed or a system bundled application
-* Whether Wi-Fi and mobile connections will be blocked or allowed and which conditions apply (when screen on, roaming)
-* Whether access attempts will be notified
-* Which internet addresses (protocol, version, host, port) will be allowed and blocked
+* The application name, version and [installer](https://developer.android.com/reference/android/content/pm/PackageManager.html#getInstallerPackageName(java.lang.String)) and whether the application is a user installed or a system bundled application
+* Whether Wi-Fi and mobile connections will be blocked or allowed and which conditions apply (when screen on, roaming, notify on access, addresses, etc)
 
 This data cannot be used to identify you, so your privacy is guaranteed.
 Data marked with an asterix (*) is being shared by Google in the Google Play developer console as well.
