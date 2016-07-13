@@ -366,7 +366,7 @@ Unfortunately this cannot be fixed from NetGuard, and can be considered a shortc
 <a name="FAQ39"></a>
 **(39) Which usage data will be shared?**
 
-The free version of NetGuard will share anonymized usage data to improve how NetGuard protects you,
+On Android version 5.0 or newer, the free version of NetGuard will share anonymized usage data to help improve how NetGuard protects you,
 by understanding how end users work with NetGuard.
 This can optionally be disabled after purchasing one or more of the pro features.
 
