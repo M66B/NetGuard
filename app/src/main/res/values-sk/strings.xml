@@ -8,8 +8,7 @@
   <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_submit">Bezplatná verzia NetGuard zdieľa údaje o anonymnom používaní na zlepšenie toho, ako vás NetGuard chráni, pochopením ako koncoví používateľa pracujú s NetGuard. 
-Toto zdieľanie môže byť zakázané po zakúpení jednej alebo viacerých pro funkcií.</string>
+  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Hľadať aplikáciu</string>
@@ -198,6 +197,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="title_mediaserver">server médií</string>
   <string name="title_nobody">nikto</string>
   <string name="title_notify">Upozorniť na pokusy o prístup k internetu</string>
+  <string name="title_submit">Share anonymized usage data</string>
   <string name="title_dontask">Nepýtať sa znovu</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
@@ -209,7 +209,6 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="title_pro_speed">Oznámenie s grafom rýchlosti siete</string>
   <string name="title_pro_theme">Vzhľad (téma, farby)</string>
   <string name="title_pro_all">Všetky vyššie uvedené PRO funkcie</string>
-  <string name="title_pro_submit">Zdieľať anonymné údaje o používaní na zlepšenie NetGuard</string>
   <string name="title_pro_buy">Detaily</string>
   <string name="title_pro_bought">Povolené</string>
   <string name="title_pro_challenge">Výzva</string>

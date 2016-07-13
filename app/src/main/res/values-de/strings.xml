@@ -7,7 +7,7 @@
   <string name="app_license">Mit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License Version 3</a></string>
   <string name="app_first">Die App wurde mit großer Sorgfalt entwickelt und getestet. Es ist leider trotzdem unmöglich zu garantieren, dass NetGuard auf jedem Gerät fehlerfrei funktioniert.
 \n\nDurch die Verwendung von NetGuard, stimmen Sie der <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License Version 3</a> zu</string>
-  <string name="app_submit">Die kostenlose Version von NetGuard teilt anonymisierte Nutzungsdaten zur Verbesserung wie NetGuard Sie schützt bzw. wie die App von Endbenutzern verwendet wird. Dies kann wahlweise nach dem Kauf eines oder mehrerer der Pro-Funktionen deaktiviert werden.</string>
+  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">Stimme zu</string>
   <string name="app_disagree">Nicht zustimmen</string>
   <string name="menu_search">Nach App suchen</string>
@@ -193,6 +193,7 @@
   <string name="title_mediaserver">Medienserver</string>
   <string name="title_nobody">Keiner</string>
   <string name="title_notify">Benachrichtigen bei Internetzugriffsversuchen</string>
+  <string name="title_submit">Share anonymized usage data</string>
   <string name="title_dontask">Nicht erneut fragen</string>
   <string name="title_log_whois">Wer ist %1$s</string>
   <string name="title_log_port">Port %1$d</string>
@@ -204,7 +205,6 @@
   <string name="title_pro_speed">Netzwerkgeschwindigkeitsgraphbenachrichtigung</string>
   <string name="title_pro_theme">Aussehen (Design, Farben)</string>
   <string name="title_pro_all">Alles über Pro-Funktionen</string>
-  <string name="title_pro_submit">Anonymisierte Nutzungsdaten zur Verbesserung von NetGuard teilen</string>
   <string name="title_pro_buy">Detailinformationen</string>
   <string name="title_pro_bought">Aktiviert</string>
   <string name="title_pro_challenge">Puzzle</string>

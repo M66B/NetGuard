@@ -7,8 +7,7 @@
   <string name="app_license">Ao usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">NetGuard foi desenvolvido e testado com grande cuidado, porém é impossível garantir que o NetGuard funcionará corretamente em cada dispositivo.
 \n\nUsando o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_submit">The free version of NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.
-This can optionally be disabled after purchasing one or more of the pro features.</string>
+  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Buscar aplicativo</string>
@@ -197,6 +196,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_mediaserver">Servidor de Mídia</string>
   <string name="title_nobody">ninguém</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
+  <string name="title_submit">Share anonymized usage data</string>
   <string name="title_dontask">Não pergunte novamente</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
@@ -208,7 +208,6 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>
   <string name="title_pro_all">Tudo sobre a versão PRO</string>
-  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>

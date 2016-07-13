@@ -6,8 +6,7 @@
   <string name="app_android">Для работы NetGuard требуется Android 4.0 или более поздняя версия</string>
   <string name="app_license">Используя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="app_first">Было уделено большое внимание разработке и тестированию NetGuard, однако нельзя гарантировать, что NetGuard будет правильно работать на каждом устройстве. \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
-  <string name="app_submit">Бесплатная версия NetGuard будет делиться анонимными данными об использовании программы, что позволит улучшить NetGuard, увеличить вашу безопасность и понять, как пользователи работают с NetGuard.
-При необходимости это можно отключить, купив одну или несколько Pro-функций.</string>
+  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Поиск приложения</string>
@@ -195,6 +194,7 @@
   <string name="title_mediaserver">медиасервер</string>
   <string name="title_nobody">никто</string>
   <string name="title_notify">Уведомить о попытке доступа в интернет</string>
+  <string name="title_submit">Share anonymized usage data</string>
   <string name="title_dontask">Больше не спрашивать</string>
   <string name="title_log_whois">Протокол WHOIS: %1$s</string>
   <string name="title_log_port">Порт: %1$d</string>
@@ -206,7 +206,6 @@
   <string name="title_pro_speed">График скорости сети</string>
   <string name="title_pro_theme">Внешний вид (темы, цвета)</string>
   <string name="title_pro_all">Все выше перечисленные Pro-функции</string>
-  <string name="title_pro_submit">Делиться анонимными данными для улучшения NetGuard</string>
   <string name="title_pro_buy">Добавить</string>
   <string name="title_pro_bought">Добавлено</string>
   <string name="title_pro_challenge">Задание</string>

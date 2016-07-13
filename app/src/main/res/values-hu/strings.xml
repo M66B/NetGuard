@@ -6,8 +6,7 @@
   <string name="app_android">A NetGuard használatához Android 4.0 vagy újabb szükséges</string>
   <string name="app_license">NetGuard használatával elfogadja a<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Nagy figyelmet fordítanak arra, hogy fejlesszék és teszteljék NetGuard-ot, de arra lehetetlen garanciát vállalni, hogy a NetGuard minden eszközön jól fog működni. \n\nA NetGuard használatával elfogadja a <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License version 3</a> licencet</string>
-  <string name="app_submit">A NetGuard ingyenes változata megosztja az anonimizált használati adatait, amelyek révén pontosabban tudja a NetGuard megvédeni, ha megértjük, hogy milyen a végfelhasználók használják a NetGuard-ot.
-Ez letiltható a megvásárlása után egy vagy több Pro szolgáltatással együtt.</string>
+  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">Elfogadom</string>
   <string name="app_disagree">Nem fogadom el</string>
   <string name="menu_search">Alkalmazás keresése</string>
@@ -195,6 +194,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">senki</string>
   <string name="title_notify">Értesítés az internet hozzáférési kísérletekről</string>
+  <string name="title_submit">Share anonymized usage data</string>
   <string name="title_dontask">Ne kérdezze újra</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
@@ -206,7 +206,6 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_pro_speed">Hálózat sebesség grafikon értesítés</string>
   <string name="title_pro_theme">Megjelenés (téma, színek)</string>
   <string name="title_pro_all">Az összes fenti pro funkció</string>
-  <string name="title_pro_submit">Anonim használati adatok megosztása a NetGuard javítása érdekében</string>
   <string name="title_pro_buy">Részletek</string>
   <string name="title_pro_bought">Engedélyezve</string>
   <string name="title_pro_challenge">Hívás</string>

@@ -6,10 +6,7 @@
   <string name="app_android">يتطلب NetGuard إصدار أندرويد 4.0 أو أحدث</string>
   <string name="app_license">بــإســتــخــدام NetGuard، مــعــنــاه أنــك مــوافــق عــلـى <a href="http://www.gnu.org/licenses/gpl.txt"> رخــصــة BNU الــعــمــومــيــة الــعــامــة الإصــدار 3</a></string>
   <string name="app_first">تم تطوير واختبار NetGuard بعناية فائقة؛ لكن من المستحيل ضمان عمل NetGuard بشكل صحيح على كل جهاز. \n\nBy باستخدامك NetGuard؛ فإنك توافق على <a href="http://www.gnu.org/licenses/gpl.txt"> رخصة جنو العمومية الإصدار 3</a></string>
-  <string name="app_submit">
-إن النسخة المجانية من NetGuard ستتبادل المعطيات لتحسين كيفية حمايتك، وذلك عن طريق معرفة كيفية التعامل مع .NetGuard
-مع العلم بأن هذا يمكن تعطيلة إختيارياً بعد شراء واحدة أو أكثر من الميزات المستقبلية.
-</string>
+  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">البحث عن تطبيقات</string>
@@ -196,6 +193,7 @@
   <string name="title_mediaserver">خادم الوسائط</string>
   <string name="title_nobody">لا أحد</string>
   <string name="title_notify">تنبيه عن محاولات الوصول إلى إنترنت</string>
+  <string name="title_submit">Share anonymized usage data</string>
   <string name="title_dontask">لا تسأل مرة أخرى</string>
   <string name="title_log_whois">بيانات تسجيل اسم النطاق %1$s</string>
   <string name="title_log_port">منفذ %1$d</string>
@@ -207,7 +205,6 @@
   <string name="title_pro_speed">تنبيه رسم بياني لسرعة الشبكة</string>
   <string name="title_pro_theme">المظهر (المظهر، ألوان)</string>
   <string name="title_pro_all">كل ميزات النسخة الكاملة أعلاه</string>
-  <string name="title_pro_submit">تبادل بيانات الإستخدام، مجهولة المصدر، لتحسين NetGuard</string>
   <string name="title_pro_buy">تفاصيل</string>
   <string name="title_pro_bought">ممكن</string>
   <string name="title_pro_challenge">تحدّي</string>

@@ -6,7 +6,7 @@
   <string name="app_android">NetGuard requiere Android 4.0 o superior</string>
   <string name="app_license">Al utilizar NetGuard, aceptas la <a href="http://www.gnu.org/licenses/gpl.txt">Licencia Pública General GNU versión 3</a></string>
   <string name="app_first">Se ha tenido gran cuidado para desarrollar y probar NetGuard, sin embargo, es imposible garantizar que NetGuard funcione correctamente en todos los dispositivos. \n\nAl utilizar NetGuard, aceptas la <a href="http://www.gnu.org/licenses/gpl.txt"> Licencia Pública General GNU versión 3</a></string>
-  <string name="app_submit">La versión gratuita de NetGuard compartirá datos de uso anónimos para mejorar la protección, analizando cómo los usuarios finales utilizan la aplicación. Esto se puede desactivar opcionalmente después de comprar una o más características de pago.</string>
+  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">Acepto</string>
   <string name="app_disagree">No acepto</string>
   <string name="menu_search">Buscar aplicación</string>
@@ -192,6 +192,7 @@
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nadie</string>
   <string name="title_notify">Notificar intentos de acceso a Internet</string>
+  <string name="title_submit">Share anonymized usage data</string>
   <string name="title_dontask">No volver a preguntar</string>
   <string name="title_log_whois">Quién es %1$s</string>
   <string name="title_log_port">Puerto %1$d</string>
@@ -203,7 +204,6 @@
   <string name="title_pro_speed">Notificación gráfica de velocidad de red</string>
   <string name="title_pro_theme">Apariencia (tema, colores)</string>
   <string name="title_pro_all">Todas las características de pago anteriores</string>
-  <string name="title_pro_submit">Compartir datos de uso anónimos para mejorar NetGuard</string>
   <string name="title_pro_buy">Detalles</string>
   <string name="title_pro_bought">Activado</string>
   <string name="title_pro_challenge">Desafío</string>

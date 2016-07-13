@@ -7,8 +7,7 @@
   <string name="app_license">Door NetGuard te gebruiken, gaat u akkoord met de <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">NetGuard is met veel zorg ontwikkeld en getest. Ondanks deze inspanningen is het onmogelijk te garanderen dat NetGuard feilloos werkt op elk apparaat.
 \n\nDoor gebruik te maken van NetGuard, gaat u akkoord met de <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public Licence versie 3</a></string>
-  <string name="app_submit">The free version of NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.
-This can optionally be disabled after purchasing one or more of the pro features.</string>
+  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Zoek naar toepassing</string>
@@ -198,6 +197,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">niemand</string>
   <string name="title_notify">Notify internet access attempts</string>
+  <string name="title_submit">Share anonymized usage data</string>
   <string name="title_dontask">Don\'t ask again</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Poort %1$d</string>
@@ -209,7 +209,6 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_pro_speed">Netwerk snelheid grafiek melding</string>
   <string name="title_pro_theme">Uiterlijk (thema, kleuren)</string>
   <string name="title_pro_all">Alle bovenstaande pro functies</string>
-  <string name="title_pro_submit">Share anonymized usage data to improve NetGuard</string>
   <string name="title_pro_buy">Details</string>
   <string name="title_pro_bought">Ingeschakeld</string>
   <string name="title_pro_challenge">Uitdaging</string>

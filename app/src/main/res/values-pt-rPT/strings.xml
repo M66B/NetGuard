@@ -6,7 +6,7 @@
   <string name="app_android">NetGuard requer Android 4.0 ou posterior</string>
   <string name="app_license">Ao usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Houve grande cuidado em desenvolver e testar o NetGuard, no entanto é impossível garantir que o NetGuard funcionará correctamente em todos os dispositivos.\n\nAo utilizar o NetGuard você concorda com a <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License versão 3</a></string>
-  <string name="app_submit">A versão gratuita do NetGuard partilhará dados de utilização anónimos para melhorar a forma como o NetGuard o protege, compreendendo como os utilizadores finais trabalham com o NetGuard. Isto pode ser opcionalmente desativado depois de comprar uma ou mais funcionalidades pro.</string>
+  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Procurar aplicação</string>
@@ -192,6 +192,7 @@
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">ninguém</string>
   <string name="title_notify">Notificar das tentativas de acesso à internet</string>
+  <string name="title_submit">Share anonymized usage data</string>
   <string name="title_dontask">Não voltar a perguntar</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
@@ -203,7 +204,6 @@
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>
   <string name="title_pro_all">Todos os recursos pro acima</string>
-  <string name="title_pro_submit">Partilhar dados de uso anónimos para melhorar o NetGuard</string>
   <string name="title_pro_buy">Detalhes</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_challenge">Código de verificação</string>
