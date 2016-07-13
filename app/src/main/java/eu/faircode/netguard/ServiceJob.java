@@ -250,9 +250,4 @@ public class ServiceJob extends JobService {
         else
             Log.e(TAG, "Scheduled job=" + job.getId() + " failed");
     }
-
-    public static void cancelAll(Context context) {
-        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        scheduler.cancelAll();
-    }
 }
