@@ -16,7 +16,7 @@ Features:
 * Simple to use
 * No root required
 * 100% open source
-* No tracking or analytics
+* No tracking and user profiling
 * No advertisements
 * Actively developed and supported
 * Android 4.0 and later supported
