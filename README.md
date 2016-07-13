@@ -16,7 +16,7 @@ Features:
 * Simple to use
 * No root required
 * 100% open source
-* No tracking and user profiling
+* No tracking and user profiling (see [FAQ#39](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ39))
 * No advertisements
 * Actively developed and supported
 * Android 4.0 and later supported
@@ -39,6 +39,7 @@ PRO features:
 * New application notifications; configure NetGuard directly from the notification
 * Display network speed graph in a status bar notification
 * Select from five additional themes in both light and dark version
+* Optionally opt-out of usage data sharing (see [FAQ#39](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ39))
 
 There is no other no-root firewall offering all these features.
 
