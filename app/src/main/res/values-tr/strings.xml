@@ -8,7 +8,7 @@
   <string name="app_first">NetGuard sürekli gelişmekte ve yoğun bir şekilde test ediliyor,
 Buna rağmen bazı cihazlarda çalışmayabilir.
 \n\nNetGuard kullanarak, <a href="http://www.gnu.org/licenses/gpl.txt">Genel Kamu Lisansını (GNUv3) kabul etmiş sayılırsınız.</a></string>
-  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
+  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Uygulama ara</string>

@@ -6,7 +6,7 @@
   <string name="app_android">A NetGuard használatához Android 4.0 vagy újabb szükséges</string>
   <string name="app_license">NetGuard használatával elfogadja a<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Nagy figyelmet fordítanak arra, hogy fejlesszék és teszteljék NetGuard-ot, de arra lehetetlen garanciát vállalni, hogy a NetGuard minden eszközön jól fog működni. \n\nA NetGuard használatával elfogadja a <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License version 3</a> licencet</string>
-  <string name="app_submit">NetGuard will share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
+  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">Elfogadom</string>
   <string name="app_disagree">Nem fogadom el</string>
   <string name="menu_search">Alkalmazás keresése</string>
