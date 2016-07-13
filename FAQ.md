@@ -376,11 +376,11 @@ The following data will be shared when changing application settings:
 * The [device name](https://developer.android.com/reference/android/os/Build.html#DEVICE) *
 * The [Android version](https://developer.android.com/reference/android/os/Build.VERSION_CODES.html) *
 * The [country](https://developer.android.com/reference/java/util/Locale.html#getCountry()) configured when initializing Android *
-* The application name, version and [installer](https://developer.android.com/reference/android/content/pm/PackageManager.html#getInstallerPackageName(java.lang.String)) and whether the application is a user installed or a system bundled application
+* The application name, version and [installer](https://developer.android.com/reference/android/content/pm/PackageManager.html#getInstallerPackageName(java.lang.String)) and whether an application is a user installed or a system bundled application
 * Whether Wi-Fi and mobile connections will be blocked or allowed and which conditions apply (when screen on, roaming, notify on access, addresses, etc)
 
 This data cannot be used to identify you, so your privacy is guaranteed.
-Data marked with an asterix (*) is being shared by Google in the Google Play developer console as well.
+Data marked with an asterix (*) is being shared by Google in the [Google Play developer console](https://developer.android.com/distribute/googleplay/developer-console.html) as well.
 
 Usage data will be queued for sending over an unmetered connection (mostly Wi-Fi) when settings are being changed.
 
