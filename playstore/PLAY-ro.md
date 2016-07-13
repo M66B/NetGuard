@@ -58,4 +58,6 @@ Daca vrei sa ii ajuti pe cei ce nu vorbesc limba engleza, poti ajuta la traducer
 
 Daca doriti sa testati caracteristile in dezvoltare ale aplicatiei, va puteti alatura programului de testare: https://play.google.com/apps/testing/eu.faircode.netguard
 
+Toate permisiunile necesare sunt detaliate aici: https://github.com/M66B/NetGuard
+
 Codul sursa este disponibil aici: https://github.com/M66B/NetGuard
