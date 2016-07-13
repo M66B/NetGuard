@@ -108,7 +108,7 @@ public class ActivityPro extends AppCompatActivity {
                     ServiceJob.cancelAll(ActivityPro.this);
             }
         });
-        cbSubmit.setVisibility(Util.canSubmit(false, this) ? View.VISIBLE : View.GONE);
+        cbSubmit.setVisibility(View.GONE);
 
         // Challenge
         TextView tvChallenge = (TextView) findViewById(R.id.tvChallenge);
