@@ -340,7 +340,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             TextView tvFirst = (TextView) view.findViewById(R.id.tvFirst);
             TextView tvSubmit = (TextView) view.findViewById(R.id.tvSubmit);
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
-            tvSubmit.setVisibility(Util.canSubmit(false, this) ? View.VISIBLE : View.GONE);
+            tvSubmit.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? View.VISIBLE : View.GONE);
 
             // Show dialog
             dialogFirst = new AlertDialog.Builder(this)
@@ -582,9 +582,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         } else if ("theme".equals(name) || "dark_theme".equals(name))
             recreate();
-
-        else if ("submit".equals(name))
-            updateApplicationList(null);
     }
 
     private DatabaseHelper.AccessChangedListener accessChangedListener = new DatabaseHelper.AccessChangedListener() {

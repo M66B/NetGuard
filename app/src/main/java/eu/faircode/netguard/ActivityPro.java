@@ -95,21 +95,6 @@ public class ActivityPro extends AppCompatActivity {
         Linkify.addLinks(tvThemeTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_THEME, null, filter);
         Linkify.addLinks(tvAllTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_PRO1, null, filter);
 
-        // Submit
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        CheckBox cbSubmit = (CheckBox) findViewById(R.id.cbSubmit);
-        cbSubmit.setChecked(prefs.getBoolean("submit", true));
-        cbSubmit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-                prefs.edit().putBoolean("submit", isChecked).apply();
-                ServiceSinkhole.reload("submit changed", ActivityPro.this);
-                if (!isChecked && Util.canSubmit(false, ActivityPro.this))
-                    ServiceJob.cancelAll(ActivityPro.this);
-            }
-        });
-        cbSubmit.setVisibility(View.GONE);
-
         // Challenge
         TextView tvChallenge = (TextView) findViewById(R.id.tvChallenge);
         tvChallenge.setText(Build.SERIAL);
@@ -288,8 +273,6 @@ public class ActivityPro extends AppCompatActivity {
         tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
         tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
         tvAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.VISIBLE : View.GONE);
-
-        cbSubmit.setEnabled(IAB.isPurchasedAny(this));
 
         llChallenge.setVisibility(
                 IAB.isPurchased(SKU_DONATION, this) || Util.isPlayStoreInstall(this)

@@ -239,9 +239,6 @@ public class Receiver extends BroadcastReceiver {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
                 editor.putBoolean("filter", true); // Mandatory
 
-            if (oldVersion > 2016071301)
-                editor.remove("submit");
-
             editor.putInt("version", newVersion);
             editor.apply();
         }

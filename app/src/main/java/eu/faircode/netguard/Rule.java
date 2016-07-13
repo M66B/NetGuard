@@ -71,6 +71,7 @@ public class Rule {
 
     public boolean apply = true;
     public boolean notify = true;
+    public boolean submit = true;
 
     public boolean relateduids = false;
     public String[] related = null;
@@ -224,6 +225,7 @@ public class Rule {
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
         SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
         SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
+        SharedPreferences submit = context.getSharedPreferences("submit", Context.MODE_PRIVATE);
         SharedPreferences history = context.getSharedPreferences("history", Context.MODE_PRIVATE);
 
         // Get settings
@@ -237,7 +239,6 @@ public class Rule {
         boolean show_system = prefs.getBoolean("show_system", false);
         boolean show_nointernet = prefs.getBoolean("show_nointernet", true);
         boolean show_disabled = prefs.getBoolean("show_disabled", true);
-        boolean submit = prefs.getBoolean("submit", true);
 
         long now = SystemClock.elapsedRealtime();
 
@@ -342,11 +343,12 @@ public class Rule {
                     rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
                     rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
 
-                    if (info.applicationInfo.uid == Process.myUid() && submit)
-                        rule.apply = false;
-                    else
-                        rule.apply = apply.getBoolean(info.packageName, true);
+                    rule.apply = apply.getBoolean(info.packageName, true);
                     rule.notify = notify.getBoolean(info.packageName, true);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        rule.submit = submit.getBoolean(info.packageName, true);
+                    else
+                        rule.submit = false;
 
                     rule.last_modified = history.getLong(info.packageName + ":modified", 0);
                     rule.last_submitted = history.getLong(info.packageName + ":submitted", 0);

@@ -387,6 +387,14 @@
             android:text="@string/title_notify"
             android:textAppearance="@style/TextSmall" />
 
+        <CheckBox
+            android:id="@+id/cbSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/title_submit"
+            android:textAppearance="@style/TextSmall" />
+
         <ImageButton
             android:id="@+id/btnClearAccess"
             android:layout_width="wrap_content"

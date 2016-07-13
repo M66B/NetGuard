@@ -406,11 +406,6 @@ public class Util {
         }
     }
 
-    public static boolean canSubmit(boolean submit, Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return ((!submit || prefs.getBoolean("submit", true)) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
-    }
-
     public static void setTheme(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean dark = prefs.getBoolean("dark_theme", false);
