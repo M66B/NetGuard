@@ -16,7 +16,6 @@ Features:
 * Simple to use
 * No root required
 * 100% open source
-* No calling home
 * No tracking or analytics
 * No advertisements
 * Actively developed and supported

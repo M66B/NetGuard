@@ -28,7 +28,6 @@ Features:
 &bull; Simple to use
 &bull; No root required
 &bull; 100% open source
-&bull; No calling home
 &bull; No tracking or analytics
 &bull; No advertisements
 &bull; Actively developed and supported
