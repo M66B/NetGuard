@@ -8,8 +8,8 @@
   <string name="app_first">Nagy figyelmet fordítanak arra, hogy fejlesszék és teszteljék NetGuard-ot, de arra lehetetlen garanciát vállalni, hogy a NetGuard minden eszközön jól fog működni. \n\nA NetGuard használatával elfogadja a <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License version 3</a> licencet</string>
   <string name="app_submit">A NetGuard ingyenes változata megosztja az anonimizált használati adatait, amelyek révén pontosabban tudja a NetGuard megvédeni, ha megértjük, hogy milyen a végfelhasználók használják a NetGuard-ot.
 Ez letiltható a megvásárlása után egy vagy több Pro szolgáltatással együtt.</string>
-  <string name="app_agree">I agree</string>
-  <string name="app_disagree">I disagree</string>
+  <string name="app_agree">Elfogadom</string>
+  <string name="app_disagree">Nem fogadom el</string>
   <string name="menu_search">Alkalmazás keresése</string>
   <string name="menu_filter">Alkalmazás szűrő</string>
   <string name="menu_app_user">Felhasználói alkalmazások mutatása</string>

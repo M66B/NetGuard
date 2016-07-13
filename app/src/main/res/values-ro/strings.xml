@@ -8,8 +8,8 @@
   <string name="app_first">NetGuard este dezvoltat si testat cu mare atentie, cu toate acestea este imposibii de garantat ca va functiona corect pe fiecare sau pe orice dispozitiv. \n\nFolosind NetGuard, sunteţi de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License versiunea 3</a></string>
   <string name="app_submit">Versiunea gratuita va partaja date anonimizate despre cum folositi NetGuard care vor fi folosite la imbunatatirea protectiei oferite de aplicatie, prin intelegerea modului in care utilizatorii folosesc NetGuard.
 Acest lucru poate fi optional dezactivat dupa achizitia uneia sau mai multor caracteristici avansate.</string>
-  <string name="app_agree">I agree</string>
-  <string name="app_disagree">I disagree</string>
+  <string name="app_agree">Accept</string>
+  <string name="app_disagree">Nu accept</string>
   <string name="menu_search">Cauta aplicatii</string>
   <string name="menu_filter">Filtreaza aplicatiile</string>
   <string name="menu_app_user">Arata aplicatiile utilizatorului</string>
