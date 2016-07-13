@@ -373,15 +373,16 @@ This can optionally be disabled after purchasing one or more of the pro features
 The following data will be shared:
 
 * The [SHA256](https://en.wikipedia.org/wiki/SHA-2) hashed [Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID)
-* The [device name](https://developer.android.com/reference/android/os/Build.html#DEVICE)
-* The [Android version](https://developer.android.com/reference/android/os/Build.VERSION_CODES.html)
-* The configured [country](https://developer.android.com/reference/java/util/Locale.html#getCountry()) (this is not the country where the device is located)
-* The application name, version and installer and whether the application is a user installed or a system application
+* The [device name](https://developer.android.com/reference/android/os/Build.html#DEVICE) *
+* The [Android version](https://developer.android.com/reference/android/os/Build.VERSION_CODES.html) *
+* The [country](https://developer.android.com/reference/java/util/Locale.html#getCountry()) configured when initializing Android *
+* The application name, version and installer and whether the application is a user installed or a system bundled application
 * Whether Wi-Fi and mobile connections will be blocked or allowed and which conditions apply (when screen on, roaming)
 * Whether access attempts will be notified
 * Which internet addresses (protocol, version, host, port) will be allowed and blocked
 
 This data cannot be used to identify you, so your privacy is guaranteed.
+Data marked with an asterix (*) is being shared by Google in the Google Play developer console as well.
 
 Usage data will be queued for sending over an unmetered connection (mostly Wi-Fi) when settings are being changed.
 
