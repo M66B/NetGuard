@@ -351,7 +351,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         Log.w(TAG, "VPN not prepared connected=" + last_connected);
                         if (last_connected) {
                             showAutoStartNotification();
-                            showErrorNotification(ex.toString());
+                            if (!Util.isPlayStoreInstall(ServiceSinkhole.this))
+                                showErrorNotification(ex.toString());
                         }
                         // Retried on connectivity change
                     } else {
