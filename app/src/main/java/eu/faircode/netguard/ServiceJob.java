@@ -199,9 +199,9 @@ public class ServiceJob extends JobService {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             label = rule.info.applicationInfo.loadLabel(pm).toString();
         }
-        Log.i(TAG, "label=" + label);
 
         // Add application data
+        bundle.putInt("uid", rule.info.applicationInfo.uid);
         bundle.putString("package", rule.info.packageName);
         bundle.putInt("version_code", rule.info.versionCode);
         bundle.putString("version_name", rule.info.versionName);
@@ -214,18 +214,18 @@ public class ServiceJob extends JobService {
             String type = pending.getExtras().getString("type");
             if (type != null && type.equals(bundle.getString("type"))) {
                 if (type.equals("rule")) {
-                    String pkg = pending.getExtras().getString("package");
-                    if (pkg != null && pkg.equals(bundle.getString("package"))) {
+                    int uid = pending.getExtras().getInt("uid");
+                    if (uid == bundle.getInt("uid")) {
                         Log.i(TAG, "Canceling id=" + pending.getId());
                         scheduler.cancel(pending.getId());
                     }
                 } else if (type.equals("host")) {
-                    String pkg = pending.getExtras().getString("package");
+                    int uid = pending.getExtras().getInt("uid");
                     int version = pending.getExtras().getInt("version");
                     int protocol = pending.getExtras().getInt("protocol");
                     String daddr = pending.getExtras().getString("daddr");
                     int dport = pending.getExtras().getInt("dport");
-                    if (pkg != null && pkg.equals(bundle.getString("package")) &&
+                    if (uid == bundle.getInt("uid") &&
                             version == bundle.getInt("version") &&
                             protocol == bundle.getInt("protocol") &&
                             daddr != null && daddr.equals(bundle.getString("daddr")) &&
