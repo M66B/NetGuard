@@ -200,27 +200,29 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_roaming_blocked">Block when roaming</string>
     <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
 
+    <string name="title_internet">has no internet permission</string>
+    <string name="title_disabled">is disabled</string>
     <string name="title_apply">Apply rules and conditions</string>
     <string name="title_conditions">Conditions</string>
     <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
     <string name="title_screen_other">Allow mobile when screen is on</string>
     <string name="title_roaming_symbol">R</string>
     <string name="title_roaming">Block when roaming</string>
-    <string name="title_disabled">is disabled</string>
-    <string name="title_internet">has no internet permission</string>
     <string name="title_related">Filter related</string>
     <string name="title_access">Access attempts</string>
     <string name="title_no_log"><u>Logging is not enabled</u></string>
     <string name="title_no_filter"><u>Filtering is not enabled</u></string>
     <string name="title_precedence">Access rules take precedence over other rules</string>
+    <string name="title_options">Options</string>
+    <string name="title_notify">Notify internet access attempts</string>
+    <string name="title_submit">Share anonymized usage data</string>
+
     <string name="title_rate">Rate</string>
     <string name="title_allow">Allow</string>
     <string name="title_block">Block</string>
     <string name="title_root">root</string>
     <string name="title_mediaserver">mediaserver</string>
     <string name="title_nobody">nobody</string>
-    <string name="title_notify">Notify internet access attempts</string>
-    <string name="title_submit">Share anonymized usage data</string>
     <string name="title_dontask">Don\'t ask again</string>
 
     <string name="title_log_whois">Whois %1$s</string>

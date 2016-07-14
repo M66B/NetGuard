@@ -379,6 +379,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp" />
 
+        <ImageButton
+            android:id="@+id/btnClearAccess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="4dp"
+            android:src="?attr/iconDelete" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/title_options"
+            android:textAppearance="@style/TextTitle" />
+
         <CheckBox
             android:id="@+id/cbNotify"
             android:layout_width="wrap_content"
@@ -394,13 +409,5 @@
             android:layout_marginTop="4dp"
             android:text="@string/title_submit"
             android:textAppearance="@style/TextSmall" />
-
-        <ImageButton
-            android:id="@+id/btnClearAccess"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="4dp"
-            android:src="?attr/iconDelete" />
     </LinearLayout>
 </LinearLayout>

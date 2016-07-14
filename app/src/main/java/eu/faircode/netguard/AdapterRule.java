@@ -127,9 +127,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public TextView tvNoLog;
         public TextView tvNoFilter;
         public ListView lvAccess;
+        public ImageButton btnClearAccess;
+
         public CheckBox cbNotify;
         public CheckBox cbSubmit;
-        public ImageButton btnClearAccess;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -176,9 +177,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             tvNoLog = (TextView) itemView.findViewById(R.id.tvNoLog);
             tvNoFilter = (TextView) itemView.findViewById(R.id.tvNoFilter);
             lvAccess = (ListView) itemView.findViewById(R.id.lvAccess);
+            btnClearAccess = (ImageButton) itemView.findViewById(R.id.btnClearAccess);
+
             cbNotify = (CheckBox) itemView.findViewById(R.id.cbNotify);
             cbSubmit = (CheckBox) itemView.findViewById(R.id.cbSubmit);
-            btnClearAccess = (ImageButton) itemView.findViewById(R.id.btnClearAccess);
 
             final View wifiParent = (View) cbWifi.getParent();
             wifiParent.post(new Runnable() {
@@ -638,6 +640,21 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             holder.lvAccess.setOnItemClickListener(null);
         }
 
+        // Clear access log
+        holder.btnClearAccess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Util.areYouSure(view.getContext(), R.string.msg_reset_access, new Util.DoubtListener() {
+                    @Override
+                    public void onSure() {
+                        DatabaseHelper.getInstance(context).clearAccess(rule.info.applicationInfo.uid, true);
+                        if (rv != null)
+                            rv.scrollToPosition(position);
+                    }
+                });
+            }
+        });
+
         // Notify on access
         holder.cbNotify.setEnabled(prefs.getBoolean("notify_access", false) && rule.apply);
         holder.cbNotify.setOnCheckedChangeListener(null);
@@ -659,21 +676,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 rule.submit = isChecked;
                 updateRule(rule, true, listAll);
-            }
-        });
-
-        // Clear access log
-        holder.btnClearAccess.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Util.areYouSure(view.getContext(), R.string.msg_reset_access, new Util.DoubtListener() {
-                    @Override
-                    public void onSure() {
-                        DatabaseHelper.getInstance(context).clearAccess(rule.info.applicationInfo.uid, true);
-                        if (rv != null)
-                            rv.scrollToPosition(position);
-                    }
-                });
             }
         });
     }
