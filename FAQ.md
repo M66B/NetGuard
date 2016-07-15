@@ -368,7 +368,7 @@ Unfortunately this cannot be fixed from NetGuard, and can be considered a shortc
 
 On Android version 5.0 or newer, NetGuard will share anonymized usage data to help improve how NetGuard protects you,
 by understanding how end users work with NetGuard.
-Users can optionally opt-out of sending this data on a per-app basis.
+Sending usage data can optionally be disabled on a per application basis.
 
 The following data will be shared when changing application settings:
 
@@ -384,7 +384,7 @@ Data marked with an asterix (*) is being shared by Google in the [Google Play de
 
 Usage data will be queued for sending over an unmetered connection (mostly Wi-Fi) when settings are being changed.
 
-You can see current users submitted data on https://crowd.netguard.me
+You can always see all the aggregated data here: https://crowd.netguard.me
 
 <br />
 
