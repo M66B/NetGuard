@@ -366,9 +366,9 @@ Unfortunately this cannot be fixed from NetGuard, and can be considered a shortc
 <a name="FAQ39"></a>
 **(39) Which usage data will be shared?**
 
-On Android version 5.0 or newer, the free version of NetGuard will share anonymized usage data to help improve how NetGuard protects you,
+On Android version 5.0 or newer, NetGuard will share anonymized usage data to help improve how NetGuard protects you,
 by understanding how end users work with NetGuard.
-This can optionally be disabled after purchasing one or more of the pro features.
+Sending usage data can optionally be disabled on a per application basis.
 
 The following data will be shared when changing application settings:
 
@@ -383,6 +383,8 @@ This data cannot be used to identify you, so your privacy is guaranteed.
 Data marked with an asterix (*) is being shared by Google in the [Google Play developer console](https://developer.android.com/distribute/googleplay/developer-console.html) as well.
 
 Usage data will be queued for sending over an unmetered connection (mostly Wi-Fi) when settings are being changed.
+
+You can always see all the aggregated data here: https://crowd.netguard.me
 
 <br />
 
