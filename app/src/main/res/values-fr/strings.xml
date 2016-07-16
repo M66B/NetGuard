@@ -189,7 +189,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_precedence">Les règles d\'accès ont la priorité sur les autres</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Notifier les tentatives d\'accès à internet</string>
-  <string name="title_submit">Partager des données d’utilisation anonymes</string>
+  <string name="title_submit">Partager les paramètres</string>
   <string name="title_rate">Évaluer</string>
   <string name="title_allow">Autoriser</string>
   <string name="title_block">Bloquer</string>

@@ -189,7 +189,7 @@
   <string name="title_precedence">Правила доступа имеют приоритет над другими правилами</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Уведомить о попытке доступа в интернет</string>
-  <string name="title_submit">Share anonymized usage data</string>
+  <string name="title_submit">Share settings</string>
   <string name="title_rate">Оценить</string>
   <string name="title_allow">Разрешить</string>
   <string name="title_block">Блокировать</string>

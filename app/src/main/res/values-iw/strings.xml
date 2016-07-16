@@ -190,7 +190,7 @@
   <string name="title_precedence">לכללי גישה יש קדימות על כללים אחרים</string>
   <string name="title_options">Options</string>
   <string name="title_notify">התרע על נסיונות גישה לאינטרנט</string>
-  <string name="title_submit">Share anonymized usage data</string>
+  <string name="title_submit">Share settings</string>
   <string name="title_rate">דירוג</string>
   <string name="title_allow">אפשר</string>
   <string name="title_block">חסום</string>

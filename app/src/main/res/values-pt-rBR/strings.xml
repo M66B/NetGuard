@@ -191,7 +191,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
-  <string name="title_submit">Share anonymized usage data</string>
+  <string name="title_submit">Share settings</string>
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>

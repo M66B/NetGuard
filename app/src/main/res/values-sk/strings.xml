@@ -9,8 +9,8 @@
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
-  <string name="app_agree">I agree</string>
-  <string name="app_disagree">I disagree</string>
+  <string name="app_agree">Súhlasím</string>
+  <string name="app_disagree">Odmietam</string>
   <string name="menu_search">Hľadať aplikáciu</string>
   <string name="menu_filter">Filtrovať aplikácie</string>
   <string name="menu_app_user">Zobraziť používateľské aplikácie</string>
@@ -190,9 +190,9 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="title_no_log"><u>Zaznamenávanie je vypnuté</u></string>
   <string name="title_no_filter"><u>Filtrovanie nie je povolené</u></string>
   <string name="title_precedence">Pravidlá prístupu má prednosť pred inými pravidlami</string>
-  <string name="title_options">Options</string>
+  <string name="title_options">Možnosti</string>
   <string name="title_notify">Upozorniť na pokusy o prístup k internetu</string>
-  <string name="title_submit">Share anonymized usage data</string>
+  <string name="title_submit">Share settings</string>
   <string name="title_rate">Ohodnotiť</string>
   <string name="title_allow">Povoliť</string>
   <string name="title_block">Blokovať</string>

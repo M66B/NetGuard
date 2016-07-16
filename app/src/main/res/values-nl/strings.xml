@@ -192,7 +192,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Notify internet access attempts</string>
-  <string name="title_submit">Share anonymized usage data</string>
+  <string name="title_submit">Share settings</string>
   <string name="title_rate">Beoordeel</string>
   <string name="title_allow">Toestaan</string>
   <string name="title_block">Blokkeren</string>

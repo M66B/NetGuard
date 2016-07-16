@@ -186,9 +186,9 @@
   <string name="title_no_log"><u>Protokollierung ist nicht aktiviert</u></string>
   <string name="title_no_filter"><u>Filterung ist nicht aktiviert</u></string>
   <string name="title_precedence">Zugriffsregeln haben vor anderen Regeln Vorrang</string>
-  <string name="title_options">Options</string>
+  <string name="title_options">Optionen</string>
   <string name="title_notify">Benachrichtigen bei Internetzugriffsversuchen</string>
-  <string name="title_submit">Anonyme Nutzungsdaten senden</string>
+  <string name="title_submit">Teilen-Einstellungen</string>
   <string name="title_rate">Bewerten</string>
   <string name="title_allow">Erlauben</string>
   <string name="title_block">Sperren</string>

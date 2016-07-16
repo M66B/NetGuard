@@ -193,7 +193,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Upozorňovat na pokusy o přístup k internetu</string>
-  <string name="title_submit">Share anonymized usage data</string>
+  <string name="title_submit">Share settings</string>
   <string name="title_rate">Ohodnotit</string>
   <string name="title_allow">Povolit</string>
   <string name="title_block">Blokovat</string>

@@ -193,7 +193,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Notify internet access attempts</string>
-  <string name="title_submit">Share anonymized usage data</string>
+  <string name="title_submit">Share settings</string>
   <string name="title_rate">Rate</string>
   <string name="title_allow">Allow</string>
   <string name="title_block">Block</string>

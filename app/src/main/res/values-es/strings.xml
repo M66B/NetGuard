@@ -6,7 +6,7 @@
   <string name="app_android">NetGuard requiere Android 4.0 o superior</string>
   <string name="app_license">Al utilizar NetGuard, aceptas la <a href="http://www.gnu.org/licenses/gpl.txt">Licencia Pública General GNU versión 3</a></string>
   <string name="app_first">Se ha tenido gran cuidado para desarrollar y probar NetGuard, sin embargo, es imposible garantizar que NetGuard funcione correctamente en todos los dispositivos. \n\nAl utilizar NetGuard, aceptas la <a href="http://www.gnu.org/licenses/gpl.txt"> Licencia Pública General GNU versión 3</a></string>
-  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
+  <string name="app_submit">NetGuard compartirá opcionalmente datos de uso anónimos para ayudar a mejorar la protección, analizando cómo los usuarios finales utilizan NetGuard.</string>
   <string name="app_agree">Acepto</string>
   <string name="app_disagree">No acepto</string>
   <string name="menu_search">Buscar aplicación</string>
@@ -172,7 +172,7 @@
   <string name="title_interactive_allowed">Permitir con la pantalla encendida</string>
   <string name="title_roaming_blocked">Bloquear en roaming</string>
   <string name="title_metered">Por defecto, una conexión Wi-Fi se considera ilimitada y una conexión móvil medida</string>
-  <string name="title_internet">no tiene acceso a Internet</string>
+  <string name="title_internet">sin permiso de acceso a Internet</string>
   <string name="title_disabled">está desactivado</string>
   <string name="title_apply">Aplicar reglas y condiciones</string>
   <string name="title_conditions">Condiciones</string>
@@ -185,9 +185,9 @@
   <string name="title_no_log"><u>El registro está desactivado</u></string>
   <string name="title_no_filter"><u>El filtrado no está activado</u></string>
   <string name="title_precedence">Las reglas de acceso prevalecen sobre otras reglas</string>
-  <string name="title_options">Options</string>
+  <string name="title_options">Opciones</string>
   <string name="title_notify">Notificar intentos de acceso a Internet</string>
-  <string name="title_submit">Compartir datos de uso anónimos</string>
+  <string name="title_submit">Share settings</string>
   <string name="title_rate">Calificar</string>
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>

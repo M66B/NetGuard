@@ -9,8 +9,8 @@
 Buna rağmen bazı cihazlarda çalışmayabilir.
 \n\nNetGuard kullanarak, <a href="http://www.gnu.org/licenses/gpl.txt">Genel Kamu Lisansını (GNUv3) kabul etmiş sayılırsınız.</a></string>
   <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
-  <string name="app_agree">I agree</string>
-  <string name="app_disagree">I disagree</string>
+  <string name="app_agree">Kabul ediyorum</string>
+  <string name="app_disagree">Kabul etmiyorum</string>
   <string name="menu_search">Uygulama ara</string>
   <string name="menu_filter">Uygulama filtresi</string>
   <string name="menu_app_user">Kullanıcı uygulamalarını göster</string>
@@ -129,7 +129,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="msg_disabled">NetGuard devre dışı, NetGuard etkinleştirmek için yukarıdaki anahtarını kullanın.</string>
   <string name="msg_revoked">NetGuard, büyük olasılıkla başka bir VPN tabanlı uygulama kullanılarak devre dışı bırakıldı</string>
   <string name="msg_installed">\'%1$s\' yüklü</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">Yüklendi</string>
   <string name="msg_access">%1$s internet erişimi deneniyor</string>
   <string name="msg_access_n">Attempted internet access</string>
   <string name="msg_completed">Eylem tamamlandı</string>
@@ -137,7 +137,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
 Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermeniz gerekir.
 İnternet trafiğiniz uzak bir VPN sunucusuna gönderilmiyor.</string>
   <string name="msg_autostart">NetGuard, Android sürümünüzde ki bir hata nedeni ile başlanğıçta otomatik olarak başlatılamadı</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">Beklenmeyen hata oluştu: \'%s\'</string>
   <string name="msg_try">NetGuard\'ı deneyin</string>
   <string name="msg_terms">Bağış yaparak <a href="http://www.netguard.me/#terms"> şartlar &amp; koşulları</a> kabul etmiş sayılırsınız</string>
   <string name="msg_dimming">Bir sonraki iletişim kutusunda TAMAM tuşuna basamıyorsanız muhtemelen buna başka bir uygulama neden oluyordur.</string>
@@ -189,11 +189,11 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="title_related">İlgili filtre</string>
   <string name="title_access">Erişim girişimleri</string>
   <string name="title_no_log"><u>Günlüğe kaydetme etkin değil</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>Filtreleme etkin değil</u></string>
   <string name="title_precedence">Erişim kuralları diğer kurallara göre önceliklidir</string>
-  <string name="title_options">Options</string>
+  <string name="title_options">Seçenekler</string>
   <string name="title_notify">İnternet erişim girişimlerini bildir</string>
-  <string name="title_submit">Share anonymized usage data</string>
+  <string name="title_submit">Paylaşma qayarları</string>
   <string name="title_rate">Oyla</string>
   <string name="title_allow">İzin Ver</string>
   <string name="title_block">Engelle</string>

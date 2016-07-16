@@ -189,7 +189,7 @@
   <string name="title_precedence">Reguły dostępu mają pierwszeństwo przed innymi regułami</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Powiadom o próbach dostępu do internetu</string>
-  <string name="title_submit">Share anonymized usage data</string>
+  <string name="title_submit">Share settings</string>
   <string name="title_rate">Oceń</string>
   <string name="title_allow">Zezwól</string>
   <string name="title_block">Blokuj</string>
