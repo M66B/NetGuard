@@ -51,6 +51,14 @@ public class ActivityPro extends AppCompatActivity {
 
     // adb shell pm clear com.android.vending
     // android.test.purchased
+
+    private static final int SKU_LOG_ID = 1;
+    private static final int SKU_FILTER_ID = 2;
+    private static final int SKU_NOTIFY_ID = 3;
+    private static final int SKU_SPEED_ID = 4;
+    private static final int SKU_THEME_ID = 5;
+    private static final int SKU_PRO1_ID = 6;
+
     public static final String SKU_LOG = "log";
     public static final String SKU_FILTER = "filter";
     public static final String SKU_NOTIFY = "notify";
@@ -146,22 +154,30 @@ public class ActivityPro extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 try {
+                                    int id = 0;
                                     PendingIntent pi = null;
-                                    if (view == btnLog)
+                                    if (view == btnLog) {
+                                        id = SKU_LOG_ID;
                                         pi = iab.getBuyIntent(SKU_LOG);
-                                    else if (view == btnFilter)
+                                    } else if (view == btnFilter) {
+                                        id = SKU_FILTER_ID;
                                         pi = iab.getBuyIntent(SKU_FILTER);
-                                    else if (view == btnNotify)
+                                    } else if (view == btnNotify) {
+                                        id = SKU_NOTIFY_ID;
                                         pi = iab.getBuyIntent(SKU_NOTIFY);
-                                    else if (view == btnSpeed)
+                                    } else if (view == btnSpeed) {
+                                        id = SKU_SPEED_ID;
                                         pi = iab.getBuyIntent(SKU_SPEED);
-                                    else if (view == btnTheme)
+                                    } else if (view == btnTheme) {
+                                        id = SKU_THEME_ID;
                                         pi = iab.getBuyIntent(SKU_THEME);
-                                    else if (view == btnAll)
+                                    } else if (view == btnAll) {
+                                        id = SKU_PRO1_ID;
                                         pi = iab.getBuyIntent(SKU_PRO1);
+                                    }
 
-                                    if (pi != null)
-                                        startIntentSenderForResult(pi.getIntentSender(), view.getId(), new Intent(), 0, 0, 0);
+                                    if (id > 0 && pi != null)
+                                        startIntentSenderForResult(pi.getIntentSender(), id, new Intent(), 0, 0, 0);
                                 } catch (Throwable ex) {
                                     Log.i(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                                 }
@@ -216,27 +232,27 @@ public class ActivityPro extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case R.id.btnLog:
+                case SKU_LOG_ID:
                     IAB.setBought(SKU_LOG, this);
                     updateState();
                     break;
-                case R.id.btnFilter:
+                case SKU_FILTER_ID:
                     IAB.setBought(SKU_FILTER, this);
                     updateState();
                     break;
-                case R.id.btnNotify:
+                case SKU_NOTIFY_ID:
                     IAB.setBought(SKU_NOTIFY, this);
                     updateState();
                     break;
-                case R.id.btnSpeed:
+                case SKU_SPEED_ID:
                     IAB.setBought(SKU_SPEED, this);
                     updateState();
                     break;
-                case R.id.btnTheme:
+                case SKU_THEME_ID:
                     IAB.setBought(SKU_THEME, this);
                     updateState();
                     break;
-                case R.id.btnAll:
+                case SKU_PRO1_ID:
                     IAB.setBought(SKU_PRO1, this);
                     updateState();
                     break;
