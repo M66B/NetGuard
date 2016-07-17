@@ -466,8 +466,13 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                             json.put("netguard", Util.getSelfVersionCode(context));
                             json.put("fingerprint", Util.getFingerprint(context));
 
+                            JSONObject pkg = new JSONObject();
+                            pkg.put("name", rules[0].info.packageName);
+                            pkg.put("version_code", rules[0].info.versionCode);
+                            pkg.put("version_name", rules[0].info.versionName);
+
                             JSONArray pkgs = new JSONArray();
-                            pkgs.put(rules[0].info.packageName);
+                            pkgs.put(pkg);
                             json.put("package", pkgs);
 
                             urlConnection = (HttpsURLConnection) new URL(cUrl).openConnection();
