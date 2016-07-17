@@ -4,6 +4,7 @@
     <attr name="expander" format="reference" />
     <attr name="iconQueue" format="reference" />
     <attr name="iconMetered" format="reference" />
+    <attr name="iconFetch" format="reference" />
     <attr name="iconSettings" format="reference" />
     <attr name="iconDelete" format="reference" />
     <attr name="iconLaunch" format="reference" />
@@ -17,6 +18,7 @@
         <item name="expander">@drawable/expander_black</item>
         <item name="iconQueue">@drawable/ic_hourglass_empty_black_24dp</item>
         <item name="iconMetered">@drawable/ic_attach_money_black_24dp</item>
+        <item name="iconFetch">@drawable/fetch_black</item>
         <item name="iconSettings">@drawable/ic_settings_black_24dp</item>
         <item name="iconDelete">@drawable/ic_delete_black_24dp</item>
         <item name="iconLaunch">@drawable/ic_launch_black_24dp</item>
@@ -27,6 +29,7 @@
         <item name="expander">@drawable/expander_white</item>
         <item name="iconQueue">@drawable/ic_hourglass_empty_white_24dp</item>
         <item name="iconMetered">@drawable/ic_attach_money_white_24dp</item>
+        <item name="iconFetch">@drawable/fetch_white</item>
         <item name="iconSettings">@drawable/ic_settings_white_24dp</item>
         <item name="iconDelete">@drawable/ic_delete_white_24dp</item>
         <item name="iconLaunch">@drawable/ic_launch_white_24dp</item>

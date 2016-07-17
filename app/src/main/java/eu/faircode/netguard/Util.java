@@ -386,7 +386,7 @@ public class Util {
         return "com.android.vending".equals(context.getPackageManager().getInstallerPackageName(context.getPackageName()));
     }
 
-    public static boolean hasValidFingerprint(Context context) {
+    public static String getFingerprint(Context context) {
         try {
             PackageManager pm = context.getPackageManager();
             String pkg = context.getPackageName();
@@ -397,13 +397,17 @@ public class Util {
             StringBuilder sb = new StringBuilder();
             for (byte b : bytes)
                 sb.append(Integer.toString(b & 0xff, 16).toLowerCase());
-            String calculated = sb.toString();
-            String expected = context.getString(R.string.fingerprint);
-            return calculated.equals(expected);
+            return sb.toString();
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            return false;
+            return null;
         }
+    }
+
+    public static boolean hasValidFingerprint(Context context) {
+        String calculated = getFingerprint(context);
+        String expected = context.getString(R.string.fingerprint);
+        return (calculated != null && calculated.equals(expected));
     }
 
     public static void setTheme(Context context) {
@@ -547,6 +551,17 @@ public class Util {
             }
             Log.d(TAG, stringBuilder.toString());
         }
+    }
+
+    public static StringBuilder readString(InputStreamReader reader) {
+        StringBuilder sb = new StringBuilder(2048);
+        char[] read = new char[128];
+        try {
+            for (int i; (i = reader.read(read)) >= 0; sb.append(read, 0, i)) ;
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
+        return sb;
     }
 
     public static void sendCrashReport(Throwable ex, final Context context) {

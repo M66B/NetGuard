@@ -234,10 +234,19 @@
                 android:text="@string/title_related" />
 
             <ImageButton
+                android:id="@+id/ibFetch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="?attr/iconFetch" />
+
+            <ImageButton
                 android:id="@+id/ibSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:src="?attr/iconSettings" />
 
             <ImageButton

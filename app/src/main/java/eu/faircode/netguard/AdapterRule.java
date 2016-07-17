@@ -62,10 +62,20 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.Adapter";
@@ -82,6 +92,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private boolean otherActive = true;
     private List<Rule> listAll = new ArrayList<>();
     private List<Rule> listFiltered = new ArrayList<>();
+
+    private static final String cUrl = "https://crowd.netguard.me/";
+    private static final int cTimeOutMs = 15000;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -112,6 +125,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public CheckBox cbApply;
 
         public Button btnRelated;
+        public ImageButton ibFetch;
         public ImageButton ibSettings;
         public ImageButton ibLaunch;
 
@@ -162,6 +176,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             cbApply = (CheckBox) itemView.findViewById(R.id.cbApply);
 
             btnRelated = (Button) itemView.findViewById(R.id.btnRelated);
+            ibFetch = (ImageButton) itemView.findViewById(R.id.ibFetch);
             ibSettings = (ImageButton) itemView.findViewById(R.id.ibSettings);
             ibLaunch = (ImageButton) itemView.findViewById(R.id.ibLaunch);
 
@@ -426,6 +441,72 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 Intent main = new Intent(context, ActivityMain.class);
                 main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(rule.info.applicationInfo.uid));
                 context.startActivity(main);
+            }
+        });
+
+        // Fetch settings
+        holder.ibFetch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AsyncTask<Rule, Object, Object>() {
+                    @Override
+                    protected void onPreExecute() {
+                        holder.ibFetch.setEnabled(false);
+                    }
+
+                    @Override
+                    protected Object doInBackground(Rule... rules) {
+                        HttpsURLConnection urlConnection = null;
+                        try {
+                            JSONObject json = new JSONObject();
+
+                            json.put("type", "fetch");
+                            json.put("netguard", Util.getSelfVersionCode(context));
+                            json.put("fingerprint", Util.getFingerprint(context));
+
+                            JSONArray pkgs = new JSONArray();
+                            pkgs.put(rules[0].info.packageName);
+                            json.put("package", pkgs);
+
+                            urlConnection = (HttpsURLConnection) new URL(cUrl).openConnection();
+                            urlConnection.setConnectTimeout(cTimeOutMs);
+                            urlConnection.setReadTimeout(cTimeOutMs);
+                            urlConnection.setRequestProperty("Accept", "application/json");
+                            urlConnection.setRequestProperty("Content-type", "application/json");
+                            urlConnection.setRequestMethod("POST");
+                            urlConnection.setDoInput(true);
+                            urlConnection.setDoOutput(true);
+
+                            Log.i(TAG, "Request=" + json.toString());
+                            OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+                            out.write(json.toString().getBytes()); // UTF-8
+                            out.flush();
+
+                            int code = urlConnection.getResponseCode();
+                            if (code != HttpsURLConnection.HTTP_OK)
+                                throw new IOException("HTTP " + code);
+
+                            InputStreamReader isr = new InputStreamReader(urlConnection.getInputStream());
+                            Log.i(TAG, "Response=" + Util.readString(isr).toString());
+
+                        } catch (Throwable ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                            return ex;
+
+                        } finally {
+                            if (urlConnection != null)
+                                urlConnection.disconnect();
+                        }
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Object result) {
+                        holder.ibFetch.setEnabled(true);
+                    }
+
+                }.execute(rule);
             }
         });
 

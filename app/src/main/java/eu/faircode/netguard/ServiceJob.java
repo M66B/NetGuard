@@ -105,8 +105,7 @@ public class ServiceJob extends JobService {
                         throw new IOException("HTTP " + code);
 
                     InputStreamReader isr = new InputStreamReader(urlConnection.getInputStream());
-                    String response = read(isr);
-                    Log.i(TAG, "Response=" + response);
+                    Log.i(TAG, "Response=" + Util.readString(isr).toString());
 
                     jobFinished(params[0], false);
 
@@ -140,17 +139,6 @@ public class ServiceJob extends JobService {
     public boolean onStopJob(JobParameters params) {
         Log.i(TAG, "Stop job=" + params.getJobId());
         return true;
-    }
-
-    private String read(InputStreamReader reader) {
-        StringBuilder sb = new StringBuilder(2048);
-        char[] read = new char[128];
-        try {
-            for (int i; (i = reader.read(read)) >= 0; sb.append(read, 0, i)) ;
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
-        return sb.toString();
     }
 
     public static void submit(Rule rule, Context context) {
