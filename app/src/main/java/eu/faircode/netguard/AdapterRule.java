@@ -63,6 +63,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -494,7 +495,21 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                 throw new IOException("HTTP " + code);
 
                             InputStreamReader isr = new InputStreamReader(urlConnection.getInputStream());
-                            Log.i(TAG, "Response=" + Util.readString(isr).toString());
+                            String response = Util.readString(isr).toString();
+                            Log.i(TAG, "Response=" + response);
+                            JSONObject jfetched = new JSONObject(response);
+                            JSONArray jpkgs = jfetched.getJSONArray("package");
+                            for (int i = 0; i < jpkgs.length(); i++) {
+                                JSONObject jpkg = jpkgs.getJSONObject(i);
+                                String name = jpkg.getString("name");
+                                int wifi = jpkg.getInt("wifi");
+                                int wifi_screen = jpkg.getInt("wifi_screen");
+                                int other = jpkg.getInt("other");
+                                int other_screen = jpkg.getInt("other_screen");
+                                int roaming = jpkg.getInt("roaming");
+                                int devices = jpkg.getInt("devices");
+                                Log.i(TAG, "pkg=" + name + " wifi=" + wifi + "/" + wifi_screen + " other=" + other + "/" + other_screen + "/" + roaming + " devices=" + devices);
+                            }
 
                         } catch (Throwable ex) {
                             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
