@@ -229,8 +229,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:text="@string/title_related" />
 
             <ImageButton
@@ -238,8 +236,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="?attr/iconFetch"
-                android:visibility="gone" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:src="?attr/iconFetch" />
 
             <ImageButton
                 android:id="@+id/ibSettings"
