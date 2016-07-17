@@ -77,7 +77,12 @@ public class ServiceJob extends JobService {
                     json.put("country", Locale.getDefault().getCountry());
 
                     json.put("netguard", Util.getSelfVersionCode(ServiceJob.this));
-                    json.put("store", getPackageManager().getInstallerPackageName(getPackageName()));
+                    try {
+                        json.put("store", getPackageManager().getInstallerPackageName(getPackageName()));
+                    } catch (Throwable ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        json.put("store", null);
+                    }
 
                     for (String name : params[0].getExtras().keySet())
                         json.put(name, params[0].getExtras().get(name));
@@ -188,7 +193,7 @@ public class ServiceJob extends JobService {
         JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
 
         // Get english application label
-        String label;
+        String label = null;
         try {
             Configuration config = new Configuration();
             config.setLocale(new Locale("en"));
@@ -197,7 +202,9 @@ public class ServiceJob extends JobService {
             label = res.getString(rule.info.applicationInfo.labelRes);
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            label = rule.info.applicationInfo.loadLabel(pm).toString();
+            CharSequence cs = rule.info.applicationInfo.loadLabel(pm);
+            if (cs != null)
+                label = cs.toString();
         }
 
         // Add application data
@@ -207,7 +214,12 @@ public class ServiceJob extends JobService {
         bundle.putString("version_name", rule.info.versionName);
         bundle.putString("label", label);
         bundle.putInt("system", rule.system ? 1 : 0);
-        bundle.putString("installer", pm.getInstallerPackageName(rule.info.packageName));
+        try {
+            bundle.putString("installer", pm.getInstallerPackageName(rule.info.packageName));
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            bundle.putString("installer", null);
+        }
 
         // Cancel overlapping jobs
         for (JobInfo pending : scheduler.getAllPendingJobs()) {
