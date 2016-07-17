@@ -74,6 +74,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -461,6 +462,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                             JSONObject json = new JSONObject();
 
                             json.put("type", "fetch");
+                            json.put("country", Locale.getDefault().getCountry());
                             json.put("netguard", Util.getSelfVersionCode(context));
                             json.put("fingerprint", Util.getFingerprint(context));
 
