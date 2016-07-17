@@ -324,7 +324,7 @@ public class Rule {
                 if (pre_system.containsKey(info.packageName))
                     rule.system = pre_system.get(info.packageName);
                 if (info.applicationInfo.uid == Process.myUid())
-                    if (Util.isPlayStoreInstall(context))
+                    if (Util.isPlayStoreInstall(context) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                         continue;
                     else
                         rule.system = true;
