@@ -63,7 +63,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -97,6 +96,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
     private static final String cUrl = "https://crowd.netguard.me/";
     private static final int cTimeOutMs = 15000;
+    private static final double cConfidence = 0.35;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -450,14 +450,14 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.ibFetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AsyncTask<Rule, Object, Object>() {
+                new AsyncTask<Object, Object, Object>() {
                     @Override
                     protected void onPreExecute() {
                         holder.ibFetch.setEnabled(false);
                     }
 
                     @Override
-                    protected Object doInBackground(Rule... rules) {
+                    protected Object doInBackground(Object... args) {
                         HttpsURLConnection urlConnection = null;
                         try {
                             JSONObject json = new JSONObject();
@@ -468,9 +468,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                             json.put("fingerprint", Util.getFingerprint(context));
 
                             JSONObject pkg = new JSONObject();
-                            pkg.put("name", rules[0].info.packageName);
-                            pkg.put("version_code", rules[0].info.versionCode);
-                            pkg.put("version_name", rules[0].info.versionName);
+                            pkg.put("name", rule.info.packageName);
+                            pkg.put("version_code", rule.info.versionCode);
+                            pkg.put("version_name", rule.info.versionName);
 
                             JSONArray pkgs = new JSONArray();
                             pkgs.put(pkg);
@@ -508,7 +508,49 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                 int other_screen = jpkg.getInt("other_screen");
                                 int roaming = jpkg.getInt("roaming");
                                 int devices = jpkg.getInt("devices");
-                                Log.i(TAG, "pkg=" + name + " wifi=" + wifi + "/" + wifi_screen + " other=" + other + "/" + other_screen + "/" + roaming + " devices=" + devices);
+
+                                double conf_wifi;
+                                boolean block_wifi;
+                                if (rule.wifi_default) {
+                                    conf_wifi = confidence(devices - wifi, devices);
+                                    block_wifi = !(devices - wifi > wifi && conf_wifi > cConfidence);
+                                } else {
+                                    conf_wifi = confidence(wifi, devices);
+                                    block_wifi = (wifi > devices - wifi && conf_wifi > cConfidence);
+                                }
+
+                                boolean allow_wifi_screen = rule.screen_wifi_default;
+                                if (block_wifi)
+                                    allow_wifi_screen = (wifi_screen > wifi / 2);
+
+                                double conf_other;
+                                boolean block_other;
+                                if (rule.other_default) {
+                                    conf_other = confidence(devices - other, devices);
+                                    block_other = !(devices - other > other && conf_other > cConfidence);
+                                } else {
+                                    conf_other = confidence(other, devices);
+                                    block_other = (other > devices - other && conf_other > cConfidence);
+                                }
+
+                                boolean allow_other_screen = rule.screen_other_default;
+                                if (block_other)
+                                    allow_other_screen = (other_screen > other / 2);
+
+                                boolean block_roaming = rule.roaming_default;
+                                if (!block_other || allow_other_screen)
+                                    block_roaming = (roaming > (devices - other) / 2);
+
+                                Log.i(TAG, "pkg=" + name +
+                                        " wifi=" + wifi + "/" + wifi_screen + "=" + block_wifi + "/" + allow_wifi_screen + " " + Math.round(100 * conf_wifi) + "%" +
+                                        " other=" + other + "/" + other_screen + "/" + roaming + "=" + block_other + "/" + allow_other_screen + "/" + block_roaming + " " + Math.round(100 * conf_other) + "%" +
+                                        " devices=" + devices);
+
+                                rule.wifi_blocked = block_wifi;
+                                rule.screen_wifi = allow_wifi_screen;
+                                rule.other_blocked = block_other;
+                                rule.screen_other = allow_other_screen;
+                                rule.roaming = block_roaming;
                             }
 
                         } catch (Throwable ex) {
@@ -526,6 +568,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     @Override
                     protected void onPostExecute(Object result) {
                         holder.ibFetch.setEnabled(true);
+                        updateRule(rule, true, listAll);
                     }
 
                 }.execute(rule);
@@ -914,6 +957,18 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 notifyDataSetChanged();
             }
         };
+    }
+
+    private double confidence(int count, int total) {
+        // Agresti-Coull Interval
+        // http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Agresti-Coull_Interval
+        int n = total;
+        double p = count / (float) n;
+        double z = 1.96; // 95%
+        double n1 = n + z * z;
+        double p1 = (1 / n1) * (count + 0.5 * z * z);
+        double ci = z * Math.sqrt((1 / n1) * p1 * (1 - p1));
+        return 1 - ci;
     }
 
     @Override
