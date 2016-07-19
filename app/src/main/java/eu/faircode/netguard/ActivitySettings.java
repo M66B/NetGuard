@@ -1029,10 +1029,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlExport(getSharedPreferences("notify", Context.MODE_PRIVATE), serializer);
         serializer.endTag(null, "notify");
 
-        serializer.startTag(null, "submit");
-        xmlExport(getSharedPreferences("submit", Context.MODE_PRIVATE), serializer);
-        serializer.endTag(null, "submit");
-
         serializer.startTag(null, "filter");
         filterExport(serializer);
         serializer.endTag(null, "filter");
@@ -1170,7 +1166,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlImport(handler.roaming, getSharedPreferences("roaming", Context.MODE_PRIVATE));
         xmlImport(handler.apply, getSharedPreferences("apply", Context.MODE_PRIVATE));
         xmlImport(handler.notify, getSharedPreferences("notify", Context.MODE_PRIVATE));
-        xmlImport(handler.submit, getSharedPreferences("submit", Context.MODE_PRIVATE));
 
         // Upgrade imported settings
         Receiver.upgrade(true, this);
@@ -1218,7 +1213,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         public Map<String, Object> roaming = new HashMap<>();
         public Map<String, Object> apply = new HashMap<>();
         public Map<String, Object> notify = new HashMap<>();
-        public Map<String, Object> submit = new HashMap<>();
         private Map<String, Object> current = null;
 
         public XmlImportHandler(Context context) {
@@ -1256,9 +1250,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             else if (qName.equals("notify"))
                 current = notify;
-
-            else if (qName.equals("submit"))
-                current = submit;
 
             else if (qName.equals("filter")) {
                 current = null;

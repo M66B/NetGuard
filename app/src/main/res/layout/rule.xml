@@ -229,16 +229,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="@string/title_related" />
-
-            <ImageButton
-                android:id="@+id/ibFetch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:src="?attr/iconFetch" />
+                android:text="@string/title_related" />
 
             <ImageButton
                 android:id="@+id/ibSettings"
@@ -407,14 +400,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/title_notify"
-            android:textAppearance="@style/TextSmall" />
-
-        <CheckBox
-            android:id="@+id/cbSubmit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/title_submit"
             android:textAppearance="@style/TextSmall" />
     </LinearLayout>
 </LinearLayout>

@@ -71,7 +71,6 @@ public class Rule {
 
     public boolean apply = true;
     public boolean notify = true;
-    public boolean submit = true;
 
     public boolean relateduids = false;
     public String[] related = null;
@@ -81,8 +80,6 @@ public class Rule {
     public float totalbytes;
 
     public boolean changed;
-    public long last_modified;
-    public long last_submitted;
 
     public boolean expanded = false;
 
@@ -225,8 +222,6 @@ public class Rule {
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
         SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
         SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
-        SharedPreferences submit = context.getSharedPreferences("submit", Context.MODE_PRIVATE);
-        SharedPreferences history = context.getSharedPreferences("history", Context.MODE_PRIVATE);
 
         // Get settings
         boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
@@ -324,10 +319,7 @@ public class Rule {
                 if (pre_system.containsKey(info.packageName))
                     rule.system = pre_system.get(info.packageName);
                 if (info.applicationInfo.uid == Process.myUid())
-                    if (Util.isPlayStoreInstall(context) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                        continue;
-                    else
-                        rule.system = true;
+                    rule.system = true;
 
                 if (all ||
                         ((rule.system ? show_system : show_user) &&
@@ -348,13 +340,6 @@ public class Rule {
 
                     rule.apply = apply.getBoolean(info.packageName, true);
                     rule.notify = notify.getBoolean(info.packageName, true);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                        rule.submit = submit.getBoolean(info.packageName, true);
-                    else
-                        rule.submit = false;
-
-                    rule.last_modified = history.getLong(info.packageName + ":modified", 0);
-                    rule.last_submitted = history.getLong(info.packageName + ":submitted", 0);
 
                     // Related packages
                     List<String> listPkg = new ArrayList<>();

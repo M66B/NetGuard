@@ -44,15 +44,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_first"
                 android:textAppearance="@style/TextMedium" />
-
-            <TextView
-                android:id="@+id/tvSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dip"
-                android:text="@string/app_submit"
-                android:textAppearance="@style/TextMedium"
-                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

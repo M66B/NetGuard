@@ -363,33 +363,6 @@ On most devices, NetGuard will keep running in the background with its foregroun
 On some devices (in particular some Samsung models), where there are lots of applications competing for memory, Android may still stop NetGuard as a last resort.
 Unfortunately this cannot be fixed from NetGuard, and can be considered a shortcoming of the device and/or as a bug in Android.
 
-<a name="FAQ39"></a>
-**(39) Which usage data will be shared?**
-
-On Android version 5.0 or newer, NetGuard will share anonymized usage data to help improve how NetGuard protects you,
-by understanding how end users work with NetGuard.
-
-The following data will be shared when changing application settings:
-
-* The [SHA256](https://en.wikipedia.org/wiki/SHA-2) hashed [Android ID](https://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID) (needed to prevent multiple records of the same setting)
-* The [device name](https://developer.android.com/reference/android/os/Build.html#DEVICE) *
-* The [Android version](https://developer.android.com/reference/android/os/Build.VERSION_CODES.html) *
-* The [country](https://developer.android.com/reference/java/util/Locale.html#getCountry()) configured when initializing Android *
-* The application name, version and [installer](https://developer.android.com/reference/android/content/pm/PackageManager.html#getInstallerPackageName(java.lang.String)) and whether an application is a user installed or a system bundled application
-* Whether Wi-Fi and mobile connections will be blocked or allowed and which conditions apply (when screen on, roaming, notify on access, addresses, etc)
-
-This data cannot be used to identify you, so your privacy is guaranteed.
-Data marked with an asterix (*) is being shared by Google in the [Google Play developer console](https://developer.android.com/distribute/googleplay/developer-console.html) as well.
-
-Usage data will be queued for sending over an unmetered connection (mostly Wi-Fi) when settings are being changed.
-Usage data will be anonynized before sending.
-Sending usage data can optionally be disabled per application.
-
-You can see the aggregated data [here](https://crowd.netguard.me).
-
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.
-
-If you want to request a new feature or want to report a bug, please [create an issue on GitHub](https://github.com/M66B/NetGuard/issues/new).
-

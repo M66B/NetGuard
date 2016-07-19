@@ -62,21 +62,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.Adapter";
@@ -93,10 +81,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private boolean otherActive = true;
     private List<Rule> listAll = new ArrayList<>();
     private List<Rule> listFiltered = new ArrayList<>();
-
-    private static final String cUrl = "https://crowd.netguard.me/";
-    private static final int cTimeOutMs = 15000;
-    private static final double cConfidence = 0.35;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -127,7 +111,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public CheckBox cbApply;
 
         public Button btnRelated;
-        public ImageButton ibFetch;
         public ImageButton ibSettings;
         public ImageButton ibLaunch;
 
@@ -146,7 +129,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public ImageButton btnClearAccess;
 
         public CheckBox cbNotify;
-        public CheckBox cbSubmit;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -178,7 +160,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             cbApply = (CheckBox) itemView.findViewById(R.id.cbApply);
 
             btnRelated = (Button) itemView.findViewById(R.id.btnRelated);
-            ibFetch = (ImageButton) itemView.findViewById(R.id.ibFetch);
             ibSettings = (ImageButton) itemView.findViewById(R.id.ibSettings);
             ibLaunch = (ImageButton) itemView.findViewById(R.id.ibLaunch);
 
@@ -197,7 +178,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             btnClearAccess = (ImageButton) itemView.findViewById(R.id.btnClearAccess);
 
             cbNotify = (CheckBox) itemView.findViewById(R.id.cbNotify);
-            cbSubmit = (CheckBox) itemView.findViewById(R.id.cbSubmit);
 
             final View wifiParent = (View) cbWifi.getParent();
             wifiParent.post(new Runnable() {
@@ -446,135 +426,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             }
         });
 
-        // Fetch settings
-        holder.ibFetch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new AsyncTask<Object, Object, Object>() {
-                    @Override
-                    protected void onPreExecute() {
-                        holder.ibFetch.setEnabled(false);
-                    }
-
-                    @Override
-                    protected Object doInBackground(Object... args) {
-                        HttpsURLConnection urlConnection = null;
-                        try {
-                            JSONObject json = new JSONObject();
-
-                            json.put("type", "fetch");
-                            json.put("country", Locale.getDefault().getCountry());
-                            json.put("netguard", Util.getSelfVersionCode(context));
-                            json.put("fingerprint", Util.getFingerprint(context));
-
-                            JSONObject pkg = new JSONObject();
-                            pkg.put("name", rule.info.packageName);
-                            pkg.put("version_code", rule.info.versionCode);
-                            pkg.put("version_name", rule.info.versionName);
-
-                            JSONArray pkgs = new JSONArray();
-                            pkgs.put(pkg);
-                            json.put("package", pkgs);
-
-                            urlConnection = (HttpsURLConnection) new URL(cUrl).openConnection();
-                            urlConnection.setConnectTimeout(cTimeOutMs);
-                            urlConnection.setReadTimeout(cTimeOutMs);
-                            urlConnection.setRequestProperty("Accept", "application/json");
-                            urlConnection.setRequestProperty("Content-type", "application/json");
-                            urlConnection.setRequestMethod("POST");
-                            urlConnection.setDoInput(true);
-                            urlConnection.setDoOutput(true);
-
-                            Log.i(TAG, "Request=" + json.toString());
-                            OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
-                            out.write(json.toString().getBytes()); // UTF-8
-                            out.flush();
-
-                            int code = urlConnection.getResponseCode();
-                            if (code != HttpsURLConnection.HTTP_OK)
-                                throw new IOException("HTTP " + code);
-
-                            InputStreamReader isr = new InputStreamReader(urlConnection.getInputStream());
-                            String response = Util.readString(isr).toString();
-                            Log.i(TAG, "Response=" + response);
-                            JSONObject jfetched = new JSONObject(response);
-                            JSONArray jpkgs = jfetched.getJSONArray("package");
-                            for (int i = 0; i < jpkgs.length(); i++) {
-                                JSONObject jpkg = jpkgs.getJSONObject(i);
-                                String name = jpkg.getString("name");
-                                int wifi = jpkg.getInt("wifi");
-                                int wifi_screen = jpkg.getInt("wifi_screen");
-                                int other = jpkg.getInt("other");
-                                int other_screen = jpkg.getInt("other_screen");
-                                int roaming = jpkg.getInt("roaming");
-                                int devices = jpkg.getInt("devices");
-
-                                double conf_wifi;
-                                boolean block_wifi;
-                                if (rule.wifi_default) {
-                                    conf_wifi = confidence(devices - wifi, devices);
-                                    block_wifi = !(devices - wifi > wifi && conf_wifi > cConfidence);
-                                } else {
-                                    conf_wifi = confidence(wifi, devices);
-                                    block_wifi = (wifi > devices - wifi && conf_wifi > cConfidence);
-                                }
-
-                                boolean allow_wifi_screen = rule.screen_wifi_default;
-                                if (block_wifi)
-                                    allow_wifi_screen = (wifi_screen > wifi / 2);
-
-                                double conf_other;
-                                boolean block_other;
-                                if (rule.other_default) {
-                                    conf_other = confidence(devices - other, devices);
-                                    block_other = !(devices - other > other && conf_other > cConfidence);
-                                } else {
-                                    conf_other = confidence(other, devices);
-                                    block_other = (other > devices - other && conf_other > cConfidence);
-                                }
-
-                                boolean allow_other_screen = rule.screen_other_default;
-                                if (block_other)
-                                    allow_other_screen = (other_screen > other / 2);
-
-                                boolean block_roaming = rule.roaming_default;
-                                if (!block_other || allow_other_screen)
-                                    block_roaming = (roaming > (devices - other) / 2);
-
-                                Log.i(TAG, "pkg=" + name +
-                                        " wifi=" + wifi + "/" + wifi_screen + "=" + block_wifi + "/" + allow_wifi_screen + " " + Math.round(100 * conf_wifi) + "%" +
-                                        " other=" + other + "/" + other_screen + "/" + roaming + "=" + block_other + "/" + allow_other_screen + "/" + block_roaming + " " + Math.round(100 * conf_other) + "%" +
-                                        " devices=" + devices);
-
-                                rule.wifi_blocked = block_wifi;
-                                rule.screen_wifi = allow_wifi_screen;
-                                rule.other_blocked = block_other;
-                                rule.screen_other = allow_other_screen;
-                                rule.roaming = block_roaming;
-                            }
-
-                        } catch (Throwable ex) {
-                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                            return ex;
-
-                        } finally {
-                            if (urlConnection != null)
-                                urlConnection.disconnect();
-                        }
-
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Object result) {
-                        holder.ibFetch.setEnabled(true);
-                        updateRule(rule, true, listAll);
-                    }
-
-                }.execute(rule);
-            }
-        });
-
         // Launch application settings
         final Intent settings = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         settings.setData(Uri.parse("package:" + rule.info.packageName));
@@ -744,8 +595,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                     if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                         DatabaseHelper.getInstance(context).setAccess(id, 0);
                                         ServiceSinkhole.reload("allow host", context);
-                                        if (rule.submit)
-                                            ServiceJob.submit(rule, version, protocol, daddr, dport, 0, context);
                                     } else
                                         context.startActivity(new Intent(context, ActivityPro.class));
                                     return true;
@@ -754,8 +603,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                     if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                         DatabaseHelper.getInstance(context).setAccess(id, 1);
                                         ServiceSinkhole.reload("block host", context);
-                                        if (rule.submit)
-                                            ServiceJob.submit(rule, version, protocol, daddr, dport, 1, context);
                                     } else
                                         context.startActivity(new Intent(context, ActivityPro.class));
                                     return true;
@@ -763,8 +610,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                 case R.id.menu_reset:
                                     DatabaseHelper.getInstance(context).setAccess(id, -1);
                                     ServiceSinkhole.reload("reset host", context);
-                                    if (rule.submit)
-                                        ServiceJob.submit(rule, version, protocol, daddr, dport, -1, context);
                                     return true;
                             }
                             return false;
@@ -812,18 +657,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 updateRule(rule, true, listAll);
             }
         });
-
-        // Usage data sharing
-        holder.cbSubmit.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? View.VISIBLE : View.GONE);
-        holder.cbSubmit.setOnCheckedChangeListener(null);
-        holder.cbSubmit.setChecked(rule.submit);
-        holder.cbSubmit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                rule.submit = isChecked;
-                updateRule(rule, true, listAll);
-            }
-        });
     }
 
     private void updateRule(Rule rule, boolean root, List<Rule> listAll) {
@@ -834,8 +667,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
         SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
-        SharedPreferences submit = context.getSharedPreferences("submit", Context.MODE_PRIVATE);
-        SharedPreferences history = context.getSharedPreferences("history", Context.MODE_PRIVATE);
 
         if (rule.wifi_blocked == rule.wifi_default)
             wifi.edit().remove(rule.info.packageName).apply();
@@ -872,14 +703,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         else
             notify.edit().putBoolean(rule.info.packageName, rule.notify).apply();
 
-        if (rule.submit)
-            submit.edit().remove(rule.info.packageName).apply();
-        else
-            submit.edit().putBoolean(rule.info.packageName, rule.submit).apply();
-
-        rule.last_modified = new Date().getTime();
-        history.edit().putLong(rule.info.packageName + ":modified", rule.last_modified).apply();
-
         rule.updateChanged(context);
         Log.i(TAG, "Updated " + rule);
 
@@ -910,9 +733,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             NotificationManagerCompat.from(context).cancel(rule.info.applicationInfo.uid);
             ServiceSinkhole.reload("rule changed", context);
         }
-
-        if (rule.submit)
-            ServiceJob.submit(rule, context);
     }
 
     @Override
@@ -957,18 +777,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 notifyDataSetChanged();
             }
         };
-    }
-
-    private double confidence(int count, int total) {
-        // Agresti-Coull Interval
-        // http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Agresti-Coull_Interval
-        int n = total;
-        double p = count / (float) n;
-        double z = 1.96; // 95%
-        double n1 = n + z * z;
-        double p1 = (1 / n1) * (count + 0.5 * z * z);
-        double ci = z * Math.sqrt((1 / n1) * p1 * (1 - p1));
-        return 1 - ci;
     }
 
     @Override

@@ -16,7 +16,8 @@ Features:
 * Simple to use
 * No root required
 * 100% open source
-* No tracking and user profiling
+* No calling home
+* No tracking or analytics
 * No advertisements
 * Actively developed and supported
 * Android 4.0 and later supported
@@ -182,9 +183,6 @@ Frequently Asked Questions (FAQ)
 
 <a name="FAQ38"></a>
 [**(38) Why did NetGuard stop running?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ38)
-
-<a name="FAQ39"></a>
-[**(39) Which usage data will be shared?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ39)
 
 Permissions
 -----------

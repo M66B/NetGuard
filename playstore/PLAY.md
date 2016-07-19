@@ -28,7 +28,8 @@ Features:
 &bull; Simple to use
 &bull; No root required
 &bull; 100% open source
-&bull; No tracking and user profiling
+&bull; No calling home
+&bull; No tracking or analytics
 &bull; No advertisements
 &bull; Actively developed and supported
 &bull; Android 4.0 and later supported

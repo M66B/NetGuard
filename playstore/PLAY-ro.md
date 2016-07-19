@@ -28,6 +28,7 @@ Caracteristici:
 &bull; Simplu de utilizat
 &bull; Nu necesita acces root
 &bull; 100% software cu sursa deschisa
+&bull; Nu transmite datele nicaieri
 &bull; Nu urmareste activitatea si nici nu o analizeaza
 &bull; Fara reclama
 &bull; Dezvoltare si asistenta continuua

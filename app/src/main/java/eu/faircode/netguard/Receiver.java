@@ -239,11 +239,6 @@ public class Receiver extends BroadcastReceiver {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
                 editor.putBoolean("filter", true); // Mandatory
 
-            if (Util.isPlayStoreInstall(context)) {
-                SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
-                apply.edit().putBoolean(context.getPackageName(), false).apply();
-            }
-
             editor.putInt("version", newVersion);
             editor.apply();
         }

@@ -28,7 +28,8 @@ Características:
 &bull; Simple de usar
 &bull; No requiere root
 &bull; 100% código abierto
-&bull; Sin seguimiento o perfilado de usuarios
+&bull; No calling home
+&bull; Sin seguimiento o análisis integrado
 &bull; Sin publicidad
 &bull; Desarrollado y soportado activamente
 &bull; Soporta Android 4.0 o superior
