@@ -6,7 +6,6 @@
   <string name="app_android">NetGuard necesita Android 4.0 sau mai nou</string>
   <string name="app_license">Folosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">NetGuard este dezvoltat si testat cu mare atentie, cu toate acestea este imposibii de garantat ca va functiona corect pe fiecare sau pe orice dispozitiv. \n\nFolosind NetGuard, sunteţi de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License versiunea 3</a></string>
-  <string name="app_submit">Optional NetGuard va partaja date de utilizare anonime pentru a imbunatati protectia oferita prin intelegerea modului in care utilizatorii folosesc NetGuard.</string>
   <string name="app_agree">Accept</string>
   <string name="app_disagree">Nu accept</string>
   <string name="menu_search">Cauta aplicatii</string>
@@ -190,7 +189,6 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_precedence">Regulile de acces ale acestor adrese au prioritate</string>
   <string name="title_options">Optiuni</string>
   <string name="title_notify">Notifica la incercarile de acces la internet</string>
-  <string name="title_submit">Setari de partajare</string>
   <string name="title_rate">Evalueaza aplicatia</string>
   <string name="title_allow">Permite</string>
   <string name="title_block">Blocheaza</string>

@@ -8,7 +8,6 @@
   <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">Súhlasím</string>
   <string name="app_disagree">Odmietam</string>
   <string name="menu_search">Hľadať aplikáciu</string>
@@ -192,7 +191,6 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="title_precedence">Pravidlá prístupu má prednosť pred inými pravidlami</string>
   <string name="title_options">Možnosti</string>
   <string name="title_notify">Upozorniť na pokusy o prístup k internetu</string>
-  <string name="title_submit">Share settings</string>
   <string name="title_rate">Ohodnotiť</string>
   <string name="title_allow">Povoliť</string>
   <string name="title_block">Blokovať</string>

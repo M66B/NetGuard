@@ -7,7 +7,6 @@
   <string name="app_license">Ao usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">NetGuard foi desenvolvido e testado com grande cuidado, porém é impossível garantir que o NetGuard funcionará corretamente em cada dispositivo.
 \n\nUsando o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Buscar aplicativo</string>
@@ -191,7 +190,6 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
-  <string name="title_submit">Share settings</string>
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>

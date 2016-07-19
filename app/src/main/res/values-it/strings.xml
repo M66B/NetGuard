@@ -6,7 +6,6 @@
   <string name="app_android">NetGuard richiede Android 4.0 o versioni successive</string>
   <string name="app_license">Utilizzando NetGuard, acconsenti a quanto contenuto nella seguente licenza: <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Si è posta grande cura nello sviluppo e test di NetGuard, tuttavia è impossibile garantire che NetGuard funzionerà correttamente su tutti i dispositivi. \n\nUtilizzando NetGuard, accetti la <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License versione 3</a></string>
-  <string name="app_submit">NetGuard condividerà in modo facoltativo dati di utilizzo anonimi per aiutare a migliorare la protezione che ti offre, analizzando come gli utenti usano NetGuard.</string>
   <string name="app_agree">Accetto</string>
   <string name="app_disagree">Rifiuto</string>
   <string name="menu_search">Cerca applicazione</string>
@@ -187,7 +186,6 @@
   <string name="title_precedence">Le regole di accesso hanno la precedenza sulle altre regole</string>
   <string name="title_options">Opzioni</string>
   <string name="title_notify">Notifica tentativi di accesso internet</string>
-  <string name="title_submit">Share settings</string>
   <string name="title_rate">Vota</string>
   <string name="title_allow">Permetti</string>
   <string name="title_block">Blocca</string>

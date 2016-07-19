@@ -7,7 +7,6 @@
   <string name="app_license">Використовуючи NetGuard, ви погоджуєтесь із <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Було докладено багато зусиль до розробки та тестування NetGuard, проте не можливо гарантувати, що додаток буде правильно працювати на кожнрму пристрої.
 \n\nВикористовуючи NetGuard, ви погоджуєтесь із <a href="http://www.gnu.org/licenses/gpl.txt">Відкритою ліцензійною угодою GNU версії 3</a></string>
-  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Пошук додатку</string>
@@ -190,7 +189,6 @@
   <string name="title_precedence">Правила доступу мають вищій пріоритет над іншим правилами</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Сповістити при спробі доступу до інтернету</string>
-  <string name="title_submit">Share settings</string>
   <string name="title_rate">Оцінити</string>
   <string name="title_allow">Дозволити</string>
   <string name="title_block">Блокувати</string>

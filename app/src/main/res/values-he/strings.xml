@@ -7,7 +7,6 @@
   <string name="app_android">NetGuard דורש אנדרואיד 4.0 ואילך</string>
   <string name="app_license">על ידי שימוש NetGuard, אתה מסכים <a href="http://www.gnu.org/licenses/gpl.txt"> הרישיון הציבורי הכללי של גנו גרסה 3</a></string>
   <string name="app_first">תשומת לב רבה הוקדשה כדי לפתח ולבדוק את NetGuard, אך זה בלתי אפשרי להבטיח ש-NetGuard תפעל כראוי על כל מכשיר. שימוש בNetGuard מהווה הסכמה לתנאי \n\n <a href="http://www.gnu.org/licenses/gpl.txt"> הרישיון הציבורי הכללי של גנו גרסה 3</a></string>
-  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">חפש יישום</string>
@@ -190,7 +189,6 @@
   <string name="title_precedence">לכללי גישה יש קדימות על כללים אחרים</string>
   <string name="title_options">Options</string>
   <string name="title_notify">התרע על נסיונות גישה לאינטרנט</string>
-  <string name="title_submit">Share settings</string>
   <string name="title_rate">דירוג</string>
   <string name="title_allow">אפשר</string>
   <string name="title_block">חסום</string>

@@ -8,7 +8,6 @@
   <string name="app_first">NetGuard sürekli gelişmekte ve yoğun bir şekilde test ediliyor,
 Buna rağmen bazı cihazlarda çalışmayabilir.
 \n\nNetGuard kullanarak, <a href="http://www.gnu.org/licenses/gpl.txt">Genel Kamu Lisansını (GNUv3) kabul etmiş sayılırsınız.</a></string>
-  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">Kabul ediyorum</string>
   <string name="app_disagree">Kabul etmiyorum</string>
   <string name="menu_search">Uygulama ara</string>
@@ -193,7 +192,6 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="title_precedence">Erişim kuralları diğer kurallara göre önceliklidir</string>
   <string name="title_options">Seçenekler</string>
   <string name="title_notify">İnternet erişim girişimlerini bildir</string>
-  <string name="title_submit">Paylaşma qayarları</string>
   <string name="title_rate">Oyla</string>
   <string name="title_allow">İzin Ver</string>
   <string name="title_block">Engelle</string>

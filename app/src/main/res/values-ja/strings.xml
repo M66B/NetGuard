@@ -7,7 +7,6 @@
   <string name="app_license">NetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
   <string name="app_first">NetGuard は細心の注意を行って開発およびテストしました。しかしながら NetGuard がすべてのデバイスで正常に動作を保証することは不可能です。
 \n\nNetGuard を使用することで <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾契約書バージョン 3</a> に同意します</string>
-  <string name="app_submit">NetGuard は必要に応じて匿名の使用状況データを共有して、エンドユーザーが NetGuard を操作する方法を理解することによって、NetGuard があなたを保護する方法を改善します。</string>
   <string name="app_agree">同意する</string>
   <string name="app_disagree">同意しない</string>
   <string name="menu_search">アプリケーションの検索</string>
@@ -188,7 +187,6 @@
   <string name="title_precedence">アクセス ルールは他のルールよりも優先します</string>
   <string name="title_options">オプション</string>
   <string name="title_notify">インターネット アクセスの試みを通知</string>
-  <string name="title_submit">共有の設定</string>
   <string name="title_rate">評価</string>
   <string name="title_allow">許可</string>
   <string name="title_block">ブロック</string>

@@ -6,7 +6,6 @@
   <string name="app_android">NetGuard requiert Android 4.0 ou ultérieur</string>
   <string name="app_license">En utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Un grand soin a été apporté pour développer et tester NetGuard, cependant il est impossible de garantir que NetGuard fonctionnera correctement sur tous les appareils.\n\nEn utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_submit">NetGuard partagera éventuellement des données d’utilisation anonymes afin d’améliorer la façon dont NetGuard vous protège, en étudiant comment les utilisateurs travaillent NetGuard.</string>
   <string name="app_agree">Je suis d\'accord</string>
   <string name="app_disagree">Je ne suis pas d\'accord</string>
   <string name="menu_search">Rechercher une application</string>
@@ -189,7 +188,6 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_precedence">Les règles d\'accès ont la priorité sur les autres</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Notifier les tentatives d\'accès à internet</string>
-  <string name="title_submit">Partager les paramètres</string>
   <string name="title_rate">Évaluer</string>
   <string name="title_allow">Autoriser</string>
   <string name="title_block">Bloquer</string>

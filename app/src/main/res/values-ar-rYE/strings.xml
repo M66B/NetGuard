@@ -6,7 +6,6 @@
   <string name="app_android">يتطلب NetGuard إصدار أندرويد 4.0 أو أحدث</string>
   <string name="app_license">بــإســتــخــدام NetGuard، مــعــنــاه أنــك مــوافــق عــلـى <a href="http://www.gnu.org/licenses/gpl.txt"> رخــصــة BNU الــعــمــومــيــة الــعــامــة الإصــدار 3</a></string>
   <string name="app_first">تم تطوير واختبار NetGuard بعناية فائقة؛ لكن من المستحيل ضمان عمل NetGuard بشكل صحيح على كل جهاز. \n\nBy باستخدامك NetGuard؛ فإنك توافق على <a href="http://www.gnu.org/licenses/gpl.txt"> رخصة جنو العمومية الإصدار 3</a></string>
-  <string name="app_submit">إن NetGaurd سيتشارك البيانات المستخدمة مستجهل المصدر للمساعدة في تحسين كيفية NetGaurd أن يحميك، وذلك عن طريق فهم كيفية تعامل المستخدمين مع .NetGaurd </string>
   <string name="app_agree">أوافق</string>
   <string name="app_disagree">لا أوافق</string>
   <string name="menu_search">البحث عن تطبيقات</string>
@@ -188,7 +187,6 @@
   <string name="title_precedence">قواعد الوصول لها الأسبقية على غيرها من القواعد</string>
   <string name="title_options">الخيارات</string>
   <string name="title_notify">تنبيه عن محاولات الوصول إلى إنترنت</string>
-  <string name="title_submit">مشاركة الإعدادات</string>
   <string name="title_rate">قيم البرنامج</string>
   <string name="title_allow">اســمــح</string>
   <string name="title_block">احظر</string>

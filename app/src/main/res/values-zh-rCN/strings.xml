@@ -8,7 +8,6 @@
   <string name="app_first">开发者在开发和测试NetGuard过程中已悉心尽力,
 但开发者无法确保本软件在所有设备上均可正常运行.
 \n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
-  <string name="app_submit">NetGuard 可选上传匿名使用数据, 帮助开发者了解用户行为以更好的使 NetGuard 为您提供保护.</string>
   <string name="app_agree">同意</string>
   <string name="app_disagree">拒绝</string>
   <string name="menu_search">搜索应用</string>
@@ -193,7 +192,6 @@
   <string name="title_precedence">访问规则优先于其他规则</string>
   <string name="title_options">选项</string>
   <string name="title_notify">发生网络访问尝试时通知我</string>
-  <string name="title_submit">共享设置</string>
   <string name="title_rate">评分</string>
   <string name="title_allow">允许</string>
   <string name="title_block">阻止</string>

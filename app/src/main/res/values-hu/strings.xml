@@ -6,7 +6,6 @@
   <string name="app_android">A NetGuard használatához Android 4.0 vagy újabb szükséges</string>
   <string name="app_license">NetGuard használatával elfogadja a<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Nagy figyelmet fordítanak arra, hogy fejlesszék és teszteljék NetGuard-ot, de arra lehetetlen garanciát vállalni, hogy a NetGuard minden eszközön jól fog működni. \n\nA NetGuard használatával elfogadja a <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License version 3</a> licencet</string>
-  <string name="app_submit">A NetGuard választhatóan megosztja az anonimizált használati adatokat, ami segít, hogy pontosabban tudja a NetGuard megvédeni, azzal ha megértjük, a végfelhasználók hogyan használják a NetGuard-ot.</string>
   <string name="app_agree">Elfogadom</string>
   <string name="app_disagree">Nem fogadom el</string>
   <string name="menu_search">Alkalmazás keresése</string>
@@ -189,7 +188,6 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_precedence">Hozzáférési szabályok elsőbbséget élveznek más szabályokkal szemben</string>
   <string name="title_options">Beállítások</string>
   <string name="title_notify">Értesítés az internet hozzáférési kísérletekről</string>
-  <string name="title_submit">Beállítások megosztása</string>
   <string name="title_rate">Értékelje</string>
   <string name="title_allow">Engedélyezés</string>
   <string name="title_block">Letiltás</string>

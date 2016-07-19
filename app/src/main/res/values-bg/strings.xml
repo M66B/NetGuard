@@ -6,7 +6,6 @@
   <string name="app_android">NetGuard изисква Android 4.0 или по-нова версия</string>
   <string name="app_license">Използвайки NetGuard, вие се съгласявате със следното лицензионно споразумение: <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License версия 3</a></string>
   <string name="app_first">Изключително внимание е вложено при разработката и тестването на NetGuard, въпреки това е невъзможно да се гарантира, че NetGuard ще работи безупречно на всяко устройство. \n\nИзползвайки NetGuard, вие се съгласявате със следното лицензионно споразумение: <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License версия 3</a></string>
-  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Търсене на приложение</string>
@@ -190,7 +189,6 @@
   <string name="title_precedence">Правилата за достъп имат предимство пред други правила</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Уведомление при опити за интернет достъп</string>
-  <string name="title_submit">Share settings</string>
   <string name="title_rate">Оценете</string>
   <string name="title_allow">Разрешаване</string>
   <string name="title_block">Блокиране</string>

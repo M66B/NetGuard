@@ -8,7 +8,6 @@
   <string name="app_first">Velká péče byla vložena do vývoje a testování NetGuardu,
 přesto není možné zaručit jeho bezchybné fungování na každém zařízení.
 \n\nPoužíváním NetGuardu souhlasíte s <a href="http://www.gnu.org/licenses/gpl.txt">Obecnou veřejnou licencí GNU verze 3</a></string>
-  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Hledat aplikaci</string>
@@ -193,7 +192,6 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_precedence">Access rules take precedence over other rules</string>
   <string name="title_options">Options</string>
   <string name="title_notify">Upozorňovat na pokusy o přístup k internetu</string>
-  <string name="title_submit">Share settings</string>
   <string name="title_rate">Ohodnotit</string>
   <string name="title_allow">Povolit</string>
   <string name="title_block">Blokovat</string>

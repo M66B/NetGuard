@@ -6,9 +6,8 @@
   <string name="app_android">Для работы NetGuard требуется Android 4.0 или более поздняя версия</string>
   <string name="app_license">Используя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="app_first">Было уделено большое внимание разработке и тестированию NetGuard, однако нельзя гарантировать, что NetGuard будет правильно работать на каждом устройстве. \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
-  <string name="app_submit">NetGuard will optionally share anonymized usage data to help improve how NetGuard protects you, by understanding how end users work with NetGuard.</string>
-  <string name="app_agree">I agree</string>
-  <string name="app_disagree">I disagree</string>
+  <string name="app_agree">Я согласен</string>
+  <string name="app_disagree">Я не согласен</string>
   <string name="menu_search">Поиск приложения</string>
   <string name="menu_filter">Фильтр приложений</string>
   <string name="menu_app_user">Показать пользовательские приложения</string>
@@ -187,9 +186,8 @@
   <string name="title_no_log"><u>Ведение журнала не включено</u></string>
   <string name="title_no_filter"><u>Фильтрация не включена</u></string>
   <string name="title_precedence">Правила доступа имеют приоритет над другими правилами</string>
-  <string name="title_options">Options</string>
+  <string name="title_options">Опции</string>
   <string name="title_notify">Уведомить о попытке доступа в интернет</string>
-  <string name="title_submit">Share settings</string>
   <string name="title_rate">Оценить</string>
   <string name="title_allow">Разрешить</string>
   <string name="title_block">Блокировать</string>

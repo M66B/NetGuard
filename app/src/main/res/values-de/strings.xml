@@ -7,7 +7,6 @@
   <string name="app_license">Mit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License Version 3</a></string>
   <string name="app_first">Die App wurde mit großer Sorgfalt entwickelt und getestet. Es ist leider trotzdem unmöglich zu garantieren, dass NetGuard auf jedem Gerät fehlerfrei funktioniert.
 \n\nDurch die Verwendung von NetGuard, stimmen Sie der <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License Version 3</a> zu</string>
-  <string name="app_submit">NetGuard überträgt optional anonymisierte Nutzungsdaten zur Verbesserung wie NetGuard Sie schützt und auch um zu verstehen, wie Sie mit NetGuard arbeiten.</string>
   <string name="app_agree">Stimme zu</string>
   <string name="app_disagree">Nicht zustimmen</string>
   <string name="menu_search">Nach App suchen</string>
@@ -188,7 +187,6 @@
   <string name="title_precedence">Zugriffsregeln haben vor anderen Regeln Vorrang</string>
   <string name="title_options">Optionen</string>
   <string name="title_notify">Benachrichtigen bei Internetzugriffsversuchen</string>
-  <string name="title_submit">Teilen-Einstellungen</string>
   <string name="title_rate">Bewerten</string>
   <string name="title_allow">Erlauben</string>
   <string name="title_block">Sperren</string>
