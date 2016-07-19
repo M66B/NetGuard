@@ -39,7 +39,7 @@ import java.util.Date;
 public class Widget extends AppWidgetProvider {
     private static final String TAG = "NetGuard.Widget";
 
-    private static final String INTENT_ON = "eu.faircode.netguard.APPWIDGET_ON";
+    public static final String INTENT_ON = "eu.faircode.netguard.APPWIDGET_ON";
     private static final String INTENT_OFF = "eu.faircode.netguard.APPWIDGET_OFF";
 
     @Override
