@@ -52,6 +52,9 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/menu_settings"
             android:parentActivityName=".ActivityMain">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActivityMain" />
