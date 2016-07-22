@@ -121,9 +121,19 @@
         </service>
 
         <service
-            android:name=".ServiceTile"
+            android:name=".ServiceTileMain"
             android:icon="@drawable/ic_security_white_24dp"
             android:label="@string/app_name"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".ServiceTileGraph"
+            android:icon="@drawable/ic_equalizer_white_24dp"
+            android:label="@string/setting_stats_category"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
