@@ -22,12 +22,14 @@ package eu.faircode.netguard;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -903,7 +905,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 InputStream in = null;
                 try {
                     Log.i(TAG, "Reading URI=" + data.getData());
-                    in = getContentResolver().openInputStream(data.getData());
+                    ContentResolver resolver = getContentResolver();
+                    String[] streamTypes = resolver.getStreamTypes(data.getData(), "*/*");
+                    AssetFileDescriptor descriptor = resolver.openTypedAssetFileDescriptor(data.getData(), streamTypes[0], null);
+                    in = descriptor.createInputStream();
                     out = new FileOutputStream(hosts);
 
                     int len;
@@ -963,7 +968,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 InputStream in = null;
                 try {
                     Log.i(TAG, "Reading URI=" + data.getData());
-                    in = getContentResolver().openInputStream(data.getData());
+                    ContentResolver resolver = getContentResolver();
+                    String[] streamTypes = resolver.getStreamTypes(data.getData(), "*/*");
+                    AssetFileDescriptor descriptor = resolver.openTypedAssetFileDescriptor(data.getData(), streamTypes[0], null);
+                    in = descriptor.createInputStream();
                     xmlImport(in);
                     return null;
                 } catch (Throwable ex) {
