@@ -141,15 +141,6 @@
             </intent-filter>
         </service>
 
-        <service
-            android:name=".ServicePublic"
-            android:exported="true"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="eu.faircode.netguard.ENABLE" />
-            </intent-filter>
-        </service>
-
         <receiver
             android:name=".Receiver"
             android:label="@string/app_name">
