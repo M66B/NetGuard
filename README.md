@@ -195,7 +195,7 @@ Permissions
 * WAKE_LOCK ('*Prevent device from sleeping*'): to reliably reload rules in the background on connectivity changes
 * READ/WRITE_EXTERNAL_STORAGE ('*Photos/Media/Files*'): to export/import settings on Android versions before 4.4 (KitKat) (there is no need to grant this permission on later Android versions)
 * VIBRATE: to give feedback on widget tap
-* com.android.vending.BILLING: to use in-app billing
+* BILLING: to use in-app billing
 
 Support
 -------
