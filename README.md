@@ -200,10 +200,7 @@ Permissions
 Support
 -------
 
-* Questions: please [use this XDA-Developers forum thread](http://forum.xda-developers.com/showthread.php?t=3233012)
-* Feature requests and bugs: please [create an issue on GitHub](https://github.com/M66B/NetGuard/issues/new)
-
-Please do not use GitHub for questions.
+For questions, feature requests and bug reports, please [use this XDA-Developers forum thread](http://forum.xda-developers.com/showthread.php?t=3233012)
 
 **There is no support on ad blocking.**
 
@@ -220,7 +217,6 @@ Building is simple, if you install the right tools:
 The native code is built as part of the Android Studio project.
 
 It is expected that you can solve build problems yourself, so there is no support on building.
-It builds fine on Linux so one can use [VirtualBox](http://virtualbox.org) + [Lubuntu](http://lubuntu.net) + [Android Studio package](https://paolorotolo.github.io/android-studio/) to get a VM setup that is known to be working.
 If you cannot build yourself, there are prebuilt versions of NetGuard available [here](https://github.com/M66B/NetGuard/releases).
 
 *Translating*
