@@ -54,6 +54,7 @@ public class ActivityPro extends AppCompatActivity {
     private static final int SKU_SPEED_ID = 4;
     private static final int SKU_THEME_ID = 5;
     private static final int SKU_PRO1_ID = 6;
+    private static final int SKU_SUPPORT1_ID = 7;
 
     public static final String SKU_LOG = "log";
     public static final String SKU_FILTER = "filter";
@@ -61,6 +62,7 @@ public class ActivityPro extends AppCompatActivity {
     public static final String SKU_SPEED = "speed";
     public static final String SKU_THEME = "theme";
     public static final String SKU_PRO1 = "pro1";
+    public static final String SKU_SUPPORT1 = "support1";
     public static final String SKU_DONATION = "donation";
 
     @Override
@@ -84,6 +86,7 @@ public class ActivityPro extends AppCompatActivity {
         TextView tvSpeedTitle = (TextView) findViewById(R.id.tvSpeedTitle);
         TextView tvThemeTitle = (TextView) findViewById(R.id.tvThemeTitle);
         TextView tvAllTitle = (TextView) findViewById(R.id.tvAllTitle);
+        TextView tvDevTitle = (TextView) findViewById(R.id.tvDevTitle);
 
         Linkify.TransformFilter filter = new Linkify.TransformFilter() {
             @Override
@@ -98,6 +101,7 @@ public class ActivityPro extends AppCompatActivity {
         Linkify.addLinks(tvSpeedTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SPEED, null, filter);
         Linkify.addLinks(tvThemeTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_THEME, null, filter);
         Linkify.addLinks(tvAllTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_PRO1, null, filter);
+        Linkify.addLinks(tvDevTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SUPPORT1, null, filter);
 
         // Challenge
         TextView tvChallenge = (TextView) findViewById(R.id.tvChallenge);
@@ -145,6 +149,7 @@ public class ActivityPro extends AppCompatActivity {
                         final Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
                         final Button btnTheme = (Button) findViewById(R.id.btnTheme);
                         final Button btnAll = (Button) findViewById(R.id.btnAll);
+                        final Button btnDev = (Button) findViewById(R.id.btnDev);
 
                         View.OnClickListener listener = new View.OnClickListener() {
                             @Override
@@ -170,6 +175,9 @@ public class ActivityPro extends AppCompatActivity {
                                     } else if (view == btnAll) {
                                         id = SKU_PRO1_ID;
                                         pi = iab.getBuyIntent(SKU_PRO1);
+                                    } else if (view == btnDev) {
+                                        id = SKU_SUPPORT1_ID;
+                                        pi = iab.getBuyIntent(SKU_SUPPORT1);
                                     }
 
                                     if (id > 0 && pi != null)
@@ -186,6 +194,7 @@ public class ActivityPro extends AppCompatActivity {
                         btnSpeed.setOnClickListener(listener);
                         btnTheme.setOnClickListener(listener);
                         btnAll.setOnClickListener(listener);
+                        btnDev.setOnClickListener(listener);
 
                         btnLog.setEnabled(true);
                         btnFilter.setEnabled(true);
@@ -193,9 +202,11 @@ public class ActivityPro extends AppCompatActivity {
                         btnSpeed.setEnabled(true);
                         btnTheme.setEnabled(true);
                         btnAll.setEnabled(true);
+                        btnDev.setEnabled(true);
 
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        Util.sendCrashReport(ex, ActivityPro.this);
                     }
                 }
             }, this);
@@ -252,6 +263,10 @@ public class ActivityPro extends AppCompatActivity {
                     IAB.setBought(SKU_PRO1, this);
                     updateState();
                     break;
+                case SKU_SUPPORT1_ID:
+                    IAB.setBought(SKU_SUPPORT1, this);
+                    updateState();
+                    break;
             }
         }
     }
@@ -263,12 +278,14 @@ public class ActivityPro extends AppCompatActivity {
         Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
         Button btnTheme = (Button) findViewById(R.id.btnTheme);
         Button btnAll = (Button) findViewById(R.id.btnAll);
+        Button btnDev = (Button) findViewById(R.id.btnDev);
         TextView tvLog = (TextView) findViewById(R.id.tvLog);
         TextView tvFilter = (TextView) findViewById(R.id.tvFilter);
         TextView tvNotify = (TextView) findViewById(R.id.tvNotify);
         TextView tvSpeed = (TextView) findViewById(R.id.tvSpeed);
         TextView tvTheme = (TextView) findViewById(R.id.tvTheme);
         TextView tvAll = (TextView) findViewById(R.id.tvAll);
+        TextView tvDev = (TextView) findViewById(R.id.tvDev);
         LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
 
         btnLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.GONE : View.VISIBLE);
@@ -277,6 +294,7 @@ public class ActivityPro extends AppCompatActivity {
         btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
         btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
         btnAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.GONE : View.VISIBLE);
+        btnDev.setVisibility(IAB.isPurchased(SKU_SUPPORT1, this) ? View.GONE : View.VISIBLE);
 
         tvLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.VISIBLE : View.GONE);
         tvFilter.setVisibility(IAB.isPurchased(SKU_FILTER, this) ? View.VISIBLE : View.GONE);
@@ -284,6 +302,7 @@ public class ActivityPro extends AppCompatActivity {
         tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
         tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
         tvAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.VISIBLE : View.GONE);
+        tvDev.setVisibility(IAB.isPurchased(SKU_SUPPORT1, this) ? View.VISIBLE : View.GONE);
 
         llChallenge.setVisibility(
                 IAB.isPurchased(SKU_DONATION, this) || Util.isPlayStoreInstall(this)
