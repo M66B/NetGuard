@@ -21,6 +21,7 @@ package eu.faircode.netguard;
 
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -64,7 +65,10 @@ public class ServiceTileGraph extends TileService implements SharedPreferences.O
         // Check state
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean stats = !prefs.getBoolean("show_stats", false);
-        prefs.edit().putBoolean("show_stats", stats).apply();
+        if (stats && !IAB.isPurchased(ActivityPro.SKU_SPEED, this))
+            startActivity(new Intent(this, ActivityPro.class));
+        else
+            prefs.edit().putBoolean("show_stats", stats).apply();
         ServiceSinkhole.reloadStats("tile", this);
     }
 }
