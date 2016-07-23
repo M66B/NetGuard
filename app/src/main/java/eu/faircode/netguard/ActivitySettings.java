@@ -43,6 +43,7 @@ import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.TwoStatePreference;
@@ -127,10 +128,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         final PreferenceScreen screen = getPreferenceScreen();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        PreferenceScreen cat_options = (PreferenceScreen) screen.findPreference("screen_options");
-        PreferenceScreen cat_advanced = (PreferenceScreen) screen.findPreference("screen_advanced_options");
-        PreferenceScreen cat_backup = (PreferenceScreen) screen.findPreference("screen_backup");
-        PreferenceScreen cat_development = (PreferenceScreen) screen.findPreference("screen_development");
+        PreferenceGroup cat_options = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_options")).findPreference("category_options");
+        PreferenceGroup cat_advanced = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_advanced_options")).findPreference("category_advanced_options");
+        PreferenceGroup cat_backup = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_backup")).findPreference("category_backup");
+        PreferenceGroup cat_development = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_development")).findPreference("category_development");
 
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
@@ -264,6 +265,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         final Preference pref_hosts_download = screen.findPreference("hosts_download");
 
         if (Util.isPlayStoreInstall(this)) {
+            Log.i(TAG, "Play store install");
             cat_options.removePreference(screen.findPreference("update_check"));
             cat_advanced.removePreference(pref_block_domains);
             cat_advanced.removePreference(pref_forwarding);
