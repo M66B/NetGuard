@@ -36,18 +36,20 @@ public class ServiceTileGraph extends TileService implements SharedPreferences.O
         Log.i(TAG, "Start listening");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
-        boolean stats = prefs.getBoolean("show_stats", false);
-        getQsTile().setState(stats ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        getQsTile().updateTile();
+        update();
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if ("show_stats".equals(key)) {
-            boolean stats = prefs.getBoolean(key, false);
-            getQsTile().setState(stats ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-            getQsTile().updateTile();
-        }
+        if ("show_stats".equals(key))
+            update();
+    }
+
+    private void update() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean stats = prefs.getBoolean("show_stats", false);
+        getQsTile().setState(stats ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        getQsTile().updateTile();
     }
 
     public void onStopListening() {

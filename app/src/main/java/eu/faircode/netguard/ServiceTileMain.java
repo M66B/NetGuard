@@ -42,18 +42,20 @@ public class ServiceTileMain extends TileService implements SharedPreferences.On
         Log.i(TAG, "Start listening");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
-        boolean enabled = prefs.getBoolean("enabled", false);
-        getQsTile().setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        getQsTile().updateTile();
+        update();
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if ("enabled".equals(key)) {
-            boolean enabled = prefs.getBoolean(key, false);
-            getQsTile().setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-            getQsTile().updateTile();
-        }
+        if ("enabled".equals(key))
+            update();
+    }
+
+    private void update() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean enabled = prefs.getBoolean("enabled", false);
+        getQsTile().setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        getQsTile().updateTile();
     }
 
     public void onStopListening() {
