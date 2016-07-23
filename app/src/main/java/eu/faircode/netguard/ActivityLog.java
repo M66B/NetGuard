@@ -376,7 +376,6 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         menu.findItem(R.id.menu_refresh).setEnabled(!menu.findItem(R.id.menu_log_live).isChecked());
         menu.findItem(R.id.menu_log_resolve).setChecked(prefs.getBoolean("resolve", false));
         menu.findItem(R.id.menu_log_organization).setChecked(prefs.getBoolean("organization", false));
-        menu.findItem(R.id.menu_pcap_enabled).setEnabled(prefs.getBoolean("filter", false));
         menu.findItem(R.id.menu_pcap_enabled).setChecked(prefs.getBoolean("pcap", false));
         menu.findItem(R.id.menu_pcap_export).setEnabled(pcap_file.exists() && export);
 
