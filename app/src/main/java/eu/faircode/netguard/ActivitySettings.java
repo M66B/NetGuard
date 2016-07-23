@@ -175,7 +175,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Filtering always enabled
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-            cat_advanced.removePreference(screen.findPreference("filter"));
+            screen.findPreference("filter").setEnabled(false);
 
         Preference pref_reset_usage = screen.findPreference("reset_usage");
         pref_reset_usage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
