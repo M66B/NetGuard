@@ -148,11 +148,11 @@ public class IAB implements ServiceConnection {
         return (details == null ? new ArrayList<String>() : details);
     }
 
-    public PendingIntent getBuyIntent(String sku) throws RemoteException {
+    public PendingIntent getBuyIntent(String sku, boolean subscription) throws RemoteException {
         if (service == null)
             return null;
-        Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, "inapp", "netguard");
-        Log.i(TAG, "getBuyIntent");
+        Bundle bundle = service.getBuyIntent(IAB_VERSION, context.getPackageName(), sku, subscription ? "subs" : "inapp", "netguard");
+        Log.i(TAG, "getBuyIntent sku=" + sku + " subscription=" + subscription);
         Util.logBundle(bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
         Log.i(TAG, "Response=" + getResult(response));

@@ -159,25 +159,25 @@ public class ActivityPro extends AppCompatActivity {
                                     PendingIntent pi = null;
                                     if (view == btnLog) {
                                         id = SKU_LOG_ID;
-                                        pi = iab.getBuyIntent(SKU_LOG);
+                                        pi = iab.getBuyIntent(SKU_LOG, false);
                                     } else if (view == btnFilter) {
                                         id = SKU_FILTER_ID;
-                                        pi = iab.getBuyIntent(SKU_FILTER);
+                                        pi = iab.getBuyIntent(SKU_FILTER, false);
                                     } else if (view == btnNotify) {
                                         id = SKU_NOTIFY_ID;
-                                        pi = iab.getBuyIntent(SKU_NOTIFY);
+                                        pi = iab.getBuyIntent(SKU_NOTIFY, false);
                                     } else if (view == btnSpeed) {
                                         id = SKU_SPEED_ID;
-                                        pi = iab.getBuyIntent(SKU_SPEED);
+                                        pi = iab.getBuyIntent(SKU_SPEED, false);
                                     } else if (view == btnTheme) {
                                         id = SKU_THEME_ID;
-                                        pi = iab.getBuyIntent(SKU_THEME);
+                                        pi = iab.getBuyIntent(SKU_THEME, false);
                                     } else if (view == btnAll) {
                                         id = SKU_PRO1_ID;
-                                        pi = iab.getBuyIntent(SKU_PRO1);
+                                        pi = iab.getBuyIntent(SKU_PRO1, false);
                                     } else if (view == btnDev) {
                                         id = SKU_SUPPORT1_ID;
-                                        pi = iab.getBuyIntent(SKU_SUPPORT1);
+                                        pi = iab.getBuyIntent(SKU_SUPPORT1, true);
                                     }
 
                                     if (id > 0 && pi != null)
