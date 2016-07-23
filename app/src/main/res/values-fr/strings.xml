@@ -208,7 +208,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_pro_dev">Support development</string>
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Activé</string>
-  <string name="title_pro_details">Tap on the title for more information</string>
+  <string name="title_pro_details">Tap on a title for more information</string>
   <string name="title_pro_challenge">Code</string>
   <string name="title_pro_reponse">Réponse</string>
   <string-array name="themeNames">

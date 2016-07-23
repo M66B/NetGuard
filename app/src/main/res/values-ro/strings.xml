@@ -209,7 +209,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_pro_dev">Support development</string>
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Activat</string>
-  <string name="title_pro_details">Tap on the title for more information</string>
+  <string name="title_pro_details">Tap on a title for more information</string>
   <string name="title_pro_challenge">Intrebare de verificare</string>
   <string name="title_pro_reponse">Raspuns</string>
   <string-array name="themeNames">

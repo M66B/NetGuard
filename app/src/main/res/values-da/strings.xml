@@ -212,7 +212,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_pro_dev">Support development</string>
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Aktiveret</string>
-  <string name="title_pro_details">Tap on the title for more information</string>
+  <string name="title_pro_details">Tap on a title for more information</string>
   <string name="title_pro_challenge">Udfordring</string>
   <string name="title_pro_reponse">Svar</string>
   <string-array name="themeNames">

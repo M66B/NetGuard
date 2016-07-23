@@ -207,7 +207,7 @@
   <string name="title_pro_dev">Support development</string>
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">有効</string>
-  <string name="title_pro_details">Tap on the title for more information</string>
+  <string name="title_pro_details">Tap on a title for more information</string>
   <string name="title_pro_challenge">チャレンジ</string>
   <string name="title_pro_reponse">応答</string>
   <string-array name="themeNames">

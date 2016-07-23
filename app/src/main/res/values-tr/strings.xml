@@ -167,7 +167,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="msg_whitelist">Varsayılan olarak, Internet erişim verilir Bu, ayarlarından değiştirilebilir</string>
   <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
   <string name="msg_system">Sistem uygulamalarını yönet gelişmiş seçenekler de etkin olabilir</string>
-  <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
+  <string name="msg_issue">Lütfen sorunu açıklayan ve tarihi girin:</string>
   <string name="title_unmetered_allowed">İzin verilmiş hesaplanamayan veri kullanımı</string>
   <string name="title_unmetered_blocked">Engellenmiş hesaplanamayan veri kullanımı</string>
   <string name="title_metered_allowed">İzin verilmiş veri kullanımı</string>
@@ -209,10 +209,10 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="title_pro_speed">Veri hızı grafiği bildirimi</string>
   <string name="title_pro_theme">Arayüz görünümü (tema ve renkler)</string>
   <string name="title_pro_all">Tüm Pro özellikler</string>
-  <string name="title_pro_dev">Support development</string>
-  <string name="title_pro_buy">Buy</string>
+  <string name="title_pro_dev">Geliştirmeyi destekle</string>
+  <string name="title_pro_buy">Satın al</string>
   <string name="title_pro_bought">Etkin</string>
-  <string name="title_pro_details">Tap on the title for more information</string>
+  <string name="title_pro_details">Daha fazla bilgi için başlığa dokunun</string>
   <string name="title_pro_challenge">Meydan okuma</string>
   <string name="title_pro_reponse">Yanıt</string>
   <string-array name="themeNames">
