@@ -203,6 +203,7 @@
   <string name="title_pro_speed">Notificación gráfica de velocidad de red</string>
   <string name="title_pro_theme">Apariencia (tema, colores)</string>
   <string name="title_pro_all">Todas las características de pago anteriores</string>
+  <string name="title_pro_dev">Support development</string>
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Activado</string>
   <string name="title_pro_details">Tap on the title for more information</string>

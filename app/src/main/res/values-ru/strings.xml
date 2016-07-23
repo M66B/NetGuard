@@ -205,6 +205,7 @@
   <string name="title_pro_speed">График скорости сети</string>
   <string name="title_pro_theme">Внешний вид (темы, цвета)</string>
   <string name="title_pro_all">Все выше перечисленные Pro-функции</string>
+  <string name="title_pro_dev">Support development</string>
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Добавлено</string>
   <string name="title_pro_details">Tap on the title for more information</string>

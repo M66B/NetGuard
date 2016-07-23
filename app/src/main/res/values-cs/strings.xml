@@ -209,6 +209,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_pro_speed">Oznámení s grafem rychlosti sítě</string>
   <string name="title_pro_theme">Vzhled (téma, barvy)</string>
   <string name="title_pro_all">Všechny výše uvedené PRO funkce</string>
+  <string name="title_pro_dev">Support development</string>
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Povoleno</string>
   <string name="title_pro_details">Tap on the title for more information</string>
