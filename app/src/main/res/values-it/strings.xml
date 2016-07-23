@@ -203,8 +203,9 @@
   <string name="title_pro_speed">Grafico della velocità di rete nelle notifiche</string>
   <string name="title_pro_theme">Aspetto (tema, colori)</string>
   <string name="title_pro_all">Tutte le funzionalità aggiuntive sopra</string>
-  <string name="title_pro_buy">Dettagli</string>
+  <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Abilitato</string>
+  <string name="title_pro_details">Tap on the title for more information</string>
   <string name="title_pro_challenge">Domanda di verifica</string>
   <string name="title_pro_reponse">Risposta</string>
   <string-array name="themeNames">

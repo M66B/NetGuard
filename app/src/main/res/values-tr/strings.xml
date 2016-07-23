@@ -209,8 +209,9 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="title_pro_speed">Veri hızı grafiği bildirimi</string>
   <string name="title_pro_theme">Arayüz görünümü (tema ve renkler)</string>
   <string name="title_pro_all">Tüm Pro özellikler</string>
-  <string name="title_pro_buy">Ayrıntılar</string>
+  <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Etkin</string>
+  <string name="title_pro_details">Tap on the title for more information</string>
   <string name="title_pro_challenge">Meydan okuma</string>
   <string name="title_pro_reponse">Yanıt</string>
   <string-array name="themeNames">

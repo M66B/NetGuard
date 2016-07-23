@@ -209,8 +209,9 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_pro_speed">Network speed graph notification</string>
   <string name="title_pro_theme">Appearance (theme, colors)</string>
   <string name="title_pro_all">All above pro features</string>
-  <string name="title_pro_buy">Details</string>
+  <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Enabled</string>
+  <string name="title_pro_details">Tap on the title for more information</string>
   <string name="title_pro_challenge">Challenge</string>
   <string name="title_pro_reponse">Response</string>
   <string-array name="themeNames">

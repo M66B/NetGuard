@@ -204,8 +204,9 @@
   <string name="title_pro_speed">تنبيه رسم بياني لسرعة الشبكة</string>
   <string name="title_pro_theme">المظهر (المظهر، ألوان)</string>
   <string name="title_pro_all">كل ميزات النسخة الكاملة أعلاه</string>
-  <string name="title_pro_buy">تفاصيل</string>
+  <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">ممكن</string>
+  <string name="title_pro_details">Tap on the title for more information</string>
   <string name="title_pro_challenge">تحدّي</string>
   <string name="title_pro_reponse">الاستجابة</string>
   <string-array name="themeNames">

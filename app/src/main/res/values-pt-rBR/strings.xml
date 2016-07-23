@@ -207,8 +207,9 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>
   <string name="title_pro_all">Tudo sobre a versão PRO</string>
-  <string name="title_pro_buy">Detalhes</string>
+  <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Ativado</string>
+  <string name="title_pro_details">Tap on the title for more information</string>
   <string name="title_pro_challenge">Código de verificação</string>
   <string name="title_pro_reponse">Resposta</string>
   <string-array name="themeNames">

@@ -205,8 +205,9 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_pro_speed">Hálózat sebesség grafikon értesítés</string>
   <string name="title_pro_theme">Megjelenés (téma, színek)</string>
   <string name="title_pro_all">Az összes fenti pro funkció</string>
-  <string name="title_pro_buy">Részletek</string>
+  <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Engedélyezve</string>
+  <string name="title_pro_details">Tap on the title for more information</string>
   <string name="title_pro_challenge">Hívás</string>
   <string name="title_pro_reponse">Válasz</string>
   <string-array name="themeNames">

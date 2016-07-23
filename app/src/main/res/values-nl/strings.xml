@@ -208,8 +208,9 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_pro_speed">Netwerk snelheid grafiek melding</string>
   <string name="title_pro_theme">Uiterlijk (thema, kleuren)</string>
   <string name="title_pro_all">Alle bovenstaande pro functies</string>
-  <string name="title_pro_buy">Details</string>
+  <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Ingeschakeld</string>
+  <string name="title_pro_details">Tap on the title for more information</string>
   <string name="title_pro_challenge">Uitdaging</string>
   <string name="title_pro_reponse">Reactie</string>
   <string-array name="themeNames">

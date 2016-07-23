@@ -206,8 +206,9 @@
   <string name="title_pro_speed">Графік швидкості в сповіщеннях</string>
   <string name="title_pro_theme">Зовнішній вигляд (тема, кольори)</string>
   <string name="title_pro_all">Всі вище зазначені pro-можливості</string>
-  <string name="title_pro_buy">Деталі</string>
+  <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Увімкнено</string>
+  <string name="title_pro_details">Tap on the title for more information</string>
   <string name="title_pro_challenge">Завдання</string>
   <string name="title_pro_reponse">Відповідь</string>
   <string-array name="themeNames">

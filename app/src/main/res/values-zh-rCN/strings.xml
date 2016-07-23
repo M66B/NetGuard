@@ -209,8 +209,9 @@
   <string name="title_pro_speed">网速示图通知</string>
   <string name="title_pro_theme">外观 (主题、 颜色)</string>
   <string name="title_pro_all">以上所有专业版功能</string>
-  <string name="title_pro_buy">详细信息</string>
+  <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">已启用</string>
+  <string name="title_pro_details">Tap on the title for more information</string>
   <string name="title_pro_challenge">验证口令</string>
   <string name="title_pro_reponse">验证应答</string>
   <string-array name="themeNames">
