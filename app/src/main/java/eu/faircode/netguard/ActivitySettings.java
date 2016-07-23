@@ -912,7 +912,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     Log.i(TAG, "Reading URI=" + data.getData());
                     ContentResolver resolver = getContentResolver();
                     String[] streamTypes = resolver.getStreamTypes(data.getData(), "*/*");
-                    AssetFileDescriptor descriptor = resolver.openTypedAssetFileDescriptor(data.getData(), streamTypes[0], null);
+                    String streamType = (streamTypes == null || streamTypes.length == 0 ? "*/*" : streamTypes[0]);
+                    AssetFileDescriptor descriptor = resolver.openTypedAssetFileDescriptor(data.getData(), streamType, null);
                     in = descriptor.createInputStream();
                     out = new FileOutputStream(hosts);
 
@@ -975,7 +976,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     Log.i(TAG, "Reading URI=" + data.getData());
                     ContentResolver resolver = getContentResolver();
                     String[] streamTypes = resolver.getStreamTypes(data.getData(), "*/*");
-                    AssetFileDescriptor descriptor = resolver.openTypedAssetFileDescriptor(data.getData(), streamTypes[0], null);
+                    String streamType = (streamTypes == null || streamTypes.length == 0 ? "*/*" : streamTypes[0]);
+                    AssetFileDescriptor descriptor = resolver.openTypedAssetFileDescriptor(data.getData(), streamType, null);
                     in = descriptor.createInputStream();
                     xmlImport(in);
                     return null;
