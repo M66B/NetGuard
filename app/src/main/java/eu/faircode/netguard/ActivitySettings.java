@@ -130,6 +130,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         PreferenceGroup cat_options = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_options")).findPreference("category_options");
         PreferenceGroup cat_advanced = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_advanced_options")).findPreference("category_advanced_options");
+        PreferenceGroup cat_stats = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_stats")).findPreference("category_stats");
         PreferenceGroup cat_backup = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_backup")).findPreference("category_backup");
         PreferenceGroup cat_development = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_development")).findPreference("category_development");
 
@@ -231,6 +232,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         screen.findPreference("pcap_file_size").setTitle(getString(R.string.setting_pcap_file_size, prefs.getString("pcap_file_size", "2")));
 
         // Handle stats
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            cat_stats.removePreference(screen.findPreference("show_top"));
         EditTextPreference pref_stats_frequency = (EditTextPreference) screen.findPreference("stats_frequency");
         EditTextPreference pref_stats_samples = (EditTextPreference) screen.findPreference("stats_samples");
         pref_stats_frequency.setTitle(getString(R.string.setting_stats_frequency, prefs.getString("stats_frequency", "1000")));
