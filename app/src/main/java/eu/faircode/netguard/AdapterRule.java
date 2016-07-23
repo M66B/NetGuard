@@ -401,6 +401,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.tvDisabled.setVisibility(rule.enabled ? View.GONE : View.VISIBLE);
 
         // Show traffic statistics
+        holder.tvStatistics.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? View.GONE : View.VISIBLE);
         holder.tvStatistics.setText(context.getString(R.string.msg_mbday, rule.upspeed, rule.downspeed));
 
         // Apply

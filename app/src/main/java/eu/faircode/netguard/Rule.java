@@ -353,11 +353,16 @@ public class Rule {
                     }
                     rule.related = listPkg.toArray(new String[0]);
 
-                    long up = TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid);
-                    long down = TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid);
-                    rule.totalbytes = up + down;
-                    rule.upspeed = (float) up * 24 * 3600 * 1000 / 1024f / 1024f / now;
-                    rule.downspeed = (float) down * 24 * 3600 * 1000 / 1024f / 1024f / now;
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                        long up = TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid);
+                        long down = TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid);
+                        rule.totalbytes = up + down;
+                        rule.upspeed = (float) up * 24 * 3600 * 1000 / 1024f / 1024f / now;
+                        rule.downspeed = (float) down * 24 * 3600 * 1000 / 1024f / 1024f / now;
+                    } else {
+                        rule.upspeed = 0;
+                        rule.downspeed = 0;
+                    }
 
                     rule.updateChanged(default_wifi, default_other, default_roaming);
 

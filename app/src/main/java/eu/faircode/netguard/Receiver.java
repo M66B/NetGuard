@@ -239,8 +239,11 @@ public class Receiver extends BroadcastReceiver {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
                 editor.putBoolean("filter", true); // Mandatory
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 editor.remove("show_top");
+                if ("data".equals(prefs.getString("sort", "name")))
+                    editor.remove("sort");
+            }
 
             if (Util.isPlayStoreInstall(context)) {
                 editor.remove("update_check");

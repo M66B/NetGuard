@@ -843,13 +843,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         menu.findItem(R.id.menu_app_nointernet).setChecked(prefs.getBoolean("show_nointernet", true));
         menu.findItem(R.id.menu_app_disabled).setChecked(prefs.getBoolean("show_disabled", true));
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Menu submenu = menu.findItem(R.id.menu_sort).getSubMenu();
+            submenu.removeItem(R.id.menu_sort_data);
+        }
+
         String sort = prefs.getString("sort", "name");
-        if ("data".equals(sort))
+        if ("data".equals(sort) && Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
             menu.findItem(R.id.menu_sort_data).setChecked(true);
         else if ("uid".equals(sort))
             menu.findItem(R.id.menu_sort_uid).setChecked(true);
         else
             menu.findItem(R.id.menu_sort_name).setChecked(true);
+
 
         return super.onPrepareOptionsMenu(menu);
     }
