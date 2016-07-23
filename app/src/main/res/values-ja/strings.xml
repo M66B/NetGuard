@@ -204,10 +204,10 @@
   <string name="title_pro_speed">ネットワーク速度グラフ通知</string>
   <string name="title_pro_theme">外観 (テーマ、色)</string>
   <string name="title_pro_all">上記すべての Pro 機能</string>
-  <string name="title_pro_dev">Support development</string>
-  <string name="title_pro_buy">Buy</string>
+  <string name="title_pro_dev">開発をサポートする</string>
+  <string name="title_pro_buy">購入する</string>
   <string name="title_pro_bought">有効</string>
-  <string name="title_pro_details">Tap on a title for more information</string>
+  <string name="title_pro_details">詳細情報はタイトルをタップします</string>
   <string name="title_pro_challenge">チャレンジ</string>
   <string name="title_pro_reponse">応答</string>
   <string-array name="themeNames">
