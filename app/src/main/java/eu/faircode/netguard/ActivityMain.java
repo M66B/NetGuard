@@ -287,50 +287,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             public void onClick(View view) {
                 prefs.edit().putBoolean("hint_usage", false).apply();
                 llUsage.setVisibility(View.GONE);
+                showHints();
             }
         });
-
-        // Hint white listing
-        final LinearLayout llWhitelist = (LinearLayout) findViewById(R.id.llWhitelist);
-        Button btnWhitelist = (Button) findViewById(R.id.btnWhitelist);
-        boolean whitelist_wifi = prefs.getBoolean("whitelist_wifi", false);
-        boolean whitelist_other = prefs.getBoolean("whitelist_other", false);
-        boolean hintWhitelist = prefs.getBoolean("hint_whitelist", true);
-        llWhitelist.setVisibility(!(whitelist_wifi || whitelist_other) && hintWhitelist ? View.VISIBLE : View.GONE);
-        btnWhitelist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                prefs.edit().putBoolean("hint_whitelist", false).apply();
-                llWhitelist.setVisibility(View.GONE);
-            }
-        });
-
-        // Hint push messages
-        final LinearLayout llPush = (LinearLayout) findViewById(R.id.llPush);
-        Button btnPush = (Button) findViewById(R.id.btnPush);
-        boolean hintPush = prefs.getBoolean("hint_push", true);
-        llPush.setVisibility(hintPush ? View.VISIBLE : View.GONE);
-        btnPush.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                prefs.edit().putBoolean("hint_push", false).apply();
-                llPush.setVisibility(View.GONE);
-            }
-        });
-
-        // Hint system applications
-        final LinearLayout llSystem = (LinearLayout) findViewById(R.id.llSystem);
-        Button btnSystem = (Button) findViewById(R.id.btnSystem);
-        boolean system = prefs.getBoolean("manage_system", false);
-        boolean hintSystem = prefs.getBoolean("hint_system", true);
-        llSystem.setVisibility(!system && hintSystem ? View.VISIBLE : View.GONE);
-        btnSystem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                prefs.edit().putBoolean("hint_system", false).apply();
-                llSystem.setVisibility(View.GONE);
-            }
-        });
+        showHints();
 
         // Listen for preference changes
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -424,6 +384,53 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Handle intent
         checkExtras(getIntent());
+    }
+
+    private void showHints() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean hintUsage = prefs.getBoolean("hint_usage", true);
+
+        // Hint white listing
+        final LinearLayout llWhitelist = (LinearLayout) findViewById(R.id.llWhitelist);
+        Button btnWhitelist = (Button) findViewById(R.id.btnWhitelist);
+        boolean whitelist_wifi = prefs.getBoolean("whitelist_wifi", false);
+        boolean whitelist_other = prefs.getBoolean("whitelist_other", false);
+        boolean hintWhitelist = prefs.getBoolean("hint_whitelist", true);
+        llWhitelist.setVisibility(!(whitelist_wifi || whitelist_other) && hintWhitelist && !hintUsage ? View.VISIBLE : View.GONE);
+        btnWhitelist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs.edit().putBoolean("hint_whitelist", false).apply();
+                llWhitelist.setVisibility(View.GONE);
+            }
+        });
+
+        // Hint push messages
+        final LinearLayout llPush = (LinearLayout) findViewById(R.id.llPush);
+        Button btnPush = (Button) findViewById(R.id.btnPush);
+        boolean hintPush = prefs.getBoolean("hint_push", true);
+        llPush.setVisibility(hintPush && !hintUsage ? View.VISIBLE : View.GONE);
+        btnPush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs.edit().putBoolean("hint_push", false).apply();
+                llPush.setVisibility(View.GONE);
+            }
+        });
+
+        // Hint system applications
+        final LinearLayout llSystem = (LinearLayout) findViewById(R.id.llSystem);
+        Button btnSystem = (Button) findViewById(R.id.btnSystem);
+        boolean system = prefs.getBoolean("manage_system", false);
+        boolean hintSystem = prefs.getBoolean("hint_system", true);
+        llSystem.setVisibility(!system && hintSystem && !hintUsage ? View.VISIBLE : View.GONE);
+        btnSystem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs.edit().putBoolean("hint_system", false).apply();
+                llSystem.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
