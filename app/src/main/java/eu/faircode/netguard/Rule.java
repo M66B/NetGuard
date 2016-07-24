@@ -338,16 +338,7 @@ public class Rule {
                     rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
                     rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
 
-                    if (info.applicationInfo.uid == Process.myUid())
-                        if (IAB.isPurchasedAny(context))
-                            rule.apply = apply.getBoolean(info.packageName, true);
-                        else {
-                            rule.pkg = false;
-                            rule.apply = false;
-                        }
-                    else
-                        rule.apply = apply.getBoolean(info.packageName, true);
-
+                    rule.apply = apply.getBoolean(info.packageName, true);
                     rule.notify = notify.getBoolean(info.packageName, true);
 
                     // Related packages
