@@ -52,6 +52,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -373,6 +376,11 @@ public class Util {
 
     public static boolean isPlayStoreInstall(Context context) {
         return "com.android.vending".equals(context.getPackageManager().getInstallerPackageName(context.getPackageName()));
+    }
+
+    public static boolean hasPlayServices(Context context) {
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        return (api.isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS);
     }
 
     public static String getFingerprint(Context context) {

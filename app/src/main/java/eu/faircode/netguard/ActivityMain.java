@@ -419,7 +419,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
 
         // Ads
-        if (!IAB.isPurchasedAny(this))
+        if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
             loadAds();
 
         // Handle intent
@@ -446,7 +446,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Log.i(TAG, "Config changed");
         super.onConfigurationChanged(newConfig);
 
-        if (!IAB.isPurchasedAny(this))
+        if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
             reloadAds();
     }
 
