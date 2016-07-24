@@ -249,8 +249,10 @@ public class Receiver extends BroadcastReceiver {
                 editor.remove("update_check");
                 editor.remove("use_hosts");
                 editor.remove("hosts_url");
-                editor.remove("loglevel");
             }
+
+            if (!Util.isDebuggable(context))
+                editor.remove("loglevel");
 
             editor.putInt("version", newVersion);
             editor.apply();

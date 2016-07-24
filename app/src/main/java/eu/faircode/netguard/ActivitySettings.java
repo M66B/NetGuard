@@ -132,7 +132,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         PreferenceGroup cat_advanced = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_advanced_options")).findPreference("category_advanced_options");
         PreferenceGroup cat_stats = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_stats")).findPreference("category_stats");
         PreferenceGroup cat_backup = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_backup")).findPreference("category_backup");
-        PreferenceGroup cat_development = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_development")).findPreference("category_development");
 
         // Handle auto enable
         Preference pref_auto_enable = screen.findPreference("auto_enable");
@@ -346,21 +345,19 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         }
 
         // Development
-        Preference pref_show_resolved = screen.findPreference("show_resolved");
-        if (!(Util.isDebuggable(this) || Util.getSelfVersionName(this).contains("beta"))) {
-            screen.removePreference(cat_development);
-            prefs.edit().remove("loglevel").apply();
-        } else if (!Util.isDebuggable(this))
-            cat_development.removePreference(pref_show_resolved);
-
-        // Show resolved
-        pref_show_resolved.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(ActivitySettings.this, ActivityDns.class));
-                return true;
-            }
-        });
+        if (!Util.isDebuggable(this))
+            screen.removePreference(screen.findPreference("screen_development"));
+        else {
+            // Show resolved
+            Preference pref_show_resolved = screen.findPreference("show_resolved");
+            pref_show_resolved.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(ActivitySettings.this, ActivityDns.class));
+                    return true;
+                }
+            });
+        }
 
         // Handle technical info
         Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {
