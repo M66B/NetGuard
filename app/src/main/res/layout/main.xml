@@ -21,12 +21,38 @@
             android:id="@+id/tvDisabled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:padding="8dp"
             android:text="@string/msg_disabled"
             android:textAppearance="@style/TextMedium"
             android:textColor="?attr/colorOff"
             android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llUsage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/msg_usage"
+                android:textAppearance="@style/TextSmall" />
+
+            <Button
+                android:id="@+id/btnUsage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@android:string/ok"
+                android:textAppearance="@style/TextSmall" />
+        </LinearLayout>
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
@@ -47,10 +73,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/tvWhitelist"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -74,10 +100,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/tvPush"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -101,10 +127,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/tvSystem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

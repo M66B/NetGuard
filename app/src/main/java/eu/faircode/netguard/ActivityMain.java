@@ -277,6 +277,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        // Hint usage
+        final LinearLayout llUsage = (LinearLayout) findViewById(R.id.llUsage);
+        Button btnUsage = (Button) findViewById(R.id.btnUsage);
+        boolean hintUsage = prefs.getBoolean("hint_usage", true);
+        llUsage.setVisibility(hintUsage ? View.VISIBLE : View.GONE);
+        btnUsage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs.edit().putBoolean("hint_usage", false).apply();
+                llUsage.setVisibility(View.GONE);
+            }
+        });
+
         // Hint white listing
         final LinearLayout llWhitelist = (LinearLayout) findViewById(R.id.llWhitelist);
         Button btnWhitelist = (Button) findViewById(R.id.btnWhitelist);
