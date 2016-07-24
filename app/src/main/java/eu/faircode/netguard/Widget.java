@@ -19,7 +19,6 @@ package eu.faircode.netguard;
     Copyright 2015-2016 by Marcel Bokhorst (M66B)
 */
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -28,67 +27,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.VpnService;
-import android.os.Build;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import java.util.Date;
-
 public class Widget extends AppWidgetProvider {
     private static final String TAG = "NetGuard.Widget";
-
-    public static final String INTENT_ON = "eu.faircode.netguard.APPWIDGET_ON";
-    private static final String INTENT_OFF = "eu.faircode.netguard.APPWIDGET_OFF";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         update(appWidgetIds, appWidgetManager, context);
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
-
-        Log.i(TAG, "Received " + intent);
-        Util.logExtras(intent);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        // Cancel set alarm
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
-        am.cancel(pi);
-
-        // Vibrate
-        if (INTENT_OFF.equals(intent.getAction()) || INTENT_ON.equals(intent.getAction())) {
-            Vibrator vs = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            if (vs.hasVibrator())
-                vs.vibrate(50);
-        }
-
-        if (INTENT_OFF.equals(intent.getAction())) {
-            prefs.edit().putBoolean("enabled", false).apply();
-            ServiceSinkhole.stop("widget", context);
-
-            // Auto enable
-            int auto = Integer.parseInt(prefs.getString("auto_enable", "0"));
-            if (auto > 0) {
-                Log.i(TAG, "Scheduling enabled after minutes=" + auto);
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-                    am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + auto * 60 * 1000L, pi);
-                else
-                    am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, new Date().getTime() + auto * 60 * 1000L, pi);
-            }
-
-        } else if (INTENT_ON.equals(intent.getAction()))
-            try {
-                prefs.edit().putBoolean("enabled", true).apply();
-                ServiceSinkhole.start("widget", context);
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
     }
 
     private static void update(int[] appWidgetIds, AppWidgetManager appWidgetManager, Context context) {
@@ -99,7 +47,7 @@ public class Widget extends AppWidgetProvider {
             try {
                 PendingIntent pi;
                 if (VpnService.prepare(context) == null)
-                    pi = PendingIntent.getBroadcast(context, 0, new Intent(enabled ? INTENT_OFF : INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
+                    pi = PendingIntent.getBroadcast(context, 0, new Intent(enabled ? WidgetAdmin.INTENT_OFF : WidgetAdmin.INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
                 else
                     pi = PendingIntent.getActivity(context, 0, new Intent(context, ActivityMain.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
