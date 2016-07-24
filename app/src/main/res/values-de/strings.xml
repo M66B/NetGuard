@@ -159,6 +159,7 @@
   <string name="msg_metered">Volumenbeschränktes Netzwerk</string>
   <string name="msg_queue">NetGuard ist beschäftigt</string>
   <string name="msg_update">Neue Version verfügbar, tippen zum Herunterladen</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
   <string name="msg_whitelist">Internet-Zugang ist standardmäßig erlaubt. Das kann in den Einstellungen geändert werden</string>
   <string name="msg_push">Push-Nachrichten werden normalerweise durch die Systemkomponente Play-Dienste gesteuert, welche standardmäßig den Internetzugang erlauben</string>
   <string name="msg_system">Verwalten von Systemanwendungen kann in den erweiterten Optionen aktiviert werden</string>
@@ -208,6 +209,7 @@
   <string name="title_pro_buy">Kaufen</string>
   <string name="title_pro_bought">Aktiviert</string>
   <string name="title_pro_details">Auf einen Titel für weitere Informationen tippen</string>
+  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Puzzle</string>
   <string name="title_pro_reponse">Antwort</string>
   <string-array name="themeNames">

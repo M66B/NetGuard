@@ -163,6 +163,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_metered">Netwerk is gemeten</string>
   <string name="msg_queue">NetGuard is bezig</string>
   <string name="msg_update">Update beschikbaar, tik om te downloaden</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
   <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
   <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
   <string name="msg_system">Managing system applications can be enabled in the settings</string>
@@ -212,6 +213,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Ingeschakeld</string>
   <string name="title_pro_details">Tap on a title for more information</string>
+  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Uitdaging</string>
   <string name="title_pro_reponse">Reactie</string>
   <string-array name="themeNames">

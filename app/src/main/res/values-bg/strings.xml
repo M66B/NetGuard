@@ -161,6 +161,7 @@
   <string name="msg_metered">Трафикът е ограничен</string>
   <string name="msg_queue">NetGuard е зает</string>
   <string name="msg_update">Налична е актуализация, докоснете за сваляне</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
   <string name="msg_whitelist">Интернет достъпът е разрешен по подразбиране, това може да се промени в настройките</string>
   <string name="msg_push">\"Push\" съобщенията се обработват предимно от системния комонент \"Play services\", който по подразбиране е с разрешен достъп до интернет</string>
   <string name="msg_system">Управлението на системните приложения може да бъде активирано в разширените настройки</string>
@@ -210,6 +211,7 @@
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Включено</string>
   <string name="title_pro_details">Tap on a title for more information</string>
+  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Предизвикателство</string>
   <string name="title_pro_reponse">Отговор</string>
   <string-array name="themeNames">

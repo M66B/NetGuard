@@ -158,6 +158,7 @@
   <string name="msg_metered">La red está medida</string>
   <string name="msg_queue">NetGuard está ocupado</string>
   <string name="msg_update">Actualización disponible, pulse para descargar</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
   <string name="msg_whitelist">El acceso a Internet está permitido por defecto, esto puede cambiarse en los ajustes</string>
   <string name="msg_push">Las notificaciones Push son gestionadas principalmente por el componente del sistema \"Play Services\", que está autorizado para acceder a Internet por defecto</string>
   <string name="msg_system">La gestión de las aplicaciones del sistema puede activarse en las opciones avanzadas</string>
@@ -203,10 +204,11 @@
   <string name="title_pro_speed">Notificación gráfica de velocidad de red</string>
   <string name="title_pro_theme">Apariencia (tema, colores)</string>
   <string name="title_pro_all">Todas las características de pago anteriores</string>
-  <string name="title_pro_dev">Support development</string>
-  <string name="title_pro_buy">Buy</string>
+  <string name="title_pro_dev">Apoyar al desarrollador</string>
+  <string name="title_pro_buy">Comprar</string>
   <string name="title_pro_bought">Activado</string>
-  <string name="title_pro_details">Tap on a title for more information</string>
+  <string name="title_pro_details">Pulsar el título para más información</string>
+  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Desafío</string>
   <string name="title_pro_reponse">Respuesta</string>
   <string-array name="themeNames">

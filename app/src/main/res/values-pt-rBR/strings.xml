@@ -162,6 +162,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_metered">A rede é limitada</string>
   <string name="msg_queue">NetGuard esta ocupado</string>
   <string name="msg_update">Atualização disponível, toque para baixar</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
   <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
   <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
   <string name="msg_system">Gerenciamento de aplicativos do sistema pode ser ativado em opções avançadas</string>
@@ -211,6 +212,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_details">Tap on a title for more information</string>
+  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Código de verificação</string>
   <string name="title_pro_reponse">Resposta</string>
   <string-array name="themeNames">

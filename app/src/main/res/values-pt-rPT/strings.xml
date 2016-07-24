@@ -158,6 +158,7 @@
   <string name="msg_metered">Rede é limitada</string>
   <string name="msg_queue">NetGuard está ocupado</string>
   <string name="msg_update">Actualização disponivel, toque para descarregar</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
   <string name="msg_whitelist">Acesso à internet é permitido por omissão, isto pode ser mudado nas definições</string>
   <string name="msg_push">Mensagens push são geridas principalmente pelo componente de serviço do Play, a que é permitido o acesso à internet por omissão</string>
   <string name="msg_system">Gerir aplicações de sistema pode ser ativado nas definições</string>
@@ -207,6 +208,7 @@
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_details">Tap on a title for more information</string>
+  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Código de verificação</string>
   <string name="title_pro_reponse">Resposta</string>
   <string-array name="themeNames">

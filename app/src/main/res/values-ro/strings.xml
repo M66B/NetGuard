@@ -161,6 +161,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_metered">Reteaua este contorizata</string>
   <string name="msg_queue">NetGuard este ocupat</string>
   <string name="msg_update">Actualizare disponibila, atinge pentru a descarca</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
   <string name="msg_whitelist">Accesul la internet este permis in mod implicit, acest lucru poate fi schimbat in meniul setari</string>
   <string name="msg_push">Mesajele \"push\" sunt de obicei gestionate de componentele de sistem ale serviciilor Google Play. carora le este permis in mod implicit accesul la internet</string>
   <string name="msg_system">Gestionarea aplicatiilor de sistem se activeaza din optiunile avansate</string>
@@ -210,6 +211,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_pro_buy">Cumpara</string>
   <string name="title_pro_bought">Activat</string>
   <string name="title_pro_details">Atingeti un titlu pentru mai multe informatii</string>
+  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Intrebare de verificare</string>
   <string name="title_pro_reponse">Raspuns</string>
   <string-array name="themeNames">

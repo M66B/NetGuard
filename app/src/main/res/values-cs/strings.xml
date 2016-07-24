@@ -164,6 +164,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="msg_metered">Síť je omezená</string>
   <string name="msg_queue">NetGuard je zaneprázdněn</string>
   <string name="msg_update">Aktualizace k dispozici, stiskněte pro stažení</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
   <string name="msg_whitelist">Přístup k Internetu je ve výchozím stavu povolen, to je možné změnit v nastavení</string>
   <string name="msg_push">Zprávy Push jsou většinou zpracovány systémovou součástí služeb Play, která má ve výchozím stavu povolen přístup do Internetu</string>
   <string name="msg_system">Správa systémových aplikací může být povolena v nastavení</string>
@@ -213,6 +214,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_pro_buy">Zakoupit</string>
   <string name="title_pro_bought">Povoleno</string>
   <string name="title_pro_details">Tap on a title for more information</string>
+  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Výzva</string>
   <string name="title_pro_reponse">Odpověď</string>
   <string-array name="themeNames">

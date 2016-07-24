@@ -159,6 +159,7 @@
   <string name="msg_metered">ネットワークは従量制です</string>
   <string name="msg_queue">NetGuard はビジーです</string>
   <string name="msg_update">アップデートが利用できます。タップするとダウンロードします</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
   <string name="msg_whitelist">デフォルトで、インターネット アクセスが許可されます。これは設定で変更することができます</string>
   <string name="msg_push">プッシュ メッセージは主にシステム コンポーネントの Play サービスによって処理されます。これはデフォルトでインターネット アクセスが許可されます</string>
   <string name="msg_system">システム アプリケーションの管理は、詳細なオプションで有効にすることができます</string>
@@ -208,6 +209,7 @@
   <string name="title_pro_buy">購入する</string>
   <string name="title_pro_bought">有効</string>
   <string name="title_pro_details">詳細情報はタイトルをタップします</string>
+  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">チャレンジ</string>
   <string name="title_pro_reponse">応答</string>
   <string-array name="themeNames">
