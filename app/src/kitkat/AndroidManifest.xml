@@ -41,6 +41,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeTeal">
 
+        <meta-data
+            android:name="firebase_analytics_collection_deactivated"
+            android:value="true" />
+
         <activity
             android:name=".ActivityMain"
             android:configChanges="orientation|screenSize"
