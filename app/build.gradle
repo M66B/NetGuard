@@ -7,19 +7,6 @@ model {
 
         defaultConfig {
             applicationId = "eu.faircode.netguard"
-            minSdkVersion.apiLevel = 14
-            targetSdkVersion.apiLevel = 24
-            versionCode = 2016072401
-            versionName = "2.43"
-            archivesBaseName = "NetGuard-v$versionName-$versionCode-sdk-$targetSdkVersion.apiLevel"
-
-            buildConfigFields {
-                create() {
-                    type "int"
-                    name "VALUE"
-                    value "1"
-                }
-            }
         }
 
         compileOptions.with {
@@ -67,7 +54,19 @@ model {
         }
 
         productFlavors {
-            create("all") {
+            create("kitkat") {
+                versionName = "2.43"
+                minSdkVersion.apiLevel = 14
+                targetSdkVersion.apiLevel = 19
+                versionCode = 2016072410
+                archivesBaseName = "NetGuard-v$versionName"
+            }
+            create("lollipop") {
+                versionName = "2.43"
+                minSdkVersion.apiLevel = 20
+                targetSdkVersion.apiLevel = 24
+                versionCode = 2016072420
+                archivesBaseName = "NetGuard-v$versionName"
             }
         }
     }
