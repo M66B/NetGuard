@@ -183,6 +183,17 @@ public class IAB implements ServiceConnection {
                 prefs.getBoolean(ActivityPro.SKU_DONATION, false));
     }
 
+    public static boolean isPurchasedAny(Context context) {
+        if (Util.isDebuggable(context))
+            return true;
+
+        SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
+        for (String key : prefs.getAll().keySet())
+            if (prefs.getBoolean(key, false))
+                return true;
+        return false;
+    }
+
     public static String getResult(int responseCode) {
         switch (responseCode) {
             case 0:

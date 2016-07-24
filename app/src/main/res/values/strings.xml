@@ -238,6 +238,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_pro_buy">Buy</string>
     <string name="title_pro_bought">Enabled</string>
     <string name="title_pro_details">Tap on a title for more information</string>
+    <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
     <string name="title_pro_challenge">Challenge</string>
     <string name="title_pro_reponse">Response</string>
 
@@ -285,5 +286,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
         <item>6</item>
     </string-array>
 
+    <string name="ad_app_id" translatable="false">ca-app-pub-6350249268625326~6636046697</string>
+    <string name="ad_banner_unit_id" translatable="false">ca-app-pub-6350249268625326/8112779894</string>
+    <string name="ad_test_device_id" translatable="false">B23E5E89C89F87C06C33861503174DFC</string>
     <string name="fingerprint" translatable="false">ef46f813d2c8a064d72c936b9b96d1cccc989378</string>
 </resources>

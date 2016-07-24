@@ -329,6 +329,14 @@
             android:text="@string/title_pro_details"
             android:textAppearance="@style/TextMedium" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/title_pro_ads"
+            android:textAppearance="@style/TextMedium"
+            android:textStyle="italic" />
+
         <LinearLayout
             android:id="@+id/llChallenge"
             android:layout_width="match_parent"

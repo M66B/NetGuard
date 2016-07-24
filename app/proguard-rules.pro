@@ -49,3 +49,6 @@
 
 #Picasso
 -dontwarn com.squareup.okhttp.**
+
+#AdMob
+-dontwarn com.google.android.gms.internal.**

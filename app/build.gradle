@@ -78,4 +78,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.+'
     compile 'com.android.support:recyclerview-v7:24.+'
     compile 'com.squareup.picasso:picasso:2.5.+'
+    compile 'com.google.firebase:firebase-core:9.2.+'
+    compile 'com.google.firebase:firebase-ads:9.2.+'
 }
+
+apply plugin: 'com.google.gms.google-services'

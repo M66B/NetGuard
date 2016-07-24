@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -62,6 +63,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
 
@@ -398,6 +405,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
 
+        // Ads
+        if (!IAB.isPurchasedAny(this))
+            loadAds();
+
+        // Handle intent
         checkExtras(getIntent());
     }
 
@@ -414,6 +426,89 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 updateSearch(intent.getStringExtra(EXTRA_SEARCH));
             checkExtras(intent);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        Log.i(TAG, "Config changed");
+        super.onConfigurationChanged(newConfig);
+
+        if (!IAB.isPurchasedAny(this))
+            reloadAds();
+    }
+
+    private void loadAds() {
+        MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
+
+        AdView adView = (AdView) findViewById(R.id.adView);
+        adView.setVisibility(View.VISIBLE);
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                Log.i(TAG, "Ad loaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                switch (errorCode) {
+                    case AdRequest.ERROR_CODE_INTERNAL_ERROR:
+                        Log.w(TAG, "Ad load error=INTERNAL_ERROR");
+                        break;
+                    case AdRequest.ERROR_CODE_INVALID_REQUEST:
+                        Log.w(TAG, "Ad load error=INVALID_REQUEST");
+                        break;
+                    case AdRequest.ERROR_CODE_NETWORK_ERROR:
+                        Log.w(TAG, "Ad load error=NETWORK_ERROR");
+                        break;
+                    case AdRequest.ERROR_CODE_NO_FILL:
+                        Log.w(TAG, "Ad load error=NO_FILL");
+                        break;
+                    default:
+                        Log.w(TAG, "Ad load error=" + errorCode);
+                }
+            }
+
+            @Override
+            public void onAdOpened() {
+                Log.i(TAG, "Ad opened");
+            }
+
+            @Override
+            public void onAdClosed() {
+                Log.i(TAG, "Ad closed");
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                Log.i(TAG, "Ad left app");
+            }
+        });
+
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(getString(R.string.ad_test_device_id))
+                .build();
+        adView.loadAd(adRequest);
+    }
+
+    private void reloadAds() {
+        AdView adView = (AdView) findViewById(R.id.adView);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) adView.getLayoutParams();
+        LinearLayout parent = (LinearLayout) adView.getParent();
+        parent.removeView(adView);
+
+        adView.destroy();
+        adView = new AdView(this);
+        adView.setAdSize(AdSize.SMART_BANNER);
+        adView.setAdUnitId(getString(R.string.ad_banner_unit_id));
+        adView.setId(R.id.adView);
+        adView.setLayoutParams(params);
+        parent.addView(adView);
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(getString(R.string.ad_test_device_id))
+                .build();
+        adView.loadAd(adRequest);
     }
 
     private void checkExtras(Intent intent) {

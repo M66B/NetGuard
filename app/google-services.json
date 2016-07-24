@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "495063709670",
+    "firebase_url": "https://netguard-811a8.firebaseio.com",
+    "project_id": "netguard-811a8",
+    "storage_bucket": "netguard-811a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495063709670:android:4a7add5044bbfbe4",
+        "android_client_info": {
+          "package_name": "eu.faircode.netguard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "495063709670-kmrhdn2hl4hb0mhst1g41i30mn8tv4te.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAA9DsZbwqbneF65YtAwTqBRJtaChJMTd0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
