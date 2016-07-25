@@ -415,6 +415,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         DatabaseHelper.getInstance(this).addAccessChangedListener(accessChangedListener);
         if (adapter != null)
             adapter.notifyDataSetChanged();
+
+        if (IAB.isPurchasedAny(this))
+            disableAds();
+
         super.onResume();
     }
 
@@ -903,6 +907,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 .addTestDevice(getString(R.string.ad_test_device_id))
                 .build();
         adView.loadAd(adRequest);
+    }
+
+    private void disableAds() {
+        AdView adView = (AdView) findViewById(R.id.adView);
+        if (adView != null) {
+
+            LinearLayout parent = (LinearLayout) adView.getParent();
+            parent.removeView(adView);
+
+            adView.destroy();
+        }
     }
 
     private void checkExtras(Intent intent) {
