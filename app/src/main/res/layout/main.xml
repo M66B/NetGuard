@@ -158,10 +158,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/title_pro_ads"
                 android:textAppearance="@style/TextSmall"
-                android:textColor="?attr/colorOff"
-                android:textStyle="italic" />
+                android:textColor="?attr/colorOff" />
 
             <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"

@@ -48,7 +48,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -845,6 +847,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         final AdView adView = (AdView) findViewById(R.id.adView);
         tvAd.setVisibility(View.VISIBLE);
         adView.setVisibility(View.VISIBLE);
+
+        SpannableString content = new SpannableString(getString(R.string.title_pro_ads));
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        tvAd.setText(content);
+
+        tvAd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+            }
+        });
 
         adView.setAdListener(new AdListener() {
             @Override
