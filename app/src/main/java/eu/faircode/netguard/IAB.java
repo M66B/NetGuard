@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.vending.billing.IInAppBillingService;
@@ -184,8 +185,10 @@ public class IAB implements ServiceConnection {
     }
 
     public static boolean isPurchasedAny(Context context) {
-        if (Util.isDebuggable(context))
-            return true;
+        if (Util.isDebuggable(context)) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            return !prefs.getBoolean("debug_ads", false);
+        }
 
         SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
         for (String key : prefs.getAll().keySet())
