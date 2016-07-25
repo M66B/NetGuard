@@ -166,13 +166,28 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvDivider">
 
-                <TextView
-                    android:id="@+id/tvAd"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:textAppearance="@style/TextSmall"
-                    android:textColor="?attr/colorOff" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/ic_launcher" />
+
+                    <TextView
+                        android:id="@+id/tvAd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
+                        android:textAppearance="@style/TextSmall"
+                        android:textColor="?attr/colorOff" />
+                </LinearLayout>
 
                 <com.google.android.gms.ads.AdView
                     android:id="@+id/adView"
