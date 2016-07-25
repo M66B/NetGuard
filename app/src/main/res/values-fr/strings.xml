@@ -160,7 +160,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_metered">Le réseau est limité</string>
   <string name="msg_queue">NetGuard est occupé</string>
   <string name="msg_update">Mise à jour disponible, appuyez pour télécharger</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
+  <string name="msg_usage">Vous pouvez autoriser (vert) ou refuser (rouge) l\'accès à internet Wi-Fi ou mobile en cliquant sur les icônes à coté d’une application</string>
   <string name="msg_whitelist">L’accès Internet est autorisé par défaut, cela peut être modifié dans les paramètres</string>
   <string name="msg_push">Les messages Push sont principalement gérés par le composant système Play services, qui est autorisé à accéder à internet par défaut</string>
   <string name="msg_system">La gestion des applications système peut être activée dans les options avancées</string>
@@ -210,7 +210,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_pro_buy">Acheter</string>
   <string name="title_pro_bought">Activé</string>
   <string name="title_pro_details">Tapez sur un titre pour plus d’informations</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
+  <string name="title_pro_ads">L\'achat de n\'importe quelle fonctionnalité pro désactivera toutes les publicités</string>
   <string name="title_pro_challenge">Code</string>
   <string name="title_pro_reponse">Réponse</string>
   <string-array name="themeNames">

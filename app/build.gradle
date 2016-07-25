@@ -58,14 +58,14 @@ model {
                 versionName = "2.45"
                 minSdkVersion.apiLevel = 14
                 targetSdkVersion.apiLevel = 24
-                versionCode = 2016072501
+                versionCode = 2016072502
                 archivesBaseName = "NetGuard-v$versionName"
             }
             create("lollipop-and-later") {
                 versionName = "2.45"
                 minSdkVersion.apiLevel = 20
                 targetSdkVersion.apiLevel = 24
-                versionCode = 2016072511
+                versionCode = 2016072512
                 archivesBaseName = "NetGuard-v$versionName"
             }
             create("kitkat-and-earlier") {
@@ -73,7 +73,7 @@ model {
                 minSdkVersion.apiLevel = 14
                 maxSdkVersion = 19
                 targetSdkVersion.apiLevel = 24
-                versionCode = 2016072521
+                versionCode = 2016072522
                 archivesBaseName = "NetGuard-v$versionName"
             }
         }

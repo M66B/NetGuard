@@ -158,7 +158,7 @@
   <string name="msg_metered">La rete è a consumo</string>
   <string name="msg_queue">NetGuard è occupato</string>
   <string name="msg_update">Aggiornamento disponibile, clicca per scaricare</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
+  <string name="msg_usage">Puoi permettere (verdastro) o bloccare (rossastro) l\'accesso internet a Wi-Fi o mobile toccando le icone a fianco di un\'applicazione</string>
   <string name="msg_whitelist">L\'accesso a internet è consentito in modo predefinito, questo può essere cambiato nelle impostazioni</string>
   <string name="msg_push">I messaggi push sono gestiti principalmente dal componente di sistema Play Services, al quale è consentito l\'accesso a internet in modo predefinito</string>
   <string name="msg_system">La gestione delle applicazioni di sistema può essere attivata tramite le opzioni avanzate</string>
@@ -204,11 +204,11 @@
   <string name="title_pro_speed">Grafico della velocità di rete nelle notifiche</string>
   <string name="title_pro_theme">Aspetto (tema, colori)</string>
   <string name="title_pro_all">Tutte le funzionalità aggiuntive sopra</string>
-  <string name="title_pro_dev">Support development</string>
-  <string name="title_pro_buy">Buy</string>
+  <string name="title_pro_dev">Sostieni lo sviluppo</string>
+  <string name="title_pro_buy">Acquista</string>
   <string name="title_pro_bought">Abilitato</string>
-  <string name="title_pro_details">Tap on a title for more information</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
+  <string name="title_pro_details">Tocca un titolo per maggiori informazioni</string>
+  <string name="title_pro_ads">L\'acquisto di una qualsiasi funzionalità aggiuntiva disattiverà tutte le pubblicità</string>
   <string name="title_pro_challenge">Domanda di verifica</string>
   <string name="title_pro_reponse">Risposta</string>
   <string-array name="themeNames">

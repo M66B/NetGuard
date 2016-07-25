@@ -160,7 +160,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="msg_metered">Ez mért hálózat</string>
   <string name="msg_queue">A NetGuard elfoglalt</string>
   <string name="msg_update">Frissítés érhető el, érintse meg a letöltéshez</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
+  <string name="msg_usage">Engedélyezni (zöldes) vagy tiltani (vöröses) tudja a Wi-Fi vagy mobil internet hozzáférést, ha megérinti az alkalmazás melleti ikont</string>
   <string name="msg_whitelist">Az internet hozzáférés alapértelmezésként engedélyezve van, ezt meg lehet változtatni a beállításokban</string>
   <string name="msg_push">A Push üzeneteket többnyire a rendszer Play szolgáltatások komponense kezeli, aminek alapértelmezésben engedélyezve van az internet hozzáférés</string>
   <string name="msg_system">A speciális beállítások engedélyezve a rendszer alkalmazások kezeléséhez</string>
@@ -206,11 +206,11 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_pro_speed">Hálózat sebesség grafikon értesítés</string>
   <string name="title_pro_theme">Megjelenés (téma, színek)</string>
   <string name="title_pro_all">Az összes fenti pro funkció</string>
-  <string name="title_pro_dev">Support development</string>
+  <string name="title_pro_dev">A fejlesztés támogatása</string>
   <string name="title_pro_buy">Vásárlás</string>
   <string name="title_pro_bought">Engedélyezve</string>
   <string name="title_pro_details">Érintse meg a címet további információért</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
+  <string name="title_pro_ads">Bármelyik Pro szolgáltatás megvásárlása letiltja az összes hirdetést</string>
   <string name="title_pro_challenge">Hívás</string>
   <string name="title_pro_reponse">Válasz</string>
   <string-array name="themeNames">
