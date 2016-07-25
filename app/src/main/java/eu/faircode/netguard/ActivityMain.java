@@ -843,10 +843,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // https://developers.google.com/android/reference/com/google/android/gms/ads/package-summary
         MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
 
+        RelativeLayout rlAd = (RelativeLayout) findViewById(R.id.rlAd);
         final TextView tvAd = (TextView) findViewById(R.id.tvAd);
         final AdView adView = (AdView) findViewById(R.id.adView);
+
+        rlAd.setVisibility(View.VISIBLE);
         tvAd.setVisibility(View.VISIBLE);
-        adView.setVisibility(View.VISIBLE);
 
         SpannableString content = new SpannableString(getString(R.string.title_pro_ads));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -903,14 +905,22 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-        requestAds(adView);
+        requestAds();
     }
 
     private void reloadAds() {
+        RelativeLayout rlAd = (RelativeLayout) findViewById(R.id.rlAd);
         TextView tvAd = (TextView) findViewById(R.id.tvAd);
-        AdView adView = (AdView) findViewById(R.id.adView);
+
+        rlAd.setVisibility(View.VISIBLE);
         tvAd.setVisibility(View.VISIBLE);
-        adView.setVisibility(View.VISIBLE);
+
+        recreateAds();
+        requestAds();
+    }
+
+    private void recreateAds() {
+        AdView adView = (AdView) findViewById(R.id.adView);
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) adView.getLayoutParams();
         RelativeLayout parent = (RelativeLayout) adView.getParent();
@@ -923,11 +933,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         adView.setId(R.id.adView);
         adView.setLayoutParams(params);
         parent.addView(adView);
-
-        requestAds(adView);
     }
 
-    private void requestAds(final AdView adView) {
+    private void requestAds() {
+        final AdView adView = (AdView) findViewById(R.id.adView);
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -941,17 +951,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private void disableAds() {
-        TextView tvAd = (TextView) findViewById(R.id.tvAd);
-        AdView adView = (AdView) findViewById(R.id.adView);
-
-        if (adView != null) {
-            RelativeLayout parent = (RelativeLayout) adView.getParent();
-            parent.removeView(tvAd);
-            parent.removeView(adView);
-
-            tvAd.setVisibility(View.GONE);
-            adView.destroy();
-        }
+        RelativeLayout rlAd = (RelativeLayout) findViewById(R.id.rlAd);
+        rlAd.setVisibility(View.GONE);
+        recreateAds();
     }
 
     private void checkExtras(Intent intent) {

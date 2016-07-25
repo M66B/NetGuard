@@ -150,25 +150,38 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/rlAd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvAd"
+            <View
+                android:id="@+id/tvDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_marginTop="8dip"
+                android:background="@android:color/darker_gray" />
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textAppearance="@style/TextSmall"
-                android:textColor="?attr/colorOff" />
+                android:layout_below="@id/tvDivider">
 
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
-                ads:adSize="SMART_BANNER"
-                ads:adUnitId="@string/ad_banner_unit_id" />
+                <TextView
+                    android:id="@+id/tvAd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textAppearance="@style/TextSmall"
+                    android:textColor="?attr/colorOff" />
+
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    ads:adSize="SMART_BANNER"
+                    ads:adUnitId="@string/ad_banner_unit_id" />
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 
