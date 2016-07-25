@@ -382,21 +382,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
 
-        // Ads
-        if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
-            loadAds();
+        // Initialize ads
+        initAds();
 
         // Handle intent
         checkExtras(getIntent());
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        Log.i(TAG, "Config changed");
-        super.onConfigurationChanged(newConfig);
-
-        if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
-            reloadAds();
     }
 
     @Override
@@ -416,11 +406,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     @Override
     protected void onResume() {
+        Log.i(TAG, "Resume");
+
         DatabaseHelper.getInstance(this).addAccessChangedListener(accessChangedListener);
         if (adapter != null)
             adapter.notifyDataSetChanged();
 
-        if (IAB.isPurchasedAny(this))
+        // Ads
+        if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
+            enableAds();
+        else
             disableAds();
 
         super.onResume();
@@ -428,8 +423,22 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     @Override
     protected void onPause() {
+        Log.i(TAG, "Pause");
         super.onPause();
+
         DatabaseHelper.getInstance(this).removeAccessChangedListener(accessChangedListener);
+
+        disableAds();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        Log.i(TAG, "Config");
+        super.onConfigurationChanged(newConfig);
+
+        disableAds();
+        if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
+            enableAds();
     }
 
     @Override
@@ -839,16 +848,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         });
     }
 
-    private void loadAds() {
+    private void initAds() {
         // https://developers.google.com/android/reference/com/google/android/gms/ads/package-summary
         MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
 
-        RelativeLayout rlAd = (RelativeLayout) findViewById(R.id.rlAd);
         final TextView tvAd = (TextView) findViewById(R.id.tvAd);
         final AdView adView = (AdView) findViewById(R.id.adView);
-
-        rlAd.setVisibility(View.VISIBLE);
-        tvAd.setVisibility(View.VISIBLE);
 
         SpannableString content = new SpannableString(getString(R.string.title_pro_ads));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -904,39 +909,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 Log.i(TAG, "Ad left app");
             }
         });
-
-        requestAds();
     }
 
-    private void reloadAds() {
+    private void enableAds() {
         RelativeLayout rlAd = (RelativeLayout) findViewById(R.id.rlAd);
         TextView tvAd = (TextView) findViewById(R.id.tvAd);
+        final AdView adView = (AdView) findViewById(R.id.adView);
 
         rlAd.setVisibility(View.VISIBLE);
         tvAd.setVisibility(View.VISIBLE);
-
-        recreateAds();
-        requestAds();
-    }
-
-    private void recreateAds() {
-        AdView adView = (AdView) findViewById(R.id.adView);
-
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) adView.getLayoutParams();
-        RelativeLayout parent = (RelativeLayout) adView.getParent();
-        parent.removeView(adView);
-
-        adView.destroy();
-        adView = new AdView(this);
-        adView.setAdSize(AdSize.SMART_BANNER);
-        adView.setAdUnitId(getString(R.string.ad_banner_unit_id));
-        adView.setId(R.id.adView);
-        adView.setLayoutParams(params);
-        parent.addView(adView);
-    }
-
-    private void requestAds() {
-        final AdView adView = (AdView) findViewById(R.id.adView);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -952,8 +933,21 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private void disableAds() {
         RelativeLayout rlAd = (RelativeLayout) findViewById(R.id.rlAd);
+        AdView adView = (AdView) findViewById(R.id.adView);
+
         rlAd.setVisibility(View.GONE);
-        recreateAds();
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) adView.getLayoutParams();
+        RelativeLayout parent = (RelativeLayout) adView.getParent();
+        parent.removeView(adView);
+
+        adView.destroy();
+        adView = new AdView(this);
+        adView.setAdSize(AdSize.SMART_BANNER);
+        adView.setAdUnitId(getString(R.string.ad_banner_unit_id));
+        adView.setId(R.id.adView);
+        adView.setLayoutParams(params);
+        parent.addView(adView);
     }
 
     private void checkExtras(Intent intent) {
