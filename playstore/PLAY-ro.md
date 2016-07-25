@@ -30,7 +30,6 @@ Caracteristici:
 &bull; 100% software cu sursa deschisa
 &bull; Nu transmite datele nicaieri
 &bull; Nu urmareste activitatea si nici nu o analizeaza
-&bull; Fara reclama
 &bull; Dezvoltare si asistenta continuua
 &bull; Suporta Android 4.0 si ulterior
 &bull; Suporta IPv4/IPv6 TCP/UDP

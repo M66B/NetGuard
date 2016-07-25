@@ -30,7 +30,6 @@ Características:
 &bull; 100% código abierto
 &bull; No calling home
 &bull; Sin seguimiento o análisis integrado
-&bull; Sin publicidad
 &bull; Desarrollado y soportado activamente
 &bull; Soporta Android 4.0 o superior
 &bull; Soporta IPv4/IPv6, TCP/UDP
