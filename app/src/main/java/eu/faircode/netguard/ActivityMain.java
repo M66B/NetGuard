@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -61,6 +62,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -836,18 +838,24 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private void loadAds() {
+        // https://developers.google.com/android/reference/com/google/android/gms/ads/package-summary
         MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
 
-        AdView adView = (AdView) findViewById(R.id.adView);
+        final TextView tvAd = (TextView) findViewById(R.id.tvAd);
+        final AdView adView = (AdView) findViewById(R.id.adView);
+        tvAd.setVisibility(View.VISIBLE);
         adView.setVisibility(View.VISIBLE);
+
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 Log.i(TAG, "Ad loaded");
+                tvAd.setVisibility(View.GONE);
             }
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
+                tvAd.setVisibility(View.VISIBLE);
                 switch (errorCode) {
                     case AdRequest.ERROR_CODE_INTERNAL_ERROR:
                         Log.w(TAG, "Ad load error=INTERNAL_ERROR");
@@ -882,17 +890,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
-
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(getString(R.string.ad_test_device_id))
-                .build();
-        adView.loadAd(adRequest);
+        requestAds(adView);
     }
 
     private void reloadAds() {
+        TextView tvAd = (TextView) findViewById(R.id.tvAd);
         AdView adView = (AdView) findViewById(R.id.adView);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) adView.getLayoutParams();
-        LinearLayout parent = (LinearLayout) adView.getParent();
+        tvAd.setVisibility(View.VISIBLE);
+        adView.setVisibility(View.VISIBLE);
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) adView.getLayoutParams();
+        RelativeLayout parent = (RelativeLayout) adView.getParent();
         parent.removeView(adView);
 
         adView.destroy();
@@ -903,19 +911,32 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         adView.setLayoutParams(params);
         parent.addView(adView);
 
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(getString(R.string.ad_test_device_id))
-                .build();
-        adView.loadAd(adRequest);
+        requestAds(adView);
+    }
+
+    private void requestAds(final AdView adView) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AdRequest adRequest = new AdRequest.Builder()
+                        .addTestDevice(getString(R.string.ad_test_device_id))
+                        .build();
+                adView.loadAd(adRequest);
+            }
+        }, 1000);
     }
 
     private void disableAds() {
+        TextView tvAd = (TextView) findViewById(R.id.tvAd);
         AdView adView = (AdView) findViewById(R.id.adView);
-        if (adView != null) {
 
-            LinearLayout parent = (LinearLayout) adView.getParent();
+        if (adView != null) {
+            RelativeLayout parent = (RelativeLayout) adView.getParent();
+            parent.removeView(tvAd);
             parent.removeView(adView);
 
+            tvAd.setVisibility(View.GONE);
             adView.destroy();
         }
     }

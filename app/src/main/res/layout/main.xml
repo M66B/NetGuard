@@ -149,13 +149,29 @@
                 android:textAppearance="@style/TextSmall" />
         </LinearLayout>
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/ad_banner_unit_id" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvAd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/title_pro_ads"
+                android:textAppearance="@style/TextSmall"
+                android:textColor="?attr/colorOff"
+                android:textStyle="italic" />
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                ads:adSize="SMART_BANNER"
+                ads:adUnitId="@string/ad_banner_unit_id" />
+        </RelativeLayout>
     </LinearLayout>
 
     <View
