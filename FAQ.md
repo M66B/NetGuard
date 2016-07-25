@@ -319,8 +319,11 @@ As a workaround you can use the export/import function to apply specific setting
 <a name="FAQ34"></a>
 **(34) Can you add the condition 'when on foreground'?**
 
-Recent Android versions do not allow an application to query if other applications are in the foreground or background anymore,
-so this cannot be added. You can use the condition '*when screen is on*' instead.
+Recent Android versions do not allow an application to query if other applications are in the foreground or background
+without holding an [additional privacy violating permission](https://developer.android.com/reference/android/Manifest.permission.html#PACKAGE_USAGE_STATS)
+and at the expense of extra battery usage (because periodic polling is required) anymore,
+so this cannot be added without significant disadvantages.
+You can use the condition '*when screen is on*' instead.
 
 <a name="FAQ35"></a>
 **(35) Why does the VPN not start?**
