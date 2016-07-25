@@ -852,7 +852,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // https://developers.google.com/android/reference/com/google/android/gms/ads/package-summary
         MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
 
-        final TextView tvAd = (TextView) findViewById(R.id.tvAd);
+        final LinearLayout llAd = (LinearLayout) findViewById(R.id.llAd);
+        TextView tvAd = (TextView) findViewById(R.id.tvAd);
         final AdView adView = (AdView) findViewById(R.id.adView);
 
         SpannableString content = new SpannableString(getString(R.string.title_pro_ads));
@@ -870,12 +871,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             public void onAdLoaded() {
                 Log.i(TAG, "Ad loaded");
-                tvAd.setVisibility(View.GONE);
+                llAd.setVisibility(View.GONE);
             }
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
-                tvAd.setVisibility(View.VISIBLE);
+                llAd.setVisibility(View.VISIBLE);
                 switch (errorCode) {
                     case AdRequest.ERROR_CODE_INTERNAL_ERROR:
                         Log.w(TAG, "Ad load error=INTERNAL_ERROR");
@@ -913,11 +914,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private void enableAds() {
         RelativeLayout rlAd = (RelativeLayout) findViewById(R.id.rlAd);
-        TextView tvAd = (TextView) findViewById(R.id.tvAd);
+        LinearLayout llAd = (LinearLayout) findViewById(R.id.llAd);
         final AdView adView = (AdView) findViewById(R.id.adView);
 
         rlAd.setVisibility(View.VISIBLE);
-        tvAd.setVisibility(View.VISIBLE);
+        llAd.setVisibility(View.VISIBLE);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
