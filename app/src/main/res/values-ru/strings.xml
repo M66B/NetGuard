@@ -160,7 +160,7 @@
   <string name="msg_metered">Лимитированные сети</string>
   <string name="msg_queue">NetGuard занят</string>
   <string name="msg_update">Доступно обновление, нажмите, чтобы загрузить</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
+  <string name="msg_usage">Вы можете разрешить (зеленоватый) или запретить (красноватый) Wi-Fi или мобильный интернет, нажав на значок рядом с приложением</string>
   <string name="msg_whitelist">Доступ в интернет разрешен по умолчанию, это может быть изменено в настройках</string>
   <string name="msg_push">Push-сообщения, в основном, обрабатываются системными компонентами Google Play, которым по умолчанию разрешен доступ в Интернет</string>
   <string name="msg_system">Управление системными приложениями может быть включено в дополнительных опциях</string>
@@ -206,11 +206,11 @@
   <string name="title_pro_speed">График скорости сети</string>
   <string name="title_pro_theme">Внешний вид (темы, цвета)</string>
   <string name="title_pro_all">Все выше перечисленные Pro-функции</string>
-  <string name="title_pro_dev">Support development</string>
-  <string name="title_pro_buy">Buy</string>
+  <string name="title_pro_dev">Поддержать разработчика</string>
+  <string name="title_pro_buy">Купить</string>
   <string name="title_pro_bought">Добавлено</string>
-  <string name="title_pro_details">Tap on a title for more information</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
+  <string name="title_pro_details">Нажмите на название для получения дополнительной информации</string>
+  <string name="title_pro_ads">Покупка любой Pro-функции отключит всю рекламу</string>
   <string name="title_pro_challenge">Задание</string>
   <string name="title_pro_reponse">Ответ</string>
   <string-array name="themeNames">
