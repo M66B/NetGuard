@@ -359,6 +359,8 @@ and that you don't need to pay anything to reduce your data usage, increase batt
 Also note that most free applications will appear not to be sustainable in the end, whereas NetGuard is properly maintained and supported,
 and that free applications may have a catch, like sending privacy sensitive information to the internet.
 
+See [here](http://forum.xda-developers.com/showpost.php?p=67892427&postcount=3030) for some more information.
+
 <a name="FAQ38"></a>
 **(38) Why did NetGuard stop running?**
 
