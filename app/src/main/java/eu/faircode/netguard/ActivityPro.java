@@ -216,7 +216,6 @@ public class ActivityPro extends AppCompatActivity {
 
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        Util.sendCrashReport(ex, ActivityPro.this);
                     }
                 }
             }, this);
