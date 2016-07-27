@@ -315,13 +315,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         registerReceiver(packageChangedReceiver, intentFilter);
 
         // First use
-        if (!initialized) {
+        boolean admob = prefs.getBoolean("admob", false);
+        if (!initialized || !admob) {
             // Create view
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.first, null, false);
 
             TextView tvFirst = (TextView) view.findViewById(R.id.tvFirst);
+            TextView tvAdmob = (TextView) view.findViewById(R.id.tvAdmob);
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
+            tvAdmob.setMovementMethod(LinkMovementMethod.getInstance());
 
             // Show dialog
             dialogFirst = new AlertDialog.Builder(this)
@@ -330,8 +333,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     .setPositiveButton(R.string.app_agree, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (running)
+                            if (running) {
                                 prefs.edit().putBoolean("initialized", true).apply();
+                                prefs.edit().putBoolean("admob", true).apply();
+                            }
                         }
                     })
                     .setNegativeButton(R.string.app_disagree, new DialogInterface.OnClickListener() {
