@@ -183,6 +183,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ38"></a>
 [**(38) Why did NetGuard stop running?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ38)
 
+<a name="FAQ39"></a>
+[**(39) How does a VPN based firewall differ from a iptables based firewall?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ39)
+
 Permissions
 -----------
 
