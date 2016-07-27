@@ -7,6 +7,7 @@
   <string name="app_license">NetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
   <string name="app_first">NetGuard は細心の注意を行って開発およびテストしました。しかしながら NetGuard がすべてのデバイスで正常に動作を保証することは不可能です。
 \n\nNetGuard を使用することで <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾契約書バージョン 3</a> に同意します</string>
+  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">同意する</string>
   <string name="app_disagree">同意しない</string>
   <string name="menu_search">アプリケーションの検索</string>

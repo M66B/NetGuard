@@ -6,6 +6,7 @@
   <string name="app_android">Для работы NetGuard требуется Android 4.0 или более поздняя версия</string>
   <string name="app_license">Используя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="app_first">Было уделено большое внимание разработке и тестированию NetGuard, однако нельзя гарантировать, что NetGuard будет правильно работать на каждом устройстве. \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
+  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">Я согласен</string>
   <string name="app_disagree">Я не согласен</string>
   <string name="menu_search">Поиск приложения</string>
@@ -160,7 +161,7 @@
   <string name="msg_metered">Лимитированные сети</string>
   <string name="msg_queue">NetGuard занят</string>
   <string name="msg_update">Доступно обновление, нажмите, чтобы загрузить</string>
-  <string name="msg_usage">Вы можете разрешить (зеленоватый) или запретить (красноватый) Wi-Fi или мобильный интернет, нажав на значок рядом с приложением</string>
+  <string name="msg_usage">Вы можете разрешить (зеленоватый цвет значка) или запретить (красноватый цвет значка) Wi-Fi или мобильный интернет, нажав на значок рядом с приложением</string>
   <string name="msg_whitelist">Доступ в интернет разрешен по умолчанию, это может быть изменено в настройках</string>
   <string name="msg_push">Push-сообщения, в основном, обрабатываются системными компонентами Google Play, которым по умолчанию разрешен доступ в Интернет</string>
   <string name="msg_system">Управление системными приложениями может быть включено в дополнительных опциях</string>

@@ -6,6 +6,7 @@
   <string name="app_android">NetGuard изисква Android 4.0 или по-нова версия</string>
   <string name="app_license">Използвайки NetGuard, вие се съгласявате със следното лицензионно споразумение: <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License версия 3</a></string>
   <string name="app_first">Изключително внимание е вложено при разработката и тестването на NetGuard, въпреки това е невъзможно да се гарантира, че NetGuard ще работи безупречно на всяко устройство. \n\nИзползвайки NetGuard, вие се съгласявате със следното лицензионно споразумение: <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License версия 3</a></string>
+  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Търсене на приложение</string>

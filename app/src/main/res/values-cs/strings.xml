@@ -8,6 +8,7 @@
   <string name="app_first">Velká péče byla vložena do vývoje a testování NetGuardu,
 přesto není možné zaručit jeho bezchybné fungování na každém zařízení.
 \n\nPoužíváním NetGuardu souhlasíte s <a href="http://www.gnu.org/licenses/gpl.txt">Obecnou veřejnou licencí GNU verze 3</a></string>
+  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">Souhlasím</string>
   <string name="app_disagree">Nesouhlasím</string>
   <string name="menu_search">Hledat aplikaci</string>

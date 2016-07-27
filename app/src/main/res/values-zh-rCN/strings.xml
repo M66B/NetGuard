@@ -8,6 +8,7 @@
   <string name="app_first">开发者在开发和测试NetGuard过程中已悉心尽力,
 但开发者无法确保本软件在所有设备上均可正常运行.
 \n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
+  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">同意</string>
   <string name="app_disagree">拒绝</string>
   <string name="menu_search">搜索应用</string>
@@ -164,7 +165,7 @@
   <string name="msg_metered">网络按流量计费</string>
   <string name="msg_queue">NetGuard 正忙</string>
   <string name="msg_update">有可用更新, 请点击下载</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
+  <string name="msg_usage">您可以点击应用旁的图标来允许 (绿色) 或禁止 (红色) Wi-Fi 或移动网络连接</string>
   <string name="msg_whitelist">默认允许网络连接, 可在设置中进行更改</string>
   <string name="msg_push">大部分消息推送由作为系统组件的 Play 服务完成, 因此默认允许其进行网络连接</string>
   <string name="msg_system">您可在高级选项中启用管理系统应用</string>
@@ -210,11 +211,11 @@
   <string name="title_pro_speed">网速示图通知</string>
   <string name="title_pro_theme">外观 (主题、 颜色)</string>
   <string name="title_pro_all">以上所有专业版功能</string>
-  <string name="title_pro_dev">Support development</string>
-  <string name="title_pro_buy">Buy</string>
+  <string name="title_pro_dev">支持应用开发</string>
+  <string name="title_pro_buy">购买</string>
   <string name="title_pro_bought">已启用</string>
-  <string name="title_pro_details">Tap on a title for more information</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
+  <string name="title_pro_details">点击标题查看更多信息</string>
+  <string name="title_pro_ads">购买任何 pro 功能将禁用所有的广告</string>
   <string name="title_pro_challenge">验证口令</string>
   <string name="title_pro_reponse">验证应答</string>
   <string-array name="themeNames">

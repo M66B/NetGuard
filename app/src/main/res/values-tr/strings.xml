@@ -8,6 +8,7 @@
   <string name="app_first">NetGuard sürekli gelişmekte ve yoğun bir şekilde test ediliyor,
 Buna rağmen bazı cihazlarda çalışmayabilir.
 \n\nNetGuard kullanarak, <a href="http://www.gnu.org/licenses/gpl.txt">Genel Kamu Lisansını (GNUv3) kabul etmiş sayılırsınız.</a></string>
+  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">Kabul ediyorum</string>
   <string name="app_disagree">Kabul etmiyorum</string>
   <string name="menu_search">Uygulama ara</string>

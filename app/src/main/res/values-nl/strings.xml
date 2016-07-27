@@ -7,6 +7,7 @@
   <string name="app_license">Door NetGuard te gebruiken, gaat u akkoord met de <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">NetGuard is met veel zorg ontwikkeld en getest. Ondanks deze inspanningen is het onmogelijk te garanderen dat NetGuard feilloos werkt op elk apparaat.
 \n\nDoor gebruik te maken van NetGuard, gaat u akkoord met de <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public Licence versie 3</a></string>
+  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
   <string name="menu_search">Zoek naar toepassing</string>

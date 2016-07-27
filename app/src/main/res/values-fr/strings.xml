@@ -6,6 +6,7 @@
   <string name="app_android">NetGuard requiert Android 4.0 ou ultérieur</string>
   <string name="app_license">En utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Un grand soin a été apporté pour développer et tester NetGuard, cependant il est impossible de garantir que NetGuard fonctionnera correctement sur tous les appareils.\n\nEn utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">Je suis d\'accord</string>
   <string name="app_disagree">Je ne suis pas d\'accord</string>
   <string name="menu_search">Rechercher une application</string>
