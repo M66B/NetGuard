@@ -1162,6 +1162,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         TextView tvVersionCode = (TextView) view.findViewById(R.id.tvVersionCode);
         Button btnRate = (Button) view.findViewById(R.id.btnRate);
         TextView tvLicense = (TextView) view.findViewById(R.id.tvLicense);
+        TextView tvAdmob = (TextView) view.findViewById(R.id.tvAdmob);
 
         // Show version
         tvVersionName.setText(Util.getSelfVersionName(this));
@@ -1171,6 +1172,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Handle license
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
+        tvAdmob.setMovementMethod(LinkMovementMethod.getInstance());
+        tvAdmob.setVisibility(IAB.isPurchasedAny(this) ? View.GONE : View.VISIBLE);
 
         // Handle logcat
         view.setOnClickListener(new View.OnClickListener() {
