@@ -22,6 +22,8 @@
 extern struct ng_session *ng_session;
 extern char socks5_addr[INET6_ADDRSTRLEN + 1];
 extern int socks5_port;
+extern char socks5_username[127 + 1];
+extern char socks5_password[127 + 1];
 
 extern FILE *pcap_file;
 
@@ -267,6 +269,7 @@ void check_tcp_socket(const struct arguments *args,
                 if (ev->events & EPOLLOUT) {
                     log_android(ANDROID_LOG_INFO, "%s connected", session);
 
+                    // http://www.rfc-base.org/txt/rfc-1928.txt
                     // https://en.wikipedia.org/wiki/SOCKS#SOCKS5
                     if (*socks5_addr && socks5_port)
                         s->tcp.socks5 = SOCKS5_HELLO;
@@ -291,8 +294,23 @@ void check_tcp_socket(const struct arguments *args,
                             bytes == 2 && buffer[0] == 5) {
                             if (buffer[1] == 0)
                                 s->tcp.socks5 = SOCKS5_CONNECT;
+                            else if (buffer[1] == 2)
+                                s->tcp.socks5 = SOCKS5_AUTH;
                             else {
+                                s->tcp.socks5 = 0;
                                 log_android(ANDROID_LOG_ERROR, "%s SOCKS5 auth %d not supported",
+                                            session, buffer[1]);
+                                write_rst(args, &s->tcp);
+                            }
+
+                        } else if (s->tcp.socks5 == SOCKS5_AUTH &&
+                                   bytes == 2 && buffer[0] == 1) {
+                            if (buffer[1] == 0) {
+                                s->tcp.socks5 = SOCKS5_CONNECT;
+                                log_android(ANDROID_LOG_WARN, "%s SOCKS5 auth OK", session);
+                            } else {
+                                s->tcp.socks5 = 0;
+                                log_android(ANDROID_LOG_ERROR, "%s SOCKS5 auth error %d",
                                             session, buffer[1]);
                                 write_rst(args, &s->tcp);
                             }
@@ -304,6 +322,7 @@ void check_tcp_socket(const struct arguments *args,
                                 s->tcp.socks5 = SOCKS5_CONNECTED;
                                 log_android(ANDROID_LOG_WARN, "%s SOCKS5 connected", session);
                             } else {
+                                s->tcp.socks5 = 0;
                                 log_android(ANDROID_LOG_ERROR, "%s SOCKS5 connect error %d",
                                             session, buffer[1]);
                                 write_rst(args, &s->tcp);
@@ -321,6 +340,7 @@ void check_tcp_socket(const struct arguments *args,
                             }
 
                         } else {
+                            s->tcp.socks5 = 0;
                             log_android(ANDROID_LOG_ERROR, "%s recv SOCKS5 state %d",
                                         session, s->tcp.socks5);
                             write_rst(args, &s->tcp);
@@ -330,7 +350,7 @@ void check_tcp_socket(const struct arguments *args,
             }
 
             if (s->tcp.socks5 == SOCKS5_HELLO) {
-                uint8_t buffer[3] = {5, 1, 0};
+                uint8_t buffer[4] = {5, 2, 0, 2};
                 char *h = hex(buffer, sizeof(buffer));
                 log_android(ANDROID_LOG_INFO, "%s sending SOCKS5 hello: %s",
                             session, h);
@@ -338,6 +358,30 @@ void check_tcp_socket(const struct arguments *args,
                 ssize_t sent = send(s->socket, buffer, sizeof(buffer), MSG_NOSIGNAL);
                 if (sent < 0) {
                     log_android(ANDROID_LOG_ERROR, "%s send SOCKS5 hello error %d: %s",
+                                session, errno, strerror(errno));
+                    write_rst(args, &s->tcp);
+                }
+
+            } else if (s->tcp.socks5 == SOCKS5_AUTH) {
+                uint8_t ulen = strlen(socks5_username);
+                uint8_t plen = strlen(socks5_password);
+                uint8_t buffer[512];
+                *(buffer + 0) = 1; // Version
+                *(buffer + 1) = ulen;
+                memcpy(buffer + 2, socks5_username, ulen);
+                *(buffer + 2 + ulen) = plen;
+                memcpy(buffer + 2 + ulen + 1, socks5_password, plen);
+
+                size_t len = 2 + ulen + 1 + plen;
+
+                char *h = hex(buffer, len);
+                log_android(ANDROID_LOG_INFO, "%s sending SOCKS5 auth: %s",
+                            session, h);
+                free(h);
+                ssize_t sent = send(s->socket, buffer, len, MSG_NOSIGNAL);
+                if (sent < 0) {
+                    log_android(ANDROID_LOG_ERROR,
+                                "%s send SOCKS5 connect error %d: %s",
                                 session, errno, strerror(errno));
                     write_rst(args, &s->tcp);
                 }

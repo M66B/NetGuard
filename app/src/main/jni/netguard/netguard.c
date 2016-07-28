@@ -30,6 +30,8 @@ pthread_t thread_id = 0;
 pthread_mutex_t lock;
 char socks5_addr[INET6_ADDRSTRLEN + 1];
 int socks5_port = 0;
+char socks5_username[127 + 1];
+char socks5_password[127 + 1];
 int loglevel = ANDROID_LOG_WARN;
 
 extern int max_tun_msg;
@@ -107,6 +109,8 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1init(JNIEnv *env, jobject instanc
 
     *socks5_addr = 0;
     socks5_port = 0;
+    *socks5_username = 0;
+    *socks5_password = 0;
     pcap_file = NULL;
 
     if (pthread_mutex_init(&lock, NULL))
@@ -299,20 +303,24 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1pcap(
 }
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_ServiceSinkhole_jni_1socks5(JNIEnv *env,
-                                                      jobject instance, jstring ip_, jint port) {
-    if (ip_ == NULL || port == 0) {
-        *socks5_addr = 0;
-        socks5_port = 0;
-    } else {
-        const char *ip = (*env)->GetStringUTFChars(env, ip_, 0);
-        strcpy(socks5_addr, ip);
-        socks5_port = port;
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1socks5(JNIEnv *env, jobject instance, jstring addr_,
+                                                      jint port, jstring username_,
+                                                      jstring password_) {
+    const char *addr = (*env)->GetStringUTFChars(env, addr_, 0);
+    const char *username = (*env)->GetStringUTFChars(env, username_, 0);
+    const char *password = (*env)->GetStringUTFChars(env, password_, 0);
 
-        log_android(ANDROID_LOG_WARN, "SOCKS5 %s:%d", socks5_addr, socks5_port);
+    strcpy(socks5_addr, addr);
+    socks5_port = port;
+    strcpy(socks5_username, username);
+    strcpy(socks5_password, password);
 
-        (*env)->ReleaseStringUTFChars(env, ip_, ip);
-    }
+    log_android(ANDROID_LOG_WARN, "SOCKS5 %s:%d user=%s",
+                socks5_addr, socks5_port, socks5_username);
+
+    (*env)->ReleaseStringUTFChars(env, addr_, addr);
+    (*env)->ReleaseStringUTFChars(env, username_, username);
+    (*env)->ReleaseStringUTFChars(env, password_, password);
 }
 
 JNIEXPORT void JNICALL

@@ -229,6 +229,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // SOCKS5 parameters
         screen.findPreference("socks5_addr").setTitle(getString(R.string.setting_socks5_addr, prefs.getString("socks5_addr", "-")));
         screen.findPreference("socks5_port").setTitle(getString(R.string.setting_socks5_port, prefs.getString("socks5_port", "-")));
+        screen.findPreference("socks5_username").setTitle(getString(R.string.setting_socks5_username, prefs.getString("socks5_username", "-")));
+        screen.findPreference("socks5_password").setTitle(getString(R.string.setting_socks5_password, TextUtils.isEmpty(prefs.getString("socks5_username", "")) ? "-" : "*****"));
 
         // PCAP parameters
         screen.findPreference("pcap_record_size").setTitle(getString(R.string.setting_pcap_record_size, prefs.getString("pcap_record_size", "64")));
@@ -641,7 +643,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             getPreferenceScreen().findPreference(name).setTitle(
                     getString(R.string.setting_dns, prefs.getString("dns", Util.getDefaultDNS(this).get(0))));
 
-        } else if ("socks5_addr".equals(name)) {
+        } else if ("socks5_enabled".equals(name))
+            ServiceSinkhole.reload("changed " + name, this);
+
+        else if ("socks5_addr".equals(name)) {
             String socks5 = prefs.getString("socks5_addr", null);
             try {
                 checkAddress(socks5);
@@ -657,6 +662,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if ("socks5_port".equals(name)) {
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_socks5_port, prefs.getString(name, "-")));
+            ServiceSinkhole.reload("changed " + name, this);
+
+        } else if ("socks5_username".equals(name)) {
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_socks5_username, prefs.getString(name, "-")));
+            ServiceSinkhole.reload("changed " + name, this);
+
+        } else if ("socks5_password".equals(name)) {
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_socks5_password, TextUtils.isEmpty(prefs.getString(name, "")) ? "-" : "*****"));
             ServiceSinkhole.reload("changed " + name, this);
 
         } else if ("pcap_record_size".equals(name) || "pcap_file_size".equals(name)) {

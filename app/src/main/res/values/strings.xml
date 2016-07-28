@@ -92,8 +92,11 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_socks5_enabled">SOCKS5 enabled</string>
     <string name="setting_socks5_addr">SOCKS5 address: %s</string>
     <string name="setting_socks5_port">SOCKS5 port: %s</string>
+    <string name="setting_socks5_username">SOCKS5 username: %s</string>
+    <string name="setting_socks5_password">SOCKS5 password: %s</string>
     <string name="setting_pcap_record_size">PCAP record size: %s B</string>
     <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
 
