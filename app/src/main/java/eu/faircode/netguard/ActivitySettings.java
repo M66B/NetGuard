@@ -653,7 +653,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
             ServiceSinkhole.reload("changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(
-                    getString(R.string.setting_dns, prefs.getString("socks5_addr", "-")));
+                    getString(R.string.setting_socks5_addr, prefs.getString("socks5_addr", "-")));
 
         } else if ("socks5_port".equals(name)) {
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_socks5_port, prefs.getString(name, "-")));
