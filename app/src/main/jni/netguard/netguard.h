@@ -61,8 +61,9 @@
 
 #define SOCKS5_NONE 1
 #define SOCKS5_HELLO 2
-#define SOCKS5_CONNECT 3
-#define SOCKS5_CONNECTED 4
+#define SOCKS5_AUTH 3
+#define SOCKS5_CONNECT 4
+#define SOCKS5_CONNECTED 5
 
 struct arguments {
     JNIEnv *env;
