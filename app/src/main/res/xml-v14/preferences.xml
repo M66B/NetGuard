@@ -187,6 +187,16 @@
                 android:inputType="text"
                 android:key="dns" />
             <EditTextPreference
+                android:dependency="filter"
+                android:hint="127.0.0.1"
+                android:inputType="text"
+                android:key="socks5_addr" />
+            <EditTextPreference
+                android:dependency="filter"
+                android:hint="1080"
+                android:inputType="text"
+                android:key="socks5_port" />
+            <EditTextPreference
                 android:defaultValue="64"
                 android:inputType="number"
                 android:key="pcap_record_size" />

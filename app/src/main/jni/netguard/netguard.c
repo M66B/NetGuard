@@ -28,6 +28,8 @@ JavaVM *jvm = NULL;
 int pipefds[2];
 pthread_t thread_id = 0;
 pthread_mutex_t lock;
+char socks5_addr[INET6_ADDRSTRLEN + 1];
+int socks5_port = 0;
 int loglevel = ANDROID_LOG_WARN;
 
 extern int max_tun_msg;
@@ -103,6 +105,8 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1init(JNIEnv *env, jobject instanc
     args.instance = instance;
     init(&args);
 
+    *socks5_addr = 0;
+    socks5_port = 0;
     pcap_file = NULL;
 
     if (pthread_mutex_init(&lock, NULL))
@@ -294,6 +298,22 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1pcap(
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
 }
 
+JNIEXPORT void JNICALL
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1socks5(JNIEnv *env,
+                                                      jobject instance, jstring ip_, jint port) {
+    if (ip_ == NULL || port == 0) {
+        *socks5_addr = 0;
+        socks5_port = 0;
+    } else {
+        const char *ip = (*env)->GetStringUTFChars(env, ip_, 0);
+        strcpy(socks5_addr, ip);
+        socks5_port = port;
+
+        log_android(ANDROID_LOG_WARN, "SOCKS5 %s:%d", socks5_addr, socks5_port);
+
+        (*env)->ReleaseStringUTFChars(env, ip_, ip);
+    }
+}
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_ServiceSinkhole_jni_1done(JNIEnv *env, jobject instance) {

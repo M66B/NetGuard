@@ -183,6 +183,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private static native void jni_pcap(String name, int record_size, int file_size);
 
+    private native void jni_socks5(String ip, int port);
+
     private native void jni_done();
 
     public static void setPcap(boolean enabled, Context context) {
@@ -1113,6 +1115,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         if (log || log_app || filter) {
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
+            jni_socks5(prefs.getString("socks5_addr", ""), Integer.parseInt(prefs.getString("socks5_port", "0")));
             jni_start(vpn.getFd(), mapForward.containsKey(53), prio);
         }
     }

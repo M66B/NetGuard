@@ -59,6 +59,11 @@
 #define UID_DELAYTRY 10 // milliseconds
 #define UID_MAXTRY 3
 
+#define SOCKS5_NONE 1
+#define SOCKS5_HELLO 2
+#define SOCKS5_CONNECT 3
+#define SOCKS5_CONNECTED 4
+
 struct arguments {
     JNIEnv *env;
     jobject instance;
@@ -163,6 +168,7 @@ struct tcp_session {
     __be16 dest; // network notation
 
     uint8_t state;
+    uint8_t socks5;
     struct segment *forward;
 };
 
