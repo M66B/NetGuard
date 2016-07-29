@@ -80,6 +80,11 @@
   <string name="setting_vpn4">IPv4 VPN: %s</string>
   <string name="setting_vpn6">IPv4 VPN: %s</string>
   <string name="setting_dns">DNS da VPN: %s</string>
+  <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
+  <string name="setting_socks5_addr">SOCKS5 address: %s</string>
+  <string name="setting_socks5_port">SOCKS5 port: %s</string>
+  <string name="setting_socks5_username">SOCKS5 username: %s</string>
+  <string name="setting_socks5_password">SOCKS5 password: %s</string>
   <string name="setting_pcap_record_size">Tamanho de registo PCAP: %s B</string>
   <string name="setting_pcap_file_size">Tamanho máx. do ficheiro PCAP: %s MB</string>
   <string name="setting_stats_category">Notificação de velocidade</string>

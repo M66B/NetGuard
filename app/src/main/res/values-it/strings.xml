@@ -6,7 +6,7 @@
   <string name="app_android">NetGuard richiede Android 4.0 o versioni successive</string>
   <string name="app_license">Utilizzando NetGuard, acconsenti a quanto contenuto nella seguente licenza: <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Si è posta grande cura nello sviluppo e test di NetGuard, tuttavia è impossibile garantire che NetGuard funzionerà correttamente su tutti i dispositivi. \n\nUtilizzando NetGuard, accetti la <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License versione 3</a></string>
-  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
+  <string name="app_admob">NetGuard usa il servizio di annunci AdMob di Google. La politica sulla privacy di AdMob è disponibile <a href="https://www.google.com/intl/it/policies/privacy/">qui</a>.</string>
   <string name="app_agree">Accetto</string>
   <string name="app_disagree">Rifiuto</string>
   <string name="menu_search">Cerca applicazione</string>
@@ -80,6 +80,11 @@
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
+  <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
+  <string name="setting_socks5_addr">SOCKS5 address: %s</string>
+  <string name="setting_socks5_port">SOCKS5 port: %s</string>
+  <string name="setting_socks5_username">SOCKS5 username: %s</string>
+  <string name="setting_socks5_password">SOCKS5 password: %s</string>
   <string name="setting_pcap_record_size">Dimensioni record PCAP: %s B</string>
   <string name="setting_pcap_file_size">Dimensione max. file PCAP: %s MB</string>
   <string name="setting_stats_category">Notifica di velocità</string>
