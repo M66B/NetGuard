@@ -55,7 +55,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.util.Xml;
 import android.view.LayoutInflater;
@@ -384,6 +387,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_technical_network.setOnPreferenceClickListener(listener);
         pref_technical_subscription.setOnPreferenceClickListener(listener);
         updateTechnicalInfo();
+
+        markPro(screen.findPreference("theme"), ActivityPro.SKU_THEME);
+        markPro(screen.findPreference("install"), ActivityPro.SKU_NOTIFY);
+        markPro(screen.findPreference("socks5_enabled"), null);
+        markPro(screen.findPreference("show_stats"), ActivityPro.SKU_SPEED);
     }
 
     @Override
@@ -465,13 +473,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 startActivity(new Intent(this, ActivityPro.class));
                 return;
             }
-        } else if ("show_stats".equals(name)) {
-            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_SPEED, this)) {
-                prefs.edit().putBoolean(name, false).apply();
-                startActivity(new Intent(this, ActivityPro.class));
-                return;
-            }
-            ((TwoStatePreference) getPreferenceScreen().findPreference(name)).setChecked(prefs.getBoolean(name, false));
         } else if ("install".equals(name)) {
             if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_NOTIFY, this)) {
                 prefs.edit().putBoolean(name, false).apply();
@@ -479,6 +480,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 startActivity(new Intent(this, ActivityPro.class));
                 return;
             }
+        } else if ("show_stats".equals(name)) {
+            if (prefs.getBoolean(name, false) && !IAB.isPurchased(ActivityPro.SKU_SPEED, this)) {
+                prefs.edit().putBoolean(name, false).apply();
+                startActivity(new Intent(this, ActivityPro.class));
+                return;
+            }
+            ((TwoStatePreference) getPreferenceScreen().findPreference(name)).setChecked(prefs.getBoolean(name, false));
         }
 
         Object value = prefs.getAll().get(name);
@@ -824,6 +832,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             updateTechnicalInfo();
         }
     };
+
+    private void markPro(Preference pref, String sku) {
+        if (sku == null || !IAB.isPurchased(sku, this)) {
+            SpannableStringBuilder ssb = new SpannableStringBuilder("  " + pref.getTitle());
+            ssb.setSpan(new ImageSpan(this, R.drawable.ic_shopping_cart_white_24dp), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pref.setTitle(ssb);
+        }
+    }
 
     private void updateTechnicalInfo() {
         PreferenceScreen screen = getPreferenceScreen();

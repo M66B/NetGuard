@@ -294,6 +294,10 @@
                 android:title="@string/setting_show_resolved" />
             <eu.faircode.netguard.SwitchPreference
                 android:defaultValue="false"
+                android:key="debug_iab"
+                android:title="Debug IAB" />
+            <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="false"
                 android:key="debug_ads"
                 android:title="Debug advertisements" />
         </PreferenceCategory>

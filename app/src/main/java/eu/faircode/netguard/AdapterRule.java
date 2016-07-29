@@ -40,6 +40,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -563,6 +566,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                             Util.getProtocolName(protocol, version, false) + " " +
                                     daddr + (dport > 0 ? "/" + dport : ""));
 
+                    markPro(popup.getMenu().findItem(R.id.menu_allow), ActivityPro.SKU_FILTER);
+                    markPro(popup.getMenu().findItem(R.id.menu_block), ActivityPro.SKU_FILTER);
+
                     // Whois
                     final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tcpiputils.com/whois-lookup/" + daddr));
                     if (pm.resolveActivity(lookupIP, 0) == null)
@@ -658,6 +664,14 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 updateRule(rule, true, listAll);
             }
         });
+    }
+
+    private void markPro(MenuItem menu, String sku) {
+        if (sku == null || !IAB.isPurchased(sku, context)) {
+            SpannableStringBuilder ssb = new SpannableStringBuilder("  " + menu.getTitle());
+            ssb.setSpan(new ImageSpan(context, R.drawable.ic_shopping_cart_white_24dp), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            menu.setTitle(ssb);
+        }
     }
 
     private void updateRule(Rule rule, boolean root, List<Rule> listAll) {

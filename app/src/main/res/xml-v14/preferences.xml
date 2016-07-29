@@ -294,6 +294,10 @@
                 android:title="@string/setting_show_resolved" />
             <CheckBoxPreference
                 android:defaultValue="false"
+                android:key="debug_iab"
+                android:title="Debug IAB" />
+            <CheckBoxPreference
+                android:defaultValue="false"
                 android:key="debug_ads"
                 android:title="Debug advertisements" />
         </PreferenceCategory>

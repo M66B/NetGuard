@@ -49,7 +49,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ImageSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.TypedValue;
@@ -686,6 +689,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        markPro(menu.findItem(R.id.menu_log), ActivityPro.SKU_LOG);
+        if (!IAB.isPurchasedAny(this))
+            markPro(menu.findItem(R.id.menu_pro), null);
+
         if (!Util.hasValidFingerprint(this) || getIntentInvite(this).resolveActivity(getPackageManager()) == null)
             menu.removeItem(R.id.menu_invite);
 
@@ -693,6 +700,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             menu.removeItem(R.id.menu_support);
 
         return true;
+    }
+
+    private void markPro(MenuItem menu, String sku) {
+        if (sku == null || !IAB.isPurchased(sku, this)) {
+            SpannableStringBuilder ssb = new SpannableStringBuilder("  " + menu.getTitle());
+            ssb.setSpan(new ImageSpan(this, R.drawable.ic_shopping_cart_white_24dp), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            menu.setTitle(ssb);
+        }
     }
 
     @Override
