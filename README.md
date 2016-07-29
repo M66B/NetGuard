@@ -62,7 +62,7 @@ Usage:
 You can use the settings menu to change from blacklist mode (allow all in *Settings* but block unwanted applications in list) to whitelist mode (block all in *Settings* but allow favorite applications in list).
 
 * Red/orange/yellow/amber = internet access denied
-* Teal/blue/purple/grey = internet access allowd
+* Teal/blue/purple/grey = internet access allowed
 
 <img src="https://raw.githubusercontent.com/M66B/NetGuard/master/screenshots/01-main.png" width="320" height="569" />
 <img src="https://raw.githubusercontent.com/M66B/NetGuard/master/screenshots/02-main-details.png" width="320" height="569" />
@@ -130,7 +130,7 @@ Frequently Asked Questions (FAQ)
 [**(18) Why can't I find NetGuard in the Google Play™ store app?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ18)
 
 <a name="FAQ19"></a>
-[**(19) Why does aplication XYZ still have internet access?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ19)
+[**(19) Why does application XYZ still have internet access?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ19)
 
 <a name="FAQ20"></a>
 [**(20) Can I Greenify/hibernate NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ20)

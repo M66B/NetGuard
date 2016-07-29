@@ -15,7 +15,7 @@ Frequently Asked Questions (FAQ)
 You can use the settings menu to change from blacklist mode (allow all in *Settings* but block unwanted applications in list) to whitelist mode (block all in *Settings* but allow favorite applications in list).
 
 * Red/orange/yellow/amber = internet access denied
-* Teal/blue/purple/grey = internet access allowd
+* Teal/blue/purple/grey = internet access allowed
 
 <a name="FAQ1"></a>
 **(1) Can NetGuard completely protect my privacy?**
@@ -154,7 +154,7 @@ is incorrectly attributed to NetGuard instead to the Google Play™ store app.
 NetGuard requires at least Android 4.0, so it is not available in the Google Play™ store app for devices running older Android versions.
 
 <a name="FAQ19"></a>
-**(19) Why does aplication XYZ still have internet access?**
+**(19) Why does application XYZ still have internet access?**
 
 If you block internet access for an application, there is no way around it.
 However, applications could access the internet through other applications.
@@ -282,7 +282,7 @@ You can only purchase pro feature when you installed NetGuard from the Play stor
 Unless you are just testing NetGuard, there is no current reason to use them both, since they cover the same function (firewall),
 although with different base needs (AFWall+ needs a rooted device) and ways of doing their thing (AFWall+ uses iptables).
 
-Also you need to keep per applicaton access rules _always_ in sync,
+Also you need to keep per application access rules _always_ in sync,
 else the application will not be able to access the network,
 hence bringing another level of complexity when setting and assuring things work out.
 
