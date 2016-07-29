@@ -207,7 +207,7 @@
                 android:key="socks5_username" />
             <EditTextPreference
                 android:dependency="filter"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:key="socks5_password" />
             <EditTextPreference
                 android:defaultValue="64"

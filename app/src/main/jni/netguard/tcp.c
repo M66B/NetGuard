@@ -269,7 +269,8 @@ void check_tcp_socket(const struct arguments *args,
                 if (ev->events & EPOLLOUT) {
                     log_android(ANDROID_LOG_INFO, "%s connected", session);
 
-                    // http://www.rfc-base.org/txt/rfc-1928.txt
+                    // https://tools.ietf.org/html/rfc1928
+                    // https://tools.ietf.org/html/rfc1929
                     // https://en.wikipedia.org/wiki/SOCKS#SOCKS5
                     if (*socks5_addr && socks5_port)
                         s->tcp.socks5 = SOCKS5_HELLO;
@@ -304,7 +305,8 @@ void check_tcp_socket(const struct arguments *args,
                             }
 
                         } else if (s->tcp.socks5 == SOCKS5_AUTH &&
-                                   bytes == 2 && buffer[0] == 1) {
+                                   bytes == 2 &&
+                                   (buffer[0] == 1 || buffer[0] == 5)) {
                             if (buffer[1] == 0) {
                                 s->tcp.socks5 = SOCKS5_CONNECT;
                                 log_android(ANDROID_LOG_WARN, "%s SOCKS5 auth OK", session);

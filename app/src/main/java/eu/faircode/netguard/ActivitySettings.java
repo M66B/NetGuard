@@ -604,61 +604,64 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             ServiceSinkhole.reload("changed " + name, this);
 
         else if ("vpn4".equals(name)) {
-            String vpn4 = prefs.getString("vpn4", null);
+            String vpn4 = prefs.getString(name, null);
             try {
                 checkAddress(vpn4);
             } catch (Throwable ex) {
-                prefs.edit().remove("vpn4").apply();
+                prefs.edit().remove(name).apply();
                 ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
                 if (!TextUtils.isEmpty(vpn4))
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
+            getPreferenceScreen().findPreference(name).setTitle(
+                    getString(R.string.setting_vpn4, prefs.getString(name, "10.1.10.1")));
             ServiceSinkhole.reload("changed " + name, this);
-            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn4", "10.1.10.1")));
 
         } else if ("vpn6".equals(name)) {
-            String vpn6 = prefs.getString("vpn6", null);
+            String vpn6 = prefs.getString(name, null);
             try {
                 checkAddress(vpn6);
             } catch (Throwable ex) {
-                prefs.edit().remove("vpn6").apply();
+                prefs.edit().remove(name).apply();
                 ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
                 if (!TextUtils.isEmpty(vpn6))
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
+            getPreferenceScreen().findPreference(name).setTitle(
+                    getString(R.string.setting_vpn6, prefs.getString(name, "fd00:1:fd00:1:fd00:1:fd00:1")));
             ServiceSinkhole.reload("changed " + name, this);
-            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
 
         } else if ("dns".equals(name)) {
-            String dns = prefs.getString("dns", null);
+            String dns = prefs.getString(name, null);
             try {
                 checkAddress(dns);
             } catch (Throwable ex) {
-                prefs.edit().remove("dns").apply();
+                prefs.edit().remove(name).apply();
                 ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
                 if (!TextUtils.isEmpty(dns))
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
-            ServiceSinkhole.reload("changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(
-                    getString(R.string.setting_dns, prefs.getString("dns", Util.getDefaultDNS(this).get(0))));
+                    getString(R.string.setting_dns, prefs.getString(name, Util.getDefaultDNS(this).get(0))));
+            ServiceSinkhole.reload("changed " + name, this);
 
         } else if ("socks5_enabled".equals(name))
             ServiceSinkhole.reload("changed " + name, this);
 
         else if ("socks5_addr".equals(name)) {
-            String socks5 = prefs.getString("socks5_addr", null);
+            String socks5_addr = prefs.getString(name, null);
             try {
-                checkAddress(socks5);
+                if (!TextUtils.isEmpty(socks5_addr) && !Util.isNumericAddress(socks5_addr))
+                    throw new IllegalArgumentException("Bad address");
             } catch (Throwable ex) {
-                prefs.edit().remove("socks5_addr").apply();
+                prefs.edit().remove(name).apply();
                 ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
-                if (!TextUtils.isEmpty(socks5))
+                if (!TextUtils.isEmpty(socks5_addr))
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
-            ServiceSinkhole.reload("changed " + name, this);
             getPreferenceScreen().findPreference(name).setTitle(
-                    getString(R.string.setting_socks5_addr, prefs.getString("socks5_addr", "-")));
+                    getString(R.string.setting_socks5_addr, prefs.getString(name, "-")));
+            ServiceSinkhole.reload("changed " + name, this);
 
         } else if ("socks5_port".equals(name)) {
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_socks5_port, prefs.getString(name, "-")));
