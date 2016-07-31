@@ -6,7 +6,7 @@
   <string name="app_android">Для работы NetGuard требуется Android 4.0 или более поздняя версия</string>
   <string name="app_license">Используя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="app_first">Было уделено большое внимание разработке и тестированию NetGuard, однако нельзя гарантировать, что NetGuard будет правильно работать на каждом устройстве. \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
-  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
+  <string name="app_admob">NetGuard использует сервис рекламы AdMob компании Google. Политика конфиденциальности AdMob доступна <a href="https://www.google.com/intl/en/policies/privacy/">здесь</a>.</string>
   <string name="app_agree">Я согласен</string>
   <string name="app_disagree">Я не согласен</string>
   <string name="menu_search">Поиск приложения</string>
@@ -80,13 +80,14 @@
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
-  <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
-  <string name="setting_socks5_addr">SOCKS5 address: %s</string>
-  <string name="setting_socks5_port">SOCKS5 port: %s</string>
-  <string name="setting_socks5_username">SOCKS5 username: %s</string>
-  <string name="setting_socks5_password">SOCKS5 password: %s</string>
+  <string name="setting_socks5_enabled">Использовать прокси SOCKS5</string>
+  <string name="setting_socks5_addr">Адрес SOCKS5: %s</string>
+  <string name="setting_socks5_port">Порт SOCKS5: %s</string>
+  <string name="setting_socks5_username">Логин SOCKS5: %s</string>
+  <string name="setting_socks5_password">Пароль SOCKS5: %s</string>
   <string name="setting_pcap_record_size">Размер записи PCAP: %s Б</string>
   <string name="setting_pcap_file_size">Макс. размер PCAP файла: %s МБ</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">Скорость в статус-баре</string>
   <string name="setting_stats">Показать скорость в статус-баре</string>
   <string name="setting_stats_top">Показать топовое приложение</string>
@@ -122,7 +123,8 @@
   <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_track_usage">Отслеживать количество отправленных и полученных байтов для каждого приложения и адресов. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_block_domains">Ответить на \'название ошибки\' (NXDOMAIN) для заблокированных доменных имен. Этот переключатель выключен, если hosts-файл отсутствует.</string>
-  <string name="summary_proxy">IP адрес SOCKS5 прокси-сервера и номер порта</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>
   <string name="msg_sure">Вы уверены?</string>
   <string name="msg_started">Определить правила</string>

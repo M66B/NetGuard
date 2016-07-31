@@ -6,7 +6,7 @@
   <string name="app_android">يتطلب NetGuard إصدار أندرويد 4.0 أو أحدث</string>
   <string name="app_license">بــإســتــخــدام NetGuard، مــعــنــاه أنــك مــوافــق عــلـى <a href="http://www.gnu.org/licenses/gpl.txt"> رخــصــة BNU الــعــمــومــيــة الــعــامــة الإصــدار 3</a></string>
   <string name="app_first">تم تطوير واختبار NetGuard بعناية فائقة؛ لكن من المستحيل ضمان عمل NetGuard بشكل صحيح على كل جهاز. \n\nBy باستخدامك NetGuard؛ فإنك توافق على <a href="http://www.gnu.org/licenses/gpl.txt"> رخصة جنو العمومية الإصدار 3</a></string>
-  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
+  <string name="app_admob">NetGuard يستخدم خدمة Google الإعلان AdMob. سياسة الخصوصية في AdMob يتوفر <a href="https://www.google.com/intl/en/policies/privacy/"> هنا</a>.</string>
   <string name="app_agree">أوافق</string>
   <string name="app_disagree">لا أوافق</string>
   <string name="menu_search">البحث عن تطبيقات</string>
@@ -80,13 +80,14 @@
   <string name="setting_vpn4">IPv4 للشبكة الافتراضية الخاصة: %s</string>
   <string name="setting_vpn6">IPv6 للشبكة الافتراضية الخاصة: %s</string>
   <string name="setting_dns">DNS للشبكة الافتراضية الخاصة: %s</string>
-  <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
-  <string name="setting_socks5_addr">SOCKS5 address: %s</string>
-  <string name="setting_socks5_port">SOCKS5 port: %s</string>
-  <string name="setting_socks5_username">SOCKS5 username: %s</string>
-  <string name="setting_socks5_password">SOCKS5 password: %s</string>
+  <string name="setting_socks5_enabled">استخدام SOCKS5 الوكيل</string>
+  <string name="setting_socks5_addr">عنوان SOCKS5: %s</string>
+  <string name="setting_socks5_port">مــدخــل  SOCKS5: %s</string>
+  <string name="setting_socks5_username">SOCKS5 اسم المستخدم: %s</string>
+  <string name="setting_socks5_password">SOCKS5 كلمة المرور: %s</string>
   <string name="setting_pcap_record_size">سجل PCAP حجمه: %s ب</string>
   <string name="setting_pcap_file_size">حجم ملف PCAP الأعلى: %s م ب</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">تنبيه السرعة</string>
   <string name="setting_stats">إظهار تنبيه السرعه</string>
   <string name="setting_stats_top">إظهار التطبيقات الأعلى</string>
@@ -123,7 +124,8 @@
   <string name="summary_filter">تصفية حزم IP الخارجة من نفق VPN. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_track_usage">تتبع عدد وحدات البايت المرسلة والمتلقاة لكل تطبيق وعنوان. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_block_domains">الاستجابة ب \'اسم خاطئ\' (NXDOMAIN) لأسماء النطاقات المحظورة. يعطل هذا الخيار عند عدم وجود ملف المضيفين.</string>
-  <string name="summary_proxy">SOCKS5 وكيل الخادم عنوان  IP ورقم المنفذ</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">إظهار الرسم البياني لسرعة الشبكة الرسم في إعلام شريط المعلومات</string>
   <string name="msg_sure">هل أنت متأكد؟</string>
   <string name="msg_started">فـرض الـقـواعـد</string>
@@ -165,7 +167,7 @@
   <string name="msg_metered">الشبكة مقاسة</string>
   <string name="msg_queue">NetGuard مشغول</string>
   <string name="msg_update">يوجد تحديث متوفرة، اضغط لتحميله</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
+  <string name="msg_usage">يــمــكــنــك الــســمــاح (مــخــضــر) أو الــرفــض (الــمــحــمــر) واي فاي أو دخــول شــبــكــة الــمــحــمــول بــواســطــة الـــضـــغـــط عــلــى الــرمــوز الــمــوجــودة بــجــانــب الــتــطــبــيــق</string>
   <string name="msg_whitelist">الدخول للإنترنت مسموح بشكل إفتراضي، وهذا يمكن تغييرة في الإعدادات</string>
   <string name="msg_push">معظم الرسائل يتم معالجتها بواسطة خدمات النظام المتاحة، وهي التى مسموحة بدخول الإنترنت بشكل إفتراضي</string>
   <string name="msg_system">يمكنك تمكين إدارة تطبيقات النظام في الخيارات المتقدمة</string>
@@ -211,11 +213,11 @@
   <string name="title_pro_speed">تنبيه رسم بياني لسرعة الشبكة</string>
   <string name="title_pro_theme">المظهر (المظهر، ألوان)</string>
   <string name="title_pro_all">كل ميزات النسخة الكاملة أعلاه</string>
-  <string name="title_pro_dev">Support development</string>
-  <string name="title_pro_buy">Buy</string>
+  <string name="title_pro_dev">دعــم الــتـــطـــويـــر</string>
+  <string name="title_pro_buy">شراء</string>
   <string name="title_pro_bought">ممكن</string>
-  <string name="title_pro_details">Tap on a title for more information</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
+  <string name="title_pro_details">اضغط على اي عنوان للحصول على مزيد من المعلومات عــنــه</string>
+  <string name="title_pro_ads">إن شــراء أي بــرو ســيــعــطــل جــمــيــع الإعــلانــات مــســتـــقـــبـــلا</string>
   <string name="title_pro_challenge">تحدّي</string>
   <string name="title_pro_reponse">الاستجابة</string>
   <string-array name="themeNames">

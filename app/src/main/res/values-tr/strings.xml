@@ -89,6 +89,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="setting_socks5_password">SOCKS5 password: %s</string>
   <string name="setting_pcap_record_size">PCAP kayıt boyutu: %s B</string>
   <string name="setting_pcap_file_size">PCAP max. dosya boyutu: %s MB</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">Hız bildirimi</string>
   <string name="setting_stats">Hız bildirimini göster</string>
   <string name="setting_stats_top">En iyi uygulamaları göster</string>
@@ -124,7 +125,8 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="summary_filter">IP paket filtresi VPN tünel üserinden çıkış yaptığı için ekstra batarya kullanımına neden olabilir.</string>
   <string name="summary_track_usage">Her bir uygulama için alınan ve gönderilen veri miktarını izleyin. Bu, ekstra batarya kullanımına neden olabilir.</string>
   <string name="summary_block_domains">Engellenen alan adları için \'name error\' (NXDOMAIN) ile yanıt ver. Hosts dosyası mevcut değilse bu ayarı aktifleştirmeyin.</string>
-  <string name="summary_proxy">SOCKS5 proxy sunucusu IP adresi ve port numarası</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">İnternet hız grafiği bildirimi göster</string>
   <string name="msg_sure">Emin misiniz?</string>
   <string name="msg_started">Kuralları zorla</string>

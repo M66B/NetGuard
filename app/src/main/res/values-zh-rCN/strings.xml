@@ -89,6 +89,7 @@
   <string name="setting_socks5_password">SOCKS5 password: %s</string>
   <string name="setting_pcap_record_size">PCAP 记录大小: %s B</string>
   <string name="setting_pcap_file_size">PCAP 最大文件大小: %s MB</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">网速通知</string>
   <string name="setting_stats">显示网速通知</string>
   <string name="setting_stats_top">显示高网络流量应用</string>
@@ -124,7 +125,8 @@
   <string name="summary_filter">筛选经由 VPN 重定向导出的 IP 数据包. 这可能会导致额外电量消耗.</string>
   <string name="summary_track_usage">跟踪每个应用程序和地址发送和接收的字节数. 这可能会导致额外电量消耗.</string>
   <string name="summary_block_domains">对已阻止的主机域名使用\"域名错误\" (NXDOMAIN) 作为应答. 无 hosts 文件可用时此开关会被禁用.</string>
-  <string name="summary_proxy">SOCKS5 代理服务器 IP 地址及端口号</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
   <string name="msg_sure">是否确认?</string>
   <string name="msg_started">规则加载中</string>

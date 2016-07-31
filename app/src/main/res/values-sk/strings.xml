@@ -89,6 +89,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_socks5_password">SOCKS5 password: %s</string>
   <string name="setting_pcap_record_size">Veľkosť záznamu PCAP: %s B</string>
   <string name="setting_pcap_file_size">Maximálna veľkosť súboru PCAP: %s MB</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">Oznámenie o rýchlosti</string>
   <string name="setting_stats">Zobraziť oznámenie o rýchlosti</string>
   <string name="setting_stats_top">Zobraziť top aplikácie</string>
@@ -124,7 +125,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_filter">Filtrovanie IP paketov smerujúcich z VPN tunela. Môže to spôsobiť zvýšenú spotrebu batérie.</string>
   <string name="summary_track_usage">Sledovať počet odoslaných a prijatých bajtov pre každú aplikáciu a adresu. Môže to spôsobiť zvýšenú spotrebu batérie.</string>
   <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
-  <string name="summary_proxy">SOCKS5 proxy server - IP adresa a číslo portu</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Zobraziť oznámenie s graf rýchlosti siete v stavovom riadku</string>
   <string name="msg_sure">Ste si istý?</string>
   <string name="msg_started">Pravidlá vynútenia</string>

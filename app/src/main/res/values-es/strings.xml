@@ -87,6 +87,7 @@
   <string name="setting_socks5_password">SOCKS5 password: %s</string>
   <string name="setting_pcap_record_size">Tamaño de registro PCAP: %s B</string>
   <string name="setting_pcap_file_size">Máximo tamaño del archivo PCAP: %s MB</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">Notificación de velocidad</string>
   <string name="setting_stats">Mostrar notificación de velocidad</string>
   <string name="setting_stats_top">Mostrar aplicaciones principales</string>
@@ -122,7 +123,8 @@
   <string name="summary_filter">Filtrar paquetes IP salientes del túnel VPN. Esto podría aumentar el uso de la batería.</string>
   <string name="summary_track_usage">Registrar número de bytes enviados y recibidos para cada aplicación y dirección. Esto podría consumir más batería.</string>
   <string name="summary_block_domains">Responder con \'error de nombre\' (NXDOMAIN) para nombres de dominio bloqueados. Esta opción está desactivada cuando no hay ningún archivo hosts disponible.</string>
-  <string name="summary_proxy">Dirección IP del proxy SOCKS5 y número del puerto</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>
   <string name="msg_sure">¿Estás seguro?</string>
   <string name="msg_started">Reglas aplicadas</string>

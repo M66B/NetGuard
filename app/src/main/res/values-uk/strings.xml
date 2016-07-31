@@ -88,6 +88,7 @@
   <string name="setting_socks5_password">SOCKS5 password: %s</string>
   <string name="setting_pcap_record_size">Розмір запису PCAP: %s Б</string>
   <string name="setting_pcap_file_size">Макс. розмір PCAP файлу: %s МБ</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">Швидкість в сповіщенні</string>
   <string name="setting_stats">Показувати сповіщення о швидкості</string>
   <string name="setting_stats_top">Показати топові додатки</string>
@@ -123,7 +124,8 @@
   <string name="summary_filter">Фільтрувати IP-пакети, які проходять через VPN. Це може збільшити споживання батареї.</string>
   <string name="summary_track_usage">Відслідковувати кількість відправлених та отриманих байтів для кожного додатку та адрес. Це може призвести до збільшення споживання батареї.</string>
   <string name="summary_block_domains">Відповідати із «назва помилки» (NXDOMAIN) для заблокованих доменних імен. Цей перемикач вимкнено, якщо відсутній host-файл.</string>
-  <string name="summary_proxy">SOCKS5 proxy server IP address and port number</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Показувати графік швидкості мережі у панелі сповіщень</string>
   <string name="msg_sure">Ви впевнені?</string>
   <string name="msg_started">Визначити правила</string>

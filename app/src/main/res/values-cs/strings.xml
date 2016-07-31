@@ -89,6 +89,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_socks5_password">SOCKS5 password: %s</string>
   <string name="setting_pcap_record_size">Velikost záznamu PCAP: %s B</string>
   <string name="setting_pcap_file_size">Max. velikost souboru PCAP: %s MB</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">Oznámení o rychlosti</string>
   <string name="setting_stats">Zobrazit oznámení o rychlosti</string>
   <string name="setting_stats_top">Zobrazit nejčetnější aplikace</string>
@@ -124,7 +125,8 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="summary_filter">Filtrovat IP pakety procházející VPN tunelem směrem ven. Může mít vliv na spotřebu baterie.</string>
   <string name="summary_track_usage">Sledovat počet odeslaných a přijatých bytů pro každou aplikaci a adresu. Může mít vliv na spotřebu baterie.</string>
   <string name="summary_block_domains">Navracet \'chyba názvu\' (NXDOMAIN) pro blokované názvy domén. Tento přepínač je deaktivován, pokud není dostupný žádný soubor hosts.</string>
-  <string name="summary_proxy">SOCKS5 proxy server - IP adresa a číslo portu</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Zobrazit graf rychlosti sítě v notifikační liště</string>
   <string name="msg_sure">Jste si jistý?</string>
   <string name="msg_started">Vynucení pravidel</string>

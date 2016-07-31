@@ -88,6 +88,7 @@
   <string name="setting_socks5_password">SOCKS5 password: %s</string>
   <string name="setting_pcap_record_size">גודל רשומת PCAP: %s B</string>
   <string name="setting_pcap_file_size">חסם גודל קובץ PCAP: %s MB</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">התראת מהירות</string>
   <string name="setting_stats">הצג התראת מהירות</string>
   <string name="setting_stats_top">הצג את היישומים העליונים</string>
@@ -123,7 +124,8 @@
   <string name="summary_filter">סינון מנות IP ביציאה מערוץ VPN. עלול להגביר צריכת סוללה.</string>
   <string name="summary_track_usage">עקוב אחרי מספר הבתים שנשלחו והתקבלו לכל יישום או כתובת. עלול להגביר צריכת סוללה.</string>
   <string name="summary_block_domains">מגיבי עם \'שגיאת שם\' (NXDOMAIN) לשמות מתחם חסומים. בורר זה אינו זמין כאשר קובץ hosts לא זמין.</string>
-  <string name="summary_proxy">כתובת IP ומספר הפורט של שרת פרוקסי SOCKS5</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">הצג גרף מהירות רשת בהתראות</string>
   <string name="msg_sure">האם אתה בטוח?</string>
   <string name="msg_started">אוכף חוקים</string>

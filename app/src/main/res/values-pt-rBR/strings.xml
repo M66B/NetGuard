@@ -7,9 +7,9 @@
   <string name="app_license">Ao usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">NetGuard foi desenvolvido e testado com grande cuidado, porém é impossível garantir que o NetGuard funcionará corretamente em cada dispositivo.
 \n\nUsando o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
-  <string name="app_agree">I agree</string>
-  <string name="app_disagree">I disagree</string>
+  <string name="app_admob">NetGuard usa o serviço de anúncios do Google AdMob. A política de privacidade deste produto está disponível <a href="https://www.google.com/intl/en/policies/privacy/">aqui</a>.</string>
+  <string name="app_agree">Eu concordo</string>
+  <string name="app_disagree">Eu discordo</string>
   <string name="menu_search">Buscar aplicativo</string>
   <string name="menu_filter">Filtrar aplicativos</string>
   <string name="menu_app_user">Mostrar apps do usuário</string>
@@ -81,13 +81,14 @@
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
-  <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
-  <string name="setting_socks5_addr">SOCKS5 address: %s</string>
-  <string name="setting_socks5_port">SOCKS5 port: %s</string>
-  <string name="setting_socks5_username">SOCKS5 username: %s</string>
-  <string name="setting_socks5_password">SOCKS5 password: %s</string>
+  <string name="setting_socks5_enabled">Usar proxy SOCKS5</string>
+  <string name="setting_socks5_addr">Endereço do SOCKS5: %s</string>
+  <string name="setting_socks5_port">Porta do SOCKS5: %s</string>
+  <string name="setting_socks5_username">Nome de usuário do SOCKS5: %s</string>
+  <string name="setting_socks5_password">Senha de usuário do SOCKS5: %s</string>
   <string name="setting_pcap_record_size">Tamanho de registro PCAP: %s B</string>
   <string name="setting_pcap_file_size">Tamanho máximo de arquivo PCAP: %s MB</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">Notificação de velocidade</string>
   <string name="setting_stats">Mostrar notificação de velocidade</string>
   <string name="setting_stats_top">Mostrar apps mais usados</string>
@@ -123,7 +124,8 @@
   <string name="summary_filter">Filtrar pacotes de IP que saem da VPN. Isso pode resultar em um maior uso da bateria.</string>
   <string name="summary_track_usage">Controle o número de bytes enviados e recebidos para cada aplicativo e endereço. Isso pode resultar no uso da bateria extra.</string>
   <string name="summary_block_domains">Responder com \'erro de nome\' (NXDOMAIN) para nomes de domínio bloqueados. Essa opção é desabilitada quando nenhum arquivo de hosts está disponível.</string>
-  <string name="summary_proxy">Endereço IP do servidor proxy SOCKS5 e número de porta</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
   <string name="msg_sure">Tem certeza?</string>
   <string name="msg_started">Impondo Regras</string>
@@ -133,15 +135,15 @@
   <string name="msg_disabled">NetGuard desativado, use o interruptor acima para ativá-lo</string>
   <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>
   <string name="msg_installed">\'%1$s\' instalado</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">Foi instalado</string>
   <string name="msg_access">%1$s tentaram acesso à internet</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">Tentou acessar a internet</string>
   <string name="msg_completed">Ação concluída</string>
   <string name="msg_vpn">NetGuard usa uma VPN local para filtrar o tráfego de internet.
 Por este motivo, por favor, permita uma conexão VPN na caixa de diálogo a seguinte.
 O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.</string>
   <string name="msg_autostart">NetGuard não pôde ser iniciado automaticamente na inicialização devido a um bug na sua versão do Android</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">Um erro inesperado ocorreu: \'%s\'</string>
   <string name="msg_try">Testar NetGuard</string>
   <string name="msg_terms">Doando, você concorda com os <a href="http://www.netguard.me/#terms">termos &amp; condições</a></string>
   <string name="msg_dimming">Caso não consiga pressionar OK no dialogo a seguir, então provavelmente algum aplicativo (screen dimming) esta manipulando a tela.</string>
@@ -153,8 +155,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ KB</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Para resultados consistentes, as otimizações de bateria Android devem ser desabilitadas para NetGuard. \n\nNa próxima caixa de diálogo, selecione \"Todos os apps\" na parte superior, toque no NetGuard na lista e selecione e confirme \"Não otimizar\".</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">Para resultados consistentes, as opções de guardar dados do Android devem ser desabilitadas para o NetGuard \n\nNa próxima caixa de diálogo, ative as opções \"dados em segundo plano\" e \"uso de dados sem restrições\"</string>
   <string name="msg_filter">Usar filtragem pode fazer com que o Android atribua uso de dados e consumo de energia ao NetGuard - Android assume que o uso de dados e consumo de bateria são usados pelo NetGuard e não pelas aplicações originais</string>
   <string name="msg_log_disabled">Log de tráfego está desabilitado, utilize o botão acima para habilitar o log. Log do tráfego pode resultar no uso extra da bateria.</string>
   <string name="msg_clear_rules">Isto irá redefinir as regras e condições para os seus valores padrões</string>
@@ -168,9 +169,9 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_metered">A rede é limitada</string>
   <string name="msg_queue">NetGuard esta ocupado</string>
   <string name="msg_update">Atualização disponível, toque para baixar</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
-  <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
-  <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+  <string name="msg_usage">Você pode permitir (verde) ou negar (vermelho) Wi-Fi ou acesso à internet móvel clicando nos ícones ao lado de um aplicativo</string>
+  <string name="msg_whitelist">Acesso à internet é permitido por padrão, isto pode ser mudado nas definições</string>
+  <string name="msg_push">Mensagens recebidas por push são geridas ocasionalmente pelo componente do serviço Play, a que é permitido o acesso à internet por padrão</string>
   <string name="msg_system">Gerenciamento de aplicativos do sistema pode ser ativado em opções avançadas</string>
   <string name="msg_issue">Por favor, descreva o problema e indique o momento em que ocorreu:</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado permitido</string>
@@ -193,9 +194,9 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_related">Filtrar relacionados</string>
   <string name="title_access">Tentativas de acesso</string>
   <string name="title_no_log"><u>Registo não está habilitado.</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>A filtragem não está ativa</u></string>
   <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>
-  <string name="title_options">Options</string>
+  <string name="title_options">Opções</string>
   <string name="title_notify">Notificar tentativas de acesso à internet</string>
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>
@@ -214,11 +215,11 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>
   <string name="title_pro_all">Tudo sobre a versão PRO</string>
-  <string name="title_pro_dev">Support development</string>
-  <string name="title_pro_buy">Buy</string>
+  <string name="title_pro_dev">Ajude no desenvolvimento</string>
+  <string name="title_pro_buy">Comprar</string>
   <string name="title_pro_bought">Ativado</string>
-  <string name="title_pro_details">Tap on a title for more information</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
+  <string name="title_pro_details">Toque em um título para obter mais informações</string>
+  <string name="title_pro_ads">Comprar qualquer recurso Pro irá desativar todos os anúncios</string>
   <string name="title_pro_challenge">Código de verificação</string>
   <string name="title_pro_reponse">Resposta</string>
   <string-array name="themeNames">

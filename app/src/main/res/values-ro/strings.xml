@@ -6,7 +6,7 @@
   <string name="app_android">NetGuard necesita Android 4.0 sau mai nou</string>
   <string name="app_license">Folosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">NetGuard este dezvoltat si testat cu mare atentie, cu toate acestea este imposibii de garantat ca va functiona corect pe fiecare sau pe orice dispozitiv. \n\nFolosind NetGuard, sunteţi de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License versiunea 3</a></string>
-  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
+  <string name="app_admob">NetGuard foloseste serviciile de reclama Google AdMob. Termenii si conditiile AdMob sunt disponibile <a href="https://www.google.com/intl/en/policies/privacy/">aici</a>.</string>
   <string name="app_agree">Accept</string>
   <string name="app_disagree">Nu accept</string>
   <string name="menu_search">Cauta aplicatii</string>
@@ -80,13 +80,14 @@
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
-  <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
-  <string name="setting_socks5_addr">SOCKS5 address: %s</string>
+  <string name="setting_socks5_enabled">Utilizati proxy SOCKS5</string>
+  <string name="setting_socks5_addr">SOCKS5 adresa: %s</string>
   <string name="setting_socks5_port">SOCKS5 port: %s</string>
-  <string name="setting_socks5_username">SOCKS5 username: %s</string>
-  <string name="setting_socks5_password">SOCKS5 password: %s</string>
+  <string name="setting_socks5_username">SOCKS5 nume utilizator: %s</string>
+  <string name="setting_socks5_password">SOCKS5 parola: %s</string>
   <string name="setting_pcap_record_size">Marime inregistrare PCAP: %s B</string>
   <string name="setting_pcap_file_size">Marime max. fisier PCAP: %s MB</string>
+  <string name="setting_watchdog">Watchdog: every %s minutes</string>
   <string name="setting_stats_category">Notificare viteza conexiune</string>
   <string name="setting_stats">Arata notificare viteza</string>
   <string name="setting_stats_top">Arata aplicatiile consumatoare</string>
@@ -122,7 +123,8 @@
   <string name="summary_filter">Filtreaza pachetele IP ce ies prin tunelul VPN. Aceasta optiune poate duce la un consum in plus al bateriei.</string>
   <string name="summary_track_usage">Urmareste numarul de octeti trimisi si primiti de fiecare aplicatie si adresa. Aceasta poate duce la un consum mai mare al bateriei.</string>
   <string name="summary_block_domains">Raspunde cu \"nume de domeniu inexistent\" (NXDOMAIN) pentru domeniile blocate. Acesta optiune este dezactivata daca nu a fost incarcata o lista cu nume de domenii de blocat.</string>
-  <string name="summary_proxy">Adresa IP si port server proxy tip SOCKS5</string>
+  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Arata graficul de viteza al retelei in bara de notificari</string>
   <string name="msg_sure">Esti sigur(a)?</string>
   <string name="msg_started">Limitari activate</string>
@@ -167,7 +169,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_metered">Reteaua este contorizata</string>
   <string name="msg_queue">NetGuard este ocupat</string>
   <string name="msg_update">Actualizare disponibila, atinge pentru a descarca</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
+  <string name="msg_usage">Puteti permite (verzui) sau bloca (rosiatic) accesul la internet prin Wi-Fi sau date mobile atingand iconitele din dreptul unei aplicatii</string>
   <string name="msg_whitelist">Accesul la internet este permis in mod implicit, acest lucru poate fi schimbat in meniul setari</string>
   <string name="msg_push">Mesajele \"push\" sunt de obicei gestionate de componentele de sistem ale serviciilor Google Play. carora le este permis in mod implicit accesul la internet</string>
   <string name="msg_system">Gestionarea aplicatiilor de sistem se activeaza din optiunile avansate</string>
@@ -217,7 +219,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_pro_buy">Cumpara</string>
   <string name="title_pro_bought">Activat</string>
   <string name="title_pro_details">Atingeti un titlu pentru mai multe informatii</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
+  <string name="title_pro_ads">Cumparand orice caracteristica Pro dezactiveaza toate reclamele din aplicatie</string>
   <string name="title_pro_challenge">Intrebare de verificare</string>
   <string name="title_pro_reponse">Raspuns</string>
   <string-array name="themeNames">
