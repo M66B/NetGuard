@@ -390,7 +390,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         markPro(screen.findPreference("theme"), ActivityPro.SKU_THEME);
         markPro(screen.findPreference("install"), ActivityPro.SKU_NOTIFY);
-        markPro(screen.findPreference("socks5_enabled"), null);
         markPro(screen.findPreference("show_stats"), ActivityPro.SKU_SPEED);
     }
 
