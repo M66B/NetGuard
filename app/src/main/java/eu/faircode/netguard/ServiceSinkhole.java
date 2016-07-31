@@ -164,12 +164,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private enum State {none, waiting, enforcing, stats}
 
-    public enum Command {run, start, reload, stop, stats, set, householding}
+    public enum Command {run, start, reload, stop, stats, set, householding, watchdog}
 
     private static volatile PowerManager.WakeLock wlInstance = null;
 
     private static final String ACTION_HOUSE_HOLDING = "eu.faircode.netguard.HOUSE_HOLDING";
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
+    private static final String ACTION_WATCHDOG = "eu.faircode.netguard.WATCHDOG";
 
     private native void jni_init();
 
@@ -305,6 +306,22 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 Log.i(TAG, "Listening to subscription changes");
             }
 
+            // Watchdog
+            if (cmd == Command.start || cmd == Command.reload) {
+                Intent watchdogIntent = new Intent(ServiceSinkhole.this, ServiceSinkhole.class);
+                watchdogIntent.setAction(ACTION_WATCHDOG);
+                PendingIntent pi = PendingIntent.getService(ServiceSinkhole.this, 1, watchdogIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                am.cancel(pi);
+
+                int watchdog = Integer.parseInt(prefs.getString("watchdog", "0"));
+                if (watchdog > 0) {
+                    Log.i(TAG, "Watchdog " + watchdog + " minutes");
+                    am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + watchdog * 60 * 1000, watchdog * 60 * 1000, pi);
+                }
+            }
+
             try {
                 switch (cmd) {
                     case run:
@@ -332,18 +349,24 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         householding(intent);
                         break;
 
+                    case watchdog:
+                        watchdog(intent);
+                        break;
+
                     default:
                         Log.e(TAG, "Unknown command=" + cmd);
                 }
 
-                // Update main view
-                Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
-                ruleset.putExtra(ActivityMain.EXTRA_CONNECTED, cmd == Command.stop ? false : last_connected);
-                ruleset.putExtra(ActivityMain.EXTRA_METERED, cmd == Command.stop ? false : last_metered);
-                LocalBroadcastManager.getInstance(ServiceSinkhole.this).sendBroadcast(ruleset);
+                if (cmd != Command.watchdog) {
+                    // Update main view
+                    Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
+                    ruleset.putExtra(ActivityMain.EXTRA_CONNECTED, cmd == Command.stop ? false : last_connected);
+                    ruleset.putExtra(ActivityMain.EXTRA_METERED, cmd == Command.stop ? false : last_metered);
+                    LocalBroadcastManager.getInstance(ServiceSinkhole.this).sendBroadcast(ruleset);
 
-                // Update widgets
-                Widget.updateWidgets(ServiceSinkhole.this);
+                    // Update widgets
+                    Widget.updateWidgets(ServiceSinkhole.this);
+                }
 
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -508,6 +531,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
             if (!Util.isPlayStoreInstall(ServiceSinkhole.this) && prefs.getBoolean("update_check", true))
                 checkUpdate();
+        }
+
+        private void watchdog(Intent intent) {
+            if (vpn == null) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                if (prefs.getBoolean("enabled", false)) {
+                    Log.e(TAG, "Service was killed");
+                    start();
+                }
+            }
         }
 
         private void checkUpdate() {
@@ -1812,6 +1845,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         if (ACTION_HOUSE_HOLDING.equals(intent.getAction()))
             intent.putExtra(EXTRA_COMMAND, Command.householding);
+        if (ACTION_WATCHDOG.equals(intent.getAction()))
+            intent.putExtra(EXTRA_COMMAND, Command.watchdog);
 
         Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
         if (cmd == null)

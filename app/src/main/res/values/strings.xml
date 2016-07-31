@@ -99,6 +99,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_socks5_password">SOCKS5 password: %s</string>
     <string name="setting_pcap_record_size">PCAP record size: %s B</string>
     <string name="setting_pcap_file_size">PCAP max. file size: %s MB</string>
+    <string name="setting_watchdog">Watchdog: every %s minutes</string>
 
     <string name="setting_stats_category">Speed notification</string>
     <string name="setting_stats">Show speed notification</string>
@@ -141,6 +142,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
     <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
     <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+    <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
 
     <string name="summary_stats">Show network speed graph in status bar notification</string>
 

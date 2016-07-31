@@ -218,6 +218,11 @@
                 android:defaultValue="2"
                 android:inputType="number"
                 android:key="pcap_file_size" />
+            <EditTextPreference
+                android:defaultValue="0"
+                android:inputType="number"
+                android:key="watchdog"
+                android:summary="@string/summary_watchdog" />
         </PreferenceCategory>
     </PreferenceScreen>
 
