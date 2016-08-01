@@ -130,6 +130,33 @@ public class AdapterAccess extends CursorAdapter {
                 Util.getProtocolName(protocol, version, true) +
                         " " + daddr + (dport > 0 ? "/" + dport : ""));
 
+        if (Util.isNumericAddress(daddr) && tvDest.getTag() == null)
+            new AsyncTask<String, Object, String>() {
+                @Override
+                protected void onPreExecute() {
+                    tvDest.setTag(id);
+                }
+
+                @Override
+                protected String doInBackground(String... args) {
+                    try {
+                        return InetAddress.getByName(args[0]).getHostName();
+                    } catch (UnknownHostException ignored) {
+                        return args[0];
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(String addr) {
+                    Object tag = tvDest.getTag();
+                    if (tag != null && (Long) tag == id)
+                        tvDest.setText(
+                                Util.getProtocolName(protocol, version, true) +
+                                        " >" + addr + (dport > 0 ? "/" + dport : ""));
+                    tvDest.setTag(null);
+                }
+            }.execute(daddr);
+
         if (allowed < 0)
             tvDest.setTextColor(colorText);
         else if (allowed > 0)
