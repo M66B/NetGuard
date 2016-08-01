@@ -30,6 +30,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
@@ -237,32 +238,28 @@ public class AdapterLog extends CursorAdapter {
         // Show destination address
         if (resolve && !isKnownAddress(daddr))
             if (dname == null) {
-                if (tvDaddr.getTag() == null) {
-                    tvDaddr.setText(daddr);
-                    new AsyncTask<String, Object, String>() {
-                        @Override
-                        protected void onPreExecute() {
-                            tvDaddr.setTag(id);
-                        }
+                tvDaddr.setText(daddr);
+                new AsyncTask<String, Object, String>() {
+                    @Override
+                    protected void onPreExecute() {
+                        ViewCompat.setHasTransientState(tvDaddr, true);
+                    }
 
-                        @Override
-                        protected String doInBackground(String... args) {
-                            try {
-                                return InetAddress.getByName(args[0]).getHostName();
-                            } catch (UnknownHostException ignored) {
-                                return args[0];
-                            }
+                    @Override
+                    protected String doInBackground(String... args) {
+                        try {
+                            return InetAddress.getByName(args[0]).getHostName();
+                        } catch (UnknownHostException ignored) {
+                            return args[0];
                         }
+                    }
 
-                        @Override
-                        protected void onPostExecute(String name) {
-                            Object tag = tvDaddr.getTag();
-                            if (tag != null && (Long) tag == id)
-                                tvDaddr.setText(">" + name);
-                            tvDaddr.setTag(null);
-                        }
-                    }.execute(daddr);
-                }
+                    @Override
+                    protected void onPostExecute(String name) {
+                        tvDaddr.setText(">" + name);
+                        ViewCompat.setHasTransientState(tvDaddr, false);
+                    }
+                }.execute(daddr);
             } else
                 tvDaddr.setText(dname);
         else
@@ -271,11 +268,11 @@ public class AdapterLog extends CursorAdapter {
         // Show organization
         tvOrganization.setVisibility(View.GONE);
         if (organization) {
-            if (!isKnownAddress(daddr) && tvOrganization.getTag() == null)
+            if (!isKnownAddress(daddr))
                 new AsyncTask<String, Object, String>() {
                     @Override
                     protected void onPreExecute() {
-                        tvOrganization.setTag(id);
+                        ViewCompat.setHasTransientState(tvOrganization, true);
                     }
 
                     @Override
@@ -290,12 +287,11 @@ public class AdapterLog extends CursorAdapter {
 
                     @Override
                     protected void onPostExecute(String organization) {
-                        Object tag = tvOrganization.getTag();
-                        if (organization != null && tag != null && (Long) tag == id) {
+                        if (organization != null) {
                             tvOrganization.setText(organization);
                             tvOrganization.setVisibility(View.VISIBLE);
                         }
-                        tvOrganization.setTag(null);
+                        ViewCompat.setHasTransientState(tvOrganization, false);
                     }
                 }.execute(daddr);
         }

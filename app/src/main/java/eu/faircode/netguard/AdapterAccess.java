@@ -26,6 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,11 +131,11 @@ public class AdapterAccess extends CursorAdapter {
                 Util.getProtocolName(protocol, version, true) +
                         " " + daddr + (dport > 0 ? "/" + dport : ""));
 
-        if (Util.isNumericAddress(daddr) && tvDest.getTag() == null)
+        if (Util.isNumericAddress(daddr))
             new AsyncTask<String, Object, String>() {
                 @Override
                 protected void onPreExecute() {
-                    tvDest.setTag(id);
+                    ViewCompat.setHasTransientState(tvDest, true);
                 }
 
                 @Override
@@ -148,12 +149,10 @@ public class AdapterAccess extends CursorAdapter {
 
                 @Override
                 protected void onPostExecute(String addr) {
-                    Object tag = tvDest.getTag();
-                    if (tag != null && (Long) tag == id)
-                        tvDest.setText(
-                                Util.getProtocolName(protocol, version, true) +
-                                        " >" + addr + (dport > 0 ? "/" + dport : ""));
-                    tvDest.setTag(null);
+                    tvDest.setText(
+                            Util.getProtocolName(protocol, version, true) +
+                                    " >" + addr + (dport > 0 ? "/" + dport : ""));
+                    ViewCompat.setHasTransientState(tvDest, false);
                 }
             }.execute(daddr);
 
