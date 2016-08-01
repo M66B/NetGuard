@@ -315,7 +315,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 am.cancel(pi);
 
-                int watchdog = Integer.parseInt(prefs.getString("watchdog", "0"));
+                int watchdog = Integer.parseInt(prefs.getString("watchdog", Util.isSamsung() ? "12" : "0"));
                 if (watchdog > 0) {
                     Log.i(TAG, "Watchdog " + watchdog + " minutes");
                     am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + watchdog * 60 * 1000, watchdog * 60 * 1000, pi);
