@@ -693,10 +693,6 @@ public class Util {
         return (cm.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED);
     }
 
-    public static boolean isSamsung() {
-        return "samsung".equals(Build.MANUFACTURER);
-    }
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     public static String getSubscriptionInfo(Context context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1)

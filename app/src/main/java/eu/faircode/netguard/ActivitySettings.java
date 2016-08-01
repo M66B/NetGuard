@@ -240,7 +240,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         screen.findPreference("pcap_file_size").setTitle(getString(R.string.setting_pcap_file_size, prefs.getString("pcap_file_size", "2")));
 
         // Watchdog
-        screen.findPreference("watchdog").setTitle(getString(R.string.setting_watchdog, prefs.getString("watchdog", Util.isSamsung() ? "12" : "0")));
+        screen.findPreference("watchdog").setTitle(getString(R.string.setting_watchdog, prefs.getString("watchdog", "0")));
 
         // Handle stats
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -701,7 +701,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 ServiceSinkhole.setPcap(true, this);
 
         } else if ("watchdog".equals(name)) {
-            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_watchdog, prefs.getString(name, Util.isSamsung() ? "12" : "0")));
+            getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_watchdog, prefs.getString(name, "0")));
             ServiceSinkhole.reload("changed " + name, this);
 
         } else if ("show_stats".equals(name))
