@@ -54,8 +54,8 @@
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Использовать темную тему</string>
   <string name="setting_install">Уведомлять о новой установке</string>
-  <string name="setting_auto">Авто запуск через %1$s минут(ы)</string>
-  <string name="setting_delay">Задержка экрана %1$s минут(ы)</string>
+  <string name="setting_auto">Авто запуск через %1$s минут</string>
+  <string name="setting_delay">Задержка экрана %1$s минут</string>
   <string name="setting_update">Проверять наличие обновлений</string>
   <string name="setting_network_options">Параметры сети</string>
   <string name="setting_subnet">Маршрутизация подсети</string>
@@ -87,7 +87,7 @@
   <string name="setting_socks5_password">Пароль SOCKS5: %s</string>
   <string name="setting_pcap_record_size">Размер записи PCAP: %s Б</string>
   <string name="setting_pcap_file_size">Макс. размер PCAP файла: %s МБ</string>
-  <string name="setting_watchdog">Watchdog: every %s minutes</string>
+  <string name="setting_watchdog">Сторожевой таймер: каждые %s минут</string>
   <string name="setting_stats_category">Скорость в статус-баре</string>
   <string name="setting_stats">Показать скорость в статус-баре</string>
   <string name="setting_stats_top">Показать топовое приложение</string>
@@ -123,8 +123,8 @@
   <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_track_usage">Отслеживать количество отправленных и полученных байтов для каждого приложения и адресов. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_block_domains">Ответить на \'название ошибки\' (NXDOMAIN) для заблокированных доменных имен. Этот переключатель выключен, если hosts-файл отсутствует.</string>
-  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
-  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
+  <string name="summary_socks5_enabled">На прокси-сервер будет направляться только TCP трафик</string>
+  <string name="summary_watchdog">Периодически проверять, запущен ли NetGuard (введите ноль, чтобы отключить эту опцию). Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>
   <string name="msg_sure">Вы уверены?</string>
   <string name="msg_started">Определить правила</string>

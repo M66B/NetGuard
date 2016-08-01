@@ -87,7 +87,7 @@
   <string name="setting_socks5_password">SOCKS5 parola: %s</string>
   <string name="setting_pcap_record_size">Marime inregistrare PCAP: %s B</string>
   <string name="setting_pcap_file_size">Marime max. fisier PCAP: %s MB</string>
-  <string name="setting_watchdog">Watchdog: every %s minutes</string>
+  <string name="setting_watchdog">Repornire automata: o data la %s minute</string>
   <string name="setting_stats_category">Notificare viteza conexiune</string>
   <string name="setting_stats">Arata notificare viteza</string>
   <string name="setting_stats_top">Arata aplicatiile consumatoare</string>
@@ -123,8 +123,8 @@
   <string name="summary_filter">Filtreaza pachetele IP ce ies prin tunelul VPN. Aceasta optiune poate duce la un consum in plus al bateriei.</string>
   <string name="summary_track_usage">Urmareste numarul de octeti trimisi si primiti de fiecare aplicatie si adresa. Aceasta poate duce la un consum mai mare al bateriei.</string>
   <string name="summary_block_domains">Raspunde cu \"nume de domeniu inexistent\" (NXDOMAIN) pentru domeniile blocate. Acesta optiune este dezactivata daca nu a fost incarcata o lista cu nume de domenii de blocat.</string>
-  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
-  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
+  <string name="summary_socks5_enabled">Dar traficul de date TCP va fi rutat spre serverul proxy</string>
+  <string name="summary_watchdog">Verifica periodic daca NetGuard ruleaza (introdu zero pentru a dezactiva). Aceasta optiune poate duce la un consum ridicat al bateriei.</string>
   <string name="summary_stats">Arata graficul de viteza al retelei in bara de notificari</string>
   <string name="msg_sure">Esti sigur(a)?</string>
   <string name="msg_started">Limitari activate</string>
@@ -219,7 +219,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_pro_buy">Cumpara</string>
   <string name="title_pro_bought">Activat</string>
   <string name="title_pro_details">Atingeti un titlu pentru mai multe informatii</string>
-  <string name="title_pro_ads">Cumparand orice caracteristica Pro dezactiveaza toate reclamele din aplicatie</string>
+  <string name="title_pro_ads">Cumpararea oricarei caracteristici Pro dezactiveaza toate reclamele din aplicatie</string>
   <string name="title_pro_challenge">Intrebare de verificare</string>
   <string name="title_pro_reponse">Raspuns</string>
   <string-array name="themeNames">

@@ -6,7 +6,7 @@
   <string name="app_android">NetGuard requiere Android 4.0 o superior</string>
   <string name="app_license">Al utilizar NetGuard, aceptas la <a href="http://www.gnu.org/licenses/gpl.txt">Licencia Pública General GNU versión 3</a></string>
   <string name="app_first">Se ha tenido gran cuidado para desarrollar y probar NetGuard, sin embargo, es imposible garantizar que NetGuard funcione correctamente en todos los dispositivos. \n\nAl utilizar NetGuard, aceptas la <a href="http://www.gnu.org/licenses/gpl.txt"> Licencia Pública General GNU versión 3</a></string>
-  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
+  <string name="app_admob">NetGuard utiliza el servicio de publicidad AdMob de Google. La política de privacidad de AdMob está disponible <a href="https://www.google.com/intl/en/policies/privacy/">aquí</a>.</string>
   <string name="app_agree">Acepto</string>
   <string name="app_disagree">No acepto</string>
   <string name="menu_search">Buscar aplicación</string>
@@ -80,14 +80,14 @@
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
-  <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
-  <string name="setting_socks5_addr">SOCKS5 address: %s</string>
-  <string name="setting_socks5_port">SOCKS5 port: %s</string>
-  <string name="setting_socks5_username">SOCKS5 username: %s</string>
-  <string name="setting_socks5_password">SOCKS5 password: %s</string>
+  <string name="setting_socks5_enabled">Usar proxy SOCKS5</string>
+  <string name="setting_socks5_addr">Dirección de SOCKS5: %s</string>
+  <string name="setting_socks5_port">Puerto de SOCKS5: %s</string>
+  <string name="setting_socks5_username">Usuario de SOCKS5: %s</string>
+  <string name="setting_socks5_password">Contraseña de SOCKS5: %s</string>
   <string name="setting_pcap_record_size">Tamaño de registro PCAP: %s B</string>
   <string name="setting_pcap_file_size">Máximo tamaño del archivo PCAP: %s MB</string>
-  <string name="setting_watchdog">Watchdog: every %s minutes</string>
+  <string name="setting_watchdog">Watchdog: cada %s minutos</string>
   <string name="setting_stats_category">Notificación de velocidad</string>
   <string name="setting_stats">Mostrar notificación de velocidad</string>
   <string name="setting_stats_top">Mostrar aplicaciones principales</string>
@@ -123,7 +123,7 @@
   <string name="summary_filter">Filtrar paquetes IP salientes del túnel VPN. Esto podría aumentar el uso de la batería.</string>
   <string name="summary_track_usage">Registrar número de bytes enviados y recibidos para cada aplicación y dirección. Esto podría consumir más batería.</string>
   <string name="summary_block_domains">Responder con \'error de nombre\' (NXDOMAIN) para nombres de dominio bloqueados. Esta opción está desactivada cuando no hay ningún archivo hosts disponible.</string>
-  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+  <string name="summary_socks5_enabled">Sólo se enviará el tráfico TCP al servidor proxy</string>
   <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>
   <string name="msg_sure">¿Estás seguro?</string>
@@ -216,7 +216,7 @@
   <string name="title_pro_buy">Comprar</string>
   <string name="title_pro_bought">Activado</string>
   <string name="title_pro_details">Pulsar el título para más información</string>
-  <string name="title_pro_ads">Comprando cualquier característica de pago (Pro), deshabilita todos los anuncios</string>
+  <string name="title_pro_ads">La compra de cualquier característica de pago desactivará todos los anuncios</string>
   <string name="title_pro_challenge">Desafío</string>
   <string name="title_pro_reponse">Respuesta</string>
   <string-array name="themeNames">

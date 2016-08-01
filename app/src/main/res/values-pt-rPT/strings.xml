@@ -4,12 +4,12 @@
   <string name="app_description">NetGuard fornece maneiras simples e avançadas para bloquear o acesso à internet - sem acesso root exigido. Aplicações e endereços podem ser individualmente permitidos ou negados acesso ao seu Wi-Fi e/ou conexão móvel.</string>
   <string name="app_copyright">Copyright \u00A9 2015-2016 por M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard requer Android 4.0 ou posterior</string>
-  <string name="app_license">Ao usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_license">Ao usar o NetGuard, está a concordar com a <a href="http://www.gnu.org/licenses/gpl.txt">Licença Pública Geral GNU - versão 3</a></string>
   <string name="app_first">Houve grande cuidado em desenvolver e testar o NetGuard, no entanto é impossível garantir que o NetGuard funcionará correctamente em todos os dispositivos.\n\nAo utilizar o NetGuard você concorda com a <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License versão 3</a></string>
   <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
-  <string name="app_agree">I agree</string>
-  <string name="app_disagree">I disagree</string>
-  <string name="menu_search">Procurar aplicação</string>
+  <string name="app_agree">Eu concordo</string>
+  <string name="app_disagree">Eu discordo</string>
+  <string name="menu_search">Procurar por aplicação</string>
   <string name="menu_filter">Filtrar aplicações</string>
   <string name="menu_app_user">Mostrar aplicações de utilizador</string>
   <string name="menu_app_system">Mostrar aplicações de sistema</string>
@@ -20,8 +20,8 @@
   <string name="menu_sort_uid">Ordenar por uid</string>
   <string name="menu_sort_data">Ordenar por uso de dados</string>
   <string name="menu_log">Mostrar registo</string>
-  <string name="menu_settings">Configurações</string>
-  <string name="menu_invite">Convite</string>
+  <string name="menu_settings">Definições</string>
+  <string name="menu_invite">Convidar</string>
   <string name="menu_legend">Legenda</string>
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
@@ -31,8 +31,8 @@
   <string name="menu_live">Atualizações em direto</string>
   <string name="menu_refresh">Atualizar</string>
   <string name="menu_resolve">Mostrar nomes</string>
-  <string name="menu_organization">Mostrar a organização</string>
-  <string name="menu_pcap_enabled">PCAP habilitado</string>
+  <string name="menu_organization">Mostrar organização</string>
+  <string name="menu_pcap_enabled">PCAP ativado</string>
   <string name="menu_pcap_export">Exportar PCAP</string>
   <string name="menu_clear">Limpar</string>
   <string name="menu_reset">Repor</string>
@@ -94,8 +94,8 @@
   <string name="setting_stats_frequency">Frequência da amostra: %s ms</string>
   <string name="setting_stats_samples">Número de amostras: %s s</string>
   <string name="setting_backup">Cópia de Segurança</string>
-  <string name="setting_export">Exportar configurações</string>
-  <string name="setting_import">Importar configurações</string>
+  <string name="setting_export">Exportar definições</string>
+  <string name="setting_import">Importar definições</string>
   <string name="setting_hosts">Importar ficheiro hosts</string>
   <string name="setting_hosts_url">URL de download de ficheiro de hosts</string>
   <string name="setting_hosts_download">Descarregar ficheiro hosts</string>
@@ -105,7 +105,7 @@
   <string name="setting_technical_subscription">Subscrições</string>
   <string name="summary_install">Mostrar notificação na barra de notificações para configurar diretamente aplicações acabadas de instalar (funcionalidade pro)</string>
   <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados\nInsira zero para desabilitar essa opção</string>
-  <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
+  <string name="summary_delay">Após desligar o ecrã, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
   <string name="summary_update">Procurar novos lançamentos no GitHub duas vezes por dia</string>
   <string name="summary_tethering">Dependendo da versão do Android, tethering pode ou não trabalhar. O tráfego em tethering não pode ser filtrado.</string>
   <string name="summary_subnet">Ativar encaminhamento subnet; pode permitir chamadas Wi-Fi, mas pode também desencadear bugs no Android e aumento do uso da bateria</string>
@@ -113,9 +113,9 @@
   <string name="summary_ip6">Encaminhar tráfego IP versão 6 para o NetGuard para que possa ser seletivamente permitido ou bloqueado</string>
   <string name="summary_wifi_home">Aplicar regras Wi-Fi somente a rede selecionada (aplica regras de dados móveis às outras redes Wi-Fi)</string>
   <string name="summary_metered">Aplicar regras de Dados Móveis a redes Wi-Fi compartilhadas (pagas, limitadas)</string>
-  <string name="summary_metered_2g">Aplicar regras Wi-Fi para conexões 2G</string>
-  <string name="summary_metered_3g">Aplicar regras Wi-Fi para conexões 3G</string>
-  <string name="summary_metered_4g">Aplicar regras Wi-Fi para conexões LTE</string>
+  <string name="summary_metered_2g">Aplicar regras de rede Wi-Fi para ligações de dados em 2G</string>
+  <string name="summary_metered_3g">Aplicar regras de rede Wi-Fi para ligações de dados em 3G</string>
+  <string name="summary_metered_4g">Aplicar regras de rede Wi-Fi para ligações de dados em LTE</string>
   <string name="summary_national_roaming">Não aplicar regras de Roaming quando o chip SIM e a rede móvel forem do mesmo país</string>
   <string name="summary_system">Definir regras para aplicações de sistema (para utilizadores experientes)</string>
   <string name="summary_log_app">Registar tentativas de acesso à internet para aplicações. Isto pode resultar no uso extra da bateria.</string>
@@ -193,9 +193,9 @@
   <string name="title_no_log"><u>Registo não está habilitado.</u></string>
   <string name="title_no_filter"><u>A filtragem não está ativa</u></string>
   <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>
-  <string name="title_options">Options</string>
+  <string name="title_options">Opções</string>
   <string name="title_notify">Notificar das tentativas de acesso à internet</string>
-  <string name="title_rate">Avaliar</string>
+  <string name="title_rate">Classificar</string>
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
   <string name="title_root">root</string>
@@ -204,16 +204,16 @@
   <string name="title_dontask">Não voltar a perguntar</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
-  <string name="title_pro">Versão PRO</string>
+  <string name="title_pro">Funcionalidades Pro</string>
   <string name="title_pro_description">Os seguintes recursos pro estão disponíveis:</string>
   <string name="title_pro_log">Visualizar registo de tráfego bloqueado</string>
   <string name="title_pro_filter">Filtrar o tráfego de rede</string>
-  <string name="title_pro_notify">Notificação de novos aplicativos</string>
+  <string name="title_pro_notify">Notificações de nova aplicação</string>
   <string name="title_pro_speed">Notificação gráfica de velocidade da rede</string>
   <string name="title_pro_theme">Aparência (tema, cores)</string>
   <string name="title_pro_all">Todos os recursos pro acima</string>
-  <string name="title_pro_dev">Support development</string>
-  <string name="title_pro_buy">Buy</string>
+  <string name="title_pro_dev">Suporte o desenvolvimento</string>
+  <string name="title_pro_buy">Comprar</string>
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_details">Tap on a title for more information</string>
   <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>

@@ -88,7 +88,7 @@
   <string name="setting_socks5_password">SOCKS5 パスワード: %s</string>
   <string name="setting_pcap_record_size">PCAP レコードサイズ: %s B</string>
   <string name="setting_pcap_file_size">PCAP 最大。ファイルサイズ: %s MB</string>
-  <string name="setting_watchdog">Watchdog: every %s minutes</string>
+  <string name="setting_watchdog">Watchdog: %s 分毎</string>
   <string name="setting_stats_category">速度通知</string>
   <string name="setting_stats">速度通知を表示</string>
   <string name="setting_stats_top">トップ アプリケーションを表示</string>
@@ -124,8 +124,8 @@
   <string name="summary_filter">VPN トンネルを出る IP パケットをフィルターします。バッテリー使用量が増えることがあります。</string>
   <string name="summary_track_usage">各アプリケーションとアドレスごとの送受信バイト数を追跡します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_block_domains">ブロックされたドメイン名は \'名前エラー\' (NXDOMAIN) で応答します。Hosts ファイルが使用できない場合、このスイッチは無効です。</string>
-  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
-  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
+  <string name="summary_socks5_enabled">TCP トラフィックのみプロキシ サーバーに送信されます</string>
+  <string name="summary_watchdog">NetGuard がまだ実行されているかどうかを定期的にチェックします (0 を入力すると、このオプションを無効に ます)。余分にバッテリーを使用することがあります。</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
   <string name="msg_sure">よろしいですか?</string>
   <string name="msg_started">ルールを適用します</string>
