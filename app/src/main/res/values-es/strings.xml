@@ -108,7 +108,7 @@
   <string name="summary_delay">Después de apagar la pantalla, mantener las reglas activas de pantalla encendida durante el número seleccionado de minutos (introduzca cero para desactivar esta opción)</string>
   <string name="summary_update">Buscar nuevas versiones en GitHub dos veces al día</string>
   <string name="summary_tethering">Dependiendo de la versión de Android, el anclaje a red puede funcionar o no. El tráfico por anclaje no puede filtrarse.</string>
-  <string name="summary_subnet">Activar el enrutamiento de subred podría permitir llamadas Wi-Fi pero podría también provocar errores en Android y aumentar el uso de la batería</string>
+  <string name="summary_subnet">Activar el enrutamiento de subred podría permitir llamadas Wi-Fi pero podría también provocar errores en Android y consumir más batería</string>
   <string name="summary_lan">Permitir a las aplicaciones conectarse a direcciones de la red local, como 10.0.0.0/8, 172.16.0.0/12 y 192.168.0.0/16</string>
   <string name="summary_ip6">Dirigir tráfico IPv6 a NetGuard para permitir o bloquearlo selectivamente</string>
   <string name="summary_wifi_home">Aplicar sólo reglas de red Wi-Fi en la red seleccionada (aplicar reglas de red móvil para otras redes Wi-Fi)</string>
@@ -120,11 +120,11 @@
   <string name="summary_system">Definir reglas para aplicaciones de sistema (para expertos)</string>
   <string name="summary_log_app">Registrar intentos de acceso a Internet para aplicaciones. Esto podría consumir más batería.</string>
   <string name="summary_access">Mostrar una notificación en la barra de estado cuando una aplicación intente acceder a una nueva dirección de Internet (cuando se desactiva el filtrado, sólo se notificarán los intentos de acceso a Internet bloqueados)</string>
-  <string name="summary_filter">Filtrar paquetes IP salientes del túnel VPN. Esto podría aumentar el uso de la batería.</string>
+  <string name="summary_filter">Filtrar paquetes IP salientes del túnel VPN. Esto podría consumir más batería.</string>
   <string name="summary_track_usage">Registrar número de bytes enviados y recibidos para cada aplicación y dirección. Esto podría consumir más batería.</string>
   <string name="summary_block_domains">Responder con \'error de nombre\' (NXDOMAIN) para nombres de dominio bloqueados. Esta opción está desactivada cuando no hay ningún archivo hosts disponible.</string>
   <string name="summary_socks5_enabled">Sólo se enviará el tráfico TCP al servidor proxy</string>
-  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
+  <string name="summary_watchdog">Comprobar periódicamente si NetGuard está ejecutándose (introduzca cero para desactivar esta opción). Esto podría consumir más batería.</string>
   <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>
   <string name="msg_sure">¿Estás seguro?</string>
   <string name="msg_started">Reglas aplicadas</string>
@@ -154,7 +154,7 @@
   <string name="msg_doze">Para obtener resultados consistentes, las optimizaciones de batería de Android deberían desactivarse para NetGuard. \n\nEn el siguiente diálogo, seleccione \'Todas las aplicaciones\' en la parte superior, pulse en NetGuard en la lista y seleccione y confirme \'No optimizar\'.</string>
   <string name="msg_datasaving">Para obtener resultados consistentes, las opciones de ahorro de datos de Android deben estar desactivadas para NetGuard.\n\nEn el siguiente cuadro de diálogo, active las opciones \"Datos en segundo plano\" y \"Uso de datos ilimitado\".</string>
   <string name="msg_filter">Usar filtrado hará que Android atribuya el uso de datos y energía a NetGuard - Android asume que el uso de datos y energía los utiliza NetGuard, en lugar de las aplicaciones originales</string>
-  <string name="msg_log_disabled">El registro de tráfico está desactivado. Utilice el interruptor de arriba para activarlo. El registro de tráfico podría aumentar el uso de la batería.</string>
+  <string name="msg_log_disabled">El registro de tráfico está desactivado. Utilice el interruptor de arriba para activarlo. El registro de tráfico podría consumir más batería.</string>
   <string name="msg_clear_rules">Esto restablecerá las reglas y condiciones a sus valores originales</string>
   <string name="msg_reset_access">Esto eliminará líneas de registro de intento de acceso sin reglas de permitir/bloquear</string>
   <string name="msg_import_last">Última importación: %s</string>
@@ -166,7 +166,7 @@
   <string name="msg_metered">La red está medida</string>
   <string name="msg_queue">NetGuard está ocupado</string>
   <string name="msg_update">Actualización disponible, pulse para descargar</string>
-  <string name="msg_usage">Puedes permitir (verdoso) o denegar (rojizo) el acceso a Wi-Fi o Internet móvil pulsando en los iconos al lado de cada aplicación</string>
+  <string name="msg_usage">Puede permitir (verde) o denegar (rojo) el acceso a Internet Wi-Fi o móvil pulsando en los iconos al lado de cada aplicación</string>
   <string name="msg_whitelist">El acceso a Internet está permitido por defecto, esto puede cambiarse en los ajustes</string>
   <string name="msg_push">Las notificaciones Push son gestionadas principalmente por el componente del sistema \"Play Services\", que está autorizado para acceder a Internet por defecto</string>
   <string name="msg_system">La gestión de las aplicaciones del sistema puede activarse en las opciones avanzadas</string>
@@ -215,7 +215,7 @@
   <string name="title_pro_dev">Apoyar al desarrollador</string>
   <string name="title_pro_buy">Comprar</string>
   <string name="title_pro_bought">Activado</string>
-  <string name="title_pro_details">Pulsar el título para más información</string>
+  <string name="title_pro_details">Pulsar en un título para más información</string>
   <string name="title_pro_ads">La compra de cualquier característica de pago desactivará todos los anuncios</string>
   <string name="title_pro_challenge">Desafío</string>
   <string name="title_pro_reponse">Respuesta</string>

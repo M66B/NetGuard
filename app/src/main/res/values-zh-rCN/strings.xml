@@ -8,7 +8,7 @@
   <string name="app_first">开发者在开发和测试NetGuard过程中已悉心尽力,
 但开发者无法确保本软件在所有设备上均可正常运行.
 \n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
-  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
+  <string name="app_admob">NetGuard 使用 Google AdMob 广告服务. 您可在此查阅 AdMob 隐私权政策 <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">同意</string>
   <string name="app_disagree">拒绝</string>
   <string name="menu_search">搜索应用</string>
@@ -82,14 +82,14 @@
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
-  <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
-  <string name="setting_socks5_addr">SOCKS5 address: %s</string>
-  <string name="setting_socks5_port">SOCKS5 port: %s</string>
-  <string name="setting_socks5_username">SOCKS5 username: %s</string>
-  <string name="setting_socks5_password">SOCKS5 password: %s</string>
+  <string name="setting_socks5_enabled">使用 SOCKS5 代理</string>
+  <string name="setting_socks5_addr">SOCKS5 地址: %s</string>
+  <string name="setting_socks5_port">SOCKS5 端口: %s</string>
+  <string name="setting_socks5_username">SOCKS5 用户名: %s</string>
+  <string name="setting_socks5_password">SOCKS5 密码: %s</string>
   <string name="setting_pcap_record_size">PCAP 记录大小: %s B</string>
   <string name="setting_pcap_file_size">PCAP 最大文件大小: %s MB</string>
-  <string name="setting_watchdog">Watchdog: every %s minutes</string>
+  <string name="setting_watchdog">监控: 每 %s 分钟</string>
   <string name="setting_stats_category">网速通知</string>
   <string name="setting_stats">显示网速通知</string>
   <string name="setting_stats_top">显示高网络流量应用</string>
@@ -125,8 +125,8 @@
   <string name="summary_filter">筛选经由 VPN 重定向导出的 IP 数据包. 这可能会导致额外电量消耗.</string>
   <string name="summary_track_usage">跟踪每个应用程序和地址发送和接收的字节数. 这可能会导致额外电量消耗.</string>
   <string name="summary_block_domains">对已阻止的主机域名使用\"域名错误\" (NXDOMAIN) 作为应答. 无 hosts 文件可用时此开关会被禁用.</string>
-  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
-  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
+  <string name="summary_socks5_enabled">仅将 TCP 流量导向至代理服务器</string>
+  <string name="summary_watchdog">定时检查 NetGuard 运行状况 (输入 0 禁用此选项). 这可能导致额外电量消耗.</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
   <string name="msg_sure">是否确认?</string>
   <string name="msg_started">规则加载中</string>
