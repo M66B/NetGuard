@@ -6,9 +6,9 @@
   <string name="app_android">NetGuard изисква Android 4.0 или по-нова версия</string>
   <string name="app_license">Използвайки NetGuard, вие се съгласявате със следното лицензионно споразумение: <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License версия 3</a></string>
   <string name="app_first">Изключително внимание е вложено при разработката и тестването на NetGuard, въпреки това е невъзможно да се гарантира, че NetGuard ще работи безупречно на всяко устройство. \n\nИзползвайки NetGuard, вие се съгласявате със следното лицензионно споразумение: <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License версия 3</a></string>
-  <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
-  <string name="app_agree">I agree</string>
-  <string name="app_disagree">I disagree</string>
+  <string name="app_admob">NetGuard използва услугата за реклама AdMob на Google. Декларацията за поверителност на AdMob е налична <a href="https://www.google.com/intl/en/policies/privacy/"> тук</a>.</string>
+  <string name="app_agree">Приемам</string>
+  <string name="app_disagree">Не съм съгласен</string>
   <string name="menu_search">Търсене на приложение</string>
   <string name="menu_filter">Филтър по приложения</string>
   <string name="menu_app_user">Показване на потребителските приложения</string>
@@ -80,14 +80,14 @@
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
-  <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
-  <string name="setting_socks5_addr">SOCKS5 address: %s</string>
-  <string name="setting_socks5_port">SOCKS5 port: %s</string>
-  <string name="setting_socks5_username">SOCKS5 username: %s</string>
-  <string name="setting_socks5_password">SOCKS5 password: %s</string>
+  <string name="setting_socks5_enabled">Използвайте SOCKS5 прокси</string>
+  <string name="setting_socks5_addr">SOCKS5 адрес: %s</string>
+  <string name="setting_socks5_port">SOCKS5 порт: %s</string>
+  <string name="setting_socks5_username">SOCKS5 потребителско име: %s</string>
+  <string name="setting_socks5_password">SOCKS5 парола: %s</string>
   <string name="setting_pcap_record_size">PCAP записване на размер: %s B</string>
   <string name="setting_pcap_file_size">PCAP максимален размер на файла: %s MB</string>
-  <string name="setting_watchdog">Watchdog: every %s minutes</string>
+  <string name="setting_watchdog">Пазител: всеки %s минути</string>
   <string name="setting_stats_category">Уведомяване за скоростта</string>
   <string name="setting_stats">Показване на известия за скоростта</string>
   <string name="setting_stats_top">Показване на най-използваните приложения</string>
@@ -123,8 +123,8 @@
   <string name="summary_filter">Филтриране на IP пакетите излязащи от VPN тунела. Това може да доведе до допълнително използване на батарията.</string>
   <string name="summary_track_usage">Проследяване на броя байтове, изпратени и получени за всяко приложение и адрес. Това може да доведе до допълнителено използване на батерията.</string>
   <string name="summary_block_domains">Отговори с \"име грешка\" (NXDOMAIN) за блокираните домейни. Тази опция е изключена, когато няма наличен \"hosts\" файл.</string>
-  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
-  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
+  <string name="summary_socks5_enabled">Само TCP трафикът ще бъде изпратен към прокси сървъра</string>
+  <string name="summary_watchdog">Периодично проверява дали NetGuard е активен (въведете 0 за деазктивиране на опцията). Това може да доведе до допълнителен разход на батерията.</string>
   <string name="summary_stats">Показване на скоростта на трафика в лентата за уведомяване</string>
   <string name="msg_sure">Сигурни ли сте?</string>
   <string name="msg_started">Строги правила</string>
@@ -134,15 +134,15 @@
   <string name="msg_disabled">NetGuard е изключен, използвайте опцията по-горе, за да активирате NetGuard</string>
   <string name="msg_revoked">NetGuard се изключи, най-вероятно използвате друго VPN базирано приложение</string>
   <string name="msg_installed">\"%1$s\" инсталирани</string>
-  <string name="msg_installed_n">Has been installed</string>
+  <string name="msg_installed_n">Е инсталиран</string>
   <string name="msg_access">%1$s опита за достъп до интернет</string>
-  <string name="msg_access_n">Attempted internet access</string>
+  <string name="msg_access_n">Опитвал достъп до интернет</string>
   <string name="msg_completed">Действието е завършено</string>
   <string name="msg_vpn">NetGuard използва локаленVPN за филтриране на интернет трафика.
 Поради тази причина моля, разрешете VPN свързването в следващия диалогов прозорец.
 Вашият интернет трафик не се изпраща към отдалечен VPN сървър.</string>
   <string name="msg_autostart">NetGuard не може да се стартира автоматично при стартиране на системата поради грешка в Android версията</string>
-  <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_error">Възникна неочаквана грешка: \"%s\"</string>
   <string name="msg_try">Опитайте NetGuard</string>
   <string name="msg_terms">Чрез даряването, вие се съгласявате с <a href="http://www.netguard.me/#terms"> общите условия</a></string>
   <string name="msg_dimming">Ако не можете да натиснете OK в следващия диалогов прозорец, то вероятно друго приложение манипулира екрана (затъмняване на екрана).</string>
@@ -154,8 +154,7 @@
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ Гб</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">За правилната работа на приложението моля, не активирайте оптимизация на батерията за NetGuard. \n\nв следващия диалогов прозорец, изберете \"Всички приложения\" в горната част, докоснете върху NetGuard в списъка. Изберете и потвърдете \"Не оптимизирай\".</string>
-  <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+  <string name="msg_datasaving">За постоянни резултати трябва да изключите опцията \"Android data saving\" за NetGuard \n\n В следващия диалогов прозорец, разрешете опциите \"Background data\" и \"Unrestricted data usage\"</string>
   <string name="msg_filter">Използването на филтриране ще доведе до увеличена статистика за трафик на данни и батерия за NetGuard. Android ще причисли използвания трафик на даннит и консумация на батерия към NetGuard, а не към приложенията, които реално са обвързани с това действие</string>
   <string name="msg_log_disabled">Rегистрирането на трафика е изключено, използвайте опцията по-горе за да разрешите регистрирането. Регистрирането на трафика може да доведе до допълнителна употреба на батерията.</string>
   <string name="msg_clear_rules">Това ще се нулира правилата и условията към стойностите им по подразбиране</string>
@@ -169,7 +168,7 @@
   <string name="msg_metered">Трафикът е ограничен</string>
   <string name="msg_queue">NetGuard е зает</string>
   <string name="msg_update">Налична е актуализация, докоснете за сваляне</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
+  <string name="msg_usage">Можете да разрешите (зеленикаво) или забраните (червеникаво) Wi-Fi или мобилни данни за достъп, като натискате иконите до приложението</string>
   <string name="msg_whitelist">Интернет достъпът е разрешен по подразбиране, това може да се промени в настройките</string>
   <string name="msg_push">\"Push\" съобщенията се обработват предимно от системния комонент \"Play services\", който по подразбиране е с разрешен достъп до интернет</string>
   <string name="msg_system">Управлението на системните приложения може да бъде активирано в разширените настройки</string>
@@ -194,9 +193,9 @@
   <string name="title_related">Поради текущ филтър</string>
   <string name="title_access">Опити за достъп</string>
   <string name="title_no_log"><u>Регистрирането не е разрешено</u></string>
-  <string name="title_no_filter"><u>Filtering is not enabled</u></string>
+  <string name="title_no_filter"><u>Филтрирането не е включено</u></string>
   <string name="title_precedence">Правилата за достъп имат предимство пред други правила</string>
-  <string name="title_options">Options</string>
+  <string name="title_options">Опции</string>
   <string name="title_notify">Уведомление при опити за интернет достъп</string>
   <string name="title_rate">Оценете</string>
   <string name="title_allow">Разрешаване</string>
@@ -215,11 +214,11 @@
   <string name="title_pro_speed">Графично известие за скоростта на трафика</string>
   <string name="title_pro_theme">Изглед (тема, цветове)</string>
   <string name="title_pro_all">Всички по-горе платени функции</string>
-  <string name="title_pro_dev">Support development</string>
-  <string name="title_pro_buy">Buy</string>
+  <string name="title_pro_dev">Подкрепете разработката</string>
+  <string name="title_pro_buy">Купете</string>
   <string name="title_pro_bought">Включено</string>
-  <string name="title_pro_details">Tap on a title for more information</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
+  <string name="title_pro_details">Натиснете върху заглавие за повече информация</string>
+  <string name="title_pro_ads">Закупуване на която и да е про функция ще премахне всички реклами</string>
   <string name="title_pro_challenge">Предизвикателство</string>
   <string name="title_pro_reponse">Отговор</string>
   <string-array name="themeNames">

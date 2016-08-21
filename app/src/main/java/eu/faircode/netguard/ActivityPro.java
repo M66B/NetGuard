@@ -113,7 +113,7 @@ public class ActivityPro extends AppCompatActivity {
 
         // Response
         try {
-            final String response = Util.md5(Build.SERIAL, "NetGuard");
+            final String response = Util.md5(Build.SERIAL, "NetGuard2");
             EditText etResponse = (EditText) findViewById(R.id.etResponse);
             etResponse.addTextChangedListener(new TextWatcher() {
                 @Override
