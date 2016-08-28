@@ -186,18 +186,17 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ39"></a>
 [**(39) How does a VPN based firewall differ from a iptables based firewall?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ39)
 
-Permissions
------------
+<a name="FAQ40"></a>
+[**(40) Can you add schedules?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ40)
 
-* INTERNET ('*Full network access*'): to forward allowed (filtered) traffic to the internet
-* ACCESS_NETWORK_STATE ('*View network connections*'): to check if the device is connected to the internet through Wi-Fi
-* READ_PHONE_STATE ('*Device ID & call information*'): to detect mobile network changes, see [here](http://forum.xda-developers.com/showpost.php?p=64107371&postcount=489) for more details
-* ACCESS_WIFI_STATE ('*Wi-Fi connection information*'): to detect Wi-Fi network changes
-* RECEIVE_BOOT_COMPLETED ('*Run at startup*'): to start the firewall when booting the device
-* WAKE_LOCK ('*Prevent device from sleeping*'): to reliably reload rules in the background on connectivity changes
-* READ/WRITE_EXTERNAL_STORAGE ('*Photos/Media/Files*'): to export/import settings on Android versions before 4.4 (KitKat) (there is no need to grant this permission on later Android versions)
-* VIBRATE: to give feedback on widget tap
-* BILLING: to use in-app billing
+<a name="FAQ41"></a>
+[**(41) Can you add wildcards?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ41)
+
+<a name="FAQ42"></a>
+[**(42) Why is permission ... needed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ42)
+
+<a name="FAQ43"></a>
+[**(43) I get 'This app is causing your device to run slowly'**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ43)
 
 Support
 -------

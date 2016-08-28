@@ -58,6 +58,6 @@ Long description
 
 आप नई सुविधाओं का परीक्षण करना चाहते हैं, तो आप परीक्षण कार्यक्रम में भाग ले सकते हैं: https://play.google.com/apps/testing/eu.faircode.netguard
 
-सभी आवश्यक अनुमतियों यहाँ वर्णित हैं: https://github.com/M66B/NetGuard/blob/master/README.md#permissions
+सभी आवश्यक अनुमतियों यहाँ वर्णित हैं: https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ42
 
 स्रोत कोड यहाँ उपलब्ध है: https://github.com/M66B/NetGuard

@@ -58,6 +58,6 @@ Long description
 
 நீங்கள் புதிய அம்சங்களை சோதிக்க விரும்பினால், நீங்கள் சோதனை திட்டம் பங்கேற்க முடியும்: https://play.google.com/apps/testing/eu.faircode.netguard
 
-அனைத்து தேவையான அனுமதிகள் இங்கு விவரிக்கப்பட்டுள்ளன: https://github.com/M66B/NetGuard/blob/master/README.md#permissions
+அனைத்து தேவையான அனுமதிகள் இங்கு விவரிக்கப்பட்டுள்ளன: https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ42
 
 மூல குறியீடு இங்கே கிடைக்கும்: https://github.com/M66B/NetGuard

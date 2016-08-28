@@ -58,6 +58,6 @@ Si te gusta ayudar a personas con menor fluidez de Inglés, puedes ayudar a trad
 
 Si te gusta probar las nuevas características, puedes participar en el programa de prueba: https://play.google.com/apps/testing/eu.faircode.netguard
 
-Todos los permisos requeridos se detallan aquí: https://github.com/M66B/NetGuard/blob/master/README.md#permissions
+Todos los permisos requeridos se detallan aquí: https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ42
 
 El código fuente está disponible aquí: https://github.com/M66B/NetGuard

@@ -39,3 +39,7 @@ See [here](https://github.com/M66B/NetGuard/issues/277) for alternative hosts fi
 NetGuard does not concatenate hosts files, so you will have to use a source which does this for you or do it yourself.
 
 You can check the number of hosts (domains) imported by pulling the NetGuard notification down using two fingers.
+
+Apart from using a hosts file, you can block most in-app ads by blocking this address for Google Play services:
+
+*googleads.g.doubleclick.net/443*
