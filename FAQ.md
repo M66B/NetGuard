@@ -403,7 +403,7 @@ Wildcards to allow/block addresses would have a significant performance and usab
 <a name="FAQ43"></a>
 **(43) I get 'This app is causing your device to run slowly'**
 
-This message is display by the *Smart Manager*,
+This message is displayed by the *Smart Manager*,
 but actually it is the 'Smart' Manager application itself which is causing delays and lags.
 Some links:
 
