@@ -180,6 +180,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
     <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
+    <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
     <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
     <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
     <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>

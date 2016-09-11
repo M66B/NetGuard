@@ -175,10 +175,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_wifi_homes.setEntries(listSSID.toArray(new CharSequence[0]));
         pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
-        // Filtering always enabled
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-            screen.findPreference("filter").setEnabled(false);
-
         Preference pref_reset_usage = screen.findPreference("reset_usage");
         pref_reset_usage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -585,10 +581,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             LocalBroadcastManager.getInstance(this).sendBroadcast(ruleset);
 
         } else if ("filter".equals(name)) {
-            ServiceSinkhole.reload("changed " + name, this);
-
             // Show dialog
-            if (prefs.getBoolean(name, false)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && prefs.getBoolean(name, false)) {
                 LayoutInflater inflater = LayoutInflater.from(ActivitySettings.this);
                 View view = inflater.inflate(R.layout.filter, null, false);
                 dialogFilter = new AlertDialog.Builder(ActivitySettings.this)
@@ -608,7 +602,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         })
                         .create();
                 dialogFilter.show();
+            } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && !prefs.getBoolean(name, false)) {
+                prefs.edit().putBoolean(name, true).apply();
+                ((TwoStatePreference) getPreferenceScreen().findPreference(name)).setChecked(true);
+                Toast.makeText(ActivitySettings.this, R.string.msg_filter4, Toast.LENGTH_SHORT).show();
             }
+
+            ServiceSinkhole.reload("changed " + name, this);
 
         } else if ("use_hosts".equals(name))
             ServiceSinkhole.reload("changed " + name, this);
