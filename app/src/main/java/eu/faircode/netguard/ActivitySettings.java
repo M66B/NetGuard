@@ -38,7 +38,6 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
@@ -177,11 +176,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
 
         // Filtering always enabled
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            prefs.edit().putBoolean("filter", true).apply();
-            ((CheckBoxPreference) screen.findPreference("filter")).setChecked(true);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             screen.findPreference("filter").setEnabled(false);
-        }
 
         Preference pref_reset_usage = screen.findPreference("reset_usage");
         pref_reset_usage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -1186,6 +1182,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     private void forwardExport(XmlSerializer serializer) throws IOException {
+        PackageManager pm = getPackageManager();
         Cursor cursor = DatabaseHelper.getInstance(this).getForwarding();
         int colProtocol = cursor.getColumnIndex("protocol");
         int colDPort = cursor.getColumnIndex("dport");
@@ -1348,11 +1345,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         enabled = Boolean.parseBoolean(value);
                     else {
                         if (current == application) {
-                            if ("filter".equals(key) && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                                current.put(key, true);
-                                return;
-                            }
-
                             // Pro features
                             if ("log".equals(key)) {
                                 if (!IAB.isPurchased(ActivityPro.SKU_LOG, context))
