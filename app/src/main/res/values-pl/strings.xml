@@ -156,6 +156,7 @@
   <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">Użycie filtrowanie spowoduje, że Android przekaże sterowanie użyciem danych do NetGuard - Android będzie używał NetGuard zamiast dedykowanej aplikacji do kontroli danych</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">Logowanie ruchu jest wyłączone, użyj przełącznika aby włączyć. Logowanie ruchu może zwiększyć użycie baterii.</string>
   <string name="msg_clear_rules">Spowoduje to zresetowanie reguł i warunków do wartości domyślnych</string>
   <string name="msg_reset_access">Spowoduje to usunięcie zawartości logu dostępu do internetu bez reguł zezwól/blokuj</string>

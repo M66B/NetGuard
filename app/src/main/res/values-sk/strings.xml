@@ -159,6 +159,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">Zaznamenávanie prenosu je vypnuté, použite prepínač vyššie na povolenie zaznamenávanie. Zaznamenávanie prenosu môže spôsobiť zvýšenú spotrebu batérie.</string>
   <string name="msg_clear_rules">Týmto sa obnovia pravidlá a podmienky na predvolené hodnoty</string>
   <string name="msg_reset_access">Týmto odstránite riadky záznamu pokusov o prístup bez pravidiel povolenia/blokovania</string>

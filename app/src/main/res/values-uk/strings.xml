@@ -157,6 +157,7 @@
   <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">Використання даної функції призводить до того, що Android передає дані та споживання енергії у користування NetGuard; Android буда вважати, що дані та енергія використовуються NetGuard\'ом, а не стандартними, для роботи цієї функції, додатками</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">Журналювання трафіку вимкнуто, використовуйте перемикач вище, аби увімкнути журналювання. Це може підвищити споживання батареї.</string>
   <string name="msg_clear_rules">Це скине правила та умови на типові значення</string>
   <string name="msg_reset_access">Це видалить рядки журналу спроб доступу правил дозволів/блокувань</string>

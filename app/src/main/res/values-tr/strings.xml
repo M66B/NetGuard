@@ -160,6 +160,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">NetGuard filtreleme kullanımı Android için veri ve güç kullanımında karmaşaya neden oluyormuş gibi görünebilir. Bazı durumlarda görünmeklede kalmaz</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">Trafik günlüğünü etkinleştirmek için yukardaki anahtarı kullanın. Trafik günlüğünü etkinleştirmek ekstra batarya kullanımına neden olabilir.</string>
   <string name="msg_clear_rules">Bu, kuralları ve koşulları varsayılan değerle sıfırlar</string>
   <string name="msg_reset_access">Bu, izin verilen yada engelenen günlük kayıtları haricindeki erişim denemeleri ile ilgili satırları siler</string>

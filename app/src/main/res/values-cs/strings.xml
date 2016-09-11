@@ -160,6 +160,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="msg_datasaving">Pro optimální výsledky by pro NetGuard měly být vypnuty funkce úspory dat systému Android
 \n\nV následujícím dialogu povolte možnosti \"Data na pozadí\" a \"Neomezené využití dat\"</string>
   <string name="msg_filter">Použití filtrování způsobí, že systém Android přiřadí využití dat a baterie aplikaci NetGuard, namísto původním aplikacím</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">Záznam síťového provozu do protokolu je vypnutý, použijte přepínač výše pro jeho povolení. Může mít vliv na spotřebu baterie.</string>
   <string name="msg_clear_rules">Pravidla a podmínky budou obnovena do výchozího nastavení</string>
   <string name="msg_reset_access">Smaže protokol pokusů o přístup, pravidla povolení/blokování zůstanou nedotčena</string>

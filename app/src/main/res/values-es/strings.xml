@@ -154,6 +154,7 @@
   <string name="msg_doze">Para obtener resultados consistentes, las optimizaciones de batería de Android deberían desactivarse para NetGuard. \n\nEn el siguiente diálogo, seleccione \'Todas las aplicaciones\' en la parte superior, pulse en NetGuard en la lista y seleccione y confirme \'No optimizar\'.</string>
   <string name="msg_datasaving">Para obtener resultados consistentes, las opciones de ahorro de datos de Android deben estar desactivadas para NetGuard.\n\nEn el siguiente cuadro de diálogo, active las opciones \'Datos en segundo plano\' y \'Uso de datos ilimitado\'.</string>
   <string name="msg_filter">Al utilizar el filtrado, Android atribuirá el uso de datos y batería a Netguard en lugar de las aplicaciones originales</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">El registro de tráfico está desactivado. Utilice el interruptor de arriba para activarlo. El registro de tráfico podría consumir más batería.</string>
   <string name="msg_clear_rules">Esto restablecerá las reglas y condiciones a sus valores originales</string>
   <string name="msg_reset_access">Esto eliminará líneas de registro de intento de acceso sin reglas de permitir/bloquear</string>

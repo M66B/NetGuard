@@ -155,6 +155,7 @@
   <string name="msg_doze">一貫性のある結果のため、NetGuard は Android のバッテリー最適化を無効にする必要があります。\n\nIn 次のダイアログで、上部の「すべてのアプリ」を選択し、リストで NetGuard をタップし、「最適化しない」を選択および確認してください。</string>
   <string name="msg_datasaving">一貫性のある結果を得るために、NetGuard は Android のデータの保存オプションを無効にする必要があります\n\n次のダイアログで、オプション「バック グラウンド データ」と「無制限のデータ使用」を有効にしてください。</string>
   <string name="msg_filter">NetGuard でフィルタリングを使用すると、Android のデータと電力使用につながります - Android は、元のアプリケーションではなく NetGuard によってデータと電力を使用しているとみなします。</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">トラフィックのログ記録は無効です。上のスイッチを使用して、ログを有効にしてください。トラフィックのログ記録は、余分にバッテリーを使用することがあります。</string>
   <string name="msg_clear_rules">ルールと条件がデフォルト値にリセットされます</string>
   <string name="msg_reset_access">これは、許可/ブロックのルールがない、アクセス試行ログの行を削除します</string>

@@ -159,6 +159,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">Het gebruik van filteren zorgt ervoor dat Android gegevens- en batterijgebruik aan NetGuard toewijst - Android denkt dat de gegevens en batterij door NetGuard worden gebruikt i.p.v. door de originele apps.</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">Internetverkeer loggen is uitgeschakeld. Gebruik de schakelaar hierboven om het loggen in te schakelen. Internetverkeer loggen kan het batterijgebruik verhogen.</string>
   <string name="msg_clear_rules">Dit zet alle regels en instellingen terug naar de standaardinstelling</string>
   <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>

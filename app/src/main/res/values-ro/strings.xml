@@ -157,6 +157,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_datasaving">Pentru rezultate consecvente, optiunile Android de economisire a datelor ar trebui dezactivate pentru NetGuard
 \n\nIn caseta de dialog urmatoare, activati optiunile \"Date de fundal\" si \"Utilizare de date nelimitata\"</string>
   <string name="msg_filter">Android va asocia consumul de baterie si date lui NetGuard atunci cand activati filtrarea. De fapt aplicatiile ce acceseaza internetul consuma</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">Inregistrarea traficului in jurnal este dezactivata, utilizati butonul de mai sus pentru a o activa. Optiunea de inregistrare ar putea duce la un consumul suplimentar al bateriei.</string>
   <string name="msg_clear_rules">Se vor reseta regulile si conditiile la valorile implicite</string>
   <string name="msg_reset_access">Se vor sterge din jurnal adresele accesate ce nu au fost conditionate cu permite/blocheaza</string>

@@ -157,6 +157,7 @@
   <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
   <string name="msg_filter">שימוש בסינון יגרום לאנדרואיד לשייך לNetGuard את השימוש בתעבורת נתונים ובסוללה - אנדרואיד יניח שNetGuard משתמש בתעבורה ובסוללה, ולא היישומים המקוריים.</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">רישום תעבורת הנתונים מנוטרל, אנא השתמש במתג מעל כדי לאפשר רישום. רישום התעבורה עלול להגביר את צריכת הסוללה.</string>
   <string name="msg_clear_rules">זה יאפס את הכללים והתנאים לערכי ברירת המחדל שלהם</string>
   <string name="msg_reset_access">פעולה זו תגרום למחיקת שורות יומן שבהן ניסיון גישה ללא חוקי היתרים/חסימות</string>

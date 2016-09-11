@@ -154,6 +154,7 @@
   <string name="msg_doze">Để có kết quả phù hợp, tối ưu hóa pin Android nên bị vô hiệu hóa cho NetGuard. \n\nTrong hộp thoại kế tiếp, chọn \"Tất cả ứng dụng\" ở phía trên cùng, bấm vào NetGuard trong danh sách và chọn và xác nhận \"Don\'t optimize\".</string>
   <string name="msg_datasaving">Để có kết quả phù hợp, tùy chọn tiết kiệm dữ liệu Android nên được vô hiệu hóa cho NetGuard \n\nTrong trong hộp thoại kế tiếp, cho phép tùy chọn \"Background data\" và \"Unrestricted data usage\"</string>
   <string name="msg_filter">Sử dụng bộ lọc sẽ làm cho Android hiểu lầm NetGuard sử dụng dữ liệu và năng lượng - Android giả định dữ liệu và năng lượng đang được sử dụng bởi NetGuard, chứ không phải là các ứng dụng ban đầu</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">Thông báo lưu lượng truy cập bị vô hiệu hóa, sử dụng nút gạt bên trên để cho phép thông báo. Thông báo lưu lượng truy cập có thể dẫn đến việc sử dụng pin phụ.</string>
   <string name="msg_clear_rules">Điều này sẽ đặt lại các quy tắc và trạng thái về giá trị mặc định</string>
   <string name="msg_reset_access">Việc này sẽ xóa các dòng thông báo cố gắng truy cập mà không có quy tắc cho phép/chặn</string>

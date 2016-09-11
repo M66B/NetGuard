@@ -157,6 +157,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_doze">Para resultados consistentes, as otimizações de bateria Android devem ser desabilitadas para NetGuard. \n\nNa próxima caixa de diálogo, selecione \"Todos os apps\" na parte superior, toque no NetGuard na lista e selecione e confirme \"Não otimizar\".</string>
   <string name="msg_datasaving">Para resultados consistentes, as opções de guardar dados do Android devem ser desabilitadas para o NetGuard \n\nNa próxima caixa de diálogo, ative as opções \"dados em segundo plano\" e \"uso de dados sem restrições\"</string>
   <string name="msg_filter">Usar filtragem pode fazer com que o Android atribua uso de dados e consumo de energia ao NetGuard - Android assume que o uso de dados e consumo de bateria são usados pelo NetGuard e não pelas aplicações originais</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">Log de tráfego está desabilitado, utilize o botão acima para habilitar o log. Log do tráfego pode resultar no uso extra da bateria.</string>
   <string name="msg_clear_rules">Isto irá redefinir as regras e condições para os seus valores padrões</string>
   <string name="msg_reset_access">Isto irá apagar as linhas de registo relativas a tentativas de acesso sem regras de permitir/bloquear</string>

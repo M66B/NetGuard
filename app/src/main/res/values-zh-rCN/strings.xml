@@ -160,6 +160,7 @@
   <string name="msg_datasaving">为保证一致性, 请为 NetGuard 禁用 Android 的流量控制功能
 \n\n请在下一个对话框中, 启用 \"后台数据\" 及 \"不限制数据使用\"</string>
   <string name="msg_filter">使用过滤功能将导致系统认为 NetGuard 使用了额外的电量和数据流量, 尽管这些使用量是由原应用所致.</string>
+  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">流量记录已禁用, 使用上方的开关以启用日志. 流量记录可能会导致额外电量消耗.</string>
   <string name="msg_clear_rules">此操作将重置所有规则和条件为默认值</string>
   <string name="msg_reset_access">此操作将删除访问尝试日志中无允许/阻止规则的记录</string>
