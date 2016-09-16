@@ -43,3 +43,5 @@ You can check the number of hosts (domains) imported by pulling the NetGuard not
 Apart from using a hosts file, you can block most in-app ads by blocking this address for Google Play services:
 
 *googleads.g.doubleclick.net/443*
+
+**Please do not mention this feature in Google Play store comments, since Google does not allow ad blocking applications in the Play store.**
