@@ -124,8 +124,8 @@
   <string name="summary_filter">تصفية حزم IP الخارجة من نفق VPN. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_track_usage">تتبع عدد وحدات البايت المرسلة والمتلقاة لكل تطبيق وعنوان. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_block_domains">الاستجابة ب \'اسم خاطئ\' (NXDOMAIN) لأسماء النطاقات المحظورة. يعطل هذا الخيار عند عدم وجود ملف المضيفين.</string>
-  <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
-  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
+  <string name="summary_socks5_enabled">يـــتـــم إرســال حــركـــة مـــرور TCP فـــقـــط إلـــى الـــمـــلـــقـــم الـــوكــيـــل</string>
+  <string name="summary_watchdog">الــفـــحـــص الــدوري إذا كــان قـــيـــد تـــشـــغـــيـــل NetGuard (فــأدخـــل صـــفـــر لـــتـــعـــطـــيـــل هـــذا الــخـــيـــار). قـــد يـــســـتـــلـــزم هـــذا إســـتـــخـــدام أكـــثـــر لـلـــبـــطــاريـــة.</string>
   <string name="summary_stats">إظهار الرسم البياني لسرعة الشبكة الرسم في إعلام شريط المعلومات</string>
   <string name="msg_sure">هل أنت متأكد؟</string>
   <string name="msg_started">فـرض الـقـواعـد</string>
@@ -155,7 +155,7 @@
   <string name="msg_doze">للحصول على نتائج متناسقة، يجب تعطيل تحسينات البطارية للاندرويد لـ NetGuard. عن طريق \n\n ، حدد \"جميع التطبيقات\" في الجزء العلوي، انقر على NetGuard في القائمة وتحديد وتأكيد \"تعطيل تحسينات البطارية\".</string>
   <string name="msg_datasaving">للحصول على نتائج متسقة، يجب تعطيل البيانات الروبوت توفير خيارات ل NetGuard \n\nIn مربع الحوار التالي، تمكين خيارات \"بيانات أساسية\" و \"استخدام البيانات غير المقيد\"</string>
   <string name="msg_filter">استخدام التصفية سيتسبب بأن ينسب الأندرويد استخدام البيانات والطاقة الى NetGuard - يفترض الأندرويد أن البيانات والطاقة تستخدمان من قبل NetGuard بدلاً من التطبيقات الأصلية</string>
-  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
+  <string name="msg_filter4">أنـــدرويـــد 4 يـــتـــطـــلــَّــب إجــراء تـــصـــفـــيـــة لـلـتـــمـــكـــيـــن</string>
   <string name="msg_log_disabled">تسجيل الحركة معطل، استخدم رمز التبديل أعلاه لتمكين التسجيل. قد يؤدي تسجيل الحركة الى استخدام إضافي للبطارية.</string>
   <string name="msg_clear_rules">هذا سوف يعيد تعيين القواعد والشروط إلى قيمها الافتراضية</string>
   <string name="msg_reset_access">هذا سيؤدي إلى حذف خطوط سجل محاولة الوصول دون قواعد السماح/الحظر</string>

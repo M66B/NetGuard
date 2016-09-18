@@ -156,7 +156,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_doze">Pour des résultats cohérents, les optimisations Android de la batterie devraient être désactivées pour NetGuard.\n\nDans la fenêtre suivante, sélectionnez « Toutes les applications » en haut, appuyez sur NetGuard dans la liste, puis sélectionnez et confirmez « Ne pas optimiser ».</string>
   <string name="msg_datasaving">Pour des résultats cohérents, les options de limitation de données de d\'Android doivent être désactivées pour NetGuard \n\nDans la boîte de dialogue suivante, activez les options « Données en arrière-plan » et « Utilisation de données sans restriction »</string>
   <string name="msg_filter">L\'utilsation du filtrage fera qu\'Android attribura l\'utilisation de données et de batterie à NetGuard - Android assume que les données et la batterie sont utilisées par NetGuard, plutôt que les applications d\'origine</string>
-  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
+  <string name="msg_filter4">Android 4 nécessite que le filtrage soit activé</string>
   <string name="msg_log_disabled">La journalisation du trafic est désactivée, utilisez le bouton ci-dessus pour activer la journalisation. La journalisation du trafic peut entraîner une surconsommation de la batterie.</string>
   <string name="msg_clear_rules">Cela réinitialisera les règles et conditions à leurs valeurs par défaut</string>
   <string name="msg_reset_access">Cela supprimera les lignes du journal de tentatives d\'accès sans autoriser/bloquer les règles</string>

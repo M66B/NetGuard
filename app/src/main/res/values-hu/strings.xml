@@ -156,7 +156,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="msg_doze">A következetes eredményekhez az Androidos akkumulátor optimalizálásban a NetGuard-ot kivétellé kell tenni.\n\nA következő párbeszédablakban válassza felül az \"Összes alkalmazás\", érintse meg a NetGuard feliratot és válassza a \"Ne optimalizálja\" részt.</string>
   <string name="msg_datasaving">A következetes eredmény érdekében az Android adat mentés opciót le kell tiltani a NetGuard-ban\n\nA következő párbeszédablakban engedélyezni kell a \"Háttér adat\" és \"Korlátlan adat használat\" opciót.</string>
   <string name="msg_filter">A szűrés használatával az adat és az energia használat attributumait a NetGuard-hoz sorolja. Az Android azt feltételezi, hogy ezeket a NetGuard használta fel és nem az eredeti alkalmazás</string>
-  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
+  <string name="msg_filter4">A szűrés engedélyezéséhez legalább Android 4 szükséges</string>
   <string name="msg_log_disabled">Forgalom naplózása le van tiltva, a fenti kapcsoló segítségével engedélyezheti a naplózást. A forgalom naplózása extra akkumulátor használattal jár.</string>
   <string name="msg_clear_rules">Ez alaphelyzetbe állítja a szabályok és feltételek értékeit</string>
   <string name="msg_reset_access">Ez törli az elérési kísérletek sorait a naplóból az engedélyezés/tiltás szabályok nélkül</string>

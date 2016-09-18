@@ -5,7 +5,7 @@
   <string name="app_copyright">Copyright \u00A9 2015-2016 por M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard requiere Android 4.0 o superior</string>
   <string name="app_license">Al utilizar NetGuard, acepta la <a href="http://www.gnu.org/licenses/gpl.txt">Licencia Pública General GNU versión 3</a></string>
-  <string name="app_first">Se ha tenido gran cuidado para desarrollar y probar NetGuard, sin embargo, es imposible garantizar que NetGuard funcione correctamente en todos los dispositivos. \n\nAl utilizar NetGuard, aceptas la <a href="http://www.gnu.org/licenses/gpl.txt"> Licencia Pública General GNU versión 3</a></string>
+  <string name="app_first">Se ha tenido gran cuidado para desarrollar y probar NetGuard, sin embargo, es imposible garantizar que NetGuard funcione correctamente en todos los dispositivos. \n\nAl utilizar NetGuard, acepta la <a href="http://www.gnu.org/licenses/gpl.txt"> Licencia Pública General GNU versión 3</a></string>
   <string name="app_admob">NetGuard utiliza el servicio de publicidad AdMob de Google. La política de privacidad de AdMob está disponible <a href="https://www.google.com/intl/en/policies/privacy/">aquí</a>.</string>
   <string name="app_agree">Aceptar</string>
   <string name="app_disagree">Rechazar</string>
@@ -142,7 +142,7 @@
   <string name="msg_autostart">NetGuard podría no iniciarse automáticamente en el arranque debido a un error en su versión de Android</string>
   <string name="msg_error">Se ha producido un error inesperado: \'%s\'</string>
   <string name="msg_try">Prueba NetGuard</string>
-  <string name="msg_terms">Al donar aceptas los <a href="http://www.netguard.me/#terms"> términos y condiciones</a></string>
+  <string name="msg_terms">Al donar, acepta los <a href="http://www.netguard.me/#terms"> términos y condiciones</a></string>
   <string name="msg_dimming">Si no puede pulsar \'Aceptar\' en el próximo diálogo, otra aplicación (de atenuación de pantalla) esté probablemente manipulando la pantalla.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/día</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
@@ -154,7 +154,7 @@
   <string name="msg_doze">Para obtener resultados consistentes, las optimizaciones de batería de Android deberían desactivarse para NetGuard. \n\nEn el siguiente diálogo, seleccione \'Todas las aplicaciones\' en la parte superior, pulse en NetGuard en la lista y seleccione y confirme \'No optimizar\'.</string>
   <string name="msg_datasaving">Para obtener resultados consistentes, las opciones de ahorro de datos de Android deben estar desactivadas para NetGuard.\n\nEn el siguiente cuadro de diálogo, active las opciones \'Datos en segundo plano\' y \'Uso de datos ilimitado\'.</string>
   <string name="msg_filter">Al utilizar el filtrado, Android atribuirá el uso de datos y batería a Netguard en lugar de las aplicaciones originales</string>
-  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
+  <string name="msg_filter4">Android 4 requiere que el filtrado esté activado</string>
   <string name="msg_log_disabled">El registro de tráfico está desactivado. Utilice el interruptor de arriba para activarlo. El registro de tráfico podría consumir más batería.</string>
   <string name="msg_clear_rules">Esto restablecerá las reglas y condiciones a sus valores originales</string>
   <string name="msg_reset_access">Esto eliminará líneas de registro de intento de acceso sin reglas de permitir/bloquear</string>
@@ -192,7 +192,7 @@
   <string name="title_related">Filtro relacionado</string>
   <string name="title_access">Intentos de acceso</string>
   <string name="title_no_log"><u>El registro está desactivado</u></string>
-  <string name="title_no_filter"><u>El filtrado no está activado</u></string>
+  <string name="title_no_filter"><u>El filtrado está desactivado</u></string>
   <string name="title_precedence">Las reglas de acceso prevalecen sobre otras reglas</string>
   <string name="title_options">Opciones</string>
   <string name="title_notify">Notificar intentos de acceso a Internet</string>
@@ -217,7 +217,7 @@
   <string name="title_pro_buy">Comprar</string>
   <string name="title_pro_bought">Activado</string>
   <string name="title_pro_details">Pulse en un título para más información</string>
-  <string name="title_pro_ads">La compra de cualquier característica de pago desactivará toda la publicidad</string>
+  <string name="title_pro_ads">La compra de cualquier característica de pago eliminará toda la publicidad</string>
   <string name="title_pro_challenge">Desafío</string>
   <string name="title_pro_reponse">Respuesta</string>
   <string-array name="themeNames">
