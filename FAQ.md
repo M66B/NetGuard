@@ -410,6 +410,15 @@ Some links:
 * [Smart Manager complaining about LastPass](https://www.reddit.com/r/GalaxyS6/comments/3htu2y/smart_manager_cmoplaining_about_lastpass/)
 * [Disable Smart Manager?](http://forums.androidcentral.com/samsung-galaxy-s4/595483-disable-smart-manager.html)
 
+<a name="FAQ44"></a>
+**(44) I don't get notifications on access**
+
+To prevent a high number of status bar notifications, notify on access is done only once per domain name per application.
+Access to domain names shown in the application access log (drill down the NetGuard application settings) will not be notified again,
+even if you just enabled notify on access.
+To get notified for all domain names again, you can clear the application access log using the waste bin icon.
+If you want to clear all applications logs, you can export and import your settings.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.

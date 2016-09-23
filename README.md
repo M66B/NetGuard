@@ -198,6 +198,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ43"></a>
 [**(43) I get 'This app is causing your device to run slowly'**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ43)
 
+<a name="FAQ44"></a>
+[**(44) I don't get notifications on access**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ44)
+
 Support
 -------
 
