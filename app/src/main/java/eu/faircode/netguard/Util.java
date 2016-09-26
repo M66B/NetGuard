@@ -702,13 +702,20 @@ public class Util {
 
         StringBuilder sb = new StringBuilder();
         SubscriptionManager sm = SubscriptionManager.from(context);
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
         sb.append("Slots ")
                 .append(sm.getActiveSubscriptionInfoCount())
                 .append('/')
                 .append(sm.getActiveSubscriptionInfoCountMax())
                 .append("\r\n");
+
+        int dataid = -1;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            dataid = sm.getDefaultDataSubscriptionId();
+
+        int voiceid = -1;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            voiceid = sm.getDefaultVoiceSubscriptionId();
 
         List<SubscriptionInfo> subscriptions = sm.getActiveSubscriptionInfoList();
         if (subscriptions != null)
@@ -723,6 +730,8 @@ public class Util {
                         .append(si.getMcc()).append(si.getMnc())
                         .append(' ')
                         .append(si.getCarrierName())
+                        .append(si.getSubscriptionId() == dataid ? " D" : "")
+                        .append(si.getSubscriptionId() == voiceid ? " V" : "")
                         .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
                         .append("\r\n");
 
