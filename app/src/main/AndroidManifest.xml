@@ -150,6 +150,14 @@
         </service>
 
         <service
+            android:name=".ServiceExternal"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="eu.faircode.netguard.DOWNLOAD_HOSTS_FILE" />
+            </intent-filter>
+        </service>
+
+        <service
             android:name=".ServiceTileMain"
             android:icon="@drawable/ic_security_white_24dp"
             android:label="@string/app_name"
