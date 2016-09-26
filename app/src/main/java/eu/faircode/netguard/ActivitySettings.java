@@ -1157,7 +1157,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     private void filterExport(XmlSerializer serializer) throws IOException {
-        PackageManager pm = getPackageManager();
         Cursor cursor = DatabaseHelper.getInstance(this).getAccess();
         int colUid = cursor.getColumnIndex("uid");
         int colVersion = cursor.getColumnIndex("version");
@@ -1182,7 +1181,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     private void forwardExport(XmlSerializer serializer) throws IOException {
-        PackageManager pm = getPackageManager();
         Cursor cursor = DatabaseHelper.getInstance(this).getForwarding();
         int colProtocol = cursor.getColumnIndex("protocol");
         int colDPort = cursor.getColumnIndex("dport");
