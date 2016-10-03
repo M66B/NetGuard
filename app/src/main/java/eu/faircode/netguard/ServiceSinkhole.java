@@ -112,14 +112,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean registeredIdleState = false;
     private boolean registeredConnectivityChanged = false;
     private boolean registeredPackageAdded = false;
-    private boolean registeredActivityChanged = false;
 
     private State state = State.none;
     private boolean user_foreground = true;
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
-    private String last_activity = null;
     private boolean powersaving = false;
     private boolean phone_state = false;
     private Object subscriptionsChangedListener = null;
@@ -1389,7 +1387,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 " generation=" + generation +
                 " roaming=" + roaming + "/" + org_roaming +
                 " interactive=" + last_interactive +
-                " activity=" + last_activity +
                 " tethering=" + tethering +
                 " filter=" + filter);
 
@@ -1399,10 +1396,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
                 if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming)))
                     listAllowed.add(rule);
-                else if (last_activity != null && last_activity.equals(rule.info.packageName)) {
-                    listAllowed.add(rule);
-                    Log.i(TAG, "Allowed foreground activity=" + rule.info.packageName);
-                }
             }
 
         Log.i(TAG, "Allowed " + listAllowed.size() + " of " + listRule.size());
@@ -1675,16 +1668,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     };
 
-    private BroadcastReceiver activityChangedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
-            Util.logExtras(intent);
-            last_activity = intent.getStringExtra(Accessibility.EXTRA_PACKAGE_NAME);
-            reload("activity changed", ServiceSinkhole.this);
-        }
-    };
-
     private PhoneStateListener phoneStateListener = new PhoneStateListener() {
         private String last_generation = null;
         private int last_international = -1;
@@ -1805,11 +1788,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         ifPackage.addDataScheme("package");
         registerReceiver(packageAddedReceiver, ifPackage);
         registeredPackageAdded = true;
-
-        // Listen for foreground activity changes
-        IntentFilter ifActivity = new IntentFilter(Accessibility.ACTION_FOREGROUND_ACTIVITY_CHANGED);
-        LocalBroadcastManager.getInstance(this).registerReceiver(activityChangedReceiver, ifActivity);
-        registeredActivityChanged = true;
 
         // Setup house holding
         Intent alarmIntent = new Intent(this, ServiceSinkhole.class);
@@ -1958,10 +1936,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (registeredPackageAdded) {
             unregisterReceiver(packageAddedReceiver);
             registeredPackageAdded = false;
-        }
-        if (registeredActivityChanged) {
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(activityChangedReceiver);
-            registeredActivityChanged = false;
         }
 
         if (phone_state) {
