@@ -323,7 +323,7 @@ As a workaround you can use the export/import function to apply specific setting
 Recent Android versions do not allow an application to query if other applications are in the foreground/background or active/inactive
 without holding an [additional privacy violating permission](https://developer.android.com/reference/android/Manifest.permission.html#PACKAGE_USAGE_STATS)
 and at the expense of extra battery usage (because periodic polling is required) anymore,
-so this cannot be added without significant disadvantages.
+so this cannot be added without significant disadvantages, like [this one](http://www.xda-developers.com/working-as-intended-an-exploration-into-androids-accessibility-lag/).
 You can use the condition '*when screen is on*' instead.
 
 <a name="FAQ35"></a>
