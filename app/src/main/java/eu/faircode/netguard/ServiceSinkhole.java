@@ -416,7 +416,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 last_builder = getBuilder(listAllowed, listRule);
                 vpn = startVPN(last_builder);
                 if (vpn == null)
-                    throw new IllegalStateException("VPN start failed");
+                    throw new IllegalStateException(getString((R.string.msg_start_failed)));
 
                 startNative(vpn, listAllowed, listRule);
 
@@ -492,7 +492,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
 
             if (vpn == null)
-                throw new IllegalStateException("VPN start failed");
+                throw new IllegalStateException(getString((R.string.msg_start_failed)));
 
             startNative(vpn, listAllowed, listRule);
 
