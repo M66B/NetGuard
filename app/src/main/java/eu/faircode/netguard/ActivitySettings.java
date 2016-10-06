@@ -841,8 +841,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
     private void markPro(Preference pref, String sku) {
         if (sku == null || !IAB.isPurchased(sku, this)) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean dark = prefs.getBoolean("dark_theme", false);
             SpannableStringBuilder ssb = new SpannableStringBuilder("  " + pref.getTitle());
-            ssb.setSpan(new ImageSpan(this, R.drawable.ic_shopping_cart_white_24dp), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ssb.setSpan(new ImageSpan(this, dark ? R.drawable.ic_shopping_cart_white_24dp : R.drawable.ic_shopping_cart_black_24dp), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             pref.setTitle(ssb);
         }
     }

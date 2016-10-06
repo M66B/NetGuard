@@ -668,8 +668,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
     private void markPro(MenuItem menu, String sku) {
         if (sku == null || !IAB.isPurchased(sku, context)) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            boolean dark = prefs.getBoolean("dark_theme", false);
             SpannableStringBuilder ssb = new SpannableStringBuilder("  " + menu.getTitle());
-            ssb.setSpan(new ImageSpan(context, R.drawable.ic_shopping_cart_white_24dp), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ssb.setSpan(new ImageSpan(context, dark ? R.drawable.ic_shopping_cart_white_24dp : R.drawable.ic_shopping_cart_black_24dp), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             menu.setTitle(ssb);
         }
     }
