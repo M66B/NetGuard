@@ -74,4 +74,13 @@
     <type
         package="com.whatsapp"
         system="false" />
+    <type
+        package="com.instagram.android"
+        system="false" />
+    <type
+        package="com.facebook.orca"
+        system="false" />
+    <type
+        package="com.google.android.youtube"
+        system="false" />
 </predefined>
