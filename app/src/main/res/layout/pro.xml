@@ -18,6 +18,13 @@
             android:text="@string/title_pro_description"
             android:textAppearance="@style/TextMedium" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginBottom="8dip"
+            android:layout_marginTop="8dip"
+            android:background="@android:color/darker_gray" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -208,6 +215,27 @@
                 android:visibility="gone" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginBottom="8dip"
+            android:layout_marginTop="8dip"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="="
+            android:textAppearance="@style/TextXL" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginBottom="8dip"
+            android:layout_marginTop="8dip"
+            android:background="@android:color/darker_gray" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -245,6 +273,27 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginBottom="8dip"
+            android:layout_marginTop="8dip"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="≠"
+            android:textAppearance="@style/TextXL" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginBottom="8dip"
+            android:layout_marginTop="8dip"
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -321,6 +370,13 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginBottom="8dip"
+            android:layout_marginTop="8dip"
+            android:background="@android:color/darker_gray" />
 
         <TextView
             android:layout_width="wrap_content"
