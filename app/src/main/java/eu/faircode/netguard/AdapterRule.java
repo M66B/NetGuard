@@ -111,11 +111,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public TextView tvDisabled;
         public TextView tvStatistics;
 
-        public CheckBox cbApply;
-
         public Button btnRelated;
         public ImageButton ibSettings;
+        public ImageButton ibDatasaver;
         public ImageButton ibLaunch;
+
+        public CheckBox cbApply;
 
         public ImageView ivWifiLegend;
         public CheckBox cbScreenWifi;
@@ -160,11 +161,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
             tvStatistics = (TextView) itemView.findViewById(R.id.tvStatistics);
 
-            cbApply = (CheckBox) itemView.findViewById(R.id.cbApply);
-
             btnRelated = (Button) itemView.findViewById(R.id.btnRelated);
             ibSettings = (ImageButton) itemView.findViewById(R.id.ibSettings);
+            ibDatasaver = (ImageButton) itemView.findViewById(R.id.ibDatasaver);
             ibLaunch = (ImageButton) itemView.findViewById(R.id.ibLaunch);
+
+            cbApply = (CheckBox) itemView.findViewById(R.id.cbApply);
 
             ivWifiLegend = (ImageView) itemView.findViewById(R.id.ivWifiLegend);
             cbScreenWifi = (CheckBox) itemView.findViewById(R.id.cbScreenWifi);
@@ -407,18 +409,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.tvStatistics.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? View.GONE : View.VISIBLE);
         holder.tvStatistics.setText(context.getString(R.string.msg_mbday, rule.upspeed, rule.downspeed));
 
-        // Apply
-        holder.cbApply.setEnabled(rule.pkg);
-        holder.cbApply.setOnCheckedChangeListener(null);
-        holder.cbApply.setChecked(rule.apply);
-        holder.cbApply.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                rule.apply = isChecked;
-                updateRule(rule, true, listAll);
-            }
-        });
-
         // Show related
         holder.btnRelated.setVisibility(rule.relateduids ? View.VISIBLE : View.GONE);
         holder.btnRelated.setOnClickListener(new View.OnClickListener() {
@@ -431,22 +421,41 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         });
 
         // Launch application settings
-        final Intent settings = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        settings.setData(Uri.parse("package:" + rule.info.packageName));
-        holder.ibSettings.setVisibility(settings.resolveActivity(context.getPackageManager()) == null ? View.GONE : View.VISIBLE);
+        holder.ibSettings.setVisibility(rule.settings == null ? View.GONE : View.VISIBLE);
         holder.ibSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(settings);
+                context.startActivity(rule.settings);
+            }
+        });
+
+        // Data saver
+        holder.ibDatasaver.setVisibility(rule.datasaver == null ? View.GONE : View.VISIBLE);
+        holder.ibDatasaver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(rule.datasaver);
             }
         });
 
         // Launch application
-        holder.ibLaunch.setVisibility(rule.intent == null ? View.GONE : View.VISIBLE);
+        holder.ibLaunch.setVisibility(rule.launch == null ? View.GONE : View.VISIBLE);
         holder.ibLaunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(rule.intent);
+                context.startActivity(rule.launch);
+            }
+        });
+
+        // Apply
+        holder.cbApply.setEnabled(rule.pkg);
+        holder.cbApply.setOnCheckedChangeListener(null);
+        holder.cbApply.setChecked(rule.apply);
+        holder.cbApply.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                rule.apply = isChecked;
+                updateRule(rule, true, listAll);
             }
         });
 

@@ -5,8 +5,9 @@
     <attr name="iconQueue" format="reference" />
     <attr name="iconMetered" format="reference" />
     <attr name="iconSettings" format="reference" />
-    <attr name="iconDelete" format="reference" />
+    <attr name="iconDatasaver" format="reference" />
     <attr name="iconLaunch" format="reference" />
+    <attr name="iconDelete" format="reference" />
 
     <style name="AppDialog" parent="Theme.AppCompat.Dialog">
         <item name="windowActionBar">false</item>
@@ -18,8 +19,9 @@
         <item name="iconQueue">@drawable/ic_hourglass_empty_black_24dp</item>
         <item name="iconMetered">@drawable/ic_attach_money_black_24dp</item>
         <item name="iconSettings">@drawable/ic_settings_black_24dp</item>
-        <item name="iconDelete">@drawable/ic_delete_black_24dp</item>
+        <item name="iconDatasaver">@drawable/ic_perm_data_setting_black_24dp</item>
         <item name="iconLaunch">@drawable/ic_launch_black_24dp</item>
+        <item name="iconDelete">@drawable/ic_delete_black_24dp</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
 
@@ -28,8 +30,9 @@
         <item name="iconQueue">@drawable/ic_hourglass_empty_white_24dp</item>
         <item name="iconMetered">@drawable/ic_attach_money_white_24dp</item>
         <item name="iconSettings">@drawable/ic_settings_white_24dp</item>
-        <item name="iconDelete">@drawable/ic_delete_white_24dp</item>
+        <item name="iconDatasaver">@drawable/ic_perm_data_setting_white_24dp</item>
         <item name="iconLaunch">@drawable/ic_launch_white_24dp</item>
+        <item name="iconDelete">@drawable/ic_delete_white_24dp</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
 
