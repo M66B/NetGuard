@@ -145,6 +145,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
 İnternet trafiğiniz uzak bir VPN sunucusuna gönderilmiyor.</string>
   <string name="msg_autostart">NetGuard, Android sürümünüzde ki bir hata nedeni ile başlanğıçta otomatik olarak başlatılamadı</string>
   <string name="msg_error">Beklenmeyen hata oluştu: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">NetGuard\'ı deneyin</string>
   <string name="msg_terms">Bağış yaparak <a href="http://www.netguard.me/#terms"> şartlar &amp; koşulları</a> kabul etmiş sayılırsınız</string>
   <string name="msg_dimming">Bir sonraki iletişim kutusunda TAMAM tuşuna basamıyorsanız muhtemelen buna başka bir uygulama neden oluyordur.</string>

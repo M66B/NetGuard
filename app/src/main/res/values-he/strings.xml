@@ -142,6 +142,7 @@
   <string name="msg_vpn">NetGuard משתמש ב- VPN המקומי לסינון תעבורת האינטרנט. מסיבה זו, אנא אפשר חיבור VPN בתיבת הדו-שיח הבאה. תעבורת האינטרנט שלך אינה נשלחת לשרת VPN מרוחק.</string>
   <string name="msg_autostart">לא היתה אפשרות להפעיל את NetGuard באופן אוטומטי באתחול עקב באג בגירסת האנדרואיד</string>
   <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">נסה את NetGuard</string>
   <string name="msg_terms">בתרומתך אתה מסכים ל <a href="http://www.netguard.me/#terms"> תנאים והגבלות</a></string>
   <string name="msg_dimming">אם אין אפשרות ללחוץ על אישור בתיבת הדו-שיח הבאה, סביר להניח שיישום אחר (כגון עמעום מסך) משנה את המסך.</string>

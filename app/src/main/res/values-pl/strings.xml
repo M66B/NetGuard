@@ -141,6 +141,7 @@
   <string name="msg_vpn">NetGuard używa lokalnego VPN aby filtrować ruch. Z tego powodu proszę umożliwić połączenie VPN w kolejnym oknie dialogowym. Twój ruch internetowy nie będzie wysyłany do zdalnego serwera VPN.</string>
   <string name="msg_autostart">NetGuard nie może zostać uruchomiony automatycznie przy starcie systemu ze względu na błąd w twojej wersji Androida</string>
   <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">Wypróbuj NetGuard</string>
   <string name="msg_terms">Przekazując darowiznę wyrażam zgodę na <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">Jeśli nie możesz nacisnąć OK w następnym oknie, prawdopodobnie inna aplikacja zarządza ekranem (przygaszanie ekranu).</string>

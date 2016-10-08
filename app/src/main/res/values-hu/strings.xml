@@ -143,6 +143,7 @@ Ezért kérjük, hogy engedélyezze a VPN kapcsolatot a következő párbeszéd 
 Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="msg_autostart">A NetGuard nem indul el automatikusan a rendszer indításakor, mert egy hiba van ebben az Android verzióban</string>
   <string name="msg_error">Váratlan hiba történt: \'%s\'</string>
+  <string name="msg_start_failed">Jelenleg az Android nem kezeli a VPN szolgáltatást. Ennek az oka valószínűleg egy Android bug.</string>
   <string name="msg_try">NetGuard kipróbálása</string>
   <string name="msg_terms">A támogató elfogadja a <a href="http://www.netguard.me/#terms">felhasználási feltételeket</a></string>
   <string name="msg_dimming">Ha nem nyomja meg az OK gombot a következő párbeszédablakban, a másik (a képernyő fényerő) alkalmazás valószínűleg módosul a képernyőn.</string>

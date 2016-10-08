@@ -144,6 +144,7 @@ Por este motivo, por favor, permita uma conexão VPN na caixa de diálogo a segu
 O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.</string>
   <string name="msg_autostart">NetGuard não pôde ser iniciado automaticamente na inicialização devido a um bug na sua versão do Android</string>
   <string name="msg_error">Um erro inesperado ocorreu: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">Testar NetGuard</string>
   <string name="msg_terms">Doando, você concorda com os <a href="http://www.netguard.me/#terms">termos &amp; condições</a></string>
   <string name="msg_dimming">Caso não consiga pressionar OK no dialogo a seguir, então provavelmente algum aplicativo (screen dimming) esta manipulando a tela.</string>

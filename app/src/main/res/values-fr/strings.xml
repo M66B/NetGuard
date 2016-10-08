@@ -143,6 +143,7 @@ Pour cette raison, veuillez autoriser la connexion VPN lors du prochain message.
 Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_autostart">NetGuard n\'a pas été lancé automatiquement au démarrage à cause d\'un bug dans votre version d\'Android.</string>
   <string name="msg_error">Une erreur inattendue s’est produite : \'%s\'</string>
+  <string name="msg_start_failed">Android a refusé de démarrer le VPN maintenant. Ceci est probablement dû à un bug dans votre version de Android.</string>
   <string name="msg_try">Essayer NetGuard</string>
   <string name="msg_terms">En faisant un don vous acceptez les <a href="http://www.netguard.me/#terms">termes et conditions</a></string>
   <string name="msg_dimming">Si vous ne pouvez pas appuyer sur OK dans la fenêtre suivante, une autre application (filtre de luminosité) manipule probablement l\'écran.</string>

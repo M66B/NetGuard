@@ -146,6 +146,7 @@ For this reason, please allow a VPN connection in the next dialog.
 Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_autostart">NetGuard could not start automatically. This is likely because of a bug in your Android version.</string>
   <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">試試網路守門人</string>
   <string name="msg_terms">捐款代表你同意<a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
   <string name="msg_dimming">如果你在下一個對話框沒辦法點OK,可能是有其他App(濾波器之類的)在執行螢幕繪製.</string>

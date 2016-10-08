@@ -144,6 +144,7 @@ Vanwege deze reden vragen wij u de VPN-verbinding in het volgende dialoogvenster
 Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_autostart">NetGuard kon niet automatisch worden gestart tijdens het opstarten vanwege een bug in uw Android-versie</string>
   <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">Probeer NetGuard</string>
   <string name="msg_terms">Door te doneren gaat u akkoord met de <a href="http://www.netguard.me/#terms">voorwaarden</a></string>
   <string name="msg_dimming">Als u niet op \'Oké\' kan drukken in het volgende dialoogvenster, is een (schermdimmende) app waarschijnlijk actief.</string>

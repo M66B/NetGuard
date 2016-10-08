@@ -141,6 +141,7 @@
   <string name="msg_vpn">NetGuard sử dụng một local VPN để lọc lưu lượng truy cập internet. Vì lý do này, xin vui lòng cho phép một kết nối VPN trong hộp thoại tiếp theo. Lưu lượng truy cập internet của bạn không được gửi đến một máy chủ VPN từ xa.</string>
   <string name="msg_autostart">NetGuard không thể tự động khởi động. Điều này có khả năng là do một lỗi trong phiên bản Android của bạn.</string>
   <string name="msg_error">Lỗi không xác định đã xảy ra: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">Thử NetGuard</string>
   <string name="msg_terms">Bằng cách tặng, bạn đồng ý với các <a href="http://www.netguard.me/#terms"> điều khoản &amp; điều kiện</a></string>
   <string name="msg_dimming">Nếu bạn không thể nhấn OK trong hộp thoại kế tiếp, rất có thể một ứng dụng khác (màn hình mờ) đang thao tác với màn hình.</string>

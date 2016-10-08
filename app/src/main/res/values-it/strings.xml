@@ -141,6 +141,7 @@
   <string name="msg_vpn">NetGuard utilizza una VPN locale per filtrare il traffico internet. Per questo motivo, si prega di consentire la connessione VPN nella finestra di dialogo successiva. Il traffico internet non viene inviato ad un server VPN remoto.</string>
   <string name="msg_autostart">NetGuard potrebbe non essere stato avviato automaticamente all\'avvio di sistema a causa di un bug nella tua versione di Android</string>
   <string name="msg_error">Si è verificato un errore imprevisto: \'%s\'</string>
+  <string name="msg_start_failed">Android ha appena rifiutato di avviare il servizio VPN. Probabilmente è a causa di un errore nella tua versione di Android.</string>
   <string name="msg_try">Prova NetGuard</string>
   <string name="msg_terms">Donando accetti i <a href="http://www.netguard.me/#terms"> termini e le condizioni</a></string>
   <string name="msg_dimming">Se non riesci a cliccare OK nella prossima schermata, è probabile che un\'altra applicazione (di oscuramento schermo) stia manipolando lo schermo.</string>

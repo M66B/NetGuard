@@ -141,6 +141,7 @@
   <string name="msg_vpn">இணைய போக்குவரத்து வடிகட்ட உள்ளூர் VPN NetGuard பயன்படுத்துகிறது. இந்த காரணத்திற்காக, தயவுசெய்து ஒரு VPN இணைப்பை அனுமதிக்க அடுத்த உரையாடலில். உங்கள் இணைய போக்குவரத்து ஒரு தொலைநிலை VPN சேவையகத்திற்கு அனுப்பப்பட்டுள்ளது இல்லை.</string>
   <string name="msg_autostart">NetGuard தொடங்க இயலாது தானாகவே. இது பயன்பாட்டையும் காரணமாக உங்கள் Android பதிப்பில் போன்று.</string>
   <string name="msg_error">ஒரு எதிர்பாராத பிழை ஏற்பட்டது: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">NetGuard முயற்சி</string>
   <string name="msg_terms">கொடுப்பதன் மூலம் நீங்கள் ஒப்புக்கொள்கிறீர்கள், <a href="http://www.netguard.me/#terms"> விதிமுறைகள் &amp; நிபந்தனைகள்</a></string>
   <string name="msg_dimming">நீங்கள், அடுத்த உரையாடலில் உள்ள சரி என்பதை அழுத்தினால் முடியாது, வேறு (திரை dimming) பயன்பாடு என்பது தெரிகிறது manipulating திரை.</string>

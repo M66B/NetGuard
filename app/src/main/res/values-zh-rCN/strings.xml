@@ -145,6 +145,7 @@
 您的网络流量不会被导向任何远程 VPN 服务器.</string>
   <string name="msg_autostart">由于您使用的 Android 版本存在 bug, NetGuard 无法开机自启.</string>
   <string name="msg_error">发生未知错误: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">试用NetGuard</string>
   <string name="msg_terms">捐赠即表明您同意 <a href="http://www.netguard.me/#terms">条款与条件</a></string>
   <string name="msg_dimming">如果您在下一个对话框中无法点击确定, 可能是另一个应用正在控制屏幕(如屏幕亮度调节软件).</string>

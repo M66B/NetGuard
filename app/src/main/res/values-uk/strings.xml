@@ -142,6 +142,7 @@
   <string name="msg_vpn">NetGuard використовує локальний VPN для фільтрації інтернет трафіку. По цій причині, будь ласка, дозвольте VPN підключення в наступному діалоговому вікні. Віддаленому VPN-серверу ваш трафік не надсилається.</string>
   <string name="msg_autostart">NetGuard не може бути запущений автоматично під час запуску, через ваду у вашій системі Android</string>
   <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">Спробуйте NetGuard</string>
   <string name="msg_terms">Здійснюючи пожертвування, ви погоджуєтесь із <a href="http://www.netguard.me/#terms">умовами &amp; положення</a></string>
   <string name="msg_dimming">Якщо Вам не вдається натиснути Гаразд у наступному діалоговому вікні (затемнення екрану), то скоріш за все, якийсь інший додаток використовує екран.</string>

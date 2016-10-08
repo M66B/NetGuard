@@ -143,6 +143,7 @@
 Вашият интернет трафик не се изпраща към отдалечен VPN сървър.</string>
   <string name="msg_autostart">NetGuard не може да се стартира автоматично при стартиране на системата поради грешка в Android версията</string>
   <string name="msg_error">Възникна неочаквана грешка: \"%s\"</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">Опитайте NetGuard</string>
   <string name="msg_terms">Чрез даряването, вие се съгласявате с <a href="http://www.netguard.me/#terms"> общите условия</a></string>
   <string name="msg_dimming">Ако не можете да натиснете OK в следващия диалогов прозорец, то вероятно друго приложение манипулира екрана (затъмняване на екрана).</string>
@@ -204,7 +205,7 @@
   <string name="title_root">Root достъп</string>
   <string name="title_mediaserver">медиа сървър (mediaserver)</string>
   <string name="title_nobody">никой</string>
-  <string name="title_dontask">Не питай повече</string>
+  <string name="title_dontask">Без ново питане</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Порт %1$d</string>
   <string name="title_pro">Платени функции</string>
@@ -216,7 +217,7 @@
   <string name="title_pro_theme">Изглед (тема, цветове)</string>
   <string name="title_pro_all">Всички по-горе платени функции</string>
   <string name="title_pro_dev">Подкрепете разработката</string>
-  <string name="title_pro_buy">Купете</string>
+  <string name="title_pro_buy">Купувам</string>
   <string name="title_pro_bought">Включено</string>
   <string name="title_pro_details">Натиснете върху заглавие за повече информация</string>
   <string name="title_pro_ads">Закупуване на която и да е про функция ще премахне всички реклами</string>
@@ -224,11 +225,11 @@
   <string name="title_pro_reponse">Отговор</string>
   <string-array name="themeNames">
     <item>синьо-зелено/оранжево</item>
-    <item>син/оранжево</item>
-    <item>лилаво/червен</item>
-    <item>кехлибар/син</item>
-    <item>оранжев/сив</item>
-    <item>зелен</item>
+    <item>синьо/оранжево</item>
+    <item>лилаво/червено</item>
+    <item>кехлибарено/синьо</item>
+    <item>оранжево/сиво</item>
+    <item>зелено</item>
   </string-array>
   <string-array name="protocolNames">
     <item>UDP</item>

@@ -143,6 +143,7 @@
   <string name="msg_vpn">NetGuard इंटरनेट ट्रैफ़िक को फ़िल्टर करने के लिए एक स्थानीय वीपीएन का उपयोग करता है। इस कारण के लिए, कृपया अगले संवाद में एक VPN कनेक्शन की अनुमति दें। अपने इंटरनेट यातायात एक दूरस्थ VPN सर्वर को नहीं भेजा जा रहा है।</string>
   <string name="msg_autostart">NetGuard स्वचालित रूप से प्रारंभ नहीं हो सका। यह आपके Android संस्करण में बग के कारण होने की संभावना है।</string>
   <string name="msg_error">कोई अनपेक्षित त्रुटि उत्पन्न हुई: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">NetGuard की कोशिश</string>
   <string name="msg_terms">दान करके आप सहमत हूँ <a href="http://www.netguard.me/#terms"> उपयोग की शर्तें</a> करने के लिए</string>
   <string name="msg_dimming">तुम अगले संवाद में ठीक क्लिक नहीं कर सकता, तो किसी अन्य (स्क्रीन dimming) अनुप्रयोग की संभावना स्क्रीन हेर-फेर है।</string>

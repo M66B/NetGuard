@@ -142,6 +142,7 @@
   <string name="msg_vpn">NetGuard は、ローカル VPN を使用してインターネット トラフィックをフィルターします。このため、次のダイアログ ボックスで VPN 接続を許可してください。インター ネット トラフィックはリモート VPN サーバーには送信されません。</string>
   <string name="msg_autostart">お使いの Android のバージョンのバグのため、起動時に自動的に NetGuard を開始できませんでした</string>
   <string name="msg_error">予想しないエラーが発生しました: \'%s\'</string>
+  <string name="msg_start_failed">現時点では Android が VPN サービスを開始することを拒否しました。これはお使いの Android バージョンでのバグの可能性があります。</string>
   <string name="msg_try">NetGuard を試してください</string>
   <string name="msg_terms">寄付によって <a href="http://www.netguard.me/#terms">利用規約</a> に同意します</string>
   <string name="msg_dimming">次のダイアログ ボックスで OK を押すことができない場合、別の (画面調光) アプリケーションが画面を操作している可能性があります。</string>

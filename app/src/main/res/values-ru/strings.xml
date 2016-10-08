@@ -142,6 +142,7 @@
 По этой причине, пожалуйста, разрешите VPN-подключение в следующем диалоговом окне. Удаленному VPN-серверу ваш интернет-трафик не отправляется.</string>
   <string name="msg_autostart">NetGuard не может быть запущен автоматически при загрузке из-за ошибки в вашей версии Android</string>
   <string name="msg_error">Произошла непредвиденная ошибка: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">Попробуйте новый фаервол NetGuard</string>
   <string name="msg_terms">Делая пожертвование, Вы соглашаетесь с <a href="http://www.netguard.me/#terms">условиями &amp; положениями</a></string>
   <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>

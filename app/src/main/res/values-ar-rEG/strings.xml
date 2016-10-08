@@ -87,7 +87,7 @@
   <string name="setting_socks5_password">SOCKS5 كلمة المرور: %s</string>
   <string name="setting_pcap_record_size">سجل PCAP حجمه: %s ب</string>
   <string name="setting_pcap_file_size">حجم ملف PCAP الأعلى: %s م ب</string>
-  <string name="setting_watchdog">Watchdog: every %s minutes</string>
+  <string name="setting_watchdog">تـــطـــبـــيـــقـــات الـــمـــراقـــبــة: كــل %S دقـــيـــقـــة</string>
   <string name="setting_stats_category">تنبيه السرعة</string>
   <string name="setting_stats">إظهار تنبيه السرعه</string>
   <string name="setting_stats_top">إظهار التطبيقات الأعلى</string>
@@ -142,6 +142,7 @@
   <string name="msg_vpn">يستخدم NetGuard شبكة VPN محلية لتصفية حركة الانترنت. لهذا، يرجى السماح لاتصال VPN في مربع الحوار القادم. حركة الانترنت الخاصة بك لا يتم ارسالها الى خادم VPN بعيد.</string>
   <string name="msg_autostart">لا يمكن بدء NetGuard بشكل تلقائي عند التشغيل بسبب وجود خلل في إصدار الاندرويد الخاص بك</string>
   <string name="msg_error">حدث خطأ غير متوقع: \'%s\'</string>
+  <string name="msg_start_failed">أنـــدرويـــت رفـــض أن تـــبـــدأ خـــدمـــة VPN فـــي هـــذه اللـــحـــظـــة. مـــن الـــمـــحـــتـــمـــل بـــســـبـــب عـــطـــل فـــي نـــســـخـــة أنـــدرويــت الـــخـــاص بـــك.</string>
   <string name="msg_try">جـرّب NetGuard</string>
   <string name="msg_terms">عند تبرعك فهذا يعني انك مواقق على الشروط والاحكام. <a href="http://www.netguard.me/#terms">احكام &amp; شروط</a></string>
   <string name="msg_dimming">إن لم تستطع الضغط على موافق في مربع الحوار التالي فهذا معناه انه يوجد برنامج آخر يتحكم في الشاشة.</string>

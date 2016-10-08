@@ -145,6 +145,7 @@ Z tohoto důvodu prosím povolte VPN připojení v následujícím dialogu.
 Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.</string>
   <string name="msg_autostart">NetGuard nemůže být spuštěn automaticky při startu zařízení kvůli chybě ve Vaší verzi Androidu</string>
   <string name="msg_error">Došlo k neočekávané chybě: \'%s\'</string>
+  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">Vyzkoušej NetGuard</string>
   <string name="msg_terms">Darováním souhlasíte s <a href="http://www.netguard.me/#terms">podmínkami služby</a></string>
   <string name="msg_dimming">Pokud v následujícím dialogu nelze potvrdit OK, jiná aplikace (např. barevný filtr) pravděpodobně překrývá obrazovku.</string>
