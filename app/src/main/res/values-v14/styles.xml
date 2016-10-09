@@ -1,7 +1,5 @@
 <resources>
 
-    <style name="TextXL" parent="@android:style/TextAppearance.DeviceDefault.Large" />
-
     <style name="TextLarge" parent="@android:style/TextAppearance.DeviceDefault.Large" />
 
     <style name="TextMedium" parent="@android:style/TextAppearance.DeviceDefault.Medium" />

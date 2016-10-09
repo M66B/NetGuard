@@ -227,7 +227,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="="
-            android:textAppearance="@style/TextXL" />
+            android:textAppearance="@style/TextLarge"
+            android:textSize="36sp" />
 
         <View
             android:layout_width="match_parent"
@@ -286,7 +287,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="≠"
-            android:textAppearance="@style/TextXL" />
+            android:textAppearance="@style/TextLarge"
+            android:textSize="36sp" />
 
         <View
             android:layout_width="match_parent"
