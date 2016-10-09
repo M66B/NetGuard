@@ -55,25 +55,25 @@ model {
 
         productFlavors {
             create("all") {
-                versionName = "2.53"
+                versionName = "2.54"
                 minSdkVersion.apiLevel = 14
                 targetSdkVersion.apiLevel = 24
-                versionCode = 2016100801
+                versionCode = 2016100901
                 archivesBaseName = "NetGuard-v$versionName"
             }
             create("lollipop-and-later") {
-                versionName = "2.53"
+                versionName = "2.54"
                 minSdkVersion.apiLevel = 20
                 targetSdkVersion.apiLevel = 24
-                versionCode = 2016100811
+                versionCode = 2016100911
                 archivesBaseName = "NetGuard-v$versionName"
             }
             create("kitkat-and-earlier") {
-                versionName = "2.53"
+                versionName = "2.54"
                 minSdkVersion.apiLevel = 14
                 maxSdkVersion = 19
                 targetSdkVersion.apiLevel = 24
-                versionCode = 2016100821
+                versionCode = 2016100921
                 archivesBaseName = "NetGuard-v$versionName"
             }
         }
