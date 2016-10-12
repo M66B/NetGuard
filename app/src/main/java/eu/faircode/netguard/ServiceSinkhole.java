@@ -1228,6 +1228,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         Log.i(TAG, "Invalid hosts file line: " + line);
                 }
             }
+            mapHostsBlocked.put("test.netguard.me", true);
             Log.i(TAG, count + " hosts read");
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
