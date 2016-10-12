@@ -18,7 +18,6 @@ Note that:
 
 * applications, like the browser, may cache data, so you might need to clear caches
 * applications, browsers mostly, that have a *"data saver"* like feature that proxies requests through their servers (eg. Opera w/ Turbo, Opera Max app, Puffin, Chrome w/ data saver, UC Browser, Yandex w/ Turbo, Apus Browser, KK Browser, Onavo Extend, Maxthon) will not have ads blocked as NetGuard can't even see those domain requests
-* the test page only works using the hosts file downloaded from [here](https://www.netguard.me/hosts) (the default)
 * YouTube ads are not domain based and cannot be blocked
 * NetGuard does not use the IP adresses in the hosts file, because it doesn't route blocked domains to localhost
 * NetGuard does not concatenate hosts files, so you will have to use a source which does this for you or do it yourself
@@ -58,6 +57,21 @@ For example using [adb](https://developer.android.com/studio/command-line/adb.ht
 Apart from using a hosts file, you can block most in-app ads by blocking this address for Google Play services:
 
 *googleads.g.doubleclick.net/443*
+
+<br />
+
+An alternate way to block advertisements is by using special DNS servers, like these:
+
+* [AdGuard DNS](https://adguard.com/en/adguard-dns/overview.html)
+* [Alternate DNS](https://alternate-dns.com/)
+* [NoAd](https://noad.zone/)
+
+You can set DNS server addresses for all connection types in the NetGuard advanced options.
+Note that when you set two DNS server addresses the default (system/provider) DNS-servers will not be used anymore.
+
+Be sure to read the privacy policies of these services as they might log your DNS requests.
+
+Feel free to let me know about other servers or request to add them in alphabetic order by doing a pull request.
 
 <br />
 
