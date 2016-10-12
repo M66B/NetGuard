@@ -419,6 +419,14 @@ even if you just enabled notify on access.
 To get notified for all domain names again, you can clear the application access log using the waste bin icon.
 If you want to clear all applications logs, you can export and import your settings.
 
+<a name="FAQ45"></a>
+**(45) Does NetGuard handle incoming connections?**
+
+The Android VPN service handles outgoing connections only (from applications to the internet), so incoming connections are normally left alone.
+
+If you want to run a server application on Android, then be aware that using port numbers below 1024 requires root permissions
+and that some Android versions contain routing bugs, causing inbound traffic incorrectly being routed into the VPN.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.

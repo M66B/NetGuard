@@ -201,6 +201,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ44"></a>
 [**(44) I don't get notifications on access**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ44)
 
+<a name="FAQ45"></a>
+[**(45) Does NetGuard handle incoming connections?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ45)
+
 Support
 -------
 
