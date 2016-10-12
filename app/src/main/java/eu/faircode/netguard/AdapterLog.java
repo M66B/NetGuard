@@ -70,7 +70,8 @@ public class AdapterLog extends CursorAdapter {
     private int colorOn;
     private int colorOff;
     private int iconSize;
-    private InetAddress dns = null;
+    private InetAddress dns1 = null;
+    private InetAddress dns2 = null;
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
 
@@ -104,7 +105,8 @@ public class AdapterLog extends CursorAdapter {
 
         try {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            dns = ServiceSinkhole.getDns(context).get(0);
+            dns1 = ServiceSinkhole.getDns(context).get(0);
+            dns2 = ServiceSinkhole.getDns(context).get(1);
             vpn4 = InetAddress.getByName(prefs.getString("vpn4", "10.1.10.1"));
             vpn6 = InetAddress.getByName(prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1"));
         } catch (UnknownHostException ex) {
@@ -309,7 +311,7 @@ public class AdapterLog extends CursorAdapter {
     public boolean isKnownAddress(String addr) {
         try {
             InetAddress a = InetAddress.getByName(addr);
-            if (a.equals(dns) || a.equals(vpn4) || a.equals(vpn6))
+            if (a.equals(dns1) || a.equals(dns2) || a.equals(vpn4) || a.equals(vpn6))
                 return true;
         } catch (UnknownHostException ignored) {
         }
@@ -319,7 +321,7 @@ public class AdapterLog extends CursorAdapter {
     private String getKnownAddress(String addr) {
         try {
             InetAddress a = InetAddress.getByName(addr);
-            if (a.equals(dns))
+            if (a.equals(dns1) || a.equals(dns2))
                 return "dns";
             if (a.equals(vpn4) || a.equals(vpn6))
                 return "vpn";

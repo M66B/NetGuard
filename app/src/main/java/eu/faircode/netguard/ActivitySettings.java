@@ -220,10 +220,13 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // VPN parameters
         screen.findPreference("vpn4").setTitle(getString(R.string.setting_vpn4, prefs.getString("vpn4", "10.1.10.1")));
         screen.findPreference("vpn6").setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
-        EditTextPreference pref_dns = (EditTextPreference) screen.findPreference("dns");
+        EditTextPreference pref_dns1 = (EditTextPreference) screen.findPreference("dns");
+        EditTextPreference pref_dns2 = (EditTextPreference) screen.findPreference("dns2");
         List<String> def_dns = Util.getDefaultDNS(this);
-        pref_dns.getEditText().setHint(def_dns.get(0));
-        pref_dns.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns.get(0))));
+        pref_dns1.getEditText().setHint(def_dns.get(0));
+        pref_dns2.getEditText().setHint(def_dns.get(1));
+        pref_dns1.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns.get(0))));
+        pref_dns2.setTitle(getString(R.string.setting_dns, prefs.getString("dns2", def_dns.get(1))));
 
         // SOCKS5 parameters
         screen.findPreference("socks5_addr").setTitle(getString(R.string.setting_socks5_addr, prefs.getString("socks5_addr", "-")));
@@ -641,7 +644,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     getString(R.string.setting_vpn6, prefs.getString(name, "fd00:1:fd00:1:fd00:1:fd00:1")));
             ServiceSinkhole.reload("changed " + name, this);
 
-        } else if ("dns".equals(name)) {
+        } else if ("dns".equals(name) || "dns2".equals(name)) {
             String dns = prefs.getString(name, null);
             try {
                 checkAddress(dns);
@@ -652,7 +655,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
             getPreferenceScreen().findPreference(name).setTitle(
-                    getString(R.string.setting_dns, prefs.getString(name, Util.getDefaultDNS(this).get(0))));
+                    getString(R.string.setting_dns,
+                            prefs.getString(name, Util.getDefaultDNS(this).get("dns".equals(name) ? 0 : 1))));
             ServiceSinkhole.reload("changed " + name, this);
 
         } else if ("socks5_enabled".equals(name))

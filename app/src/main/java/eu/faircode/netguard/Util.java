@@ -259,12 +259,8 @@ public class Util {
         String dns1 = jni_getprop("net.dns1");
         String dns2 = jni_getprop("net.dns2");
         List<String> listDns = new ArrayList<>();
-        if (!TextUtils.isEmpty(dns1))
-            listDns.add(dns1);
-        if (!TextUtils.isEmpty(dns2))
-            listDns.add(dns2);
-        if (TextUtils.isEmpty(dns1) && TextUtils.isEmpty(dns2))
-            listDns.add("8.8.8.8");
+        listDns.add(TextUtils.isEmpty(dns1) ? "8.8.8.8" : dns1);
+        listDns.add(TextUtils.isEmpty(dns2) ? "8.8.4.4" : dns2);
         return listDns;
     }
 
