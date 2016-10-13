@@ -1018,12 +1018,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
 
         // DNS address
-        for (InetAddress dns : getDns(ServiceSinkhole.this)) {
-            if (ip6 || dns instanceof Inet4Address) {
-                Log.i(TAG, "dns=" + dns);
-                builder.addDnsServer(dns);
+        if (filter)
+            for (InetAddress dns : getDns(ServiceSinkhole.this)) {
+                if (ip6 || dns instanceof Inet4Address) {
+                    Log.i(TAG, "dns=" + dns);
+                    builder.addDnsServer(dns);
+                }
             }
-        }
 
         // Subnet routing
         if (subnet) {

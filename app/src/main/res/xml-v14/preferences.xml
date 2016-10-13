@@ -183,9 +183,11 @@
                 android:inputType="text"
                 android:key="vpn6" />
             <EditTextPreference
+                android:dependency="filter"
                 android:inputType="text"
                 android:key="dns" />
             <EditTextPreference
+                android:dependency="filter"
                 android:inputType="text"
                 android:key="dns2" />
             <CheckBoxPreference
