@@ -2,8 +2,8 @@ apply plugin: 'com.android.model.application'
 
 model {
     android {
-        compileSdkVersion = 24
-        buildToolsVersion = "24.0.3"
+        compileSdkVersion = 25
+        buildToolsVersion = "25"
 
         defaultConfig {
             applicationId = "eu.faircode.netguard"
