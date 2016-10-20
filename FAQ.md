@@ -275,7 +275,7 @@ You can find all predefined rules [here](https://github.com/M66B/NetGuard/blob/m
 <a name="FAQ29"></a>
 **(29) Why do I get 'The item you requested is not available for purchase'?**
 
-You can only purchase pro feature when you installed NetGuard from the Play store.
+You can only purchase pro features when you installed NetGuard from the Play store.
 
 <a name="FAQ30"></a>
 **(30) Can I also run AFWall+ on the same device?**
