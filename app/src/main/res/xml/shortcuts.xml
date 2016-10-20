@@ -1,0 +1,16 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:shortcutDisabledMessage="@string/menu_settings"
+        android:shortcutId="settings"
+        android:shortcutLongLabel="@string/menu_settings"
+        android:shortcutShortLabel="@string/menu_settings">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="eu.faircode.netguard.ActivitySettings"
+            android:targetPackage="eu.faircode.netguard" />
+        <categories android:name="android.shortcut.settings" />
+    </shortcut>
+</shortcuts>
+
