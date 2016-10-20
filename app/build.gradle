@@ -57,14 +57,14 @@ model {
             create("all") {
                 versionName = "2.55"
                 minSdkVersion.apiLevel = 14
-                targetSdkVersion.apiLevel = 24
+                targetSdkVersion.apiLevel = 25
                 versionCode = 2016101201
                 archivesBaseName = "NetGuard-v$versionName"
             }
             create("lollipop-and-later") {
                 versionName = "2.55"
                 minSdkVersion.apiLevel = 20
-                targetSdkVersion.apiLevel = 24
+                targetSdkVersion.apiLevel = 25
                 versionCode = 2016101211
                 archivesBaseName = "NetGuard-v$versionName"
             }
@@ -72,7 +72,7 @@ model {
                 versionName = "2.55"
                 minSdkVersion.apiLevel = 14
                 maxSdkVersion = 19
-                targetSdkVersion.apiLevel = 24
+                targetSdkVersion.apiLevel = 25
                 versionCode = 2016101221
                 archivesBaseName = "NetGuard-v$versionName"
             }
