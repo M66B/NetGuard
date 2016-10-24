@@ -427,6 +427,14 @@ The Android VPN service handles outgoing connections only (from applications to 
 If you want to run a server application on Android, then be aware that using port numbers below 1024 requires root permissions
 and that some Android versions contain routing bugs, causing inbound traffic incorrectly being routed into the VPN.
 
+<a name="FAQ46"></a>
+**(46) Can I get a refund?**
+
+If a purchased pro feature doesn't work [as described](https://www.netguard.me/) while the free features of NetGuard work properly
+and I cannot fix the issue in a timely manner, you can get a refund.
+In all other cases there is no refund possible.
+I take my responsibility as seller to deliver what has been promised and I expect that you to take responsibility for informing yourself of what you are buying.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.

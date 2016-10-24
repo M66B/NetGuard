@@ -204,6 +204,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ45"></a>
 [**(45) Does NetGuard handle incoming connections?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ45)
 
+<a name="FAQ46"></a>
+[**(46) Can I get a refund?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ46)
+
 Support
 -------
 
