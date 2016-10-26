@@ -21,6 +21,8 @@ package eu.faircode.netguard;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,6 +43,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.net.ConnectivityManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.telephony.SubscriptionInfo;
@@ -48,6 +51,7 @@ import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -419,6 +423,12 @@ public class Util {
             context.setTheme(dark ? R.style.AppThemeOrangeDark : R.style.AppThemeOrange);
         else if (theme.equals("green"))
             context.setTheme(dark ? R.style.AppThemeGreenDark : R.style.AppThemeGreen);
+
+        if (context instanceof Activity && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TypedValue tv = new TypedValue();
+            context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
+            ((Activity) context).setTaskDescription(new ActivityManager.TaskDescription(null, null, tv.data));
+        }
     }
 
     public static int dips2pixels(int dips, Context context) {
