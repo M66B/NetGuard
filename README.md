@@ -207,6 +207,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ46"></a>
 [**(46) Can I get a refund?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ46)
 
+<a name="FAQ47"></a>
+[**(47) Why are there in application advertisements?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ47)
+
 Support
 -------
 

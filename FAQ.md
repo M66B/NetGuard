@@ -435,6 +435,15 @@ and I cannot fix the issue in a timely manner, you can get a refund.
 In all other cases there is no refund possible.
 I take my responsibility as seller to deliver what has been promised and I expect that you to take responsibility for informing yourself of what you are buying.
 
+<a name="FAQ47"></a>
+**(47) Why are there in application advertisements?**
+
+Developing NetGuard was quite a challenge and [really a lot of work](https://www.openhub.net/p/netguard/estimated_cost), but fun to do.
+A good product deserves good support, which means in practice that I am spending 30-60 minutes each and every day answering questions and solving problems.
+Just about 1 in 1000 downloaders purchase any of the pro features, so support is basically one way.
+This is not maintainable in the long run and this is why advertisements were added.
+Purchasing any of the pro features will completely disable advertisements and help keep the project going.
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.
