@@ -48,8 +48,10 @@
         android:description="@string/app_description"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeTeal">
+        android:theme="@style/AppThemeTeal"
+        tools:ignore="ManifestResource">
 
         <meta-data
             android:name="firebase_analytics_collection_deactivated"
