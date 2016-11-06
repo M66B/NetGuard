@@ -52,7 +52,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="title_ruid">Destination application</string>
     <string name="title_external">For an external server select \'nobody\'</string>
 
-    <string name="setting_defaults">Defaults</string>
+    <string name="setting_defaults">Defaults (white/blacklist)</string>
     <string name="setting_whitelist_wifi">Block Wi-Fi</string>
     <string name="setting_whitelist_other">Block mobile</string>
     <string name="setting_screen_wifi">Allow Wi-Fi when screen on</string>
@@ -195,9 +195,9 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_queue">NetGuard is busy</string>
     <string name="msg_update">Update available, tap to download</string>
     <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
-    <string name="msg_whitelist">Internet access is allowed by default, this can be changed in the settings</string>
-    <string name="msg_push">Push messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
-    <string name="msg_system">Managing system applications can be enabled in the settings</string>
+    <string name="msg_whitelist">Internet access is allowed by default (blacklist mode), this can be changed in the settings</string>
+    <string name="msg_push">Incoming (push) messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
+    <string name="msg_system">Managing all (system) applications can be enabled in the settings</string>
     <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
 
     <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
