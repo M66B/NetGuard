@@ -1296,7 +1296,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         if (!exists || !mapUidIPFilters.get(key).get(iname))
                             mapUidIPFilters.get(key).put(iname, block);
                         else if (exists)
-                            Log.w(TAG, "Address exists uid=" + uid + " " + daddr + " " + dresource + "/" + dport);
+                            Log.w(TAG, "Address conflict uid=" + uid + " " + daddr + " " + dresource + "/" + dport);
                     } else
                         Log.w(TAG, "Address not numeric " + name);
                 } catch (UnknownHostException ex) {
