@@ -444,6 +444,15 @@ Just about 1 in 1000 downloaders purchase any of the pro features, so support is
 This is not maintainable in the long run and this is why advertisements were added.
 Purchasing any of the pro features will completely disable advertisements and help keep the project going.
 
+<a name="FAQ48"></a>
+**(48) Why are some domain names blocked while they are set to be allowed?**
+
+NetGuard blocks traffic based on the IP addresses an application is trying to connect to.
+If more than one domain name is on the same IP, they cannot be distinguished.
+If you set different rules for 2 domains which resolve to the same IP, both will be blocked.
+
+Thanks @[pulser](https://github.com/pulser/)
+
 <br />
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.
