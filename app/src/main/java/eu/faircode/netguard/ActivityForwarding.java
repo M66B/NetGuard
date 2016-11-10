@@ -129,6 +129,7 @@ public class ActivityForwarding extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         running = false;
+        adapter = null;
         if (dialog != null) {
             dialog.dismiss();
             dialog = null;

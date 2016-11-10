@@ -229,6 +229,7 @@ public class ActivityPro extends AppCompatActivity {
     protected void onDestroy() {
         Log.i(TAG, "Destroy");
         iab.unbind();
+        iab = null;
         super.onDestroy();
     }
 

@@ -241,6 +241,19 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Watchdog
         screen.findPreference("watchdog").setTitle(getString(R.string.setting_watchdog, prefs.getString("watchdog", "0")));
 
+        // Show resolved
+        Preference pref_show_resolved = screen.findPreference("show_resolved");
+        if (Util.isPlayStoreInstall(this))
+            cat_advanced.removePreference(pref_show_resolved);
+        else
+            pref_show_resolved.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(ActivitySettings.this, ActivityDns.class));
+                    return true;
+                }
+            });
+
         // Handle stats
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             cat_stats.removePreference(screen.findPreference("show_top"));
@@ -358,17 +371,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Development
         if (!Util.isDebuggable(this))
             screen.removePreference(screen.findPreference("screen_development"));
-        else {
-            // Show resolved
-            Preference pref_show_resolved = screen.findPreference("show_resolved");
-            pref_show_resolved.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    startActivity(new Intent(ActivitySettings.this, ActivityDns.class));
-                    return true;
-                }
-            });
-        }
 
         // Handle technical info
         Preference.OnPreferenceClickListener listener = new Preference.OnPreferenceClickListener() {

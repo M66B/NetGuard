@@ -459,6 +459,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
 
         running = false;
+        adapter = null;
 
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 

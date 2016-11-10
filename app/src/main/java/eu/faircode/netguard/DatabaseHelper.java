@@ -787,6 +787,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void clearDns() {
+        mLock.writeLock().lock();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                db.delete("dns", null, new String[]{});
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            mLock.writeLock().unlock();
+        }
+    }
+
     public String getQName(String ip) {
         mLock.readLock().lock();
         try {
