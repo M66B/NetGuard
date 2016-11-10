@@ -1289,15 +1289,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 try {
                     if (dname != null)
                         Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
-                    if (dresource == null) {
-                        if (Util.isNumericAddress(daddr))
-                            mapUidIPFilters.get(key).put(InetAddress.getByName(daddr), block);
-                    } else {
-                        if (Util.isNumericAddress(dresource))
-                            mapUidIPFilters.get(key).put(InetAddress.getByName(dresource), block);
-                        else
-                            Log.w(TAG, "Address not numeric " + daddr);
-                    }
+                    String name = (dresource == null ? daddr : dresource);
+                    if (Util.isNumericAddress(name)) {
+                        InetAddress iname = InetAddress.getByName(name);
+                        boolean exists = mapUidIPFilters.get(key).containsKey(iname);
+                        if (!exists || !mapUidIPFilters.get(key).get(iname))
+                            mapUidIPFilters.get(key).put(iname, block);
+                        else if (exists)
+                            Log.w(TAG, "Address exists uid=" + uid + " " + daddr + " " + dresource + "/" + dport);
+                    } else
+                        Log.w(TAG, "Address not numeric " + name);
                 } catch (UnknownHostException ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
