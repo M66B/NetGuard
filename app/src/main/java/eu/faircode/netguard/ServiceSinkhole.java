@@ -524,8 +524,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             // Keep log records for three days
             DatabaseHelper.getInstance(ServiceSinkhole.this).cleanupLog(new Date().getTime() - 3 * 24 * 3600 * 1000L);
 
-            // Keep DNS records for a week
-            DatabaseHelper.getInstance(ServiceSinkhole.this).cleanupDns(new Date().getTime() - 7 * 24 * 3600 * 1000L);
+            // Keep DNS records for one day
+            DatabaseHelper.getInstance(ServiceSinkhole.this).cleanupDns(new Date().getTime() - 1 * 24 * 3600 * 1000L);
 
             // Check for update
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
