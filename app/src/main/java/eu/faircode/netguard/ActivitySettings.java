@@ -609,9 +609,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 dialogFilter.show();
             } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && !prefs.getBoolean(name, false)) {
                 prefs.edit().putBoolean(name, true).apply();
-                ((TwoStatePreference) getPreferenceScreen().findPreference(name)).setChecked(true);
                 Toast.makeText(ActivitySettings.this, R.string.msg_filter4, Toast.LENGTH_SHORT).show();
             }
+
+            ((TwoStatePreference) getPreferenceScreen().findPreference(name)).setChecked(prefs.getBoolean(name, false));
 
             ServiceSinkhole.reload("changed " + name, this);
 
