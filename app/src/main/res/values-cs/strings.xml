@@ -40,6 +40,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="menu_reset">Resetovat</string>
   <string name="menu_add">Přidat</string>
   <string name="menu_delete">Odstranit</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Protokol</string>
   <string name="title_dport">Zdrojový port</string>
   <string name="title_raddr">Cílová adresa</string>

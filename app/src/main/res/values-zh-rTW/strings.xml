@@ -40,6 +40,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_reset">重置</string>
   <string name="menu_add">新增</string>
   <string name="menu_delete">刪除</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Protocol</string>
   <string name="title_dport">源埠</string>
   <string name="title_raddr">Destination address</string>

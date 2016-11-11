@@ -39,6 +39,7 @@
   <string name="menu_reset">Nulstil</string>
   <string name="menu_add">Tilføj</string>
   <string name="menu_delete">Slet</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Protokol</string>
   <string name="title_dport">Kildeport</string>
   <string name="title_raddr">Destinationsadresse</string>

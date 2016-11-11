@@ -39,6 +39,7 @@
   <string name="menu_reset">リセット</string>
   <string name="menu_add">追加</string>
   <string name="menu_delete">削除</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">プロトコル</string>
   <string name="title_dport">送信元ポート</string>
   <string name="title_raddr">宛先アドレス</string>

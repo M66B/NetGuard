@@ -39,6 +39,7 @@
   <string name="menu_reset">Herstellen</string>
   <string name="menu_add">Toevoegen</string>
   <string name="menu_delete">Verwijderen</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Protocol</string>
   <string name="title_dport">Bronpoort</string>
   <string name="title_raddr">Bestemmingsadres</string>

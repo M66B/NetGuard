@@ -38,6 +38,7 @@
   <string name="menu_reset">Visszaállitás</string>
   <string name="menu_add">Hozzáadás</string>
   <string name="menu_delete">Tőrlés</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Protokol</string>
   <string name="title_dport">Forrás port</string>
   <string name="title_raddr">Cél cím</string>

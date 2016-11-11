@@ -38,6 +38,7 @@
   <string name="menu_reset">Réinitialiser</string>
   <string name="menu_add">Ajouter</string>
   <string name="menu_delete">Supprimer</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Protocole</string>
   <string name="title_dport">Port source</string>
   <string name="title_raddr">Adresse destination</string>

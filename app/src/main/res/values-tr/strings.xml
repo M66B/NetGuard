@@ -40,6 +40,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="menu_reset">Sıfırla</string>
   <string name="menu_add">Ekle</string>
   <string name="menu_delete">Sil</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Protokol</string>
   <string name="title_dport">Kaynak port</string>
   <string name="title_raddr">Hedef adres</string>

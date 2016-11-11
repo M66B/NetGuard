@@ -38,6 +38,7 @@
   <string name="menu_reset">Επαναφορά</string>
   <string name="menu_add">Προσθήκη</string>
   <string name="menu_delete">Διαγραφή</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Πρωτόκολλο</string>
   <string name="title_dport">Θύρα προέλευσης</string>
   <string name="title_raddr">Διεύθυνση προορισμού</string>

@@ -40,6 +40,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_reset">Reset</string>
   <string name="menu_add">Pridėti</string>
   <string name="menu_delete">Ištrinti</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Protocol</string>
   <string name="title_dport">Source port</string>
   <string name="title_raddr">Destination address</string>

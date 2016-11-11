@@ -38,6 +38,7 @@
   <string name="menu_reset">Thiết lập lại</string>
   <string name="menu_add">Thêm mới</string>
   <string name="menu_delete">Xoá</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Giao thức</string>
   <string name="title_dport">Cổng nguồn</string>
   <string name="title_raddr">Địa chỉ đích</string>

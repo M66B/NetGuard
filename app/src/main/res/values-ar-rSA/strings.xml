@@ -38,6 +38,7 @@
   <string name="menu_reset">إعادة تعيين</string>
   <string name="menu_add">إضافة</string>
   <string name="menu_delete">حذف</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">بروتوكول</string>
   <string name="title_dport">المنفذ المصدر</string>
   <string name="title_raddr">عنوان الوجهة</string>

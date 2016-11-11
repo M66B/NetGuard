@@ -39,6 +39,7 @@
   <string name="menu_reset">Zurücksetzen</string>
   <string name="menu_add">Hinzufügen</string>
   <string name="menu_delete">Löschen</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Protokoll</string>
   <string name="title_dport">Quellport</string>
   <string name="title_raddr">Zieladresse</string>

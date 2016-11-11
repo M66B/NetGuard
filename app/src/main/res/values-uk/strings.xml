@@ -39,6 +39,7 @@
   <string name="menu_reset">Скинути</string>
   <string name="menu_add">Додати</string>
   <string name="menu_delete">Вилучити</string>
+  <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Протокол</string>
   <string name="title_dport">Джерельний порт</string>
   <string name="title_raddr">Адреса призначення</string>
