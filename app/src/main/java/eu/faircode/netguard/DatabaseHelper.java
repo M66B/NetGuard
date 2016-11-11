@@ -739,7 +739,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.beginTransactionNonExclusive();
             try {
                 int ttl = rr.TTL;
-                // Android caches DNS for 15 minutes
                 if (ttl < 15 * 60)
                     ttl = 15 * 60;
 
@@ -834,7 +833,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // There is a segmented index on qname
             String query = "SELECT ID AS _id, *";
             query += " FROM dns";
-            query += " ORDER BY qname";
+            query += " ORDER BY qname, resource";
             return db.rawQuery(query, new String[]{});
         } finally {
             mLock.readLock().unlock();
