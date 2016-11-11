@@ -738,9 +738,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             db.beginTransactionNonExclusive();
             try {
+                int ttl = rr.TTL;
+                // Android caches DNS for 15 minutes
+                if (ttl < 15 * 60)
+                    ttl = 15 * 60;
+
                 ContentValues cv = new ContentValues();
                 cv.put("time", rr.Time);
-                cv.put("ttl", rr.TTL * 1000L);
+                cv.put("ttl", ttl * 1000L);
 
                 int rows = db.update("dns", cv, "qname = ? AND aname = ? AND resource = ?",
                         new String[]{rr.QName, rr.AName, rr.Resource});
