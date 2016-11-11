@@ -38,7 +38,7 @@
   <string name="menu_reset">Сброс</string>
   <string name="menu_add">Добавить</string>
   <string name="menu_delete">Удалить</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">Очистка</string>
   <string name="title_protocol">Протокол</string>
   <string name="title_dport">Исходный порт</string>
   <string name="title_raddr">Адрес назначения</string>

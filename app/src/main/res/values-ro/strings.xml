@@ -38,7 +38,7 @@
   <string name="menu_reset">Reseteaza</string>
   <string name="menu_add">Adauga</string>
   <string name="menu_delete">Sterge</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">Curatare</string>
   <string name="title_protocol">Protocol</string>
   <string name="title_dport">Port sursa</string>
   <string name="title_raddr">Adresa destinatie</string>
