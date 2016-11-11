@@ -129,7 +129,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
     private Map<Integer, Integer> mapUidKnown = new HashMap<>();
-    private Map<Long, Map<InetAddress, Boolean>> mapUidIPFilters = new HashMap<>();
+    private Map<Long, Map<InetAddress, IPRule>> mapUidIPFilters = new HashMap<>();
     private Map<Integer, Forward> mapForward = new HashMap<>();
     private Map<Integer, Boolean> mapNoNotify = new HashMap<>();
 
@@ -1264,6 +1264,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         int colResource = cursor.getColumnIndex("resource");
         int colDPort = cursor.getColumnIndex("dport");
         int colBlock = cursor.getColumnIndex("block");
+        int colTime = cursor.getColumnIndex("time");
+        int colTTL = cursor.getColumnIndex("ttl");
         while (cursor.moveToNext()) {
             int uid = cursor.getInt(colUid);
             int version = cursor.getInt(colVersion);
@@ -1272,6 +1274,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             String dresource = cursor.getString(colResource);
             int dport = cursor.getInt(colDPort);
             boolean block = (cursor.getInt(colBlock) > 0);
+            long time = cursor.getLong(colTime);
+            long ttl = cursor.getLong(colTTL);
 
             // long is 64 bits
             // 0..15 uid
@@ -1293,9 +1297,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     if (Util.isNumericAddress(name)) {
                         InetAddress iname = InetAddress.getByName(name);
                         boolean exists = mapUidIPFilters.get(key).containsKey(iname);
-                        if (!exists || !mapUidIPFilters.get(key).get(iname))
-                            mapUidIPFilters.get(key).put(iname, block);
-                        else if (exists)
+                        if (!exists || !mapUidIPFilters.get(key).get(iname).block) {
+                            IPRule rule = new IPRule(block, time + ttl);
+                            mapUidIPFilters.get(key).put(iname, rule);
+                        } else if (exists)
                             Log.w(TAG, "Address conflict uid=" + uid + " " + daddr + " " + dresource + "/" + dport);
                     } else
                         Log.w(TAG, "Address not numeric " + name);
@@ -1500,11 +1505,15 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     if (mapUidIPFilters.containsKey(key))
                         try {
                             InetAddress iaddr = InetAddress.getByName(packet.daddr);
-                            Map<InetAddress, Boolean> map = mapUidIPFilters.get(key);
+                            Map<InetAddress, IPRule> map = mapUidIPFilters.get(key);
                             if (map != null && map.containsKey(iaddr)) {
-                                filtered = true;
-                                packet.allowed = !map.get(iaddr);
-                                Log.i(TAG, "Filtering " + packet);
+                                IPRule rule = map.get(iaddr);
+                                if (System.currentTimeMillis() <= rule.expires) {
+                                    filtered = true;
+                                    packet.allowed = !rule.block;
+                                    Log.i(TAG, "Filtering " + packet);
+                                } else
+                                    Log.i(TAG, "DNS expired " + packet);
                             }
                         } catch (UnknownHostException ex) {
                             Log.w(TAG, "Allowed " + ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -2346,6 +2355,22 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     return false;
 
             return true;
+        }
+    }
+
+    private class IPRule {
+        public boolean block;
+        public long expires;
+
+        public IPRule(boolean block, long expires) {
+            this.block = block;
+            this.expires = expires;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            IPRule other = (IPRule) obj;
+            return (this.block == other.block && this.expires == other.expires);
         }
     }
 
