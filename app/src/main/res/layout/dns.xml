@@ -6,12 +6,25 @@
     android:orientation="horizontal"
     tools:context=".ActivityDns">
 
-    <TextView
-        android:id="@+id/tvTime"
+    <LinearLayout
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:textAppearance="@style/TextSmall" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextSmall" />
+
+        <TextView
+            android:id="@+id/tvTTL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|right"
+            android:textAppearance="@style/TextSmall" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -48,13 +61,6 @@
             android:id="@+id/tvResource"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextSmall" />
-
-        <TextView
-            android:id="@+id/tvTTL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end|right"
             android:textAppearance="@style/TextSmall" />
     </LinearLayout>
 </LinearLayout>

@@ -4,6 +4,9 @@
         android:id="@+id/menu_refresh"
         android:title="@string/menu_refresh" />
     <item
+        android:id="@+id/menu_cleanup"
+        android:title="@string/menu_cleanup" />
+    <item
         android:id="@+id/menu_clear"
         android:title="@string/menu_clear" />
 </menu>

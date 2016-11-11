@@ -740,7 +740,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             try {
                 ContentValues cv = new ContentValues();
                 cv.put("time", rr.Time);
-                cv.put("ttl", rr.TTL);
+                cv.put("ttl", rr.TTL * 1000L);
 
                 int rows = db.update("dns", cv, "qname = ? AND aname = ? AND resource = ?",
                         new String[]{rr.QName, rr.AName, rr.Resource});
@@ -766,17 +766,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void cleanupDns(long time) {
+    public void cleanupDns() {
         mLock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             db.beginTransactionNonExclusive();
             try {
                 // There is no index on time for write performance
-                int rows = db.delete("dns", "time < ?", new String[]{Long.toString(time)});
-                Log.i(TAG, "Cleanup DNS" +
-                        " before=" + SimpleDateFormat.getDateTimeInstance().format(new Date(time)) +
-                        " rows=" + rows);
+                long now = new Date().getTime();
+                db.execSQL("DELETE FROM dns WHERE time + ttl < " + now);
+                Log.i(TAG, "Cleanup DNS");
 
                 db.setTransactionSuccessful();
             } finally {
@@ -838,6 +837,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAccessDns(String dname) {
+        long now = new Date().getTime();
         mLock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -849,6 +849,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += " LEFT JOIN dns AS d";
             query += "   ON d.qname = a.daddr";
             query += " WHERE a.block >= 0";
+            query += " AND d.time + d.ttl >= " + now;
             if (dname != null)
                 query += " AND a.daddr = ?";
 

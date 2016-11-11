@@ -61,6 +61,10 @@ public class ActivityDns extends AppCompatActivity {
                 refresh();
                 return true;
 
+            case R.id.menu_cleanup:
+                cleanup();
+                return true;
+
             case R.id.menu_clear:
                 clear();
                 return true;
@@ -70,6 +74,22 @@ public class ActivityDns extends AppCompatActivity {
 
     private void refresh() {
         updateAdapter();
+    }
+
+    private void cleanup() {
+        new AsyncTask<Object, Object, Object>() {
+            @Override
+            protected Long doInBackground(Object... objects) {
+                Log.i(TAG, "Cleanup DNS");
+                DatabaseHelper.getInstance(ActivityDns.this).cleanupDns();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object result) {
+                updateAdapter();
+            }
+        }.execute();
     }
 
     private void clear() {
