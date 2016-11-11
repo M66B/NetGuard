@@ -87,6 +87,7 @@ public class ActivityDns extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object result) {
+                ServiceSinkhole.reload("DNS cleanup", ActivityDns.this);
                 updateAdapter();
             }
         }.execute();
@@ -103,6 +104,7 @@ public class ActivityDns extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object result) {
+                ServiceSinkhole.reload("DNS clear", ActivityDns.this);
                 updateAdapter();
             }
         }.execute();
