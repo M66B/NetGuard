@@ -76,6 +76,7 @@
   <string name="setting_filter">Forgalom szűrés</string>
   <string name="setting_track_usage">Hálózat használat követés</string>
   <string name="setting_reset_usage">Hálózat használat alaphelyzetbe</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Domain nevek letiltása</string>
   <string name="setting_forwarding">Port forward</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>

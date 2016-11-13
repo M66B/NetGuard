@@ -78,6 +78,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="setting_filter">Veri kullanımını filtrele</string>
   <string name="setting_track_usage">Veri kullanımını izle</string>
   <string name="setting_reset_usage">Veri kullanımını sıfırla</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Alan adını engelle</string>
   <string name="setting_forwarding">Port yönlendirme</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>

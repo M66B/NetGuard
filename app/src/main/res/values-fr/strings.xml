@@ -38,7 +38,7 @@
   <string name="menu_reset">Réinitialiser</string>
   <string name="menu_add">Ajouter</string>
   <string name="menu_delete">Supprimer</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">Nettoyage</string>
   <string name="title_protocol">Protocole</string>
   <string name="title_dport">Port source</string>
   <string name="title_raddr">Adresse destination</string>
@@ -76,6 +76,7 @@
   <string name="setting_filter">Filtrer le trafic</string>
   <string name="setting_track_usage">Surveiller l\'utilisation du réseau</string>
   <string name="setting_reset_usage">Réinitialiser l\'utilisation du réseau</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Bloquer les noms de domaine</string>
   <string name="setting_forwarding">Redirection de port</string>
   <string name="setting_vpn4">VPN IPv4 : %s</string>

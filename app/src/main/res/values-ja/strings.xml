@@ -39,7 +39,7 @@
   <string name="menu_reset">リセット</string>
   <string name="menu_add">追加</string>
   <string name="menu_delete">削除</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">クリーンアップ</string>
   <string name="title_protocol">プロトコル</string>
   <string name="title_dport">送信元ポート</string>
   <string name="title_raddr">宛先アドレス</string>
@@ -77,6 +77,7 @@
   <string name="setting_filter">トラフィックをフィルター</string>
   <string name="setting_track_usage">ネットワークの使用状況を追跡</string>
   <string name="setting_reset_usage">ネットワークの使用状況をリセット</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
   <string name="setting_forwarding">ポート転送</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>

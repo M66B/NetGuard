@@ -78,6 +78,7 @@
   <string name="setting_filter">过滤流量</string>
   <string name="setting_track_usage">跟踪网络使用记录</string>
   <string name="setting_reset_usage">重置网络使用记录</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">屏蔽域名</string>
   <string name="setting_forwarding">端口转发</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>

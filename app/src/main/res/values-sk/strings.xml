@@ -78,6 +78,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_filter">Filtrovať prenos</string>
   <string name="setting_track_usage">Sledovať používanie siete</string>
   <string name="setting_reset_usage">Resetovať využitie siete</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Blokovať názvy domén</string>
   <string name="setting_forwarding">Presmerovanie portu</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>

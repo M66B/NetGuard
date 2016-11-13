@@ -78,6 +78,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_filter">Filtrovat komunikaci</string>
   <string name="setting_track_usage">Sledovat využití sítě</string>
   <string name="setting_reset_usage">Resetovat využití sítě</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Blokovat názvy domén</string>
   <string name="setting_forwarding">Přesměrování portů</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>

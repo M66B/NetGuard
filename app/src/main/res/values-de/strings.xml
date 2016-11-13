@@ -77,6 +77,7 @@
   <string name="setting_filter">Datenverkehr filtern</string>
   <string name="setting_track_usage">Netzwerknutzung verfolgen</string>
   <string name="setting_reset_usage">Netzwerknutzung zurücksetzen</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
   <string name="setting_forwarding">Portweiterleitung</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>

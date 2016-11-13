@@ -76,6 +76,7 @@
   <string name="setting_filter">Filtruj ruch</string>
   <string name="setting_track_usage">Rejestruj użycie sieci</string>
   <string name="setting_reset_usage">Resetuj użycie sieci</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Blokuj nazwy domen</string>
   <string name="setting_forwarding">Przekierowanie portów</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>

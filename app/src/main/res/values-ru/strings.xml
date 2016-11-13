@@ -76,6 +76,7 @@
   <string name="setting_filter">Фильтр трафика</string>
   <string name="setting_track_usage">Отслеживание использования сети</string>
   <string name="setting_reset_usage">Сброс сетевого использования</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Блокировать доменные имена</string>
   <string name="setting_forwarding">Перенаправление портов</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>

@@ -77,6 +77,7 @@
   <string name="setting_filter">סנן תעבורה</string>
   <string name="setting_track_usage">עקוב אחר השימוש ברשת</string>
   <string name="setting_reset_usage">אפס את מונה השימוש ברשת</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">חסום שמות מתחם (דומיין)</string>
   <string name="setting_forwarding">הפניית פורטים</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>

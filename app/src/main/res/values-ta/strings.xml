@@ -76,6 +76,7 @@
   <string name="setting_filter">வடிகட்டி போக்குவரத்து</string>
   <string name="setting_track_usage">பிணைய பயன்பாடு அறி</string>
   <string name="setting_reset_usage">பிணைய பயன்பாடு மீட்டமை</string>
+  <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">தொகுதி டொமைன் பெயர்கள்</string>
   <string name="setting_forwarding">முணையம் மேலனுப்ப</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
