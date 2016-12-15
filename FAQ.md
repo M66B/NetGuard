@@ -43,7 +43,7 @@ then no, because NetGuard needs to use this service. Android allows only one app
 <a name="FAQ3"></a>
 **(3) Can I use NetGuard on any Android version?**
 
-No, the minimum required Android version is 4.0 (KitKat)
+No, the minimum required Android version is 4.0 (<a href= "https://developer.android.com/about/versions/android-4.0.html">ICE_CREAM_SANDWICH</a>)
 because NetGuard uses the [Android VPN service](https://developer.android.com/reference/android/net/VpnService.html),
 which was added in Android 4.0.
 
