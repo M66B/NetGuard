@@ -141,6 +141,10 @@ public class Receiver extends BroadcastReceiver {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 builder.setCategory(Notification.CATEGORY_STATUS)
                         .setVisibility(Notification.VISIBILITY_SECRET);
+                if (prefs.getBoolean("headsup_notification", true)) {
+                    builder.setPriority(Notification.PRIORITY_HIGH)
+                            .setVibrate(new long[0]);
+                }
             }
 
             // Get defaults
