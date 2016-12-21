@@ -3,7 +3,7 @@ apply plugin: 'com.android.model.application'
 model {
     android {
         compileSdkVersion = 25
-        buildToolsVersion = "25"
+        buildToolsVersion = "25.0.2"
 
         defaultConfig {
             applicationId = "eu.faircode.netguard"
@@ -85,8 +85,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.+'
     compile 'com.android.support:recyclerview-v7:25.+'
     compile 'com.squareup.picasso:picasso:2.5.+'
-    compile 'com.google.firebase:firebase-core:9.2.+'
-    compile 'com.google.firebase:firebase-ads:9.2.+'
+    compile 'com.google.firebase:firebase-core:10.0.+'
+    compile 'com.google.firebase:firebase-ads:10.0.+'
 }
 
 apply plugin: 'com.google.gms.google-services'
