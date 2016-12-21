@@ -15,11 +15,17 @@
                 android:key="whitelist_other"
                 android:title="@string/setting_whitelist_other" />
             <eu.faircode.netguard.SwitchPreference
+                android:defaultValue="true"
+                android:key="screen_on"
+                android:title="@string/setting_screen_on" />
+            <eu.faircode.netguard.SwitchPreference
                 android:defaultValue="false"
+                android:dependency="screen_on"
                 android:key="screen_wifi"
                 android:title="@string/setting_screen_wifi" />
             <eu.faircode.netguard.SwitchPreference
                 android:defaultValue="false"
+                android:dependency="screen_on"
                 android:key="screen_other"
                 android:title="@string/setting_screen_other" />
             <eu.faircode.netguard.SwitchPreference

@@ -282,6 +282,25 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     return;
                 }
 
+            if (prefs.getBoolean("screen_on", true)) {
+                Log.i(TAG, "Started listening for interactive state changes");
+                if (prefs.getBoolean("screen_on", true)) {
+                    last_interactive = Util.isInteractive(ServiceSinkhole.this);
+                    IntentFilter ifInteractive = new IntentFilter();
+                    ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
+                    ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
+                    ifInteractive.addAction(ACTION_SCREEN_OFF_DELAYED);
+                    registerReceiver(interactiveStateReceiver, ifInteractive);
+                    registeredInteractiveState = true;
+                }
+            } else {
+                Log.i(TAG, "Stopped listening for interactive state changes");
+                if (registeredInteractiveState) {
+                    unregisterReceiver(interactiveStateReceiver);
+                    registeredInteractiveState = false;
+                }
+            }
+
             // Listen for phone state changes
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             if (tm != null && !phone_state &&
@@ -1797,15 +1816,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         commandHandler = new CommandHandler(commandLooper);
         logHandler = new LogHandler(logLooper);
         statsHandler = new StatsHandler(statsLooper);
-
-        // Listen for interactive state changes
-        last_interactive = Util.isInteractive(this);
-        IntentFilter ifInteractive = new IntentFilter();
-        ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
-        ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
-        ifInteractive.addAction(ACTION_SCREEN_OFF_DELAYED);
-        registerReceiver(interactiveStateReceiver, ifInteractive);
-        registeredInteractiveState = true;
 
         // Listen for power save mode
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !Util.isPlayStoreInstall(this)) {

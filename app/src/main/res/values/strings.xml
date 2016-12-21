@@ -65,6 +65,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_theme">Theme: %1$s</string>
     <string name="setting_dark">Use dark theme</string>
     <string name="setting_install">Notify on new install</string>
+    <string name="setting_screen_on">Apply \'when screen on\' rules</string>
     <string name="setting_auto">Auto enable after %1$s minutes</string>
     <string name="setting_delay">Delay screen off %1$s minutes</string>
     <string name="setting_update">Check for updates</string>

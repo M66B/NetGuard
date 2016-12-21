@@ -275,11 +275,16 @@ public class Rule {
         boolean default_screen_wifi = prefs.getBoolean("screen_wifi", true);
         boolean default_screen_other = prefs.getBoolean("screen_other", true);
         boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
+
         boolean manage_system = prefs.getBoolean("manage_system", false);
+        boolean screen_on = prefs.getBoolean("screen_on", true);
         boolean show_user = prefs.getBoolean("show_user", true);
         boolean show_system = prefs.getBoolean("show_system", false);
         boolean show_nointernet = prefs.getBoolean("show_nointernet", true);
         boolean show_disabled = prefs.getBoolean("show_disabled", true);
+
+        default_screen_wifi = default_screen_wifi && screen_on;
+        default_screen_other = default_screen_other && screen_on;
 
         long now = SystemClock.elapsedRealtime();
 
@@ -380,8 +385,8 @@ public class Rule {
 
                     rule.wifi_blocked = (!(rule.system && !manage_system) && wifi.getBoolean(info.packageName, rule.wifi_default));
                     rule.other_blocked = (!(rule.system && !manage_system) && other.getBoolean(info.packageName, rule.other_default));
-                    rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default);
-                    rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default);
+                    rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default) && screen_on;
+                    rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default) && screen_on;
                     rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
 
                     rule.apply = apply.getBoolean(info.packageName, true);
@@ -477,8 +482,9 @@ public class Rule {
 
     public void updateChanged(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
-        boolean default_other = prefs.getBoolean("whitelist_other", true);
+        boolean screen_on = prefs.getBoolean("screen_on", false);
+        boolean default_wifi = prefs.getBoolean("whitelist_wifi", true) && screen_on;
+        boolean default_other = prefs.getBoolean("whitelist_other", true) && screen_on;
         boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
         updateChanged(default_wifi, default_other, default_roaming);
     }

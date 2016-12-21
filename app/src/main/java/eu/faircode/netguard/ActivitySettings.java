@@ -497,7 +497,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             prefs.edit().remove(name).apply();
 
         // Dependencies
-        if ("whitelist_wifi".equals(name) ||
+        if ("screen_on".equals(name))
+            ServiceSinkhole.reload("changed " + name, this);
+
+        else if ("whitelist_wifi".equals(name) ||
                 "screen_wifi".equals(name))
             ServiceSinkhole.reload("changed " + name, this);
 
