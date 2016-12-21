@@ -508,7 +508,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             if (resultCode == RESULT_OK) {
                 ServiceSinkhole.start("prepared", this);
                 checkDoze();
-            }
+            } else if (resultCode == RESULT_CANCELED)
+                Toast.makeText(this, R.string.msg_vpn_cancelled, Toast.LENGTH_LONG).show();
 
         } else if (requestCode == REQUEST_INVITE) {
             // Do nothing
