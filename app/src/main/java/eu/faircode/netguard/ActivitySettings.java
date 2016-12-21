@@ -163,7 +163,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else
             pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
 
-        WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         List<CharSequence> listSSID = new ArrayList<>();
         List<WifiConfiguration> configs = wm.getConfiguredNetworks();
         if (configs != null)
