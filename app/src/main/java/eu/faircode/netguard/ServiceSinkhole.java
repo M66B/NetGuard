@@ -100,6 +100,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -132,6 +133,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private Map<Long, Map<InetAddress, IPRule>> mapUidIPFilters = new HashMap<>();
     private Map<Integer, Forward> mapForward = new HashMap<>();
     private Map<Integer, Boolean> mapNoNotify = new HashMap<>();
+    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true);
 
     private volatile Looper commandLooper;
     private volatile Looper logLooper;
@@ -637,9 +639,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             if (log_app && packet.uid >= 0 && !(packet.uid == 0 && packet.protocol == 17 && packet.dport == 53)) {
                 if (!(packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */))
                     packet.dport = 0;
-                if (dh.updateAccess(packet, dname, -1))
+                if (dh.updateAccess(packet, dname, -1)) {
+                    lock.readLock().lock();
                     if (mapNoNotify.containsKey(packet.uid) && mapNoNotify.get(packet.uid))
                         showAccessNotification(packet.uid);
+                    lock.readLock().unlock();
+                }
             }
         }
 
@@ -1144,17 +1149,22 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             prepareUidIPFilters(null);
             prepareForwarding();
         } else {
+            lock.writeLock().lock();
             mapUidAllowed.clear();
             mapUidKnown.clear();
             mapHostsBlocked.clear();
             mapUidIPFilters.clear();
             mapForward.clear();
+            lock.writeLock().unlock();
         }
 
         if (log_app)
             prepareNotify(listRule);
-        else
+        else {
+            lock.writeLock().lock();
             mapNoNotify.clear();
+            lock.writeLock().unlock();
+        }
 
         if (log || log_app || filter) {
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
@@ -1182,15 +1192,19 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     private void unprepare() {
+        lock.writeLock().lock();
         mapUidAllowed.clear();
         mapUidKnown.clear();
         mapHostsBlocked.clear();
         mapUidIPFilters.clear();
         mapForward.clear();
         mapNoNotify.clear();
+        lock.writeLock().unlock();
     }
 
     private void prepareUidAllowed(List<Rule> listAllowed, List<Rule> listRule) {
+        lock.writeLock().lock();
+
         mapUidAllowed.clear();
         for (Rule rule : listAllowed)
             mapUidAllowed.put(rule.info.applicationInfo.uid, true);
@@ -1198,6 +1212,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         mapUidKnown.clear();
         for (Rule rule : listRule)
             mapUidKnown.put(rule.info.applicationInfo.uid, rule.info.applicationInfo.uid);
+
+        lock.writeLock().unlock();
     }
 
     private void prepareHostsBlocked() {
@@ -1206,7 +1222,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         File hosts = new File(getFilesDir(), "hosts.txt");
         if (!use_hosts || !hosts.exists() || !hosts.canRead()) {
             Log.i(TAG, "Hosts file use=" + use_hosts + " exists=" + hosts.exists());
+            lock.writeLock().lock();
             mapHostsBlocked.clear();
+            lock.writeLock().unlock();
             return;
         }
 
@@ -1216,6 +1234,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             return;
         }
         last_hosts_modified = hosts.lastModified();
+
+        lock.writeLock().lock();
 
         mapHostsBlocked.clear();
 
@@ -1250,9 +1270,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Log.e(TAG, exex.toString() + "\n" + Log.getStackTraceString(exex));
                 }
         }
+
+        lock.writeLock().unlock();
     }
 
     private void prepareUidIPFilters(String dname) {
+        lock.writeLock().lock();
+
         if (dname == null)
             mapUidIPFilters.clear();
 
@@ -1313,9 +1337,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
         }
         cursor.close();
+
+        lock.writeLock().unlock();
     }
 
     private void prepareForwarding() {
+        lock.writeLock().lock();
         mapForward.clear();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -1338,6 +1365,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
             cursor.close();
         }
+        lock.writeLock().unlock();
     }
 
     private void prepareNotify(List<Rule> listRule) {
@@ -1345,12 +1373,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean notify = prefs.getBoolean("notify_access", false);
         boolean system = prefs.getBoolean("manage_system", false);
 
+        lock.writeLock().lock();
         mapNoNotify.clear();
-
         if (notify)
             for (Rule rule : listRule)
                 if (rule.notify && (system || !rule.system))
                     mapNoNotify.put(rule.info.applicationInfo.uid, true);
+        lock.writeLock().unlock();
     }
 
     private List<Rule> getAllowedRules(List<Rule> listRule) {
@@ -1469,7 +1498,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private boolean isDomainBlocked(String name) {
-        return (mapHostsBlocked.containsKey(name) && mapHostsBlocked.get(name));
+        lock.readLock().lock();
+        boolean blocked = (mapHostsBlocked.containsKey(name) && mapHostsBlocked.get(name));
+        lock.readLock().unlock();
+        return blocked;
     }
 
     private boolean isSupported(int protocol) {
@@ -1482,6 +1514,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     // Called from native code
     private Allowed isAddressAllowed(Packet packet) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        lock.readLock().lock();
 
         packet.allowed = false;
         if (prefs.getBoolean("filter", false)) {
@@ -1504,27 +1538,25 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 int dport = (packet.protocol == 6 || packet.protocol == 17 ? packet.dport : 0);
                 long key = (packet.version << 40) | (packet.protocol << 32) | (dport << 16) | packet.uid;
 
-                synchronized (mapUidIPFilters) {
-                    if (mapUidIPFilters.containsKey(key))
-                        try {
-                            InetAddress iaddr = InetAddress.getByName(packet.daddr);
-                            Map<InetAddress, IPRule> map = mapUidIPFilters.get(key);
-                            if (map != null && map.containsKey(iaddr)) {
-                                IPRule rule = map.get(iaddr);
-                                if (System.currentTimeMillis() <= rule.expires) {
-                                    filtered = true;
-                                    packet.allowed = !rule.block;
-                                    Log.i(TAG, "Filtering " + packet);
-                                } else
-                                    Log.i(TAG, "DNS expired " + packet);
-                            }
-                        } catch (UnknownHostException ex) {
-                            Log.w(TAG, "Allowed " + ex.toString() + "\n" + Log.getStackTraceString(ex));
+                if (mapUidIPFilters.containsKey(key))
+                    try {
+                        InetAddress iaddr = InetAddress.getByName(packet.daddr);
+                        Map<InetAddress, IPRule> map = mapUidIPFilters.get(key);
+                        if (map != null && map.containsKey(iaddr)) {
+                            IPRule rule = map.get(iaddr);
+                            if (System.currentTimeMillis() <= rule.expires) {
+                                filtered = true;
+                                packet.allowed = !rule.block;
+                                Log.i(TAG, "Filtering " + packet);
+                            } else
+                                Log.i(TAG, "DNS expired " + packet);
                         }
+                    } catch (UnknownHostException ex) {
+                        Log.w(TAG, "Allowed " + ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    }
 
-                    if (!filtered)
-                        packet.allowed = (mapUidAllowed.containsKey(packet.uid) && mapUidAllowed.get(packet.uid));
-                }
+                if (!filtered)
+                    packet.allowed = (mapUidAllowed.containsKey(packet.uid) && mapUidAllowed.get(packet.uid));
             }
         }
 
@@ -1541,6 +1573,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             } else
                 allowed = new Allowed();
         }
+
+        lock.readLock().unlock();
 
         if (prefs.getBoolean("log", false) || prefs.getBoolean("log_app", false))
             logPacket(packet);
