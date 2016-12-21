@@ -56,6 +56,7 @@
   <string name="setting_theme">Thema: %1$s</string>
   <string name="setting_dark">Gebruik donker thema</string>
   <string name="setting_install">Notificatie bij nieuwe installaties</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Zet weer aan na %1$s minuten</string>
   <string name="setting_delay">Vertraag scherm uit %1$s minuten</string>
   <string name="setting_update">Controleren op updates</string>
@@ -129,6 +130,7 @@
   <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
   <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Geef netwerksnelheidsgrafiek weer in statusbalkmelding</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Weet u het zeker?</string>
   <string name="msg_started">Regels worden toegepast</string>
   <string name="msg_packages">%1$d toegestaan, %2$d geblokkeerd</string>

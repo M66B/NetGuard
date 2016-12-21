@@ -39,7 +39,7 @@
   <string name="menu_reset">Nulstil</string>
   <string name="menu_add">Tilføj</string>
   <string name="menu_delete">Slet</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">Oprydning</string>
   <string name="title_protocol">Protokol</string>
   <string name="title_dport">Kildeport</string>
   <string name="title_raddr">Destinationsadresse</string>
@@ -56,6 +56,7 @@
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Brug mørkt tema</string>
   <string name="setting_install">Notificér ved ny installation</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Auto-aktivér efter %1$s minutter</string>
   <string name="setting_delay">Udsæt skærmslukning %1$s minutter</string>
   <string name="setting_update">Søg efter opdateringer</string>
@@ -77,7 +78,7 @@
   <string name="setting_filter">Filtrer trafik</string>
   <string name="setting_track_usage">Spor netværksforbrug</string>
   <string name="setting_reset_usage">Nulstil netværksforbrug</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">Vis opløste domænenavne</string>
   <string name="setting_block_domains">Bloker domænenavne</string>
   <string name="setting_forwarding">Port-viderestilling</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -129,6 +130,7 @@
   <string name="summary_socks5_enabled">Kun TCP-trafik sendes til proxy-serveren</string>
   <string name="summary_watchdog">Kontrollér periodisk at NetGuard stadig kører (angiv 0 for at deaktivere denne funktion). Dette kan medføre forøget strømforbrug.</string>
   <string name="summary_stats">Vis netværkshastighedsgraf i statusbjælkenotifikation</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Er du sikker?</string>
   <string name="msg_started">Håndhæver regler</string>
   <string name="msg_packages">%1$d tilladt, %2$d blokeret</string>

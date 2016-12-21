@@ -55,6 +55,7 @@
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Foloseste tema intunecata</string>
   <string name="setting_install">Notificare la o instalare noua</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Activeaza automat dupa %1$s minute</string>
   <string name="setting_delay">Temporizare la oprirea ecranului %1$s minute</string>
   <string name="setting_update">Verifica actualizari</string>
@@ -76,7 +77,7 @@
   <string name="setting_filter">Filtru de trafic</string>
   <string name="setting_track_usage">Urmareste folosirea conexiunii</string>
   <string name="setting_reset_usage">Reseteaza folosirea conexiunii</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">Arata numele de domenii rezolvate</string>
   <string name="setting_block_domains">Blocheaza domenii</string>
   <string name="setting_forwarding">Redirectionare port</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -128,6 +129,7 @@
   <string name="summary_socks5_enabled">Dar traficul de date TCP va fi rutat spre serverul proxy</string>
   <string name="summary_watchdog">Verifica periodic daca NetGuard ruleaza (introdu zero pentru a dezactiva). Aceasta optiune poate duce la un consum ridicat al bateriei.</string>
   <string name="summary_stats">Arata graficul de viteza al retelei in bara de notificari</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Esti sigur(a)?</string>
   <string name="msg_started">Limitari activate</string>
   <string name="msg_packages">%1$d permise, %2$d blocate</string>

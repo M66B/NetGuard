@@ -55,6 +55,7 @@
   <string name="setting_theme">المظهر: %1$s</string>
   <string name="setting_dark">استخدم المظهر الداكن</string>
   <string name="setting_install">اخطار على التثبيت الجديد</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">تمكين تلقائي بعد %1$s دقيقة/دقائق</string>
   <string name="setting_delay">تــأخــيــر تــعــتــيــم الــشــاشــة %1$s دقــيــقــة</string>
   <string name="setting_update">التحقق من التحديثات</string>
@@ -129,6 +130,7 @@
   <string name="summary_socks5_enabled">يـــتـــم إرســال حــركـــة مـــرور TCP فـــقـــط إلـــى الـــمـــلـــقـــم الـــوكــيـــل</string>
   <string name="summary_watchdog">الــفـــحـــص الــدوري إذا كــان قـــيـــد تـــشـــغـــيـــل NetGuard (فــأدخـــل صـــفـــر لـــتـــعـــطـــيـــل هـــذا الــخـــيـــار). قـــد يـــســـتـــلـــزم هـــذا إســـتـــخـــدام أكـــثـــر لـلـــبـــطــاريـــة.</string>
   <string name="summary_stats">إظهار الرسم البياني لسرعة الشبكة الرسم في إعلام شريط المعلومات</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">هل أنت متأكد؟</string>
   <string name="msg_started">فـرض الـقـواعـد</string>
   <string name="msg_packages">%1$d مـسـمـوح، %2$d مـحـظـور</string>

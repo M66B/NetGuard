@@ -55,6 +55,7 @@
   <string name="setting_theme">Thème : %1$s</string>
   <string name="setting_dark">Utiliser le thème sombre</string>
   <string name="setting_install">Notifier lors d\'une nouvelle installation</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Activer automatiquement après %1$s minutes</string>
   <string name="setting_delay">Retarder l\'extinction de l\'ecran de %1$s minutes</string>
   <string name="setting_update">Vérifier les mises à jour</string>
@@ -128,6 +129,7 @@
   <string name="summary_socks5_enabled">Seul le trafic TCP sera envoyé au serveur proxy</string>
   <string name="summary_watchdog">Vérifier périodiquement si NetGuard est toujours en fonctionnement (entrez zéro pour désactiver cette option). Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_stats">Afficher le graphe de débit du réseau dans une notification sur la barre d\'état</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Êtes-vous sûr ?</string>
   <string name="msg_started">Application des règles</string>
   <string name="msg_packages">%1$d autorisée(s), %2$d bloquée(s)</string>

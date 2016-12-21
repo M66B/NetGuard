@@ -38,7 +38,7 @@
   <string name="menu_reset">Ripristina</string>
   <string name="menu_add">Aggiungi</string>
   <string name="menu_delete">Cancella</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">Ripulisci</string>
   <string name="title_protocol">Protocollo</string>
   <string name="title_dport">Porta di origine</string>
   <string name="title_raddr">Indirizzo di destinazione</string>
@@ -55,6 +55,7 @@
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Usa il tema scuro</string>
   <string name="setting_install">Notifica l\'installazione di nuove applicazioni</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
   <string name="setting_update">Verifica la presenza di aggiornamenti</string>
@@ -76,7 +77,7 @@
   <string name="setting_filter">Filtra traffico</string>
   <string name="setting_track_usage">Tieni traccia dell\'utilizzo della rete</string>
   <string name="setting_reset_usage">Reimposta dati sull\'utilizzo della rete</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">Mostra i nomi di dominio risolti</string>
   <string name="setting_block_domains">Blocca nomi di dominio</string>
   <string name="setting_forwarding">Port forwarding</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -128,6 +129,7 @@
   <string name="summary_socks5_enabled">Solo il traffico TCP verrà inviato al server proxy</string>
   <string name="summary_watchdog">Controlla periodicamente se NetGuard è ancora in esecuzione (inserire zero per disattivare questa opzione). Può comportare un maggiore consumo di batteria.</string>
   <string name="summary_stats">Visualizza il grafico della velocità di rete tra le notifiche nella barra di stato</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Sei sicuro?</string>
   <string name="msg_started">Regole applicate</string>
   <string name="msg_packages">%1$d permesse, %2$d bloccate</string>

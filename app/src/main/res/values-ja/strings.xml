@@ -56,6 +56,7 @@
   <string name="setting_theme">テーマ: %1$s</string>
   <string name="setting_dark">ダークテーマを使用する</string>
   <string name="setting_install">新規インストール時に通知</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">%1$s 分後に自動的に有効にする</string>
   <string name="setting_delay">%1$s 分、画面オフを遅延</string>
   <string name="setting_update">アップデートの確認</string>
@@ -77,7 +78,7 @@
   <string name="setting_filter">トラフィックをフィルター</string>
   <string name="setting_track_usage">ネットワークの使用状況を追跡</string>
   <string name="setting_reset_usage">ネットワークの使用状況をリセット</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">解決済みのドメイン名を表示</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
   <string name="setting_forwarding">ポート転送</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -129,6 +130,7 @@
   <string name="summary_socks5_enabled">TCP トラフィックのみプロキシ サーバーに送信されます</string>
   <string name="summary_watchdog">NetGuard がまだ実行されているかどうかを定期的にチェックします (0 を入力すると、このオプションを無効に ます)。余分にバッテリーを使用することがあります。</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">よろしいですか?</string>
   <string name="msg_started">ルールを適用します</string>
   <string name="msg_packages">%1$d 許可、%2$d ブロック</string>

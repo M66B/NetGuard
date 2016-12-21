@@ -55,6 +55,7 @@
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Использовать темную тему</string>
   <string name="setting_install">Уведомлять о новой установке</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Авто запуск через %1$s минут</string>
   <string name="setting_delay">Задержка экрана %1$s минут</string>
   <string name="setting_update">Проверять наличие обновлений</string>
@@ -76,7 +77,7 @@
   <string name="setting_filter">Фильтр трафика</string>
   <string name="setting_track_usage">Отслеживание использования сети</string>
   <string name="setting_reset_usage">Сброс сетевого использования</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">Показать разрешенные доменные имена</string>
   <string name="setting_block_domains">Блокировать доменные имена</string>
   <string name="setting_forwarding">Перенаправление портов</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -128,6 +129,7 @@
   <string name="summary_socks5_enabled">На прокси-сервер будет направляться только TCP трафик</string>
   <string name="summary_watchdog">Периодически проверять, запущен ли NetGuard (введите ноль, чтобы отключить эту опцию). Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Вы уверены?</string>
   <string name="msg_started">Определить правила</string>
   <string name="msg_packages">%1$d разрешено, %2$d заблокировано</string>

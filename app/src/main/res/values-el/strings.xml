@@ -55,6 +55,7 @@
   <string name="setting_theme">Θέμα: %1$s</string>
   <string name="setting_dark">Χρήση σκοτεινού θέματος</string>
   <string name="setting_install">Ειδοποίηση για νέα εγκατάσταση</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Αυτόματη ενεργοποίηση μετά από %1$s λεπτά</string>
   <string name="setting_delay">Καθυστέρηση οθόνης off για %1$s λεπτά</string>
   <string name="setting_update">Έλεγχος Ενημερώσεων</string>
@@ -128,6 +129,7 @@
   <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
   <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Show network speed graph in status bar notification</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Are you sure?</string>
   <string name="msg_started">Enforcing rules</string>
   <string name="msg_packages">%1$d allowed, %2$d blocked</string>

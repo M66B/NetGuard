@@ -55,6 +55,7 @@
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Използване на тъмна тема</string>
   <string name="setting_install">Уведомяване при нова инсталация</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Автоматично активитане след %1$s минути</string>
   <string name="setting_delay">Отлагане изключването на екрана с %1$s минути</string>
   <string name="setting_update">Проверка за актуализация</string>
@@ -128,6 +129,7 @@
   <string name="summary_socks5_enabled">Само TCP трафикът ще бъде изпратен към прокси сървъра</string>
   <string name="summary_watchdog">Периодично проверява дали NetGuard е активен (въведете 0 за деазктивиране на опцията). Това може да доведе до допълнителен разход на батерията.</string>
   <string name="summary_stats">Показване на скоростта на трафика в лентата за уведомяване</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Сигурни ли сте?</string>
   <string name="msg_started">Строги правила</string>
   <string name="msg_packages">%1$d, разрешени, %2$d блокирани</string>

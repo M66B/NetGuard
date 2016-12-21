@@ -55,6 +55,7 @@
   <string name="setting_theme">Chủ đề: %1$s</string>
   <string name="setting_dark">Sử dụng chủ đề tối</string>
   <string name="setting_install">Thông báo ứng dụng mới cài đặt</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Tự động kích hoạt sau %1$s phút</string>
   <string name="setting_delay">Trì hoãn màn hình tắt %1$s phút</string>
   <string name="setting_update">Kiểm tra cập Nhật</string>
@@ -128,6 +129,7 @@
   <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
   <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Hiển thị đồ thị tốc độ mạng trên thanh thông báo trạng thái</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Bạn có chắc không?</string>
   <string name="msg_started">Đang thực thi các quy tắc</string>
   <string name="msg_packages">%1$d cho phép, %2$d bị chặn</string>

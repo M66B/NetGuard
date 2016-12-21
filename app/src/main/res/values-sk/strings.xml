@@ -57,6 +57,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_theme">Téma: %1$s</string>
   <string name="setting_dark">Použiť tmavú tému</string>
   <string name="setting_install">Upozorniť na novú inštaláciu</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Automaticky zapnúť po %1$s minútach</string>
   <string name="setting_delay">Oneskoriť vypnutie obrazovky o %1$s minút</string>
   <string name="setting_update">Skontrolovať aktualizácie</string>
@@ -130,6 +131,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
   <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Zobraziť oznámenie s graf rýchlosti siete v stavovom riadku</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Ste si istý?</string>
   <string name="msg_started">Pravidlá vynútenia</string>
   <string name="msg_packages">Povolené: %1$d, blokované: %2$d</string>

@@ -35,7 +35,7 @@
   <string name="menu_organization">Organisation zeigen</string>
   <string name="menu_pcap_enabled">PCAP aktiviert</string>
   <string name="menu_pcap_export">PCAP exportieren</string>
-  <string name="menu_clear">Bereinigen</string>
+  <string name="menu_clear">Löschen</string>
   <string name="menu_reset">Zurücksetzen</string>
   <string name="menu_add">Hinzufügen</string>
   <string name="menu_delete">Löschen</string>
@@ -56,6 +56,7 @@
   <string name="setting_theme">Design: %1$s</string>
   <string name="setting_dark">Dunkles Design verwenden</string>
   <string name="setting_install">Benachrichtung bei neuer Installation</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
   <string name="setting_update">Nach Aktualisierungen suchen</string>
@@ -77,7 +78,7 @@
   <string name="setting_filter">Datenverkehr filtern</string>
   <string name="setting_track_usage">Netzwerknutzung verfolgen</string>
   <string name="setting_reset_usage">Netzwerknutzung zurücksetzen</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">Aufgelöste Domainnamen anzeigen</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
   <string name="setting_forwarding">Portweiterleitung</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
@@ -125,10 +126,11 @@
   <string name="summary_access">Benachrichtigungsleiste anzeigen, wenn eine Anwendung versucht, auf eine neue Internetadresse zuzugreifen (bei deaktivierter Filterung werden nur blockierte Internet-Zugriffsversuche angezeigt)</string>
   <string name="summary_filter">IP-Pakete filtern, die den VPN-Tunnel verlassen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_track_usage">Anzahl der gesendeten und empfangenen Bytes für jede Anwendung und Adresse verfolgen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
-  <string name="summary_block_domains">Antwortet für blockierte Domain-Namen mit \'Name Error\' (NXDOMAIN). Diese Option ist deaktiviert, wenn keine Hosts-Datei zur Verfügung steht.</string>
+  <string name="summary_block_domains">Mit \'Name Error\' (NXDOMAIN) antworten für blockierte Domainnamen. Diese Option ist deaktiviert, wenn keine Hosts-Datei zur Verfügung steht.</string>
   <string name="summary_socks5_enabled">Nur TCP-Datenverkehr wird an den Proxyserver gesendet</string>
   <string name="summary_watchdog">In regelmäßigen Abständen überprüfen, ob NetGuard noch läuft (Null um diese Option zu deaktivieren). Das kann den Batterieverbrauch erhöhen.</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Sind Sie sicher?</string>
   <string name="msg_started">Regeln werden angewendet</string>
   <string name="msg_packages">%1$d erlaubt, %2$d blockiert</string>

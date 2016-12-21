@@ -55,6 +55,7 @@
   <string name="setting_theme">Téma: %1$s</string>
   <string name="setting_dark">Sötét téma használata</string>
   <string name="setting_install">Értesítés új alkalmazás telepítésekor</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Automatikus engedélyezés %1$s perc után</string>
   <string name="setting_delay">%1$s perc várakozás a képernyő kikapcsolása után</string>
   <string name="setting_update">Frissítések ellenőrzése</string>
@@ -76,7 +77,7 @@
   <string name="setting_filter">Forgalom szűrés</string>
   <string name="setting_track_usage">Hálózat használat követés</string>
   <string name="setting_reset_usage">Hálózat használat alaphelyzetbe</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">Mutassa a feloldott domain neveket</string>
   <string name="setting_block_domains">Domain nevek letiltása</string>
   <string name="setting_forwarding">Port forward</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -128,6 +129,7 @@
   <string name="summary_socks5_enabled">Csak a TCP forgalom küldése a proxy szerverre</string>
   <string name="summary_watchdog">Rendszeresen ellenőrzi ha a NetGuard fut (a 0 beírása letiltja azt az opciót). Ez extra akkumulátor használattal járhat.</string>
   <string name="summary_stats">Mutassa a hálózat sebesség grafikont az értesítés sávon</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Biztos benne?</string>
   <string name="msg_started">Szabályok érvényesítése</string>
   <string name="msg_packages">%1$d engedélyezve, %2$d letiltva</string>

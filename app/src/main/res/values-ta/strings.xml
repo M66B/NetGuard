@@ -55,6 +55,7 @@
   <string name="setting_theme">கருப்பொருள்: %1$s</string>
   <string name="setting_dark">கருத்த கருப்பொருளை உபயோகி</string>
   <string name="setting_install">தெரிவி மீது புதிய நிறுவல்</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">பிறகு %1$s நிமிடங்கள் தானாக இயக்கு</string>
   <string name="setting_delay">அணை %1$s நிமிடங்கள் தாமதம் திரை</string>
   <string name="setting_update">மேம்படுத்தலுக்கு சோதி</string>
@@ -128,6 +129,7 @@
   <string name="summary_socks5_enabled">TCP போக்குவரத்து மட்டும் பதிலிச் சேவையகம் அனுப்பப்படும்</string>
   <string name="summary_watchdog">அவ்வப்போது என்றால் NetGuard இயங்கிக்கொண்டிருக்கும் சரிபார்க்கவும் (இந்த விருப்பத்தை முடக்க பூஜ்யம் உள்ளிட). கூடுதல் மின்கல பயன்பாட்டு இது இதனால் இருக்கலாம்.</string>
   <string name="summary_stats">நிலை பட்டி அறிவிக்கை பிணைய வேகம் வரைபடம் காண்பி</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">நிச்சயமாக?</string>
   <string name="msg_started">விதிகளை அமலாக்கம்</string>
   <string name="msg_packages">%1$d அனுமதிக்கப்பட்ட, %2$d தடுக்கப்பட்டது</string>

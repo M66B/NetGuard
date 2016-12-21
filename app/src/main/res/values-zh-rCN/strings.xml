@@ -40,7 +40,7 @@
   <string name="menu_reset">重置</string>
   <string name="menu_add">添加</string>
   <string name="menu_delete">删除</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">清理</string>
   <string name="title_protocol">协议</string>
   <string name="title_dport">源端口</string>
   <string name="title_raddr">目标地址</string>
@@ -57,6 +57,7 @@
   <string name="setting_theme">主题: %1$s</string>
   <string name="setting_dark">使用暗色主题</string>
   <string name="setting_install">有新软件安装时通知我</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
   <string name="setting_delay">推迟 %1$s 分钟关屏</string>
   <string name="setting_update">检查更新</string>
@@ -78,7 +79,7 @@
   <string name="setting_filter">过滤流量</string>
   <string name="setting_track_usage">跟踪网络使用记录</string>
   <string name="setting_reset_usage">重置网络使用记录</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">显示已解析的主机名称</string>
   <string name="setting_block_domains">屏蔽域名</string>
   <string name="setting_forwarding">端口转发</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -130,6 +131,7 @@
   <string name="summary_socks5_enabled">仅将 TCP 流量导向至代理服务器</string>
   <string name="summary_watchdog">定时检查 NetGuard 运行状况 (输入 0 禁用此选项). 这可能导致额外电量消耗.</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">是否确认?</string>
   <string name="msg_started">规则加载中</string>
   <string name="msg_packages">%1$d 已允许, %2$d 已拦截</string>
@@ -147,7 +149,7 @@
 您的网络流量不会被导向任何远程 VPN 服务器.</string>
   <string name="msg_autostart">由于您使用的 Android 版本存在 bug, NetGuard 无法开机自启.</string>
   <string name="msg_error">发生未知错误: \'%s\'</string>
-  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
+  <string name="msg_start_failed">Android 拒绝启动 VPN 服务. 这可能是由您当前使用的 Android 版本中的 bug 导致.</string>
   <string name="msg_try">试用NetGuard</string>
   <string name="msg_terms">捐赠即表明您同意 <a href="http://www.netguard.me/#terms">条款与条件</a></string>
   <string name="msg_dimming">如果您在下一个对话框中无法点击确定, 可能是另一个应用正在控制屏幕(如屏幕亮度调节软件).</string>

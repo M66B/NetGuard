@@ -149,7 +149,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
 
     <string name="summary_stats">Show network speed graph in status bar notification</string>
 
-    <string-array name="default_wifi_home" />
+    <string-array name="default_wifi_home"></string-array>
 
     <string name="msg_sure">Are you sure?</string>
     <string name="msg_started">Enforcing rules</string>

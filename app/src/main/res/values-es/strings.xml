@@ -38,7 +38,7 @@
   <string name="menu_reset">Restablecer</string>
   <string name="menu_add">Añadir</string>
   <string name="menu_delete">Eliminar</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">Limpieza</string>
   <string name="title_protocol">Protocolo</string>
   <string name="title_dport">Puerto de origen</string>
   <string name="title_raddr">Dirección de destino</string>
@@ -55,6 +55,7 @@
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Usar tema oscuro</string>
   <string name="setting_install">Notificar nuevas instalaciones</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Activar automáticamente después de %1$s minutos</string>
   <string name="setting_delay">Retardar apagado de pantalla en %1$s minutos</string>
   <string name="setting_update">Buscar actualizaciones</string>
@@ -76,7 +77,7 @@
   <string name="setting_filter">Filtrar tráfico</string>
   <string name="setting_track_usage">Registrar uso de red</string>
   <string name="setting_reset_usage">Restablecer uso de red</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">Mostrar nombres de dominio resueltos</string>
   <string name="setting_block_domains">Bloquear nombres de dominio</string>
   <string name="setting_forwarding">Redirección de puertos</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -128,6 +129,7 @@
   <string name="summary_socks5_enabled">Sólo se enviará el tráfico TCP al servidor proxy</string>
   <string name="summary_watchdog">Comprobar periódicamente si NetGuard está ejecutándose (introduzca cero para desactivar esta opción). Esto podría consumir más batería.</string>
   <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">¿Estás seguro?</string>
   <string name="msg_started">Reglas aplicadas</string>
   <string name="msg_packages">Permitidas: %1$d | Bloqueadas: %2$d</string>

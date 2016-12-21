@@ -57,6 +57,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_theme">主題: %1$s</string>
   <string name="setting_dark">使用深色主題</string>
   <string name="setting_install">Notify on new install</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">在 %1$s 分鐘後自動啟用</string>
   <string name="setting_delay">延遲%1$s分鐘關閉螢幕</string>
   <string name="setting_update">檢查更新版本</string>
@@ -131,6 +132,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
   <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">在狀態欄通知列顯示網速圖表</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">你確定?</string>
   <string name="msg_started">執行規則</string>
   <string name="msg_packages">%1$d 允許, %2$d 被阻擋</string>

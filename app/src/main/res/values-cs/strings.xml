@@ -40,7 +40,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="menu_reset">Resetovat</string>
   <string name="menu_add">Přidat</string>
   <string name="menu_delete">Odstranit</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">Vyčištit</string>
   <string name="title_protocol">Protokol</string>
   <string name="title_dport">Zdrojový port</string>
   <string name="title_raddr">Cílová adresa</string>
@@ -57,6 +57,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_theme">Motiv: %1$s</string>
   <string name="setting_dark">Použít tmavý motiv</string>
   <string name="setting_install">Upozornit na novou instalaci</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Automaticky povolit po %1$s minutách</string>
   <string name="setting_delay">Odložit pravidla vypnuté obrazovky o %1$s minut</string>
   <string name="setting_update">Zkontrolovat aktualizace</string>
@@ -78,7 +79,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_filter">Filtrovat komunikaci</string>
   <string name="setting_track_usage">Sledovat využití sítě</string>
   <string name="setting_reset_usage">Resetovat využití sítě</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">Zobrazit přeložená jména domén</string>
   <string name="setting_block_domains">Blokovat názvy domén</string>
   <string name="setting_forwarding">Přesměrování portů</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
@@ -130,6 +131,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="summary_socks5_enabled">Pouze TCP přenosy budou přenášeny skrze proxy server</string>
   <string name="summary_watchdog">Pravidelně kontrolovat, zda NetGuard stále běží (zadejte nulu pro vypnutí). Toto nastavení může mít vliv na spotřebu.</string>
   <string name="summary_stats">Zobrazit graf rychlosti sítě v notifikační liště</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Jste si jistý?</string>
   <string name="msg_started">Vynucení pravidel</string>
   <string name="msg_packages">povoleno: %1$d | blokováno: %2$d</string>
@@ -147,7 +149,7 @@ Z tohoto důvodu prosím povolte VPN připojení v následujícím dialogu.
 Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.</string>
   <string name="msg_autostart">NetGuard nemůže být spuštěn automaticky při startu zařízení kvůli chybě ve Vaší verzi Androidu</string>
   <string name="msg_error">Došlo k neočekávané chybě: \'%s\'</string>
-  <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
+  <string name="msg_start_failed">Android odmítl spustit VPN službu. To je pravděpodobně způsobeno chybou v této verzi systému Android.</string>
   <string name="msg_try">Vyzkoušej NetGuard</string>
   <string name="msg_terms">Darováním souhlasíte s <a href="http://www.netguard.me/#terms">podmínkami služby</a></string>
   <string name="msg_dimming">Pokud v následujícím dialogu nelze potvrdit OK, jiná aplikace (např. barevný filtr) pravděpodobně překrývá obrazovku.</string>
@@ -163,7 +165,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="msg_datasaving">Pro optimální výsledky by pro NetGuard měly být vypnuty funkce úspory dat systému Android
 \n\nV následujícím dialogu povolte možnosti \"Data na pozadí\" a \"Neomezené využití dat\"</string>
   <string name="msg_filter">Použití filtrování způsobí, že systém Android přiřadí využití dat a baterie aplikaci NetGuard, namísto původním aplikacím</string>
-  <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
+  <string name="msg_filter4">Android 4 vyžaduje zapnuté filtrování</string>
   <string name="msg_log_disabled">Záznam síťového provozu do protokolu je vypnutý, použijte přepínač výše pro jeho povolení. Může mít vliv na spotřebu baterie.</string>
   <string name="msg_clear_rules">Pravidla a podmínky budou obnovena do výchozího nastavení</string>
   <string name="msg_reset_access">Smaže protokol pokusů o přístup, pravidla povolení/blokování zůstanou nedotčena</string>

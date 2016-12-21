@@ -56,6 +56,7 @@
   <string name="setting_theme">Тема: %1$s</string>
   <string name="setting_dark">Використовувати темну тему</string>
   <string name="setting_install">Notify on new install</string>
+  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
   <string name="setting_auto">Автоматично увімкнути через %1$s хвилин</string>
   <string name="setting_delay">Затримка екрану %1$s хвилин</string>
   <string name="setting_update">Перевірити наявність оновлень</string>
@@ -129,6 +130,7 @@
   <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
   <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Показувати графік швидкості мережі у панелі сповіщень</string>
+  <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Ви впевнені?</string>
   <string name="msg_started">Визначити правила</string>
   <string name="msg_packages">%1$d дозволено, %2$d заблоковано</string>
