@@ -55,7 +55,7 @@
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Usa il tema scuro</string>
   <string name="setting_install">Notifica l\'installazione di nuove applicazioni</string>
-  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
+  <string name="setting_screen_on">Applica le regole \"quando lo schermo è acceso\"</string>
   <string name="setting_auto">Attiva automaticamente dopo %1$s minuti</string>
   <string name="setting_delay">Ritarda spegnimento schermo di %1$s minuti</string>
   <string name="setting_update">Verifica la presenza di aggiornamenti</string>
@@ -177,6 +177,7 @@
   <string name="msg_push">I messaggi push sono gestiti principalmente dal componente di sistema Play Services, al quale è consentito l\'accesso a internet in modo predefinito</string>
   <string name="msg_system">La gestione delle applicazioni di sistema può essere attivata tramite le opzioni avanzate</string>
   <string name="msg_issue">Si prega di descrivere il problema ed indicare il tempo di esso:</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Il traffico non al consumo è consentito</string>
   <string name="title_unmetered_blocked">Il traffico non al consumo è bloccato</string>
   <string name="title_metered_allowed">Il traffico al consumo è consentito</string>

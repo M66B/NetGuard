@@ -177,6 +177,7 @@
   <string name="msg_push">தள்ளு செய்திகளை ஆகியவை பெரும்பாலும் வேண்டுமெனக் முறைமை உபகரணம் இயக்கு சேவைகள், இயல்புநிலை இணைய அணுகல் இது அனுமதிக்கப்பட்ட உள்ளது</string>
   <string name="msg_system">நிர்வாக முறைமை பயன்பாடுகள் முடியும் செயலாக்கம் செய்யப்படும் அமைப்புகளில்</string>
   <string name="msg_issue">தயவுசெய்து சிக்கலை விளக்க மற்றும் பிரச்சினையின் நேரம் என்பதை குறிப்பிடவும்:</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Unmetered போக்குவரத்து அனுமதிக்கப்படும்</string>
   <string name="title_unmetered_blocked">Unmetered போக்குவரத்து தடைசெய்யப்பட்டது</string>
   <string name="title_metered_allowed">Metered போக்குவரத்து அனுமதிக்கப்படும்</string>

@@ -182,6 +182,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="msg_push">Push-beskeder håndteres primært af systemkomponenten Play-tjenester, der som standard tillader Internetadgang</string>
   <string name="msg_system">Håndtering af system-apps kan aktiveres i indstillingerne</string>
   <string name="msg_issue">Beskriv venligst problemet og angiv tidspunkt for problemet:</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Ikke-forbrugsafregnet trafik er tilladt</string>
   <string name="title_unmetered_blocked">Ikke-forbrugsafregnet trafik er blokeret</string>
   <string name="title_metered_allowed">Forbrugsafregnet trafik er tilladt</string>

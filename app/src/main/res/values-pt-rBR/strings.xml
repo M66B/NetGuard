@@ -180,6 +180,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_push">Mensagens recebidas por push são geridas ocasionalmente pelo componente do serviço Play, a que é permitido o acesso à internet por padrão</string>
   <string name="msg_system">Gerenciamento de aplicativos do sistema pode ser ativado em opções avançadas</string>
   <string name="msg_issue">Por favor, descreva o problema e indique o momento em que ocorreu:</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado bloqueado</string>
   <string name="title_metered_allowed">Tráfego limitado permitido</string>

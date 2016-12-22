@@ -179,6 +179,7 @@
   <string name="msg_push">\"Push\" съобщенията се обработват предимно от системния комонент \"Play services\", който по подразбиране е с разрешен достъп до интернет</string>
   <string name="msg_system">Управлението на системните приложения може да бъде активирано в разширените настройки</string>
   <string name="msg_issue">Моля, опишете проблема и отбележете часа на възникването му:</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Неограниченият трафик (Wi-Fi) е разрешен</string>
   <string name="title_unmetered_blocked">Неограниченият трафик (Wi-Fi) е блокиран</string>
   <string name="title_metered_allowed">Мобилните данни са разрешени</string>

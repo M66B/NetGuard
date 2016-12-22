@@ -55,7 +55,7 @@
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Usar tema oscuro</string>
   <string name="setting_install">Notificar nuevas instalaciones</string>
-  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
+  <string name="setting_screen_on">Aplicar reglas \'cuando pantalla encendida\'</string>
   <string name="setting_auto">Activar automáticamente después de %1$s minutos</string>
   <string name="setting_delay">Retardar apagado de pantalla en %1$s minutos</string>
   <string name="setting_update">Buscar actualizaciones</string>
@@ -177,6 +177,7 @@
   <string name="msg_push">Las notificaciones Push son gestionadas principalmente por el componente del sistema \"Play Services\", que está autorizado para acceder a Internet por defecto</string>
   <string name="msg_system">La gestión de las aplicaciones del sistema puede activarse en los ajustes</string>
   <string name="msg_issue">Por favor, describa el problema e indique el tiempo del mismo:</string>
+  <string name="msg_vpn_cancelled">Conexión VPN cancelada\n¿Configuró otra VPN para ser siempre encendida?</string>
   <string name="title_unmetered_allowed">Tráfico ilimitado permitido</string>
   <string name="title_unmetered_blocked">Tráfico ilimitado bloqueado</string>
   <string name="title_metered_allowed">Tráfico medido permitido</string>

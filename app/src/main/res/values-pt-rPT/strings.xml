@@ -177,6 +177,7 @@
   <string name="msg_push">Mensagens push são geridas principalmente pelo componente de serviço do Play, a que é permitido o acesso à internet por omissão</string>
   <string name="msg_system">Gerir aplicações de sistema pode ser ativado nas definições</string>
   <string name="msg_issue">Por favor descreva o problema e indique o momento do problema:</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado é permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado é bloqueado</string>
   <string name="title_metered_allowed">Tráfego limitado é permitido</string>

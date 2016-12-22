@@ -179,6 +179,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_push">Les messages Push sont principalement gérés par le composant système Play services, qui est autorisé à accéder à internet par défaut</string>
   <string name="msg_system">La gestion des applications système peut être activée dans les options avancées</string>
   <string name="msg_issue">Veuillez décrire le problème et indiquer l\'heure à laquelle il est survenu :</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>
   <string name="title_unmetered_blocked">Le trafic illimité est bloqué</string>
   <string name="title_metered_allowed">Le trafic limité est autorisé</string>

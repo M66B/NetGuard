@@ -179,6 +179,7 @@
   <string name="msg_push">הודעות Push מטופלות בעיקר על ידי רכיב המערכת Play services, אשר עבורו מאופשרת גישה לאינטרנט כברירת מחדל</string>
   <string name="msg_system">ניהול יישומי מערכת ניתן להפעלה מתוך תפריט הההגדרות</string>
   <string name="msg_issue">אנא תאר את הבעיה תוך ציון הזמן שבה קרתה:</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">תעבורה חופשית מאופשרת</string>
   <string name="title_unmetered_blocked">תעבורה חופשית חסומה</string>
   <string name="title_metered_allowed">תעבורה נמדדת מאופשרת</string>

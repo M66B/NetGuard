@@ -179,6 +179,7 @@
   <string name="msg_push">पुश संदेश ज्यादातर सिस्टम घटक प्ले सेवाओं द्वारा, जो डिफ़ॉल्ट रूप से इंटरनेट तक पहुँच की अनुमति दी है नियंत्रित किया जाता है</string>
   <string name="msg_system">सिस्टम अनुप्रयोगों के प्रबंधन सेटिंग्स में सक्षम कर सकते हैं</string>
   <string name="msg_issue">कृपया समस्या का वर्णन करें और समस्या के समय से संकेत मिलता है:</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Unmetered यातायात की अनुमति है</string>
   <string name="title_unmetered_blocked">Unmetered यातायात अवरुद्ध है</string>
   <string name="title_metered_allowed">मीटर के जरिए यातायात की अनुमति है</string>

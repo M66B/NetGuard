@@ -57,7 +57,7 @@
   <string name="setting_theme">主题: %1$s</string>
   <string name="setting_dark">使用暗色主题</string>
   <string name="setting_install">有新软件安装时通知我</string>
-  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
+  <string name="setting_screen_on">应用 \'亮屏\' 规则</string>
   <string name="setting_auto">%1$s 分钟后自动启用</string>
   <string name="setting_delay">推迟 %1$s 分钟关屏</string>
   <string name="setting_update">检查更新</string>
@@ -183,6 +183,7 @@
   <string name="msg_push">大部分消息推送由作为系统组件的 Play 服务完成, 因此默认允许其进行网络连接</string>
   <string name="msg_system">您可在高级选项中启用管理系统应用</string>
   <string name="msg_issue">请具体描述问题及问题发生的时间:</string>
+  <string name="msg_vpn_cancelled">VPN 连接已取消\n您是否对另一个 VPN 设置了始终启用?</string>
   <string name="title_unmetered_allowed">已允许非按流量计费的网络数据</string>
   <string name="title_unmetered_blocked">已阻止非按流量计费的网络数据</string>
   <string name="title_metered_allowed">已允许按流量计费的网络数据</string>

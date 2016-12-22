@@ -177,6 +177,7 @@
   <string name="msg_push">Đưa tin nhắn chủ yếu được xử lý bởi các thành phần Play services của hệ thống, mà mặc định cho phép truy cập internet</string>
   <string name="msg_system">Quản lý ứng dụng hệ thống có thể được kích hoạt trong cài đặt</string>
   <string name="msg_issue">Xin vui lòng mô tả các vấn đề và cho biết thời gian của vấn đề:</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Lưu lượng truy cập không trả phí được cho phép</string>
   <string name="title_unmetered_blocked">Lưu lượng truy cập không trả phí bị chặn</string>
   <string name="title_metered_allowed">Lưu lượng truy cập có trả phí được phép</string>

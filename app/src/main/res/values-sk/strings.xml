@@ -182,6 +182,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="msg_push">Push správy sú väčšinou riadené systémovou súčasťou Služby Google Play, ktorej je povolený prístup k internetu v predvolenom nastavení</string>
   <string name="msg_system">Spravovanie systémových aplikácií môže byť povolené v nastaveniach</string>
   <string name="msg_issue">Prosím, opíšte problém a uveďte jeho čas:</string>
+  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Nemeraný prenos je povolený</string>
   <string name="title_unmetered_blocked">Nemeraný prenos je blokovaný</string>
   <string name="title_metered_allowed">Meraný prenos je povolený</string>

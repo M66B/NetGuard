@@ -56,7 +56,7 @@
   <string name="setting_theme">テーマ: %1$s</string>
   <string name="setting_dark">ダークテーマを使用する</string>
   <string name="setting_install">新規インストール時に通知</string>
-  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
+  <string name="setting_screen_on">\'画面がオンのとき\' ルールを適用する</string>
   <string name="setting_auto">%1$s 分後に自動的に有効にする</string>
   <string name="setting_delay">%1$s 分、画面オフを遅延</string>
   <string name="setting_update">アップデートの確認</string>
@@ -178,6 +178,7 @@
   <string name="msg_push">プッシュ メッセージは主にシステム コンポーネントの Play サービスによって処理されます。これはデフォルトでインターネット アクセスが許可されます</string>
   <string name="msg_system">システム アプリケーションの管理は、詳細なオプションで有効にすることができます</string>
   <string name="msg_issue">問題の説明と、問題の時間を示してください:</string>
+  <string name="msg_vpn_cancelled">VPN 接続がキャンセルされました\n別の VPN を設定して、常に VPN をオンにしますか?</string>
   <string name="title_unmetered_allowed">無制限のトラフィックを許可</string>
   <string name="title_unmetered_blocked">無制限のトラフィックをブロック</string>
   <string name="title_metered_allowed">従量制のトラフィックを許可</string>
