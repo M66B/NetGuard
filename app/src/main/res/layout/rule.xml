@@ -268,6 +268,7 @@
             android:textAppearance="@style/TextTitle" />
 
         <LinearLayout
+            android:id="@+id/llScreenWifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -294,6 +295,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/llScreenOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"

@@ -118,11 +118,14 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         public CheckBox cbApply;
 
+        public LinearLayout llScreenWifi;
         public ImageView ivWifiLegend;
         public CheckBox cbScreenWifi;
 
+        public LinearLayout llScreenOther;
         public ImageView ivOtherLegend;
         public CheckBox cbScreenOther;
+
         public CheckBox cbRoaming;
 
         public ImageButton btnClear;
@@ -168,11 +171,14 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
             cbApply = (CheckBox) itemView.findViewById(R.id.cbApply);
 
+            llScreenWifi = (LinearLayout) itemView.findViewById(R.id.llScreenWifi);
             ivWifiLegend = (ImageView) itemView.findViewById(R.id.ivWifiLegend);
             cbScreenWifi = (CheckBox) itemView.findViewById(R.id.cbScreenWifi);
 
+            llScreenOther = (LinearLayout) itemView.findViewById(R.id.llScreenOther);
             ivOtherLegend = (ImageView) itemView.findViewById(R.id.ivOtherLegend);
             cbScreenOther = (CheckBox) itemView.findViewById(R.id.cbScreenOther);
+
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
 
             btnClear = (ImageButton) itemView.findViewById(R.id.btnClear);
@@ -358,7 +364,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         holder.ivScreenWifi.setEnabled(rule.apply);
         holder.ivScreenWifi.setAlpha(wifiActive ? 1 : 0.5f);
-        holder.ivScreenWifi.setVisibility(rule.screen_wifi && rule.wifi_blocked && screen_on ? View.VISIBLE : View.INVISIBLE);
+        holder.ivScreenWifi.setVisibility(rule.screen_wifi && rule.wifi_blocked ? View.VISIBLE : View.INVISIBLE);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrap = DrawableCompat.wrap(holder.ivScreenWifi.getDrawable());
             DrawableCompat.setTint(wrap, rule.apply ? colorOn : colorGrayed);
@@ -383,7 +389,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         holder.ivScreenOther.setEnabled(rule.apply);
         holder.ivScreenOther.setAlpha(otherActive ? 1 : 0.5f);
-        holder.ivScreenOther.setVisibility(rule.screen_other && rule.other_blocked && screen_on ? View.VISIBLE : View.INVISIBLE);
+        holder.ivScreenOther.setVisibility(rule.screen_other && rule.other_blocked ? View.VISIBLE : View.INVISIBLE);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrap = DrawableCompat.wrap(holder.ivScreenOther.getDrawable());
             DrawableCompat.setTint(wrap, rule.apply ? colorOn : colorGrayed);
@@ -462,6 +468,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         });
 
         // Show Wi-Fi screen on condition
+        holder.llScreenWifi.setVisibility(screen_on ? View.VISIBLE : View.GONE);
         holder.cbScreenWifi.setEnabled(rule.wifi_blocked && rule.apply);
         holder.cbScreenWifi.setOnCheckedChangeListener(null);
         holder.cbScreenWifi.setChecked(rule.screen_wifi);
@@ -486,6 +493,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         }
 
         // Show mobile screen on condition
+        holder.llScreenOther.setVisibility(screen_on ? View.VISIBLE : View.GONE);
         holder.cbScreenOther.setEnabled(rule.other_blocked && rule.apply);
         holder.cbScreenOther.setOnCheckedChangeListener(null);
         holder.cbScreenOther.setChecked(rule.screen_other);
