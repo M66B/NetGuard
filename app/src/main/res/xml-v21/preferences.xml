@@ -196,6 +196,10 @@
                 android:dependency="filter"
                 android:inputType="text"
                 android:key="dns2" />
+            <EditTextPreference
+                android:dependency="filter"
+                android:inputType="number"
+                android:key="ttl" />
             <eu.faircode.netguard.SwitchPreference
                 android:defaultValue="false"
                 android:dependency="filter"
