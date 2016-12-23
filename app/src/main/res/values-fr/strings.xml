@@ -83,6 +83,7 @@
   <string name="setting_vpn4">VPN IPv4 : %s</string>
   <string name="setting_vpn6">VPN IPv6 : %s</string>
   <string name="setting_dns">VPN DNS : %s</string>
+  <string name="setting_ttl">Minimum DNS TTL: %s s</string>
   <string name="setting_socks5_enabled">Utiliser un proxy SOCKS5</string>
   <string name="setting_socks5_addr">Adresse SOCKS5 : %s</string>
   <string name="setting_socks5_port">Port SOCKS5 : %s</string>

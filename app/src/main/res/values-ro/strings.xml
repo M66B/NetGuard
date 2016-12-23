@@ -83,6 +83,7 @@
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
+  <string name="setting_ttl">Minimum DNS TTL: %s s</string>
   <string name="setting_socks5_enabled">Utilizati proxy SOCKS5</string>
   <string name="setting_socks5_addr">SOCKS5 adresa: %s</string>
   <string name="setting_socks5_port">SOCKS5 port: %s</string>
@@ -180,7 +181,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_push">Mesajele \"push\" sunt de obicei gestionate de componentele de sistem ale serviciilor Google Play. carora le este permis in mod implicit accesul la internet</string>
   <string name="msg_system">Gestionarea aplicatiilor de sistem se activeaza din optiunile avansate</string>
   <string name="msg_issue">Va rog sa descrieti problema si sa indicati momentul cand s-a produs problema:</string>
-  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
+  <string name="msg_vpn_cancelled">Conexiunea VPN a fost anulata\nS-a configurat cumva un alt VPN ca activat permanent?</string>
   <string name="title_unmetered_allowed">Traficul de date necontorizat este permis</string>
   <string name="title_unmetered_blocked">Traficul de date necontorizat este blocat</string>
   <string name="title_metered_allowed">Traficul de date contorizat este permis</string>

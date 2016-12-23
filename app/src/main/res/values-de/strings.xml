@@ -56,7 +56,7 @@
   <string name="setting_theme">Design: %1$s</string>
   <string name="setting_dark">Dunkles Design verwenden</string>
   <string name="setting_install">Benachrichtung bei neuer Installation</string>
-  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
+  <string name="setting_screen_on">\'Wenn Bildschirm an\' Regeln anwenden</string>
   <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
   <string name="setting_delay">Bildschirm-Aus-Verzögerung %1$s-Minuten</string>
   <string name="setting_update">Nach Aktualisierungen suchen</string>
@@ -84,6 +84,7 @@
   <string name="setting_vpn4">VPN-IPv4: %s</string>
   <string name="setting_vpn6">VPN-IPv6: %s</string>
   <string name="setting_dns">VPN-DNS: %s</string>
+  <string name="setting_ttl">Minimum DNS TTL: %s s</string>
   <string name="setting_socks5_enabled">SOCKS5-Proxy verwenden</string>
   <string name="setting_socks5_addr">SOCKS5-Adresse: %s</string>
   <string name="setting_socks5_port">SOCKS5-Port: %s</string>
@@ -178,7 +179,7 @@
   <string name="msg_push">Push-Nachrichten werden normalerweise durch die Systemkomponente Play-Dienste gesteuert, welche standardmäßig den Internetzugang erlauben</string>
   <string name="msg_system">Verwalten von Systemanwendungen kann in den erweiterten Optionen aktiviert werden</string>
   <string name="msg_issue">Bitte beschreiben Sie Ihr Problem und geben Sie den Zeitpunkt an:</string>
-  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
+  <string name="msg_vpn_cancelled">VPN-Verbindung abgebrochen\nHaben Sie eine andere VPN für die Funktion \'VPN immer eingeschaltet\' konfiguriert?</string>
   <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
   <string name="title_unmetered_blocked">Nicht volumenbeschränkter Verkehr ist blockiert</string>
   <string name="title_metered_allowed">Volumenbeschränkter Verkehr ist erlaubt</string>

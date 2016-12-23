@@ -85,6 +85,7 @@
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
+  <string name="setting_ttl">Minimum DNS TTL: %s s</string>
   <string name="setting_socks5_enabled">使用 SOCKS5 代理</string>
   <string name="setting_socks5_addr">SOCKS5 地址: %s</string>
   <string name="setting_socks5_port">SOCKS5 端口: %s</string>
