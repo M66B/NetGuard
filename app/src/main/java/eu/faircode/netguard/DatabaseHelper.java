@@ -744,7 +744,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             try {
                 int ttl = rr.TTL;
 
-                int min = Integer.parseInt(prefs.getString("ttl", "900"));
+                int min = Integer.parseInt(prefs.getString("ttl", "86400"));
                 if (ttl < min)
                     ttl = min;
 
