@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/tvTime"
-            android:layout_width="50dp"
+            android:layout_width="54dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textAppearance="@style/TextSmall"
@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/tvUid"
-            android:layout_width="36dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="end"
@@ -89,7 +89,7 @@
 
                 <TextView
                     android:id="@+id/tvSPort"
-                    android:layout_width="36dp"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:textAppearance="@style/TextSmall"
@@ -112,7 +112,7 @@
 
                 <TextView
                     android:id="@+id/tvDPort"
-                    android:layout_width="36dp"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:textAppearance="@style/TextSmall"
