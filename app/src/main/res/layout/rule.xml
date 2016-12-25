@@ -348,12 +348,29 @@
             android:layout_marginTop="4dp"
             android:src="?attr/iconDelete" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@string/title_access"
-            android:textAppearance="@style/TextTitle" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/title_access"
+                android:textAppearance="@style/TextTitle" />
+
+            <ImageView
+                android:id="@+id/ivLive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:src="?attr/iconPlay" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvNoLog"

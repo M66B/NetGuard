@@ -8,6 +8,8 @@
     <attr name="iconDatasaver" format="reference" />
     <attr name="iconLaunch" format="reference" />
     <attr name="iconDelete" format="reference" />
+    <attr name="iconPlay" format="reference" />
+    <attr name="iconPause" format="reference" />
 
     <style name="AppDialog" parent="Theme.AppCompat.Dialog">
         <item name="windowActionBar">false</item>
@@ -22,6 +24,8 @@
         <item name="iconDatasaver">@drawable/ic_perm_data_setting_black_24dp</item>
         <item name="iconLaunch">@drawable/ic_launch_black_24dp</item>
         <item name="iconDelete">@drawable/ic_delete_black_24dp</item>
+        <item name="iconPlay">@drawable/ic_play_arrow_black_24dp</item>
+        <item name="iconPause">@drawable/ic_pause_black_24dp</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
 
@@ -33,6 +37,8 @@
         <item name="iconDatasaver">@drawable/ic_perm_data_setting_white_24dp</item>
         <item name="iconLaunch">@drawable/ic_launch_white_24dp</item>
         <item name="iconDelete">@drawable/ic_delete_white_24dp</item>
+        <item name="iconPlay">@drawable/ic_play_arrow_white_24dp</item>
+        <item name="iconPause">@drawable/ic_pause_white_24dp</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
 

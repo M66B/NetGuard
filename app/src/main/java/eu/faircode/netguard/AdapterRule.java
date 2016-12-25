@@ -82,6 +82,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private int iconSize;
     private boolean wifiActive = true;
     private boolean otherActive = true;
+    private boolean live = true;
     private List<Rule> listAll = new ArrayList<>();
     private List<Rule> listFiltered = new ArrayList<>();
 
@@ -130,6 +131,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         public ImageButton btnClear;
 
+        public ImageView ivLive;
         public TextView tvNoLog;
         public TextView tvNoFilter;
         public ListView lvAccess;
@@ -183,6 +185,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
             btnClear = (ImageButton) itemView.findViewById(R.id.btnClear);
 
+            ivLive = (ImageView) itemView.findViewById(R.id.ivLive);
             tvNoLog = (TextView) itemView.findViewById(R.id.tvNoLog);
             tvNoFilter = (TextView) itemView.findViewById(R.id.tvNoFilter);
             lvAccess = (ListView) itemView.findViewById(R.id.lvAccess);
@@ -269,6 +272,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         wifiActive = false;
         otherActive = false;
         notifyDataSetChanged();
+    }
+
+    public boolean isLive() {
+        return this.live;
     }
 
     @Override
@@ -537,6 +544,18 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                         holder.cbRoaming.setChecked(rule.roaming_default);
                     }
                 });
+            }
+        });
+
+        holder.ivLive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                live = !live;
+                TypedValue tv = new TypedValue();
+                view.getContext().getTheme().resolveAttribute(live ? R.attr.iconPlay : R.attr.iconPause, tv, true);
+                holder.ivLive.setImageResource(tv.resourceId);
+                if (live)
+                    AdapterRule.this.notifyDataSetChanged();
             }
         });
 

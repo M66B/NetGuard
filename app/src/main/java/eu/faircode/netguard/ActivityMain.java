@@ -593,7 +593,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (adapter != null)
+                    if (adapter != null && adapter.isLive())
                         adapter.notifyDataSetChanged();
                 }
             });
