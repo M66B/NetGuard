@@ -369,7 +369,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:src="?attr/iconPlay" />
+                android:src="?attr/iconPause" />
         </LinearLayout>
 
         <TextView

@@ -547,12 +547,13 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             }
         });
 
+        // Live
         holder.ivLive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 live = !live;
                 TypedValue tv = new TypedValue();
-                view.getContext().getTheme().resolveAttribute(live ? R.attr.iconPlay : R.attr.iconPause, tv, true);
+                view.getContext().getTheme().resolveAttribute(live ? R.attr.iconPause : R.attr.iconPlay, tv, true);
                 holder.ivLive.setImageResource(tv.resourceId);
                 if (live)
                     AdapterRule.this.notifyDataSetChanged();
