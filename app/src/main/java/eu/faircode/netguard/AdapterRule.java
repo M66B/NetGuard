@@ -685,6 +685,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     @Override
                     public void onSure() {
                         DatabaseHelper.getInstance(context).clearAccess(rule.info.applicationInfo.uid, true);
+                        if (!live)
+                            notifyDataSetChanged();
                         if (rv != null)
                             rv.scrollToPosition(position);
                     }
