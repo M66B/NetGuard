@@ -864,7 +864,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Button btnSystem = (Button) findViewById(R.id.btnSystem);
         boolean system = prefs.getBoolean("manage_system", false);
         boolean hintSystem = prefs.getBoolean("hint_system", true);
-        llSystem.setVisibility(!system && hintSystem && !hintUsage ? View.VISIBLE : View.GONE);
+        llSystem.setVisibility(!system && hintSystem ? View.VISIBLE : View.GONE);
         btnSystem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
