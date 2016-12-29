@@ -32,3 +32,4 @@ cp -R /home/marcel/Documents/android/projects/NetGuard/app/src/main/res/values-a
 cp -R /home/marcel/Documents/android/projects/NetGuard/app/src/main/res/values-ar/* \
 	/home/marcel/Documents/android/projects/NetGuard/app/src/main/res/values-ar-rYE/
 
+sed -i s/-2016/–2017/ app/src/main/res/values*/strings.xml

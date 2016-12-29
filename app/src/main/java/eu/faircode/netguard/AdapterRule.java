@@ -16,7 +16,7 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2016 by Marcel Bokhorst (M66B)
+    Copyright 2015-2017 by Marcel Bokhorst (M66B)
 */
 
 import android.Manifest;
@@ -73,6 +73,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private static final String TAG = "NetGuard.Adapter";
 
     private Activity context;
+    private LayoutInflater inflater;
     private RecyclerView rv;
     private int colorText;
     private int colorChanged;
@@ -225,6 +226,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         this.context = context;
+        this.inflater = LayoutInflater.from(context);
 
         if (prefs.getBoolean("dark_theme", false))
             colorChanged = Color.argb(128, Color.red(Color.DKGRAY), Color.green(Color.DKGRAY), Color.blue(Color.DKGRAY));
@@ -839,7 +841,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
     @Override
     public AdapterRule.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.rule, parent, false));
+        return new ViewHolder(inflater.inflate(R.layout.rule, parent, false));
     }
 
     @Override
