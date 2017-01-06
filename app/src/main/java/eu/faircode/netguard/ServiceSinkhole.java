@@ -1296,8 +1296,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private void prepareUidIPFilters(String dname) {
         lock.writeLock().lock();
 
-        if (dname == null)
+        if (dname == null) {
             mapUidIPFilters.clear();
+            if (!IAB.isPurchased(ActivityPro.SKU_FILTER, ServiceSinkhole.this)) {
+                lock.writeLock().unlock();
+                return;
+            }
+        }
 
         Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessDns(dname);
         int colUid = cursor.getColumnIndex("uid");

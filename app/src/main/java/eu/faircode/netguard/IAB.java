@@ -122,10 +122,12 @@ public class IAB implements ServiceConnection {
         SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         for (String product : prefs.getAll().keySet())
-            if (!ActivityPro.SKU_DONATION.equals(product))
+            if (!ActivityPro.SKU_DONATION.equals(product)) {
+                Log.i(TAG, "removing SKU=" + product);
                 editor.remove(product);
+            }
         for (String sku : skus) {
-            Log.i(TAG, "SKU=" + sku);
+            Log.i(TAG, "adding SKU=" + sku);
             editor.putBoolean(sku, true);
         }
         editor.apply();
