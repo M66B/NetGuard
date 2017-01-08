@@ -455,4 +455,6 @@ Thanks @[pulser](https://github.com/pulser/)
 
 <br />
 
+**NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
+
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.

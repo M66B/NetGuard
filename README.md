@@ -218,7 +218,7 @@ Support
 
 For questions, feature requests and bug reports, please [use this XDA-Developers forum thread](http://forum.xda-developers.com/showthread.php?t=3233012)
 
-**There is no support on ad blocking.**
+**NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
 
 Contributing
 ------------
