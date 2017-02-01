@@ -290,8 +290,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         Preference pref_block_domains = screen.findPreference("use_hosts");
         Preference pref_hosts_import = screen.findPreference("hosts_import");
         final HostsTextPreference pref_hosts_url = (HostsTextPreference) screen.findPreference("hosts_url");
-
-
         final Preference pref_hosts_download = screen.findPreference("hosts_download");
 
         if (Util.isPlayStoreInstall(this)) {
