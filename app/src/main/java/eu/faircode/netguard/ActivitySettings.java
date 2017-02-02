@@ -289,7 +289,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Hosts file settings
         Preference pref_block_domains = screen.findPreference("use_hosts");
         Preference pref_hosts_import = screen.findPreference("hosts_import");
-        final HostsTextPreference pref_hosts_url = (HostsTextPreference) screen.findPreference("hosts_url");
+        HostsTextPreference pref_hosts_url = (HostsTextPreference) screen.findPreference("hosts_url");
         final Preference pref_hosts_download = screen.findPreference("hosts_download");
 
         if (Util.isPlayStoreInstall(this)) {
@@ -327,18 +327,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 public boolean onPreferenceClick(Preference preference) {
                     final File tmp = new File(getFilesDir(), "hosts.tmp");
                     final File hosts = new File(getFilesDir(), "hosts.txt");
-                    EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
-
-                    URL hostsURL = null;
-                    String hostsPresumedURL = pref_hosts_url.getText();
-
+                    HostsTextPreference pref_hosts_url = (HostsTextPreference) screen.findPreference("hosts_url");
                     try {
-                        hostsURL = new URL(hostsPresumedURL);
-                    } catch (MalformedURLException ex) {
-                        Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
-                    }
-
-                    new DownloadTask(ActivitySettings.this, hostsURL, tmp, new DownloadTask.Listener() {
+                        new DownloadTask(ActivitySettings.this, new URL(pref_hosts_url.getText()), tmp, new DownloadTask.Listener() {
                             @Override
                             public void onCompleted() {
                                 if (hosts.exists())
@@ -371,7 +362,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                     Toast.makeText(ActivitySettings.this, ex.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }).execute();
-
+                    } catch (MalformedURLException ex) {
+                        Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+                    }
                     return true;
                 }
             });
