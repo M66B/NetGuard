@@ -333,13 +333,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     String hostsPresumedURL = pref_hosts_url.getText();
 
                     try {
-                        if (!(hostsPresumedURL.startsWith("http://") || hostsPresumedURL.startsWith("https://"))) {
-                            hostsURL = new URL("http://" + hostsPresumedURL);
-
-                        } else {
-                            hostsURL = new URL(hostsPresumedURL);
-
-                        }
+                        hostsURL = new URL(hostsPresumedURL);
                     } catch (MalformedURLException ex) {
                         Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
                     }
