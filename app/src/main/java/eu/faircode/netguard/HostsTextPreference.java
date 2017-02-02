@@ -22,6 +22,7 @@ package eu.faircode.netguard;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.text.Editable;
@@ -42,6 +43,7 @@ public class HostsTextPreference extends EditTextPreference {
         super(context, attrs, defStyleAttr);
     }
 
+
     protected void onEditTextChanged() {
         Dialog dlg = getDialog();
         if(dlg instanceof AlertDialog) {
@@ -49,9 +51,6 @@ public class HostsTextPreference extends EditTextPreference {
             Button btn = alertDlg.getButton(AlertDialog.BUTTON_POSITIVE);
             boolean enable = Patterns.WEB_URL.matcher(getEditText().getText().toString()).matches();
             btn.setEnabled(enable);
-            if(!enable) {
-                this.getEditText().setError("Invalid URL");
-            }
         }
     }
 
@@ -72,8 +71,20 @@ public class HostsTextPreference extends EditTextPreference {
     @Override
     protected void showDialog(Bundle state) {
         super.showDialog(state);
-        getEditText().removeTextChangedListener(mTextWatcher);
         getEditText().addTextChangedListener(mTextWatcher);
         onEditTextChanged();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE: {
+                String hostsPresumedURL = getEditText().getText().toString();
+                if (!(hostsPresumedURL.startsWith("http://") || hostsPresumedURL.startsWith("https://"))) {
+                    getEditText().setText("http://" + hostsPresumedURL);
+                }
+            } break;
+        }
+        super.onClick(dialog, which);
     }
 }
