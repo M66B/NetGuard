@@ -228,7 +228,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         pref_dns2.getEditText().setHint(def_dns.get(1));
         pref_dns1.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns.get(0))));
         pref_dns2.setTitle(getString(R.string.setting_dns, prefs.getString("dns2", def_dns.get(1))));
-        pref_ttl.setTitle(getString(R.string.setting_ttl, prefs.getString("ttl", "86400")));
+        pref_ttl.setTitle(getString(R.string.setting_ttl, prefs.getString("ttl", "259200")));
 
         // SOCKS5 parameters
         screen.findPreference("socks5_addr").setTitle(getString(R.string.setting_socks5_addr, prefs.getString("socks5_addr", "-")));
@@ -669,7 +669,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if ("ttl".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(
-                    getString(R.string.setting_ttl, prefs.getString(name, "86400")));
+                    getString(R.string.setting_ttl, prefs.getString(name, "259200")));
 
         else if ("socks5_enabled".equals(name))
             ServiceSinkhole.reload("changed " + name, this);
