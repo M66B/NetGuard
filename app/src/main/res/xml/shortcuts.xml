@@ -12,5 +12,18 @@
             android:targetPackage="eu.faircode.netguard" />
         <categories android:name="android.shortcut.settings" />
     </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:shortcutDisabledMessage="@string/menu_log"
+        android:shortcutId="log"
+        android:shortcutLongLabel="@string/menu_log"
+        android:shortcutShortLabel="@string/menu_log">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="eu.faircode.netguard.ActivityLog"
+            android:targetPackage="eu.faircode.netguard" />
+        <categories android:name="android.shortcut.log" />
+    </shortcut>
 </shortcuts>
 
