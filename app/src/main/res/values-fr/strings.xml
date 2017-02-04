@@ -6,7 +6,7 @@
   <string name="app_android">NetGuard requiert Android 4.0 ou ultérieur</string>
   <string name="app_license">En utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Un grand soin a été apporté pour développer et tester NetGuard, cependant il est impossible de garantir que NetGuard fonctionnera correctement sur tous les appareils.\n\nEn utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_admob">NetGuard utilise le service de publicité AdMob de Google. La politique de confidentialité d\'AdMob est disponible <a href="https://www.google.com/intl/en/policies/privacy/">ici</a>.</string>
+  <string name="app_admob">NetGuard utilise le service de publicité AdMob de Google. La politique de confidentialité d\'AdMob est disponible <a href="https://www.google.com/intl/fr/policies/privacy/">ici</a>.</string>
   <string name="app_agree">Je suis d\'accord</string>
   <string name="app_disagree">Refuser</string>
   <string name="menu_search">Rechercher une application</string>
@@ -41,9 +41,9 @@
   <string name="menu_cleanup">Nettoyage</string>
   <string name="title_protocol">Protocole</string>
   <string name="title_dport">Port source</string>
-  <string name="title_raddr">Adresse destination</string>
-  <string name="title_rport">Port destination</string>
-  <string name="title_ruid">Application destination</string>
+  <string name="title_raddr">Adresse de destination</string>
+  <string name="title_rport">Port de destination</string>
+  <string name="title_ruid">Application de destination</string>
   <string name="title_external">Pour un serveur externe, sélectionnez \"personne\"</string>
   <string name="setting_defaults">Par défaut</string>
   <string name="setting_whitelist_wifi">Bloquer Wi-Fi</string>
@@ -60,7 +60,7 @@
   <string name="setting_delay">Retarder l\'extinction de l\'ecran de %1$s minutes</string>
   <string name="setting_update">Vérifier les mises à jour</string>
   <string name="setting_network_options">Options de réseau</string>
-  <string name="setting_subnet">Routage sous-réseaux</string>
+  <string name="setting_subnet">Routage de sous-réseau</string>
   <string name="setting_tethering">Autoriser le partage</string>
   <string name="setting_lan">Autoriser l\'accès au réseau local</string>
   <string name="setting_ip6">Activer le trafic IPv6</string>
@@ -73,17 +73,17 @@
   <string name="setting_advanced_options">Options avancées</string>
   <string name="setting_system">Gérer les applications système</string>
   <string name="setting_log_app">Journaliser l\'accès internet</string>
-  <string name="setting_access">Notifier lors de l\'accès internet</string>
+  <string name="setting_access">Notifier lors de l\'accès à internet</string>
   <string name="setting_filter">Filtrer le trafic</string>
   <string name="setting_track_usage">Surveiller l\'utilisation du réseau</string>
   <string name="setting_reset_usage">Réinitialiser l\'utilisation du réseau</string>
-  <string name="setting_show_resolved">Afficher les noms de domaine déterminés</string>
+  <string name="setting_show_resolved">Afficher les noms de domaine résolus</string>
   <string name="setting_block_domains">Bloquer les noms de domaine</string>
   <string name="setting_forwarding">Redirection de port</string>
   <string name="setting_vpn4">VPN IPv4 : %s</string>
   <string name="setting_vpn6">VPN IPv6 : %s</string>
   <string name="setting_dns">VPN DNS : %s</string>
-  <string name="setting_ttl">Minimum DNS TTL : %s s</string>
+  <string name="setting_ttl">DNS TTL Minimum : %s s</string>
   <string name="setting_socks5_enabled">Utiliser un proxy SOCKS5</string>
   <string name="setting_socks5_addr">Adresse SOCKS5 : %s</string>
   <string name="setting_socks5_port">Port SOCKS5 : %s</string>
@@ -94,7 +94,7 @@
   <string name="setting_watchdog">Gardien : toutes les %s minutes</string>
   <string name="setting_stats_category">Notification de débit</string>
   <string name="setting_stats">Afficher la notification de débit</string>
-  <string name="setting_stats_top">Afficher les top applications</string>
+  <string name="setting_stats_top">Afficher les meilleures applications</string>
   <string name="setting_stats_frequency">Intervalle d\'échantillonnage : %s ms</string>
   <string name="setting_stats_samples">Nombre d\'échantillons : %s s</string>
   <string name="setting_backup">Sauvegarde</string>
