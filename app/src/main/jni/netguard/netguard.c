@@ -130,7 +130,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1init(JNIEnv *env, jobject instanc
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_ServiceSinkhole_jni_1start(
-        JNIEnv *env, jobject instance, jint tun, jboolean fwd53, jint loglevel_) {
+        JNIEnv *env, jobject instance, jint tun, jboolean fwd53, jint rcode, jint loglevel_) {
 
     loglevel = loglevel_;
     max_tun_msg = 0;
@@ -157,6 +157,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1start(
         args->instance = (*env)->NewGlobalRef(env, instance);
         args->tun = tun;
         args->fwd53 = fwd53;
+        args->rcode = rcode;
 
         // Start native thread
         int err = pthread_create(&thread_id, NULL, handle_events, (void *) args);

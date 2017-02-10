@@ -223,12 +223,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         EditTextPreference pref_dns1 = (EditTextPreference) screen.findPreference("dns");
         EditTextPreference pref_dns2 = (EditTextPreference) screen.findPreference("dns2");
         EditTextPreference pref_ttl = (EditTextPreference) screen.findPreference("ttl");
+        EditTextPreference pref_rcode = (EditTextPreference) screen.findPreference("rcode");
         List<String> def_dns = Util.getDefaultDNS(this);
         pref_dns1.getEditText().setHint(def_dns.get(0));
         pref_dns2.getEditText().setHint(def_dns.get(1));
         pref_dns1.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns.get(0))));
         pref_dns2.setTitle(getString(R.string.setting_dns, prefs.getString("dns2", def_dns.get(1))));
         pref_ttl.setTitle(getString(R.string.setting_ttl, prefs.getString("ttl", "259200")));
+        pref_rcode.setTitle(getString(R.string.setting_rcode, prefs.getString("rcode", "3")));
 
         // SOCKS5 parameters
         screen.findPreference("socks5_addr").setTitle(getString(R.string.setting_socks5_addr, prefs.getString("socks5_addr", "-")));
@@ -245,9 +247,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Show resolved
         Preference pref_show_resolved = screen.findPreference("show_resolved");
-        if (Util.isPlayStoreInstall(this))
+        if (Util.isPlayStoreInstall(this)) {
             cat_advanced.removePreference(pref_show_resolved);
-        else
+            cat_advanced.removePreference(pref_rcode);
+        } else
             pref_show_resolved.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -671,7 +674,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             getPreferenceScreen().findPreference(name).setTitle(
                     getString(R.string.setting_ttl, prefs.getString(name, "259200")));
 
-        else if ("socks5_enabled".equals(name))
+        else if ("rcode".equals(name)) {
+            getPreferenceScreen().findPreference(name).setTitle(
+                    getString(R.string.setting_rcode, prefs.getString(name, "3")));
+            ServiceSinkhole.reload("changed " + name, this);
+
+        } else if ("socks5_enabled".equals(name))
             ServiceSinkhole.reload("changed " + name, this);
 
         else if ("socks5_addr".equals(name)) {

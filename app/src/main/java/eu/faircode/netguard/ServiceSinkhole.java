@@ -176,7 +176,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init();
 
-    private native void jni_start(int tun, boolean fwd53, int loglevel);
+    private native void jni_start(int tun, boolean fwd53, int rcode, int loglevel);
 
     private native void jni_stop(int tun, boolean clr);
 
@@ -1187,6 +1187,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         if (log || log_app || filter) {
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
+            int rcode = Integer.parseInt(prefs.getString("rcode", "3"));
             if (prefs.getBoolean("socks5_enabled", false))
                 jni_socks5(
                         prefs.getString("socks5_addr", ""),
@@ -1195,7 +1196,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         prefs.getString("socks5_password", ""));
             else
                 jni_socks5("", 0, "", "");
-            jni_start(vpn.getFd(), mapForward.containsKey(53), prio);
+            jni_start(vpn.getFd(), mapForward.containsKey(53), rcode, prio);
         }
     }
 

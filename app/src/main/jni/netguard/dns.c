@@ -232,9 +232,9 @@ int check_domain(const struct arguments *args, const struct udp_session *u,
         else
             inet_pton(AF_INET6, "::1", addr);
 
-        // Experiment
+        // Send selected negative response
         rlen = datalen;
-        rh->rcode = 3; // NXDOMAIN
+        rh->rcode = (uint16_t) args->rcode;
         rh->ans_count = 0;
 
         // Send response

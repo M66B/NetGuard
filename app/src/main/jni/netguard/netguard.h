@@ -70,6 +70,7 @@ struct arguments {
     jobject instance;
     int tun;
     jboolean fwd53;
+    jint rcode;
 };
 
 struct allowed {

@@ -200,6 +200,10 @@
                 android:dependency="filter"
                 android:inputType="number"
                 android:key="ttl" />
+            <EditTextPreference
+                android:dependency="filter"
+                android:inputType="number"
+                android:key="rcode" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="filter"
