@@ -86,7 +86,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private ImageView ivIcon;
     private ImageView ivQueue;
     private SwitchCompat swEnabled;
-    private ImageView ivActive;
     private ImageView ivMetered;
     private SwipeRefreshLayout swipeRefresh;
     private AdapterRule adapter = null;
@@ -152,7 +151,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         ivIcon = (ImageView) actionView.findViewById(R.id.ivIcon);
         ivQueue = (ImageView) actionView.findViewById(R.id.ivQueue);
         swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
-        ivActive = (ImageView) actionView.findViewById(R.id.ivActive);
         ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
 
         // Icon
@@ -240,23 +238,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         });
         if (enabled)
             checkDoze();
-
-        // Network is active
-        ivActive.setImageResource(Util.isActive(ActivityMain.this) ? R.drawable.ic_cloud_queue_white_24dp : R.drawable.ic_cloud_off_white_24dp);
-        ivActive.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                int location[] = new int[2];
-                actionView.getLocationOnScreen(location);
-                Toast toast = Toast.makeText(ActivityMain.this, Util.isActive(ActivityMain.this) ? R.string.msg_active : R.string.msg_inactive, Toast.LENGTH_LONG);
-                toast.setGravity(
-                        Gravity.TOP | Gravity.LEFT,
-                        location[0] + ivActive.getLeft(),
-                        Math.round(location[1] + ivActive.getBottom() - toast.getView().getPaddingTop()));
-                toast.show();
-                return true;
-            }
-        });
 
         // Network is metered
         ivMetered.setOnLongClickListener(new View.OnLongClickListener() {
@@ -627,8 +608,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
 
-            if (adapter != null) {
-                ivActive.setImageResource(Util.isActive(ActivityMain.this) ? R.drawable.ic_cloud_queue_white_24dp : R.drawable.ic_cloud_off_white_24dp);
+            if (adapter != null)
                 if (intent.hasExtra(EXTRA_CONNECTED) && intent.hasExtra(EXTRA_METERED)) {
                     if (intent.getBooleanExtra(EXTRA_CONNECTED, false)) {
                         if (intent.getBooleanExtra(EXTRA_METERED, false))
@@ -642,7 +622,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
                 } else
                     updateApplicationList(null);
-            }
         }
     };
 

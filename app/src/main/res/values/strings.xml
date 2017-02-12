@@ -197,8 +197,6 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
     <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
     <string name="msg_metered">Network is metered</string>
-    <string name="msg_active">Network is active</string>
-    <string name="msg_inactive">Network is inactive</string>
     <string name="msg_queue">NetGuard is busy</string>
     <string name="msg_update">Update available, tap to download</string>
     <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>

@@ -114,11 +114,6 @@ public class Util {
         }
     }
 
-    public static boolean isActive(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return (cm == null ? false : cm.getActiveNetworkInfo() != null);
-    }
-
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());

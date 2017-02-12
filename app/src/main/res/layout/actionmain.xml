@@ -31,14 +31,6 @@
         android:saveEnabled="false" />
 
     <ImageView
-        android:id="@+id/ivActive"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp" />
-
-    <ImageView
         android:id="@+id/ivMetered"
         android:layout_width="24dp"
         android:layout_height="24dp"

@@ -3,8 +3,6 @@
     <attr name="colorOff" format="reference" />
     <attr name="expander" format="reference" />
     <attr name="iconQueue" format="reference" />
-    <attr name="iconActive" format="reference" />
-    <attr name="iconInactive" format="reference" />
     <attr name="iconMetered" format="reference" />
     <attr name="iconSettings" format="reference" />
     <attr name="iconDatasaver" format="reference" />
@@ -21,8 +19,6 @@
     <style name="BaseThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="expander">@drawable/expander_black</item>
         <item name="iconQueue">@drawable/ic_hourglass_empty_black_24dp</item>
-        <item name="iconActive">@drawable/ic_cloud_queue_black_24dp</item>
-        <item name="iconInactive">@drawable/ic_cloud_off_black_24dp</item>
         <item name="iconMetered">@drawable/ic_attach_money_black_24dp</item>
         <item name="iconSettings">@drawable/ic_settings_black_24dp</item>
         <item name="iconDatasaver">@drawable/ic_perm_data_setting_black_24dp</item>
@@ -36,8 +32,6 @@
     <style name="BaseThemeLight" parent="Theme.AppCompat">
         <item name="expander">@drawable/expander_white</item>
         <item name="iconQueue">@drawable/ic_hourglass_empty_white_24dp</item>
-        <item name="iconActive">@drawable/ic_cloud_queue_white_24dp</item>
-        <item name="iconInactive">@drawable/ic_cloud_off_white_24dp</item>
         <item name="iconMetered">@drawable/ic_attach_money_white_24dp</item>
         <item name="iconSettings">@drawable/ic_settings_white_24dp</item>
         <item name="iconDatasaver">@drawable/ic_perm_data_setting_white_24dp</item>
