@@ -91,12 +91,12 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="setting_reset_usage">Reset network usage</string>
     <string name="setting_show_resolved">Show resolved domain names</string>
     <string name="setting_block_domains">Block domain names</string>
+    <string name="setting_rcode">DNS response code: %s</string>
     <string name="setting_forwarding">Port forwarding</string>
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
-    <string name="setting_rcode">DNS response code: %s</string>
     <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
     <string name="setting_socks5_addr">SOCKS5 address: %s</string>
     <string name="setting_socks5_port">SOCKS5 port: %s</string>
@@ -145,7 +145,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
     <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
     <string name="summary_track_usage">Track the number of bytes sent and received for each application and address. This might result in extra battery usage.</string>
-    <string name="summary_block_domains">Respond with \'name error\' (NXDOMAIN) for blocked domain names. This switch is disabled when no hosts file is available.</string>
+    <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+    <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
     <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
     <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
 

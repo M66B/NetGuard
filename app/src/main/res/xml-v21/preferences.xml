@@ -175,6 +175,11 @@
                 android:key="use_hosts"
                 android:summary="@string/summary_block_domains"
                 android:title="@string/setting_block_domains" />
+            <EditTextPreference
+                android:dependency="filter"
+                android:inputType="number"
+                android:key="rcode"
+                android:summary="@string/summary_rcode" />
             <Preference
                 android:dependency="filter"
                 android:key="forwarding"
@@ -200,10 +205,6 @@
                 android:dependency="filter"
                 android:inputType="number"
                 android:key="ttl" />
-            <EditTextPreference
-                android:dependency="filter"
-                android:inputType="number"
-                android:key="rcode" />
             <eu.faircode.netguard.SwitchPreference
                 android:defaultValue="false"
                 android:dependency="filter"

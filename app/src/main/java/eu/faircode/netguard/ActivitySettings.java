@@ -223,14 +223,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         EditTextPreference pref_dns1 = (EditTextPreference) screen.findPreference("dns");
         EditTextPreference pref_dns2 = (EditTextPreference) screen.findPreference("dns2");
         EditTextPreference pref_ttl = (EditTextPreference) screen.findPreference("ttl");
-        EditTextPreference pref_rcode = (EditTextPreference) screen.findPreference("rcode");
         List<String> def_dns = Util.getDefaultDNS(this);
         pref_dns1.getEditText().setHint(def_dns.get(0));
         pref_dns2.getEditText().setHint(def_dns.get(1));
         pref_dns1.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns.get(0))));
         pref_dns2.setTitle(getString(R.string.setting_dns, prefs.getString("dns2", def_dns.get(1))));
         pref_ttl.setTitle(getString(R.string.setting_ttl, prefs.getString("ttl", "259200")));
-        pref_rcode.setTitle(getString(R.string.setting_rcode, prefs.getString("rcode", "3")));
 
         // SOCKS5 parameters
         screen.findPreference("socks5_addr").setTitle(getString(R.string.setting_socks5_addr, prefs.getString("socks5_addr", "-")));
@@ -247,10 +245,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Show resolved
         Preference pref_show_resolved = screen.findPreference("show_resolved");
-        if (Util.isPlayStoreInstall(this)) {
+        if (Util.isPlayStoreInstall(this))
             cat_advanced.removePreference(pref_show_resolved);
-            cat_advanced.removePreference(pref_rcode);
-        } else
+        else
             pref_show_resolved.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -291,14 +288,18 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Hosts file settings
         Preference pref_block_domains = screen.findPreference("use_hosts");
+        EditTextPreference pref_rcode = (EditTextPreference) screen.findPreference("rcode");
         Preference pref_hosts_import = screen.findPreference("hosts_import");
         EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
         final Preference pref_hosts_download = screen.findPreference("hosts_download");
+
+        pref_rcode.setTitle(getString(R.string.setting_rcode, prefs.getString("rcode", "3")));
 
         if (Util.isPlayStoreInstall(this)) {
             Log.i(TAG, "Play store install");
             cat_options.removePreference(screen.findPreference("update_check"));
             cat_advanced.removePreference(pref_block_domains);
+            cat_advanced.removePreference(pref_rcode);
             cat_advanced.removePreference(pref_forwarding);
             cat_backup.removePreference(pref_hosts_import);
             cat_backup.removePreference(pref_hosts_url);
