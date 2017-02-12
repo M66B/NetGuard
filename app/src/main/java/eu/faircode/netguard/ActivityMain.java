@@ -955,10 +955,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                AdRequest adRequest = new AdRequest.Builder()
-                        .addTestDevice(getString(R.string.ad_test_device_id))
-                        .build();
-                adView.loadAd(adRequest);
+                try {
+                    AdRequest adRequest = new AdRequest.Builder()
+                            .addTestDevice(getString(R.string.ad_test_device_id))
+                            .build();
+                    adView.loadAd(adRequest);
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
             }
         }, 1000);
     }
