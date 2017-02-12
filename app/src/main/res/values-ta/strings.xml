@@ -79,6 +79,7 @@
   <string name="setting_reset_usage">பிணைய பயன்பாடு மீட்டமை</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">தொகுதி டொமைன் பெயர்கள்</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">முணையம் மேலனுப்ப</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -126,7 +127,8 @@
   <string name="summary_access">நிலை பட்டி அறிவிக்கை பயன்பாட்டை ஒரு புதிய இணைய முகவரி அணுக முயற்சிக்கும் போது காண்பி (முடக்கப்பட்டது வடித்தல், போது மட்டும் தடுக்கப்பட்ட இணைய அணுகல் முயற்சிகள் உங்களுக்கு அறிவிக்கப்பட)</string>
   <string name="summary_filter">IP தயாரிப்புகளை VPN துவங்கப்பட்டது வெளியே செல்லும் வடிகட்டி. கூடுதல் மின்கல பயன்பாட்டு இது இதனால் இருக்கலாம்.</string>
   <string name="summary_track_usage">தடம் பைட்கள் அனுப்பிய மற்றும் பெறப்பட்ட ஒவ்வொரு பயன்பாடு மற்றும் முகவரி எண்ணிக்கை. கூடுதல் மின்கல பயன்பாட்டு இது இதனால் இருக்கலாம்.</string>
-  <string name="summary_block_domains">\'பெயர் பிழை\' உடன் பதில் (NXDOMAIN) தடைசெய்யப்பட்ட டொமைன் பெயர்களை ஒதுக்கீடு. எந்த சேவையகங்கள் கோப்பு உள்ளது இந்த பொத்தான் முடக்கப்பட்டது.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">TCP போக்குவரத்து மட்டும் பதிலிச் சேவையகம் அனுப்பப்படும்</string>
   <string name="summary_watchdog">அவ்வப்போது என்றால் NetGuard இயங்கிக்கொண்டிருக்கும் சரிபார்க்கவும் (இந்த விருப்பத்தை முடக்க பூஜ்யம் உள்ளிட). கூடுதல் மின்கல பயன்பாட்டு இது இதனால் இருக்கலாம்.</string>
   <string name="summary_stats">நிலை பட்டி அறிவிக்கை பிணைய வேகம் வரைபடம் காண்பி</string>

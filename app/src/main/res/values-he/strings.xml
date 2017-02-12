@@ -80,6 +80,7 @@
   <string name="setting_reset_usage">אפס את מונה השימוש ברשת</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">חסום שמות מתחם (דומיין)</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">הפניית פורטים</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -127,7 +128,8 @@
   <string name="summary_access">הצג הודעה בשורת המצב כאשר יישום מנסה לגשת אל כתובת אינטרנט חדשה (כאשר תכונת הסינון אינה מאופשרת, יוצגו רק ניסיונות גישה שנחסמו)</string>
   <string name="summary_filter">סינון מנות IP ביציאה מערוץ VPN. עלול להגביר צריכת סוללה.</string>
   <string name="summary_track_usage">עקוב אחרי מספר הבתים שנשלחו והתקבלו לכל יישום או כתובת. עלול להגביר צריכת סוללה.</string>
-  <string name="summary_block_domains">החזר \'שגיאת שם\' (NXDOMAIN) עבור שמות מתחם חסומים. בורר זה אינו זמין כאשר קובץ hosts לא זמין.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">רק תעבורת TCP תועבר אל שרת ה-proxy</string>
   <string name="summary_watchdog">בדוק מדי פרק הזמן המוגדר האם NetGuard עדיין פועל (הזן 0 כדי לבטל אפשרות זו). עלול לגרום לצריכת סוללה מוגברת.</string>
   <string name="summary_stats">הצג גרף מהירות רשת בהתראת שורת המצב</string>

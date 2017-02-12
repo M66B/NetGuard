@@ -81,6 +81,7 @@
   <string name="setting_reset_usage">नेटवर्क उपयोग रीसेट करें</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">ब्लॉक डोमेन नाम</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">पोर्ट अग्रेषण</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -128,7 +129,8 @@
   <string name="summary_access">एक नए इंटरनेट पते तक पहुँचने के लिए कोई अनुप्रयोग का प्रयास करता है, जब एक स्थिति बार सूचना दिखाएँ (फ़िल्टरिंग अक्षम किया गया है, जब केवल अवरुद्ध इंटरनेट का उपयोग प्रयास को सूचित किया जाएगा)</string>
   <string name="summary_filter">VPN टनल से बाहर जा रहा IP पैकेट फ़िल्टर। यह अतिरिक्त बैटरी उपयोग में परिणाम हो सकता है।</string>
   <string name="summary_track_usage">भेजा है और प्रत्येक अनुप्रयोग और पते के लिए प्राप्त बाइट्स की संख्या ट्रैक। यह अतिरिक्त बैटरी उपयोग में परिणाम हो सकता है।</string>
-  <string name="summary_block_domains">\'नाम त्रुटि के साथ\' का जवाब (NXDOMAIN) के लिए ब्लॉक किए गए डोमेन नाम। कोई होस्ट फ़ाइल उपलब्ध नहीं है, जब यह स्विच अक्षम किया गया है।</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">केवल TCP यातायात प्रॉक्सी सर्वर से भेजा जाएगा</string>
   <string name="summary_watchdog">समय-समय पर NetGuard अभी भी चल रहा है या नहीं की जाँच करें (इस विकल्प को अक्षम करने के लिए शून्य दर्ज करें)। यह अतिरिक्त बैटरी उपयोग में परिणाम हो सकता है।</string>
   <string name="summary_stats">स्थिति पट्टी में सूचना नेटवर्क गति ग्राफ़ दिखाएँ</string>

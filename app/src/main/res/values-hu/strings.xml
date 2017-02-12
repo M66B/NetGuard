@@ -79,6 +79,7 @@
   <string name="setting_reset_usage">Hálózat használat alaphelyzetbe</string>
   <string name="setting_show_resolved">Mutassa a feloldott domain neveket</string>
   <string name="setting_block_domains">Domain nevek letiltása</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">Port forward</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -126,7 +127,8 @@
   <string name="summary_access">Mutassa az értesítés sávban, amikor egy alkalmazás megpróbál hozzáférni egy új internet címhez (amikor a szűrés le van tiltva, csak zárolt internet hozzáférési kísérletekről küld értesítést)</string>
   <string name="summary_filter">A szűrendő IP csomagok a VPN csatornán keresztül jutnak ki. Ez lehet, hogy egy kis többlet akkumulátor használattal járhat.</string>
   <string name="summary_track_usage">Nyomon követheti a küldött és fogadott bájtok számát minden egyes alkalmazáshoz és címhez. Ez egy kis extra akkumulátor használattal járhat.</string>
-  <string name="summary_block_domains">A válasz \'név hiba\' (NXDOMAIN) a letiltott domain neveknél. Ez a kapcsoló le van tiltva amikor nem található hosts fájl.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">Csak a TCP forgalom küldése a proxy szerverre</string>
   <string name="summary_watchdog">Rendszeresen ellenőrzi ha a NetGuard fut (a 0 beírása letiltja azt az opciót). Ez extra akkumulátor használattal járhat.</string>
   <string name="summary_stats">Mutassa a hálózat sebesség grafikont az értesítés sávon</string>

@@ -80,6 +80,7 @@
   <string name="setting_reset_usage">Nulstil netværksforbrug</string>
   <string name="setting_show_resolved">Vis opløste domænenavne</string>
   <string name="setting_block_domains">Bloker domænenavne</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">Port-viderestilling</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -127,7 +128,8 @@
   <string name="summary_access">Vis en statusbjælkenotifikation når en app forsøger at tilgå en ny Internetadresse (er filtrering inaktiv, vil kun blokerede Internetadgangsforsøg generere notifikationer)</string>
   <string name="summary_filter">Filtrér udgående IP-pakker i VPN-tunnelen. Dette kan medføre forøget strømforbrug.</string>
   <string name="summary_track_usage">Spor antal afsendte og modtagne bytes for hver app og adresse. Dette kan medføre forøget strømforbrug.</string>
-  <string name="summary_block_domains">Besvar med \'navnefejl\' (NODOMAIN) for blokerede domænenavne. Denne kontakt er inaktiv, hvis ingen hosts-fil er tilgængelig.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">Kun TCP-trafik sendes til proxy-serveren</string>
   <string name="summary_watchdog">Kontrollér periodisk at NetGuard stadig kører (angiv 0 for at deaktivere denne funktion). Dette kan medføre forøget strømforbrug.</string>
   <string name="summary_stats">Vis netværkshastighedsgraf i statusbjælkenotifikation</string>

@@ -81,6 +81,7 @@
   <string name="setting_reset_usage">重置网络使用记录</string>
   <string name="setting_show_resolved">显示已解析的主机名称</string>
   <string name="setting_block_domains">屏蔽域名</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">端口转发</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -128,7 +129,8 @@
   <string name="summary_access">当应用程序试图访问一个新的互联网地址时显示状态栏通知 (过滤禁用时仅通知被阻止网络的访问尝试)</string>
   <string name="summary_filter">筛选经由 VPN 重定向导出的 IP 数据包. 这可能会导致额外电量消耗.</string>
   <string name="summary_track_usage">跟踪每个应用程序和地址发送和接收的字节数. 这可能会导致额外电量消耗.</string>
-  <string name="summary_block_domains">对已阻止的主机域名使用\"域名错误\" (NXDOMAIN) 作为应答. 无 hosts 文件可用时此开关会被禁用.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">仅将 TCP 流量导向至代理服务器</string>
   <string name="summary_watchdog">定时检查 NetGuard 运行状况 (输入 0 禁用此选项). 这可能导致额外电量消耗.</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>

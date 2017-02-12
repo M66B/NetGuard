@@ -79,6 +79,7 @@
   <string name="setting_reset_usage">Нулиране на данните за достъп до мрежа</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Блокиране на домейни</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">Пренасочване на порт</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -126,7 +127,8 @@
   <string name="summary_access">Показване на опитите за достъп на приложението до нов интернет адрес в лентата за уведомяване (когато филтрирането е изключено, ще се показват само блокираните опити за достъп)</string>
   <string name="summary_filter">Филтриране на IP пакетите излязащи от VPN тунела. Това може да доведе до допълнително използване на батарията.</string>
   <string name="summary_track_usage">Проследяване на броя байтове, изпратени и получени за всяко приложение и адрес. Това може да доведе до допълнителено използване на батерията.</string>
-  <string name="summary_block_domains">Отговори с \"име грешка\" (NXDOMAIN) за блокираните домейни. Тази опция е изключена, когато няма наличен \"hosts\" файл.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">Само TCP трафикът ще бъде изпратен към прокси сървъра</string>
   <string name="summary_watchdog">Периодично проверява дали NetGuard е активен (въведете 0 за деазктивиране на опцията). Това може да доведе до допълнителен разход на батерията.</string>
   <string name="summary_stats">Показване на скоростта на трафика в лентата за уведомяване</string>

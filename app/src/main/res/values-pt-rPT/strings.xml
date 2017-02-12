@@ -79,6 +79,7 @@
   <string name="setting_reset_usage">Redefinir o uso de rede</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Bloquear nomes de domínio</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">Encaminhamento de porta</string>
   <string name="setting_vpn4">IPv4 VPN: %s</string>
   <string name="setting_vpn6">IPv4 VPN: %s</string>
@@ -126,7 +127,8 @@
   <string name="summary_access">Mostrar uma notificação na barra de estado quando uma aplicação tenta aceder um endereço de internet novo (quando a filtragem está desativada, só serão indicadas tentativas de acesso bloqueadas)</string>
   <string name="summary_filter">Filtrar pacotes de IP que saiem do sumidouro VPN. Isto pode resultar num uso adicional de bateria.</string>
   <string name="summary_track_usage">Controlar o número de bytes enviados e recebidos para cada aplicação e endereço. Isto pode resultar num uso adicional da bateria.</string>
-  <string name="summary_block_domains">Responder com \'erro de nome\' (NXDOMAIN) para nomes de domínio bloqueados. Esta opção é desabilitada quando nenhum ficheiro de hosts está disponível.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
   <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>

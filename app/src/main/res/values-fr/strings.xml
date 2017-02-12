@@ -79,6 +79,7 @@
   <string name="setting_reset_usage">Réinitialiser l\'utilisation du réseau</string>
   <string name="setting_show_resolved">Afficher les noms de domaine résolus</string>
   <string name="setting_block_domains">Bloquer les noms de domaine</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">Redirection de port</string>
   <string name="setting_vpn4">VPN IPv4 : %s</string>
   <string name="setting_vpn6">VPN IPv6 : %s</string>
@@ -126,7 +127,8 @@
   <string name="summary_access">Afficher une notification dans la barre d\'état quand une application tente d\'accéder à une nouvelle adresse internet (lorsque le filtrage est désactivé, seules les tentatives d\'accès internet bloquées seront notifiées)</string>
   <string name="summary_filter">Filtrer les paquets IP sortant du tunnel VPN. Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_track_usage">Surveiller le nombre d\'octets envoyés et reçus pour chaque application et adresse. Cela peut entraîner une surconsommation de la batterie.</string>
-  <string name="summary_block_domains">Renvoyer \"name error\" (NXDOMAIN) pour les noms de domaine bloqués. Cette option est désactivée quand aucun fichier hosts n\'est disponible.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">Seul le trafic TCP sera envoyé au serveur proxy</string>
   <string name="summary_watchdog">Vérifier périodiquement si NetGuard est toujours en fonctionnement (entrez zéro pour désactiver cette option). Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_stats">Afficher le graphe de débit du réseau dans une notification sur la barre d\'état</string>

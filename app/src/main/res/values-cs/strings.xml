@@ -81,6 +81,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_reset_usage">Resetovat využití sítě</string>
   <string name="setting_show_resolved">Zobrazit přeložená jména domén</string>
   <string name="setting_block_domains">Blokovat názvy domén</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">Přesměrování portů</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -128,7 +129,8 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="summary_access">Zobrazit upozornění na stavovém řádku při pokusu aplikace o přístup k nové internetové adrese (při zakázaném filtrování budete upozorněni pouze na zablokované přístupy)</string>
   <string name="summary_filter">Filtrovat IP pakety procházející VPN tunelem směrem ven. Může mít vliv na spotřebu baterie.</string>
   <string name="summary_track_usage">Sledovat počet odeslaných a přijatých bytů pro každou aplikaci a adresu. Může mít vliv na spotřebu baterie.</string>
-  <string name="summary_block_domains">Navracet \'chyba názvu\' (NXDOMAIN) pro blokované názvy domén. Tento přepínač je deaktivován, pokud není dostupný žádný soubor hosts.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">Pouze TCP přenosy budou přenášeny skrze proxy server</string>
   <string name="summary_watchdog">Pravidelně kontrolovat, zda NetGuard stále běží (zadejte nulu pro vypnutí). Toto nastavení může mít vliv na spotřebu.</string>
   <string name="summary_stats">Zobrazit graf rychlosti sítě v notifikační liště</string>

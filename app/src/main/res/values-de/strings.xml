@@ -80,6 +80,7 @@
   <string name="setting_reset_usage">Netzwerknutzung zurücksetzen</string>
   <string name="setting_show_resolved">Aufgelöste Domainnamen anzeigen</string>
   <string name="setting_block_domains">Domainnamen blockieren</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">Portweiterleitung</string>
   <string name="setting_vpn4">VPN-IPv4: %s</string>
   <string name="setting_vpn6">VPN-IPv6: %s</string>
@@ -127,7 +128,8 @@
   <string name="summary_access">Benachrichtigungsleiste anzeigen, wenn eine Anwendung versucht, auf eine neue Internetadresse zuzugreifen (bei deaktivierter Filterung werden nur blockierte Internet-Zugriffsversuche angezeigt)</string>
   <string name="summary_filter">IP-Pakete filtern, die den VPN-Tunnel verlassen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_track_usage">Anzahl der gesendeten und empfangenen Bytes für jede Anwendung und Adresse verfolgen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
-  <string name="summary_block_domains">Mit \'Name Error\' (NXDOMAIN) antworten für blockierte Domainnamen. Diese Option ist deaktiviert, wenn keine Hosts-Datei zur Verfügung steht.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">Nur TCP-Datenverkehr wird an den Proxyserver gesendet</string>
   <string name="summary_watchdog">In regelmäßigen Abständen überprüfen, ob NetGuard noch läuft (Null um diese Option zu deaktivieren). Das kann den Batterieverbrauch erhöhen.</string>
   <string name="summary_stats">Netzwerkgeschwindigkeitskurve in Statusleiste anzeigen</string>

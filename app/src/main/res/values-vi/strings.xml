@@ -79,6 +79,7 @@
   <string name="setting_reset_usage">Thiết lập lại cách sử dụng mạng</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">Chặn tên miền</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">Cổng chuyển tiếp</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -126,7 +127,8 @@
   <string name="summary_access">Hiển thị một thanh thông báo trạng thái khi một ứng dụng cố gắng để truy cập vào một địa chỉ internet mới (khi lọc bị tắt, chỉ cố gắng truy cập internet bị chặn được thông báo)</string>
   <string name="summary_filter">Lọc gói tin IP đi ra khỏi đường hầm VPN. Điều này có thể dẫn đến việc sử dụng pin phụ.</string>
   <string name="summary_track_usage">Theo dõi số lượng byte gửi và nhận được cho mỗi ứng dụng và địa chỉ. Điều này có thể dẫn đến việc sử dụng pin phụ.</string>
-  <string name="summary_block_domains">Trả về với \'name error\' (NXDOMAIN) cho các tên miền bị chặn. Tùy chọn này bị vô hiệu hóa khi không có sẵn file hosts.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
   <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
   <string name="summary_stats">Hiển thị đồ thị tốc độ mạng trên thanh thông báo trạng thái</string>

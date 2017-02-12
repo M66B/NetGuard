@@ -79,6 +79,7 @@
   <string name="setting_reset_usage">إعادة تعيين استخدام الشبكة</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
   <string name="setting_block_domains">حظر أسماء نطاقات</string>
+  <string name="setting_rcode">DNS response code: %s</string>
   <string name="setting_forwarding">توجيه المنفذ</string>
   <string name="setting_vpn4">IPv4 للشبكة الافتراضية الخاصة: %s</string>
   <string name="setting_vpn6">IPv6 للشبكة الافتراضية الخاصة: %s</string>
@@ -127,7 +128,8 @@
   <string name="summary_access">إظهار إعلام شريط المعلومات عندما يحاول تطبيق الوصول إلى عنوان إنترنت جديد (عند التصفية معطل، إلا محاولات الوصول إلى الإنترنت المحظورة فسيتم الإخطار)</string>
   <string name="summary_filter">تصفية حزم IP الخارجة من نفق VPN. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_track_usage">تتبع عدد وحدات البايت المرسلة والمتلقاة لكل تطبيق وعنوان. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
-  <string name="summary_block_domains">الاستجابة ب \'اسم خاطئ\' (NXDOMAIN) لأسماء النطاقات المحظورة. يعطل هذا الخيار عند عدم وجود ملف المضيفين.</string>
+  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
+  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
   <string name="summary_socks5_enabled">يـــتـــم إرســال حــركـــة مـــرور TCP فـــقـــط إلـــى الـــمـــلـــقـــم الـــوكــيـــل</string>
   <string name="summary_watchdog">الــفـــحـــص الــدوري إذا كــان قـــيـــد تـــشـــغـــيـــل NetGuard (فــأدخـــل صـــفـــر لـــتـــعـــطـــيـــل هـــذا الــخـــيـــار). قـــد يـــســـتـــلـــزم هـــذا إســـتـــخـــدام أكـــثـــر لـلـــبـــطــاريـــة.</string>
   <string name="summary_stats">إظهار الرسم البياني لسرعة الشبكة الرسم في إعلام شريط المعلومات</string>
