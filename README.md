@@ -74,8 +74,16 @@ For more screenshots, see [here](https://github.com/M66B/NetGuard/tree/master/sc
 Compatibility
 -------------
 
-NetGuard will not work or crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
+The only way to build a no-root firewall on Android is to use the Android VPN service.
+Android doesn't allow chaining of VPN services, so you cannot use NetGuard together with other VPN based applications.
+See also [this FAQ](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ2).
 
+Some Android versions, expecially not updated Samsung Android versions, have a buggy VPN implementation,
+which results in Android refusing to start the VPN service in certain circumstances,
+like when there is no internet conncectivity yet (when starting up your device)
+or when incorrectly requiring manual approval of the VPN service again (when starting up your device).
+
+NetGuard will not work or crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 
 <a name="FAQ"></a>
 Frequently Asked Questions (FAQ)
