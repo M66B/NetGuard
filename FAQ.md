@@ -453,6 +453,13 @@ If you set different rules for 2 domains which resolve to the same IP, both will
 
 Thanks @[pulser](https://github.com/pulser/)
 
+<a name="FAQ49"></a>
+**(49) Does NetGuard encrypt my internet traffic / hide my IP address?**
+
+NetGuard is a firewall application that filters internet traffic on your device (see also [this question](#FAQ6)),
+so it is not meant to and does not encrypt your internet traffic
+and it is not meant to and does not hide your IP address.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**

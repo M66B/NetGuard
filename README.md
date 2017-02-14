@@ -78,6 +78,8 @@ The only way to build a no-root firewall on Android is to use the Android VPN se
 Android doesn't allow chaining of VPN services, so you cannot use NetGuard together with other VPN based applications.
 See also [this FAQ](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ2).
 
+NetGuard can be used on rooted devices too and even offers more features than most root firewalls.
+
 Some Android versions, expecially not updated Samsung Android versions, have a buggy VPN implementation,
 which results in Android refusing to start the VPN service in certain circumstances,
 like when there is no internet conncectivity yet (when starting up your device)
@@ -220,6 +222,9 @@ Frequently Asked Questions (FAQ)
 
 <a name="FAQ48"></a>
 [**(48) Why are some domain names blocked while they are set to be allowed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ48)
+
+<a name="FAQ49"></a>
+[**(49) Does NetGuard encrypt my internet traffic / hide my IP address?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ49)
 
 Support
 -------
