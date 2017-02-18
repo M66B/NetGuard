@@ -363,7 +363,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // https://gist.github.com/granoeste/5574148
-        File pcap_file = new File(getCacheDir(), "netguard.pcap");
+        File pcap_file = new File(getDir("data", MODE_PRIVATE), "netguard.pcap");
 
         boolean export = (getPackageManager().resolveActivity(getIntentPCAPDocument(), 0) != null);
 
@@ -386,7 +386,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        final File pcap_file = new File(getCacheDir(), "netguard.pcap");
+        final File pcap_file = new File(getDir("data", MODE_PRIVATE), "netguard.pcap");
 
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -563,7 +563,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                     Log.i(TAG, "Export PCAP URI=" + target);
                     out = getContentResolver().openOutputStream(target);
 
-                    File pcap = new File(getCacheDir(), "netguard.pcap");
+                    File pcap = new File(getDir("data", MODE_PRIVATE), "netguard.pcap");
                     in = new FileInputStream(pcap);
 
                     int len;

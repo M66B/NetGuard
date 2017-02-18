@@ -191,7 +191,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private native void jni_done();
 
     public static void setPcap(boolean enabled, Context context) {
-        File pcap = (enabled ? new File(context.getCacheDir(), "netguard.pcap") : null);
+        File pcap = (enabled ? new File(context.getDir("data", MODE_PRIVATE), "netguard.pcap") : null);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String r = prefs.getString("pcap_record_size", null);
         if (TextUtils.isEmpty(r))

@@ -718,7 +718,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
             ServiceSinkhole.setPcap(false, this);
 
-            File pcap_file = new File(getCacheDir(), "netguard.pcap");
+            File pcap_file = new File(getDir("data", MODE_PRIVATE), "netguard.pcap");
             if (pcap_file.exists() && !pcap_file.delete())
                 Log.w(TAG, "Delete PCAP failed");
 
