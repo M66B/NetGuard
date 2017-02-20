@@ -1810,9 +1810,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Util.setTheme(this);
         super.onCreate();
 
-        HandlerThread commandThread = new HandlerThread(getString(R.string.app_name) + " command");
-        HandlerThread logThread = new HandlerThread(getString(R.string.app_name) + " log");
-        HandlerThread statsThread = new HandlerThread(getString(R.string.app_name) + " stats");
+        HandlerThread commandThread = new HandlerThread(getString(R.string.app_name) + " command", Process.THREAD_PRIORITY_FOREGROUND);
+        HandlerThread logThread = new HandlerThread(getString(R.string.app_name) + " log", Process.THREAD_PRIORITY_BACKGROUND);
+        HandlerThread statsThread = new HandlerThread(getString(R.string.app_name) + " stats", Process.THREAD_PRIORITY_BACKGROUND);
         commandThread.start();
         logThread.start();
         statsThread.start();
