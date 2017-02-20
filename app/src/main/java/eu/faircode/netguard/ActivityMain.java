@@ -405,6 +405,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Util.logExtras(intent);
         super.onNewIntent(intent);
 
+        setIntent(intent);
+
         if (Build.VERSION.SDK_INT >= MIN_SDK) {
             if (intent.hasExtra(EXTRA_REFRESH))
                 updateApplicationList(intent.getStringExtra(EXTRA_SEARCH));
@@ -692,11 +694,19 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
+                Intent intent = getIntent();
+                intent.removeExtra(EXTRA_SEARCH);
+
                 if (adapter != null)
                     adapter.getFilter().filter(null);
                 return true;
             }
         });
+        String search = getIntent().getStringExtra(EXTRA_SEARCH);
+        if (search != null) {
+            MenuItemCompat.expandActionView(menuSearch);
+            searchView.setQuery(search, true);
+        }
 
         markPro(menu.findItem(R.id.menu_log), ActivityPro.SKU_LOG);
         if (!IAB.isPurchasedAny(this))
