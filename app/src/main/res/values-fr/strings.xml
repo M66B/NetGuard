@@ -7,8 +7,8 @@
   <string name="app_license">En utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Un grand soin a été apporté pour développer et tester NetGuard, cependant il est impossible de garantir que NetGuard fonctionnera correctement sur tous les appareils.\n\nEn utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_admob">NetGuard utilise le service de publicité AdMob de Google. La politique de confidentialité d\'AdMob est disponible <a href="https://www.google.com/intl/fr/policies/privacy/">ici</a>.</string>
-  <string name="app_agree">Je suis d\'accord</string>
-  <string name="app_disagree">Refuser</string>
+  <string name="app_agree">J\'accepte</string>
+  <string name="app_disagree">Je refuse</string>
   <string name="menu_search">Rechercher une application</string>
   <string name="menu_filter">Filtrer les applications</string>
   <string name="menu_app_user">Afficher les applications utilisateur</string>
@@ -28,7 +28,7 @@
   <string name="menu_protocol_other">Autre</string>
   <string name="menu_traffic_allowed">Autorisé</string>
   <string name="menu_traffic_blocked">Bloqué</string>
-  <string name="menu_live">Mises à jour directes</string>
+  <string name="menu_live">Mises à jour en temps réel</string>
   <string name="menu_refresh">Actualiser</string>
   <string name="menu_resolve">Afficher les noms</string>
   <string name="menu_organization">Afficher l\'organisation</string>
@@ -45,19 +45,19 @@
   <string name="title_rport">Port de destination</string>
   <string name="title_ruid">Application de destination</string>
   <string name="title_external">Pour un serveur externe, sélectionnez \"personne\"</string>
-  <string name="setting_defaults">Par défaut</string>
+  <string name="setting_defaults">Valeurs par défaut (liste blanche/noire)</string>
   <string name="setting_whitelist_wifi">Bloquer Wi-Fi</string>
   <string name="setting_whitelist_other">Bloquer données mobiles</string>
-  <string name="setting_screen_wifi">Autoriser Wi-Fi si écran allumé</string>
-  <string name="setting_screen_other">Autoriser données mobiles si écran allumé</string>
-  <string name="setting_whitelist_roaming">Bloquer itinérance</string>
+  <string name="setting_screen_wifi">Autoriser le Wi-Fi si l\'écran est allumé</string>
+  <string name="setting_screen_other">Autoriser les données mobiles si l\'écran est allumé</string>
+  <string name="setting_whitelist_roaming">Bloquer l\'itinérance</string>
   <string name="setting_options">Options</string>
   <string name="setting_theme">Thème : %1$s</string>
   <string name="setting_dark">Utiliser le thème sombre</string>
   <string name="setting_install">Notifier lors d\'une nouvelle installation</string>
   <string name="setting_screen_on">Appliquer les règles « quand l’écran est allumé »</string>
   <string name="setting_auto">Activer automatiquement après %1$s minutes</string>
-  <string name="setting_delay">Retarder l\'extinction de l\'ecran de %1$s minutes</string>
+  <string name="setting_delay">Retarder l\'extinction de l\'écran de %1$s minutes</string>
   <string name="setting_update">Vérifier les mises à jour</string>
   <string name="setting_network_options">Options de réseau</string>
   <string name="setting_subnet">Routage de sous-réseau</string>
@@ -79,12 +79,12 @@
   <string name="setting_reset_usage">Réinitialiser l\'utilisation du réseau</string>
   <string name="setting_show_resolved">Afficher les noms de domaine résolus</string>
   <string name="setting_block_domains">Bloquer les noms de domaine</string>
-  <string name="setting_rcode">DNS response code: %s</string>
+  <string name="setting_rcode">Code retour DNS : %s</string>
   <string name="setting_forwarding">Redirection de port</string>
   <string name="setting_vpn4">VPN IPv4 : %s</string>
   <string name="setting_vpn6">VPN IPv6 : %s</string>
   <string name="setting_dns">VPN DNS : %s</string>
-  <string name="setting_ttl">DNS TTL Minimum : %s s</string>
+  <string name="setting_ttl">DNS TTL minimum : %s s</string>
   <string name="setting_socks5_enabled">Utiliser un proxy SOCKS5</string>
   <string name="setting_socks5_addr">Adresse SOCKS5 : %s</string>
   <string name="setting_socks5_port">Port SOCKS5 : %s</string>
@@ -114,21 +114,21 @@
   <string name="summary_update">Vérifier les nouvelles versions sur GitHub deux fois par jour</string>
   <string name="summary_tethering">Selon la version d\'Android, le partage de connexion peut fonctionner ou non. Le trafic partagé ne peut pas être filtré.</string>
   <string name="summary_subnet">Activer le routage sous-réseaux ; pourrait permettre les appels Wi-Fi, mais pourrait aussi déclencher des bogues dans Android et augmenter l’utilisation de la batterie</string>
-  <string name="summary_lan">Autoriser les applications de se connecter à des adresses de réseau local, comme 10.0.0.0/8, 172.16.0.0/12 et 192.168.0.0/16</string>
+  <string name="summary_lan">Autoriser les applications à se connecter à des adresses de réseau local, comme 10.0.0.0/8, 172.16.0.0/12 et 192.168.0.0/16</string>
   <string name="summary_ip6">Diriger le trafic IP version 6 vers NetGuard de sorte qu\'il peut être sélectivement autorisé ou bloqué</string>
-  <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour le reste des réseaux Wi-Fi)</string>
+  <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour les autres réseaux Wi-Fi)</string>
   <string name="summary_metered">Appliquer les règles de réseaux mobiles aux réseaux Wi-Fi limités (payants, partagés)</string>
   <string name="summary_metered_2g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 2G</string>
   <string name="summary_metered_3g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 3G</string>
   <string name="summary_metered_4g">Appliquer les règles de réseau Wi-Fi pour les connexions de données LTE</string>
   <string name="summary_national_roaming">Ne pas appliquer les règles d\'itinérance lorsque la SIM et le réseau mobile du pays sont les mêmes</string>
   <string name="summary_system">Définir les règles pour les applications système (pour experts)</string>
-  <string name="summary_log_app">Journaliser les tentatives d\'accès internet des applications. Cela peut entraîner une surconsommation de la batterie.</string>
+  <string name="summary_log_app">Journaliser les tentatives d\'accès à internet des applications. Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_access">Afficher une notification dans la barre d\'état quand une application tente d\'accéder à une nouvelle adresse internet (lorsque le filtrage est désactivé, seules les tentatives d\'accès internet bloquées seront notifiées)</string>
   <string name="summary_filter">Filtrer les paquets IP sortant du tunnel VPN. Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_track_usage">Surveiller le nombre d\'octets envoyés et reçus pour chaque application et adresse. Cela peut entraîner une surconsommation de la batterie.</string>
-  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
-  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+  <string name="summary_block_domains">Répondre avec le code retour DNS configuré pour les noms de domaine bloqués. Cette option est désactivée lorsqu\'aucun fichier hosts n’est disponible.</string>
+  <string name="summary_rcode">La valeur par défaut est 3 (NXDOMAIN), ce qui signifie « domaine inexistant ».</string>
   <string name="summary_socks5_enabled">Seul le trafic TCP sera envoyé au serveur proxy</string>
   <string name="summary_watchdog">Vérifier périodiquement si NetGuard est toujours en fonctionnement (entrez zéro pour désactiver cette option). Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_stats">Afficher le graphe de débit du réseau dans une notification sur la barre d\'état</string>
@@ -137,20 +137,20 @@
   <string name="msg_started">Application des règles</string>
   <string name="msg_packages">%1$d autorisée(s), %2$d bloquée(s)</string>
   <string name="msg_hosts">%1$d autorisée(s), %2$d bloquée(s), %3$d hôte(s)</string>
-  <string name="msg_waiting">En attente d\'évènements</string>
+  <string name="msg_waiting">En attente d\'évènement</string>
   <string name="msg_disabled">NetGuard est désactivé, utilisez le bouton ci-dessus pour activer NetGuard</string>
   <string name="msg_revoked">NetGuard a été désactivé, probablement en utilisant une autre application VPN</string>
   <string name="msg_installed">%1$s installé</string>
   <string name="msg_installed_n">A été installé</string>
-  <string name="msg_access">%1$s tente d\'accéder à internet</string>
+  <string name="msg_access">%1$s a tenté d\'accéder à internet</string>
   <string name="msg_access_n">Tentative d\'accès internet</string>
   <string name="msg_completed">Action terminée</string>
   <string name="msg_vpn">NetGuard utilise un VPN local pour filtrer le trafic Internet.
 Pour cette raison, veuillez autoriser la connexion VPN lors du prochain message.
 Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
-  <string name="msg_autostart">NetGuard n\'a pas été lancé automatiquement au démarrage à cause d\'un bug dans votre version d\'Android.</string>
+  <string name="msg_autostart">NetGuard n\'a pas pu démarrer automatiquement. Ceci est probablement dû à un bug dans votre version d\'Android.</string>
   <string name="msg_error">Une erreur inattendue s’est produite : \'%s\'</string>
-  <string name="msg_start_failed">Android a refusé de démarrer le VPN maintenant. Ceci est probablement dû à un bug dans votre version de Android.</string>
+  <string name="msg_start_failed">Android a refusé de démarrer le VPN maintenant. Ceci est probablement dû à un bug dans votre version d\'Android.</string>
   <string name="msg_try">Essayer NetGuard</string>
   <string name="msg_terms">En faisant un don vous acceptez les <a href="http://www.netguard.me/#terms">termes et conditions</a></string>
   <string name="msg_dimming">Si vous ne pouvez pas appuyer sur OK dans la fenêtre suivante, une autre application (filtre de luminosité) manipule probablement l\'écran.</string>
@@ -161,9 +161,9 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ Mo</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ Go</string>
   <string name="msg_count">%dx</string>
-  <string name="msg_doze">Pour des résultats cohérents, les optimisations Android de la batterie devraient être désactivées pour NetGuard.\n\nDans la fenêtre suivante, sélectionnez « Toutes les applications » en haut, appuyez sur NetGuard dans la liste, puis sélectionnez et confirmez « Ne pas optimiser ».</string>
+  <string name="msg_doze">Pour des résultats cohérents, les optimisations Android de la batterie doivent être désactivées pour NetGuard.\n\nDans la fenêtre suivante, sélectionnez « Toutes les applications » en haut, appuyez sur NetGuard dans la liste, puis sélectionnez et confirmez « Ne pas optimiser ».</string>
   <string name="msg_datasaving">Pour des résultats cohérents, les options de limitation de données de d\'Android doivent être désactivées pour NetGuard \n\nDans la boîte de dialogue suivante, activez les options « Données en arrière-plan » et « Utilisation de données sans restriction »</string>
-  <string name="msg_filter">L\'utilsation du filtrage fera qu\'Android attribura l\'utilisation de données et de batterie à NetGuard - Android assume que les données et la batterie sont utilisées par NetGuard, plutôt que les applications d\'origine</string>
+  <string name="msg_filter">L\'utilisation du filtrage fera qu\'Android attribuera l\'utilisation de données et de batterie à NetGuard - Android suppose que les données et la batterie sont utilisées par NetGuard, plutôt que par les applications d\'origine</string>
   <string name="msg_filter4">Android 4 nécessite que le filtrage soit activé</string>
   <string name="msg_log_disabled">La journalisation du trafic est désactivée, utilisez le bouton ci-dessus pour activer la journalisation. La journalisation du trafic peut entraîner une surconsommation de la batterie.</string>
   <string name="msg_clear_rules">Cela réinitialisera les règles et conditions à leurs valeurs par défaut</string>
@@ -196,11 +196,11 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_disabled">est désactivé</string>
   <string name="title_apply">Appliquer les règles et conditions</string>
   <string name="title_conditions">Conditions</string>
-  <string name="title_screen_wifi">Autoriser Wi-Fi si écran allumé</string>
-  <string name="title_screen_other">Autoriser données mobiles si écran allumé</string>
+  <string name="title_screen_wifi">Autoriser le Wi-Fi si l\'écran est allumé</string>
+  <string name="title_screen_other">Autoriser les données mobiles si l\'écran est allumé</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bloquer si itinérance</string>
-  <string name="title_related">Filtrer lié</string>
+  <string name="title_related">Filtre lié</string>
   <string name="title_access">Tentatives d\'accès</string>
   <string name="title_no_log"><u>Journalisation non activée</u></string>
   <string name="title_no_filter"><u>Filtrage non activé</u></string>
@@ -227,7 +227,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_pro_dev">Soutenir le développement</string>
   <string name="title_pro_buy">Acheter</string>
   <string name="title_pro_bought">Activé</string>
-  <string name="title_pro_details">Appuyez sur un titre pour plus d’informations</string>
+  <string name="title_pro_details">Tapez sur un titre pour plus d’information</string>
   <string name="title_pro_ads">L\'achat de n\'importe quelle fonctionnalité pro désactivera toutes les publicités</string>
   <string name="title_pro_challenge">Code</string>
   <string name="title_pro_reponse">Réponse</string>

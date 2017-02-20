@@ -80,7 +80,7 @@
   <string name="setting_reset_usage">ネットワークの使用状況をリセット</string>
   <string name="setting_show_resolved">解決済みのドメイン名を表示</string>
   <string name="setting_block_domains">ドメイン名をブロック</string>
-  <string name="setting_rcode">DNS response code: %s</string>
+  <string name="setting_rcode">DNS 応答コード: %s</string>
   <string name="setting_forwarding">ポート転送</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -128,8 +128,8 @@
   <string name="summary_access">アプリケーションが新しいインターネット アドレスにアクセスしようとするとき、ステータス バーに通知を表示します (フィルターを無効にすると、ブロックしたインターネット アクセスの試行のみ通知されます)</string>
   <string name="summary_filter">VPN トンネルを出る IP パケットをフィルターします。バッテリー使用量が増えることがあります。</string>
   <string name="summary_track_usage">各アプリケーションとアドレスごとの送受信バイト数を追跡します。バッテリー使用量が増えることがあります。</string>
-  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
-  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+  <string name="summary_block_domains">ブロックしたドメイン名に、設定した DNS 応答コードで応答します。hosts ファイルが使用できない場合、このスイッチは無効です。</string>
+  <string name="summary_rcode">デフォルト値は 3 (NXDOMAIN) です。\'ドメインが存在しない\' の意味です。</string>
   <string name="summary_socks5_enabled">TCP トラフィックのみプロキシ サーバーに送信されます</string>
   <string name="summary_watchdog">NetGuard がまだ実行されているかどうかを定期的にチェックします (0 を入力すると、このオプションを無効に ます)。余分にバッテリーを使用することがあります。</string>
   <string name="summary_stats">ステータスバーの通知で、ネットワーク速度のグラフを表示します</string>

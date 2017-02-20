@@ -79,7 +79,7 @@
   <string name="setting_reset_usage">Сброс сетевого использования</string>
   <string name="setting_show_resolved">Показать разрешенные доменные имена</string>
   <string name="setting_block_domains">Блокировать доменные имена</string>
-  <string name="setting_rcode">DNS response code: %s</string>
+  <string name="setting_rcode">Код ответа DNS: %s</string>
   <string name="setting_forwarding">Перенаправление портов</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -127,8 +127,8 @@
   <string name="summary_access">Показать уведомление в строке состояния, когда приложение пытается получить доступ к новому Интернет-адресу (когда фильтрация отключена, будут показаны только заблокированные попытки доступа в Интернет)</string>
   <string name="summary_filter">Фильтровать IP-пакеты, проходящие через VPN. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_track_usage">Отслеживать количество отправленных и полученных байтов для каждого приложения и адресов. Это может привести к большему потреблению заряда аккумулятора.</string>
-  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
-  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+  <string name="summary_block_domains">Отвечать кодом ответа настроенного DNS для заблокированных доменных имен. Этот переключатель отключен, если доступных host-файлов нет.</string>
+  <string name="summary_rcode">Значение по умолчанию - 3 (NXDOMAIN); это означает «несуществующий домен».</string>
   <string name="summary_socks5_enabled">На прокси-сервер будет направляться только TCP трафик</string>
   <string name="summary_watchdog">Периодически проверять, запущен ли NetGuard (введите ноль, чтобы отключить эту опцию). Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_stats">Показать график скорости сети в статус-баре</string>

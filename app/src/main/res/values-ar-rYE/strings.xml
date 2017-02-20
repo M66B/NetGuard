@@ -38,7 +38,7 @@
   <string name="menu_reset">إعادة تعيين</string>
   <string name="menu_add">إضافة</string>
   <string name="menu_delete">حذف</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">تنظيف</string>
   <string name="title_protocol">بروتوكول</string>
   <string name="title_dport">المنفذ المصدر</string>
   <string name="title_raddr">عنوان الوجهة</string>
@@ -55,7 +55,7 @@
   <string name="setting_theme">المظهر: %1$s</string>
   <string name="setting_dark">استخدم المظهر الداكن</string>
   <string name="setting_install">اخطار على التثبيت الجديد</string>
-  <string name="setting_screen_on">Apply \'when screen on\' rules</string>
+  <string name="setting_screen_on">تطبيق القواعد \'عندما تـــكـــون الشاشة مـــفـــتـــوحـــة\'</string>
   <string name="setting_auto">تمكين تلقائي بعد %1$s دقيقة/دقائق</string>
   <string name="setting_delay">تــأخــيــر تــعــتــيــم الــشــاشــة %1$s دقــيــقــة</string>
   <string name="setting_update">التحقق من التحديثات</string>
@@ -77,14 +77,14 @@
   <string name="setting_filter">تصفية الحركة</string>
   <string name="setting_track_usage">متابعة استخدام الشبكة</string>
   <string name="setting_reset_usage">إعادة تعيين استخدام الشبكة</string>
-  <string name="setting_show_resolved">Show resolved domain names</string>
+  <string name="setting_show_resolved">عـــرض أســـمـــاء الــنـــطـــاق الــمـــحـــلـــول</string>
   <string name="setting_block_domains">حظر أسماء نطاقات</string>
-  <string name="setting_rcode">DNS response code: %s</string>
+  <string name="setting_rcode">رمز الاستجابة الكاملة: s%</string>
   <string name="setting_forwarding">توجيه المنفذ</string>
   <string name="setting_vpn4">IPv4 للشبكة الافتراضية الخاصة: %s</string>
   <string name="setting_vpn6">IPv6 للشبكة الافتراضية الخاصة: %s</string>
   <string name="setting_dns">DNS للشبكة الافتراضية الخاصة: %s</string>
-  <string name="setting_ttl">Minimum DNS TTL: %s s</string>
+  <string name="setting_ttl">الـــحـــد الأدنــي لــقـــيـــمـــة S %S: DNS TTL</string>
   <string name="setting_socks5_enabled">استخدام SOCKS5 الوكيل</string>
   <string name="setting_socks5_addr">عنوان SOCKS5: %s</string>
   <string name="setting_socks5_port">مــدخــل  SOCKS5: %s</string>
@@ -128,8 +128,8 @@
   <string name="summary_access">إظهار إعلام شريط المعلومات عندما يحاول تطبيق الوصول إلى عنوان إنترنت جديد (عند التصفية معطل، إلا محاولات الوصول إلى الإنترنت المحظورة فسيتم الإخطار)</string>
   <string name="summary_filter">تصفية حزم IP الخارجة من نفق VPN. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
   <string name="summary_track_usage">تتبع عدد وحدات البايت المرسلة والمتلقاة لكل تطبيق وعنوان. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
-  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
-  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+  <string name="summary_block_domains">الاستجابة ب \'اسم خاطئ\' (NXDOMAIN) لأسماء النطاقات المحظورة. يعطل هذا الخيار عند عدم وجود ملف المضيفين.</string>
+  <string name="summary_rcode">الـقــيــمــة الـمــفــتــرضــة هـي 3 ( نــكــســدومــيــن)، وهــذا يــعــنــي أن \" الـمــجــال غــيــر مــوجــود\".</string>
   <string name="summary_socks5_enabled">يـــتـــم إرســال حــركـــة مـــرور TCP فـــقـــط إلـــى الـــمـــلـــقـــم الـــوكــيـــل</string>
   <string name="summary_watchdog">الــفـــحـــص الــدوري إذا كــان قـــيـــد تـــشـــغـــيـــل NetGuard (فــأدخـــل صـــفـــر لـــتـــعـــطـــيـــل هـــذا الــخـــيـــار). قـــد يـــســـتـــلـــزم هـــذا إســـتـــخـــدام أكـــثـــر لـلـــبـــطــاريـــة.</string>
   <string name="summary_stats">إظهار الرسم البياني لسرعة الشبكة الرسم في إعلام شريط المعلومات</string>
@@ -181,7 +181,7 @@
   <string name="msg_push">معظم الرسائل يتم معالجتها بواسطة خدمات النظام المتاحة، وهي التى مسموحة بدخول الإنترنت بشكل إفتراضي</string>
   <string name="msg_system">يمكنك تمكين إدارة تطبيقات النظام في الخيارات المتقدمة</string>
   <string name="msg_issue">الرجاء أوصف المشكلة وبيّن وقت المشكلة</string>
-  <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
+  <string name="msg_vpn_cancelled">لــقــد ألـغــي الإتــصــال عــن طــريــق n/ VPN هــل تــريــد تــكــويــن VPN آخــر حــتــى تــكــون عـلـى إتــصــال دائــم عــن طــريــق VPN ؟</string>
   <string name="title_unmetered_allowed">الحركة الغير مقاسة مسموحة</string>
   <string name="title_unmetered_blocked">الحركة الغير مقاسة محظورة</string>
   <string name="title_metered_allowed">الحركة المقاسة مسموحة</string>

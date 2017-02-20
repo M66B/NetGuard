@@ -79,7 +79,7 @@
   <string name="setting_reset_usage">Restablecer uso de red</string>
   <string name="setting_show_resolved">Mostrar nombres de dominio resueltos</string>
   <string name="setting_block_domains">Bloquear nombres de dominio</string>
-  <string name="setting_rcode">DNS response code: %s</string>
+  <string name="setting_rcode">Código de respuesta DNS: %s</string>
   <string name="setting_forwarding">Redirección de puertos</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
@@ -127,8 +127,8 @@
   <string name="summary_access">Mostrar una notificación en la barra de estado cuando una aplicación intente acceder a una nueva dirección de Internet (cuando se desactiva el filtrado, sólo se notificarán los intentos de acceso a Internet bloqueados)</string>
   <string name="summary_filter">Filtrar paquetes IP salientes del túnel VPN. Esto podría consumir más batería.</string>
   <string name="summary_track_usage">Registrar número de bytes enviados y recibidos para cada aplicación y dirección. Esto podría consumir más batería.</string>
-  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
-  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+  <string name="summary_block_domains">Responder con el código de respuesta DNS configurado para nombres de dominio bloqueados. Esta opción está desactivada cuando no hay ningún archivo hosts disponible.</string>
+  <string name="summary_rcode">El valor predeterminado es 3 (NXDOMAIN), que significa \'dominio inexistente\'.</string>
   <string name="summary_socks5_enabled">Sólo se enviará el tráfico TCP al servidor proxy</string>
   <string name="summary_watchdog">Comprobar periódicamente si NetGuard está ejecutándose (introduzca cero para desactivar esta opción). Esto podría consumir más batería.</string>
   <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>
