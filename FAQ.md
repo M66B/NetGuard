@@ -453,6 +453,12 @@ If you set different rules for 2 domains which resolve to the same IP, both will
 
 Thanks @[pulser](https://github.com/pulser/)
 
+Another potential problem is that Android doesn't honor the DNS TTL value and applies its own caching rules.
+This could result in NetGuard too early or too late purging a DNS record from its own cache,
+resulting in not recognizing an IP address or recognizing a wrong IP address.
+You can try to workaround this by changing the DNS TTL value setting of NetGuard.
+This value is used as a minimum DNS TTL value in an attempt to mimick the behavior of Android.
+
 <a name="FAQ49"></a>
 **(49) Does NetGuard encrypt my internet traffic / hide my IP address?**
 
