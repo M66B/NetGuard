@@ -813,15 +813,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String getQName(String ip) {
+    public String getQName(int uid, String ip) {
         lock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             // There is a segmented index on resource
-            String query = "SELECT qname";
-            query += " FROM dns";
-            query += " WHERE resource = '" + ip.replace("'", "''") + "'";
-            query += " ORDER BY time DESC";
+            // There is an index on access.daddr
+            String query = "SELECT d.qname";
+            query += " FROM dns AS d";
+            query += " LEFT JOIN access AS a";
+            query += "   ON a.daddr = d.qname AND a.uid = " + uid;
+            query += " WHERE d.resource = '" + ip.replace("'", "''") + "'";
+            query += " ORDER BY CASE a.daddr WHEN NULL THEN 1 ELSE 0 END, d.time DESC";
             query += " LIMIT 1";
             return db.compileStatement(query).simpleQueryForString();
         } catch (SQLiteDoneException ignored) {

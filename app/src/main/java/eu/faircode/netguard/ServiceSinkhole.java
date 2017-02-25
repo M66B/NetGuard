@@ -648,7 +648,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             DatabaseHelper dh = DatabaseHelper.getInstance(ServiceSinkhole.this);
 
             // Get real name
-            String dname = dh.getQName(packet.daddr);
+            String dname = dh.getQName(packet.uid, packet.daddr);
 
             // Traffic log
             if (log)
@@ -675,7 +675,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 boolean track_usage = prefs.getBoolean("track_usage", false);
                 if (filter && log_app && track_usage) {
                     DatabaseHelper dh = DatabaseHelper.getInstance(ServiceSinkhole.this);
-                    String dname = dh.getQName(usage.DAddr);
+                    String dname = dh.getQName(usage.Uid, usage.DAddr);
                     Log.i(TAG, "Usage account " + usage + " dname=" + dname);
                     dh.updateUsage(usage, dname);
                 }
