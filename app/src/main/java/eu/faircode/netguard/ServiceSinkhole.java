@@ -993,6 +993,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             } catch (Throwable ignored) {
             }
 
+        // Use default DNS servers when no two custom DNS servers specified
         if (listDns.size() <= 1)
             for (String def_dns : sysDns)
                 try {
