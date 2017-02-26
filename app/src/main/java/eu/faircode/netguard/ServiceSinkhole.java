@@ -970,9 +970,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     public static List<InetAddress> getDns(Context context) {
         List<InetAddress> listDns = new ArrayList<>();
+        List<String> sysDns = Util.getDefaultDNS(context);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        List<String> sysDns = Util.getDefaultDNS(context);
         String vpnDns1 = prefs.getString("dns", null);
         String vpnDns2 = prefs.getString("dns2", null);
         Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN1=" + vpnDns1 + " VPN2=" + vpnDns2);
@@ -1002,6 +1002,21 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         listDns.add(ddns);
                 } catch (Throwable ignored) {
                 }
+
+        // Prefer IPv4 addresses
+        Collections.sort(listDns, new Comparator<InetAddress>() {
+            @Override
+            public int compare(InetAddress a, InetAddress b) {
+                boolean a4 = (a instanceof Inet4Address);
+                boolean b4 = (b instanceof Inet4Address);
+                if (a4 && !b4)
+                    return -1;
+                else if (!a4 && b4)
+                    return 1;
+                else
+                    return 0;
+            }
+        });
 
         return listDns;
     }
