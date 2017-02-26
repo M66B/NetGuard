@@ -80,6 +80,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -972,17 +973,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         List<InetAddress> listDns = new ArrayList<>();
         List<String> sysDns = Util.getDefaultDNS(context);
 
+        // Get custom DNS servers
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String vpnDns1 = prefs.getString("dns", null);
         String vpnDns2 = prefs.getString("dns2", null);
         Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN1=" + vpnDns1 + " VPN2=" + vpnDns2);
-
-        boolean lan = prefs.getBoolean("lan", false);
-        if (lan) {
-            // Force external DNS servers
-            vpnDns1 = "8.8.8.8";
-            vpnDns2 = "8.8.8.4";
-        }
 
         if (vpnDns1 != null)
             try {
@@ -997,9 +992,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 InetAddress dns = InetAddress.getByName(vpnDns2);
                 if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()))
                     listDns.add(dns);
-            } catch (Throwable ignored) {
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
 
+        // Use system DNS servers only when no two custom DNS servers specified
         if (listDns.size() <= 1)
             for (String def_dns : sysDns)
                 try {
@@ -1007,8 +1004,72 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     if (!listDns.contains(ddns) &&
                             !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()))
                         listDns.add(ddns);
-                } catch (Throwable ignored) {
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
+
+        // Remove local DNS servers when not routing LAN
+        boolean lan = prefs.getBoolean("lan", false);
+        if (lan) {
+            List<InetAddress> listLocal = new ArrayList<>();
+            try {
+                Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+                if (nis != null)
+                    while (nis.hasMoreElements()) {
+                        NetworkInterface ni = nis.nextElement();
+                        if (ni != null && ni.isUp() && !ni.isLoopback()) {
+                            List<InterfaceAddress> ias = ni.getInterfaceAddresses();
+                            if (ias != null)
+                                for (InterfaceAddress ia : ias) {
+                                    InetAddress hostAddress = ia.getAddress();
+                                    BigInteger host = new BigInteger(1, hostAddress.getAddress());
+
+                                    int prefix = ia.getNetworkPrefixLength();
+                                    BigInteger mask = BigInteger.valueOf(-1).shiftLeft(hostAddress.getAddress().length * 8 - prefix);
+
+                                    for (InetAddress dns : listDns)
+                                        if (hostAddress.getAddress().length == dns.getAddress().length) {
+                                            BigInteger ip = new BigInteger(1, dns.getAddress());
+
+                                            if (host.and(mask).equals(ip.and(mask))) {
+                                                Log.i(TAG, "Local DNS server host=" + hostAddress + "/" + prefix + " dns=" + dns);
+                                                listLocal.add(dns);
+                                            }
+                                        }
+                                }
+                        }
+                    }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+
+            List<InetAddress> listDns4 = new ArrayList<>();
+            List<InetAddress> listDns6 = new ArrayList<>();
+            try {
+                listDns4.add(InetAddress.getByName("8.8.8.8"));
+                listDns4.add(InetAddress.getByName("8.8.4.4"));
+                listDns6.add(InetAddress.getByName("2001:4860:4860::8888"));
+                listDns6.add(InetAddress.getByName("2001:4860:4860::8844"));
+
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+
+            for (InetAddress dns : listLocal) {
+                listDns.remove(dns);
+                if (dns instanceof Inet4Address) {
+                    if (listDns4.size() > 0) {
+                        listDns.add(listDns4.get(0));
+                        listDns4.remove(0);
+                    }
+                } else {
+                    if (listDns6.size() > 0) {
+                        listDns.add(listDns6.get(0));
+                        listDns6.remove(0);
+                    }
+                }
+            }
+        }
 
         // Prefer IPv4 addresses
         Collections.sort(listDns, new Comparator<InetAddress>() {

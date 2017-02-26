@@ -671,7 +671,7 @@ public class Util {
             if (nis != null)
                 while (nis.hasMoreElements()) {
                     NetworkInterface ni = nis.nextElement();
-                    if (ni != null && !"lo".equals(ni.getName())) {
+                    if (ni != null && !ni.isLoopback()) {
                         List<InterfaceAddress> ias = ni.getInterfaceAddresses();
                         if (ias != null)
                             for (InterfaceAddress ia : ias)
@@ -679,6 +679,7 @@ public class Util {
                                         .append(' ').append(ia.getAddress().getHostAddress())
                                         .append('/').append(ia.getNetworkPrefixLength())
                                         .append(' ').append(ni.getMTU())
+                                        .append(' ').append(ni.isUp() ? '^' : 'v')
                                         .append("\r\n");
                     }
                 }
