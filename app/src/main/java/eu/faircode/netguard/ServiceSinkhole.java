@@ -977,6 +977,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         String vpnDns2 = prefs.getString("dns2", null);
         Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN1=" + vpnDns1 + " VPN2=" + vpnDns2);
 
+        boolean lan = prefs.getBoolean("lan", false);
+        if (lan) {
+            // Force external DNS servers
+            vpnDns1 = "8.8.8.8";
+            vpnDns2 = "8.8.8.4";
+        }
+
         if (vpnDns1 != null)
             try {
                 InetAddress dns = InetAddress.getByName(vpnDns1);
