@@ -993,7 +993,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             } catch (Throwable ignored) {
             }
 
-        // Use system DNS servers only if not two custom DNS servers
         if (listDns.size() <= 1)
             for (String def_dns : sysDns)
                 try {
@@ -1048,7 +1047,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 if (ip6 || dns instanceof Inet4Address) {
                     Log.i(TAG, "dns=" + dns);
                     builder.addDnsServer(dns);
-                    builder.addRoute(dns, dns instanceof Inet4Address ? 32 : 128);
                 }
             }
 
