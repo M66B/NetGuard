@@ -1071,21 +1071,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
         }
 
-        // Prefer IPv4 addresses
-        Collections.sort(listDns, new Comparator<InetAddress>() {
-            @Override
-            public int compare(InetAddress a, InetAddress b) {
-                boolean a4 = (a instanceof Inet4Address);
-                boolean b4 = (b instanceof Inet4Address);
-                if (a4 && !b4)
-                    return -1;
-                else if (!a4 && b4)
-                    return 1;
-                else
-                    return 0;
-            }
-        });
-
         return listDns;
     }
 
