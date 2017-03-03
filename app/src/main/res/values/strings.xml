@@ -207,8 +207,10 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
     <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
 
+    <string name="title_unmetered_disabled">Unmetered rules not applied</string>
     <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
     <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
+    <string name="title_metered_disabled">Metered rules not applied</string>
     <string name="title_metered_allowed">Metered traffic is allowed</string>
     <string name="title_metered_blocked">Metered traffic is blocked</string>
     <string name="title_host_allowed">Address is allowed</string>
