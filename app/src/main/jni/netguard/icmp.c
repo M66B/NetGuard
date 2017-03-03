@@ -157,9 +157,19 @@ jboolean handle_icmp(const struct arguments *args,
     struct icmp *icmp = (struct icmp *) payload;
     size_t icmplen = length - (payload - pkt);
 
+    char source[INET6_ADDRSTRLEN + 1];
+    char dest[INET6_ADDRSTRLEN + 1];
+    if (version == 4) {
+        inet_ntop(AF_INET, &ip4->saddr, source, sizeof(source));
+        inet_ntop(AF_INET, &ip4->daddr, dest, sizeof(dest));
+    } else {
+        inet_ntop(AF_INET6, &ip6->ip6_src, source, sizeof(source));
+        inet_ntop(AF_INET6, &ip6->ip6_dst, dest, sizeof(dest));
+    }
+
     if (icmp->icmp_type != ICMP_ECHO) {
-        log_android(ANDROID_LOG_WARN, "ICMP type %d code %d not supported",
-                    icmp->icmp_type, icmp->icmp_code);
+        log_android(ANDROID_LOG_WARN, "ICMP type %d code %d from %s to %s not supported",
+                    icmp->icmp_type, icmp->icmp_code, source, dest);
         return 0;
     }
 
@@ -173,16 +183,6 @@ jboolean handle_icmp(const struct arguments *args,
                            : memcmp(&cur->icmp.saddr.ip6, &ip6->ip6_src, 16) == 0 &&
                              memcmp(&cur->icmp.daddr.ip6, &ip6->ip6_dst, 16) == 0)))
         cur = cur->next;
-
-    char source[INET6_ADDRSTRLEN + 1];
-    char dest[INET6_ADDRSTRLEN + 1];
-    if (version == 4) {
-        inet_ntop(AF_INET, &ip4->saddr, source, sizeof(source));
-        inet_ntop(AF_INET, &ip4->daddr, dest, sizeof(dest));
-    } else {
-        inet_ntop(AF_INET6, &ip6->ip6_src, source, sizeof(source));
-        inet_ntop(AF_INET6, &ip6->ip6_dst, dest, sizeof(dest));
-    }
 
     // Create new session if needed
     if (cur == NULL) {
