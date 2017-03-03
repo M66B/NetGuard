@@ -260,6 +260,32 @@ void check_tcp_socket(const struct arguments *args,
                         session, serr, strerror(serr));
 
         write_rst(args, &s->tcp);
+
+        // Connection refused
+        if (err >= 0 && (serr == ECONNREFUSED || serr == EHOSTUNREACH)) {
+            struct icmp icmp;
+            memset(&icmp, 0, sizeof(struct icmp));
+            icmp.icmp_type = ICMP_UNREACH;
+            if (serr == ECONNREFUSED)
+                icmp.icmp_code = ICMP_UNREACH_PORT;
+            else
+                icmp.icmp_code = ICMP_UNREACH_HOST;
+            icmp.icmp_cksum = 0;
+            icmp.icmp_cksum = ~calc_checksum(0, &icmp, 4);
+
+            struct icmp_session sicmp;
+            memset(&sicmp, 0, sizeof(struct icmp_session));
+            sicmp.version = s->tcp.version;
+            if (s->tcp.version == 4) {
+                sicmp.saddr.ip4 = (__be32) s->tcp.saddr.ip4;
+                sicmp.daddr.ip4 = (__be32) s->tcp.daddr.ip4;
+            } else {
+                memcpy(&sicmp.saddr.ip6, &s->tcp.saddr.ip6, 16);
+                memcpy(&sicmp.daddr.ip6, &s->tcp.daddr.ip6, 16);
+            }
+
+            write_icmp(args, &sicmp, &icmp, 8);
+        }
     }
     else {
         // Assume socket okay

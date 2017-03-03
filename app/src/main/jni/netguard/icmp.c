@@ -351,7 +351,7 @@ ssize_t write_icmp(const struct arguments *args, const struct icmp_session *cur,
               cur->version == 4 ? &cur->daddr.ip4 : &cur->daddr.ip6, dest, sizeof(dest));
 
     // Send raw ICMP message
-    log_android(ANDROID_LOG_DEBUG,
+    log_android(ANDROID_LOG_WARN,
                 "ICMP sending to tun %d from %s to %s data %u type %d code %d id %x seq %d",
                 args->tun, dest, source, datalen,
                 icmp->icmp_type, icmp->icmp_code, icmp->icmp_id, icmp->icmp_seq);
