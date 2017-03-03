@@ -975,6 +975,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         // Get custom DNS servers
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean ip6 = prefs.getBoolean("ip6", true);
         String vpnDns1 = prefs.getString("dns", null);
         String vpnDns2 = prefs.getString("dns2", null);
         Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN1=" + vpnDns1 + " VPN2=" + vpnDns2);
@@ -982,7 +983,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (vpnDns1 != null)
             try {
                 InetAddress dns = InetAddress.getByName(vpnDns1);
-                if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()))
+                if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()) &&
+                        (ip6 || dns instanceof Inet4Address))
                     listDns.add(dns);
             } catch (Throwable ignored) {
             }
@@ -990,7 +992,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (vpnDns2 != null)
             try {
                 InetAddress dns = InetAddress.getByName(vpnDns2);
-                if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()))
+                if (!(dns.isLoopbackAddress() || dns.isAnyLocalAddress()) &&
+                        (ip6 || dns instanceof Inet4Address))
                     listDns.add(dns);
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -1002,7 +1005,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 try {
                     InetAddress ddns = InetAddress.getByName(def_dns);
                     if (!listDns.contains(ddns) &&
-                            !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()))
+                            !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()) &&
+                            (ip6 || ddns instanceof Inet4Address))
                         listDns.add(ddns);
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -1048,8 +1052,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             try {
                 listDns4.add(InetAddress.getByName("8.8.8.8"));
                 listDns4.add(InetAddress.getByName("8.8.4.4"));
-                listDns6.add(InetAddress.getByName("2001:4860:4860::8888"));
-                listDns6.add(InetAddress.getByName("2001:4860:4860::8844"));
+                if (ip6) {
+                    listDns6.add(InetAddress.getByName("2001:4860:4860::8888"));
+                    listDns6.add(InetAddress.getByName("2001:4860:4860::8844"));
+                }
 
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
