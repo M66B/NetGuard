@@ -188,7 +188,8 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1stop(
             clear();
 
         log_android(ANDROID_LOG_WARN, "Stopped thread %x", t);
-    } else
+    }
+    else
         log_android(ANDROID_LOG_WARN, "Not running thread %x", t);
 }
 

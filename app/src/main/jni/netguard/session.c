@@ -185,7 +185,8 @@ void *handle_events(void *a) {
                     if (c->protocol == IPPROTO_TCP)
                         clear_tcp_data(&c->tcp);
                     free(c);
-                } else {
+                }
+                else {
                     sl = s;
                     s = s->next;
                 }
@@ -210,7 +211,8 @@ void *handle_events(void *a) {
                 log_android(ANDROID_LOG_DEBUG,
                             "epoll interrupted tun %d thread %x", args->tun, thread_id);
                 continue;
-            } else {
+            }
+            else {
                 log_android(ANDROID_LOG_ERROR,
                             "epoll tun %d thread %x error %d: %s",
                             args->tun, thread_id, errno, strerror(errno));
@@ -241,7 +243,8 @@ void *handle_events(void *a) {
                         log_android(ANDROID_LOG_WARN, "Read pipe");
                     break;
 
-                } else if (ev[i].data.ptr == NULL) {
+                }
+                else if (ev[i].data.ptr == NULL) {
                     // Check upstream
                     log_android(ANDROID_LOG_DEBUG, "epoll ready %d/%d in %d out %d err %d hup %d",
                                 i, ready,
@@ -254,7 +257,8 @@ void *handle_events(void *a) {
                         if (check_tun(args, &ev[i], epoll_fd, sessions, maxsessions) < 0)
                             error = 1;
 
-                } else {
+                }
+                else {
                     // Check downstream
                     log_android(ANDROID_LOG_DEBUG,
                                 "epoll ready %d/%d in %d out %d err %d hup %d prot %d sock %d",
@@ -274,7 +278,8 @@ void *handle_events(void *a) {
                         while (!(ev[i].events & EPOLLERR) && (ev[i].events & EPOLLIN) &&
                                is_readable(session->socket))
                             check_udp_socket(args, &ev[i]);
-                    } else if (session->protocol == IPPROTO_TCP)
+                    }
+                    else if (session->protocol == IPPROTO_TCP)
                         check_tcp_socket(args, &ev[i], epoll_fd);
                 }
 
@@ -338,7 +343,8 @@ void check_allowed(const struct arguments *args) {
                 }
             }
 
-        } else if (s->protocol == IPPROTO_UDP) {
+        }
+        else if (s->protocol == IPPROTO_UDP) {
             if (s->udp.state == UDP_ACTIVE) {
                 if (s->udp.version == 4) {
                     inet_ntop(AF_INET, &s->udp.saddr.ip4, source, sizeof(source));
@@ -372,7 +378,8 @@ void check_allowed(const struct arguments *args) {
                 continue;
             }
 
-        } else if (s->protocol == IPPROTO_TCP) {
+        }
+        else if (s->protocol == IPPROTO_TCP) {
             if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE) {
                 if (s->tcp.version == 4) {
                     inet_ntop(AF_INET, &s->tcp.saddr.ip4, source, sizeof(source));

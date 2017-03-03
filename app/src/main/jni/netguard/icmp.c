@@ -100,7 +100,8 @@ void check_icmp_socket(const struct arguments *args, const struct epoll_event *e
                 log_android(ANDROID_LOG_WARN, "ICMP recv eof");
                 s->icmp.stop = 1;
 
-            } else {
+            }
+            else {
                 // Socket read data
                 char dest[INET6_ADDRSTRLEN + 1];
                 if (s->icmp.version == 4)
@@ -162,7 +163,8 @@ jboolean handle_icmp(const struct arguments *args,
     if (version == 4) {
         inet_ntop(AF_INET, &ip4->saddr, source, sizeof(source));
         inet_ntop(AF_INET, &ip4->daddr, dest, sizeof(dest));
-    } else {
+    }
+    else {
         inet_ntop(AF_INET6, &ip6->ip6_src, source, sizeof(source));
         inet_ntop(AF_INET6, &ip6->ip6_dst, dest, sizeof(dest));
     }
@@ -199,7 +201,8 @@ jboolean handle_icmp(const struct arguments *args,
         if (version == 4) {
             s->icmp.saddr.ip4 = (__be32) ip4->saddr;
             s->icmp.daddr.ip4 = (__be32) ip4->daddr;
-        } else {
+        }
+        else {
             memcpy(&s->icmp.saddr.ip6, &ip6->ip6_src, 16);
             memcpy(&s->icmp.daddr.ip6, &ip6->ip6_dst, 16);
         }
@@ -261,7 +264,8 @@ jboolean handle_icmp(const struct arguments *args,
         server4.sin_family = AF_INET;
         server4.sin_addr.s_addr = (__be32) ip4->daddr;
         server4.sin_port = 0;
-    } else {
+    }
+    else {
         server6.sin6_family = AF_INET6;
         memcpy(&server6.sin6_addr, &ip6->ip6_dst, 16);
         server6.sin6_port = 0;

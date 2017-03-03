@@ -46,7 +46,8 @@ int check_tun(const struct arguments *args,
                         args->tun, errno, strerror(errno));
             report_exit(args, "fcntl tun %d F_GETFL error %d: %s",
                         args->tun, errno, strerror(errno));
-        } else
+        }
+        else
             report_exit(args, "tun %d exception", args->tun);
         return -1;
     }
@@ -227,7 +228,8 @@ void handle_ip(const struct arguments *args,
         sport = ntohs(icmp->icmp_id);
         dport = ntohs(icmp->icmp_id);
 
-    } else if (protocol == IPPROTO_UDP) {
+    }
+    else if (protocol == IPPROTO_UDP) {
         if (length - (payload - pkt) < sizeof(struct udphdr)) {
             log_android(ANDROID_LOG_WARN, "UDP packet too short");
             return;
@@ -450,7 +452,8 @@ jint get_uid(const int version, const int protocol,
                     if (memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) == 0)
                         break;
                 }
-            } else
+            }
+            else
                 log_android(ANDROID_LOG_ERROR, "Invalid field #%d: %s", fields, line);
         }
     }

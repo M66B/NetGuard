@@ -127,7 +127,8 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
                                     "DNS answer %d qname %s qtype %d ttl %d data %s",
                                     a, name, qtype, ttl, rd);
 
-                    } else
+                    }
+                    else
                         log_android(ANDROID_LOG_DEBUG,
                                     "DNS answer %d qname %s qclass %d qtype %d ttl %d length %d",
                                     a, name, qclass, qtype, ttl, rdlength);

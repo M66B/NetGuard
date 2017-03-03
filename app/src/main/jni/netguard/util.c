@@ -148,7 +148,8 @@ int32_t get_local_port(const int sock) {
     if (getsockname(sock, (struct sockaddr *) &sin, &len) < 0) {
         log_android(ANDROID_LOG_ERROR, "getsockname error %d: %s", errno, strerror(errno));
         return -1;
-    } else
+    }
+    else
         return ntohs(sin.sin_port);
 }
 
