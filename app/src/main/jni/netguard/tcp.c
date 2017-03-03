@@ -128,11 +128,8 @@ int monitor_tcp_session(const struct arguments *args, struct ng_session *s, int 
     }
     else if (s->tcp.state == TCP_ESTABLISHED || s->tcp.state == TCP_CLOSE_WAIT) {
 
-        uint32_t rwindow = get_receive_window(s);
-        uint32_t swindow = get_send_window(&s->tcp);
-
         // Check for incoming data
-        if (swindow > 0)
+        if (get_send_window(&s->tcp) > 0)
             events = events | EPOLLIN;
         else {
             recheck = 1;
@@ -155,19 +152,6 @@ int monitor_tcp_session(const struct arguments *args, struct ng_session *s, int 
                 events = events | EPOLLOUT;
             else
                 recheck = 1;
-        }
-
-        // Keep alive
-        if (rwindow > 0 && swindow > 0) {
-            long long ms = get_ms();
-            if (s->tcp.time + TCP_KEEP_ALIVE < time(NULL) &&
-                ms - s->tcp.last_keep_alive > TCP_KEEP_ALIVE * 1000) {
-                s->tcp.last_keep_alive = ms;
-                log_android(ANDROID_LOG_WARN, "Sending keep alive");
-                s->tcp.remote_seq--;
-                write_ack(args, &s->tcp);
-                s->tcp.remote_seq++;
-            }
         }
     }
 
