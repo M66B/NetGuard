@@ -824,7 +824,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += " LEFT JOIN access AS a";
             query += "   ON a.daddr = d.qname AND a.uid = " + uid;
             query += " WHERE d.resource = '" + ip.replace("'", "''") + "'";
-            query += " ORDER BY CASE a.daddr WHEN NULL THEN 1 ELSE 0 END, d.time DESC";
+            query += " ORDER BY CASE a.daddr WHEN NULL THEN 1 ELSE 0 END, d.qname DESC";
             query += " LIMIT 1";
             return db.compileStatement(query).simpleQueryForString();
         } catch (SQLiteDoneException ignored) {
