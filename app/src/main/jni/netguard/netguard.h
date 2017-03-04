@@ -407,7 +407,7 @@ void clear_tcp_data(struct tcp_session *cur);
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
-                    int uid, struct allowed *redirect,
+                    int uid, int allowed, struct allowed *redirect,
                     const int epoll_fd);
 
 void queue_tcp(const struct arguments *args,
@@ -435,6 +435,8 @@ int write_data(const struct arguments *args, struct tcp_session *cur,
 int write_fin_ack(const struct arguments *args, struct tcp_session *cur);
 
 void write_rst(const struct arguments *args, struct tcp_session *cur);
+
+void write_rst_ack(const struct arguments *args, struct tcp_session *cur);
 
 ssize_t write_icmp(const struct arguments *args, const struct icmp_session *cur,
                    uint8_t *data, size_t datalen);

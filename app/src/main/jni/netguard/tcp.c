@@ -621,7 +621,7 @@ void check_tcp_socket(const struct arguments *args,
 jboolean handle_tcp(const struct arguments *args,
                     const uint8_t *pkt, size_t length,
                     const uint8_t *payload,
-                    int uid, struct allowed *redirect,
+                    int uid, int allowed, struct allowed *redirect,
                     const int epoll_fd) {
     // Get headers
     const uint8_t version = (*pkt) >> 4;
@@ -793,6 +793,11 @@ jboolean handle_tcp(const struct arguments *args,
 
             s->next = ng_session;
             ng_session = s;
+
+            if (!allowed) {
+                log_android(ANDROID_LOG_WARN, "%s resetting blocked session", packet);
+                write_rst(args, &s->tcp);
+            }
         }
         else {
             log_android(ANDROID_LOG_WARN, "%s unknown session", packet);
@@ -1177,7 +1182,12 @@ int write_fin_ack(const struct arguments *args, struct tcp_session *cur) {
 }
 
 void write_rst(const struct arguments *args, struct tcp_session *cur) {
-    write_tcp(args, cur, NULL, 0, 0, 0, 0, 1);
+    int ack = 0;
+    if (cur->state == TCP_LISTEN) {
+        ack = 1;
+        cur->remote_seq++; // SYN
+    }
+    write_tcp(args, cur, NULL, 0, 0, ack, 0, 1);
     if (cur->state != TCP_CLOSE)
         cur->state = TCP_CLOSING;
 }
