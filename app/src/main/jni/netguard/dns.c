@@ -60,15 +60,16 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
     return (c ? off : ptr);
 }
 
-void parse_dns_response(const struct arguments *args, const uint8_t *data, const size_t datalen) {
-    if (datalen < sizeof(struct dns_header) + 1) {
-        log_android(ANDROID_LOG_WARN, "DNS response length %d", datalen);
+void parse_dns_response(const struct arguments *args, const struct udp_session *u,
+                        const uint8_t *data, size_t *datalen) {
+    if (*datalen < sizeof(struct dns_header) + 1) {
+        log_android(ANDROID_LOG_WARN, "DNS response length %d", *datalen);
         return;
     }
 
     // Check if standard DNS query
     // TODO multiple qnames
-    const struct dns_header *dns = (struct dns_header *) data;
+    struct dns_header *dns = (struct dns_header *) data;
     int qcount = ntohs(dns->q_count);
     int acount = ntohs(dns->ans_count);
     if (dns->qr == 1 && dns->opcode == 0 && qcount > 0 && acount > 0) {
@@ -77,42 +78,40 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
             log_android(ANDROID_LOG_WARN, "DNS response qcount %d acount %d", qcount, acount);
 
         // http://tools.ietf.org/html/rfc1035
+        int32_t off = sizeof(struct dns_header);
+
+        uint16_t qtype;
+        uint16_t qclass;
         char qname[DNS_QNAME_MAX + 1];
 
-        char name[DNS_QNAME_MAX + 1];
-        int32_t off = sizeof(struct dns_header);
-        for (int q = 0; q < qcount; q++) {
-            off = get_qname(data, datalen, (uint16_t) off, name);
-            if (off > 0 && off + 4 <= datalen) {
-                uint16_t qtype = ntohs(*((uint16_t *) (data + off)));
-                uint16_t qclass = ntohs(*((uint16_t *) (data + off + 2)));
+        // TODO multiple qnames?
+        for (int q = 0; q < 1; q++) {
+            off = get_qname(data, *datalen, (uint16_t) off, qname);
+            if (off > 0 && off + 4 <= *datalen) {
+                qtype = ntohs(*((uint16_t *) (data + off)));
+                qclass = ntohs(*((uint16_t *) (data + off + 2)));
                 log_android(ANDROID_LOG_DEBUG,
-                            "DNS question %d qtype %d qclass %d qname %s",
-                            q, qtype, qclass, name);
+                            "DNS question %d qtype %d qclass %d qname %s", q, qtype, qclass, qname);
                 off += 4;
-
-                // TODO multiple qnames?
-                if (q == 0)
-                    strcpy(qname, name);
             }
             else {
                 log_android(ANDROID_LOG_WARN,
-                            "DNS response Q invalid off %d datalen %d",
-                            off, datalen);
+                            "DNS response Q invalid off %d datalen %d", off, *datalen);
                 return;
             }
         }
 
+        char name[DNS_QNAME_MAX + 1];
         for (int a = 0; a < acount; a++) {
-            off = get_qname(data, datalen, (uint16_t) off, name);
-            if (off > 0 && off + 10 <= datalen) {
+            off = get_qname(data, *datalen, (uint16_t) off, name);
+            if (off > 0 && off + 10 <= *datalen) {
                 uint16_t qtype = ntohs(*((uint16_t *) (data + off)));
                 uint16_t qclass = ntohs(*((uint16_t *) (data + off + 2)));
                 uint32_t ttl = ntohl(*((uint32_t *) (data + off + 4)));
                 uint16_t rdlength = ntohs(*((uint16_t *) (data + off + 8)));
                 off += 10;
 
-                if (off + rdlength <= datalen) {
+                if (off + rdlength <= *datalen) {
                     if (qclass == DNS_QCLASS_IN &&
                         (qtype == DNS_QTYPE_A || qtype == DNS_QTYPE_AAAA)) {
 
@@ -138,16 +137,51 @@ void parse_dns_response(const struct arguments *args, const uint8_t *data, const
                 else {
                     log_android(ANDROID_LOG_WARN,
                                 "DNS response A invalid off %d rdlength %d datalen %d",
-                                off, rdlength, datalen);
+                                off, rdlength, *datalen);
                     return;
                 }
             }
             else {
                 log_android(ANDROID_LOG_WARN,
-                            "DNS response A invalid off %d datalen %d",
-                            off, datalen);
+                            "DNS response A invalid off %d datalen %d", off, *datalen);
                 return;
             }
+        }
+
+        if (qcount > 0 && is_domain_blocked(args, qname)) {
+            dns->qr = 1;
+            dns->aa = 0;
+            dns->tc = 0;
+            dns->rd = 0;
+            dns->ra = 0;
+            dns->z = 0;
+            dns->ad = 0;
+            dns->cd = 0;
+            dns->rcode = (uint16_t) args->rcode;
+            dns->ans_count = 0;
+            dns->auth_count = 0;
+            dns->add_count = 0;
+            *datalen = sizeof(struct dns_header);
+
+            char source[INET6_ADDRSTRLEN + 1];
+            char dest[INET6_ADDRSTRLEN + 1];
+            if (u->version == 4) {
+                inet_ntop(AF_INET, &u->saddr.ip4, source, sizeof(source));
+                inet_ntop(AF_INET, &u->daddr.ip4, dest, sizeof(dest));
+            }
+            else {
+                inet_ntop(AF_INET6, &u->saddr.ip6, source, sizeof(source));
+                inet_ntop(AF_INET6, &u->daddr.ip6, dest, sizeof(dest));
+            }
+
+            // Log qname
+            char name[DNS_QNAME_MAX + 40 + 1];
+            sprintf(name, "qtype %d qname %s rcode %d", qtype, qname, dns->rcode);
+            jobject objPacket = create_packet(
+                    args, u->version, IPPROTO_UDP, "",
+                    source, ntohs(u->source), dest, ntohs(u->dest),
+                    name, 0, 0);
+            log_packet(args, objPacket);
         }
     }
     else if (acount > 0)
