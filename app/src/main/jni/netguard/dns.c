@@ -78,20 +78,25 @@ void parse_dns_response(const struct arguments *args, const struct udp_session *
             log_android(ANDROID_LOG_WARN, "DNS response qcount %d acount %d", qcount, acount);
 
         // http://tools.ietf.org/html/rfc1035
+        char name[DNS_QNAME_MAX + 1];
         int32_t off = sizeof(struct dns_header);
 
         uint16_t qtype;
         uint16_t qclass;
         char qname[DNS_QNAME_MAX + 1];
 
-        // TODO multiple qnames?
         for (int q = 0; q < 1; q++) {
-            off = get_qname(data, *datalen, (uint16_t) off, qname);
+            off = get_qname(data, *datalen, (uint16_t) off, name);
             if (off > 0 && off + 4 <= *datalen) {
-                qtype = ntohs(*((uint16_t *) (data + off)));
-                qclass = ntohs(*((uint16_t *) (data + off + 2)));
-                log_android(ANDROID_LOG_DEBUG,
-                            "DNS question %d qtype %d qclass %d qname %s", q, qtype, qclass, qname);
+                // TODO multiple qnames?
+                if (q == 0) {
+                    strcpy(qname, name);
+                    qtype = ntohs(*((uint16_t *) (data + off)));
+                    qclass = ntohs(*((uint16_t *) (data + off + 2)));
+                    log_android(ANDROID_LOG_DEBUG,
+                                "DNS question %d qtype %d qclass %d qname %s",
+                                q, qtype, qclass, qname);
+                }
                 off += 4;
             }
             else {
@@ -101,7 +106,6 @@ void parse_dns_response(const struct arguments *args, const struct udp_session *
             }
         }
 
-        char name[DNS_QNAME_MAX + 1];
         for (int a = 0; a < acount; a++) {
             off = get_qname(data, *datalen, (uint16_t) off, name);
             if (off > 0 && off + 10 <= *datalen) {

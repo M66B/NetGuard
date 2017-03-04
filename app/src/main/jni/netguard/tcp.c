@@ -1183,6 +1183,7 @@ int write_fin_ack(const struct arguments *args, struct tcp_session *cur) {
 }
 
 void write_rst(const struct arguments *args, struct tcp_session *cur) {
+    // https://www.snellman.net/blog/archive/2016-02-01-tcp-rst/
     int ack = 0;
     if (cur->state == TCP_LISTEN) {
         ack = 1;
