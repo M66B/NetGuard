@@ -106,6 +106,7 @@ void parse_dns_response(const struct arguments *args, const struct udp_session *
             }
         }
 
+        int32_t aoff = off;
         for (int a = 0; a < acount; a++) {
             off = get_qname(data, *datalen, (uint16_t) off, name);
             if (off > 0 && off + 10 <= *datalen) {
@@ -165,7 +166,7 @@ void parse_dns_response(const struct arguments *args, const struct udp_session *
             dns->ans_count = 0;
             dns->auth_count = 0;
             dns->add_count = 0;
-            *datalen = sizeof(struct dns_header);
+            *datalen = aoff;
 
             char source[INET6_ADDRSTRLEN + 1];
             char dest[INET6_ADDRSTRLEN + 1];
