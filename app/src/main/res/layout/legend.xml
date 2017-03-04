@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="40dp"
-    android:paddingEnd="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingStart="16dp"
-    android:paddingTop="16dp">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="40dp"
+              android:paddingEnd="16dp"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:paddingStart="16dp"
+              android:paddingTop="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
             android:layout_marginStart="8dp"
             android:text="@string/menu_legend"
             android:textAppearance="@style/TextLarge"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
     </LinearLayout>
 
     <ScrollView
@@ -53,7 +53,8 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="?attr/iconQueue" />
+                    android:background="?attr/colorPrimary"
+                    android:src="@drawable/ic_security_white_24dp_60"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -61,8 +62,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="@string/msg_queue"
-                    android:textAppearance="@style/TextMedium" />
+                    android:text="@string/msg_inactive"
+                    android:textAppearance="@style/TextMedium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -75,7 +76,29 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="?attr/iconMetered" />
+                    android:src="?attr/iconQueue"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/msg_queue"
+                    android:textAppearance="@style/TextMedium"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="4dp"
+                    android:src="?attr/iconMetered"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -84,7 +107,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/msg_metered"
-                    android:textAppearance="@style/TextMedium" />
+                    android:textAppearance="@style/TextMedium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -98,7 +121,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="@drawable/wifi_on" />
+                    android:src="@drawable/wifi_on"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -107,7 +130,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/title_unmetered_allowed"
-                    android:textAppearance="@style/TextMedium" />
+                    android:textAppearance="@style/TextMedium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -121,7 +144,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="@drawable/wifi_off" />
+                    android:src="@drawable/wifi_off"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -130,7 +153,29 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/title_unmetered_blocked"
-                    android:textAppearance="@style/TextMedium" />
+                    android:textAppearance="@style/TextMedium"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/wifi_off_disabled"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/title_unmetered_disabled"
+                    android:textAppearance="@style/TextMedium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -144,7 +189,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="@drawable/other_on" />
+                    android:src="@drawable/other_on"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -153,7 +198,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/title_metered_allowed"
-                    android:textAppearance="@style/TextMedium" />
+                    android:textAppearance="@style/TextMedium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -167,7 +212,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="@drawable/other_off" />
+                    android:src="@drawable/other_off"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -176,7 +221,29 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/title_metered_blocked"
-                    android:textAppearance="@style/TextMedium" />
+                    android:textAppearance="@style/TextMedium"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/other_off_disabled"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/title_metered_disabled"
+                    android:textAppearance="@style/TextMedium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -190,7 +257,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="@drawable/screen_on" />
+                    android:src="@drawable/screen_on"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -199,7 +266,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/title_interactive_allowed"
-                    android:textAppearance="@style/TextMedium" />
+                    android:textAppearance="@style/TextMedium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -214,7 +281,7 @@
                     android:text="@string/title_roaming_symbol"
                     android:textAppearance="@style/TextSmall"
                     android:textColor="?attr/colorOff"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -223,7 +290,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/title_roaming_blocked"
-                    android:textAppearance="@style/TextMedium" />
+                    android:textAppearance="@style/TextMedium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -237,7 +304,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="@drawable/host_allowed" />
+                    android:src="@drawable/host_allowed"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -246,7 +313,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/title_host_allowed"
-                    android:textAppearance="@style/TextMedium" />
+                    android:textAppearance="@style/TextMedium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -260,7 +327,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="4dp"
-                    android:src="@drawable/host_blocked" />
+                    android:src="@drawable/host_blocked"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -269,7 +336,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/title_host_blocked"
-                    android:textAppearance="@style/TextMedium" />
+                    android:textAppearance="@style/TextMedium"/>
             </LinearLayout>
 
             <TextView
@@ -278,7 +345,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="8dp"
                 android:text="@string/title_metered"
-                android:textAppearance="@style/TextMedium" />
+                android:textAppearance="@style/TextMedium"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
