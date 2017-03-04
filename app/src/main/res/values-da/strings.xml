@@ -178,6 +178,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="msg_start_forward" formatted="false">Start forwarding af \'%5$s\' fra %1$s port %2$d til %3$s:%4$d?</string>
   <string name="msg_stop_forward">Stop forwarding af %1$s port %2$d?</string>
   <string name="msg_metered">Netværk er forbrugsafregnet</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard er optaet</string>
   <string name="msg_update">Opdatering tilgængelig, tryk for at downloade</string>
   <string name="msg_usage">Du kan tillade (grønliste) eller nægte (rødliste) Wi-Fi eller mobil Internetadgang ved at trykke på ikonet ved siden af en app</string>
@@ -188,8 +189,10 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Ikke-forbrugsafregnet trafik er tilladt</string>
   <string name="title_unmetered_blocked">Ikke-forbrugsafregnet trafik er blokeret</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Forbrugsafregnet trafik er tilladt</string>
   <string name="title_metered_blocked">Forbrugsafregnet trafik er blokeret</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">Adresse er tilladt</string>
   <string name="title_host_blocked">Adresse er blokeret</string>
   <string name="title_interactive_allowed">Tillad, når skærm er tændt</string>

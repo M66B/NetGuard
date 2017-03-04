@@ -175,6 +175,7 @@
   <string name="msg_start_forward" formatted="false">Започнете пренасочване от %1$s порт %2$d към %3$s:%4$d на \"%5$s\"?</string>
   <string name="msg_stop_forward">Спиране пренасочването на %1$s порт %2$d?</string>
   <string name="msg_metered">Трафикът е ограничен</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard е зает</string>
   <string name="msg_update">Налична е актуализация, докоснете за сваляне</string>
   <string name="msg_usage">Можете да разрешите (зеленикаво) или забраните (червеникаво) Wi-Fi или мобилни данни за достъп, като натискате иконите до приложението</string>
@@ -185,8 +186,10 @@
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Неограниченият трафик (Wi-Fi) е разрешен</string>
   <string name="title_unmetered_blocked">Неограниченият трафик (Wi-Fi) е блокиран</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Мобилните данни са разрешени</string>
   <string name="title_metered_blocked">Мобилните данни са блокирани</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">Адресът е разрешен</string>
   <string name="title_host_blocked">Адресът е блокиран</string>
   <string name="title_interactive_allowed">Позволи, когато екранът е включен</string>

@@ -175,6 +175,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="msg_start_forward" formatted="false">Port forward indítás %1$s port %2$d to %3$s:%4$d \'%5$s\'?</string>
   <string name="msg_stop_forward">Port forward leállítás %1$s port %2$d?</string>
   <string name="msg_metered">Ez mért hálózat</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">A NetGuard elfoglalt</string>
   <string name="msg_update">Frissítés érhető el, érintse meg a letöltéshez</string>
   <string name="msg_usage">Engedélyezni (zöldes) vagy tiltani (vöröses) tudja a Wi-Fi vagy mobil internet hozzáférést, ha megérinti az alkalmazás melleti ikont</string>
@@ -185,8 +186,10 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="msg_vpn_cancelled">VPN kapcsolat megszüntetve\nBeállít másik VPN kapcsolatot, hogy állandó legyen a VPN?</string>
   <string name="title_unmetered_allowed">Méretlen forgalom engedélyezve</string>
   <string name="title_unmetered_blocked">Méretlen forgalom letiltva</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Mért forgalom engedélyezve</string>
   <string name="title_metered_blocked">Mért forgalom letiltva</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">A cím engedélyezve</string>
   <string name="title_host_blocked">Cím letiltva</string>
   <string name="title_interactive_allowed">Engedélyezi amikor a képernyő be van kapcsolva</string>

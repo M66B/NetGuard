@@ -174,6 +174,7 @@
   <string name="msg_start_forward" formatted="false">بدء التوجيه من %1$s منفذ %2$d الى %3$s:%4$d من %5$s؟</string>
   <string name="msg_stop_forward">إيقاف إعادة توجيه %1$s منفذ %2$d؟</string>
   <string name="msg_metered">الشبكة مقاسة</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard مشغول</string>
   <string name="msg_update">يوجد تحديث متوفرة، اضغط لتحميله</string>
   <string name="msg_usage">يــمــكــنــك الــســمــاح (مــخــضــر) أو الــرفــض (الــمــحــمــر) واي فاي أو دخــول شــبــكــة الــمــحــمــول بــواســطــة الـــضـــغـــط عــلــى الــرمــوز الــمــوجــودة بــجــانــب الــتــطــبــيــق</string>
@@ -184,8 +185,10 @@
   <string name="msg_vpn_cancelled">لــقــد ألـغــي الإتــصــال عــن طــريــق n/ VPN هــل تــريــد تــكــويــن VPN آخــر حــتــى تــكــون عـلـى إتــصــال دائــم عــن طــريــق VPN ؟</string>
   <string name="title_unmetered_allowed">الحركة الغير مقاسة مسموحة</string>
   <string name="title_unmetered_blocked">الحركة الغير مقاسة محظورة</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">الحركة المقاسة مسموحة</string>
   <string name="title_metered_blocked">الحركة المقاسة محظورة</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">العنوان مسموح</string>
   <string name="title_host_blocked">العنوان محظور</string>
   <string name="title_interactive_allowed">السماح عند تكون الشاشة فعالة</string>

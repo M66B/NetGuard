@@ -175,6 +175,7 @@
   <string name="msg_start_forward" formatted="false">התחל העברה מ %1$s פורט %2$d ל%3$s:%4$d של \'%5$s\'?</string>
   <string name="msg_stop_forward">הפסק העברה של %1$s פורט %2$d?</string>
   <string name="msg_metered">הרשת מנוטרת</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard עמוס</string>
   <string name="msg_update">עדכון זמין, הקש כדי להוריד</string>
   <string name="msg_usage">באפשרותך לאשר (ירוק) או למנוע (אדום) מיישום גישה לרשתות Wi-Fi או לרשת האינטרנט הסלולרית באמצעות הקשה על הסמל שליד יישום</string>
@@ -185,8 +186,10 @@
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">תעבורה חופשית מאופשרת</string>
   <string name="title_unmetered_blocked">תעבורה חופשית חסומה</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">תעבורה נמדדת מאופשרת</string>
   <string name="title_metered_blocked">תעבורה נמדדת חסומה</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">כתובת מותרת</string>
   <string name="title_host_blocked">כתובת חסומה</string>
   <string name="title_interactive_allowed">אפשר כאשר המסך פעיל</string>

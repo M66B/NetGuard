@@ -173,6 +173,7 @@
   <string name="msg_start_forward" formatted="false">மேலனுப்ப \'%5$s\' %3$s:%4$d %1$s போர்ட் %2$d இருந்து தொடங்கும்?</string>
   <string name="msg_stop_forward">%1$s போர்ட் %2$d மேலனுப்ப நிறுத்து?</string>
   <string name="msg_metered">பிணைய metered</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard பணியில் உள்ளது</string>
   <string name="msg_update">பதிவிறக்கம் புதுப்பித்தல் கிடைக்கும், ஆணி</string>
   <string name="msg_usage">நீங்கள் அனுமதி (வண்ணச்சாயலில்) அல்லது (சிவந்த) Wi-Fi அல்லது மொபைல் இணைய அணுகலை அருகில் ஒரு பயன்பாடு படவுருக்களை ஒட்டுக்கேட்பு மூலம் மறு</string>
@@ -183,8 +184,10 @@
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Unmetered போக்குவரத்து அனுமதிக்கப்படும்</string>
   <string name="title_unmetered_blocked">Unmetered போக்குவரத்து தடைசெய்யப்பட்டது</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Metered போக்குவரத்து அனுமதிக்கப்படும்</string>
   <string name="title_metered_blocked">Metered போக்குவரத்து தடைசெய்யப்பட்டது</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">முகவரி அனுமதிக்கப்படும்</string>
   <string name="title_host_blocked">முகவரி தடுக்கப்பட்டது</string>
   <string name="title_interactive_allowed">திரை இயக்கத்தில் இருந்தால் அனுமதி</string>

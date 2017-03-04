@@ -179,6 +179,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="msg_start_forward" formatted="false">Yönlendirmeyi başlat %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
   <string name="msg_stop_forward">Yönlendirmeyi durdur %1$s port %2$d?</string>
   <string name="msg_metered">Bağlantı veri kullanımı</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard meşgul</string>
   <string name="msg_update">Güncelleme hazır, indirmek için dokunun</string>
   <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
@@ -189,8 +190,10 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">İzin verilmiş hesaplanamayan veri kullanımı</string>
   <string name="title_unmetered_blocked">Engellenmiş hesaplanamayan veri kullanımı</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">İzin verilmiş veri kullanımı</string>
   <string name="title_metered_blocked">Engellenmiş veri kullanımı</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">İzin verilmiş adres</string>
   <string name="title_host_blocked">Engellenmiş adres</string>
   <string name="title_interactive_allowed">Ekran açıkken izin verilen</string>

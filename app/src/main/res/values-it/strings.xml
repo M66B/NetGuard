@@ -173,6 +173,7 @@
   <string name="msg_start_forward" formatted="false">Inizia ad inoltrare da %1$s porta %2$d a %3$s:%4$d di \'%5$s\'?</string>
   <string name="msg_stop_forward">Interrompere l\'inoltro di %1$s porta %2$d?</string>
   <string name="msg_metered">La rete è a consumo</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard è occupato</string>
   <string name="msg_update">Aggiornamento disponibile, clicca per scaricare</string>
   <string name="msg_usage">Puoi permettere (verdastro) o bloccare (rossastro) l\'accesso internet a Wi-Fi o mobile toccando le icone a fianco di un\'applicazione</string>
@@ -183,8 +184,10 @@
   <string name="msg_vpn_cancelled">Connessione VPN annullata\nHai configurato un\'altra VPN che resta sempre attiva?</string>
   <string name="title_unmetered_allowed">Il traffico non al consumo è consentito</string>
   <string name="title_unmetered_blocked">Il traffico non al consumo è bloccato</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Il traffico al consumo è consentito</string>
   <string name="title_metered_blocked">Il traffico al consumo è bloccato</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">L\'indirizzo è consentito</string>
   <string name="title_host_blocked">L\'indirizzo è bloccato</string>
   <string name="title_interactive_allowed">Permetti quando lo schermo è acceso</string>

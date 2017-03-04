@@ -173,6 +173,7 @@
   <string name="msg_start_forward" formatted="false">¿Iniciar redirección desde el puerto %1$s, %2$d hacia %3$s:%4$d de \'%5$s\'?</string>
   <string name="msg_stop_forward">¿Detener redirección de %1$s puerto %2$d?</string>
   <string name="msg_metered">La red está medida</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard está ocupado</string>
   <string name="msg_update">Actualización disponible, pulse para descargar</string>
   <string name="msg_usage">Puede permitir (verde) o denegar (rojo) el acceso a Internet Wi-Fi o móvil pulsando en los iconos al lado de cada aplicación</string>
@@ -183,8 +184,10 @@
   <string name="msg_vpn_cancelled">Conexión VPN cancelada\n¿Ha configurado otra VPN para estar conectada permanentemente?</string>
   <string name="title_unmetered_allowed">Tráfico ilimitado permitido</string>
   <string name="title_unmetered_blocked">Tráfico ilimitado bloqueado</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Tráfico medido permitido</string>
   <string name="title_metered_blocked">Tráfico medido bloqueado</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">Dirección permitida</string>
   <string name="title_host_blocked">Dirección bloqueada</string>
   <string name="title_interactive_allowed">Permitir con la pantalla encendida</string>

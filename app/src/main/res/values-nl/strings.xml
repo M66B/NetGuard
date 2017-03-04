@@ -178,6 +178,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
   <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="msg_metered">Netwerk is gemeten</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard is bezig</string>
   <string name="msg_update">Update beschikbaar, tik om te downloaden</string>
   <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access to by tapping on the icons next to an application</string>
@@ -188,8 +189,10 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Ongelimiteerde verkeer is toegestaan</string>
   <string name="title_unmetered_blocked">Ongelimiteerde verkeer wordt geblokkeerd</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Gemeten verkeer is toegestaan</string>
   <string name="title_metered_blocked">Gemeten verkeer wordt geblokkeerd</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">Adres is toegestaan</string>
   <string name="title_host_blocked">Adres is geblokkeerd</string>
   <string name="title_interactive_allowed">Sta toe als scherm aan is</string>

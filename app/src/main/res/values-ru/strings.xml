@@ -175,6 +175,7 @@
   <string name="msg_start_forward" formatted="false">Начать пересылку из %1$s порта %2$d в %3$s:%4$d из %5$s?</string>
   <string name="msg_stop_forward">Остановить пересылку из %1$s порта %2$d?</string>
   <string name="msg_metered">Лимитированные сети</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard занят</string>
   <string name="msg_update">Доступно обновление, нажмите, чтобы загрузить</string>
   <string name="msg_usage">Вы можете разрешить (зеленоватый цвет значка) или запретить (красноватый цвет значка) Wi-Fi или мобильный интернет, нажав на значок рядом с приложением</string>
@@ -185,8 +186,10 @@
   <string name="msg_vpn_cancelled">VPN соединение отменено\nХотите настроить другое соединение, чтобы VPN был всегда?</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
   <string name="title_unmetered_blocked">Безлимитный трафик блокируется</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Лимитированный трафик разрешен</string>
   <string name="title_metered_blocked">Лимитированный трафик блокируется</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">Адрес разрешен</string>
   <string name="title_host_blocked">Адрес заблокирован</string>
   <string name="title_interactive_allowed">Разрешить, когда экран включен</string>

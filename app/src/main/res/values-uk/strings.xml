@@ -175,6 +175,7 @@
   <string name="msg_start_forward" formatted="false">Почати перенаправлення з %1$s порту %2$d до %3$s:%4$d з «%5$s»?</string>
   <string name="msg_stop_forward">Зупинити перенаправлення з %1$s порту %2$d?</string>
   <string name="msg_metered">Лімітована мережа</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard зайнятий</string>
   <string name="msg_update">Доступне оновлення, торкніться для завантаження</string>
   <string name="msg_usage">Ви можете дозволити (зеленуватий колір значка) або заборонити (червонуватий колір значка) доступ до Wi-Fi або мобільного Інтернету, натиснувши на значок поряд із додатком</string>
@@ -185,8 +186,10 @@
   <string name="msg_vpn_cancelled">VPN-з’єднання скасовано\nБажаєте настроїти інше VPN-з’єднання, щоб VPN було увімкнено завжди?</string>
   <string name="title_unmetered_allowed">Безлімітний трафік дозволено</string>
   <string name="title_unmetered_blocked">Безлімітний трафік заблоковано</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Лімітований трафік дозволено</string>
   <string name="title_metered_blocked">Лімітований трафік заблоковано</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">Адреса дозволена</string>
   <string name="title_host_blocked">Адреса заблокована</string>
   <string name="title_interactive_allowed">Дозволити, коли екран активний</string>

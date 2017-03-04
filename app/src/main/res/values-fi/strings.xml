@@ -173,6 +173,7 @@
   <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
   <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
   <string name="msg_metered">Verkko on käytön mukaan laskutettava</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard tehtävä jonossa</string>
   <string name="msg_update">Päivitys saatavilla, valitse ladataksesi</string>
   <string name="msg_usage">Voit sallia (vihertävä) tai estää (punertava) sovelluksen pääsyn internettiin Wi-Fi tai mobiiliverkon kautta valitsemalla sovelluksen vieressä oleva kuvake</string>
@@ -183,8 +184,10 @@
   <string name="msg_vpn_cancelled">VPN yhteys on peruttu\n Oletko asettanut toisen VPN yhteyden aina-päällä tilaan?</string>
   <string name="title_unmetered_allowed">Ei käytön mukaan laskutettava liikenne on sallittu</string>
   <string name="title_unmetered_blocked">Ei käytön mukaan laskutettava liikenne on estetty</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Käytön mukaan laskutettava liikenne on sallittu</string>
   <string name="title_metered_blocked">Käytön mukaan laskutettava liikenne on estetty</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">Osoite on sallittu</string>
   <string name="title_host_blocked">Osoite on estetty</string>
   <string name="title_interactive_allowed">Salli kun näyttö on päällä</string>

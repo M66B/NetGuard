@@ -175,6 +175,7 @@
   <string name="msg_start_forward" formatted="false">अग्रेषण %1$s पोर्ट %2$d से प्रारंभ करने के लिए \'%5$s\' का %3$s:%4$d?</string>
   <string name="msg_stop_forward">%1$s पोर्ट %2$d का अग्रेषण रोकना?</string>
   <string name="msg_metered">नेटवर्क मीटर है</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard व्यस्त है</string>
   <string name="msg_update">उपलब्ध अद्यतन के लिए, डाउनलोड करने के लिए टैप करें</string>
   <string name="msg_usage">आप कर सकते हैं या (हरा) की अनुमति दें (लाल) Wi-Fi या मोबाइल इंटरनेट का उपयोग करने के लिए किसी अनुप्रयोग के आगे चिह्न पर दोहन द्वारा इनकार</string>
@@ -185,8 +186,10 @@
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="title_unmetered_allowed">Unmetered यातायात की अनुमति है</string>
   <string name="title_unmetered_blocked">Unmetered यातायात अवरुद्ध है</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">मीटर के जरिए यातायात की अनुमति है</string>
   <string name="title_metered_blocked">मीटर के जरिए यातायात अवरुद्ध है</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">पते की अनुमति है</string>
   <string name="title_host_blocked">पता ब्लॉक किया गया है</string>
   <string name="title_interactive_allowed">जब स्क्रीन पर अनुमति दें</string>

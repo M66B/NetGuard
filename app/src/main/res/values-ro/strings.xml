@@ -176,6 +176,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_start_forward" formatted="false">Porneste redirectionarea de la %1$s port %2$d la %3$s:%4$d al \'%5$s\'?</string>
   <string name="msg_stop_forward">Opreste redirectionarea %1$s port %2$d?</string>
   <string name="msg_metered">Reteaua este contorizata</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard este ocupat</string>
   <string name="msg_update">Actualizare disponibila, atinge pentru a descarca</string>
   <string name="msg_usage">Puteti permite (verzui) sau bloca (rosiatic) accesul la internet prin Wi-Fi sau date mobile atingand iconitele din dreptul unei aplicatii</string>
@@ -186,8 +187,10 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_vpn_cancelled">Conexiunea VPN a fost anulata\nS-a configurat cumva un alt VPN ca activat permanent?</string>
   <string name="title_unmetered_allowed">Traficul de date necontorizat este permis</string>
   <string name="title_unmetered_blocked">Traficul de date necontorizat este blocat</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">Traficul de date contorizat este permis</string>
   <string name="title_metered_blocked">Traficul de date contorizat este blocat</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">Adresa este permisa</string>
   <string name="title_host_blocked">Adresa este blocata</string>
   <string name="title_interactive_allowed">Permite doar cand ecranul este pornit</string>

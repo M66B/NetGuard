@@ -179,6 +179,7 @@
   <string name="msg_start_forward" formatted="false">开始从 %1$s 端口 %2$d 转发至 \'%5$s\' 的 %3$s:%4$d?</string>
   <string name="msg_stop_forward">停止转发 %1$s 端口 %2$d?</string>
   <string name="msg_metered">网络按流量计费</string>
+  <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard 正忙</string>
   <string name="msg_update">有可用更新, 请点击下载</string>
   <string name="msg_usage">您可以点击应用旁的图标来允许 (绿色) 或禁止 (红色) Wi-Fi 或移动网络连接</string>
@@ -189,8 +190,10 @@
   <string name="msg_vpn_cancelled">VPN 连接已取消\n您是否对另一个 VPN 设置了始终启用?</string>
   <string name="title_unmetered_allowed">已允许非按流量计费的网络数据</string>
   <string name="title_unmetered_blocked">已阻止非按流量计费的网络数据</string>
+  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
   <string name="title_metered_allowed">已允许按流量计费的网络数据</string>
   <string name="title_metered_blocked">已阻止按流量计费的网络数据</string>
+  <string name="title_metered_disabled">Metered rules are not applied</string>
   <string name="title_host_allowed">网络地址已允许</string>
   <string name="title_host_blocked">网络地址已阻止</string>
   <string name="title_interactive_allowed">亮屏时允许</string>
