@@ -226,6 +226,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ49"></a>
 [**(49) Does NetGuard encrypt my internet traffic / hide my IP address?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ49)
 
+<a name="FAQ50"></a>
+[**(50) Will NetGuard automatically start on boot?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ50)
+
 Support
 -------
 

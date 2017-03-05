@@ -466,6 +466,11 @@ NetGuard is a firewall application that filters internet traffic on your device 
 so it is not meant to and does not encrypt your internet traffic
 and it is not meant to and does not hide your IP address.
 
+<a name="FAQ50"></a>
+**(50) Will NetGuard automatically start on boot?**
+
+Yes, NetGuard will automatically be started on boot if you powered off your device with NetGuard enabled.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
