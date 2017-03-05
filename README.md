@@ -229,6 +229,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ50"></a>
 [**(50) Will NetGuard automatically start on boot?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ50)
 
+<a name="FAQ51"></a>
+[**(51) NetGuard blocks all internet traffic!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ51)
+
 Support
 -------
 

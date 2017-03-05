@@ -471,6 +471,17 @@ and it is not meant to and does not hide your IP address.
 
 Yes, NetGuard will automatically be started on boot if you powered off your device with NetGuard enabled.
 
+<a name="FAQ51"></a>
+**(51) NetGuard blocks all internet traffic!**
+
+Make sure you have put NetGuard on the doze exception list (Android 6 Marshmallow or later)
+and that Android allows NetGuard to use the internet on the background.
+
+Make sure you are not running NetGuard in whitelist mode (check the NetGuard default settings).
+
+Some Android versions contain a bug resulting in all internet traffic being blocked.
+Mostly you can workaround this bug by enabling filtering in the advanced NetGuard settings.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
