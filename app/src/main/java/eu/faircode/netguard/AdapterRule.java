@@ -23,6 +23,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -39,6 +40,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.CompoundButtonCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -133,8 +135,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public ImageButton btnClear;
 
         public ImageView ivLive;
-        public TextView tvNoLog;
-        public TextView tvNoFilter;
+        public TextView tvLogging;
+        public Button btnLogging;
         public ListView lvAccess;
         public ImageButton btnClearAccess;
 
@@ -187,8 +189,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             btnClear = (ImageButton) itemView.findViewById(R.id.btnClear);
 
             ivLive = (ImageView) itemView.findViewById(R.id.ivLive);
-            tvNoLog = (TextView) itemView.findViewById(R.id.tvNoLog);
-            tvNoFilter = (TextView) itemView.findViewById(R.id.tvNoFilter);
+            tvLogging = (TextView) itemView.findViewById(R.id.tvLogging);
+            btnLogging = (Button) itemView.findViewById(R.id.btnLogging);
             lvAccess = (ListView) itemView.findViewById(R.id.lvAccess);
             btnClearAccess = (ImageButton) itemView.findViewById(R.id.btnClearAccess);
 
@@ -294,7 +296,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         // Get rule
         final Rule rule = listFiltered.get(position);
@@ -562,23 +564,49 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             }
         });
 
-        // Show logging is disabled
-        boolean log_app = prefs.getBoolean("log_app", false);
-        holder.tvNoLog.setVisibility(log_app ? View.GONE : View.VISIBLE);
-        holder.tvNoLog.setOnClickListener(new View.OnClickListener() {
+        // Show logging/filtering is disabled
+        final boolean log_app = prefs.getBoolean("log_app", false);
+        final boolean filter = prefs.getBoolean("filter", false);
+        holder.tvLogging.setText(log_app && filter ? R.string.title_logging_enabled : R.string.title_logging_disabled);
+        holder.btnLogging.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, ActivitySettings.class));
-            }
-        });
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View view = inflater.inflate(R.layout.enable, null, false);
 
-        // Show filtering is disabled
-        boolean filter = prefs.getBoolean("filter", false);
-        holder.tvNoFilter.setVisibility(filter ? View.GONE : View.VISIBLE);
-        holder.tvNoFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, ActivitySettings.class));
+                final CheckBox cbLogging = (CheckBox) view.findViewById(R.id.cbLogging);
+                final CheckBox cbFiltering = (CheckBox) view.findViewById(R.id.cbFiltering);
+                TextView tvFilter4 = (TextView) view.findViewById(R.id.tvFilter4);
+
+                cbLogging.setChecked(log_app);
+                cbFiltering.setChecked(filter);
+                cbFiltering.setEnabled(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+                tvFilter4.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? View.GONE : View.VISIBLE);
+
+                cbLogging.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                        prefs.edit().putBoolean("log_app", checked).apply();
+                        AdapterRule.this.notifyDataSetChanged();
+                    }
+                });
+
+                cbFiltering.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                        if (checked)
+                            cbLogging.setChecked(true);
+                        prefs.edit().putBoolean("filter", checked).apply();
+                        ServiceSinkhole.reload("changed filter", context);
+                        AdapterRule.this.notifyDataSetChanged();
+                    }
+                });
+
+                AlertDialog dialog = new AlertDialog.Builder(context)
+                        .setView(view)
+                        .setCancelable(true)
+                        .create();
+                dialog.show();
             }
         });
 
