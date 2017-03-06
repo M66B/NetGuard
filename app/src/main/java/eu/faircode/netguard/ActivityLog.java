@@ -332,17 +332,30 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         menuSearch = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            private String getUidForName(String query) {
+                if (query != null && query.length() > 0) {
+                    for (Rule rule : Rule.getRules(true, ActivityLog.this))
+                        if (rule.name != null && rule.name.toLowerCase().contains(query.toLowerCase())) {
+                            String newQuery = Integer.toString(rule.info.applicationInfo.uid);
+                            Log.i(TAG, "Search " + query + " found " + rule.name + " new " + newQuery);
+                            return newQuery;
+                        }
+                    Log.i(TAG, "Search " + query + " not found");
+                }
+                return query;
+            }
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (adapter != null)
-                    adapter.getFilter().filter(query);
+                    adapter.getFilter().filter(getUidForName(query));
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (adapter != null)
-                    adapter.getFilter().filter(newText);
+                    adapter.getFilter().filter(getUidForName(newText));
                 return true;
             }
         });
