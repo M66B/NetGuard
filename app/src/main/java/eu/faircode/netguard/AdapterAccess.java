@@ -27,6 +27,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,9 +129,11 @@ public class AdapterAccess extends CursorAdapter {
             }
         }
 
-        tvDest.setText(
-                Util.getProtocolName(protocol, version, true) +
-                        " " + daddr + (dport > 0 ? "/" + dport : ""));
+        String dest = Util.getProtocolName(protocol, version, true) +
+                " " + daddr + (dport > 0 ? "/" + dport : "");
+        SpannableString span = new SpannableString(dest);
+        span.setSpan(new UnderlineSpan(), 0, dest.length(), 0);
+        tvDest.setText(span);
 
         if (Util.isNumericAddress(daddr))
             new AsyncTask<String, Object, String>() {
