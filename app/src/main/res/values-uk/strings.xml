@@ -175,7 +175,7 @@
   <string name="msg_start_forward" formatted="false">Почати перенаправлення з %1$s порту %2$d до %3$s:%4$d з «%5$s»?</string>
   <string name="msg_stop_forward">Зупинити перенаправлення з %1$s порту %2$d?</string>
   <string name="msg_metered">Лімітована мережа</string>
-  <string name="msg_inactive">No active internet connection</string>
+  <string name="msg_inactive">Немає активного з\'єднання з Інтернетом</string>
   <string name="msg_queue">NetGuard зайнятий</string>
   <string name="msg_update">Доступне оновлення, торкніться для завантаження</string>
   <string name="msg_usage">Ви можете дозволити (зеленуватий колір значка) або заборонити (червонуватий колір значка) доступ до Wi-Fi або мобільного Інтернету, натиснувши на значок поряд із додатком</string>
@@ -186,10 +186,10 @@
   <string name="msg_vpn_cancelled">VPN-з’єднання скасовано\nБажаєте настроїти інше VPN-з’єднання, щоб VPN було увімкнено завжди?</string>
   <string name="title_unmetered_allowed">Безлімітний трафік дозволено</string>
   <string name="title_unmetered_blocked">Безлімітний трафік заблоковано</string>
-  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
+  <string name="title_unmetered_disabled">Необмежені правила не застосовуються</string>
   <string name="title_metered_allowed">Лімітований трафік дозволено</string>
   <string name="title_metered_blocked">Лімітований трафік заблоковано</string>
-  <string name="title_metered_disabled">Metered rules are not applied</string>
+  <string name="title_metered_disabled">Лімітовані правила не застосовуються</string>
   <string name="title_host_allowed">Адреса дозволена</string>
   <string name="title_host_blocked">Адреса заблокована</string>
   <string name="title_interactive_allowed">Дозволити, коли екран активний</string>
@@ -205,11 +205,16 @@
   <string name="title_roaming">Блокувати у роумінгу</string>
   <string name="title_related">Фільтрувати пов’язані</string>
   <string name="title_access">Спроби доступу</string>
-  <string name="title_no_log"><u>Журналювання вимкнуто</u></string>
-  <string name="title_no_filter"><u>Фільтрацію не увімкнуто</u></string>
   <string name="title_precedence">Правила доступу мають вищій пріоритет над іншим правилами</string>
   <string name="title_options">Параметри</string>
   <string name="title_notify">Сповістити при спробі доступу до інтернету</string>
+  <string name="title_logging_disabled">Logging or filtering is not enabled</string>
+  <string name="title_logging_enabled">Logging and filtering are enabled</string>
+  <string name="title_logging_configure">Configure</string>
+  <string name="title_enable_logging">Enable logging of blocked addresses only</string>
+  <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
+  <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
+  <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">Оцінити</string>
   <string name="title_allow">Дозволити</string>
   <string name="title_block">Блокувати</string>

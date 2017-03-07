@@ -174,7 +174,7 @@
   <string name="msg_start_forward" formatted="false">Weiterleitung von %2$d Port %1$s nach %3$s:%4$d von \'%5$s\' starten?</string>
   <string name="msg_stop_forward">Weiterleitung von %1$s Port %2$d stoppen?</string>
   <string name="msg_metered">Volumenbeschränktes Netzwerk</string>
-  <string name="msg_inactive">No active internet connection</string>
+  <string name="msg_inactive">Keine aktive Internetverbindung</string>
   <string name="msg_queue">NetGuard ist beschäftigt</string>
   <string name="msg_update">Neue Version verfügbar, tippen zum Herunterladen</string>
   <string name="msg_usage">Sie können den Wi-Fi oder mobilen Internet-Zugang zulassen (grünlich) oder verweigern (rötlich), indem Sie auf die Symbole neben einer Anwendung tippen</string>
@@ -185,10 +185,10 @@
   <string name="msg_vpn_cancelled">VPN-Verbindung abgebrochen\nHaben Sie eine andere VPN für die Funktion \'VPN immer eingeschaltet\' konfiguriert?</string>
   <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
   <string name="title_unmetered_blocked">Nicht volumenbeschränkter Verkehr ist blockiert</string>
-  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
+  <string name="title_unmetered_disabled">Unbeschränkte Regeln wurden nicht angewendet</string>
   <string name="title_metered_allowed">Volumenbeschränkter Verkehr ist erlaubt</string>
   <string name="title_metered_blocked">Volumenbeschränkter Verkehr ist blockiert</string>
-  <string name="title_metered_disabled">Metered rules are not applied</string>
+  <string name="title_metered_disabled">Beschränkte Regeln wurden nicht angewendet</string>
   <string name="title_host_allowed">Adresse ist erlaubt</string>
   <string name="title_host_blocked">Adresse ist blockiert</string>
   <string name="title_interactive_allowed">Erlauben, wenn Bildschirm an</string>
@@ -204,11 +204,16 @@
   <string name="title_roaming">Bei Roaming blockieren</string>
   <string name="title_related">Filterabhängig</string>
   <string name="title_access">Zugriffsversuche</string>
-  <string name="title_no_log"><u>Protokollierung ist nicht aktiviert</u></string>
-  <string name="title_no_filter"><u>Filterung ist nicht aktiviert</u></string>
   <string name="title_precedence">Zugriffsregeln haben vor anderen Regeln Vorrang</string>
   <string name="title_options">Optionen</string>
   <string name="title_notify">Benachrichtigen bei Internetzugriffsversuchen</string>
+  <string name="title_logging_disabled">Logging or filtering is not enabled</string>
+  <string name="title_logging_enabled">Logging and filtering are enabled</string>
+  <string name="title_logging_configure">Configure</string>
+  <string name="title_enable_logging">Enable logging of blocked addresses only</string>
+  <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
+  <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
+  <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">Bewerten</string>
   <string name="title_allow">Erlauben</string>
   <string name="title_block">Sperren</string>

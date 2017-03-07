@@ -176,7 +176,7 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_start_forward" formatted="false">Porneste redirectionarea de la %1$s port %2$d la %3$s:%4$d al \'%5$s\'?</string>
   <string name="msg_stop_forward">Opreste redirectionarea %1$s port %2$d?</string>
   <string name="msg_metered">Reteaua este contorizata</string>
-  <string name="msg_inactive">No active internet connection</string>
+  <string name="msg_inactive">Nu există conexiune la internet</string>
   <string name="msg_queue">NetGuard este ocupat</string>
   <string name="msg_update">Actualizare disponibila, atinge pentru a descarca</string>
   <string name="msg_usage">Puteti permite (verzui) sau bloca (rosiatic) accesul la internet prin Wi-Fi sau date mobile atingand iconitele din dreptul unei aplicatii</string>
@@ -187,10 +187,10 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="msg_vpn_cancelled">Conexiunea VPN a fost anulata\nS-a configurat cumva un alt VPN ca activat permanent?</string>
   <string name="title_unmetered_allowed">Traficul de date necontorizat este permis</string>
   <string name="title_unmetered_blocked">Traficul de date necontorizat este blocat</string>
-  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
+  <string name="title_unmetered_disabled">Regulile traficului necontorizat nu sunt aplicate</string>
   <string name="title_metered_allowed">Traficul de date contorizat este permis</string>
   <string name="title_metered_blocked">Traficul de date contorizat este blocat</string>
-  <string name="title_metered_disabled">Metered rules are not applied</string>
+  <string name="title_metered_disabled">Regulile traficului contorizat nu sunt aplicate</string>
   <string name="title_host_allowed">Adresa este permisa</string>
   <string name="title_host_blocked">Adresa este blocata</string>
   <string name="title_interactive_allowed">Permite doar cand ecranul este pornit</string>
@@ -206,11 +206,16 @@ Din acest motiv, va rugam sa permiteti conexiunea VPN in caseta de dialog urmato
   <string name="title_roaming">Blocheaza in roaming</string>
   <string name="title_related">Filtreaza aplicatii asociate</string>
   <string name="title_access">Incercari de a accesa</string>
-  <string name="title_no_log"><u>Inregistrarea in jurnal nu este activata</u></string>
-  <string name="title_no_filter"><u>Filtrarea nu este activata</u></string>
   <string name="title_precedence">Regulile de acces ale acestor adrese au prioritate</string>
   <string name="title_options">Optiuni</string>
   <string name="title_notify">Notifica la incercarile de acces la internet</string>
+  <string name="title_logging_disabled">Logging or filtering is not enabled</string>
+  <string name="title_logging_enabled">Logging and filtering are enabled</string>
+  <string name="title_logging_configure">Configure</string>
+  <string name="title_enable_logging">Enable logging of blocked addresses only</string>
+  <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
+  <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
+  <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">Evalueaza aplicatia</string>
   <string name="title_allow">Permite</string>
   <string name="title_block">Blocheaza</string>
