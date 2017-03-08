@@ -65,6 +65,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:text="@string/title_enable_help0"
+                android:textAppearance="@style/TextMedium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="@string/title_enable_help1"
                 android:textAppearance="@style/TextMedium"/>
 
