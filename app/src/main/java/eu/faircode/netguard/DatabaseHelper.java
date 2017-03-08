@@ -679,10 +679,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getReadableDatabase();
             // There is a segmented index on uid
             // There is no index on time for write performance
-            String query = "SELECT ID AS _id, *";
-            query += " FROM access";
-            query += " WHERE uid = ?";
-            query += " ORDER BY time DESC";
+            String query = "SELECT a.ID AS _id, a.*";
+            query += ", (SELECT COUNT(*) FROM dns d WHERE d.resource = (SELECT d1.resource FROM dns d1 WHERE d1.qname = a.daddr)) count";
+            query += " FROM access a";
+            query += " WHERE a.uid = ?";
+            query += " ORDER BY a.time DESC";
             query += " LIMIT 50";
             return db.rawQuery(query, new String[]{Integer.toString(uid)});
         } finally {

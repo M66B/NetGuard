@@ -53,6 +53,7 @@ public class AdapterAccess extends CursorAdapter {
     private int colTime;
     private int colAllowed;
     private int colBlock;
+    private int colCount;
     private int colSent;
     private int colReceived;
     private int colConnections;
@@ -71,6 +72,7 @@ public class AdapterAccess extends CursorAdapter {
         colTime = cursor.getColumnIndex("time");
         colAllowed = cursor.getColumnIndex("allowed");
         colBlock = cursor.getColumnIndex("block");
+        colCount = cursor.getColumnIndex("count");
         colSent = cursor.getColumnIndex("sent");
         colReceived = cursor.getColumnIndex("received");
         colConnections = cursor.getColumnIndex("connections");
@@ -105,6 +107,7 @@ public class AdapterAccess extends CursorAdapter {
         long time = cursor.getLong(colTime);
         int allowed = cursor.getInt(colAllowed);
         int block = cursor.getInt(colBlock);
+        int count = cursor.getInt(colCount);
         long sent = cursor.isNull(colSent) ? -1 : cursor.getLong(colSent);
         long received = cursor.isNull(colReceived) ? -1 : cursor.getLong(colReceived);
         int connections = cursor.isNull(colConnections) ? -1 : cursor.getInt(colConnections);
@@ -130,7 +133,7 @@ public class AdapterAccess extends CursorAdapter {
         }
 
         String dest = Util.getProtocolName(protocol, version, true) +
-                " " + daddr + (dport > 0 ? "/" + dport : "");
+                " " + daddr + (dport > 0 ? "/" + dport : "") + (count > 1 ? " ?" + count : "");
         SpannableString span = new SpannableString(dest);
         span.setSpan(new UnderlineSpan(), 0, dest.length(), 0);
         tvDest.setText(span);
