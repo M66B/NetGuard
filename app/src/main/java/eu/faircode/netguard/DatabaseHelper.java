@@ -864,14 +864,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += " LEFT JOIN dns AS d";
             query += "   ON d.qname = a.daddr";
             query += " WHERE a.block >= 0";
-            query += " AND d.time + d.ttl >= ?";
+            query += " AND d.time + d.ttl >= " + now;
             if (dname != null)
                 query += " AND a.daddr = ?";
 
-            if (dname == null)
-                return db.rawQuery(query, new String[]{Long.toString(now)});
-            else
-                return db.rawQuery(query, new String[]{Long.toString(now), dname});
+            return db.rawQuery(query, dname == null ? new String[]{} : new String[]{dname});
         } finally {
             lock.readLock().unlock();
         }
