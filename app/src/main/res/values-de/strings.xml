@@ -212,7 +212,7 @@
   <string name="title_logging_configure">Konfigurieren</string>
   <string name="title_enable_logging">Nur die Protokollierung für blockierte Adressen aktivieren</string>
   <string name="title_enable_filtering">Auch die Filterung für die Protokollierung erlaubter Adressen aktivieren</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_help0">Protokollierung und Filterung sind globale Einstellungen, die für alle Apps gelten</string>
   <string name="title_enable_help1">Die Filterung ist auch für das Zulassen oder Blockieren einzelner Adressen erforderlich</string>
   <string name="title_enable_help2">Die Protokollierung (weniger) oder Filterung (mehr) kann den Batterieverbrauch erhöhen und die Netzwerkgeschwindigkeit beeinflussen</string>
   <string name="title_rate">Bewerten</string>

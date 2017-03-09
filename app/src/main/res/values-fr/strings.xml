@@ -213,7 +213,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_logging_configure">Configurer</string>
   <string name="title_enable_logging">Activer la journalisation d’adresses bloquées seulement</string>
   <string name="title_enable_filtering">Activer le filtrage pour enregistrer aussi les adresses autorisées</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_help0">La journalisation et le filtrage sont des paramètres globaux qui s’appliquent à toutes les applications</string>
   <string name="title_enable_help1">Le filtrage est également nécessaire pour autoriser ou bloquer des adresses individuelles</string>
   <string name="title_enable_help2">Activer la journalisation (moins) ou le filtrage (plus) peut augmenter l’utilisation de la batterie et peut affecter la vitesse du réseau</string>
   <string name="title_rate">Évaluer</string>
