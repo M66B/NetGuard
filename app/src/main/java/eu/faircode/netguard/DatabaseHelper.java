@@ -680,7 +680,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // There is a segmented index on uid
             // There is no index on time for write performance
             String query = "SELECT a.ID AS _id, a.*";
-            query += ", (SELECT COUNT(*) FROM dns d WHERE d.resource = (SELECT d1.resource FROM dns d1 WHERE d1.qname = a.daddr)) count";
+            query += ", (SELECT COUNT(DISTINCT d.qname) FROM dns d WHERE d.resource = (SELECT d1.resource FROM dns d1 WHERE d1.qname = a.daddr)) count";
             query += " FROM access a";
             query += " WHERE a.uid = ?";
             query += " ORDER BY a.time DESC";
@@ -825,7 +825,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += " LEFT JOIN access AS a";
             query += "   ON a.daddr = d.qname AND a.uid = " + uid;
             query += " WHERE d.resource = '" + ip.replace("'", "''") + "'";
-            query += " ORDER BY CASE a.daddr WHEN NULL THEN 1 ELSE 0 END, d.qname DESC";
+            query += " ORDER BY CASE a.daddr WHEN NULL THEN 1 ELSE 0 END, d.qname";
             query += " LIMIT 1";
             return db.compileStatement(query).simpleQueryForString();
         } catch (SQLiteDoneException ignored) {
@@ -840,10 +840,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         lock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
+            // There is an index on resource
             // There is a segmented index on qname
             String query = "SELECT ID AS _id, *";
             query += " FROM dns";
-            query += " ORDER BY qname, resource";
+            query += " ORDER BY resource, qname";
             return db.rawQuery(query, new String[]{});
         } finally {
             lock.readLock().unlock();
@@ -863,11 +864,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += " LEFT JOIN dns AS d";
             query += "   ON d.qname = a.daddr";
             query += " WHERE a.block >= 0";
-            query += " AND d.time + d.ttl >= " + now;
+            query += " AND d.time + d.ttl >= ?";
             if (dname != null)
                 query += " AND a.daddr = ?";
 
-            return db.rawQuery(query, dname == null ? new String[]{} : new String[]{dname});
+            if (dname == null)
+                return db.rawQuery(query, new String[]{Long.toString(now)});
+            else
+                return db.rawQuery(query, new String[]{Long.toString(now), dname});
         } finally {
             lock.readLock().unlock();
         }
