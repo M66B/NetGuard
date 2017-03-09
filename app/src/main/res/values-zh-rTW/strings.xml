@@ -218,6 +218,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_logging_configure">Configure</string>
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
+  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
   <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">評分</string>
