@@ -439,8 +439,9 @@ jint get_uid(const int version, const int protocol,
                 hex2bytes(hex, version == 4 ? addr4 : addr6);
                 if (version == 4)
                     ((uint32_t *) addr4)[0] = htonl(((uint32_t *) addr4)[0]);
-                for (int w = 0; w < 4; w++)
-                    ((uint32_t *) addr6)[w] = htonl(((uint32_t *) addr6)[w]);
+                else
+                    for (int w = 0; w < 4; w++)
+                        ((uint32_t *) addr6)[w] = htonl(((uint32_t *) addr6)[w]);
 
                 if (lasttry) {
                     char source[INET6_ADDRSTRLEN + 1];
