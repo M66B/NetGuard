@@ -189,6 +189,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 prefs.edit().putBoolean("enabled", isChecked).apply();
 
                 if (isChecked) {
+                    Toast on = Toast.makeText(ActivityMain.this, R.string.msg_on, Toast.LENGTH_LONG);
+                    on.setGravity(Gravity.CENTER, 0, 0);
+                    on.show();
+
                     try {
                         final Intent prepare = VpnService.prepare(ActivityMain.this);
                         if (prepare == null) {
