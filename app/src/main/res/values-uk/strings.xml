@@ -213,7 +213,7 @@
   <string name="title_logging_configure">Налаштувати</string>
   <string name="title_enable_logging">Увімкнути реєстрацію подій лише для заблокованих адрес</string>
   <string name="title_enable_filtering">Увімкнути фільтрування лише для заблокованих адрес</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_help0">Журналювання й фільтрація є глобальними налаштуваннями, які застосовуються до всіх додатків</string>
   <string name="title_enable_help1">Фільтрування необхідне також для дозволу або блокування окремих адрес</string>
   <string name="title_enable_help2">Увімкнення реєстрації подій або фільтрування може прискорити витрату заряду і справити вплив на швидкість у мережі</string>
   <string name="title_rate">Оцінити</string>

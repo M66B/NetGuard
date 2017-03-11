@@ -212,7 +212,7 @@
   <string name="title_logging_configure">設定</string>
   <string name="title_enable_logging">ブロックされたアドレスのみログ記録を有効にする</string>
   <string name="title_enable_filtering">許可されたアドレスもフィルタリングを有効にしてログ記録</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_help0">ログとフィルタリングは、すべてのアプリケーションに適用されるグローバル設定です</string>
   <string name="title_enable_help1">個々のアドレスを許可またはブロックするためにフィルタリングも必要です</string>
   <string name="title_enable_help2">ログ (少し) またはフィルタリング (詳細) を有効にすると、バッテリーの使用量を増やす可能性があります。また、ネットワーク速度に影響を与える可能性があります。</string>
   <string name="title_rate">評価</string>

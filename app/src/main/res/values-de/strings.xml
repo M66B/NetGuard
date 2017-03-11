@@ -208,7 +208,7 @@
   <string name="title_options">Optionen</string>
   <string name="title_notify">Benachrichtigen bei Internetzugriffsversuchen</string>
   <string name="title_logging_disabled">Protokollierung oder Filterung ist nicht aktiviert</string>
-  <string name="title_logging_enabled">Protokollierung und Filterung sind nicht aktiviert</string>
+  <string name="title_logging_enabled">Protokollierung und Filterung sind aktiviert</string>
   <string name="title_logging_configure">Konfigurieren</string>
   <string name="title_enable_logging">Nur die Protokollierung für blockierte Adressen aktivieren</string>
   <string name="title_enable_filtering">Auch die Filterung für die Protokollierung erlaubter Adressen aktivieren</string>

@@ -214,7 +214,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="title_logging_configure">Configurare</string>
   <string name="title_enable_logging">Activează jurnalul doar pentru adresele blocate</string>
   <string name="title_enable_filtering">Activează filtrul de trafic pentru a înregistra în jurnal și adresele permise</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_help0">Jurnalul și filtrul de trafic sunt setări globale și se aplică tuturor aplicațiilor</string>
   <string name="title_enable_help1">Filtrul de trafic este necesar pentru a permite sau bloca adrese individuale</string>
   <string name="title_enable_help2">Activarea jurnalului (mai puțin) sau filtrul de trafic (mai mult) cresc consumul bateriei și ar putea afecta viteza conexiunii</string>
   <string name="title_rate">Evalueaza aplicatia</string>

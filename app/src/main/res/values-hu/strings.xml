@@ -211,7 +211,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_logging_disabled">A naplózás vagy a szűrés nincs engedélyezve</string>
   <string name="title_logging_enabled">A naplózás és a szűrés engedélyezve</string>
   <string name="title_logging_configure">Testreszabás</string>
-  <string name="title_enable_logging">Enable logging of blocked addresses only</string>
+  <string name="title_enable_logging">Csak a blokkolt címek naplózásának engedélyezése</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
   <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
