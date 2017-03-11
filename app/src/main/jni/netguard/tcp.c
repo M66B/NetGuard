@@ -807,7 +807,7 @@ jboolean handle_tcp(const struct arguments *args,
             memset(&rst, 0, sizeof(struct tcp_session));
             rst.version = 4;
             rst.local_seq = ntohl(tcphdr->ack_seq);
-            rst.remote_seq = ntohl(tcphdr->seq) + datalen + (tcphdr->fin ? 1 : 0);
+            rst.remote_seq = ntohl(tcphdr->seq) + datalen + (tcphdr->syn || tcphdr->fin ? 1 : 0);
 
             if (version == 4) {
                 rst.saddr.ip4 = (__be32) ip4->saddr;
