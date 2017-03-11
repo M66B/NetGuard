@@ -450,10 +450,10 @@ jint get_uid(const int version, const int protocol,
                     log_android(ANDROID_LOG_INFO, "%s/%u %d %s", source, port, u, line);
                 }
 
-                if (port == sport) {
+                if (port == sport &&
+                    memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) == 0) {
                     uid = u;
-                    if (memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) == 0)
-                        break;
+                    break;
                 }
             }
             else
