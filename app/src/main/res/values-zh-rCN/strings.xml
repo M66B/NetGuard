@@ -188,6 +188,7 @@
   <string name="msg_system">您可在高级选项中启用管理系统应用</string>
   <string name="msg_issue">请具体描述问题及问题发生的时间:</string>
   <string name="msg_vpn_cancelled">VPN 连接已取消\n您是否对另一个 VPN 设置了始终启用?</string>
+  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
   <string name="title_unmetered_allowed">已允许非按流量计费的网络数据</string>
   <string name="title_unmetered_blocked">已阻止非按流量计费的网络数据</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>

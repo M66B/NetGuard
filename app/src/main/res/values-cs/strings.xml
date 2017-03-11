@@ -188,6 +188,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="msg_system">Správu systémových aplikací lze povolit v nastavení</string>
   <string name="msg_issue">Popište prosím problém a uveďte čas, kdy k němu došlo:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
+  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
   <string name="title_unmetered_allowed">Neomezená komunikace je povolena</string>
   <string name="title_unmetered_blocked">Neomezená komunikace je zakázána</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>

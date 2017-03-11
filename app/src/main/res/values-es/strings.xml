@@ -182,6 +182,7 @@
   <string name="msg_system">La gestión de las aplicaciones del sistema puede activarse en los ajustes</string>
   <string name="msg_issue">Por favor, describa el problema e indique el tiempo del mismo:</string>
   <string name="msg_vpn_cancelled">Conexión VPN cancelada\n¿Ha configurado otra VPN para estar conectada permanentemente?</string>
+  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
   <string name="title_unmetered_allowed">Tráfico ilimitado permitido</string>
   <string name="title_unmetered_blocked">Tráfico ilimitado bloqueado</string>
   <string name="title_unmetered_disabled">Las reglas ilimitadas no son aplicadas</string>

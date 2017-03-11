@@ -185,6 +185,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_system">Gerenciamento de aplicativos do sistema pode ser ativado em opções avançadas</string>
   <string name="msg_issue">Por favor, descreva o problema e indique o momento em que ocorreu:</string>
   <string name="msg_vpn_cancelled">Conexão VPN cancelada\nVocê configurou outra VPN para ser uma VPN sempre ativa?</string>
+  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado bloqueado</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>

@@ -182,6 +182,7 @@
   <string name="msg_system">La gestione delle applicazioni di sistema può essere attivata tramite le opzioni avanzate</string>
   <string name="msg_issue">Si prega di descrivere il problema ed indicare il tempo di esso:</string>
   <string name="msg_vpn_cancelled">Connessione VPN annullata\nHai configurato un\'altra VPN che resta sempre attiva?</string>
+  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
   <string name="title_unmetered_allowed">Il traffico non al consumo è consentito</string>
   <string name="title_unmetered_blocked">Il traffico non al consumo è bloccato</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>

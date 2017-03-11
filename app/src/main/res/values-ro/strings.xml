@@ -185,6 +185,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="msg_system">Gestionarea aplicatiilor de sistem se activeaza din optiunile avansate</string>
   <string name="msg_issue">Va rog sa descrieti problema si sa indicati momentul cand s-a produs problema:</string>
   <string name="msg_vpn_cancelled">Conexiunea VPN a fost anulata\nS-a configurat cumva un alt VPN ca activat permanent?</string>
+  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
   <string name="title_unmetered_allowed">Traficul de date necontorizat este permis</string>
   <string name="title_unmetered_blocked">Traficul de date necontorizat este blocat</string>
   <string name="title_unmetered_disabled">Regulile traficului necontorizat nu sunt aplicate</string>

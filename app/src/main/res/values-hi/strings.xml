@@ -184,6 +184,7 @@
   <string name="msg_system">सिस्टम अनुप्रयोगों के प्रबंधन सेटिंग्स में सक्षम कर सकते हैं</string>
   <string name="msg_issue">कृपया समस्या का वर्णन करें और समस्या के समय से संकेत मिलता है:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
+  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
   <string name="title_unmetered_allowed">Unmetered यातायात की अनुमति है</string>
   <string name="title_unmetered_blocked">Unmetered यातायात अवरुद्ध है</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>

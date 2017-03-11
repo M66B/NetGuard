@@ -186,6 +186,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_system">Managing all (system) applications can be enabled in the settings</string>
   <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
+  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
   <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
   <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
