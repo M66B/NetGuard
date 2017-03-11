@@ -372,7 +372,7 @@ jint get_uid_retry(const int version, const int protocol,
 
 jint get_uid(const int version, const int protocol,
              const void *saddr, const uint16_t sport,
-             int dump) {
+             int lasttry) {
     char line[250];
     char hex[16 * 2 + 1];
     int fields;
@@ -402,10 +402,10 @@ jint get_uid(const int version, const int protocol,
     else
         return uid;
 
-    if (dump) {
+    if (lasttry) {
         char source[INET6_ADDRSTRLEN + 1];
         inet_ntop(version == 4 ? AF_INET : AF_INET6, saddr, source, sizeof(source));
-        log_android(ANDROID_LOG_INFO, "Searching %s/%u in %s", source, sport, fn);
+        log_android(ANDROID_LOG_WARN, "Searching %s/%u in %s", source, sport, fn);
     }
 
     // Open proc file
@@ -442,16 +442,17 @@ jint get_uid(const int version, const int protocol,
                 for (int w = 0; w < 4; w++)
                     ((uint32_t *) addr6)[w] = htonl(((uint32_t *) addr6)[w]);
 
-                if (dump) {
+                if (lasttry) {
                     char source[INET6_ADDRSTRLEN + 1];
                     inet_ntop(version == 4 ? AF_INET : AF_INET6,
                               version == 4 ? addr4 : addr6,
                               source, sizeof(source));
-                    log_android(ANDROID_LOG_INFO, "%s/%u %d %s", source, port, u, line);
+                    log_android(ANDROID_LOG_WARN, "%s/%u %d %s", source, port, u, line);
                 }
 
                 if (port == sport &&
-                    memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) == 0) {
+                    (lasttry ||
+                     memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) == 0)) {
                     uid = u;
                     break;
                 }

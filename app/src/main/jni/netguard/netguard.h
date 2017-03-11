@@ -457,7 +457,7 @@ jint get_uid_retry(const int version, const int protocol,
 
 jint get_uid(const int version, const int protocol,
              const void *saddr, const uint16_t sport,
-             int dump);
+             int lasttry);
 
 int protect_socket(const struct arguments *args, int socket);
 
