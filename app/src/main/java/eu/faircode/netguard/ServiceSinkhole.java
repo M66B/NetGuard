@@ -1678,7 +1678,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         lock.readLock().unlock();
 
         if (prefs.getBoolean("log", false) || prefs.getBoolean("log_app", false))
-            logPacket(packet);
+            if (packet.protocol != 6 /* TCP */ || !"".equals(packet.flags))
+                logPacket(packet);
 
         return allowed;
     }
