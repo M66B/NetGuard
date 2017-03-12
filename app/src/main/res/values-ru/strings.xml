@@ -184,7 +184,7 @@
   <string name="msg_system">Управление системными приложениями может быть включено в дополнительных опциях</string>
   <string name="msg_issue">Пожалуйста, опишите проблему и укажите момент возникновения проблемы:</string>
   <string name="msg_vpn_cancelled">VPN соединение отменено\nХотите настроить другое соединение, чтобы VPN был всегда?</string>
-  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_on">Выключение устройства с запущенным NetGuard автоматически запустит NetGuard при включении вашего устройства</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
   <string name="title_unmetered_blocked">Безлимитный трафик блокируется</string>
   <string name="title_unmetered_disabled">Безлимитные правила не применяются</string>

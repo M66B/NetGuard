@@ -184,7 +184,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_system">La gestion des applications système peut être activée dans les options avancées</string>
   <string name="msg_issue">Veuillez décrire le problème et indiquer l\'heure à laquelle il est survenu :</string>
   <string name="msg_vpn_cancelled">La connexion VPN a été arrêtée\nAvez-vous configuré un autre VPN destiné à être un VPN toujours actif ?</string>
-  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_on">Si vous éteignez votre appareil avec NetGuard activé, celui ci démarrera automatiquement lorsque vous rallumerez votre appareil</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>
   <string name="title_unmetered_blocked">Le trafic illimité est bloqué</string>
   <string name="title_unmetered_disabled">Les règles illimitées ne sont pas appliquées</string>
