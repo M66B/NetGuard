@@ -290,7 +290,7 @@ void handle_ip(const struct arguments *args,
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6 ||
         (protocol == IPPROTO_UDP && !has_udp_session(args, pkt, payload)) ||
         (protocol == IPPROTO_TCP && syn))
-        uid = get_uid_retry(version, protocol, saddr, sport);
+        uid = get_uid_retry(version, protocol, saddr, sport, daddr, dport);
 
     log_android(ANDROID_LOG_DEBUG,
                 "Packet v%d %s/%u > %s/%u proto %d flags %s uid %d",
@@ -333,10 +333,12 @@ void handle_ip(const struct arguments *args,
 }
 
 jint get_uid_retry(const int version, const int protocol,
-                   const void *saddr, const uint16_t sport) {
-    char source[INET6_ADDRSTRLEN + 1];
-    inet_ntop(version == 4 ? AF_INET : AF_INET6, saddr, source, sizeof(source));
-    log_android(ANDROID_LOG_INFO, "get uid v%d p%d %s/%u", version, protocol, source, sport);
+                   const void *saddr, const uint16_t sport,
+                   const void *daddr, const uint16_t dport) {
+    char dest[INET6_ADDRSTRLEN + 1];
+    inet_ntop(version == 4 ? AF_INET : AF_INET6, daddr, dest, sizeof(dest));
+    log_android(ANDROID_LOG_INFO, "get uid v%d p%d %u > %s/%u",
+                version, protocol, sport, dest, dport);
 
     jint uid = -1;
     int tries = 0;
@@ -344,41 +346,43 @@ jint get_uid_retry(const int version, const int protocol,
     while (uid < 0 && tries++ < UID_MAXTRY) {
         // Check IPv6 table first
         if (version == 4) {
-            int8_t saddr128[16];
-            memset(saddr128, 0, 10);
-            saddr128[10] = (uint8_t) 0xFF;
-            saddr128[11] = (uint8_t) 0xFF;
-            memcpy(saddr128 + 12, saddr, 4);
-            uid = get_uid(6, protocol, saddr128, sport, tries == UID_MAXTRY);
+            int8_t daddr128[16];
+            memset(daddr128, 0, 10);
+            daddr128[10] = (uint8_t) 0xFF;
+            daddr128[11] = (uint8_t) 0xFF;
+            memcpy(daddr128 + 12, daddr, 4);
+            uid = get_uid(6, protocol, saddr, sport, daddr128, dport, tries == UID_MAXTRY);
         }
 
         if (uid < 0)
-            uid = get_uid(version, protocol, saddr, sport, tries == UID_MAXTRY);
+            uid = get_uid(version, protocol, saddr, sport, daddr, dport, tries == UID_MAXTRY);
 
         // Retry delay
         if (uid < 0 && tries < UID_MAXTRY) {
-            log_android(ANDROID_LOG_WARN, "get uid v%d p%d %s/%u try %d",
-                        version, protocol, source, sport, tries);
+            log_android(ANDROID_LOG_WARN, "get uid v%d p%d %u > %s/%u try %d",
+                        version, protocol, sport, dest, dport, tries);
             usleep(1000 * UID_DELAYTRY);
         }
     }
 
     if (uid < 0)
-        log_android(ANDROID_LOG_ERROR, "uid v%d p%d %s/%u not found",
-                    version, protocol, source, sport);
+        log_android(ANDROID_LOG_ERROR, "uid v%d p%d %u > %s/%u not found",
+                    version, protocol, sport, dest, dport);
 
     return uid;
 }
 
 jint get_uid(const int version, const int protocol,
              const void *saddr, const uint16_t sport,
+             const void *daddr, const uint16_t dport,
              int lasttry) {
     char line[250];
     char hex[16 * 2 + 1];
     int fields;
-    uint8_t addr4[4];
-    uint8_t addr6[16];
-    int port;
+    uint8_t _daddr4[4];
+    uint8_t _daddr6[16];
+    int _sport;
+    int _dport;
     jint uid = -1;
 
 #ifdef PROFILE_UID
@@ -403,9 +407,9 @@ jint get_uid(const int version, const int protocol,
         return uid;
 
     if (lasttry) {
-        char source[INET6_ADDRSTRLEN + 1];
-        inet_ntop(version == 4 ? AF_INET : AF_INET6, saddr, source, sizeof(source));
-        log_android(ANDROID_LOG_WARN, "Searching %s/%u in %s", source, sport, fn);
+        char dest[INET6_ADDRSTRLEN + 1];
+        inet_ntop(version == 4 ? AF_INET : AF_INET6, daddr, dest, sizeof(dest));
+        log_android(ANDROID_LOG_WARN, "Searching %u > %s/%u in %s", sport, dest, dport, fn);
     }
 
     // Open proc file
@@ -422,38 +426,40 @@ jint get_uid(const int version, const int protocol,
     while (fgets(line, sizeof(line), fd) != NULL) {
         if (i++) {
             *hex = 0;
-            port = -1;
+            _sport = -1;
+            _dport = -1;
             u = -1;
             if (version == 4)
                 fields = sscanf(
                         line,
-                        "%*d: %8s:%X %*X:%*X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld",
-                        hex, &port, &u);
+                        "%*d: %*X:%X %8s:%X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld",
+                        &_sport, hex, &_dport, &u);
             else
                 fields = sscanf(
                         line,
-                        "%*d: %32s:%X %*X:%*X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld",
-                        hex, &port, &u);
-            if (fields == 3 &&
-                (version == 4 ? strlen(hex) == 8 : strlen(hex) == 32) && port >= 0 && u >= 0) {
-                hex2bytes(hex, version == 4 ? addr4 : addr6);
+                        "%*d: %*X:%X %32s:%X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld",
+                        &_sport, hex, &_dport, &u);
+            if (fields == 4 &&
+                _sport > 0 && _dport > 0 && u >= 0 &&
+                (version == 4 ? strlen(hex) == 8 : strlen(hex) == 32)) {
+                hex2bytes(hex, version == 4 ? _daddr4 : _daddr6);
                 if (version == 4)
-                    ((uint32_t *) addr4)[0] = htonl(((uint32_t *) addr4)[0]);
+                    ((uint32_t *) _daddr4)[0] = htonl(((uint32_t *) _daddr4)[0]);
                 else
                     for (int w = 0; w < 4; w++)
-                        ((uint32_t *) addr6)[w] = htonl(((uint32_t *) addr6)[w]);
+                        ((uint32_t *) _daddr6)[w] = htonl(((uint32_t *) _daddr6)[w]);
 
                 if (lasttry) {
-                    char source[INET6_ADDRSTRLEN + 1];
+                    char dest[INET6_ADDRSTRLEN + 1];
                     inet_ntop(version == 4 ? AF_INET : AF_INET6,
-                              version == 4 ? addr4 : addr6,
-                              source, sizeof(source));
-                    log_android(ANDROID_LOG_WARN, "%s/%u %d %s", source, port, u, line);
+                              version == 4 ? _daddr4 : _daddr6,
+                              dest, sizeof(dest));
+                    log_android(ANDROID_LOG_WARN, "%u > %s/%u %d %s",
+                                _sport, dest, _dport, u, line);
                 }
 
-                if (port == sport &&
-                    (lasttry ||
-                     memcmp(version == 4 ? addr4 : addr6, saddr, version == 4 ? 4 : 16) == 0)) {
+                if (_sport == sport && _dport == dport &&
+                    memcmp(version == 4 ? _daddr4 : _daddr6, daddr, version == 4 ? 4 : 16) == 0) {
                     uid = u;
                     break;
                 }

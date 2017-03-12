@@ -453,10 +453,12 @@ uint8_t char2nible(const char c);
 void hex2bytes(const char *hex, uint8_t *buffer);
 
 jint get_uid_retry(const int version, const int protocol,
-                   const void *saddr, const uint16_t sport);
+                   const void *saddr, const uint16_t sport,
+                   const void *daddr, const uint16_t dport);
 
 jint get_uid(const int version, const int protocol,
              const void *saddr, const uint16_t sport,
+             const void *daddr, const uint16_t dport,
              int lasttry);
 
 int protect_socket(const struct arguments *args, int socket);
