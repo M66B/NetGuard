@@ -60,6 +60,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -67,9 +68,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
+import java.nio.Buffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -802,6 +805,37 @@ public class Util {
                 sb.append("\r\n\r\n");
                 sb.append(getSubscriptionInfo(context));
                 sb.append("\r\n\r\n");
+
+                // Get DNS
+                sb.append("DNS system:\r\n");
+                for (String dns : getDefaultDNS(context))
+                    sb.append("- ").append(dns).append("\r\n");
+                sb.append("DNS VPN:\r\n");
+                for (InetAddress dns : ServiceSinkhole.getDns(context))
+                    sb.append("- ").append(dns).append("\r\n");
+                sb.append("\r\n");
+
+                // Get TCP connection info
+                String line;
+                BufferedReader in;
+                try {
+                    sb.append("/proc/net/tcp:\r\n");
+                    in = new BufferedReader(new FileReader("/proc/net/tcp"));
+                    while ((line = in.readLine()) != null)
+                        sb.append(line).append("\r\n");
+                    in.close();
+                    sb.append("\r\n");
+
+                    sb.append("/proc/net/tcp6:\r\n");
+                    in = new BufferedReader(new FileReader("/proc/net/tcp6"));
+                    while ((line = in.readLine()) != null)
+                        sb.append(line).append("\r\n");
+                    in.close();
+                    sb.append("\r\n");
+
+                } catch (IOException ex) {
+                    sb.append(ex.toString()).append("\r\n");
+                }
 
                 // Get settings
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
