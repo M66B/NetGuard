@@ -239,6 +239,7 @@ The columns have the following meaning:
 
 Protocols:
 
+* HOPO (IPv6 Hop-by-Hop Option)
 * ICMP
 * IGMP
 * ESP (IPSec)
@@ -257,6 +258,10 @@ Packet flags:
 * R = RST
 
 For a detailed explanation see [here](https://en.wikipedia.org/wiki/Transmission_Control_Protocol).
+
+Only TCP, UDP and ICMP ping traffic can be routed through the Android VPN service.
+All other traffic will be dropped and will be shown as blocked in the global traffic log.
+This is almost never a problem on an Android device.
 
 <a name="FAQ28"></a>
 **(28) Why is Google connectivity services allowed internet access by default?**
