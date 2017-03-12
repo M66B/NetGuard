@@ -439,29 +439,30 @@ jint get_uid(const int version, const int protocol,
                         line,
                         "%*d: %*X:%X %32s:%X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld",
                         &_sport, hex, &_dport, &u);
-            if (fields == 4 &&
-                _sport > 0 && _dport > 0 && u >= 0 &&
-                (version == 4 ? strlen(hex) == 8 : strlen(hex) == 32)) {
-                hex2bytes(hex, version == 4 ? _daddr4 : _daddr6);
-                if (version == 4)
-                    ((uint32_t *) _daddr4)[0] = htonl(((uint32_t *) _daddr4)[0]);
-                else
-                    for (int w = 0; w < 4; w++)
-                        ((uint32_t *) _daddr6)[w] = htonl(((uint32_t *) _daddr6)[w]);
+            if (fields == 4 && (version == 4 ? strlen(hex) == 8 : strlen(hex) == 32)) {
+                if (_sport > 0 && _dport > 0 && u >= 0) {
+                    hex2bytes(hex, version == 4 ? _daddr4 : _daddr6);
+                    if (version == 4)
+                        ((uint32_t *) _daddr4)[0] = htonl(((uint32_t *) _daddr4)[0]);
+                    else
+                        for (int w = 0; w < 4; w++)
+                            ((uint32_t *) _daddr6)[w] = htonl(((uint32_t *) _daddr6)[w]);
 
-                if (lasttry) {
-                    char dest[INET6_ADDRSTRLEN + 1];
-                    inet_ntop(version == 4 ? AF_INET : AF_INET6,
-                              version == 4 ? _daddr4 : _daddr6,
-                              dest, sizeof(dest));
-                    log_android(ANDROID_LOG_WARN, "%u > %s/%u %d %s",
-                                _sport, dest, _dport, u, line);
-                }
+                    if (lasttry) {
+                        char dest[INET6_ADDRSTRLEN + 1];
+                        inet_ntop(version == 4 ? AF_INET : AF_INET6,
+                                  version == 4 ? _daddr4 : _daddr6,
+                                  dest, sizeof(dest));
+                        log_android(ANDROID_LOG_WARN, "%u > %s/%u %d %s",
+                                    _sport, dest, _dport, u, line);
+                    }
 
-                if (_sport == sport && _dport == dport &&
-                    memcmp(version == 4 ? _daddr4 : _daddr6, daddr, version == 4 ? 4 : 16) == 0) {
-                    uid = u;
-                    break;
+                    if (_sport == sport && _dport == dport &&
+                        memcmp(version == 4 ? _daddr4 : _daddr6, daddr, version == 4 ? 4 : 16) ==
+                        0) {
+                        uid = u;
+                        break;
+                    }
                 }
             }
             else
