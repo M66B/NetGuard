@@ -1131,9 +1131,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             listExclude.add(new IPUtil.CIDR("127.0.0.0", 8)); // localhost
 
             if (tethering) {
-                // USB Tethering 192.168.42.x
-                // Wi-Fi Tethering 192.168.43.x
+                // USB tethering 192.168.42.x
+                // Wi-Fi tethering 192.168.43.x
                 listExclude.add(new IPUtil.CIDR("192.168.42.0", 23));
+                // Wi-Fi direct 192.168.49.x
+                listExclude.add(new IPUtil.CIDR("192.168.49.0", 24));
             }
 
             if (lan) {
