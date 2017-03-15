@@ -457,9 +457,12 @@ jint get_uid(const int version, const int protocol,
                                     _sport, dest, _dport, u, line);
                     }
 
-                    if (_sport == sport && _dport == dport &&
-                        memcmp(version == 4 ? _daddr4 : _daddr6, daddr, version == 4 ? 4 : 16) ==
-                        0) {
+                    if (_sport == sport &&
+                        (lasttry || (_dport == dport &&
+                                     memcmp(version == 4
+                                            ? _daddr4
+                                            : _daddr6, daddr,
+                                            version == 4 ? 4 : 16) == 0))) {
                         uid = u;
                         break;
                     }
