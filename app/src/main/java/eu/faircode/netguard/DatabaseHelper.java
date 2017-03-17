@@ -680,7 +680,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // There is a segmented index on uid
             // There is no index on time for write performance
             String query = "SELECT a.ID AS _id, a.*";
-            query += ", (SELECT COUNT(DISTINCT d.qname) FROM dns d WHERE d.resource = (SELECT d1.resource FROM dns d1 WHERE d1.qname = a.daddr)) count";
+            query += ", (SELECT COUNT(DISTINCT d.qname) FROM dns d WHERE d.resource IN (SELECT d1.resource FROM dns d1 WHERE d1.qname = a.daddr)) count";
             query += " FROM access a";
             query += " WHERE a.uid = ?";
             query += " ORDER BY a.time DESC";
@@ -831,6 +831,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (SQLiteDoneException ignored) {
             // Not found
             return null;
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public Cursor getAlternateQNames(String qname) {
+        lock.readLock().lock();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT DISTINCT d2.qname";
+            query += " FROM dns d1";
+            query += " JOIN dns d2";
+            query += "   ON d2.resource = d1.resource AND d2.id <> d1.id";
+            query += " WHERE d1.qname = ?";
+            query += " ORDER BY d2.qname";
+            return db.rawQuery(query, new String[]{qname});
         } finally {
             lock.readLock().unlock();
         }

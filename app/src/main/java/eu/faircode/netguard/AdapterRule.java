@@ -48,7 +48,9 @@ import android.text.style.ImageSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
@@ -634,6 +636,21 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     popup.getMenu().findItem(R.id.menu_host).setTitle(
                             Util.getProtocolName(protocol, version, false) + " " +
                                     daddr + (dport > 0 ? "/" + dport : ""));
+
+                    SubMenu sub = popup.getMenu().findItem(R.id.menu_host).getSubMenu();
+                    boolean multiple = false;
+                    Cursor alt = null;
+                    try {
+                        alt = DatabaseHelper.getInstance(context).getAlternateQNames(daddr);
+                        while (alt.moveToNext()) {
+                            multiple = true;
+                            sub.add(Menu.NONE, Menu.NONE, 0, alt.getString(0)).setEnabled(false);
+                        }
+                    } finally {
+                        if (alt != null)
+                            alt.close();
+                    }
+                    popup.getMenu().findItem(R.id.menu_host).setEnabled(multiple);
 
                     markPro(popup.getMenu().findItem(R.id.menu_allow), ActivityPro.SKU_FILTER);
                     markPro(popup.getMenu().findItem(R.id.menu_block), ActivityPro.SKU_FILTER);
