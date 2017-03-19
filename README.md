@@ -50,9 +50,7 @@ Requirements:
 Downloads:
 
 * [GitHub](https://github.com/M66B/NetGuard/releases)
-* [On Google Play](https://play.google.com/store/apps/details?id=eu.faircode.netguard) (stable)
-* [On Google Play](https://play.google.com/apps/testing/eu.faircode.netguard) (beta)
-* [XDA Labs App](http://forum.xda-developers.com/android/apps-games/labs-t3241866) ([web page](https://labs.xda-developers.com/store/app/eu.faircode.netguard))
+* [Google Play](https://play.google.com/store/apps/details?id=eu.faircode.netguard)
 
 Usage:
 
@@ -248,8 +246,8 @@ Contributing
 
 Building is simple, if you install the right tools:
 
-* [Android Studio 2.1](http://developer.android.com/sdk/)
-* [Android NDK r12](http://developer.android.com/tools/sdk/ndk/)
+* [Android Studio](http://developer.android.com/sdk/)
+* [Android NDK](http://developer.android.com/tools/sdk/ndk/)
 
 The native code is built as part of the Android Studio project.
 
@@ -278,7 +276,7 @@ License
 
 [GNU General Public License version 3](http://www.gnu.org/licenses/gpl.txt)
 
-Copyright (c) 2015-2016 Marcel Bokhorst ([M66B](http://forum.xda-developers.com/member.php?u=2799345))
+Copyright (c) 2015-2017 Marcel Bokhorst ([M66B](http://forum.xda-developers.com/member.php?u=2799345))
 
 All rights reserved
 
