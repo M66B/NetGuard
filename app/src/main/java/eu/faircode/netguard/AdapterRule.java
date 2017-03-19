@@ -499,17 +499,17 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             }
         });
 
+        // Show mobile screen on condition
+        holder.llScreenOther.setVisibility(screen_on ? View.VISIBLE : View.GONE);
+        holder.cbScreenOther.setEnabled(rule.other_blocked && rule.apply);
+        holder.cbScreenOther.setOnCheckedChangeListener(null);
+        holder.cbScreenOther.setChecked(rule.screen_other);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrap = DrawableCompat.wrap(holder.ivOtherLegend.getDrawable());
             DrawableCompat.setTint(wrap, colorOn);
         }
 
-        // Show mobile screen on condition
-        holder.llScreenOther.setVisibility(screen_on ? View.VISIBLE : View.GONE);
-        holder.cbScreenOther.setEnabled(rule.other_blocked && rule.apply);
-        holder.cbScreenOther.setOnCheckedChangeListener(null);
-        holder.cbScreenOther.setChecked(rule.screen_other);
         holder.cbScreenOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
