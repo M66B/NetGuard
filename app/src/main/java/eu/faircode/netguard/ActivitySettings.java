@@ -1120,6 +1120,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlExport(getSharedPreferences("screen_other", Context.MODE_PRIVATE), serializer);
         serializer.endTag(null, "screen_other");
 
+        serializer.startTag(null, "roaming");
+        xmlExport(getSharedPreferences("roaming", Context.MODE_PRIVATE), serializer);
+        serializer.endTag(null, "roaming");
+
         serializer.startTag(null, "apply");
         xmlExport(getSharedPreferences("apply", Context.MODE_PRIVATE), serializer);
         serializer.endTag(null, "apply");
