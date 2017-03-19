@@ -276,7 +276,7 @@ License
 
 [GNU General Public License version 3](http://www.gnu.org/licenses/gpl.txt)
 
-Copyright (c) 2015-2017 Marcel Bokhorst ([M66B](http://forum.xda-developers.com/member.php?u=2799345))
+Copyright (c) 2015-2017 Marcel Bokhorst ([M66B](https://contact.faircode.eu/))
 
 All rights reserved
 
