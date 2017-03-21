@@ -70,6 +70,8 @@
   <string name="setting_metered_3g">Considera il 3G non al consumo</string>
   <string name="setting_metered_4g">Considera LTE non al consumo</string>
   <string name="setting_national_roaming">Ignora roaming nazionale</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Opzioni avanzate</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
   <string name="setting_log_app">Registra accessi a internet</string>

@@ -71,6 +71,8 @@
   <string name="setting_metered_3g">Considerar 3G ilimitado</string>
   <string name="setting_metered_4g">Considerar 4G ilimitado</string>
   <string name="setting_national_roaming">Ignorar roaming nacional</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Opções avançadas</string>
   <string name="setting_system">Administrar aplicativos do sistema</string>
   <string name="setting_log_app">Registrar acesso à internet</string>

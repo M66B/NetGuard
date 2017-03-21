@@ -70,6 +70,8 @@
   <string name="setting_metered_3g">Przyjmuj 3G za nietaryfowe</string>
   <string name="setting_metered_4g">Przyjmuj LTE za nietaryfowe</string>
   <string name="setting_national_roaming">Ignoruj roaming krajowy</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Opcje zaawansowane</string>
   <string name="setting_system">Zarządzaj aplikacjami systemowymi</string>
   <string name="setting_log_app">Loguj dostęp do internetu</string>

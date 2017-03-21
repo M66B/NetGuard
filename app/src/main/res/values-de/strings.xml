@@ -71,6 +71,8 @@
   <string name="setting_metered_3g">3G als “nicht volumenbeschränkt“ betrachten</string>
   <string name="setting_metered_4g">LTE als “nicht volumenbeschränkt“ betrachten</string>
   <string name="setting_national_roaming">Nationales Roaming ignorieren</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Erweiterte Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_log_app">Internetzugriff protokollieren</string>

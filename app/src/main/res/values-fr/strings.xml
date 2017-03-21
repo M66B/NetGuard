@@ -70,6 +70,8 @@
   <string name="setting_metered_3g">Considérer 3G illimité</string>
   <string name="setting_metered_4g">Considérer LTE illimité</string>
   <string name="setting_national_roaming">Ignorer l\'itinérance nationale</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Options avancées</string>
   <string name="setting_system">Gérer les applications système</string>
   <string name="setting_log_app">Journaliser l\'accès internet</string>

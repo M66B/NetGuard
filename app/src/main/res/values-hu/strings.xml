@@ -70,6 +70,8 @@
   <string name="setting_metered_3g">Méretlen 3G megfontolása</string>
   <string name="setting_metered_4g">Méretlen LTE megfontolása</string>
   <string name="setting_national_roaming">Belföldi roaming figyelmen kívül hagyása</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Speciális beállítások</string>
   <string name="setting_system">Rendszer alkalmazások kezelése</string>
   <string name="setting_log_app">Internet hozzáférés naplózása</string>

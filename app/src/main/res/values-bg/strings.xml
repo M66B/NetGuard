@@ -70,6 +70,8 @@
   <string name="setting_metered_3g">Приемане на 3G за неограничен достъп</string>
   <string name="setting_metered_4g">Приемане на LTE за неограничен достъп</string>
   <string name="setting_national_roaming">Игнориране на национален роуминг</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Разширени настройки</string>
   <string name="setting_system">Управление на системни приложения</string>
   <string name="setting_log_app">Регистриране на достъпа до интернет във файл</string>

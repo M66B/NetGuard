@@ -70,6 +70,8 @@
   <string name="setting_metered_3g">3G unmetered சிந்திக்கவும்</string>
   <string name="setting_metered_4g">LTE unmetered சிந்திக்கவும்</string>
   <string name="setting_national_roaming">தேசிய சுற்றும் புறக்கணி</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">மேம்பட்ட விருப்பங்கள்</string>
   <string name="setting_system">கணினி பயன்பாடுகள் நிர்வகி</string>
   <string name="setting_log_app">பதிவை இணைய அணுகல்</string>

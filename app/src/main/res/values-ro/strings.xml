@@ -70,6 +70,8 @@
   <string name="setting_metered_3g">Considera 3G necontorizat</string>
   <string name="setting_metered_4g">Considera 4G/LTE necontorizat</string>
   <string name="setting_national_roaming">Ignora roamingul national</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Optiuni avansate</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_log_app">Inregistreaza in jurnal accesul la internet</string>

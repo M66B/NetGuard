@@ -71,6 +71,8 @@
   <string name="setting_metered_3g">Не враховувати 3G</string>
   <string name="setting_metered_4g">Не враховувати LTE</string>
   <string name="setting_national_roaming">Ігнорувати національний роумінг</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Розширені параметри</string>
   <string name="setting_system">Керувати системними додатками</string>
   <string name="setting_log_app">Журнал доступу до мережі інтернет</string>

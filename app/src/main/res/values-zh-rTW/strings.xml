@@ -72,6 +72,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_metered_3g">視作3G</string>
   <string name="setting_metered_4g">視作LTE</string>
   <string name="setting_national_roaming">忽略國際漫遊</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">進階選項</string>
   <string name="setting_system">管理系統程式</string>
   <string name="setting_log_app">Log internet access</string>

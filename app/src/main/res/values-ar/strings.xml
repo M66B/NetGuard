@@ -70,6 +70,8 @@
   <string name="setting_metered_3g">إعـــتـــبـــر الـــجـــيـــل الـــثـــالـــث غـــيـــر مـــقـــاس</string>
   <string name="setting_metered_4g">إعتبر شبكات LTE غير مقاسة</string>
   <string name="setting_national_roaming">تـــجـــاهـــل خـــدمـــة الـــتـــجـــوال الـــمـــحـــلـــيـــة</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">خيارات متقدمة</string>
   <string name="setting_system">إدارة تطبيقات النظام</string>
   <string name="setting_log_app">سجل الوصول للإنترنت</string>

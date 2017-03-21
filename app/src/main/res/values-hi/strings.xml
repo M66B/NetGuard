@@ -72,6 +72,8 @@
   <string name="setting_metered_3g">3G unmetered चुनें</string>
   <string name="setting_metered_4g">LTE unmetered चुनें</string>
   <string name="setting_national_roaming">राष्ट्रीय रोमिंग पर ध्यान न दें</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">उन्नत विकल्प</string>
   <string name="setting_system">सिस्टम अनुप्रयोग प्रबंधित करें</string>
   <string name="setting_log_app">इंटरनेट उपयोग लॉग करें</string>

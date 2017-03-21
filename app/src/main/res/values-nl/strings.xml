@@ -71,6 +71,8 @@
   <string name="setting_metered_3g">Beschouw 3G als ongemeten</string>
   <string name="setting_metered_4g">Beschouw LTE als ongemeten</string>
   <string name="setting_national_roaming">Negeer nationaal roaming</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Geavanceerde opties</string>
   <string name="setting_system">Beheer systeemapplicaties</string>
   <string name="setting_log_app">Log internet-toegang</string>

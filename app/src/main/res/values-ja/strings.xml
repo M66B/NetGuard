@@ -71,12 +71,14 @@
   <string name="setting_metered_3g">定額制 3G を考慮する</string>
   <string name="setting_metered_4g">定額制 LTE を考慮する</string>
   <string name="setting_national_roaming">国内ローミングを無視する</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">詳細オプション</string>
   <string name="setting_system">システムアプリケーションの管理</string>
   <string name="setting_log_app">インター ネット アクセスをログ</string>
   <string name="setting_access">インター ネット アクセス時に通知</string>
   <string name="setting_filter">トラフィックをフィルター</string>
-  <string name="setting_lockdown">Lockdown traffic</string>
+  <string name="setting_lockdown">ロックダウン トラフィック</string>
   <string name="setting_track_usage">ネットワークの使用状況を追跡</string>
   <string name="setting_reset_usage">ネットワークの使用状況をリセット</string>
   <string name="setting_show_resolved">解決済みのドメイン名を表示</string>
@@ -185,7 +187,7 @@
   <string name="msg_issue">問題の説明と、問題の時間を示してください:</string>
   <string name="msg_vpn_cancelled">VPN 接続がキャンセルされました\n別の VPN を設定して、常に VPN をオンにしますか?</string>
   <string name="msg_on">NetGuard を有効にして、デバイスの電源を切ります。お使いのデバイスの電源投入時に NetGuard が自動的に開始されます</string>
-  <string name="title_lockdown_enabled">Traffic is locked down</string>
+  <string name="title_lockdown_enabled">トラフィックがロックダウンされます</string>
   <string name="title_unmetered_allowed">無制限のトラフィックを許可</string>
   <string name="title_unmetered_blocked">無制限のトラフィックをブロック</string>
   <string name="title_unmetered_disabled">定額制は適用されません</string>
@@ -205,7 +207,7 @@
   <string name="title_screen_other">画面がオンのときモバイル通信を許可する</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">ローミング時にブロック</string>
-  <string name="title_lockdown">Allow in lockdown mode</string>
+  <string name="title_lockdown">ロックダウン モードを許可</string>
   <string name="title_related">フィルター関連</string>
   <string name="title_access">アクセスの試行</string>
   <string name="title_precedence">アクセス ルールは他のルールよりも優先します</string>

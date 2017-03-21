@@ -70,6 +70,8 @@
   <string name="setting_metered_3g">Considerar 3G ilimitado</string>
   <string name="setting_metered_4g">Considerar LTE ilimitado</string>
   <string name="setting_national_roaming">Ignorar Roaming nacional</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Opções avançadas</string>
   <string name="setting_system">Administrar aplicações de siistema</string>
   <string name="setting_log_app">Registar acesso à internet</string>

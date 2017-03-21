@@ -72,6 +72,8 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_metered_3g">Považovať 3G za nemeranú sieť</string>
   <string name="setting_metered_4g">Považovať LTE za nemeranú sieť</string>
   <string name="setting_national_roaming">Ignorovať národný roaming</string>
+  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
+  <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Pokročilé možnosti</string>
   <string name="setting_system">Spravovať systémové aplikácie</string>
   <string name="setting_log_app">Zaznamenávať prístup k internetu</string>
