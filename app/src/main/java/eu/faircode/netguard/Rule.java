@@ -72,6 +72,7 @@ public class Rule {
     public boolean screen_wifi = false;
     public boolean screen_other = false;
     public boolean roaming = false;
+    public boolean lockdown = false;
 
     public boolean apply = true;
     public boolean notify = true;
@@ -266,6 +267,7 @@ public class Rule {
         SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
         SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
+        SharedPreferences lockdown = context.getSharedPreferences("lockdown", Context.MODE_PRIVATE);
         SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
         SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
 
@@ -388,6 +390,7 @@ public class Rule {
                     rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default) && screen_on;
                     rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default) && screen_on;
                     rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
+                    rule.lockdown = lockdown.getBoolean(info.packageName, false);
 
                     rule.apply = apply.getBoolean(info.packageName, true);
                     rule.notify = notify.getBoolean(info.packageName, true);
@@ -477,7 +480,7 @@ public class Rule {
                 (wifi_blocked && screen_wifi != screen_wifi_default) ||
                 (other_blocked && screen_other != screen_other_default) ||
                 ((!other_blocked || screen_other) && roaming != default_roaming) ||
-                !apply);
+                lockdown || !apply);
     }
 
     public void updateChanged(Context context) {

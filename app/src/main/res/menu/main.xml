@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:netguard="http://schemas.android.com/apk/res-auto">
+      xmlns:netguard="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/menu_search"
         netguard:actionViewClass="android.support.v7.widget.SearchView"
-        netguard:showAsAction="always|collapseActionView" />
+        netguard:showAsAction="always|collapseActionView"/>
     <item
         android:id="@+id/menu_filter"
         android:icon="@drawable/ic_filter_list_white_24dp"
@@ -16,19 +16,19 @@
             <item
                 android:id="@+id/menu_app_user"
                 android:checkable="true"
-                android:title="@string/menu_app_user" />
+                android:title="@string/menu_app_user"/>
             <item
                 android:id="@+id/menu_app_system"
                 android:checkable="true"
-                android:title="@string/menu_app_system" />
+                android:title="@string/menu_app_system"/>
             <item
                 android:id="@+id/menu_app_nointernet"
                 android:checkable="true"
-                android:title="@string/menu_app_nointernet" />
+                android:title="@string/menu_app_nointernet"/>
             <item
                 android:id="@+id/menu_app_disabled"
                 android:checkable="true"
-                android:title="@string/menu_app_disabled" />
+                android:title="@string/menu_app_disabled"/>
         </menu>
     </item>
     <item
@@ -40,35 +40,39 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/menu_sort_name"
-                    android:title="@string/menu_sort_name" />
+                    android:title="@string/menu_sort_name"/>
                 <item
                     android:id="@+id/menu_sort_uid"
-                    android:title="@string/menu_sort_uid" />
+                    android:title="@string/menu_sort_uid"/>
                 <item
                     android:id="@+id/menu_sort_data"
-                    android:title="@string/menu_sort_data" />
+                    android:title="@string/menu_sort_data"/>
             </group>
         </menu>
     </item>
     <item
+        android:id="@+id/menu_lockdown"
+        android:checkable="true"
+        android:title="@string/setting_lockdown"/>
+    <item
         android:id="@+id/menu_log"
-        android:title="@string/menu_log" />
+        android:title="@string/menu_log"/>
     <item
         android:id="@+id/menu_settings"
-        android:title="@string/menu_settings" />
+        android:title="@string/menu_settings"/>
     <item
         android:id="@+id/menu_pro"
-        android:title="@string/title_pro" />
+        android:title="@string/title_pro"/>
     <item
         android:id="@+id/menu_invite"
-        android:title="@string/menu_invite" />
+        android:title="@string/menu_invite"/>
     <item
         android:id="@+id/menu_legend"
-        android:title="@string/menu_legend" />
+        android:title="@string/menu_legend"/>
     <item
         android:id="@+id/menu_support"
-        android:title="@string/menu_support" />
+        android:title="@string/menu_support"/>
     <item
         android:id="@+id/menu_about"
-        android:title="@string/menu_about" />
+        android:title="@string/menu_about"/>
 </menu>

@@ -65,6 +65,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -101,6 +102,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         public TextView tvHosts;
 
+        public RelativeLayout rlLockdown;
+        public ImageView ivLockdown;
+
         public CheckBox cbWifi;
         public ImageView ivScreenWifi;
 
@@ -134,6 +138,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         public CheckBox cbRoaming;
 
+        public CheckBox cbLockdown;
+        public ImageView ivLockdownLegend;
+
         public ImageButton btnClear;
 
         public ImageView ivLive;
@@ -154,6 +161,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             tvName = (TextView) itemView.findViewById(R.id.tvName);
 
             tvHosts = (TextView) itemView.findViewById(R.id.tvHosts);
+
+            rlLockdown = (RelativeLayout) itemView.findViewById(R.id.rlLockdown);
+            ivLockdown = (ImageView) itemView.findViewById(R.id.ivLockdown);
 
             cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
             ivScreenWifi = (ImageView) itemView.findViewById(R.id.ivScreenWifi);
@@ -187,6 +197,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             cbScreenOther = (CheckBox) itemView.findViewById(R.id.cbScreenOther);
 
             cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
+
+            cbLockdown = (CheckBox) itemView.findViewById(R.id.cbLockdown);
+            ivLockdownLegend = (ImageView) itemView.findViewById(R.id.ivLockdownLegend);
 
             btnClear = (ImageButton) itemView.findViewById(R.id.btnClear);
 
@@ -355,6 +368,15 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 }
             }
         }.execute();
+
+        // Lockdown settings
+        boolean lockdown = prefs.getBoolean("lockdown", false);
+        holder.rlLockdown.setVisibility(lockdown && !rule.lockdown ? View.VISIBLE : View.GONE);
+        holder.ivLockdown.setEnabled(rule.apply);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrap = DrawableCompat.wrap(holder.ivLockdown.getDrawable());
+            DrawableCompat.setTint(wrap, rule.apply ? colorOff : colorGrayed);
+        }
 
         boolean screen_on = prefs.getBoolean("screen_on", true);
 
@@ -535,6 +557,25 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             }
         });
 
+        // Show lockdown
+        holder.cbLockdown.setEnabled(rule.apply);
+        holder.cbLockdown.setOnCheckedChangeListener(null);
+        holder.cbLockdown.setChecked(rule.lockdown);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrap = DrawableCompat.wrap(holder.ivLockdownLegend.getDrawable());
+            DrawableCompat.setTint(wrap, colorOn);
+        }
+
+        holder.cbLockdown.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            @TargetApi(Build.VERSION_CODES.M)
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                rule.lockdown = isChecked;
+                updateRule(rule, true, listAll);
+            }
+        });
+
         // Reset rule
         holder.btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -548,6 +589,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                         holder.cbScreenWifi.setChecked(rule.screen_wifi_default);
                         holder.cbScreenOther.setChecked(rule.screen_other_default);
                         holder.cbRoaming.setChecked(rule.roaming_default);
+                        holder.cbLockdown.setChecked(false);
                     }
                 });
             }
@@ -771,6 +813,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
         SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
         SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
+        SharedPreferences lockdown = context.getSharedPreferences("lockdown", Context.MODE_PRIVATE);
         SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
 
         if (rule.wifi_blocked == rule.wifi_default)
@@ -803,6 +846,11 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         else
             roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();
 
+        if (rule.lockdown)
+            lockdown.edit().putBoolean(rule.info.packageName, rule.lockdown).apply();
+        else
+            lockdown.edit().remove(rule.info.packageName).apply();
+
         if (rule.notify)
             notify.edit().remove(rule.info.packageName).apply();
         else
@@ -821,6 +869,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     related.screen_wifi = rule.screen_wifi;
                     related.screen_other = rule.screen_other;
                     related.roaming = rule.roaming;
+                    related.lockdown = rule.lockdown;
                     related.notify = rule.notify;
                     listModified.add(related);
                 }

@@ -193,6 +193,16 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".ServiceTileLockdown"
+            android:icon="@drawable/ic_lock_outline_white_24dp"
+            android:label="@string/setting_lockdown"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <receiver
             android:name=".Receiver"
             android:label="@string/app_name">

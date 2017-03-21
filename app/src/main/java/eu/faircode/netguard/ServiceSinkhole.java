@@ -1562,6 +1562,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean national = prefs.getBoolean("national_roaming", false);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
+        boolean lockdown = prefs.getBoolean("lockdown", false);
 
         // Update connected state
         last_connected = Util.isConnected(ServiceSinkhole.this);
@@ -1599,13 +1600,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 " roaming=" + roaming + "/" + org_roaming +
                 " interactive=" + last_interactive +
                 " tethering=" + tethering +
-                " filter=" + filter);
+                " filter=" + filter +
+                " lockdown=" + lockdown);
 
         if (last_connected)
             for (Rule rule : listRule) {
                 boolean blocked = (metered ? rule.other_blocked : rule.wifi_blocked);
                 boolean screen = (metered ? rule.screen_other : rule.screen_wifi);
-                if ((!blocked || (screen && last_interactive)) && (!metered || !(rule.roaming && roaming)))
+                if ((!blocked || (screen && last_interactive)) &&
+                        (!metered || !(rule.roaming && roaming)) &&
+                        (!lockdown || rule.lockdown))
                     listAllowed.add(rule);
             }
 

@@ -765,6 +765,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             menu.findItem(R.id.menu_sort_name).setChecked(true);
 
 
+        menu.findItem(R.id.menu_lockdown).setChecked(prefs.getBoolean("lockdown", false));
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -808,6 +810,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             case R.id.menu_sort_data:
                 item.setChecked(true);
                 prefs.edit().putString("sort", "data").apply();
+                return true;
+
+            case R.id.menu_lockdown:
+                item.setChecked(!item.isChecked());
+                prefs.edit().putBoolean("lockdown", item.isChecked()).apply();
+                ServiceSinkhole.reload("lockdown", this);
                 return true;
 
             case R.id.menu_log:
@@ -1158,6 +1166,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Create view
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.legend, null, false);
+        ImageView ivLockdownOn = (ImageView) view.findViewById(R.id.ivLockdownOn);
         ImageView ivWifiOn = (ImageView) view.findViewById(R.id.ivWifiOn);
         ImageView ivWifiOff = (ImageView) view.findViewById(R.id.ivWifiOff);
         ImageView ivOtherOn = (ImageView) view.findViewById(R.id.ivOtherOn);
@@ -1166,6 +1175,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         ImageView ivHostAllowed = (ImageView) view.findViewById(R.id.ivHostAllowed);
         ImageView ivHostBlocked = (ImageView) view.findViewById(R.id.ivHostBlocked);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            Drawable wrapLockdownOn = DrawableCompat.wrap(ivLockdownOn.getDrawable());
             Drawable wrapWifiOn = DrawableCompat.wrap(ivWifiOn.getDrawable());
             Drawable wrapWifiOff = DrawableCompat.wrap(ivWifiOff.getDrawable());
             Drawable wrapOtherOn = DrawableCompat.wrap(ivOtherOn.getDrawable());
@@ -1174,6 +1184,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Drawable wrapHostAllowed = DrawableCompat.wrap(ivHostAllowed.getDrawable());
             Drawable wrapHostBlocked = DrawableCompat.wrap(ivHostBlocked.getDrawable());
 
+            DrawableCompat.setTint(wrapLockdownOn, colorOff);
             DrawableCompat.setTint(wrapWifiOn, colorOn);
             DrawableCompat.setTint(wrapWifiOff, colorOff);
             DrawableCompat.setTint(wrapOtherOn, colorOn);
