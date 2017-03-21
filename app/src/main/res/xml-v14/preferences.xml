@@ -9,29 +9,29 @@
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="whitelist_wifi"
-                android:title="@string/setting_whitelist_wifi" />
+                android:title="@string/setting_whitelist_wifi"/>
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="whitelist_other"
-                android:title="@string/setting_whitelist_other" />
+                android:title="@string/setting_whitelist_other"/>
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="screen_on"
-                android:title="@string/setting_screen_on" />
+                android:title="@string/setting_screen_on"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="screen_on"
                 android:key="screen_wifi"
-                android:title="@string/setting_screen_wifi" />
+                android:title="@string/setting_screen_wifi"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="screen_on"
                 android:key="screen_other"
-                android:title="@string/setting_screen_other" />
+                android:title="@string/setting_screen_other"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="whitelist_roaming"
-                android:title="@string/setting_whitelist_roaming" />
+                android:title="@string/setting_whitelist_roaming"/>
         </PreferenceCategory>
     </PreferenceScreen>
 
@@ -45,31 +45,31 @@
                 android:defaultValue="teal"
                 android:entries="@array/themeNames"
                 android:entryValues="@array/themeValues"
-                android:key="theme" />
+                android:key="theme"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="dark_theme"
-                android:title="@string/setting_dark" />
+                android:title="@string/setting_dark"/>
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="install"
                 android:summary="@string/summary_install"
-                android:title="@string/setting_install" />
+                android:title="@string/setting_install"/>
             <EditTextPreference
                 android:defaultValue="0"
                 android:inputType="number"
                 android:key="auto_enable"
-                android:summary="@string/summary_auto" />
+                android:summary="@string/summary_auto"/>
             <EditTextPreference
                 android:defaultValue="0"
                 android:inputType="number"
                 android:key="screen_delay"
-                android:summary="@string/summary_delay" />
+                android:summary="@string/summary_delay"/>
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="update_check"
                 android:summary="@string/summary_update"
-                android:title="@string/setting_update" />
+                android:title="@string/setting_update"/>
         </PreferenceCategory>
     </PreferenceScreen>
 
@@ -83,53 +83,61 @@
                 android:defaultValue="false"
                 android:key="subnet"
                 android:summary="@string/summary_subnet"
-                android:title="@string/setting_subnet" />
+                android:title="@string/setting_subnet"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="subnet"
                 android:key="tethering"
                 android:summary="@string/summary_tethering"
-                android:title="@string/setting_tethering" />
+                android:title="@string/setting_tethering"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="subnet"
                 android:key="lan"
                 android:summary="@string/summary_lan"
-                android:title="@string/setting_lan" />
+                android:title="@string/setting_lan"/>
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="ip6"
                 android:summary="@string/summary_ip6"
-                android:title="@string/setting_ip6" />
+                android:title="@string/setting_ip6"/>
             <MultiSelectListPreference
                 android:defaultValue="@array/default_wifi_home"
                 android:key="wifi_homes"
-                android:summary="@string/summary_wifi_home" />
+                android:summary="@string/summary_wifi_home"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="use_metered"
                 android:summary="@string/summary_metered"
-                android:title="@string/setting_metered" />
+                android:title="@string/setting_metered"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="unmetered_2g"
                 android:summary="@string/summary_metered_2g"
-                android:title="@string/setting_metered_2g" />
+                android:title="@string/setting_metered_2g"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="unmetered_3g"
                 android:summary="@string/summary_metered_3g"
-                android:title="@string/setting_metered_3g" />
+                android:title="@string/setting_metered_3g"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="unmetered_4g"
                 android:summary="@string/summary_metered_4g"
-                android:title="@string/setting_metered_4g" />
+                android:title="@string/setting_metered_4g"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="national_roaming"
                 android:summary="@string/summary_national_roaming"
-                android:title="@string/setting_national_roaming" />
+                android:title="@string/setting_national_roaming"/>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="lockdown_wifi"
+                android:title="@string/setting_lockdown_wifi"/>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="lockdown_other"
+                android:title="@string/setting_lockdown_other"/>
         </PreferenceCategory>
     </PreferenceScreen>
 
@@ -143,108 +151,108 @@
                 android:defaultValue="false"
                 android:key="manage_system"
                 android:summary="@string/summary_system"
-                android:title="@string/setting_system" />
+                android:title="@string/setting_system"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="log_app"
                 android:summary="@string/summary_log_app"
-                android:title="@string/setting_log_app" />
+                android:title="@string/setting_log_app"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="log_app"
                 android:key="notify_access"
                 android:summary="@string/summary_access"
-                android:title="@string/setting_access" />
+                android:title="@string/setting_access"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="filter"
                 android:summary="@string/summary_filter"
-                android:title="@string/setting_filter" />
+                android:title="@string/setting_filter"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="filter"
                 android:key="track_usage"
                 android:summary="@string/summary_track_usage"
-                android:title="@string/setting_track_usage" />
+                android:title="@string/setting_track_usage"/>
             <Preference
                 android:key="reset_usage"
-                android:title="@string/setting_reset_usage" />
+                android:title="@string/setting_reset_usage"/>
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:dependency="filter"
                 android:key="use_hosts"
                 android:summary="@string/summary_block_domains"
-                android:title="@string/setting_block_domains" />
+                android:title="@string/setting_block_domains"/>
             <EditTextPreference
                 android:dependency="filter"
                 android:inputType="number"
                 android:key="rcode"
-                android:summary="@string/summary_rcode" />
+                android:summary="@string/summary_rcode"/>
             <Preference
                 android:dependency="filter"
                 android:key="forwarding"
-                android:title="@string/setting_forwarding" />
+                android:title="@string/setting_forwarding"/>
             <EditTextPreference
                 inputType="phone"
                 android:hint="10.1.10.1"
                 android:inputType="phone"
-                android:key="vpn4" />
+                android:key="vpn4"/>
             <EditTextPreference
                 android:hint="fd00:1:fd00:1:fd00:1:fd00:1"
                 android:inputType="text"
-                android:key="vpn6" />
+                android:key="vpn6"/>
             <EditTextPreference
                 android:dependency="filter"
                 android:inputType="text"
-                android:key="dns" />
+                android:key="dns"/>
             <EditTextPreference
                 android:dependency="filter"
                 android:inputType="text"
-                android:key="dns2" />
+                android:key="dns2"/>
             <EditTextPreference
                 android:dependency="filter"
                 android:inputType="number"
-                android:key="ttl" />
+                android:key="ttl"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="filter"
                 android:key="socks5_enabled"
                 android:summary="@string/summary_socks5_enabled"
-                android:title="@string/setting_socks5_enabled" />
+                android:title="@string/setting_socks5_enabled"/>
             <EditTextPreference
                 android:dependency="filter"
                 android:hint="127.0.0.1"
                 android:inputType="text"
-                android:key="socks5_addr" />
+                android:key="socks5_addr"/>
             <EditTextPreference
                 android:dependency="filter"
                 android:hint="1080"
                 android:inputType="text"
-                android:key="socks5_port" />
+                android:key="socks5_port"/>
             <EditTextPreference
                 android:dependency="filter"
                 android:inputType="text"
-                android:key="socks5_username" />
+                android:key="socks5_username"/>
             <EditTextPreference
                 android:dependency="filter"
                 android:inputType="textPassword"
-                android:key="socks5_password" />
+                android:key="socks5_password"/>
             <EditTextPreference
                 android:defaultValue="64"
                 android:inputType="number"
-                android:key="pcap_record_size" />
+                android:key="pcap_record_size"/>
             <EditTextPreference
                 android:defaultValue="2"
                 android:inputType="number"
-                android:key="pcap_file_size" />
+                android:key="pcap_file_size"/>
             <EditTextPreference
                 android:defaultValue="0"
                 android:inputType="number"
                 android:key="watchdog"
-                android:summary="@string/summary_watchdog" />
+                android:summary="@string/summary_watchdog"/>
             <Preference
                 android:key="show_resolved"
-                android:title="@string/setting_show_resolved" />
+                android:title="@string/setting_show_resolved"/>
         </PreferenceCategory>
     </PreferenceScreen>
 
@@ -258,22 +266,22 @@
                 android:defaultValue="false"
                 android:key="show_stats"
                 android:summary="@string/summary_stats"
-                android:title="@string/setting_stats" />
+                android:title="@string/setting_stats"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="show_stats"
                 android:key="show_top"
-                android:title="@string/setting_stats_top" />
+                android:title="@string/setting_stats_top"/>
             <EditTextPreference
                 android:defaultValue="1000"
                 android:dependency="show_stats"
                 android:inputType="number"
-                android:key="stats_frequency" />
+                android:key="stats_frequency"/>
             <EditTextPreference
                 android:defaultValue="90"
                 android:dependency="show_stats"
                 android:inputType="number"
-                android:key="stats_samples" />
+                android:key="stats_samples"/>
         </PreferenceCategory>
     </PreferenceScreen>
 
@@ -285,22 +293,22 @@
             android:title="@string/setting_backup">
             <Preference
                 android:key="export"
-                android:title="@string/setting_export" />
+                android:title="@string/setting_export"/>
             <Preference
                 android:key="import"
-                android:title="@string/setting_import" />
+                android:title="@string/setting_import"/>
             <Preference
                 android:key="hosts_import"
-                android:title="@string/setting_hosts" />
+                android:title="@string/setting_hosts"/>
             <EditTextPreference
                 android:defaultValue="https://www.netguard.me/hosts"
                 android:hint="https://www.netguard.me/hosts"
                 android:key="hosts_url"
-                android:title="@string/setting_hosts_url" />
+                android:title="@string/setting_hosts_url"/>
             <Preference
                 android:dependency="hosts_url"
                 android:key="hosts_download"
-                android:title="@string/setting_hosts_download" />
+                android:title="@string/setting_hosts_download"/>
         </PreferenceCategory>
     </PreferenceScreen>
 
@@ -316,15 +324,15 @@
                 android:entryValues="@array/logLevelValues"
                 android:key="loglevel"
                 android:summary="Log level verbose, debug and info will impact performance and battery usage"
-                android:title="Native log level" />
+                android:title="Native log level"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="debug_iab"
-                android:title="Debug IAB" />
+                android:title="Debug IAB"/>
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="debug_ads"
-                android:title="Debug advertisements" />
+                android:title="Debug advertisements"/>
         </PreferenceCategory>
     </PreferenceScreen>
 
@@ -336,13 +344,13 @@
             android:title="@string/setting_technical">
             <Preference
                 android:key="technical_info"
-                android:title="@string/setting_technical_general" />
+                android:title="@string/setting_technical_general"/>
             <Preference
                 android:key="technical_network"
-                android:title="@string/setting_technical_networks" />
+                android:title="@string/setting_technical_networks"/>
             <Preference
                 android:key="technical_subscription"
-                android:title="@string/setting_technical_subscription" />
+                android:title="@string/setting_technical_subscription"/>
         </PreferenceCategory>
     </PreferenceScreen>
 </PreferenceScreen>

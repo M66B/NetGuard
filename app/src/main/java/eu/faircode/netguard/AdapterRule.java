@@ -371,6 +371,11 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         // Lockdown settings
         boolean lockdown = prefs.getBoolean("lockdown", false);
+        boolean lockdown_wifi = prefs.getBoolean("lockdown_wifi", true);
+        boolean lockdown_other = prefs.getBoolean("lockdown_other", true);
+        if ((otherActive && !lockdown_other) || (wifiActive && !lockdown_wifi))
+            lockdown = false;
+
         holder.rlLockdown.setVisibility(lockdown && !rule.lockdown ? View.VISIBLE : View.GONE);
         holder.ivLockdown.setEnabled(rule.apply);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {

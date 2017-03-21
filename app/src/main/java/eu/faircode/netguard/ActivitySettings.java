@@ -582,8 +582,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             } else
                 ServiceSinkhole.reload("changed " + name, this);
 
+        } else if ("lockdown_wifi".equals(name) || "lockdown_other".equals(name))
+            ServiceSinkhole.reload("changed " + name, this);
 
-        } else if ("manage_system".equals(name)) {
+        else if ("manage_system".equals(name)) {
             boolean manage = prefs.getBoolean(name, false);
             if (!manage)
                 prefs.edit().putBoolean("show_user", true).apply();

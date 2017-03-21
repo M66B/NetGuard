@@ -1431,9 +1431,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     private void prepareUidIPFilters(String dname) {
-        SharedPreferences plockdown = getSharedPreferences("lockdown", Context.MODE_PRIVATE);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-        boolean lockdown = prefs.getBoolean("lockdown", false);
+        SharedPreferences lockdown = getSharedPreferences("lockdown", Context.MODE_PRIVATE);
 
         lock.writeLock().lock();
 
@@ -1466,10 +1464,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             long time = cursor.getLong(colTime);
             long ttl = cursor.getLong(colTTL);
 
-            if (lockdown) {
+            if (isLockedDown(last_metered)) {
                 String[] pkg = getPackageManager().getPackagesForUid(uid);
                 if (pkg != null && pkg.length > 0) {
-                    if (!plockdown.getBoolean(pkg[0], false))
+                    if (!lockdown.getBoolean(pkg[0], false))
                         continue;
                 }
             }
@@ -1556,6 +1554,17 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         lock.writeLock().unlock();
     }
 
+    private boolean isLockedDown(boolean metered) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+        boolean lockdown = prefs.getBoolean("lockdown", false);
+        boolean lockdown_wifi = prefs.getBoolean("lockdown_wifi", true);
+        boolean lockdown_other = prefs.getBoolean("lockdown_other", true);
+        if (metered ? !lockdown_other : !lockdown_wifi)
+            lockdown = false;
+
+        return lockdown;
+    }
+
     private List<Rule> getAllowedRules(List<Rule> listRule) {
         List<Rule> listAllowed = new ArrayList<>();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -1574,7 +1583,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean national = prefs.getBoolean("national_roaming", false);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
-        boolean lockdown = prefs.getBoolean("lockdown", false);
 
         // Update connected state
         last_connected = Util.isConnected(ServiceSinkhole.this);
@@ -1597,6 +1605,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (unmetered_4g && "4G".equals(generation))
             metered = false;
         last_metered = metered;
+
+        boolean lockdown = isLockedDown(last_metered);
 
         // Update roaming state
         if (roaming && national)
@@ -2202,16 +2212,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     private Notification getEnforcingNotification(int allowed, int blocked, int hosts) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean lockdown = prefs.getBoolean("lockdown", false);
-
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(lockdown ? R.drawable.ic_lock_outline_white_24dp : R.drawable.ic_security_white_24dp)
+                .setSmallIcon(isLockedDown(last_metered) ? R.drawable.ic_lock_outline_white_24dp : R.drawable.ic_security_white_24dp)
                 .setContentIntent(pi)
                 .setColor(tv.data)
                 .setOngoing(true)
