@@ -2202,13 +2202,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     private Notification getEnforcingNotification(int allowed, int blocked, int hosts) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean lockdown = prefs.getBoolean("lockdown", false);
+
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_security_white_24dp)
+                .setSmallIcon(lockdown ? R.drawable.ic_lock_outline_white_24dp : R.drawable.ic_security_white_24dp)
                 .setContentIntent(pi)
                 .setColor(tv.data)
                 .setOngoing(true)
