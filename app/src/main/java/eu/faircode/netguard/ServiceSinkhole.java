@@ -1431,6 +1431,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     private void prepareUidIPFilters(String dname) {
+        SharedPreferences plockdown = getSharedPreferences("lockdown", Context.MODE_PRIVATE);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+        boolean lockdown = prefs.getBoolean("lockdown", false);
+
         lock.writeLock().lock();
 
         if (dname == null) {
@@ -1461,6 +1465,14 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             boolean block = (cursor.getInt(colBlock) > 0);
             long time = cursor.getLong(colTime);
             long ttl = cursor.getLong(colTTL);
+
+            if (lockdown) {
+                String[] pkg = getPackageManager().getPackagesForUid(uid);
+                if (pkg != null && pkg.length > 0) {
+                    if (!plockdown.getBoolean(pkg[0], false))
+                        continue;
+                }
+            }
 
             // long is 64 bits
             // 0..15 uid
