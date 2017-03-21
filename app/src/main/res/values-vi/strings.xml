@@ -75,6 +75,7 @@
   <string name="setting_log_app">Thông báo truy cập internet</string>
   <string name="setting_access">Thông báo truy cập internet</string>
   <string name="setting_filter">Lọc lưu lượng truy cập</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Theo dõi cách sử dụng mạng</string>
   <string name="setting_reset_usage">Thiết lập lại cách sử dụng mạng</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
@@ -183,6 +184,7 @@
   <string name="msg_issue">Xin vui lòng mô tả các vấn đề và cho biết thời gian của vấn đề:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Lưu lượng truy cập không trả phí được cho phép</string>
   <string name="title_unmetered_blocked">Lưu lượng truy cập không trả phí bị chặn</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -202,6 +204,7 @@
   <string name="title_screen_other">Cho phép mạng di động khi màn hình bật</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Chặn khi chuyển vùng</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">Lọc liên quan</string>
   <string name="title_access">Cố gắng truy cập</string>
   <string name="title_precedence">Quy tắc truy cập được ưu tiên hơn các quy tắc khác</string>

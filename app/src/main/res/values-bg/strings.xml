@@ -75,6 +75,7 @@
   <string name="setting_log_app">Регистриране на достъпа до интернет във файл</string>
   <string name="setting_access">Уведомяване при достъп до интернет</string>
   <string name="setting_filter">Филтриране на трафика</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Следене на достъпа до мрежа</string>
   <string name="setting_reset_usage">Нулиране на данните за достъп до мрежа</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
@@ -185,6 +186,7 @@
   <string name="msg_issue">Моля, опишете проблема и отбележете часа на възникването му:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Неограниченият трафик (Wi-Fi) е разрешен</string>
   <string name="title_unmetered_blocked">Неограниченият трафик (Wi-Fi) е блокиран</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -204,6 +206,7 @@
   <string name="title_screen_other">Позволяване на мобилни данни, когато екранът е включен</string>
   <string name="title_roaming_symbol">Р</string>
   <string name="title_roaming">Блокиране при роуминг</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">Поради текущ филтър</string>
   <string name="title_access">Опити за достъп</string>
   <string name="title_precedence">Правилата за достъп имат предимство пред други правила</string>

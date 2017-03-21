@@ -77,6 +77,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">Log internet access</string>
   <string name="setting_access">Notify on internet access</string>
   <string name="setting_filter">Filter traffic</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Track network usage</string>
   <string name="setting_reset_usage">Reset network usage</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
@@ -190,6 +191,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
   <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -209,6 +211,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_screen_other">在螢幕開啟時啟用行動網路</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">漫遊時阻擋</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">Filter related</string>
   <string name="title_access">Access attempts</string>
   <string name="title_precedence">Access rules take precedence over other rules</string>

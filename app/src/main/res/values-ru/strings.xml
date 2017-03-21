@@ -75,6 +75,7 @@
   <string name="setting_log_app">Журнал доступа к сети интернет</string>
   <string name="setting_access">Уведомить при доступе в интернет</string>
   <string name="setting_filter">Фильтр трафика</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Отслеживание использования сети</string>
   <string name="setting_reset_usage">Сброс сетевого использования</string>
   <string name="setting_show_resolved">Показать разрешенные доменные имена</string>
@@ -185,6 +186,7 @@
   <string name="msg_issue">Пожалуйста, опишите проблему и укажите момент возникновения проблемы:</string>
   <string name="msg_vpn_cancelled">VPN соединение отменено\nХотите настроить другое соединение, чтобы VPN был всегда?</string>
   <string name="msg_on">Выключение устройства с запущенным NetGuard автоматически запустит NetGuard при включении вашего устройства</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
   <string name="title_unmetered_blocked">Безлимитный трафик блокируется</string>
   <string name="title_unmetered_disabled">Безлимитные правила не применяются</string>
@@ -204,6 +206,7 @@
   <string name="title_screen_other">Разрешить мобильную сеть при включенном экране</string>
   <string name="title_roaming_symbol">Р</string>
   <string name="title_roaming">Блокировать в роуминге</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">Фильтровать связные</string>
   <string name="title_access">Попытки доступа</string>
   <string name="title_precedence">Правила доступа имеют приоритет над другими правилами</string>

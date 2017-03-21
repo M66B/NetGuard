@@ -76,6 +76,7 @@
   <string name="setting_log_app">Log internet-toegang</string>
   <string name="setting_access">Melding bij internet toegang</string>
   <string name="setting_filter">Verkeer filteren</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Bijhouden van netwerkgebruik</string>
   <string name="setting_reset_usage">Reset netwerkgebruik</string>
   <string name="setting_show_resolved">Gevonden domein namen weergeven</string>
@@ -188,6 +189,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Ongelimiteerde verkeer is toegestaan</string>
   <string name="title_unmetered_blocked">Ongelimiteerde verkeer wordt geblokkeerd</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -207,6 +209,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_screen_other">Sta mobiel toe als het scherm aan is</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Blokkeer bij roamen</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">Verwante filteren</string>
   <string name="title_access">Toegangspogingen</string>
   <string name="title_precedence">Toegangsregels hebben voorrang op andere regels</string>

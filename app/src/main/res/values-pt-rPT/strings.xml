@@ -75,6 +75,7 @@
   <string name="setting_log_app">Registar acesso à internet</string>
   <string name="setting_access">Notificar com acesso à internet</string>
   <string name="setting_filter">Filtrar tráfego</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Controlar o uso de rede</string>
   <string name="setting_reset_usage">Redefinir o uso de rede</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
@@ -183,6 +184,7 @@
   <string name="msg_issue">Por favor descreva o problema e indique o momento do problema:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado é permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado é bloqueado</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -202,6 +204,7 @@
   <string name="title_screen_other">Permitir Dados Móveis ao ligar a tela</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bloquear quando em Roaming</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">Filtrar relacionados</string>
   <string name="title_access">Tentativas de acesso</string>
   <string name="title_precedence">As regras de acesso têm precedência sobre outras regras</string>

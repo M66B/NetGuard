@@ -76,6 +76,7 @@
   <string name="setting_log_app">יומן גישה לאינטרנט</string>
   <string name="setting_access">התראה על גישה לאינטרנט</string>
   <string name="setting_filter">סנן תעבורה</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">עקוב אחר השימוש ברשת</string>
   <string name="setting_reset_usage">אפס את מונה השימוש ברשת</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
@@ -185,6 +186,7 @@
   <string name="msg_issue">אנא תאר את הבעיה תוך ציון הזמן שבה קרתה:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">תעבורה חופשית מאופשרת</string>
   <string name="title_unmetered_blocked">תעבורה חופשית חסומה</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -204,6 +206,7 @@
   <string name="title_screen_other">אפשר גישה לרשת סלולרית כאשר המסך פעיל</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">חסום בעת נדידה</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">סנן דומים</string>
   <string name="title_access">נסיונות גישה</string>
   <string name="title_precedence">לכללי גישה יש קדימות על כללים אחרים</string>

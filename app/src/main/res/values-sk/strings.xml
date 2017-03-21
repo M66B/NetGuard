@@ -77,6 +77,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">Zaznamenávať prístup k internetu</string>
   <string name="setting_access">Upozorniť na pripojenie k internetu</string>
   <string name="setting_filter">Filtrovať prenos</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Sledovať používanie siete</string>
   <string name="setting_reset_usage">Resetovať využitie siete</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
@@ -188,6 +189,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="msg_issue">Prosím, opíšte problém a uveďte jeho čas:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Nemeraný prenos je povolený</string>
   <string name="title_unmetered_blocked">Nemeraný prenos je blokovaný</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -207,6 +209,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="title_screen_other">Povoliť mobilné dáta pri zapnutej obrazovke</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Blokovať pri roamingu</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">Filtrovať súvisiace</string>
   <string name="title_access">Pokusy o prístup</string>
   <string name="title_precedence">Pravidlá prístupu má prednosť pred inými pravidlami</string>

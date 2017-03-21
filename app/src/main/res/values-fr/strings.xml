@@ -75,6 +75,7 @@
   <string name="setting_log_app">Journaliser l\'accès internet</string>
   <string name="setting_access">Notifier lors de l\'accès à internet</string>
   <string name="setting_filter">Filtrer le trafic</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Surveiller l\'utilisation du réseau</string>
   <string name="setting_reset_usage">Réinitialiser l\'utilisation du réseau</string>
   <string name="setting_show_resolved">Afficher les noms de domaine résolus</string>
@@ -185,6 +186,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_issue">Veuillez décrire le problème et indiquer l\'heure à laquelle il est survenu :</string>
   <string name="msg_vpn_cancelled">La connexion VPN a été arrêtée\nAvez-vous configuré un autre VPN destiné à être un VPN toujours actif ?</string>
   <string name="msg_on">Si vous éteignez votre appareil avec NetGuard activé, celui ci démarrera automatiquement lorsque vous rallumerez votre appareil</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>
   <string name="title_unmetered_blocked">Le trafic illimité est bloqué</string>
   <string name="title_unmetered_disabled">Les règles illimitées ne sont pas appliquées</string>
@@ -204,6 +206,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_screen_other">Autoriser les données mobiles si l\'écran est allumé</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bloquer si itinérance</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">Filtre lié</string>
   <string name="title_access">Tentatives d\'accès</string>
   <string name="title_precedence">Les règles d\'accès ont la priorité sur les autres</string>

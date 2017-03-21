@@ -77,6 +77,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="setting_log_app">İnternet erişim günlüğü</string>
   <string name="setting_access">İnternet erişimini bildir</string>
   <string name="setting_filter">Veri kullanımını filtrele</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Veri kullanımını izle</string>
   <string name="setting_reset_usage">Veri kullanımını sıfırla</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
@@ -189,6 +190,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="msg_issue">Lütfen sorunu açıklayan ve tarihi girin:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">İzin verilmiş hesaplanamayan veri kullanımı</string>
   <string name="title_unmetered_blocked">Engellenmiş hesaplanamayan veri kullanımı</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -208,6 +210,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="title_screen_other">Ekran açıkken mobile izin ver</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Dolaşımda blokla</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">İlgili filtre</string>
   <string name="title_access">Erişim girişimleri</string>
   <string name="title_precedence">Erişim kuralları diğer kurallara göre önceliklidir</string>

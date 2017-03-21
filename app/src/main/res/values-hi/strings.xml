@@ -77,6 +77,7 @@
   <string name="setting_log_app">इंटरनेट उपयोग लॉग करें</string>
   <string name="setting_access">इंटरनेट का उपयोग पर सूचित करें</string>
   <string name="setting_filter">इंटरनेट यातायात छाटें</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">नेटवर्क के उपयोग को ट्रैक</string>
   <string name="setting_reset_usage">नेटवर्क उपयोग रीसेट करें</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
@@ -185,6 +186,7 @@
   <string name="msg_issue">कृपया समस्या का वर्णन करें और समस्या के समय से संकेत मिलता है:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Unmetered यातायात की अनुमति है</string>
   <string name="title_unmetered_blocked">Unmetered यातायात अवरुद्ध है</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -204,6 +206,7 @@
   <string name="title_screen_other">जब स्क्रीन पर मोबाइल की अनुमति दें</string>
   <string name="title_roaming_symbol">दाईं ओर</string>
   <string name="title_roaming">रोमिंग पर ब्लॉक</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">संबंधित फ़िल्टर करें</string>
   <string name="title_access">का उपयोग प्रयास</string>
   <string name="title_precedence">पहुँच नियम अन्य नियमों पर पूर्वता ले</string>

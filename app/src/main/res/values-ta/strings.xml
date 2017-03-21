@@ -75,6 +75,7 @@
   <string name="setting_log_app">பதிவை இணைய அணுகல்</string>
   <string name="setting_access">இணைய அணுகல் தெரிவி</string>
   <string name="setting_filter">வடிகட்டி போக்குவரத்து</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">பிணைய பயன்பாடு அறி</string>
   <string name="setting_reset_usage">பிணைய பயன்பாடு மீட்டமை</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
@@ -183,6 +184,7 @@
   <string name="msg_issue">தயவுசெய்து சிக்கலை விளக்க மற்றும் பிரச்சினையின் நேரம் என்பதை குறிப்பிடவும்:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Unmetered போக்குவரத்து அனுமதிக்கப்படும்</string>
   <string name="title_unmetered_blocked">Unmetered போக்குவரத்து தடைசெய்யப்பட்டது</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -202,6 +204,7 @@
   <string name="title_screen_other">மொபைல் எப்போது திரை அனுமதி</string>
   <string name="title_roaming_symbol">ஆர்</string>
   <string name="title_roaming">தொகுதி சுற்றும் போது</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">தொடர்புடைய வடிகட்டு</string>
   <string name="title_access">அணுகல் முயற்சிகள்</string>
   <string name="title_precedence">அனுமதி விதிகளை எடுத்துக் நடிகையும் மற்ற விதிகள்</string>

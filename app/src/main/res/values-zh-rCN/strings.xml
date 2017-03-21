@@ -77,6 +77,7 @@
   <string name="setting_log_app">网络访问日志</string>
   <string name="setting_access">网络连接通知</string>
   <string name="setting_filter">过滤流量</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">跟踪网络使用记录</string>
   <string name="setting_reset_usage">重置网络使用记录</string>
   <string name="setting_show_resolved">显示已解析的主机名称</string>
@@ -189,6 +190,7 @@
   <string name="msg_issue">请具体描述问题及问题发生的时间:</string>
   <string name="msg_vpn_cancelled">VPN 连接已取消\n您是否对另一个 VPN 设置了始终启用?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">已允许非按流量计费的网络数据</string>
   <string name="title_unmetered_blocked">已阻止非按流量计费的网络数据</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -208,6 +210,7 @@
   <string name="title_screen_other">亮屏时允许移动网络</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">漫游时阻止</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">筛选相关</string>
   <string name="title_access">访问尝试</string>
   <string name="title_precedence">访问规则优先于其他规则</string>

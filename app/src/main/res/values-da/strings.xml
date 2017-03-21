@@ -76,6 +76,7 @@
   <string name="setting_log_app">Log Internetadgang</string>
   <string name="setting_access">Notificér ved Internetadgang</string>
   <string name="setting_filter">Filtrer trafik</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Spor netværksforbrug</string>
   <string name="setting_reset_usage">Nulstil netværksforbrug</string>
   <string name="setting_show_resolved">Vis opløste domænenavne</string>
@@ -188,6 +189,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="msg_issue">Beskriv venligst problemet og angiv tidspunkt for problemet:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Ikke-forbrugsafregnet trafik er tilladt</string>
   <string name="title_unmetered_blocked">Ikke-forbrugsafregnet trafik er blokeret</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -207,6 +209,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="title_screen_other">Tillad mobildata når skærmen er tændt</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bloker ved roaming</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">Filterrelateret</string>
   <string name="title_access">Adgangsforsøg</string>
   <string name="title_precedence">Adgangsregler har forrang over andre regler</string>

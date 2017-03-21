@@ -75,6 +75,7 @@
   <string name="setting_log_app">Tallenna internet yhteydet lokiin</string>
   <string name="setting_access">Ilmoita internetyhteydestä</string>
   <string name="setting_filter">Suodattaa liikennettä</string>
+  <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Seuraa verkon käyttöä</string>
   <string name="setting_reset_usage">Nollaa verkon käyttö</string>
   <string name="setting_show_resolved">Näytä selvitetyt verkko-osoitteet</string>
@@ -183,6 +184,7 @@
   <string name="msg_issue">Kuvaile ongelmatilanne ja ilmoita milloin ongelma ilmenee:</string>
   <string name="msg_vpn_cancelled">VPN yhteys on peruttu\n Oletko asettanut toisen VPN yhteyden aina-päällä tilaan?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Ei käytön mukaan laskutettava liikenne on sallittu</string>
   <string name="title_unmetered_blocked">Ei käytön mukaan laskutettava liikenne on estetty</string>
   <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
@@ -202,6 +204,7 @@
   <string name="title_screen_other">Salli mobiili kun näyttö on päällä</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Estä verkkovierailun aikana</string>
+  <string name="title_lockdown">Allow in lockdown mode</string>
   <string name="title_related">Suodata liittyvät</string>
   <string name="title_access">Yritetyt yhteydet</string>
   <string name="title_precedence">Yhteyksien rajoitukset ohittavat muut säännöt</string>
