@@ -1027,7 +1027,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         // Remove local DNS servers when not routing LAN
         boolean lan = prefs.getBoolean("lan", false);
-        if (false && lan) {
+        boolean use_hosts = prefs.getBoolean("filter", false) && prefs.getBoolean("use_hosts", false);
+        if (lan && use_hosts) {
             List<InetAddress> listLocal = new ArrayList<>();
             try {
                 Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
