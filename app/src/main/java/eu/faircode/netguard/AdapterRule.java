@@ -384,6 +384,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         }
 
         boolean screen_on = prefs.getBoolean("screen_on", true);
+        final boolean filter = prefs.getBoolean("filter", false);
+        boolean track_usage = prefs.getBoolean("track_usage", false);
 
         // Wi-Fi settings
         holder.cbWifi.setEnabled(rule.apply);
@@ -454,7 +456,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.tvDisabled.setVisibility(rule.enabled ? View.GONE : View.VISIBLE);
 
         // Show traffic statistics
-        holder.tvStatistics.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? View.GONE : View.VISIBLE);
+        holder.tvStatistics.setVisibility((Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) || !(track_usage && filter) ? View.GONE : View.VISIBLE);
         holder.tvStatistics.setText(context.getString(R.string.msg_mbday, rule.upspeed, rule.downspeed));
 
         // Show related
@@ -615,7 +617,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         // Show logging/filtering is disabled
         final boolean log_app = prefs.getBoolean("log_app", false);
-        final boolean filter = prefs.getBoolean("filter", false);
         holder.tvLogging.setText(log_app && filter ? R.string.title_logging_enabled : R.string.title_logging_disabled);
         holder.btnLogging.setOnClickListener(new View.OnClickListener() {
             @Override
