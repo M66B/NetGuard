@@ -227,7 +227,10 @@ public class Receiver extends BroadcastReceiver {
                     }
                     edit_screen_wifi.apply();
                     edit_screen_other.apply();
-                }
+
+                } else if (oldVersion <= 2017032112)
+                    editor.remove("ip6");
+
             } else {
                 Log.i(TAG, "Initializing sdk=" + Build.VERSION.SDK_INT);
                 editor.putBoolean("whitelist_wifi", false);
