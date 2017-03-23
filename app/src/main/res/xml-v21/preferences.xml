@@ -292,10 +292,12 @@
             <Preference
                 android:key="hosts_import"
                 android:title="@string/setting_hosts" />
-            <EditTextPreference
+            <eu.faircode.netguard.HostsTextPreference
                 android:defaultValue="https://www.netguard.me/hosts"
                 android:hint="https://www.netguard.me/hosts"
                 android:key="hosts_url"
+                android:inputType="textUri"
+                android:maxLines="1"
                 android:title="@string/setting_hosts_url" />
             <Preference
                 android:dependency="hosts_url"

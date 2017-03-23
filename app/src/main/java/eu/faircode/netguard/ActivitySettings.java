@@ -290,7 +290,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         Preference pref_block_domains = screen.findPreference("use_hosts");
         EditTextPreference pref_rcode = (EditTextPreference) screen.findPreference("rcode");
         Preference pref_hosts_import = screen.findPreference("hosts_import");
-        EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
+        HostsTextPreference pref_hosts_url = (HostsTextPreference) screen.findPreference("hosts_url");
         final Preference pref_hosts_download = screen.findPreference("hosts_download");
 
         pref_rcode.setTitle(getString(R.string.setting_rcode, prefs.getString("rcode", "3")));
@@ -331,7 +331,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 public boolean onPreferenceClick(Preference preference) {
                     final File tmp = new File(getFilesDir(), "hosts.tmp");
                     final File hosts = new File(getFilesDir(), "hosts.txt");
-                    EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
+                    HostsTextPreference pref_hosts_url = (HostsTextPreference) screen.findPreference("hosts_url");
                     try {
                         new DownloadTask(ActivitySettings.this, new URL(pref_hosts_url.getText()), tmp, new DownloadTask.Listener() {
                             @Override
