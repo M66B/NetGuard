@@ -71,14 +71,14 @@
   <string name="setting_metered_3g">3G als “nicht volumenbeschränkt“ betrachten</string>
   <string name="setting_metered_4g">LTE als “nicht volumenbeschränkt“ betrachten</string>
   <string name="setting_national_roaming">Nationales Roaming ignorieren</string>
-  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
-  <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_lockdown_wifi">WLAN-Zugriffsbeschränkung</string>
+  <string name="setting_lockdown_other">Mobile Daten-Zugriffsbeschränkung</string>
   <string name="setting_advanced_options">Erweiterte Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_log_app">Internetzugriff protokollieren</string>
   <string name="setting_access">Bei Internetzugriff benachrichtigen</string>
   <string name="setting_filter">Datenverkehr filtern</string>
-  <string name="setting_lockdown">Lockdown traffic</string>
+  <string name="setting_lockdown">Datenverkehr-Zugriffsbeschränkung</string>
   <string name="setting_track_usage">Netzwerknutzung verfolgen</string>
   <string name="setting_reset_usage">Netzwerknutzung zurücksetzen</string>
   <string name="setting_show_resolved">Aufgelöste Domainnamen anzeigen</string>
@@ -187,7 +187,7 @@
   <string name="msg_issue">Bitte beschreiben Sie Ihr Problem und geben Sie den Zeitpunkt an:</string>
   <string name="msg_vpn_cancelled">VPN-Verbindung abgebrochen\nHaben Sie eine andere VPN für die Funktion \'VPN immer eingeschaltet\' konfiguriert?</string>
   <string name="msg_on">Wenn NetGuard beim Ausschalten aktiv war, dann startet NetGuard bein Einschalten automatisch wieder.</string>
-  <string name="title_lockdown_enabled">Traffic is locked down</string>
+  <string name="title_lockdown_enabled">Datenverkehr ist eingeschränkt</string>
   <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
   <string name="title_unmetered_blocked">Nicht volumenbeschränkter Verkehr ist blockiert</string>
   <string name="title_unmetered_disabled">Unbeschränkte Regeln wurden nicht angewendet</string>
@@ -207,7 +207,7 @@
   <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bei Roaming blockieren</string>
-  <string name="title_lockdown">Allow in lockdown mode</string>
+  <string name="title_lockdown">Im Zugriffsbeschränkungsmodus erlauben</string>
   <string name="title_related">Filterabhängig</string>
   <string name="title_access">Zugriffsversuche</string>
   <string name="title_precedence">Zugriffsregeln haben vor anderen Regeln Vorrang</string>

@@ -70,8 +70,8 @@
   <string name="setting_metered_3g">Не учитывать 3G</string>
   <string name="setting_metered_4g">Не учитывать LTE</string>
   <string name="setting_national_roaming">Игнорировать роуминг внутри страны</string>
-  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
-  <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_lockdown_wifi">Блокировка Wi-Fi</string>
+  <string name="setting_lockdown_other">Блокировка моб. сети</string>
   <string name="setting_advanced_options">Дополнительные опции</string>
   <string name="setting_system">Управлять сист. приложениями</string>
   <string name="setting_log_app">Журнал доступа к сети интернет</string>

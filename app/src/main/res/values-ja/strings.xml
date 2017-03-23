@@ -71,8 +71,8 @@
   <string name="setting_metered_3g">定額制 3G を考慮する</string>
   <string name="setting_metered_4g">定額制 LTE を考慮する</string>
   <string name="setting_national_roaming">国内ローミングを無視する</string>
-  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
-  <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_lockdown_wifi">Wi-Fi をロックダウン</string>
+  <string name="setting_lockdown_other">モバイルをロックダウン</string>
   <string name="setting_advanced_options">詳細オプション</string>
   <string name="setting_system">システムアプリケーションの管理</string>
   <string name="setting_log_app">インター ネット アクセスをログ</string>

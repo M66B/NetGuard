@@ -70,14 +70,14 @@
   <string name="setting_metered_3g">Méretlen 3G megfontolása</string>
   <string name="setting_metered_4g">Méretlen LTE megfontolása</string>
   <string name="setting_national_roaming">Belföldi roaming figyelmen kívül hagyása</string>
-  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
-  <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_lockdown_wifi">Wi-Fi lezárás</string>
+  <string name="setting_lockdown_other">Mobil lezárás</string>
   <string name="setting_advanced_options">Speciális beállítások</string>
   <string name="setting_system">Rendszer alkalmazások kezelése</string>
   <string name="setting_log_app">Internet hozzáférés naplózása</string>
   <string name="setting_access">Értesítés internet hozzáféréskor</string>
   <string name="setting_filter">Forgalom szűrés</string>
-  <string name="setting_lockdown">Lockdown traffic</string>
+  <string name="setting_lockdown">Forgalom lezárás</string>
   <string name="setting_track_usage">Hálózat használat követés</string>
   <string name="setting_reset_usage">Hálózat használat alaphelyzetbe</string>
   <string name="setting_show_resolved">Mutassa a feloldott domain neveket</string>
@@ -187,8 +187,8 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="msg_system">A speciális beállítások engedélyezve a rendszer alkalmazások kezeléséhez</string>
   <string name="msg_issue">Kérjük, írja le a problémát, és a probléma időpontját:</string>
   <string name="msg_vpn_cancelled">VPN kapcsolat megszüntetve\nBeállít másik VPN kapcsolatot, hogy állandó legyen a VPN?</string>
-  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
-  <string name="title_lockdown_enabled">Traffic is locked down</string>
+  <string name="msg_on">A készülék kikapcsolásakor a NetGuard engedélyezve van, akkor automatikusan elindul a NetGuard a készülék bekapcsolásakor</string>
+  <string name="title_lockdown_enabled">A forgalom lezárva</string>
   <string name="title_unmetered_allowed">Méretlen forgalom engedélyezve</string>
   <string name="title_unmetered_blocked">Méretlen forgalom letiltva</string>
   <string name="title_unmetered_disabled">Méretlen hálózat szabályok nincsenek alkalmazva</string>
@@ -208,7 +208,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_screen_other">Mobil engedélyezése amikor a képernyő be van kapcsolva</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Letiltás roaming közben</string>
-  <string name="title_lockdown">Allow in lockdown mode</string>
+  <string name="title_lockdown">Engedélyezés lezárt módban</string>
   <string name="title_related">Kapcsolódás szűrő</string>
   <string name="title_access">Hozzáférési kísérletek</string>
   <string name="title_precedence">Hozzáférési szabályok elsőbbséget élveznek más szabályokkal szemben</string>
