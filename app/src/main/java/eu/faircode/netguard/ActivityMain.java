@@ -29,11 +29,13 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.TrafficStats;
 import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Process;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -751,7 +753,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         menu.findItem(R.id.menu_app_nointernet).setChecked(prefs.getBoolean("show_nointernet", true));
         menu.findItem(R.id.menu_app_disabled).setChecked(prefs.getBoolean("show_disabled", true));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ||
+                TrafficStats.getUidRxBytes(Process.SYSTEM_UID) == TrafficStats.UNSUPPORTED) {
             Menu submenu = menu.findItem(R.id.menu_sort).getSubMenu();
             submenu.removeItem(R.id.menu_sort_data);
         }
