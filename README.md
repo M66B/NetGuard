@@ -232,6 +232,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ51"></a>
 [**(51) NetGuard blocks all internet traffic!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ51)
 
+<a name="FAQ52"></a>
+[**(52) What is lockdown mode?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ52)
+
 Support
 -------
 

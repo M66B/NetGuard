@@ -487,6 +487,18 @@ Make sure you are not running NetGuard in whitelist mode (check the NetGuard def
 Some Android versions contain a bug resulting in all internet traffic being blocked.
 Mostly you can workaround this bug by enabling filtering in the advanced NetGuard settings.
 
+<a name="FAQ52"></a>
+**(52) What is lockdown mode?**
+
+In lockdown mode all traffic for all applictions will be blocked,
+except for applications with the option '*Allow in lockdown mode*' enabled.
+You can use this mode to limit battery usage or network usage
+for example when your battery is almost empty or when your data bundel is almost used.
+Note that system applications will only be blocked in this mode
+when managing system applications is enabled in the advanced settings.
+
+You can enable/disable lockdown mode in the main menu, using a widget or using a settings tile (Android 7 Nougat or later).
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
