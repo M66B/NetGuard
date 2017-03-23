@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="eu.faircode.netguard">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="eu.faircode.netguard">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <!-- http://developer.android.com/guide/topics/security/permissions.html#normal-dangerous -->
 
     <permission
         android:name="eu.faircode.netguard.permission.ADMIN"
         android:description="@string/app_description"
         android:label="@string/app_name"
-        android:protectionLevel="signature" />
+        android:protectionLevel="signature"/>
 
-    <uses-permission android:name="eu.faircode.netguard.permission.ADMIN" />
+    <uses-permission android:name="eu.faircode.netguard.permission.ADMIN"/>
 
     <!-- Firebase -->
     <uses-permission
         android:name="com.google.android.c2dm.permission.RECEIVE"
-        tools:node="remove" />
+        tools:node="remove"/>
     <uses-permission
         android:name="eu.faircode.netguard.permission.C2D_MESSAGE"
-        tools:node="remove" />
+        tools:node="remove"/>
 
     <uses-feature
         android:name="android.hardware.wifi"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.telephony"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.software.app_widgets"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.touchscreen"
-        android:required="false" />
+        android:required="false"/>
 
     <application
         android:name="ApplicationEx"
@@ -55,7 +55,7 @@
 
         <meta-data
             android:name="firebase_analytics_collection_deactivated"
-            android:value="true" />
+            android:value="true"/>
 
         <activity
             android:name=".ActivityMain"
@@ -64,17 +64,17 @@
             android:launchMode="singleTop"
             android:resizeableActivity="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
+                android:resource="@xml/shortcuts"/>
         </activity>
 
         <activity
@@ -83,16 +83,16 @@
             android:label="@string/menu_settings"
             android:parentActivityName=".ActivityMain">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityMain" />
+                android:value=".ActivityMain"/>
         </activity>
 
         <activity
@@ -102,7 +102,7 @@
             android:parentActivityName=".ActivityMain">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityMain" />
+                android:value=".ActivityMain"/>
         </activity>
 
         <activity
@@ -112,7 +112,7 @@
             android:parentActivityName=".ActivityMain">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityMain" />
+                android:value=".ActivityMain"/>
         </activity>
 
         <activity
@@ -122,7 +122,7 @@
             android:parentActivityName=".ActivitySettings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivitySettings" />
+                android:value=".ActivitySettings"/>
         </activity>
 
         <activity
@@ -132,7 +132,7 @@
             android:parentActivityName=".ActivitySettings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivitySettings" />
+                android:value=".ActivitySettings"/>
         </activity>
 
         <activity
@@ -141,8 +141,8 @@
             android:label="@string/app_name"
             android:theme="@style/AppDialog">
             <intent-filter>
-                <action android:name="eu.faircode.netguard.START_PORT_FORWARD" />
-                <action android:name="eu.faircode.netguard.STOP_PORT_FORWARD" />
+                <action android:name="eu.faircode.netguard.START_PORT_FORWARD"/>
+                <action android:name="eu.faircode.netguard.STOP_PORT_FORWARD"/>
             </intent-filter>
         </activity>
 
@@ -151,7 +151,7 @@
             android:label="@string/app_name"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
-                <action android:name="android.net.VpnService" />
+                <action android:name="android.net.VpnService"/>
             </intent-filter>
         </service>
 
@@ -159,7 +159,7 @@
             android:name=".ServiceExternal"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="eu.faircode.netguard.DOWNLOAD_HOSTS_FILE" />
+                <action android:name="eu.faircode.netguard.DOWNLOAD_HOSTS_FILE"/>
             </intent-filter>
         </service>
 
@@ -169,7 +169,7 @@
             android:label="@string/app_name"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
             </intent-filter>
         </service>
 
@@ -179,7 +179,7 @@
             android:label="@string/setting_stats_category"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
             </intent-filter>
         </service>
 
@@ -189,7 +189,7 @@
             android:label="@string/setting_filter"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
             </intent-filter>
         </service>
 
@@ -199,7 +199,7 @@
             android:label="@string/setting_lockdown"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
             </intent-filter>
         </service>
 
@@ -207,26 +207,37 @@
             android:name=".Receiver"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
 
-                <data android:scheme="package" />
+                <data android:scheme="package"/>
             </intent-filter>
         </receiver>
 
         <receiver
-            android:name=".Widget"
+            android:name=".WidgetMain"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget" />
+                android:resource="@xml/widgetmain"/>
+        </receiver>
+
+        <receiver
+            android:name=".WidgetLockdown"
+            android:label="@string/setting_lockdown">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetlockdown"/>
         </receiver>
 
         <receiver
@@ -234,8 +245,10 @@
             android:label="@string/app_name"
             android:permission="eu.faircode.netguard.permission.ADMIN">
             <intent-filter>
-                <action android:name="eu.faircode.netguard.APPWIDGET_ON" />
-                <action android:name="eu.faircode.netguard.APPWIDGET_OFF" />
+                <action android:name="eu.faircode.netguard.ON"/>
+                <action android:name="eu.faircode.netguard.OFF"/>
+                <action android:name="eu.faircode.netguard.LOCKDOWN_ON"/>
+                <action android:name="eu.faircode.netguard.LOCKDOWN_OFF"/>
             </intent-filter>
         </receiver>
     </application>

@@ -34,8 +34,11 @@ import java.util.Date;
 public class WidgetAdmin extends Receiver {
     private static final String TAG = "NetGuard.Widget";
 
-    public static final String INTENT_ON = "eu.faircode.netguard.APPWIDGET_ON";
-    public static final String INTENT_OFF = "eu.faircode.netguard.APPWIDGET_OFF";
+    public static final String INTENT_ON = "eu.faircode.netguard.ON";
+    public static final String INTENT_OFF = "eu.faircode.netguard.OFF";
+
+    public static final String INTENT_LOCKDOWN_ON = "eu.faircode.netguard.LOCKDOWN_ON";
+    public static final String INTENT_LOCKDOWN_OFF = "eu.faircode.netguard.LOCKDOWN_OFF";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -49,35 +52,41 @@ public class WidgetAdmin extends Receiver {
         // Cancel set alarm
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
-        am.cancel(pi);
+        if (INTENT_ON.equals(intent.getAction()) || INTENT_OFF.equals(intent.getAction()))
+            am.cancel(pi);
 
         // Vibrate
-        if (INTENT_OFF.equals(intent.getAction()) || INTENT_ON.equals(intent.getAction())) {
-            Vibrator vs = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            if (vs.hasVibrator())
-                vs.vibrate(50);
-        }
+        Vibrator vs = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vs.hasVibrator())
+            vs.vibrate(50);
 
-        if (INTENT_OFF.equals(intent.getAction())) {
-            prefs.edit().putBoolean("enabled", false).apply();
-            ServiceSinkhole.stop("widget", context);
-
-            // Auto enable
-            int auto = Integer.parseInt(prefs.getString("auto_enable", "0"));
-            if (auto > 0) {
-                Log.i(TAG, "Scheduling enabled after minutes=" + auto);
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-                    am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + auto * 60 * 1000L, pi);
+        try {
+            if (INTENT_ON.equals(intent.getAction()) || INTENT_OFF.equals(intent.getAction())) {
+                boolean enabled = INTENT_ON.equals(intent.getAction());
+                prefs.edit().putBoolean("enabled", enabled).apply();
+                if (enabled)
+                    ServiceSinkhole.start("widget", context);
                 else
-                    am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, new Date().getTime() + auto * 60 * 1000L, pi);
-            }
+                    ServiceSinkhole.stop("widget", context);
 
-        } else if (INTENT_ON.equals(intent.getAction()))
-            try {
-                prefs.edit().putBoolean("enabled", true).apply();
-                ServiceSinkhole.start("widget", context);
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                // Auto enable
+                int auto = Integer.parseInt(prefs.getString("auto_enable", "0"));
+                if (!enabled && auto > 0) {
+                    Log.i(TAG, "Scheduling enabled after minutes=" + auto);
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+                        am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + auto * 60 * 1000L, pi);
+                    else
+                        am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, new Date().getTime() + auto * 60 * 1000L, pi);
+                }
+
+            } else if (INTENT_LOCKDOWN_ON.equals(intent.getAction()) || INTENT_LOCKDOWN_OFF.equals(intent.getAction())) {
+                boolean lockdown = INTENT_LOCKDOWN_ON.equals(intent.getAction());
+                prefs.edit().putBoolean("lockdown", lockdown).apply();
+                ServiceSinkhole.reload("widget", context);
+                WidgetLockdown.updateWidgets(context);
             }
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
     }
 }

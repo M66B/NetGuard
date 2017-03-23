@@ -31,8 +31,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-public class Widget extends AppWidgetProvider {
-    private static final String TAG = "NetGuard.Widget";
+public class WidgetLockdown extends AppWidgetProvider {
+    private static final String TAG = "NetGuard.WidgetLock";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -41,20 +41,20 @@ public class Widget extends AppWidgetProvider {
 
     private static void update(int[] appWidgetIds, AppWidgetManager appWidgetManager, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean enabled = prefs.getBoolean("enabled", false);
+        boolean lockdown = prefs.getBoolean("lockdown", false);
 
         try {
             try {
                 PendingIntent pi;
                 if (VpnService.prepare(context) == null)
-                    pi = PendingIntent.getBroadcast(context, 0, new Intent(enabled ? WidgetAdmin.INTENT_OFF : WidgetAdmin.INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
+                    pi = PendingIntent.getBroadcast(context, 0, new Intent(lockdown ? WidgetAdmin.INTENT_LOCKDOWN_OFF : WidgetAdmin.INTENT_LOCKDOWN_ON), PendingIntent.FLAG_UPDATE_CURRENT);
                 else
                     pi = PendingIntent.getActivity(context, 0, new Intent(context, ActivityMain.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
                 for (int id : appWidgetIds) {
-                    RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
+                    RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widgetlockdown);
                     views.setOnClickPendingIntent(R.id.ivEnabled, pi);
-                    views.setImageViewResource(R.id.ivEnabled, enabled ? R.mipmap.ic_launcher : R.drawable.ic_security_white_24dp_60);
+                    views.setImageViewResource(R.id.ivEnabled, lockdown ? R.drawable.ic_lock_outline_white_24dp : R.drawable.ic_lock_open_white_24dp);
                     appWidgetManager.updateAppWidget(id, views);
                 }
             } catch (Throwable ex) {
@@ -67,7 +67,7 @@ public class Widget extends AppWidgetProvider {
 
     public static void updateWidgets(Context context) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        int appWidgetIds[] = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, Widget.class));
+        int appWidgetIds[] = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, WidgetLockdown.class));
         update(appWidgetIds, appWidgetManager, context);
     }
 }

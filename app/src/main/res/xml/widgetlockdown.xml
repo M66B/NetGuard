@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialLayout="@layout/widget"
+    android:initialLayout="@layout/widgetlockdown"
     android:minHeight="40dp"
     android:minWidth="40dp"
-    android:previewImage="@mipmap/ic_launcher"
+    android:previewImage="@drawable/ic_lock_outline_white_24dp"
     android:resizeMode="none"
     android:updatePeriodMillis="0" />

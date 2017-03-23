@@ -813,9 +813,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_lockdown:
-                item.setChecked(!item.isChecked());
-                prefs.edit().putBoolean("lockdown", item.isChecked()).apply();
-                ServiceSinkhole.reload("lockdown", this);
+                menu_lockdown(item);
                 return true;
 
             case R.id.menu_log:
@@ -1207,6 +1205,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 })
                 .create();
         dialogLegend.show();
+    }
+
+    private void menu_lockdown(MenuItem item) {
+        item.setChecked(!item.isChecked());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.edit().putBoolean("lockdown", item.isChecked()).apply();
+        ServiceSinkhole.reload("lockdown", this);
+        WidgetLockdown.updateWidgets(this);
     }
 
     private void menu_about() {
