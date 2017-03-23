@@ -410,6 +410,10 @@ public class Rule {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                         long up = TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid);
                         long down = TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid);
+                        if (up == TrafficStats.UNSUPPORTED)
+                            up = 0;
+                        if (down == TrafficStats.UNSUPPORTED)
+                            down = 0;
                         rule.totalbytes = up + down;
                         rule.upspeed = (float) up * 24 * 3600 * 1000 / 1024f / 1024f / now;
                         rule.downspeed = (float) down * 24 * 3600 * 1000 / 1024f / 1024f / now;
