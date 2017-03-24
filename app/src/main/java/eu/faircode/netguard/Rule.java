@@ -26,7 +26,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
-import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Process;
@@ -79,10 +78,6 @@ public class Rule {
 
     public boolean relateduids = false;
     public String[] related = null;
-
-    public float upspeed;
-    public float downspeed;
-    public float totalbytes;
 
     public boolean changed;
 
@@ -288,8 +283,6 @@ public class Rule {
         default_screen_wifi = default_screen_wifi && screen_on;
         default_screen_other = default_screen_other && screen_on;
 
-        long now = SystemClock.elapsedRealtime();
-
         // Get predefined rules
         Map<String, Boolean> pre_wifi_blocked = new HashMap<>();
         Map<String, Boolean> pre_other_blocked = new HashMap<>();
@@ -407,21 +400,6 @@ public class Rule {
                     }
                     rule.related = listPkg.toArray(new String[0]);
 
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                        long up = TrafficStats.getUidTxBytes(rule.info.applicationInfo.uid);
-                        long down = TrafficStats.getUidRxBytes(rule.info.applicationInfo.uid);
-                        if (up == TrafficStats.UNSUPPORTED)
-                            up = 0;
-                        if (down == TrafficStats.UNSUPPORTED)
-                            down = 0;
-                        rule.totalbytes = up + down;
-                        rule.upspeed = (float) up * 24 * 3600 * 1000 / 1024f / 1024f / now;
-                        rule.downspeed = (float) down * 24 * 3600 * 1000 / 1024f / 1024f / now;
-                    } else {
-                        rule.upspeed = 0;
-                        rule.downspeed = 0;
-                    }
-
                     rule.updateChanged(default_wifi, default_other, default_roaming);
 
                     listRules.add(rule);
@@ -435,21 +413,7 @@ public class Rule {
 
         // Sort rule list
         String sort = prefs.getString("sort", "name");
-        if ("data".equals(sort))
-            Collections.sort(listRules, new Comparator<Rule>() {
-                @Override
-                public int compare(Rule rule, Rule other) {
-                    if (rule.totalbytes < other.totalbytes)
-                        return 1;
-                    else if (rule.totalbytes > other.totalbytes)
-                        return -1;
-                    else {
-                        int i = collator.compare(rule.name, other.name);
-                        return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
-                    }
-                }
-            });
-        else if ("uid".equals(sort))
+        if ("uid".equals(sort))
             Collections.sort(listRules, new Comparator<Rule>() {
                 @Override
                 public int compare(Rule rule, Rule other) {

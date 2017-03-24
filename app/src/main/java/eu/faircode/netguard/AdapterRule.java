@@ -119,7 +119,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public TextView tvDescription;
         public TextView tvInternet;
         public TextView tvDisabled;
-        public TextView tvStatistics;
 
         public Button btnRelated;
         public ImageButton ibSettings;
@@ -179,7 +178,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
             tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
             tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
-            tvStatistics = (TextView) itemView.findViewById(R.id.tvStatistics);
 
             btnRelated = (Button) itemView.findViewById(R.id.btnRelated);
             ibSettings = (ImageButton) itemView.findViewById(R.id.ibSettings);
@@ -452,13 +450,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         // Show application state
         holder.tvInternet.setVisibility(rule.internet ? View.GONE : View.VISIBLE);
         holder.tvDisabled.setVisibility(rule.enabled ? View.GONE : View.VISIBLE);
-
-        // Show traffic statistics
-        holder.tvStatistics.setVisibility(
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ||
-                        (rule.upspeed == 0 && rule.downspeed == 0)
-                        ? View.GONE : View.VISIBLE);
-        holder.tvStatistics.setText(context.getString(R.string.msg_mbday, rule.upspeed, rule.downspeed));
 
         // Show related
         holder.btnRelated.setVisibility(rule.relateduids ? View.VISIBLE : View.GONE);
