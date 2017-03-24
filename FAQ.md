@@ -491,7 +491,7 @@ Mostly you can workaround this bug by enabling filtering in the advanced NetGuar
 **(52) What is lockdown mode?**
 
 In lockdown mode all traffic for all applictions will be blocked,
-except for applications with the option '*Allow in lockdown mode*' enabled.
+except for applications with the condition '*Allow in lockdown mode*' enabled.
 You can use this mode to limit battery usage or network usage
 for example when your battery is almost empty or when your data bundel is almost used.
 Note that system applications will only be blocked in this mode
@@ -503,4 +503,4 @@ You can enable/disable lockdown mode in the main menu, using a widget or using a
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
 
-**If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me directly [by e-mail](mailto:marcel+netguard@faircode.eu)**.
+**If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me by using [this contact form](https://contact.faircode.eu/)**.
