@@ -394,13 +394,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         notifyLogChanged();
     }
 
-    public void clearLog() {
+    public void clearLog(int uid) {
         lock.writeLock().lock();
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             db.beginTransactionNonExclusive();
             try {
-                db.delete("log", null, new String[]{});
+                if (uid < 0)
+                    db.delete("log", null, new String[]{});
+                else
+                    db.delete("log", "uid = ?", new String[]{Integer.toString(uid)});
 
                 db.setTransactionSuccessful();
             } finally {

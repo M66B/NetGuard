@@ -479,7 +479,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 new AsyncTask<Object, Object, Object>() {
                     @Override
                     protected Object doInBackground(Object... objects) {
-                        DatabaseHelper.getInstance(ActivityLog.this).clearLog();
+                        DatabaseHelper.getInstance(ActivityLog.this).clearLog(-1);
                         if (prefs.getBoolean("pcap", false)) {
                             ServiceSinkhole.setPcap(false, ActivityLog.this);
                             if (pcap_file.exists() && !pcap_file.delete())
