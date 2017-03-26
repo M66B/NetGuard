@@ -23,7 +23,6 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -346,26 +345,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             color = Color.argb(128, Color.red(color), Color.green(color), Color.blue(color));
         holder.tvName.setTextColor(color);
 
-        // Show rule count
-        new AsyncTask<Object, Object, Long>() {
-            @Override
-            protected void onPreExecute() {
-                holder.tvHosts.setVisibility(View.GONE);
-            }
-
-            @Override
-            protected Long doInBackground(Object... objects) {
-                return DatabaseHelper.getInstance(context).getRuleCount(rule.info.applicationInfo.uid);
-            }
-
-            @Override
-            protected void onPostExecute(Long rules) {
-                if (rules > 0) {
-                    holder.tvHosts.setVisibility(View.VISIBLE);
-                    holder.tvHosts.setText(Long.toString(rules));
-                }
-            }
-        }.execute();
+        holder.tvHosts.setVisibility(rule.hosts > 0 ? View.VISIBLE : View.GONE);
+        holder.tvHosts.setText(Long.toString(rule.hosts));
 
         // Lockdown settings
         boolean lockdown = prefs.getBoolean("lockdown", false);
@@ -716,14 +697,18 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
-                            switch (menuItem.getItemId()) {
+                            int menu = menuItem.getItemId();
+                            boolean result = false;
+                            switch (menu) {
                                 case R.id.menu_whois:
                                     context.startActivity(lookupIP);
-                                    return true;
+                                    result = true;
+                                    break;
 
                                 case R.id.menu_port:
                                     context.startActivity(lookupPort);
-                                    return true;
+                                    result = true;
+                                    break;
 
                                 case R.id.menu_allow:
                                     if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
@@ -731,7 +716,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                         ServiceSinkhole.reload("allow host", context);
                                     } else
                                         context.startActivity(new Intent(context, ActivityPro.class));
-                                    return true;
+                                    result = true;
+                                    break;
 
                                 case R.id.menu_block:
                                     if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
@@ -739,14 +725,31 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                         ServiceSinkhole.reload("block host", context);
                                     } else
                                         context.startActivity(new Intent(context, ActivityPro.class));
-                                    return true;
+                                    result = true;
+                                    break;
 
                                 case R.id.menu_reset:
                                     DatabaseHelper.getInstance(context).setAccess(id, -1);
                                     ServiceSinkhole.reload("reset host", context);
-                                    return true;
+                                    result = true;
+                                    break;
                             }
-                            return false;
+
+                            if (menu == R.id.menu_allow || menu == R.id.menu_block || menu == R.id.menu_reset)
+                                new AsyncTask<Object, Object, Long>() {
+                                    @Override
+                                    protected Long doInBackground(Object... objects) {
+                                        return DatabaseHelper.getInstance(context).getHostCount(rule.info.applicationInfo.uid, false);
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Long hosts) {
+                                        rule.hosts = hosts;
+                                        notifyDataSetChanged();
+                                    }
+                                }.execute();
+
+                            return result;
                         }
                     });
 

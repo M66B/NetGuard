@@ -29,7 +29,6 @@ import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Process;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
@@ -79,6 +78,7 @@ public class Rule {
     public boolean relateduids = false;
     public String[] related = null;
 
+    public long hosts;
     public boolean changed;
 
     public boolean expanded = false;
@@ -358,6 +358,7 @@ public class Rule {
         nobody.applicationInfo.icon = 0;
         listPI.add(nobody);
 
+        DatabaseHelper dh = DatabaseHelper.getInstance(context);
         for (PackageInfo info : listPI)
             try {
                 Rule rule = new Rule(info, context);
@@ -399,6 +400,8 @@ public class Rule {
                         listPkg.remove(info.packageName);
                     }
                     rule.related = listPkg.toArray(new String[0]);
+
+                    rule.hosts = dh.getHostCount(rule.info.applicationInfo.uid, true);
 
                     rule.updateChanged(default_wifi, default_other, default_roaming);
 
@@ -448,7 +451,7 @@ public class Rule {
                 (wifi_blocked && screen_wifi != screen_wifi_default) ||
                 (other_blocked && screen_other != screen_other_default) ||
                 ((!other_blocked || screen_other) && roaming != default_roaming) ||
-                lockdown || !apply);
+                hosts > 0 || lockdown || !apply);
     }
 
     public void updateChanged(Context context) {

@@ -36,7 +36,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -726,13 +728,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public long getRuleCount(int uid) {
+    private static Map<Integer, Long> mapUidHosts = new HashMap<>();
+
+    public long getHostCount(int uid, boolean usecache) {
+        if (usecache)
+            synchronized (mapUidHosts) {
+                if (mapUidHosts.containsKey(uid))
+                    return mapUidHosts.get(uid);
+            }
+
         lock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             // There is a segmented index on uid
             // There is an index on block
-            return db.compileStatement("SELECT COUNT(*) FROM access WHERE block >= 0 AND uid =" + uid).simpleQueryForLong();
+            long hosts = db.compileStatement("SELECT COUNT(*) FROM access WHERE block >= 0 AND uid =" + uid).simpleQueryForLong();
+            synchronized (mapUidHosts) {
+                mapUidHosts.put(uid, hosts);
+            }
+            return hosts;
         } finally {
             lock.readLock().unlock();
         }
