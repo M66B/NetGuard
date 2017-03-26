@@ -351,11 +351,11 @@ jint get_uid_retry(const int version, const int protocol,
             daddr128[10] = (uint8_t) 0xFF;
             daddr128[11] = (uint8_t) 0xFF;
             memcpy(daddr128 + 12, daddr, 4);
-            uid = get_uid(6, protocol, saddr, sport, daddr128, dport, tries == UID_MAXTRY);
+            uid = get_uid(6, protocol, saddr, sport, daddr128, dport);
         }
 
         if (uid < 0)
-            uid = get_uid(version, protocol, saddr, sport, daddr, dport, tries == UID_MAXTRY);
+            uid = get_uid(version, protocol, saddr, sport, daddr, dport);
 
         // Retry delay
         if (uid < 0 && tries < UID_MAXTRY) {
@@ -374,8 +374,7 @@ jint get_uid_retry(const int version, const int protocol,
 
 jint get_uid(const int version, const int protocol,
              const void *saddr, const uint16_t sport,
-             const void *daddr, const uint16_t dport,
-             int lasttry) {
+             const void *daddr, const uint16_t dport) {
     char line[250];
     char hex[16 * 2 + 1];
     int fields;
@@ -406,12 +405,6 @@ jint get_uid(const int version, const int protocol,
     else
         return uid;
 
-    if (lasttry) {
-        char dest[INET6_ADDRSTRLEN + 1];
-        inet_ntop(version == 4 ? AF_INET : AF_INET6, daddr, dest, sizeof(dest));
-        log_android(ANDROID_LOG_WARN, "Searching %u > %s/%u in %s", sport, dest, dport, fn);
-    }
-
     // Open proc file
     FILE *fd = fopen(fn, "r");
     if (fd == NULL) {
@@ -439,8 +432,9 @@ jint get_uid(const int version, const int protocol,
                         line,
                         "%*d: %*X:%X %32s:%X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld",
                         &_sport, hex, &_dport, &u);
+
             if (fields == 4 && (version == 4 ? strlen(hex) == 8 : strlen(hex) == 32)) {
-                if (_sport > 0 && _dport > 0 && u >= 0) {
+                if (_sport > 0 && u >= 0) {
                     hex2bytes(hex, version == 4 ? _daddr4 : _daddr6);
                     if (version == 4)
                         ((uint32_t *) _daddr4)[0] = htonl(((uint32_t *) _daddr4)[0]);
@@ -448,23 +442,12 @@ jint get_uid(const int version, const int protocol,
                         for (int w = 0; w < 4; w++)
                             ((uint32_t *) _daddr6)[w] = htonl(((uint32_t *) _daddr6)[w]);
 
-                    if (lasttry) {
-                        char dest[INET6_ADDRSTRLEN + 1];
-                        inet_ntop(version == 4 ? AF_INET : AF_INET6,
-                                  version == 4 ? _daddr4 : _daddr6,
-                                  dest, sizeof(dest));
-                        log_android(ANDROID_LOG_WARN, "%u > %s/%u %d %s",
-                                    _sport, dest, _dport, u, line);
-                    }
-
-                    if (_sport == sport &&
-                        (lasttry || (_dport == dport &&
-                                     memcmp(version == 4
-                                            ? _daddr4
-                                            : _daddr6, daddr,
-                                            version == 4 ? 4 : 16) == 0))) {
+                    if (_sport == sport) {
                         uid = u;
-                        break;
+                        if (_dport == dport &&
+                            memcmp(version == 4 ? _daddr4 : _daddr6, daddr,
+                                   version == 4 ? 4 : 16) == 0)
+                            break;
                     }
                 }
             }

@@ -56,8 +56,8 @@
 // https://en.wikipedia.org/wiki/Maximum_segment_lifetime
 
 #define UID_DELAY 1 // milliseconds
-#define UID_DELAYTRY 10 // milliseconds
-#define UID_MAXTRY 3
+#define UID_DELAYTRY 1 // milliseconds
+#define UID_MAXTRY 1
 
 #define SOCKS5_NONE 1
 #define SOCKS5_HELLO 2
@@ -458,8 +458,7 @@ jint get_uid_retry(const int version, const int protocol,
 
 jint get_uid(const int version, const int protocol,
              const void *saddr, const uint16_t sport,
-             const void *daddr, const uint16_t dport,
-             int lasttry);
+             const void *daddr, const uint16_t dport);
 
 int protect_socket(const struct arguments *args, int socket);
 
