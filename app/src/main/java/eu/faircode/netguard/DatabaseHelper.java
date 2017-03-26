@@ -55,6 +55,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static HandlerThread hthread = null;
     private static Handler handler = null;
 
+    private static Map<Integer, Long> mapUidHosts = new HashMap<>();
+
     private final static int MSG_LOG = 1;
     private final static int MSG_ACCESS = 2;
     private final static int MSG_FORWARD = 3;
@@ -79,6 +81,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (dh == null)
             dh = new DatabaseHelper(context.getApplicationContext());
         return dh;
+    }
+
+    public static void clearCache() {
+        synchronized (mapUidHosts) {
+            mapUidHosts.clear();
+        }
     }
 
     @Override
@@ -727,8 +735,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             lock.readLock().unlock();
         }
     }
-
-    private static Map<Integer, Long> mapUidHosts = new HashMap<>();
 
     public long getHostCount(int uid, boolean usecache) {
         if (usecache)

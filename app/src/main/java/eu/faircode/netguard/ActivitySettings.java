@@ -1277,6 +1277,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Upgrade imported settings
         Receiver.upgrade(true, this);
 
+        DatabaseHelper.clearCache();
+
         // Refresh UI
         prefs.edit().putBoolean("imported", true).apply();
         prefs.registerOnSharedPreferenceChangeListener(this);
