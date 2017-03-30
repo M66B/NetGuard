@@ -40,7 +40,7 @@
   <string name="menu_reset">रीसेट</string>
   <string name="menu_add">जोड़ें</string>
   <string name="menu_delete">मिटाना</string>
-  <string name="menu_cleanup">Cleanup</string>
+  <string name="menu_cleanup">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
   <string name="title_protocol">प्रोटोकॉल</string>
   <string name="title_dport">स्रोत पोर्ट</string>
   <string name="title_raddr">गंतव्य पता</string>

@@ -100,7 +100,7 @@
   <string name="setting_stats_category">התראת מהירות</string>
   <string name="setting_stats">הצג התראת מהירות</string>
   <string name="setting_stats_top">הצג את היישומים העליונים</string>
-  <string name="setting_stats_frequency">מרווח הדגימה: %%s מ\"ש</string>
+  <string name="setting_stats_frequency">מרווח הדגימה: %s מ\"ש</string>
   <string name="setting_stats_samples">מספר הדגימות: %s ש</string>
   <string name="setting_backup">גיבוי</string>
   <string name="setting_export">ייצא הגדרות</string>
