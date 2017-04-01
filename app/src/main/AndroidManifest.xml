@@ -56,6 +56,9 @@
         <meta-data
             android:name="firebase_analytics_collection_deactivated"
             android:value="true"/>
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1"/>
 
         <activity
             android:name=".ActivityMain"
