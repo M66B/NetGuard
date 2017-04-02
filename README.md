@@ -235,6 +235,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ52"></a>
 [**(52) What is lockdown mode?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ52)
 
+<a name="FAQ53"></a>
+[**(53) The translation in my language is missing / incorrect / incomplete!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ53)
+
 Support
 -------
 

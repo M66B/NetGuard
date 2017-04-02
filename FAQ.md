@@ -499,6 +499,12 @@ when managing system applications is enabled in the advanced settings.
 
 You can enable/disable lockdown mode in the main menu, using a widget or using a settings tile (Android 7 Nougat or later).
 
+<a name="FAQ53"></a>
+**(53) The translation in my language is missing / incorrect / incomplete!**
+
+You can contribute translations [here](https://crowdin.com/project/netguard) (registration is free).
+If your language is missing, please contact me to have it added.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
