@@ -505,6 +505,31 @@ You can enable/disable lockdown mode in the main menu, using a widget or using a
 You can contribute translations [here](https://crowdin.com/project/netguard) (registration is free).
 If your language is missing, please contact me to have it added.
 
+<a name="FAQ54"></a>
+**(54) How to tunnel all TCP connections through the Tor network if you bought the SOCKS feature?**
+
+First, install [Orbot](market://details?id=org.torproject.android), the Android client for Tor,
+run it, press _Start_, while it connects open its _Settings_ and make sure it's setup to auto-start
+on device start.
+
+In NetGuard's _Advanced_ settings enable _Subnet routing_.
+
+Having purchased the NetGuard SOCKS feature (this is required), just enable it in _Advanced_
+settings, setup address as 127.0.0.1 and port as 9050 (this is the default port, if
+you changed this in Orbot make the adjustment here also).
+
+This should be enough, if testing fails (eg. no connection at all) you can open the app details
+for Orbot, uncheck _Apply rules and conditions_ and retry.
+
+How to test: open Firefox (or another non-proxy enabled browser) to the address https://ipleak.net/
+and you should see a different IP address from your regular one, and below in the _Tor Exit Node_
+field something else besides _Unknown_.
+
+**Be aware** that all the other Tor caveats (https://www.torproject.org/docs/faq.html.en) still apply,
+like having the Tor network unreacheable, your activity actively monitored/targeted in your country,
+online services (eg. Gmail, Google Play store) failing to login or being forced to solve endless capchas
+when accessing sites that use Cloudflare's CDN services. 
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
