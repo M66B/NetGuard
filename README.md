@@ -239,7 +239,7 @@ Frequently Asked Questions (FAQ)
 [**(53) The translation in my language is missing / incorrect / incomplete!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ53)
 
 <a name="FAQ54"></a>
-[**(54) How to tunnel all TCP connections through the Tor network if you bought the SOCKS feature?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ54)
+[**(54) How to tunnel all TCP connections through the Tor network?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ54)
 
 Support
 -------
