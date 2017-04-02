@@ -113,7 +113,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean registeredUser = false;
     private boolean registeredIdleState = false;
     private boolean registeredConnectivityChanged = false;
-    private boolean registeredPackageAdded = false;
+    private boolean registeredPackageChanged = false;
 
     private State state = State.none;
     private boolean user_foreground = true;
@@ -1907,15 +1907,153 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     };
 
-    private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            Rule.clearCache(ServiceSinkhole.this);
-            reload("package added", ServiceSinkhole.this);
+
+            if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
+                // Application added
+                Rule.clearCache(context);
+
+                if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
+                    // Show notification
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context) && prefs.getBoolean("install", true)) {
+                        int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
+                        notifyNewApplication(uid);
+                    }
+                }
+
+                reload("package added", context);
+
+            } else if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
+                // Application removed
+                Rule.clearCache(context);
+
+                if (intent.getBooleanExtra(Intent.EXTRA_DATA_REMOVED, false)) {
+                    // Remove settings
+                    String packageName = intent.getData().getSchemeSpecificPart();
+                    Log.i(TAG, "Deleting settings package=" + packageName);
+                    context.getSharedPreferences("wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                    context.getSharedPreferences("other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                    context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                    context.getSharedPreferences("screen_other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                    context.getSharedPreferences("roaming", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                    context.getSharedPreferences("lockdown", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                    context.getSharedPreferences("apply", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                    context.getSharedPreferences("notify", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+
+                    int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
+                    if (uid > 0) {
+                        DatabaseHelper dh = DatabaseHelper.getInstance(context);
+                        dh.clearLog(uid);
+                        dh.clearAccess(uid, false);
+
+                        NotificationManagerCompat.from(context).cancel(uid); // installed notification
+                        NotificationManagerCompat.from(context).cancel(uid + 10000); // access notification
+                    }
+                }
+
+                reload("package deleted", context);
+            }
         }
     };
+
+    public void notifyNewApplication(int uid) {
+        if (uid < 0)
+            return;
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        try {
+            // Get application name
+            String name = TextUtils.join(", ", Util.getApplicationNames(uid, this));
+
+            // Get application info
+            PackageManager pm = getPackageManager();
+            String[] packages = pm.getPackagesForUid(uid);
+            if (packages == null || packages.length < 1)
+                throw new PackageManager.NameNotFoundException(Integer.toString(uid));
+            boolean internet = Util.hasInternet(uid, this);
+
+            // Build notification
+            Intent main = new Intent(this, ActivityMain.class);
+            main.putExtra(ActivityMain.EXTRA_REFRESH, true);
+            main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
+            PendingIntent pi = PendingIntent.getActivity(this, uid, main, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            TypedValue tv = new TypedValue();
+            getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.drawable.ic_security_white_24dp)
+                    .setContentIntent(pi)
+                    .setColor(tv.data)
+                    .setAutoCancel(true);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                builder.setContentTitle(name)
+                        .setContentText(getString(R.string.msg_installed_n));
+            else
+                builder.setContentTitle(getString(R.string.app_name))
+                        .setContentText(getString(R.string.msg_installed, name));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                builder.setCategory(Notification.CATEGORY_STATUS)
+                        .setVisibility(Notification.VISIBILITY_SECRET);
+
+            // Get defaults
+            SharedPreferences prefs_wifi = getSharedPreferences("wifi", Context.MODE_PRIVATE);
+            SharedPreferences prefs_other = getSharedPreferences("other", Context.MODE_PRIVATE);
+            boolean wifi = prefs_wifi.getBoolean(packages[0], prefs.getBoolean("whitelist_wifi", true));
+            boolean other = prefs_other.getBoolean(packages[0], prefs.getBoolean("whitelist_other", true));
+
+            // Build Wi-Fi action
+            Intent riWifi = new Intent(this, ServiceSinkhole.class);
+            riWifi.putExtra(ServiceSinkhole.EXTRA_COMMAND, ServiceSinkhole.Command.set);
+            riWifi.putExtra(ServiceSinkhole.EXTRA_NETWORK, "wifi");
+            riWifi.putExtra(ServiceSinkhole.EXTRA_UID, uid);
+            riWifi.putExtra(ServiceSinkhole.EXTRA_PACKAGE, packages[0]);
+            riWifi.putExtra(ServiceSinkhole.EXTRA_BLOCKED, !wifi);
+
+            PendingIntent piWifi = PendingIntent.getService(this, uid, riWifi, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.addAction(
+                    wifi ? R.drawable.wifi_on : R.drawable.wifi_off,
+                    getString(wifi ? R.string.title_allow : R.string.title_block),
+                    piWifi
+            );
+
+            // Build mobile action
+            Intent riOther = new Intent(this, ServiceSinkhole.class);
+            riOther.putExtra(ServiceSinkhole.EXTRA_COMMAND, ServiceSinkhole.Command.set);
+            riOther.putExtra(ServiceSinkhole.EXTRA_NETWORK, "other");
+            riOther.putExtra(ServiceSinkhole.EXTRA_UID, uid);
+            riOther.putExtra(ServiceSinkhole.EXTRA_PACKAGE, packages[0]);
+            riOther.putExtra(ServiceSinkhole.EXTRA_BLOCKED, !other);
+            PendingIntent piOther = PendingIntent.getService(this, uid + 10000, riOther, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.addAction(
+                    other ? R.drawable.other_on : R.drawable.other_off,
+                    getString(other ? R.string.title_allow : R.string.title_block),
+                    piOther
+            );
+
+            // Show notification
+            if (internet)
+                NotificationManagerCompat.from(this).notify(uid, builder.build());
+            else {
+                NotificationCompat.BigTextStyle expanded = new NotificationCompat.BigTextStyle(builder);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    expanded.bigText(getString(R.string.msg_installed_n));
+                else
+                    expanded.bigText(getString(R.string.msg_installed, name));
+                expanded.setSummaryText(getString(R.string.title_internet));
+                NotificationManagerCompat.from(this).notify(uid, expanded.build());
+            }
+
+        } catch (PackageManager.NameNotFoundException ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
+    }
 
     private PhoneStateListener phoneStateListener = new PhoneStateListener() {
         private String last_generation = null;
@@ -2025,9 +2163,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         // Listen for added applications
         IntentFilter ifPackage = new IntentFilter();
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
+        ifPackage.addAction(Intent.ACTION_PACKAGE_REMOVED);
         ifPackage.addDataScheme("package");
-        registerReceiver(packageAddedReceiver, ifPackage);
-        registeredPackageAdded = true;
+        registerReceiver(packageChangedReceiver, ifPackage);
+        registeredPackageChanged = true;
 
         // Setup house holding
         Intent alarmIntent = new Intent(this, ServiceSinkhole.class);
@@ -2123,7 +2262,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         ServiceSinkhole.reload("notification", ServiceSinkhole.this);
 
         // Update notification
-        Receiver.notifyNewApplication(uid, ServiceSinkhole.this);
+        notifyNewApplication(uid);
 
         // Update UI
         Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
@@ -2173,9 +2312,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             unregisterReceiver(connectivityChangedReceiver);
             registeredConnectivityChanged = false;
         }
-        if (registeredPackageAdded) {
-            unregisterReceiver(packageAddedReceiver);
-            registeredPackageAdded = false;
+        if (registeredPackageChanged) {
+            unregisterReceiver(packageChangedReceiver);
+            registeredPackageChanged = false;
         }
 
         if (phone_state) {
