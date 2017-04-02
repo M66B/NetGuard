@@ -2019,7 +2019,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             PendingIntent piWifi = PendingIntent.getService(this, uid, riWifi, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Action wAction = new NotificationCompat.Action.Builder(
                     wifi ? R.drawable.wifi_on : R.drawable.wifi_off,
-                    getString(wifi ? R.string.title_allow : R.string.title_block),
+                    getString(wifi ? R.string.title_allow_wifi : R.string.title_block_wifi),
                     piWifi
             ).build();
             builder.addAction(wAction);
@@ -2034,7 +2034,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             PendingIntent piOther = PendingIntent.getService(this, uid + 10000, riOther, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Action oAction = new NotificationCompat.Action.Builder(
                     other ? R.drawable.other_on : R.drawable.other_off,
-                    getString(other ? R.string.title_allow : R.string.title_block),
+                    getString(other ? R.string.title_allow_other : R.string.title_block_other),
                     piOther
             ).build();
             builder.addAction(oAction);
