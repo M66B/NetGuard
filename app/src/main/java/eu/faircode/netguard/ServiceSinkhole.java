@@ -2017,11 +2017,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             riWifi.putExtra(ServiceSinkhole.EXTRA_BLOCKED, !wifi);
 
             PendingIntent piWifi = PendingIntent.getService(this, uid, riWifi, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.addAction(
+            NotificationCompat.Action wAction = new NotificationCompat.Action.Builder(
                     wifi ? R.drawable.wifi_on : R.drawable.wifi_off,
                     getString(wifi ? R.string.title_allow : R.string.title_block),
                     piWifi
-            );
+            ).build();
+            builder.addAction(wAction);
 
             // Build mobile action
             Intent riOther = new Intent(this, ServiceSinkhole.class);
@@ -2031,11 +2032,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             riOther.putExtra(ServiceSinkhole.EXTRA_PACKAGE, packages[0]);
             riOther.putExtra(ServiceSinkhole.EXTRA_BLOCKED, !other);
             PendingIntent piOther = PendingIntent.getService(this, uid + 10000, riOther, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.addAction(
+            NotificationCompat.Action oAction = new NotificationCompat.Action.Builder(
                     other ? R.drawable.other_on : R.drawable.other_off,
                     getString(other ? R.string.title_allow : R.string.title_block),
                     piOther
-            );
+            ).build();
+            builder.addAction(oAction);
 
             // Show notification
             if (internet)
