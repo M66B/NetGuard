@@ -523,6 +523,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cv.put("protocol", packet.protocol);
                     cv.put("daddr", dname == null ? packet.daddr : dname);
                     cv.put("dport", packet.dport);
+                    if (block < 0)
+                        cv.put("block", block);
 
                     if (db.insert("access", null, cv) == -1)
                         Log.e(TAG, "Insert access failed");
