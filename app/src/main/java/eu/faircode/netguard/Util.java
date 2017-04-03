@@ -33,6 +33,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
+import android.net.LinkProperties;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -268,8 +269,30 @@ public class Util {
     }
 
     public static List<String> getDefaultDNS(Context context) {
-        String dns1 = jni_getprop("net.dns1");
-        String dns2 = jni_getprop("net.dns2");
+        String dns1 = null;
+        String dns2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            Network an = cm.getActiveNetwork();
+            if (an != null) {
+                LinkProperties lp = cm.getLinkProperties(an);
+                if (lp != null) {
+                    List<InetAddress> dns = lp.getDnsServers();
+                    if (dns != null) {
+                        if (dns.size() > 0)
+                            dns1 = dns.get(0).getHostAddress();
+                        if (dns.size() > 1)
+                            dns2 = dns.get(1).getHostAddress();
+                        for (InetAddress d : dns)
+                            Log.i(TAG, "DNS from LP: " + d.getHostAddress());
+                    }
+                }
+            }
+        } else {
+            dns1 = jni_getprop("net.dns1");
+            dns2 = jni_getprop("net.dns2");
+        }
+
         List<String> listDns = new ArrayList<>();
         listDns.add(TextUtils.isEmpty(dns1) ? "8.8.8.8" : dns1);
         listDns.add(TextUtils.isEmpty(dns2) ? "8.8.4.4" : dns2);
