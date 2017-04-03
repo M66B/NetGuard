@@ -224,6 +224,10 @@
   <string name="title_rate">Bewerten</string>
   <string name="title_allow">Erlauben</string>
   <string name="title_block">Sperren</string>
+  <string name="title_allow_wifi">WLAN erlauben</string>
+  <string name="title_block_wifi">WLAN blockieren</string>
+  <string name="title_allow_other">Mobile Daten erlauben</string>
+  <string name="title_block_other">Mobile Daten blockieren</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">Medienserver</string>
   <string name="title_nobody">Keiner</string>

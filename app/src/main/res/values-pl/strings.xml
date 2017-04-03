@@ -225,6 +225,10 @@
   <string name="title_rate">Oceń</string>
   <string name="title_allow">Zezwól</string>
   <string name="title_block">Blokuj</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nobody</string>

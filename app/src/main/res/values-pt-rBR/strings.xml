@@ -226,6 +226,10 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_rate">Avaliar</string>
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">raiz</string>
   <string name="title_mediaserver">Servidor de Mídia</string>
   <string name="title_nobody">ninguém</string>

@@ -223,6 +223,10 @@
   <string name="title_rate">Đánh giá</string>
   <string name="title_allow">Cho phép</string>
   <string name="title_block">Chặn</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">máy chủ phương tiện</string>
   <string name="title_nobody">nobody</string>

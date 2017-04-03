@@ -228,6 +228,10 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_rate">Beoordeel</string>
   <string name="title_allow">Toestaan</string>
   <string name="title_block">Blokkeren</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">niemand</string>

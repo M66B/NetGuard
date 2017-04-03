@@ -228,6 +228,10 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="title_rate">Bedøm</string>
   <string name="title_allow">Tillad</string>
   <string name="title_block">Bloker</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">Root</string>
   <string name="title_mediaserver">medieserver</string>
   <string name="title_nobody">ingen</string>

@@ -224,6 +224,10 @@
   <string name="title_rate">قيم البرنامج</string>
   <string name="title_allow">اســمــح</string>
   <string name="title_block">احظر</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">الجذر</string>
   <string name="title_mediaserver">خادم الوسائط</string>
   <string name="title_nobody">لا أحد</string>

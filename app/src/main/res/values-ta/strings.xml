@@ -223,6 +223,10 @@
   <string name="title_rate">மதிப்பிடுக</string>
   <string name="title_allow">அனுமதி</string>
   <string name="title_block">தடைசெய்</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">வேர்</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">யாரும்</string>

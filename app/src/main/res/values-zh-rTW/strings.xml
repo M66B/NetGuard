@@ -230,6 +230,10 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_rate">評分</string>
   <string name="title_allow">允許</string>
   <string name="title_block">阻擋</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">媒體伺服器</string>
   <string name="title_nobody">nobody</string>

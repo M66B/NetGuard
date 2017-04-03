@@ -223,6 +223,10 @@
   <string name="title_rate">Noteeraus</string>
   <string name="title_allow">Salli</string>
   <string name="title_block">Estä</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediapalvelin</string>
   <string name="title_nobody">ei kukaan</string>

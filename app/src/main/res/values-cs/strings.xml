@@ -229,6 +229,10 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_rate">Ohodnotit</string>
   <string name="title_allow">Povolit</string>
   <string name="title_block">Blokovat</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nikdo</string>

@@ -223,6 +223,10 @@
   <string name="title_rate">Calificar</string>
   <string name="title_allow">Permitir</string>
   <string name="title_block">Bloquear</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">raíz</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nadie</string>

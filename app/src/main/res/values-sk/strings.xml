@@ -228,6 +228,10 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="title_rate">Ohodnotiť</string>
   <string name="title_allow">Povoliť</string>
   <string name="title_block">Blokovať</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">server médií</string>
   <string name="title_nobody">nikto</string>

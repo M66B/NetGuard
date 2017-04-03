@@ -225,6 +225,10 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_rate">Évaluer</string>
   <string name="title_allow">Autoriser</string>
   <string name="title_block">Bloquer</string>
+  <string name="title_allow_wifi">Allow Wi-Fi</string>
+  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_other">Allow mobile</string>
+  <string name="title_block_other">Block mobile</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">personne</string>
