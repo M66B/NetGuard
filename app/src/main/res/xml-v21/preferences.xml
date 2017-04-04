@@ -222,7 +222,7 @@
             <EditTextPreference
                 android:dependency="filter"
                 android:hint="1080"
-                android:inputType="text"
+                android:inputType="number"
                 android:key="socks5_port"/>
             <EditTextPreference
                 android:dependency="filter"
