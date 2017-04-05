@@ -225,10 +225,10 @@
   <string name="title_rate">Оцінити</string>
   <string name="title_allow">Дозволити</string>
   <string name="title_block">Блокувати</string>
-  <string name="title_allow_wifi">Allow Wi-Fi</string>
-  <string name="title_block_wifi">Block Wi-Fi</string>
-  <string name="title_allow_other">Allow mobile</string>
-  <string name="title_block_other">Block mobile</string>
+  <string name="title_allow_wifi">Дозволити передавання через Wi-Fi</string>
+  <string name="title_block_wifi">Блокувати передавання через Wi-Fi</string>
+  <string name="title_allow_other">Дозволити передавання мобільних даних</string>
+  <string name="title_block_other">Блокувати передавання мобільних даних</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">медіасервер</string>
   <string name="title_nobody">ніхто</string>

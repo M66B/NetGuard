@@ -224,10 +224,10 @@
   <string name="title_rate">評価</string>
   <string name="title_allow">許可</string>
   <string name="title_block">ブロック</string>
-  <string name="title_allow_wifi">Allow Wi-Fi</string>
-  <string name="title_block_wifi">Block Wi-Fi</string>
-  <string name="title_allow_other">Allow mobile</string>
-  <string name="title_block_other">Block mobile</string>
+  <string name="title_allow_wifi">Wi-Fi を許可</string>
+  <string name="title_block_wifi">Wi-Fi をブロック</string>
+  <string name="title_allow_other">モバイル通信を許可</string>
+  <string name="title_block_other">モバイル通信をブロック</string>
   <string name="title_root">ルート</string>
   <string name="title_mediaserver">メディアサーバー</string>
   <string name="title_nobody">nobody</string>

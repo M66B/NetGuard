@@ -226,10 +226,10 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="title_rate">Evalueaza aplicatia</string>
   <string name="title_allow">Permite</string>
   <string name="title_block">Blocheaza</string>
-  <string name="title_allow_wifi">Allow Wi-Fi</string>
-  <string name="title_block_wifi">Block Wi-Fi</string>
-  <string name="title_allow_other">Allow mobile</string>
-  <string name="title_block_other">Block mobile</string>
+  <string name="title_allow_wifi">Permite Wi-Fi</string>
+  <string name="title_block_wifi">Blocare Wi-Fi</string>
+  <string name="title_allow_other">Permite date mobile</string>
+  <string name="title_block_other">Blocare datele mobile</string>
   <string name="title_root">Proces root</string>
   <string name="title_mediaserver">Proces Mediaserver</string>
   <string name="title_nobody">Proces fara utilizator</string>
