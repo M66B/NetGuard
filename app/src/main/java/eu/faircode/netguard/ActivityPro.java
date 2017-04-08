@@ -304,12 +304,14 @@ public class ActivityPro extends AppCompatActivity {
         TextView tvDev2 = (TextView) findViewById(R.id.tvDev2);
         LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
 
-        btnLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.GONE : View.VISIBLE);
-        btnFilter.setVisibility(IAB.isPurchased(SKU_FILTER, this) ? View.GONE : View.VISIBLE);
+        boolean can = Util.canFilter(this);
+
+        btnLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.GONE : (can ? View.VISIBLE : View.INVISIBLE));
+        btnFilter.setVisibility(IAB.isPurchased(SKU_FILTER, this) ? View.GONE : (can ? View.VISIBLE : View.INVISIBLE));
         btnNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.GONE : View.VISIBLE);
         btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
         btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
-        btnAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.GONE : View.VISIBLE);
+        btnAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.GONE : (can ? View.VISIBLE : View.INVISIBLE));
         btnDev1.setVisibility(IAB.isPurchased(SKU_SUPPORT1, this) ? View.GONE : View.VISIBLE);
         btnDev2.setVisibility(IAB.isPurchased(SKU_SUPPORT2, this) ? View.GONE : View.VISIBLE);
 
@@ -324,6 +326,6 @@ public class ActivityPro extends AppCompatActivity {
 
         llChallenge.setVisibility(
                 IAB.isPurchased(SKU_DONATION, this) || Util.isPlayStoreInstall(this)
-                        ? View.GONE : View.VISIBLE);
+                        ? View.GONE : (can ? View.VISIBLE : View.GONE));
     }
 }

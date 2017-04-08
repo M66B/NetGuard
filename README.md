@@ -84,6 +84,8 @@ like when there is no internet conncectivity yet (when starting up your device)
 or when incorrectly requiring manual approval of the VPN service again (when starting up your device).
 Unfortunately these Android bugs cannot be worked around by NetGuard.
 
+Filtering mode cannot be used on [CopperheadOS](https://copperhead.co/android/).
+
 NetGuard will not work or crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 Removing this package is possible with root permissions only.
 

@@ -44,7 +44,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.net.ConnectivityManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.telephony.SubscriptionInfo;
@@ -61,6 +60,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -399,6 +399,21 @@ public class Util {
             Collections.sort(listResult);
         }
         return listResult;
+    }
+
+    public static boolean canFilter(Context context) {
+        File tcp = new File("/proc/net/tcp");
+        File tcp6 = new File("/proc/net/tcp6");
+        try {
+            if (tcp.exists() && tcp.canRead())
+                return true;
+        } catch (SecurityException ignored) {
+        }
+        try {
+            return (tcp6.exists() && tcp6.canRead());
+        } catch (SecurityException ignored) {
+            return false;
+        }
     }
 
     public static boolean isDebuggable(Context context) {
