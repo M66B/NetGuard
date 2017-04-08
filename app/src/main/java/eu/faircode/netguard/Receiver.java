@@ -100,6 +100,8 @@ public class Receiver extends BroadcastReceiver {
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
                 editor.putBoolean("filter", true); // Mandatory
+            if (!Util.canFilter(context))
+                editor.putBoolean("filter", false);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 editor.remove("show_top");
