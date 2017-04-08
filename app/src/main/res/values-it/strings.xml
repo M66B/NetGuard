@@ -179,7 +179,7 @@
   <string name="msg_inactive">Nessuna connessione internet attiva</string>
   <string name="msg_queue">NetGuard è occupato</string>
   <string name="msg_update">Aggiornamento disponibile, clicca per scaricare</string>
-  <string name="msg_usage">Puoi permettere (verdastro) o bloccare (rossastro) l\'accesso internet a Wi-Fi o mobile toccando le icone a fianco di un\'applicazione</string>
+  <string name="msg_usage">Puoi consentire (verdastro) o bloccare (rossastro) l\'accesso internet a Wi-Fi o mobile toccando le icone a fianco di un\'applicazione</string>
   <string name="msg_whitelist">L\'accesso a internet è consentito in modo predefinito, questo può essere cambiato nelle impostazioni</string>
   <string name="msg_push">I messaggi push sono gestiti principalmente dal componente di sistema Play Services, al quale è consentito l\'accesso a internet in modo predefinito</string>
   <string name="msg_system">La gestione delle applicazioni di sistema può essere attivata tramite le opzioni avanzate</string>
@@ -203,7 +203,7 @@
   <string name="title_apply">Applicare regole e condizioni</string>
   <string name="title_conditions">Condizioni</string>
   <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
-  <string name="title_screen_other">Permetti con le reti mobili, quando lo schermo è accesso</string>
+  <string name="title_screen_other">Consenti le reti dati quando lo schermo è accesso</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Blocca quando in roaming</string>
   <string name="title_lockdown">Consenti in modalità di blocco</string>
@@ -223,10 +223,10 @@
   <string name="title_rate">Vota</string>
   <string name="title_allow">Permetti</string>
   <string name="title_block">Blocca</string>
-  <string name="title_allow_wifi">Allow Wi-Fi</string>
-  <string name="title_block_wifi">Block Wi-Fi</string>
-  <string name="title_allow_other">Allow mobile</string>
-  <string name="title_block_other">Block mobile</string>
+  <string name="title_allow_wifi">Consenti Wi-Fi</string>
+  <string name="title_block_wifi">Blocca Wi-Fi</string>
+  <string name="title_allow_other">Consenti rete dati</string>
+  <string name="title_block_other">Blocca rete dati</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nessuno</string>
