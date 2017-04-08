@@ -758,6 +758,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             menu.findItem(R.id.menu_sort_name).setChecked(true);
 
         menu.findItem(R.id.menu_lockdown).setChecked(prefs.getBoolean("lockdown", false));
+        if (!Util.canFilter(this))
+            menu.removeItem(R.id.menu_log);
 
         return super.onPrepareOptionsMenu(menu);
     }

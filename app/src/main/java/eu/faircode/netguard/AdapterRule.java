@@ -592,6 +592,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         final boolean log_app = prefs.getBoolean("log_app", false);
         final boolean filter = prefs.getBoolean("filter", false);
         holder.tvLogging.setText(log_app && filter ? R.string.title_logging_enabled : R.string.title_logging_disabled);
+        holder.btnLogging.setVisibility(Util.canFilter(context) ? View.VISIBLE : View.GONE);
         holder.btnLogging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -615,7 +616,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     }
                 });
 
-                cbFiltering.setEnabled(Util.canFilter(context));
                 cbFiltering.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {

@@ -218,7 +218,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         });
 
         boolean can = Util.canFilter(this);
+        TwoStatePreference pref_log_app = (TwoStatePreference) screen.findPreference("log_app");
         TwoStatePreference pref_filter = (TwoStatePreference) screen.findPreference("filter");
+        pref_log_app.setEnabled(can);
         pref_filter.setEnabled(can);
 
         // VPN parameters
