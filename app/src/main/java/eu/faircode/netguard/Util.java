@@ -271,7 +271,7 @@ public class Util {
     public static List<String> getDefaultDNS(Context context) {
         String dns1 = null;
         String dns2 = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.N) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             Network an = cm.getActiveNetwork();
             if (an != null) {
