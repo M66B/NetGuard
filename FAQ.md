@@ -321,6 +321,7 @@ Therefore profiles will not be added, but you are welcome to propose new conditi
 however they need to be generally usable to be included.
 
 As a workaround you can use the export/import function to apply specific settings in specific circumstances.
+Alternatively you can use lockdown mode as a profile.
 
 <a name="FAQ34"></a>
 **(34) Can you add a condition 'when on foreground' or 'when active'?**
