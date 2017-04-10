@@ -56,6 +56,12 @@ However, the network speed graph notification will use extra battery power.
 This is why the notification is shown only when the screen is on.
 You can decrease the update frequency using the settings to reduce the battery usage.
 
+The battery usage when IP filtering is enabled depends on the quality of your Android VPN service implementation and the efficiency of the CPU of your device.
+Generally the battery usage on older devices might be unacceptable and hardly noticeable on modern devices with an efficient CPU.
+
+Note that Android often (incorrectly) contribute battery usage of other applications to NetGuard,
+because the network traffic of other applications is flowing through NetGuard.
+
 <a name="FAQ6"></a>
 **(6) Will NetGuard send my internet traffic to an external (VPN) server?**
 
@@ -527,7 +533,7 @@ field something else besides _Unknown_.
 **Be aware** that all the other Tor caveats (https://www.torproject.org/docs/faq.html.en) still apply,
 like having the Tor network unreacheable, your activity actively monitored/targeted in your country,
 online services (eg. Gmail, Google Play store) failing to login or being forced to solve endless capchas
-when accessing sites that use Cloudflare's CDN services. 
+when accessing sites that use Cloudflare's CDN services.
 
 <br />
 
