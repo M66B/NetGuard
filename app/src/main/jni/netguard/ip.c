@@ -290,7 +290,7 @@ void handle_ip(const struct arguments *args,
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6 ||
         (protocol == IPPROTO_UDP && !has_udp_session(args, pkt, payload)) ||
         (protocol == IPPROTO_TCP && syn))
-        uid = get_uid_retry(version, protocol, saddr, sport, daddr, dport);
+        uid = get_uid(version, protocol, saddr, sport, daddr, dport);
 
     log_android(ANDROID_LOG_DEBUG,
                 "Packet v%d %s/%u > %s/%u proto %d flags %s uid %d",
@@ -332,38 +332,28 @@ void handle_ip(const struct arguments *args,
     }
 }
 
-jint get_uid_retry(const int version, const int protocol,
-                   const void *saddr, const uint16_t sport,
-                   const void *daddr, const uint16_t dport) {
+jint get_uid(const int version, const int protocol,
+             const void *saddr, const uint16_t sport,
+             const void *daddr, const uint16_t dport) {
+    jint uid = -1;
+
     char dest[INET6_ADDRSTRLEN + 1];
     inet_ntop(version == 4 ? AF_INET : AF_INET6, daddr, dest, sizeof(dest));
     log_android(ANDROID_LOG_INFO, "get uid v%d p%d %u > %s/%u",
                 version, protocol, sport, dest, dport);
 
-    jint uid = -1;
-    int tries = 0;
-    usleep(1000 * UID_DELAY);
-    while (uid < 0 && tries++ < UID_MAXTRY) {
-        // Check IPv6 table first
-        if (version == 4) {
-            int8_t daddr128[16];
-            memset(daddr128, 0, 10);
-            daddr128[10] = (uint8_t) 0xFF;
-            daddr128[11] = (uint8_t) 0xFF;
-            memcpy(daddr128 + 12, daddr, 4);
-            uid = get_uid(6, protocol, saddr, sport, daddr128, dport);
-        }
-
-        if (uid < 0)
-            uid = get_uid(version, protocol, saddr, sport, daddr, dport);
-
-        // Retry delay
-        if (uid < 0 && tries < UID_MAXTRY) {
-            log_android(ANDROID_LOG_WARN, "get uid v%d p%d %u > %s/%u try %d",
-                        version, protocol, sport, dest, dport, tries);
-            usleep(1000 * UID_DELAYTRY);
-        }
+    // Check IPv6 table first
+    if (version == 4) {
+        int8_t daddr128[16];
+        memset(daddr128, 0, 10);
+        daddr128[10] = (uint8_t) 0xFF;
+        daddr128[11] = (uint8_t) 0xFF;
+        memcpy(daddr128 + 12, daddr, 4);
+        uid = get_uid_sub(6, protocol, saddr, sport, daddr128, dport);
     }
+
+    if (uid < 0)
+        uid = get_uid_sub(version, protocol, saddr, sport, daddr, dport);
 
     if (uid < 0)
         log_android(ANDROID_LOG_ERROR, "uid v%d p%d %u > %s/%u not found",
@@ -372,9 +362,9 @@ jint get_uid_retry(const int version, const int protocol,
     return uid;
 }
 
-jint get_uid(const int version, const int protocol,
-             const void *saddr, const uint16_t sport,
-             const void *daddr, const uint16_t dport) {
+jint get_uid_sub(const int version, const int protocol,
+                 const void *saddr, const uint16_t sport,
+                 const void *daddr, const uint16_t dport) {
     char line[250];
     char hex[16 * 2 + 1];
     int fields;

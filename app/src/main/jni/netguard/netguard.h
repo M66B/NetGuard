@@ -55,10 +55,6 @@
 #define TCP_KEEP_TIMEOUT 300 // seconds
 // https://en.wikipedia.org/wiki/Maximum_segment_lifetime
 
-#define UID_DELAY 1 // milliseconds
-#define UID_DELAYTRY 1 // milliseconds
-#define UID_MAXTRY 1
-
 #define SOCKS5_NONE 1
 #define SOCKS5_HELLO 2
 #define SOCKS5_AUTH 3
@@ -452,13 +448,13 @@ uint8_t char2nible(const char c);
 
 void hex2bytes(const char *hex, uint8_t *buffer);
 
-jint get_uid_retry(const int version, const int protocol,
-                   const void *saddr, const uint16_t sport,
-                   const void *daddr, const uint16_t dport);
-
 jint get_uid(const int version, const int protocol,
              const void *saddr, const uint16_t sport,
              const void *daddr, const uint16_t dport);
+
+jint get_uid_sub(const int version, const int protocol,
+                 const void *saddr, const uint16_t sport,
+                 const void *daddr, const uint16_t dport);
 
 int protect_socket(const struct arguments *args, int socket);
 
