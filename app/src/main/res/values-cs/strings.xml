@@ -192,6 +192,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="msg_issue">Popište prosím problém a uveďte čas, kdy k němu došlo:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Neomezená komunikace je povolena</string>
   <string name="title_unmetered_blocked">Neomezená komunikace je zakázána</string>
@@ -250,6 +251,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_pro_dev">Podpořit vývoj</string>
   <string name="title_pro_buy">Zakoupit</string>
   <string name="title_pro_bought">Povoleno</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Stiskněte název pro více informací</string>
   <string name="title_pro_ads">Zakoupením libovolné PRO funkce zakážete veškerou reklamu</string>
   <string name="title_pro_challenge">Výzva</string>

@@ -191,6 +191,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="msg_issue">Beskriv venligst problemet og angiv tidspunkt for problemet:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Ikke-forbrugsafregnet trafik er tilladt</string>
   <string name="title_unmetered_blocked">Ikke-forbrugsafregnet trafik er blokeret</string>
@@ -249,6 +250,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="title_pro_dev">Støt udviklingen</string>
   <string name="title_pro_buy">Køb</string>
   <string name="title_pro_bought">Aktiveret</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Tryk på en titel for yderligere oplysninger</string>
   <string name="title_pro_ads">Køb af en hvilken som helt Pro-funktion vil deaktivere alle reklamer</string>
   <string name="title_pro_challenge">Udfordring</string>

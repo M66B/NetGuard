@@ -187,6 +187,7 @@
   <string name="msg_issue">الرجاء أوصف المشكلة وبيّن وقت المشكلة</string>
   <string name="msg_vpn_cancelled">لــقــد ألـغــي الإتــصــال عــن طــريــق n/ VPN هــل تــريــد تــكــويــن VPN آخــر حــتــى تــكــون عـلـى إتــصــال دائــم عــن طــريــق VPN ؟</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">الحركة الغير مقاسة مسموحة</string>
   <string name="title_unmetered_blocked">الحركة الغير مقاسة محظورة</string>
@@ -245,6 +246,7 @@
   <string name="title_pro_dev">دعــم الــتـــطـــويـــر</string>
   <string name="title_pro_buy">شراء</string>
   <string name="title_pro_bought">ممكن</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">اضغط على اي عنوان للحصول على مزيد من المعلومات عــنــه</string>
   <string name="title_pro_ads">إن شــراء أي بــرو ســيــعــطــل جــمــيــع الإعــلانــات مــســتـــقـــبـــلا</string>
   <string name="title_pro_challenge">تحدّي</string>

@@ -191,6 +191,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="msg_issue">Prosím, opíšte problém a uveďte jeho čas:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Nemeraný prenos je povolený</string>
   <string name="title_unmetered_blocked">Nemeraný prenos je blokovaný</string>
@@ -249,6 +250,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="title_pro_dev">Support development</string>
   <string name="title_pro_buy">Buy</string>
   <string name="title_pro_bought">Povolené</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Tap on a title for more information</string>
   <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Výzva</string>

@@ -191,6 +191,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Ongelimiteerde verkeer is toegestaan</string>
   <string name="title_unmetered_blocked">Ongelimiteerde verkeer wordt geblokkeerd</string>
@@ -249,6 +250,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_pro_dev">Ondersteun ontwikkeling</string>
   <string name="title_pro_buy">Koop</string>
   <string name="title_pro_bought">Ingeschakeld</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Klik op een titel voor meer informatie</string>
   <string name="title_pro_ads">Het kopen van een pro functie zorgt ervoor dat alle advertenties voorgoed verdwijnen</string>
   <string name="title_pro_challenge">Uitdaging</string>

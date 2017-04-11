@@ -192,6 +192,7 @@
   <string name="msg_issue">请具体描述问题及问题发生的时间:</string>
   <string name="msg_vpn_cancelled">VPN 连接已取消\n您是否对另一个 VPN 设置了始终启用?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">已允许非按流量计费的网络数据</string>
   <string name="title_unmetered_blocked">已阻止非按流量计费的网络数据</string>
@@ -250,6 +251,7 @@
   <string name="title_pro_dev">支持应用开发</string>
   <string name="title_pro_buy">购买</string>
   <string name="title_pro_bought">已启用</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">点击标题查看更多信息</string>
   <string name="title_pro_ads">购买任何 pro 功能将禁用所有的广告</string>
   <string name="title_pro_challenge">验证口令</string>

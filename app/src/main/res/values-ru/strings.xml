@@ -188,6 +188,7 @@
   <string name="msg_issue">Пожалуйста, опишите проблему и укажите момент возникновения проблемы:</string>
   <string name="msg_vpn_cancelled">VPN соединение отменено\nХотите настроить другое соединение, чтобы VPN был всегда?</string>
   <string name="msg_on">Выключение устройства с запущенным NetGuard автоматически запустит NetGuard при включении вашего устройства</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Трафик заблокирован</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
   <string name="title_unmetered_blocked">Безлимитный трафик блокируется</string>
@@ -246,6 +247,7 @@
   <string name="title_pro_dev">Поддержать разработчика</string>
   <string name="title_pro_buy">Купить</string>
   <string name="title_pro_bought">Добавлено</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Нажмите на название для получения дополнительной информации</string>
   <string name="title_pro_ads">Покупка любой Pro-функции отключит всю рекламу</string>
   <string name="title_pro_challenge">Задание</string>

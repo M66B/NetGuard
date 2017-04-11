@@ -186,6 +186,7 @@
   <string name="msg_issue">Kuvaile ongelmatilanne ja ilmoita milloin ongelma ilmenee:</string>
   <string name="msg_vpn_cancelled">VPN yhteys on peruttu\n Oletko asettanut toisen VPN yhteyden aina-päällä tilaan?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Ei käytön mukaan laskutettava liikenne on sallittu</string>
   <string name="title_unmetered_blocked">Ei käytön mukaan laskutettava liikenne on estetty</string>
@@ -244,6 +245,7 @@
   <string name="title_pro_dev">Tue kehitystä</string>
   <string name="title_pro_buy">Osta</string>
   <string name="title_pro_bought">Käytössä</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Valitse otsikko saadaksesi lisätietoja</string>
   <string name="title_pro_ads">Minkä tahansa pro ominaosuuden ostaminen poistaa kaikki mainokset</string>
   <string name="title_pro_challenge">Haaste</string>

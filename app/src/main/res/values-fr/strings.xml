@@ -188,6 +188,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_issue">Veuillez décrire le problème et indiquer l\'heure à laquelle il est survenu :</string>
   <string name="msg_vpn_cancelled">La connexion VPN a été arrêtée\nAvez-vous configuré un autre VPN destiné à être un VPN toujours actif ?</string>
   <string name="msg_on">Si vous éteignez votre appareil avec NetGuard activé, celui ci démarrera automatiquement lorsque vous rallumerez votre appareil</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Le trafic est verrouillé</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>
   <string name="title_unmetered_blocked">Le trafic illimité est bloqué</string>
@@ -246,6 +247,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_pro_dev">Soutenir le développement</string>
   <string name="title_pro_buy">Acheter</string>
   <string name="title_pro_bought">Activé</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Tapez sur un titre pour plus d’information</string>
   <string name="title_pro_ads">L\'achat de n\'importe quelle fonctionnalité pro désactivera toutes les publicités</string>
   <string name="title_pro_challenge">Code</string>

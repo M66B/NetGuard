@@ -186,6 +186,7 @@
   <string name="msg_issue">தயவுசெய்து சிக்கலை விளக்க மற்றும் பிரச்சினையின் நேரம் என்பதை குறிப்பிடவும்:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Unmetered போக்குவரத்து அனுமதிக்கப்படும்</string>
   <string name="title_unmetered_blocked">Unmetered போக்குவரத்து தடைசெய்யப்பட்டது</string>
@@ -244,6 +245,7 @@
   <string name="title_pro_dev">ஆதரவு வளர்ச்சி</string>
   <string name="title_pro_buy">வாங்கு</string>
   <string name="title_pro_bought">எண்ணை திருத்து</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">மேலும் தகவலுக்கு ஒரு தலைப்பு துறையில்</string>
   <string name="title_pro_ads">எந்த ப்ரோ அம்சம் வாங்குவது இருக்கும் முடக்க அனைத்து விளம்பரங்கள்</string>
   <string name="title_pro_challenge">சவால்விடு</string>

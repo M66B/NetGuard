@@ -188,6 +188,7 @@
   <string name="msg_issue">कृपया समस्या का वर्णन करें और समस्या के समय से संकेत मिलता है:</string>
   <string name="msg_vpn_cancelled">VPN connection cancelled\nDid you configure another VPN to be an always-on VPN?</string>
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Unmetered यातायात की अनुमति है</string>
   <string name="title_unmetered_blocked">Unmetered यातायात अवरुद्ध है</string>
@@ -246,6 +247,7 @@
   <string name="title_pro_dev">विकासकर्ता को आर्थिक समर्थन दीजिए</string>
   <string name="title_pro_buy">ख़रीदें</string>
   <string name="title_pro_bought">सक्षम</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">अधिक जानकारी के लिए एक शीर्षक पर टैप करें</string>
   <string name="title_pro_ads">सभी विज्ञापन खरीदने के किसी भी प्रो सुविधा को अक्षम कर देंगे</string>
   <string name="title_pro_challenge">चुनौती</string>

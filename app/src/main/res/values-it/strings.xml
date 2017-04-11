@@ -186,6 +186,7 @@
   <string name="msg_issue">Si prega di descrivere il problema ed indicare il tempo di esso:</string>
   <string name="msg_vpn_cancelled">Connessione VPN annullata\nHai configurato un\'altra VPN che resta sempre attiva?</string>
   <string name="msg_on">Spegnendo il dispositivo con NetGuard abilitato, si avvierà automaticamente NetGuard all\'avvio del dispositivo</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Il traffico è bloccato</string>
   <string name="title_unmetered_allowed">Il traffico non al consumo è consentito</string>
   <string name="title_unmetered_blocked">Il traffico non al consumo è bloccato</string>
@@ -244,6 +245,7 @@
   <string name="title_pro_dev">Sostieni lo sviluppo</string>
   <string name="title_pro_buy">Acquista</string>
   <string name="title_pro_bought">Abilitato</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Tocca un titolo per maggiori informazioni</string>
   <string name="title_pro_ads">L\'acquisto di una qualsiasi funzionalità aggiuntiva disattiverà tutte le pubblicità</string>
   <string name="title_pro_challenge">Domanda di verifica</string>

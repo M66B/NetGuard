@@ -189,6 +189,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_issue">Por favor, descreva o problema e indique o momento em que ocorreu:</string>
   <string name="msg_vpn_cancelled">Conexão VPN cancelada\nVocê configurou outra VPN para ser uma VPN sempre ativa?</string>
   <string name="msg_on">Ao desligar seu dispositivo com o Netguard habilitado, fará com que o Netguard inicie automaticamente após o reinício</string>
+  <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado bloqueado</string>
@@ -247,6 +248,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_pro_dev">Ajude no desenvolvimento</string>
   <string name="title_pro_buy">Comprar</string>
   <string name="title_pro_bought">Ativado</string>
+  <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Toque em um título para obter mais informações</string>
   <string name="title_pro_ads">Comprar qualquer recurso Pro irá desativar todos os anúncios</string>
   <string name="title_pro_challenge">Código de verificação</string>
