@@ -758,8 +758,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             menu.findItem(R.id.menu_sort_name).setChecked(true);
 
         menu.findItem(R.id.menu_lockdown).setChecked(prefs.getBoolean("lockdown", false));
-        if (!Util.canFilter(this))
-            menu.removeItem(R.id.menu_log);
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -806,10 +804,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 return true;
 
             case R.id.menu_log:
-                if (IAB.isPurchased(ActivityPro.SKU_LOG, this))
-                    startActivity(new Intent(this, ActivityLog.class));
+                if (Util.canFilter(this))
+                    if (IAB.isPurchased(ActivityPro.SKU_LOG, this))
+                        startActivity(new Intent(this, ActivityLog.class));
+                    else
+                        startActivity(new Intent(this, ActivityPro.class));
                 else
-                    startActivity(new Intent(this, ActivityPro.class));
+                    Toast.makeText(this, R.string.msg_unavailable, Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.menu_settings:

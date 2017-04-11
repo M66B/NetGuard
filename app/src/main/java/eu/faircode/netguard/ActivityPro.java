@@ -304,19 +304,22 @@ public class ActivityPro extends AppCompatActivity {
         TextView tvDev2 = (TextView) findViewById(R.id.tvDev2);
         LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
 
+        TextView tvLogUnavailable = (TextView) findViewById(R.id.tvLogUnavailable);
+        TextView tvFilterUnavailable = (TextView) findViewById(R.id.tvFilterUnavailable);
+
         boolean can = Util.canFilter(this);
 
-        btnLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.GONE : (can ? View.VISIBLE : View.INVISIBLE));
-        btnFilter.setVisibility(IAB.isPurchased(SKU_FILTER, this) ? View.GONE : (can ? View.VISIBLE : View.INVISIBLE));
+        btnLog.setVisibility(IAB.isPurchased(SKU_LOG, this) || !can ? View.GONE : View.VISIBLE);
+        btnFilter.setVisibility(IAB.isPurchased(SKU_FILTER, this) || !can ? View.GONE : View.VISIBLE);
         btnNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.GONE : View.VISIBLE);
         btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
         btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
-        btnAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.GONE : (can ? View.VISIBLE : View.INVISIBLE));
+        btnAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.GONE : View.VISIBLE);
         btnDev1.setVisibility(IAB.isPurchased(SKU_SUPPORT1, this) ? View.GONE : View.VISIBLE);
         btnDev2.setVisibility(IAB.isPurchased(SKU_SUPPORT2, this) ? View.GONE : View.VISIBLE);
 
-        tvLog.setVisibility(IAB.isPurchased(SKU_LOG, this) ? View.VISIBLE : View.GONE);
-        tvFilter.setVisibility(IAB.isPurchased(SKU_FILTER, this) ? View.VISIBLE : View.GONE);
+        tvLog.setVisibility(IAB.isPurchased(SKU_LOG, this) && can ? View.VISIBLE : View.GONE);
+        tvFilter.setVisibility(IAB.isPurchased(SKU_FILTER, this) && can ? View.VISIBLE : View.GONE);
         tvNotify.setVisibility(IAB.isPurchased(SKU_NOTIFY, this) ? View.VISIBLE : View.GONE);
         tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
         tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
@@ -324,8 +327,11 @@ public class ActivityPro extends AppCompatActivity {
         tvDev1.setVisibility(IAB.isPurchased(SKU_SUPPORT1, this) ? View.VISIBLE : View.GONE);
         tvDev2.setVisibility(IAB.isPurchased(SKU_SUPPORT2, this) ? View.VISIBLE : View.GONE);
 
+        tvLogUnavailable.setVisibility(can ? View.GONE : View.VISIBLE);
+        tvFilterUnavailable.setVisibility(can ? View.GONE : View.VISIBLE);
+
         llChallenge.setVisibility(
                 IAB.isPurchased(SKU_DONATION, this) || Util.isPlayStoreInstall(this)
-                        ? View.GONE : (can ? View.VISIBLE : View.GONE));
+                        ? View.GONE : View.VISIBLE);
     }
 }

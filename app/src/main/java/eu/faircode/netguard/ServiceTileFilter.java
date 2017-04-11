@@ -28,6 +28,7 @@ import android.preference.PreferenceManager;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.Log;
+import android.widget.Toast;
 
 @TargetApi(Build.VERSION_CODES.N)
 public class ServiceTileFilter extends TileService implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -65,12 +66,14 @@ public class ServiceTileFilter extends TileService implements SharedPreferences.
     public void onClick() {
         Log.i(TAG, "Click");
 
-        if (IAB.isPurchased(ActivityPro.SKU_FILTER, this)) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            if (Util.canFilter(this))
+        if (Util.canFilter(this)) {
+            if (IAB.isPurchased(ActivityPro.SKU_FILTER, this)) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 prefs.edit().putBoolean("filter", !prefs.getBoolean("filter", false)).apply();
-            ServiceSinkhole.reload("tile", this);
+                ServiceSinkhole.reload("tile", this);
+            } else
+                startActivity(new Intent(this, ActivityPro.class));
         } else
-            startActivity(new Intent(this, ActivityPro.class));
+            Toast.makeText(this, R.string.msg_unavailable, Toast.LENGTH_SHORT).show();
     }
 }

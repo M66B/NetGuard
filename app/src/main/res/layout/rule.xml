@@ -372,91 +372,98 @@
             android:src="?attr/iconDelete"/>
 
         <LinearLayout
+            android:id="@+id/llFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/title_access"
+                    android:textAppearance="@style/TextTitle"/>
+
+                <ImageView
+                    android:id="@+id/ivLive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:src="?attr/iconPause"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvLogging"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textAppearance="@style/TextSmall"/>
+
+                <Button
+                    android:id="@+id/btnLogging"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:text="@string/title_logging_configure"/>
+            </LinearLayout>
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/title_precedence"
+                android:textAppearance="@style/TextSmall"
+                android:textStyle="italic"/>
+
+            <eu.faircode.netguard.ExpandedListView
+                android:id="@+id/lvAccess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"/>
+
+            <ImageButton
+                android:id="@+id/btnClearAccess"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/title_access"
+                android:layout_marginTop="4dp"
+                android:src="?attr/iconDelete"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/title_options"
                 android:textAppearance="@style/TextTitle"/>
 
-            <ImageView
-                android:id="@+id/ivLive"
+            <CheckBox
+                android:id="@+id/cbNotify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:src="?attr/iconPause"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvLogging"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
+                android:layout_marginTop="4dp"
+                android:text="@string/title_notify"
                 android:textAppearance="@style/TextSmall"/>
-
-            <Button
-                android:id="@+id/btnLogging"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:text="@string/title_logging_configure"/>
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/title_precedence"
-            android:textAppearance="@style/TextSmall"
-            android:textStyle="italic"/>
-
-        <eu.faircode.netguard.ExpandedListView
-            android:id="@+id/lvAccess"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"/>
-
-        <ImageButton
-            android:id="@+id/btnClearAccess"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="4dp"
-            android:src="?attr/iconDelete"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/title_options"
-            android:textAppearance="@style/TextTitle"/>
-
-        <CheckBox
-            android:id="@+id/cbNotify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/title_notify"
-            android:textAppearance="@style/TextSmall"/>
     </LinearLayout>
 </LinearLayout>

@@ -141,12 +141,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         public ImageButton btnClear;
 
+        public LinearLayout llFilter;
         public ImageView ivLive;
         public TextView tvLogging;
         public Button btnLogging;
         public ListView lvAccess;
         public ImageButton btnClearAccess;
-
         public CheckBox cbNotify;
 
         public ViewHolder(View itemView) {
@@ -200,12 +200,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
             btnClear = (ImageButton) itemView.findViewById(R.id.btnClear);
 
+            llFilter = (LinearLayout) itemView.findViewById(R.id.llFilter);
             ivLive = (ImageView) itemView.findViewById(R.id.ivLive);
             tvLogging = (TextView) itemView.findViewById(R.id.tvLogging);
             btnLogging = (Button) itemView.findViewById(R.id.btnLogging);
             lvAccess = (ListView) itemView.findViewById(R.id.lvAccess);
             btnClearAccess = (ImageButton) itemView.findViewById(R.id.btnClearAccess);
-
             cbNotify = (CheckBox) itemView.findViewById(R.id.cbNotify);
 
             final View wifiParent = (View) cbWifi.getParent();
@@ -575,6 +575,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             }
         });
 
+        holder.llFilter.setVisibility(Util.canFilter(context) ? View.VISIBLE : View.GONE);
+
         // Live
         holder.ivLive.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -592,7 +594,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         final boolean log_app = prefs.getBoolean("log_app", false);
         final boolean filter = prefs.getBoolean("filter", false);
         holder.tvLogging.setText(log_app && filter ? R.string.title_logging_enabled : R.string.title_logging_disabled);
-        holder.btnLogging.setVisibility(Util.canFilter(context) ? View.VISIBLE : View.GONE);
         holder.btnLogging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
