@@ -402,6 +402,7 @@ public class Util {
     }
 
     public static boolean canFilter(Context context) {
+        // https://android-review.googlesource.com/#/c/206710/1/untrusted_app.te
         File tcp = new File("/proc/net/tcp");
         File tcp6 = new File("/proc/net/tcp6");
         try {

@@ -381,6 +381,8 @@ jint get_uid_sub(const int version, const int protocol,
 #endif
 
     // NETLINK is not available on Android due to SELinux policies :-(
+    // http://stackoverflow.com/questions/27148536/netlink-implementation-for-the-android-ndk
+    // https://android.googlesource.com/platform/system/sepolicy/+/master/private/app.te (netlink_tcpdiag_socket)
 
     // Get proc file name
     char *fn = NULL;
