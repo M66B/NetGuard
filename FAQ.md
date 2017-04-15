@@ -538,6 +538,11 @@ like having the Tor network unreacheable, your activity actively monitored/targe
 online services (eg. Gmail, Google Play store) failing to login or being forced to solve endless capchas
 when accessing sites that use Cloudflare's CDN services.
 
+Fix DNS leak;
+1. Enable "Do not send UDP(allow only local)" checkbox.
+2. In "advanced", set both "VPN DNS" to 127.0.0.1.
+3. Set DNS port to 9090(Orbot's DNSPort).
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
