@@ -187,7 +187,7 @@
   <string name="msg_issue">Bitte beschreiben Sie Ihr Problem und geben Sie den Zeitpunkt an:</string>
   <string name="msg_vpn_cancelled">VPN-Verbindung abgebrochen\nHaben Sie eine andere VPN für die Funktion \'VPN immer eingeschaltet\' konfiguriert?</string>
   <string name="msg_on">Wenn NetGuard beim Ausschalten aktiv war, dann startet NetGuard bein Einschalten automatisch wieder.</string>
-  <string name="msg_unavailable">This feature is not available on this Android version</string>
+  <string name="msg_unavailable">Diese Funktion ist in dieser Android-Version nicht verfügbar</string>
   <string name="title_lockdown_enabled">Datenverkehr ist eingeschränkt</string>
   <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
   <string name="title_unmetered_blocked">Nicht volumenbeschränkter Verkehr ist blockiert</string>
@@ -246,7 +246,7 @@
   <string name="title_pro_dev">Entwicklung unterstützen</string>
   <string name="title_pro_buy">Kaufen</string>
   <string name="title_pro_bought">Aktiviert</string>
-  <string name="title_pro_unavailable">Unavailable</string>
+  <string name="title_pro_unavailable">Nicht verfügbar</string>
   <string name="title_pro_details">Auf einen Titel für weitere Informationen tippen</string>
   <string name="title_pro_ads">Bei kauf einer Pro-Funktion wird alle Werbung ausgeschaltet</string>
   <string name="title_pro_challenge">Puzzle</string>

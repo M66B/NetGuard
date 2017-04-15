@@ -187,7 +187,7 @@
   <string name="msg_issue">問題の説明と、問題の時間を示してください:</string>
   <string name="msg_vpn_cancelled">VPN 接続がキャンセルされました\n別の VPN を設定して、常に VPN をオンにしますか?</string>
   <string name="msg_on">NetGuard を有効にして、デバイスの電源を切ります。お使いのデバイスの電源投入時に NetGuard が自動的に開始されます</string>
-  <string name="msg_unavailable">This feature is not available on this Android version</string>
+  <string name="msg_unavailable">この機能はこのAndroidのバージョンでは利用できません。</string>
   <string name="title_lockdown_enabled">トラフィックがロックダウンされます</string>
   <string name="title_unmetered_allowed">無制限のトラフィックを許可</string>
   <string name="title_unmetered_blocked">無制限のトラフィックをブロック</string>
@@ -246,7 +246,7 @@
   <string name="title_pro_dev">開発をサポートする</string>
   <string name="title_pro_buy">購入する</string>
   <string name="title_pro_bought">有効</string>
-  <string name="title_pro_unavailable">Unavailable</string>
+  <string name="title_pro_unavailable">利用不可</string>
   <string name="title_pro_details">詳細情報はタイトルをタップします</string>
   <string name="title_pro_ads">何かプロの機能を購入すると、すべての広告を無効にします</string>
   <string name="title_pro_challenge">チャレンジ</string>
