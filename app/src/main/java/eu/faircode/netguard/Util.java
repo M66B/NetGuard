@@ -165,8 +165,12 @@ public class Util {
     }
 
     public static boolean isInternational(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return (tm != null && tm.getSimCountryIso() != null && !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
+        try {
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            return (tm != null && tm.getSimCountryIso() != null && !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
+        } catch (Throwable ignored) {
+            return false;
+        }
     }
 
     public static String getNetworkGeneration(int networkType) {
