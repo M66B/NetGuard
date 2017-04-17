@@ -45,12 +45,7 @@ public class WidgetMain extends AppWidgetProvider {
 
         try {
             try {
-                PendingIntent pi;
-                if (VpnService.prepare(context) == null)
-                    pi = PendingIntent.getBroadcast(context, 0, new Intent(enabled ? WidgetAdmin.INTENT_OFF : WidgetAdmin.INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
-                else
-                    pi = PendingIntent.getActivity(context, 0, new Intent(context, ActivityMain.class), PendingIntent.FLAG_UPDATE_CURRENT);
-
+                PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(enabled ? WidgetAdmin.INTENT_OFF : WidgetAdmin.INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
                 for (int id : appWidgetIds) {
                     RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widgetmain);
                     views.setOnClickPendingIntent(R.id.ivEnabled, pi);

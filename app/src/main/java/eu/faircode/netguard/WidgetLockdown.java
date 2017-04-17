@@ -45,12 +45,7 @@ public class WidgetLockdown extends AppWidgetProvider {
 
         try {
             try {
-                PendingIntent pi;
-                if (VpnService.prepare(context) == null)
-                    pi = PendingIntent.getBroadcast(context, 0, new Intent(lockdown ? WidgetAdmin.INTENT_LOCKDOWN_OFF : WidgetAdmin.INTENT_LOCKDOWN_ON), PendingIntent.FLAG_UPDATE_CURRENT);
-                else
-                    pi = PendingIntent.getActivity(context, 0, new Intent(context, ActivityMain.class), PendingIntent.FLAG_UPDATE_CURRENT);
-
+                PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(lockdown ? WidgetAdmin.INTENT_LOCKDOWN_OFF : WidgetAdmin.INTENT_LOCKDOWN_ON), PendingIntent.FLAG_UPDATE_CURRENT);
                 for (int id : appWidgetIds) {
                     RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widgetlockdown);
                     views.setOnClickPendingIntent(R.id.ivEnabled, pi);
