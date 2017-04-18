@@ -24,7 +24,7 @@ Note that:
 * you can check the number of hosts (domains) imported by pulling the NetGuard notification down using two fingers
 * wildcards are not supported due to performance and battery usage reasons
 * **ad blocking is provided as-is**, see also [here](https://forum.xda-developers.com/showpost.php?p=71805655&postcount=4668)
-* **ad blocking is not available when NetGuard was installed from the Play store!**
+* **ad blocking is not available when NetGuard was installed from the Play store!** (disable automatic updates of NetGuard in the Play store application)
 
 <br />
 
