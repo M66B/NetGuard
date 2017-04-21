@@ -89,6 +89,8 @@ Filtering mode cannot be used on [CopperheadOS](https://copperhead.co/android/).
 NetGuard will not work or crash when the package *com.android.vpndialogs* has been removed or otherwise is unavailable.
 Removing this package is possible with root permissions only.
 
+NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.
+
 <a name="FAQ"></a>
 Frequently Asked Questions (FAQ)
 --------------------------------
