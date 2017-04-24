@@ -538,6 +538,21 @@ like having the Tor network unreacheable, your activity actively monitored/targe
 online services (eg. Gmail, Google Play store) failing to login or being forced to solve endless capchas
 when accessing sites that use Cloudflare's CDN services.
 
+**(55) Android's Data usage says Netguard sent 900MB, but ISP said only 100MB.**
+
+Because netguard filter everything, including blocked packets.
+From version x.y, Netguard will cut the internet connection for you like "Data usage" provides.
+Pro feature.
+You can set 3 values:
+total '50M'B warning
+'90M'B limit
+
+**(56) "Noroot Data Firewall" app have speed limit. Can netguard do that?**
+
+Yes, as a pro feature.
+
+
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
