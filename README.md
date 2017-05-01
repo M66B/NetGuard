@@ -245,6 +245,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ54"></a>
 [**(54) How to tunnel all TCP connections through the Tor network?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ54)
 
+<a name="FAQ55"></a>
+[**(55) Why does NetGuard connect to Amazon / ipinfo.io?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ55)
+
 Support
 -------
 

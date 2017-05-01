@@ -538,6 +538,12 @@ like having the Tor network unreacheable, your activity actively monitored/targe
 online services (eg. Gmail, Google Play store) failing to login or being forced to solve endless capchas
 when accessing sites that use Cloudflare's CDN services.
 
+<a name="FAQ55"></a>
+**(55) Why does NetGuard connect to Amazon / ipinfo.io?**
+
+NetGuard connects to Amazon / [ipinfo.io](https://ipinfo.io/) to show to names and organizations for IP addresses.
+If you don't want this, just disable showing names and organizations using the three dot menu in the global log view.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
