@@ -189,10 +189,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 prefs.edit().putBoolean("enabled", isChecked).apply();
 
                 if (isChecked) {
-                    Toast on = Toast.makeText(ActivityMain.this, R.string.msg_on, Toast.LENGTH_LONG);
-                    on.setGravity(Gravity.CENTER, 0, 0);
-                    on.show();
-
                     try {
                         final Intent prepare = VpnService.prepare(ActivityMain.this);
                         if (prepare == null) {
@@ -515,6 +511,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
             if (resultCode == RESULT_OK) {
                 ServiceSinkhole.start("prepared", this);
+
+                Toast on = Toast.makeText(ActivityMain.this, R.string.msg_on, Toast.LENGTH_LONG);
+                on.setGravity(Gravity.CENTER, 0, 0);
+                on.show();
+
                 checkDoze();
             } else if (resultCode == RESULT_CANCELED)
                 Toast.makeText(this, R.string.msg_vpn_cancelled, Toast.LENGTH_LONG).show();

@@ -269,8 +269,8 @@ public class Rule {
         // Get settings
         boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
         boolean default_other = prefs.getBoolean("whitelist_other", true);
-        boolean default_screen_wifi = prefs.getBoolean("screen_wifi", true);
-        boolean default_screen_other = prefs.getBoolean("screen_other", true);
+        boolean default_screen_wifi = prefs.getBoolean("screen_wifi", false);
+        boolean default_screen_other = prefs.getBoolean("screen_other", false);
         boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
 
         boolean manage_system = prefs.getBoolean("manage_system", false);
