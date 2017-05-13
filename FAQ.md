@@ -544,6 +544,16 @@ when accessing sites that use Cloudflare's CDN services.
 NetGuard connects to Amazon / [ipinfo.io](https://ipinfo.io/) to show to names and organizations for IP addresses.
 If you don't want this, just disable showing names and organizations using the three dot menu in the global log view.
 
+<a name="FAQ56"></a>
+**(56) NetGuard allows all internet traffic!**
+
+First of all, NetGuard can block each and every application, even system applications and components.
+
+NetGuard by default allows all traffic to prevent hard to find problems,
+so you need to selectively block traffic yourself by tapping on the mobile or Wi-Fi icons.
+
+Be aware that NetGuard will allow traffic to an application when the screen is on and the condition 'when screen on' is enabled.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**

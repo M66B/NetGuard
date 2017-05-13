@@ -248,10 +248,19 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ55"></a>
 [**(55) Why does NetGuard connect to Amazon / ipinfo.io?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ55)
 
+<a name="FAQ56"></a>
+[**(56) NetGuard allows all internet traffic!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ56)
+
 Support
 -------
 
-For questions, feature requests and bug reports, please [use this XDA-Developers forum thread](http://forum.xda-developers.com/showthread.php?t=3233012)
+For questions, feature requests and bug reports, please [use this XDA-Developers forum thread](http://forum.xda-developers.com/showthread.php?t=3233012).
+
+There is support on the latest version of NetGuard only.
+
+There is no support on things that are not directly related to NetGuard.
+
+There is no support on building and developing things by yourself.
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
 
