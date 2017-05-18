@@ -251,6 +251,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ56"></a>
 [**(56) NetGuard allows all internet traffic!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ56)
 
+<a name="FAQ57"></a>
+[**(57) Why does NetGuard use so much data?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ57)
+
 Support
 -------
 

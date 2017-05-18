@@ -554,6 +554,15 @@ so you need to selectively block traffic yourself by tapping on the mobile or Wi
 
 Be aware that NetGuard will allow traffic to an application when the screen is on and the condition 'when screen on' is enabled.
 
+<a name="FAQ57"></a>
+**(57) Why does NetGuard use so much data?**
+
+Basically NetGuard doesn't use data itself.
+However, a lot of Android versions incorrectly account data of other applications flowing through NetGuard to NetGuard instead of to the applications.
+The data usage of other applications will be zero with NetGuard enabled in this case.
+
+tl;dr; the total data usage of your device will be the same with and without NetGuard.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
