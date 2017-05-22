@@ -128,7 +128,7 @@ like the new application installed notification.
 To read about the need for the notification in the first place, see [question 24](#FAQ24).
 
 Some Android versions display an additional notification, which might include a key icon.
-This notification can unfortunately not be removed.
+This notification can unfortunately not be removed without root access.
 
 <a name="FAQ14"></a>
 **(14) Why can't I select OK to approve the VPN connection request?**
