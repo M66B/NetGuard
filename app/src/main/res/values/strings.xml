@@ -11,6 +11,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
     <string name="app_agree">I agree</string>
     <string name="app_disagree">I disagree</string>
 
+    <string name="app_grant">NetGuard uses the VpnService API to route selected traffic either onward to the internet if allowed
+or into a sinkhole if blocked, hence Android will ask your permission to allow the creation of a local only VPN connection.
+Please grant that permission to allow NetGuard to run.</string>
+
     <string name="menu_search">Search for application</string>
     <string name="menu_filter">Filter applications</string>
     <string name="menu_app_user">Show user applications</string>
