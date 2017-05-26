@@ -77,6 +77,7 @@
   <string name="setting_log_app">Loguj dostęp do internetu</string>
   <string name="setting_access">Powiadom o próbie dostępu do internetu</string>
   <string name="setting_filter">Filtruj ruch</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Rejestruj użycie sieci</string>
   <string name="setting_reset_usage">Resetuj użycie sieci</string>

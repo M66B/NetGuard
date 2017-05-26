@@ -78,6 +78,7 @@
   <string name="setting_log_app">יומן גישה לאינטרנט</string>
   <string name="setting_access">התראה על גישה לאינטרנט</string>
   <string name="setting_filter">סנן תעבורה</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">עקוב אחר השימוש ברשת</string>
   <string name="setting_reset_usage">אפס את מונה השימוש ברשת</string>

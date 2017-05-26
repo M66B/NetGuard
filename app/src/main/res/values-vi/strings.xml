@@ -77,6 +77,7 @@
   <string name="setting_log_app">Thông báo truy cập internet</string>
   <string name="setting_access">Thông báo truy cập internet</string>
   <string name="setting_filter">Lọc lưu lượng truy cập</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Theo dõi cách sử dụng mạng</string>
   <string name="setting_reset_usage">Thiết lập lại cách sử dụng mạng</string>

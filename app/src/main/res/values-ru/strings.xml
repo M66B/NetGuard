@@ -77,6 +77,7 @@
   <string name="setting_log_app">Журнал доступа к сети интернет</string>
   <string name="setting_access">Уведомить при доступе в интернет</string>
   <string name="setting_filter">Фильтр трафика</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Блокировка трафика</string>
   <string name="setting_track_usage">Отслеживание использования сети</string>
   <string name="setting_reset_usage">Сброс сетевого использования</string>

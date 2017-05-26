@@ -78,6 +78,7 @@
   <string name="setting_log_app">Log Internetadgang</string>
   <string name="setting_access">Notificér ved Internetadgang</string>
   <string name="setting_filter">Filtrer trafik</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Spor netværksforbrug</string>
   <string name="setting_reset_usage">Nulstil netværksforbrug</string>

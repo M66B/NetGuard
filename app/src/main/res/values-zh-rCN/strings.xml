@@ -79,6 +79,7 @@
   <string name="setting_log_app">网络访问日志</string>
   <string name="setting_access">网络连接通知</string>
   <string name="setting_filter">过滤流量</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">跟踪网络使用记录</string>
   <string name="setting_reset_usage">重置网络使用记录</string>

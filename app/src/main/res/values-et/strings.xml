@@ -79,6 +79,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">Log internet access</string>
   <string name="setting_access">Notify on internet access</string>
   <string name="setting_filter">Filter traffic</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Jälgi võrgu kasutamist</string>
   <string name="setting_reset_usage">Nulli võrgu kasutamine</string>

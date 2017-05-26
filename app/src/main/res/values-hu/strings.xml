@@ -77,6 +77,7 @@
   <string name="setting_log_app">Internet hozzáférés naplózása</string>
   <string name="setting_access">Értesítés internet hozzáféréskor</string>
   <string name="setting_filter">Forgalom szűrés</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Forgalom lezárás</string>
   <string name="setting_track_usage">Hálózat használat követés</string>
   <string name="setting_reset_usage">Hálózat használat alaphelyzetbe</string>

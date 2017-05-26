@@ -78,6 +78,7 @@
   <string name="setting_log_app">Log internet-toegang</string>
   <string name="setting_access">Melding bij internet toegang</string>
   <string name="setting_filter">Verkeer filteren</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Bijhouden van netwerkgebruik</string>
   <string name="setting_reset_usage">Reset netwerkgebruik</string>

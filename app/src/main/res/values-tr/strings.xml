@@ -79,6 +79,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="setting_log_app">İnternet erişim günlüğü</string>
   <string name="setting_access">İnternet erişimini bildir</string>
   <string name="setting_filter">Veri kullanımını filtrele</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Veri kullanımını izle</string>
   <string name="setting_reset_usage">Veri kullanımını sıfırla</string>

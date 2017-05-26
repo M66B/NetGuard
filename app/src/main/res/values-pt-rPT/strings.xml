@@ -77,6 +77,7 @@
   <string name="setting_log_app">Registar acesso à internet</string>
   <string name="setting_access">Notificar com acesso à internet</string>
   <string name="setting_filter">Filtrar tráfego</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Controlar o uso de rede</string>
   <string name="setting_reset_usage">Redefinir o uso de rede</string>

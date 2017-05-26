@@ -79,6 +79,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_log_app">Protokolovat přístup k Internetu</string>
   <string name="setting_access">Upozornění na připojení k Internetu</string>
   <string name="setting_filter">Filtrovat komunikaci</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Sledovat využití sítě</string>
   <string name="setting_reset_usage">Resetovat využití sítě</string>

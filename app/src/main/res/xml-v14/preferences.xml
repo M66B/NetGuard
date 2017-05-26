@@ -164,6 +164,11 @@
                 android:summary="@string/summary_filter"
                 android:title="@string/setting_filter"/>
             <CheckBoxPreference
+                android:defaultValue="true"
+                android:dependency="filter"
+                android:key="clear_onreload"
+                android:title="@string/setting_clear_onreload"/>
+            <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="filter"
                 android:key="track_usage"

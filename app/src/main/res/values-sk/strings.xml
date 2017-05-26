@@ -79,6 +79,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">Zaznamenávať prístup k internetu</string>
   <string name="setting_access">Upozorniť na pripojenie k internetu</string>
   <string name="setting_filter">Filtrovať prenos</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">Sledovať používanie siete</string>
   <string name="setting_reset_usage">Resetovať využitie siete</string>

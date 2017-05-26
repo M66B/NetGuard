@@ -79,6 +79,7 @@
   <string name="setting_log_app">इंटरनेट उपयोग लॉग करें</string>
   <string name="setting_access">इंटरनेट का उपयोग पर सूचित करें</string>
   <string name="setting_filter">इंटरनेट यातायात छाटें</string>
+  <string name="setting_clear_onreload">Close connections on reload</string>
   <string name="setting_lockdown">Lockdown traffic</string>
   <string name="setting_track_usage">नेटवर्क के उपयोग को ट्रैक</string>
   <string name="setting_reset_usage">नेटवर्क उपयोग रीसेट करें</string>

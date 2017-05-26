@@ -149,22 +149,22 @@
     <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
-    <orderEntry type="library" exported="" name="firebase-analytics-10.2.4" level="project" />
-    <orderEntry type="library" exported="" name="play-services-base-10.2.4" level="project" />
-    <orderEntry type="library" exported="" name="play-services-gass-10.2.4" level="project" />
-    <orderEntry type="library" exported="" name="play-services-tasks-10.2.4" level="project" />
+    <orderEntry type="library" exported="" name="play-services-gass-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="firebase-analytics-10.2.6" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-25.3.1" level="project" />
-    <orderEntry type="library" exported="" name="firebase-iid-10.2.4" level="project" />
-    <orderEntry type="library" exported="" name="firebase-core-10.2.4" level="project" />
-    <orderEntry type="library" exported="" name="play-services-clearcut-10.2.4" level="project" />
+    <orderEntry type="library" exported="" name="firebase-iid-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="play-services-base-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="firebase-core-10.2.6" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.3.1" level="project" />
-    <orderEntry type="library" exported="" name="play-services-ads-lite-10.2.4" level="project" />
-    <orderEntry type="library" exported="" name="firebase-analytics-impl-10.2.4" level="project" />
-    <orderEntry type="library" exported="" name="play-services-ads-10.2.4" level="project" />
-    <orderEntry type="library" exported="" name="firebase-common-10.2.4" level="project" />
-    <orderEntry type="library" exported="" name="play-services-basement-10.2.4" level="project" />
-    <orderEntry type="library" exported="" name="firebase-ads-10.2.4" level="project" />
+    <orderEntry type="library" exported="" name="play-services-ads-lite-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="play-services-clearcut-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="firebase-analytics-impl-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="play-services-ads-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="firebase-common-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="play-services-basement-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="firebase-ads-10.2.6" level="project" />
+    <orderEntry type="library" exported="" name="play-services-tasks-10.2.6" level="project" />
     <orderEntry type="library" exported="" name="support-v4-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-25.3.1" level="project" />
