@@ -462,7 +462,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         private void reload() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-            boolean clear = prefs.getBoolean("clear_onreload", true);
+            boolean clear = prefs.getBoolean("clear_onreload", false);
 
             if (state != State.enforcing) {
                 if (state != State.none) {
