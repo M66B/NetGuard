@@ -77,7 +77,7 @@
   <string name="setting_log_app">Inregistreaza in jurnal accesul la internet</string>
   <string name="setting_access">Notifica la accesarea internetului</string>
   <string name="setting_filter">Filtru de trafic</string>
-  <string name="setting_clear_onreload">Close connections on reload</string>
+  <string name="setting_clear_onreload">Inchide conexiunile la reincarcare</string>
   <string name="setting_lockdown">Închide traficul internet</string>
   <string name="setting_track_usage">Urmareste folosirea conexiunii</string>
   <string name="setting_reset_usage">Reseteaza folosirea conexiunii</string>

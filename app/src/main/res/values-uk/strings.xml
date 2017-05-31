@@ -78,7 +78,7 @@
   <string name="setting_log_app">Журнал доступу до мережі інтернет</string>
   <string name="setting_access">Сповіщення під час доступу до інтернету</string>
   <string name="setting_filter">Фільтр трафіку</string>
-  <string name="setting_clear_onreload">Close connections on reload</string>
+  <string name="setting_clear_onreload">Розривати з’єднання при перезавантаженні</string>
   <string name="setting_lockdown">Блокування трафіка</string>
   <string name="setting_track_usage">Відслідковувати використання мережі</string>
   <string name="setting_reset_usage">Скидання мережевого використання</string>
