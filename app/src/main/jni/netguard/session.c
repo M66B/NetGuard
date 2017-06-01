@@ -63,11 +63,10 @@ void *handle_events(void *a) {
     struct rlimit rlim;
     if (getrlimit(RLIMIT_NOFILE, &rlim))
         log_android(ANDROID_LOG_WARN, "getrlimit error %d: %s", errno, strerror(errno));
-    else {
-        maxsessions = (int) (rlim.rlim_cur * 70 / 100);
+    else
         log_android(ANDROID_LOG_WARN, "getrlimit soft %d hard %d max sessions %d",
                     rlim.rlim_cur, rlim.rlim_max, maxsessions);
-    }
+    maxsessions = (int) (rlim.rlim_cur * SESSION_LIMIT / 100);
 
     // Terminate existing sessions not allowed anymore
     check_allowed(args);

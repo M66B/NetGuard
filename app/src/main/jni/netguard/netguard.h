@@ -55,6 +55,8 @@
 #define TCP_KEEP_TIMEOUT 300 // seconds
 // https://en.wikipedia.org/wiki/Maximum_segment_lifetime
 
+#define SESSION_LIMIT 45 // percent
+
 #define SOCKS5_NONE 1
 #define SOCKS5_HELLO 2
 #define SOCKS5_AUTH 3
