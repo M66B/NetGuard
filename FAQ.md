@@ -109,8 +109,8 @@ See [here](http://forum.xda-developers.com/showpost.php?p=65723629&postcount=178
 <a name="FAQ10"></a>
 **(10) Will you provide a Tasker plug-in?**
 
-No, because if Tasker is allowed to disable NetGuard, any application can disabled NetGuard.
-Allowing to disable a security application from other applications is not a good idea.
+No, because if Tasker is allowed to disable NetGuard, any application can disable NetGuard.
+Allowing a security application to be disabled from other applications is not a good idea.
 
 <a name="FAQ13"></a>
 **(13) How can I remove the ongoing NetGuard entry in the notification screen?**
