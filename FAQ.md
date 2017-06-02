@@ -276,42 +276,42 @@ This is almost never a problem on an Android device.
 **(28) Why is Google connectivity services allowed internet access by default?**
 
 The Google connectivity services system application checks if the current network is really connected to the internet.
-This is probably done by briefly connecting to some Google server.
+This is probably accomplished by briefly connecting to some Google server.
 
 If this is not the case, there will be an '!' in the Wi-Fi or mobile icon in the system status bar.
 
 Recent Android versions seem not to switch connectivity from mobile to Wi-Fi when the Wi-Fi network is not really connected,
 even though there is a connection to the Wi-Fi network (or the other way around). On Android 6.0 and later you might get a notification asking you if you want to keep this connection on or not.
-To prevent a bad user experience there is a predefined rule to default allow the Google connectivity services.
+To prevent a bad user experience, NetGuard includes a predefined rule to default allow the Google connectivity services.
 
 You can find all predefined rules [here](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/xml/predefined.xml).
 
 <a name="FAQ29"></a>
 **(29) Why do I get 'The item you requested is not available for purchase'?**
 
-You can only purchase pro features when you installed NetGuard from the Play store.
+You can only purchase pro features when you have installed NetGuard from the Google Play store.
 
 <a name="FAQ30"></a>
 **(30) Can I also run AFWall+ on the same device?**
 
 Unless you are just testing NetGuard, there is no current reason to use them both, since they cover the same function (firewall),
-although with different base needs (AFWall+ needs a rooted device) and ways of doing their thing (AFWall+ uses iptables).
+although with different base needs (AFWall+ needs a rooted device) and ways of doing their thing (AFWall+ uses iptables whereas NetGuard uses a VPN).
 
-Also you need to keep per application access rules _always_ in sync,
+Also you need to keep per application access rules _always_ in sync between AFWall+ and NetGuard,
 else the application will not be able to access the network,
-hence bringing another level of complexity when setting and assuring things work out.
+hence bringing another level of complexity when setting and assuring everything work as expected.
 
-Some pointers on how to set up AFWall+:
+Some pointers on how to set up AFWall+ to be used simultaneously with NetGuard:
 * if not using filtering in NetGuard, applications _need_ direct internet access (Wi-Fi and/or mobile) in AFWall+
 * if using filtering, NetGuard will _need_ internet access (Wi-Fi and/or mobile) in AFWall+
-* if using filtering, when you un/reinstall NetGuard, remember to RE-allow NetGuard in AFWall+
+* if using filtering, when you un/reinstall NetGuard, remember to re-allow NetGuard in AFWall+
 * if using filtering, applications _need_ VPN internet access (check the box to show that option in AFWall+ settings)
 
 <a name="FAQ31"></a>
 **(31) Why can some applications be configured as a group only?**
 
 For a lot of purposes, including network access, Android groups applications on UID and not on package/application name.
-Especially system applications often have the same UID, despite having a different package and application name, these are set up like this by the ROM manufacturer at build time.
+Especially system applications often have the same UID, despite having a different package and application name; these are set up like this by the ROM manufacturer at build time.
 These applications can only be allowed/blocked access to the internet as a group.
 
 <a name="FAQ32"></a>
@@ -319,26 +319,26 @@ These applications can only be allowed/blocked access to the internet as a group
 
 This is because Android counts battery and network usage which is normally counted for other applications
 against NetGuard in IP filtering mode. The total battery usage is slightly higher when IP filtering mode is enabled.
-IP filtering mode is always enabled on Android versions before 5.0, and optionally enabled on later Android versions.
+IP filtering mode is always enabled on Android versions prior to 5.0, and optionally enabled on later Android versions.
 
 <a name="FAQ33"></a>
 **(33) Can you add profiles?**
 
 Profiles are inconvenient because they need to be operated manually.
-Conditions like '*When screen is on*' are on the other hand convenient because they work automatically.
+Conditions like '*When screen is on*' are, on the other hand, convenient because they work automatically.
 Therefore profiles will not be added, but you are welcome to propose new conditions;
 however, they need to be generally usable to be included.
 
 As a workaround you can use the export/import function to apply specific settings in specific circumstances.
-Alternatively you can use lockdown mode as a profile.
+Alternatively, you can use lockdown mode as a profile.
 
 <a name="FAQ34"></a>
 **(34) Can you add a condition 'when on foreground' or 'when active'?**
 
 Recent Android versions do not allow an application to query if other applications are in the foreground/background or active/inactive
 without holding an [additional privacy violating permission](https://developer.android.com/reference/android/Manifest.permission.html#PACKAGE_USAGE_STATS)
-and at the expense of extra battery usage (because periodic polling is required) anymore,
-so this cannot be added without significant disadvantages, like [this one](http://www.xda-developers.com/working-as-intended-an-exploration-into-androids-accessibility-lag/).
+and at the expense of extra battery usage (because periodic polling is required).
+As a result, this cannot be added without significant disadvantages, like [this one](http://www.xda-developers.com/working-as-intended-an-exploration-into-androids-accessibility-lag/).
 You can use the condition '*when screen is on*' instead.
 
 <a name="FAQ35"></a>
@@ -347,9 +347,9 @@ You can use the condition '*when screen is on*' instead.
 NetGuard "asks" Android to start the local VPN service,
 but some Android versions contain a bug which prevents the VPN from starting (automatically).
 Sometimes this is caused by updating NetGuard.
-Unfortunately this cannot be fixed from NetGuard.
-What you can try is to restart your device and/or revoke the VPN permissions from NetGuard using the Android settings.
-Sometimes it helps to uninstall and install NetGuard again (be sure to export your settings first).
+Unfortunately this cannot be fixed by NetGuard.
+You can try to restart your device and/or revoke the VPN permissions from NetGuard using the Android settings.
+Sometimes it helps to uninstall and install NetGuard again (be sure to export your settings first!).
 
 <a name="FAQ36"></a>
 **(36) Can you add PIN or password protection?**
@@ -368,9 +368,9 @@ The right question is "*why are there so many taxes and fees*":
 
 So, what is left for the developer is just a fraction of what you pay.
 
-Despite NetGuard being *really* a lot of work, only some of the convenience and advanced features needs to be purchased,
+Despite NetGuard being *really* a lot of work, only some of the convenience and advanced features need to be purchased,
 which means that NetGuard is basically free to use
-and that you don't need to pay anything to reduce your data usage, increase battery life and increase your privacy.
+and that you don't need to pay anything to reduce your data usage, increase battery life, and increase your privacy.
 
 Also note that most free applications will appear not to be sustainable in the end, whereas NetGuard is properly maintained and supported,
 and that free applications may have a catch, like sending privacy sensitive information to the internet.
@@ -382,7 +382,7 @@ See [here](http://forum.xda-developers.com/showpost.php?p=67892427&postcount=303
 
 On most devices, NetGuard will keep running in the background with its foreground service.
 On some devices (in particular some Samsung models), where there are lots of applications competing for memory, Android may still stop NetGuard as a last resort.
-Unfortunately this cannot be fixed from NetGuard, and can be considered a shortcoming of the device and/or as a bug in Android.
+Unfortunately this cannot be fixed by NetGuard, and can be considered a shortcoming of the device and/or as a bug in Android.
 You can workaround this problem by enabling the watchdog in the NetGuard advanced options to check every 10-15 minutes.
 
 <a name="FAQ39"></a>
@@ -400,7 +400,7 @@ Therefore schedules will not be added, but you are welcome to propose other new 
 <a name="FAQ41"></a>
 **(41) Can you add wildcards?**
 
-Wildcards to allow/block addresses would have a significant performance and usability impact and will therefore not be added.
+Wildcards to allow/block addresses would have a significant performance and usability impact and therefore will not be added.
 
 <a name="FAQ42"></a>
 **(42) Why is permission ... needed?**
@@ -412,7 +412,7 @@ Wildcards to allow/block addresses would have a significant performance and usab
 * RECEIVE_BOOT_COMPLETED ('*Run at startup*'): to start the firewall when booting the device
 * WAKE_LOCK ('*Prevent device from sleeping*'): to reliably reload rules in the background on connectivity changes
 * READ/WRITE_EXTERNAL_STORAGE ('*Photos/Media/Files*'): to export/import settings on Android versions before 4.4 (KitKat) (there is no need to grant this permission on later Android versions)
-* VIBRATE: to give feedback on widget tap
+* VIBRATE: to provide vibration feedback on widget tap
 * BILLING: to use in-app billing
 
 <a name="FAQ43"></a>
@@ -429,9 +429,9 @@ Some links:
 **(44) I don't get notifications on access**
 
 To prevent a high number of status bar notifications, notify on access is done only once per domain name per application.
-Access to domain names shown in the application access log (drill down the NetGuard application settings) will not be notified again,
+Access to domain names shown in the application access log (drill down in the NetGuard application settings) will not be notified again,
 even if you just enabled notify on access.
-To get notified for all domain names again, you can clear the application access log using the waste bin icon.
+To get notified for all domain names again, you can clear the application access log using the trashcan icon.
 If you want to clear all applications logs, you can export and import your settings.
 
 <a name="FAQ45"></a>
@@ -451,10 +451,10 @@ In all other cases there is no refund possible.
 I take my responsibility as seller to deliver what has been promised and I expect that you to take responsibility for informing yourself of what you are buying.
 
 <a name="FAQ47"></a>
-**(47) Why are there in application advertisements?**
+**(47) Why are there in-application advertisements?**
 
 Developing NetGuard was quite a challenge and [really a lot of work](https://www.openhub.net/p/netguard/estimated_cost), but fun to do.
-A good product deserves good support, which means in practice that I am spending 30-60 minutes each and every day answering questions and solving problems.
+A good product deserves good support, which means, in practice, that I am spending 30-60 minutes each and every day answering questions and solving problems.
 Just about 1 in 1000 downloaders purchase any of the pro features, so support is basically one way.
 This is not maintainable in the long run and this is why advertisements were added.
 Purchasing any of the pro features will completely disable advertisements and help keep the project going.
@@ -478,8 +478,7 @@ This value is used as a minimum DNS TTL value in an attempt to mimick the behavi
 **(49) Does NetGuard encrypt my internet traffic / hide my IP address?**
 
 NetGuard is a firewall application that filters internet traffic on your device (see also [this question](#FAQ6)),
-so it is not meant to and does not encrypt your internet traffic
-and it is not meant to and does not hide your IP address.
+so it is not meant to and does not encrypt your internet traffic or hide your IP address.
 
 <a name="FAQ50"></a>
 **(50) Will NetGuard automatically start on boot?**
@@ -490,27 +489,27 @@ Yes, NetGuard will automatically be started on boot if you powered off your devi
 **(51) NetGuard blocks all internet traffic!**
 
 Make sure you have put NetGuard on the doze exception list (Android 6 Marshmallow or later)
-and that Android allows NetGuard to use the internet on the background.
+and that Android allows NetGuard to use the internet in the background.
 
 Make sure you are not running NetGuard in whitelist mode (check the NetGuard default settings).
 
 Some Android versions contain a bug resulting in all internet traffic being blocked.
-Mostly you can workaround this bug by enabling filtering in the advanced NetGuard settings.
+Mostly, you can workaround this bug by enabling filtering in the advanced NetGuard settings.
 
 <a name="FAQ52"></a>
 **(52) What is lockdown mode?**
 
-In lockdown mode all traffic for all applictions will be blocked,
-except for applications with the condition '*Allow in lockdown mode*' enabled.
-You can use this mode to limit battery usage or network usage
-for example when your battery is almost empty or when your data bundel is almost used.
+In lockdown mode, all traffic for all applictions will be blocked,
+except for applications with the condition *'Allow in lockdown mode'* enabled.
+You can use this mode to limit battery usage or network usage,
+for example, when your battery is almost empty or when your data allotment is almost exhausted.
 Note that system applications will only be blocked in this mode
 when managing system applications is enabled in the advanced settings.
 
-You can enable/disable lockdown mode in the main menu, using a widget or using a settings tile (Android 7 Nougat or later).
+You can enable/disable lockdown mode in the main menu, using a widget, or using a settings tile (Android 7 Nougat or later).
 
 <a name="FAQ53"></a>
-**(53) The translation in my language is missing / incorrect / incomplete!**
+**(53) The translation in my language is missing / incorrect / incomplete**
 
 You can contribute translations [here](https://crowdin.com/project/netguard) (registration is free).
 If your language is missing, please contact me to have it added.
@@ -541,15 +540,15 @@ when accessing sites that use Cloudflare's CDN services.
 <a name="FAQ55"></a>
 **(55) Why does NetGuard connect to Amazon / ipinfo.io?**
 
-NetGuard connects to Amazon / [ipinfo.io](https://ipinfo.io/) to show to names and organizations for IP addresses.
+NetGuard connects to Amazon / [ipinfo.io](https://ipinfo.io/) to show the names and organizations for IP addresses.
 If you don't want this, just disable showing names and organizations using the three dot menu in the global log view.
 
 <a name="FAQ56"></a>
 **(56) Why does NetGuard allows all internet traffic?!**
 
-First of all, NetGuard can block each and every application, even system applications and components.
+NetGuard can block each and every application, even system applications and components.
 
-NetGuard by default allows all traffic to prevent hard to find problems.  You need to selectively block traffic yourself by tapping on the mobile or Wi-Fi icons.
+NetGuard, by default, allows all traffic to prevent hard to find problems.  You need to selectively block traffic yourself by tapping on the mobile or Wi-Fi icons.
 
 Be aware that NetGuard will allow traffic to an application when the screen is on and the condition 'when screen on' is enabled.
 
