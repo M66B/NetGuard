@@ -128,14 +128,14 @@ such as the new application installed notification.
 To read about the need for the notification in the first place, see [question 24](#FAQ24).
 
 Some Android versions display an additional notification, which might include a key icon.
-This notification can unfortunately not be removed.
+This notification, unfortunately, cannot be removed.
 
 <a name="FAQ14"></a>
 **(14) Why can't I select OK to approve the VPN connection request?**
 
 There might be another (invisible) application on top of the VPN connection request dialog.
 Some known (screen dimming) applications which can cause this are *Lux Brightness*, *Night Mode*, and *Twilight*.
-To avoid this problem, at least temporary, close all applications and/or services which may be running in the background.
+To avoid this problem, at least temporarily, close all applications and/or services which may be running in the background.
 
 <a name="FAQ15"></a>
 **(15) Why won't you support the F-Droid builds?**
@@ -220,7 +220,7 @@ However, the notification is being marked as low priority,
 which should result in moving it to the bottom of the list.
 
 The key icon and/or the VPN running notification,
-which is shown by Android and not by NetGuard, can unfortunately not be removed.
+which is shown by Android and not by NetGuard, unfortunately, cannot be removed.
 The [Google documentation](http://developer.android.com/reference/android/net/VpnService.html) states:
 *"A system-managed notification is shown during the lifetime of a VPN connection"*.
 
@@ -325,9 +325,9 @@ IP filtering mode is always enabled on Android versions before 5.0, and optional
 **(33) Can you add profiles?**
 
 Profiles are inconvenient because they need to be operated manually.
-Conditions like '*When screen is on*' are on the other hand convenient because they work automatic.
-Therefore profiles will not be added, but you are welcome to propose new conditions,
-however they need to be generally usable to be included.
+Conditions like '*When screen is on*' are on the other hand convenient because they work automatically.
+Therefore profiles will not be added, but you are welcome to propose new conditions;
+however, they need to be generally usable to be included.
 
 As a workaround you can use the export/import function to apply specific settings in specific circumstances.
 Alternatively you can use lockdown mode as a profile.
@@ -393,7 +393,7 @@ See this [Stack Exchange question](http://android.stackexchange.com/questions/15
 <a name="FAQ40"></a>
 **(40) Can you add schedules?**
 
-Besides not being trivial to add, schedule are in my opion not a good idea, since time is not a good rule condition.
+Besides not being trivial to add, schedules - in my opinion - are not a good idea, since time is not a good rule condition.
 A rule condition like *When screen is on* is a better and more straightforward condition.
 Therefore schedules will not be added, but you are welcome to propose other new conditions.
 
