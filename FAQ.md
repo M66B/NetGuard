@@ -545,7 +545,7 @@ NetGuard connects to Amazon / [ipinfo.io](https://ipinfo.io/) to show the names 
 If you don't want this, just disable showing names and organizations using the three dot menu in the global log view.
 
 <a name="FAQ56"></a>
-**(56) Why does NetGuard allowsall internet traffic?!**
+**(56) Why does NetGuard allow all internet traffic?!**
 
 NetGuard can block each and every application, even system applications and components.
 
