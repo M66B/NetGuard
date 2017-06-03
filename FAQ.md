@@ -9,13 +9,14 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ0"></a>
 **(0) How do I use NetGuard?**
 
-* Enable the firewall using the switch in the action bar
-* Allow (greenish) or deny (reddish) Wi-Fi or mobile internet access using the icons next to an application
+* Enable the NetGuard firewall using the switch in NetGuard's action bar
+* Allow (greenish\*) or deny (reddish\*) Wi-Fi or mobile internet access using the icons next to an application name in NetGuard's applications list
 
-You can use the *Settings* menu to change from blacklist mode (allow all in *Settings* but block unwanted applications in list) to whitelist mode (block all in *Settings* but allow favorite applications in list).
+You can use *Settings > Defaults* to change from block/blacklist mode (disable *Block Wi-Fi* and *Block mobile*, and then block unwanted applications in NetGuard's applications list) to allow/whitelist mode (enable *Block Wi-Fi* and *Block mobile*, and then allow desired applications in NetGuard's applications list).
 
-* Red/orange/yellow/amber = internet access denied
-* Teal/blue/purple/grey = internet access allowed
+\* Depending on the theme you use, the icons may be:
+* Allowed (internet access permitted): Greenish (teal) / blue / purple / gray
+* Blocked (internet access denied): Reddish (salmon) / orange / yellow / amber
 
 <a name="FAQ1"></a>
 **(1) Can NetGuard completely protect my privacy?**
@@ -544,13 +545,13 @@ NetGuard connects to Amazon / [ipinfo.io](https://ipinfo.io/) to show the names 
 If you don't want this, just disable showing names and organizations using the three dot menu in the global log view.
 
 <a name="FAQ56"></a>
-**(56) Why does NetGuard allows all internet traffic?!**
+**(56) Why does NetGuard allowsall internet traffic?!**
 
 NetGuard can block each and every application, even system applications and components.
 
 NetGuard, by default, allows all traffic to prevent hard to find problems.  You need to selectively block traffic yourself by tapping on the mobile or Wi-Fi icons.
 
-Be aware that NetGuard will allow traffic to an application when the screen is on and the condition 'when screen on' is enabled.
+Be aware that NetGuard will allow traffic to an application when the screen is on and the condition *'when screen on'* is enabled.
 
 <a name="FAQ57"></a>
 **(57) Why does NetGuard use so much data?**
