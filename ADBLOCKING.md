@@ -65,9 +65,9 @@ Apart from using a hosts file, you can block most in-app ads by blocking this ad
 
 An alternate way to block advertisements is by using special DNS servers, like these:
 
-* [AdGuard DNS](https://adguard.com/en/adguard-dns/overview.html)
-* [Alternate DNS](https://alternate-dns.com/)
-* [NoAd](https://noad.zone/)
+* [AdGuard DNS](https://adguard.com/en/adguard-dns/overview.html) - Free
+* [Alternate DNS](https://alternate-dns.com/) - 14 day free trial
+* [NoAd](https://noad.zone/) - Not working as of 2017 June 03
 
 Be sure to read the privacy policies of these services as they might log your DNS requests.
 
