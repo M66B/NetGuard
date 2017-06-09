@@ -78,6 +78,9 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Main";
@@ -114,6 +117,18 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public static final String EXTRA_CONNECTED = "Connected";
     public static final String EXTRA_METERED = "Metered";
     public static final String EXTRA_SIZE = "Size";
+
+    private static ExecutorService mExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(),
+            new PriorityThreadFactory());
+
+    private static class PriorityThreadFactory implements ThreadFactory {
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(r);
+            t.setPriority(Thread.MAX_PRIORITY);
+            return t;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1048,7 +1063,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
                 }
             }
-        }.execute();
+        }.execute(mExecutor);
     }
 
     private void updateSearch(String search) {

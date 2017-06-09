@@ -95,104 +95,84 @@ public class Rule {
     private static Map<Integer, String[]> cachePackages = new HashMap<>();
 
     private static List<PackageInfo> getPackages(Context context) {
-        synchronized (context.getApplicationContext()) {
-            if (cachePackageInfo == null) {
-                PackageManager pm = context.getPackageManager();
-                cachePackageInfo = pm.getInstalledPackages(0);
-            }
-            return new ArrayList<>(cachePackageInfo);
+        if (cachePackageInfo == null) {
+            PackageManager pm = context.getPackageManager();
+            cachePackageInfo = pm.getInstalledPackages(0);
         }
+        return new ArrayList<>(cachePackageInfo);
     }
 
     private static String getLabel(PackageInfo info, Context context) {
-        synchronized (context.getApplicationContext()) {
-            if (!cacheLabel.containsKey(info)) {
-                PackageManager pm = context.getPackageManager();
-                cacheLabel.put(info, info.applicationInfo.loadLabel(pm).toString());
-            }
-            return cacheLabel.get(info);
+        if (!cacheLabel.containsKey(info)) {
+            PackageManager pm = context.getPackageManager();
+            cacheLabel.put(info, info.applicationInfo.loadLabel(pm).toString());
         }
+        return cacheLabel.get(info);
     }
 
     private static String getDescription(PackageInfo info, Context context) {
-        synchronized (context.getApplicationContext()) {
-            if (!cacheDescription.containsKey(info)) {
-                PackageManager pm = context.getPackageManager();
-                CharSequence description = info.applicationInfo.loadDescription(pm);
-                cacheDescription.put(info, description == null ? null : description.toString());
-            }
-            return cacheDescription.get(info);
+        if (!cacheDescription.containsKey(info)) {
+            PackageManager pm = context.getPackageManager();
+            CharSequence description = info.applicationInfo.loadDescription(pm);
+            cacheDescription.put(info, description == null ? null : description.toString());
         }
+        return cacheDescription.get(info);
     }
 
     private static boolean isSystem(String packageName, Context context) {
-        synchronized (context.getApplicationContext()) {
-            if (!cacheSystem.containsKey(packageName))
-                cacheSystem.put(packageName, Util.isSystem(packageName, context));
-            return cacheSystem.get(packageName);
-        }
+        if (!cacheSystem.containsKey(packageName))
+            cacheSystem.put(packageName, Util.isSystem(packageName, context));
+        return cacheSystem.get(packageName);
     }
 
     private static boolean hasInternet(String packageName, Context context) {
-        synchronized (context.getApplicationContext()) {
-            if (!cacheInternet.containsKey(packageName))
-                cacheInternet.put(packageName, Util.hasInternet(packageName, context));
-            return cacheInternet.get(packageName);
-        }
+        if (!cacheInternet.containsKey(packageName))
+            cacheInternet.put(packageName, Util.hasInternet(packageName, context));
+        return cacheInternet.get(packageName);
     }
 
     private static boolean isEnabled(PackageInfo info, Context context) {
-        synchronized (context.getApplicationContext()) {
-            if (!cacheEnabled.containsKey(info))
-                cacheEnabled.put(info, Util.isEnabled(info, context));
-            return cacheEnabled.get(info);
-        }
+        if (!cacheEnabled.containsKey(info))
+            cacheEnabled.put(info, Util.isEnabled(info, context));
+        return cacheEnabled.get(info);
     }
 
     private static Intent getIntentLaunch(String packageName, Context context) {
-        synchronized (context.getApplicationContext()) {
-            if (!cacheIntentLaunch.containsKey(packageName))
-                cacheIntentLaunch.put(packageName, context.getPackageManager().getLaunchIntentForPackage(packageName));
-            return cacheIntentLaunch.get(packageName);
-        }
+        if (!cacheIntentLaunch.containsKey(packageName))
+            cacheIntentLaunch.put(packageName, context.getPackageManager().getLaunchIntentForPackage(packageName));
+        return cacheIntentLaunch.get(packageName);
     }
 
     private static Intent getIntentSettings(String packageName, Context context) {
-        synchronized (context.getApplicationContext()) {
-            if (!cacheIntentSettings.containsKey(packageName)) {
-                Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                intent.setData(Uri.parse("package:" + packageName));
-                if (intent.resolveActivity(context.getPackageManager()) == null)
-                    intent = null;
-                cacheIntentSettings.put(packageName, intent);
-            }
-            return cacheIntentSettings.get(packageName);
+        if (!cacheIntentSettings.containsKey(packageName)) {
+            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.parse("package:" + packageName));
+            if (intent.resolveActivity(context.getPackageManager()) == null)
+                intent = null;
+            cacheIntentSettings.put(packageName, intent);
         }
+        return cacheIntentSettings.get(packageName);
     }
 
     private static Intent getIntentDatasaver(String packageName, Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            synchronized (context.getApplicationContext()) {
-                if (!cacheIntentDatasaver.containsKey(packageName)) {
-                    Intent intent = new Intent(
-                            Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS,
-                            Uri.parse("package:" + packageName));
-                    if (intent.resolveActivity(context.getPackageManager()) == null)
-                        intent = null;
-                    cacheIntentDatasaver.put(packageName, intent);
-                }
-                return cacheIntentDatasaver.get(packageName);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (!cacheIntentDatasaver.containsKey(packageName)) {
+                Intent intent = new Intent(
+                        Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS,
+                        Uri.parse("package:" + packageName));
+                if (intent.resolveActivity(context.getPackageManager()) == null)
+                    intent = null;
+                cacheIntentDatasaver.put(packageName, intent);
             }
-        else
+            return cacheIntentDatasaver.get(packageName);
+        } else
             return null;
     }
 
     private static String[] getPackages(int uid, Context context) {
-        synchronized (context.getApplicationContext()) {
-            if (!cachePackages.containsKey(uid))
-                cachePackages.put(uid, context.getPackageManager().getPackagesForUid(uid));
-            return cachePackages.get(uid);
-        }
+        if (!cachePackages.containsKey(uid))
+            cachePackages.put(uid, context.getPackageManager().getPackagesForUid(uid));
+        return cachePackages.get(uid);
     }
 
     public static void clearCache(Context context) {
@@ -256,193 +236,195 @@ public class Rule {
     }
 
     public static List<Rule> getRules(final boolean all, Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
-        SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
-        SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
-        SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
-        SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
-        SharedPreferences lockdown = context.getSharedPreferences("lockdown", Context.MODE_PRIVATE);
-        SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
-        SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
+        synchronized (context.getApplicationContext()) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
+            SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
+            SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
+            SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
+            SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
+            SharedPreferences lockdown = context.getSharedPreferences("lockdown", Context.MODE_PRIVATE);
+            SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
+            SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
 
-        // Get settings
-        boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
-        boolean default_other = prefs.getBoolean("whitelist_other", true);
-        boolean default_screen_wifi = prefs.getBoolean("screen_wifi", false);
-        boolean default_screen_other = prefs.getBoolean("screen_other", false);
-        boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
+            // Get settings
+            boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
+            boolean default_other = prefs.getBoolean("whitelist_other", true);
+            boolean default_screen_wifi = prefs.getBoolean("screen_wifi", false);
+            boolean default_screen_other = prefs.getBoolean("screen_other", false);
+            boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
 
-        boolean manage_system = prefs.getBoolean("manage_system", false);
-        boolean screen_on = prefs.getBoolean("screen_on", true);
-        boolean show_user = prefs.getBoolean("show_user", true);
-        boolean show_system = prefs.getBoolean("show_system", false);
-        boolean show_nointernet = prefs.getBoolean("show_nointernet", true);
-        boolean show_disabled = prefs.getBoolean("show_disabled", true);
+            boolean manage_system = prefs.getBoolean("manage_system", false);
+            boolean screen_on = prefs.getBoolean("screen_on", true);
+            boolean show_user = prefs.getBoolean("show_user", true);
+            boolean show_system = prefs.getBoolean("show_system", false);
+            boolean show_nointernet = prefs.getBoolean("show_nointernet", true);
+            boolean show_disabled = prefs.getBoolean("show_disabled", true);
 
-        default_screen_wifi = default_screen_wifi && screen_on;
-        default_screen_other = default_screen_other && screen_on;
+            default_screen_wifi = default_screen_wifi && screen_on;
+            default_screen_other = default_screen_other && screen_on;
 
-        // Get predefined rules
-        Map<String, Boolean> pre_wifi_blocked = new HashMap<>();
-        Map<String, Boolean> pre_other_blocked = new HashMap<>();
-        Map<String, Boolean> pre_roaming = new HashMap<>();
-        Map<String, String[]> pre_related = new HashMap<>();
-        Map<String, Boolean> pre_system = new HashMap<>();
-        try {
-            XmlResourceParser xml = context.getResources().getXml(R.xml.predefined);
-            int eventType = xml.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG)
-                    if ("wifi".equals(xml.getName())) {
-                        String pkg = xml.getAttributeValue(null, "package");
-                        boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
-                        pre_wifi_blocked.put(pkg, pblocked);
-
-                    } else if ("other".equals(xml.getName())) {
-                        String pkg = xml.getAttributeValue(null, "package");
-                        boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
-                        boolean proaming = xml.getAttributeBooleanValue(null, "roaming", default_roaming);
-                        pre_other_blocked.put(pkg, pblocked);
-                        pre_roaming.put(pkg, proaming);
-
-                    } else if ("relation".equals(xml.getName())) {
-                        String pkg = xml.getAttributeValue(null, "package");
-                        String[] rel = xml.getAttributeValue(null, "related").split(",");
-                        pre_related.put(pkg, rel);
-
-                    } else if ("type".equals(xml.getName())) {
-                        String pkg = xml.getAttributeValue(null, "package");
-                        boolean system = xml.getAttributeBooleanValue(null, "system", true);
-                        pre_system.put(pkg, system);
-                    }
-
-
-                eventType = xml.next();
-            }
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
-
-        // Build rule list
-        List<Rule> listRules = new ArrayList<>();
-        List<PackageInfo> listPI = getPackages(context);
-
-        // Add root
-        PackageInfo root = new PackageInfo();
-        root.packageName = "root";
-        root.versionCode = Build.VERSION.SDK_INT;
-        root.versionName = Build.VERSION.RELEASE;
-        root.applicationInfo = new ApplicationInfo();
-        root.applicationInfo.uid = 0;
-        root.applicationInfo.icon = 0;
-        listPI.add(root);
-
-        // Add mediaserver
-        PackageInfo media = new PackageInfo();
-        media.packageName = "android.media";
-        media.versionCode = Build.VERSION.SDK_INT;
-        media.versionName = Build.VERSION.RELEASE;
-        media.applicationInfo = new ApplicationInfo();
-        media.applicationInfo.uid = 1013;
-        media.applicationInfo.icon = 0;
-        listPI.add(media);
-
-        // Add nobody
-        PackageInfo nobody = new PackageInfo();
-        nobody.packageName = "nobody";
-        nobody.versionCode = Build.VERSION.SDK_INT;
-        nobody.versionName = Build.VERSION.RELEASE;
-        nobody.applicationInfo = new ApplicationInfo();
-        nobody.applicationInfo.uid = 9999;
-        nobody.applicationInfo.icon = 0;
-        listPI.add(nobody);
-
-        DatabaseHelper dh = DatabaseHelper.getInstance(context);
-        for (PackageInfo info : listPI)
+            // Get predefined rules
+            Map<String, Boolean> pre_wifi_blocked = new HashMap<>();
+            Map<String, Boolean> pre_other_blocked = new HashMap<>();
+            Map<String, Boolean> pre_roaming = new HashMap<>();
+            Map<String, String[]> pre_related = new HashMap<>();
+            Map<String, Boolean> pre_system = new HashMap<>();
             try {
-                Rule rule = new Rule(info, context);
+                XmlResourceParser xml = context.getResources().getXml(R.xml.predefined);
+                int eventType = xml.getEventType();
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+                    if (eventType == XmlPullParser.START_TAG)
+                        if ("wifi".equals(xml.getName())) {
+                            String pkg = xml.getAttributeValue(null, "package");
+                            boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
+                            pre_wifi_blocked.put(pkg, pblocked);
 
-                if (pre_system.containsKey(info.packageName))
-                    rule.system = pre_system.get(info.packageName);
-                if (info.applicationInfo.uid == Process.myUid())
-                    rule.system = true;
+                        } else if ("other".equals(xml.getName())) {
+                            String pkg = xml.getAttributeValue(null, "package");
+                            boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
+                            boolean proaming = xml.getAttributeBooleanValue(null, "roaming", default_roaming);
+                            pre_other_blocked.put(pkg, pblocked);
+                            pre_roaming.put(pkg, proaming);
 
-                if (all ||
-                        ((rule.system ? show_system : show_user) &&
-                                (show_nointernet || rule.internet) &&
-                                (show_disabled || rule.enabled))) {
+                        } else if ("relation".equals(xml.getName())) {
+                            String pkg = xml.getAttributeValue(null, "package");
+                            String[] rel = xml.getAttributeValue(null, "related").split(",");
+                            pre_related.put(pkg, rel);
 
-                    rule.wifi_default = (pre_wifi_blocked.containsKey(info.packageName) ? pre_wifi_blocked.get(info.packageName) : default_wifi);
-                    rule.other_default = (pre_other_blocked.containsKey(info.packageName) ? pre_other_blocked.get(info.packageName) : default_other);
-                    rule.screen_wifi_default = default_screen_wifi;
-                    rule.screen_other_default = default_screen_other;
-                    rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
+                        } else if ("type".equals(xml.getName())) {
+                            String pkg = xml.getAttributeValue(null, "package");
+                            boolean system = xml.getAttributeBooleanValue(null, "system", true);
+                            pre_system.put(pkg, system);
+                        }
 
-                    rule.wifi_blocked = (!(rule.system && !manage_system) && wifi.getBoolean(info.packageName, rule.wifi_default));
-                    rule.other_blocked = (!(rule.system && !manage_system) && other.getBoolean(info.packageName, rule.other_default));
-                    rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default) && screen_on;
-                    rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default) && screen_on;
-                    rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
-                    rule.lockdown = lockdown.getBoolean(info.packageName, false);
 
-                    rule.apply = apply.getBoolean(info.packageName, true);
-                    rule.notify = notify.getBoolean(info.packageName, true);
-
-                    // Related packages
-                    List<String> listPkg = new ArrayList<>();
-                    if (pre_related.containsKey(info.packageName))
-                        listPkg.addAll(Arrays.asList(pre_related.get(info.packageName)));
-                    String[] pkgs = getPackages(info.applicationInfo.uid, context);
-                    if (pkgs != null && pkgs.length > 1) {
-                        rule.relateduids = true;
-                        listPkg.addAll(Arrays.asList(pkgs));
-                        listPkg.remove(info.packageName);
-                    }
-                    rule.related = listPkg.toArray(new String[0]);
-
-                    rule.hosts = dh.getHostCount(rule.info.applicationInfo.uid, true);
-
-                    rule.updateChanged(default_wifi, default_other, default_roaming);
-
-                    listRules.add(rule);
+                    eventType = xml.next();
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
 
-        final Collator collator = Collator.getInstance(Locale.getDefault());
-        collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
+            // Build rule list
+            List<Rule> listRules = new ArrayList<>();
+            List<PackageInfo> listPI = getPackages(context);
 
-        // Sort rule list
-        String sort = prefs.getString("sort", "name");
-        if ("uid".equals(sort))
-            Collections.sort(listRules, new Comparator<Rule>() {
-                @Override
-                public int compare(Rule rule, Rule other) {
-                    if (rule.info.applicationInfo.uid < other.info.applicationInfo.uid)
-                        return -1;
-                    else if (rule.info.applicationInfo.uid > other.info.applicationInfo.uid)
-                        return 1;
-                    else {
-                        int i = collator.compare(rule.name, other.name);
-                        return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
-                    }
-                }
-            });
-        else
-            Collections.sort(listRules, new Comparator<Rule>() {
-                @Override
-                public int compare(Rule rule, Rule other) {
-                    if (all || rule.changed == other.changed) {
-                        int i = collator.compare(rule.name, other.name);
-                        return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
-                    }
-                    return (rule.changed ? -1 : 1);
-                }
-            });
+            // Add root
+            PackageInfo root = new PackageInfo();
+            root.packageName = "root";
+            root.versionCode = Build.VERSION.SDK_INT;
+            root.versionName = Build.VERSION.RELEASE;
+            root.applicationInfo = new ApplicationInfo();
+            root.applicationInfo.uid = 0;
+            root.applicationInfo.icon = 0;
+            listPI.add(root);
 
-        return listRules;
+            // Add mediaserver
+            PackageInfo media = new PackageInfo();
+            media.packageName = "android.media";
+            media.versionCode = Build.VERSION.SDK_INT;
+            media.versionName = Build.VERSION.RELEASE;
+            media.applicationInfo = new ApplicationInfo();
+            media.applicationInfo.uid = 1013;
+            media.applicationInfo.icon = 0;
+            listPI.add(media);
+
+            // Add nobody
+            PackageInfo nobody = new PackageInfo();
+            nobody.packageName = "nobody";
+            nobody.versionCode = Build.VERSION.SDK_INT;
+            nobody.versionName = Build.VERSION.RELEASE;
+            nobody.applicationInfo = new ApplicationInfo();
+            nobody.applicationInfo.uid = 9999;
+            nobody.applicationInfo.icon = 0;
+            listPI.add(nobody);
+
+            DatabaseHelper dh = DatabaseHelper.getInstance(context);
+            for (PackageInfo info : listPI)
+                try {
+                    Rule rule = new Rule(info, context);
+
+                    if (pre_system.containsKey(info.packageName))
+                        rule.system = pre_system.get(info.packageName);
+                    if (info.applicationInfo.uid == Process.myUid())
+                        rule.system = true;
+
+                    if (all ||
+                            ((rule.system ? show_system : show_user) &&
+                                    (show_nointernet || rule.internet) &&
+                                    (show_disabled || rule.enabled))) {
+
+                        rule.wifi_default = (pre_wifi_blocked.containsKey(info.packageName) ? pre_wifi_blocked.get(info.packageName) : default_wifi);
+                        rule.other_default = (pre_other_blocked.containsKey(info.packageName) ? pre_other_blocked.get(info.packageName) : default_other);
+                        rule.screen_wifi_default = default_screen_wifi;
+                        rule.screen_other_default = default_screen_other;
+                        rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
+
+                        rule.wifi_blocked = (!(rule.system && !manage_system) && wifi.getBoolean(info.packageName, rule.wifi_default));
+                        rule.other_blocked = (!(rule.system && !manage_system) && other.getBoolean(info.packageName, rule.other_default));
+                        rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default) && screen_on;
+                        rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default) && screen_on;
+                        rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
+                        rule.lockdown = lockdown.getBoolean(info.packageName, false);
+
+                        rule.apply = apply.getBoolean(info.packageName, true);
+                        rule.notify = notify.getBoolean(info.packageName, true);
+
+                        // Related packages
+                        List<String> listPkg = new ArrayList<>();
+                        if (pre_related.containsKey(info.packageName))
+                            listPkg.addAll(Arrays.asList(pre_related.get(info.packageName)));
+                        String[] pkgs = getPackages(info.applicationInfo.uid, context);
+                        if (pkgs != null && pkgs.length > 1) {
+                            rule.relateduids = true;
+                            listPkg.addAll(Arrays.asList(pkgs));
+                            listPkg.remove(info.packageName);
+                        }
+                        rule.related = listPkg.toArray(new String[0]);
+
+                        rule.hosts = dh.getHostCount(rule.info.applicationInfo.uid, true);
+
+                        rule.updateChanged(default_wifi, default_other, default_roaming);
+
+                        listRules.add(rule);
+                    }
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+
+            final Collator collator = Collator.getInstance(Locale.getDefault());
+            collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
+
+            // Sort rule list
+            String sort = prefs.getString("sort", "name");
+            if ("uid".equals(sort))
+                Collections.sort(listRules, new Comparator<Rule>() {
+                    @Override
+                    public int compare(Rule rule, Rule other) {
+                        if (rule.info.applicationInfo.uid < other.info.applicationInfo.uid)
+                            return -1;
+                        else if (rule.info.applicationInfo.uid > other.info.applicationInfo.uid)
+                            return 1;
+                        else {
+                            int i = collator.compare(rule.name, other.name);
+                            return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+                        }
+                    }
+                });
+            else
+                Collections.sort(listRules, new Comparator<Rule>() {
+                    @Override
+                    public int compare(Rule rule, Rule other) {
+                        if (all || rule.changed == other.changed) {
+                            int i = collator.compare(rule.name, other.name);
+                            return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+                        }
+                        return (rule.changed ? -1 : 1);
+                    }
+                });
+
+            return listRules;
+        }
     }
 
     private void updateChanged(boolean default_wifi, boolean default_other, boolean default_roaming) {
