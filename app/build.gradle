@@ -85,8 +85,11 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.+'
     compile 'com.android.support:recyclerview-v7:25.+'
     compile 'com.squareup.picasso:picasso:2.5.+'
-    compile 'com.google.firebase:firebase-core:10.2.+'
-    compile 'com.google.firebase:firebase-ads:10.2.+'
+    compile 'com.google.firebase:firebase-core:11.0.+'
+    compile 'com.google.firebase:firebase-ads:11.0.+'
+    // https://developer.android.com/topic/libraries/support-library/revisions.html
+    // https://mvnrepository.com/artifact/com.squareup.picasso/picasso
+    // https://firebase.google.com/docs/android/setup
 }
 
 apply plugin: 'com.google.gms.google-services'
