@@ -3,9 +3,9 @@
 <resources>
   <string name="app_description">NetGuard tilbyder enkle og avancerede metoder til blokering af Internetadgang - ingen Root-rettighed krævet. Apps og adresser kan individuelt tillades eller nægtes adgang til din Wi-Fi- og/eller mobilforbindelse.</string>
   <string name="app_copyright">Ophavsrettighed \u00A9 2015–2017 af M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard kræver Android 5.0 eller senere</string>
+  <string name="app_android">NetGuard kræver Android 4.0 eller senere</string>
   <string name="app_license">Ved at bruge NetGuard, accepterer du licensaftalen <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_first">Stor omhu er lagt i udvikling og test af NetGuard, men det er umuligt at garantere, at NetGuard vil fungere korrekt på alle enhed.\n
+  <string name="app_first">Stor omhu er lagt i udvikling og test af NetGuard, men det er umuligt at garantere, at NetGuard vil fungere korrekt på alle enheder.\n
 \nAfbenyttelse af NetGuard konstituere din accept af <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License version 3</a></string>
   <string name="app_admob">NetGuard benytter Googles AdMob annonceringstjeneste. AdMobs fortrolighedspolitik er tilgængelig <a href="https://www.google.com/intl/en/policies/privacy/">her</a>.</string>
   <string name="app_agree">Jeg accepterer</string>
@@ -120,7 +120,7 @@
   <string name="summary_tethering">Afhængig af Android-version, vil kabling muligvis, eller muligvis ikke, fungere. Kablet trafik kan ikke filtreres.</string>
   <string name="summary_subnet">Aktivering af subnet routing aktiverer muligvis også Wi-Fi-kald, men kan ligeledes fremprovokere fejl i Android og forøge batteriforbruget</string>
   <string name="summary_lan">Tillad apps at oprette forbindelse til lokale netværksadresser såsom 10.0.0.0/8, 172.16.0.0/12 og 192.168.0.0/16</string>
-  <string name="summary_ip6">Route IP V6-trafik to NetGuard, så den selektivt kan blive tilladt eller blokeret</string>
+  <string name="summary_ip6">Route IP V6-trafik til NetGuard, så den selektivt kan blive tilladt eller blokeret</string>
   <string name="summary_wifi_home">Anvend kun Wi-Fi-netværksregler på udvalgte netværk (anvend mobilnetværksregler på andre Wi-Fi-netværk)</string>
   <string name="summary_metered">Anvend mobilenetværksregler på forbrugsafregnede (betalte, kablede) Wi-Fi-netværk</string>
   <string name="summary_metered_2g">Anvend Wi-Fi-netværksregler på 2G-dataforbindelser</string>

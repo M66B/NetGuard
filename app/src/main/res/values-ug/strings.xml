@@ -79,7 +79,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_log_app">ئىنتېرنېتنى زىيارەت ھوقۇقى</string>
   <string name="setting_access">ئىنتېرنېتنى زىيارەت ھوقۇقى ئۇقتۇرۇش</string>
   <string name="setting_filter">تور ئۆتكۈزۈش</string>
-  <string name="setting_clear_onreload">Close connections on reload</string>
+  <string name="setting_clear_onreload">قايتا قوشۇلغاندا ئۇلىغاننى ئۈزۈش</string>
   <string name="setting_lockdown">تور قۇلۇپلاش</string>
   <string name="setting_track_usage">تور ئىشلىتىشقا ئەگىشىش</string>
   <string name="setting_reset_usage">تور ئىشلىتىشقا قايتا تەڭشىەش</string>
@@ -115,14 +115,14 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_technical_networks">تور</string>
   <string name="setting_technical_subscription">زاكاس</string>
   <string name="summary_install">ئىستون ئوقتۇرشىدا كۆرۈنۈش يېڭى قاچىلانغان ئەپلەرگە ئىشلىتىلدۇ (Pro نەشر)</string>
-  <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
-  <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
+  <string name="summary_auto">قوشۇمچە ئەپچىنى ئىشلىتىشنى چەكلىگەندىن كېيىن،تاللىغان ۋاقىتتىن كېيىن NetGuard ئاپتۇماتىك قوزغىلىدۇ(0 نى كىرگۈزۈپ بۇ ئىقتىدارنى چەكلەش)</string>
+  <string name="summary_delay">ئېكران ئۆچكەندىن كېيىن، ئېكراندىكى تاللىغان ۋاقىتىنىڭ ئاكتىپ ھالىتىنى ساقلاڭ(0 نى كىرگۈزۈپ بۇ ئىقتىدارنى چەكلەش)</string>
   <string name="summary_update">كۈندە GitHub يېڭى نەشرنى تەكشۈرۈش</string>
   <string name="summary_tethering">Android نەشرى ئوخشىماسلىقىشا ئاساسەن،باشقۇرىدۇ.</string>
   <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
   <string name="summary_lan">يەرلىك تورغا ئۇلىنىشقا يول قويۇش مەسلەن 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
   <string name="summary_ip6">IP 6 بۇ ئەپ ئارقىلىق يول قويۇشقا ياكى توسۇشقا بولىدۇ</string>
-  <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
+  <string name="summary_wifi_home">پەقەت تاللىغانغا تورغا Wi-Fi تور قائىدىسنى ئىشلىتىش(باشقا Wi-Fi تورىغا كۆچمە تور قائىدىسنى ئىشلىتىش)</string>
   <string name="summary_metered">كۆچمە تور قائىدىسى Wi-Fi ،(ھەقلىق) نى ھىسابلاشقا ئىشلىتىلدۇ</string>
   <string name="summary_metered_2g">2G تورغا wifi تۇر ئۇلاش ئۇسۇلىنى قوللىنىش</string>
   <string name="summary_metered_3g">3G تورغا wifi تۇر ئۇلاش ئۇسۇلىنى قوللىنىش</string>
@@ -136,7 +136,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
   <string name="summary_rcode">سۈكۈتتىكى قىممەت 3 (NXDOMAIN)،\"يوق ئادىرس\" نى بىلدۈرىدۇ.</string>
   <string name="summary_socks5_enabled">پەقەت TCP ئېقىم مىقدارى ۋاكالىتەن مۇلازىمەتچى ئەۋەتىپ بېرىلىدۇ</string>
-  <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
+  <string name="summary_watchdog">ۋاقىت بەلگىلەپ NetGuard نىڭ ھەرىكىتىنى تەكشۈرۈش.(0 نى كىرگۈزۈپ بۇ تاللاشنى چەكلەش)، بۇ بەلكىم توك ئىسراپچىلىقىنى كەلتۈرۈپ چېقىرىشى مومكىن.</string>
   <string name="summary_stats">ئىستوندا تور سۈرئىتى كۆرۈنۈش</string>
   <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">جەزىملەشتۈرەمسىز?</string>
@@ -192,7 +192,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
   <string name="msg_system">بارلىق (سىستېما) ئەپنى تەڭشەكتىن باشقۇرغىلى بولىدۇ</string>
   <string name="msg_issue">خاتالىق يۈز بەرگەندىكى مەسلىنى دوكلات قىلىڭ:</string>
   <string name="msg_vpn_cancelled">VPN ئۇلاش بىكار قىلىندى\nيەنە بىر VPN تەڭشەكنى مەڭگۈلۈك ئىشلىتەمسىز?</string>
-  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
+  <string name="msg_on">NetGuard نى ئىشلىتىپ توك مەنبەسىنى ئېتىشنى قوزغىتىش،تېلېفون قوزغالغاندا NetGuard ئاپتۇماتىك قوزغىلىدۇ</string>
   <string name="msg_unavailable">Android نەشىر بۇ ئىقتىدار ئىشلەيدۇ</string>
   <string name="title_lockdown_enabled">قۇلۇپلاندى</string>
   <string name="title_unmetered_allowed">يول قويۇلدى</string>
@@ -227,7 +227,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
   <string name="title_enable_filtering">يول قويغان ئادىرىسنى تاسقاشنى قوزغىتىش</string>
   <string name="title_enable_help0">خاتىرلەش ۋە ئۆتكۈزۈش بارلىق ئەپكە ئىشلەيدۇ</string>
   <string name="title_enable_help1">تاق ئادىرسنى توسۇش ياكى يول قويۇشنى ئۆتكۈزۈش</string>
-  <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
+  <string name="title_enable_help2">كۈندىلىك خاتىرىنى قوزغىتىش(ئازراق) ياكى ئۆتكۈزىۋىتىش (كۆپ) توكنى كۆپ ئىشلىتىشى ۋە تور سۈرئىتىگە تەسىر كۆرسىتشى مومكىن</string>
   <string name="title_rate">سۈرئەت</string>
   <string name="title_allow">يول قويۇش</string>
   <string name="title_block">توسۋېلىش</string>
