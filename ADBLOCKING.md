@@ -7,7 +7,7 @@ Instructions:
 * Enable the setting *'Filter traffic'* in the Advanced options (three dot menu > Settings > Advanced options > Filter traffic; default is disabled except always enabled in Android 5.0 and earlier)
 * Enable the setting *'Block domain names'* in the Advanced options (three dot menu > Settings > Advanced options > Block domain names; default is enabled)
 * Import or download [a hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) using the NetGuard backup settings (three dot menu > Settings > Backup > Download hosts file)
-* Disable browser compression if using Chrome (in Chrome: three dot menu > Settings > Data Saver > Off)
+* Disable browser compression (in Chrome: three dot menu > Settings > Data Saver > Off)
 * Wait at least 10 minutes to let the Android DNS cache time out
 * Test to see if ad blocking works by opening [this page](http://www.netguard.me/test)
 * Enjoy ad blocking, but don't forget to support application developers and website authors in other ways
@@ -78,4 +78,4 @@ Feel free to let me know about other servers or request to add them in alphabeti
 
 <br />
 
-**Please do not mention this feature in Google Play store comments, since Google does no longer allows ad blocking applications in the Google Play store.**
+**Please do not mention this feature in Google Play store comments, since Google does not allow ad blocking applications in the Google Play store.**
