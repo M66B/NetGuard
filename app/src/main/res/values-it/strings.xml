@@ -70,6 +70,7 @@
   <string name="setting_metered_3g">Considera il 3G non al consumo</string>
   <string name="setting_metered_4g">Considera LTE non al consumo</string>
   <string name="setting_national_roaming">Ignora roaming nazionale</string>
+  <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_lockdown_wifi">Blocca Wi-Fi</string>
   <string name="setting_lockdown_other">Blocca rete dati</string>
   <string name="setting_advanced_options">Opzioni avanzate</string>
@@ -77,7 +78,7 @@
   <string name="setting_log_app">Registra accessi a internet</string>
   <string name="setting_access">Notifica accessi a internet</string>
   <string name="setting_filter">Filtra traffico</string>
-  <string name="setting_clear_onreload">Close connections on reload</string>
+  <string name="setting_clear_onreload">Chiudi le connessioni quando ricarica</string>
   <string name="setting_lockdown">Blocca traffico</string>
   <string name="setting_track_usage">Tieni traccia dell\'utilizzo della rete</string>
   <string name="setting_reset_usage">Reimposta dati sull\'utilizzo della rete</string>
@@ -126,6 +127,7 @@
   <string name="summary_metered_3g">Applica le regole valide per il Wi-Fi alle connessioni 3G</string>
   <string name="summary_metered_4g">Applica le regole valide per il Wi-Fi alle connessioni LTE</string>
   <string name="summary_national_roaming">Non applicare le regole di roaming quando il paese della carta SIM e della rete mobile è lo stesso</string>
+  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
   <string name="summary_log_app">Registra i tentativi di accesso a internet delle applicazioni. Potrebbe causare utilizzo aggiuntivo di batteria.</string>
   <string name="summary_access">Visualizza una notifica sulla barra di stato quando un\' applicazione tenta di accedere ad nuovo indirizzo internet (quando il filtro é disabilitato, solo gli i tentativi di acesso ad internet bloccati verrano notificati)</string>

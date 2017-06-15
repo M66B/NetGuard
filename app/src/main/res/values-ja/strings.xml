@@ -71,6 +71,7 @@
   <string name="setting_metered_3g">定額制 3G を考慮する</string>
   <string name="setting_metered_4g">定額制 LTE を考慮する</string>
   <string name="setting_national_roaming">国内ローミングを無視する</string>
+  <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_lockdown_wifi">Wi-Fi を封鎖対象にする</string>
   <string name="setting_lockdown_other">モバイルを封鎖対象にする</string>
   <string name="setting_advanced_options">高度なオプション</string>
@@ -127,6 +128,7 @@
   <string name="summary_metered_3g">3G データ接続の Wi-Fi ネットワーク ルールを適用します</string>
   <string name="summary_metered_4g">LTE データ接続の Wi-Fi ネットワーク ルールを適用します</string>
   <string name="summary_national_roaming">SIM およびモバイル ネットワークの国が同じときは、ローミングのルールを適用しません</string>
+  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
   <string name="summary_system">システムアプリのルールを定義 (上級者向け)</string>
   <string name="summary_log_app">アプリのインターネットへのアクセスをログ記録します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_access">アプリが初のインターネットアドレスにアクセスしようとするとき、ステータスバーに通知を表示します (フィルターが無効なときは、ブロックしたインターネットアクセスの試行のみ通知されます)</string>

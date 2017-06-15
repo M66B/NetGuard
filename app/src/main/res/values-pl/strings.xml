@@ -70,6 +70,7 @@
   <string name="setting_metered_3g">Przyjmuj 3G za nietaryfowe</string>
   <string name="setting_metered_4g">Przyjmuj LTE za nietaryfowe</string>
   <string name="setting_national_roaming">Ignoruj roaming krajowy</string>
+  <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Opcje zaawansowane</string>
@@ -126,6 +127,7 @@
   <string name="summary_metered_3g">Zastosuj reguły sieci Wi-Fi do połączeń 3G</string>
   <string name="summary_metered_4g">Zastosuj reguły sieci Wi-Fi do połączeń LTE</string>
   <string name="summary_national_roaming">Nie stosuj ustawień dotyczących roamingu, gdy karta SIM oraz sieć komórkowa są z tego samego kraju</string>
+  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
   <string name="summary_system">Stwórz reguły dla aplikacji systemowych (zaawansowane)</string>
   <string name="summary_log_app">Log aplikacji próbujących uzyskać dostęp do internetu. Może spowodować większe użycie baterii.</string>
   <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>

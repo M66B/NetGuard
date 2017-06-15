@@ -71,6 +71,7 @@
   <string name="setting_metered_3g">Considerar 3G ilimitado</string>
   <string name="setting_metered_4g">Considerar 4G ilimitado</string>
   <string name="setting_national_roaming">Ignorar roaming nacional</string>
+  <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_lockdown_wifi">Bloqueio de Wi-Fi</string>
   <string name="setting_lockdown_other">Bloqueio de rede de celular</string>
   <string name="setting_advanced_options">Opções avançadas</string>
@@ -127,6 +128,7 @@
   <string name="summary_metered_3g">Aplicar regras Wi-Fi para conexões 3G</string>
   <string name="summary_metered_4g">Aplicar regras Wi-Fi para conexões 4G</string>
   <string name="summary_national_roaming">Não aplicar regras de roaming quando o chip SIM e a rede móvel forem do mesmo país</string>
+  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
   <string name="summary_system">Definir regras para aplicativos do sistema (usuários experientes)</string>
   <string name="summary_log_app">Registar tentativas de acesso à internet para aplicações. Isto pode resultar no uso extra da bateria.</string>
   <string name="summary_access">Mostrar uma notificação na barra de notificações quando um aplicativo tentar acessar um novo endereço de internet (quando a filtragem é desativada, apenas tentativas de acesso de internet bloqueados serão notificadas)</string>

@@ -70,6 +70,7 @@
   <string name="setting_metered_3g">Considera 3G necontorizat</string>
   <string name="setting_metered_4g">Considera 4G/LTE necontorizat</string>
   <string name="setting_national_roaming">Ignora roamingul national</string>
+  <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_lockdown_wifi">Închide Wi-Fi</string>
   <string name="setting_lockdown_other">Închide date mobile</string>
   <string name="setting_advanced_options">Optiuni avansate</string>
@@ -126,6 +127,7 @@
   <string name="summary_metered_3g">Aplica regulile Wi-Fi pentru conexiunile de date 3G</string>
   <string name="summary_metered_4g">Aplica regulile Wi-Fi pentru conexiunile de date 4G/LTE</string>
   <string name="summary_national_roaming">Nu folosi regulile de roaming atunci cand tara de origine a SIM-ului si tara retelei mobile sunt identice</string>
+  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (pentru experti)</string>
   <string name="summary_log_app">Inregistreaza in jurnal incercarile de acces la internet ale aplicatiilor. Aceasta poate duce la un consum mai mare al bateriei.</string>
   <string name="summary_access">Arata o notificare în bara de stare atunci când o aplicație încearcă sa acceseze o noua adresa de internet (când filtrare este dezactivată, numai accesul internet blocat va apărea în notificare)</string>

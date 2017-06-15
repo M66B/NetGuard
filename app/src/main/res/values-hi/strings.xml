@@ -72,6 +72,7 @@
   <string name="setting_metered_3g">3G unmetered चुनें</string>
   <string name="setting_metered_4g">LTE unmetered चुनें</string>
   <string name="setting_national_roaming">राष्ट्रीय रोमिंग पर ध्यान न दें</string>
+  <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">उन्नत विकल्प</string>
@@ -128,6 +129,7 @@
   <string name="summary_metered_3g">2 जी डेटा कनेक्शन के लिए वाई-फाई नेटवर्क नियम लागू करें</string>
   <string name="summary_metered_4g">2 जी डेटा कनेक्शन के लिए वाई-फाई नेटवर्क नियम लागू करें</string>
   <string name="summary_national_roaming">रोमिंग नियम लागू नहीं होते हैं, जब सिम और मोबाइल नेटवर्क देश ही हैं</string>
+  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
   <string name="summary_system">(विशेषज्ञों) के लिए सिस्टम अनुप्रयोगों के लिए नियमों को परिभाषित</string>
   <string name="summary_log_app">लॉग अनुप्रयोगों के लिए इंटरनेट का उपयोग करने का प्रयास करता है। यह अतिरिक्त बैटरी उपयोग में परिणाम हो सकता है।</string>
   <string name="summary_access">एक नए इंटरनेट पते तक पहुँचने के लिए कोई अनुप्रयोग का प्रयास करता है, जब एक स्थिति बार सूचना दिखाएँ (फ़िल्टरिंग अक्षम किया गया है, जब केवल अवरुद्ध इंटरनेट का उपयोग प्रयास को सूचित किया जाएगा)</string>

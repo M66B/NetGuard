@@ -70,6 +70,7 @@
   <string name="setting_metered_3g">Xem xét mạng 3G không trả phí</string>
   <string name="setting_metered_4g">Xem xét mạng LTE không trả phí</string>
   <string name="setting_national_roaming">Bỏ qua chuyển vùng quốc gia</string>
+  <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Tùy chọn nâng cao</string>
@@ -126,6 +127,7 @@
   <string name="summary_metered_3g">Áp dụng quy tắc mạng Wi-Fi cho kết nối dữ liệu 3G</string>
   <string name="summary_metered_4g">Áp dụng quy tắc mạng Wi-Fi cho kết nối dữ liệu LTE</string>
   <string name="summary_national_roaming">Không áp dụng quy tắc chuyển vùng khi SIM và mạng di động mạng quốc gia giống nhau</string>
+  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
   <string name="summary_system">Định nghĩa quy tắc cho các ứng dụng hệ thống (đối với các chuyên gia)</string>
   <string name="summary_log_app">Thông báo cố gắng truy cập internet cho các ứng dụng. Điều này có thể dẫn đến việc sử dụng pin phụ.</string>
   <string name="summary_access">Hiển thị một thanh thông báo trạng thái khi một ứng dụng cố gắng để truy cập vào một địa chỉ internet mới (khi lọc bị tắt, chỉ cố gắng truy cập internet bị chặn được thông báo)</string>

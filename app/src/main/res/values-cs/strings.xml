@@ -72,6 +72,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_metered_3g">Považovat 3G za neomezené</string>
   <string name="setting_metered_4g">Považovat LTE za neomezené</string>
   <string name="setting_national_roaming">Ignorovat vnitrostátní roaming</string>
+  <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Pokročilé možnosti</string>
@@ -128,6 +129,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="summary_metered_3g">Použít pravidla Wi-Fi pro 3G datová spojení</string>
   <string name="summary_metered_4g">Použít pravidla Wi-Fi pro LTE datová spojení</string>
   <string name="summary_national_roaming">Nepoužívat pravidla pro roaming, pokud je SIM a země mobilní sítě totožná</string>
+  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
   <string name="summary_system">Definovat pravidla pro systémové aplikace (pro odborníky)</string>
   <string name="summary_log_app">Zaznamenávat do protokolu pokusy aplikací o přístup k internetu. Může mít vliv na spotřebu baterie.</string>
   <string name="summary_access">Zobrazit upozornění na stavovém řádku při pokusu aplikace o přístup k nové internetové adrese (při zakázaném filtrování budete upozorněni pouze na zablokované přístupy)</string>

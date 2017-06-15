@@ -72,6 +72,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="setting_metered_3g">3G veri kullanımını dikkate al</string>
   <string name="setting_metered_4g">4G veri kullanımını dikkate al</string>
   <string name="setting_national_roaming">Ulusal dolaşımı yoksay</string>
+  <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Gelişmiş ayarlar</string>
@@ -128,6 +129,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="summary_metered_3g">3G bağlantısı için Wi-Fi kurallarını uygula</string>
   <string name="summary_metered_4g">4G bağlantısı için Wi-Fi kurallarını uygula</string>
   <string name="summary_national_roaming">SIM kart yurtdışında kullanılmıyorsa dolaşım kurallarını etkinleştirm</string>
+  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
   <string name="summary_system">Sistem uygulamaları kuralları tanımlayın (uzman için)</string>
   <string name="summary_log_app">Uygulamaların internet erişimini kaydetmek ekstra batarya kullanımına neden olabilir.</string>
   <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>

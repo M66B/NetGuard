@@ -71,6 +71,7 @@
   <string name="setting_metered_3g">Betragt 3G som ikke-forbrugsafregnet</string>
   <string name="setting_metered_4g">Betragt LTE som ikke-forbrugsafregnet</string>
   <string name="setting_national_roaming">Ignorer national roaming</string>
+  <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_lockdown_wifi">Aflås Wi-Fi</string>
   <string name="setting_lockdown_other">Afslås mobil</string>
   <string name="setting_advanced_options">Avancerede indstillinger</string>
@@ -127,6 +128,7 @@
   <string name="summary_metered_3g">Anvend Wi-Fi-netværksregler på 3G-dataforbindelser</string>
   <string name="summary_metered_4g">Anvend Wi-Fi-netværksregler på LTE-dataforbindelser</string>
   <string name="summary_national_roaming">Anvend ikke roaming-regler, når SIM-korts- og mobilnetværksland er det samme</string>
+  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
   <string name="summary_system">Definér regler for system-apps (til eksperter)</string>
   <string name="summary_log_app">Log forsøg på Internetadgang for apps. Dette kan medføre forøget strømforbrug.</string>
   <string name="summary_access">Vis en statusbjælkenotifikation når en app forsøger at tilgå en ny Internetadresse (er filtrering inaktiv, vil kun blokerede Internetadgangsforsøg generere notifikationer)</string>
