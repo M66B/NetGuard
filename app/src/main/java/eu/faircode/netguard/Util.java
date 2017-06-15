@@ -73,7 +73,6 @@ import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
-import java.nio.Buffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -91,6 +90,41 @@ public class Util {
     private static final int NETWORK_TYPE_TD_SCDMA = 17;
     private static final int NETWORK_TYPE_IWLAN = 18;
     private static final String TAG = "NetGuard.Util";
+
+    // Roam like at home
+    private static final List<String> listEU = Arrays.asList(
+            "AT", // Austria
+            "BE", // Belgium
+            "BG", // Bulgaria
+            "HR", // Croatia
+            "CY", // Cyprus
+            "CZ", // Czech Republic
+            "DK", // Denmark
+            "EE", // Estonia
+            "FI", // Finland
+            "FR", // France
+            "DE", // Germany
+            "GR", // Greece
+            "HU", // Hungary
+            "IS", // Iceland
+            "IE", // Ireland
+            "IT", // Italy
+            "LV", // Latvia
+            "LI", // Liechtenstein
+            "LT", // Lithuania
+            "LU", // Luxembourg
+            "MT", // Malta
+            "NL", // Netherlands
+            "NO", // Norway
+            "PL", // Poland
+            "PT", // Portugal
+            "RO", // Romania
+            "SK", // Slovakia
+            "SI", // Slovenia
+            "ES", // Spain
+            "SE", // Sweden
+            "GB" // United Kingdom
+    );
 
     private static native String jni_getprop(String name);
 
@@ -164,13 +198,26 @@ public class Util {
         return (ni != null && ni.isRoaming());
     }
 
-    public static boolean isInternational(Context context) {
+    public static boolean isNational(Context context) {
         try {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            return (tm != null && tm.getSimCountryIso() != null && !tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
+            return (tm != null && tm.getSimCountryIso() != null && tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
         } catch (Throwable ignored) {
             return false;
         }
+    }
+
+    public static boolean isEU(Context context) {
+        try {
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            return (tm != null && isEU(tm.getSimCountryIso()) && isEU(tm.getNetworkCountryIso()));
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+
+    public static boolean isEU(String country) {
+        return (country != null && listEU.contains(country.toUpperCase()));
     }
 
     public static String getNetworkGeneration(int networkType) {

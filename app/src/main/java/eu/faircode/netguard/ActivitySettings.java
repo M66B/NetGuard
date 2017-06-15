@@ -105,9 +105,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private static final int REQUEST_METERED2 = 3;
     private static final int REQUEST_METERED3 = 4;
     private static final int REQUEST_METERED4 = 5;
-    private static final int REQUEST_ROAMING_NATIONAL = 6;
-    private static final int REQUEST_ROAMING_INTERNATIONAL = 7;
-    private static final int REQUEST_HOSTS = 8;
+    private static final int REQUEST_ROAMING_EU = 6;
+    private static final int REQUEST_ROAMING_NATIONAL = 7;
+    private static final int REQUEST_ROAMING_INTERNATIONAL = 8;
+    private static final int REQUEST_HOSTS = 9;
 
     private AlertDialog dialogFilter = null;
 
@@ -583,6 +584,15 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             } else
                 ServiceSinkhole.reload("changed " + name, this);
 
+        } else if ("eu_roaming".equals(name)) {
+            if (prefs.getBoolean(name, false)) {
+                if (Util.hasPhoneStatePermission(this))
+                    ServiceSinkhole.reload("changed " + name, this);
+                else
+                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_EU);
+            } else
+                ServiceSinkhole.reload("changed " + name, this);
+
         } else if ("national_roaming".equals(name)) {
             if (prefs.getBoolean(name, false)) {
                 if (Util.hasPhoneStatePermission(this))
@@ -807,6 +817,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             }
 
         // Check if permission was revoked
+        if (prefs.getBoolean("eu_roaming", false))
+            if (!Util.hasPhoneStatePermission(this)) {
+                prefs.edit().putBoolean("eu_roaming", false).apply();
+                ((TwoStatePreference) screen.findPreference("eu_roaming")).setChecked(false);
+
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_EU);
+            }
+
         if (prefs.getBoolean("national_roaming", false))
             if (!Util.hasPhoneStatePermission(this)) {
                 prefs.edit().putBoolean("national_roaming", false).apply();
@@ -834,6 +852,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if (requestCode == REQUEST_METERED4) {
             prefs.edit().putBoolean("unmetered_4g", granted).apply();
             ((TwoStatePreference) screen.findPreference("unmetered_4g")).setChecked(granted);
+
+        } else if (requestCode == REQUEST_ROAMING_EU) {
+            prefs.edit().putBoolean("eu_roaming", granted).apply();
+            ((TwoStatePreference) screen.findPreference("eu_roaming")).setChecked(granted);
 
         } else if (requestCode == REQUEST_ROAMING_NATIONAL) {
             prefs.edit().putBoolean("national_roaming", granted).apply();

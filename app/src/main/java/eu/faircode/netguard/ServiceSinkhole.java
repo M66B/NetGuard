@@ -1582,6 +1582,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean unmetered_3g = prefs.getBoolean("unmetered_3g", false);
         boolean unmetered_4g = prefs.getBoolean("unmetered_4g", false);
         boolean roaming = Util.isRoaming(ServiceSinkhole.this);
+        boolean eu = prefs.getBoolean("eu_roaming", false);
         boolean national = prefs.getBoolean("national_roaming", false);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
@@ -1611,8 +1612,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean lockdown = isLockedDown(last_metered);
 
         // Update roaming state
+        if (roaming && eu)
+            roaming = !Util.isEU(this);
         if (roaming && national)
-            roaming = Util.isInternational(this);
+            roaming = !Util.isNational(this);
 
         Log.i(TAG, "Get allowed" +
                 " connected=" + last_connected +
@@ -2060,7 +2063,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private PhoneStateListener phoneStateListener = new PhoneStateListener() {
         private String last_generation = null;
-        private int last_international = -1;
+        private int last_eu = -1;
+        private int last_national = -1;
 
         @Override
         public void onDataConnectionStateChanged(int state, int networkType) {
@@ -2084,17 +2088,29 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         @Override
         public void onServiceStateChanged(ServiceState serviceState) {
             if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
-                int current_international = (Util.isInternational(ServiceSinkhole.this) ? 1 : 0);
-                Log.i(TAG, "In service international=" + current_international);
+                int current_eu = (Util.isEU(ServiceSinkhole.this) ? 1 : 0);
+                int current_national = (Util.isNational(ServiceSinkhole.this) ? 1 : 0);
+                Log.i(TAG, "In service eu=" + current_eu + " national=" + current_national);
 
-                if (last_international != current_international) {
-                    Log.i(TAG, "New international=" + current_international);
-                    last_international = current_international;
+                boolean reload = false;
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
 
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-                    if (prefs.getBoolean("national_roaming", false))
-                        reload("service state changed", ServiceSinkhole.this);
+                if (last_eu != current_eu) {
+                    Log.i(TAG, "New eu=" + current_eu);
+                    last_eu = current_eu;
+                    if (prefs.getBoolean("eu_roaming", false))
+                        reload = true;
                 }
+
+                if (last_national != current_national) {
+                    Log.i(TAG, "New national=" + current_national);
+                    last_national = current_national;
+                    if (prefs.getBoolean("national_roaming", false))
+                        reload = true;
+                }
+
+                if (reload)
+                    reload("service state changed", ServiceSinkhole.this);
             }
         }
     };
