@@ -19,8 +19,9 @@ Note that:
 * applications, like web browsers, may cache data, so you may need to clear caches
 * applications, browsers mostly, that have a *"data saver"*-like feature that proxies requests through their servers (eg. Opera w/ Turbo, Opera Max, Puffin, Chrome w/ data saver, UC Browser, Yandex w/ Turbo, Apus Browser, KK Browser, Onavo Extend, Maxthon) will not have ads blocked as NetGuard cannot see those domain requests
 * YouTube ads are not domain-based, and thus cannot be blocked with NetGuard
-* NetGuard does not use the IP addresses in the hosts file, because it does not route blocked domains to localhost
+* NetGuard ignores the IP addresses in the hosts file, because it does not route blocked domains to localhost
 * NetGuard does not concatenate hosts files, so you will have to use a source which does this for you or do it yourself
+* When NetGuard imports the hosts file, it automatically discards any duplicates entries, so duplicate entries are not a problem and have no performance impact after the file is imported
 * you can check the number of hosts (domains) imported by pulling the NetGuard notification down using two fingers if your version of Android supports that functionality
 * wildcards are not supported due to performance and battery usage reasons
 * **ad blocking is provided as-is**, see also [here](https://forum.xda-developers.com/showpost.php?p=71805655&postcount=4668)
