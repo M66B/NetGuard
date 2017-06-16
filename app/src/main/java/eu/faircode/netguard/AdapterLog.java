@@ -225,6 +225,8 @@ public class AdapterLog extends CursorAdapter {
             Picasso.with(context).load(uri).resize(iconSize, iconSize).into(ivIcon);
         }
 
+        boolean we = (android.os.Process.myUid() == uid);
+
         // https://android.googlesource.com/platform/system/core/+/master/include/private/android_filesystem_config.h
         uid = uid % 100000; // strip off user ID
         if (uid == -1)
@@ -240,7 +242,7 @@ public class AdapterLog extends CursorAdapter {
         tvSAddr.setText(getKnownAddress(saddr));
 
         // Show destination address
-        if (resolve && !isKnownAddress(daddr))
+        if (!we && resolve && !isKnownAddress(daddr))
             if (dname == null) {
                 tvDaddr.setText(daddr);
                 new AsyncTask<String, Object, String>() {
@@ -271,7 +273,7 @@ public class AdapterLog extends CursorAdapter {
 
         // Show organization
         tvOrganization.setVisibility(View.GONE);
-        if (organization) {
+        if (!we && organization) {
             if (!isKnownAddress(daddr))
                 new AsyncTask<String, Object, String>() {
                     @Override
