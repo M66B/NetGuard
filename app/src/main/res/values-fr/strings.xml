@@ -70,7 +70,7 @@
   <string name="setting_metered_3g">Considérer 3G illimité</string>
   <string name="setting_metered_4g">Considérer LTE illimité</string>
   <string name="setting_national_roaming">Ignorer l\'itinérance nationale</string>
-  <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_eu_roaming">Ignorer l’itinérance en Europe</string>
   <string name="setting_lockdown_wifi">Verrouiller les données Wi-Fi</string>
   <string name="setting_lockdown_other">Verrouiller les données mobiles</string>
   <string name="setting_advanced_options">Options avancées</string>
@@ -127,7 +127,7 @@
   <string name="summary_metered_3g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 3G</string>
   <string name="summary_metered_4g">Appliquer les règles de réseau Wi-Fi pour les connexions de données LTE</string>
   <string name="summary_national_roaming">Ne pas appliquer les règles d\'itinérance lorsque la SIM et le réseau mobile du pays sont les mêmes</string>
-  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_eu_roaming">Ne pas appliquer les règles d\'itinérance lorsque le pays de la SIM et celui du réseau mobile font partie de l\'Union Européenne (roam like at home)</string>
   <string name="summary_system">Définir les règles pour les applications système (pour experts)</string>
   <string name="summary_log_app">Journaliser les tentatives d\'accès à internet des applications. Cela peut entraîner une surconsommation de la batterie.</string>
   <string name="summary_access">Afficher une notification dans la barre d\'état quand une application tente d\'accéder à une nouvelle adresse internet (lorsque le filtrage est désactivé, seules les tentatives d\'accès internet bloquées seront notifiées)</string>
