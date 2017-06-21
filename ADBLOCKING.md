@@ -14,6 +14,15 @@ Instructions:
 
 <br />
 
+Troubleshooting:
+
+Some devices/Android versions require:
+
+* the advanced option *Manage system applications* to be enabled and/or
+* two (not one) custom DNS server addresses to be set in the advanced options
+
+<br />
+
 Note that:
 
 * applications, like web browsers, may cache data, so you may need to clear caches
