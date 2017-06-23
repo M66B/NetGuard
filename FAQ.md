@@ -155,7 +155,7 @@ Disabled applications and applications without internet permission are shown dim
 **(17) Why is NetGuard using so much memory?**
 
 It isn't.  NetGuard doesn't allocate any memory, except a little for displaying the user interface elements.
-It appears, on some Android variants, that the Google Play™ store app connection uses almost 150 MB.  It is needed for in-app donations, 
+It appears, on some Android variants, that the Google Play™ store app connection uses almost 150 MB.  It is needed for in-app donations,
 and is incorrectly attributed to NetGuard instead to the Google Play™ store app.
 
 <a name="FAQ18"></a>
@@ -198,14 +198,14 @@ Android settings > Battery > three dot menu > Battery optimizations > Dropdown >
 
 The procedure to accomplish this can vary between devices.
 
-Disabling doze mode for NetGuard cannot be done from within NetGuard 
+Disabling doze mode for NetGuard cannot be done from within NetGuard
 because, according to Google, NetGuard is [not an application type allowed to do this](http://developer.android.com/training/monitoring-device-state/doze-standby.html#whitelisting-cases).
 
 <a name="FAQ22"></a>
 **(22) Can I tether / use Wi-Fi calling while using NetGuard?**
 
 Yes, but this needs to be enabled in NetGuard's settings.
-Whether or not it works depends on your Android version 
+Whether or not it works depends on your Android version
 because some Android versions have a bug preventing tethering and the VPN service working together.
 
 Some devices hibernate Wi-Fi, preventing tethering from working when the screen is off.
@@ -565,6 +565,14 @@ However, many Android versions incorrectly account data of other applications fl
 The data usage of other applications will be zero with NetGuard enabled in this case.
 
 The total data usage of your device will be the same with and without NetGuard.
+
+<a name="FAQ58"></a>
+**(58) Why does loading the application list take a long time?**
+
+The application list is provided by Android, so the loading speed depends mostly on the power of your device and on the efficiency of your Android version.
+For example shortage of memory could lead to increased loading times, because memory needs to be freed, for example by pausing other applications.
+
+In some circumstances, restricting system apps and system components is known to cause the application list to load slowly or not at all. The exact circumstances are unknown.
 
 <br />
 

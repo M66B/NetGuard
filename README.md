@@ -254,6 +254,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ57"></a>
 [**(57) Why does NetGuard use so much data?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ57)
 
+<a name="FAQ58"></a>
+[**(58) Why does loading the application list take a long time?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ58)
+
 Support
 -------
 
