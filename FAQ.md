@@ -1,7 +1,7 @@
 NetGuard
 ========
 
-Please scroll down if you want to ask a question, request a feature or report a bug.
+Please scroll down if you want to ask a question, request a feature, or report a bug.
 
 Frequently Asked Questions (FAQ)
 --------------------------------
@@ -15,8 +15,8 @@ Frequently Asked Questions (FAQ)
 You can use *Settings > Defaults* to change from block/blacklist mode (disable *Block Wi-Fi* and *Block mobile*, and then block unwanted applications in NetGuard's applications list) to allow/whitelist mode (enable *Block Wi-Fi* and *Block mobile*, and then allow desired applications in NetGuard's applications list).
 
 \* Depending on the theme you use, the icons may be:
-* Allowed (internet access permitted): Greenish (teal) / blue / purple / gray
-* Blocked (internet access denied): Reddish (salmon) / orange / yellow / amber
+* Allowed (internet access permitted): greenish (teal) / blue / purple / gray
+* Blocked (internet access denied): reddish (salmon) / orange / yellow / amber
 
 <a name="FAQ1"></a>
 **(1) Can NetGuard completely protect my privacy?**
@@ -111,14 +111,14 @@ See [here](http://forum.xda-developers.com/showpost.php?p=65723629&postcount=178
 **(10) Will you provide a Tasker plug-in?**
 
 No, because if Tasker is allowed to disable NetGuard, any application can disable NetGuard.
-Allowing a security application to be disabled from other applications is not a good idea.
+Allowing a security application to be disabled by other applications is not a good idea.
 
 <a name="FAQ13"></a>
 **(13) How can I remove the ongoing NetGuard entry in the notification screen?**
 
 * Long click the NetGuard notification
 * Tap the 'i' icon
-* Depending on your device and/or ROMs manufacturer software customizations, you can be directed to either:
+* Depending on your device and/or ROM manufacturer's software customizations, you can be directed to either:
   * the **App Info** screen and you can uncheck '*Show notifications*' and agree to the next dialog
   * the **App Notifications** screen and you can toggle the '*Block*' slider to on
 
@@ -196,8 +196,10 @@ To be sure, you can disable battery optimizations for NetGuard manually like thi
 Android settings > Battery > three dot menu > Battery optimizations > Dropdown > All apps > NetGuard > Don't optimize > Done
 ```
 
-This cannot be done from the application,
-because according to Google, NetGuard is [not an application type allowed to do this](http://developer.android.com/training/monitoring-device-state/doze-standby.html#whitelisting-cases).
+The procedure to accomplish this can vary between devices.
+
+Disabling doze mode for NetGuard cannot be done from within NetGuard 
+because, according to Google, NetGuard is [not an application type allowed to do this](http://developer.android.com/training/monitoring-device-state/doze-standby.html#whitelisting-cases).
 
 <a name="FAQ22"></a>
 **(22) Can I tether / use Wi-Fi calling while using NetGuard?**
@@ -229,7 +231,7 @@ The [Google documentation](http://developer.android.com/reference/android/net/Vp
 **(25) Can you add a 'Select All' function?**
 
 There is no need for a 'Select All' function
-because you can switch from blacklist to whitelist mode using Netguard's settings.
+because you can switch from block (blacklist) to allow (whitelist) mode using Netguard's settings.
 See also [question 0](#FAQ0).
 
 <a name="FAQ27"></a>
@@ -245,7 +247,7 @@ The columns have the following meanings:
 1. Protocol (see below) and packet flags (see below)
 1. Source and destination port (tap on a log entry to lookup a destination port)
 1. Source and destination IPv4 or IPv6 address (tap on a log entry to lookup a destination IP address)
-1. Organization name owning the IP address (need to be enabled through the menu)
+1. Organization name owning the IP address (needs to be enabled via the menu)
 
 Protocols:
 
@@ -269,7 +271,7 @@ Packet flags:
 
 For a detailed explanation see [here](https://en.wikipedia.org/wiki/Transmission_Control_Protocol).
 
-Only TCP, UDP and ICMP ping traffic can be routed through the Android VPN service.
+Only TCP, UDP, and ICMP ping traffic can be routed through the Android VPN service.
 All other traffic will be dropped and will be shown as blocked in the global traffic log.
 This is almost never a problem on an Android device.
 
@@ -286,6 +288,8 @@ even though there is a connection to the Wi-Fi network (or the other way around)
 To prevent a bad user experience, NetGuard includes a predefined rule to default allow the Google connectivity services.
 
 You can find all predefined rules [here](https://github.com/M66B/NetGuard/blob/master/app/src/main/res/xml/predefined.xml).
+
+You can override predefined rules.
 
 <a name="FAQ29"></a>
 **(29) Why do I get 'The item you requested is not available for purchase'?**
@@ -311,7 +315,7 @@ Some pointers on how to set up AFWall+ to be used simultaneously with NetGuard:
 <a name="FAQ31"></a>
 **(31) Why can some applications be configured as a group only?**
 
-For a lot of purposes, including network access, Android groups applications on UID and not on package/application name.
+For many purposes, including network access, Android groups applications on UID and not on package/application name.
 Especially system applications often have the same UID, despite having a different package and application name; these are set up like this by the ROM manufacturer at build time.
 These applications can only be allowed/blocked access to the internet as a group.
 
@@ -440,16 +444,16 @@ If you want to clear all applications logs, you can export and import your setti
 
 The Android VPN service handles outgoing connections only (from applications to the internet), so incoming connections are normally left alone.
 
-If you want to run a server application on Android, then be aware that using port numbers below 1024 requires root permissions
+If you want to run a server application on Android, then be aware that using port numbers below 1024 require root permissions
 and that some Android versions contain routing bugs, causing inbound traffic incorrectly being routed into the VPN.
 
 <a name="FAQ46"></a>
 **(46) Can I get a refund?**
 
-If a purchased pro feature doesn't work [as described](https://www.netguard.me/) while the free features of NetGuard work properly
+If a purchased pro feature doesn't work [as described](https://www.netguard.me/) while the free features of NetGuard work properly,
 and I cannot fix the issue in a timely manner, you can get a refund.
 In all other cases there is no refund possible.
-I take my responsibility as seller to deliver what has been promised and I expect that you to take responsibility for informing yourself of what you are buying.
+I take my responsibility as seller to deliver what has been promised and I expect that you take responsibility for informing yourself of what you are buying.
 
 <a name="FAQ47"></a>
 **(47) Why are there in-application advertisements?**
@@ -479,7 +483,7 @@ This value is used as a minimum DNS TTL value in an attempt to mimick the behavi
 **(49) Does NetGuard encrypt my internet traffic / hide my IP address?**
 
 NetGuard is a firewall application that filters internet traffic on your device (see also [this question](#FAQ6)),
-so it is not meant to and does not encrypt your internet traffic or hide your IP address.
+so it is not meant to - and does not - encrypt your internet traffic or hide your IP address.
 
 <a name="FAQ50"></a>
 **(50) Will NetGuard automatically start on boot?**
@@ -487,15 +491,15 @@ so it is not meant to and does not encrypt your internet traffic or hide your IP
 Yes, NetGuard will automatically be started on boot if you powered off your device with NetGuard enabled.
 
 <a name="FAQ51"></a>
-**(51) NetGuard blocks all internet traffic!**
+**(51) Why does NetGuard block all internet traffic?!**
 
 Make sure you have put NetGuard on the doze exception list (Android 6 Marshmallow or later)
-and that Android allows NetGuard to use the internet in the background.
+and that Android allows NetGuard to use the internet in the background (see also [this question](#FAQ21)).
 
-Make sure you are not running NetGuard in whitelist mode (check the NetGuard default settings).
+Make sure you are not running NetGuard in allow (whitelist) mode (check the NetGuard default settings).
 
 Some Android versions contain a bug resulting in all internet traffic being blocked.
-Mostly, you can workaround this bug by enabling filtering in the advanced NetGuard settings.
+Mostly, you can workaround this bug by enabling filtering in NetGuard's *Advamced options*.
 
 <a name="FAQ52"></a>
 **(52) What is lockdown mode?**
@@ -564,6 +568,6 @@ The total data usage of your device will be the same with and without NetGuard.
 
 <br />
 
-**NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.**
+**NetGuard is supported for phones and tablets only, so not for other device types like televisions or vehicles.**
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me by using [this contact form](https://contact.faircode.eu/)**.
