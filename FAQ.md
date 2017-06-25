@@ -488,7 +488,10 @@ so it is not meant to - and does not - encrypt your internet traffic or hide you
 <a name="FAQ50"></a>
 **(50) Will NetGuard automatically start on boot?**
 
-Yes, NetGuard will automatically be started on boot if you powered off your device with NetGuard enabled.
+Yes, NetGuard will automatically be started on boot if you powered off your device with NetGuard enabled and NetGuard is not installed on external storage.
+
+Some devices, for example OnePlus and Mi devices, can prevent certain apps from auto-starting after reboot.
+This can be disabled in the Android settings.
 
 <a name="FAQ51"></a>
 **(51) Why does NetGuard block all internet traffic?!**
