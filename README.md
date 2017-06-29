@@ -91,6 +91,11 @@ Removing this package is possible with root permissions only.
 
 NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.
 
+Wi-Fi calling will not work if your provider uses [IPsec](https://en.wikipedia.org/wiki/IPsec) to encrypt your calls,
+unless there is made an exception in NetGuard for your provider (currently for T-Mobile and Verizon).
+I am happy to add exceptions for other providers, but I need the MCC's, MNC's and IP ranges your provider is using.
+
+
 <a name="FAQ"></a>
 Frequently Asked Questions (FAQ)
 --------------------------------
