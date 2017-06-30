@@ -26,6 +26,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.service.quicksettings.Tile;
@@ -57,6 +58,7 @@ public class ServiceTileMain extends TileService implements SharedPreferences.On
         Tile tile = getQsTile();
         if (tile != null) {
             tile.setState(enabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+            tile.setIcon(Icon.createWithResource(this, enabled ? R.drawable.ic_security_white_24dp : R.drawable.ic_security_white_24dp_60));
             tile.updateTile();
         }
     }

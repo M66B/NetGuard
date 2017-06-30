@@ -23,6 +23,7 @@ package eu.faircode.netguard;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.service.quicksettings.Tile;
@@ -52,6 +53,7 @@ public class ServiceTileGraph extends TileService implements SharedPreferences.O
         Tile tile = getQsTile();
         if (tile != null) {
             tile.setState(stats ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+            tile.setIcon(Icon.createWithResource(this, stats ? R.drawable.ic_equalizer_white_24dp : R.drawable.ic_equalizer_white_24dp_60));
             tile.updateTile();
         }
     }
