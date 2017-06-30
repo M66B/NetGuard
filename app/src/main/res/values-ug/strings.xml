@@ -72,7 +72,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_metered_3g">3G ھىسابلىمغان تورنى قوشۇش</string>
   <string name="setting_metered_4g">LTE ھىسابلىمغان تورنى قوشۇش</string>
   <string name="setting_national_roaming">روتىر تورىنى ھېسابلىماسلىق</string>
-  <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_eu_roaming">EU كەزمە تورنى موھىم بىلمەسلىك</string>
   <string name="setting_lockdown_wifi">قۇلۇپلانغان Wi-Fi</string>
   <string name="setting_lockdown_other">تور ئېتىلگەن</string>
   <string name="setting_advanced_options">ئالىي تاللانما</string>
