@@ -577,6 +577,13 @@ For example shortage of memory could lead to increased loading times, because me
 
 In some circumstances, restricting system apps and system components is known to cause the application list to load slowly or not at all. The exact circumstances are unknown.
 
+<a name="FAQ59"></a>
+**(59) Why does the list of connections for an app suddenly scroll away?
+
+This is a known bug in an Android support library.  I attempted to fix it in the past, but could not find a solution.  Pull requests are welcome.
+
+The workaround is to press the *pause* button.  Logs will continue to be collected while pause is enabled.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like televisions or vehicles.**
