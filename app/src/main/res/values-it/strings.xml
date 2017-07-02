@@ -193,10 +193,10 @@
   <string name="title_lockdown_enabled">Il traffico è bloccato</string>
   <string name="title_unmetered_allowed">Il traffico non al consumo è consentito</string>
   <string name="title_unmetered_blocked">Il traffico non al consumo è bloccato</string>
-  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
+  <string name="title_unmetered_disabled">Le regole non a consumo non vengono applicate</string>
   <string name="title_metered_allowed">Il traffico al consumo è consentito</string>
   <string name="title_metered_blocked">Il traffico al consumo è bloccato</string>
-  <string name="title_metered_disabled">Metered rules are not applied</string>
+  <string name="title_metered_disabled">Le regole a consumo non vengono applicate</string>
   <string name="title_host_allowed">L\'indirizzo è consentito</string>
   <string name="title_host_blocked">L\'indirizzo è bloccato</string>
   <string name="title_interactive_allowed">Permetti quando lo schermo è acceso</string>
