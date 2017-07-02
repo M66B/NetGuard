@@ -201,7 +201,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                 else
                                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
                             }
-                        }.execute();
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     }
                 });
                 return false;
@@ -376,7 +376,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                                 if (running)
                                     Toast.makeText(ActivitySettings.this, ex.getMessage(), Toast.LENGTH_LONG).show();
                             }
-                        }).execute();
+                        }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                     } catch (MalformedURLException ex) {
                         Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
                     }
@@ -1015,7 +1015,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void handleHosts(final Intent data) {
@@ -1082,7 +1082,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void handleImport(final Intent data) {
@@ -1124,7 +1124,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                         Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
                 }
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void xmlExport(OutputStream out) throws IOException {

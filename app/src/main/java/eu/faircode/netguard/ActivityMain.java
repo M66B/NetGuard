@@ -118,18 +118,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public static final String EXTRA_METERED = "Metered";
     public static final String EXTRA_SIZE = "Size";
 
-    private static ExecutorService mExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors(),
-            new PriorityThreadFactory());
-
-    private static class PriorityThreadFactory implements ThreadFactory {
-        @Override
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(r);
-            t.setPriority(Thread.MAX_PRIORITY);
-            return t;
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
@@ -1063,7 +1051,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
                 }
             }
-        }.execute(mExecutor);
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void updateSearch(String search) {

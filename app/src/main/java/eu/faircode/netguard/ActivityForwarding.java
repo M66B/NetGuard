@@ -179,7 +179,7 @@ public class ActivityForwarding extends AppCompatActivity {
                         spRuid.setVisibility(View.VISIBLE);
                     }
                 };
-                task.execute();
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
                 dialog = new AlertDialog.Builder(this)
                         .setView(view)
@@ -223,7 +223,7 @@ public class ActivityForwarding extends AppCompatActivity {
                                                 } else
                                                     Toast.makeText(ActivityForwarding.this, ex.toString(), Toast.LENGTH_LONG).show();
                                         }
-                                    }.execute();
+                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                 } catch (Throwable ex) {
                                     Toast.makeText(ActivityForwarding.this, ex.toString(), Toast.LENGTH_LONG).show();
                                 }

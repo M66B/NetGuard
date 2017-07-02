@@ -497,7 +497,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                         if (running)
                             updateAdapter();
                     }
-                }.execute();
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 return true;
 
             case R.id.menu_log_support:
@@ -620,6 +620,6 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 else
                     Toast.makeText(ActivityLog.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

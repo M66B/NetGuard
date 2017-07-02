@@ -265,7 +265,7 @@ public class AdapterLog extends CursorAdapter {
                         tvDaddr.setText(">" + name);
                         ViewCompat.setHasTransientState(tvDaddr, false);
                     }
-                }.execute(daddr);
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, daddr);
             } else
                 tvDaddr.setText(dname);
         else
@@ -299,7 +299,7 @@ public class AdapterLog extends CursorAdapter {
                         }
                         ViewCompat.setHasTransientState(tvOrganization, false);
                     }
-                }.execute(daddr);
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, daddr);
         }
 
         // Show extra data

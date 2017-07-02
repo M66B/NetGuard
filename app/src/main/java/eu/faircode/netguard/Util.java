@@ -972,7 +972,7 @@ public class Util {
                     }
             }
         };
-        task.execute();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private static StringBuilder getTrafficLog(Context context) {

@@ -95,7 +95,7 @@ public class ActivityDns extends AppCompatActivity {
                 ServiceSinkhole.reload("DNS cleanup", ActivityDns.this);
                 updateAdapter();
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void clear() {
@@ -112,7 +112,7 @@ public class ActivityDns extends AppCompatActivity {
                 ServiceSinkhole.reload("DNS clear", ActivityDns.this);
                 updateAdapter();
             }
-        }.execute();
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void updateAdapter() {
