@@ -161,7 +161,7 @@ public class AdapterAccess extends CursorAdapter {
                                     " >" + addr + (dport > 0 ? "/" + dport : ""));
                     ViewCompat.setHasTransientState(tvDest, false);
                 }
-            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, daddr);
+            }.execute(daddr);
 
         if (allowed < 0)
             tvDest.setTextColor(colorText);

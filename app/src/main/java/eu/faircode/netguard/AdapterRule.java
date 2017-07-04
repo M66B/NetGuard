@@ -749,7 +749,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                         rule.hosts = hosts;
                                         notifyDataSetChanged();
                                     }
-                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                }.execute();
 
                             return result;
                         }
