@@ -439,6 +439,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             public void onClick(View view) {
                 Intent main = new Intent(context, ActivityMain.class);
                 main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(rule.info.applicationInfo.uid));
+                main.putExtra(ActivityMain.EXTRA_RELATED, true);
                 context.startActivity(main);
             }
         });

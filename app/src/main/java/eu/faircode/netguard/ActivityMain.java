@@ -78,9 +78,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Main";
@@ -112,6 +109,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public static final String ACTION_QUEUE_CHANGED = "eu.faircode.netguard.ACTION_QUEUE_CHANGED";
     public static final String EXTRA_REFRESH = "Refresh";
     public static final String EXTRA_SEARCH = "Search";
+    public static final String EXTRA_RELATED = "Related";
     public static final String EXTRA_APPROVE = "Approve";
     public static final String EXTRA_LOGCAT = "Logcat";
     public static final String EXTRA_CONNECTED = "Connected";
@@ -676,7 +674,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                if (getIntent().hasExtra(EXTRA_SEARCH))
+                if (getIntent().hasExtra(EXTRA_SEARCH) && !getIntent().getBooleanExtra(EXTRA_RELATED, false))
                     finish();
                 return true;
             }
