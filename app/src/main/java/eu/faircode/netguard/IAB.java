@@ -173,31 +173,39 @@ public class IAB implements ServiceConnection {
     }
 
     public static boolean isPurchased(String sku, Context context) {
-        if (Util.isDebuggable(context)) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            return !prefs.getBoolean("debug_iab", false);
+        try {
+            if (Util.isDebuggable(context)) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                return !prefs.getBoolean("debug_iab", false);
+            }
+
+            SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
+            if (ActivityPro.SKU_SUPPORT1.equals(sku) || ActivityPro.SKU_SUPPORT2.equals(sku))
+                return prefs.getBoolean(sku, false);
+
+            return (prefs.getBoolean(sku, false) ||
+                    prefs.getBoolean(ActivityPro.SKU_PRO1, false) ||
+                    prefs.getBoolean(ActivityPro.SKU_DONATION, false));
+        } catch (SecurityException ignored) {
+            return false;
         }
-
-        SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
-        if (ActivityPro.SKU_SUPPORT1.equals(sku) || ActivityPro.SKU_SUPPORT2.equals(sku))
-            return prefs.getBoolean(sku, false);
-
-        return (prefs.getBoolean(sku, false) ||
-                prefs.getBoolean(ActivityPro.SKU_PRO1, false) ||
-                prefs.getBoolean(ActivityPro.SKU_DONATION, false));
     }
 
     public static boolean isPurchasedAny(Context context) {
-        if (Util.isDebuggable(context)) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            return !(prefs.getBoolean("debug_iab", false) || prefs.getBoolean("debug_ads", false));
-        }
+        try {
+            if (Util.isDebuggable(context)) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                return !(prefs.getBoolean("debug_iab", false) || prefs.getBoolean("debug_ads", false));
+            }
 
-        SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
-        for (String key : prefs.getAll().keySet())
-            if (prefs.getBoolean(key, false))
-                return true;
-        return false;
+            SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
+            for (String key : prefs.getAll().keySet())
+                if (prefs.getBoolean(key, false))
+                    return true;
+            return false;
+        } catch (SecurityException ignored) {
+            return false;
+        }
     }
 
     public static String getResult(int responseCode) {
