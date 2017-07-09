@@ -87,8 +87,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class Util {
-    private static final int NETWORK_TYPE_TD_SCDMA = 17;
-    private static final int NETWORK_TYPE_IWLAN = 18;
     private static final String TAG = "NetGuard.Util";
 
     // Roam like at home
@@ -227,6 +225,7 @@ public class Util {
             case TelephonyManager.NETWORK_TYPE_EDGE:
             case TelephonyManager.NETWORK_TYPE_GPRS:
             case TelephonyManager.NETWORK_TYPE_IDEN:
+            case TelephonyManager.NETWORK_TYPE_GSM:
                 return "2G";
 
             case TelephonyManager.NETWORK_TYPE_EHRPD:
@@ -238,77 +237,15 @@ public class Util {
             case TelephonyManager.NETWORK_TYPE_HSPAP:
             case TelephonyManager.NETWORK_TYPE_HSUPA:
             case TelephonyManager.NETWORK_TYPE_UMTS:
-            case NETWORK_TYPE_TD_SCDMA:
+            case TelephonyManager.NETWORK_TYPE_TD_SCDMA:
                 return "3G";
 
             case TelephonyManager.NETWORK_TYPE_LTE:
-            case NETWORK_TYPE_IWLAN:
+            case TelephonyManager.NETWORK_TYPE_IWLAN:
                 return "4G";
 
             default:
                 return "?G";
-        }
-    }
-
-    public static String getNetworkTypeName(int networkType) {
-        switch (networkType) {
-            // 2G
-            case TelephonyManager.NETWORK_TYPE_1xRTT:
-                return "1xRTT";
-            case TelephonyManager.NETWORK_TYPE_CDMA:
-                return "CDMA";
-            case TelephonyManager.NETWORK_TYPE_EDGE:
-                return "EDGE";
-            case TelephonyManager.NETWORK_TYPE_GPRS:
-                return "GPRS";
-            case TelephonyManager.NETWORK_TYPE_IDEN:
-                return "IDEN";
-
-            // 3G
-            case TelephonyManager.NETWORK_TYPE_EHRPD:
-                return "EHRPD";
-            case TelephonyManager.NETWORK_TYPE_EVDO_0:
-                return "EVDO_0";
-            case TelephonyManager.NETWORK_TYPE_EVDO_A:
-                return "EVDO_A";
-            case TelephonyManager.NETWORK_TYPE_EVDO_B:
-                return "EVDO_B";
-            case TelephonyManager.NETWORK_TYPE_HSDPA:
-                return "HSDPA";
-            case TelephonyManager.NETWORK_TYPE_HSPA:
-                return "HSPA";
-            case TelephonyManager.NETWORK_TYPE_HSPAP:
-                return "HSPAP";
-            case TelephonyManager.NETWORK_TYPE_HSUPA:
-                return "HSUPA";
-            case TelephonyManager.NETWORK_TYPE_UMTS:
-                return "UMTS";
-            case NETWORK_TYPE_TD_SCDMA:
-                return "TD_SCDMA";
-
-            // 4G
-            case TelephonyManager.NETWORK_TYPE_LTE:
-                return "LTE";
-            case NETWORK_TYPE_IWLAN:
-                return "IWLAN";
-
-            default:
-                return Integer.toString(networkType);
-        }
-    }
-
-    public static String getPhoneTypeName(int phoneType) {
-        switch (phoneType) {
-            case TelephonyManager.PHONE_TYPE_NONE:
-                return "None";
-            case TelephonyManager.PHONE_TYPE_GSM:
-                return "GSM";
-            case TelephonyManager.PHONE_TYPE_CDMA:
-                return "CDMA";
-            case TelephonyManager.PHONE_TYPE_SIP:
-                return "SIP";
-            default:
-                return "Unknown";
         }
     }
 
