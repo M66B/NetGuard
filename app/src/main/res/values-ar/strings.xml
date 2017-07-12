@@ -180,7 +180,7 @@
   <string name="msg_start_forward" formatted="false">بدء التوجيه من %1$s منفذ %2$d الى %3$s:%4$d من %5$s؟</string>
   <string name="msg_stop_forward">إيقاف إعادة توجيه %1$s منفذ %2$d؟</string>
   <string name="msg_metered">الشبكة مقاسة</string>
-  <string name="msg_inactive">No active internet connection</string>
+  <string name="msg_inactive">لا يوجد اتصال إنترنت نشط</string>
   <string name="msg_queue">NetGuard مشغول</string>
   <string name="msg_update">يوجد تحديث متوفرة، اضغط لتحميله</string>
   <string name="msg_usage">يــمــكــنــك الــســمــاح (مــخــضــر) أو الــرفــض (الــمــحــمــر) واي فاي أو دخــول شــبــكــة الــمــحــمــول بــواســطــة الـــضـــغـــط عــلــى الــرمــوز الــمــوجــودة بــجــانــب الــتــطــبــيــق</string>
@@ -219,7 +219,7 @@
   <string name="title_notify">تنبيه عن محاولات الوصول إلى إنترنت</string>
   <string name="title_logging_disabled">Logging or filtering is not enabled</string>
   <string name="title_logging_enabled">Logging and filtering are enabled</string>
-  <string name="title_logging_configure">Configure</string>
+  <string name="title_logging_configure">ضبط</string>
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
   <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
