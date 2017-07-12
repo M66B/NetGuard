@@ -157,6 +157,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     public static final String EXTRA_UID = "UID";
     public static final String EXTRA_PACKAGE = "Package";
     public static final String EXTRA_BLOCKED = "Blocked";
+    public static final String EXTRA_CONDITIONAL = "Conditional";
 
     private static final int MSG_SERVICE_INTENT = 0;
     private static final int MSG_STATS_START = 1;
@@ -368,7 +369,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         break;
 
                     case reload:
-                        reload();
+                        reload(intent.getBooleanExtra(EXTRA_CONDITIONAL, false));
                         break;
 
                     case stop:
@@ -460,7 +461,25 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
         }
 
-        private void reload() {
+        private void reload(boolean conditional) {
+            // Check if rules needs to be reloaded
+            if (conditional) {
+                boolean process = false;
+                List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
+                for (Rule rule : listRule) {
+                    boolean blocked = (last_metered ? rule.other_blocked : rule.wifi_blocked);
+                    boolean screen = (last_metered ? rule.screen_other : rule.screen_wifi);
+                    if (blocked && screen) {
+                        process = true;
+                        break;
+                    }
+                }
+                if (!process) {
+                    Log.i(TAG, "No changed rules on interactive state change");
+                    return;
+                }
+            }
+
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
             boolean clear = prefs.getBoolean("clear_onreload", false);
 
@@ -1791,22 +1810,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
 
-            // Check if rules needs to be reloaded
-            boolean process = false;
-            List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
-            for (Rule rule : listRule) {
-                boolean blocked = (last_metered ? rule.other_blocked : rule.wifi_blocked);
-                boolean screen = (last_metered ? rule.screen_other : rule.screen_wifi);
-                if (blocked && screen) {
-                    process = true;
-                    break;
-                }
-            }
-            if (!process) {
-                Log.i(TAG, "No changed rules on interactive state change");
-                return;
-            }
-
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
             int delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
             boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
@@ -1817,11 +1820,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             if (interactive || delay == 0) {
                 last_interactive = interactive;
-                reload("interactive state changed", ServiceSinkhole.this);
+                reload_conditional("interactive state changed", ServiceSinkhole.this);
             } else {
                 if (ACTION_SCREEN_OFF_DELAYED.equals(intent.getAction())) {
                     last_interactive = interactive;
-                    reload("interactive state changed", ServiceSinkhole.this);
+                    reload_conditional("interactive state changed", ServiceSinkhole.this);
                 } else {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
                         am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
@@ -2783,6 +2786,17 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Intent intent = new Intent(context, ServiceSinkhole.class);
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             intent.putExtra(EXTRA_REASON, reason);
+            context.startService(intent);
+        }
+    }
+
+    public static void reload_conditional(String reason, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (prefs.getBoolean("enabled", false)) {
+            Intent intent = new Intent(context, ServiceSinkhole.class);
+            intent.putExtra(EXTRA_COMMAND, Command.reload);
+            intent.putExtra(EXTRA_REASON, reason);
+            intent.putExtra(EXTRA_CONDITIONAL, true);
             context.startService(intent);
         }
     }
