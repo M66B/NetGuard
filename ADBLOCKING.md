@@ -67,7 +67,7 @@ For example using [adb](https://developer.android.com/studio/command-line/adb.ht
 
 <br />
 
-Apart from using a hosts file, you can block most in-app ads by blocking this address for Google Play services:
+Apart from using a hosts file, you can block most in-app ads by blocking this address in the access list of Google Play services:
 
 *googleads.g.doubleclick.net/443*
 
