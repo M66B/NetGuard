@@ -71,6 +71,9 @@ Apart from using a hosts file, you can block most in-app ads by blocking this ad
 
 *googleads.g.doubleclick.net/443*
 
+You'll need to enable filtering and (temporarily) logging for this (you can do this by using the *Configure* button; check both options)
+and you'll need to wait until the address appears (you can speed this up by opening some apps with in-app ads).
+
 <br />
 
 An alternate way to block advertisements is by using special DNS servers, like these:
