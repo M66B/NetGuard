@@ -265,6 +265,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ59"></a>
 [**(59) Can you help me restore my purchase?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ59)
 
+<a name="FAQ60"></a>
+[**(60) Why does IP (Wi-Fi) calling/SMS/MMS not work?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ60)
+
 Support
 -------
 

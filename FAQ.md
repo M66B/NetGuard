@@ -598,6 +598,12 @@ Note that:
 
 If you cannot solve the problem with the purchase, you will have to contact Google about it.
 
+<a name="FAQ60"></a>
+**(60) Why does IP (Wi-Fi) calling/SMS/MMS not work?**
+
+Please see the [compatibility section](https://github.com/M66B/NetGuard/#compatibility) about this
+(you might need to request the desktop version to see this section if you are using a mobile device).
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like televisions or vehicles.**
