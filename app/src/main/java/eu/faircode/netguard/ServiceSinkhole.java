@@ -1920,50 +1920,54 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
 
-            if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
-                // Application added
-                Rule.clearCache(context);
+            try {
+                if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
+                    // Application added
+                    Rule.clearCache(context);
 
-                if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
-                    // Show notification
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                    if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context) && prefs.getBoolean("install", true)) {
-                        int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
-                        notifyNewApplication(uid);
+                    if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
+                        // Show notification
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                        if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context) && prefs.getBoolean("install", true)) {
+                            int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
+                            notifyNewApplication(uid);
+                        }
                     }
-                }
 
-                reload("package added", context);
+                    reload("package added", context);
 
-            } else if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
-                // Application removed
-                Rule.clearCache(context);
+                } else if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
+                    // Application removed
+                    Rule.clearCache(context);
 
-                if (intent.getBooleanExtra(Intent.EXTRA_DATA_REMOVED, false)) {
-                    // Remove settings
-                    String packageName = intent.getData().getSchemeSpecificPart();
-                    Log.i(TAG, "Deleting settings package=" + packageName);
-                    context.getSharedPreferences("wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("screen_other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("roaming", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("lockdown", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("apply", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("notify", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                    if (intent.getBooleanExtra(Intent.EXTRA_DATA_REMOVED, false)) {
+                        // Remove settings
+                        String packageName = intent.getData().getSchemeSpecificPart();
+                        Log.i(TAG, "Deleting settings package=" + packageName);
+                        context.getSharedPreferences("wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("screen_other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("roaming", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("lockdown", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("apply", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("notify", Context.MODE_PRIVATE).edit().remove(packageName).apply();
 
-                    int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
-                    if (uid > 0) {
-                        DatabaseHelper dh = DatabaseHelper.getInstance(context);
-                        dh.clearLog(uid);
-                        dh.clearAccess(uid, false);
+                        int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
+                        if (uid > 0) {
+                            DatabaseHelper dh = DatabaseHelper.getInstance(context);
+                            dh.clearLog(uid);
+                            dh.clearAccess(uid, false);
 
-                        NotificationManagerCompat.from(context).cancel(uid); // installed notification
-                        NotificationManagerCompat.from(context).cancel(uid + 10000); // access notification
+                            NotificationManagerCompat.from(context).cancel(uid); // installed notification
+                            NotificationManagerCompat.from(context).cancel(uid + 10000); // access notification
+                        }
                     }
-                }
 
-                reload("package deleted", context);
+                    reload("package deleted", context);
+                }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
         }
     };
