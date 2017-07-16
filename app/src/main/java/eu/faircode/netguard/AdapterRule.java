@@ -641,7 +641,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         if (rule.expanded) {
             // Access the database when expanded only
             final AdapterAccess badapter = new AdapterAccess(context,
-                    DatabaseHelper.getInstance(context).getAccess(rule.info.applicationInfo.uid));
+                    DatabaseHelper.getInstance(context).getAccess(rule.info.applicationInfo.uid, rule.info.firstInstallTime));
             holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int bposition, long bid) {

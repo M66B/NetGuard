@@ -686,7 +686,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         notifyAccessChanged();
     }
 
-    public Cursor getAccess(int uid) {
+    public Cursor getAccess(int uid, long since) {
         lock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -696,9 +696,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += ", (SELECT COUNT(DISTINCT d.qname) FROM dns d WHERE d.resource IN (SELECT d1.resource FROM dns d1 WHERE d1.qname = a.daddr)) count";
             query += " FROM access a";
             query += " WHERE a.uid = ?";
+            query += " AND a.time >= ?";
             query += " ORDER BY a.time DESC";
             query += " LIMIT 50";
-            return db.rawQuery(query, new String[]{Integer.toString(uid)});
+            return db.rawQuery(query, new String[]{Integer.toString(uid), Long.toString(since)});
         } finally {
             lock.readLock().unlock();
         }
