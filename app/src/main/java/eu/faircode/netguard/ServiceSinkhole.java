@@ -1811,7 +1811,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Util.logExtras(intent);
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-            int delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
+            int delay;
+            try {
+                delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
+            } catch (NumberFormatException ignored) {
+                delay = 0;
+            }
             boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
 
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
