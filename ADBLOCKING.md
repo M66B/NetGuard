@@ -73,6 +73,7 @@ Apart from using a hosts file, you can block most in-app ads by blocking this ad
 
 You'll need to enable filtering and (temporarily) logging for this (you can do this by using the *Configure* button; check both options)
 and you'll need to wait until the address appears (you can speed this up by opening some apps with in-app ads).
+Note that ads are likely being cached, so this may not take effect immediately.
 
 <br />
 
