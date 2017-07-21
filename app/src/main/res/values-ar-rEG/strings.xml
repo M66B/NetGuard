@@ -228,8 +228,8 @@
   <string name="title_rate">قيم البرنامج</string>
   <string name="title_allow">اســمــح</string>
   <string name="title_block">احظر</string>
-  <string name="title_allow_wifi">Allow Wi-Fi</string>
-  <string name="title_block_wifi">Block Wi-Fi</string>
+  <string name="title_allow_wifi">السماح ل Wi-Fi</string>
+  <string name="title_block_wifi">حجب Wi-Fi</string>
   <string name="title_allow_other">Allow mobile</string>
   <string name="title_block_other">Block mobile</string>
   <string name="title_root">الجذر</string>
