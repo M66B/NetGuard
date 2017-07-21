@@ -268,6 +268,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ60"></a>
 [**(60) Why does IP (Wi-Fi) calling/SMS/MMS not work?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ60)
 
+<a name="FAQ61"></a>
+[**(61) Help, NetGuard crashed!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ61)
+
 Support
 -------
 

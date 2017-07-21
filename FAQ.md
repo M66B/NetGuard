@@ -604,6 +604,16 @@ If you cannot solve the problem with the purchase, you will have to contact Goog
 Please see the [compatibility section](https://github.com/M66B/NetGuard/#compatibility) about this
 (you might need to request the desktop version to see this section if you are using a mobile device).
 
+<a name="FAQ61"></a>
+**(61) Help, NetGuard crashed!**
+
+NetGuard rarely crashes, but if it crashed (which is something different than being stopped, see [this FAQ](#FAQ38)),
+than it is mostly caused by bugs in your Android version
+(either in the [Android VPN service](https://developer.android.com/reference/android/net/VpnService.html) implementation or in the [Android Linux kernel](https://developer.android.com/guide/platform/index.html#linux-kernel)).
+I am happy to check what the cause of a crash is and I will fix it whenever possible, but I need a logcat captured from your PC with the crash log for this.
+Since logcats are mostly quite large, I will need the exact time of the crash as well.
+If you don't know how to capture a logcat from your PC, please use your favorite search engine to find one of the numerous guides.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like televisions or vehicles.**
