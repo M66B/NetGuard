@@ -67,6 +67,8 @@ void *handle_events(void *a) {
         log_android(ANDROID_LOG_WARN, "getrlimit soft %d hard %d max sessions %d",
                     rlim.rlim_cur, rlim.rlim_max, maxsessions);
     maxsessions = (int) (rlim.rlim_cur * SESSION_LIMIT / 100);
+    if (maxsessions > 1000)
+        maxsessions = 1000;
 
     // Terminate existing sessions not allowed anymore
     check_allowed(args);
@@ -120,12 +122,10 @@ void *handle_events(void *a) {
             if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
                 if (!s->icmp.stop)
                     isessions++;
-            }
-            else if (s->protocol == IPPROTO_UDP) {
+            } else if (s->protocol == IPPROTO_UDP) {
                 if (s->udp.state == UDP_ACTIVE)
                     usessions++;
-            }
-            else if (s->protocol == IPPROTO_TCP) {
+            } else if (s->protocol == IPPROTO_TCP) {
                 if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE)
                     tsessions++;
                 if (s->socket >= 0)
@@ -153,8 +153,7 @@ void *handle_events(void *a) {
                         if (stimeout > 0 && stimeout < timeout)
                             timeout = stimeout;
                     }
-                }
-                else if (s->protocol == IPPROTO_UDP) {
+                } else if (s->protocol == IPPROTO_UDP) {
                     del = check_udp_session(args, s, sessions, maxsessions);
                     if (s->udp.state == UDP_ACTIVE && !del) {
                         int stimeout = s->udp.time +
@@ -162,8 +161,7 @@ void *handle_events(void *a) {
                         if (stimeout > 0 && stimeout < timeout)
                             timeout = stimeout;
                     }
-                }
-                else if (s->protocol == IPPROTO_TCP) {
+                } else if (s->protocol == IPPROTO_TCP) {
                     del = check_tcp_session(args, s, sessions, maxsessions);
                     if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE && !del) {
                         int stimeout = s->tcp.time +
@@ -184,14 +182,12 @@ void *handle_events(void *a) {
                     if (c->protocol == IPPROTO_TCP)
                         clear_tcp_data(&c->tcp);
                     free(c);
-                }
-                else {
+                } else {
                     sl = s;
                     s = s->next;
                 }
             }
-        }
-        else {
+        } else {
             recheck = 1;
             log_android(ANDROID_LOG_DEBUG, "Skipped session checks");
         }
@@ -210,8 +206,7 @@ void *handle_events(void *a) {
                 log_android(ANDROID_LOG_DEBUG,
                             "epoll interrupted tun %d thread %x", args->tun, thread_id);
                 continue;
-            }
-            else {
+            } else {
                 log_android(ANDROID_LOG_ERROR,
                             "epoll tun %d thread %x error %d: %s",
                             args->tun, thread_id, errno, strerror(errno));
@@ -242,8 +237,7 @@ void *handle_events(void *a) {
                         log_android(ANDROID_LOG_WARN, "Read pipe");
                     break;
 
-                }
-                else if (ev[i].data.ptr == NULL) {
+                } else if (ev[i].data.ptr == NULL) {
                     // Check upstream
                     log_android(ANDROID_LOG_DEBUG, "epoll ready %d/%d in %d out %d err %d hup %d",
                                 i, ready,
@@ -256,8 +250,7 @@ void *handle_events(void *a) {
                         if (check_tun(args, &ev[i], epoll_fd, sessions, maxsessions) < 0)
                             error = 1;
 
-                }
-                else {
+                } else {
                     // Check downstream
                     log_android(ANDROID_LOG_DEBUG,
                                 "epoll ready %d/%d in %d out %d err %d hup %d prot %d sock %d",
@@ -277,8 +270,7 @@ void *handle_events(void *a) {
                         while (!(ev[i].events & EPOLLERR) && (ev[i].events & EPOLLIN) &&
                                is_readable(session->socket))
                             check_udp_socket(args, &ev[i]);
-                    }
-                    else if (session->protocol == IPPROTO_TCP)
+                    } else if (session->protocol == IPPROTO_TCP)
                         check_tcp_socket(args, &ev[i], epoll_fd);
                 }
 
@@ -326,8 +318,7 @@ void check_allowed(const struct arguments *args) {
                 if (s->icmp.version == 4) {
                     inet_ntop(AF_INET, &s->icmp.saddr.ip4, source, sizeof(source));
                     inet_ntop(AF_INET, &s->icmp.daddr.ip4, dest, sizeof(dest));
-                }
-                else {
+                } else {
                     inet_ntop(AF_INET6, &s->icmp.saddr.ip6, source, sizeof(source));
                     inet_ntop(AF_INET6, &s->icmp.daddr.ip6, dest, sizeof(dest));
                 }
@@ -342,14 +333,12 @@ void check_allowed(const struct arguments *args) {
                 }
             }
 
-        }
-        else if (s->protocol == IPPROTO_UDP) {
+        } else if (s->protocol == IPPROTO_UDP) {
             if (s->udp.state == UDP_ACTIVE) {
                 if (s->udp.version == 4) {
                     inet_ntop(AF_INET, &s->udp.saddr.ip4, source, sizeof(source));
                     inet_ntop(AF_INET, &s->udp.daddr.ip4, dest, sizeof(dest));
-                }
-                else {
+                } else {
                     inet_ntop(AF_INET6, &s->udp.saddr.ip6, source, sizeof(source));
                     inet_ntop(AF_INET6, &s->udp.daddr.ip6, dest, sizeof(dest));
                 }
@@ -362,8 +351,7 @@ void check_allowed(const struct arguments *args) {
                     log_android(ANDROID_LOG_WARN, "UDP terminate session socket %d uid %d",
                                 s->socket, s->udp.uid);
                 }
-            }
-            else if (s->udp.state == UDP_BLOCKED) {
+            } else if (s->udp.state == UDP_BLOCKED) {
                 log_android(ANDROID_LOG_WARN, "UDP remove blocked session uid %d", s->udp.uid);
 
                 if (l == NULL)
@@ -377,14 +365,12 @@ void check_allowed(const struct arguments *args) {
                 continue;
             }
 
-        }
-        else if (s->protocol == IPPROTO_TCP) {
+        } else if (s->protocol == IPPROTO_TCP) {
             if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE) {
                 if (s->tcp.version == 4) {
                     inet_ntop(AF_INET, &s->tcp.saddr.ip4, source, sizeof(source));
                     inet_ntop(AF_INET, &s->tcp.daddr.ip4, dest, sizeof(dest));
-                }
-                else {
+                } else {
                     inet_ntop(AF_INET6, &s->tcp.saddr.ip6, source, sizeof(source));
                     inet_ntop(AF_INET6, &s->tcp.daddr.ip6, dest, sizeof(dest));
                 }
