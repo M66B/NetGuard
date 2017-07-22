@@ -144,7 +144,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             if (enabled)
                 ServiceSinkhole.start("UI", this);
             else
-                ServiceSinkhole.stop("UI", this);
+                ServiceSinkhole.stop("UI", this, false);
         }
 
         // Action bar
@@ -234,7 +234,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
 
                 } else
-                    ServiceSinkhole.stop("switch off", ActivityMain.this);
+                    ServiceSinkhole.stop("switch off", ActivityMain.this, false);
             }
         });
         if (enabled)
@@ -280,7 +280,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             @Override
             public void onRefresh() {
                 Rule.clearCache(ActivityMain.this);
-                ServiceSinkhole.reload("pull", ActivityMain.this);
+                ServiceSinkhole.reload("pull", ActivityMain.this, false);
                 updateApplicationList(null);
             }
         });
@@ -544,7 +544,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_ROAMING)
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                ServiceSinkhole.reload("permission granted", this);
+                ServiceSinkhole.reload("permission granted", this, false);
     }
 
     @Override
@@ -1203,7 +1203,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         item.setChecked(!item.isChecked());
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("lockdown", item.isChecked()).apply();
-        ServiceSinkhole.reload("lockdown", this);
+        ServiceSinkhole.reload("lockdown", this, false);
         WidgetLockdown.updateWidgets(this);
     }
 

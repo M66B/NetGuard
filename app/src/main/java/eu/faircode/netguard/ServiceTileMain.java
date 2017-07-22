@@ -84,7 +84,7 @@ public class ServiceTileMain extends TileService implements SharedPreferences.On
         if (enabled)
             ServiceSinkhole.start("tile", this);
         else {
-            ServiceSinkhole.stop("tile", this);
+            ServiceSinkhole.stop("tile", this, false);
 
             // Auto enable
             int auto = Integer.parseInt(prefs.getString("auto_enable", "0"));

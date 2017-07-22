@@ -21,7 +21,6 @@ package eu.faircode.netguard;
 
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Icon;
 import android.os.Build;
@@ -69,7 +68,7 @@ public class ServiceTileLockdown extends TileService implements SharedPreference
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("lockdown", !prefs.getBoolean("lockdown", false)).apply();
-        ServiceSinkhole.reload("tile", this);
+        ServiceSinkhole.reload("tile", this, false);
         WidgetLockdown.updateWidgets(this);
     }
 }

@@ -624,7 +624,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                         if (checked)
                             cbLogging.setChecked(true);
                         prefs.edit().putBoolean("filter", checked).apply();
-                        ServiceSinkhole.reload("changed filter", context);
+                        ServiceSinkhole.reload("changed filter", context, false);
                         AdapterRule.this.notifyDataSetChanged();
                     }
                 });
@@ -716,7 +716,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                 case R.id.menu_allow:
                                     if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                         DatabaseHelper.getInstance(context).setAccess(id, 0);
-                                        ServiceSinkhole.reload("allow host", context);
+                                        ServiceSinkhole.reload("allow host", context, false);
                                     } else
                                         context.startActivity(new Intent(context, ActivityPro.class));
                                     result = true;
@@ -725,7 +725,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                 case R.id.menu_block:
                                     if (IAB.isPurchased(ActivityPro.SKU_FILTER, context)) {
                                         DatabaseHelper.getInstance(context).setAccess(id, 1);
-                                        ServiceSinkhole.reload("block host", context);
+                                        ServiceSinkhole.reload("block host", context, false);
                                     } else
                                         context.startActivity(new Intent(context, ActivityPro.class));
                                     result = true;
@@ -733,7 +733,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
                                 case R.id.menu_reset:
                                     DatabaseHelper.getInstance(context).setAccess(id, -1);
-                                    ServiceSinkhole.reload("reset host", context);
+                                    ServiceSinkhole.reload("reset host", context, false);
                                     result = true;
                                     break;
                             }
@@ -890,7 +890,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         if (root) {
             notifyDataSetChanged();
             NotificationManagerCompat.from(context).cancel(rule.info.applicationInfo.uid);
-            ServiceSinkhole.reload("rule changed", context);
+            ServiceSinkhole.reload("rule changed", context, false);
         }
     }
 

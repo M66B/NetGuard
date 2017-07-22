@@ -94,7 +94,7 @@ public class ServiceExternal extends IntentService {
                 String last = SimpleDateFormat.getDateTimeInstance().format(new Date().getTime());
                 prefs.edit().putString("hosts_last_download", last).apply();
 
-                ServiceSinkhole.reload("hosts file download", this);
+                ServiceSinkhole.reload("hosts file download", this, false);
 
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));

@@ -67,7 +67,7 @@ public class WidgetAdmin extends Receiver {
                 if (enabled)
                     ServiceSinkhole.start("widget", context);
                 else
-                    ServiceSinkhole.stop("widget", context);
+                    ServiceSinkhole.stop("widget", context, false);
 
                 // Auto enable
                 int auto = Integer.parseInt(prefs.getString("auto_enable", "0"));
@@ -82,7 +82,7 @@ public class WidgetAdmin extends Receiver {
             } else if (INTENT_LOCKDOWN_ON.equals(intent.getAction()) || INTENT_LOCKDOWN_OFF.equals(intent.getAction())) {
                 boolean lockdown = INTENT_LOCKDOWN_ON.equals(intent.getAction());
                 prefs.edit().putBoolean("lockdown", lockdown).apply();
-                ServiceSinkhole.reload("widget", context);
+                ServiceSinkhole.reload("widget", context, false);
                 WidgetLockdown.updateWidgets(context);
             }
         } catch (Throwable ex) {
