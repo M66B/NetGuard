@@ -60,7 +60,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
-import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -122,7 +121,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean last_interactive = false;
     private boolean powersaving = false;
     private boolean phone_state = false;
-    private Object subscriptionsChangedListener = null;
 
     private ServiceSinkhole.Builder last_builder = null;
     private ParcelFileDescriptor vpn = null;
@@ -323,25 +321,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 Log.i(TAG, "Starting listening to service state changes");
                 tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE | PhoneStateListener.LISTEN_SERVICE_STATE);
                 phone_state = true;
-            }
-
-            // Listen for data SIM changes
-            if (subscriptionsChangedListener == null &&
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 &&
-                    Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
-                SubscriptionManager sm = SubscriptionManager.from(ServiceSinkhole.this);
-                if (sm != null) {
-                    Log.i(TAG, "Starting listening to subscription changes");
-                    subscriptionsChangedListener = new SubscriptionManager.OnSubscriptionsChangedListener() {
-                        @Override
-                        public void onSubscriptionsChanged() {
-                            Log.i(TAG, "Subscriptions changed");
-                            if (prefs.getBoolean("national_roaming", false) || prefs.getBoolean("eu_roaming", false))
-                                ServiceSinkhole.reload("Subscriptions changed", ServiceSinkhole.this, false);
-                        }
-                    };
-                    sm.addOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
-                }
             }
 
             // Watchdog
@@ -2356,13 +2335,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
                 phone_state = false;
             }
-        }
-
-        if (subscriptionsChangedListener != null &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            SubscriptionManager sm = SubscriptionManager.from(this);
-            sm.removeOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
-            subscriptionsChangedListener = null;
         }
 
         try {

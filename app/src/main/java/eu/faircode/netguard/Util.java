@@ -46,8 +46,6 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.net.ConnectivityManagerCompat;
 import android.support.v7.app.AlertDialog;
-import android.telephony.SubscriptionInfo;
-import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -735,54 +733,6 @@ public class Util {
         return (cm.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
-    public static String getSubscriptionInfo(Context context) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1)
-            return "Not supported";
-        if (!hasPhoneStatePermission(context))
-            return "No permission";
-
-        StringBuilder sb = new StringBuilder();
-        SubscriptionManager sm = SubscriptionManager.from(context);
-
-        sb.append("Slots ")
-                .append(sm.getActiveSubscriptionInfoCount())
-                .append('/')
-                .append(sm.getActiveSubscriptionInfoCountMax())
-                .append("\r\n");
-
-        int dataid = -1;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            dataid = sm.getDefaultDataSubscriptionId();
-
-        int voiceid = -1;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            voiceid = sm.getDefaultVoiceSubscriptionId();
-
-        List<SubscriptionInfo> subscriptions = sm.getActiveSubscriptionInfoList();
-        if (subscriptions != null)
-            for (SubscriptionInfo si : subscriptions)
-                sb.append("SIM ")
-                        .append(si.getSimSlotIndex() + 1)
-                        .append('/')
-                        .append(si.getSubscriptionId())
-                        .append(' ')
-                        .append(si.getCountryIso())
-                        .append('/')
-                        .append(si.getMcc()).append(si.getMnc())
-                        .append(' ')
-                        .append(si.getCarrierName())
-                        .append(si.getSubscriptionId() == dataid ? " D" : "")
-                        .append(si.getSubscriptionId() == voiceid ? " V" : "")
-                        .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
-                        .append("\r\n");
-
-        if (sb.length() > 2)
-            sb.setLength(sb.length() - 2);
-
-        return sb.toString();
-    }
-
     public static void sendLogcat(final Uri uri, final Context context) {
         AsyncTask task = new AsyncTask<Object, Object, Intent>() {
             @Override
@@ -829,8 +779,6 @@ public class Util {
                 sb.append(getGeneralInfo(context));
                 sb.append("\r\n\r\n");
                 sb.append(getNetworkInfo(context));
-                sb.append("\r\n\r\n");
-                sb.append(getSubscriptionInfo(context));
                 sb.append("\r\n\r\n");
 
                 // Get DNS

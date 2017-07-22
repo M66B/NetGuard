@@ -916,7 +916,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         pref_technical_info.setSummary(Util.getGeneralInfo(this));
         pref_technical_network.setSummary(Util.getNetworkInfo(this));
-        pref_technical_subscription.setSummary(Util.getSubscriptionInfo(this));
     }
 
     @Override

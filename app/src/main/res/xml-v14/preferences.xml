@@ -358,9 +358,6 @@
             <Preference
                 android:key="technical_network"
                 android:title="@string/setting_technical_networks" />
-            <Preference
-                android:key="technical_subscription"
-                android:title="@string/setting_technical_subscription" />
         </PreferenceCategory>
     </PreferenceScreen>
 </PreferenceScreen>
