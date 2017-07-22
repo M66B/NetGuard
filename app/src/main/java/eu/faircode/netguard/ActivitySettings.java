@@ -47,14 +47,10 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.TwoStatePreference;
-import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.PhoneStateListener;
-import android.telephony.ServiceState;
-import android.telephony.TelephonyManager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -98,17 +94,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private static final String TAG = "NetGuard.Settings";
 
     private boolean running = false;
-    private boolean phone_state = false;
 
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
-    private static final int REQUEST_METERED2 = 3;
-    private static final int REQUEST_METERED3 = 4;
-    private static final int REQUEST_METERED4 = 5;
-    private static final int REQUEST_ROAMING_EU = 6;
-    private static final int REQUEST_ROAMING_NATIONAL = 7;
-    private static final int REQUEST_ROAMING_INTERNATIONAL = 8;
-    private static final int REQUEST_HOSTS = 9;
+    private static final int REQUEST_HOSTS = 3;
 
     private AlertDialog dialogFilter = null;
 
@@ -401,12 +390,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         // Technical info
         Preference pref_technical_info = screen.findPreference("technical_info");
         Preference pref_technical_network = screen.findPreference("technical_network");
-        Preference pref_technical_subscription = screen.findPreference("technical_subscription");
         pref_technical_info.setEnabled(INTENT_VPN_SETTINGS.resolveActivity(this.getPackageManager()) != null);
         pref_technical_info.setIntent(INTENT_VPN_SETTINGS);
         pref_technical_info.setOnPreferenceClickListener(listener);
         pref_technical_network.setOnPreferenceClickListener(listener);
-        pref_technical_subscription.setOnPreferenceClickListener(listener);
         updateTechnicalInfo();
 
         markPro(screen.findPreference("theme"), ActivityPro.SKU_THEME);
@@ -417,9 +404,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     @Override
     protected void onResume() {
         super.onResume();
-
-        // Check if permissions were revoked
-        checkPermissions();
 
         // Listen for preference changes
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -435,12 +419,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangedReceiver, ifConnectivity);
-
-        if (Util.hasPhoneStatePermission(this)) {
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE | PhoneStateListener.LISTEN_SERVICE_STATE);
-            phone_state = true;
-        }
     }
 
     @Override
@@ -452,12 +430,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         unregisterReceiver(interactiveStateReceiver);
         unregisterReceiver(connectivityChangedReceiver);
-
-        if (phone_state) {
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
-            phone_state = false;
-        }
     }
 
     @Override
@@ -525,16 +497,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 "screen_other".equals(name))
             ServiceSinkhole.reload("changed " + name, this, false);
 
-        else if ("whitelist_roaming".equals(name)) {
-            if (prefs.getBoolean(name, false)) {
-                if (Util.hasPhoneStatePermission(this))
-                    ServiceSinkhole.reload("changed " + name, this, false);
-                else
-                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_INTERNATIONAL);
-            } else
-                ServiceSinkhole.reload("changed " + name, this, false);
+        else if ("whitelist_roaming".equals(name))
+            ServiceSinkhole.reload("changed " + name, this, false);
 
-        } else if ("auto_enable".equals(name))
+        else if ("auto_enable".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_auto, prefs.getString(name, "0")));
 
         else if ("screen_delay".equals(name))
@@ -569,40 +535,16 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         else if ("unmetered_2g".equals(name) ||
                 "unmetered_3g".equals(name) ||
-                "unmetered_4g".equals(name)) {
-            if (prefs.getBoolean(name, false)) {
-                if (Util.hasPhoneStatePermission(this))
-                    ServiceSinkhole.reload("changed " + name, this, false);
-                else {
-                    if ("unmetered_2g".equals(name))
-                        requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED2);
-                    else if ("unmetered_3g".equals(name))
-                        requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED3);
-                    else if ("unmetered_4g".equals(name))
-                        requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED4);
-                }
-            } else
-                ServiceSinkhole.reload("changed " + name, this, false);
+                "unmetered_4g".equals(name))
+            ServiceSinkhole.reload("changed " + name, this, false);
 
-        } else if ("eu_roaming".equals(name)) {
-            if (prefs.getBoolean(name, false)) {
-                if (Util.hasPhoneStatePermission(this))
-                    ServiceSinkhole.reload("changed " + name, this, false);
-                else
-                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_EU);
-            } else
-                ServiceSinkhole.reload("changed " + name, this, false);
+        else if ("national_roaming".equals(name))
+            ServiceSinkhole.reload("changed " + name, this, false);
 
-        } else if ("national_roaming".equals(name)) {
-            if (prefs.getBoolean(name, false)) {
-                if (Util.hasPhoneStatePermission(this))
-                    ServiceSinkhole.reload("changed " + name, this, false);
-                else
-                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_NATIONAL);
-            } else
-                ServiceSinkhole.reload("changed " + name, this, false);
+        else if ("eu_roaming".equals(name))
+            ServiceSinkhole.reload("changed " + name, this, false);
 
-        } else if ("lockdown_wifi".equals(name) || "lockdown_other".equals(name))
+        else if ("lockdown_wifi".equals(name) || "lockdown_other".equals(name))
             ServiceSinkhole.reload("changed " + name, this, false);
 
         else if ("manage_system".equals(name)) {
@@ -777,99 +719,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             throw new IllegalArgumentException("Bad address");
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
-    private void checkPermissions() {
-        PreferenceScreen screen = getPreferenceScreen();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        // Check if permission was revoked
-        if (prefs.getBoolean("whitelist_roaming", false))
-            if (!Util.hasPhoneStatePermission(this)) {
-                prefs.edit().putBoolean("whitelist_roaming", false).apply();
-                ((TwoStatePreference) screen.findPreference("whitelist_roaming")).setChecked(false);
-
-                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_INTERNATIONAL);
-            }
-
-        // Check if permission was revoked
-        if (prefs.getBoolean("unmetered_2g", false))
-            if (!Util.hasPhoneStatePermission(this)) {
-                prefs.edit().putBoolean("unmetered_2g", false).apply();
-                ((TwoStatePreference) screen.findPreference("unmetered_2g")).setChecked(false);
-
-                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED2);
-            }
-
-        if (prefs.getBoolean("unmetered_3g", false))
-            if (!Util.hasPhoneStatePermission(this)) {
-                prefs.edit().putBoolean("unmetered_3g", false).apply();
-                ((TwoStatePreference) screen.findPreference("unmetered_3g")).setChecked(false);
-
-                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED3);
-            }
-
-        if (prefs.getBoolean("unmetered_4g", false))
-            if (!Util.hasPhoneStatePermission(this)) {
-                prefs.edit().putBoolean("unmetered_4g", false).apply();
-                ((TwoStatePreference) screen.findPreference("unmetered_4g")).setChecked(false);
-
-                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_METERED4);
-            }
-
-        // Check if permission was revoked
-        if (prefs.getBoolean("eu_roaming", false))
-            if (!Util.hasPhoneStatePermission(this)) {
-                prefs.edit().putBoolean("eu_roaming", false).apply();
-                ((TwoStatePreference) screen.findPreference("eu_roaming")).setChecked(false);
-
-                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_EU);
-            }
-
-        if (prefs.getBoolean("national_roaming", false))
-            if (!Util.hasPhoneStatePermission(this)) {
-                prefs.edit().putBoolean("national_roaming", false).apply();
-                ((TwoStatePreference) screen.findPreference("national_roaming")).setChecked(false);
-
-                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_ROAMING_NATIONAL);
-            }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        PreferenceScreen screen = getPreferenceScreen();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        boolean granted = (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
-
-        if (requestCode == REQUEST_METERED2) {
-            prefs.edit().putBoolean("unmetered_2g", granted).apply();
-            ((TwoStatePreference) screen.findPreference("unmetered_2g")).setChecked(granted);
-
-        } else if (requestCode == REQUEST_METERED3) {
-            prefs.edit().putBoolean("unmetered_3g", granted).apply();
-            ((TwoStatePreference) screen.findPreference("unmetered_3g")).setChecked(granted);
-
-        } else if (requestCode == REQUEST_METERED4) {
-            prefs.edit().putBoolean("unmetered_4g", granted).apply();
-            ((TwoStatePreference) screen.findPreference("unmetered_4g")).setChecked(granted);
-
-        } else if (requestCode == REQUEST_ROAMING_EU) {
-            prefs.edit().putBoolean("eu_roaming", granted).apply();
-            ((TwoStatePreference) screen.findPreference("eu_roaming")).setChecked(granted);
-
-        } else if (requestCode == REQUEST_ROAMING_NATIONAL) {
-            prefs.edit().putBoolean("national_roaming", granted).apply();
-            ((TwoStatePreference) screen.findPreference("national_roaming")).setChecked(granted);
-
-        } else if (requestCode == REQUEST_ROAMING_INTERNATIONAL) {
-            prefs.edit().putBoolean("whitelist_roaming", granted).apply();
-            ((TwoStatePreference) screen.findPreference("whitelist_roaming")).setChecked(granted);
-        }
-
-        if (granted)
-            ServiceSinkhole.reload("permission granted", this, false);
-    }
-
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -882,18 +731,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         @Override
         public void onReceive(Context context, Intent intent) {
             Util.logExtras(intent);
-            updateTechnicalInfo();
-        }
-    };
-
-    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
-        @Override
-        public void onDataConnectionStateChanged(int state) {
-            updateTechnicalInfo();
-        }
-
-        @Override
-        public void onServiceStateChanged(ServiceState serviceState) {
             updateTechnicalInfo();
         }
     };
@@ -912,7 +749,6 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         PreferenceScreen screen = getPreferenceScreen();
         Preference pref_technical_info = screen.findPreference("technical_info");
         Preference pref_technical_network = screen.findPreference("technical_network");
-        Preference pref_technical_subscription = screen.findPreference("technical_subscription");
 
         pref_technical_info.setSummary(Util.getGeneralInfo(this));
         pref_technical_network.setSummary(Util.getNetworkInfo(this));

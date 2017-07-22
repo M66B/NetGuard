@@ -40,7 +40,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
+import android.net.LinkProperties;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.net.TrafficStats;
 import android.net.Uri;
 import android.net.VpnService;
@@ -59,7 +63,6 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
-import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -114,13 +117,15 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean registeredConnectivityChanged = false;
     private boolean registeredPackageChanged = false;
 
+    private boolean phone_state = false;
+    private Object networkCallback = null;
+
     private State state = State.none;
     private boolean user_foreground = true;
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
     private boolean powersaving = false;
-    private boolean phone_state = false;
 
     private ServiceSinkhole.Builder last_builder = null;
     private ParcelFileDescriptor vpn = null;
@@ -313,14 +318,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     unregisterReceiver(interactiveStateReceiver);
                     registeredInteractiveState = false;
                 }
-            }
-
-            // Listen for phone state changes
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            if (tm != null && !phone_state && Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
-                Log.i(TAG, "Starting listening to service state changes");
-                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE | PhoneStateListener.LISTEN_SERVICE_STATE);
-                phone_state = true;
             }
 
             // Watchdog
@@ -1900,6 +1897,29 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     };
 
+    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+        private String last_generation = null;
+
+        @Override
+        public void onDataConnectionStateChanged(int state, int networkType) {
+            if (state == TelephonyManager.DATA_CONNECTED) {
+                String current_generation = Util.getNetworkGeneration(ServiceSinkhole.this);
+                Log.i(TAG, "Data connected generation=" + current_generation);
+
+                if (last_generation == null || !last_generation.equals(current_generation)) {
+                    Log.i(TAG, "New network generation=" + current_generation);
+                    last_generation = current_generation;
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                    if (prefs.getBoolean("unmetered_2g", false) ||
+                            prefs.getBoolean("unmetered_3g", false) ||
+                            prefs.getBoolean("unmetered_4g", false))
+                        reload("data connection state changed", ServiceSinkhole.this, false);
+                }
+            }
+        }
+    };
+
     private BroadcastReceiver packageChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -2054,60 +2074,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
-        private String last_generation = null;
-        private int last_eu = -1;
-        private int last_national = -1;
-
-        @Override
-        public void onDataConnectionStateChanged(int state, int networkType) {
-            if (state == TelephonyManager.DATA_CONNECTED) {
-                String current_generation = Util.getNetworkGeneration(ServiceSinkhole.this);
-                Log.i(TAG, "Data connected generation=" + current_generation);
-
-                if (last_generation == null || !last_generation.equals(current_generation)) {
-                    Log.i(TAG, "New network generation=" + current_generation);
-                    last_generation = current_generation;
-
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-                    if (prefs.getBoolean("unmetered_2g", false) ||
-                            prefs.getBoolean("unmetered_3g", false) ||
-                            prefs.getBoolean("unmetered_4g", false))
-                        reload("data connection state changed", ServiceSinkhole.this, false);
-                }
-            }
-        }
-
-        @Override
-        public void onServiceStateChanged(ServiceState serviceState) {
-            if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
-                int current_eu = (Util.isEU(ServiceSinkhole.this) ? 1 : 0);
-                int current_national = (Util.isNational(ServiceSinkhole.this) ? 1 : 0);
-                Log.i(TAG, "In service eu=" + current_eu + " national=" + current_national);
-
-                boolean reload = false;
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-
-                if (last_eu != current_eu) {
-                    Log.i(TAG, "New eu=" + current_eu);
-                    last_eu = current_eu;
-                    if (prefs.getBoolean("eu_roaming", false))
-                        reload = true;
-                }
-
-                if (last_national != current_national) {
-                    Log.i(TAG, "New national=" + current_national);
-                    last_national = current_national;
-                    if (prefs.getBoolean("national_roaming", false))
-                        reload = true;
-                }
-
-                if (reload)
-                    reload("service state changed", ServiceSinkhole.this, false);
-            }
-        }
-    };
-
     @Override
     public void onCreate() {
         Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
@@ -2158,27 +2124,82 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             registeredUser = true;
         }
 
+        // Listen for idle mode state changes
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Listen for idle mode state changes
             IntentFilter ifIdle = new IntentFilter();
             ifIdle.addAction(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED);
             registerReceiver(idleStateReceiver, ifIdle);
             registeredIdleState = true;
         }
 
-        // Listen for connectivity updates
-        IntentFilter ifConnectivity = new IntentFilter();
-        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(connectivityChangedReceiver, ifConnectivity);
-        registeredConnectivityChanged = true;
-
-        // Listen for added applications
+        // Listen for added/removed applications
         IntentFilter ifPackage = new IntentFilter();
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addAction(Intent.ACTION_PACKAGE_REMOVED);
         ifPackage.addDataScheme("package");
         registerReceiver(packageChangedReceiver, ifPackage);
         registeredPackageChanged = true;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            // Listen for network changes
+            Log.i(TAG, "Starting listening to network changes");
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkRequest.Builder builder = new NetworkRequest.Builder();
+            builder.addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
+
+            ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
+                private String last_generation = null;
+
+                @Override
+                public void onAvailable(Network network) {
+                    reload("network available", ServiceSinkhole.this, false);
+                }
+
+                @Override
+                public void onLinkPropertiesChanged(Network network, LinkProperties linkProperties) {
+                    reload("link properties changed", ServiceSinkhole.this, false);
+                }
+
+                @Override
+                public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
+                    String current_generation = Util.getNetworkGeneration(ServiceSinkhole.this);
+                    Log.i(TAG, "Capabilities changed generation=" + current_generation);
+
+                    if (last_generation == null || !last_generation.equals(current_generation)) {
+                        Log.i(TAG, "New network generation=" + current_generation);
+                        last_generation = current_generation;
+
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                        if (prefs.getBoolean("unmetered_2g", false) ||
+                                prefs.getBoolean("unmetered_3g", false) ||
+                                prefs.getBoolean("unmetered_4g", false))
+                            reload("data connection state changed", ServiceSinkhole.this, false);
+                    }
+                }
+
+                @Override
+                public void onLost(Network network) {
+                    reload("network lost", ServiceSinkhole.this, false);
+                }
+            };
+            cm.registerNetworkCallback(builder.build(), nc);
+            networkCallback = nc;
+        } else {
+            // Listen for connectivity updates
+            Log.i(TAG, "Starting listening to connectivity changes");
+            IntentFilter ifConnectivity = new IntentFilter();
+            ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+            registerReceiver(connectivityChangedReceiver, ifConnectivity);
+            registeredConnectivityChanged = true;
+
+            // Listen for phone state changes
+            Log.i(TAG, "Starting listening to service state changes");
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            if (tm != null) {
+                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+                phone_state = true;
+            }
+        }
 
         // Setup house holding
         Intent alarmIntent = new Intent(this, ServiceSinkhole.class);
@@ -2320,21 +2341,24 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             unregisterReceiver(idleStateReceiver);
             registeredIdleState = false;
         }
-        if (registeredConnectivityChanged) {
-            unregisterReceiver(connectivityChangedReceiver);
-            registeredConnectivityChanged = false;
-        }
         if (registeredPackageChanged) {
             unregisterReceiver(packageChangedReceiver);
             registeredPackageChanged = false;
         }
 
+        if (networkCallback != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            cm.unregisterNetworkCallback((ConnectivityManager.NetworkCallback) networkCallback);
+            networkCallback = null;
+        }
+        if (registeredConnectivityChanged) {
+            unregisterReceiver(connectivityChangedReceiver);
+            registeredConnectivityChanged = false;
+        }
         if (phone_state) {
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            if (tm != null) {
-                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
-                phone_state = false;
-            }
+            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+            phone_state = false;
         }
 
         try {

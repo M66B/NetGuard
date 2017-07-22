@@ -773,7 +773,6 @@ public class Util {
                 } catch (Throwable ex) {
                     sb.append("Prepared: ").append((ex.toString())).append("\r\n").append(Log.getStackTraceString(ex));
                 }
-                sb.append(String.format("Permission: %B\r\n", hasPhoneStatePermission(context)));
                 sb.append("\r\n");
 
                 sb.append(getGeneralInfo(context));

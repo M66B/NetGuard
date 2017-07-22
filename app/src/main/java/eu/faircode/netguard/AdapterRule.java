@@ -531,10 +531,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.roaming = isChecked;
                 updateRule(rule, true, listAll);
-
-                // Request permissions
-                if (isChecked && !Util.hasPhoneStatePermission(context))
-                    context.requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, ActivityMain.REQUEST_ROAMING);
             }
         });
 
