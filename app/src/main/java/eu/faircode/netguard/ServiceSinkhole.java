@@ -298,8 +298,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
 
             if (prefs.getBoolean("screen_on", true)) {
-                Log.i(TAG, "Started listening for interactive state changes");
-                if (prefs.getBoolean("screen_on", true)) {
+                if (!registeredInteractiveState) {
+                    Log.i(TAG, "Starting listening for interactive state changes");
                     last_interactive = Util.isInteractive(ServiceSinkhole.this);
                     IntentFilter ifInteractive = new IntentFilter();
                     ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
@@ -309,8 +309,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     registeredInteractiveState = true;
                 }
             } else {
-                Log.i(TAG, "Stopped listening for interactive state changes");
                 if (registeredInteractiveState) {
+                    Log.i(TAG, "Stopping listening for interactive state changes");
                     unregisterReceiver(interactiveStateReceiver);
                     registeredInteractiveState = false;
                 }
@@ -318,11 +318,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             // Listen for phone state changes
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            if (tm != null && !phone_state &&
-                    Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
+            if (tm != null && !phone_state && Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
+                Log.i(TAG, "Starting listening to service state changes");
                 tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE | PhoneStateListener.LISTEN_SERVICE_STATE);
                 phone_state = true;
-                Log.i(TAG, "Listening to service state changes");
             }
 
             // Listen for data SIM changes
@@ -330,16 +329,18 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 &&
                     Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
                 SubscriptionManager sm = SubscriptionManager.from(ServiceSinkhole.this);
-                subscriptionsChangedListener = new SubscriptionManager.OnSubscriptionsChangedListener() {
-                    @Override
-                    public void onSubscriptionsChanged() {
-                        Log.i(TAG, "Subscriptions changed");
-                        if (prefs.getBoolean("national_roaming", false))
-                            ServiceSinkhole.reload("Subscriptions changed", ServiceSinkhole.this);
-                    }
-                };
-                sm.addOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
-                Log.i(TAG, "Listening to subscription changes");
+                if (sm != null) {
+                    Log.i(TAG, "Starting listening to subscription changes");
+                    subscriptionsChangedListener = new SubscriptionManager.OnSubscriptionsChangedListener() {
+                        @Override
+                        public void onSubscriptionsChanged() {
+                            Log.i(TAG, "Subscriptions changed");
+                            if (prefs.getBoolean("national_roaming", false) || prefs.getBoolean("eu_roaming", false))
+                                ServiceSinkhole.reload("Subscriptions changed", ServiceSinkhole.this);
+                        }
+                    };
+                    sm.addOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
+                }
             }
 
             // Watchdog
