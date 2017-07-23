@@ -546,7 +546,7 @@ online services (eg. Gmail, Google Play store) failing to login or being forced 
 when accessing sites that use Cloudflare's CDN services.
 
 <a name="FAQ55"></a>
-**(55) Why does NetGuard connect to Amazon / ipinfo.io?**
+**(55) Why does NetGuard connect to Amazon / ipinfo.io / 216.239.34.21?**
 
 NetGuard connects to Amazon / [ipinfo.io](https://ipinfo.io/) to show the names and organizations for IP addresses.
 If you don't want this, just disable showing names and organizations using the three dot menu in the global log view.
@@ -607,8 +607,8 @@ Please see the [compatibility section](https://github.com/M66B/NetGuard/#compati
 <a name="FAQ61"></a>
 **(61) Help, NetGuard crashed!**
 
-NetGuard rarely crashes, but if it crashed (which is something different than being stopped, see [this FAQ](#FAQ38)),
-than it is mostly caused by bugs in your Android version
+NetGuard rarely crashes ("unexpectedly stopped"), but if it crashed (which is something different than being stopped by Android, see [this FAQ](#FAQ38)),
+then it is mostly caused by bugs in your Android version
 (either in the [Android VPN service](https://developer.android.com/reference/android/net/VpnService.html) implementation or in the [Android Linux kernel](https://developer.android.com/guide/platform/index.html#linux-kernel)).
 I am happy to check what the cause of a crash is and I will fix it whenever possible, but I need a logcat captured from your PC with the crash log for this.
 Since logcats are mostly quite large, I will need the exact time of the crash as well.
