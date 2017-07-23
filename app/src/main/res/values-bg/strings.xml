@@ -71,6 +71,7 @@
   <string name="setting_metered_4g">Приемане на LTE за неограничен достъп</string>
   <string name="setting_national_roaming">Игнориране на национален роуминг</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">Разширени настройки</string>
@@ -128,6 +129,7 @@
   <string name="summary_metered_4g">Прилагане на правилата за Wi-Fi мрежа при LTE връзка за мобилни данни</string>
   <string name="summary_national_roaming">Да не се прилагат правилата при роуминг, когато СИМ картата и операторът са от една и съща държава</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Задаване на правила за системни приложения (за напреднали потребители)</string>
   <string name="summary_log_app">Регистриране на опитите за достъп до интернет на приложенията. Това може да доведе до допълнително използване на батерията.</string>
   <string name="summary_access">Показване на опитите за достъп на приложението до нов интернет адрес в лентата за уведомяване (когато филтрирането е изключено, ще се показват само блокираните опити за достъп)</string>

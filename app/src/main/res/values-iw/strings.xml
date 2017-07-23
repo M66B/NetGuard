@@ -72,6 +72,7 @@
   <string name="setting_metered_4g">התייחס לLTE כתעבורה נימנת</string>
   <string name="setting_national_roaming">התעלם מנדידה בתוך המדינה</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">אפשרויות מתקדמות</string>
@@ -129,6 +130,7 @@
   <string name="summary_metered_4g">החל חוקי רשת Wi-Fi עבור חיבור נתונים LTE</string>
   <string name="summary_national_roaming">אל תאפשר להחיל חוקי נדידת נתונים כאשר מדינת הסים והרשת זהים</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">הגדר חוקים עבור יישומי מערכת (למומחים)</string>
   <string name="summary_log_app">רשום ביומן נסיונות גישה לאינטרנט ע”י יישומים. עלול להגביר צריכת סוללה.</string>
   <string name="summary_access">הצג הודעה בשורת המצב כאשר יישום מנסה לגשת אל כתובת אינטרנט חדשה (כאשר תכונת הסינון אינה מאופשרת, יוצגו רק ניסיונות גישה שנחסמו)</string>

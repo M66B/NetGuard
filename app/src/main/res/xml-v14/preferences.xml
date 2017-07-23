@@ -131,6 +131,11 @@
                 android:summary="@string/summary_eu_roaming"
                 android:title="@string/setting_eu_roaming" />
             <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="disable_on_call"
+                android:summary="@string/summary_call"
+                android:title="@string/setting_call" />
+            <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="lockdown_wifi"
                 android:title="@string/setting_lockdown_wifi" />

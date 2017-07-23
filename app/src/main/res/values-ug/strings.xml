@@ -73,6 +73,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_metered_4g">LTE ھىسابلىمغان تورنى قوشۇش</string>
   <string name="setting_national_roaming">روتىر تورىنى ھېسابلىماسلىق</string>
   <string name="setting_eu_roaming">EU كەزمە تورنى موھىم بىلمەسلىك</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">قۇلۇپلانغان Wi-Fi</string>
   <string name="setting_lockdown_other">تور ئېتىلگەن</string>
   <string name="setting_advanced_options">ئالىي تاللانما</string>
@@ -130,6 +131,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_metered_4g">LTE تورغا wifi تۇر ئۇلاش ئۇسۇلىنى قوللىنىش</string>
   <string name="summary_national_roaming">SIM كارتىسى ۋە كۆچمە تور، خەلقئارا \ رايون ، كەزمە مۇلازىمەت ئوخشاش بولغاندا قائىدىسى ئىشلەتمەيدۇ</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">ئىشلىتىش قائىدىسىگە چۈشەنچە(كەسپى)</string>
   <string name="summary_log_app">ئەپنىڭ تورغا ئولىنىشنى خاتىرلەيدۇ،بۇ قوشۇمچە توك ئىشلتشى مومكىن.</string>
   <string name="summary_access">بىر ئەپ يېڭى تور ئادىرسىغا ئۇلانغاندا ئۇقتۇرۇش ئىستونىدا كۆرۈنۈش،(تور ئۇلىندىغىنىلا كۆرۈنىدۇ)</string>

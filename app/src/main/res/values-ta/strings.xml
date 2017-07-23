@@ -71,6 +71,7 @@
   <string name="setting_metered_4g">LTE unmetered சிந்திக்கவும்</string>
   <string name="setting_national_roaming">தேசிய சுற்றும் புறக்கணி</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
   <string name="setting_advanced_options">மேம்பட்ட விருப்பங்கள்</string>
@@ -128,6 +129,7 @@
   <string name="summary_metered_4g">2G தரவு இணைப்புகளுக்கு Wi-Fi பிணைய விதிகளை பயன்படுத்து</string>
   <string name="summary_national_roaming">பயன்படுத்தப்படாது நடமாடும் விதிகள், சிம் மற்றும் மொபைல் நெட்வொர்க் நாடு இருக்கும் போது ஒரே</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">முறைமை விண்ணப்பங்கள் (நிபுணர்கள்) விதிகளை விவரி</string>
   <string name="summary_log_app">பதிவை பயன்பாடுகள், இணையத்தை அணுக முயற்சிக்கும். கூடுதல் மின்கல பயன்பாட்டு இது இதனால் இருக்கலாம்.</string>
   <string name="summary_access">நிலை பட்டி அறிவிக்கை பயன்பாட்டை ஒரு புதிய இணைய முகவரி அணுக முயற்சிக்கும் போது காண்பி (முடக்கப்பட்டது வடித்தல், போது மட்டும் தடுக்கப்பட்ட இணைய அணுகல் முயற்சிகள் உங்களுக்கு அறிவிக்கப்பட)</string>

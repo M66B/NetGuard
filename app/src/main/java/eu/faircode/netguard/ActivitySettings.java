@@ -47,6 +47,7 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.TwoStatePreference;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -98,6 +99,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
     private static final int REQUEST_HOSTS = 3;
+    private static final int REQUEST_CALL = 4;
 
     private AlertDialog dialogFilter = null;
 
@@ -405,6 +407,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     protected void onResume() {
         super.onResume();
 
+        checkPermissions(null);
+
         // Listen for preference changes
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -544,7 +548,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("eu_roaming".equals(name))
             ServiceSinkhole.reload("changed " + name, this, false);
 
-        else if ("lockdown_wifi".equals(name) || "lockdown_other".equals(name))
+        else if ("disable_on_call".equals(name)) {
+            if (prefs.getBoolean(name, false)) {
+                if (checkPermissions(name))
+                    ServiceSinkhole.reload("changed " + name, this, false);
+            } else
+                ServiceSinkhole.reload("changed " + name, this, false);
+
+        } else if ("lockdown_wifi".equals(name) || "lockdown_other".equals(name))
             ServiceSinkhole.reload("changed " + name, this, false);
 
         else if ("manage_system".equals(name)) {
@@ -707,6 +718,42 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         else if ("loglevel".equals(name))
             ServiceSinkhole.reload("changed " + name, this, false);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private boolean checkPermissions(String name) {
+        PreferenceScreen screen = getPreferenceScreen();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Check if permission was revoked
+        if ((name == null || "disable_on_call".equals(name)) && prefs.getBoolean("disable_on_call", false))
+            if (!Util.hasPhoneStatePermission(this)) {
+                prefs.edit().putBoolean("disable_on_call", false).apply();
+                ((TwoStatePreference) screen.findPreference("disable_on_call")).setChecked(false);
+
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_CALL);
+
+                if (name != null)
+                    return false;
+            }
+
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PreferenceScreen screen = getPreferenceScreen();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean granted = (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
+
+        if (requestCode == REQUEST_CALL) {
+            prefs.edit().putBoolean("disable_on_call", granted).apply();
+            ((TwoStatePreference) screen.findPreference("disable_on_call")).setChecked(granted);
+        }
+
+        if (granted)
+            ServiceSinkhole.reload("permission granted", this, false);
     }
 
     private void checkAddress(String address) throws IllegalArgumentException, UnknownHostException {

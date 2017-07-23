@@ -110,7 +110,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class ServiceSinkhole extends VpnService implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Service";
 
-    private boolean registeredInteractiveState = false;
     private boolean registeredPowerSave = false;
     private boolean registeredUser = false;
     private boolean registeredIdleState = false;
@@ -119,6 +118,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private boolean phone_state = false;
     private Object networkCallback = null;
+
+    private boolean registeredInteractiveState = false;
+    private PhoneStateListener callStateListener = null;
 
     private State state = State.none;
     private boolean user_foreground = true;
@@ -129,6 +131,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private ServiceSinkhole.Builder last_builder = null;
     private ParcelFileDescriptor vpn = null;
+    private boolean temporarilyStopped = false;
 
     private long last_hosts_modified = 0;
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
@@ -161,7 +164,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     public static final String EXTRA_PACKAGE = "Package";
     public static final String EXTRA_BLOCKED = "Blocked";
     public static final String EXTRA_INTERACTIVE = "Interactive";
-    public static final String EXTRA_VPNONLY = "VpnOnly";
+    public static final String EXTRA_TEMPORARY = "Temporary";
 
     private static final int MSG_SERVICE_INTENT = 0;
     private static final int MSG_STATS_START = 1;
@@ -301,6 +304,18 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     return;
                 }
 
+            // Handle temporary stop
+            if (cmd == Command.stop)
+                temporarilyStopped = intent.getBooleanExtra(EXTRA_TEMPORARY, false);
+            else if (cmd == Command.start)
+                temporarilyStopped = false;
+            else if (cmd == Command.reload && temporarilyStopped) {
+                // Prevent network/interactive changes from restarting the VPN
+                Log.i(TAG, "Ignoring reload because of temporary stop");
+                return;
+            }
+
+            // Optionally listen for interactive state changes
             if (prefs.getBoolean("screen_on", true)) {
                 if (!registeredInteractiveState) {
                     Log.i(TAG, "Starting listening for interactive state changes");
@@ -317,6 +332,32 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Log.i(TAG, "Stopping listening for interactive state changes");
                     unregisterReceiver(interactiveStateReceiver);
                     registeredInteractiveState = false;
+                }
+            }
+
+            // Optionally listen for call state changes
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            if (prefs.getBoolean("disable_on_call", false)) {
+                if (tm != null && callStateListener == null && Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
+                    Log.i(TAG, "Starting listening for call states");
+                    PhoneStateListener listener = new PhoneStateListener() {
+                        @Override
+                        public void onCallStateChanged(int state, String incomingNumber) {
+                            Log.i(TAG, "New call state=" + state);
+                            if (state == TelephonyManager.CALL_STATE_IDLE)
+                                ServiceSinkhole.start("call state", ServiceSinkhole.this);
+                            else
+                                ServiceSinkhole.stop("call state", ServiceSinkhole.this, true);
+                        }
+                    };
+                    tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
+                    callStateListener = listener;
+                }
+            } else {
+                if (tm != null && callStateListener != null) {
+                    Log.i(TAG, "Stopping listening for call states");
+                    tm.listen(callStateListener, PhoneStateListener.LISTEN_NONE);
+                    callStateListener = null;
                 }
             }
 
@@ -351,7 +392,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         break;
 
                     case stop:
-                        stop();
+                        stop(temporarilyStopped);
                         break;
 
                     case stats:
@@ -533,14 +574,14 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             updateEnforcingNotification(listAllowed.size(), listRule.size());
         }
 
-        private void stop() {
+        private void stop(boolean temporary) {
             if (vpn != null) {
                 stopNative(vpn, true);
                 stopVPN(vpn);
                 vpn = null;
                 unprepare();
             }
-            if (state == State.enforcing) {
+            if (state == State.enforcing && !temporary) {
                 Log.d(TAG, "Stop foreground state=" + state.toString());
                 stopForeground(true);
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
@@ -2802,7 +2843,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         intent.putExtra(EXTRA_REASON, reason);
-        intent.putExtra(EXTRA_VPNONLY, vpnonly);
+        intent.putExtra(EXTRA_TEMPORARY, vpnonly);
         context.startService(intent);
     }
 

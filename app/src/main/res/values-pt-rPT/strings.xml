@@ -71,6 +71,7 @@
   <string name="setting_metered_4g">Considerar LTE ilimitado</string>
   <string name="setting_national_roaming">Ignorar Roaming nacional</string>
   <string name="setting_eu_roaming">Ignorar roaming EU</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Bloquear Wi-Fi</string>
   <string name="setting_lockdown_other">Bloquear rede de dados</string>
   <string name="setting_advanced_options">Opções avançadas</string>
@@ -128,6 +129,7 @@
   <string name="summary_metered_4g">Aplicar regras de rede Wi-Fi para ligações de dados em LTE</string>
   <string name="summary_national_roaming">Não aplicar regras de Roaming quando o chip SIM e a rede móvel forem do mesmo país</string>
   <string name="summary_eu_roaming">Não aplicar regras de roaming quando o país do cartão SIM e da rede móvel estiverem dentro da EU (roaming como em casa)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Definir regras para aplicações de sistema (para utilizadores experientes)</string>
   <string name="summary_log_app">Registar tentativas de acesso à internet para aplicações. Isto pode resultar no uso extra da bateria.</string>
   <string name="summary_access">Mostrar uma notificação na barra de estado quando uma aplicação tenta aceder um endereço de internet novo (quando a filtragem está desativada, só serão indicadas tentativas de acesso bloqueadas)</string>

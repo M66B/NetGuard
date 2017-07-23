@@ -71,6 +71,7 @@
   <string name="setting_metered_4g">Не учитывать LTE</string>
   <string name="setting_national_roaming">Игнорировать роуминг внутри страны</string>
   <string name="setting_eu_roaming">Игнорировать роуминг ЕС</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Блокировка Wi-Fi</string>
   <string name="setting_lockdown_other">Блокировка моб. сети</string>
   <string name="setting_advanced_options">Дополнительные опции</string>
@@ -128,6 +129,7 @@
   <string name="summary_metered_4g">Применить правила Wi-Fi-сети для передачи данных через LTE</string>
   <string name="summary_national_roaming">Не применять правила роуминга, если SIM-карта и мобильная сеть из одной страны</string>
   <string name="summary_eu_roaming">Не применять правила роуминга, если страна SIM-карты и мобильная сеть находится в пределах Евросоюза (как у себя дома)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Определить правила для системных приложений (для профи)</string>
   <string name="summary_log_app">Журнал попыток доступа приложений к сети интернет. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_access">Показать уведомление в строке состояния, когда приложение пытается получить доступ к новому Интернет-адресу (когда фильтрация отключена, будут показаны только заблокированные попытки доступа в Интернет)</string>

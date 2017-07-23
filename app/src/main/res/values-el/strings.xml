@@ -71,6 +71,7 @@
   <string name="setting_metered_4g">Θεώρησε απεριόριστη τη σύνδεση LTE</string>
   <string name="setting_national_roaming">Παράβλεψε την εθνική περιαγωγή</string>
   <string name="setting_eu_roaming">Παράβλεψη της περιαγωγής εντος ΕΕ</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Φραγή Wi-Fi</string>
   <string name="setting_lockdown_other">Φραγή κινητής</string>
   <string name="setting_advanced_options">Επιλογές για προχωρημένους</string>
@@ -128,6 +129,7 @@
   <string name="summary_metered_4g">Εφαρμογή κανόνων δικτύων Wi-Fi για συνδέσεις δεδομένων LTE</string>
   <string name="summary_national_roaming">Να μην εφαρμοστούν κανόνες περιαγωγής όταν ταυτίζεται η χώρα της SIM και του δικτύου κινητής τηλεφωνίας</string>
   <string name="summary_eu_roaming">Να μην εφαρμοστούν κανόνες περιαγωγής όταν η χώρα της SIM και του δικτύου κινητής τηλεφωνίας είναι εντός της ΕΕ (περιαγωγή σαν εθνικό δίκτυο)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Ορισμός κανόνων για εφαρμογές του συστήματος (για προχωρημένους)</string>
   <string name="summary_log_app">Καταγραφή των προσπαθειών που κάνουν οι εφαρμογές για πρόσβαση στο διαδίκτυο. Μπορεί να οδηγήσει σε πρόσθετη χρήση μπαταρίας.</string>
   <string name="summary_access">Εμφάνισε μια ειδοποίηση στη γραμμή κατάστασης, όταν μια εφαρμογή προσπαθεί να αποκτήσει πρόσβαση σε μια νέα διεύθυνση στο διαδίκτυο (όταν είναι απενεργοποιημένο το φιλτράρισμα, θα εμφανίζονται μόνο οι αποκλεισμένες προσπάθειες πρόσβασης στο διαδίκτυο)</string>
