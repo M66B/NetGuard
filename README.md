@@ -94,6 +94,7 @@ NetGuard is supported for phones and tablets only, so not for other device types
 Wi-Fi or IP calling will not work if your provider uses [IPsec](https://en.wikipedia.org/wiki/IPsec) to encrypt your phone calls, SMS messages and/or MMS messages,
 unless there was made an exception in NetGuard for your provider (currently for T-Mobile and Verizon).
 I am happy to add exceptions for other providers, but I need the [MCC](https://en.wikipedia.org/wiki/Mobile_country_code) codes, [MNC](https://en.wikipedia.org/wiki/MNC) codes and [IP address](https://en.wikipedia.org/wiki/IP_address) ranges your provider is using.
+As an alternative you can enable the option '*Disable on call*', which is available since version 2.113.
 
 
 <a name="FAQ"></a>
