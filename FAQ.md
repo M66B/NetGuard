@@ -251,7 +251,7 @@ The columns have the following meanings:
 
 Protocols:
 
-* HOPO (IPv6 Hop-by-Hop Option)
+* HOPO ([IPv6 Hop-by-Hop Option](https://en.m.wikipedia.org/wiki/IPv6_packet#Hop-by-hop_options_and_destination_options))
 * ICMP
 * IGMP
 * ESP (IPSec)
