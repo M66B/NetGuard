@@ -590,6 +590,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         // Show logging/filtering is disabled
         final boolean log_app = prefs.getBoolean("log_app", false);
         final boolean filter = prefs.getBoolean("filter", false);
+        final boolean notify_access = prefs.getBoolean("notify_access", false);
         holder.tvLogging.setText(log_app && filter ? R.string.title_logging_enabled : R.string.title_logging_disabled);
         holder.btnLogging.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -599,17 +600,26 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
                 final CheckBox cbLogging = (CheckBox) view.findViewById(R.id.cbLogging);
                 final CheckBox cbFiltering = (CheckBox) view.findViewById(R.id.cbFiltering);
+                final CheckBox cbNotify = (CheckBox) view.findViewById(R.id.cbNotify);
                 TextView tvFilter4 = (TextView) view.findViewById(R.id.tvFilter4);
 
                 cbLogging.setChecked(log_app);
                 cbFiltering.setChecked(filter);
                 cbFiltering.setEnabled(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
                 tvFilter4.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? View.GONE : View.VISIBLE);
+                cbNotify.setChecked(notify_access);
+                cbNotify.setEnabled(log_app);
 
                 cbLogging.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                         prefs.edit().putBoolean("log_app", checked).apply();
+                        cbNotify.setEnabled(checked);
+                        if (!checked) {
+                            cbNotify.setChecked(false);
+                            prefs.edit().putBoolean("notify_access", false).apply();
+                            ServiceSinkhole.reload("changed notify", context, false);
+                        }
                         AdapterRule.this.notifyDataSetChanged();
                     }
                 });
@@ -621,6 +631,15 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                             cbLogging.setChecked(true);
                         prefs.edit().putBoolean("filter", checked).apply();
                         ServiceSinkhole.reload("changed filter", context, false);
+                        AdapterRule.this.notifyDataSetChanged();
+                    }
+                });
+
+                cbNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                        prefs.edit().putBoolean("notify_access", checked).apply();
+                        ServiceSinkhole.reload("changed notify", context, false);
                         AdapterRule.this.notifyDataSetChanged();
                     }
                 });
