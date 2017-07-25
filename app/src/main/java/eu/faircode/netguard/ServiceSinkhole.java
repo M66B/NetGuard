@@ -713,7 +713,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     packet.dport = 0;
                 if (dh.updateAccess(packet, dname, -1)) {
                     lock.readLock().lock();
-                    if (mapNotify.containsKey(packet.uid) && mapNotify.get(packet.uid))
+                    if (!mapNotify.containsKey(packet.uid) || mapNotify.get(packet.uid))
                         showAccessNotification(packet.uid);
                     lock.readLock().unlock();
                 }
@@ -1587,10 +1587,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         lock.writeLock().lock();
         mapNotify.clear();
-        if (notify)
-            for (Rule rule : listRule)
-                if (rule.notify && (system || !rule.system))
-                    mapNotify.put(rule.info.applicationInfo.uid, true);
+        for (Rule rule : listRule)
+            mapNotify.put(rule.info.applicationInfo.uid, notify && rule.notify && (system || !rule.system));
         lock.writeLock().unlock();
     }
 
