@@ -139,7 +139,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private Map<Integer, Integer> mapUidKnown = new HashMap<>();
     private Map<Long, Map<InetAddress, IPRule>> mapUidIPFilters = new HashMap<>();
     private Map<Integer, Forward> mapForward = new HashMap<>();
-    private Map<Integer, Boolean> mapNoNotify = new HashMap<>();
+    private Map<Integer, Boolean> mapNotify = new HashMap<>();
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true);
 
     private volatile Looper commandLooper;
@@ -713,7 +713,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     packet.dport = 0;
                 if (dh.updateAccess(packet, dname, -1)) {
                     lock.readLock().lock();
-                    if (mapNoNotify.containsKey(packet.uid) && mapNoNotify.get(packet.uid))
+                    if (mapNotify.containsKey(packet.uid) && mapNotify.get(packet.uid))
                         showAccessNotification(packet.uid);
                     lock.readLock().unlock();
                 }
@@ -1357,7 +1357,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             prepareNotify(listRule);
         else {
             lock.writeLock().lock();
-            mapNoNotify.clear();
+            mapNotify.clear();
             lock.writeLock().unlock();
         }
 
@@ -1394,7 +1394,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         mapHostsBlocked.clear();
         mapUidIPFilters.clear();
         mapForward.clear();
-        mapNoNotify.clear();
+        mapNotify.clear();
         lock.writeLock().unlock();
     }
 
@@ -1586,11 +1586,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean system = prefs.getBoolean("manage_system", false);
 
         lock.writeLock().lock();
-        mapNoNotify.clear();
+        mapNotify.clear();
         if (notify)
             for (Rule rule : listRule)
                 if (rule.notify && (system || !rule.system))
-                    mapNoNotify.put(rule.info.applicationInfo.uid, true);
+                    mapNotify.put(rule.info.applicationInfo.uid, true);
         lock.writeLock().unlock();
     }
 
