@@ -71,7 +71,7 @@
   <string name="setting_metered_4g">Méretlen LTE megfontolása</string>
   <string name="setting_national_roaming">Belföldi roaming figyelmen kívül hagyása</string>
   <string name="setting_eu_roaming">Figyelmen kívül hagyja az EU roamingot</string>
-  <string name="setting_call">Disable on call</string>
+  <string name="setting_call">Letiltás hívás közben</string>
   <string name="setting_lockdown_wifi">Wi-Fi lezárás</string>
   <string name="setting_lockdown_other">Mobil lezárás</string>
   <string name="setting_advanced_options">Speciális beállítások</string>
@@ -129,7 +129,7 @@
   <string name="summary_metered_4g">Wi-Fi hálózat szabályok alkalmazása az LTE adatátviteli kapcsolatokra</string>
   <string name="summary_national_roaming">Ne alkalmazza roaming szabályokat, ha a SIM és a mobil hálózat országa azonos</string>
   <string name="summary_eu_roaming">Ne alkalmazza a roaming szabályokat, amikor a SIM-kártya és a mobilhálózat országa az EU-n belül van (roam like at home)</string>
-  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
+  <string name="summary_call">A NetGuard letiltása a bejövő vagy kimenő telefonhívás alatt. Ez használható IP / Wi-Fi hívási problémák megoldására.</string>
   <string name="summary_system">Szabályok megállapítása a rendszer alkalmazásokra (szakértő)</string>
   <string name="summary_log_app">Naplózza az alkalmazások internet elérési kísérleteit. Emiatt kicsit magasabb lehet az akkumulátor használat.</string>
   <string name="summary_access">Mutassa az értesítés sávban, amikor egy alkalmazás megpróbál hozzáférni egy új internet címhez (amikor a szűrés le van tiltva, csak zárolt internet hozzáférési kísérletekről küld értesítést)</string>
@@ -225,7 +225,8 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_logging_configure">Testreszabás</string>
   <string name="title_enable_logging">Csak a blokkolt címek naplózásának engedélyezése</string>
   <string name="title_enable_filtering">A szűrés engedélyezése naplózza az engedélyezett címeket is</string>
-  <string name="title_enable_help0">A naplózás és a szűrés globális beállítások, amik az összes alkalmazásra érvényesek</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
   <string name="title_enable_help1">A szűrés engedélyezése szükséges az egyedi címek engedélyezéséhez vagy blokkolásához</string>
   <string name="title_enable_help2">A naplózás engedélyezése (kevésbé) vagy szűrés (jobban) növelheti az akkumulátor használatot és érintheti a hálózat sebességét</string>
   <string name="title_rate">Értékelje</string>

@@ -72,7 +72,7 @@
   <string name="setting_metered_4g">定額制 LTE を考慮する</string>
   <string name="setting_national_roaming">国内ローミングを無視する</string>
   <string name="setting_eu_roaming">EU のローミングを無視</string>
-  <string name="setting_call">Disable on call</string>
+  <string name="setting_call">呼び出し中は無効</string>
   <string name="setting_lockdown_wifi">Wi-Fi を封鎖対象にする</string>
   <string name="setting_lockdown_other">モバイルを封鎖対象にする</string>
   <string name="setting_advanced_options">高度なオプション</string>
@@ -130,7 +130,7 @@
   <string name="summary_metered_4g">LTE データ接続の Wi-Fi ネットワーク ルールを適用します</string>
   <string name="summary_national_roaming">SIM およびモバイル ネットワークの国が同じときは、ローミングのルールを適用しません</string>
   <string name="summary_eu_roaming">SIM およびモバイル ネットワークが EU 内の国ではローミングルールを適用しない (自国同様)</string>
-  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
+  <string name="summary_call">電話の着信または発信時に NetGuard を無効にします。これは、IP/Wi-Fi の呼び出しの問題を回避するためにも使用できます。</string>
   <string name="summary_system">システムアプリのルールを定義 (上級者向け)</string>
   <string name="summary_log_app">アプリのインターネットへのアクセスをログ記録します。バッテリー使用量が増えることがあります。</string>
   <string name="summary_access">アプリが初のインターネットアドレスにアクセスしようとするとき、ステータスバーに通知を表示します (フィルターが無効なときは、ブロックしたインターネットアクセスの試行のみ通知されます)</string>
@@ -224,7 +224,8 @@
   <string name="title_logging_configure">設定</string>
   <string name="title_enable_logging">ログを有効にする (ブロックされたアドレスのみ)</string>
   <string name="title_enable_filtering">フィルターを有効にし、許可されたアドレスもログ記録する</string>
-  <string name="title_enable_help0">ログとフィルターは、すべてのアプリに適用されるグローバル設定です</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
   <string name="title_enable_help1">個々のアドレスを許可またはブロックするためにフィルターも必要です</string>
   <string name="title_enable_help2">ログやフィルターを有効にすると、バッテリーの使用量が増えたり、ネットワーク速度に影響を与える可能性があります(ログ:少なめ、フィルター:多め)</string>
   <string name="title_rate">評価</string>

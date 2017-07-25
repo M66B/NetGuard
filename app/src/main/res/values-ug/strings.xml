@@ -229,7 +229,8 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
   <string name="title_logging_configure">ئورۇنلاشتۇرۇش</string>
   <string name="title_enable_logging">تورسۇلغان ئادىرىسنىلا خاتىرلەش</string>
   <string name="title_enable_filtering">يول قويغان ئادىرىسنى تاسقاشنى قوزغىتىش</string>
-  <string name="title_enable_help0">خاتىرلەش ۋە ئۆتكۈزۈش بارلىق ئەپكە ئىشلەيدۇ</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
   <string name="title_enable_help1">تاق ئادىرسنى توسۇش ياكى يول قويۇشنى ئۆتكۈزۈش</string>
   <string name="title_enable_help2">كۈندىلىك خاتىرىنى قوزغىتىش(ئازراق) ياكى ئۆتكۈزىۋىتىش (كۆپ) توكنى كۆپ ئىشلىتىشى ۋە تور سۈرئىتىگە تەسىر كۆرسىتشى مومكىن</string>
   <string name="title_rate">سۈرئەت</string>

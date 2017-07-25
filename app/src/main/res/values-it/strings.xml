@@ -223,7 +223,8 @@
   <string name="title_logging_configure">Configura</string>
   <string name="title_enable_logging">Attiva la registrazione solo degli indirizzi bloccati</string>
   <string name="title_enable_filtering">Attiva il filtraggio per la registrazione anche di indirizzi consentiti</string>
-  <string name="title_enable_help0">La registrazione e il filtraggio sono impostazioni globali che si applicano a tutte le applicazioni</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
   <string name="title_enable_help1">Il filtraggio è necessario anche per consentire o bloccare singoli indirizzi</string>
   <string name="title_enable_help2">Attivando la registrazione (meno) o il filtraggio (di più) potrebbe aumentare l\'utilizzo della batteria e potrebbe influire sulla velocità di rete</string>
   <string name="title_rate">Vota</string>
