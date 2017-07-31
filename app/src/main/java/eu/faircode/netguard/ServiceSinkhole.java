@@ -2595,7 +2595,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
         int colorOff = tv.data;
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "access");
         builder.setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
                 .setGroup("AccessAttempt")
                 .setContentIntent(pi)
