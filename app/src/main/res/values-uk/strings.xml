@@ -10,6 +10,9 @@
   <string name="app_admob">NetGuard використовує рекламну службу Google AdMob. Політика конфіденційності AdMob доступна <a href="https://www.google.com/intl/en/policies/privacy/">тут</a>.</string>
   <string name="app_agree">Погоджуюся</string>
   <string name="app_disagree">Не погоджуюся</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Пошук додатка</string>
   <string name="menu_filter">Фільтр додатків</string>
   <string name="menu_app_user">Додатки користувача</string>
@@ -72,7 +75,7 @@
   <string name="setting_metered_4g">Не враховувати LTE</string>
   <string name="setting_national_roaming">Ігнорувати національний роумінг</string>
   <string name="setting_eu_roaming">Ігнорувати європейський роумінг</string>
-  <string name="setting_call">Disable on call</string>
+  <string name="setting_call">Вимкнути під час виклику</string>
   <string name="setting_lockdown_wifi">Блокування Wi-Fi</string>
   <string name="setting_lockdown_other">Блокування моб. мережі</string>
   <string name="setting_advanced_options">Розширені параметри</string>
@@ -130,7 +133,7 @@
   <string name="summary_metered_4g">Застосувати правила Wi-Fi-мережі до LTE-з’єднання</string>
   <string name="summary_national_roaming">Не застосовувати правила роумінгу, якщо SIM-карта відповідає країні перебування</string>
   <string name="summary_eu_roaming">Не застосовувати правила роумінгу, якщо країна походження SIM-карти або мобільної мережі входять до складу ЄС (трактувати роумінг як місцеву мережу)</string>
-  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
+  <string name="summary_call">Вимкнути NetGuard під час вхідного або вихідного телефонного виклику. Цю опцію можна використовувати для вирішення проблем з IP/Wi-Fi.</string>
   <string name="summary_system">Визначити правила для системних додатків (для експертів)</string>
   <string name="summary_log_app">Журнал спроб доступу додатків до інтернету. Це може збільшити споживання заряду акумулятора.</string>
   <string name="summary_access">Показати сповіщення в панелі стану, коли додаток намагається отримати доступ до нової інтернет-адреси (коли фільтрація вимкнена, показуватимуться лише заблоковані спроби доступу в Інтернет)</string>
@@ -225,8 +228,8 @@
   <string name="title_logging_configure">Налаштувати</string>
   <string name="title_enable_logging">Увімкнути реєстрацію подій лише для заблокованих адрес</string>
   <string name="title_enable_filtering">Увімкнути фільтрування лише для заблокованих адрес</string>
-  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Увімкнути сповіщення щодо доступу до нещодавно зареєстрованих адрес</string>
+  <string name="title_enable_help0">Ці настройки є глобальними і застосовуються до всіх додатків</string>
   <string name="title_enable_help1">Фільтрування необхідне також для дозволу або блокування окремих адрес</string>
   <string name="title_enable_help2">Увімкнення реєстрації подій або фільтрування може прискорити витрату заряду і справити вплив на швидкість у мережі</string>
   <string name="title_rate">Оцінити</string>

@@ -9,6 +9,9 @@
   <string name="app_admob">NetGuard käyttää Google AdMob mainoksia. Tietoa AdMob yksityisyydensuojasta saat tarkemmin <a href="https://www.google.com/intl/en/policies/privacy/"> täältä</a>.</string>
   <string name="app_agree">Hyväksyn</string>
   <string name="app_disagree">En hyväksy</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Etsi sovellusta</string>
   <string name="menu_filter">Suodata sovelluksia</string>
   <string name="menu_app_user">Näytä käyttäjän sovellukset</string>

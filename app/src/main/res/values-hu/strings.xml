@@ -9,6 +9,9 @@
   <string name="app_admob">A NetGuard a Google AdMob hirdetési szolgáltatását használja. Az AdMob adatvédelmi politikája <a href="https://www.google.com/intl/en/policies/privacy/">itt</a> érhető el.</string>
   <string name="app_agree">Elfogadom</string>
   <string name="app_disagree">Nem fogadom el</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Alkalmazás keresése</string>
   <string name="menu_filter">Alkalmazás szűrő</string>
   <string name="menu_app_user">Felhasználói alkalmazások mutatása</string>
@@ -225,8 +228,8 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_logging_configure">Testreszabás</string>
   <string name="title_enable_logging">Csak a blokkolt címek naplózásának engedélyezése</string>
   <string name="title_enable_filtering">A szűrés engedélyezése naplózza az engedélyezett címeket is</string>
-  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Engedélyezi a hozzáférést az értesítésekhez az újonnan naplózott címeknek</string>
+  <string name="title_enable_help0">Ezek a beállítások az összes alkalmazásra érvényes globális beállítások</string>
   <string name="title_enable_help1">A szűrés engedélyezése szükséges az egyedi címek engedélyezéséhez vagy blokkolásához</string>
   <string name="title_enable_help2">A naplózás engedélyezése (kevésbé) vagy szűrés (jobban) növelheti az akkumulátor használatot és érintheti a hálózat sebességét</string>
   <string name="title_rate">Értékelje</string>

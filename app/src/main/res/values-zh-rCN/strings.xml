@@ -11,6 +11,9 @@
   <string name="app_admob">NetGuard 使用 Google AdMob 广告服务. 您可在此查阅 AdMob 隐私权政策 <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">同意</string>
   <string name="app_disagree">拒绝</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">搜索应用</string>
   <string name="menu_filter">筛选应用</string>
   <string name="menu_app_user">显示用户应用</string>

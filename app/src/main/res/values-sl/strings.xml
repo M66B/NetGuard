@@ -11,6 +11,9 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">I agree</string>
   <string name="app_disagree">I disagree</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Search for application</string>
   <string name="menu_filter">Filter applications</string>
   <string name="menu_app_user">Show user applications</string>

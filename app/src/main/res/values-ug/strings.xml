@@ -11,6 +11,9 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="app_admob">NetGuard uses Google\'s ئېلان مۇلازىمىتى <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">قوشۇلىمەن</string>
   <string name="app_disagree">قوشۇلمايمەن</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">ئەپ ئىزدەش</string>
   <string name="menu_filter">ئەپ تاسقاش</string>
   <string name="menu_app_user">ئىشلەتكۈچى ئەپ كۆرۈنۈش</string>

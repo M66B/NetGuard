@@ -9,6 +9,9 @@
   <string name="app_admob">NetGuard usa il servizio di annunci AdMob di Google. La politica sulla privacy di AdMob è disponibile <a href="https://www.google.com/intl/it/policies/privacy/">qui</a>.</string>
   <string name="app_agree">Accetto</string>
   <string name="app_disagree">Rifiuto</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Cerca applicazione</string>
   <string name="menu_filter">Filtra applicazioni</string>
   <string name="menu_app_user">Mostra applicazioni utente</string>
@@ -71,7 +74,7 @@
   <string name="setting_metered_4g">Considera LTE non al consumo</string>
   <string name="setting_national_roaming">Ignora roaming nazionale</string>
   <string name="setting_eu_roaming">Ignora roaming in EU</string>
-  <string name="setting_call">Disable on call</string>
+  <string name="setting_call">Disabilita su chiamata</string>
   <string name="setting_lockdown_wifi">Blocca Wi-Fi</string>
   <string name="setting_lockdown_other">Blocca rete dati</string>
   <string name="setting_advanced_options">Opzioni avanzate</string>
@@ -129,7 +132,7 @@
   <string name="summary_metered_4g">Applica le regole valide per il Wi-Fi alle connessioni LTE</string>
   <string name="summary_national_roaming">Non applicare le regole di roaming quando il paese della carta SIM e della rete mobile è lo stesso</string>
   <string name="summary_eu_roaming">Non applicare le regole di roaming quando la SIM e la nazione della rete mobile sono all\'interno della zona EU (roam come a casa)</string>
-  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
+  <string name="summary_call">Disabilita NetGuard su chiamata telefonica in entrata o in uscita. Può essere utilizzato per ovviare ai problemi di chiamate IP/Wi-Fi.</string>
   <string name="summary_system">Definisci regole per le applicazioni di sistema (solo per esperti)</string>
   <string name="summary_log_app">Registra i tentativi di accesso a internet delle applicazioni. Potrebbe causare utilizzo aggiuntivo di batteria.</string>
   <string name="summary_access">Visualizza una notifica sulla barra di stato quando un\' applicazione tenta di accedere ad nuovo indirizzo internet (quando il filtro é disabilitato, solo gli i tentativi di acesso ad internet bloccati verrano notificati)</string>
@@ -223,8 +226,8 @@
   <string name="title_logging_configure">Configura</string>
   <string name="title_enable_logging">Attiva la registrazione solo degli indirizzi bloccati</string>
   <string name="title_enable_filtering">Attiva il filtraggio per la registrazione anche di indirizzi consentiti</string>
-  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Attiva le notifiche di accesso per i nuovi indirizzi registrati</string>
+  <string name="title_enable_help0">Queste impostazioni sono impostazioni globali che si applicano a tutte le applicazioni</string>
   <string name="title_enable_help1">Il filtraggio è necessario anche per consentire o bloccare singoli indirizzi</string>
   <string name="title_enable_help2">Attivando la registrazione (meno) o il filtraggio (di più) potrebbe aumentare l\'utilizzo della batteria e potrebbe influire sulla velocità di rete</string>
   <string name="title_rate">Vota</string>

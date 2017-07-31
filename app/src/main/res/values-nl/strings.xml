@@ -10,6 +10,9 @@
   <string name="app_admob">NetGuard gebruikt Google\'s AdMob advertentie platform. AdMob\'s privacybeleid is <a href="https://www.google.com/intl/en/policies/privacy/">hier</a> beschikbaar.</string>
   <string name="app_agree">Ik ga akkoord</string>
   <string name="app_disagree">Ik ga niet akkoord</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Zoek naar toepassing</string>
   <string name="menu_filter">Filter toepassingen</string>
   <string name="menu_app_user">Toon gebruikerstoepassingen</string>

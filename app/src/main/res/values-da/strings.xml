@@ -10,6 +10,9 @@
   <string name="app_admob">NetGuard benytter Googles AdMob annonceringstjeneste. AdMobs fortrolighedspolitik er tilgængelig <a href="https://www.google.com/intl/en/policies/privacy/">her</a>.</string>
   <string name="app_agree">Jeg accepterer</string>
   <string name="app_disagree">Jeg accepterer ikke</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Søg efter applikation</string>
   <string name="menu_filter">Filtrer applikationer</string>
   <string name="menu_app_user">Vis bruger applikationer</string>

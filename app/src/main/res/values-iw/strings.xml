@@ -10,6 +10,9 @@
   <string name="app_admob">NetGuard משתמש בשירות הפרסום AdMob של גוגל. מדיניות הפרטיות של AdMob זמינה <a href="https://www.google.com/intl/en/policies/privacy/"> כאן</a>.</string>
   <string name="app_agree">אני מסכים</string>
   <string name="app_disagree">אני לא מסכים</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">חפש יישום</string>
   <string name="menu_filter">סנן יישומים</string>
   <string name="menu_app_user">הצג יישומי משתמש</string>
