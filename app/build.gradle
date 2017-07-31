@@ -2,7 +2,7 @@ apply plugin: 'com.android.model.application'
 
 model {
     android {
-        compileSdkVersion = 25
+        compileSdkVersion = 26
         buildToolsVersion = "26.0.1"
 
         defaultConfig {
@@ -57,14 +57,14 @@ model {
             create("all") {
                 versionName = "2.114"
                 minSdkVersion.apiLevel = 14
-                targetSdkVersion.apiLevel = 25
+                targetSdkVersion.apiLevel = 26
                 versionCode = 2017072501
                 archivesBaseName = "NetGuard-v$versionName"
             }
             create("lollipop-and-later") {
                 versionName = "2.114"
                 minSdkVersion.apiLevel = 20
-                targetSdkVersion.apiLevel = 25
+                targetSdkVersion.apiLevel = 26
                 versionCode = 2017072511
                 archivesBaseName = "NetGuard-v$versionName"
             }
@@ -72,7 +72,7 @@ model {
                 versionName = "2.114"
                 minSdkVersion.apiLevel = 14
                 maxSdkVersion = 19
-                targetSdkVersion.apiLevel = 25
+                targetSdkVersion.apiLevel = 26
                 versionCode = 2017072521
                 archivesBaseName = "NetGuard-v$versionName"
             }
@@ -82,9 +82,8 @@ model {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.+'
-    compile 'com.android.support:support-annotations:25.+'
-    compile 'com.android.support:recyclerview-v7:25.+'
+    compile 'com.android.support:appcompat-v7:26.0.+'
+    compile 'com.android.support:recyclerview-v7:26.0.+'
     compile 'com.squareup.picasso:picasso:2.5.+'
     compile 'com.google.firebase:firebase-core:11.0.+'
     compile 'com.google.firebase:firebase-ads:11.0.+'

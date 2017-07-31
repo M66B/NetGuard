@@ -20,6 +20,10 @@ package eu.faircode.netguard;
 */
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.media.AudioAttributes;
 import android.util.Log;
 
 public class ApplicationEx extends Application {
@@ -31,6 +35,18 @@ public class ApplicationEx extends Application {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            NotificationChannel foreground = new NotificationChannel("foreground", getString(R.string.app_name), NotificationManager.IMPORTANCE_MIN);
+            foreground.setSound(null, new AudioAttributes.Builder().build());
+            nm.createNotificationChannel(foreground);
+
+            NotificationChannel notify = new NotificationChannel("notify", getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT);
+            notify.setSound(null, new AudioAttributes.Builder().build());
+            nm.createNotificationChannel(notify);
+        }
 
         mPrevHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
