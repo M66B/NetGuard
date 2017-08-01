@@ -439,8 +439,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         showErrorNotification(ex.toString());
 
                         // Disable firewall
-                        prefs.edit().putBoolean("enabled", false).apply();
-                        WidgetMain.updateWidgets(ServiceSinkhole.this);
+                        if (!(ex instanceof StartFailedException)) {
+                            prefs.edit().putBoolean("enabled", false).apply();
+                            WidgetMain.updateWidgets(ServiceSinkhole.this);
+                        }
                     }
                 } else
                     showErrorNotification(ex.toString());
@@ -471,7 +473,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 last_builder = getBuilder(listAllowed, listRule);
                 vpn = startVPN(last_builder);
                 if (vpn == null)
-                    throw new IllegalStateException(getString((R.string.msg_start_failed)));
+                    throw new StartFailedException(getString((R.string.msg_start_failed)));
 
                 startNative(vpn, listAllowed, listRule);
 
@@ -566,7 +568,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
 
             if (vpn == null)
-                throw new IllegalStateException(getString((R.string.msg_start_failed)));
+                throw new StartFailedException(getString((R.string.msg_start_failed)));
 
             startNative(vpn, listAllowed, listRule);
 
@@ -660,6 +662,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
             } catch (JSONException ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+        }
+
+        private class StartFailedException extends IllegalStateException {
+            public StartFailedException() {
+                super();
+            }
+
+            public StartFailedException(String msg) {
+                super(msg);
             }
         }
     }
