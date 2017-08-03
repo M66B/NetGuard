@@ -10,6 +10,9 @@
   <string name="app_admob">NetGuard usa o serviço de anúncios do Google AdMob. A política de privacidade deste produto está disponível <a href="https://www.google.com/intl/en/policies/privacy/">aqui</a>.</string>
   <string name="app_agree">Eu concordo</string>
   <string name="app_disagree">Eu discordo</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Buscar aplicativo</string>
   <string name="menu_filter">Filtrar aplicativos</string>
   <string name="menu_app_user">Mostrar apps do usuário</string>
@@ -227,7 +230,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_enable_logging">Habilitar o registro apenas de endereços bloqueados</string>
   <string name="title_enable_filtering">Também habilitar o registro para endereços permitidos</string>
   <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">A filtragem também é necessária para permitir ou bloquear endereços individuais</string>
   <string name="title_enable_help2">Habilitar o registro (menos) ou a filtragem (mais) geram acréscimos no uso da bateria e pode afetar a velocidade da conexão</string>
   <string name="title_rate">Avaliar</string>

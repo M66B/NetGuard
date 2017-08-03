@@ -11,6 +11,9 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="app_admob">NetGuard uses Google\'s ئېلان مۇلازىمىتى <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">قوشۇلىمەن</string>
   <string name="app_disagree">قوشۇلمايمەن</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">ئەپ ئىزدەش</string>
   <string name="menu_filter">ئەپ تاسقاش</string>
   <string name="menu_app_user">ئىشلەتكۈچى ئەپ كۆرۈنۈش</string>
@@ -175,7 +178,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
 \n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
-  <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
+  <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original apps</string>
   <string name="msg_filter4">Android 4 ئۆتكۈزۈش ئىقتىدارىنى ئېچىش كېرەك</string>
   <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="msg_clear_rules">قائىدە ۋە تەڭشەكنى ئەسلىگە كەلتۈرىدۇ</string>
@@ -230,7 +233,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
   <string name="title_enable_logging">تورسۇلغان ئادىرىسنىلا خاتىرلەش</string>
   <string name="title_enable_filtering">يول قويغان ئادىرىسنى تاسقاشنى قوزغىتىش</string>
   <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">تاق ئادىرسنى توسۇش ياكى يول قويۇشنى ئۆتكۈزۈش</string>
   <string name="title_enable_help2">كۈندىلىك خاتىرىنى قوزغىتىش(ئازراق) ياكى ئۆتكۈزىۋىتىش (كۆپ) توكنى كۆپ ئىشلىتىشى ۋە تور سۈرئىتىگە تەسىر كۆرسىتشى مومكىن</string>
   <string name="title_rate">سۈرئەت</string>

@@ -9,6 +9,9 @@
   <string name="app_admob">NetGuard utiliza el servicio de publicidad AdMob de Google. La política de privacidad de AdMob está disponible <a href="https://www.google.com/intl/en/policies/privacy/">aquí</a>.</string>
   <string name="app_agree">Aceptar</string>
   <string name="app_disagree">Rechazar</string>
+  <string name="channel_foreground">Servicios en ejecución</string>
+  <string name="channel_notify">Notificaciones generales</string>
+  <string name="channel_access">Notificaciones de acceso</string>
   <string name="menu_search">Buscar aplicación</string>
   <string name="menu_filter">Filtrar aplicaciones</string>
   <string name="menu_app_user">Mostrar aplicaciones del usuario</string>
@@ -223,8 +226,8 @@
   <string name="title_logging_configure">Configurar</string>
   <string name="title_enable_logging">Activar registro sólo de las direcciones bloqueadas</string>
   <string name="title_enable_filtering">Activar filtrado para registrar también las direcciones permitidas</string>
-  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Activar notificaciones de acceso para direcciones recién registradas</string>
+  <string name="title_enable_help0">Esta configuración es global y se aplica a todas las aplicaciones</string>
   <string name="title_enable_help1">El filtrado es necesario también para permitir o bloquear direcciones individuales</string>
   <string name="title_enable_help2">Activar el registro (menos) o filtrado (más) podría aumentar el uso de la batería y afectar a la velocidad de la red</string>
   <string name="title_rate">Calificar</string>

@@ -11,6 +11,9 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">Kabul ediyorum</string>
   <string name="app_disagree">Kabul etmiyorum</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Uygulama ara</string>
   <string name="menu_filter">Uygulama filtresi</string>
   <string name="menu_app_user">Kullanıcı uygulamalarını göster</string>
@@ -134,7 +137,7 @@ Buna rağmen bazı cihazlarda çalışmayabilir.
   <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Sistem uygulamaları kuralları tanımlayın (uzman için)</string>
   <string name="summary_log_app">Uygulamaların internet erişimini kaydetmek ekstra batarya kullanımına neden olabilir.</string>
-  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
+  <string name="summary_access">Show a status bar notification when an app attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
   <string name="summary_filter">IP paket filtresi VPN tünel üserinden çıkış yaptığı için ekstra batarya kullanımına neden olabilir.</string>
   <string name="summary_track_usage">Her bir uygulama için alınan ve gönderilen veri miktarını izleyin. Bu, ekstra batarya kullanımına neden olabilir.</string>
   <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
@@ -190,7 +193,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard meşgul</string>
   <string name="msg_update">Güncelleme hazır, indirmek için dokunun</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access by tapping on the icons next to an application</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access by tapping on the icons next to an app</string>
   <string name="msg_whitelist">Varsayılan olarak, Internet erişim verilir Bu, ayarlarından değiştirilebilir</string>
   <string name="msg_push">Incoming (push) messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
   <string name="msg_system">Sistem uygulamalarını yönet gelişmiş seçenekler de etkin olabilir</string>
@@ -230,7 +233,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
   <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
   <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">Oyla</string>

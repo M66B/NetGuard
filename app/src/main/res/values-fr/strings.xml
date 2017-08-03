@@ -6,9 +6,12 @@
   <string name="app_android">NetGuard requiert Android 4.0 ou ultérieur</string>
   <string name="app_license">En utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_first">Un grand soin a été apporté pour développer et tester NetGuard, cependant il est impossible de garantir que NetGuard fonctionnera correctement sur tous les appareils.\n\nEn utilisant NetGuard, vous acceptez la <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_admob">NetGuard utilise le service de publicité AdMob de Google. La politique de confidentialité d\'AdMob est disponible <a href="https://www.google.com/intl/fr/policies/privacy/">ici</a>.</string>
+  <string name="app_admob">NetGuard utilise le service de publicité AdMob de Google. La politique de confidentialité d\'AdMob est disponible <a href="https://www.google.com/intl/en/policies/privacy/">ici</a>.</string>
   <string name="app_agree">J\'accepte</string>
   <string name="app_disagree">Je refuse</string>
+  <string name="channel_foreground">Services en cours d\'exécution</string>
+  <string name="channel_notify">Notifications générales</string>
+  <string name="channel_access">Accéder aux notifications</string>
   <string name="menu_search">Rechercher une application</string>
   <string name="menu_filter">Filtrer les applications</string>
   <string name="menu_app_user">Afficher les applications utilisateur</string>
@@ -46,9 +49,9 @@
   <string name="title_ruid">Application de destination</string>
   <string name="title_external">Pour un serveur externe, sélectionnez \"personne\"</string>
   <string name="setting_defaults">Valeurs par défaut (liste blanche/noire)</string>
-  <string name="setting_whitelist_wifi">Bloquer Wi-Fi</string>
-  <string name="setting_whitelist_other">Bloquer données mobiles</string>
-  <string name="setting_screen_wifi">Autoriser le Wi-Fi si l\'écran est allumé</string>
+  <string name="setting_whitelist_wifi">Bloquer le Wi-Fi</string>
+  <string name="setting_whitelist_other">Bloquer les données mobiles</string>
+  <string name="setting_screen_wifi">Autoriser le Wi-Fi quand l\'écran est allumé</string>
   <string name="setting_screen_other">Autoriser les données mobiles si l\'écran est allumé</string>
   <string name="setting_whitelist_roaming">Bloquer l\'itinérance</string>
   <string name="setting_options">Options</string>
@@ -100,7 +103,7 @@
   <string name="setting_pcap_file_size">Taille max. du fichier PCAP : %s Mo</string>
   <string name="setting_watchdog">Gardien : toutes les %s minutes</string>
   <string name="setting_stats_category">Notification de débit</string>
-  <string name="setting_stats">Afficher la notification de débit</string>
+  <string name="setting_stats">Afficher la notification de vitesse</string>
   <string name="setting_stats_top">Afficher les meilleures applications</string>
   <string name="setting_stats_frequency">Intervalle d\'échantillonnage : %s ms</string>
   <string name="setting_stats_samples">Nombre d\'échantillons : %s s</string>
@@ -119,7 +122,7 @@
   <string name="summary_delay">Après avoir éteint l\'écran, garder les règles d\'écran allumé actives pendant le nombre de minutes indiqué (entrez zéro pour désactiver cette option)</string>
   <string name="summary_update">Vérifier les nouvelles versions sur GitHub deux fois par jour</string>
   <string name="summary_tethering">Selon la version d\'Android, le partage de connexion peut fonctionner ou non. Le trafic partagé ne peut pas être filtré.</string>
-  <string name="summary_subnet">Activer le routage sous-réseaux ; pourrait permettre les appels Wi-Fi, mais pourrait aussi déclencher des bogues dans Android et augmenter l’utilisation de la batterie</string>
+  <string name="summary_subnet">Activer le routage de sous-réseau ; pourrait permettre les appels Wi-Fi, mais pourrait aussi déclencher des bogues dans Android et augmenter l’utilisation de la batterie</string>
   <string name="summary_lan">Autoriser les applications à se connecter à des adresses de réseau local, comme 10.0.0.0/8, 172.16.0.0/12 et 192.168.0.0/16</string>
   <string name="summary_ip6">Diriger le trafic IP version 6 vers NetGuard de sorte qu\'il peut être sélectivement autorisé ou bloqué</string>
   <string name="summary_wifi_home">Appliquer les règles de réseau Wi-Fi pour le réseau sélectionné uniquement (appliquer les règles de réseau mobile pour les autres réseaux Wi-Fi)</string>
@@ -139,7 +142,7 @@
   <string name="summary_rcode">La valeur par défaut est 3 (NXDOMAIN), ce qui signifie « domaine inexistant ».</string>
   <string name="summary_socks5_enabled">Seul le trafic TCP sera envoyé au serveur proxy</string>
   <string name="summary_watchdog">Vérifier périodiquement si NetGuard est toujours en fonctionnement (entrez zéro pour désactiver cette option). Cela peut entraîner une surconsommation de la batterie.</string>
-  <string name="summary_stats">Afficher le graphe de débit du réseau dans une notification sur la barre d\'état</string>
+  <string name="summary_stats">Afficher le graphe de débit du réseau dans la barre d\'état</string>
   <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Êtes-vous sûr ?</string>
   <string name="msg_started">Application des règles</string>
@@ -151,7 +154,7 @@
   <string name="msg_installed">%1$s installé</string>
   <string name="msg_installed_n">A été installé</string>
   <string name="msg_access">%1$s a tenté d\'accéder à internet</string>
-  <string name="msg_access_n">Tentative d\'accès internet</string>
+  <string name="msg_access_n">A tenté d\'accéder à internet</string>
   <string name="msg_completed">Action terminée</string>
   <string name="msg_vpn">NetGuard utilise un VPN local pour filtrer le trafic Internet.
 Pour cette raison, veuillez autoriser la connexion VPN lors du prochain message.
@@ -203,7 +206,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_metered_disabled">Les règles limitées ne sont pas appliquées</string>
   <string name="title_host_allowed">L\'adresse est autorisée</string>
   <string name="title_host_blocked">L\'adresse est bloquée</string>
-  <string name="title_interactive_allowed">Autoriser si écran allumé</string>
+  <string name="title_interactive_allowed">Autoriser lorsque l\'écran est allumé</string>
   <string name="title_roaming_blocked">Bloquer si itinérance</string>
   <string name="title_metered">Par défaut, une connexion Wi-Fi est considérée comme illimitée et une connexion mobile limitée</string>
   <string name="title_internet">n\'a aucune autorisation internet</string>
@@ -223,7 +226,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_logging_disabled">La journalisation ou le filtrage n\'est pas activé</string>
   <string name="title_logging_enabled">La journalisation et le filtrage sont activés</string>
   <string name="title_logging_configure">Configurer</string>
-  <string name="title_enable_logging">Activer la journalisation d’adresses bloquées seulement</string>
+  <string name="title_enable_logging">Activer seulement la journalisation des adresses bloquées</string>
   <string name="title_enable_filtering">Activer le filtrage pour enregistrer aussi les adresses autorisées</string>
   <string name="title_enable_notify">Activer les notifications d’accès pour les adresses nouvellement enregistrées</string>
   <string name="title_enable_help0">Ces paramètres sont des paramètres globaux qui s’appliquent à toutes les applications</string>

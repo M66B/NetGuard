@@ -9,6 +9,9 @@
   <string name="app_admob">NetGuard использует сервис рекламы AdMob компании Google. Политика конфиденциальности AdMob доступна <a href="https://www.google.com/intl/en/policies/privacy/">здесь</a>.</string>
   <string name="app_agree">Я согласен</string>
   <string name="app_disagree">Я не согласен</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Поиск приложения</string>
   <string name="menu_filter">Фильтр приложений</string>
   <string name="menu_app_user">Показать пользовательские приложения</string>
@@ -225,8 +228,8 @@
   <string name="title_logging_configure">Настроить</string>
   <string name="title_enable_logging">Включить ведение журнала только заблокированных адресов</string>
   <string name="title_enable_filtering">Включить фильтрацию для регистрации разрешенных адресов</string>
-  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Включить уведомления о доступе для недавно зарегистрированных адресов</string>
+  <string name="title_enable_help0">Эти настройки являются глобальными, которые применяются ко всем приложениям</string>
   <string name="title_enable_help1">Фильтрация также необходима для разрешения или блокировки отдельных адресов</string>
   <string name="title_enable_help2">Включение ведения журнала или фильтрации может увеличить расход батареи и повлиять на скорость сети</string>
   <string name="title_rate">Оценить</string>

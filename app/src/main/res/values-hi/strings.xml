@@ -11,6 +11,9 @@
   <string name="app_admob">NetGuard गूगल के AdMob विज्ञापन सेवा का उपयोग करता है। AdMob की गोपनीयता नीति उपलब्ध <a href="https://www.google.com/intl/en/policies/privacy/"> यहाँ </a> है।</string>
   <string name="app_agree">मैं सहमत हूँ</string>
   <string name="app_disagree">मैं असहमत हूं</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">आवेदन के लिए खोजें</string>
   <string name="menu_filter">फ़िल्टर अनुप्रयोगों</string>
   <string name="menu_app_user">उपयोगकर्ता को दिखाने के अनुप्रयोगों</string>
@@ -226,7 +229,7 @@
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
   <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
   <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">रेट करें</string>

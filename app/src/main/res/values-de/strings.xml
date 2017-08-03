@@ -10,6 +10,9 @@
   <string name="app_admob">NetGuard verwendet Google\'s AdMob Werbeservice. AdMob\'s Datenschutzrichtlinie kann <a href="https://www.google.com/intl/en/policies/privacy/">hier</a> gelesen werden.</string>
   <string name="app_agree">Stimme zu</string>
   <string name="app_disagree">Nicht zustimmen</string>
+  <string name="channel_foreground">Aktive Dienste</string>
+  <string name="channel_notify">Allgemeine Benachrichtigungen</string>
+  <string name="channel_access">Auf Benachrichtigungen zugreifen</string>
   <string name="menu_search">Nach App suchen</string>
   <string name="menu_filter">Anwendungen filtern</string>
   <string name="menu_app_user">Benutzeranwendungen anzeigen</string>
