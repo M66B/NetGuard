@@ -2288,6 +2288,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (state == State.none)
+            startForeground(NOTIFY_WAITING, getWaitingNotification());
+
         Log.i(TAG, "Received " + intent);
         Util.logExtras(intent);
 
@@ -2295,6 +2298,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (intent != null && intent.hasExtra(EXTRA_COMMAND) &&
                 intent.getSerializableExtra(EXTRA_COMMAND) == Command.set) {
             set(intent);
+            if (state == State.none)
+                stopForeground(true);
             return START_STICKY;
         }
 
