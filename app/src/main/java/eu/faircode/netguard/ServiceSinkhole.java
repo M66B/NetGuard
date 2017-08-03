@@ -2131,6 +2131,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     @Override
     public void onCreate() {
+        startForeground(NOTIFY_WAITING, getWaitingNotification());
+
         Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -2288,9 +2290,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (state == State.none)
-            startForeground(NOTIFY_WAITING, getWaitingNotification());
-
         Log.i(TAG, "Received " + intent);
         Util.logExtras(intent);
 
@@ -2298,8 +2297,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (intent != null && intent.hasExtra(EXTRA_COMMAND) &&
                 intent.getSerializableExtra(EXTRA_COMMAND) == Command.set) {
             set(intent);
-            if (state == State.none)
-                stopForeground(true);
             return START_STICKY;
         }
 
@@ -2834,20 +2831,14 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.run);
         intent.putExtra(EXTRA_REASON, reason);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            context.startForegroundService(intent);
-        else
-            context.startService(intent);
+        ContextCompat.startForegroundService(context, intent);
     }
 
     public static void start(String reason, Context context) {
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         intent.putExtra(EXTRA_REASON, reason);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            context.startForegroundService(intent);
-        else
-            context.startService(intent);
+        ContextCompat.startForegroundService(context, intent);
     }
 
     public static void reload(String reason, Context context, boolean interactive) {
@@ -2857,10 +2848,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             intent.putExtra(EXTRA_REASON, reason);
             intent.putExtra(EXTRA_INTERACTIVE, interactive);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                context.startForegroundService(intent);
-            else
-                context.startService(intent);
+            ContextCompat.startForegroundService(context, intent);
         }
     }
 
@@ -2869,19 +2857,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         intent.putExtra(EXTRA_REASON, reason);
         intent.putExtra(EXTRA_TEMPORARY, vpnonly);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            context.startForegroundService(intent);
-        else
-            context.startService(intent);
+        ContextCompat.startForegroundService(context, intent);
     }
 
     public static void reloadStats(String reason, Context context) {
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.stats);
         intent.putExtra(EXTRA_REASON, reason);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            context.startForegroundService(intent);
-        else
-            context.startService(intent);
+        ContextCompat.startForegroundService(context, intent);
     }
 }
