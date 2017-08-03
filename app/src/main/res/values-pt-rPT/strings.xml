@@ -227,7 +227,7 @@
   <string name="title_enable_logging">Ativar apenas o log de endereços bloqueados</string>
   <string name="title_enable_filtering">Ativar filtragem para o log também dos endereços permitidos</string>
   <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">A filtragem também é necessária para permitir ou bloquear endereços individuais</string>
   <string name="title_enable_help2">Habilitando o log (menos) ou filtragem (mais) pode aumentar o uso da bateria e pode afetar a velocidade da rede</string>
   <string name="title_rate">Classificar</string>

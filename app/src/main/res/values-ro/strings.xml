@@ -9,9 +9,9 @@
   <string name="app_admob">NetGuard foloseste serviciile de reclama Google AdMob. Termenii si conditiile AdMob sunt disponibile <a href="https://www.google.com/intl/en/policies/privacy/">aici</a>.</string>
   <string name="app_agree">Accept</string>
   <string name="app_disagree">Nu accept</string>
-  <string name="channel_foreground">Running services</string>
-  <string name="channel_notify">General notifications</string>
-  <string name="channel_access">Access notifications</string>
+  <string name="channel_foreground">Serviciile care rulează</string>
+  <string name="channel_notify">Notificări generale</string>
+  <string name="channel_access">Notificări acces</string>
   <string name="menu_search">Cauta aplicatii</string>
   <string name="menu_filter">Filtreaza aplicatiile</string>
   <string name="menu_app_user">Arata aplicatiile utilizatorului</string>

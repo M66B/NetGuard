@@ -9,9 +9,9 @@
   <string name="app_admob">Το NetGuard χρησιμοποιεί την υπηρεσία διαφήμισης Google AdMob. Η πολιτική απορρήτου του AdMob είναι διαθέσιμη <a href="https://www.google.com/intl/en/policies/privacy/"> εδώ</a>.</string>
   <string name="app_agree">Συμφωνώ</string>
   <string name="app_disagree">Διαφωνώ</string>
-  <string name="channel_foreground">Running services</string>
-  <string name="channel_notify">General notifications</string>
-  <string name="channel_access">Access notifications</string>
+  <string name="channel_foreground">Υπηρεσίες που εκτελούνται</string>
+  <string name="channel_notify">Γενικές ειδοποιήσεις</string>
+  <string name="channel_access">Πρόσβαση στις ειδοποιήσεις</string>
   <string name="menu_search">Αναζήτηση εφαρμογής</string>
   <string name="menu_filter">Φιλτράρισμα των εφαρμογών</string>
   <string name="menu_app_user">Προβολή εφαρμογών του χρήστη</string>
@@ -226,8 +226,8 @@
   <string name="title_logging_configure">Ρύθμιση</string>
   <string name="title_enable_logging">Ενεργοποίηση της καταγραφής των φραγμένων διευθύνσεων μόνο</string>
   <string name="title_enable_filtering">Ενεργοποίηση φιλτραρίσματος στην καταγραφή και των επιτρεπόμενων διευθύνσεων επίσης</string>
-  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Ενεργοποιήσετε τις ειδοποιήσεις για πρόσβαση σε πρόσφατα συνδεδεμένες διευθύνσεις</string>
+  <string name="title_enable_help0">Οι ρυθμίσεις αυτές είναι καθολικές ρυθμίσεις που ισχύουν για όλες τις εφαρμογές</string>
   <string name="title_enable_help1">Το φιλτράρισμα απαιτείται επίσης στην αποδοχή ή τον αποκλεισμό σε μεμονωμένες διευθύνσεις</string>
   <string name="title_enable_help2">Ενεργοποίηση καταγραφής (λιγότερο) ή φιλτραρίσματος (περισσότερα) μπορεί να αυξήσει την κατανάλωση της μπαταρίας και ενδέχεται να επηρεάσει την ταχύτητα του δικτύου</string>
   <string name="title_rate">Αξιολόγηση</string>

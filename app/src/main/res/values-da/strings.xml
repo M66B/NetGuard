@@ -10,16 +10,16 @@
   <string name="app_admob">NetGuard benytter Googles AdMob annonceringstjeneste. AdMobs fortrolighedspolitik er tilgængelig <a href="https://www.google.com/intl/en/policies/privacy/">her</a>.</string>
   <string name="app_agree">Jeg accepterer</string>
   <string name="app_disagree">Jeg accepterer ikke</string>
-  <string name="channel_foreground">Running services</string>
-  <string name="channel_notify">General notifications</string>
-  <string name="channel_access">Access notifications</string>
-  <string name="menu_search">Søg efter applikation</string>
-  <string name="menu_filter">Filtrer applikationer</string>
-  <string name="menu_app_user">Vis bruger applikationer</string>
-  <string name="menu_app_system">Vis system applikationer</string>
-  <string name="menu_app_nointernet">Vis applikationer uden internet</string>
-  <string name="menu_app_disabled">Vis deaktiverede applikationer</string>
-  <string name="menu_sort">Sortér applikationer</string>
+  <string name="channel_foreground">Aktive tjenester</string>
+  <string name="channel_notify">Generelle notifikationer</string>
+  <string name="channel_access">Tilgangsnotifikationer</string>
+  <string name="menu_search">Søg efter app</string>
+  <string name="menu_filter">Filtrér apps</string>
+  <string name="menu_app_user">Vis brugerapps</string>
+  <string name="menu_app_system">Vis systemapps</string>
+  <string name="menu_app_nointernet">Vis apps uden Internet</string>
+  <string name="menu_app_disabled">Vis deaktiverede apps</string>
+  <string name="menu_sort">Sortér apps</string>
   <string name="menu_sort_name">Sortér efter navn</string>
   <string name="menu_sort_uid">Sortér efter UID</string>
   <string name="menu_sort_data">Sortér efter dataforbrug</string>
@@ -79,7 +79,7 @@
   <string name="setting_lockdown_wifi">Aflås Wi-Fi</string>
   <string name="setting_lockdown_other">Afslås mobil</string>
   <string name="setting_advanced_options">Avancerede indstillinger</string>
-  <string name="setting_system">Administrer system applikationer</string>
+  <string name="setting_system">Håndtér systemapps</string>
   <string name="setting_log_app">Log Internetadgang</string>
   <string name="setting_access">Notificér ved Internetadgang</string>
   <string name="setting_filter">Filtrer trafik</string>
@@ -105,7 +105,7 @@
   <string name="setting_watchdog">Vagthund: Hvert %s. minut</string>
   <string name="setting_stats_category">Hastigheds notifikation</string>
   <string name="setting_stats">Vis hastigheds notifikation</string>
-  <string name="setting_stats_top">Vis top applikationer</string>
+  <string name="setting_stats_top">Vis top apps</string>
   <string name="setting_stats_frequency">Samplingsinterval: %s ms</string>
   <string name="setting_stats_samples">Målingsfrekvens: %s s</string>
   <string name="setting_backup">Backup</string>
@@ -195,7 +195,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="msg_usage">Du kan tillade (grønliste) eller nægte (rødliste) Wi-Fi eller mobil Internetadgang ved at trykke på ikonet ved siden af en app</string>
   <string name="msg_whitelist">Internetadgang er som standard tilladt, hvilket kan dog ændres i indstillingerne</string>
   <string name="msg_push">Push-beskeder håndteres primært af systemkomponenten Play-tjenester, der som standard tillader Internetadgang</string>
-  <string name="msg_system">Håndtering af system-apps kan aktiveres i indstillingerne</string>
+  <string name="msg_system">Håndtering af (system-)apps kan aktiveres i indstillingerne</string>
   <string name="msg_issue">Beskriv venligst problemet og angiv tidspunkt for problemet:</string>
   <string name="msg_vpn_cancelled">VPN-forbindelse annulleret\nHar du opsat en anden VPN til at være en \'altid aktiv VPN\'?</string>
   <string name="msg_on">Nedlukning af din enhed med NetGuard aktiv vil automatisk starte NetGuard ved genopstart af din enhed</string>
