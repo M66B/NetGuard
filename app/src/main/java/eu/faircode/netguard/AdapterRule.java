@@ -19,7 +19,6 @@ package eu.faircode.netguard;
     Copyright 2015-2017 by Marcel Bokhorst (M66B)
 */
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -31,9 +30,11 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
@@ -329,11 +330,25 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.ivExpander.setImageLevel(rule.expanded ? 1 : 0);
 
         // Show application icon
-        if (rule.info.applicationInfo == null || rule.info.applicationInfo.icon == 0)
-            Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
-        else {
-            Uri uri = Uri.parse("android.resource://" + rule.info.packageName + "/" + rule.info.applicationInfo.icon);
-            Picasso.with(context).load(uri).resize(iconSize, iconSize).into(holder.ivIcon);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            Icon icon;
+            if (rule.info.applicationInfo == null || rule.info.applicationInfo.icon == 0)
+                icon = Icon.createWithResource(context, android.R.drawable.sym_def_app_icon);
+            else
+                icon = Icon.createWithResource(rule.info.packageName, rule.info.applicationInfo.icon);
+            icon.loadDrawableAsync(context, new Icon.OnDrawableLoadedListener() {
+                @Override
+                public void onDrawableLoaded(Drawable drawable) {
+                    holder.ivIcon.setImageDrawable(drawable);
+                }
+            }, new Handler(context.getMainLooper()));
+        } else {
+            if (rule.info.applicationInfo == null || rule.info.applicationInfo.icon == 0)
+                Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
+            else {
+                Uri uri = Uri.parse("android.resource://" + rule.info.packageName + "/" + rule.info.applicationInfo.icon);
+                Picasso.with(context).load(uri).resize(iconSize, iconSize).into(holder.ivIcon);
+            }
         }
 
         // Show application label
