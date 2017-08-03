@@ -74,7 +74,9 @@ public class ServiceTileMain extends TileService implements SharedPreferences.On
 
         // Cancel set alarm
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(WidgetAdmin.INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(WidgetAdmin.INTENT_ON);
+        intent.setPackage(getPackageName());
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         am.cancel(pi);
 
         // Check state
