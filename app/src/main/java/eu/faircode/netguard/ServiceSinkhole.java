@@ -1853,7 +1853,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
 
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_SCREEN_OFF_DELAYED), PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent i = new Intent(ACTION_SCREEN_OFF_DELAYED);
+            i.setPackage(context.getPackageName());
+            PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
             am.cancel(pi);
 
             if (interactive || delay == 0) {

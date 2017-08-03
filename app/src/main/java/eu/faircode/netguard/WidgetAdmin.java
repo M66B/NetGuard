@@ -51,7 +51,9 @@ public class WidgetAdmin extends Receiver {
 
         // Cancel set alarm
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent i = new Intent(INTENT_ON);
+        i.setPackage(context.getPackageName());
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
         if (INTENT_ON.equals(intent.getAction()) || INTENT_OFF.equals(intent.getAction()))
             am.cancel(pi);
 
