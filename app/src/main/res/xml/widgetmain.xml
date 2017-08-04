@@ -3,6 +3,6 @@
     android:initialLayout="@layout/widgetmain"
     android:minHeight="40dp"
     android:minWidth="40dp"
-    android:previewImage="@mipmap/ic_launcher"
+    android:previewImage="@drawable/ic_security_color_24dp"
     android:resizeMode="none"
     android:updatePeriodMillis="0" />

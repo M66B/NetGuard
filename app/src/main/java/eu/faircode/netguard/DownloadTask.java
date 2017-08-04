@@ -68,7 +68,7 @@ public class DownloadTask extends AsyncTask<Object, Integer, Object> {
         wakeLock.acquire();
 
         progressDialog = new ProgressDialog(context);
-        progressDialog.setIcon(R.mipmap.ic_launcher);
+        progressDialog.setIcon(R.drawable.ic_security_color_24dp);
         progressDialog.setTitle(R.string.app_name);
         progressDialog.setMessage(context.getString(R.string.msg_downloading, url.toString()));
         progressDialog.setIndeterminate(true);
