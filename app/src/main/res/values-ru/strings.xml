@@ -9,9 +9,9 @@
   <string name="app_admob">NetGuard использует сервис рекламы AdMob компании Google. Политика конфиденциальности AdMob доступна <a href="https://www.google.com/intl/en/policies/privacy/">здесь</a>.</string>
   <string name="app_agree">Я согласен</string>
   <string name="app_disagree">Я не согласен</string>
-  <string name="channel_foreground">Running services</string>
-  <string name="channel_notify">General notifications</string>
-  <string name="channel_access">Access notifications</string>
+  <string name="channel_foreground">Запущенные службы</string>
+  <string name="channel_notify">Общие уведомления</string>
+  <string name="channel_access">Доступ к уведомлениям</string>
   <string name="menu_search">Поиск приложения</string>
   <string name="menu_filter">Фильтр приложений</string>
   <string name="menu_app_user">Показать пользовательские приложения</string>
@@ -174,7 +174,7 @@
   <string name="msg_doze">Для достижения стабильных результатов экономия заряда аккумулятора Android для NetGuard должна быть отключена. \n\nВ следующем диалоговом окне, в верхней части, выберите «Все приложения», найдите NetGuard в списке и выберете его, затем выберите «Не экономить» и подтвердите.</string>
   <string name="msg_datasaving">Для достижения стабильных результатов, ограничение данных Android должно быть отключено для NetGuard.
 \n\nВ следующем диалоговом окне включите опции \"Фоновые данные\" и \"Неограниченное использование данных\"</string>
-  <string name="msg_filter">Использование данной функции приводит к тому, что Android передает данные и использование энергии в пользование NetGuard; Android будет считать, что данные и энергия используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
+  <string name="msg_filter">Использование данной функции приводит к тому, что Android передает сетевые данные и использование заряда аккумулятора в пользование NetGuard; Android будет считать, что данные и заряд используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
   <string name="msg_filter4">На Android 4 фильтрация должна быть включена</string>
   <string name="msg_log_disabled">Ведение журнала трафика отключено, используйте переключатель выше для его включения. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="msg_clear_rules">Это сбросит правила и условия на их значения по умолчанию</string>
