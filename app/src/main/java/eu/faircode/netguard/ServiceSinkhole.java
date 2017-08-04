@@ -2643,7 +2643,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             notification.addLine(sp);
         }
 
-        Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessUnset(uid, 7);
+        long since = 0;
+        PackageManager pm = getPackageManager();
+        String[] packages = pm.getPackagesForUid(uid);
+        if (packages != null && packages.length > 0)
+            try {
+                since = pm.getPackageInfo(packages[0], 0).firstInstallTime;
+            } catch (PackageManager.NameNotFoundException ignored) {
+            }
+
+        Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessUnset(uid, 7, since);
         int colDAddr = cursor.getColumnIndex("daddr");
         int colTime = cursor.getColumnIndex("time");
         int colAllowed = cursor.getColumnIndex("allowed");

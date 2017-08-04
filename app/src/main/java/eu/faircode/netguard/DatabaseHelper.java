@@ -717,7 +717,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getAccessUnset(int uid, int limit) {
+    public Cursor getAccessUnset(int uid, int limit, long since) {
         lock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -727,11 +727,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += " FROM access";
             query += " WHERE uid = ?";
             query += " AND block < 0";
+            query += " AND time >= ?";
             query += " GROUP BY daddr, allowed";
             query += " ORDER BY time DESC";
             if (limit > 0)
                 query += " LIMIT " + limit;
-            return db.rawQuery(query, new String[]{Integer.toString(uid)});
+            return db.rawQuery(query, new String[]{Integer.toString(uid), Long.toString(since)});
         } finally {
             lock.readLock().unlock();
         }
