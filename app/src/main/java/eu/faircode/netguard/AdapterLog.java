@@ -24,10 +24,14 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
@@ -157,7 +161,7 @@ public class AdapterLog extends CursorAdapter {
         final TextView tvDaddr = (TextView) view.findViewById(R.id.tvDAddr);
         TextView tvDPort = (TextView) view.findViewById(R.id.tvDPort);
         final TextView tvOrganization = (TextView) view.findViewById(R.id.tvOrganization);
-        ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
+        final ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
         TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
         TextView tvData = (TextView) view.findViewById(R.id.tvData);
         ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
@@ -216,13 +220,36 @@ public class AdapterLog extends CursorAdapter {
                 info = pm.getApplicationInfo(pkg[0], 0);
             } catch (PackageManager.NameNotFoundException ignored) {
             }
+
         if (info == null)
             ivIcon.setImageDrawable(null);
-        else if (info.icon == 0)
-            Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
         else {
-            Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
-            Picasso.with(context).load(uri).resize(iconSize, iconSize).into(ivIcon);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                Icon icon;
+                if (info.icon == 0)
+                    icon = Icon.createWithResource(context, android.R.drawable.sym_def_app_icon);
+                else
+                    icon = Icon.createWithResource(info.packageName, info.icon);
+                icon.loadDrawableAsync(context, new Icon.OnDrawableLoadedListener() {
+                    @Override
+                    public void onDrawableLoaded(Drawable drawable) {
+                        if (drawable instanceof BitmapDrawable) {
+                            Bitmap original = ((BitmapDrawable) drawable).getBitmap();
+                            Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
+                            ivIcon.setImageDrawable(new BitmapDrawable(context.getResources(), scaled));
+                        } else
+                            ivIcon.setImageDrawable(drawable);
+                    }
+                }, new Handler(context.getMainLooper()));
+            } else {
+
+                if (info.icon == 0)
+                    Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
+                else {
+                    Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
+                    Picasso.with(context).load(uri).resize(iconSize, iconSize).into(ivIcon);
+                }
+            }
         }
 
         boolean we = (android.os.Process.myUid() == uid);

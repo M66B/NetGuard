@@ -27,8 +27,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
@@ -330,24 +332,33 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.ivExpander.setImageLevel(rule.expanded ? 1 : 0);
 
         // Show application icon
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            Icon icon;
-            if (rule.info.applicationInfo == null || rule.info.applicationInfo.icon == 0)
-                icon = Icon.createWithResource(context, android.R.drawable.sym_def_app_icon);
-            else
-                icon = Icon.createWithResource(rule.info.packageName, rule.info.applicationInfo.icon);
-            icon.loadDrawableAsync(context, new Icon.OnDrawableLoadedListener() {
-                @Override
-                public void onDrawableLoaded(Drawable drawable) {
-                    holder.ivIcon.setImageDrawable(drawable);
+        if (rule.info.applicationInfo == null)
+            holder.ivIcon.setImageDrawable(null);
+        else {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                final Icon icon;
+                if (rule.info.applicationInfo.icon == 0)
+                    icon = Icon.createWithResource(context, android.R.drawable.sym_def_app_icon);
+                else
+                    icon = Icon.createWithResource(rule.info.packageName, rule.info.applicationInfo.icon);
+                icon.loadDrawableAsync(context, new Icon.OnDrawableLoadedListener() {
+                    @Override
+                    public void onDrawableLoaded(Drawable drawable) {
+                        if (drawable instanceof BitmapDrawable) {
+                            Bitmap original = ((BitmapDrawable) drawable).getBitmap();
+                            Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
+                            holder.ivIcon.setImageDrawable(new BitmapDrawable(context.getResources(), scaled));
+                        } else
+                            holder.ivIcon.setImageDrawable(drawable);
+                    }
+                }, new Handler(context.getMainLooper()));
+            } else {
+                if (rule.info.applicationInfo.icon == 0)
+                    Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
+                else {
+                    Uri uri = Uri.parse("android.resource://" + rule.info.packageName + "/" + rule.info.applicationInfo.icon);
+                    Picasso.with(context).load(uri).resize(iconSize, iconSize).into(holder.ivIcon);
                 }
-            }, new Handler(context.getMainLooper()));
-        } else {
-            if (rule.info.applicationInfo == null || rule.info.applicationInfo.icon == 0)
-                Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);
-            else {
-                Uri uri = Uri.parse("android.resource://" + rule.info.packageName + "/" + rule.info.applicationInfo.icon);
-                Picasso.with(context).load(uri).resize(iconSize, iconSize).into(holder.ivIcon);
             }
         }
 
