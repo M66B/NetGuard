@@ -43,9 +43,6 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 
 public class AdapterAccess extends CursorAdapter {
-    private static String TAG = "NetGuard.Access";
-
-    private int colID;
     private int colVersion;
     private int colProtocol;
     private int colDaddr;
@@ -64,7 +61,6 @@ public class AdapterAccess extends CursorAdapter {
 
     public AdapterAccess(Context context, Cursor cursor) {
         super(context, cursor, 0);
-        colID = cursor.getColumnIndex("ID");
         colVersion = cursor.getColumnIndex("version");
         colProtocol = cursor.getColumnIndex("protocol");
         colDaddr = cursor.getColumnIndex("daddr");
@@ -99,7 +95,6 @@ public class AdapterAccess extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
         // Get values
-        final long id = cursor.getLong(colID);
         final int version = cursor.getInt(colVersion);
         final int protocol = cursor.getInt(colProtocol);
         final String daddr = cursor.getString(colDaddr);
@@ -113,12 +108,12 @@ public class AdapterAccess extends CursorAdapter {
         int connections = cursor.isNull(colConnections) ? -1 : cursor.getInt(colConnections);
 
         // Get views
-        TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
-        ImageView ivBlock = (ImageView) view.findViewById(R.id.ivBlock);
-        final TextView tvDest = (TextView) view.findViewById(R.id.tvDest);
-        LinearLayout llTraffic = (LinearLayout) view.findViewById(R.id.llTraffic);
-        TextView tvConnections = (TextView) view.findViewById(R.id.tvConnections);
-        TextView tvTraffic = (TextView) view.findViewById(R.id.tvTraffic);
+        TextView tvTime = view.findViewById(R.id.tvTime);
+        ImageView ivBlock = view.findViewById(R.id.ivBlock);
+        final TextView tvDest = view.findViewById(R.id.tvDest);
+        LinearLayout llTraffic = view.findViewById(R.id.llTraffic);
+        TextView tvConnections = view.findViewById(R.id.tvConnections);
+        TextView tvTraffic = view.findViewById(R.id.tvTraffic);
 
         // Set values
         tvTime.setText(new SimpleDateFormat("dd HH:mm").format(time));

@@ -19,6 +19,7 @@ package eu.faircode.netguard;
     Copyright 2015-2017 by Marcel Bokhorst (M66B)
 */
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.net.InetAddress;
@@ -129,7 +130,7 @@ public class IPUtil {
         }
 
         @Override
-        public int compareTo(CIDR other) {
+        public int compareTo(@NonNull CIDR other) {
             Long lcidr = IPUtil.inet2long(this.address);
             Long lother = IPUtil.inet2long(other.address);
             return lcidr.compareTo(lother);

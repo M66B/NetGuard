@@ -137,7 +137,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
     private Map<Integer, Integer> mapUidKnown = new HashMap<>();
-    private Map<Long, Map<InetAddress, IPRule>> mapUidIPFilters = new HashMap<>();
+    private final Map<Long, Map<InetAddress, IPRule>> mapUidIPFilters = new HashMap<>();
     private Map<Integer, Forward> mapForward = new HashMap<>();
     private Map<Integer, Boolean> mapNotify = new HashMap<>();
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true);
@@ -157,6 +157,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private static final int NOTIFY_TRAFFIC = 6;
     private static final int NOTIFY_UPDATE = 7;
     public static final int NOTIFY_EXTERNAL = 8;
+    public static final int NOTIFY_DOWNLOAD = 9;
 
     public static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
@@ -671,10 +672,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
 
         private class StartFailedException extends IllegalStateException {
-            public StartFailedException() {
-                super();
-            }
-
             public StartFailedException(String msg) {
                 super(msg);
             }

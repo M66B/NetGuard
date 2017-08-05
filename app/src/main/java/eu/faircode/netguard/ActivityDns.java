@@ -42,7 +42,7 @@ public class ActivityDns extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.setting_show_resolved);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ListView lvDns = (ListView) findViewById(R.id.lvDns);
+        ListView lvDns = findViewById(R.id.lvDns);
         adapter = new AdapterDns(this, DatabaseHelper.getInstance(this).getDns());
         lvDns.setAdapter(adapter);
     }

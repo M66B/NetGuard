@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -60,7 +61,10 @@ public class WidgetAdmin extends Receiver {
         // Vibrate
         Vibrator vs = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         if (vs.hasVibrator())
-            vs.vibrate(50);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                vs.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+            else
+                vs.vibrate(50);
 
         try {
             if (INTENT_ON.equals(intent.getAction()) || INTENT_OFF.equals(intent.getAction())) {

@@ -29,8 +29,6 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 public class AdapterForwarding extends CursorAdapter {
-    private static String TAG = "NetGuard.Forward";
-
     private int colProtocol;
     private int colDPort;
     private int colRAddr;
@@ -61,11 +59,11 @@ public class AdapterForwarding extends CursorAdapter {
         int ruid = cursor.getInt(colRUid);
 
         // Get views
-        TextView tvProtocol = (TextView) view.findViewById(R.id.tvProtocol);
-        TextView tvDPort = (TextView) view.findViewById(R.id.tvDPort);
-        TextView tvRAddr = (TextView) view.findViewById(R.id.tvRAddr);
-        TextView tvRPort = (TextView) view.findViewById(R.id.tvRPort);
-        TextView tvRUid = (TextView) view.findViewById(R.id.tvRUid);
+        TextView tvProtocol = view.findViewById(R.id.tvProtocol);
+        TextView tvDPort = view.findViewById(R.id.tvDPort);
+        TextView tvRAddr = view.findViewById(R.id.tvRAddr);
+        TextView tvRPort = view.findViewById(R.id.tvRPort);
+        TextView tvRUid = view.findViewById(R.id.tvRUid);
 
         tvProtocol.setText(Util.getProtocolName(protocol, 0, false));
         tvDPort.setText(Integer.toString(dport));

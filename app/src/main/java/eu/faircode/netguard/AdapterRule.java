@@ -156,60 +156,60 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             super(itemView);
             view = itemView;
 
-            llApplication = (LinearLayout) itemView.findViewById(R.id.llApplication);
-            ivIcon = (ImageView) itemView.findViewById(R.id.ivIcon);
-            ivExpander = (ImageView) itemView.findViewById(R.id.ivExpander);
-            tvName = (TextView) itemView.findViewById(R.id.tvName);
+            llApplication = itemView.findViewById(R.id.llApplication);
+            ivIcon = itemView.findViewById(R.id.ivIcon);
+            ivExpander = itemView.findViewById(R.id.ivExpander);
+            tvName = itemView.findViewById(R.id.tvName);
 
-            tvHosts = (TextView) itemView.findViewById(R.id.tvHosts);
+            tvHosts = itemView.findViewById(R.id.tvHosts);
 
-            rlLockdown = (RelativeLayout) itemView.findViewById(R.id.rlLockdown);
-            ivLockdown = (ImageView) itemView.findViewById(R.id.ivLockdown);
+            rlLockdown = itemView.findViewById(R.id.rlLockdown);
+            ivLockdown = itemView.findViewById(R.id.ivLockdown);
 
-            cbWifi = (CheckBox) itemView.findViewById(R.id.cbWifi);
-            ivScreenWifi = (ImageView) itemView.findViewById(R.id.ivScreenWifi);
+            cbWifi = itemView.findViewById(R.id.cbWifi);
+            ivScreenWifi = itemView.findViewById(R.id.ivScreenWifi);
 
-            cbOther = (CheckBox) itemView.findViewById(R.id.cbOther);
-            ivScreenOther = (ImageView) itemView.findViewById(R.id.ivScreenOther);
-            tvRoaming = (TextView) itemView.findViewById(R.id.tvRoaming);
+            cbOther = itemView.findViewById(R.id.cbOther);
+            ivScreenOther = itemView.findViewById(R.id.ivScreenOther);
+            tvRoaming = itemView.findViewById(R.id.tvRoaming);
 
-            llConfiguration = (LinearLayout) itemView.findViewById(R.id.llConfiguration);
-            tvUid = (TextView) itemView.findViewById(R.id.tvUid);
-            tvPackage = (TextView) itemView.findViewById(R.id.tvPackage);
-            tvVersion = (TextView) itemView.findViewById(R.id.tvVersion);
-            tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
-            tvInternet = (TextView) itemView.findViewById(R.id.tvInternet);
-            tvDisabled = (TextView) itemView.findViewById(R.id.tvDisabled);
+            llConfiguration = itemView.findViewById(R.id.llConfiguration);
+            tvUid = itemView.findViewById(R.id.tvUid);
+            tvPackage = itemView.findViewById(R.id.tvPackage);
+            tvVersion = itemView.findViewById(R.id.tvVersion);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
+            tvInternet = itemView.findViewById(R.id.tvInternet);
+            tvDisabled = itemView.findViewById(R.id.tvDisabled);
 
-            btnRelated = (Button) itemView.findViewById(R.id.btnRelated);
-            ibSettings = (ImageButton) itemView.findViewById(R.id.ibSettings);
-            ibDatasaver = (ImageButton) itemView.findViewById(R.id.ibDatasaver);
-            ibLaunch = (ImageButton) itemView.findViewById(R.id.ibLaunch);
+            btnRelated = itemView.findViewById(R.id.btnRelated);
+            ibSettings = itemView.findViewById(R.id.ibSettings);
+            ibDatasaver = itemView.findViewById(R.id.ibDatasaver);
+            ibLaunch = itemView.findViewById(R.id.ibLaunch);
 
-            cbApply = (CheckBox) itemView.findViewById(R.id.cbApply);
+            cbApply = itemView.findViewById(R.id.cbApply);
 
-            llScreenWifi = (LinearLayout) itemView.findViewById(R.id.llScreenWifi);
-            ivWifiLegend = (ImageView) itemView.findViewById(R.id.ivWifiLegend);
-            cbScreenWifi = (CheckBox) itemView.findViewById(R.id.cbScreenWifi);
+            llScreenWifi = itemView.findViewById(R.id.llScreenWifi);
+            ivWifiLegend = itemView.findViewById(R.id.ivWifiLegend);
+            cbScreenWifi = itemView.findViewById(R.id.cbScreenWifi);
 
-            llScreenOther = (LinearLayout) itemView.findViewById(R.id.llScreenOther);
-            ivOtherLegend = (ImageView) itemView.findViewById(R.id.ivOtherLegend);
-            cbScreenOther = (CheckBox) itemView.findViewById(R.id.cbScreenOther);
+            llScreenOther = itemView.findViewById(R.id.llScreenOther);
+            ivOtherLegend = itemView.findViewById(R.id.ivOtherLegend);
+            cbScreenOther = itemView.findViewById(R.id.cbScreenOther);
 
-            cbRoaming = (CheckBox) itemView.findViewById(R.id.cbRoaming);
+            cbRoaming = itemView.findViewById(R.id.cbRoaming);
 
-            cbLockdown = (CheckBox) itemView.findViewById(R.id.cbLockdown);
-            ivLockdownLegend = (ImageView) itemView.findViewById(R.id.ivLockdownLegend);
+            cbLockdown = itemView.findViewById(R.id.cbLockdown);
+            ivLockdownLegend = itemView.findViewById(R.id.ivLockdownLegend);
 
-            btnClear = (ImageButton) itemView.findViewById(R.id.btnClear);
+            btnClear = itemView.findViewById(R.id.btnClear);
 
-            llFilter = (LinearLayout) itemView.findViewById(R.id.llFilter);
-            ivLive = (ImageView) itemView.findViewById(R.id.ivLive);
-            tvLogging = (TextView) itemView.findViewById(R.id.tvLogging);
-            btnLogging = (Button) itemView.findViewById(R.id.btnLogging);
-            lvAccess = (ListView) itemView.findViewById(R.id.lvAccess);
-            btnClearAccess = (ImageButton) itemView.findViewById(R.id.btnClearAccess);
-            cbNotify = (CheckBox) itemView.findViewById(R.id.cbNotify);
+            llFilter = itemView.findViewById(R.id.llFilter);
+            ivLive = itemView.findViewById(R.id.ivLive);
+            tvLogging = itemView.findViewById(R.id.tvLogging);
+            btnLogging = itemView.findViewById(R.id.btnLogging);
+            lvAccess = itemView.findViewById(R.id.lvAccess);
+            btnClearAccess = itemView.findViewById(R.id.btnClearAccess);
+            cbNotify = itemView.findViewById(R.id.cbNotify);
 
             final View wifiParent = (View) cbWifi.getParent();
             wifiParent.post(new Runnable() {
@@ -624,10 +624,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 LayoutInflater inflater = LayoutInflater.from(context);
                 View view = inflater.inflate(R.layout.enable, null, false);
 
-                final CheckBox cbLogging = (CheckBox) view.findViewById(R.id.cbLogging);
-                final CheckBox cbFiltering = (CheckBox) view.findViewById(R.id.cbFiltering);
-                final CheckBox cbNotify = (CheckBox) view.findViewById(R.id.cbNotify);
-                TextView tvFilter4 = (TextView) view.findViewById(R.id.tvFilter4);
+                final CheckBox cbLogging = view.findViewById(R.id.cbLogging);
+                final CheckBox cbFiltering = view.findViewById(R.id.cbFiltering);
+                final CheckBox cbNotify = view.findViewById(R.id.cbNotify);
+                TextView tvFilter4 = view.findViewById(R.id.tvFilter4);
 
                 cbLogging.setChecked(log_app);
                 cbFiltering.setChecked(filter);

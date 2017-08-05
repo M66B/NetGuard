@@ -55,7 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static HandlerThread hthread = null;
     private static Handler handler = null;
 
-    private static Map<Integer, Long> mapUidHosts = new HashMap<>();
+    private static final Map<Integer, Long> mapUidHosts = new HashMap<>();
 
     private final static int MSG_LOG = 1;
     private final static int MSG_ACCESS = 2;

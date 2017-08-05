@@ -57,7 +57,6 @@ public class AdapterLog extends CursorAdapter {
 
     private boolean resolve;
     private boolean organization;
-    private int colID;
     private int colTime;
     private int colVersion;
     private int colProtocol;
@@ -84,7 +83,6 @@ public class AdapterLog extends CursorAdapter {
         super(context, cursor, 0);
         this.resolve = resolve;
         this.organization = organization;
-        colID = cursor.getColumnIndex("ID");
         colTime = cursor.getColumnIndex("time");
         colVersion = cursor.getColumnIndex("version");
         colProtocol = cursor.getColumnIndex("protocol");
@@ -136,7 +134,6 @@ public class AdapterLog extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
         // Get values
-        final long id = cursor.getLong(colID);
         long time = cursor.getLong(colTime);
         int version = (cursor.isNull(colVersion) ? -1 : cursor.getInt(colVersion));
         int protocol = (cursor.isNull(colProtocol) ? -1 : cursor.getInt(colProtocol));
@@ -153,19 +150,19 @@ public class AdapterLog extends CursorAdapter {
         int interactive = (cursor.isNull(colInteractive) ? -1 : cursor.getInt(colInteractive));
 
         // Get views
-        TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
-        TextView tvProtocol = (TextView) view.findViewById(R.id.tvProtocol);
-        TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
-        TextView tvSAddr = (TextView) view.findViewById(R.id.tvSAddr);
-        TextView tvSPort = (TextView) view.findViewById(R.id.tvSPort);
-        final TextView tvDaddr = (TextView) view.findViewById(R.id.tvDAddr);
-        TextView tvDPort = (TextView) view.findViewById(R.id.tvDPort);
-        final TextView tvOrganization = (TextView) view.findViewById(R.id.tvOrganization);
-        final ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
-        TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
-        TextView tvData = (TextView) view.findViewById(R.id.tvData);
-        ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
-        ImageView ivInteractive = (ImageView) view.findViewById(R.id.ivInteractive);
+        TextView tvTime = view.findViewById(R.id.tvTime);
+        TextView tvProtocol = view.findViewById(R.id.tvProtocol);
+        TextView tvFlags = view.findViewById(R.id.tvFlags);
+        TextView tvSAddr = view.findViewById(R.id.tvSAddr);
+        TextView tvSPort = view.findViewById(R.id.tvSPort);
+        final TextView tvDaddr = view.findViewById(R.id.tvDAddr);
+        TextView tvDPort = view.findViewById(R.id.tvDPort);
+        final TextView tvOrganization = view.findViewById(R.id.tvOrganization);
+        final ImageView ivIcon = view.findViewById(R.id.ivIcon);
+        TextView tvUid = view.findViewById(R.id.tvUid);
+        TextView tvData = view.findViewById(R.id.tvData);
+        ImageView ivConnection = view.findViewById(R.id.ivConnection);
+        ImageView ivInteractive = view.findViewById(R.id.ivInteractive);
 
         // Show time
         tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));

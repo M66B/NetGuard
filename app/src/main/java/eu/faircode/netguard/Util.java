@@ -171,7 +171,7 @@ public class Util {
     }
 
     public static String getWifiSSID(Context context) {
-        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         String ssid = (wm == null ? null : wm.getConnectionInfo().getSSID());
         return (ssid == null ? "NULL" : ssid);
     }
@@ -511,7 +511,7 @@ public class Util {
     public static void areYouSure(Context context, int explanation, final DoubtListener listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.sure, null, false);
-        TextView tvExplanation = (TextView) view.findViewById(R.id.tvExplanation);
+        TextView tvExplanation = view.findViewById(R.id.tvExplanation);
         tvExplanation.setText(explanation);
         new AlertDialog.Builder(context)
                 .setView(view)
@@ -531,7 +531,7 @@ public class Util {
                 .create().show();
     }
 
-    private static Map<String, String> mapIPOrganization = new HashMap<>();
+    private static final Map<String, String> mapIPOrganization = new HashMap<>();
 
     public static String getOrganization(String ip) throws Exception {
         synchronized (mapIPOrganization) {
