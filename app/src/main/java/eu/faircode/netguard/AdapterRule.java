@@ -310,7 +310,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         // Get rule
@@ -321,7 +321,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onClick(View view) {
                 rule.expanded = !rule.expanded;
-                notifyItemChanged(position);
+                notifyItemChanged(holder.getAdapterPosition());
             }
         });
 
@@ -823,7 +823,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                         if (!live)
                             notifyDataSetChanged();
                         if (rv != null)
-                            rv.scrollToPosition(position);
+                            rv.scrollToPosition(holder.getAdapterPosition());
                     }
                 });
             }
