@@ -108,7 +108,7 @@ public class ActivityPro extends AppCompatActivity {
         Linkify.addLinks(tvDev1Title, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SUPPORT1, null, filter);
         Linkify.addLinks(tvDev2Title, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SUPPORT2, null, filter);
 
-        String challenge = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? Build.SERIAL : Settings.Secure.ANDROID_ID);
+        String challenge = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? Build.SERIAL : "ID:" + Settings.Secure.ANDROID_ID);
         String seed = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? "NetGuard2" : "NetGuard3");
 
         // Challenge
