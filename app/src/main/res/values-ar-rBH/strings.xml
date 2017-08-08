@@ -9,9 +9,9 @@
   <string name="app_admob">NetGuard يستخدم خدمة Google الإعلان AdMob. سياسة الخصوصية في AdMob يتوفر <a href="https://www.google.com/intl/en/policies/privacy/"> هنا</a>.</string>
   <string name="app_agree">انا أوافق</string>
   <string name="app_disagree">لا أوافق</string>
-  <string name="channel_foreground">Running services</string>
-  <string name="channel_notify">General notifications</string>
-  <string name="channel_access">Access notifications</string>
+  <string name="channel_foreground">الخدمات قيد التشغيل</string>
+  <string name="channel_notify">الإشعارات العامة</string>
+  <string name="channel_access">إشعارات الدخول</string>
   <string name="menu_search">البحث عن تطبيقات</string>
   <string name="menu_filter">تصنيف التطبيقات</string>
   <string name="menu_app_user">إظهار تطبيقات المستخدم</string>
@@ -227,8 +227,8 @@
   <string name="title_logging_configure">ضبط</string>
   <string name="title_enable_logging">تمكين تسجيل العناوين المحظورة فقط</string>
   <string name="title_enable_filtering">تمكين التصفية لسجل العناوين المسموح بها</string>
-  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
+  <string name="title_enable_notify">تفعيل إشعارات الدخول لأحدث العناوين المسجلة</string>
+  <string name="title_enable_help0">مساعدة تفعيل العنوان</string>
   <string name="title_enable_help1">تالصفية مطلوبة أيضا للسماح أو حظر العناوين الفردية</string>
   <string name="title_enable_help2">تمكين تسجيل الدخول (أقل) أو التصفية (أكثر) قد يؤدي إلى زيادة استخدام البطارية وقد تؤثر على سرعة الشبكة</string>
   <string name="title_rate">قيم البرنامج</string>
