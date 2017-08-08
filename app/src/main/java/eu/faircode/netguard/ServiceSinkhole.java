@@ -2196,66 +2196,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         registerReceiver(packageChangedReceiver, ifPackage);
         registeredPackageChanged = true;
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            // Listen for network changes
-            Log.i(TAG, "Starting listening to network changes");
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkRequest.Builder builder = new NetworkRequest.Builder();
-            builder.addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
-
-            ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
-                private String last_generation = null;
-
-                @Override
-                public void onAvailable(Network network) {
-                    reload("network available", ServiceSinkhole.this, false);
-                }
-
-                @Override
-                public void onLinkPropertiesChanged(Network network, LinkProperties linkProperties) {
-                    reload("link properties changed", ServiceSinkhole.this, false);
-                }
-
-                @Override
-                public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
-                    String current_generation = Util.getNetworkGeneration(ServiceSinkhole.this);
-                    Log.i(TAG, "Capabilities changed generation=" + current_generation);
-
-                    if (last_generation == null || !last_generation.equals(current_generation)) {
-                        Log.i(TAG, "New network generation=" + current_generation);
-                        last_generation = current_generation;
-
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-                        if (prefs.getBoolean("unmetered_2g", false) ||
-                                prefs.getBoolean("unmetered_3g", false) ||
-                                prefs.getBoolean("unmetered_4g", false))
-                            reload("data connection state changed", ServiceSinkhole.this, false);
-                    }
-                }
-
-                @Override
-                public void onLost(Network network) {
-                    reload("network lost", ServiceSinkhole.this, false);
-                }
-            };
-            cm.registerNetworkCallback(builder.build(), nc);
-            networkCallback = nc;
-        } else {
-            // Listen for connectivity updates
-            Log.i(TAG, "Starting listening to connectivity changes");
-            IntentFilter ifConnectivity = new IntentFilter();
-            ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-            registerReceiver(connectivityChangedReceiver, ifConnectivity);
-            registeredConnectivityChanged = true;
-
-            // Listen for phone state changes
-            Log.i(TAG, "Starting listening to service state changes");
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            if (tm != null) {
-                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
-                phone_state = true;
-            }
-        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
+            listenNetworkChanges();
+        else
+            listenConnectivityChanges();
 
         // Setup house holding
         Intent alarmIntent = new Intent(this, ServiceSinkhole.class);
@@ -2268,6 +2212,70 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + 60 * 1000, AlarmManager.INTERVAL_HALF_DAY, pi);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void listenNetworkChanges() {
+        // Listen for network changes
+        Log.i(TAG, "Starting listening to network changes");
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkRequest.Builder builder = new NetworkRequest.Builder();
+        builder.addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
+
+        ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
+            private String last_generation = null;
+
+            @Override
+            public void onAvailable(Network network) {
+                reload("network available", ServiceSinkhole.this, false);
+            }
+
+            @Override
+            public void onLinkPropertiesChanged(Network network, LinkProperties linkProperties) {
+                reload("link properties changed", ServiceSinkhole.this, false);
+            }
+
+            @Override
+            public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
+                String current_generation = Util.getNetworkGeneration(ServiceSinkhole.this);
+                Log.i(TAG, "Capabilities changed generation=" + current_generation);
+
+                if (last_generation == null || !last_generation.equals(current_generation)) {
+                    Log.i(TAG, "New network generation=" + current_generation);
+                    last_generation = current_generation;
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                    if (prefs.getBoolean("unmetered_2g", false) ||
+                            prefs.getBoolean("unmetered_3g", false) ||
+                            prefs.getBoolean("unmetered_4g", false))
+                        reload("data connection state changed", ServiceSinkhole.this, false);
+                }
+            }
+
+            @Override
+            public void onLost(Network network) {
+                reload("network lost", ServiceSinkhole.this, false);
+            }
+        };
+        cm.registerNetworkCallback(builder.build(), nc);
+        networkCallback = nc;
+    }
+
+    private void listenConnectivityChanges() {
+        // Listen for connectivity updates
+        Log.i(TAG, "Starting listening to connectivity changes");
+        IntentFilter ifConnectivity = new IntentFilter();
+        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectivityChangedReceiver, ifConnectivity);
+        registeredConnectivityChanged = true;
+
+        // Listen for phone state changes
+        Log.i(TAG, "Starting listening to service state changes");
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (tm != null) {
+            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+            phone_state = true;
+        }
     }
 
     @Override
@@ -2407,8 +2415,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
 
         if (networkCallback != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            cm.unregisterNetworkCallback((ConnectivityManager.NetworkCallback) networkCallback);
+            unlistenNetworkChanges();
             networkCallback = null;
         }
         if (registeredConnectivityChanged) {
@@ -2438,6 +2445,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         prefs.unregisterOnSharedPreferenceChangeListener(this);
 
         super.onDestroy();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void unlistenNetworkChanges() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        cm.unregisterNetworkCallback((ConnectivityManager.NetworkCallback) networkCallback);
     }
 
     private Notification getEnforcingNotification(int allowed, int blocked, int hosts) {

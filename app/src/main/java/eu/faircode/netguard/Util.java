@@ -457,11 +457,15 @@ public class Util {
         else if (theme.equals("green"))
             context.setTheme(dark ? R.style.AppThemeGreenDark : R.style.AppThemeGreen);
 
-        if (context instanceof Activity && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            TypedValue tv = new TypedValue();
-            context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-            ((Activity) context).setTaskDescription(new ActivityManager.TaskDescription(null, null, tv.data));
-        }
+        if (context instanceof Activity && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            setTaskColor(context);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private static void setTaskColor(Context context) {
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
+        ((Activity) context).setTaskDescription(new ActivityManager.TaskDescription(null, null, tv.data));
     }
 
     public static int dips2pixels(int dips, Context context) {
