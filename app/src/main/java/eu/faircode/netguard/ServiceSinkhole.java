@@ -2196,7 +2196,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         registerReceiver(packageChangedReceiver, ifPackage);
         registeredPackageChanged = true;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             listenNetworkChanges();
         else
             listenConnectivityChanges();
@@ -2232,7 +2232,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             @Override
             public void onLinkPropertiesChanged(Network network, LinkProperties linkProperties) {
-                reload("link properties changed", ServiceSinkhole.this, false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    reload("link properties changed", ServiceSinkhole.this, false);
             }
 
             @Override
@@ -2414,7 +2415,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             registeredPackageChanged = false;
         }
 
-        if (networkCallback != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (networkCallback != null) {
             unlistenNetworkChanges();
             networkCallback = null;
         }
