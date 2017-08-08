@@ -2196,7 +2196,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         registerReceiver(packageChangedReceiver, ifPackage);
         registeredPackageChanged = true;
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             listenNetworkChanges();
         else
             listenConnectivityChanges();
