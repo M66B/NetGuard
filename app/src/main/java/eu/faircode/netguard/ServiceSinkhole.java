@@ -299,13 +299,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason +
                     " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
-            // Check if disabled
-            if (cmd == Command.start || cmd == Command.reload)
-                if (!prefs.getBoolean("enabled", false)) {
-                    Log.i(TAG, "Command " + cmd + " ignored because service is disabled");
-                    return;
-                }
-
             // Check if foreground
             if (cmd != Command.stop)
                 if (!user_foreground) {
@@ -353,10 +346,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         @Override
                         public void onCallStateChanged(int state, String incomingNumber) {
                             Log.i(TAG, "New call state=" + state);
-                            if (state == TelephonyManager.CALL_STATE_IDLE)
-                                ServiceSinkhole.start("call state", ServiceSinkhole.this);
-                            else
-                                ServiceSinkhole.stop("call state", ServiceSinkhole.this, true);
+                            if (prefs.getBoolean("enabled", false))
+                                if (state == TelephonyManager.CALL_STATE_IDLE)
+                                    ServiceSinkhole.start("call state", ServiceSinkhole.this);
+                                else
+                                    ServiceSinkhole.stop("call state", ServiceSinkhole.this, true);
                         }
                     };
                     tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
@@ -371,7 +365,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
 
             // Watchdog
-            if (cmd == Command.start || cmd == Command.reload) {
+            if (cmd == Command.start || cmd == Command.reload || cmd == Command.stop) {
                 Intent watchdogIntent = new Intent(ServiceSinkhole.this, ServiceSinkhole.class);
                 watchdogIntent.setAction(ACTION_WATCHDOG);
                 PendingIntent pi;
@@ -383,17 +377,18 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 am.cancel(pi);
 
-                int watchdog = Integer.parseInt(prefs.getString("watchdog", "0"));
-                if (watchdog > 0) {
-                    Log.i(TAG, "Watchdog " + watchdog + " minutes");
-                    am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + watchdog * 60 * 1000, watchdog * 60 * 1000, pi);
+                if (cmd != Command.stop) {
+                    int watchdog = Integer.parseInt(prefs.getString("watchdog", "0"));
+                    if (watchdog > 0) {
+                        Log.i(TAG, "Watchdog " + watchdog + " minutes");
+                        am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + watchdog * 60 * 1000, watchdog * 60 * 1000, pi);
+                    }
                 }
             }
 
             try {
                 switch (cmd) {
                     case run:
-                        run();
                         break;
 
                     case start:
@@ -425,7 +420,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         Log.e(TAG, "Unknown command=" + cmd);
                 }
 
-                if (cmd != Command.watchdog) {
+                if (cmd == Command.start || cmd == Command.reload || cmd == Command.stop) {
                     // Update main view
                     Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
                     ruleset.putExtra(ActivityMain.EXTRA_CONNECTED, cmd == Command.stop ? false : last_connected);
@@ -435,6 +430,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     // Update widgets
                     WidgetMain.updateWidgets(ServiceSinkhole.this);
                 }
+
+                // Stop service if needed
+                if (!prefs.getBoolean("enabled", false) && !prefs.getBoolean("show_stats", false))
+                    stopSelf();
 
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -459,14 +458,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     }
                 } else
                     showErrorNotification(ex.toString());
-            }
-        }
-
-        private void run() {
-            if (state == State.none) {
-                startForeground(NOTIFY_WAITING, getWaitingNotification());
-                state = State.waiting;
-                Log.d(TAG, "Start foreground state=" + state.toString());
             }
         }
 
@@ -2404,10 +2395,18 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         logLooper.quit();
         statsLooper.quit();
 
+        // Registered in command loop
         if (registeredInteractiveState) {
             unregisterReceiver(interactiveStateReceiver);
             registeredInteractiveState = false;
         }
+        if (callStateListener != null) {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            tm.listen(callStateListener, PhoneStateListener.LISTEN_NONE);
+            callStateListener = null;
+        }
+
+        // Register in onCreate
         if (registeredPowerSave) {
             unregisterReceiver(powerSaveReceiver);
             registeredPowerSave = false;
