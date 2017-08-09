@@ -299,10 +299,17 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Executing intent=" + intent + " command=" + cmd + " reason=" + reason +
                     " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
+            // Check if disabled
+            if (cmd == Command.start || cmd == Command.reload)
+                if (!prefs.getBoolean("enabled", false)) {
+                    Log.i(TAG, "Command " + cmd + " ignored because service is disabled");
+                    return;
+                }
+
             // Check if foreground
             if (cmd != Command.stop)
                 if (!user_foreground) {
-                    Log.i(TAG, "Command " + cmd + "ignored for background user");
+                    Log.i(TAG, "Command " + cmd + " ignored for background user");
                     return;
                 }
 
@@ -313,7 +320,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 temporarilyStopped = false;
             else if (cmd == Command.reload && temporarilyStopped) {
                 // Prevent network/interactive changes from restarting the VPN
-                Log.i(TAG, "Ignoring reload because of temporary stop");
+                Log.i(TAG, "Command " + cmd + " ignored because of temporary stop");
                 return;
             }
 
