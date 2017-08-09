@@ -597,8 +597,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     startForeground(NOTIFY_WAITING, getWaitingNotification());
                     state = State.waiting;
                     Log.d(TAG, "Start foreground state=" + state.toString());
-                } else
+                } else {
                     state = State.none;
+                    stopSelf();
+                }
             }
         }
 
