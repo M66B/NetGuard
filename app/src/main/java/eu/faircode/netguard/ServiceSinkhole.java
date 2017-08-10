@@ -2198,7 +2198,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         registeredPackageChanged = true;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            listenNetworkChanges();
+            try {
+                listenNetworkChanges();
+            } catch (Throwable ex) {
+                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                listenConnectivityChanges();
+            }
         else
             listenConnectivityChanges();
 
