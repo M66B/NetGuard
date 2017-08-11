@@ -257,7 +257,7 @@ public class Util {
     public static List<String> getDefaultDNS(Context context) {
         String dns1 = null;
         String dns2 = null;
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             Network an = cm.getActiveNetwork();
             if (an != null) {
