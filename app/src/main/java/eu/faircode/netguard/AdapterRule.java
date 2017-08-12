@@ -60,6 +60,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CursorAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
@@ -840,6 +841,18 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 updateRule(rule, true, listAll);
             }
         });
+    }
+
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        super.onViewRecycled(holder);
+
+        CursorAdapter adapter = (CursorAdapter) holder.lvAccess.getAdapter();
+        if (adapter != null) {
+            Log.i(TAG, "Closing access cursor");
+            adapter.changeCursor(null);
+            holder.lvAccess.setAdapter(null);
+        }
     }
 
     private void markPro(MenuItem menu, String sku) {
