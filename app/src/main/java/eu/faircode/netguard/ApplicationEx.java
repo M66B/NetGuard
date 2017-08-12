@@ -21,6 +21,7 @@ package eu.faircode.netguard;
 
 import android.annotation.TargetApi;
 import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -57,15 +58,15 @@ public class ApplicationEx extends Application {
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationChannel foreground = new NotificationChannel("foreground", getString(R.string.channel_foreground), NotificationManager.IMPORTANCE_MIN);
-        foreground.setSound(null, new AudioAttributes.Builder().build());
+        foreground.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);
         nm.createNotificationChannel(foreground);
 
         NotificationChannel notify = new NotificationChannel("notify", getString(R.string.channel_notify), NotificationManager.IMPORTANCE_DEFAULT);
-        notify.setSound(null, new AudioAttributes.Builder().build());
+        notify.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);
         nm.createNotificationChannel(notify);
 
         NotificationChannel access = new NotificationChannel("access", getString(R.string.channel_access), NotificationManager.IMPORTANCE_DEFAULT);
-        access.setSound(null, new AudioAttributes.Builder().build());
+        access.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);
         nm.createNotificationChannel(access);
     }
 }
