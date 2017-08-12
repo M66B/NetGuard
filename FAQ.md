@@ -525,6 +525,9 @@ If your language is missing, please contact me to have it added.
 <a name="FAQ54"></a>
 **(54) How to tunnel all TCP connections through the Tor network?**
 
+Tor with NetGuard is only supported in the [XDA NetGuard forum](http://forum.xda-developers.com/showthread.php?t=3233012).
+There is no personal support on Tor with NetGuard, because I don't use Tor myself.
+
 First, install [Orbot](market://details?id=org.torproject.android), the Android client for Tor,
 run it, press _Start_, while it connects open its _Settings_ and make sure it's setup to auto-start
 on device start.
