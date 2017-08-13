@@ -130,7 +130,7 @@
   <string name="summary_metered_2g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 2G</string>
   <string name="summary_metered_3g">Appliquer les règles de réseau Wi-Fi pour les connexions de données 3G</string>
   <string name="summary_metered_4g">Appliquer les règles de réseau Wi-Fi pour les connexions de données LTE</string>
-  <string name="summary_national_roaming">Ne pas appliquer les règles d\'itinérance lorsque la SIM et le réseau mobile du pays sont les mêmes</string>
+  <string name="summary_national_roaming">Ne pas appliquer les règles d\'itinérance lorsque le pays de la SIM et celui du réseau mobile sont les mêmes</string>
   <string name="summary_eu_roaming">Ne pas appliquer les règles d\'itinérance lorsque le pays de la SIM et celui du réseau mobile font partie de l\'Union Européenne (roam like at home)</string>
   <string name="summary_call">Désactiver NetGuard lors d\'un appel téléphonique entrant ou sortant. Ceci peut être utilisé pour contourner les problèmes d\'appels IP/Wi-Fi.</string>
   <string name="summary_system">Définir les règles pour les applications système (pour experts)</string>
