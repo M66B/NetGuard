@@ -71,8 +71,8 @@ because the network traffic of other applications is flowing through NetGuard.
 
 No, depending on the mode of operation basically one of two things will happen with your internet traffic:
 
-* When IP filtering is disabled, blocked internet traffic will be routed into the local VPN which will operate as a sinkhole (in effect dropping all blocked traffic)
-* When IP filtering is enabled, both blocked and allowed internet traffic will be routed into the local VPN and only allowed traffic will be forwarded to the intended destination (and not to a VPN server)
+* When IP filtering is disabled, blocked internet traffic will be routed into the local VPN service, which will operate as a sinkhole (in effect dropping all blocked traffic)
+* When IP filtering is enabled, both blocked and allowed internet traffic will be routed into the local VPN service and only allowed traffic will be forwarded to the intended destination (and not to a VPN server)
 
 The [Android VPN service](http://developer.android.com/reference/android/net/VpnService.html) is being used to locally route all internet traffic to NetGuard so no root is required to build this firewall application.
 NetGuard, unlike all other no-root firewalls applications, is 100% open source, so when you are in doubt you can check [the source code](https://github.com/M66B/NetGuard/) yourself.
@@ -450,10 +450,14 @@ and that some Android versions contain routing bugs, causing inbound traffic inc
 <a name="FAQ46"></a>
 **(46) Can I get a refund?**
 
-If a purchased pro feature doesn't work [as described](https://www.netguard.me/) while the free features of NetGuard work properly,
-and I cannot fix the issue in a timely manner, you can get a refund.
+If a purchased pro feature doesn't work [as described](https://www.netguard.me/)
+and this isn't caused by a problem in the free features
+and I cannot fix the problem in a timely manner, you can get a refund.
 In all other cases there is no refund possible.
-I take my responsibility as seller to deliver what has been promised and I expect that you take responsibility for informing yourself of what you are buying.
+In no circumstances there is a refund possible for any problem related to the free features,
+since there wasn't paid anything for them and because they can be evaluated without any limitation.
+I take my responsibility as seller to deliver what has been promised
+and I expect that you take responsibility for informing yourself of what you are buying.
 
 <a name="FAQ47"></a>
 **(47) Why are there in-application advertisements?**
