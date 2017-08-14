@@ -325,8 +325,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             View view = inflater.inflate(R.layout.first, null, false);
 
             TextView tvFirst = view.findViewById(R.id.tvFirst);
+            TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
             TextView tvAdmob = view.findViewById(R.id.tvAdmob);
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
+            tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
             tvAdmob.setMovementMethod(LinkMovementMethod.getInstance());
 
             // Show dialog
@@ -1214,6 +1216,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         TextView tvVersionCode = view.findViewById(R.id.tvVersionCode);
         Button btnRate = view.findViewById(R.id.btnRate);
         TextView tvLicense = view.findViewById(R.id.tvLicense);
+        TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
         TextView tvAdmob = view.findViewById(R.id.tvAdmob);
 
         // Show version
@@ -1224,7 +1227,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Handle license
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
-        tvAdmob.setMovementMethod(LinkMovementMethod.getInstance());
+        tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
+        tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
         tvAdmob.setVisibility(IAB.isPurchasedAny(this) ? View.GONE : View.VISIBLE);
 
         // Handle logcat
