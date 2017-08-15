@@ -5,13 +5,14 @@
   <string name="app_copyright">Copyright \u00A9 2015–2017 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard richiede Android 4.0 o versioni successive</string>
   <string name="app_license">Utilizzando NetGuard, acconsenti a quanto contenuto nella seguente licenza: <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Si è posta grande cura nello sviluppo e test di NetGuard, tuttavia è impossibile garantire che NetGuard funzionerà correttamente su tutti i dispositivi. \n\nUtilizzando NetGuard, accetti la <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License versione 3</a></string>
   <string name="app_admob">NetGuard usa il servizio di annunci AdMob di Google. La politica sulla privacy di AdMob è disponibile <a href="https://www.google.com/intl/it/policies/privacy/">qui</a>.</string>
   <string name="app_agree">Accetto</string>
   <string name="app_disagree">Rifiuto</string>
-  <string name="channel_foreground">Running services</string>
-  <string name="channel_notify">General notifications</string>
-  <string name="channel_access">Access notifications</string>
+  <string name="channel_foreground">Servizi in esecuzione</string>
+  <string name="channel_notify">Notifiche generali</string>
+  <string name="channel_access">Notifiche di accesso</string>
   <string name="menu_search">Cerca applicazione</string>
   <string name="menu_filter">Filtra applicazioni</string>
   <string name="menu_app_user">Mostra applicazioni utente</string>
@@ -40,7 +41,7 @@
   <string name="menu_clear">Pulisci</string>
   <string name="menu_reset">Ripristina</string>
   <string name="menu_add">Aggiungi</string>
-  <string name="menu_delete">Cancella</string>
+  <string name="menu_delete">Elimina</string>
   <string name="menu_cleanup">Ripulisci</string>
   <string name="title_protocol">Protocollo</string>
   <string name="title_dport">Porta di origine</string>
@@ -50,10 +51,10 @@
   <string name="title_external">Per un server esterno selezionare \'nessuno\'</string>
   <string name="setting_defaults">Impostazioni predefinite</string>
   <string name="setting_whitelist_wifi">Blocca Wi-Fi</string>
-  <string name="setting_whitelist_other">Blocca rete dati di default</string>
-  <string name="setting_screen_wifi">Permetti il Wi-Fi di default quando lo schermo è accesso</string>
-  <string name="setting_screen_other">Permetti reti mobili di default quando lo schermo è accesso</string>
-  <string name="setting_whitelist_roaming">Blocca roaming di default</string>
+  <string name="setting_whitelist_other">Blocca rete dati</string>
+  <string name="setting_screen_wifi">Permetti il Wi-Fi a schermo acceso</string>
+  <string name="setting_screen_other">Permetti reti dati a schermo acceso</string>
+  <string name="setting_whitelist_roaming">Blocca roaming</string>
   <string name="setting_options">Impostazioni opzionali</string>
   <string name="setting_theme">Tema: %1$s</string>
   <string name="setting_dark">Usa il tema scuro</string>
@@ -65,7 +66,7 @@
   <string name="setting_network_options">Opzioni di rete</string>
   <string name="setting_subnet">Routing sottorete</string>
   <string name="setting_tethering">Permetti il tethering</string>
-  <string name="setting_lan">Consenti l\'accesso alla LAN</string>
+  <string name="setting_lan">Permetti l\'accesso alla LAN</string>
   <string name="setting_ip6">Abilita il traffico IPv6</string>
   <string name="setting_wifi_home">Reti Wi-Fi domestiche: %1$s</string>
   <string name="setting_metered">Gestisci reti Wi-Fi a consumo</string>
@@ -123,7 +124,7 @@
   <string name="summary_update">Cerca nuove versioni su GitHub due volte al giorno</string>
   <string name="summary_tethering">A seconda della versione di Android, il tethering potrebbe non funzionare. Non è possibile filtrare il traffico in tethering.</string>
   <string name="summary_subnet">Abilita routing sottorete; potrebbe permettere chiamate Wi-Fi, ma anche qualche bug di Android ed aumentare il consumo di batteria</string>
-  <string name="summary_lan">Consenti alle applicazioni di connettersi ad indirizzi della rete locale, come, ad esempio, 10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16</string>
+  <string name="summary_lan">Permetti alle applicazioni di connettersi ad indirizzi della rete locale, come, ad esempio, 10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16</string>
   <string name="summary_ip6">Instrada il traffico IP versione 6 a NetGuard così da consentirlo o bloccarlo in modo selettivo</string>
   <string name="summary_wifi_home">Applica le regole per le reti Wi-Fi solo alle reti selezionate (applica le regole per le reti mobile a tutte le altre reti Wi-Fi)</string>
   <string name="summary_metered">Applica le regole per le reti cellulari anche alle reti Wi-Fi a consumo (a pagamento, condivise)</string>
@@ -147,7 +148,7 @@
   <string name="msg_sure">Sei sicuro?</string>
   <string name="msg_started">Regole applicate</string>
   <string name="msg_packages">%1$d permesse, %2$d bloccate</string>
-  <string name="msg_hosts">%1$d consentite, %2$d bloccate, hosts %3$d</string>
+  <string name="msg_hosts">%1$d permesse, %2$d bloccate, hosts %3$d</string>
   <string name="msg_waiting">In attesa di eventi</string>
   <string name="msg_disabled">NetGuard è disabilitata, usa lo switch per abilitarla nuovamente</string>
   <string name="msg_revoked">NetGuard è stata disabilitata, probabilmente a causa di un\'altra applicazione che usa il servizio VPN</string>
@@ -211,11 +212,11 @@
   <string name="title_disabled">è disabilitata</string>
   <string name="title_apply">Applicare regole e condizioni</string>
   <string name="title_conditions">Condizioni</string>
-  <string name="title_screen_wifi">Permetti con il Wi-Fi, quando lo schermo è accesso</string>
-  <string name="title_screen_other">Consenti le reti dati quando lo schermo è accesso</string>
+  <string name="title_screen_wifi">Permetti il Wi-Fi quando lo schermo è acceso</string>
+  <string name="title_screen_other">Permetti le reti dati quando lo schermo è acceso</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Blocca quando in roaming</string>
-  <string name="title_lockdown">Consenti in modalità di blocco</string>
+  <string name="title_lockdown">Permetti in modalità di blocco</string>
   <string name="title_related">Filtra app correlate</string>
   <string name="title_access">Tentativi di accesso</string>
   <string name="title_precedence">Le regole di accesso hanno la precedenza sulle altre regole</string>
@@ -225,7 +226,7 @@
   <string name="title_logging_enabled">La registrazione e il filtraggio sono attivati</string>
   <string name="title_logging_configure">Configura</string>
   <string name="title_enable_logging">Attiva la registrazione solo degli indirizzi bloccati</string>
-  <string name="title_enable_filtering">Attiva il filtraggio per la registrazione anche di indirizzi consentiti</string>
+  <string name="title_enable_filtering">Attiva la registrazione anche degli indirizzi consentiti</string>
   <string name="title_enable_notify">Attiva le notifiche di accesso per i nuovi indirizzi registrati</string>
   <string name="title_enable_help0">Queste impostazioni sono impostazioni globali che si applicano a tutte le applicazioni</string>
   <string name="title_enable_help1">Il filtraggio è necessario anche per consentire o bloccare singoli indirizzi</string>
@@ -233,9 +234,9 @@
   <string name="title_rate">Vota</string>
   <string name="title_allow">Permetti</string>
   <string name="title_block">Blocca</string>
-  <string name="title_allow_wifi">Consenti Wi-Fi</string>
+  <string name="title_allow_wifi">Permetti Wi-Fi</string>
   <string name="title_block_wifi">Blocca Wi-Fi</string>
-  <string name="title_allow_other">Consenti rete dati</string>
+  <string name="title_allow_other">Permetti rete dati</string>
   <string name="title_block_other">Blocca rete dati</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>

@@ -5,6 +5,7 @@
   <string name="app_copyright">Hak cipta \u00A9 2015-2017 oleh M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard requires Android 4.0 or later</string>
   <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>

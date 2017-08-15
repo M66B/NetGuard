@@ -5,6 +5,7 @@
   <string name="app_copyright">பதிப்புரிமை \u00A9 வாக்கில்–2017 மூலம் அவதூறு Bokhorst (M66B)</string>
   <string name="app_android">NetGuard ஆண் போன்ற 4.0 அல்லது பிந்தைய பதிப்பு தேவைப்படுகிறது</string>
   <string name="app_license">NetGuard பயன்படுத்தி, நீங்கள் ஒப்புக்கொள்கிறீர்கள் <a href="http://www.gnu.org/licenses/gpl.txt"> குனு பொது மக்கள் உரிமம் பதிப்பு 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">அதிக கவனம் மேற்கொள்ளப்படும் சோதனை NetGuard, அவர்களை NetGuard சரியாக பணி ஒவ்வொரு சாதனத்தில் உத்தரவாதம் பதிலளிப்பது இருப்பினும். \n\nBy NetGuard, பயன்படுத்தி நீங்கள் ஒப்புக்கொள்கிறீர்கள் <a href="http://www.gnu.org/licenses/gpl.txt"> குனு பொது மக்கள் உரிமம் பதிப்பு 3</a></string>
   <string name="app_admob">NetGuard பயன்படுத்தும் Google இன் AdMob விளம்பர சேவை. AdMob இன் தனியுரிமைக் கொள்கை இல்லை <a href="https://www.google.com/intl/en/policies/privacy/"> இங்கே</a>.</string>
   <string name="app_agree">நான் ஏற்கிறேன்</string>

@@ -5,6 +5,7 @@
   <string name="app_copyright">Copyright \u00A9 2015–2017 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard wymaga Android 4.0 lub nowszy</string>
   <string name="app_license">Używając NetGuard, zgadzasz się z <a href="//www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Wielka staranność została podjęta aby rozwijać i testować NetGuard, jednakże nie jest możliwa gwarancja, iż NetGuard będzie działać poprawnie na każdym urządzeniu.\n\nUżywając NetGuard zgadzasz się z licencją <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_admob">NetGuard używa usług reklamowych Google AdMob. Polityka prywatności usług AdMob jest dostępna <a href="https://www.google.com/intl/en/policies/privacy/"> tutaj</a>.</string>
   <string name="app_agree">Zgadzam się</string>
