@@ -5,7 +5,7 @@
   <string name="app_copyright">Авторське право \u00A9 M. Bokhorst (M66B), 2015–2017</string>
   <string name="app_android">NetGuard потребує версію Android 4.0 або вище</string>
   <string name="app_license">Користуючись NetGuard, ви погоджуєтесь із <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Політика конфіденційності</a></string>
   <string name="app_first">До розробки й тестування NetGuard було докладено багато зусиль, проте неможливо гарантувати, що додаток працюватиме правильно на будь-якому пристрої.
 \n\nКористуючись NetGuard, ви погоджуєтесь із <a href="http://www.gnu.org/licenses/gpl.txt">Відкритою ліцензійною угодою GNU версії 3</a></string>
   <string name="app_admob">NetGuard використовує рекламну службу Google AdMob. Політика конфіденційності AdMob доступна <a href="https://www.google.com/intl/en/policies/privacy/">тут</a>.</string>

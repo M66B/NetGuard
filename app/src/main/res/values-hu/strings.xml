@@ -5,7 +5,7 @@
   <string name="app_copyright">Copyright \u00A9 2015-2017 by M. Bokhorst (M66B)</string>
   <string name="app_android">A NetGuard használatához Android 4.0 vagy újabb szükséges</string>
   <string name="app_license">NetGuard használatával elfogadja a<a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Adatvédelmi irányelvek</a></string>
   <string name="app_first">Nagy figyelmet fordítanak arra, hogy fejlesszék és teszteljék NetGuard-ot, de arra lehetetlen garanciát vállalni, hogy a NetGuard minden eszközön jól fog működni. \n\nA NetGuard használatával elfogadja a <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License version 3</a> licencet</string>
   <string name="app_admob">A NetGuard a Google AdMob hirdetési szolgáltatását használja. Az AdMob adatvédelmi politikája <a href="https://www.google.com/intl/en/policies/privacy/">itt</a> érhető el.</string>
   <string name="app_agree">Elfogadom</string>
