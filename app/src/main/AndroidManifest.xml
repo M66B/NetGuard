@@ -85,7 +85,7 @@
                     android:host="www.netguard.me"
                     android:pathPrefix="/"
                     android:scheme="https" />
-            </intent-filter>
+            </intent-filter>`
 
             <meta-data
                 android:name="android.app.shortcuts"

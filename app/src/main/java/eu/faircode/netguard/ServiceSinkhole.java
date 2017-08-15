@@ -237,6 +237,14 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         return wlInstance;
     }
 
+    synchronized private static void releaseLock(Context context) {
+        if (wlInstance != null) {
+            while (wlInstance.isHeld())
+                wlInstance.release();
+            wlInstance = null;
+        }
+    }
+
     private final class CommandHandler extends Handler {
         public int queue = 0;
 
@@ -433,7 +441,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
                 // Stop service if needed
                 if (!prefs.getBoolean("enabled", false) && !prefs.getBoolean("show_stats", false))
-                    stopSelf();
+                    stopForeground(true);
 
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -2401,6 +2409,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         commandLooper.quit();
         logLooper.quit();
         statsLooper.quit();
+
+        commandHandler.removeMessages(MSG_SERVICE_INTENT);
+        releaseLock(this);
 
         // Registered in command loop
         if (registeredInteractiveState) {
