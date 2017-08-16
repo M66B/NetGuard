@@ -129,6 +129,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean last_interactive = false;
     private boolean powersaving = false;
 
+    private int last_allowed = 0;
+    private int last_blocked = 0;
+    private int last_hosts = 0;
+
     private ServiceSinkhole.Builder last_builder = null;
     private ParcelFileDescriptor vpn = null;
     private boolean temporarilyStopped = false;
@@ -495,10 +499,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
 
         private void reload(boolean interactive) {
+            List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
+
             // Check if rules needs to be reloaded
             if (interactive) {
                 boolean process = false;
-                List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
                 for (Rule rule : listRule) {
                     boolean blocked = (last_metered ? rule.other_blocked : rule.wifi_blocked);
                     boolean screen = (last_metered ? rule.screen_other : rule.screen_wifi);
@@ -526,7 +531,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 Log.d(TAG, "Start foreground state=" + state.toString());
             }
 
-            List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
             List<Rule> listAllowed = getAllowedRules(listRule);
             ServiceSinkhole.Builder builder = getBuilder(listAllowed, listRule);
 
@@ -597,7 +601,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
             if (state == State.enforcing && !temporary) {
                 Log.d(TAG, "Stop foreground state=" + state.toString());
+                last_allowed = 0;
+                last_blocked = 0;
+                last_hosts = 0;
+
                 stopForeground(true);
+
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                 if (prefs.getBoolean("show_stats", false)) {
                     startForeground(NOTIFY_WAITING, getWaitingNotification());
@@ -2509,6 +2518,19 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             builder.setCategory(NotificationCompat.CATEGORY_STATUS)
                     .setVisibility(NotificationCompat.VISIBILITY_SECRET)
                     .setPriority(NotificationCompat.PRIORITY_MIN);
+
+        if (allowed > 0)
+            last_allowed = allowed;
+        else
+            allowed = last_allowed;
+        if (blocked > 0)
+            last_blocked = blocked;
+        else
+            blocked = last_blocked;
+        if (hosts > 0)
+            last_hosts = hosts;
+        else
+            hosts = last_hosts;
 
         if (allowed > 0 || blocked > 0 || hosts > 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
