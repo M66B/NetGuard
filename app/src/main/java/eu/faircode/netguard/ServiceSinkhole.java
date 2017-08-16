@@ -1807,7 +1807,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     }
 
                 if (!filtered)
-                    packet.allowed = (mapUidAllowed.containsKey(packet.uid) && mapUidAllowed.get(packet.uid));
+                    if (mapUidAllowed.containsKey(packet.uid))
+                        packet.allowed = mapUidAllowed.get(packet.uid);
+                    else
+                        Log.w(TAG, "No rules for " + packet);
             }
         }
 
