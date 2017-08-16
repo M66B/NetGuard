@@ -2138,9 +2138,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     @Override
     public void onCreate() {
-        startForeground(NOTIFY_WAITING, getWaitingNotification());
-        state = State.waiting;
-
         Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -2314,6 +2311,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (state == State.enforcing)
+            startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
+        else
+            startForeground(NOTIFY_WAITING, getWaitingNotification());
+
         Log.i(TAG, "Received " + intent);
         Util.logExtras(intent);
 
