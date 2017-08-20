@@ -80,6 +80,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">قۇلۇپلانغان Wi-Fi</string>
   <string name="setting_lockdown_other">تور ئېتىلگەن</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">ئالىي تاللانما</string>
   <string name="setting_system">سىستېما ئەپلىرى باشقۇرۇش</string>
   <string name="setting_log_app">ئىنتېرنېتنى زىيارەت ھوقۇقى</string>

@@ -79,6 +79,7 @@
   <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Bloqueio de Wi-Fi</string>
   <string name="setting_lockdown_other">Bloqueio de rede de celular</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Opções avançadas</string>
   <string name="setting_system">Administrar aplicativos do sistema</string>
   <string name="setting_log_app">Registrar acesso à internet</string>

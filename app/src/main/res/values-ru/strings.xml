@@ -78,6 +78,7 @@
   <string name="setting_call">Отключить при звонке</string>
   <string name="setting_lockdown_wifi">Блокировка Wi-Fi</string>
   <string name="setting_lockdown_other">Блокировка моб. сети</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Дополнительные опции</string>
   <string name="setting_system">Управлять сист. приложениями</string>
   <string name="setting_log_app">Журнал доступа к сети интернет</string>

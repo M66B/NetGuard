@@ -78,6 +78,7 @@
   <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Tùy chọn nâng cao</string>
   <string name="setting_system">Quản lý ứng dụng hệ thống</string>
   <string name="setting_log_app">Thông báo truy cập internet</string>

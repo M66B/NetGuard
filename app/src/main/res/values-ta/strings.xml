@@ -78,6 +78,7 @@
   <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">மேம்பட்ட விருப்பங்கள்</string>
   <string name="setting_system">கணினி பயன்பாடுகள் நிர்வகி</string>
   <string name="setting_log_app">பதிவை இணைய அணுகல்</string>

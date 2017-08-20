@@ -80,6 +80,7 @@
   <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">उन्नत विकल्प</string>
   <string name="setting_system">सिस्टम अनुप्रयोग प्रबंधित करें</string>
   <string name="setting_log_app">इंटरनेट उपयोग लॉग करें</string>

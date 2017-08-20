@@ -78,6 +78,7 @@
   <string name="setting_call">تعطيل أثناء المكالمة</string>
   <string name="setting_lockdown_wifi">أقفل Wi-Fi</string>
   <string name="setting_lockdown_other">تأمين الهاتف</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">خيارات متقدمة</string>
   <string name="setting_system">إدارة تطبيقات النظام</string>
   <string name="setting_log_app">سجل الوصول للإنترنت</string>

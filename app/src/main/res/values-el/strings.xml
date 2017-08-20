@@ -5,7 +5,7 @@
   <string name="app_copyright">Πνευματικά δικαιώματα \u00A9 2015–2017 από Μ. Bokhorst (M66B)</string>
   <string name="app_android">Το NetGuard απαιτεί Android 5.0 ή κάποια νεότερη έκδοση</string>
   <string name="app_license">Με τη χρήση του NetGuard, συμφωνείτε με την <a href="http://www.gnu.org/licenses/gpl.txt"> GNU/GPL έκδοση 3</a></string>
-  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Πολιτική απορρήτου</a></string>
   <string name="app_first">Έχει γίνει μεγάλη προσπάθεια για την ανάπτυξη και τη δοκιμή του NetGuard, ωστόσο, είναι αδύνατο να σας εγγυηθούμε ότι το NetGuard θα λειτουργούν σωστά σε κάθε συσκευή. \n\nΧρησιμοποιώντας το NetGuard, συμφωνείτε με την <a href="http://www.gnu.org/licenses/gpl.txt"> GNU γενική άδεια δημόσιας χρήσης έκδοση 3</a></string>
   <string name="app_admob">Το NetGuard χρησιμοποιεί την υπηρεσία διαφήμισης Google AdMob. Η πολιτική απορρήτου του AdMob είναι διαθέσιμη <a href="https://www.google.com/intl/en/policies/privacy/"> εδώ</a>.</string>
   <string name="app_agree">Συμφωνώ</string>
@@ -78,6 +78,7 @@
   <string name="setting_call">Απενεργοποίηση κατά τη διάρκεια κλήσης</string>
   <string name="setting_lockdown_wifi">Φραγή Wi-Fi</string>
   <string name="setting_lockdown_other">Φραγή κινητής</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Επιλογές για προχωρημένους</string>
   <string name="setting_system">Διαχείριση εφαρμογών του συστήματος</string>
   <string name="setting_log_app">Καταγραφή πρόσβασης στο διαδίκτυο</string>

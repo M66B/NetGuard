@@ -78,6 +78,7 @@
   <string name="setting_call">Disabilita su chiamata</string>
   <string name="setting_lockdown_wifi">Blocca Wi-Fi</string>
   <string name="setting_lockdown_other">Blocca rete dati</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Opzioni avanzate</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
   <string name="setting_log_app">Registra accessi a internet</string>
