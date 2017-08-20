@@ -2257,7 +2257,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             @Override
             public void onLinkPropertiesChanged(Network network, LinkProperties linkProperties) {
                 // Make sure the right DNS servers are being used
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                if (prefs.getBoolean("reload_onconnectivity", false) ||
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                     reload("link properties changed", ServiceSinkhole.this, false);
             }
 

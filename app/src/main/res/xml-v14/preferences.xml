@@ -143,6 +143,10 @@
                 android:defaultValue="true"
                 android:key="lockdown_other"
                 android:title="@string/setting_lockdown_other" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="reload_onconnectivity"
+                android:title="@string/setting_reload_onconnectivity" />
         </PreferenceCategory>
     </PreferenceScreen>
 
