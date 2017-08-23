@@ -5,7 +5,7 @@
   <string name="app_copyright">Copyright \u00A9 2015–2017 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard richiede Android 4.0 o versioni successive</string>
   <string name="app_license">Utilizzando NetGuard, acconsenti a quanto contenuto nella seguente licenza: <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Politica sulla privacy</a></string>
   <string name="app_first">Si è posta grande cura nello sviluppo e test di NetGuard, tuttavia è impossibile garantire che NetGuard funzionerà correttamente su tutti i dispositivi. \n\nUtilizzando NetGuard, accetti la <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License versione 3</a></string>
   <string name="app_admob">NetGuard usa il servizio di annunci AdMob di Google. La politica sulla privacy di AdMob è disponibile <a href="https://www.google.com/intl/it/policies/privacy/">qui</a>.</string>
   <string name="app_agree">Accetto</string>
@@ -78,7 +78,7 @@
   <string name="setting_call">Disabilita su chiamata</string>
   <string name="setting_lockdown_wifi">Blocca Wi-Fi</string>
   <string name="setting_lockdown_other">Blocca rete dati</string>
-  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
+  <string name="setting_reload_onconnectivity">Ricarica ad ogni modifica di connessione</string>
   <string name="setting_advanced_options">Opzioni avanzate</string>
   <string name="setting_system">Gestisci applicazioni di sistema</string>
   <string name="setting_log_app">Registra accessi a internet</string>

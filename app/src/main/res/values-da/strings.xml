@@ -79,7 +79,7 @@
   <string name="setting_call">Deaktivér ved opkald</string>
   <string name="setting_lockdown_wifi">Aflås Wi-Fi</string>
   <string name="setting_lockdown_other">Afslås mobil</string>
-  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
+  <string name="setting_reload_onconnectivity">Genindlæse ved hver forbindelsesændring</string>
   <string name="setting_advanced_options">Avancerede indstillinger</string>
   <string name="setting_system">Håndtér systemapps</string>
   <string name="setting_log_app">Log Internetadgang</string>

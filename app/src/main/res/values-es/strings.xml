@@ -78,7 +78,7 @@
   <string name="setting_call">Desactivar ante llamada</string>
   <string name="setting_lockdown_wifi">Bloquear Wi-Fi</string>
   <string name="setting_lockdown_other">Bloquear red móvil</string>
-  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
+  <string name="setting_reload_onconnectivity">Recargar en cada cambio de conectividad</string>
   <string name="setting_advanced_options">Opciones avanzadas</string>
   <string name="setting_system">Administrar aplicaciones de sistema</string>
   <string name="setting_log_app">Registrar acceso a Internet</string>

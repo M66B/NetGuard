@@ -79,7 +79,7 @@
   <string name="setting_call">Bei Anruf deaktivieren</string>
   <string name="setting_lockdown_wifi">WLAN-Zugriffsbeschränkung</string>
   <string name="setting_lockdown_other">Mobile Daten-Zugriffsbeschränkung</string>
-  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
+  <string name="setting_reload_onconnectivity">Erneut laden bei jeder Verbindungsänderung</string>
   <string name="setting_advanced_options">Erweiterte Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_log_app">Internetzugriff protokollieren</string>

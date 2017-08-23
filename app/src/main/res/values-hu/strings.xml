@@ -78,7 +78,7 @@
   <string name="setting_call">Letiltás hívás közben</string>
   <string name="setting_lockdown_wifi">Wi-Fi lezárás</string>
   <string name="setting_lockdown_other">Mobil lezárás</string>
-  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
+  <string name="setting_reload_onconnectivity">Újratöltés minden kapcsolat változáskor</string>
   <string name="setting_advanced_options">Speciális beállítások</string>
   <string name="setting_system">Rendszer alkalmazások kezelése</string>
   <string name="setting_log_app">Internet hozzáférés naplózása</string>

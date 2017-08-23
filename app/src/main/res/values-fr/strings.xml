@@ -78,7 +78,7 @@
   <string name="setting_call">Désactiver lors d\'un appel</string>
   <string name="setting_lockdown_wifi">Verrouiller les données Wi-Fi</string>
   <string name="setting_lockdown_other">Verrouiller les données mobiles</string>
-  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
+  <string name="setting_reload_onconnectivity">Recharger à chaque changement de connectivité</string>
   <string name="setting_advanced_options">Options avancées</string>
   <string name="setting_system">Gérer les applications système</string>
   <string name="setting_log_app">Journaliser l\'accès internet</string>
