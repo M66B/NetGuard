@@ -76,6 +76,7 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 
 public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.Adapter";
@@ -342,17 +343,21 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     icon = Icon.createWithResource(context, android.R.drawable.sym_def_app_icon);
                 else
                     icon = Icon.createWithResource(rule.info.packageName, rule.info.applicationInfo.icon);
-                icon.loadDrawableAsync(context, new Icon.OnDrawableLoadedListener() {
-                    @Override
-                    public void onDrawableLoaded(Drawable drawable) {
-                        if (drawable instanceof BitmapDrawable) {
-                            Bitmap original = ((BitmapDrawable) drawable).getBitmap();
-                            Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
-                            holder.ivIcon.setImageDrawable(new BitmapDrawable(context.getResources(), scaled));
-                        } else
-                            holder.ivIcon.setImageDrawable(drawable);
-                    }
-                }, new Handler(context.getMainLooper()));
+                try {
+                    icon.loadDrawableAsync(context, new Icon.OnDrawableLoadedListener() {
+                        @Override
+                        public void onDrawableLoaded(Drawable drawable) {
+                            if (drawable instanceof BitmapDrawable) {
+                                Bitmap original = ((BitmapDrawable) drawable).getBitmap();
+                                Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
+                                holder.ivIcon.setImageDrawable(new BitmapDrawable(context.getResources(), scaled));
+                            } else
+                                holder.ivIcon.setImageDrawable(drawable);
+                        }
+                    }, new Handler(context.getMainLooper()));
+                } catch (RejectedExecutionException ex) {
+                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
             } else {
                 if (rule.info.applicationInfo.icon == 0)
                     Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(holder.ivIcon);

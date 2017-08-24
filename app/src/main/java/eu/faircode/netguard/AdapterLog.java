@@ -51,6 +51,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 
 public class AdapterLog extends CursorAdapter {
     private static String TAG = "NetGuard.Log";
@@ -227,19 +228,22 @@ public class AdapterLog extends CursorAdapter {
                     icon = Icon.createWithResource(context, android.R.drawable.sym_def_app_icon);
                 else
                     icon = Icon.createWithResource(info.packageName, info.icon);
-                icon.loadDrawableAsync(context, new Icon.OnDrawableLoadedListener() {
-                    @Override
-                    public void onDrawableLoaded(Drawable drawable) {
-                        if (drawable instanceof BitmapDrawable) {
-                            Bitmap original = ((BitmapDrawable) drawable).getBitmap();
-                            Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
-                            ivIcon.setImageDrawable(new BitmapDrawable(context.getResources(), scaled));
-                        } else
-                            ivIcon.setImageDrawable(drawable);
-                    }
-                }, new Handler(context.getMainLooper()));
+                try {
+                    icon.loadDrawableAsync(context, new Icon.OnDrawableLoadedListener() {
+                        @Override
+                        public void onDrawableLoaded(Drawable drawable) {
+                            if (drawable instanceof BitmapDrawable) {
+                                Bitmap original = ((BitmapDrawable) drawable).getBitmap();
+                                Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
+                                ivIcon.setImageDrawable(new BitmapDrawable(context.getResources(), scaled));
+                            } else
+                                ivIcon.setImageDrawable(drawable);
+                        }
+                    }, new Handler(context.getMainLooper()));
+                } catch (RejectedExecutionException ex) {
+                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
             } else {
-
                 if (info.icon == 0)
                     Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
                 else {
