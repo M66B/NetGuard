@@ -3,23 +3,23 @@
 <resources>
   <string name="app_description">NetGuard menyediakan cara sederhana dan canggih untuk memblokir akses ke internet - tidak ada akar yang dibutuhkan. Aplikasi dan alamat dapat diijinkan atau ditolak akses ke koneksi Wi-Fi dan / atau seluler Anda.</string>
   <string name="app_copyright">Hak cipta \u00A9 2015-2017 oleh M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requires Android 4.0 or later</string>
+  <string name="app_android">NetGuard perlukan Android 4.0 ke atas</string>
   <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
-  <string name="app_agree">I agree</string>
-  <string name="app_disagree">I disagree</string>
+  <string name="app_agree">Setuju</string>
+  <string name="app_disagree">Menolak</string>
   <string name="channel_foreground">Running services</string>
-  <string name="channel_notify">General notifications</string>
-  <string name="channel_access">Access notifications</string>
-  <string name="menu_search">Search for app</string>
-  <string name="menu_filter">Filter apps</string>
-  <string name="menu_app_user">Show user apps</string>
-  <string name="menu_app_system">Show system apps</string>
-  <string name="menu_app_nointernet">Show apps without internet</string>
+  <string name="channel_notify">Pemberitahuan umum</string>
+  <string name="channel_access">Mengakses pemberitahuan</string>
+  <string name="menu_search">Cari aplikasi</string>
+  <string name="menu_filter">Filter aplikasi</string>
+  <string name="menu_app_user">Tunjukkan aplikasi pengguna</string>
+  <string name="menu_app_system">Tunjukkan aplikasi sistem</string>
+  <string name="menu_app_nointernet">Tunjukkan aplikasi tanpa internet akses</string>
   <string name="menu_app_disabled">Show disabled apps</string>
   <string name="menu_sort">Sort apps</string>
   <string name="menu_sort_name">Sort on name</string>
@@ -31,19 +31,19 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">Legend</string>
   <string name="menu_support">Support</string>
   <string name="menu_about">About</string>
-  <string name="menu_protocol_other">Other</string>
-  <string name="menu_traffic_allowed">Allowed</string>
-  <string name="menu_traffic_blocked">Blocked</string>
-  <string name="menu_live">Live updates</string>
-  <string name="menu_refresh">Refresh</string>
+  <string name="menu_protocol_other">Lain-lain</string>
+  <string name="menu_traffic_allowed">Diperbolehkan</string>
+  <string name="menu_traffic_blocked">Dihalangkan</string>
+  <string name="menu_live">Pembaruan langsung</string>
+  <string name="menu_refresh">Segarkan</string>
   <string name="menu_resolve">Show names</string>
   <string name="menu_organization">Show organization</string>
-  <string name="menu_pcap_enabled">PCAP enabled</string>
+  <string name="menu_pcap_enabled">PCAP diaktifkan</string>
   <string name="menu_pcap_export">PCAP export</string>
   <string name="menu_clear">Clear</string>
   <string name="menu_reset">Reset</string>
-  <string name="menu_add">Add</string>
-  <string name="menu_delete">Delete</string>
+  <string name="menu_add">Tambahkan</string>
+  <string name="menu_delete">Hapus</string>
   <string name="menu_cleanup">Cleanup</string>
   <string name="title_protocol">Protocol</string>
   <string name="title_dport">Source port</string>

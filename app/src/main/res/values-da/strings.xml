@@ -13,7 +13,7 @@
   <string name="app_disagree">Jeg accepterer ikke</string>
   <string name="channel_foreground">Aktive tjenester</string>
   <string name="channel_notify">Generelle notifikationer</string>
-  <string name="channel_access">Tilgangsnotifikationer</string>
+  <string name="channel_access">Adgangsnotifikationer</string>
   <string name="menu_search">Søg efter app</string>
   <string name="menu_filter">Filtrér apps</string>
   <string name="menu_app_user">Vis brugerapps</string>

@@ -5,15 +5,15 @@
   <string name="app_copyright">Telif Hakkı \u00A9 2015–2017 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard Android 4.0 veya üstü gerektirir</string>
   <string name="app_license">NetGuard kullanarak, <a href="http://www.gnu.org/licenses/gpl.txt"> GNU Genel Kamu Lisansını sürüm 3</a> için kabul ediyorum</string>
-  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Gizlilik Politikası</a></string>
   <string name="app_first">NetGuard sürekli gelişmekte ve yoğun bir şekilde test ediliyor,
 Buna rağmen bazı cihazlarda çalışmayabilir.
 \n\nNetGuard kullanarak, <a href="http://www.gnu.org/licenses/gpl.txt">Genel Kamu Lisansını (GNUv3) kabul etmiş sayılırsınız.</a></string>
   <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">Kabul ediyorum</string>
   <string name="app_disagree">Kabul etmiyorum</string>
-  <string name="channel_foreground">Running services</string>
-  <string name="channel_notify">General notifications</string>
+  <string name="channel_foreground">Çalışan servisler</string>
+  <string name="channel_notify">Genel bildirimler</string>
   <string name="channel_access">Access notifications</string>
   <string name="menu_search">Uygulama ara</string>
   <string name="menu_filter">Uygulama filtresi</string>

@@ -101,7 +101,7 @@
   <string name="setting_socks5_port">Port SOCKS5 : %s</string>
   <string name="setting_socks5_username">Nom d\'utilisateur SOCKS5 : %s</string>
   <string name="setting_socks5_password">Mot de passe SOCKS5 : %s</string>
-  <string name="setting_pcap_record_size">Taille des entrées PCAP : %s o</string>
+  <string name="setting_pcap_record_size">Taille d’enregistrement PCAP : %s o</string>
   <string name="setting_pcap_file_size">Taille max. du fichier PCAP : %s Mo</string>
   <string name="setting_watchdog">Gardien : toutes les %s minutes</string>
   <string name="setting_stats_category">Notification de débit</string>
@@ -192,7 +192,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_queue">NetGuard est occupé</string>
   <string name="msg_update">Mise à jour disponible, appuyez pour télécharger</string>
   <string name="msg_usage">Vous pouvez autoriser (vert) ou refuser (rouge) l\'accès à internet Wi-Fi ou mobile en cliquant sur les icônes à coté d’une application</string>
-  <string name="msg_whitelist">L’accès Internet est autorisé par défaut, cela peut être modifié dans les paramètres</string>
+  <string name="msg_whitelist">L’accès Internet est autorisé par défaut (mode liste noire), ceci peut être modifié dans les paramètres</string>
   <string name="msg_push">Les messages Push sont principalement gérés par le composant système Play services, qui est autorisé à accéder à internet par défaut</string>
   <string name="msg_system">La gestion des applications système peut être activée dans les options avancées</string>
   <string name="msg_issue">Veuillez décrire le problème et indiquer l\'heure à laquelle il est survenu :</string>
@@ -215,8 +215,8 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_disabled">est désactivé</string>
   <string name="title_apply">Appliquer les règles et conditions</string>
   <string name="title_conditions">Conditions</string>
-  <string name="title_screen_wifi">Autoriser le Wi-Fi si l\'écran est allumé</string>
-  <string name="title_screen_other">Autoriser les données mobiles si l\'écran est allumé</string>
+  <string name="title_screen_wifi">Autoriser le Wi-Fi quand l\'écran est allumé</string>
+  <string name="title_screen_other">Autoriser les données mobiles quand l\'écran est allumé</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">Bloquer si itinérance</string>
   <string name="title_lockdown">Autoriser en mode de verrouillage</string>
@@ -228,7 +228,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_logging_disabled">La journalisation ou le filtrage n\'est pas activé</string>
   <string name="title_logging_enabled">La journalisation et le filtrage sont activés</string>
   <string name="title_logging_configure">Configurer</string>
-  <string name="title_enable_logging">Activer seulement la journalisation des adresses bloquées</string>
+  <string name="title_enable_logging">Activer la journalisation d’adresses bloquées seulement</string>
   <string name="title_enable_filtering">Activer le filtrage pour enregistrer aussi les adresses autorisées</string>
   <string name="title_enable_notify">Activer les notifications d’accès pour les adresses nouvellement enregistrées</string>
   <string name="title_enable_help0">Ces paramètres sont des paramètres globaux qui s’appliquent à toutes les applications</string>
