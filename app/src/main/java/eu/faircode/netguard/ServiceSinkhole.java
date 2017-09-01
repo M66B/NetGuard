@@ -663,14 +663,14 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             try {
                 JSONObject jroot = new JSONObject(json.toString());
-                if (jroot.has("tag_name") && jroot.has("assets")) {
+                if (jroot.has("tag_name") && jroot.has("html_url") && jroot.has("assets")) {
+                    String url = jroot.getString("html_url");
                     JSONArray jassets = jroot.getJSONArray("assets");
                     if (jassets.length() > 0) {
                         JSONObject jasset = jassets.getJSONObject(0);
-                        if (jasset.has("name") && jasset.has("browser_download_url")) {
+                        if (jasset.has("name")) {
                             String version = jroot.getString("tag_name");
                             String name = jasset.getString("name");
-                            String url = jasset.getString("browser_download_url");
                             Log.i(TAG, "Tag " + version + " name " + name + " url " + url);
 
                             Version current = new Version(Util.getSelfVersionName(ServiceSinkhole.this));
@@ -2758,7 +2758,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify");
         builder.setSmallIcon(R.drawable.ic_security_white_24dp)
-                .setContentTitle(getString(R.string.app_name))
+                .setContentTitle(name)
                 .setContentText(getString(R.string.msg_update))
                 .setContentIntent(pi)
                 .setColor(tv.data)
@@ -2769,11 +2769,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             builder.setCategory(NotificationCompat.CATEGORY_STATUS)
                     .setVisibility(NotificationCompat.VISIBILITY_SECRET);
 
-        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
-        notification.bigText(getString(R.string.msg_update));
-        notification.setSummaryText(name);
-
-        NotificationManagerCompat.from(this).notify(NOTIFY_UPDATE, notification.build());
+        NotificationManagerCompat.from(this).notify(NOTIFY_UPDATE, builder.build());
     }
 
     private void removeWarningNotifications() {
