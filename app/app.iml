@@ -148,31 +148,31 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 26 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="support-core-ui-26.0.2" level="project" />
-    <orderEntry type="library" name="play-services-ads-lite-11.0.4" level="project" />
-    <orderEntry type="library" name="picasso-2.5.2" level="project" />
-    <orderEntry type="library" name="support-media-compat-26.0.2" level="project" />
-    <orderEntry type="library" name="firebase-ads-11.0.4" level="project" />
-    <orderEntry type="library" name="firebase-core-11.0.4" level="project" />
-    <orderEntry type="library" name="recyclerview-v7-26.0.2" level="project" />
-    <orderEntry type="library" name="firebase-iid-11.0.4" level="project" />
-    <orderEntry type="library" name="support-vector-drawable-26.0.2" level="project" />
-    <orderEntry type="library" name="support-core-utils-26.0.2" level="project" />
-    <orderEntry type="library" name="play-services-ads-11.0.4" level="project" />
-    <orderEntry type="library" name="play-services-safetynet-11.0.4" level="project" />
-    <orderEntry type="library" name="play-services-basement-11.0.4" level="project" />
-    <orderEntry type="library" name="play-services-base-11.0.4" level="project" />
-    <orderEntry type="library" name="play-services-gass-11.0.4" level="project" />
-    <orderEntry type="library" name="support-compat-26.0.2" level="project" />
-    <orderEntry type="library" name="play-services-clearcut-11.0.4" level="project" />
-    <orderEntry type="library" name="support-fragment-26.0.2" level="project" />
-    <orderEntry type="library" name="animated-vector-drawable-26.0.2" level="project" />
-    <orderEntry type="library" name="support-annotations-26.0.2" level="project" />
-    <orderEntry type="library" name="support-v4-26.0.2" level="project" />
-    <orderEntry type="library" name="appcompat-v7-26.0.2" level="project" />
-    <orderEntry type="library" name="firebase-analytics-11.0.4" level="project" />
-    <orderEntry type="library" name="firebase-analytics-impl-11.0.4" level="project" />
-    <orderEntry type="library" name="play-services-tasks-11.0.4" level="project" />
-    <orderEntry type="library" name="firebase-common-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="support-core-ui-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="play-services-ads-lite-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
+    <orderEntry type="library" exported="" name="support-media-compat-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="firebase-ads-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="firebase-core-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="firebase-iid-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="support-vector-drawable-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="support-core-utils-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="play-services-ads-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="play-services-safetynet-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="play-services-basement-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="play-services-base-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="play-services-gass-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="support-compat-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="play-services-clearcut-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="support-fragment-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="animated-vector-drawable-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-26.0.2" level="project" />
+    <orderEntry type="library" exported="" name="firebase-analytics-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="firebase-analytics-impl-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="play-services-tasks-11.0.4" level="project" />
+    <orderEntry type="library" exported="" name="firebase-common-11.0.4" level="project" />
   </component>
 </module>
