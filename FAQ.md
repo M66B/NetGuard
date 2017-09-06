@@ -154,7 +154,7 @@ Disabled applications and applications without internet permission are shown dim
 <a name="FAQ17"></a>
 **(17) Why is NetGuard using so much memory?**
 
-It isn't.  NetGuard doesn't allocate any memory, except a little for displaying the user interface elements.
+It isn't.  NetGuard doesn't allocate any memory, except a little for displaying the user interface elements and for buffering traffic.
 It appears, on some Android variants, that the Google Play™ store app connection uses almost 150 MB.  It is needed for in-app donations,
 and is incorrectly attributed to NetGuard instead to the Google Play™ store app.
 
@@ -226,6 +226,16 @@ The key icon and/or the VPN running notification,
 which is shown by Android and not by NetGuard, unfortunately, cannot be removed.
 The [Google documentation](http://developer.android.com/reference/android/net/VpnService.html) states:
 *"A system-managed notification is shown during the lifetime of a VPN connection"*.
+
+Android 8 Oreo and later display a notification "*... running in the background*" listing all apps running in the background.
+You can't disable this notification, but you can remove the icon from the status bar like this:
+
+* Open Settings > Apps & notifications > App info
+* Open settings (three dots); Select "Show system"
+* Select "Android System"
+* Select "App notifications"
+* Select "Apps running in background"
+* Select "Importance" and select "Low"
 
 <a name="FAQ25"></a>
 **(25) Can you add a 'Select All' function?**
