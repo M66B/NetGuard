@@ -544,7 +544,7 @@ public class Util {
         }
         BufferedReader reader = null;
         try {
-            URL url = new URL("http://ipinfo.io/" + ip + "/org");
+            URL url = new URL("https://ipinfo.io/" + ip + "/org");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setReadTimeout(15 * 1000);
