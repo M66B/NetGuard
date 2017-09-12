@@ -78,7 +78,7 @@
   <string name="setting_call">Απενεργοποίηση κατά τη διάρκεια κλήσης</string>
   <string name="setting_lockdown_wifi">Φραγή Wi-Fi</string>
   <string name="setting_lockdown_other">Φραγή κινητής</string>
-  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
+  <string name="setting_reload_onconnectivity">Φορτώστε ξανά σε κάθε αλλαγή συνδεσιμότητας</string>
   <string name="setting_advanced_options">Επιλογές για προχωρημένους</string>
   <string name="setting_system">Διαχείριση εφαρμογών του συστήματος</string>
   <string name="setting_log_app">Καταγραφή πρόσβασης στο διαδίκτυο</string>
