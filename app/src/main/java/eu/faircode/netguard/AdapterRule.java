@@ -267,7 +267,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         colorGrayed = ContextCompat.getColor(context, R.color.colorGrayed);
 
-        iconSize = Util.dips2pixels(48, context);
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.listPreferredItemHeight, typedValue, true);
+        int height = TypedValue.complexToDimensionPixelSize(typedValue.data, context.getResources().getDisplayMetrics());
+        this.iconSize = Math.round(height * context.getResources().getDisplayMetrics().density + 0.5f);
+
+        setHasStableIds(true);
     }
 
     public void set(List<Rule> listRule) {
@@ -1000,6 +1005,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     @Override
     public AdapterRule.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(inflater.inflate(R.layout.rule, parent, false));
+    }
+
+    @Override
+    public long getItemId(int position) {
+        Rule rule = listFiltered.get(position);
+        return rule.info.packageName.hashCode() * 100000L + rule.info.applicationInfo.uid;
     }
 
     @Override
