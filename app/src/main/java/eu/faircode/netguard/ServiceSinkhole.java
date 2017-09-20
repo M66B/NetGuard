@@ -129,9 +129,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean last_interactive = false;
     private boolean powersaving = false;
 
-    private int last_allowed = 0;
-    private int last_blocked = 0;
-    private int last_hosts = 0;
+    private int last_allowed = -1;
+    private int last_blocked = -1;
+    private int last_hosts = -1;
 
     private ServiceSinkhole.Builder last_builder = null;
     private ParcelFileDescriptor vpn = null;
@@ -479,7 +479,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Log.d(TAG, "Stop foreground state=" + state.toString());
                     stopForeground(true);
                 }
-                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(-1, -1, -1));
                 state = State.enforcing;
                 Log.d(TAG, "Start foreground state=" + state.toString());
 
@@ -526,7 +526,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Log.d(TAG, "Stop foreground state=" + state.toString());
                     stopForeground(true);
                 }
-                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(-1, -1, -1));
                 state = State.enforcing;
                 Log.d(TAG, "Start foreground state=" + state.toString());
             }
@@ -601,9 +601,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
             if (state == State.enforcing && !temporary) {
                 Log.d(TAG, "Stop foreground state=" + state.toString());
-                last_allowed = 0;
-                last_blocked = 0;
-                last_hosts = 0;
+                last_allowed = -1;
+                last_blocked = -1;
+                last_hosts = -1;
 
                 stopForeground(true);
 
@@ -2316,7 +2316,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 stopForeground(true);
             }
             if (state == State.enforcing)
-                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(-1, -1, -1));
             else if (state != State.none)
                 startForeground(NOTIFY_WAITING, getWaitingNotification());
             Log.d(TAG, "Start foreground state=" + state.toString());
@@ -2326,7 +2326,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (state == State.enforcing)
-            startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
+            startForeground(NOTIFY_ENFORCING, getEnforcingNotification(-1, -1, -1));
         else
             startForeground(NOTIFY_WAITING, getWaitingNotification());
 
@@ -2521,20 +2521,20 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     .setVisibility(NotificationCompat.VISIBILITY_SECRET)
                     .setPriority(NotificationCompat.PRIORITY_MIN);
 
-        if (allowed > 0)
+        if (allowed >= 0)
             last_allowed = allowed;
         else
             allowed = last_allowed;
-        if (blocked > 0)
+        if (blocked >= 0)
             last_blocked = blocked;
         else
             blocked = last_blocked;
-        if (hosts > 0)
+        if (hosts >= 0)
             last_hosts = hosts;
         else
             hosts = last_hosts;
 
-        if (allowed > 0 || blocked > 0 || hosts > 0) {
+        if (allowed >= 0 || blocked >= 0 || hosts >= 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 if (Util.isPlayStoreInstall(this))
                     builder.setContentText(getString(R.string.msg_packages, allowed, blocked));
