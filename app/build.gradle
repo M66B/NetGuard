@@ -88,7 +88,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.+'
 
     // https://developers.google.com/android/guides/setup
-    compile 'com.google.android.gms:play-services:11.4.+'
+    compile 'com.google.android.gms:play-services-base:11.4.+'
 
     // https://firebase.google.com/docs/android/setup
     compile 'com.google.firebase:firebase-core:11.4.+'
