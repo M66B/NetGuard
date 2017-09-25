@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +34,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AdapterDns extends CursorAdapter {
-    private static String TAG = "NetGuard.DNS";
-
     private int colorExpired;
 
     private int colTime;
@@ -81,11 +78,11 @@ public class AdapterDns extends CursorAdapter {
         view.setBackgroundColor(expired ? colorExpired : Color.TRANSPARENT);
 
         // Get views
-        TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
-        TextView tvQName = (TextView) view.findViewById(R.id.tvQName);
-        TextView tvAName = (TextView) view.findViewById(R.id.tvAName);
-        TextView tvResource = (TextView) view.findViewById(R.id.tvResource);
-        TextView tvTTL = (TextView) view.findViewById(R.id.tvTTL);
+        TextView tvTime = view.findViewById(R.id.tvTime);
+        TextView tvQName = view.findViewById(R.id.tvQName);
+        TextView tvAName = view.findViewById(R.id.tvAName);
+        TextView tvResource = view.findViewById(R.id.tvResource);
+        TextView tvTTL = view.findViewById(R.id.tvTTL);
 
         // Set values
         tvTime.setText(new SimpleDateFormat("dd HH:mm").format(time));

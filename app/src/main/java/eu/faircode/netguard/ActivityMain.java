@@ -39,7 +39,6 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AlertDialog;
@@ -78,9 +77,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Main";
@@ -112,6 +108,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public static final String ACTION_QUEUE_CHANGED = "eu.faircode.netguard.ACTION_QUEUE_CHANGED";
     public static final String EXTRA_REFRESH = "Refresh";
     public static final String EXTRA_SEARCH = "Search";
+    public static final String EXTRA_RELATED = "Related";
     public static final String EXTRA_APPROVE = "Approve";
     public static final String EXTRA_LOGCAT = "Logcat";
     public static final String EXTRA_CONNECTED = "Connected";
@@ -146,15 +143,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             if (enabled)
                 ServiceSinkhole.start("UI", this);
             else
-                ServiceSinkhole.stop("UI", this);
+                ServiceSinkhole.stop("UI", this, false);
         }
 
         // Action bar
         final View actionView = getLayoutInflater().inflate(R.layout.actionmain, null, false);
-        ivIcon = (ImageView) actionView.findViewById(R.id.ivIcon);
-        ivQueue = (ImageView) actionView.findViewById(R.id.ivQueue);
-        swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
-        ivMetered = (ImageView) actionView.findViewById(R.id.ivMetered);
+        ivIcon = actionView.findViewById(R.id.ivIcon);
+        ivQueue = actionView.findViewById(R.id.ivQueue);
+        swEnabled = actionView.findViewById(R.id.swEnabled);
+        ivMetered = actionView.findViewById(R.id.ivMetered);
 
         // Icon
         ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
@@ -236,7 +233,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     }
 
                 } else
-                    ServiceSinkhole.stop("switch off", ActivityMain.this);
+                    ServiceSinkhole.stop("switch off", ActivityMain.this, false);
             }
         });
         if (enabled)
@@ -262,11 +259,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         getSupportActionBar().setCustomView(actionView);
 
         // Disabled warning
-        TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
+        TextView tvDisabled = findViewById(R.id.tvDisabled);
         tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
 
         // Application list
-        RecyclerView rvApplication = (RecyclerView) findViewById(R.id.rvApplication);
+        RecyclerView rvApplication = findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(true);
         rvApplication.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AdapterRule(this);
@@ -275,21 +272,21 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Swipe to refresh
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        swipeRefresh = findViewById(R.id.swipeRefresh);
         swipeRefresh.setColorSchemeColors(Color.WHITE, Color.WHITE, Color.WHITE);
         swipeRefresh.setProgressBackgroundColorSchemeColor(tv.data);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 Rule.clearCache(ActivityMain.this);
-                ServiceSinkhole.reload("pull", ActivityMain.this);
+                ServiceSinkhole.reload("pull", ActivityMain.this, false);
                 updateApplicationList(null);
             }
         });
 
         // Hint usage
-        final LinearLayout llUsage = (LinearLayout) findViewById(R.id.llUsage);
-        Button btnUsage = (Button) findViewById(R.id.btnUsage);
+        final LinearLayout llUsage = findViewById(R.id.llUsage);
+        Button btnUsage = findViewById(R.id.btnUsage);
         boolean hintUsage = prefs.getBoolean("hint_usage", true);
         llUsage.setVisibility(hintUsage ? View.VISIBLE : View.GONE);
         btnUsage.setOnClickListener(new View.OnClickListener() {
@@ -327,9 +324,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.first, null, false);
 
-            TextView tvFirst = (TextView) view.findViewById(R.id.tvFirst);
-            TextView tvAdmob = (TextView) view.findViewById(R.id.tvAdmob);
+            TextView tvFirst = view.findViewById(R.id.tvFirst);
+            TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
+            TextView tvAdmob = view.findViewById(R.id.tvAdmob);
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
+            tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
             tvAdmob.setMovementMethod(LinkMovementMethod.getInstance());
 
             // Show dialog
@@ -546,7 +545,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_ROAMING)
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                ServiceSinkhole.reload("permission granted", this);
+                ServiceSinkhole.reload("permission granted", this, false);
     }
 
     @Override
@@ -557,11 +556,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             boolean enabled = prefs.getBoolean(name, false);
 
             // Display disabled warning
-            TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
+            TextView tvDisabled = findViewById(R.id.tvDisabled);
             tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
 
             // Check switch state
-            SwitchCompat swEnabled = (SwitchCompat) getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
+            SwitchCompat swEnabled = getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
             if (swEnabled.isChecked() != enabled)
                 swEnabled.setChecked(enabled);
 
@@ -579,7 +578,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 "imported".equals(name)) {
             updateApplicationList(null);
 
-            final LinearLayout llWhitelist = (LinearLayout) findViewById(R.id.llWhitelist);
+            final LinearLayout llWhitelist = findViewById(R.id.llWhitelist);
             boolean screen_on = prefs.getBoolean("screen_on", true);
             boolean whitelist_wifi = prefs.getBoolean("whitelist_wifi", false);
             boolean whitelist_other = prefs.getBoolean("whitelist_other", false);
@@ -590,7 +589,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             invalidateOptionsMenu();
             updateApplicationList(null);
 
-            LinearLayout llSystem = (LinearLayout) findViewById(R.id.llSystem);
+            LinearLayout llSystem = findViewById(R.id.llSystem);
             boolean system = prefs.getBoolean("manage_system", false);
             boolean hint = prefs.getBoolean("hint_system", true);
             llSystem.setVisibility(!system && hint ? View.VISIBLE : View.GONE);
@@ -668,7 +667,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Search
         menuSearch = menu.findItem(R.id.menu_search);
-        MenuItemCompat.setOnActionExpandListener(menuSearch, new MenuItemCompat.OnActionExpandListener() {
+        menuSearch.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 return true;
@@ -676,13 +675,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                if (getIntent().hasExtra(EXTRA_SEARCH))
+                if (getIntent().hasExtra(EXTRA_SEARCH) && !getIntent().getBooleanExtra(EXTRA_RELATED, false))
                     finish();
                 return true;
             }
         });
 
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+        final SearchView searchView = (SearchView) menuSearch.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -712,7 +711,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         });
         String search = getIntent().getStringExtra(EXTRA_SEARCH);
         if (search != null) {
-            MenuItemCompat.expandActionView(menuSearch);
+            menuSearch.expandActionView();
             searchView.setQuery(search, true);
         }
 
@@ -851,8 +850,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         boolean hintUsage = prefs.getBoolean("hint_usage", true);
 
         // Hint white listing
-        final LinearLayout llWhitelist = (LinearLayout) findViewById(R.id.llWhitelist);
-        Button btnWhitelist = (Button) findViewById(R.id.btnWhitelist);
+        final LinearLayout llWhitelist = findViewById(R.id.llWhitelist);
+        Button btnWhitelist = findViewById(R.id.btnWhitelist);
         boolean whitelist_wifi = prefs.getBoolean("whitelist_wifi", false);
         boolean whitelist_other = prefs.getBoolean("whitelist_other", false);
         boolean hintWhitelist = prefs.getBoolean("hint_whitelist", true);
@@ -866,8 +865,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         });
 
         // Hint push messages
-        final LinearLayout llPush = (LinearLayout) findViewById(R.id.llPush);
-        Button btnPush = (Button) findViewById(R.id.btnPush);
+        final LinearLayout llPush = findViewById(R.id.llPush);
+        Button btnPush = findViewById(R.id.btnPush);
         boolean hintPush = prefs.getBoolean("hint_push", true);
         llPush.setVisibility(hintPush && !hintUsage ? View.VISIBLE : View.GONE);
         btnPush.setOnClickListener(new View.OnClickListener() {
@@ -879,8 +878,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         });
 
         // Hint system applications
-        final LinearLayout llSystem = (LinearLayout) findViewById(R.id.llSystem);
-        Button btnSystem = (Button) findViewById(R.id.btnSystem);
+        final LinearLayout llSystem = findViewById(R.id.llSystem);
+        Button btnSystem = findViewById(R.id.btnSystem);
         boolean system = prefs.getBoolean("manage_system", false);
         boolean hintSystem = prefs.getBoolean("hint_system", true);
         llSystem.setVisibility(!system && hintSystem ? View.VISIBLE : View.GONE);
@@ -897,9 +896,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // https://developers.google.com/android/reference/com/google/android/gms/ads/package-summary
         MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
 
-        final LinearLayout llAd = (LinearLayout) findViewById(R.id.llAd);
-        TextView tvAd = (TextView) findViewById(R.id.tvAd);
-        final AdView adView = (AdView) findViewById(R.id.adView);
+        final LinearLayout llAd = findViewById(R.id.llAd);
+        TextView tvAd = findViewById(R.id.tvAd);
+        final AdView adView = findViewById(R.id.adView);
 
         SpannableString content = new SpannableString(getString(R.string.title_pro_ads));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -958,9 +957,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private void enableAds() {
-        RelativeLayout rlAd = (RelativeLayout) findViewById(R.id.rlAd);
-        LinearLayout llAd = (LinearLayout) findViewById(R.id.llAd);
-        final AdView adView = (AdView) findViewById(R.id.adView);
+        RelativeLayout rlAd = findViewById(R.id.rlAd);
+        LinearLayout llAd = findViewById(R.id.llAd);
+        final AdView adView = findViewById(R.id.adView);
 
         rlAd.setVisibility(View.VISIBLE);
         llAd.setVisibility(View.VISIBLE);
@@ -982,8 +981,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private void disableAds() {
-        RelativeLayout rlAd = (RelativeLayout) findViewById(R.id.rlAd);
-        AdView adView = (AdView) findViewById(R.id.adView);
+        RelativeLayout rlAd = findViewById(R.id.rlAd);
+        AdView adView = findViewById(R.id.adView);
 
         rlAd.setVisibility(View.GONE);
 
@@ -1056,12 +1055,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private void updateSearch(String search) {
         if (menuSearch != null) {
-            SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+            SearchView searchView = (SearchView) menuSearch.getActionView();
             if (search == null) {
                 if (menuSearch.isActionViewExpanded())
                     adapter.getFilter().filter(searchView.getQuery().toString());
             } else {
-                MenuItemCompat.expandActionView(menuSearch);
+                menuSearch.expandActionView();
                 searchView.setQuery(search, true);
             }
         }
@@ -1075,7 +1074,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 if (!prefs.getBoolean("nodoze", false)) {
                     LayoutInflater inflater = LayoutInflater.from(this);
                     View view = inflater.inflate(R.layout.doze, null, false);
-                    final CheckBox cbDontAsk = (CheckBox) view.findViewById(R.id.cbDontAsk);
+                    final CheckBox cbDontAsk = view.findViewById(R.id.cbDontAsk);
                     dialogDoze = new AlertDialog.Builder(this)
                             .setView(view)
                             .setCancelable(true)
@@ -1118,7 +1117,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 if (!prefs.getBoolean("nodata", false)) {
                     LayoutInflater inflater = LayoutInflater.from(this);
                     View view = inflater.inflate(R.layout.datasaving, null, false);
-                    final CheckBox cbDontAsk = (CheckBox) view.findViewById(R.id.cbDontAsk);
+                    final CheckBox cbDontAsk = view.findViewById(R.id.cbDontAsk);
                     dialogDoze = new AlertDialog.Builder(this)
                             .setView(view)
                             .setCancelable(true)
@@ -1158,14 +1157,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Create view
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.legend, null, false);
-        ImageView ivLockdownOn = (ImageView) view.findViewById(R.id.ivLockdownOn);
-        ImageView ivWifiOn = (ImageView) view.findViewById(R.id.ivWifiOn);
-        ImageView ivWifiOff = (ImageView) view.findViewById(R.id.ivWifiOff);
-        ImageView ivOtherOn = (ImageView) view.findViewById(R.id.ivOtherOn);
-        ImageView ivOtherOff = (ImageView) view.findViewById(R.id.ivOtherOff);
-        ImageView ivScreenOn = (ImageView) view.findViewById(R.id.ivScreenOn);
-        ImageView ivHostAllowed = (ImageView) view.findViewById(R.id.ivHostAllowed);
-        ImageView ivHostBlocked = (ImageView) view.findViewById(R.id.ivHostBlocked);
+        ImageView ivLockdownOn = view.findViewById(R.id.ivLockdownOn);
+        ImageView ivWifiOn = view.findViewById(R.id.ivWifiOn);
+        ImageView ivWifiOff = view.findViewById(R.id.ivWifiOff);
+        ImageView ivOtherOn = view.findViewById(R.id.ivOtherOn);
+        ImageView ivOtherOff = view.findViewById(R.id.ivOtherOff);
+        ImageView ivScreenOn = view.findViewById(R.id.ivScreenOn);
+        ImageView ivHostAllowed = view.findViewById(R.id.ivHostAllowed);
+        ImageView ivHostBlocked = view.findViewById(R.id.ivHostBlocked);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Drawable wrapLockdownOn = DrawableCompat.wrap(ivLockdownOn.getDrawable());
             Drawable wrapWifiOn = DrawableCompat.wrap(ivWifiOn.getDrawable());
@@ -1205,7 +1204,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         item.setChecked(!item.isChecked());
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("lockdown", item.isChecked()).apply();
-        ServiceSinkhole.reload("lockdown", this);
+        ServiceSinkhole.reload("lockdown", this, false);
         WidgetLockdown.updateWidgets(this);
     }
 
@@ -1213,11 +1212,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         // Create view
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.about, null, false);
-        TextView tvVersionName = (TextView) view.findViewById(R.id.tvVersionName);
-        TextView tvVersionCode = (TextView) view.findViewById(R.id.tvVersionCode);
-        Button btnRate = (Button) view.findViewById(R.id.btnRate);
-        TextView tvLicense = (TextView) view.findViewById(R.id.tvLicense);
-        TextView tvAdmob = (TextView) view.findViewById(R.id.tvAdmob);
+        TextView tvVersionName = view.findViewById(R.id.tvVersionName);
+        TextView tvVersionCode = view.findViewById(R.id.tvVersionCode);
+        Button btnRate = view.findViewById(R.id.btnRate);
+        TextView tvLicense = view.findViewById(R.id.tvLicense);
+        TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
+        TextView tvAdmob = view.findViewById(R.id.tvAdmob);
 
         // Show version
         tvVersionName.setText(Util.getSelfVersionName(this));
@@ -1227,7 +1227,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Handle license
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
-        tvAdmob.setMovementMethod(LinkMovementMethod.getInstance());
+        tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
+        tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
         tvAdmob.setVisibility(IAB.isPurchasedAny(this) ? View.GONE : View.VISIBLE);
 
         // Handle logcat

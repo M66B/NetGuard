@@ -6,10 +6,14 @@
   <string name="app_copyright">זכויות יוצרים \u00A9 2015–2017 על ידי מ Bokhorst (M66B)</string>
   <string name="app_android">NetGuard דורש אנדרואיד 4.0 ואילך</string>
   <string name="app_license">על ידי שימוש NetGuard, אתה מסכים <a href="http://www.gnu.org/licenses/gpl.txt"> הרישיון הציבורי הכללי של גנו גרסה 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">תשומת לב רבה הוקדשה כדי לפתח ולבדוק את NetGuard, אך זה בלתי אפשרי להבטיח ש-NetGuard תפעל כראוי על כל מכשיר. שימוש בNetGuard מהווה הסכמה לתנאי \n\n <a href="http://www.gnu.org/licenses/gpl.txt"> הרישיון הציבורי הכללי של גנו גרסה 3</a></string>
   <string name="app_admob">NetGuard משתמש בשירות הפרסום AdMob של גוגל. מדיניות הפרטיות של AdMob זמינה <a href="https://www.google.com/intl/en/policies/privacy/"> כאן</a>.</string>
   <string name="app_agree">אני מסכים</string>
   <string name="app_disagree">אני לא מסכים</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">חפש יישום</string>
   <string name="menu_filter">סנן יישומים</string>
   <string name="menu_app_user">הצג יישומי משתמש</string>
@@ -72,8 +76,10 @@
   <string name="setting_metered_4g">התייחס לLTE כתעבורה נימנת</string>
   <string name="setting_national_roaming">התעלם מנדידה בתוך המדינה</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">אפשרויות מתקדמות</string>
   <string name="setting_system">ניהול יישומי מערכת</string>
   <string name="setting_log_app">יומן גישה לאינטרנט</string>
@@ -129,6 +135,7 @@
   <string name="summary_metered_4g">החל חוקי רשת Wi-Fi עבור חיבור נתונים LTE</string>
   <string name="summary_national_roaming">אל תאפשר להחיל חוקי נדידת נתונים כאשר מדינת הסים והרשת זהים</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">הגדר חוקים עבור יישומי מערכת (למומחים)</string>
   <string name="summary_log_app">רשום ביומן נסיונות גישה לאינטרנט ע”י יישומים. עלול להגביר צריכת סוללה.</string>
   <string name="summary_access">הצג הודעה בשורת המצב כאשר יישום מנסה לגשת אל כתובת אינטרנט חדשה (כאשר תכונת הסינון אינה מאופשרת, יוצגו רק ניסיונות גישה שנחסמו)</string>
@@ -223,7 +230,8 @@
   <string name="title_logging_configure">Configure</string>
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
   <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">דרג</string>

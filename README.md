@@ -91,9 +91,10 @@ Removing this package is possible with root permissions only.
 
 NetGuard is supported for phones and tablets only, so not for other device types like on a television or in a car.
 
-Wi-Fi calling will not work if your provider uses [IPsec](https://en.wikipedia.org/wiki/IPsec) to encrypt your calls,
-unless there is made an exception in NetGuard for your provider (currently for T-Mobile and Verizon).
-I am happy to add exceptions for other providers, but I need the MCC's, MNC's and IP ranges your provider is using.
+Wi-Fi or IP calling will not work if your provider uses [IPsec](https://en.wikipedia.org/wiki/IPsec) to encrypt your phone calls, SMS messages and/or MMS messages,
+unless there was made an exception in NetGuard for your provider (currently for T-Mobile and Verizon).
+I am happy to add exceptions for other providers, but I need the [MCC](https://en.wikipedia.org/wiki/Mobile_country_code) codes, [MNC](https://en.wikipedia.org/wiki/MNC) codes and [IP address](https://en.wikipedia.org/wiki/IP_address) ranges your provider is using.
+As an alternative you can enable the option '*Disable on call*', which is available since version 2.113.
 
 
 <a name="FAQ"></a>
@@ -264,6 +265,12 @@ Frequently Asked Questions (FAQ)
 
 <a name="FAQ59"></a>
 [**(59) Can you help me restore my purchase?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ59)
+
+<a name="FAQ60"></a>
+[**(60) Why does IP (Wi-Fi) calling/SMS/MMS not work?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ60)
+
+<a name="FAQ61"></a>
+[**(61) Help, NetGuard crashed!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ61)
 
 Support
 -------

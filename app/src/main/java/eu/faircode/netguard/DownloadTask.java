@@ -20,12 +20,17 @@ package eu.faircode.netguard;
 */
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
+import android.util.TypedValue;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,7 +48,6 @@ public class DownloadTask extends AsyncTask<Object, Integer, Object> {
     private URL url;
     private File file;
     private Listener listener;
-    private ProgressDialog progressDialog;
     private PowerManager.WakeLock wakeLock;
 
     public interface Listener {
@@ -66,21 +70,8 @@ public class DownloadTask extends AsyncTask<Object, Integer, Object> {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getClass().getName());
         wakeLock.acquire();
-
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setIcon(R.mipmap.ic_launcher);
-        progressDialog.setTitle(R.string.app_name);
-        progressDialog.setMessage(context.getString(R.string.msg_downloading, url.toString()));
-        progressDialog.setIndeterminate(true);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setCancelable(true);
-        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                DownloadTask.this.cancel(true);
-            }
-        });
-        progressDialog.show();
+        showNotification(0);
+        Toast.makeText(context, context.getString(R.string.msg_downloading, url.toString()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -142,9 +133,7 @@ public class DownloadTask extends AsyncTask<Object, Integer, Object> {
     @Override
     protected void onProgressUpdate(Integer... progress) {
         super.onProgressUpdate(progress);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setMax(100);
-        progressDialog.setProgress(progress[0]);
+        showNotification(progress[0]);
     }
 
     @Override
@@ -157,11 +146,35 @@ public class DownloadTask extends AsyncTask<Object, Integer, Object> {
     @Override
     protected void onPostExecute(Object result) {
         wakeLock.release();
-        progressDialog.dismiss();
+        NotificationManagerCompat.from(context).cancel(ServiceSinkhole.NOTIFY_DOWNLOAD);
         if (result instanceof Throwable) {
             Log.e(TAG, result.toString() + "\n" + Log.getStackTraceString((Throwable) result));
             listener.onException((Throwable) result);
         } else
             listener.onCompleted();
     }
+
+    private void showNotification(int progress) {
+        Intent main = new Intent(context, ActivitySettings.class);
+        PendingIntent pi = PendingIntent.getActivity(context, ServiceSinkhole.NOTIFY_DOWNLOAD, main, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorOff, tv, true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notify");
+        builder.setSmallIcon(R.drawable.ic_file_download_white_24dp)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(context.getString(R.string.msg_downloading, url.toString()))
+                .setContentIntent(pi)
+                .setProgress(100, progress, false)
+                .setColor(tv.data)
+                .setOngoing(true)
+                .setAutoCancel(false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET);
+
+        NotificationManagerCompat.from(context).notify(ServiceSinkhole.NOTIFY_DOWNLOAD, builder.build());
+    }
+
 }

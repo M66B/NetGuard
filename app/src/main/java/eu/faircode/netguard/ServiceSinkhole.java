@@ -40,7 +40,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
+import android.net.LinkProperties;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.net.TrafficStats;
 import android.net.Uri;
 import android.net.VpnService;
@@ -59,8 +63,6 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
-import android.telephony.ServiceState;
-import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -108,12 +110,17 @@ import javax.net.ssl.HttpsURLConnection;
 public class ServiceSinkhole extends VpnService implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Service";
 
-    private boolean registeredInteractiveState = false;
     private boolean registeredPowerSave = false;
     private boolean registeredUser = false;
     private boolean registeredIdleState = false;
     private boolean registeredConnectivityChanged = false;
     private boolean registeredPackageChanged = false;
+
+    private boolean phone_state = false;
+    private Object networkCallback = null;
+
+    private boolean registeredInteractiveState = false;
+    private PhoneStateListener callStateListener = null;
 
     private State state = State.none;
     private boolean user_foreground = true;
@@ -121,19 +128,22 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean last_metered = true;
     private boolean last_interactive = false;
     private boolean powersaving = false;
-    private boolean phone_state = false;
-    private Object subscriptionsChangedListener = null;
+
+    private int last_allowed = -1;
+    private int last_blocked = -1;
+    private int last_hosts = -1;
 
     private ServiceSinkhole.Builder last_builder = null;
     private ParcelFileDescriptor vpn = null;
+    private boolean temporarilyStopped = false;
 
     private long last_hosts_modified = 0;
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
     private Map<Integer, Integer> mapUidKnown = new HashMap<>();
-    private Map<Long, Map<InetAddress, IPRule>> mapUidIPFilters = new HashMap<>();
+    private final Map<Long, Map<InetAddress, IPRule>> mapUidIPFilters = new HashMap<>();
     private Map<Integer, Forward> mapForward = new HashMap<>();
-    private Map<Integer, Boolean> mapNoNotify = new HashMap<>();
+    private Map<Integer, Boolean> mapNotify = new HashMap<>();
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true);
 
     private volatile Looper commandLooper;
@@ -150,6 +160,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private static final int NOTIFY_ERROR = 5;
     private static final int NOTIFY_TRAFFIC = 6;
     private static final int NOTIFY_UPDATE = 7;
+    public static final int NOTIFY_EXTERNAL = 8;
+    public static final int NOTIFY_DOWNLOAD = 9;
 
     public static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
@@ -157,6 +169,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     public static final String EXTRA_UID = "UID";
     public static final String EXTRA_PACKAGE = "Package";
     public static final String EXTRA_BLOCKED = "Blocked";
+    public static final String EXTRA_INTERACTIVE = "Interactive";
+    public static final String EXTRA_TEMPORARY = "Temporary";
 
     private static final int MSG_SERVICE_INTENT = 0;
     private static final int MSG_STATS_START = 1;
@@ -227,6 +241,14 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         return wlInstance;
     }
 
+    synchronized private static void releaseLock(Context context) {
+        if (wlInstance != null) {
+            while (wlInstance.isHeld())
+                wlInstance.release();
+            wlInstance = null;
+        }
+    }
+
     private final class CommandHandler extends Handler {
         public int queue = 0;
 
@@ -292,13 +314,25 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             // Check if foreground
             if (cmd != Command.stop)
                 if (!user_foreground) {
-                    Log.i(TAG, "Command " + cmd + "ignored for background user");
+                    Log.i(TAG, "Command " + cmd + " ignored for background user");
                     return;
                 }
 
+            // Handle temporary stop
+            if (cmd == Command.stop)
+                temporarilyStopped = intent.getBooleanExtra(EXTRA_TEMPORARY, false);
+            else if (cmd == Command.start)
+                temporarilyStopped = false;
+            else if (cmd == Command.reload && temporarilyStopped) {
+                // Prevent network/interactive changes from restarting the VPN
+                Log.i(TAG, "Command " + cmd + " ignored because of temporary stop");
+                return;
+            }
+
+            // Optionally listen for interactive state changes
             if (prefs.getBoolean("screen_on", true)) {
-                Log.i(TAG, "Started listening for interactive state changes");
-                if (prefs.getBoolean("screen_on", true)) {
+                if (!registeredInteractiveState) {
+                    Log.i(TAG, "Starting listening for interactive state changes");
                     last_interactive = Util.isInteractive(ServiceSinkhole.this);
                     IntentFilter ifInteractive = new IntentFilter();
                     ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
@@ -308,59 +342,65 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     registeredInteractiveState = true;
                 }
             } else {
-                Log.i(TAG, "Stopped listening for interactive state changes");
                 if (registeredInteractiveState) {
+                    Log.i(TAG, "Stopping listening for interactive state changes");
                     unregisterReceiver(interactiveStateReceiver);
                     registeredInteractiveState = false;
                 }
             }
 
-            // Listen for phone state changes
+            // Optionally listen for call state changes
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            if (tm != null && !phone_state &&
-                    Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
-                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE | PhoneStateListener.LISTEN_SERVICE_STATE);
-                phone_state = true;
-                Log.i(TAG, "Listening to service state changes");
-            }
-
-            // Listen for data SIM changes
-            if (subscriptionsChangedListener == null &&
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 &&
-                    Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
-                SubscriptionManager sm = SubscriptionManager.from(ServiceSinkhole.this);
-                subscriptionsChangedListener = new SubscriptionManager.OnSubscriptionsChangedListener() {
-                    @Override
-                    public void onSubscriptionsChanged() {
-                        Log.i(TAG, "Subscriptions changed");
-                        if (prefs.getBoolean("national_roaming", false))
-                            ServiceSinkhole.reload("Subscriptions changed", ServiceSinkhole.this);
-                    }
-                };
-                sm.addOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
-                Log.i(TAG, "Listening to subscription changes");
+            if (prefs.getBoolean("disable_on_call", false)) {
+                if (tm != null && callStateListener == null && Util.hasPhoneStatePermission(ServiceSinkhole.this)) {
+                    Log.i(TAG, "Starting listening for call states");
+                    PhoneStateListener listener = new PhoneStateListener() {
+                        @Override
+                        public void onCallStateChanged(int state, String incomingNumber) {
+                            Log.i(TAG, "New call state=" + state);
+                            if (prefs.getBoolean("enabled", false))
+                                if (state == TelephonyManager.CALL_STATE_IDLE)
+                                    ServiceSinkhole.start("call state", ServiceSinkhole.this);
+                                else
+                                    ServiceSinkhole.stop("call state", ServiceSinkhole.this, true);
+                        }
+                    };
+                    tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
+                    callStateListener = listener;
+                }
+            } else {
+                if (tm != null && callStateListener != null) {
+                    Log.i(TAG, "Stopping listening for call states");
+                    tm.listen(callStateListener, PhoneStateListener.LISTEN_NONE);
+                    callStateListener = null;
+                }
             }
 
             // Watchdog
-            if (cmd == Command.start || cmd == Command.reload) {
+            if (cmd == Command.start || cmd == Command.reload || cmd == Command.stop) {
                 Intent watchdogIntent = new Intent(ServiceSinkhole.this, ServiceSinkhole.class);
                 watchdogIntent.setAction(ACTION_WATCHDOG);
-                PendingIntent pi = PendingIntent.getService(ServiceSinkhole.this, 1, watchdogIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pi;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    pi = PendingIntent.getForegroundService(ServiceSinkhole.this, 1, watchdogIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                else
+                    pi = PendingIntent.getService(ServiceSinkhole.this, 1, watchdogIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 am.cancel(pi);
 
-                int watchdog = Integer.parseInt(prefs.getString("watchdog", "0"));
-                if (watchdog > 0) {
-                    Log.i(TAG, "Watchdog " + watchdog + " minutes");
-                    am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + watchdog * 60 * 1000, watchdog * 60 * 1000, pi);
+                if (cmd != Command.stop) {
+                    int watchdog = Integer.parseInt(prefs.getString("watchdog", "0"));
+                    if (watchdog > 0) {
+                        Log.i(TAG, "Watchdog " + watchdog + " minutes");
+                        am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + watchdog * 60 * 1000, watchdog * 60 * 1000, pi);
+                    }
                 }
             }
 
             try {
                 switch (cmd) {
                     case run:
-                        run();
                         break;
 
                     case start:
@@ -368,11 +408,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         break;
 
                     case reload:
-                        reload();
+                        reload(intent.getBooleanExtra(EXTRA_INTERACTIVE, false));
                         break;
 
                     case stop:
-                        stop();
+                        stop(temporarilyStopped);
                         break;
 
                     case stats:
@@ -392,7 +432,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         Log.e(TAG, "Unknown command=" + cmd);
                 }
 
-                if (cmd != Command.watchdog) {
+                if (cmd == Command.start || cmd == Command.reload || cmd == Command.stop) {
                     // Update main view
                     Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
                     ruleset.putExtra(ActivityMain.EXTRA_CONNECTED, cmd == Command.stop ? false : last_connected);
@@ -402,6 +442,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     // Update widgets
                     WidgetMain.updateWidgets(ServiceSinkhole.this);
                 }
+
+                // Stop service if needed
+                if (!prefs.getBoolean("enabled", false) && !prefs.getBoolean("show_stats", false))
+                    stopForeground(true);
 
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -419,19 +463,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         showErrorNotification(ex.toString());
 
                         // Disable firewall
-                        prefs.edit().putBoolean("enabled", false).apply();
-                        WidgetMain.updateWidgets(ServiceSinkhole.this);
+                        if (!(ex instanceof StartFailedException)) {
+                            prefs.edit().putBoolean("enabled", false).apply();
+                            WidgetMain.updateWidgets(ServiceSinkhole.this);
+                        }
                     }
                 } else
                     showErrorNotification(ex.toString());
-            }
-        }
-
-        private void run() {
-            if (state == State.none) {
-                startForeground(NOTIFY_WAITING, getWaitingNotification());
-                state = State.waiting;
-                Log.d(TAG, "Start foreground state=" + state.toString());
             }
         }
 
@@ -441,7 +479,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Log.d(TAG, "Stop foreground state=" + state.toString());
                     stopForeground(true);
                 }
-                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(-1, -1, -1));
                 state = State.enforcing;
                 Log.d(TAG, "Start foreground state=" + state.toString());
 
@@ -451,7 +489,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 last_builder = getBuilder(listAllowed, listRule);
                 vpn = startVPN(last_builder);
                 if (vpn == null)
-                    throw new IllegalStateException(getString((R.string.msg_start_failed)));
+                    throw new StartFailedException(getString((R.string.msg_start_failed)));
 
                 startNative(vpn, listAllowed, listRule);
 
@@ -460,7 +498,26 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
         }
 
-        private void reload() {
+        private void reload(boolean interactive) {
+            List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
+
+            // Check if rules needs to be reloaded
+            if (interactive) {
+                boolean process = false;
+                for (Rule rule : listRule) {
+                    boolean blocked = (last_metered ? rule.other_blocked : rule.wifi_blocked);
+                    boolean screen = (last_metered ? rule.screen_other : rule.screen_wifi);
+                    if (blocked && screen) {
+                        process = true;
+                        break;
+                    }
+                }
+                if (!process) {
+                    Log.i(TAG, "No changed rules on interactive state change");
+                    return;
+                }
+            }
+
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
             boolean clear = prefs.getBoolean("clear_onreload", false);
 
@@ -469,12 +526,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Log.d(TAG, "Stop foreground state=" + state.toString());
                     stopForeground(true);
                 }
-                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(-1, -1, -1));
                 state = State.enforcing;
                 Log.d(TAG, "Start foreground state=" + state.toString());
             }
 
-            List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
             List<Rule> listAllowed = getAllowedRules(listRule);
             ServiceSinkhole.Builder builder = getBuilder(listAllowed, listRule);
 
@@ -528,7 +584,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
 
             if (vpn == null)
-                throw new IllegalStateException(getString((R.string.msg_start_failed)));
+                throw new StartFailedException(getString((R.string.msg_start_failed)));
 
             startNative(vpn, listAllowed, listRule);
 
@@ -536,23 +592,30 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             updateEnforcingNotification(listAllowed.size(), listRule.size());
         }
 
-        private void stop() {
+        private void stop(boolean temporary) {
             if (vpn != null) {
                 stopNative(vpn, true);
                 stopVPN(vpn);
                 vpn = null;
                 unprepare();
             }
-            if (state == State.enforcing) {
+            if (state == State.enforcing && !temporary) {
                 Log.d(TAG, "Stop foreground state=" + state.toString());
+                last_allowed = -1;
+                last_blocked = -1;
+                last_hosts = -1;
+
                 stopForeground(true);
+
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                 if (prefs.getBoolean("show_stats", false)) {
                     startForeground(NOTIFY_WAITING, getWaitingNotification());
                     state = State.waiting;
                     Log.d(TAG, "Start foreground state=" + state.toString());
-                } else
+                } else {
                     state = State.none;
+                    stopSelf();
+                }
             }
         }
 
@@ -600,14 +663,14 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             try {
                 JSONObject jroot = new JSONObject(json.toString());
-                if (jroot.has("tag_name") && jroot.has("assets")) {
+                if (jroot.has("tag_name") && jroot.has("html_url") && jroot.has("assets")) {
+                    String url = jroot.getString("html_url");
                     JSONArray jassets = jroot.getJSONArray("assets");
                     if (jassets.length() > 0) {
                         JSONObject jasset = jassets.getJSONObject(0);
-                        if (jasset.has("name") && jasset.has("browser_download_url")) {
+                        if (jasset.has("name")) {
                             String version = jroot.getString("tag_name");
                             String name = jasset.getString("name");
-                            String url = jasset.getString("browser_download_url");
                             Log.i(TAG, "Tag " + version + " name " + name + " url " + url);
 
                             Version current = new Version(Util.getSelfVersionName(ServiceSinkhole.this));
@@ -622,6 +685,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
             } catch (JSONException ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+        }
+
+        private class StartFailedException extends IllegalStateException {
+            public StartFailedException(String msg) {
+                super(msg);
             }
         }
     }
@@ -675,7 +744,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     packet.dport = 0;
                 if (dh.updateAccess(packet, dname, -1)) {
                     lock.readLock().lock();
-                    if (mapNoNotify.containsKey(packet.uid) && mapNoNotify.get(packet.uid))
+                    if (!mapNotify.containsKey(packet.uid) || mapNotify.get(packet.uid))
                         showAccessNotification(packet.uid);
                     lock.readLock().unlock();
                 }
@@ -956,8 +1025,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             TypedValue tv = new TypedValue();
             getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(ServiceSinkhole.this)
-                    .setWhen(when)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(ServiceSinkhole.this, "notify");
+            builder.setWhen(when)
                     .setSmallIcon(R.drawable.ic_equalizer_white_24dp)
                     .setContent(remoteViews)
                     .setContentIntent(pi)
@@ -965,10 +1034,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     .setOngoing(true)
                     .setAutoCancel(false);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder.setCategory(Notification.CATEGORY_STATUS)
-                        .setVisibility(Notification.VISIBILITY_PUBLIC);
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
             if (state == State.none || state == State.waiting) {
                 if (state != State.none) {
@@ -1319,7 +1387,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             prepareNotify(listRule);
         else {
             lock.writeLock().lock();
-            mapNoNotify.clear();
+            mapNotify.clear();
             lock.writeLock().unlock();
         }
 
@@ -1356,7 +1424,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         mapHostsBlocked.clear();
         mapUidIPFilters.clear();
         mapForward.clear();
-        mapNoNotify.clear();
+        mapNotify.clear();
         lock.writeLock().unlock();
     }
 
@@ -1548,11 +1616,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean system = prefs.getBoolean("manage_system", false);
 
         lock.writeLock().lock();
-        mapNoNotify.clear();
-        if (notify)
-            for (Rule rule : listRule)
-                if (rule.notify && (system || !rule.system))
-                    mapNoNotify.put(rule.info.applicationInfo.uid, true);
+        mapNotify.clear();
+        for (Rule rule : listRule)
+            mapNotify.put(rule.info.applicationInfo.uid, notify && rule.notify && (system || !rule.system));
         lock.writeLock().unlock();
     }
 
@@ -1582,8 +1648,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean unmetered_3g = prefs.getBoolean("unmetered_3g", false);
         boolean unmetered_4g = prefs.getBoolean("unmetered_4g", false);
         boolean roaming = Util.isRoaming(ServiceSinkhole.this);
-        boolean eu = prefs.getBoolean("eu_roaming", false);
         boolean national = prefs.getBoolean("national_roaming", false);
+        boolean eu = prefs.getBoolean("eu_roaming", false);
         boolean tethering = prefs.getBoolean("tethering", false);
         boolean filter = prefs.getBoolean("filter", false);
 
@@ -1750,7 +1816,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     }
 
                 if (!filtered)
-                    packet.allowed = (mapUidAllowed.containsKey(packet.uid) && mapUidAllowed.get(packet.uid));
+                    if (mapUidAllowed.containsKey(packet.uid))
+                        packet.allowed = mapUidAllowed.get(packet.uid);
+                    else
+                        Log.w(TAG, "No rules for " + packet);
             }
         }
 
@@ -1791,37 +1860,28 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
 
-            // Check if rules needs to be reloaded
-            boolean process = false;
-            List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
-            for (Rule rule : listRule) {
-                boolean blocked = (last_metered ? rule.other_blocked : rule.wifi_blocked);
-                boolean screen = (last_metered ? rule.screen_other : rule.screen_wifi);
-                if (blocked && screen) {
-                    process = true;
-                    break;
-                }
-            }
-            if (!process) {
-                Log.i(TAG, "No changed rules on interactive state change");
-                return;
-            }
-
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-            int delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
+            int delay;
+            try {
+                delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
+            } catch (NumberFormatException ignored) {
+                delay = 0;
+            }
             boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
 
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_SCREEN_OFF_DELAYED), PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent i = new Intent(ACTION_SCREEN_OFF_DELAYED);
+            i.setPackage(context.getPackageName());
+            PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
             am.cancel(pi);
 
             if (interactive || delay == 0) {
                 last_interactive = interactive;
-                reload("interactive state changed", ServiceSinkhole.this);
+                reload("interactive state changed", ServiceSinkhole.this, true);
             } else {
                 if (ACTION_SCREEN_OFF_DELAYED.equals(intent.getAction())) {
                     last_interactive = interactive;
-                    reload("interactive state changed", ServiceSinkhole.this);
+                    reload("interactive state changed", ServiceSinkhole.this, true);
                 } else {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
                         am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
@@ -1874,7 +1934,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     start("foreground", ServiceSinkhole.this);
                 }
             } else
-                stop("background", ServiceSinkhole.this);
+                stop("background", ServiceSinkhole.this, false);
         }
     };
 
@@ -1890,7 +1950,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             // Reload rules when coming from idle mode
             if (!pm.isDeviceIdleMode())
-                reload("idle state changed", ServiceSinkhole.this);
+                reload("idle state changed", ServiceSinkhole.this, false);
         }
     };
 
@@ -1907,7 +1967,30 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             // Reload rules
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
-            reload("connectivity changed", ServiceSinkhole.this);
+            reload("connectivity changed", ServiceSinkhole.this, false);
+        }
+    };
+
+    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+        private String last_generation = null;
+
+        @Override
+        public void onDataConnectionStateChanged(int state, int networkType) {
+            if (state == TelephonyManager.DATA_CONNECTED) {
+                String current_generation = Util.getNetworkGeneration(ServiceSinkhole.this);
+                Log.i(TAG, "Data connected generation=" + current_generation);
+
+                if (last_generation == null || !last_generation.equals(current_generation)) {
+                    Log.i(TAG, "New network generation=" + current_generation);
+                    last_generation = current_generation;
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                    if (prefs.getBoolean("unmetered_2g", false) ||
+                            prefs.getBoolean("unmetered_3g", false) ||
+                            prefs.getBoolean("unmetered_4g", false))
+                        reload("data connection state changed", ServiceSinkhole.this, false);
+                }
+            }
         }
     };
 
@@ -1917,50 +2000,54 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
 
-            if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
-                // Application added
-                Rule.clearCache(context);
+            try {
+                if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
+                    // Application added
+                    Rule.clearCache(context);
 
-                if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
-                    // Show notification
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                    if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context) && prefs.getBoolean("install", true)) {
-                        int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
-                        notifyNewApplication(uid);
+                    if (!intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
+                        // Show notification
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                        if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context) && prefs.getBoolean("install", true)) {
+                            int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
+                            notifyNewApplication(uid);
+                        }
                     }
-                }
 
-                reload("package added", context);
+                    reload("package added", context, false);
 
-            } else if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
-                // Application removed
-                Rule.clearCache(context);
+                } else if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
+                    // Application removed
+                    Rule.clearCache(context);
 
-                if (intent.getBooleanExtra(Intent.EXTRA_DATA_REMOVED, false)) {
-                    // Remove settings
-                    String packageName = intent.getData().getSchemeSpecificPart();
-                    Log.i(TAG, "Deleting settings package=" + packageName);
-                    context.getSharedPreferences("wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("screen_other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("roaming", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("lockdown", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("apply", Context.MODE_PRIVATE).edit().remove(packageName).apply();
-                    context.getSharedPreferences("notify", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                    if (intent.getBooleanExtra(Intent.EXTRA_DATA_REMOVED, false)) {
+                        // Remove settings
+                        String packageName = intent.getData().getSchemeSpecificPart();
+                        Log.i(TAG, "Deleting settings package=" + packageName);
+                        context.getSharedPreferences("wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("screen_other", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("roaming", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("lockdown", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("apply", Context.MODE_PRIVATE).edit().remove(packageName).apply();
+                        context.getSharedPreferences("notify", Context.MODE_PRIVATE).edit().remove(packageName).apply();
 
-                    int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
-                    if (uid > 0) {
-                        DatabaseHelper dh = DatabaseHelper.getInstance(context);
-                        dh.clearLog(uid);
-                        dh.clearAccess(uid, false);
+                        int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
+                        if (uid > 0) {
+                            DatabaseHelper dh = DatabaseHelper.getInstance(context);
+                            dh.clearLog(uid);
+                            dh.clearAccess(uid, false);
 
-                        NotificationManagerCompat.from(context).cancel(uid); // installed notification
-                        NotificationManagerCompat.from(context).cancel(uid + 10000); // access notification
+                            NotificationManagerCompat.from(context).cancel(uid); // installed notification
+                            NotificationManagerCompat.from(context).cancel(uid + 10000); // access notification
+                        }
                     }
-                }
 
-                reload("package deleted", context);
+                    reload("package deleted", context, false);
+                }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
         }
     };
@@ -1989,8 +2076,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             TypedValue tv = new TypedValue();
             getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.ic_security_white_24dp)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify");
+            builder.setSmallIcon(R.drawable.ic_security_white_24dp)
                     .setContentIntent(pi)
                     .setColor(tv.data)
                     .setAutoCancel(true);
@@ -2003,8 +2090,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         .setContentText(getString(R.string.msg_installed, name));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                builder.setCategory(Notification.CATEGORY_STATUS)
-                        .setVisibility(Notification.VISIBILITY_SECRET);
+                builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                        .setVisibility(NotificationCompat.VISIBILITY_SECRET);
 
             // Get defaults
             SharedPreferences prefs_wifi = getSharedPreferences("wifi", Context.MODE_PRIVATE);
@@ -2061,60 +2148,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     }
 
-    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
-        private String last_generation = null;
-        private int last_eu = -1;
-        private int last_national = -1;
-
-        @Override
-        public void onDataConnectionStateChanged(int state, int networkType) {
-            if (state == TelephonyManager.DATA_CONNECTED) {
-                String current_generation = Util.getNetworkGeneration(ServiceSinkhole.this);
-                Log.i(TAG, "Data connected generation=" + current_generation);
-
-                if (last_generation == null || !last_generation.equals(current_generation)) {
-                    Log.i(TAG, "New network generation=" + current_generation);
-                    last_generation = current_generation;
-
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-                    if (prefs.getBoolean("unmetered_2g", false) ||
-                            prefs.getBoolean("unmetered_3g", false) ||
-                            prefs.getBoolean("unmetered_4g", false))
-                        reload("data connection state changed", ServiceSinkhole.this);
-                }
-            }
-        }
-
-        @Override
-        public void onServiceStateChanged(ServiceState serviceState) {
-            if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
-                int current_eu = (Util.isEU(ServiceSinkhole.this) ? 1 : 0);
-                int current_national = (Util.isNational(ServiceSinkhole.this) ? 1 : 0);
-                Log.i(TAG, "In service eu=" + current_eu + " national=" + current_national);
-
-                boolean reload = false;
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-
-                if (last_eu != current_eu) {
-                    Log.i(TAG, "New eu=" + current_eu);
-                    last_eu = current_eu;
-                    if (prefs.getBoolean("eu_roaming", false))
-                        reload = true;
-                }
-
-                if (last_national != current_national) {
-                    Log.i(TAG, "New national=" + current_national);
-                    last_national = current_national;
-                    if (prefs.getBoolean("national_roaming", false))
-                        reload = true;
-                }
-
-                if (reload)
-                    reload("service state changed", ServiceSinkhole.this);
-            }
-        }
-    };
-
     @Override
     public void onCreate() {
         Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
@@ -2165,21 +2198,15 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             registeredUser = true;
         }
 
+        // Listen for idle mode state changes
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Listen for idle mode state changes
             IntentFilter ifIdle = new IntentFilter();
             ifIdle.addAction(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED);
             registerReceiver(idleStateReceiver, ifIdle);
             registeredIdleState = true;
         }
 
-        // Listen for connectivity updates
-        IntentFilter ifConnectivity = new IntentFilter();
-        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(connectivityChangedReceiver, ifConnectivity);
-        registeredConnectivityChanged = true;
-
-        // Listen for added applications
+        // Listen for added/removed applications
         IntentFilter ifPackage = new IntentFilter();
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addAction(Intent.ACTION_PACKAGE_REMOVED);
@@ -2187,13 +2214,96 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         registerReceiver(packageChangedReceiver, ifPackage);
         registeredPackageChanged = true;
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            try {
+                listenNetworkChanges();
+            } catch (Throwable ex) {
+                Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                listenConnectivityChanges();
+            }
+        else
+            listenConnectivityChanges();
+
         // Setup house holding
         Intent alarmIntent = new Intent(this, ServiceSinkhole.class);
         alarmIntent.setAction(ACTION_HOUSE_HOLDING);
-        PendingIntent pi = PendingIntent.getService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            pi = PendingIntent.getForegroundService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        else
+            pi = PendingIntent.getService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + 60 * 1000, AlarmManager.INTERVAL_HALF_DAY, pi);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void listenNetworkChanges() {
+        // Listen for network changes
+        Log.i(TAG, "Starting listening to network changes");
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkRequest.Builder builder = new NetworkRequest.Builder();
+        builder.addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
+        builder.addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+
+        ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
+            private String last_generation = null;
+
+            @Override
+            public void onAvailable(Network network) {
+                reload("network available", ServiceSinkhole.this, false);
+            }
+
+            @Override
+            public void onLinkPropertiesChanged(Network network, LinkProperties linkProperties) {
+                // Make sure the right DNS servers are being used
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                if (prefs.getBoolean("reload_onconnectivity", false) ||
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    reload("link properties changed", ServiceSinkhole.this, false);
+            }
+
+            @Override
+            public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
+                String current_generation = Util.getNetworkGeneration(ServiceSinkhole.this);
+                Log.i(TAG, "Capabilities changed generation=" + current_generation);
+
+                if (last_generation == null || !last_generation.equals(current_generation)) {
+                    Log.i(TAG, "New network generation=" + current_generation);
+                    last_generation = current_generation;
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                    if (prefs.getBoolean("unmetered_2g", false) ||
+                            prefs.getBoolean("unmetered_3g", false) ||
+                            prefs.getBoolean("unmetered_4g", false))
+                        reload("data connection state changed", ServiceSinkhole.this, false);
+                }
+            }
+
+            @Override
+            public void onLost(Network network) {
+                reload("network lost", ServiceSinkhole.this, false);
+            }
+        };
+        cm.registerNetworkCallback(builder.build(), nc);
+        networkCallback = nc;
+    }
+
+    private void listenConnectivityChanges() {
+        // Listen for connectivity updates
+        Log.i(TAG, "Starting listening to connectivity changes");
+        IntentFilter ifConnectivity = new IntentFilter();
+        ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectivityChangedReceiver, ifConnectivity);
+        registeredConnectivityChanged = true;
+
+        // Listen for phone state changes
+        Log.i(TAG, "Starting listening to service state changes");
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (tm != null) {
+            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+            phone_state = true;
+        }
     }
 
     @Override
@@ -2206,7 +2316,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 stopForeground(true);
             }
             if (state == State.enforcing)
-                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(0, 0, 0));
+                startForeground(NOTIFY_ENFORCING, getEnforcingNotification(-1, -1, -1));
             else if (state != State.none)
                 startForeground(NOTIFY_WAITING, getWaitingNotification());
             Log.d(TAG, "Start foreground state=" + state.toString());
@@ -2215,6 +2325,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (state == State.enforcing)
+            startForeground(NOTIFY_ENFORCING, getEnforcingNotification(-1, -1, -1));
+        else
+            startForeground(NOTIFY_WAITING, getWaitingNotification());
+
         Log.i(TAG, "Received " + intent);
         Util.logExtras(intent);
 
@@ -2278,7 +2393,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             prefs.edit().putBoolean(pkg, blocked).apply();
 
         // Apply rules
-        ServiceSinkhole.reload("notification", ServiceSinkhole.this);
+        ServiceSinkhole.reload("notification", ServiceSinkhole.this, false);
 
         // Update notification
         notifyNewApplication(uid);
@@ -2311,10 +2426,21 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         logLooper.quit();
         statsLooper.quit();
 
+        commandHandler.removeMessages(MSG_SERVICE_INTENT);
+        releaseLock(this);
+
+        // Registered in command loop
         if (registeredInteractiveState) {
             unregisterReceiver(interactiveStateReceiver);
             registeredInteractiveState = false;
         }
+        if (callStateListener != null) {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            tm.listen(callStateListener, PhoneStateListener.LISTEN_NONE);
+            callStateListener = null;
+        }
+
+        // Register in onCreate
         if (registeredPowerSave) {
             unregisterReceiver(powerSaveReceiver);
             registeredPowerSave = false;
@@ -2327,28 +2453,23 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             unregisterReceiver(idleStateReceiver);
             registeredIdleState = false;
         }
-        if (registeredConnectivityChanged) {
-            unregisterReceiver(connectivityChangedReceiver);
-            registeredConnectivityChanged = false;
-        }
         if (registeredPackageChanged) {
             unregisterReceiver(packageChangedReceiver);
             registeredPackageChanged = false;
         }
 
+        if (networkCallback != null) {
+            unlistenNetworkChanges();
+            networkCallback = null;
+        }
+        if (registeredConnectivityChanged) {
+            unregisterReceiver(connectivityChangedReceiver);
+            registeredConnectivityChanged = false;
+        }
         if (phone_state) {
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            if (tm != null) {
-                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
-                phone_state = false;
-            }
-        }
-
-        if (subscriptionsChangedListener != null &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            SubscriptionManager sm = SubscriptionManager.from(this);
-            sm.removeOnSubscriptionsChangedListener((SubscriptionManager.OnSubscriptionsChangedListener) subscriptionsChangedListener);
-            subscriptionsChangedListener = null;
+            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+            phone_state = false;
         }
 
         try {
@@ -2370,14 +2491,20 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         super.onDestroy();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void unlistenNetworkChanges() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        cm.unregisterNetworkCallback((ConnectivityManager.NetworkCallback) networkCallback);
+    }
+
     private Notification getEnforcingNotification(int allowed, int blocked, int hosts) {
         Intent main = new Intent(this, ActivityMain.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(isLockedDown(last_metered) ? R.drawable.ic_lock_outline_white_24dp : R.drawable.ic_security_white_24dp)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "foreground");
+        builder.setSmallIcon(isLockedDown(last_metered) ? R.drawable.ic_lock_outline_white_24dp : R.drawable.ic_security_white_24dp)
                 .setContentIntent(pi)
                 .setColor(tv.data)
                 .setOngoing(true)
@@ -2389,13 +2516,25 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             builder.setContentTitle(getString(R.string.app_name))
                     .setContentText(getString(R.string.msg_started));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_SECRET)
-                    .setPriority(Notification.PRIORITY_MIN);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+                    .setPriority(NotificationCompat.PRIORITY_MIN);
 
-        if (allowed > 0 || blocked > 0 || hosts > 0) {
+        if (allowed >= 0)
+            last_allowed = allowed;
+        else
+            allowed = last_allowed;
+        if (blocked >= 0)
+            last_blocked = blocked;
+        else
+            blocked = last_blocked;
+        if (hosts >= 0)
+            last_hosts = hosts;
+        else
+            hosts = last_hosts;
+
+        if (allowed >= 0 || blocked >= 0 || hosts >= 0) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 if (Util.isPlayStoreInstall(this))
                     builder.setContentText(getString(R.string.msg_packages, allowed, blocked));
@@ -2428,8 +2567,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_security_white_24dp)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "foreground");
+        builder.setSmallIcon(R.drawable.ic_security_white_24dp)
                 .setContentIntent(pi)
                 .setColor(tv.data)
                 .setOngoing(true)
@@ -2441,11 +2580,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             builder.setContentTitle(getString(R.string.app_name))
                     .setContentText(getString(R.string.msg_waiting));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_SECRET)
-                    .setPriority(Notification.PRIORITY_MIN);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+                    .setPriority(NotificationCompat.PRIORITY_MIN);
 
         return builder.build();
     }
@@ -2456,8 +2594,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_error_white_24dp)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify");
+        builder.setSmallIcon(R.drawable.ic_error_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_revoked))
                 .setContentIntent(pi)
@@ -2465,10 +2603,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 .setOngoing(false)
                 .setAutoCancel(true);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_SECRET);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET);
 
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
         notification.bigText(getString(R.string.msg_revoked));
@@ -2483,8 +2620,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_error_white_24dp)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify");
+        builder.setSmallIcon(R.drawable.ic_error_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_autostart))
                 .setContentIntent(pi)
@@ -2492,10 +2629,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 .setOngoing(false)
                 .setAutoCancel(true);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_SECRET);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET);
 
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
         notification.bigText(getString(R.string.msg_autostart));
@@ -2509,8 +2645,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_error_white_24dp)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify");
+        builder.setSmallIcon(R.drawable.ic_error_white_24dp)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.msg_error, message))
                 .setContentIntent(pi)
@@ -2518,10 +2654,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 .setOngoing(false)
                 .setAutoCancel(true);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_SECRET);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET);
 
         NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
         notification.bigText(getString(R.string.msg_error, message));
@@ -2543,8 +2678,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
         int colorOff = tv.data;
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "access");
+        builder.setSmallIcon(R.drawable.ic_cloud_upload_white_24dp)
                 .setGroup("AccessAttempt")
                 .setContentIntent(pi)
                 .setColor(colorOff)
@@ -2558,10 +2693,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             builder.setContentTitle(getString(R.string.app_name))
                     .setContentText(getString(R.string.msg_access, name));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_SECRET);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET);
 
         DateFormat df = new SimpleDateFormat("dd HH:mm");
 
@@ -2576,7 +2710,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             notification.addLine(sp);
         }
 
-        Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessUnset(uid, 7);
+        long since = 0;
+        PackageManager pm = getPackageManager();
+        String[] packages = pm.getPackagesForUid(uid);
+        if (packages != null && packages.length > 0)
+            try {
+                since = pm.getPackageInfo(packages[0], 0).firstInstallTime;
+            } catch (PackageManager.NameNotFoundException ignored) {
+            }
+
+        Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessUnset(uid, 7, since);
         int colDAddr = cursor.getColumnIndex("daddr");
         int colTime = cursor.getColumnIndex("time");
         int colAllowed = cursor.getColumnIndex("allowed");
@@ -2613,25 +2756,20 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_security_white_24dp)
-                .setContentTitle(getString(R.string.app_name))
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify");
+        builder.setSmallIcon(R.drawable.ic_security_white_24dp)
+                .setContentTitle(name)
                 .setContentText(getString(R.string.msg_update))
                 .setContentIntent(pi)
                 .setColor(tv.data)
                 .setOngoing(false)
                 .setAutoCancel(true);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setCategory(Notification.CATEGORY_STATUS)
-                    .setVisibility(Notification.VISIBILITY_SECRET);
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET);
 
-        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
-        notification.bigText(getString(R.string.msg_update));
-        notification.setSummaryText(name);
-
-        NotificationManagerCompat.from(this).notify(NOTIFY_UPDATE, notification.build());
+        NotificationManagerCompat.from(this).notify(NOTIFY_UPDATE, builder.build());
     }
 
     private void removeWarningNotifications() {
@@ -2767,37 +2905,39 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.run);
         intent.putExtra(EXTRA_REASON, reason);
-        context.startService(intent);
+        ContextCompat.startForegroundService(context, intent);
     }
 
     public static void start(String reason, Context context) {
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         intent.putExtra(EXTRA_REASON, reason);
-        context.startService(intent);
+        ContextCompat.startForegroundService(context, intent);
     }
 
-    public static void reload(String reason, Context context) {
+    public static void reload(String reason, Context context, boolean interactive) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getBoolean("enabled", false)) {
             Intent intent = new Intent(context, ServiceSinkhole.class);
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             intent.putExtra(EXTRA_REASON, reason);
-            context.startService(intent);
+            intent.putExtra(EXTRA_INTERACTIVE, interactive);
+            ContextCompat.startForegroundService(context, intent);
         }
     }
 
-    public static void stop(String reason, Context context) {
+    public static void stop(String reason, Context context, boolean vpnonly) {
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         intent.putExtra(EXTRA_REASON, reason);
-        context.startService(intent);
+        intent.putExtra(EXTRA_TEMPORARY, vpnonly);
+        ContextCompat.startForegroundService(context, intent);
     }
 
     public static void reloadStats(String reason, Context context) {
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.stats);
         intent.putExtra(EXTRA_REASON, reason);
-        context.startService(intent);
+        ContextCompat.startForegroundService(context, intent);
     }
 }

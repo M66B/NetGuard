@@ -46,8 +46,6 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.net.ConnectivityManagerCompat;
 import android.support.v7.app.AlertDialog;
-import android.telephony.SubscriptionInfo;
-import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -87,8 +85,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class Util {
-    private static final int NETWORK_TYPE_TD_SCDMA = 17;
-    private static final int NETWORK_TYPE_IWLAN = 18;
     private static final String TAG = "NetGuard.Util";
 
     // Roam like at home
@@ -175,7 +171,7 @@ public class Util {
     }
 
     public static String getWifiSSID(Context context) {
-        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         String ssid = (wm == null ? null : wm.getConnectionInfo().getSSID());
         return (ssid == null ? "NULL" : ssid);
     }
@@ -227,6 +223,7 @@ public class Util {
             case TelephonyManager.NETWORK_TYPE_EDGE:
             case TelephonyManager.NETWORK_TYPE_GPRS:
             case TelephonyManager.NETWORK_TYPE_IDEN:
+            case TelephonyManager.NETWORK_TYPE_GSM:
                 return "2G";
 
             case TelephonyManager.NETWORK_TYPE_EHRPD:
@@ -238,77 +235,15 @@ public class Util {
             case TelephonyManager.NETWORK_TYPE_HSPAP:
             case TelephonyManager.NETWORK_TYPE_HSUPA:
             case TelephonyManager.NETWORK_TYPE_UMTS:
-            case NETWORK_TYPE_TD_SCDMA:
+            case TelephonyManager.NETWORK_TYPE_TD_SCDMA:
                 return "3G";
 
             case TelephonyManager.NETWORK_TYPE_LTE:
-            case NETWORK_TYPE_IWLAN:
+            case TelephonyManager.NETWORK_TYPE_IWLAN:
                 return "4G";
 
             default:
                 return "?G";
-        }
-    }
-
-    public static String getNetworkTypeName(int networkType) {
-        switch (networkType) {
-            // 2G
-            case TelephonyManager.NETWORK_TYPE_1xRTT:
-                return "1xRTT";
-            case TelephonyManager.NETWORK_TYPE_CDMA:
-                return "CDMA";
-            case TelephonyManager.NETWORK_TYPE_EDGE:
-                return "EDGE";
-            case TelephonyManager.NETWORK_TYPE_GPRS:
-                return "GPRS";
-            case TelephonyManager.NETWORK_TYPE_IDEN:
-                return "IDEN";
-
-            // 3G
-            case TelephonyManager.NETWORK_TYPE_EHRPD:
-                return "EHRPD";
-            case TelephonyManager.NETWORK_TYPE_EVDO_0:
-                return "EVDO_0";
-            case TelephonyManager.NETWORK_TYPE_EVDO_A:
-                return "EVDO_A";
-            case TelephonyManager.NETWORK_TYPE_EVDO_B:
-                return "EVDO_B";
-            case TelephonyManager.NETWORK_TYPE_HSDPA:
-                return "HSDPA";
-            case TelephonyManager.NETWORK_TYPE_HSPA:
-                return "HSPA";
-            case TelephonyManager.NETWORK_TYPE_HSPAP:
-                return "HSPAP";
-            case TelephonyManager.NETWORK_TYPE_HSUPA:
-                return "HSUPA";
-            case TelephonyManager.NETWORK_TYPE_UMTS:
-                return "UMTS";
-            case NETWORK_TYPE_TD_SCDMA:
-                return "TD_SCDMA";
-
-            // 4G
-            case TelephonyManager.NETWORK_TYPE_LTE:
-                return "LTE";
-            case NETWORK_TYPE_IWLAN:
-                return "IWLAN";
-
-            default:
-                return Integer.toString(networkType);
-        }
-    }
-
-    public static String getPhoneTypeName(int phoneType) {
-        switch (phoneType) {
-            case TelephonyManager.PHONE_TYPE_NONE:
-                return "None";
-            case TelephonyManager.PHONE_TYPE_GSM:
-                return "GSM";
-            case TelephonyManager.PHONE_TYPE_CDMA:
-                return "CDMA";
-            case TelephonyManager.PHONE_TYPE_SIP:
-                return "SIP";
-            default:
-                return "Unknown";
         }
     }
 
@@ -322,7 +257,7 @@ public class Util {
     public static List<String> getDefaultDNS(Context context) {
         String dns1 = null;
         String dns2 = null;
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             Network an = cm.getActiveNetwork();
             if (an != null) {
@@ -522,11 +457,15 @@ public class Util {
         else if (theme.equals("green"))
             context.setTheme(dark ? R.style.AppThemeGreenDark : R.style.AppThemeGreen);
 
-        if (context instanceof Activity && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            TypedValue tv = new TypedValue();
-            context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-            ((Activity) context).setTaskDescription(new ActivityManager.TaskDescription(null, null, tv.data));
-        }
+        if (context instanceof Activity && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            setTaskColor(context);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private static void setTaskColor(Context context) {
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
+        ((Activity) context).setTaskDescription(new ActivityManager.TaskDescription(null, null, tv.data));
     }
 
     public static int dips2pixels(int dips, Context context) {
@@ -576,7 +515,7 @@ public class Util {
     public static void areYouSure(Context context, int explanation, final DoubtListener listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.sure, null, false);
-        TextView tvExplanation = (TextView) view.findViewById(R.id.tvExplanation);
+        TextView tvExplanation = view.findViewById(R.id.tvExplanation);
         tvExplanation.setText(explanation);
         new AlertDialog.Builder(context)
                 .setView(view)
@@ -596,7 +535,7 @@ public class Util {
                 .create().show();
     }
 
-    private static Map<String, String> mapIPOrganization = new HashMap<>();
+    private static final Map<String, String> mapIPOrganization = new HashMap<>();
 
     public static String getOrganization(String ip) throws Exception {
         synchronized (mapIPOrganization) {
@@ -605,7 +544,7 @@ public class Util {
         }
         BufferedReader reader = null;
         try {
-            URL url = new URL("http://ipinfo.io/" + ip + "/org");
+            URL url = new URL("https://ipinfo.io/" + ip + "/org");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setReadTimeout(15 * 1000);
@@ -798,54 +737,6 @@ public class Util {
         return (cm.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
-    public static String getSubscriptionInfo(Context context) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1)
-            return "Not supported";
-        if (!hasPhoneStatePermission(context))
-            return "No permission";
-
-        StringBuilder sb = new StringBuilder();
-        SubscriptionManager sm = SubscriptionManager.from(context);
-
-        sb.append("Slots ")
-                .append(sm.getActiveSubscriptionInfoCount())
-                .append('/')
-                .append(sm.getActiveSubscriptionInfoCountMax())
-                .append("\r\n");
-
-        int dataid = -1;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            dataid = sm.getDefaultDataSubscriptionId();
-
-        int voiceid = -1;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            voiceid = sm.getDefaultVoiceSubscriptionId();
-
-        List<SubscriptionInfo> subscriptions = sm.getActiveSubscriptionInfoList();
-        if (subscriptions != null)
-            for (SubscriptionInfo si : subscriptions)
-                sb.append("SIM ")
-                        .append(si.getSimSlotIndex() + 1)
-                        .append('/')
-                        .append(si.getSubscriptionId())
-                        .append(' ')
-                        .append(si.getCountryIso())
-                        .append('/')
-                        .append(si.getMcc()).append(si.getMnc())
-                        .append(' ')
-                        .append(si.getCarrierName())
-                        .append(si.getSubscriptionId() == dataid ? " D" : "")
-                        .append(si.getSubscriptionId() == voiceid ? " V" : "")
-                        .append(si.getDataRoaming() == SubscriptionManager.DATA_ROAMING_ENABLE ? " R" : "")
-                        .append("\r\n");
-
-        if (sb.length() > 2)
-            sb.setLength(sb.length() - 2);
-
-        return sb.toString();
-    }
-
     public static void sendLogcat(final Uri uri, final Context context) {
         AsyncTask task = new AsyncTask<Object, Object, Intent>() {
             @Override
@@ -886,14 +777,11 @@ public class Util {
                 } catch (Throwable ex) {
                     sb.append("Prepared: ").append((ex.toString())).append("\r\n").append(Log.getStackTraceString(ex));
                 }
-                sb.append(String.format("Permission: %B\r\n", hasPhoneStatePermission(context)));
                 sb.append("\r\n");
 
                 sb.append(getGeneralInfo(context));
                 sb.append("\r\n\r\n");
                 sb.append(getNetworkInfo(context));
-                sb.append("\r\n\r\n");
-                sb.append(getSubscriptionInfo(context));
                 sb.append("\r\n\r\n");
 
                 // Get DNS

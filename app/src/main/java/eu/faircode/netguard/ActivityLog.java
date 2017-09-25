@@ -29,7 +29,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
@@ -93,7 +92,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
         // Action bar
         View actionView = getLayoutInflater().inflate(R.layout.actionlog, null, false);
-        SwitchCompat swEnabled = (SwitchCompat) actionView.findViewById(R.id.swEnabled);
+        SwitchCompat swEnabled = actionView.findViewById(R.id.swEnabled);
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(actionView);
@@ -108,7 +107,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         boolean log = prefs.getBoolean("log", false);
 
         // Show disabled message
-        TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
+        TextView tvDisabled = findViewById(R.id.tvDisabled);
         tvDisabled.setVisibility(log ? View.GONE : View.VISIBLE);
 
         // Set enabled switch
@@ -122,7 +121,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         // Listen for preference changes
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        lvLog = (ListView) findViewById(R.id.lvLog);
+        lvLog = findViewById(R.id.lvLog);
 
         boolean udp = prefs.getBoolean("proto_udp", true);
         boolean tcp = prefs.getBoolean("proto_tcp", true);
@@ -247,7 +246,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                             case R.id.menu_allow:
                                 if (IAB.isPurchased(ActivityPro.SKU_FILTER, ActivityLog.this)) {
                                     DatabaseHelper.getInstance(ActivityLog.this).updateAccess(packet, dname, 0);
-                                    ServiceSinkhole.reload("allow host", ActivityLog.this);
+                                    ServiceSinkhole.reload("allow host", ActivityLog.this, false);
                                     Intent main = new Intent(ActivityLog.this, ActivityMain.class);
                                     main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
                                     startActivity(main);
@@ -258,7 +257,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                             case R.id.menu_block:
                                 if (IAB.isPurchased(ActivityPro.SKU_FILTER, ActivityLog.this)) {
                                     DatabaseHelper.getInstance(ActivityLog.this).updateAccess(packet, dname, 1);
-                                    ServiceSinkhole.reload("block host", ActivityLog.this);
+                                    ServiceSinkhole.reload("block host", ActivityLog.this, false);
                                     Intent main = new Intent(ActivityLog.this, ActivityMain.class);
                                     main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
                                     startActivity(main);
@@ -312,15 +311,15 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
             boolean log = prefs.getBoolean(name, false);
 
             // Display disabled warning
-            TextView tvDisabled = (TextView) findViewById(R.id.tvDisabled);
+            TextView tvDisabled = findViewById(R.id.tvDisabled);
             tvDisabled.setVisibility(log ? View.GONE : View.VISIBLE);
 
             // Check switch state
-            SwitchCompat swEnabled = (SwitchCompat) getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
+            SwitchCompat swEnabled = getSupportActionBar().getCustomView().findViewById(R.id.swEnabled);
             if (swEnabled.isChecked() != log)
                 swEnabled.setChecked(log);
 
-            ServiceSinkhole.reload("changed " + name, ActivityLog.this);
+            ServiceSinkhole.reload("changed " + name, ActivityLog.this, false);
         }
     }
 
@@ -330,7 +329,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         inflater.inflate(R.menu.logging, menu);
 
         menuSearch = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+        SearchView searchView = (SearchView) menuSearch.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             private String getUidForName(String query) {
                 if (query != null && query.length() > 0) {
@@ -522,7 +521,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
             boolean blocked = prefs.getBoolean("traffic_blocked", true);
             adapter.changeCursor(DatabaseHelper.getInstance(this).getLog(udp, tcp, other, allowed, blocked));
             if (menuSearch != null && menuSearch.isActionViewExpanded()) {
-                SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuSearch);
+                SearchView searchView = (SearchView) menuSearch.getActionView();
                 adapter.getFilter().filter(searchView.getQuery().toString());
             }
         }

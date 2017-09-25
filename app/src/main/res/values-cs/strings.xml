@@ -5,12 +5,16 @@
   <string name="app_copyright">Copyright \u00A9 2015–2017 M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard vyžaduje Android 4.0 nebo novější</string>
   <string name="app_license">Používáním aplikace NetGuard souhlasíte s <a href="http://www.gnu.org/licenses/gpl.txt">Obecnou veřejnou licencí GNU verze 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Velká péče byla vložena do vývoje a testování NetGuardu,
 přesto není možné zaručit jeho bezchybné fungování na každém zařízení.
 \n\nPoužíváním NetGuardu souhlasíte s <a href="http://www.gnu.org/licenses/gpl.txt">Obecnou veřejnou licencí GNU verze 3</a></string>
   <string name="app_admob">NetGuard využívá reklamní službu AdMob od Google. Zásady ochrany soukromí AdMob jsou k dispozici <a href="https://www.google.com/intl/en/policies/privacy/">zde</a>.</string>
   <string name="app_agree">Souhlasím</string>
   <string name="app_disagree">Nesouhlasím</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Hledat aplikaci</string>
   <string name="menu_filter">Filtrovat aplikace</string>
   <string name="menu_app_user">Zobrazit uživatelské aplikace</string>
@@ -73,8 +77,10 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_metered_4g">Považovat LTE za neomezené</string>
   <string name="setting_national_roaming">Ignorovat vnitrostátní roaming</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Pokročilé možnosti</string>
   <string name="setting_system">Spravovat systémové aplikace</string>
   <string name="setting_log_app">Protokolovat přístup k Internetu</string>
@@ -130,6 +136,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="summary_metered_4g">Použít pravidla Wi-Fi pro LTE datová spojení</string>
   <string name="summary_national_roaming">Nepoužívat pravidla pro roaming, pokud je SIM a země mobilní sítě totožná</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Definovat pravidla pro systémové aplikace (pro odborníky)</string>
   <string name="summary_log_app">Zaznamenávat do protokolu pokusy aplikací o přístup k internetu. Může mít vliv na spotřebu baterie.</string>
   <string name="summary_access">Zobrazit upozornění na stavovém řádku při pokusu aplikace o přístup k nové internetové adrese (při zakázaném filtrování budete upozorněni pouze na zablokované přístupy)</string>
@@ -227,7 +234,8 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_logging_configure">Configure</string>
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
   <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">Ohodnotit</string>

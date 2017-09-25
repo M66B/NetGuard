@@ -5,10 +5,14 @@
   <string name="app_copyright">Πνευματικά δικαιώματα \u00A9 2015–2017 από Μ. Bokhorst (M66B)</string>
   <string name="app_android">Το NetGuard απαιτεί Android 5.0 ή κάποια νεότερη έκδοση</string>
   <string name="app_license">Με τη χρήση του NetGuard, συμφωνείτε με την <a href="http://www.gnu.org/licenses/gpl.txt"> GNU/GPL έκδοση 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Πολιτική απορρήτου</a></string>
   <string name="app_first">Έχει γίνει μεγάλη προσπάθεια για την ανάπτυξη και τη δοκιμή του NetGuard, ωστόσο, είναι αδύνατο να σας εγγυηθούμε ότι το NetGuard θα λειτουργούν σωστά σε κάθε συσκευή. \n\nΧρησιμοποιώντας το NetGuard, συμφωνείτε με την <a href="http://www.gnu.org/licenses/gpl.txt"> GNU γενική άδεια δημόσιας χρήσης έκδοση 3</a></string>
   <string name="app_admob">Το NetGuard χρησιμοποιεί την υπηρεσία διαφήμισης Google AdMob. Η πολιτική απορρήτου του AdMob είναι διαθέσιμη <a href="https://www.google.com/intl/en/policies/privacy/"> εδώ</a>.</string>
   <string name="app_agree">Συμφωνώ</string>
   <string name="app_disagree">Διαφωνώ</string>
+  <string name="channel_foreground">Υπηρεσίες που εκτελούνται</string>
+  <string name="channel_notify">Γενικές ειδοποιήσεις</string>
+  <string name="channel_access">Πρόσβαση στις ειδοποιήσεις</string>
   <string name="menu_search">Αναζήτηση εφαρμογής</string>
   <string name="menu_filter">Φιλτράρισμα των εφαρμογών</string>
   <string name="menu_app_user">Προβολή εφαρμογών του χρήστη</string>
@@ -71,8 +75,10 @@
   <string name="setting_metered_4g">Θεώρησε απεριόριστη τη σύνδεση LTE</string>
   <string name="setting_national_roaming">Παράβλεψε την εθνική περιαγωγή</string>
   <string name="setting_eu_roaming">Παράβλεψη της περιαγωγής εντος ΕΕ</string>
+  <string name="setting_call">Απενεργοποίηση κατά τη διάρκεια κλήσης</string>
   <string name="setting_lockdown_wifi">Φραγή Wi-Fi</string>
   <string name="setting_lockdown_other">Φραγή κινητής</string>
+  <string name="setting_reload_onconnectivity">Φορτώστε ξανά σε κάθε αλλαγή συνδεσιμότητας</string>
   <string name="setting_advanced_options">Επιλογές για προχωρημένους</string>
   <string name="setting_system">Διαχείριση εφαρμογών του συστήματος</string>
   <string name="setting_log_app">Καταγραφή πρόσβασης στο διαδίκτυο</string>
@@ -128,6 +134,7 @@
   <string name="summary_metered_4g">Εφαρμογή κανόνων δικτύων Wi-Fi για συνδέσεις δεδομένων LTE</string>
   <string name="summary_national_roaming">Να μην εφαρμοστούν κανόνες περιαγωγής όταν ταυτίζεται η χώρα της SIM και του δικτύου κινητής τηλεφωνίας</string>
   <string name="summary_eu_roaming">Να μην εφαρμοστούν κανόνες περιαγωγής όταν η χώρα της SIM και του δικτύου κινητής τηλεφωνίας είναι εντός της ΕΕ (περιαγωγή σαν εθνικό δίκτυο)</string>
+  <string name="summary_call">Απενεργοποιήστε το NetGuard για εισερχόμενη ή εξερχόμενη τηλεφωνική κλήση. Αυτό μπορεί να χρησιμοποιηθεί για την επίλυση προβλημάτων σε IP/Wi-Fi κλήσεις.</string>
   <string name="summary_system">Ορισμός κανόνων για εφαρμογές του συστήματος (για προχωρημένους)</string>
   <string name="summary_log_app">Καταγραφή των προσπαθειών που κάνουν οι εφαρμογές για πρόσβαση στο διαδίκτυο. Μπορεί να οδηγήσει σε πρόσθετη χρήση μπαταρίας.</string>
   <string name="summary_access">Εμφάνισε μια ειδοποίηση στη γραμμή κατάστασης, όταν μια εφαρμογή προσπαθεί να αποκτήσει πρόσβαση σε μια νέα διεύθυνση στο διαδίκτυο (όταν είναι απενεργοποιημένο το φιλτράρισμα, θα εμφανίζονται μόνο οι αποκλεισμένες προσπάθειες πρόσβασης στο διαδίκτυο)</string>
@@ -221,7 +228,8 @@
   <string name="title_logging_configure">Ρύθμιση</string>
   <string name="title_enable_logging">Ενεργοποίηση της καταγραφής των φραγμένων διευθύνσεων μόνο</string>
   <string name="title_enable_filtering">Ενεργοποίηση φιλτραρίσματος στην καταγραφή και των επιτρεπόμενων διευθύνσεων επίσης</string>
-  <string name="title_enable_help0">Η καταγραφή και το φιλτράρισμα είναι καθολικές ρυθμίσεις που ισχύουν για όλες τις εφαρμογές</string>
+  <string name="title_enable_notify">Ενεργοποιήσετε τις ειδοποιήσεις για πρόσβαση σε πρόσφατα συνδεδεμένες διευθύνσεις</string>
+  <string name="title_enable_help0">Οι ρυθμίσεις αυτές είναι καθολικές ρυθμίσεις που ισχύουν για όλες τις εφαρμογές</string>
   <string name="title_enable_help1">Το φιλτράρισμα απαιτείται επίσης στην αποδοχή ή τον αποκλεισμό σε μεμονωμένες διευθύνσεις</string>
   <string name="title_enable_help2">Ενεργοποίηση καταγραφής (λιγότερο) ή φιλτραρίσματος (περισσότερα) μπορεί να αυξήσει την κατανάλωση της μπαταρίας και ενδέχεται να επηρεάσει την ταχύτητα του δικτύου</string>
   <string name="title_rate">Αξιολόγηση</string>

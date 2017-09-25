@@ -5,11 +5,15 @@
   <string name="app_copyright">Copyright \u00A9 2015-2017 von M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard erfordert Android 4.0 oder höher</string>
   <string name="app_license">Mit der Verwendung von NetGuard akzeptieren Sie die <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License Version 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Datenschutzerklärung</a></string>
   <string name="app_first">Die App wurde mit großer Sorgfalt entwickelt und getestet. Es ist leider trotzdem unmöglich zu garantieren, dass NetGuard auf jedem Gerät fehlerfrei funktioniert.
 \n\nDurch die Verwendung von NetGuard, stimmen Sie der <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License Version 3</a> zu</string>
   <string name="app_admob">NetGuard verwendet Google\'s AdMob Werbeservice. AdMob\'s Datenschutzrichtlinie kann <a href="https://www.google.com/intl/en/policies/privacy/">hier</a> gelesen werden.</string>
   <string name="app_agree">Stimme zu</string>
   <string name="app_disagree">Nicht zustimmen</string>
+  <string name="channel_foreground">Aktive Dienste</string>
+  <string name="channel_notify">Allgemeine Benachrichtigungen</string>
+  <string name="channel_access">Auf Benachrichtigungen zugreifen</string>
   <string name="menu_search">Nach App suchen</string>
   <string name="menu_filter">Anwendungen filtern</string>
   <string name="menu_app_user">Benutzeranwendungen anzeigen</string>
@@ -72,8 +76,10 @@
   <string name="setting_metered_4g">LTE als “nicht volumenbeschränkt“ betrachten</string>
   <string name="setting_national_roaming">Nationales Roaming ignorieren</string>
   <string name="setting_eu_roaming">EU-Roaming ignorieren</string>
+  <string name="setting_call">Bei Anruf deaktivieren</string>
   <string name="setting_lockdown_wifi">WLAN-Zugriffsbeschränkung</string>
   <string name="setting_lockdown_other">Mobile Daten-Zugriffsbeschränkung</string>
+  <string name="setting_reload_onconnectivity">Erneut laden bei jeder Verbindungsänderung</string>
   <string name="setting_advanced_options">Erweiterte Optionen</string>
   <string name="setting_system">System-Apps anzeigen</string>
   <string name="setting_log_app">Internetzugriff protokollieren</string>
@@ -129,6 +135,7 @@
   <string name="summary_metered_4g">WLAN-Regeln für LTE-Datenverbindungen anwenden</string>
   <string name="summary_national_roaming">Roaming-Regeln nicht anwenden, wenn die Nationalität für SIM und mobiles Netzwerk identisch sind</string>
   <string name="summary_eu_roaming">Roaming-Regeln nicht anwenden, wenn sich die Nationalitäten für SIM und mobiles Netzwerk innerhalb der EU befinden (Roaming wie Zuhause)</string>
+  <string name="summary_call">NetGuard bei eingehenden oder ausgehenden Anrufen deaktivieren. Dadurch können Probleme bei IP/WLAN-Telefonie gelöst werden.</string>
   <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
   <string name="summary_log_app">Protokoll zeichnet den Internetzugriff von Anwendungen auf (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
   <string name="summary_access">Benachrichtigungsleiste anzeigen, wenn eine Anwendung versucht, auf eine neue Internetadresse zuzugreifen (bei deaktivierter Filterung werden nur blockierte Internet-Zugriffsversuche angezeigt)</string>
@@ -222,7 +229,8 @@
   <string name="title_logging_configure">Konfigurieren</string>
   <string name="title_enable_logging">Nur die Protokollierung für blockierte Adressen aktivieren</string>
   <string name="title_enable_filtering">Auch die Filterung für die Protokollierung erlaubter Adressen aktivieren</string>
-  <string name="title_enable_help0">Protokollierung und Filterung sind globale Einstellungen, die für alle Apps gelten.</string>
+  <string name="title_enable_notify">Zugriffsbenachrichtigungen für kürzlich protokollierte Adressen aktivieren</string>
+  <string name="title_enable_help0">Diese Einstellungen sind globale Einstellungen, die für alle Apps gelten.</string>
   <string name="title_enable_help1">Die Filterung ist auch für das Zulassen oder Blockieren einzelner Adressen erforderlich.</string>
   <string name="title_enable_help2">Die Protokollierung (weniger) oder Filterung (mehr) kann den Batterieverbrauch erhöhen und die Netzwerkgeschwindigkeit beeinflussen.</string>
   <string name="title_rate">Bewerten</string>
@@ -251,7 +259,7 @@
   <string name="title_pro_bought">Aktiviert</string>
   <string name="title_pro_unavailable">Nicht verfügbar</string>
   <string name="title_pro_details">Auf einen Titel für weitere Informationen tippen</string>
-  <string name="title_pro_ads">Bei kauf einer Pro-Funktion wird alle Werbung ausgeschaltet</string>
+  <string name="title_pro_ads">Beim Kauf einer Pro-Funktion wird die Werbung ausgeschaltet</string>
   <string name="title_pro_challenge">Puzzle</string>
   <string name="title_pro_reponse">Antwort</string>
   <string-array name="themeNames">

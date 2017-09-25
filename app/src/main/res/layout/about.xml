@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/ic_security_color_24dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -92,6 +92,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/app_license"
+                android:textAppearance="@style/TextSmall"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvPrivacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/app_privacy"
                 android:textAppearance="@style/TextSmall"
                 android:textSize="12sp" />
 

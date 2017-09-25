@@ -43,8 +43,6 @@ import java.net.InetAddress;
 import java.util.List;
 
 public class ActivityForwarding extends AppCompatActivity {
-    private static final String TAG = "NetGuard.forwarding";
-
     private boolean running;
     private ListView lvForwarding;
     private AdapterForwarding adapter;
@@ -74,7 +72,7 @@ public class ActivityForwarding extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        lvForwarding = (ListView) findViewById(R.id.lvForwarding);
+        lvForwarding = findViewById(R.id.lvForwarding);
         adapter = new AdapterForwarding(this, DatabaseHelper.getInstance(this).getForwarding());
         lvForwarding.setAdapter(adapter);
 
@@ -98,7 +96,7 @@ public class ActivityForwarding extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         if (menuItem.getItemId() == R.id.menu_delete) {
                             DatabaseHelper.getInstance(ActivityForwarding.this).deleteForward(protocol, dport);
-                            ServiceSinkhole.reload("forwarding", ActivityForwarding.this);
+                            ServiceSinkhole.reload("forwarding", ActivityForwarding.this, false);
                             adapter = new AdapterForwarding(ActivityForwarding.this,
                                     DatabaseHelper.getInstance(ActivityForwarding.this).getForwarding());
                             lvForwarding.setAdapter(adapter);
@@ -150,12 +148,12 @@ public class ActivityForwarding extends AppCompatActivity {
             case R.id.menu_add:
                 LayoutInflater inflater = LayoutInflater.from(this);
                 View view = inflater.inflate(R.layout.forwardadd, null, false);
-                final Spinner spProtocol = (Spinner) view.findViewById(R.id.spProtocol);
-                final EditText etDPort = (EditText) view.findViewById(R.id.etDPort);
-                final EditText etRAddr = (EditText) view.findViewById(R.id.etRAddr);
-                final EditText etRPort = (EditText) view.findViewById(R.id.etRPort);
-                final ProgressBar pbRuid = (ProgressBar) view.findViewById(R.id.pbRUid);
-                final Spinner spRuid = (Spinner) view.findViewById(R.id.spRUid);
+                final Spinner spProtocol = view.findViewById(R.id.spProtocol);
+                final EditText etDPort = view.findViewById(R.id.etDPort);
+                final EditText etRAddr = view.findViewById(R.id.etRAddr);
+                final EditText etRPort = view.findViewById(R.id.etRPort);
+                final ProgressBar pbRuid = view.findViewById(R.id.pbRUid);
+                final Spinner spRuid = view.findViewById(R.id.spRUid);
 
                 final AsyncTask task = new AsyncTask<Object, Object, List<Rule>>() {
                     @Override
@@ -216,7 +214,7 @@ public class ActivityForwarding extends AppCompatActivity {
                                         protected void onPostExecute(Throwable ex) {
                                             if (running)
                                                 if (ex == null) {
-                                                    ServiceSinkhole.reload("forwarding", ActivityForwarding.this);
+                                                    ServiceSinkhole.reload("forwarding", ActivityForwarding.this, false);
                                                     adapter = new AdapterForwarding(ActivityForwarding.this,
                                                             DatabaseHelper.getInstance(ActivityForwarding.this).getForwarding());
                                                     lvForwarding.setAdapter(adapter);

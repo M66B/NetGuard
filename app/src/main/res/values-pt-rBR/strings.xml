@@ -5,11 +5,15 @@
   <string name="app_copyright">Copyright \u00A9 2015–2017 por M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard requer Android 4.0 ou superior</string>
   <string name="app_license">Ao usar o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">NetGuard foi desenvolvido e testado com grande cuidado, porém é impossível garantir que o NetGuard funcionará corretamente em todos os dispositivos.
 \n\nUsando o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_admob">NetGuard usa o serviço de anúncios do Google AdMob. A política de privacidade deste produto está disponível <a href="https://www.google.com/intl/en/policies/privacy/">aqui</a>.</string>
   <string name="app_agree">Eu concordo</string>
   <string name="app_disagree">Eu discordo</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Buscar aplicativo</string>
   <string name="menu_filter">Filtrar aplicativos</string>
   <string name="menu_app_user">Mostrar apps do usuário</string>
@@ -72,8 +76,10 @@
   <string name="setting_metered_4g">Considerar 4G ilimitado</string>
   <string name="setting_national_roaming">Ignorar roaming nacional</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Bloqueio de Wi-Fi</string>
   <string name="setting_lockdown_other">Bloqueio de rede de celular</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Opções avançadas</string>
   <string name="setting_system">Administrar aplicativos do sistema</string>
   <string name="setting_log_app">Registrar acesso à internet</string>
@@ -129,6 +135,7 @@
   <string name="summary_metered_4g">Aplicar regras Wi-Fi para conexões 4G</string>
   <string name="summary_national_roaming">Não aplicar regras de roaming quando o chip SIM e a rede móvel forem do mesmo país</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Definir regras para aplicativos do sistema (usuários experientes)</string>
   <string name="summary_log_app">Registar tentativas de acesso à internet para aplicações. Isto pode resultar no uso extra da bateria.</string>
   <string name="summary_access">Mostrar uma notificação na barra de notificações quando um aplicativo tentar acessar um novo endereço de internet (quando a filtragem é desativada, apenas tentativas de acesso de internet bloqueados serão notificadas)</string>
@@ -224,7 +231,8 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_logging_configure">Configurar</string>
   <string name="title_enable_logging">Habilitar o registro apenas de endereços bloqueados</string>
   <string name="title_enable_filtering">Também habilitar o registro para endereços permitidos</string>
-  <string name="title_enable_help0">Registro e filtragem são opções globais que afetam todos os aplicativos</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">A filtragem também é necessária para permitir ou bloquear endereços individuais</string>
   <string name="title_enable_help2">Habilitar o registro (menos) ou a filtragem (mais) geram acréscimos no uso da bateria e pode afetar a velocidade da conexão</string>
   <string name="title_rate">Avaliar</string>

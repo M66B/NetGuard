@@ -131,6 +131,11 @@
                 android:summary="@string/summary_eu_roaming"
                 android:title="@string/setting_eu_roaming" />
             <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="disable_on_call"
+                android:summary="@string/summary_call"
+                android:title="@string/setting_call" />
+            <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="lockdown_wifi"
                 android:title="@string/setting_lockdown_wifi" />
@@ -138,6 +143,10 @@
                 android:defaultValue="true"
                 android:key="lockdown_other"
                 android:title="@string/setting_lockdown_other" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="reload_onconnectivity"
+                android:title="@string/setting_reload_onconnectivity" />
         </PreferenceCategory>
     </PreferenceScreen>
 
@@ -358,9 +367,6 @@
             <Preference
                 android:key="technical_network"
                 android:title="@string/setting_technical_networks" />
-            <Preference
-                android:key="technical_subscription"
-                android:title="@string/setting_technical_subscription" />
         </PreferenceCategory>
     </PreferenceScreen>
 </PreferenceScreen>

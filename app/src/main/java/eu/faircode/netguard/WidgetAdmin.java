@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -51,14 +52,19 @@ public class WidgetAdmin extends Receiver {
 
         // Cancel set alarm
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, new Intent(INTENT_ON), PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent i = new Intent(INTENT_ON);
+        i.setPackage(context.getPackageName());
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
         if (INTENT_ON.equals(intent.getAction()) || INTENT_OFF.equals(intent.getAction()))
             am.cancel(pi);
 
         // Vibrate
         Vibrator vs = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         if (vs.hasVibrator())
-            vs.vibrate(50);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                vs.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+            else
+                vs.vibrate(50);
 
         try {
             if (INTENT_ON.equals(intent.getAction()) || INTENT_OFF.equals(intent.getAction())) {
@@ -67,7 +73,7 @@ public class WidgetAdmin extends Receiver {
                 if (enabled)
                     ServiceSinkhole.start("widget", context);
                 else
-                    ServiceSinkhole.stop("widget", context);
+                    ServiceSinkhole.stop("widget", context, false);
 
                 // Auto enable
                 int auto = Integer.parseInt(prefs.getString("auto_enable", "0"));
@@ -82,7 +88,7 @@ public class WidgetAdmin extends Receiver {
             } else if (INTENT_LOCKDOWN_ON.equals(intent.getAction()) || INTENT_LOCKDOWN_OFF.equals(intent.getAction())) {
                 boolean lockdown = INTENT_LOCKDOWN_ON.equals(intent.getAction());
                 prefs.edit().putBoolean("lockdown", lockdown).apply();
-                ServiceSinkhole.reload("widget", context);
+                ServiceSinkhole.reload("widget", context, false);
                 WidgetLockdown.updateWidgets(context);
             }
         } catch (Throwable ex) {

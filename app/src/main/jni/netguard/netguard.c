@@ -87,6 +87,8 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 void JNI_OnUnload(JavaVM *vm, void *reserved) {
     log_android(ANDROID_LOG_INFO, "JNI unload");
 
+    clear();
+
     JNIEnv *env;
     if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_6) != JNI_OK)
         log_android(ANDROID_LOG_INFO, "JNI load GetEnv failed");
@@ -188,8 +190,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1stop(
             clear();
 
         log_android(ANDROID_LOG_WARN, "Stopped thread %x", t);
-    }
-    else
+    } else
         log_android(ANDROID_LOG_WARN, "Not running thread %x", t);
 }
 
@@ -212,12 +213,10 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1get_1stats(JNIEnv *env, jobject i
         if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
             if (!s->icmp.stop)
                 jcount[0]++;
-        }
-        else if (s->protocol == IPPROTO_UDP) {
+        } else if (s->protocol == IPPROTO_UDP) {
             if (s->udp.state == UDP_ACTIVE)
                 jcount[1]++;
-        }
-        else if (s->protocol == IPPROTO_TCP) {
+        } else if (s->protocol == IPPROTO_TCP) {
             if (s->tcp.state != TCP_CLOSING && s->tcp.state != TCP_CLOSE)
                 jcount[2]++;
         }
@@ -273,8 +272,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1pcap(
             pcap_file = NULL;
         }
         log_android(ANDROID_LOG_WARN, "PCAP disabled");
-    }
-    else {
+    } else {
         const char *name = (*env)->GetStringUTFChars(env, name_, 0);
         log_android(ANDROID_LOG_WARN, "PCAP file %s record size %d truncate @%ld",
                     name, pcap_record_size, pcap_file_size);
@@ -292,8 +290,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1pcap(
             if (size == 0) {
                 log_android(ANDROID_LOG_WARN, "PCAP initialize");
                 write_pcap_hdr();
-            }
-            else
+            } else
                 log_android(ANDROID_LOG_WARN, "PCAP current size %ld", size);
         }
 

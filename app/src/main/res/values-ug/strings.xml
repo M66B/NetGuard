@@ -5,12 +5,16 @@
   <string name="app_copyright">Copyright \u00A9 2015–2017 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard ئاندىرويىد 4 ياكى يۇقىرى بولشى كېرەك</string>
   <string name="app_license">By using NetGuard, قۇشۇلشىڭىز كېرەك <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, قۇشۇلۇش <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_admob">NetGuard uses Google\'s ئېلان مۇلازىمىتى <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">قوشۇلىمەن</string>
   <string name="app_disagree">قوشۇلمايمەن</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">ئەپ ئىزدەش</string>
   <string name="menu_filter">ئەپ تاسقاش</string>
   <string name="menu_app_user">ئىشلەتكۈچى ئەپ كۆرۈنۈش</string>
@@ -73,8 +77,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_metered_4g">LTE ھىسابلىمغان تورنى قوشۇش</string>
   <string name="setting_national_roaming">روتىر تورىنى ھېسابلىماسلىق</string>
   <string name="setting_eu_roaming">EU كەزمە تورنى موھىم بىلمەسلىك</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">قۇلۇپلانغان Wi-Fi</string>
   <string name="setting_lockdown_other">تور ئېتىلگەن</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">ئالىي تاللانما</string>
   <string name="setting_system">سىستېما ئەپلىرى باشقۇرۇش</string>
   <string name="setting_log_app">ئىنتېرنېتنى زىيارەت ھوقۇقى</string>
@@ -130,6 +136,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_metered_4g">LTE تورغا wifi تۇر ئۇلاش ئۇسۇلىنى قوللىنىش</string>
   <string name="summary_national_roaming">SIM كارتىسى ۋە كۆچمە تور، خەلقئارا \ رايون ، كەزمە مۇلازىمەت ئوخشاش بولغاندا قائىدىسى ئىشلەتمەيدۇ</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">ئىشلىتىش قائىدىسىگە چۈشەنچە(كەسپى)</string>
   <string name="summary_log_app">ئەپنىڭ تورغا ئولىنىشنى خاتىرلەيدۇ،بۇ قوشۇمچە توك ئىشلتشى مومكىن.</string>
   <string name="summary_access">بىر ئەپ يېڭى تور ئادىرسىغا ئۇلانغاندا ئۇقتۇرۇش ئىستونىدا كۆرۈنۈش،(تور ئۇلىندىغىنىلا كۆرۈنىدۇ)</string>
@@ -173,7 +180,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
 \n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
-  <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
+  <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original apps</string>
   <string name="msg_filter4">Android 4 ئۆتكۈزۈش ئىقتىدارىنى ئېچىش كېرەك</string>
   <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
   <string name="msg_clear_rules">قائىدە ۋە تەڭشەكنى ئەسلىگە كەلتۈرىدۇ</string>
@@ -227,7 +234,8 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
   <string name="title_logging_configure">ئورۇنلاشتۇرۇش</string>
   <string name="title_enable_logging">تورسۇلغان ئادىرىسنىلا خاتىرلەش</string>
   <string name="title_enable_filtering">يول قويغان ئادىرىسنى تاسقاشنى قوزغىتىش</string>
-  <string name="title_enable_help0">خاتىرلەش ۋە ئۆتكۈزۈش بارلىق ئەپكە ئىشلەيدۇ</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">تاق ئادىرسنى توسۇش ياكى يول قويۇشنى ئۆتكۈزۈش</string>
   <string name="title_enable_help2">كۈندىلىك خاتىرىنى قوزغىتىش(ئازراق) ياكى ئۆتكۈزىۋىتىش (كۆپ) توكنى كۆپ ئىشلىتىشى ۋە تور سۈرئىتىگە تەسىر كۆرسىتشى مومكىن</string>
   <string name="title_rate">سۈرئەت</string>

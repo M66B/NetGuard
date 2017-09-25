@@ -5,12 +5,16 @@
   <string name="app_copyright">कॉपीराइट \ u00A9 2015–2017 एम Bokhorst द्वारा (M66B)</string>
   <string name="app_android">NetGuard एंड्रॉयड 4.0 या बाद में की आवश्यकता है</string>
   <string name="app_license">NetGuard का उपयोग करके आप करने के लिए <a href="http://www.gnu.org/licenses/gpl.txt"> जीएनयू जनरल पब्लिक लाइसेंस संस्करण 3 </a> सहमत</string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">महान देखभाल, विकास और NetGuard परीक्षण करने के लिए लिया गया है
 हालांकि यह गारंटी करने के लिए NetGuard सही ढंग से हर डिवाइस पर काम करेंगे असंभव है।
  NetGuard का उपयोग कर, आप <a href="http://www.gnu.org/licenses/gpl.txt"> जीएनयू जनरल पब्लिक लाइसेंस संस्करण 3 </a> करने के लिए सहमत</string>
   <string name="app_admob">NetGuard गूगल के AdMob विज्ञापन सेवा का उपयोग करता है। AdMob की गोपनीयता नीति उपलब्ध <a href="https://www.google.com/intl/en/policies/privacy/"> यहाँ </a> है।</string>
   <string name="app_agree">मैं सहमत हूँ</string>
   <string name="app_disagree">मैं असहमत हूं</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">आवेदन के लिए खोजें</string>
   <string name="menu_filter">फ़िल्टर अनुप्रयोगों</string>
   <string name="menu_app_user">उपयोगकर्ता को दिखाने के अनुप्रयोगों</string>
@@ -73,8 +77,10 @@
   <string name="setting_metered_4g">LTE unmetered चुनें</string>
   <string name="setting_national_roaming">राष्ट्रीय रोमिंग पर ध्यान न दें</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">उन्नत विकल्प</string>
   <string name="setting_system">सिस्टम अनुप्रयोग प्रबंधित करें</string>
   <string name="setting_log_app">इंटरनेट उपयोग लॉग करें</string>
@@ -130,6 +136,7 @@
   <string name="summary_metered_4g">2 जी डेटा कनेक्शन के लिए वाई-फाई नेटवर्क नियम लागू करें</string>
   <string name="summary_national_roaming">रोमिंग नियम लागू नहीं होते हैं, जब सिम और मोबाइल नेटवर्क देश ही हैं</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">(विशेषज्ञों) के लिए सिस्टम अनुप्रयोगों के लिए नियमों को परिभाषित</string>
   <string name="summary_log_app">लॉग अनुप्रयोगों के लिए इंटरनेट का उपयोग करने का प्रयास करता है। यह अतिरिक्त बैटरी उपयोग में परिणाम हो सकता है।</string>
   <string name="summary_access">एक नए इंटरनेट पते तक पहुँचने के लिए कोई अनुप्रयोग का प्रयास करता है, जब एक स्थिति बार सूचना दिखाएँ (फ़िल्टरिंग अक्षम किया गया है, जब केवल अवरुद्ध इंटरनेट का उपयोग प्रयास को सूचित किया जाएगा)</string>
@@ -223,7 +230,8 @@
   <string name="title_logging_configure">Configure</string>
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
   <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">रेट करें</string>

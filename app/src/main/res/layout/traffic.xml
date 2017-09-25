@@ -15,7 +15,7 @@
             android:id="@+id/tvTx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+            android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
             android:typeface="monospace" />
 
         <TextView
@@ -25,7 +25,7 @@
             android:layout_marginStart="4dp"
             android:alpha="0.5"
             android:text="▲"
-            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+            android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
             android:textColor="@color/colorSend" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
-            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+            android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
             android:typeface="monospace" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_marginStart="4dp"
             android:alpha="0.5"
             android:text="▼"
-            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+            android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
             android:textColor="@color/colorReceive" />
     </LinearLayout>
 
@@ -55,7 +55,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+        android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
         android:textSize="10sp" />
 
     <TextView
@@ -66,7 +66,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:singleLine="false"
-        android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+        android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
         android:textSize="10sp" />
 
     <TextView
@@ -76,7 +76,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+        android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
         android:textSize="10sp" />
 
     <ImageView
@@ -96,7 +96,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:paddingTop="10sp"
-        android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Info"
+        android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
         android:textColor="@color/colorGrayed"
         android:textSize="10sp"
         android:typeface="monospace" />

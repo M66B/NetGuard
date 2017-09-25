@@ -5,10 +5,14 @@
   <string name="app_copyright">Авторское право \u00A9 2015–2017 М. Bokhorst (M66B)</string>
   <string name="app_android">Для работы NetGuard требуется Android 4.0 или более поздняя версия</string>
   <string name="app_license">Используя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Политика конфиденциальности</a></string>
   <string name="app_first">Было уделено большое внимание разработке и тестированию NetGuard, однако нельзя гарантировать, что NetGuard будет правильно работать на каждом устройстве. \n\nИспользуя NetGuard, вы принимаете <a href="http://www.gnu.org/licenses/gpl.txt">Открытое лицензионное соглашение GNU версии 3</a></string>
   <string name="app_admob">NetGuard использует сервис рекламы AdMob компании Google. Политика конфиденциальности AdMob доступна <a href="https://www.google.com/intl/en/policies/privacy/">здесь</a>.</string>
   <string name="app_agree">Я согласен</string>
   <string name="app_disagree">Я не согласен</string>
+  <string name="channel_foreground">Запущенные службы</string>
+  <string name="channel_notify">Общие уведомления</string>
+  <string name="channel_access">Доступ к уведомлениям</string>
   <string name="menu_search">Поиск приложения</string>
   <string name="menu_filter">Фильтр приложений</string>
   <string name="menu_app_user">Показать пользовательские приложения</string>
@@ -71,8 +75,10 @@
   <string name="setting_metered_4g">Не учитывать LTE</string>
   <string name="setting_national_roaming">Игнорировать роуминг внутри страны</string>
   <string name="setting_eu_roaming">Игнорировать роуминг ЕС</string>
+  <string name="setting_call">Отключить при звонке</string>
   <string name="setting_lockdown_wifi">Блокировка Wi-Fi</string>
   <string name="setting_lockdown_other">Блокировка моб. сети</string>
+  <string name="setting_reload_onconnectivity">Перезагрузка при каждом изменении подключения</string>
   <string name="setting_advanced_options">Дополнительные опции</string>
   <string name="setting_system">Управлять сист. приложениями</string>
   <string name="setting_log_app">Журнал доступа к сети интернет</string>
@@ -128,6 +134,7 @@
   <string name="summary_metered_4g">Применить правила Wi-Fi-сети для передачи данных через LTE</string>
   <string name="summary_national_roaming">Не применять правила роуминга, если SIM-карта и мобильная сеть из одной страны</string>
   <string name="summary_eu_roaming">Не применять правила роуминга, если страна SIM-карты и мобильная сеть находится в пределах Евросоюза (как у себя дома)</string>
+  <string name="summary_call">Отключить NetGuard при входящем или исходящем телефонном звонке. Эту опцию можно использовать для решения проблем с IP/Wi-Fi.</string>
   <string name="summary_system">Определить правила для системных приложений (для профи)</string>
   <string name="summary_log_app">Журнал попыток доступа приложений к сети интернет. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="summary_access">Показать уведомление в строке состояния, когда приложение пытается получить доступ к новому Интернет-адресу (когда фильтрация отключена, будут показаны только заблокированные попытки доступа в Интернет)</string>
@@ -169,7 +176,7 @@
   <string name="msg_doze">Для достижения стабильных результатов экономия заряда аккумулятора Android для NetGuard должна быть отключена. \n\nВ следующем диалоговом окне, в верхней части, выберите «Все приложения», найдите NetGuard в списке и выберете его, затем выберите «Не экономить» и подтвердите.</string>
   <string name="msg_datasaving">Для достижения стабильных результатов, ограничение данных Android должно быть отключено для NetGuard.
 \n\nВ следующем диалоговом окне включите опции \"Фоновые данные\" и \"Неограниченное использование данных\"</string>
-  <string name="msg_filter">Использование данной функции приводит к тому, что Android передает данные и использование энергии в пользование NetGuard; Android будет считать, что данные и энергия используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
+  <string name="msg_filter">Использование данной функции приводит к тому, что Android передает сетевые данные и использование заряда аккумулятора в пользование NetGuard; Android будет считать, что данные и заряд используются NetGuard, а не стандартными, для работы этой функции, приложениями.</string>
   <string name="msg_filter4">На Android 4 фильтрация должна быть включена</string>
   <string name="msg_log_disabled">Ведение журнала трафика отключено, используйте переключатель выше для его включения. Это может привести к большему потреблению заряда аккумулятора.</string>
   <string name="msg_clear_rules">Это сбросит правила и условия на их значения по умолчанию</string>
@@ -223,7 +230,8 @@
   <string name="title_logging_configure">Настроить</string>
   <string name="title_enable_logging">Включить ведение журнала только заблокированных адресов</string>
   <string name="title_enable_filtering">Включить фильтрацию для регистрации разрешенных адресов</string>
-  <string name="title_enable_help0">Ведение журнала и фильтрация являются глобальными настройками, которые применяются ко всем приложениям</string>
+  <string name="title_enable_notify">Включить уведомления о доступе для недавно зарегистрированных адресов</string>
+  <string name="title_enable_help0">Эти настройки являются глобальными, которые применяются ко всем приложениям</string>
   <string name="title_enable_help1">Фильтрация также необходима для разрешения или блокировки отдельных адресов</string>
   <string name="title_enable_help2">Включение ведения журнала или фильтрации может увеличить расход батареи и повлиять на скорость сети</string>
   <string name="title_rate">Оценить</string>

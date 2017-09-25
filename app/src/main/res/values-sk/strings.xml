@@ -5,12 +5,16 @@
   <string name="app_copyright">Copyright \u00A9 2015–2017 podľa M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard vyžaduje Android vo verzii 4.0 alebo novšej</string>
   <string name="app_license">Používaním aplikácie NetGuard súhlasíte so <a href="http://www.gnu.org/licenses/gpl.txt">Všeobecnou verejnou licenciou GNU, verzia 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_admob">NetGuard uses Google\'s AdMob advertising service. AdMob\'s privacy policy is available <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">Súhlasím</string>
   <string name="app_disagree">Odmietam</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Hľadať aplikáciu</string>
   <string name="menu_filter">Filtrovať aplikácie</string>
   <string name="menu_app_user">Zobraziť používateľské aplikácie</string>
@@ -73,8 +77,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="setting_metered_4g">Považovať LTE za nemeranú sieť</string>
   <string name="setting_national_roaming">Ignorovať národný roaming</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Pokročilé možnosti</string>
   <string name="setting_system">Spravovať systémové aplikácie</string>
   <string name="setting_log_app">Zaznamenávať prístup k internetu</string>
@@ -130,9 +136,10 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="summary_metered_4g">Použiť pravidlá Wi-Fi sietí na LTE dátové pripojenia</string>
   <string name="summary_national_roaming">Nepoužiť pravidlá roamingu, keď krajina mobilnej siete a SIM sú rovnaké</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Určiť pravidlá pre systémové pravidlá (pre expertov)</string>
   <string name="summary_log_app">Zaznamenať pokusy o získanie prístupu na internet u aplikácií. Môže to spôsobiť zvýšenú spotrebu batérie.</string>
-  <string name="summary_access">Show a status bar notification when an application attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
+  <string name="summary_access">Show a status bar notification when an app attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
   <string name="summary_filter">Filtrovanie IP paketov smerujúcich z VPN tunela. Môže to spôsobiť zvýšenú spotrebu batérie.</string>
   <string name="summary_track_usage">Sledovať počet odoslaných a prijatých bajtov pre každú aplikáciu a adresu. Môže to spôsobiť zvýšenú spotrebu batérie.</string>
   <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
@@ -172,7 +179,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
 \n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
   <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
-  <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original applications</string>
+  <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original apps</string>
   <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
   <string name="msg_log_disabled">Zaznamenávanie prenosu je vypnuté, použite prepínač vyššie na povolenie zaznamenávanie. Zaznamenávanie prenosu môže spôsobiť zvýšenú spotrebu batérie.</string>
   <string name="msg_clear_rules">Týmto sa obnovia pravidlá a podmienky na predvolené hodnoty</string>
@@ -187,7 +194,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="msg_inactive">No active internet connection</string>
   <string name="msg_queue">NetGuard je zaneprázdnený</string>
   <string name="msg_update">K dispozícii je aktualizácia, dotykom ju stiahnite</string>
-  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access by tapping on the icons next to an application</string>
+  <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access by tapping on the icons next to an app</string>
   <string name="msg_whitelist">Prístup k internetu je povolený v predvolenom nastavení, túto možnosť môžete zmeniť v nastaveniach</string>
   <string name="msg_push">Push správy sú väčšinou riadené systémovou súčasťou Služby Google Play, ktorej je povolený prístup k internetu v predvolenom nastavení</string>
   <string name="msg_system">Spravovanie systémových aplikácií môže byť povolené v nastaveniach</string>
@@ -226,7 +233,8 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="title_logging_configure">Configure</string>
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
   <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">Ohodnotiť</string>

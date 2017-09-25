@@ -68,7 +68,7 @@ public class ActivityForwardApproval extends Activity {
         else
             pname = Integer.toString(protocol);
 
-        TextView tvForward = (TextView) findViewById(R.id.tvForward);
+        TextView tvForward = findViewById(R.id.tvForward);
         if (ACTION_START_PORT_FORWARD.equals(getIntent().getAction()))
             tvForward.setText(getString(R.string.msg_start_forward,
                     pname, dport, raddr, rport,
@@ -76,8 +76,8 @@ public class ActivityForwardApproval extends Activity {
         else
             tvForward.setText(getString(R.string.msg_stop_forward, pname, dport));
 
-        Button btnOk = (Button) findViewById(R.id.btnOk);
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
+        Button btnOk = findViewById(R.id.btnOk);
+        Button btnCancel = findViewById(R.id.btnCancel);
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +110,7 @@ am start -a eu.faircode.netguard.STOP_PORT_FORWARD \
                     DatabaseHelper.getInstance(ActivityForwardApproval.this).deleteForward(protocol, dport);
                 }
 
-                ServiceSinkhole.reload("forwarding", ActivityForwardApproval.this);
+                ServiceSinkhole.reload("forwarding", ActivityForwardApproval.this, false);
 
                 finish();
             }

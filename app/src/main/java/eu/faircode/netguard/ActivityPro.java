@@ -23,6 +23,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -82,14 +83,14 @@ public class ActivityPro extends AppCompatActivity {
         // Initial state
         updateState();
 
-        TextView tvLogTitle = (TextView) findViewById(R.id.tvLogTitle);
-        TextView tvFilterTitle = (TextView) findViewById(R.id.tvFilterTitle);
-        TextView tvNotifyTitle = (TextView) findViewById(R.id.tvNotifyTitle);
-        TextView tvSpeedTitle = (TextView) findViewById(R.id.tvSpeedTitle);
-        TextView tvThemeTitle = (TextView) findViewById(R.id.tvThemeTitle);
-        TextView tvAllTitle = (TextView) findViewById(R.id.tvAllTitle);
-        TextView tvDev1Title = (TextView) findViewById(R.id.tvDev1Title);
-        TextView tvDev2Title = (TextView) findViewById(R.id.tvDev2Title);
+        TextView tvLogTitle = findViewById(R.id.tvLogTitle);
+        TextView tvFilterTitle = findViewById(R.id.tvFilterTitle);
+        TextView tvNotifyTitle = findViewById(R.id.tvNotifyTitle);
+        TextView tvSpeedTitle = findViewById(R.id.tvSpeedTitle);
+        TextView tvThemeTitle = findViewById(R.id.tvThemeTitle);
+        TextView tvAllTitle = findViewById(R.id.tvAllTitle);
+        TextView tvDev1Title = findViewById(R.id.tvDev1Title);
+        TextView tvDev2Title = findViewById(R.id.tvDev2Title);
 
         Linkify.TransformFilter filter = new Linkify.TransformFilter() {
             @Override
@@ -107,14 +108,18 @@ public class ActivityPro extends AppCompatActivity {
         Linkify.addLinks(tvDev1Title, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SUPPORT1, null, filter);
         Linkify.addLinks(tvDev2Title, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SUPPORT2, null, filter);
 
+        String android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        String challenge = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? Build.SERIAL : "O3" + android_id);
+        String seed = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? "NetGuard2" : "NetGuard3");
+
         // Challenge
-        TextView tvChallenge = (TextView) findViewById(R.id.tvChallenge);
-        tvChallenge.setText(Build.SERIAL);
+        TextView tvChallenge = findViewById(R.id.tvChallenge);
+        tvChallenge.setText(challenge);
 
         // Response
         try {
-            final String response = Util.md5(Build.SERIAL, "NetGuard2");
-            EditText etResponse = (EditText) findViewById(R.id.etResponse);
+            final String response = Util.md5(challenge, seed);
+            EditText etResponse = findViewById(R.id.etResponse);
             etResponse.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -147,14 +152,14 @@ public class ActivityPro extends AppCompatActivity {
                         iab.updatePurchases();
                         updateState();
 
-                        final Button btnLog = (Button) findViewById(R.id.btnLog);
-                        final Button btnFilter = (Button) findViewById(R.id.btnFilter);
-                        final Button btnNotify = (Button) findViewById(R.id.btnNotify);
-                        final Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
-                        final Button btnTheme = (Button) findViewById(R.id.btnTheme);
-                        final Button btnAll = (Button) findViewById(R.id.btnAll);
-                        final Button btnDev1 = (Button) findViewById(R.id.btnDev1);
-                        final Button btnDev2 = (Button) findViewById(R.id.btnDev2);
+                        final Button btnLog = findViewById(R.id.btnLog);
+                        final Button btnFilter = findViewById(R.id.btnFilter);
+                        final Button btnNotify = findViewById(R.id.btnNotify);
+                        final Button btnSpeed = findViewById(R.id.btnSpeed);
+                        final Button btnTheme = findViewById(R.id.btnTheme);
+                        final Button btnAll = findViewById(R.id.btnAll);
+                        final Button btnDev1 = findViewById(R.id.btnDev1);
+                        final Button btnDev2 = findViewById(R.id.btnDev2);
 
                         View.OnClickListener listener = new View.OnClickListener() {
                             @Override
@@ -286,26 +291,26 @@ public class ActivityPro extends AppCompatActivity {
     }
 
     private void updateState() {
-        Button btnLog = (Button) findViewById(R.id.btnLog);
-        Button btnFilter = (Button) findViewById(R.id.btnFilter);
-        Button btnNotify = (Button) findViewById(R.id.btnNotify);
-        Button btnSpeed = (Button) findViewById(R.id.btnSpeed);
-        Button btnTheme = (Button) findViewById(R.id.btnTheme);
-        Button btnAll = (Button) findViewById(R.id.btnAll);
-        Button btnDev1 = (Button) findViewById(R.id.btnDev1);
-        Button btnDev2 = (Button) findViewById(R.id.btnDev2);
-        TextView tvLog = (TextView) findViewById(R.id.tvLog);
-        TextView tvFilter = (TextView) findViewById(R.id.tvFilter);
-        TextView tvNotify = (TextView) findViewById(R.id.tvNotify);
-        TextView tvSpeed = (TextView) findViewById(R.id.tvSpeed);
-        TextView tvTheme = (TextView) findViewById(R.id.tvTheme);
-        TextView tvAll = (TextView) findViewById(R.id.tvAll);
-        TextView tvDev1 = (TextView) findViewById(R.id.tvDev1);
-        TextView tvDev2 = (TextView) findViewById(R.id.tvDev2);
-        LinearLayout llChallenge = (LinearLayout) findViewById(R.id.llChallenge);
+        Button btnLog = findViewById(R.id.btnLog);
+        Button btnFilter = findViewById(R.id.btnFilter);
+        Button btnNotify = findViewById(R.id.btnNotify);
+        Button btnSpeed = findViewById(R.id.btnSpeed);
+        Button btnTheme = findViewById(R.id.btnTheme);
+        Button btnAll = findViewById(R.id.btnAll);
+        Button btnDev1 = findViewById(R.id.btnDev1);
+        Button btnDev2 = findViewById(R.id.btnDev2);
+        TextView tvLog = findViewById(R.id.tvLog);
+        TextView tvFilter = findViewById(R.id.tvFilter);
+        TextView tvNotify = findViewById(R.id.tvNotify);
+        TextView tvSpeed = findViewById(R.id.tvSpeed);
+        TextView tvTheme = findViewById(R.id.tvTheme);
+        TextView tvAll = findViewById(R.id.tvAll);
+        TextView tvDev1 = findViewById(R.id.tvDev1);
+        TextView tvDev2 = findViewById(R.id.tvDev2);
+        LinearLayout llChallenge = findViewById(R.id.llChallenge);
 
-        TextView tvLogUnavailable = (TextView) findViewById(R.id.tvLogUnavailable);
-        TextView tvFilterUnavailable = (TextView) findViewById(R.id.tvFilterUnavailable);
+        TextView tvLogUnavailable = findViewById(R.id.tvLogUnavailable);
+        TextView tvFilterUnavailable = findViewById(R.id.tvFilterUnavailable);
 
         boolean can = Util.canFilter(this);
 

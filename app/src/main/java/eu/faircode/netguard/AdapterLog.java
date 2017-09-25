@@ -24,10 +24,14 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
@@ -47,13 +51,13 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 
 public class AdapterLog extends CursorAdapter {
     private static String TAG = "NetGuard.Log";
 
     private boolean resolve;
     private boolean organization;
-    private int colID;
     private int colTime;
     private int colVersion;
     private int colProtocol;
@@ -80,7 +84,6 @@ public class AdapterLog extends CursorAdapter {
         super(context, cursor, 0);
         this.resolve = resolve;
         this.organization = organization;
-        colID = cursor.getColumnIndex("ID");
         colTime = cursor.getColumnIndex("time");
         colVersion = cursor.getColumnIndex("version");
         colProtocol = cursor.getColumnIndex("protocol");
@@ -132,7 +135,6 @@ public class AdapterLog extends CursorAdapter {
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
         // Get values
-        final long id = cursor.getLong(colID);
         long time = cursor.getLong(colTime);
         int version = (cursor.isNull(colVersion) ? -1 : cursor.getInt(colVersion));
         int protocol = (cursor.isNull(colProtocol) ? -1 : cursor.getInt(colProtocol));
@@ -149,19 +151,19 @@ public class AdapterLog extends CursorAdapter {
         int interactive = (cursor.isNull(colInteractive) ? -1 : cursor.getInt(colInteractive));
 
         // Get views
-        TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
-        TextView tvProtocol = (TextView) view.findViewById(R.id.tvProtocol);
-        TextView tvFlags = (TextView) view.findViewById(R.id.tvFlags);
-        TextView tvSAddr = (TextView) view.findViewById(R.id.tvSAddr);
-        TextView tvSPort = (TextView) view.findViewById(R.id.tvSPort);
-        final TextView tvDaddr = (TextView) view.findViewById(R.id.tvDAddr);
-        TextView tvDPort = (TextView) view.findViewById(R.id.tvDPort);
-        final TextView tvOrganization = (TextView) view.findViewById(R.id.tvOrganization);
-        ImageView ivIcon = (ImageView) view.findViewById(R.id.ivIcon);
-        TextView tvUid = (TextView) view.findViewById(R.id.tvUid);
-        TextView tvData = (TextView) view.findViewById(R.id.tvData);
-        ImageView ivConnection = (ImageView) view.findViewById(R.id.ivConnection);
-        ImageView ivInteractive = (ImageView) view.findViewById(R.id.ivInteractive);
+        TextView tvTime = view.findViewById(R.id.tvTime);
+        TextView tvProtocol = view.findViewById(R.id.tvProtocol);
+        TextView tvFlags = view.findViewById(R.id.tvFlags);
+        TextView tvSAddr = view.findViewById(R.id.tvSAddr);
+        TextView tvSPort = view.findViewById(R.id.tvSPort);
+        final TextView tvDaddr = view.findViewById(R.id.tvDAddr);
+        TextView tvDPort = view.findViewById(R.id.tvDPort);
+        final TextView tvOrganization = view.findViewById(R.id.tvOrganization);
+        final ImageView ivIcon = view.findViewById(R.id.ivIcon);
+        TextView tvUid = view.findViewById(R.id.tvUid);
+        TextView tvData = view.findViewById(R.id.tvData);
+        ImageView ivConnection = view.findViewById(R.id.ivConnection);
+        ImageView ivInteractive = view.findViewById(R.id.ivInteractive);
 
         // Show time
         tvTime.setText(new SimpleDateFormat("HH:mm:ss").format(time));
@@ -216,13 +218,39 @@ public class AdapterLog extends CursorAdapter {
                 info = pm.getApplicationInfo(pkg[0], 0);
             } catch (PackageManager.NameNotFoundException ignored) {
             }
+
         if (info == null)
             ivIcon.setImageDrawable(null);
-        else if (info.icon == 0)
-            Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
         else {
-            Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
-            Picasso.with(context).load(uri).resize(iconSize, iconSize).into(ivIcon);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                Icon icon;
+                if (info.icon == 0)
+                    icon = Icon.createWithResource(context, android.R.drawable.sym_def_app_icon);
+                else
+                    icon = Icon.createWithResource(info.packageName, info.icon);
+                try {
+                    icon.loadDrawableAsync(context, new Icon.OnDrawableLoadedListener() {
+                        @Override
+                        public void onDrawableLoaded(Drawable drawable) {
+                            if (drawable instanceof BitmapDrawable) {
+                                Bitmap original = ((BitmapDrawable) drawable).getBitmap();
+                                Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
+                                ivIcon.setImageDrawable(new BitmapDrawable(context.getResources(), scaled));
+                            } else
+                                ivIcon.setImageDrawable(drawable);
+                        }
+                    }, new Handler(context.getMainLooper()));
+                } catch (RejectedExecutionException ex) {
+                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
+            } else {
+                if (info.icon == 0)
+                    Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
+                else {
+                    Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
+                    Picasso.with(context).load(uri).resize(iconSize, iconSize).into(ivIcon);
+                }
+            }
         }
 
         boolean we = (android.os.Process.myUid() == uid);
@@ -265,7 +293,7 @@ public class AdapterLog extends CursorAdapter {
                         tvDaddr.setText(">" + name);
                         ViewCompat.setHasTransientState(tvDaddr, false);
                     }
-                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, daddr);
+                }.execute(daddr);
             } else
                 tvDaddr.setText(dname);
         else
@@ -299,7 +327,7 @@ public class AdapterLog extends CursorAdapter {
                         }
                         ViewCompat.setHasTransientState(tvOrganization, false);
                     }
-                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, daddr);
+                }.execute(daddr);
         }
 
         // Show extra data

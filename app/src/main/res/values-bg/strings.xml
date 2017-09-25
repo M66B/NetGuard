@@ -5,10 +5,14 @@
   <string name="app_copyright">\u00A9 2015–2017 автор - M. Bokhorst (M66B). Всички права запазени.</string>
   <string name="app_android">NetGuard изисква Android 4.0 или по-нова версия</string>
   <string name="app_license">Използвайки NetGuard, вие се съгласявате със следното лицензионно споразумение: <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License версия 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Изключително внимание е вложено при разработката и тестването на NetGuard, въпреки това е невъзможно да се гарантира, че NetGuard ще работи безупречно на всяко устройство. \n\nИзползвайки NetGuard, вие се съгласявате със следното лицензионно споразумение: <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License версия 3</a></string>
   <string name="app_admob">NetGuard използва услугата за реклама AdMob на Google. Декларацията за поверителност на AdMob е налична <a href="https://www.google.com/intl/en/policies/privacy/"> тук</a>.</string>
   <string name="app_agree">Приемам</string>
   <string name="app_disagree">Не съм съгласен</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Търсене на приложение</string>
   <string name="menu_filter">Филтър по приложения</string>
   <string name="menu_app_user">Показване на потребителските приложения</string>
@@ -71,8 +75,10 @@
   <string name="setting_metered_4g">Приемане на LTE за неограничен достъп</string>
   <string name="setting_national_roaming">Игнориране на национален роуминг</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Разширени настройки</string>
   <string name="setting_system">Управление на системни приложения</string>
   <string name="setting_log_app">Регистриране на достъпа до интернет във файл</string>
@@ -128,6 +134,7 @@
   <string name="summary_metered_4g">Прилагане на правилата за Wi-Fi мрежа при LTE връзка за мобилни данни</string>
   <string name="summary_national_roaming">Да не се прилагат правилата при роуминг, когато СИМ картата и операторът са от една и съща държава</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Задаване на правила за системни приложения (за напреднали потребители)</string>
   <string name="summary_log_app">Регистриране на опитите за достъп до интернет на приложенията. Това може да доведе до допълнително използване на батерията.</string>
   <string name="summary_access">Показване на опитите за достъп на приложението до нов интернет адрес в лентата за уведомяване (когато филтрирането е изключено, ще се показват само блокираните опити за достъп)</string>
@@ -223,7 +230,8 @@
   <string name="title_logging_configure">Configure</string>
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
   <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">Оценете</string>

@@ -71,8 +71,8 @@ because the network traffic of other applications is flowing through NetGuard.
 
 No, depending on the mode of operation basically one of two things will happen with your internet traffic:
 
-* When IP filtering is disabled, blocked internet traffic will be routed into the local VPN which will operate as a sinkhole (in effect dropping all blocked traffic)
-* When IP filtering is enabled, both blocked and allowed internet traffic will be routed into the local VPN and only allowed traffic will be forwarded to the intended destination (and not to a VPN server)
+* When IP filtering is disabled, blocked internet traffic will be routed into the local VPN service, which will operate as a sinkhole (in effect dropping all blocked traffic)
+* When IP filtering is enabled, both blocked and allowed internet traffic will be routed into the local VPN service and only allowed traffic will be forwarded to the intended destination (and not to a VPN server)
 
 The [Android VPN service](http://developer.android.com/reference/android/net/VpnService.html) is being used to locally route all internet traffic to NetGuard so no root is required to build this firewall application.
 NetGuard, unlike all other no-root firewalls applications, is 100% open source, so when you are in doubt you can check [the source code](https://github.com/M66B/NetGuard/) yourself.
@@ -154,7 +154,7 @@ Disabled applications and applications without internet permission are shown dim
 <a name="FAQ17"></a>
 **(17) Why is NetGuard using so much memory?**
 
-It isn't.  NetGuard doesn't allocate any memory, except a little for displaying the user interface elements.
+It isn't.  NetGuard doesn't allocate any memory, except a little for displaying the user interface elements and for buffering traffic.
 It appears, on some Android variants, that the Google Play™ store app connection uses almost 150 MB.  It is needed for in-app donations,
 and is incorrectly attributed to NetGuard instead to the Google Play™ store app.
 
@@ -227,6 +227,16 @@ which is shown by Android and not by NetGuard, unfortunately, cannot be removed.
 The [Google documentation](http://developer.android.com/reference/android/net/VpnService.html) states:
 *"A system-managed notification is shown during the lifetime of a VPN connection"*.
 
+Android 8 Oreo and later display a notification "*... running in the background*" listing all apps running in the background.
+You can't disable this notification, but you can remove the icon from the status bar like this:
+
+* Open Settings > Apps & notifications > App info
+* Open settings (three dots); Select "Show system"
+* Select "Android System"
+* Select "App notifications"
+* Select "Apps running in background"
+* Select "Importance" and select "Low"
+
 <a name="FAQ25"></a>
 **(25) Can you add a 'Select All' function?**
 
@@ -251,7 +261,7 @@ The columns have the following meanings:
 
 Protocols:
 
-* HOPO (IPv6 Hop-by-Hop Option)
+* HOPO ([IPv6 Hop-by-Hop Option](https://en.m.wikipedia.org/wiki/IPv6_packet#Hop-by-hop_options_and_destination_options))
 * ICMP
 * IGMP
 * ESP (IPSec)
@@ -450,10 +460,14 @@ and that some Android versions contain routing bugs, causing inbound traffic inc
 <a name="FAQ46"></a>
 **(46) Can I get a refund?**
 
-If a purchased pro feature doesn't work [as described](https://www.netguard.me/) while the free features of NetGuard work properly,
-and I cannot fix the issue in a timely manner, you can get a refund.
+If a purchased pro feature doesn't work [as described](https://www.netguard.me/)
+and this isn't caused by a problem in the free features
+and I cannot fix the problem in a timely manner, you can get a refund.
 In all other cases there is no refund possible.
-I take my responsibility as seller to deliver what has been promised and I expect that you take responsibility for informing yourself of what you are buying.
+In no circumstances there is a refund possible for any problem related to the free features,
+since there wasn't paid anything for them and because they can be evaluated without any limitation.
+I take my responsibility as seller to deliver what has been promised
+and I expect that you take responsibility for informing yourself of what you are buying.
 
 <a name="FAQ47"></a>
 **(47) Why are there in-application advertisements?**
@@ -525,6 +539,9 @@ If your language is missing, please contact me to have it added.
 <a name="FAQ54"></a>
 **(54) How to tunnel all TCP connections through the Tor network?**
 
+Tor with NetGuard is only supported in the [XDA NetGuard forum](http://forum.xda-developers.com/showthread.php?t=3233012).
+There is no personal support on Tor with NetGuard, because I don't use Tor myself.
+
 First, install [Orbot](market://details?id=org.torproject.android), the Android client for Tor,
 run it, press _Start_, while it connects open its _Settings_ and make sure it's setup to auto-start
 on device start.
@@ -546,7 +563,7 @@ online services (eg. Gmail, Google Play store) failing to login or being forced 
 when accessing sites that use Cloudflare's CDN services.
 
 <a name="FAQ55"></a>
-**(55) Why does NetGuard connect to Amazon / ipinfo.io?**
+**(55) Why does NetGuard connect to Amazon / ipinfo.io / 216.239.34.21?**
 
 NetGuard connects to Amazon / [ipinfo.io](https://ipinfo.io/) to show the names and organizations for IP addresses.
 If you don't want this, just disable showing names and organizations using the three dot menu in the global log view.
@@ -597,6 +614,22 @@ Note that:
 * An application like NetGuard cannot select which Google account to use
 
 If you cannot solve the problem with the purchase, you will have to contact Google about it.
+
+<a name="FAQ60"></a>
+**(60) Why does IP (Wi-Fi) calling/SMS/MMS not work?**
+
+Please see the [compatibility section](https://github.com/M66B/NetGuard/#compatibility) about this
+(you might need to request the desktop version to see this section if you are using a mobile device).
+
+<a name="FAQ61"></a>
+**(61) Help, NetGuard crashed!**
+
+NetGuard rarely crashes ("unexpectedly stopped"), but if it crashed (which is something different than being stopped by Android, see [this FAQ](#FAQ38)),
+then it is mostly caused by bugs in your Android version
+(either in the [Android VPN service](https://developer.android.com/reference/android/net/VpnService.html) implementation or in the [Android Linux kernel](https://developer.android.com/guide/platform/index.html#linux-kernel)).
+I am happy to check what the cause of a crash is and I will fix it whenever possible, but I need a logcat captured from your PC with the crash log for this.
+Since logcats are mostly quite large, I will need the exact time of the crash as well.
+If you don't know how to capture a logcat from your PC, please use your favorite search engine to find one of the numerous guides.
 
 <br />
 

@@ -2,8 +2,8 @@ apply plugin: 'com.android.model.application'
 
 model {
     android {
-        compileSdkVersion = 25
-        buildToolsVersion = "26.0.0"
+        compileSdkVersion = 26
+        buildToolsVersion = "26.0.1"
 
         defaultConfig {
             applicationId = "eu.faircode.netguard"
@@ -55,25 +55,25 @@ model {
 
         productFlavors {
             create("all") {
-                versionName = "2.107"
+                versionName = "2.137"
                 minSdkVersion.apiLevel = 14
-                targetSdkVersion.apiLevel = 25
-                versionCode = 2017070201
+                targetSdkVersion.apiLevel = 26
+                versionCode = 2017092101
                 archivesBaseName = "NetGuard-v$versionName"
             }
             create("lollipop-and-later") {
-                versionName = "2.107"
+                versionName = "2.137"
                 minSdkVersion.apiLevel = 20
-                targetSdkVersion.apiLevel = 25
-                versionCode = 2017070211
+                targetSdkVersion.apiLevel = 26
+                versionCode = 2017092111
                 archivesBaseName = "NetGuard-v$versionName"
             }
             create("kitkat-and-earlier") {
-                versionName = "2.107"
+                versionName = "2.137"
                 minSdkVersion.apiLevel = 14
                 maxSdkVersion = 19
-                targetSdkVersion.apiLevel = 25
-                versionCode = 2017070221
+                targetSdkVersion.apiLevel = 26
+                versionCode = 2017092121
                 archivesBaseName = "NetGuard-v$versionName"
             }
         }
@@ -82,15 +82,20 @@ model {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.+'
-    compile 'com.android.support:support-annotations:25.+'
-    compile 'com.android.support:recyclerview-v7:25.+'
-    compile 'com.squareup.picasso:picasso:2.5.+'
-    compile 'com.google.firebase:firebase-core:11.0.+'
-    compile 'com.google.firebase:firebase-ads:11.0.+'
+
     // https://developer.android.com/topic/libraries/support-library/revisions.html
-    // https://mvnrepository.com/artifact/com.squareup.picasso/picasso
+    compile 'com.android.support:appcompat-v7:26.1.+'
+    compile 'com.android.support:recyclerview-v7:26.1.+'
+
+    // https://developers.google.com/android/guides/setup
+    compile 'com.google.android.gms:play-services-base:11.4.+'
+
     // https://firebase.google.com/docs/android/setup
+    compile 'com.google.firebase:firebase-core:11.4.+'
+    compile 'com.google.firebase:firebase-ads:11.4.+'
+
+    // https://mvnrepository.com/artifact/com.squareup.picasso/picasso
+    compile 'com.squareup.picasso:picasso:2.5.+'
 }
 
 apply plugin: 'com.google.gms.google-services'

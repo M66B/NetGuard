@@ -1,16 +1,16 @@
 Ad Blocking with NetGuard
 -------------------------
 
-Instructions:
+Instructions (you need to follow **all** the steps):
 
-* Download/install the latest NetGuard version [from GitHub](https://github.com/M66B/NetGuard/releases)
-* Enable the setting *'Filter traffic'* in the Advanced options (three dot menu > Settings > Advanced options > Filter traffic; default is disabled except always enabled in Android 5.0 and earlier)
-* Enable the setting *'Block domain names'* in the Advanced options (three dot menu > Settings > Advanced options > Block domain names; default is enabled)
-* Import or download [a hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) using the NetGuard backup settings (three dot menu > Settings > Backup > Download hosts file)
-* Disable browser compression (in Chrome: three dot menu > Settings > Data Saver > Off)
-* Wait at least 10 minutes to let the Android DNS cache time out
-* Test to see if ad blocking works by opening [this page](http://www.netguard.me/test)
-* Enjoy ad blocking, but don't forget to support application developers and website authors in other ways
+1. Download/install the latest NetGuard version [from GitHub](https://github.com/M66B/NetGuard/releases)
+1. Enable the setting *'Filter traffic'* in the Advanced options (three dot menu > Settings > Advanced options > Filter traffic; default is disabled except always enabled in Android 5.0 and earlier)
+1. Enable the setting *'Block domain names'* in the Advanced options (three dot menu > Settings > Advanced options > Block domain names; default is enabled)
+1. Import or download [a hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) using the NetGuard backup settings (three dot menu > Settings > Backup > Download hosts file)
+1. Disable browser compression (in Chrome: three dot menu > Settings > Data Saver > Off)
+1. Wait at least 10 minutes to let the Android DNS cache time out
+1. Test to see if ad blocking works by opening [this page](http://www.netguard.me/test)
+1. Enjoy ad blocking, but don't forget to support application developers and website authors in other ways
 
 <br />
 
@@ -67,9 +67,13 @@ For example using [adb](https://developer.android.com/studio/command-line/adb.ht
 
 <br />
 
-Apart from using a hosts file, you can block most in-app ads by blocking this address for Google Play services:
+Apart from using a hosts file, you can block most in-app ads by blocking this address in the access list of Google Play services:
 
 *googleads.g.doubleclick.net/443*
+
+You'll need to enable filtering and (temporarily) logging for this (you can do this by using the *Configure* button; check both options)
+and you'll need to wait until the address appears (you can speed this up by opening some apps with in-app ads).
+Note that ads are likely being cached, so this may not take effect immediately.
 
 <br />
 

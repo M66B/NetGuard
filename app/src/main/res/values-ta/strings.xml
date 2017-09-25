@@ -5,10 +5,14 @@
   <string name="app_copyright">பதிப்புரிமை \u00A9 வாக்கில்–2017 மூலம் அவதூறு Bokhorst (M66B)</string>
   <string name="app_android">NetGuard ஆண் போன்ற 4.0 அல்லது பிந்தைய பதிப்பு தேவைப்படுகிறது</string>
   <string name="app_license">NetGuard பயன்படுத்தி, நீங்கள் ஒப்புக்கொள்கிறீர்கள் <a href="http://www.gnu.org/licenses/gpl.txt"> குனு பொது மக்கள் உரிமம் பதிப்பு 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">அதிக கவனம் மேற்கொள்ளப்படும் சோதனை NetGuard, அவர்களை NetGuard சரியாக பணி ஒவ்வொரு சாதனத்தில் உத்தரவாதம் பதிலளிப்பது இருப்பினும். \n\nBy NetGuard, பயன்படுத்தி நீங்கள் ஒப்புக்கொள்கிறீர்கள் <a href="http://www.gnu.org/licenses/gpl.txt"> குனு பொது மக்கள் உரிமம் பதிப்பு 3</a></string>
   <string name="app_admob">NetGuard பயன்படுத்தும் Google இன் AdMob விளம்பர சேவை. AdMob இன் தனியுரிமைக் கொள்கை இல்லை <a href="https://www.google.com/intl/en/policies/privacy/"> இங்கே</a>.</string>
   <string name="app_agree">நான் ஏற்கிறேன்</string>
   <string name="app_disagree">நான் ஏற்றுக் கொள்ள முடியாது</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">செயலிகளை தேடுக</string>
   <string name="menu_filter">வடிகட்டி பயன்பாடுகள்</string>
   <string name="menu_app_user">பயனர் பயன்பாடுகள் காண்பி</string>
@@ -71,8 +75,10 @@
   <string name="setting_metered_4g">LTE unmetered சிந்திக்கவும்</string>
   <string name="setting_national_roaming">தேசிய சுற்றும் புறக்கணி</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">மேம்பட்ட விருப்பங்கள்</string>
   <string name="setting_system">கணினி பயன்பாடுகள் நிர்வகி</string>
   <string name="setting_log_app">பதிவை இணைய அணுகல்</string>
@@ -128,6 +134,7 @@
   <string name="summary_metered_4g">2G தரவு இணைப்புகளுக்கு Wi-Fi பிணைய விதிகளை பயன்படுத்து</string>
   <string name="summary_national_roaming">பயன்படுத்தப்படாது நடமாடும் விதிகள், சிம் மற்றும் மொபைல் நெட்வொர்க் நாடு இருக்கும் போது ஒரே</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">முறைமை விண்ணப்பங்கள் (நிபுணர்கள்) விதிகளை விவரி</string>
   <string name="summary_log_app">பதிவை பயன்பாடுகள், இணையத்தை அணுக முயற்சிக்கும். கூடுதல் மின்கல பயன்பாட்டு இது இதனால் இருக்கலாம்.</string>
   <string name="summary_access">நிலை பட்டி அறிவிக்கை பயன்பாட்டை ஒரு புதிய இணைய முகவரி அணுக முயற்சிக்கும் போது காண்பி (முடக்கப்பட்டது வடித்தல், போது மட்டும் தடுக்கப்பட்ட இணைய அணுகல் முயற்சிகள் உங்களுக்கு அறிவிக்கப்பட)</string>
@@ -221,7 +228,8 @@
   <string name="title_logging_configure">Configure</string>
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
   <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">மதிப்பிடுக</string>

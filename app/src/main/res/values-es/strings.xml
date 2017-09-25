@@ -5,10 +5,14 @@
   <string name="app_copyright">Copyright \u00A9 2015–2017 por M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard requiere Android 4.0 o superior</string>
   <string name="app_license">Al utilizar NetGuard, acepta la <a href="http://www.gnu.org/licenses/gpl.txt">Licencia Pública General GNU versión 3</a></string>
+  <string name="app_privacy"><a href="http://www.netguard.me/privacy/">Política de privacidad</a></string>
   <string name="app_first">Se ha tenido gran cuidado para desarrollar y probar NetGuard, sin embargo, es imposible garantizar que NetGuard funcione correctamente en todos los dispositivos. \n\nAl utilizar NetGuard, acepta la <a href="http://www.gnu.org/licenses/gpl.txt"> Licencia Pública General GNU versión 3</a></string>
   <string name="app_admob">NetGuard utiliza el servicio de publicidad AdMob de Google. La política de privacidad de AdMob está disponible <a href="https://www.google.com/intl/en/policies/privacy/">aquí</a>.</string>
   <string name="app_agree">Aceptar</string>
   <string name="app_disagree">Rechazar</string>
+  <string name="channel_foreground">Servicios en ejecución</string>
+  <string name="channel_notify">Notificaciones generales</string>
+  <string name="channel_access">Notificaciones de acceso</string>
   <string name="menu_search">Buscar aplicación</string>
   <string name="menu_filter">Filtrar aplicaciones</string>
   <string name="menu_app_user">Mostrar aplicaciones del usuario</string>
@@ -71,8 +75,10 @@
   <string name="setting_metered_4g">Considerar LTE ilimitado</string>
   <string name="setting_national_roaming">Ignorar roaming nacional</string>
   <string name="setting_eu_roaming">Ignorar roaming en UE</string>
+  <string name="setting_call">Desactivar ante llamada</string>
   <string name="setting_lockdown_wifi">Bloquear Wi-Fi</string>
   <string name="setting_lockdown_other">Bloquear red móvil</string>
+  <string name="setting_reload_onconnectivity">Recargar en cada cambio de conectividad</string>
   <string name="setting_advanced_options">Opciones avanzadas</string>
   <string name="setting_system">Administrar aplicaciones de sistema</string>
   <string name="setting_log_app">Registrar acceso a Internet</string>
@@ -127,7 +133,8 @@
   <string name="summary_metered_3g">Aplicar reglas de red Wi-Fi para conexiones de datos 3G</string>
   <string name="summary_metered_4g">Aplicar reglas de red Wi-Fi para conexiones de datos LTE</string>
   <string name="summary_national_roaming">No aplicar reglas de roaming cuando la SIM y la red móvil son del mismo país</string>
-  <string name="summary_eu_roaming">No aplicar reglas de roaming cuando el país de la tarjeta SIM y el de la red móvil forman parte de la UE (roaming como red nacional)</string>
+  <string name="summary_eu_roaming">No aplicar reglas de roaming cuando la SIM y la red móvil son de la UE (roaming como red nacional)</string>
+  <string name="summary_call">Desactivar NetGuard ante llamada entrante o saliente. Esto puede utilizarse para solucionar problemas en llamadas IP/Wi-Fi.</string>
   <string name="summary_system">Definir reglas para aplicaciones de sistema (para expertos)</string>
   <string name="summary_log_app">Registrar intentos de acceso a Internet para aplicaciones. Esto podría consumir más batería.</string>
   <string name="summary_access">Mostrar una notificación en la barra de estado cuando una aplicación intente acceder a una nueva dirección de Internet (cuando se desactiva el filtrado, sólo se notificarán los intentos de acceso a Internet bloqueados)</string>
@@ -221,7 +228,8 @@
   <string name="title_logging_configure">Configurar</string>
   <string name="title_enable_logging">Activar registro sólo de las direcciones bloqueadas</string>
   <string name="title_enable_filtering">Activar filtrado para registrar también las direcciones permitidas</string>
-  <string name="title_enable_help0">El registro y filtrado son ajustes globales que se aplican a todas las aplicaciones</string>
+  <string name="title_enable_notify">Activar notificaciones de acceso para direcciones recién registradas</string>
+  <string name="title_enable_help0">Esta configuración es global y se aplica a todas las aplicaciones</string>
   <string name="title_enable_help1">El filtrado es necesario también para permitir o bloquear direcciones individuales</string>
   <string name="title_enable_help2">Activar el registro (menos) o filtrado (más) podría aumentar el uso de la batería y afectar a la velocidad de la red</string>
   <string name="title_rate">Calificar</string>

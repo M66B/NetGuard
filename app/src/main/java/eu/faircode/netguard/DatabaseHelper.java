@@ -55,7 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static HandlerThread hthread = null;
     private static Handler handler = null;
 
-    private static Map<Integer, Long> mapUidHosts = new HashMap<>();
+    private static final Map<Integer, Long> mapUidHosts = new HashMap<>();
 
     private final static int MSG_LOG = 1;
     private final static int MSG_ACCESS = 2;
@@ -686,7 +686,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         notifyAccessChanged();
     }
 
-    public Cursor getAccess(int uid) {
+    public Cursor getAccess(int uid, long since) {
         lock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -696,9 +696,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += ", (SELECT COUNT(DISTINCT d.qname) FROM dns d WHERE d.resource IN (SELECT d1.resource FROM dns d1 WHERE d1.qname = a.daddr)) count";
             query += " FROM access a";
             query += " WHERE a.uid = ?";
+            query += " AND a.time >= ?";
             query += " ORDER BY a.time DESC";
             query += " LIMIT 50";
-            return db.rawQuery(query, new String[]{Integer.toString(uid)});
+            return db.rawQuery(query, new String[]{Integer.toString(uid), Long.toString(since)});
         } finally {
             lock.readLock().unlock();
         }
@@ -716,7 +717,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getAccessUnset(int uid, int limit) {
+    public Cursor getAccessUnset(int uid, int limit, long since) {
         lock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -726,11 +727,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += " FROM access";
             query += " WHERE uid = ?";
             query += " AND block < 0";
+            query += " AND time >= ?";
             query += " GROUP BY daddr, allowed";
             query += " ORDER BY time DESC";
             if (limit > 0)
                 query += " LIMIT " + limit;
-            return db.rawQuery(query, new String[]{Integer.toString(uid)});
+            return db.rawQuery(query, new String[]{Integer.toString(uid), Long.toString(since)});
         } finally {
             lock.readLock().unlock();
         }

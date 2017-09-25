@@ -42,7 +42,7 @@ public class ActivityDns extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.setting_show_resolved);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ListView lvDns = (ListView) findViewById(R.id.lvDns);
+        ListView lvDns = findViewById(R.id.lvDns);
         adapter = new AdapterDns(this, DatabaseHelper.getInstance(this).getDns());
         lvDns.setAdapter(adapter);
     }
@@ -92,7 +92,7 @@ public class ActivityDns extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object result) {
-                ServiceSinkhole.reload("DNS cleanup", ActivityDns.this);
+                ServiceSinkhole.reload("DNS cleanup", ActivityDns.this, false);
                 updateAdapter();
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -109,7 +109,7 @@ public class ActivityDns extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Object result) {
-                ServiceSinkhole.reload("DNS clear", ActivityDns.this);
+                ServiceSinkhole.reload("DNS clear", ActivityDns.this, false);
                 updateAdapter();
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

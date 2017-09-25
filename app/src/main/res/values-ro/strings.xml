@@ -5,10 +5,14 @@
   <string name="app_copyright">Copyright \u00A9 2015–2017 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard necesita Android 4.0 sau mai nou</string>
   <string name="app_license">Folosind NetGuard, sunteti de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Politica de confidențialitate</a></string>
   <string name="app_first">NetGuard este dezvoltat si testat cu mare atentie, cu toate acestea este imposibii de garantat ca va functiona corect pe fiecare sau pe orice dispozitiv. \n\nFolosind NetGuard, sunteţi de acord cu <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License versiunea 3</a></string>
   <string name="app_admob">NetGuard foloseste serviciile de reclama Google AdMob. Termenii si conditiile AdMob sunt disponibile <a href="https://www.google.com/intl/en/policies/privacy/">aici</a>.</string>
   <string name="app_agree">Accept</string>
   <string name="app_disagree">Nu accept</string>
+  <string name="channel_foreground">Serviciile care rulează</string>
+  <string name="channel_notify">Notificări generale</string>
+  <string name="channel_access">Notificări acces</string>
   <string name="menu_search">Cauta aplicatii</string>
   <string name="menu_filter">Filtreaza aplicatiile</string>
   <string name="menu_app_user">Arata aplicatiile utilizatorului</string>
@@ -71,8 +75,10 @@
   <string name="setting_metered_4g">Considera 4G/LTE necontorizat</string>
   <string name="setting_national_roaming">Ignora roamingul national</string>
   <string name="setting_eu_roaming">Ignoră roaming în UE</string>
+  <string name="setting_call">Dezactivare în timpul apelului</string>
   <string name="setting_lockdown_wifi">Închide Wi-Fi</string>
   <string name="setting_lockdown_other">Închide date mobile</string>
+  <string name="setting_reload_onconnectivity">Reîncarcă regulile la fiecare schimbare de conectivitate</string>
   <string name="setting_advanced_options">Optiuni avansate</string>
   <string name="setting_system">Gestionati aplicatiile de sistem</string>
   <string name="setting_log_app">Inregistreaza in jurnal accesul la internet</string>
@@ -128,6 +134,7 @@
   <string name="summary_metered_4g">Aplica regulile Wi-Fi pentru conexiunile de date 4G/LTE</string>
   <string name="summary_national_roaming">Nu folosi regulile de roaming atunci cand tara de origine a SIM-ului si tara retelei mobile sunt identice</string>
   <string name="summary_eu_roaming">Nu se aplică regulile de roaming atunci când atât SIM-ul cât si reţeaua de telefonie sunt din si în Europa</string>
+  <string name="summary_call">Atunci când efectuați sau primiți un apel NetGuard se dezactivează temporar. Aceasta ar putea rezolva problemele legate de apelurile IP/Wi-Fi.</string>
   <string name="summary_system">Defineste reguli pentru aplicatiile de sistem (pentru experti)</string>
   <string name="summary_log_app">Inregistreaza in jurnal incercarile de acces la internet ale aplicatiilor. Aceasta poate duce la un consum mai mare al bateriei.</string>
   <string name="summary_access">Arata o notificare în bara de stare atunci când o aplicație încearcă sa acceseze o noua adresa de internet (când filtrare este dezactivată, numai accesul internet blocat va apărea în notificare)</string>
@@ -224,7 +231,8 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="title_logging_configure">Configurare</string>
   <string name="title_enable_logging">Activează jurnalul doar pentru adresele blocate</string>
   <string name="title_enable_filtering">Activează filtrul de trafic pentru a înregistra în jurnal și adresele permise</string>
-  <string name="title_enable_help0">Jurnalul și filtrul de trafic sunt setări globale și se aplică tuturor aplicațiilor</string>
+  <string name="title_enable_notify">Activează notificările la accesarea unor adrese noi</string>
+  <string name="title_enable_help0">Aceste setări sunt globale și se aplică pentru toate aplicațiile</string>
   <string name="title_enable_help1">Filtrul de trafic este necesar pentru a permite sau bloca adrese individuale</string>
   <string name="title_enable_help2">Activarea jurnalului (mai puțin) sau filtrul de trafic (mai mult) cresc consumul bateriei și ar putea afecta viteza conexiunii</string>
   <string name="title_rate">Evalueaza aplicatia</string>

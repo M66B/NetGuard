@@ -5,10 +5,14 @@
   <string name="app_copyright">Copyright \u00A9 2015-2017 M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard edellyttää vähintään Android 4.0 versiota</string>
   <string name="app_license">Käyttämällä NetGuard ohjelmaa, hyväksyt <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">NetGuard ohjelman kehittämiseen ja testaamiseen on panostettu, mutta on mahdotonta taata NetGuardin virheetöntä toimintaa kaikilla laitteilla. \n\n Käyttämällä NetGuard ohjelmaa, hyväksyt <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_admob">NetGuard käyttää Google AdMob mainoksia. Tietoa AdMob yksityisyydensuojasta saat tarkemmin <a href="https://www.google.com/intl/en/policies/privacy/"> täältä</a>.</string>
   <string name="app_agree">Hyväksyn</string>
   <string name="app_disagree">En hyväksy</string>
+  <string name="channel_foreground">Running services</string>
+  <string name="channel_notify">General notifications</string>
+  <string name="channel_access">Access notifications</string>
   <string name="menu_search">Etsi sovellusta</string>
   <string name="menu_filter">Suodata sovelluksia</string>
   <string name="menu_app_user">Näytä käyttäjän sovellukset</string>
@@ -71,8 +75,10 @@
   <string name="setting_metered_4g">Oleta LTE olevan ei käytön mukaan laskutettavana</string>
   <string name="setting_national_roaming">Älä huomioi kotimaan verkkovierailua</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
+  <string name="setting_call">Disable on call</string>
   <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
   <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Lisäasetukset</string>
   <string name="setting_system">Hallitse järjestelmäsovelluksia</string>
   <string name="setting_log_app">Tallenna internet yhteydet lokiin</string>
@@ -128,6 +134,7 @@
   <string name="summary_metered_4g">Aseta Wi-Fi verkon säännöt LTE yhteyksille</string>
   <string name="summary_national_roaming">Älä ota käyttöön verkkovierailun asetuksia kun SIM ja mobiiliverkkon ollessa samasta maasta</string>
   <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Määritä järjestelmäsovellusten asetukset (kokeneille)</string>
   <string name="summary_log_app">Tallenna lokiin yritykset yhdistää internettiin. Saattaa lisätä virran kulutusta.</string>
   <string name="summary_access">Näytä tilapalkin ilmoitus kun sovellukset yrittävät yhdistää uuteen internetosoitteeseen (vain estetyt yritykset näytetään, jos suodatus ei ole aktivoitu)</string>
@@ -221,7 +228,8 @@
   <string name="title_logging_configure">Configure</string>
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
-  <string name="title_enable_help0">Logging and filtering are global settings that apply to all applications</string>
+  <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
+  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
   <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
   <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
   <string name="title_rate">Noteeraus</string>

@@ -27,7 +27,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7">
     <output url="file://$MODULE_DIR$/build/intermediates/classes/all/debug" />
     <output-test url="file://$MODULE_DIR$/build/intermediates/classes/test/all/debug" />
     <exclude-output />
@@ -50,6 +50,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/allDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/allDebug/renderscript" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/allDebug/shaders" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/all/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/all/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/all/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/all/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/all/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/all/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/all/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAllDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAllDebug/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAllDebug/assets" type="java-test-resource" />
@@ -58,13 +65,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/testAllDebug/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAllDebug/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/testAllDebug/shaders" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/androidTest/all/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/androidTest/all/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/androidTest/all/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/androidTest/all/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/androidTest/all/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/androidTest/all/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/androidTest/all/debug" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/all/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/all/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/all/assets" type="java-resource" />
@@ -143,36 +143,36 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 26 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="play-services-basement-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="play-services-ads-lite-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="support-core-ui-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-ads-lite-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="support-media-compat-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
-    <orderEntry type="library" exported="" name="firebase-ads-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="firebase-iid-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="support-core-ui-25.4.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-ads-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="play-services-gass-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="firebase-core-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="support-core-utils-25.4.0" level="project" />
-    <orderEntry type="library" exported="" name="support-fragment-25.4.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-base-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="play-services-clearcut-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="play-services-safetynet-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="firebase-analytics-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-25.4.0" level="project" />
-    <orderEntry type="library" exported="" name="support-media-compat-25.4.0" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-v7-25.4.0" level="project" />
-    <orderEntry type="library" exported="" name="firebase-common-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="firebase-analytics-impl-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="play-services-tasks-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-25.4.0" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-25.4.0" level="project" />
-    <orderEntry type="library" exported="" name="support-vector-drawable-25.4.0" level="project" />
-    <orderEntry type="library" exported="" name="support-compat-25.4.0" level="project" />
-    <orderEntry type="library" exported="" name="animated-vector-drawable-25.4.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-core-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-ads-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-iid-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="support-vector-drawable-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="support-core-utils-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-ads-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-basement-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-base-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-gass-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="support-compat-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="animated-vector-drawable-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="support-fragment-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="runtime-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="common-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="1_common-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-analytics-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-analytics-impl-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-tasks-11.4.0" level="project" />
+    <orderEntry type="library" exported="" name="firebase-common-11.4.0" level="project" />
   </component>
 </module>
