@@ -213,6 +213,16 @@ public class Rule {
             this.settings = null;
             this.datasaver = null;
             this.pkg = false;
+        } else if (info.applicationInfo.uid == 1021) {
+            this.name = context.getString(R.string.title_gpsdaemon);
+            this.description = null;
+            this.system = true;
+            this.internet = true;
+            this.enabled = true;
+            this.launch = null;
+            this.settings = null;
+            this.datasaver = null;
+            this.pkg = false;
         } else if (info.applicationInfo.uid == 9999) {
             this.name = context.getString(R.string.title_nobody);
             this.description = null;
@@ -328,6 +338,16 @@ public class Rule {
             media.applicationInfo.uid = 1013;
             media.applicationInfo.icon = 0;
             listPI.add(media);
+
+            // Add GPS daemon
+            PackageInfo gps = new PackageInfo();
+            gps.packageName = "android.gps";
+            gps.versionCode = Build.VERSION.SDK_INT;
+            gps.versionName = Build.VERSION.RELEASE;
+            gps.applicationInfo = new ApplicationInfo();
+            gps.applicationInfo.uid = 1021;
+            gps.applicationInfo.icon = 0;
+            listPI.add(gps);
 
             // Add nobody
             PackageInfo nobody = new PackageInfo();

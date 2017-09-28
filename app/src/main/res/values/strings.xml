@@ -272,6 +272,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_block_other">Block mobile</string>
     <string name="title_root">root</string>
     <string name="title_mediaserver">mediaserver</string>
+    <string name="title_gpsdaemon" translatable="false">GPS daemon</string>
     <string name="title_nobody">nobody</string>
     <string name="title_dontask">Don\'t ask again</string>
 
