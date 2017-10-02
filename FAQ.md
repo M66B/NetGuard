@@ -28,7 +28,8 @@ The firewall can only start when Android "allows" it to start,
 so it will not offer protection during early boot-up (although you can disable your network before rebooting).
 It will, however, be much better than nothing.
 
-Android N allows NetGuard to be an [Always-On VPN](https://developer.android.com/preview/features/afw.html#always-on-vpn).
+Android N and later allows NetGuard to be an [Always-On VPN](https://developer.android.com/preview/features/afw.html#always-on-vpn).
+On Android O do not enable '*Block connections without VPN*', see [question 51](#FAQ51)) for more information on this.
 
 To protect yourself more, remember to disable Wi-Fi and mobile data before rebooting,
 and only enable them on reboot, after the firewall service has started (and the key icon is visible in the status bar).
@@ -141,8 +142,8 @@ To avoid this problem, at least temporarily, close all applications and/or servi
 <a name="FAQ15"></a>
 **(15) Why won't you support the F-Droid builds?**
 
-Because F-Droid doesn't support reproducible builds.
-Read [here](https://blog.torproject.org/blog/deterministic-builds-part-one-cyberwar-and-global-compromise) why this is important.
+NetGuard contains ads since a while, because very few people support the NetGuard project in other ways.
+This means NetGuard will not be accepted by F-Droid.
 
 Another reason is that F-Droid builds are more often than not outdated, leaving users with an old version with known bugs.
 
@@ -514,6 +515,9 @@ Make sure you have put NetGuard on the doze exception list (Android 6 Marshmallo
 and that Android allows NetGuard to use the internet in the background (see also [this question](#FAQ21)).
 
 Make sure you are not running NetGuard in allow (whitelist) mode (check the NetGuard default settings).
+
+Make sure you didn't enable the Always-On VPN setting '*Block connections without VPN*' (Android 8 Oreo or later).
+This will block resolving domain names too (is it a bug or feature?).
 
 Some Android versions contain a bug resulting in all internet traffic being blocked.
 Mostly, you can workaround this bug by enabling filtering in NetGuard's *Advamced options*.
