@@ -197,6 +197,7 @@
   <string name="msg_vpn_cancelled">Ligação VPN cancelada\nVocê configurou outro VPN para estar sempre ligado?</string>
   <string name="msg_on">Desligando o seu dispositivo com NetGuard habilitado, automaticamente iniciará NetGuard ao ligar o seu dispositivo</string>
   <string name="msg_unavailable">Este recurso não está disponível nesta versão do Android</string>
+  <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
   <string name="title_lockdown_enabled">Tráfego está bloqueado</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado é permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado é bloqueado</string>

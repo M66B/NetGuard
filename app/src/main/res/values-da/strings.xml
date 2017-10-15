@@ -202,6 +202,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="msg_vpn_cancelled">VPN-forbindelse annulleret\nHar du opsat en anden VPN til at være en \'altid aktiv VPN\'?</string>
   <string name="msg_on">Nedlukning af din enhed med NetGuard aktiv vil automatisk starte NetGuard ved genopstart af din enhed</string>
   <string name="msg_unavailable">Funktionen er utilgængelig i denne Android-version</string>
+  <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
   <string name="title_lockdown_enabled">Trafik er aflåst</string>
   <string name="title_unmetered_allowed">Ikke-forbrugsafregnet trafik er tilladt</string>
   <string name="title_unmetered_blocked">Ikke-forbrugsafregnet trafik er blokeret</string>

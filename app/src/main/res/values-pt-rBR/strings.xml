@@ -200,6 +200,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_vpn_cancelled">Conexão VPN cancelada\nVocê configurou outra VPN para ser uma VPN sempre ativa?</string>
   <string name="msg_on">Ao desligar seu dispositivo com o Netguard habilitado, fará com que o Netguard inicie automaticamente após o reinício</string>
   <string name="msg_unavailable">Este recurso não está disponível nesta versão Android</string>
+  <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
   <string name="title_lockdown_enabled">Tráfego está bloqueado</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado bloqueado</string>

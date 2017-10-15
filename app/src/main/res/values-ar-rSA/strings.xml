@@ -198,6 +198,7 @@
   <string name="msg_vpn_cancelled">لــقــد ألـغــي الإتــصــال عــن طــريــق n/ VPN هــل تــريــد تــكــويــن VPN آخــر حــتــى تــكــون عـلـى إتــصــال دائــم عــن طــريــق VPN ؟</string>
   <string name="msg_on">إيقاف جهازك مع تشغيل NetGuard، سؤدي لعمل NetGuard تلقائياً عند تشغيل الجهاز</string>
   <string name="msg_unavailable">هذه الوظيفة غير متوفرة في هذا الاصدار</string>
+  <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
   <string name="title_lockdown_enabled">تم تأمين مرور المعلومات</string>
   <string name="title_unmetered_allowed">الحركة الغير مقاسة مسموحة</string>
   <string name="title_unmetered_blocked">الحركة الغير مقاسة محظورة</string>

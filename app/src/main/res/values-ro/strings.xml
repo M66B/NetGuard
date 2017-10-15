@@ -200,6 +200,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="msg_vpn_cancelled">Conexiunea VPN a fost anulata\nS-a configurat cumva un alt VPN ca activat permanent?</string>
   <string name="msg_on">Oprind dispozitivul atunci când NetGuard este pornit va face ca NetGuard să pornească automat la repornirea lui</string>
   <string name="msg_unavailable">Această caracteristică nu este disponibilă în această versiune de Android</string>
+  <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
   <string name="title_lockdown_enabled">Traficul este închis</string>
   <string name="title_unmetered_allowed">Traficul de date necontorizat este permis</string>
   <string name="title_unmetered_blocked">Traficul de date necontorizat este blocat</string>

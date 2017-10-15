@@ -197,6 +197,7 @@
   <string name="msg_vpn_cancelled">Η VPN σύνδεση ακυρώθηκε\n Έχετε ρυθμίσει μια άλλη VPN σύνδεση να είναι πάντα ενεργή;</string>
   <string name="msg_on">Η απενεργοποίηση τη συσκευή σας με το NetGuard ενεργοποιημένο, θα ξεκινήσει αυτόματα το NetGuard με την επόμενη ενεργοποίηση τη συσκευή σας</string>
   <string name="msg_unavailable">Αυτή η δυνατότητα δεν είναι διαθέσιμη σε αυτήν την έκδοση του Android</string>
+  <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
   <string name="title_lockdown_enabled">Η κυκλοφορία είναι κλειδωμένη</string>
   <string name="title_unmetered_allowed">Επιτρέπεται η χρονικά απεριόριστη κίνηση</string>
   <string name="title_unmetered_blocked">Αποκλείεται η χρονικά απεριόριστη κυκλοφορία</string>

@@ -199,6 +199,7 @@
   <string name="msg_vpn_cancelled">VPN соединение отменено\nХотите настроить другое соединение, чтобы VPN был всегда?</string>
   <string name="msg_on">Выключение устройства с запущенным NetGuard автоматически запустит NetGuard при включении вашего устройства</string>
   <string name="msg_unavailable">Эта функция недоступна в этой версии Android</string>
+  <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
   <string name="title_lockdown_enabled">Трафик заблокирован</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
   <string name="title_unmetered_blocked">Безлимитный трафик блокируется</string>
