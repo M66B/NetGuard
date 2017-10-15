@@ -3,7 +3,7 @@ apply plugin: 'com.android.model.application'
 model {
     android {
         compileSdkVersion = 26
-        buildToolsVersion = "26.0.1"
+        buildToolsVersion = "26.0.2"
 
         defaultConfig {
             applicationId = "eu.faircode.netguard"
@@ -55,25 +55,25 @@ model {
 
         productFlavors {
             create("all") {
-                versionName = "2.138"
+                versionName = "2.139"
                 minSdkVersion.apiLevel = 14
                 targetSdkVersion.apiLevel = 26
-                versionCode = 2017092801
+                versionCode = 2017101501
                 archivesBaseName = "NetGuard-v$versionName"
             }
             create("lollipop-and-later") {
-                versionName = "2.138"
+                versionName = "2.139"
                 minSdkVersion.apiLevel = 20
                 targetSdkVersion.apiLevel = 26
-                versionCode = 2017092811
+                versionCode = 2017101511
                 archivesBaseName = "NetGuard-v$versionName"
             }
             create("kitkat-and-earlier") {
-                versionName = "2.138"
+                versionName = "2.139"
                 minSdkVersion.apiLevel = 14
                 maxSdkVersion = 19
                 targetSdkVersion.apiLevel = 26
-                versionCode = 2017092821
+                versionCode = 2017101521
                 archivesBaseName = "NetGuard-v$versionName"
             }
         }
