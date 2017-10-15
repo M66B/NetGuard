@@ -50,6 +50,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ImageSpan;
 import android.text.style.UnderlineSpan;
@@ -189,6 +190,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 prefs.edit().putBoolean("enabled", isChecked).apply();
 
                 if (isChecked) {
+                    String alwaysOn = Settings.Secure.getString(getContentResolver(), "always_on_vpn_app");
+                    Log.i(TAG, "Always-on=" + alwaysOn);
+                    if (!TextUtils.isEmpty(alwaysOn) && !getPackageName().equals(alwaysOn)) {
+                        swEnabled.setChecked(false);
+                        Toast.makeText(ActivityMain.this, R.string.msg_always_on, Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
                     try {
                         final Intent prepare = VpnService.prepare(ActivityMain.this);
                         if (prepare == null) {
