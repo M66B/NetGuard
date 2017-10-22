@@ -193,7 +193,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
     private static final String ACTION_WATCHDOG = "eu.faircode.netguard.WATCHDOG";
 
-    private native void jni_init();
+    private native void jni_init(int sdk);
 
     private native void jni_start(int tun, boolean fwd53, int rcode, int loglevel);
 
@@ -1345,7 +1345,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     } catch (PackageManager.NameNotFoundException ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     }
-            else if (filter)
+            else if (filter) {
+                try {
+                    builder.addDisallowedApplication(getPackageName());
+                } catch (PackageManager.NameNotFoundException ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                }
                 for (Rule rule : listRule)
                     if (!rule.apply || (!system && rule.system))
                         try {
@@ -1354,6 +1359,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         } catch (PackageManager.NameNotFoundException ex) {
                             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                         }
+            }
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
@@ -2164,7 +2170,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Native init
-        jni_init();
+        jni_init(Build.VERSION.SDK_INT);
         boolean pcap = prefs.getBoolean("pcap", false);
         setPcap(pcap, this);
 

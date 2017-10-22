@@ -101,12 +101,13 @@ void JNI_OnUnload(JavaVM *vm, void *reserved) {
 // JNI ServiceSinkhole
 
 JNIEXPORT void JNICALL
-Java_eu_faircode_netguard_ServiceSinkhole_jni_1init(JNIEnv *env, jobject instance) {
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1init(JNIEnv *env, jobject instance, jint sdk) {
     loglevel = ANDROID_LOG_WARN;
 
     struct arguments args;
     args.env = env;
     args.instance = instance;
+    args.sdk = sdk;
     init(&args);
 
     *socks5_addr = 0;
@@ -417,9 +418,21 @@ void report_error(const struct arguments *args, jint error, const char *fmt, ...
 static jmethodID midProtect = NULL;
 
 int protect_socket(const struct arguments *args, int socket) {
+    if (args->sdk >= 21)
+        return 0;
+
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
+    if (cls == NULL) {
+        log_android(ANDROID_LOG_ERROR, "protect socket failed to get class");
+        return -1;
+    }
+
     if (midProtect == NULL)
         midProtect = jniGetMethodID(args->env, cls, "protect", "(I)Z");
+    if (midProtect == NULL) {
+        log_android(ANDROID_LOG_ERROR, "protect socket failed to get method");
+        return -1;
+    }
 
     jboolean isProtected = (*args->env)->CallBooleanMethod(
             args->env, args->instance, midProtect, socket);
