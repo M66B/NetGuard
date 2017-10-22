@@ -5,6 +5,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <setjmp.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <dirent.h>
