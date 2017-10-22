@@ -103,6 +103,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -184,6 +186,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     public enum Command {run, start, reload, stop, stats, set, householding, watchdog}
 
     private static volatile PowerManager.WakeLock wlInstance = null;
+
+    private ExecutorService executor = Executors.newCachedThreadPool();
 
     private static final String ACTION_HOUSE_HOLDING = "eu.faircode.netguard.HOUSE_HOLDING";
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
@@ -1856,43 +1860,48 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(intent);
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-            int delay;
-            try {
-                delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
-            } catch (NumberFormatException ignored) {
-                delay = 0;
-            }
-            boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
+            executor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                    int delay;
+                    try {
+                        delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
+                    } catch (NumberFormatException ignored) {
+                        delay = 0;
+                    }
+                    boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
 
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            Intent i = new Intent(ACTION_SCREEN_OFF_DELAYED);
-            i.setPackage(context.getPackageName());
-            PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-            am.cancel(pi);
+                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    Intent i = new Intent(ACTION_SCREEN_OFF_DELAYED);
+                    i.setPackage(context.getPackageName());
+                    PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                    am.cancel(pi);
 
-            if (interactive || delay == 0) {
-                last_interactive = interactive;
-                reload("interactive state changed", ServiceSinkhole.this, true);
-            } else {
-                if (ACTION_SCREEN_OFF_DELAYED.equals(intent.getAction())) {
-                    last_interactive = interactive;
-                    reload("interactive state changed", ServiceSinkhole.this, true);
-                } else {
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-                        am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
-                    else
-                        am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
+                    if (interactive || delay == 0) {
+                        last_interactive = interactive;
+                        reload("interactive state changed", ServiceSinkhole.this, true);
+                    } else {
+                        if (ACTION_SCREEN_OFF_DELAYED.equals(intent.getAction())) {
+                            last_interactive = interactive;
+                            reload("interactive state changed", ServiceSinkhole.this, true);
+                        } else {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+                                am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
+                            else
+                                am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
+                        }
+                    }
+
+                    // Start/stop stats
+                    statsHandler.sendEmptyMessage(
+                            Util.isInteractive(ServiceSinkhole.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
                 }
-            }
-
-            // Start/stop stats
-            statsHandler.sendEmptyMessage(
-                    Util.isInteractive(ServiceSinkhole.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
+            });
         }
     };
 
