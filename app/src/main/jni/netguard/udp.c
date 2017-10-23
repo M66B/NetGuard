@@ -40,8 +40,7 @@ int check_udp_session(const struct arguments *args, struct ng_session *s,
     if (s->udp.version == 4) {
         inet_ntop(AF_INET, &s->udp.saddr.ip4, source, sizeof(source));
         inet_ntop(AF_INET, &s->udp.daddr.ip4, dest, sizeof(dest));
-    }
-    else {
+    } else {
         inet_ntop(AF_INET6, &s->udp.saddr.ip6, source, sizeof(source));
         inet_ntop(AF_INET6, &s->udp.daddr.ip6, dest, sizeof(dest));
     }
@@ -101,8 +100,7 @@ void check_udp_socket(const struct arguments *args, const struct epoll_event *ev
             log_android(ANDROID_LOG_ERROR, "UDP SO_ERROR %d: %s", serr, strerror(serr));
 
         s->udp.state = UDP_FINISHING;
-    }
-    else {
+    } else {
         // Check socket read
         if (ev->events & EPOLLIN) {
             s->udp.time = time(NULL);
@@ -116,13 +114,11 @@ void check_udp_socket(const struct arguments *args, const struct epoll_event *ev
 
                 if (errno != EINTR && errno != EAGAIN)
                     s->udp.state = UDP_FINISHING;
-            }
-            else if (bytes == 0) {
+            } else if (bytes == 0) {
                 log_android(ANDROID_LOG_WARN, "UDP recv eof");
                 s->udp.state = UDP_FINISHING;
 
-            }
-            else {
+            } else {
                 // Socket read data
                 char dest[INET6_ADDRSTRLEN + 1];
                 if (s->udp.version == 4)
@@ -192,8 +188,7 @@ void block_udp(const struct arguments *args,
     if (version == 4) {
         inet_ntop(AF_INET, &ip4->saddr, source, sizeof(source));
         inet_ntop(AF_INET, &ip4->daddr, dest, sizeof(dest));
-    }
-    else {
+    } else {
         inet_ntop(AF_INET6, &ip6->ip6_src, source, sizeof(source));
         inet_ntop(AF_INET6, &ip6->ip6_dst, dest, sizeof(dest));
     }
@@ -212,8 +207,7 @@ void block_udp(const struct arguments *args,
     if (version == 4) {
         s->udp.saddr.ip4 = (__be32) ip4->saddr;
         s->udp.daddr.ip4 = (__be32) ip4->daddr;
-    }
-    else {
+    } else {
         memcpy(&s->udp.saddr.ip6, &ip6->ip6_src, 16);
         memcpy(&s->udp.daddr.ip6, &ip6->ip6_dst, 16);
     }
@@ -257,8 +251,7 @@ jboolean handle_udp(const struct arguments *args,
     if (version == 4) {
         inet_ntop(AF_INET, &ip4->saddr, source, sizeof(source));
         inet_ntop(AF_INET, &ip4->daddr, dest, sizeof(dest));
-    }
-    else {
+    } else {
         inet_ntop(AF_INET6, &ip6->ip6_src, source, sizeof(source));
         inet_ntop(AF_INET6, &ip6->ip6_dst, dest, sizeof(dest));
     }
@@ -295,8 +288,7 @@ jboolean handle_udp(const struct arguments *args,
         if (version == 4) {
             s->udp.saddr.ip4 = (__be32) ip4->saddr;
             s->udp.daddr.ip4 = (__be32) ip4->daddr;
-        }
-        else {
+        } else {
             memcpy(&s->udp.saddr.ip6, &ip6->ip6_src, 16);
             memcpy(&s->udp.daddr.ip6, &ip6->ip6_dst, 16);
         }
@@ -376,14 +368,12 @@ jboolean handle_udp(const struct arguments *args,
             addr4.sin_family = AF_INET;
             addr4.sin_addr.s_addr = (__be32) cur->udp.daddr.ip4;
             addr4.sin_port = cur->udp.dest;
-        }
-        else {
+        } else {
             addr6.sin6_family = AF_INET6;
             memcpy(&addr6.sin6_addr, &cur->udp.daddr.ip6, 16);
             addr6.sin6_port = cur->udp.dest;
         }
-    }
-    else {
+    } else {
         rversion = (strstr(redirect->raddr, ":") == NULL ? 4 : 6);
         log_android(ANDROID_LOG_WARN, "UDP%d redirect to %s/%u",
                     rversion, redirect->raddr, redirect->rport);
@@ -392,8 +382,7 @@ jboolean handle_udp(const struct arguments *args,
             addr4.sin_family = AF_INET;
             inet_pton(AF_INET, redirect->raddr, &addr4.sin_addr);
             addr4.sin_port = htons(redirect->rport);
-        }
-        else {
+        } else {
             addr6.sin6_family = AF_INET6;
             inet_pton(AF_INET6, redirect->raddr, &addr6.sin6_addr);
             addr6.sin6_port = htons(redirect->rport);
@@ -401,15 +390,15 @@ jboolean handle_udp(const struct arguments *args,
     }
 
     if (sendto(cur->socket, data, (socklen_t) datalen, MSG_NOSIGNAL,
-               (const struct sockaddr *) (rversion == 4 ? &addr4 : &addr6),
+               (rversion == 4 ? (const struct sockaddr *) &addr4
+                              : (const struct sockaddr *) &addr6),
                (socklen_t) (rversion == 4 ? sizeof(addr4) : sizeof(addr6))) != datalen) {
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %d: %s", errno, strerror(errno));
         if (errno != EINTR && errno != EAGAIN) {
             cur->udp.state = UDP_FINISHING;
             return 0;
         }
-    }
-    else
+    } else
         cur->udp.sent += datalen;
 
     return 1;
@@ -445,8 +434,7 @@ int open_udp_socket(const struct arguments *args,
                 log_android(ANDROID_LOG_ERROR, "UDP setsockopt SO_BROADCAST error %d: %s",
                             errno, strerror(errno));
         }
-    }
-    else {
+    } else {
         // http://man7.org/linux/man-pages/man7/ipv6.7.html
         if (*((uint8_t *) &cur->daddr.ip6) == 0xFF) {
             log_android(ANDROID_LOG_WARN, "UDP6 broadcast");
@@ -516,8 +504,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
         pseudo.ippseudo_len = htons(sizeof(struct udphdr) + datalen);
 
         csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ippseudo));
-    }
-    else {
+    } else {
         len = sizeof(struct ip6_hdr) + sizeof(struct udphdr) + datalen;
         buffer = malloc(len);
         struct ip6_hdr *ip6 = (struct ip6_hdr *) buffer;
@@ -558,9 +545,13 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
     udp->check = ~csum;
 
     inet_ntop(cur->version == 4 ? AF_INET : AF_INET6,
-              cur->version == 4 ? &cur->saddr.ip4 : &cur->saddr.ip6, source, sizeof(source));
+              (cur->version == 4 ? (const void *) &cur->saddr.ip4 : (const void *) &cur->saddr.ip6),
+              source,
+              sizeof(source));
     inet_ntop(cur->version == 4 ? AF_INET : AF_INET6,
-              cur->version == 4 ? &cur->daddr.ip4 : &cur->daddr.ip6, dest, sizeof(dest));
+              (cur->version == 4 ? (const void *) &cur->daddr.ip4 : (const void *) &cur->daddr.ip6),
+              dest,
+              sizeof(dest));
 
     // Send packet
     log_android(ANDROID_LOG_DEBUG,
@@ -573,8 +564,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
     if (res >= 0) {
         if (pcap_file != NULL)
             write_pcap_rec(buffer, (size_t) res);
-    }
-    else
+    } else
         log_android(ANDROID_LOG_WARN, "UDP write error %d: %s", errno, strerror(errno));
 
     free(buffer);

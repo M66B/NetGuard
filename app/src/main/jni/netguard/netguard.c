@@ -242,7 +242,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1get_1stats(JNIEnv *env, jobject i
     getrlimit(RLIMIT_NOFILE, &rlim);
     jcount[4] = (jint) rlim.rlim_cur;
 
-    (*env)->ReleaseIntArrayElements(env, jarray, jcount, NULL);
+    (*env)->ReleaseIntArrayElements(env, jarray, jcount, 0);
     return jarray;
 }
 
@@ -418,7 +418,7 @@ void report_error(const struct arguments *args, jint error, const char *fmt, ...
 static jmethodID midProtect = NULL;
 
 int protect_socket(const struct arguments *args, int socket) {
-    if (args->sdk >= 21)
+    if (args->sdk >= 23)
         return 0;
 
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);

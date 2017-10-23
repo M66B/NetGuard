@@ -66,7 +66,7 @@ void log_android(int prio, const char *fmt, ...) {
         va_list argptr;
         va_start(argptr, fmt);
         vsprintf(line, fmt, argptr);
-        __android_log_print(prio, TAG, line);
+        __android_log_print(prio, TAG, "%s", line);
         va_end(argptr);
     }
 }
@@ -148,8 +148,7 @@ int32_t get_local_port(const int sock) {
     if (getsockname(sock, (struct sockaddr *) &sin, &len) < 0) {
         log_android(ANDROID_LOG_ERROR, "getsockname error %d: %s", errno, strerror(errno));
         return -1;
-    }
-    else
+    } else
         return ntohs(sin.sin_port);
 }
 
@@ -162,8 +161,7 @@ int is_event(int fd, short event) {
     if (r < 0) {
         log_android(ANDROID_LOG_ERROR, "poll readable error %d: %s", errno, strerror(errno));
         return 0;
-    }
-    else if (r == 0)
+    } else if (r == 0)
         return 0;
     else
         return (p.revents & event);

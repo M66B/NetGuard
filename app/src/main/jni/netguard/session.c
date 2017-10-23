@@ -49,6 +49,7 @@ sighandler_t old_handler;
 sigjmp_buf jump;
 
 void handle_sigabrt(int sig) {
+    log_android(ANDROID_LOG_ERROR, "sigabrt");
     old_handler(sig);
     siglongjmp(jump, 1);
 }

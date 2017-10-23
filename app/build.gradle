@@ -1,101 +1,66 @@
-apply plugin: 'com.android.model.application'
+apply plugin: 'com.android.application'
 
-model {
-    android {
-        compileSdkVersion = 26
-        buildToolsVersion = "26.0.2"
+android {
+    compileSdkVersion = 26
+    buildToolsVersion = "26.0.2"
 
-        defaultConfig {
-            applicationId = "eu.faircode.netguard"
-        }
+    defaultConfig {
+        applicationId = "eu.faircode.netguard"
+        versionName = "2.142"
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode = 2017102301
+        archivesBaseName = "NetGuard-v$versionName"
 
-        compileOptions.with {
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+                arguments "-DANDROID_PLATFORM=android-14"
+                // https://developer.android.com/ndk/guides/cmake.html
+            }
         }
 
         ndk {
-            platformVersion = "14"
-            moduleName = "netguard"
-            toolchain = "clang"
-            ldLibs.add("log")
+            abiFilters 'armeabi', 'x86'
         }
+    }
 
-        sources {
-            main {
-                jni {
-                    source {
-                        srcDirs.removeAll()
-                        srcDirs.add('src/main/jni/netguard')
-                    }
-                    exportedHeaders {
-                    }
-                }
-            }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
         }
+    }
 
-        buildTypes {
-            release {
-                minifyEnabled = true
-                useProguard = true
-                proguardFiles.add(file('proguard-rules.pro'))
-                ndk.with {
-                    debuggable = false
-                }
-            }
-            debug {
-                minifyEnabled = true
-                useProguard = true
-                proguardFiles.add(file('proguard-rules.pro'))
-                ndk.with {
-                    debuggable = false
-                }
-            }
+    buildTypes {
+        release {
+            minifyEnabled = true
+            useProguard = true
+            proguardFiles.add(file('proguard-rules.pro'))
         }
-
-        productFlavors {
-            create("all") {
-                versionName = "2.141"
-                minSdkVersion.apiLevel = 14
-                targetSdkVersion.apiLevel = 26
-                versionCode = 2017102202
-                archivesBaseName = "NetGuard-v$versionName"
-            }
-            create("lollipop-and-later") {
-                versionName = "2.141"
-                minSdkVersion.apiLevel = 20
-                targetSdkVersion.apiLevel = 26
-                versionCode = 2017102212
-                archivesBaseName = "NetGuard-v$versionName"
-            }
-            create("kitkat-and-earlier") {
-                versionName = "2.141"
-                minSdkVersion.apiLevel = 14
-                maxSdkVersion = 19
-                targetSdkVersion.apiLevel = 26
-                versionCode = 2017102222
-                archivesBaseName = "NetGuard-v$versionName"
-            }
+        debug {
+            minifyEnabled = true
+            useProguard = true
+            proguardFiles.add(file('proguard-rules.pro'))
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // https://developer.android.com/topic/libraries/support-library/revisions.html
-    compile 'com.android.support:appcompat-v7:26.1.+'
-    compile 'com.android.support:recyclerview-v7:26.1.+'
+    implementation 'com.android.support:appcompat-v7:26.1.+'
+    implementation 'com.android.support:recyclerview-v7:26.1.+'
 
     // https://developers.google.com/android/guides/setup
-    compile 'com.google.android.gms:play-services-base:11.4.+'
+    implementation 'com.google.android.gms:play-services-base:11.4.+'
 
     // https://firebase.google.com/docs/android/setup
-    compile 'com.google.firebase:firebase-core:11.4.+'
-    compile 'com.google.firebase:firebase-ads:11.4.+'
+    implementation 'com.google.firebase:firebase-core:11.4.+'
+    implementation 'com.google.firebase:firebase-ads:11.4.+'
 
     // https://mvnrepository.com/artifact/com.squareup.picasso/picasso
-    compile 'com.squareup.picasso:picasso:2.5.+'
+    implementation 'com.squareup.picasso:picasso:2.5.+'
 }
 
 apply plugin: 'com.google.gms.google-services'

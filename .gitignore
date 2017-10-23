@@ -1,3 +1,4 @@
+*.iml
 .gradle
 /local.properties
 /.idea
@@ -7,3 +8,4 @@
 /build
 /captures
 /tools/config.sh
+app/.externalNativeBuild

@@ -46,8 +46,7 @@ int check_tun(const struct arguments *args,
                         args->tun, errno, strerror(errno));
             report_exit(args, "fcntl tun %d F_GETFL error %d: %s",
                         args->tun, errno, strerror(errno));
-        }
-        else
+        } else
             report_exit(args, "tun %d exception", args->tun);
         return -1;
     }
@@ -69,8 +68,7 @@ int check_tun(const struct arguments *args,
                             args->tun, errno, strerror(errno));
                 return -1;
             }
-        }
-        else if (length > 0) {
+        } else if (length > 0) {
             // Write pcap record
             if (pcap_file != NULL)
                 write_pcap_rec(buffer, (size_t) length);
@@ -84,8 +82,7 @@ int check_tun(const struct arguments *args,
             handle_ip(args, buffer, (size_t) length, epoll_fd, sessions, maxsessions);
 
             free(buffer);
-        }
-        else {
+        } else {
             // tun eof
             free(buffer);
 
@@ -167,8 +164,7 @@ void handle_ip(const struct arguments *args,
                 return;
             }
         }
-    }
-    else if (version == 6) {
+    } else if (version == 6) {
         if (length < sizeof(struct ip6_hdr)) {
             log_android(ANDROID_LOG_WARN, "IP6 packet too short length %d", length);
             return;
@@ -203,8 +199,7 @@ void handle_ip(const struct arguments *args,
         payload = (uint8_t *) (pkt + sizeof(struct ip6_hdr) + off);
 
         // TODO checksum
-    }
-    else {
+    } else {
         log_android(ANDROID_LOG_ERROR, "Unknown version %d", version);
         return;
     }
@@ -228,8 +223,7 @@ void handle_ip(const struct arguments *args,
         sport = ntohs(icmp->icmp_id);
         dport = ntohs(icmp->icmp_id);
 
-    }
-    else if (protocol == IPPROTO_UDP) {
+    } else if (protocol == IPPROTO_UDP) {
         if (length - (payload - pkt) < sizeof(struct udphdr)) {
             log_android(ANDROID_LOG_WARN, "UDP packet too short");
             return;
@@ -241,8 +235,7 @@ void handle_ip(const struct arguments *args,
         dport = ntohs(udp->dest);
 
         // TODO checksum (IPv6)
-    }
-    else if (protocol == IPPROTO_TCP) {
+    } else if (protocol == IPPROTO_TCP) {
         if (length - (payload - pkt) < sizeof(struct tcphdr)) {
             log_android(ANDROID_LOG_WARN, "TCP packet too short");
             return;
@@ -267,8 +260,7 @@ void handle_ip(const struct arguments *args,
             flags[flen++] = 'R';
 
         // TODO checksum
-    }
-    else if (protocol != IPPROTO_HOPOPTS && protocol != IPPROTO_IGMP && protocol != IPPROTO_ESP)
+    } else if (protocol != IPPROTO_HOPOPTS && protocol != IPPROTO_IGMP && protocol != IPPROTO_ESP)
         log_android(ANDROID_LOG_WARN, "Unknown protocol %d", protocol);
 
     flags[flen] = 0;
@@ -320,8 +312,7 @@ void handle_ip(const struct arguments *args,
             handle_udp(args, pkt, length, payload, uid, redirect, epoll_fd);
         else if (protocol == IPPROTO_TCP)
             handle_tcp(args, pkt, length, payload, uid, allowed, redirect, epoll_fd);
-    }
-    else {
+    } else {
         if (protocol == IPPROTO_UDP)
             block_udp(args, pkt, length, payload, uid);
         if (protocol == IPPROTO_TCP)
@@ -442,8 +433,7 @@ jint get_uid_sub(const int version, const int protocol,
                             break;
                     }
                 }
-            }
-            else
+            } else
                 log_android(ANDROID_LOG_ERROR, "Invalid field #%d: %s", fields, line);
         }
     }

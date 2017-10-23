@@ -20,6 +20,8 @@
 
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netinet/in6.h>
 #include <netinet/ip.h>
 #include <netinet/ip6.h>
 #include <netinet/udp.h>
@@ -212,14 +214,14 @@ typedef struct pcap_hdr_s {
     guint32_t sigfigs;
     guint32_t snaplen;
     guint32_t network;
-} __packed;
+} __packed pcap_hdr_s;
 
 typedef struct pcaprec_hdr_s {
     guint32_t ts_sec;
     guint32_t ts_usec;
     guint32_t incl_len;
     guint32_t orig_len;
-} __packed;
+} __packed pcaprec_hdr_s;
 
 #define LINKTYPE_RAW 101
 
@@ -271,7 +273,7 @@ typedef struct dns_rr {
     __be16 qclass;
     __be32 ttl;
     __be16 rdlength;
-} __packed;
+} __packed dns_rr;
 
 // DHCP
 
@@ -293,12 +295,12 @@ typedef struct dhcp_packet {
     uint8_t sname[64];
     uint8_t file[128];
     uint32_t option_format;
-} __packed;
+} __packed dhcp_packet;
 
 typedef struct dhcp_option {
     uint8_t code;
     uint8_t length;
-} __packed;
+} __packed dhcp_option;
 
 // Prototypes
 
