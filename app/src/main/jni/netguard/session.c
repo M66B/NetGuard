@@ -45,15 +45,6 @@ void clear() {
     ng_session = NULL;
 }
 
-sighandler_t old_handler;
-sigjmp_buf jump;
-
-void handle_sigabrt(int sig) {
-    log_android(ANDROID_LOG_ERROR, "sigabrt");
-    old_handler(sig);
-    siglongjmp(jump, 1);
-}
-
 void *handle_events(void *a) {
     struct arguments *args = (struct arguments *) a;
     log_android(ANDROID_LOG_WARN, "Start events tun=%d thread %x", args->tun, thread_id);
@@ -115,17 +106,9 @@ void *handle_events(void *a) {
         stopping = 1;
     }
 
-    old_handler = signal(SIGABRT, handle_sigabrt);
-
     // Loop
     long long last_check = 0;
     while (!stopping) {
-        if (sigsetjmp(jump, 1)) {
-            log_android(ANDROID_LOG_WARN, "Continuing after abort");
-            if (stopping)
-                break;
-        }
-
         log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
 
         int recheck = 0;
@@ -303,8 +286,6 @@ void *handle_events(void *a) {
                 break;
         }
     }
-
-    signal(SIGABRT, old_handler);
 
     // Close epoll file
     if (epoll_fd >= 0 && close(epoll_fd))
