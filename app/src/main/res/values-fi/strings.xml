@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard tarjoaa helpot ja monipuoliset keinot hallita liikennettä internettiin - ilman tarvetta root -oikeuksille. Sovelluksille ja osoitteille voi määritellä yksilölliset sallivat tai estävät säännöt erikseen sekä Wi-Fi että mobiiliverkkoihin.</string>
   <string name="app_copyright">Copyright \u00A9 2015-2017 M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard edellyttää vähintään Android 4.0 versiota</string>
+  <string name="app_android">NetGuard edellyttää vähintään Android 5.0 versiota</string>
   <string name="app_license">Käyttämällä NetGuard ohjelmaa, hyväksyt <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">NetGuard ohjelman kehittämiseen ja testaamiseen on panostettu, mutta on mahdotonta taata NetGuardin virheetöntä toimintaa kaikilla laitteilla. \n\n Käyttämällä NetGuard ohjelmaa, hyväksyt <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
