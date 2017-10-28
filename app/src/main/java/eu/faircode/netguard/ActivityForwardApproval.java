@@ -36,7 +36,11 @@ public class ActivityForwardApproval extends Activity {
     private static final String ACTION_STOP_PORT_FORWARD = "eu.faircode.netguard.STOP_PORT_FORWARD";
 
     static {
-        System.loadLibrary("netguard");
+        try {
+            System.loadLibrary("netguard");
+        } catch (UnsatisfiedLinkError ignored) {
+            System.exit(1);
+        }
     }
 
     @Override

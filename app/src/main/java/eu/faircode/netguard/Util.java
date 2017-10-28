@@ -127,7 +127,11 @@ public class Util {
     private static native boolean is_numeric_address(String ip);
 
     static {
-        System.loadLibrary("netguard");
+        try {
+            System.loadLibrary("netguard");
+        } catch (UnsatisfiedLinkError ignored) {
+            System.exit(1);
+        }
     }
 
     public static String getSelfVersionName(Context context) {
