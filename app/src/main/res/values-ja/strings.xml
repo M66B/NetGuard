@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard は、インターネットへのアクセスをブロックするシンプルで高度な方法を提供します - root 権限は必要ありません。Wi-Fi および/またはモバイル接続へのアクセスを、アプリケーションとアドレスで個別に許可または拒否することができます。</string>
   <string name="app_copyright">Copyright \u00A9 2015-2017 by M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard は Android 4.0 以降が必要です</string>
+  <string name="app_android">NetGuard は Android 5.0 以降が必要です</string>
   <string name="app_license">NetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">プライバシーポリシー</a></string>
   <string name="app_first">NetGuard は細心の注意を行って開発およびテストしました。しかしながら NetGuard がすべてのデバイスで正常に動作を保証することは不可能です。

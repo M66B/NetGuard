@@ -48,9 +48,7 @@ However, NetGuard supports a [SOCKS5 proxy](https://en.wikipedia.org/wiki/SOCKS)
 <a name="FAQ3"></a>
 **(3) Can I use NetGuard on any Android version?**
 
-No, the minimum required Android version is 4.0 (<a href= "https://developer.android.com/about/versions/android-4.0.html">ICE_CREAM_SANDWICH</a>)
-because NetGuard uses the [Android VPN service](https://developer.android.com/reference/android/net/VpnService.html),
-which was added in Android 4.0.
+No, the minimum required Android version is 5.0 (<a href= "https://developer.android.com/about/versions/android-5.0.html">LOLLIPOP</a>)
 
 <a name="FAQ4"></a>
 **(4) Will NetGuard use extra battery power?**
@@ -162,7 +160,7 @@ and is incorrectly attributed to NetGuard instead to the Google Play™ store ap
 <a name="FAQ18"></a>
 **(18) Why can't I find NetGuard in the Google Play™ store app?**
 
-NetGuard requires at least Android 4.0, so it is not available in the Google Play™ store app on devices running prior Android versions.
+NetGuard requires at least Android 5.0, so it is not available in the Google Play™ store app on devices running prior Android versions.
 
 <a name="FAQ19"></a>
 **(19) Why does application XYZ still have internet access?**

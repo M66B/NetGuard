@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard menyediakan cara sederhana dan canggih untuk memblokir akses ke internet - tidak ada akar yang dibutuhkan. Aplikasi dan alamat dapat diijinkan atau ditolak akses ke koneksi Wi-Fi dan / atau seluler Anda.</string>
   <string name="app_copyright">Hak cipta \u00A9 2015-2017 oleh M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard perlukan Android 4.0 ke atas</string>
+  <string name="app_android">NetGuard perlukan Android 5.0 ke atas</string>
   <string name="app_license">Dengan menggunakan NetGuard, Anda menyetujui <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License versi 3 </a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/"> Kebijakan privasi </a></string>
   <string name="app_first">Perhatian besar telah dilakukan untuk mengembangkan dan menguji NetGuard,

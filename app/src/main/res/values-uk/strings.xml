@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard забезпечує простий і розширений способи блокування доступу в Інтернет - рут не потрібен. Можна надавати або забороняти доступ до Wi-Fi та/або мобільного зв\'язку для кожного додатка й адреси окремо.</string>
   <string name="app_copyright">Авторське право \u00A9 M. Bokhorst (M66B), 2015–2017</string>
-  <string name="app_android">NetGuard потребує версію Android 4.0 або вище</string>
+  <string name="app_android">NetGuard потребує версію Android 5.0 або вище</string>
   <string name="app_license">Користуючись NetGuard, ви погоджуєтесь із <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Політика конфіденційності</a></string>
   <string name="app_first">До розробки й тестування NetGuard було докладено багато зусиль, проте неможливо гарантувати, що додаток працюватиме правильно на будь-якому пристрої.

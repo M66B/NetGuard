@@ -31,7 +31,7 @@ Caracteristici:
 &bull; Nu transmite datele nicaieri
 &bull; Nu urmareste activitatea si nici nu o analizeaza
 &bull; Dezvoltare si asistenta continuua
-&bull; Suporta Android 4.0 si ulterior
+&bull; Suporta Android 5.0 si ulterior
 &bull; Suporta IPv4/IPv6 TCP/UDP
 &bull; Suporta partajarea conexiunii
 &bull; Suporta utilizatori multiplii
