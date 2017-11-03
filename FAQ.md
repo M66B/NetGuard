@@ -448,6 +448,8 @@ even if you just enabled notify on access.
 To get notified for all domain names again, you can clear the application access log using the trashcan icon.
 If you want to clear all applications logs, you can export and import your settings.
 
+Another reason why you don't get notifications could be an applied "Power Saving Mode" for example on Samsung devices. Even if you do not restrict CPU frequency in this mode.
+
 <a name="FAQ45"></a>
 **(45) Does NetGuard handle incoming connections?**
 
