@@ -31,7 +31,7 @@ Features:
 &bull; No calling home
 &bull; No tracking or analytics
 &bull; Actively developed and supported
-&bull; Android 4.0 and later supported
+&bull; Android 5.0 and later supported
 &bull; IPv4/IPv6 TCP/UDP supported
 &bull; Tethering supported
 &bull; Multiple device users supported

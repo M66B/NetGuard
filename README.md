@@ -19,7 +19,7 @@ Features:
 * No calling home
 * No tracking or analytics
 * Actively developed and supported
-* Android 4.0 and later supported
+* Android 5.0 and later supported
 * IPv4/IPv6 TCP/UDP supported
 * Tethering supported
 * Multiple device users supported
@@ -44,7 +44,7 @@ There is no other no-root firewall offering all these features.
 
 Requirements:
 
-* Android 4.0 or later
+* Android 5.0 or later
 * A [compatible device](#compatibility)
 
 Downloads:

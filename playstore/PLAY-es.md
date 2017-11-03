@@ -31,7 +31,7 @@ Características:
 &bull; No calling home
 &bull; Sin seguimiento o análisis integrado
 &bull; Desarrollado y soportado activamente
-&bull; Soporta Android 4.0 o superior
+&bull; Soporta Android 5.0 o superior
 &bull; Soporta IPv4/IPv6, TCP/UDP
 &bull; Soporta anclaje a red (tethering)
 &bull; Soporta múltiples dispositivos de usuarios
