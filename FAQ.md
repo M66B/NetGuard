@@ -520,7 +520,7 @@ Make sure you didn't enable the Always-On VPN setting '*Block connections withou
 This will block resolving domain names too (is it a bug or feature?).
 
 Some Android versions contain a bug resulting in all internet traffic being blocked.
-Mostly, you can workaround this bug by enabling filtering in NetGuard's *Advamced options*.
+Mostly, you can workaround this bug by enabling filtering in NetGuard's *Advanced options*.
 
 <a name="FAQ52"></a>
 **(52) What is lockdown mode?**
