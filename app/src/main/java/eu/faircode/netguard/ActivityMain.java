@@ -103,7 +103,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_LOGCAT = 3;
     public static final int REQUEST_ROAMING = 4;
 
-    private static final int MIN_SDK = Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+    private static final int MIN_SDK = Build.VERSION_CODES.LOLLIPOP;
 
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
     public static final String ACTION_QUEUE_CHANGED = "eu.faircode.netguard.ACTION_QUEUE_CHANGED";
@@ -121,19 +121,22 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
         Util.logExtras(getIntent());
 
+        // Check minimum Android version
         if (Build.VERSION.SDK_INT < MIN_SDK) {
+            Log.i(TAG, "SDK=" + Build.VERSION.SDK_INT);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.android);
             return;
         }
 
-        try {
-            getPackageManager().getApplicationInfo("de.robv.android.xposed.installer", 0);
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.xposed);
-            return;
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
+        // Check for Xposed
+        for (StackTraceElement ste : Thread.currentThread().getStackTrace())
+            if (ste.getClassName().startsWith("de.robv.android.xposed")) {
+                Log.i(TAG, "Xposed running");
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.xposed);
+                return;
+            }
 
         Util.setTheme(this);
         super.onCreate(savedInstanceState);
