@@ -4,7 +4,8 @@
   <string name="app_description">NetGuard מספקת דרכים פשוטות ומתקדמות לחסום גישה לאינטרנט - ללא צורך ברוט
 היא מאפשרת לחסום או לאפשר באופן פרטני גישת יישומים לרשתות Wi-Fi או אינטרנט סלולרי.</string>
   <string name="app_copyright">זכויות יוצרים \u00A9 2015–2017 על ידי מ Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard דורש אנדרואיד 5.0 ואילך</string>
+  <string name="app_android">NetGuard requires Android 5.0 or later</string>
+  <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
   <string name="app_license">על ידי שימוש NetGuard, אתה מסכים <a href="http://www.gnu.org/licenses/gpl.txt"> הרישיון הציבורי הכללי של גנו גרסה 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">תשומת לב רבה הוקדשה כדי לפתח ולבדוק את NetGuard, אך זה בלתי אפשרי להבטיח ש-NetGuard תפעל כראוי על כל מכשיר. שימוש בNetGuard מהווה הסכמה לתנאי \n\n <a href="http://www.gnu.org/licenses/gpl.txt"> הרישיון הציבורי הכללי של גנו גרסה 3</a></string>

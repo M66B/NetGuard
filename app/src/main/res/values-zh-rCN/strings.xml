@@ -3,7 +3,8 @@
 <resources>
   <string name="app_description">NetGuard 提供简便且专业的方式阻止网络访问 - 无需 root. 可单独允许或拒绝应用和地址访问您的 Wi-Fi 和/或移动数据连接.</string>
   <string name="app_copyright">版权所有 \u00A9 2015–2017 by M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard仅适用于运行Android 5.0 或更高版本的设备</string>
+  <string name="app_android">NetGuard requires Android 5.0 or later</string>
+  <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
   <string name="app_license">使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">开发者在开发和测试NetGuard过程中已悉心尽力,

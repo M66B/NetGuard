@@ -3,7 +3,8 @@
 <resources>
   <string name="app_description">कोई जड़ आवश्यक - NetGuard इंटरनेट के लिए उपयोग ब्लॉक करने के लिए सरल और उन्नत तरीके सुझाता है। आवेदन और पतों को व्यक्तिगत रूप से अनुमति या अपने वाई-फाई और / या मोबाइल कनेक्शन के लिए उपयोग से इनकार किया जा सकता है।</string>
   <string name="app_copyright">कॉपीराइट \ u00A9 2015–2017 एम Bokhorst द्वारा (M66B)</string>
-  <string name="app_android">NetGuard एंड्रॉयड 5.0 या बाद में की आवश्यकता है</string>
+  <string name="app_android">NetGuard requires Android 5.0 or later</string>
+  <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
   <string name="app_license">NetGuard का उपयोग करके आप करने के लिए <a href="http://www.gnu.org/licenses/gpl.txt"> जीएनयू जनरल पब्लिक लाइसेंस संस्करण 3 </a> सहमत</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">महान देखभाल, विकास और NetGuard परीक्षण करने के लिए लिया गया है

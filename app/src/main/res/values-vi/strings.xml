@@ -3,7 +3,8 @@
 <resources>
   <string name="app_description">NetGuard cung cấp những cách đơn giản và nâng cao để chặn quyền truy cập vào internet - không yêu cầu root. Ứng dụng và địa chỉ có thể được cá nhân cho phép hoặc từ chối truy cập Wi-Fi và/hoặc kết nối di động của bạn.</string>
   <string name="app_copyright">Bản quyền \u00A9 năm 2015–2017 của M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard yêu cầu Android 5.0 hoặc cao hơn</string>
+  <string name="app_android">NetGuard requires Android 5.0 or later</string>
+  <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
   <string name="app_license">Bằng việc sử dụng NetGuard, bạn đồng ý với <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License Phiên bản 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Những nỗ lực tuyệt vời đã được thực hiện để phát triển và thử nghiệm NetGuard, Tuy nhiên nó không thể đảm bảo NetGuard sẽ làm việc một cách chính xác trên mọi thiết bị \n\nBằng việc sử dụng NetGuard, bạn đồng ý với <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License Phiên bản 3</a></string>
