@@ -127,6 +127,14 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             return;
         }
 
+        try {
+            getPackageManager().getApplicationInfo("de.robv.android.xposed.installer", 0);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.xposed);
+            return;
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+
         Util.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
