@@ -404,12 +404,11 @@ public class Rule {
                         List<String> listPkg = new ArrayList<>();
                         if (pre_related.containsKey(info.packageName))
                             listPkg.addAll(Arrays.asList(pre_related.get(info.packageName)));
-                        String[] pkgs = getPackages(info.applicationInfo.uid, context);
-                        if (pkgs != null && pkgs.length > 1) {
-                            rule.relateduids = true;
-                            listPkg.addAll(Arrays.asList(pkgs));
-                            listPkg.remove(info.packageName);
-                        }
+                        for (PackageInfo pi : listPI)
+                            if (pi.applicationInfo.uid == rule.uid && !pi.packageName.equals(rule.packageName)) {
+                                rule.relateduids = true;
+                                listPkg.add(pi.packageName);
+                            }
                         rule.related = listPkg.toArray(new String[0]);
 
                         if (service)
