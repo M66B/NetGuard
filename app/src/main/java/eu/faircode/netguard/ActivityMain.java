@@ -1053,7 +1053,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             @Override
             protected List<Rule> doInBackground(Object... arg) {
-                return Rule.getRules(false, ActivityMain.this);
+                return Rule.getRules(false, false, ActivityMain.this);
             }
 
             @Override

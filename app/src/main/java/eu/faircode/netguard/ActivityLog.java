@@ -333,7 +333,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             private String getUidForName(String query) {
                 if (query != null && query.length() > 0) {
-                    for (Rule rule : Rule.getRules(true, ActivityLog.this))
+                    for (Rule rule : Rule.getRules(true, false, ActivityLog.this))
                         if (rule.name != null && rule.name.toLowerCase().contains(query.toLowerCase())) {
                             String newQuery = Integer.toString(rule.info.applicationInfo.uid);
                             Log.i(TAG, "Search " + query + " found " + rule.name + " new " + newQuery);

@@ -487,7 +487,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 state = State.enforcing;
                 Log.d(TAG, "Start foreground state=" + state.toString());
 
-                List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
+                List<Rule> listRule = Rule.getRules(true, true, ServiceSinkhole.this);
                 List<Rule> listAllowed = getAllowedRules(listRule);
 
                 last_builder = getBuilder(listAllowed, listRule);
@@ -503,7 +503,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
 
         private void reload(boolean interactive) {
-            List<Rule> listRule = Rule.getRules(true, ServiceSinkhole.this);
+            List<Rule> listRule = Rule.getRules(true, true, ServiceSinkhole.this);
 
             // Check if rules needs to be reloaded
             if (interactive) {

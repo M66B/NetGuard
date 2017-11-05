@@ -191,7 +191,7 @@ public class Rule {
         }
     }
 
-    private Rule(PackageInfo info, Context context) {
+    private Rule(PackageInfo info, boolean service, Context context) {
         this.info = info;
         if (info.applicationInfo.uid == 0) {
             this.name = context.getString(R.string.title_root);
@@ -234,18 +234,22 @@ public class Rule {
             this.datasaver = null;
             this.pkg = false;
         } else {
-            this.name = getLabel(info, context);
-            this.description = getDescription(info, context);
-            this.system = isSystem(info.packageName, context);
-            this.internet = hasInternet(info.packageName, context);
-            this.enabled = isEnabled(info, context);
-            this.launch = getIntentLaunch(info.packageName, context);
-            this.settings = getIntentSettings(info.packageName, context);
-            this.datasaver = getIntentDatasaver(info.packageName, context);
+            if (service)
+                this.system = isSystem(info.packageName, context);
+            else {
+                this.name = getLabel(info, context);
+                this.description = getDescription(info, context);
+                this.system = isSystem(info.packageName, context);
+                this.internet = hasInternet(info.packageName, context);
+                this.enabled = isEnabled(info, context);
+                this.launch = getIntentLaunch(info.packageName, context);
+                this.settings = getIntentSettings(info.packageName, context);
+                this.datasaver = getIntentDatasaver(info.packageName, context);
+            }
         }
     }
 
-    public static List<Rule> getRules(final boolean all, Context context) {
+    public static List<Rule> getRules(final boolean all, boolean service, Context context) {
         synchronized (context.getApplicationContext()) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
@@ -362,7 +366,7 @@ public class Rule {
             DatabaseHelper dh = DatabaseHelper.getInstance(context);
             for (PackageInfo info : listPI)
                 try {
-                    Rule rule = new Rule(info, context);
+                    Rule rule = new Rule(info, service, context);
 
                     if (pre_system.containsKey(info.packageName))
                         rule.system = pre_system.get(info.packageName);
@@ -402,7 +406,10 @@ public class Rule {
                         }
                         rule.related = listPkg.toArray(new String[0]);
 
-                        rule.hosts = dh.getHostCount(rule.info.applicationInfo.uid, true);
+                        if (service)
+                            rule.hosts = -1;
+                        else
+                            rule.hosts = dh.getHostCount(rule.info.applicationInfo.uid, true);
 
                         rule.updateChanged(default_wifi, default_other, default_roaming);
 
