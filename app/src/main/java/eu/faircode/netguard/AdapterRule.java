@@ -344,7 +344,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.ivExpander.setImageLevel(rule.expanded ? 1 : 0);
 
         // Show application icon
-        if (rule.info.applicationInfo.icon <= 0)
+        if (rule.icon <= 0)
             holder.ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
         else {
             holder.iconLoader = new IconLoader(holder, rule);
@@ -437,9 +437,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.llConfiguration.setVisibility(rule.expanded ? View.VISIBLE : View.GONE);
 
         // Show application details
-        holder.tvUid.setText(rule.info.applicationInfo == null ? "?" : Integer.toString(rule.info.applicationInfo.uid));
-        holder.tvPackage.setText(rule.info.packageName);
-        holder.tvVersion.setText(rule.info.versionName + '/' + rule.info.versionCode);
+        holder.tvUid.setText(Integer.toString(rule.uid));
+        holder.tvPackage.setText(rule.packageName);
+        holder.tvVersion.setText(rule.version);
         holder.tvDescription.setVisibility(rule.description == null ? View.GONE : View.VISIBLE);
         holder.tvDescription.setText(rule.description);
 
@@ -453,7 +453,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onClick(View view) {
                 Intent main = new Intent(context, ActivityMain.class);
-                main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(rule.info.applicationInfo.uid));
+                main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(rule.uid));
                 main.putExtra(ActivityMain.EXTRA_RELATED, true);
                 context.startActivity(main);
             }
@@ -671,7 +671,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         if (rule.expanded) {
             // Access the database when expanded only
             final AdapterAccess badapter = new AdapterAccess(context,
-                    DatabaseHelper.getInstance(context).getAccess(rule.info.applicationInfo.uid, rule.info.firstInstallTime));
+                    DatabaseHelper.getInstance(context).getAccess(rule.uid));
             holder.lvAccess.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int bposition, long bid) {
@@ -772,7 +772,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                 new AsyncTask<Object, Object, Long>() {
                                     @Override
                                     protected Long doInBackground(Object... objects) {
-                                        return DatabaseHelper.getInstance(context).getHostCount(rule.info.applicationInfo.uid, false);
+                                        return DatabaseHelper.getInstance(context).getHostCount(rule.uid, false);
                                     }
 
                                     @Override
@@ -808,7 +808,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 Util.areYouSure(view.getContext(), R.string.msg_reset_access, new Util.DoubtListener() {
                     @Override
                     public void onSure() {
-                        DatabaseHelper.getInstance(context).clearAccess(rule.info.applicationInfo.uid, true);
+                        DatabaseHelper.getInstance(context).clearAccess(rule.uid, true);
                         if (!live)
                             notifyDataSetChanged();
                         if (rv != null)
@@ -867,44 +867,44 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
 
         if (rule.wifi_blocked == rule.wifi_default)
-            wifi.edit().remove(rule.info.packageName).apply();
+            wifi.edit().remove(rule.packageName).apply();
         else
-            wifi.edit().putBoolean(rule.info.packageName, rule.wifi_blocked).apply();
+            wifi.edit().putBoolean(rule.packageName, rule.wifi_blocked).apply();
 
         if (rule.other_blocked == rule.other_default)
-            other.edit().remove(rule.info.packageName).apply();
+            other.edit().remove(rule.packageName).apply();
         else
-            other.edit().putBoolean(rule.info.packageName, rule.other_blocked).apply();
+            other.edit().putBoolean(rule.packageName, rule.other_blocked).apply();
 
         if (rule.apply)
-            apply.edit().remove(rule.info.packageName).apply();
+            apply.edit().remove(rule.packageName).apply();
         else
-            apply.edit().putBoolean(rule.info.packageName, rule.apply).apply();
+            apply.edit().putBoolean(rule.packageName, rule.apply).apply();
 
         if (rule.screen_wifi == rule.screen_wifi_default)
-            screen_wifi.edit().remove(rule.info.packageName).apply();
+            screen_wifi.edit().remove(rule.packageName).apply();
         else
-            screen_wifi.edit().putBoolean(rule.info.packageName, rule.screen_wifi).apply();
+            screen_wifi.edit().putBoolean(rule.packageName, rule.screen_wifi).apply();
 
         if (rule.screen_other == rule.screen_other_default)
-            screen_other.edit().remove(rule.info.packageName).apply();
+            screen_other.edit().remove(rule.packageName).apply();
         else
-            screen_other.edit().putBoolean(rule.info.packageName, rule.screen_other).apply();
+            screen_other.edit().putBoolean(rule.packageName, rule.screen_other).apply();
 
         if (rule.roaming == rule.roaming_default)
-            roaming.edit().remove(rule.info.packageName).apply();
+            roaming.edit().remove(rule.packageName).apply();
         else
-            roaming.edit().putBoolean(rule.info.packageName, rule.roaming).apply();
+            roaming.edit().putBoolean(rule.packageName, rule.roaming).apply();
 
         if (rule.lockdown)
-            lockdown.edit().putBoolean(rule.info.packageName, rule.lockdown).apply();
+            lockdown.edit().putBoolean(rule.packageName, rule.lockdown).apply();
         else
-            lockdown.edit().remove(rule.info.packageName).apply();
+            lockdown.edit().remove(rule.packageName).apply();
 
         if (rule.notify)
-            notify.edit().remove(rule.info.packageName).apply();
+            notify.edit().remove(rule.packageName).apply();
         else
-            notify.edit().putBoolean(rule.info.packageName, rule.notify).apply();
+            notify.edit().putBoolean(rule.packageName, rule.notify).apply();
 
         rule.updateChanged(context);
         Log.i(TAG, "Updated " + rule);
@@ -912,7 +912,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         List<Rule> listModified = new ArrayList<>();
         for (String pkg : rule.related) {
             for (Rule related : listAll)
-                if (related.info.packageName.equals(pkg)) {
+                if (related.packageName.equals(pkg)) {
                     related.wifi_blocked = rule.wifi_blocked;
                     related.other_blocked = rule.other_blocked;
                     related.apply = rule.apply;
@@ -934,7 +934,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         if (root) {
             notifyDataSetChanged();
-            NotificationManagerCompat.from(context).cancel(rule.info.applicationInfo.uid);
+            NotificationManagerCompat.from(context).cancel(rule.uid);
             ServiceSinkhole.reload("rule changed", context, false);
         }
     }
@@ -956,8 +956,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                         uid = -1;
                     }
                     for (Rule rule : listAll)
-                        if (rule.info.applicationInfo.uid == uid ||
-                                rule.info.packageName.toLowerCase().contains(query) ||
+                        if (rule.uid == uid ||
+                                rule.packageName.toLowerCase().contains(query) ||
                                 (rule.name != null && rule.name.toLowerCase().contains(query)))
                             listResult.add(rule);
                 }
@@ -991,7 +991,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     @Override
     public long getItemId(int position) {
         Rule rule = listFiltered.get(position);
-        return rule.info.packageName.hashCode() * 100000L + rule.info.applicationInfo.uid;
+        return rule.packageName.hashCode() * 100000L + rule.uid;
     }
 
     @Override
@@ -1022,12 +1022,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 if (cancelled)
                     throw new InterruptedException();
 
-                Resources res = context.getPackageManager().getResourcesForApplication(rule.info.packageName);
-                Drawable drawable = res.getDrawable(rule.info.applicationInfo.icon, null);
+                Resources res = context.getPackageManager().getResourcesForApplication(rule.packageName);
+                Drawable drawable = res.getDrawable(rule.icon, null);
 
                 final Drawable scaledDrawable;
                 if (drawable instanceof BitmapDrawable) {
-                    Bitmap scaled = Util.decodeSampledBitmapFromResource(res, rule.info.applicationInfo.icon, iconSize, iconSize);
+                    Bitmap scaled = Util.decodeSampledBitmapFromResource(res, rule.icon, iconSize, iconSize);
                     scaledDrawable = new BitmapDrawable(context.getResources(), scaled);
                 } else
                     scaledDrawable = drawable;

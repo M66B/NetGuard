@@ -29,7 +29,7 @@ import android.util.Log;
 
 import java.util.Map;
 
-public class Receiver extends BroadcastReceiver {
+public class ReceiverAutostart extends BroadcastReceiver {
     private static final String TAG = "NetGuard.Receiver";
 
     @Override

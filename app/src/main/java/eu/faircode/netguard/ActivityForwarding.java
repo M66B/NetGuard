@@ -192,7 +192,7 @@ public class ActivityForwarding extends AppCompatActivity {
                                     final int dport = Integer.parseInt(etDPort.getText().toString());
                                     final String raddr = etRAddr.getText().toString();
                                     final int rport = Integer.parseInt(etRPort.getText().toString());
-                                    final int ruid = ((Rule) spRuid.getSelectedItem()).info.applicationInfo.uid;
+                                    final int ruid = ((Rule) spRuid.getSelectedItem()).uid;
 
                                     InetAddress iraddr = InetAddress.getByName(raddr);
                                     if (rport < 1024 && (iraddr.isLoopbackAddress() || iraddr.isAnyLocalAddress()))

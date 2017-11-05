@@ -149,7 +149,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         boolean initialized = prefs.getBoolean("initialized", false);
 
         // Upgrade
-        Receiver.upgrade(initialized, this);
+        ReceiverAutostart.upgrade(initialized, this);
 
         if (!getIntent().hasExtra(EXTRA_APPROVE)) {
             if (enabled)

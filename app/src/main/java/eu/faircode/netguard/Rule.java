@@ -48,9 +48,12 @@ import java.util.Map;
 public class Rule {
     private static final String TAG = "NetGuard.Rule";
 
-    public PackageInfo info;
+    public int uid;
+    public String packageName;
+    public int icon;
     public String name;
     public String description;
+    public String version;
     public boolean system;
     public boolean internet;
     public boolean enabled;
@@ -192,7 +195,10 @@ public class Rule {
     }
 
     private Rule(PackageInfo info, boolean service, Context context) {
-        this.info = info;
+        this.uid = info.applicationInfo.uid;
+        this.packageName = info.packageName;
+        this.icon = info.applicationInfo.icon;
+        this.version = info.versionName;
         if (info.applicationInfo.uid == 0) {
             this.name = context.getString(R.string.title_root);
             this.description = null;
@@ -409,7 +415,7 @@ public class Rule {
                         if (service)
                             rule.hosts = -1;
                         else
-                            rule.hosts = dh.getHostCount(rule.info.applicationInfo.uid, true);
+                            rule.hosts = dh.getHostCount(rule.uid, true);
 
                         rule.updateChanged(default_wifi, default_other, default_roaming);
 
@@ -429,13 +435,13 @@ public class Rule {
                     Collections.sort(listRules, new Comparator<Rule>() {
                         @Override
                         public int compare(Rule rule, Rule other) {
-                            if (rule.info.applicationInfo.uid < other.info.applicationInfo.uid)
+                            if (rule.uid < other.uid)
                                 return -1;
-                            else if (rule.info.applicationInfo.uid > other.info.applicationInfo.uid)
+                            else if (rule.uid > other.uid)
                                 return 1;
                             else {
                                 int i = collator.compare(rule.name, other.name);
-                                return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+                                return (i == 0 ? rule.packageName.compareTo(other.packageName) : i);
                             }
                         }
                     });
@@ -445,7 +451,7 @@ public class Rule {
                         public int compare(Rule rule, Rule other) {
                             if (all || rule.changed == other.changed) {
                                 int i = collator.compare(rule.name, other.name);
-                                return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+                                return (i == 0 ? rule.packageName.compareTo(other.packageName) : i);
                             }
                             return (rule.changed ? -1 : 1);
                         }

@@ -32,7 +32,7 @@ import android.util.Log;
 
 import java.util.Date;
 
-public class WidgetAdmin extends Receiver {
+public class WidgetAdmin extends ReceiverAutostart {
     private static final String TAG = "NetGuard.Widget";
 
     public static final String INTENT_ON = "eu.faircode.netguard.ON";

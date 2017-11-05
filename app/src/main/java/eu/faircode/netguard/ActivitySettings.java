@@ -1196,7 +1196,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         xmlImport(handler.notify, getSharedPreferences("notify", Context.MODE_PRIVATE));
 
         // Upgrade imported settings
-        Receiver.upgrade(true, this);
+        ReceiverAutostart.upgrade(true, this);
 
         DatabaseHelper.clearCache();
 

@@ -335,7 +335,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 if (query != null && query.length() > 0) {
                     for (Rule rule : Rule.getRules(true, false, ActivityLog.this))
                         if (rule.name != null && rule.name.toLowerCase().contains(query.toLowerCase())) {
-                            String newQuery = Integer.toString(rule.info.applicationInfo.uid);
+                            String newQuery = Integer.toString(rule.uid);
                             Log.i(TAG, "Search " + query + " found " + rule.name + " new " + newQuery);
                             return newQuery;
                         }
