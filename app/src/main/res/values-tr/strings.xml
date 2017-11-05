@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard root gerektirmeden internet erişimini engellemek için basit ve gelişmiş yöntemler kullanır. Wi-Fi yada mobil bağlantı ürerinden uygulamalar ve adresler için internet erişimini tek tek engelleyebilirsiniz.</string>
   <string name="app_copyright">Telif Hakkı \u00A9 2015–2017 by M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requires Android 5.0 or later</string>
+  <string name="app_android">NetGuard requires Android 5.1 or later</string>
   <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
   <string name="app_license">NetGuard kullanarak, <a href="http://www.gnu.org/licenses/gpl.txt"> GNU Genel Kamu Lisansını sürüm 3</a> için kabul ediyorum</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Gizlilik Politikası</a></string>
