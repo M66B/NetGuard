@@ -34,7 +34,6 @@
 
 #define TAG "NetGuard.JNI"
 
-// #define PROFILE_UID 5
 // #define PROFILE_JNI 5
 
 #define EPOLL_TIMEOUT 3600 // seconds
@@ -60,6 +59,8 @@
 
 #define SESSION_MAX 512 // number
 #define SESSION_LIMIT 30 // percent
+
+#define UID_MAX_AGE 30000 // milliseconds
 
 #define SOCKS5_NONE 1
 #define SOCKS5_HELLO 2
@@ -187,6 +188,17 @@ struct ng_session {
     jint socket;
     struct epoll_event ev;
     struct ng_session *next;
+};
+
+struct uid_cache_entry {
+    uint8_t version;
+    uint8_t protocol;
+    uint8_t saddr[16];
+    uint16_t sport;
+    uint8_t daddr[16];
+    uint16_t dport;
+    jint uid;
+    long time;
 };
 
 // IPv6
@@ -461,7 +473,9 @@ jint get_uid(const int version, const int protocol,
 
 jint get_uid_sub(const int version, const int protocol,
                  const void *saddr, const uint16_t sport,
-                 const void *daddr, const uint16_t dport);
+                 const void *daddr, const uint16_t dport,
+                 const char *source, const char *dest,
+                 long now);
 
 int protect_socket(const struct arguments *args, int socket);
 
