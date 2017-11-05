@@ -276,7 +276,7 @@ public class Rule {
         }
     }
 
-    public static List<Rule> getRules(final boolean all, boolean service, Context context) {
+    public static List<Rule> getRules(final boolean all, Context context) {
         synchronized (context.getApplicationContext()) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
@@ -432,10 +432,7 @@ public class Rule {
                             }
                         rule.related = listPkg.toArray(new String[0]);
 
-                        if (service)
-                            rule.hosts = -1;
-                        else
-                            rule.hosts = dh.getHostCount(rule.uid, true);
+                        rule.hosts = dh.getHostCount(rule.uid, true);
 
                         rule.updateChanged(default_wifi, default_other, default_roaming);
 
@@ -446,37 +443,35 @@ public class Rule {
                 }
 
             // Sort rule list
-            if (!service) {
-                final Collator collator = Collator.getInstance(Locale.getDefault());
-                collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
+            final Collator collator = Collator.getInstance(Locale.getDefault());
+            collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
 
-                String sort = prefs.getString("sort", "name");
-                if ("uid".equals(sort))
-                    Collections.sort(listRules, new Comparator<Rule>() {
-                        @Override
-                        public int compare(Rule rule, Rule other) {
-                            if (rule.uid < other.uid)
-                                return -1;
-                            else if (rule.uid > other.uid)
-                                return 1;
-                            else {
-                                int i = collator.compare(rule.name, other.name);
-                                return (i == 0 ? rule.packageName.compareTo(other.packageName) : i);
-                            }
+            String sort = prefs.getString("sort", "name");
+            if ("uid".equals(sort))
+                Collections.sort(listRules, new Comparator<Rule>() {
+                    @Override
+                    public int compare(Rule rule, Rule other) {
+                        if (rule.uid < other.uid)
+                            return -1;
+                        else if (rule.uid > other.uid)
+                            return 1;
+                        else {
+                            int i = collator.compare(rule.name, other.name);
+                            return (i == 0 ? rule.packageName.compareTo(other.packageName) : i);
                         }
-                    });
-                else
-                    Collections.sort(listRules, new Comparator<Rule>() {
-                        @Override
-                        public int compare(Rule rule, Rule other) {
-                            if (all || rule.changed == other.changed) {
-                                int i = collator.compare(rule.name, other.name);
-                                return (i == 0 ? rule.packageName.compareTo(other.packageName) : i);
-                            }
-                            return (rule.changed ? -1 : 1);
+                    }
+                });
+            else
+                Collections.sort(listRules, new Comparator<Rule>() {
+                    @Override
+                    public int compare(Rule rule, Rule other) {
+                        if (all || rule.changed == other.changed) {
+                            int i = collator.compare(rule.name, other.name);
+                            return (i == 0 ? rule.packageName.compareTo(other.packageName) : i);
                         }
-                    });
-            }
+                        return (rule.changed ? -1 : 1);
+                    }
+                });
 
             return listRules;
         }

@@ -164,7 +164,7 @@ public class ActivityForwarding extends AppCompatActivity {
 
                     @Override
                     protected List<Rule> doInBackground(Object... objects) {
-                        return Rule.getRules(true, false, ActivityForwarding.this);
+                        return Rule.getRules(true, ActivityForwarding.this);
                     }
 
                     @Override
