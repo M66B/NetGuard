@@ -26,6 +26,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Process;
@@ -192,9 +193,12 @@ public class Rule {
             cacheIntentDatasaver.clear();
             cachePackages.clear();
         }
+
+        DatabaseHelper dh = DatabaseHelper.getInstance(context);
+        dh.clearApps();
     }
 
-    private Rule(PackageInfo info, boolean service, Context context) {
+    private Rule(DatabaseHelper dh, PackageInfo info, Context context) {
         this.uid = info.applicationInfo.uid;
         this.packageName = info.packageName;
         this.icon = info.applicationInfo.icon;
@@ -240,17 +244,34 @@ public class Rule {
             this.datasaver = null;
             this.pkg = false;
         } else {
-            if (service)
-                this.system = isSystem(info.packageName, context);
-            else {
-                this.name = getLabel(info, context);
-                this.description = getDescription(info, context);
-                this.system = isSystem(info.packageName, context);
-                this.internet = hasInternet(info.packageName, context);
-                this.enabled = isEnabled(info, context);
-                this.launch = getIntentLaunch(info.packageName, context);
-                this.settings = getIntentSettings(info.packageName, context);
-                this.datasaver = getIntentDatasaver(info.packageName, context);
+            Cursor cursor = null;
+            try {
+                cursor = dh.getApp(this.packageName);
+                if (cursor.moveToNext()) {
+                    this.name = cursor.getString(cursor.getColumnIndex("label"));
+                    this.description = null;
+                    this.system = cursor.getInt(cursor.getColumnIndex("system")) > 0;
+                    this.internet = cursor.getInt(cursor.getColumnIndex("internet")) > 0;
+                    this.enabled = cursor.getInt(cursor.getColumnIndex("enabled")) > 0;
+                } else {
+                    this.name = getLabel(info, context);
+                    this.description = null;
+                    // this.description = getDescription(info, context);
+                    this.system = isSystem(info.packageName, context);
+                    this.internet = hasInternet(info.packageName, context);
+                    this.enabled = isEnabled(info, context);
+                    //this.launch = getIntentLaunch(info.packageName, context);
+                    //this.settings = getIntentSettings(info.packageName, context);
+                    //this.datasaver = getIntentDatasaver(info.packageName, context);
+                    this.launch = null;
+                    this.settings = null;
+                    this.datasaver = null;
+
+                    dh.addApp(this.packageName, this.name, this.system, this.internet, this.enabled);
+                }
+            } finally {
+                if (cursor != null)
+                    cursor.close();
             }
         }
     }
@@ -372,7 +393,7 @@ public class Rule {
             DatabaseHelper dh = DatabaseHelper.getInstance(context);
             for (PackageInfo info : listPI)
                 try {
-                    Rule rule = new Rule(info, service, context);
+                    Rule rule = new Rule(dh, info, context);
 
                     if (pre_system.containsKey(info.packageName))
                         rule.system = pre_system.get(info.packageName);

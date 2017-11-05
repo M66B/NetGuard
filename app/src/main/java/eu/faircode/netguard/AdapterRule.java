@@ -478,13 +478,31 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         });
 
         // Launch application
-        holder.ibLaunch.setVisibility(rule.launch == null ? View.GONE : View.VISIBLE);
-        holder.ibLaunch.setOnClickListener(new View.OnClickListener() {
+        holder.ibLaunch.setVisibility(View.GONE);
+        holder.ibLaunch.setHasTransientState(true);
+        new AsyncTask<Rule, Object, Intent>() {
             @Override
-            public void onClick(View view) {
-                context.startActivity(rule.launch);
+            protected Intent doInBackground(Rule... rule) {
+                try {
+                    return context.getPackageManager().getLaunchIntentForPackage(rule[0].packageName);
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    return null;
+                }
             }
-        });
+
+            @Override
+            protected void onPostExecute(final Intent intent) {
+                holder.ibLaunch.setHasTransientState(false);
+                holder.ibLaunch.setVisibility(intent == null ? View.GONE : View.VISIBLE);
+                holder.ibLaunch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        context.startActivity(intent);
+                    }
+                });
+            }
+        }.execute(rule);
 
         // Apply
         holder.cbApply.setEnabled(rule.pkg);

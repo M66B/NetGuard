@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 20;
+    private static final int DB_VERSION = 21;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -122,6 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         createTableAccess(db);
         createTableDns(db);
         createTableForward(db);
+        createTableApp(db);
     }
 
     @Override
@@ -202,6 +203,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", ruid INTEGER NOT NULL" +
                 ");");
         db.execSQL("CREATE UNIQUE INDEX idx_forward ON forward(protocol, dport)");
+    }
+
+    private void createTableApp(SQLiteDatabase db) {
+        Log.i(TAG, "Creating app table");
+        db.execSQL("CREATE TABLE app (" +
+                " ID INTEGER PRIMARY KEY AUTOINCREMENT" +
+                ", package TEXT" +
+                ", label TEXT" +
+                ", system INTEGER  NOT NULL" +
+                ", internet INTEGER NOT NULL" +
+                ", enabled INTEGER NOT NULL" +
+                ");");
+        db.execSQL("CREATE UNIQUE INDEX idx_package ON app(package)");
     }
 
     private boolean columnExists(SQLiteDatabase db, String table, String column) {
@@ -326,6 +340,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (oldVersion < 20) {
                 db.execSQL("CREATE INDEX IF NOT EXISTS idx_access_daddr ON access(daddr)");
                 oldVersion = 20;
+            }
+            if (oldVersion < 21) {
+                createTableApp(db);
+                oldVersion = 21;
             }
 
             if (oldVersion == DB_VERSION) {
@@ -992,6 +1010,64 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return db.rawQuery(query, new String[]{});
         } finally {
             lock.readLock().unlock();
+        }
+    }
+
+    public void addApp(String packageName, String label, boolean system, boolean internet, boolean enabled) {
+        lock.writeLock().lock();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                ContentValues cv = new ContentValues();
+                cv.put("package", packageName);
+                if (label == null)
+                    cv.putNull("label");
+                else
+                    cv.put("label", label);
+                cv.put("system", system ? 1 : 0);
+                cv.put("internet", internet ? 1 : 0);
+                cv.put("enabled", enabled ? 1 : 0);
+
+                if (db.insert("app", null, cv) < 0)
+                    Log.e(TAG, "Insert app failed");
+
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    public Cursor getApp(String packageName) {
+        lock.readLock().lock();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            // There is an index on package
+            String query = "SELECT * FROM app WHERE package = ?";
+
+            return db.rawQuery(query, new String[]{packageName});
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public void clearApps() {
+        lock.writeLock().lock();
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.beginTransactionNonExclusive();
+            try {
+                db.delete("app", null, null);
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+        } finally {
+            lock.writeLock().unlock();
         }
     }
 
