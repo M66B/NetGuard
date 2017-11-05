@@ -23,12 +23,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -45,13 +44,12 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdapterLog extends CursorAdapter {
     private static String TAG = "NetGuard.Log";
@@ -79,6 +77,8 @@ public class AdapterLog extends CursorAdapter {
     private InetAddress dns2 = null;
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
+
+    private ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
 
     public AdapterLog(Context context, Cursor cursor, boolean resolve, boolean organization) {
         super(context, cursor, 0);
@@ -222,34 +222,44 @@ public class AdapterLog extends CursorAdapter {
         if (info == null)
             ivIcon.setImageDrawable(null);
         else {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                Icon icon;
-                if (info.icon == 0)
-                    icon = Icon.createWithResource(context, android.R.drawable.sym_def_app_icon);
-                else
-                    icon = Icon.createWithResource(info.packageName, info.icon);
-                try {
-                    icon.loadDrawableAsync(context, new Icon.OnDrawableLoadedListener() {
-                        @Override
-                        public void onDrawableLoaded(Drawable drawable) {
+            if (info.icon <= 0)
+                ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
+            else {
+                ivIcon.setHasTransientState(true);
+                final ApplicationInfo finalInfo = info;
+                executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Resources res = context.getPackageManager().getResourcesForApplication(finalInfo.packageName);
+                            Drawable drawable = res.getDrawable(finalInfo.icon, null);
+
+                            final Drawable scaledDrawable;
                             if (drawable instanceof BitmapDrawable) {
-                                Bitmap original = ((BitmapDrawable) drawable).getBitmap();
-                                Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
-                                ivIcon.setImageDrawable(new BitmapDrawable(context.getResources(), scaled));
+                                Bitmap scaled = Util.decodeSampledBitmapFromResource(res, finalInfo.icon, iconSize, iconSize);
+                                scaledDrawable = new BitmapDrawable(context.getResources(), scaled);
                             } else
-                                ivIcon.setImageDrawable(drawable);
+                                scaledDrawable = drawable;
+
+                            new Handler(context.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ivIcon.setImageDrawable(scaledDrawable);
+                                    ivIcon.setHasTransientState(false);
+                                }
+                            });
+                        } catch (Throwable ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                            new Handler(context.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ivIcon.setImageDrawable(null);
+                                    ivIcon.setHasTransientState(false);
+                                }
+                            });
                         }
-                    }, new Handler(context.getMainLooper()));
-                } catch (RejectedExecutionException ex) {
-                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-            } else {
-                if (info.icon == 0)
-                    Picasso.with(context).load(android.R.drawable.sym_def_app_icon).into(ivIcon);
-                else {
-                    Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
-                    Picasso.with(context).load(uri).resize(iconSize, iconSize).into(ivIcon);
-                }
+                    }
+                });
             }
         }
 

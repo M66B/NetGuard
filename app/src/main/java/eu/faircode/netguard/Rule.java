@@ -419,36 +419,38 @@ public class Rule {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
 
-            final Collator collator = Collator.getInstance(Locale.getDefault());
-            collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
-
             // Sort rule list
-            String sort = prefs.getString("sort", "name");
-            if ("uid".equals(sort))
-                Collections.sort(listRules, new Comparator<Rule>() {
-                    @Override
-                    public int compare(Rule rule, Rule other) {
-                        if (rule.info.applicationInfo.uid < other.info.applicationInfo.uid)
-                            return -1;
-                        else if (rule.info.applicationInfo.uid > other.info.applicationInfo.uid)
-                            return 1;
-                        else {
-                            int i = collator.compare(rule.name, other.name);
-                            return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+            if (!service) {
+                final Collator collator = Collator.getInstance(Locale.getDefault());
+                collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
+
+                String sort = prefs.getString("sort", "name");
+                if ("uid".equals(sort))
+                    Collections.sort(listRules, new Comparator<Rule>() {
+                        @Override
+                        public int compare(Rule rule, Rule other) {
+                            if (rule.info.applicationInfo.uid < other.info.applicationInfo.uid)
+                                return -1;
+                            else if (rule.info.applicationInfo.uid > other.info.applicationInfo.uid)
+                                return 1;
+                            else {
+                                int i = collator.compare(rule.name, other.name);
+                                return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+                            }
                         }
-                    }
-                });
-            else
-                Collections.sort(listRules, new Comparator<Rule>() {
-                    @Override
-                    public int compare(Rule rule, Rule other) {
-                        if (all || rule.changed == other.changed) {
-                            int i = collator.compare(rule.name, other.name);
-                            return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+                    });
+                else
+                    Collections.sort(listRules, new Comparator<Rule>() {
+                        @Override
+                        public int compare(Rule rule, Rule other) {
+                            if (all || rule.changed == other.changed) {
+                                int i = collator.compare(rule.name, other.name);
+                                return (i == 0 ? rule.info.packageName.compareTo(other.info.packageName) : i);
+                            }
+                            return (rule.changed ? -1 : 1);
                         }
-                        return (rule.changed ? -1 : 1);
-                    }
-                });
+                    });
+            }
 
             return listRules;
         }

@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId = "eu.faircode.netguard"
-        versionName = "2.149"
+        versionName = "2.150"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode = 2017110501
+        versionCode = 2017110502
         archivesBaseName = "NetGuard-v$versionName"
 
         externalNativeBuild {
@@ -58,9 +58,6 @@ dependencies {
     // https://firebase.google.com/docs/android/setup
     implementation 'com.google.firebase:firebase-core:11.4.+'
     implementation 'com.google.firebase:firebase-ads:11.4.+'
-
-    // https://mvnrepository.com/artifact/com.squareup.picasso/picasso
-    implementation 'com.squareup.picasso:picasso:2.5.+'
 }
 
 apply plugin: 'com.google.gms.google-services'
