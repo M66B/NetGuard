@@ -25,7 +25,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -33,7 +32,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -77,7 +75,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
 
 public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.Adapter";
@@ -1040,12 +1037,11 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                 if (cancelled)
                     throw new InterruptedException();
 
-                Resources res = context.getPackageManager().getResourcesForApplication(rule.packageName);
-                Drawable drawable = res.getDrawable(rule.icon, null);
-
+                Drawable drawable = context.getPackageManager().getApplicationIcon(rule.packageName);
                 final Drawable scaledDrawable;
                 if (drawable instanceof BitmapDrawable) {
-                    Bitmap scaled = Util.decodeSampledBitmapFromResource(res, rule.icon, iconSize, iconSize);
+                    Bitmap original = ((BitmapDrawable) drawable).getBitmap();
+                    Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
                     scaledDrawable = new BitmapDrawable(context.getResources(), scaled);
                 } else
                     scaledDrawable = drawable;

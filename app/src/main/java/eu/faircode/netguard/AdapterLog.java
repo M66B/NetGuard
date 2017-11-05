@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -231,12 +230,11 @@ public class AdapterLog extends CursorAdapter {
                     @Override
                     public void run() {
                         try {
-                            Resources res = context.getPackageManager().getResourcesForApplication(finalInfo.packageName);
-                            Drawable drawable = res.getDrawable(finalInfo.icon, null);
-
+                            Drawable drawable = context.getPackageManager().getApplicationIcon(finalInfo.packageName);
                             final Drawable scaledDrawable;
                             if (drawable instanceof BitmapDrawable) {
-                                Bitmap scaled = Util.decodeSampledBitmapFromResource(res, finalInfo.icon, iconSize, iconSize);
+                                Bitmap original = ((BitmapDrawable) drawable).getBitmap();
+                                Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
                                 scaledDrawable = new BitmapDrawable(context.getResources(), scaled);
                             } else
                                 scaledDrawable = drawable;
