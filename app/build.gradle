@@ -6,16 +6,16 @@ android {
 
     defaultConfig {
         applicationId = "eu.faircode.netguard"
-        versionName = "2.150"
+        versionName = "2.151"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode = 2017110502
+        versionCode = 2017110601
         archivesBaseName = "NetGuard-v$versionName"
 
         externalNativeBuild {
             cmake {
                 cppFlags ""
-                arguments "-DANDROID_PLATFORM=android-14"
+                arguments "-DANDROID_PLATFORM=android-22"
                 // https://developer.android.com/ndk/guides/cmake.html
             }
         }
