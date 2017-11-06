@@ -24,9 +24,8 @@
 
 // Global variables
 
-JavaVM *jvm = NULL;
 int pipefds[2];
-pthread_t thread_id = 0;
+int stopping = 0;
 pthread_mutex_t lock;
 char socks5_addr[INET6_ADDRSTRLEN + 1];
 int socks5_port = 0;
@@ -133,13 +132,21 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1init(JNIEnv *env, jobject instanc
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_ServiceSinkhole_jni_1start(
-        JNIEnv *env, jobject instance, jint tun, jboolean fwd53, jint rcode, jint loglevel_) {
+        JNIEnv *env, jobject instance, jint loglevel_) {
 
     loglevel = loglevel_;
     max_tun_msg = 0;
-    log_android(ANDROID_LOG_WARN,
-                "Starting tun %d fwd53 %d level %d thread %x",
-                tun, fwd53, loglevel, thread_id);
+    stopping = 0;
+
+    log_android(ANDROID_LOG_WARN, "Starting level %d", loglevel);
+
+}
+
+JNIEXPORT void JNICALL
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1run(
+        JNIEnv *env, jobject instance, jint tun, jboolean fwd53, jint rcode) {
+
+    log_android(ANDROID_LOG_WARN, "Running tun %d fwd53 %d level %d", tun, fwd53, loglevel);
 
     // Set blocking
     int flags = fcntl(tun, F_GETFL, 0);
@@ -147,52 +154,30 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1start(
         log_android(ANDROID_LOG_ERROR, "fcntl tun ~O_NONBLOCK error %d: %s",
                     errno, strerror(errno));
 
-    if (thread_id && pthread_kill(thread_id, 0) == 0)
-        log_android(ANDROID_LOG_ERROR, "Already running thread %x", thread_id);
-    else {
-        jint rs = (*env)->GetJavaVM(env, &jvm);
-        if (rs != JNI_OK)
-            log_android(ANDROID_LOG_ERROR, "GetJavaVM failed");
-
-        // Get arguments
-        struct arguments *args = malloc(sizeof(struct arguments));
-        // args->env = will be set in thread
-        args->instance = (*env)->NewGlobalRef(env, instance);
-        args->tun = tun;
-        args->fwd53 = fwd53;
-        args->rcode = rcode;
-
-        // Start native thread
-        int err = pthread_create(&thread_id, NULL, handle_events, (void *) args);
-        if (err == 0)
-            log_android(ANDROID_LOG_WARN, "Started thread %x", thread_id);
-        else
-            log_android(ANDROID_LOG_ERROR, "pthread_create error %d: %s", err, strerror(err));
-    }
+    // Get arguments
+    struct arguments *args = malloc(sizeof(struct arguments));
+    args->env = env;
+    args->instance = instance;
+    args->tun = tun;
+    args->fwd53 = fwd53;
+    args->rcode = rcode;
+    handle_events(args);
 }
 
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_ServiceSinkhole_jni_1stop(
-        JNIEnv *env, jobject instance, jint tun, jboolean clr) {
-    pthread_t t = thread_id;
-    log_android(ANDROID_LOG_WARN, "Stop tun %d  thread %x", tun, t);
-    if (t && pthread_kill(t, 0) == 0) {
-        log_android(ANDROID_LOG_WARN, "Write pipe thread %x", t);
-        if (write(pipefds[1], "x", 1) < 0)
-            log_android(ANDROID_LOG_WARN, "Write pipe error %d: %s", errno, strerror(errno));
-        else {
-            log_android(ANDROID_LOG_WARN, "Join thread %x", t);
-            int err = pthread_join(t, NULL);
-            if (err != 0)
-                log_android(ANDROID_LOG_WARN, "pthread_join error %d: %s", err, strerror(err));
-        }
+        JNIEnv *env, jobject instance) {
+    stopping = 1;
 
-        if (clr)
-            clear();
+    log_android(ANDROID_LOG_WARN, "Write pipe wakeup");
+    if (write(pipefds[1], "w", 1) < 0)
+        log_android(ANDROID_LOG_WARN, "Write pipe error %d: %s", errno, strerror(errno));
+}
 
-        log_android(ANDROID_LOG_WARN, "Stopped thread %x", t);
-    } else
-        log_android(ANDROID_LOG_WARN, "Not running thread %x", t);
+JNIEXPORT void JNICALL
+Java_eu_faircode_netguard_ServiceSinkhole_jni_1clear(
+        JNIEnv *env, jobject instance) {
+    clear();
 }
 
 JNIEXPORT jint JNICALL

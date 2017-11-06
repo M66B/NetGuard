@@ -19,9 +19,8 @@
 
 #include "netguard.h"
 
-extern JavaVM *jvm;
 extern int pipefds[2];
-extern pthread_t thread_id;
+extern int stopping;
 extern pthread_mutex_t lock;
 
 struct ng_session *ng_session = NULL;
@@ -47,16 +46,7 @@ void clear() {
 
 void *handle_events(void *a) {
     struct arguments *args = (struct arguments *) a;
-    log_android(ANDROID_LOG_WARN, "Start events tun=%d thread %x", args->tun, thread_id);
-
-    // Attach to Java
-    JNIEnv *env;
-    jint rs = (*jvm)->AttachCurrentThread(jvm, &env, NULL);
-    if (rs != JNI_OK) {
-        log_android(ANDROID_LOG_ERROR, "AttachCurrentThread failed");
-        return NULL;
-    }
-    args->env = env;
+    log_android(ANDROID_LOG_WARN, "Start events tun=%d", args->tun);
 
     // Get max number of sessions
     int maxsessions = SESSION_MAX;
@@ -73,8 +63,6 @@ void *handle_events(void *a) {
 
     // Terminate existing sessions not allowed anymore
     check_allowed(args);
-
-    int stopping = 0;
 
     // Open epoll file
     int epoll_fd = epoll_create(1);
@@ -109,7 +97,7 @@ void *handle_events(void *a) {
     // Loop
     long long last_check = 0;
     while (!stopping) {
-        log_android(ANDROID_LOG_DEBUG, "Loop thread %x", thread_id);
+        log_android(ANDROID_LOG_DEBUG, "Loop");
 
         int recheck = 0;
         int timeout = EPOLL_TIMEOUT;
@@ -204,15 +192,14 @@ void *handle_events(void *a) {
 
         if (ready < 0) {
             if (errno == EINTR) {
-                log_android(ANDROID_LOG_DEBUG,
-                            "epoll interrupted tun %d thread %x", args->tun, thread_id);
+                log_android(ANDROID_LOG_DEBUG, "epoll interrupted tun %d", args->tun);
                 continue;
             } else {
                 log_android(ANDROID_LOG_ERROR,
-                            "epoll tun %d thread %x error %d: %s",
-                            args->tun, thread_id, errno, strerror(errno));
-                report_exit(args, "epoll tun %d thread %x error %d: %s",
-                            args->tun, thread_id, errno, strerror(errno));
+                            "epoll tun %d error %d: %s",
+                            args->tun, errno, strerror(errno));
+                report_exit(args, "epoll tun %d error %d: %s",
+                            args->tun, errno, strerror(errno));
                 break;
             }
         }
@@ -229,7 +216,6 @@ void *handle_events(void *a) {
             for (int i = 0; i < ready; i++) {
                 if (ev[i].data.ptr == &ev_pipe) {
                     // Check pipe
-                    stopping = 1;
                     uint8_t buffer[1];
                     if (read(pipefds[0], buffer, 1) < 0)
                         log_android(ANDROID_LOG_WARN, "Read pipe error %d: %s",
@@ -292,18 +278,10 @@ void *handle_events(void *a) {
         log_android(ANDROID_LOG_ERROR,
                     "epoll close error %d: %s", errno, strerror(errno));
 
-    (*env)->DeleteGlobalRef(env, args->instance);
-
-    // Detach from Java
-    rs = (*jvm)->DetachCurrentThread(jvm);
-    if (rs != JNI_OK)
-        log_android(ANDROID_LOG_ERROR, "DetachCurrentThread failed");
-
     // Cleanup
     free(args);
 
-    log_android(ANDROID_LOG_WARN, "Stopped events tun=%d thread %x", args->tun, thread_id);
-    thread_id = 0;
+    log_android(ANDROID_LOG_WARN, "Stopped events tun=%d", args->tun);
     return NULL;
 }
 

@@ -135,6 +135,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private int last_blocked = -1;
     private int last_hosts = -1;
 
+    private Thread tunnelThread = null;
     private ServiceSinkhole.Builder last_builder = null;
     private ParcelFileDescriptor vpn = null;
     private boolean temporarilyStopped = false;
@@ -195,9 +196,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private native void jni_init(int sdk);
 
-    private native void jni_start(int tun, boolean fwd53, int rcode, int loglevel);
+    private native void jni_start(int loglevel);
 
-    private native void jni_stop(int tun, boolean clr);
+    private native void jni_run(int tun, boolean fwd53, int rcode);
+
+    private native void jni_stop();
+
+    private native void jni_clear();
 
     private native int jni_get_mtu();
 
@@ -1369,7 +1374,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         return builder;
     }
 
-    private void startNative(ParcelFileDescriptor vpn, List<Rule> listAllowed, List<Rule> listRule) {
+    private void startNative(final ParcelFileDescriptor vpn, List<Rule> listAllowed, List<Rule> listRule) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
         boolean log = prefs.getBoolean("log", false);
         boolean log_app = prefs.getBoolean("log_app", false);
@@ -1403,7 +1408,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         if (log || log_app || filter) {
             int prio = Integer.parseInt(prefs.getString("loglevel", Integer.toString(Log.WARN)));
-            int rcode = Integer.parseInt(prefs.getString("rcode", "3"));
+            final int rcode = Integer.parseInt(prefs.getString("rcode", "3"));
             if (prefs.getBoolean("socks5_enabled", false))
                 jni_socks5(
                         prefs.getString("socks5_addr", ""),
@@ -1412,18 +1417,48 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         prefs.getString("socks5_password", ""));
             else
                 jni_socks5("", 0, "", "");
-            jni_start(vpn.getFd(), mapForward.containsKey(53), rcode, prio);
+
+            if (tunnelThread == null) {
+                Log.i(TAG, "Starting tunnel thread");
+                jni_start(prio);
+
+                tunnelThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i(TAG, "Running tunnel");
+                        jni_run(vpn.getFd(), mapForward.containsKey(53), rcode);
+                        Log.i(TAG, "Tunnel exited");
+                        tunnelThread = null;
+                    }
+                });
+                tunnelThread.setPriority(Thread.MAX_PRIORITY);
+                tunnelThread.start();
+
+                Log.i(TAG, "Started tunnel thread");
+            }
         }
     }
 
     private void stopNative(ParcelFileDescriptor vpn, boolean clear) {
         Log.i(TAG, "Stop native clear=" + clear);
-        try {
-            jni_stop(vpn.getFd(), clear);
-        } catch (Throwable ex) {
-            // File descriptor might be closed
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            jni_stop(-1, clear);
+
+        if (tunnelThread != null) {
+            Log.i(TAG, "Stopping tunnel thread");
+
+            jni_stop();
+
+            while (true)
+                try {
+                    tunnelThread.join();
+                    break;
+                } catch (InterruptedException ignored) {
+                }
+            tunnelThread = null;
+
+            if (clear)
+                jni_clear();
+
+            Log.i(TAG, "Stopped tunnel thread");
         }
     }
 
