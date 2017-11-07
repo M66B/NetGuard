@@ -1428,6 +1428,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         Log.i(TAG, "Running tunnel");
                         jni_run(vpn.getFd(), mapForward.containsKey(53), rcode);
                         Log.i(TAG, "Tunnel exited");
+                        tunnelThread = null;
                     }
                 });
                 tunnelThread.setPriority(Thread.MAX_PRIORITY);
@@ -1446,9 +1447,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             jni_stop();
 
-            while (true)
+            Thread thread = tunnelThread;
+            while (thread != null)
                 try {
-                    tunnelThread.join();
+                    thread.join();
                     break;
                 } catch (InterruptedException ignored) {
                 }
