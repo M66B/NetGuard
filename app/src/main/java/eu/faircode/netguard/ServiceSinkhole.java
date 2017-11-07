@@ -1428,7 +1428,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         Log.i(TAG, "Running tunnel");
                         jni_run(vpn.getFd(), mapForward.containsKey(53), rcode);
                         Log.i(TAG, "Tunnel exited");
-                        tunnelThread = null;
                     }
                 });
                 tunnelThread.setPriority(Thread.MAX_PRIORITY);
@@ -1442,25 +1441,23 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private void stopNative(ParcelFileDescriptor vpn, boolean clear) {
         Log.i(TAG, "Stop native clear=" + clear);
 
-        synchronized (getApplicationContext()) {
-            if (tunnelThread != null) {
-                Log.i(TAG, "Stopping tunnel thread");
+        if (tunnelThread != null) {
+            Log.i(TAG, "Stopping tunnel thread");
 
-                jni_stop();
+            jni_stop();
 
-                while (true)
-                    try {
-                        tunnelThread.join();
-                        break;
-                    } catch (InterruptedException ignored) {
-                    }
-                tunnelThread = null;
+            while (true)
+                try {
+                    tunnelThread.join();
+                    break;
+                } catch (InterruptedException ignored) {
+                }
+            tunnelThread = null;
 
-                if (clear)
-                    jni_clear();
+            if (clear)
+                jni_clear();
 
-                Log.i(TAG, "Stopped tunnel thread");
-            }
+            Log.i(TAG, "Stopped tunnel thread");
         }
     }
 
