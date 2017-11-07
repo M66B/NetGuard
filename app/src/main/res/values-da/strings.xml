@@ -3,8 +3,8 @@
 <resources>
   <string name="app_description">NetGuard tilbyder enkle og avancerede metoder til blokering af Internetadgang - ingen Root-rettighed krævet. Apps og adresser kan individuelt tillades eller nægtes adgang til din Wi-Fi- og/eller mobilforbindelse.</string>
   <string name="app_copyright">Ophavsrettighed \u00A9 2015-2017 M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requires Android 5.1 or later</string>
-  <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
+  <string name="app_android">NetGuard kræver Android 5.1 eller højere</string>
+  <string name="app_xposed">Xposed forårsager for mange nedbrud, som kan medføre, at NetGuard fjernes fra Google Play Butik. Derfor understøttes NetGuard er ikke, så længe Xposed er installeret</string>
   <string name="app_license">Ved at benytte NetGuard, accepterer du licensaftalen <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Fortrolighedspolitik</a></string>
   <string name="app_first">Stor omhu er lagt i udvikling og test af NetGuard, men det er umuligt at garantere, at NetGuard vil fungere korrekt på alle enheder.\n
@@ -103,7 +103,7 @@
   <string name="setting_socks5_port">SOCKS5-port: %s</string>
   <string name="setting_socks5_username">SOCKS5-brugernavn: %s</string>
   <string name="setting_socks5_password">SOCKS5-adgangskode: %s</string>
-  <string name="setting_pcap_record_size">PCAP-optegnelsesstørrelse: %s B</string>
+  <string name="setting_pcap_record_size">PCAP-logstørrelse: %s B</string>
   <string name="setting_pcap_file_size">PCAP maks. filstørrelse: %s MB</string>
   <string name="setting_watchdog">Vagthund: Hvert %s. minut</string>
   <string name="setting_stats_category">Hastigheds-notifikation</string>
@@ -128,7 +128,7 @@
   <string name="summary_tethering">Afhængig af Android-version, vil kabling muligvis, eller muligvis ikke, fungere. Kablet trafik kan ikke filtreres.</string>
   <string name="summary_subnet">Aktivering af subnet routing aktiverer muligvis også Wi-Fi-opkald, men kan ligeledes fremprovokere fejl i Android og forøge batteriforbruget</string>
   <string name="summary_lan">Tillad apps at oprette forbindelse til lokale netværksadresser såsom 10.0.0.0/8, 172.16.0.0/12 og 192.168.0.0/16</string>
-  <string name="summary_ip6">Route IP V6-trafik til NetGuard, så den selektivt kan blive tilladt eller blokeret</string>
+  <string name="summary_ip6">Route IP V6-trafik til NetGuard, så denne selektivt kan blive tilladt eller blokeret</string>
   <string name="summary_wifi_home">Anvend kun Wi-Fi-netværksregler på udvalgte netværk (anvend mobilnetværksregler på andre Wi-Fi-netværk)</string>
   <string name="summary_metered">Anvend mobilenetværksregler på forbrugsafregnede (betalte, kablede) Wi-Fi-netværk</string>
   <string name="summary_metered_2g">Anvend Wi-Fi-netværksregler på 2G-dataforbindelser</string>
@@ -153,7 +153,7 @@
   <string name="msg_packages">%1$d tilladt, %2$d blokeret</string>
   <string name="msg_hosts">%1$d tilladt, %2$d blokeret, %3$d hosts</string>
   <string name="msg_waiting">Afventer begivenhed</string>
-  <string name="msg_disabled">NetGuard er inaktiv, benyt kontakten ovenfor for at aktivere NetGuard</string>
+  <string name="msg_disabled">NetGuard er inaktiv. Benyt kontakten ovenfor for at aktivere NetGuard</string>
   <string name="msg_revoked">NetGuard er blevet deaktiveret formentlig grundet brug af anden VPN-baseret app</string>
   <string name="msg_installed">\'%1$s\' installeret</string>
   <string name="msg_installed_n">Er blevet installeret</string>
@@ -165,7 +165,7 @@ Af samme årsag bedes VPN-forbindelsen tillades i næste dialog.
 Din Internettrafik sendes ikke til en ekstern VPN-server.</string>
   <string name="msg_autostart">NetGuard kunne ikke starte automatisk. Dette beror sandsynligvis på en fejl i din Android-version.</string>
   <string name="msg_error">En uventet fejl er opstået: %s</string>
-  <string name="msg_start_failed">Android nægter i øjeblikket at starte VPN-tjenesten. Dette bero sandsynligvis på en fejl i din Android-version.</string>
+  <string name="msg_start_failed">Android nægter i øjeblikket at starte VPN-tjenesten. Dette beror sandsynligvis på en fejl i din Android-version.</string>
   <string name="msg_try">Prøv NetGuard</string>
   <string name="msg_terms">Ved at donere, accepterer du <a href="http://www.netguard.me/#terms">vilkårene og betingelserne</a></string>
   <string name="msg_dimming">Kan du ikke trykke OK i næste dialog, så håndteres skærmen sandsynligvis af en anden (skærmnedtonings-) app.</string>
@@ -177,33 +177,33 @@ Din Internettrafik sendes ikke til en ekstern VPN-server.</string>
   <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
   <string name="msg_count">%dx</string>
   <string name="msg_doze">Med henblik på ensartethed i resultaterne, bør Androids batterioptimering ikke inkludere NetGuard.\n\n
-Vælg venligst \"Alle apps\" øverst i den næste dialog, tryk på NetGuard på listen, vælg og bekræft \"Optimér ikke\".</string>
-  <string name="msg_datasaving">Med henblik på ensartethed i resultaterne, bør Androids databesparelsesfunktion ikke inkludere NetGuard.\n\n
+Vælg \"Alle apps\" øverst i den næste dialog, tryk på NetGuard på listen og vælg - og bekræft - \"Optimér ikke\".</string>
+  <string name="msg_datasaving">Med henblik på ensartethed i resultaterne, bør Androids datasparefunktion ikke inkludere NetGuard.\n\n
 Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug\" i næste dialog</string>
   <string name="msg_filter">Anvendelse af filtrering vil foranledige Android til at antage, at data- og strømforbrug hidrører fra NetGuard og ikke fra de oprindelige apps</string>
   <string name="msg_filter4">Android 4 kræver, at filtrering er aktiv</string>
-  <string name="msg_log_disabled">Trafik-loggng er inaktiv. Benyt kontakten ovenfor for at aktivere logging. Trafik-logging kan medføre forøget strømforbrug.</string>
+  <string name="msg_log_disabled">Trafik-logning er inaktiv. Benyt kontakten ovenfor for at aktivere logning. Trafik-logning kan medføre forøget strømforbrug.</string>
   <string name="msg_clear_rules">Dette vil nulstille regler og betingelser til deres standardværdier</string>
   <string name="msg_reset_access">Dette vil slette loglinjerne for adgangsforsøg uden tillad/blokér regler</string>
   <string name="msg_import_last">Seneste import: %s</string>
   <string name="msg_downloading">Downloader\n%1s</string>
   <string name="msg_downloaded">Værtsfil downloadet</string>
   <string name="msg_download_last">Seneste download: %s</string>
-  <string name="msg_start_forward" formatted="false">Start forwarding af \'%5$s\' fra %1$s port %2$d til %3$s:%4$d?</string>
-  <string name="msg_stop_forward">Stop forwarding af %1$s port %2$d?</string>
+  <string name="msg_start_forward" formatted="false">Start viderestilling af \'%5$s\' fra %1$s port %2$d til %3$s:%4$d?</string>
+  <string name="msg_stop_forward">Stop viderestilling af %1$s port %2$d?</string>
   <string name="msg_metered">Netværk er forbrugsafregnet</string>
   <string name="msg_inactive">Ingen aktiv Internetforbindelse</string>
-  <string name="msg_queue">NetGuard er optaet</string>
+  <string name="msg_queue">NetGuard er optaget</string>
   <string name="msg_update">Opdatering tilgængelig, tryk for at downloade</string>
-  <string name="msg_usage">Du kan tillade (grønliste) eller nægte (rødliste) Wi-Fi eller mobil Internetadgang ved at trykke på ikonet ved siden af en app</string>
-  <string name="msg_whitelist">Internetadgang er som standard tilladt, hvilket kan dog ændres i indstillingerne</string>
+  <string name="msg_usage">Du kan tillade (grønlig) eller nægte (rødlig) Wi-Fi eller mobil Internetadgang ved at trykke på ikonet ved siden af en app</string>
+  <string name="msg_whitelist">Internetadgang er som standard tilladt (sortlistetilstand), hvilket dog kan ændres i indstillingerne</string>
   <string name="msg_push">Push-beskeder håndteres primært af systemkomponenten Play-tjenester, der som standard tillader Internetadgang</string>
-  <string name="msg_system">Håndtering af (system-)apps kan aktiveres i indstillingerne</string>
+  <string name="msg_system">Håndtering af alle (system-)apps kan aktiveres i indstillingerne</string>
   <string name="msg_issue">Beskriv venligst problemet og angiv tidspunkt for problemet:</string>
   <string name="msg_vpn_cancelled">VPN-forbindelse annulleret\nHar du opsat en anden VPN til at være en \'altid aktiv VPN\'?</string>
   <string name="msg_on">Nedlukning af din enhed med NetGuard aktiv vil automatisk starte NetGuard ved genopstart af din enhed</string>
   <string name="msg_unavailable">Funktionen er utilgængelig i denne Android-version</string>
-  <string name="msg_always_on">En anden VPN er opsat som Altid Til-VPN</string>
+  <string name="msg_always_on">En anden VPN er opsat som Altid Aktiv-VPN</string>
   <string name="title_lockdown_enabled">Trafik er aflåst</string>
   <string name="title_unmetered_allowed">Ikke-forbrugsafregnet trafik er tilladt</string>
   <string name="title_unmetered_blocked">Ikke-forbrugsafregnet trafik er blokeret</string>
@@ -265,7 +265,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="title_pro_bought">Aktiveret</string>
   <string name="title_pro_unavailable">Utilgængelig</string>
   <string name="title_pro_details">Tryk på en titel for yderligere oplysninger</string>
-  <string name="title_pro_ads">Køb af en hvilken som helt Pro-funktion vil deaktivere alle reklamer</string>
+  <string name="title_pro_ads">Køb af enhver Pro-funktion vil deaktivere alle reklamer</string>
   <string name="title_pro_challenge">Udfordring</string>
   <string name="title_pro_reponse">Svar</string>
   <string-array name="themeNames">
