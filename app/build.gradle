@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId = "eu.faircode.netguard"
-        versionName = "2.152"
+        versionName = "2.153"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode = 2017110701
+        versionCode = 2017110702
         archivesBaseName = "NetGuard-v$versionName"
 
         externalNativeBuild {
