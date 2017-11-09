@@ -137,6 +137,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private int last_blocked = -1;
     private int last_hosts = -1;
 
+    private long jni_context = 0;
     private Thread tunnelThread = null;
     private ServiceSinkhole.Builder last_builder = null;
     private ParcelFileDescriptor vpn = null;
@@ -196,25 +197,25 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
     private static final String ACTION_WATCHDOG = "eu.faircode.netguard.WATCHDOG";
 
-    private native void jni_init(int sdk);
+    private native long jni_init(int sdk);
 
-    private native void jni_start(int loglevel);
+    private native void jni_start(long context, int loglevel);
 
-    private native void jni_run(int tun, boolean fwd53, int rcode);
+    private native void jni_run(long context, int tun, boolean fwd53, int rcode);
 
-    private native void jni_stop();
+    private native void jni_stop(long context);
 
-    private native void jni_clear();
+    private native void jni_clear(long context);
 
     private native int jni_get_mtu();
 
-    private native int[] jni_get_stats();
+    private native int[] jni_get_stats(long context);
 
     private static native void jni_pcap(String name, int record_size, int file_size);
 
     private native void jni_socks5(String addr, int port, String username, String password);
 
-    private native void jni_done();
+    private native void jni_done(long context);
 
     public static void setPcap(boolean enabled, Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -1022,7 +1023,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             // Show session/file count
             if (filter && loglevel <= Log.WARN) {
-                int[] count = jni_get_stats();
+                int[] count = jni_get_stats(jni_context);
                 remoteViews.setTextViewText(R.id.tvSessions, count[0] + "/" + count[1] + "/" + count[2]);
                 remoteViews.setTextViewText(R.id.tvFiles, count[3] + "/" + count[4]);
             } else {
@@ -1423,13 +1424,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             if (tunnelThread == null) {
                 Log.i(TAG, "Starting tunnel thread");
-                jni_start(prio);
+                jni_start(jni_context, prio);
 
                 tunnelThread = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Log.i(TAG, "Running tunnel");
-                        jni_run(vpn.getFd(), mapForward.containsKey(53), rcode);
+                        jni_run(jni_context, vpn.getFd(), mapForward.containsKey(53), rcode);
                         Log.i(TAG, "Tunnel exited");
                         tunnelThread = null;
                     }
@@ -1448,7 +1449,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (tunnelThread != null) {
             Log.i(TAG, "Stopping tunnel thread");
 
-            jni_stop();
+            jni_stop(jni_context);
 
             Thread thread = tunnelThread;
             while (thread != null)
@@ -1460,7 +1461,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             tunnelThread = null;
 
             if (clear)
-                jni_clear();
+                jni_clear(jni_context);
 
             Log.i(TAG, "Stopped tunnel thread");
         }
@@ -2304,7 +2305,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Native init
-        jni_init(Build.VERSION.SDK_INT);
+        jni_context = jni_init(Build.VERSION.SDK_INT);
         boolean pcap = prefs.getBoolean("pcap", false);
         setPcap(pcap, this);
 
@@ -2643,7 +2644,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
 
-        jni_done();
+        jni_done(jni_context);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.unregisterOnSharedPreferenceChangeListener(this);

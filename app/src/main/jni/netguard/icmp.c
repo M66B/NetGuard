@@ -19,7 +19,6 @@
 
 #include "netguard.h"
 
-extern struct ng_session *ng_session;
 extern FILE *pcap_file;
 
 int get_icmp_timeout(const struct icmp_session *u, int sessions, int maxsessions) {
@@ -171,7 +170,7 @@ jboolean handle_icmp(const struct arguments *args,
     }
 
     // Search session
-    struct ng_session *cur = ng_session;
+    struct ng_session *cur = args->ctx->ng_session;
     while (cur != NULL &&
            !((cur->protocol == IPPROTO_ICMP || cur->protocol == IPPROTO_ICMPV6) &&
              !cur->icmp.stop && cur->icmp.version == version &&
@@ -222,8 +221,8 @@ jboolean handle_icmp(const struct arguments *args,
         if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, s->socket, &s->ev))
             log_android(ANDROID_LOG_ERROR, "epoll add icmp error %d: %s", errno, strerror(errno));
 
-        s->next = ng_session;
-        ng_session = s;
+        s->next = args->ctx->ng_session;
+        args->ctx->ng_session = s;
 
         cur = s;
     }

@@ -19,7 +19,6 @@
 
 #include "netguard.h"
 
-extern struct ng_session *ng_session;
 extern FILE *pcap_file;
 
 int get_udp_timeout(const struct udp_session *u, int sessions, int maxsessions) {
@@ -159,7 +158,7 @@ int has_udp_session(const struct arguments *args, const uint8_t *pkt, const uint
         return 1;
 
     // Search session
-    struct ng_session *cur = ng_session;
+    struct ng_session *cur = args->ctx->ng_session;
     while (cur != NULL &&
            !(cur->protocol == IPPROTO_UDP &&
              cur->udp.version == version &&
@@ -217,8 +216,8 @@ void block_udp(const struct arguments *args,
     s->udp.state = UDP_BLOCKED;
     s->socket = -1;
 
-    s->next = ng_session;
-    ng_session = s;
+    s->next = args->ctx->ng_session;
+    args->ctx->ng_session = s;
 }
 
 jboolean handle_udp(const struct arguments *args,
@@ -235,7 +234,7 @@ jboolean handle_udp(const struct arguments *args,
     const size_t datalen = length - (data - pkt);
 
     // Search session
-    struct ng_session *cur = ng_session;
+    struct ng_session *cur = args->ctx->ng_session;
     while (cur != NULL &&
            !(cur->protocol == IPPROTO_UDP &&
              cur->udp.version == version &&
@@ -314,8 +313,8 @@ jboolean handle_udp(const struct arguments *args,
         if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, s->socket, &s->ev))
             log_android(ANDROID_LOG_ERROR, "epoll add udp error %d: %s", errno, strerror(errno));
 
-        s->next = ng_session;
-        ng_session = s;
+        s->next = args->ctx->ng_session;
+        args->ctx->ng_session = s;
 
         cur = s;
     }

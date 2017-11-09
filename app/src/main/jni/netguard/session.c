@@ -19,18 +19,8 @@
 
 #include "netguard.h"
 
-extern int pipefds[2];
-extern int stopping;
-extern pthread_mutex_t lock;
-
-struct ng_session *ng_session = NULL;
-
-void init(const struct arguments *args) {
-    ng_session = NULL;
-}
-
-void clear() {
-    struct ng_session *s = ng_session;
+void clear(struct context *ctx) {
+    struct ng_session *s = ctx->ng_session;
     while (s != NULL) {
         if (s->socket >= 0 && close(s->socket))
             log_android(ANDROID_LOG_ERROR, "close %d error %d: %s",
@@ -41,7 +31,7 @@ void clear() {
         s = s->next;
         free(p);
     }
-    ng_session = NULL;
+    ctx->ng_session = NULL;
 }
 
 void *handle_events(void *a) {
@@ -69,7 +59,7 @@ void *handle_events(void *a) {
     if (epoll_fd < 0) {
         log_android(ANDROID_LOG_ERROR, "epoll create error %d: %s", errno, strerror(errno));
         report_exit(args, "epoll create error %d: %s", errno, strerror(errno));
-        stopping = 1;
+        args->ctx->stopping = 1;
     }
 
     // Monitor stop events
@@ -77,10 +67,10 @@ void *handle_events(void *a) {
     memset(&ev_pipe, 0, sizeof(struct epoll_event));
     ev_pipe.events = EPOLLIN | EPOLLERR;
     ev_pipe.data.ptr = &ev_pipe;
-    if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, pipefds[0], &ev_pipe)) {
+    if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, args->ctx->pipefds[0], &ev_pipe)) {
         log_android(ANDROID_LOG_ERROR, "epoll add pipe error %d: %s", errno, strerror(errno));
         report_exit(args, "epoll add pipe error %d: %s", errno, strerror(errno));
-        stopping = 1;
+        args->ctx->stopping = 1;
     }
 
     // Monitor tun events
@@ -91,12 +81,12 @@ void *handle_events(void *a) {
     if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, args->tun, &ev_tun)) {
         log_android(ANDROID_LOG_ERROR, "epoll add tun error %d: %s", errno, strerror(errno));
         report_exit(args, "epoll add tun error %d: %s", errno, strerror(errno));
-        stopping = 1;
+        args->ctx->stopping = 1;
     }
 
     // Loop
     long long last_check = 0;
-    while (!stopping) {
+    while (!args->ctx->stopping) {
         log_android(ANDROID_LOG_DEBUG, "Loop");
 
         int recheck = 0;
@@ -106,7 +96,7 @@ void *handle_events(void *a) {
         int isessions = 0;
         int usessions = 0;
         int tsessions = 0;
-        struct ng_session *s = ng_session;
+        struct ng_session *s = args->ctx->ng_session;
         while (s != NULL) {
             if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
                 if (!s->icmp.stop)
@@ -131,7 +121,7 @@ void *handle_events(void *a) {
 
             time_t now = time(NULL);
             struct ng_session *sl = NULL;
-            s = ng_session;
+            s = args->ctx->ng_session;
             while (s != NULL) {
                 int del = 0;
                 if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
@@ -162,7 +152,7 @@ void *handle_events(void *a) {
 
                 if (del) {
                     if (sl == NULL)
-                        ng_session = s->next;
+                        args->ctx->ng_session = s->next;
                     else
                         sl->next = s->next;
 
@@ -208,7 +198,7 @@ void *handle_events(void *a) {
             log_android(ANDROID_LOG_DEBUG, "epoll timeout");
         else {
 
-            if (pthread_mutex_lock(&lock))
+            if (pthread_mutex_lock(&args->ctx->lock))
                 log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
 
             int error = 0;
@@ -217,12 +207,11 @@ void *handle_events(void *a) {
                 if (ev[i].data.ptr == &ev_pipe) {
                     // Check pipe
                     uint8_t buffer[1];
-                    if (read(pipefds[0], buffer, 1) < 0)
+                    if (read(args->ctx->pipefds[0], buffer, 1) < 0)
                         log_android(ANDROID_LOG_WARN, "Read pipe error %d: %s",
                                     errno, strerror(errno));
                     else
                         log_android(ANDROID_LOG_WARN, "Read pipe");
-                    break;
 
                 } else if (ev[i].data.ptr == NULL) {
                     // Check upstream
@@ -265,7 +254,7 @@ void *handle_events(void *a) {
                     break;
             }
 
-            if (pthread_mutex_unlock(&lock))
+            if (pthread_mutex_unlock(&args->ctx->lock))
                 log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
 
             if (error)
@@ -290,7 +279,7 @@ void check_allowed(const struct arguments *args) {
     char dest[INET6_ADDRSTRLEN + 1];
 
     struct ng_session *l = NULL;
-    struct ng_session *s = ng_session;
+    struct ng_session *s = args->ctx->ng_session;
     while (s != NULL) {
         if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
             if (!s->icmp.stop) {
@@ -334,7 +323,7 @@ void check_allowed(const struct arguments *args) {
                 log_android(ANDROID_LOG_WARN, "UDP remove blocked session uid %d", s->udp.uid);
 
                 if (l == NULL)
-                    ng_session = s->next;
+                    args->ctx->ng_session = s->next;
                 else
                     l->next = s->next;
 

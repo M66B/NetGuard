@@ -68,6 +68,14 @@
 #define SOCKS5_CONNECT 4
 #define SOCKS5_CONNECTED 5
 
+struct context {
+    pthread_mutex_t lock;
+    int pipefds[2];
+    int stopping;
+    int tun;
+    struct ng_session *ng_session;
+};
+
 struct arguments {
     JNIEnv *env;
     jobject instance;
@@ -75,6 +83,7 @@ struct arguments {
     int tun;
     jboolean fwd53;
     jint rcode;
+    struct context *ctx;
 };
 
 struct allowed {
@@ -326,9 +335,7 @@ void report_error(const struct arguments *args, jint error, const char *fmt, ...
 
 void check_allowed(const struct arguments *args);
 
-void init(const struct arguments *args);
-
-void clear();
+void clear(struct context *ctx);
 
 int check_icmp_session(const struct arguments *args,
                        struct ng_session *s,

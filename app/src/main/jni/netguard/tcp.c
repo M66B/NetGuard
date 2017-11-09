@@ -19,7 +19,6 @@
 
 #include "netguard.h"
 
-extern struct ng_session *ng_session;
 extern char socks5_addr[INET6_ADDRSTRLEN + 1];
 extern int socks5_port;
 extern char socks5_username[127 + 1];
@@ -611,7 +610,7 @@ jboolean handle_tcp(const struct arguments *args,
     const uint16_t datalen = (const uint16_t) (length - (data - pkt));
 
     // Search session
-    struct ng_session *cur = ng_session;
+    struct ng_session *cur = args->ctx->ng_session;
     while (cur != NULL &&
            !(cur->protocol == IPPROTO_TCP &&
              cur->tcp.version == version &&
@@ -765,8 +764,8 @@ jboolean handle_tcp(const struct arguments *args,
                 log_android(ANDROID_LOG_ERROR, "epoll add tcp error %d: %s",
                             errno, strerror(errno));
 
-            s->next = ng_session;
-            ng_session = s;
+            s->next = args->ctx->ng_session;
+            args->ctx->ng_session = s;
 
             if (!allowed) {
                 log_android(ANDROID_LOG_WARN, "%s resetting blocked session", packet);
