@@ -85,8 +85,10 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
+import java.net.Socket;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -2022,6 +2024,101 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     };
 
+    ConnectivityManager.NetworkCallback networkMonitorCallback = new ConnectivityManager.NetworkCallback() {
+        private String TAG = "NetGuard.Monitor";
+
+        private Map<Network, Long> validated = new HashMap<>();
+
+        // https://android.googlesource.com/platform/frameworks/base/+/master/services/core/java/com/android/server/connectivity/NetworkMonitor.java
+
+        @Override
+        public void onAvailable(Network network) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo ni = cm.getNetworkInfo(network);
+            NetworkCapabilities capabilities = cm.getNetworkCapabilities(network);
+            Log.i(TAG, "Available network " + network + " " + ni);
+            Log.i(TAG, "Capabilities=" + capabilities);
+            checkConnectivity(network, ni, capabilities);
+        }
+
+        @Override
+        public void onCapabilitiesChanged(Network network, NetworkCapabilities capabilities) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo ni = cm.getNetworkInfo(network);
+            Log.i(TAG, "New capabilities network " + network + " " + ni);
+            Log.i(TAG, "Capabilities=" + capabilities);
+            checkConnectivity(network, ni, capabilities);
+        }
+
+        @Override
+        public void onLosing(Network network, int maxMsToLive) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo ni = cm.getNetworkInfo(network);
+            Log.i(TAG, "Losing network " + network + " within " + maxMsToLive + " ms " + ni);
+        }
+
+        @Override
+        public void onLost(Network network) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo ni = cm.getNetworkInfo(network);
+            Log.i(TAG, "Lost network " + network + " " + ni);
+
+            synchronized (validated) {
+                validated.remove(network);
+            }
+        }
+
+        @Override
+        public void onUnavailable() {
+            Log.i(TAG, "No networks available");
+        }
+
+        private void checkConnectivity(Network network, NetworkInfo ni, NetworkCapabilities capabilities) {
+            if (ni != null && capabilities != null &&
+                    ni.getDetailedState() != NetworkInfo.DetailedState.SUSPENDED &&
+                    ni.getDetailedState() != NetworkInfo.DetailedState.BLOCKED &&
+                    ni.getDetailedState() != NetworkInfo.DetailedState.DISCONNECTED &&
+                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN) &&
+                    !capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
+
+                synchronized (validated) {
+                    if (validated.containsKey(network) &&
+                            validated.get(network) + 20 * 1000 > new Date().getTime()) {
+                        Log.i(TAG, "Already validated " + network + " " + ni);
+                        return;
+                    }
+                }
+
+                Log.i(TAG, "Validating " + network + " " + ni);
+
+                Socket socket = null;
+                try {
+                    socket = network.getSocketFactory().createSocket();
+                    socket.connect(new InetSocketAddress("www.google.com", 443), 10000);
+                    Log.i(TAG, "Validated " + network + " " + ni);
+                    synchronized (validated) {
+                        validated.put(network, new Date().getTime());
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                        cm.reportNetworkConnectivity(network, true);
+                        Log.i(TAG, "Reported " + network + " " + ni);
+                    }
+                } catch (IOException ex) {
+                    Log.e(TAG, ex.toString());
+                    Log.i(TAG, "No connectivity " + network + " " + ni);
+                } finally {
+                    if (socket != null)
+                        try {
+                            socket.close();
+                        } catch (IOException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
+                }
+            }
+        }
+    };
+
     private PhoneStateListener phoneStateListener = new PhoneStateListener() {
         private String last_generation = null;
 
@@ -2275,6 +2372,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         else
             listenConnectivityChanges();
 
+        // Monitor networks
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        cm.registerNetworkCallback(
+                new NetworkRequest.Builder()
+                        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build(),
+                networkMonitorCallback);
+
         // Setup house holding
         Intent alarmIntent = new Intent(this, ServiceSinkhole.class);
         alarmIntent.setAction(ACTION_HOUSE_HOLDING);
@@ -2517,6 +2621,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             unregisterReceiver(connectivityChangedReceiver);
             registeredConnectivityChanged = false;
         }
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        cm.unregisterNetworkCallback(networkMonitorCallback);
+
         if (phone_state) {
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
