@@ -393,6 +393,10 @@ public class Rule {
             DatabaseHelper dh = DatabaseHelper.getInstance(context);
             for (PackageInfo info : listPI)
                 try {
+                    // Skip self
+                    if (info.applicationInfo.uid == Process.myUid())
+                        continue;
+
                     Rule rule = new Rule(dh, info, context);
 
                     if (pre_system.containsKey(info.packageName))
