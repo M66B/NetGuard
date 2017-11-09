@@ -1322,7 +1322,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         }
                     start = IPUtil.plus1(exclude.getEnd());
                 }
-                for (IPUtil.CIDR include : IPUtil.toCIDR("224.0.0.0", "255.255.255.255"))
+                String end = (lan ? "255.255.255.254" : "255.255.255.255");
+                for (IPUtil.CIDR include : IPUtil.toCIDR("224.0.0.0", end))
                     try {
                         builder.addRoute(include.address, include.prefix);
                     } catch (Throwable ex) {
@@ -1336,7 +1337,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         Log.i(TAG, "IPv6=" + ip6);
         if (ip6)
-            builder.addRoute("0:0:0:0:0:0:0:0", 0);
+            builder.addRoute("2000::", 3); // unicast
 
         // MTU
         int mtu = jni_get_mtu();
