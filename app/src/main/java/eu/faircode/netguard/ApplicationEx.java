@@ -47,7 +47,10 @@ public class ApplicationEx extends Application {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                System.exit(1);
+                if (Util.isPlayStoreInstall(ApplicationEx.this))
+                    mPrevHandler.uncaughtException(thread, ex);
+                else
+                    System.exit(1);
             }
         });
     }

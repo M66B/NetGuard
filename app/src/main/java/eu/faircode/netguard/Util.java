@@ -415,7 +415,12 @@ public class Util {
     }
 
     public static boolean isPlayStoreInstall(Context context) {
-        return "com.android.vending".equals(context.getPackageManager().getInstallerPackageName(context.getPackageName()));
+        try {
+            return "com.android.vending".equals(context.getPackageManager().getInstallerPackageName(context.getPackageName()));
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            return false;
+        }
     }
 
     public static boolean hasPlayServices(Context context) {
