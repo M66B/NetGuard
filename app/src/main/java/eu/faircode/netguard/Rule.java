@@ -20,18 +20,15 @@ package eu.faircode.netguard;
 */
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Process;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -53,14 +50,10 @@ public class Rule {
     public String packageName;
     public int icon;
     public String name;
-    public String description;
     public String version;
     public boolean system;
     public boolean internet;
     public boolean enabled;
-    public Intent launch;
-    public Intent settings;
-    public Intent datasaver;
     public boolean pkg = true;
 
     public boolean wifi_default = false;
@@ -89,14 +82,9 @@ public class Rule {
 
     private static List<PackageInfo> cachePackageInfo = null;
     private static Map<PackageInfo, String> cacheLabel = new HashMap<>();
-    private static Map<PackageInfo, String> cacheDescription = new HashMap<>();
     private static Map<String, Boolean> cacheSystem = new HashMap<>();
     private static Map<String, Boolean> cacheInternet = new HashMap<>();
     private static Map<PackageInfo, Boolean> cacheEnabled = new HashMap<>();
-    private static Map<String, Intent> cacheIntentLaunch = new HashMap<>();
-    private static Map<String, Intent> cacheIntentSettings = new HashMap<>();
-    private static Map<String, Intent> cacheIntentDatasaver = new HashMap<>();
-    private static Map<Integer, String[]> cachePackages = new HashMap<>();
 
     private static List<PackageInfo> getPackages(Context context) {
         if (cachePackageInfo == null) {
@@ -112,15 +100,6 @@ public class Rule {
             cacheLabel.put(info, info.applicationInfo.loadLabel(pm).toString());
         }
         return cacheLabel.get(info);
-    }
-
-    private static String getDescription(PackageInfo info, Context context) {
-        if (!cacheDescription.containsKey(info)) {
-            PackageManager pm = context.getPackageManager();
-            CharSequence description = info.applicationInfo.loadDescription(pm);
-            cacheDescription.put(info, description == null ? null : description.toString());
-        }
-        return cacheDescription.get(info);
     }
 
     private static boolean isSystem(String packageName, Context context) {
@@ -141,57 +120,14 @@ public class Rule {
         return cacheEnabled.get(info);
     }
 
-    private static Intent getIntentLaunch(String packageName, Context context) {
-        if (!cacheIntentLaunch.containsKey(packageName))
-            cacheIntentLaunch.put(packageName, context.getPackageManager().getLaunchIntentForPackage(packageName));
-        return cacheIntentLaunch.get(packageName);
-    }
-
-    private static Intent getIntentSettings(String packageName, Context context) {
-        if (!cacheIntentSettings.containsKey(packageName)) {
-            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            intent.setData(Uri.parse("package:" + packageName));
-            if (intent.resolveActivity(context.getPackageManager()) == null)
-                intent = null;
-            cacheIntentSettings.put(packageName, intent);
-        }
-        return cacheIntentSettings.get(packageName);
-    }
-
-    private static Intent getIntentDatasaver(String packageName, Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            if (!cacheIntentDatasaver.containsKey(packageName)) {
-                Intent intent = new Intent(
-                        Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS,
-                        Uri.parse("package:" + packageName));
-                if (intent.resolveActivity(context.getPackageManager()) == null)
-                    intent = null;
-                cacheIntentDatasaver.put(packageName, intent);
-            }
-            return cacheIntentDatasaver.get(packageName);
-        } else
-            return null;
-    }
-
-    private static String[] getPackages(int uid, Context context) {
-        if (!cachePackages.containsKey(uid))
-            cachePackages.put(uid, context.getPackageManager().getPackagesForUid(uid));
-        return cachePackages.get(uid);
-    }
-
     public static void clearCache(Context context) {
         Log.i(TAG, "Clearing cache");
         synchronized (context.getApplicationContext()) {
             cachePackageInfo = null;
             cacheLabel.clear();
-            cacheDescription.clear();
             cacheSystem.clear();
             cacheInternet.clear();
             cacheEnabled.clear();
-            cacheIntentLaunch.clear();
-            cacheIntentSettings.clear();
-            cacheIntentDatasaver.clear();
-            cachePackages.clear();
         }
 
         DatabaseHelper dh = DatabaseHelper.getInstance(context);
@@ -205,43 +141,27 @@ public class Rule {
         this.version = info.versionName;
         if (info.applicationInfo.uid == 0) {
             this.name = context.getString(R.string.title_root);
-            this.description = null;
             this.system = true;
             this.internet = true;
             this.enabled = true;
-            this.launch = null;
-            this.settings = null;
-            this.datasaver = null;
             this.pkg = false;
         } else if (info.applicationInfo.uid == 1013) {
             this.name = context.getString(R.string.title_mediaserver);
-            this.description = null;
             this.system = true;
             this.internet = true;
             this.enabled = true;
-            this.launch = null;
-            this.settings = null;
-            this.datasaver = null;
             this.pkg = false;
         } else if (info.applicationInfo.uid == 1021) {
             this.name = context.getString(R.string.title_gpsdaemon);
-            this.description = null;
             this.system = true;
             this.internet = true;
             this.enabled = true;
-            this.launch = null;
-            this.settings = null;
-            this.datasaver = null;
             this.pkg = false;
         } else if (info.applicationInfo.uid == 9999) {
             this.name = context.getString(R.string.title_nobody);
-            this.description = null;
             this.system = true;
             this.internet = true;
             this.enabled = true;
-            this.launch = null;
-            this.settings = null;
-            this.datasaver = null;
             this.pkg = false;
         } else {
             Cursor cursor = null;
@@ -249,23 +169,14 @@ public class Rule {
                 cursor = dh.getApp(this.packageName);
                 if (cursor.moveToNext()) {
                     this.name = cursor.getString(cursor.getColumnIndex("label"));
-                    this.description = null;
                     this.system = cursor.getInt(cursor.getColumnIndex("system")) > 0;
                     this.internet = cursor.getInt(cursor.getColumnIndex("internet")) > 0;
                     this.enabled = cursor.getInt(cursor.getColumnIndex("enabled")) > 0;
                 } else {
                     this.name = getLabel(info, context);
-                    this.description = null;
-                    // this.description = getDescription(info, context);
                     this.system = isSystem(info.packageName, context);
                     this.internet = hasInternet(info.packageName, context);
                     this.enabled = isEnabled(info, context);
-                    //this.launch = getIntentLaunch(info.packageName, context);
-                    //this.settings = getIntentSettings(info.packageName, context);
-                    //this.datasaver = getIntentDatasaver(info.packageName, context);
-                    this.launch = null;
-                    this.settings = null;
-                    this.datasaver = null;
 
                     dh.addApp(this.packageName, this.name, this.system, this.internet, this.enabled);
                 }
