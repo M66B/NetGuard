@@ -178,7 +178,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     public static final String EXTRA_INTERACTIVE = "Interactive";
     public static final String EXTRA_TEMPORARY = "Temporary";
 
-    private static final int MSG_SERVICE_INTENT = 0;
     private static final int MSG_STATS_START = 1;
     private static final int MSG_STATS_STOP = 2;
     private static final int MSG_STATS_UPDATE = 3;
@@ -279,21 +278,18 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 queue++;
                 reportQueueSize();
             }
+            Command cmd = (Command) intent.getSerializableExtra(EXTRA_COMMAND);
             Message msg = commandHandler.obtainMessage();
             msg.obj = intent;
-            msg.what = MSG_SERVICE_INTENT;
+            msg.what = cmd.ordinal();
             commandHandler.sendMessage(msg);
         }
 
         @Override
         public void handleMessage(Message msg) {
             try {
-                switch (msg.what) {
-                    case MSG_SERVICE_INTENT:
-                        handleIntent((Intent) msg.obj);
-                        break;
-                    default:
-                        Log.e(TAG, "Unknown command message=" + msg.what);
+                synchronized (ServiceSinkhole.this) {
+                    handleIntent((Intent) msg.obj);
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -456,7 +452,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
 
                 // Stop service if needed
-                if (!prefs.getBoolean("enabled", false) && !prefs.getBoolean("show_stats", false))
+                if (!commandHandler.hasMessages(Command.start.ordinal()) &&
+                        !commandHandler.hasMessages(Command.reload.ordinal()) &&
+                        !prefs.getBoolean("enabled", false) &&
+                        !prefs.getBoolean("show_stats", false))
                     stopForeground(true);
 
             } catch (Throwable ex) {
@@ -2526,6 +2525,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 " vpn=" + (vpn != null) + " user=" + (Process.myUid() / 100000));
 
         commandHandler.queue(intent);
+
         return START_STICKY;
     }
 
@@ -2577,77 +2577,79 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     @Override
     public void onDestroy() {
-        Log.i(TAG, "Destroy");
+        synchronized (this) {
+            Log.i(TAG, "Destroy");
+            commandLooper.quit();
+            logLooper.quit();
+            statsLooper.quit();
 
-        commandLooper.quit();
-        logLooper.quit();
-        statsLooper.quit();
+            for (Command command : Command.values())
+                commandHandler.removeMessages(command.ordinal());
+            releaseLock(this);
 
-        commandHandler.removeMessages(MSG_SERVICE_INTENT);
-        releaseLock(this);
-
-        // Registered in command loop
-        if (registeredInteractiveState) {
-            unregisterReceiver(interactiveStateReceiver);
-            registeredInteractiveState = false;
-        }
-        if (callStateListener != null) {
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            tm.listen(callStateListener, PhoneStateListener.LISTEN_NONE);
-            callStateListener = null;
-        }
-
-        // Register in onCreate
-        if (registeredPowerSave) {
-            unregisterReceiver(powerSaveReceiver);
-            registeredPowerSave = false;
-        }
-        if (registeredUser) {
-            unregisterReceiver(userReceiver);
-            registeredUser = false;
-        }
-        if (registeredIdleState) {
-            unregisterReceiver(idleStateReceiver);
-            registeredIdleState = false;
-        }
-        if (registeredPackageChanged) {
-            unregisterReceiver(packageChangedReceiver);
-            registeredPackageChanged = false;
-        }
-
-        if (networkCallback != null) {
-            unlistenNetworkChanges();
-            networkCallback = null;
-        }
-        if (registeredConnectivityChanged) {
-            unregisterReceiver(connectivityChangedReceiver);
-            registeredConnectivityChanged = false;
-        }
-
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        cm.unregisterNetworkCallback(networkMonitorCallback);
-
-        if (phone_state) {
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
-            phone_state = false;
-        }
-
-        try {
-            if (vpn != null) {
-                stopNative(vpn, true);
-                stopVPN(vpn);
-                vpn = null;
-                unprepare();
+            // Registered in command loop
+            if (registeredInteractiveState) {
+                unregisterReceiver(interactiveStateReceiver);
+                registeredInteractiveState = false;
             }
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            if (callStateListener != null) {
+                TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                tm.listen(callStateListener, PhoneStateListener.LISTEN_NONE);
+                callStateListener = null;
+            }
+
+            // Register in onCreate
+            if (registeredPowerSave) {
+                unregisterReceiver(powerSaveReceiver);
+                registeredPowerSave = false;
+            }
+            if (registeredUser) {
+                unregisterReceiver(userReceiver);
+                registeredUser = false;
+            }
+            if (registeredIdleState) {
+                unregisterReceiver(idleStateReceiver);
+                registeredIdleState = false;
+            }
+            if (registeredPackageChanged) {
+                unregisterReceiver(packageChangedReceiver);
+                registeredPackageChanged = false;
+            }
+
+            if (networkCallback != null) {
+                unlistenNetworkChanges();
+                networkCallback = null;
+            }
+            if (registeredConnectivityChanged) {
+                unregisterReceiver(connectivityChangedReceiver);
+                registeredConnectivityChanged = false;
+            }
+
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            cm.unregisterNetworkCallback(networkMonitorCallback);
+
+            if (phone_state) {
+                TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                tm.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+                phone_state = false;
+            }
+
+            try {
+                if (vpn != null) {
+                    stopNative(vpn, true);
+                    stopVPN(vpn);
+                    vpn = null;
+                    unprepare();
+                }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+
+            jni_done(jni_context);
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            prefs.unregisterOnSharedPreferenceChangeListener(this);
         }
-
-        jni_done(jni_context);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.unregisterOnSharedPreferenceChangeListener(this);
 
         super.onDestroy();
     }
