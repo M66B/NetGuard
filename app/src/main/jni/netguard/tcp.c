@@ -816,7 +816,8 @@ jboolean handle_tcp(const struct arguments *args,
 
             log_android(ANDROID_LOG_DEBUG, "%s handling", session);
 
-            cur->tcp.time = time(NULL);
+            if (!tcphdr->syn)
+                cur->tcp.time = time(NULL);
             cur->tcp.send_window = ntohs(tcphdr->window) << cur->tcp.send_scale;
 
             // Do not change the order of the conditions
