@@ -1434,7 +1434,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         tunnelThread = null;
                     }
                 });
-                tunnelThread.setPriority(Thread.MAX_PRIORITY);
+                //tunnelThread.setPriority(Thread.MAX_PRIORITY);
                 tunnelThread.start();
 
                 Log.i(TAG, "Started tunnel thread");
