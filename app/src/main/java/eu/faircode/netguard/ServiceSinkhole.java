@@ -1345,7 +1345,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         builder.setMtu(mtu);
 
         // Add list of allowed applications
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            try {
+                builder.addDisallowedApplication(getPackageName());
+            } catch (PackageManager.NameNotFoundException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
             if (last_connected && !filter)
                 for (Rule rule : listAllowed)
                     try {
@@ -1353,12 +1358,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     } catch (PackageManager.NameNotFoundException ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     }
-            else if (filter) {
-                try {
-                    builder.addDisallowedApplication(getPackageName());
-                } catch (PackageManager.NameNotFoundException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
+            else if (filter)
                 for (Rule rule : listRule)
                     if (!rule.apply || (!system && rule.system))
                         try {
@@ -1367,7 +1367,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         } catch (PackageManager.NameNotFoundException ex) {
                             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                         }
-            }
+        }
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
