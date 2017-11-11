@@ -1839,7 +1839,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 // Allow unknown system traffic
                 packet.allowed = true;
                 Log.w(TAG, "Allowing unknown system " + packet);
-
+            } else if (packet.uid == Process.myUid()) {
+                // Allow self
+                packet.allowed = true;
+                Log.w(TAG, "Allowing self " + packet);
             } else {
                 boolean filtered = false;
                 // Only TCP (6) and UDP (17) have port numbers
