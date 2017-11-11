@@ -2025,6 +2025,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     };
 
+    @TargetApi(Build.VERSION_CODES.M)
     ConnectivityManager.NetworkCallback networkMonitorCallback = new ConnectivityManager.NetworkCallback() {
         private String TAG = "NetGuard.Monitor";
 
@@ -2100,11 +2101,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     synchronized (validated) {
                         validated.put(network, new Date().getTime());
                     }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                        cm.reportNetworkConnectivity(network, true);
-                        Log.i(TAG, "Reported " + network + " " + ni);
-                    }
+                    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    cm.reportNetworkConnectivity(network, true);
+                    Log.i(TAG, "Reported " + network + " " + ni);
                 } catch (IOException ex) {
                     Log.e(TAG, ex.toString());
                     Log.i(TAG, "No connectivity " + network + " " + ni);
@@ -2374,11 +2373,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             listenConnectivityChanges();
 
         // Monitor networks
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        cm.registerNetworkCallback(
-                new NetworkRequest.Builder()
-                        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build(),
-                networkMonitorCallback);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            cm.registerNetworkCallback(
+                    new NetworkRequest.Builder()
+                            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build(),
+                    networkMonitorCallback);
+        }
 
         // Setup house holding
         Intent alarmIntent = new Intent(this, ServiceSinkhole.class);
@@ -2625,8 +2626,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 registeredConnectivityChanged = false;
             }
 
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            cm.unregisterNetworkCallback(networkMonitorCallback);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                cm.unregisterNetworkCallback(networkMonitorCallback);
+            }
 
             if (phone_state) {
                 TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
