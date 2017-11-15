@@ -1893,7 +1893,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         if (prefs.getBoolean("log", false) || prefs.getBoolean("log_app", false))
             if (packet.protocol != 6 /* TCP */ || !"".equals(packet.flags))
-                logPacket(packet);
+                if (packet.uid != Process.myUid())
+                    logPacket(packet);
 
         return allowed;
     }
