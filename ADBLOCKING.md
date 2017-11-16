@@ -19,6 +19,7 @@ Troubleshooting:
 Because of routing bugs, some devices/Android versions require:
 
 * the advanced option *Manage system applications* to be enabled and/or
+* the network option *Subnet routing* to be disabled and/or
 * two (not just one) custom DNS server addresses to be set in the advanced options
 
 <br />
