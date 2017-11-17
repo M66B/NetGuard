@@ -428,6 +428,13 @@ public class Util {
         return (api.isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS);
     }
 
+    public static boolean hasXposed(Context context) {
+        for (StackTraceElement ste : Thread.currentThread().getStackTrace())
+            if (ste.getClassName().startsWith("de.robv.android.xposed"))
+                return true;
+        return false;
+    }
+
     public static String getFingerprint(Context context) {
         try {
             PackageManager pm = context.getPackageManager();

@@ -130,13 +130,12 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
 
         // Check for Xposed
-        for (StackTraceElement ste : Thread.currentThread().getStackTrace())
-            if (ste.getClassName().startsWith("de.robv.android.xposed")) {
-                Log.i(TAG, "Xposed running");
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.xposed);
-                return;
-            }
+        if (Util.hasXposed(this)) {
+            Log.i(TAG, "Xposed running");
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.xposed);
+            return;
+        }
 
         Util.setTheme(this);
         super.onCreate(savedInstanceState);
@@ -427,6 +426,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Util.logExtras(intent);
         super.onNewIntent(intent);
 
+        if (Build.VERSION.SDK_INT < MIN_SDK || Util.hasXposed(this))
+            return;
+
         setIntent(intent);
 
         if (Build.VERSION.SDK_INT >= MIN_SDK) {
@@ -441,6 +443,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onResume() {
         Log.i(TAG, "Resume");
+
+        if (Build.VERSION.SDK_INT < MIN_SDK || Util.hasXposed(this)) {
+            super.onResume();
+            return;
+        }
 
         DatabaseHelper.getInstance(this).addAccessChangedListener(accessChangedListener);
         if (adapter != null)
@@ -460,6 +467,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Log.i(TAG, "Pause");
         super.onPause();
 
+        if (Build.VERSION.SDK_INT < MIN_SDK || Util.hasXposed(this))
+            return;
+
         DatabaseHelper.getInstance(this).removeAccessChangedListener(accessChangedListener);
 
         disableAds();
@@ -470,6 +480,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Log.i(TAG, "Config");
         super.onConfigurationChanged(newConfig);
 
+        if (Build.VERSION.SDK_INT < MIN_SDK || Util.hasXposed(this))
+            return;
+
         disableAds();
         if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
             enableAds();
@@ -479,7 +492,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public void onDestroy() {
         Log.i(TAG, "Destroy");
 
-        if (Build.VERSION.SDK_INT < MIN_SDK) {
+        if (Build.VERSION.SDK_INT < MIN_SDK || Util.hasXposed(this)) {
             super.onDestroy();
             return;
         }
