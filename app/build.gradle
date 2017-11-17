@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId = "eu.faircode.netguard"
-        versionName = "2.161"
+        versionName = "2.162"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode = 2017111501
+        versionCode = 2017111701
         archivesBaseName = "NetGuard-v$versionName"
 
         externalNativeBuild {
@@ -49,8 +49,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // https://developer.android.com/topic/libraries/support-library/revisions.html
-    implementation 'com.android.support:appcompat-v7:27.+'
-    implementation 'com.android.support:recyclerview-v7:27.+'
+    implementation 'com.android.support:appcompat-v7:27.0.+'
+    implementation 'com.android.support:recyclerview-v7:27.0.+'
 
     // https://developers.google.com/android/guides/setup
     implementation 'com.google.android.gms:play-services-base:11.6.+'
