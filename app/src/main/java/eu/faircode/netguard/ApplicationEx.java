@@ -46,11 +46,14 @@ public class ApplicationEx extends Application {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                if (Util.isPlayStoreInstall(ApplicationEx.this))
+                if (Util.ownFault(ApplicationEx.this, ex)
+                        && Util.isPlayStoreInstall(ApplicationEx.this)) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     mPrevHandler.uncaughtException(thread, ex);
-                else
+                } else {
+                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     System.exit(1);
+                }
             }
         });
     }

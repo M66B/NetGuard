@@ -435,6 +435,15 @@ public class Util {
         return false;
     }
 
+    public static boolean ownFault(Context context, Throwable ex) {
+        if (ex.getCause() != null)
+            ex = ex.getCause();
+        for (StackTraceElement ste : ex.getStackTrace())
+            if (ste.getClassName().startsWith(context.getPackageName()))
+                return true;
+        return false;
+    }
+
     public static String getFingerprint(Context context) {
         try {
             PackageManager pm = context.getPackageManager();
