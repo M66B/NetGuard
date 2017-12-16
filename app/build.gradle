@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion = 27
-    buildToolsVersion = "27.0.1"
+    buildToolsVersion = "27.0.2"
 
     defaultConfig {
         applicationId = "eu.faircode.netguard"
@@ -49,15 +49,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // https://developer.android.com/topic/libraries/support-library/revisions.html
-    implementation 'com.android.support:appcompat-v7:27.0.+'
-    implementation 'com.android.support:recyclerview-v7:27.0.+'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:recyclerview-v7:27.0.2'
 
     // https://developers.google.com/android/guides/setup
-    implementation 'com.google.android.gms:play-services-base:11.6.+'
+    implementation 'com.google.android.gms:play-services-base:11.6.0'
 
     // https://firebase.google.com/docs/android/setup
-    implementation 'com.google.firebase:firebase-core:11.6.+'
-    implementation 'com.google.firebase:firebase-ads:11.6.+'
+    implementation 'com.google.firebase:firebase-core:11.6.0'
+    implementation 'com.google.firebase:firebase-ads:11.6.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

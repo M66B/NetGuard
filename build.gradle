@@ -30,7 +30,7 @@ subprojects {
         resolutionStrategy.eachDependency { details ->
             if (details.requested.group == 'com.android.support'
                     && !details.requested.name.contains('multidex')) {
-                details.useVersion "27.0.1"
+                details.useVersion "27.0.2"
             }
         }
     }
