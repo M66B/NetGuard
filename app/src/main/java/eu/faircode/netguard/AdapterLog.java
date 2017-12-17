@@ -77,7 +77,8 @@ public class AdapterLog extends CursorAdapter {
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
 
-    private ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+    private ExecutorService executor = Executors.newFixedThreadPool(
+            Runtime.getRuntime().availableProcessors());
 
     public AdapterLog(Context context, Cursor cursor, boolean resolve, boolean organization) {
         super(context, cursor, 0);

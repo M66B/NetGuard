@@ -95,7 +95,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private List<Rule> listAll = new ArrayList<>();
     private List<Rule> listFiltered = new ArrayList<>();
 
-    private ExecutorService executor = Executors.newCachedThreadPool();
+    private ExecutorService executor = Executors.newFixedThreadPool(
+            Runtime.getRuntime().availableProcessors());
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
