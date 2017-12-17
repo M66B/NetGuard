@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard nabízí jednoduché i pokročilé způsoby pro blokování přístupu k Internetu - vše bez potřeby rootu. Aplikacím a adresám lze individuálně povolit či zakázat přístup k Vašemu Wi-Fi a/nebo datovému připojení.</string>
   <string name="app_copyright">Copyright \u00A9 2015–2017 M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requires Android 5.1 or later</string>
+  <string name="app_android">NetGuard vyžaduje Android 5.1 nebo novější</string>
   <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
   <string name="app_license">Používáním aplikace NetGuard souhlasíte s <a href="http://www.gnu.org/licenses/gpl.txt">Obecnou veřejnou licencí GNU verze 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
@@ -13,7 +13,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="app_admob">NetGuard využívá reklamní službu AdMob od Google. Zásady ochrany soukromí AdMob jsou k dispozici <a href="https://www.google.com/intl/en/policies/privacy/">zde</a>.</string>
   <string name="app_agree">Souhlasím</string>
   <string name="app_disagree">Nesouhlasím</string>
-  <string name="channel_foreground">Running services</string>
+  <string name="channel_foreground">Spuštěné služby</string>
   <string name="channel_notify">General notifications</string>
   <string name="channel_access">Access notifications</string>
   <string name="menu_search">Hledat aplikaci</string>
@@ -77,10 +77,10 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_metered_3g">Považovat 3G za neomezené</string>
   <string name="setting_metered_4g">Považovat LTE za neomezené</string>
   <string name="setting_national_roaming">Ignorovat vnitrostátní roaming</string>
-  <string name="setting_eu_roaming">Ignore EU roaming</string>
-  <string name="setting_call">Disable on call</string>
-  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
-  <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_eu_roaming">Ignorovat EU roaming</string>
+  <string name="setting_call">Vypnout během hovoru</string>
+  <string name="setting_lockdown_wifi">Blokovat provoz přes Wi-Fi</string>
+  <string name="setting_lockdown_other">Blokovat provoz přes mobilni data</string>
   <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
   <string name="setting_advanced_options">Pokročilé možnosti</string>
   <string name="setting_system">Spravovat systémové aplikace</string>
@@ -88,17 +88,17 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="setting_access">Upozornění na připojení k Internetu</string>
   <string name="setting_filter">Filtrovat komunikaci</string>
   <string name="setting_clear_onreload">Close connections on reload</string>
-  <string name="setting_lockdown">Lockdown traffic</string>
+  <string name="setting_lockdown">Blokovat veškerý provoz</string>
   <string name="setting_track_usage">Sledovat využití sítě</string>
   <string name="setting_reset_usage">Resetovat využití sítě</string>
   <string name="setting_show_resolved">Zobrazit přeložená jména domén</string>
   <string name="setting_block_domains">Blokovat názvy domén</string>
-  <string name="setting_rcode">DNS response code: %s</string>
+  <string name="setting_rcode">Kód odpovědi DNS: %s</string>
   <string name="setting_forwarding">Přesměrování portů</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
-  <string name="setting_ttl">Minimum DNS TTL: %s s</string>
+  <string name="setting_ttl">Minimální DNS TTL: %s s</string>
   <string name="setting_socks5_enabled">Použít SOCKS5 proxy</string>
   <string name="setting_socks5_addr">SOCKS5 adresa: %s</string>
   <string name="setting_socks5_port">SOCKS5 port: %s</string>
@@ -136,7 +136,7 @@ přesto není možné zaručit jeho bezchybné fungování na každém zařízen
   <string name="summary_metered_3g">Použít pravidla Wi-Fi pro 3G datová spojení</string>
   <string name="summary_metered_4g">Použít pravidla Wi-Fi pro LTE datová spojení</string>
   <string name="summary_national_roaming">Nepoužívat pravidla pro roaming, pokud je SIM a země mobilní sítě totožná</string>
-  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+  <string name="summary_eu_roaming">Nepoužívat pravidla pro roaming, pokud je SIM a mobilní síť v zemích EU (roam like at home - v roamingu ceny jako doma)</string>
   <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
   <string name="summary_system">Definovat pravidla pro systémové aplikace (pro odborníky)</string>
   <string name="summary_log_app">Zaznamenávat do protokolu pokusy aplikací o přístup k internetu. Může mít vliv na spotřebu baterie.</string>
@@ -233,7 +233,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_notify">Upozorňovat na pokusy o přístup k internetu</string>
   <string name="title_logging_disabled">Logging or filtering is not enabled</string>
   <string name="title_logging_enabled">Logging and filtering are enabled</string>
-  <string name="title_logging_configure">Configure</string>
+  <string name="title_logging_configure">Nastavit</string>
   <string name="title_enable_logging">Enable logging of blocked addresses only</string>
   <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
   <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
@@ -243,10 +243,10 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_rate">Ohodnotit</string>
   <string name="title_allow">Povolit</string>
   <string name="title_block">Blokovat</string>
-  <string name="title_allow_wifi">Allow Wi-Fi</string>
-  <string name="title_block_wifi">Block Wi-Fi</string>
-  <string name="title_allow_other">Allow mobile</string>
-  <string name="title_block_other">Block mobile</string>
+  <string name="title_allow_wifi">Povolit Wi-Fi</string>
+  <string name="title_block_wifi">Blokovat Wi-Fi</string>
+  <string name="title_allow_other">Povolit mobilní data</string>
+  <string name="title_block_other">Blokovat mobilní data</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">nikdo</string>
@@ -264,7 +264,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_pro_dev">Podpořit vývoj</string>
   <string name="title_pro_buy">Zakoupit</string>
   <string name="title_pro_bought">Povoleno</string>
-  <string name="title_pro_unavailable">Unavailable</string>
+  <string name="title_pro_unavailable">Nedostupné</string>
   <string name="title_pro_details">Stiskněte název pro více informací</string>
   <string name="title_pro_ads">Zakoupením libovolné PRO funkce zakážete veškerou reklamu</string>
   <string name="title_pro_challenge">Výzva</string>
