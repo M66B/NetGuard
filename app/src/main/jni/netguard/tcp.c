@@ -181,7 +181,7 @@ int get_receive_buffer(const struct ng_session *cur) {
     // /proc/sys/net/core/wmem_default
     int sendbuf = 0;
     int sendbufsize = sizeof(sendbuf);
-    if (getsockopt(cur->socket, SOL_SOCKET, SO_SNDBUF, &sendbuf, &sendbufsize) < 0)
+    if (getsockopt(cur->socket, SOL_SOCKET, SO_SNDBUF, &sendbuf, (socklen_t *) &sendbufsize) < 0)
         log_android(ANDROID_LOG_WARN, "getsockopt SO_RCVBUF %d: %s", errno, strerror(errno));
 
     if (sendbuf == 0)
