@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId = "eu.faircode.netguard"
-        versionName = "2.165"
+        versionName = "2.166"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode = 2017121701
+        versionCode = 2017122001
         archivesBaseName = "NetGuard-v$versionName"
 
         externalNativeBuild {
@@ -21,7 +21,8 @@ android {
         }
 
         ndk {
-            abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'mips'
+            // https://developer.android.com/ndk/guides/abis.html#sa
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
         }
     }
 
