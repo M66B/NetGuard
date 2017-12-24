@@ -1916,39 +1916,48 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             executor.submit(new Runnable() {
                 @Override
                 public void run() {
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-                    int delay;
-                    try {
-                        delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
-                    } catch (NumberFormatException ignored) {
-                        delay = 0;
-                    }
-                    boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
-
                     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                     Intent i = new Intent(ACTION_SCREEN_OFF_DELAYED);
                     i.setPackage(context.getPackageName());
                     PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
                     am.cancel(pi);
 
-                    if (interactive || delay == 0) {
-                        last_interactive = interactive;
-                        reload("interactive state changed", ServiceSinkhole.this, true);
-                    } else {
-                        if (ACTION_SCREEN_OFF_DELAYED.equals(intent.getAction())) {
+                    try {
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                        int delay;
+                        try {
+                            delay = Integer.parseInt(prefs.getString("screen_delay", "0"));
+                        } catch (NumberFormatException ignored) {
+                            delay = 0;
+                        }
+                        boolean interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
+
+                        if (interactive || delay == 0) {
                             last_interactive = interactive;
                             reload("interactive state changed", ServiceSinkhole.this, true);
                         } else {
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-                                am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
-                            else
-                                am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
+                            if (ACTION_SCREEN_OFF_DELAYED.equals(intent.getAction())) {
+                                last_interactive = interactive;
+                                reload("interactive state changed", ServiceSinkhole.this, true);
+                            } else {
+                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+                                    am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
+                                else
+                                    am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, new Date().getTime() + delay * 60 * 1000L, pi);
+                            }
                         }
-                    }
 
-                    // Start/stop stats
-                    statsHandler.sendEmptyMessage(
-                            Util.isInteractive(ServiceSinkhole.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
+                        // Start/stop stats
+                        statsHandler.sendEmptyMessage(
+                                Util.isInteractive(ServiceSinkhole.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
+                    } catch (Throwable ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+                            am.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + 15 * 1000L, pi);
+                        else
+                            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, new Date().getTime() + 15 * 1000L, pi);
+                    }
                 }
             });
         }
