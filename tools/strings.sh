@@ -1,8 +1,7 @@
 #!/bin/bash
 
-grep -RIl "\<string name=\"title_donate" app/src/main/res | xargs sed -i -e '/title_donate/d'
-grep -RIl "\<string name=\"msg_voluntary" app/src/main/res | xargs sed -i -e '/msg_voluntary/d'
-grep -RIl "\<string name=\"title_thanks" app/src/main/res | xargs sed -i -e '/title_thanks/d'
+grep -RIl "\<string name=\"app_copyright" app/src/main/res | xargs sed -i -e 's/-2017/–2018/g'
+grep -RIl "\<string name=\"app_copyright" app/src/main/res | xargs sed -i -e 's/–2017/–2018/g'
 
 
 #grep -RIl "\<string name=\"setting_import" app/src/main/res | xargs sed -i -e '/setting_import/a\
