@@ -24,12 +24,10 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
@@ -47,8 +45,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class AdapterLog extends CursorAdapter {
     private static String TAG = "NetGuard.Log";
@@ -76,9 +72,6 @@ public class AdapterLog extends CursorAdapter {
     private InetAddress dns2 = null;
     private InetAddress vpn4 = null;
     private InetAddress vpn6 = null;
-
-    private ExecutorService executor = Executors.newFixedThreadPool(
-            Runtime.getRuntime().availableProcessors());
 
     public AdapterLog(Context context, Cursor cursor, boolean resolve, boolean organization) {
         super(context, cursor, 0);
@@ -225,40 +218,11 @@ public class AdapterLog extends CursorAdapter {
             if (info.icon <= 0)
                 ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
             else {
-                ivIcon.setHasTransientState(true);
-                final ApplicationInfo finalInfo = info;
-                executor.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Drawable drawable = context.getPackageManager().getApplicationIcon(finalInfo.packageName);
-                            final Drawable scaledDrawable;
-                            if (drawable instanceof BitmapDrawable) {
-                                Bitmap original = ((BitmapDrawable) drawable).getBitmap();
-                                Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
-                                scaledDrawable = new BitmapDrawable(context.getResources(), scaled);
-                            } else
-                                scaledDrawable = drawable;
-
-                            new Handler(context.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ivIcon.setImageDrawable(scaledDrawable);
-                                    ivIcon.setHasTransientState(false);
-                                }
-                            });
-                        } catch (Throwable ex) {
-                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                            new Handler(context.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ivIcon.setImageDrawable(null);
-                                    ivIcon.setHasTransientState(false);
-                                }
-                            });
-                        }
-                    }
-                });
+                Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
+                GlideApp.with(context)
+                        .load(uri)
+                        .override(iconSize, iconSize)
+                        .into(ivIcon);
             }
         }
 

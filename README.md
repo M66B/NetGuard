@@ -314,14 +314,15 @@ Attribution
 
 NetGuard uses:
 
-* [Android Support Library](https://developer.android.com/tools/support-library/index.html)
+* [Glide](https://bumptech.github.io/glide/)
+* [Android Support Library](https://developer.android.com/tools/support-library/)
 
 License
 -------
 
 [GNU General Public License version 3](http://www.gnu.org/licenses/gpl.txt)
 
-Copyright (c) 2015-2017 Marcel Bokhorst ([M66B](https://contact.faircode.eu/))
+Copyright (c) 2015-2018 Marcel Bokhorst ([M66B](https://contact.faircode.eu/))
 
 All rights reserved
 

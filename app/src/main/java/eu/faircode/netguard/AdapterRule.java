@@ -27,15 +27,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
@@ -69,13 +66,10 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.Adapter";
@@ -94,9 +88,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private boolean live = true;
     private List<Rule> listAll = new ArrayList<>();
     private List<Rule> listFiltered = new ArrayList<>();
-
-    private ExecutorService executor = Executors.newFixedThreadPool(
-            Runtime.getRuntime().availableProcessors());
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -153,8 +144,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public ListView lvAccess;
         public ImageButton btnClearAccess;
         public CheckBox cbNotify;
-
-        public IconLoader iconLoader = null;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -342,8 +331,11 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         if (rule.icon <= 0)
             holder.ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
         else {
-            holder.iconLoader = new IconLoader(holder, rule);
-            executor.submit(holder.iconLoader);
+            Uri uri = Uri.parse("android.resource://" + rule.packageName + "/" + rule.icon);
+            GlideApp.with(context)
+                    .load(uri)
+                    .override(iconSize, iconSize)
+                    .into(holder.ivIcon);
         }
 
         // Show application label
@@ -833,9 +825,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     public void onViewRecycled(ViewHolder holder) {
         super.onViewRecycled(holder);
 
-        if (holder.iconLoader != null)
-            holder.iconLoader.cancel();
-
         CursorAdapter adapter = (CursorAdapter) holder.lvAccess.getAdapter();
         if (adapter != null) {
             Log.i(TAG, "Closing access cursor");
@@ -995,57 +984,5 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     @Override
     public int getItemCount() {
         return listFiltered.size();
-    }
-
-    private class IconLoader implements Runnable {
-        private ViewHolder holder;
-        private Rule rule;
-        private boolean cancelled = false;
-
-        public IconLoader(ViewHolder holder, Rule rule) {
-            this.holder = holder;
-            this.rule = rule;
-            holder.ivIcon.setHasTransientState(true);
-        }
-
-        public void cancel() {
-            if (!cancelled)
-                Log.i(TAG, "Cancelling icon loader");
-            cancelled = true;
-        }
-
-        @Override
-        public void run() {
-            try {
-                if (cancelled)
-                    throw new InterruptedException();
-
-                Drawable drawable = context.getPackageManager().getApplicationIcon(rule.packageName);
-                final Drawable scaledDrawable;
-                if (drawable instanceof BitmapDrawable) {
-                    Bitmap original = ((BitmapDrawable) drawable).getBitmap();
-                    Bitmap scaled = Bitmap.createScaledBitmap(original, iconSize, iconSize, false);
-                    scaledDrawable = new BitmapDrawable(context.getResources(), scaled);
-                } else
-                    scaledDrawable = drawable;
-
-                new Handler(context.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        holder.ivIcon.setImageDrawable(scaledDrawable);
-                        holder.ivIcon.setHasTransientState(false);
-                    }
-                });
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                new Handler(context.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        holder.ivIcon.setImageDrawable(null);
-                        holder.ivIcon.setHasTransientState(false);
-                    }
-                });
-            }
-        }
     }
 }

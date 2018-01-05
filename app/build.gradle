@@ -59,6 +59,9 @@ dependencies {
     // https://firebase.google.com/docs/android/setup
     implementation 'com.google.firebase:firebase-core:11.6.0'
     implementation 'com.google.firebase:firebase-ads:11.6.0'
+
+    implementation 'com.github.bumptech.glide:glide:4.4.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
