@@ -247,6 +247,7 @@
   <string name="title_dontask">Non chiedere di nuovo</string>
   <string name="title_log_whois">Identità %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Funzionalità a pagamento</string>
   <string name="title_pro_description">Le funzionalità aggiuntive seguenti sono disponibili:</string>
   <string name="title_pro_log">Mostra il registro contenente il traffico bloccato</string>

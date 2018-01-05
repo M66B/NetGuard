@@ -252,6 +252,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_dontask">Ne sprašuj več</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Pristanišče %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Profesionalne funkcije</string>
   <string name="title_pro_description">Naslednje profesionalne funkcije so na voljo:</string>
   <string name="title_pro_log">Pogled dnevnika blokiranega prometa</string>

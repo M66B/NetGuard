@@ -251,6 +251,7 @@ namun tidak mungkin menjamin NetGuard akan bekerja dengan benar di setiap perang
   <string name="title_dontask">Jangan tanya lagi</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Fitur pro</string>
   <string name="title_pro_description">Fitur pro berikut tersedia:</string>
   <string name="title_pro_log">Lihat log lalu lintas yang diblokir</string>

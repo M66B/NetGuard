@@ -247,6 +247,7 @@
   <string name="title_dontask">No volver a preguntar</string>
   <string name="title_log_whois">Quién es %1$s</string>
   <string name="title_log_port">Puerto %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Características de pago</string>
   <string name="title_pro_description">Las siguientes características de pago están disponibles:</string>
   <string name="title_pro_log">Ver registro de tráfico bloqueado</string>

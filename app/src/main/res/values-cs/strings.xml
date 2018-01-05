@@ -253,6 +253,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
   <string name="title_dontask">Neptat se znovu</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Pro-funkce</string>
   <string name="title_pro_description">K dispozici jsou následující PRO funkce:</string>
   <string name="title_pro_log">Zobrazit protokol zablokovaného provozu</string>

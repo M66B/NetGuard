@@ -249,6 +249,7 @@
   <string name="title_dontask">पुन: न पूछें</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">पोर्ट %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">प्रो सुविधाओं</string>
   <string name="title_pro_description">निम्न प्रो सुविधाएँ उपलब्ध हैं:</string>
   <string name="title_pro_log">यातायात लॉग देखें ब्लॉक किया गया</string>

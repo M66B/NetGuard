@@ -252,6 +252,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
   <string name="title_dontask">Niet opnieuw vragen</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Poort %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Pro functies</string>
   <string name="title_pro_description">De volgende pro functies zijn beschikbaar:</string>
   <string name="title_pro_log">Weergave van geblokkeerd verkeer</string>

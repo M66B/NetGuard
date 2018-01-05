@@ -254,6 +254,7 @@
   <string name="title_dontask">Don\'t ask again</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">埠 %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">專業版功能</string>
   <string name="title_pro_description">The following pro features are available:</string>
   <string name="title_pro_log">檢視阻擋流量紀錄</string>

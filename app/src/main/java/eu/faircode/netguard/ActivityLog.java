@@ -19,6 +19,8 @@ package eu.faircode.netguard;
     Copyright 2015-2018 by Marcel Bokhorst (M66B)
 */
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -263,6 +265,12 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                                     startActivity(main);
                                 } else
                                     startActivity(new Intent(ActivityLog.this, ActivityPro.class));
+                                return true;
+
+                            case R.id.menu_copy:
+                                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("netguard", dname == null ? daddr : dname);
+                                clipboard.setPrimaryClip(clip);
                                 return true;
 
                             default:

@@ -249,6 +249,7 @@
   <string name="title_dontask">אל תשאל שוב</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">פורט %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">מאפייני גירסת Pro</string>
   <string name="title_pro_description">התכונות הבאות זמינות בגירסת Pro:</string>
   <string name="title_pro_log">צפה ביומן התעבורה החסומה</string>

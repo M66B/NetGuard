@@ -253,6 +253,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
   <string name="title_dontask">قايتا سورىما</string>
   <string name="title_log_whois">كىم %1$s</string>
   <string name="title_log_port">ئېغىز %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Pro نەشر</string>
   <string name="title_pro_description">Pro نەشردە تۆۋەندىكى ئىقتىدار بار:</string>
   <string name="title_pro_log">توسۇلغان تارىخنى كۆرۈش</string>

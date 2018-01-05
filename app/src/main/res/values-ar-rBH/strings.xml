@@ -248,6 +248,7 @@
   <string name="title_dontask">لا تسأل مرة أخرى</string>
   <string name="title_log_whois">بيانات تسجيل اسم النطاق %1$s</string>
   <string name="title_log_port">منفذ %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">ميزات النسخة الكاملة</string>
   <string name="title_pro_description">تتوفر ميزات النسخة الكاملة التالية:</string>
   <string name="title_pro_log">عرض سجل الحركة المحظورة</string>

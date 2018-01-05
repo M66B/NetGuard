@@ -20,6 +20,9 @@
         android:id="@+id/menu_block"
         android:title="@string/title_block" />
     <item
+        android:id="@+id/menu_copy"
+        android:title="@string/title_log_copy" />
+    <item
         android:id="@+id/menu_time"
         android:enabled="false"
         android:title="" />

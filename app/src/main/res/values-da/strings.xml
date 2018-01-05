@@ -252,6 +252,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="title_dontask">Spørg ikke igen</string>
   <string name="title_log_whois">WHOIS %1$s</string>
   <string name="title_log_port">Port %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Pro-funktioner</string>
   <string name="title_pro_description">Følgende Pro-funktioner er tilgængelige:</string>
   <string name="title_pro_log">Se blokeret trafik-log</string>

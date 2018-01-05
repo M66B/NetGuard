@@ -250,6 +250,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_dontask">Não pergunte novamente</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Versão PRO</string>
   <string name="title_pro_description">Os seguintes recursos da versão PRO estão disponíveis:</string>
   <string name="title_pro_log">Visualizar registro de tráfego bloqueado</string>

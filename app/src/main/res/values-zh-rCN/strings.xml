@@ -253,6 +253,7 @@
   <string name="title_dontask">下次不再询问</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">端口 %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">专业版功能</string>
   <string name="title_pro_description">下列专业版功能可用:</string>
   <string name="title_pro_log">查看被拦截流量日志</string>

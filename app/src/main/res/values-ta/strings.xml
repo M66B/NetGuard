@@ -247,6 +247,7 @@
   <string name="title_dontask">மீண்டும் கேட்காதே</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">போர்ட் %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">ப்ரோ அம்சங்கள்</string>
   <string name="title_pro_description">கீழ்கண்ட ப்ரோ அம்சங்கள் உள்ளன:</string>
   <string name="title_pro_log">போக்குவரத்து குறிப்பேட்டு காண் தடுக்கப்பட்டது</string>

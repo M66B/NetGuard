@@ -247,6 +247,7 @@
   <string name="title_dontask">Não voltar a perguntar</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Porta %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Funcionalidades Pro</string>
   <string name="title_pro_description">Os seguintes recursos pro estão disponíveis:</string>
   <string name="title_pro_log">Visualizar registo de tráfego bloqueado</string>

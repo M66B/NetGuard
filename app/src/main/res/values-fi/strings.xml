@@ -247,6 +247,7 @@
   <string name="title_dontask">Älä kysy uudelleen</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Portti %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Pro ominaisuudet</string>
   <string name="title_pro_description">Seuraavat pro ominaisuudet ovat saatavilla:</string>
   <string name="title_pro_log">Näytä estetyn liikenteen loki</string>

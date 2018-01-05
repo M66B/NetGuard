@@ -248,6 +248,7 @@
   <string name="title_dontask">Nicht erneut fragen</string>
   <string name="title_log_whois">Wer ist %1$s</string>
   <string name="title_log_port">Port %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Pro-Funktionen</string>
   <string name="title_pro_description">Die folgenden Pro-Funktionen sind verfügbar:</string>
   <string name="title_pro_log">Protokoll des blockierten Verkehrs anzeigen</string>

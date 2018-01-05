@@ -249,6 +249,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_dontask">Ne kérdezze újra</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Pro funkciók</string>
   <string name="title_pro_description">A következő pro funkciók állnak rendelkezésre:</string>
   <string name="title_pro_log">Letiltott forgalom naplójának megnézése</string>

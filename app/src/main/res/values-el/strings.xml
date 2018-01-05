@@ -247,6 +247,7 @@
   <string name="title_dontask">Να μην ερωτηθώ ξανά</string>
   <string name="title_log_whois">Ποιος είναι %1$s</string>
   <string name="title_log_port">Θύρα %1$d</string>
+  <string name="title_log_copy">Copy</string>
   <string name="title_pro">Δυνατότητες έκδοσης Pro</string>
   <string name="title_pro_description">Διατίθενται οι ακόλουθες δυνατότητες pro:</string>
   <string name="title_pro_log">Προβολή αρχείου καταγραφής μπλοκαρισμένης κυκλοφορίας</string>
