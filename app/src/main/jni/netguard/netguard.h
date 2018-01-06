@@ -73,14 +73,13 @@ struct context {
     pthread_mutex_t lock;
     int pipefds[2];
     int stopping;
-    int tun;
+    int sdk;
     struct ng_session *ng_session;
 };
 
 struct arguments {
     JNIEnv *env;
     jobject instance;
-    int sdk;
     int tun;
     jboolean fwd53;
     jint rcode;
