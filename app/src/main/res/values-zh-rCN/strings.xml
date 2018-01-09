@@ -3,10 +3,10 @@
 <resources>
   <string name="app_description">NetGuard 提供简便且专业的方式阻止网络访问 - 无需 root. 可单独允许或拒绝应用和地址访问您的 Wi-Fi 和/或移动数据连接.</string>
   <string name="app_copyright">版权所有 \u00A9 2015–2018 by M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requires Android 5.1 or later</string>
-  <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
+  <string name="app_android">NetGuard 只支持Android 5.1及以后的版本</string>
+  <string name="app_xposed">Xposed 造成的崩溃太多，可能会导致Google Play商店将NetGuard下架，所以NetGuard 在安装了Xposed系统中无法使用</string>
   <string name="app_license">使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
-  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">隐私政策</a></string>
   <string name="app_first">开发者在开发和测试NetGuard过程中已悉心尽力,
 但开发者无法确保本软件在所有设备上均可正常运行.
 \n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共许可协议第三版</a></string>
@@ -79,26 +79,26 @@
   <string name="setting_national_roaming">忽略全国漫游</string>
   <string name="setting_eu_roaming">Ignore EU roaming</string>
   <string name="setting_call">在通话期间禁用</string>
-  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
-  <string name="setting_lockdown_other">Lockdown mobile</string>
-  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
+  <string name="setting_lockdown_wifi">禁用WiFI</string>
+  <string name="setting_lockdown_other">禁用移动网络</string>
+  <string name="setting_reload_onconnectivity">网络连接变化之后重新加载</string>
   <string name="setting_advanced_options">高级选项</string>
   <string name="setting_system">管理系统应用</string>
   <string name="setting_log_app">网络访问日志</string>
   <string name="setting_access">网络连接通知</string>
   <string name="setting_filter">过滤流量</string>
-  <string name="setting_clear_onreload">Close connections on reload</string>
-  <string name="setting_lockdown">Lockdown traffic</string>
+  <string name="setting_clear_onreload">网络连接变化之后清理连接</string>
+  <string name="setting_lockdown">禁用数据流量</string>
   <string name="setting_track_usage">跟踪网络使用记录</string>
   <string name="setting_reset_usage">重置网络使用记录</string>
   <string name="setting_show_resolved">显示已解析的主机名称</string>
   <string name="setting_block_domains">屏蔽域名</string>
-  <string name="setting_rcode">DNS response code: %s</string>
+  <string name="setting_rcode">DNS 响应吗: %s</string>
   <string name="setting_forwarding">端口转发</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
   <string name="setting_vpn6">VPN IPv6: %s</string>
   <string name="setting_dns">VPN DNS: %s</string>
-  <string name="setting_ttl">Minimum DNS TTL: %s s</string>
+  <string name="setting_ttl">最小 DNS TTL: %s s</string>
   <string name="setting_socks5_enabled">使用 SOCKS5 代理</string>
   <string name="setting_socks5_addr">SOCKS5 地址: %s</string>
   <string name="setting_socks5_port">SOCKS5 端口: %s</string>
@@ -136,15 +136,15 @@
   <string name="summary_metered_3g">将Wi-Fi网络规则应用于3G数据连接</string>
   <string name="summary_metered_4g">将Wi-Fi网络规则应用于LTE数据连接</string>
   <string name="summary_national_roaming">SIM卡与移动网络为相同国家时不使用漫游规则</string>
-  <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
-  <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
+  <string name="summary_eu_roaming">当手机SIM卡和移动网络处于欧盟内部时，不使用漫游规则(欧盟内部没有漫游)</string>
+  <string name="summary_call">在有电话呼叫的过程中，禁用NetGuard,这可以解决一些无法使用的电话的问题</string>
   <string name="summary_system">定义系统应用规则, 仅供专业用户</string>
   <string name="summary_log_app">记录应用程序的网络访问尝试. 这可能会导致额外的电量消耗</string>
   <string name="summary_access">当应用程序试图访问一个新的互联网地址时显示状态栏通知 (过滤禁用时仅通知被阻止网络的访问尝试)</string>
   <string name="summary_filter">筛选经由 VPN 重定向导出的 IP 数据包. 这可能会导致额外电量消耗.</string>
   <string name="summary_track_usage">跟踪每个应用程序和地址发送和接收的字节数. 这可能会导致额外电量消耗.</string>
-  <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
-  <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+  <string name="summary_block_domains">用配置DNS响应码来回复被拦截的域名. 当没有有效host文件时，本开关不会生效.</string>
+  <string name="summary_rcode">默认值是3(NXDOMAIN), 其定义为\'域名不存在\'.</string>
   <string name="summary_socks5_enabled">仅将 TCP 流量导向至代理服务器</string>
   <string name="summary_watchdog">定时检查 NetGuard 运行状况 (输入 0 禁用此选项). 这可能导致额外电量消耗.</string>
   <string name="summary_stats">在状态栏通知中显示网速示意图</string>
@@ -193,7 +193,7 @@
   <string name="msg_start_forward" formatted="false">开始从 %1$s 端口 %2$d 转发至 \'%5$s\' 的 %3$s:%4$d?</string>
   <string name="msg_stop_forward">停止转发 %1$s 端口 %2$d?</string>
   <string name="msg_metered">网络按流量计费</string>
-  <string name="msg_inactive">No active internet connection</string>
+  <string name="msg_inactive">没有活动的互联网连接</string>
   <string name="msg_queue">NetGuard 正忙</string>
   <string name="msg_update">有可用更新, 请点击下载</string>
   <string name="msg_usage">您可以点击应用旁的图标来允许 (绿色) 或禁止 (红色) Wi-Fi 或移动网络连接</string>
@@ -202,16 +202,16 @@
   <string name="msg_system">您可在高级选项中启用管理系统应用</string>
   <string name="msg_issue">请具体描述问题及问题发生的时间:</string>
   <string name="msg_vpn_cancelled">VPN 连接已取消\n您是否对另一个 VPN 设置了始终启用?</string>
-  <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
-  <string name="msg_unavailable">This feature is not available on this Android version</string>
-  <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
-  <string name="title_lockdown_enabled">Traffic is locked down</string>
+  <string name="msg_on">NetGuard打开时关机，开机时会自动开始NetGuard</string>
+  <string name="msg_unavailable">在本机Android 版本上无法使用此功能</string>
+  <string name="msg_always_on">另外一个VPN已经被设置成开机启用</string>
+  <string name="title_lockdown_enabled">数据流量已被禁用</string>
   <string name="title_unmetered_allowed">已允许非按流量计费的网络数据</string>
   <string name="title_unmetered_blocked">已阻止非按流量计费的网络数据</string>
-  <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
+  <string name="title_unmetered_disabled">非计费规则未被应用</string>
   <string name="title_metered_allowed">已允许按流量计费的网络数据</string>
   <string name="title_metered_blocked">已阻止按流量计费的网络数据</string>
-  <string name="title_metered_disabled">Metered rules are not applied</string>
+  <string name="title_metered_disabled">计费规则未被应用</string>
   <string name="title_host_allowed">网络地址已允许</string>
   <string name="title_host_blocked">网络地址已阻止</string>
   <string name="title_interactive_allowed">亮屏时允许</string>
@@ -225,7 +225,7 @@
   <string name="title_screen_other">亮屏时允许移动网络</string>
   <string name="title_roaming_symbol">R</string>
   <string name="title_roaming">漫游时阻止</string>
-  <string name="title_lockdown">Allow in lockdown mode</string>
+  <string name="title_lockdown">在禁用模式模式下允许访问</string>
   <string name="title_related">筛选相关</string>
   <string name="title_access">访问尝试</string>
   <string name="title_precedence">访问规则优先于其他规则</string>
@@ -237,8 +237,8 @@
   <string name="title_enable_logging">只记录拦截过的网址</string>
   <string name="title_enable_filtering">同时筛选准许过的网址进行</string>
   <string name="title_enable_notify">启用对新网址的访问通知</string>
-  <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
-  <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
+  <string name="title_enable_help0">这些设置是会应用到所有应用的全局规则</string>
+  <string name="title_enable_help1">过滤功能对允许和拦截个别地址也是必须的</string>
   <string name="title_enable_help2">启用流量记录或者筛选功能（影响更大）可能将增加电量消耗和影响网速。</string>
   <string name="title_rate">评分</string>
   <string name="title_allow">允许</string>
@@ -248,12 +248,12 @@
   <string name="title_allow_other">允许使用移动数据</string>
   <string name="title_block_other">禁止使用移动数据</string>
   <string name="title_root">root</string>
-  <string name="title_mediaserver">mediaserver</string>
+  <string name="title_mediaserver">媒体服务器</string>
   <string name="title_nobody">没有人</string>
   <string name="title_dontask">下次不再询问</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">端口 %1$d</string>
-  <string name="title_log_copy">Copy</string>
+  <string name="title_log_copy">复制</string>
   <string name="title_pro">专业版功能</string>
   <string name="title_pro_description">下列专业版功能可用:</string>
   <string name="title_pro_log">查看被拦截流量日志</string>
