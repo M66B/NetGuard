@@ -21,6 +21,8 @@ package eu.faircode.netguard;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -756,6 +758,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                     ServiceSinkhole.reload("reset host", context, false);
                                     result = true;
                                     break;
+
+                                case R.id.menu_copy:
+                                    ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("netguard", daddr);
+                                    clipboard.setPrimaryClip(clip);
+                                    return true;
                             }
 
                             if (menu == R.id.menu_allow || menu == R.id.menu_block || menu == R.id.menu_reset)

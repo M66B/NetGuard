@@ -4,25 +4,28 @@
         android:id="@+id/menu_host"
         android:enabled="false"
         android:title="">
-        <menu/>
+        <menu />
     </item>
     <item
         android:id="@+id/menu_whois"
-        android:title=""/>
+        android:title="" />
     <item
         android:id="@+id/menu_port"
-        android:title=""/>
+        android:title="" />
     <item
         android:id="@+id/menu_allow"
-        android:title="@string/title_allow"/>
+        android:title="@string/title_allow" />
     <item
         android:id="@+id/menu_block"
-        android:title="@string/title_block"/>
+        android:title="@string/title_block" />
     <item
         android:id="@+id/menu_reset"
-        android:title="@string/menu_reset"/>
+        android:title="@string/menu_reset" />
+    <item
+        android:id="@+id/menu_copy"
+        android:title="@string/title_log_copy" />
     <item
         android:id="@+id/menu_time"
         android:enabled="false"
-        android:title=""/>
+        android:title="" />
 </menu>
