@@ -249,7 +249,7 @@
   <string name="title_dontask">Надалі не запитувати</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Порт %1$d</string>
-  <string name="title_log_copy">Copy</string>
+  <string name="title_log_copy">Копіювати</string>
   <string name="title_pro">Pro-можливості</string>
   <string name="title_pro_description">Доступно такі розширені (Pro) можливості:</string>
   <string name="title_pro_log">Перегляд звіту заблокованого трафіку</string>

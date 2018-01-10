@@ -250,7 +250,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="title_dontask">Nu intreba din nou</string>
   <string name="title_log_whois">Identitate %1$s</string>
   <string name="title_log_port">Portul %1$d</string>
-  <string name="title_log_copy">Copy</string>
+  <string name="title_log_copy">Copiere</string>
   <string name="title_pro">Caracteristici versiune Pro</string>
   <string name="title_pro_description">Urmatoarele functii avansate sunt disponibile:</string>
   <string name="title_pro_log">Arata jurnalul de trafic</string>
