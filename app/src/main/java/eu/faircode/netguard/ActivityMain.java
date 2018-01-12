@@ -130,7 +130,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         }
 
         // Check for Xposed
-        if (Util.isPlayStoreInstall(this) && Util.hasXposed(this)) {
+        if (Util.hasXposed(this)) {
             Log.i(TAG, "Xposed running");
             super.onCreate(savedInstanceState);
             setContentView(R.layout.xposed);
