@@ -821,7 +821,7 @@ jboolean handle_tcp(const struct arguments *args,
 
             if (!tcphdr->syn)
                 cur->tcp.time = time(NULL);
-            cur->tcp.send_window = ntohs(tcphdr->window) << cur->tcp.send_scale;
+            cur->tcp.send_window = ((uint32_t) ntohs(tcphdr->window)) << cur->tcp.send_scale;
 
             // Do not change the order of the conditions
 
