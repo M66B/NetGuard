@@ -252,7 +252,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="title_dontask">Tekrar sorma</string>
   <string name="title_log_whois">Whois %1$s</string>
   <string name="title_log_port">Port %1$d</string>
-  <string name="title_log_copy">Copy</string>
+  <string name="title_log_copy">Kopyala</string>
   <string name="title_pro">Pro özellikleri</string>
   <string name="title_pro_description">Pro sürümde aşağıdaki özellikler mevcuttur:</string>
   <string name="title_pro_log">Engellenmiş trafik kayıtları</string>
