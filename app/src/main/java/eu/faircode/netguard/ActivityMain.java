@@ -283,8 +283,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Application list
         RecyclerView rvApplication = findViewById(R.id.rvApplication);
-        rvApplication.setHasFixedSize(true);
-        rvApplication.setLayoutManager(new LinearLayoutManager(this));
+        rvApplication.setHasFixedSize(false);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setAutoMeasureEnabled(true);
+        rvApplication.setLayoutManager(llm);
         adapter = new AdapterRule(this);
         rvApplication.setAdapter(adapter);
 
