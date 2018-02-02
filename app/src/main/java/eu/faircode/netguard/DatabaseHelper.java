@@ -922,7 +922,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += " LEFT JOIN dns AS d";
             query += "   ON d.qname = a.daddr";
             query += " WHERE a.block >= 0";
-            query += " AND d.time + d.ttl >= " + now;
+            query += " AND (d.time IS NULL OR d.time + d.ttl >= " + now + ")";
             if (dname != null)
                 query += " AND a.daddr = ?";
 

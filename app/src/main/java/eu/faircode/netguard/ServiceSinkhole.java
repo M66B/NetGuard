@@ -1577,11 +1577,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             int version = cursor.getInt(colVersion);
             int protocol = cursor.getInt(colProtocol);
             String daddr = cursor.getString(colDAddr);
-            String dresource = cursor.getString(colResource);
+            String dresource = (cursor.isNull(colResource) ? null : cursor.getString(colResource));
             int dport = cursor.getInt(colDPort);
             boolean block = (cursor.getInt(colBlock) > 0);
-            long time = cursor.getLong(colTime);
-            long ttl = cursor.getLong(colTTL);
+            long time = (cursor.isNull(colTime) ? new Date().getTime() : cursor.getLong(colTime));
+            long ttl = (cursor.isNull(colTTL) ? 7 * 24 * 3600 * 1000L : cursor.getLong(colTTL));
 
             if (isLockedDown(last_metered)) {
                 String[] pkg = getPackageManager().getPackagesForUid(uid);
