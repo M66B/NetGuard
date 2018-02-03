@@ -1026,6 +1026,11 @@ int open_tcp_socket(const struct arguments *args,
     if (protect_socket(args, sock) < 0)
         return -1;
 
+    int on = 1;
+    if (setsockopt(sock, SOL_TCP, TCP_NODELAY, &on, sizeof(on)) < 0)
+        log_android(ANDROID_LOG_ERROR, "setsockopt TCP_NODELAY error %d: %s",
+                    errno, strerror(errno));
+
     // Set non blocking
     int flags = fcntl(sock, F_GETFL, 0);
     if (flags < 0 || fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) {
