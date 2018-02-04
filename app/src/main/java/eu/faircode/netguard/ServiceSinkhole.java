@@ -84,6 +84,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.Inet4Address;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.InterfaceAddress;
@@ -1605,14 +1606,20 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     mapUidIPFilters.put(key, new HashMap());
 
                 try {
-                    if (dname != null)
-                        Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
                     String name = (dresource == null ? daddr : dresource);
                     if (Util.isNumericAddress(name)) {
                         InetAddress iname = InetAddress.getByName(name);
+                        if (version == 4 && !(iname instanceof Inet4Address))
+                            continue;
+                        if (version == 6 && !(iname instanceof Inet6Address))
+                            continue;
+
+                        //if (dname != null)
+                        Log.i(TAG, "Set filter uid=" + uid + " " + daddr + " " + dresource + "/" + dport + "=" + block);
+
                         boolean exists = mapUidIPFilters.get(key).containsKey(iname);
                         if (!exists || !mapUidIPFilters.get(key).get(iname).isBlocked()) {
-                            IPRule rule = new IPRule(block, time + ttl);
+                            IPRule rule = new IPRule(name + "/" + iname, block, time + ttl);
                             mapUidIPFilters.get(key).put(iname, rule);
                             if (exists)
                                 Log.w(TAG, "Address conflict uid=" + uid + " " + daddr + " " + dresource + "/" + dport);
@@ -1856,11 +1863,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         if (map != null && map.containsKey(iaddr)) {
                             IPRule rule = map.get(iaddr);
                             if (rule.isExpired())
-                                Log.i(TAG, "DNS expired " + packet);
+                                Log.i(TAG, "DNS expired " + packet + " rule " + rule);
                             else {
                                 filtered = true;
                                 packet.allowed = !rule.isBlocked();
-                                Log.i(TAG, "Filtering " + packet);
+                                Log.i(TAG, "Filtering " + packet +
+                                        " allowed=" + packet.allowed + " rule " + rule);
                             }
                         }
                     } catch (UnknownHostException ex) {
@@ -3050,10 +3058,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     private class IPRule {
+        private String name;
         private boolean block;
         private long expires;
 
-        public IPRule(boolean block, long expires) {
+        public IPRule(String name, boolean block, long expires) {
+            this.name = name;
             this.block = block;
             this.expires = expires;
         }
@@ -3074,6 +3084,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         public boolean equals(Object obj) {
             IPRule other = (IPRule) obj;
             return (this.block == other.block && this.expires == other.expires);
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
         }
     }
 
