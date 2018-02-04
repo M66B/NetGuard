@@ -287,7 +287,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setAutoMeasureEnabled(true);
         rvApplication.setLayoutManager(llm);
-        adapter = new AdapterRule(this);
+        adapter = new AdapterRule(this, findViewById(R.id.vwPopupAnchor));
         rvApplication.setAdapter(adapter);
 
         // Swipe to refresh

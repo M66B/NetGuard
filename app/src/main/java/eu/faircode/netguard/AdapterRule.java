@@ -20,7 +20,6 @@ package eu.faircode.netguard;
 */
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -79,7 +78,7 @@ import java.util.List;
 public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.Adapter";
 
-    private Activity context;
+    private View anchor;
     private LayoutInflater inflater;
     private RecyclerView rv;
     private int colorText;
@@ -235,10 +234,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         }
     }
 
-    public AdapterRule(Activity context) {
+    public AdapterRule(Context context, View anchor) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        this.context = context;
+        this.anchor = anchor;
         this.inflater = LayoutInflater.from(context);
 
         if (prefs.getBoolean("dark_theme", false))
@@ -312,6 +311,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Context context = holder.itemView.getContext();
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         // Get rule
@@ -337,7 +337,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             holder.ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
         else {
             Uri uri = Uri.parse("android.resource://" + rule.packageName + "/" + rule.icon);
-            GlideApp.with(context)
+            GlideApp.with(holder.itemView.getContext())
                     .applyDefaultRequestOptions(new RequestOptions().format(DecodeFormat.PREFER_RGB_565))
                     .load(uri)
                     .override(iconSize, iconSize)
@@ -385,7 +385,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 rule.wifi_blocked = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -410,7 +410,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 rule.other_blocked = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -490,7 +490,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 rule.apply = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -509,7 +509,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.screen_wifi = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -528,7 +528,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.screen_other = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -541,7 +541,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @TargetApi(Build.VERSION_CODES.M)
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.roaming = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -560,7 +560,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @TargetApi(Build.VERSION_CODES.M)
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.lockdown = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -681,7 +681,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     long time = cursor.getLong(cursor.getColumnIndex("time"));
                     int block = cursor.getInt(cursor.getColumnIndex("block"));
 
-                    PopupMenu popup = new PopupMenu(context, context.findViewById(R.id.vwPopupAnchor));
+                    PopupMenu popup = new PopupMenu(context, anchor);
                     popup.inflate(R.menu.access);
 
                     popup.getMenu().findItem(R.id.menu_host).setTitle(
@@ -703,8 +703,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     }
                     popup.getMenu().findItem(R.id.menu_host).setEnabled(multiple);
 
-                    markPro(popup.getMenu().findItem(R.id.menu_allow), ActivityPro.SKU_FILTER);
-                    markPro(popup.getMenu().findItem(R.id.menu_block), ActivityPro.SKU_FILTER);
+                    markPro(context, popup.getMenu().findItem(R.id.menu_allow), ActivityPro.SKU_FILTER);
+                    markPro(context, popup.getMenu().findItem(R.id.menu_block), ActivityPro.SKU_FILTER);
 
                     // Whois
                     final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tcpiputils.com/whois-lookup/" + daddr));
@@ -828,7 +828,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 rule.notify = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
     }
@@ -837,6 +837,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     public void onViewRecycled(ViewHolder holder) {
         super.onViewRecycled(holder);
 
+        Context context = holder.itemView.getContext();
         GlideApp.with(context).clear(holder.ivIcon);
 
         CursorAdapter adapter = (CursorAdapter) holder.lvAccess.getAdapter();
@@ -847,7 +848,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         }
     }
 
-    private void markPro(MenuItem menu, String sku) {
+    private void markPro(Context context, MenuItem menu, String sku) {
         if (sku == null || !IAB.isPurchased(sku, context)) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             boolean dark = prefs.getBoolean("dark_theme", false);
@@ -857,7 +858,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         }
     }
 
-    private void updateRule(Rule rule, boolean root, List<Rule> listAll) {
+    private void updateRule(Context context, Rule rule, boolean root, List<Rule> listAll) {
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
         SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
@@ -931,7 +932,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         for (Rule modified : listModified)
             listSearch.remove(modified);
         for (Rule modified : listModified)
-            updateRule(modified, false, listSearch);
+            updateRule(context, modified, false, listSearch);
 
         if (root) {
             notifyDataSetChanged();
