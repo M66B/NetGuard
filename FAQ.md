@@ -321,6 +321,8 @@ Some pointers on how to set up AFWall+ to be used simultaneously with NetGuard:
 * if using filtering, when you un/reinstall NetGuard, remember to re-allow NetGuard in AFWall+
 * if using filtering, applications _need_ VPN internet access (check the box to show that option in AFWall+ settings)
 
+This question was community contributed. There is no support on using NetGuard and AFWall+ together.
+
 <a name="FAQ31"></a>
 **(31) Why can some applications be configured as a group only?**
 
