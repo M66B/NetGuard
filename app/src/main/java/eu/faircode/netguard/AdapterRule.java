@@ -837,8 +837,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     public void onViewRecycled(ViewHolder holder) {
         super.onViewRecycled(holder);
 
-        Context context = holder.itemView.getContext();
-        GlideApp.with(context).clear(holder.ivIcon);
+        //Context context = holder.itemView.getContext();
+        //GlideApp.with(context).clear(holder.ivIcon);
 
         CursorAdapter adapter = (CursorAdapter) holder.lvAccess.getAdapter();
         if (adapter != null) {
