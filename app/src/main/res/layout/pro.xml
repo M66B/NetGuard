@@ -452,6 +452,7 @@
                 android:id="@+id/etResponse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
                 android:inputType="text"/>
         </LinearLayout>
     </LinearLayout>
