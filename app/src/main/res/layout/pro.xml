@@ -418,42 +418,5 @@
             android:text="@string/title_pro_ads"
             android:textAppearance="@style/TextMedium"
             android:textStyle="italic"/>
-
-        <LinearLayout
-            android:id="@+id/llChallenge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/title_pro_challenge"
-                android:textAppearance="@style/TextMedium"/>
-
-            <TextView
-                android:id="@+id/tvChallenge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_pro_challenge"
-                android:textAppearance="@style/TextMedium"
-                android:textIsSelectable="true"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/title_pro_reponse"
-                android:textAppearance="@style/TextMedium"/>
-
-            <EditText
-                android:id="@+id/etResponse"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:importantForAccessibility="no"
-                android:inputType="text"/>
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

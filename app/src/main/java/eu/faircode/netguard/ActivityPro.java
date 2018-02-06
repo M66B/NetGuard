@@ -25,17 +25,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.regex.Matcher;
@@ -107,41 +110,6 @@ public class ActivityPro extends AppCompatActivity {
         Linkify.addLinks(tvAllTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_PRO1, null, filter);
         Linkify.addLinks(tvDev1Title, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SUPPORT1, null, filter);
         Linkify.addLinks(tvDev2Title, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SUPPORT2, null, filter);
-
-        String android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        String challenge = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? Build.SERIAL : "O3" + android_id);
-        String seed = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? "NetGuard2" : "NetGuard3");
-
-        // Challenge
-        TextView tvChallenge = findViewById(R.id.tvChallenge);
-        tvChallenge.setText(challenge);
-
-        // Response
-        try {
-            final String response = Util.md5(challenge, seed);
-            EditText etResponse = findViewById(R.id.etResponse);
-            etResponse.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    // Do nothing
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    // Do nothing
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    if (response.equals(editable.toString().toUpperCase())) {
-                        IAB.setBought(SKU_DONATION, ActivityPro.this);
-                        updateState();
-                    }
-                }
-            });
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
 
         try {
             iab = new IAB(new IAB.Delegate() {
@@ -239,15 +207,82 @@ public class ActivityPro extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.pro, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 Log.i(TAG, "Up");
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
+            case R.id.menu_challenge:
+                menu_challenge();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (IAB.isPurchased(SKU_DONATION, this) || Util.isPlayStoreInstall(this))
+            menu.removeItem(R.id.menu_challenge);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void menu_challenge() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.challenge, null, false);
+
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .setCancelable(true)
+                .create();
+
+        String android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        String challenge = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? Build.SERIAL : "O3" + android_id);
+        String seed = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? "NetGuard2" : "NetGuard3");
+
+        // Challenge
+        TextView tvChallenge = view.findViewById(R.id.tvChallenge);
+        tvChallenge.setText(challenge);
+
+        // Response
+        try {
+            final String response = Util.md5(challenge, seed);
+            EditText etResponse = view.findViewById(R.id.etResponse);
+            etResponse.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    // Do nothing
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    // Do nothing
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (response.equals(editable.toString().toUpperCase())) {
+                        IAB.setBought(SKU_DONATION, ActivityPro.this);
+                        dialog.dismiss();
+                        invalidateOptionsMenu();
+                        updateState();
+                    }
+                }
+            });
+        } catch (Throwable ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        }
+
+        dialog.show();
     }
 
     @Override
@@ -307,7 +342,6 @@ public class ActivityPro extends AppCompatActivity {
         TextView tvAll = findViewById(R.id.tvAll);
         TextView tvDev1 = findViewById(R.id.tvDev1);
         TextView tvDev2 = findViewById(R.id.tvDev2);
-        LinearLayout llChallenge = findViewById(R.id.llChallenge);
 
         TextView tvLogUnavailable = findViewById(R.id.tvLogUnavailable);
         TextView tvFilterUnavailable = findViewById(R.id.tvFilterUnavailable);
@@ -334,9 +368,5 @@ public class ActivityPro extends AppCompatActivity {
 
         tvLogUnavailable.setVisibility(can ? View.GONE : View.VISIBLE);
         tvFilterUnavailable.setVisibility(can ? View.GONE : View.VISIBLE);
-
-        llChallenge.setVisibility(
-                IAB.isPurchased(SKU_DONATION, this) || Util.isPlayStoreInstall(this)
-                        ? View.GONE : View.VISIBLE);
     }
 }
