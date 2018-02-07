@@ -21,6 +21,8 @@ package eu.faircode.netguard;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -95,21 +97,64 @@ public class ActivityPro extends AppCompatActivity {
         TextView tvDev1Title = findViewById(R.id.tvDev1Title);
         TextView tvDev2Title = findViewById(R.id.tvDev2Title);
 
-        Linkify.TransformFilter filter = new Linkify.TransformFilter() {
+        tvLogTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvFilterTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvNotifyTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvSpeedTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvThemeTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvAllTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvDev1Title.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvDev2Title.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
-            public String transformUrl(Matcher match, String url) {
-                return "";
+            public void onClick(View view) {
+                String sku;
+                switch (view.getId()) {
+                    case R.id.tvLogTitle:
+                        sku = SKU_LOG;
+                        break;
+                    case R.id.tvFilterTitle:
+                        sku = SKU_FILTER;
+                        break;
+                    case R.id.tvNotifyTitle:
+                        sku = SKU_NOTIFY;
+                        break;
+                    case R.id.tvSpeedTitle:
+                        sku = SKU_SPEED;
+                        break;
+                    case R.id.tvThemeTitle:
+                        sku = SKU_THEME;
+                        break;
+                    case R.id.tvAllTitle:
+                        sku = SKU_PRO1;
+                        break;
+                    case R.id.tvDev1Title:
+                        sku = SKU_SUPPORT1;
+                        break;
+                    case R.id.tvDev2Title:
+                        sku = SKU_SUPPORT2;
+                        break;
+                    default:
+                        sku = SKU_PRO1;
+                        break;
+                }
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://www.netguard.me/#" + sku));
+                if (intent.resolveActivity(getPackageManager()) != null)
+                    startActivity(intent);
             }
         };
 
-        Linkify.addLinks(tvLogTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_LOG, null, filter);
-        Linkify.addLinks(tvFilterTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_FILTER, null, filter);
-        Linkify.addLinks(tvNotifyTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_NOTIFY, null, filter);
-        Linkify.addLinks(tvSpeedTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SPEED, null, filter);
-        Linkify.addLinks(tvThemeTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_THEME, null, filter);
-        Linkify.addLinks(tvAllTitle, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_PRO1, null, filter);
-        Linkify.addLinks(tvDev1Title, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SUPPORT1, null, filter);
-        Linkify.addLinks(tvDev2Title, Pattern.compile(".*"), "http://www.netguard.me/#" + SKU_SUPPORT2, null, filter);
+        tvLogTitle.setOnClickListener(listener);
+        tvFilterTitle.setOnClickListener(listener);
+        tvNotifyTitle.setOnClickListener(listener);
+        tvSpeedTitle.setOnClickListener(listener);
+        tvThemeTitle.setOnClickListener(listener);
+        tvAllTitle.setOnClickListener(listener);
+        tvDev1Title.setOnClickListener(listener);
+        tvDev2Title.setOnClickListener(listener);
 
         try {
             iab = new IAB(new IAB.Delegate() {
