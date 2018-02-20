@@ -428,7 +428,6 @@ Wildcards to allow/block addresses would have a significant performance and usab
 * ACCESS_WIFI_STATE ('*Wi-Fi connection information*'): to detect Wi-Fi network changes
 * RECEIVE_BOOT_COMPLETED ('*Run at startup*'): to start the firewall when booting the device
 * WAKE_LOCK ('*Prevent device from sleeping*'): to reliably reload rules in the background on connectivity changes
-* READ/WRITE_EXTERNAL_STORAGE ('*Photos/Media/Files*'): to export/import settings on Android versions before 4.4 (KitKat) (there is no need to grant this permission on later Android versions)
 * VIBRATE: to provide vibration feedback on widget tap
 * BILLING: to use in-app billing
 
