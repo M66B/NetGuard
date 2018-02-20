@@ -3,10 +3,10 @@
 <resources>
   <string name="app_description">NetGuard يوفر طرق بسيطة ومتقدمة لمنع الوصول إلى شبكة الإنترنت - لا يلزم الجذر. يمكن السماح أو الرفض بشكل فردي الوصول إلى جهاز الواي فاي أو اتصال الجوال.</string>
   <string name="app_copyright">حــقــوق الــطــبــع والــنــشــر والــتــوزيــع \u00A9 عام 2015–2018 من م. بوخورست (M66B)</string>
-  <string name="app_android">NetGuard requires Android 5.1 or later</string>
+  <string name="app_android">يتطلب NetGuard أندرويد 5.1 أو إصدار أحدث</string>
   <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
   <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
+  <string name="app_privacy"><a href="https://www.netguard.me/privacy/"> سياسة الخصوصية</a></string>
   <string name="app_first">اتخذت عناية كبيرة لتطوير واختبار NetGuard، لكن من المستحيل أن يضمن NetGuard سوف تعمل بشكل صحيح على كل جهاز. \n\nBy باستخدام NetGuard، يمكنك الموافقة على <a href="http://www.gnu.org/licenses/gpl.txt"> رخصة جنو العمومية الإصدار 3</a></string>
   <string name="app_admob">NetGuard يستخدم خدمة Google الإعلان AdMob. سياسة الخصوصية في AdMob يتوفر <a href="https://www.google.com/intl/en/policies/privacy/"> هنا</a>.</string>
   <string name="app_agree">انا أوافق</string>
@@ -79,7 +79,7 @@
   <string name="setting_call">تعطيل أثناء المكالمة</string>
   <string name="setting_lockdown_wifi">أقفل Wi-Fi</string>
   <string name="setting_lockdown_other">تأمين الهاتف</string>
-  <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
+  <string name="setting_reload_onconnectivity">إعادة في كل تغيير للإتّصال</string>
   <string name="setting_advanced_options">خيارات متقدمة</string>
   <string name="setting_system">إدارة تطبيقات النظام</string>
   <string name="setting_log_app">سجل الوصول للإنترنت</string>
@@ -199,7 +199,7 @@
   <string name="msg_vpn_cancelled">لــقــد ألـغــي الإتــصــال عــن طــريــق n/ VPN هــل تــريــد تــكــويــن VPN آخــر حــتــى تــكــون عـلـى إتــصــال دائــم عــن طــريــق VPN ؟</string>
   <string name="msg_on">إيقاف جهازك مع تشغيل NetGuard، سؤدي لعمل NetGuard تلقائياً عند تشغيل الجهاز</string>
   <string name="msg_unavailable">هذه الوظيفة غير متوفرة في هذا الاصدار</string>
-  <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
+  <string name="msg_always_on">يتم تعيين VPN آخر دوماً على VPN</string>
   <string name="title_lockdown_enabled">تم تأمين مرور المعلومات</string>
   <string name="title_unmetered_allowed">الحركة الغير مقاسة مسموحة</string>
   <string name="title_unmetered_blocked">الحركة الغير مقاسة محظورة</string>
@@ -248,7 +248,7 @@
   <string name="title_dontask">لا تسأل مرة أخرى</string>
   <string name="title_log_whois">بيانات تسجيل اسم النطاق %1$s</string>
   <string name="title_log_port">منفذ %1$d</string>
-  <string name="title_log_copy">Copy</string>
+  <string name="title_log_copy">نسخ</string>
   <string name="title_pro">ميزات النسخة الكاملة</string>
   <string name="title_pro_description">تتوفر ميزات النسخة الكاملة التالية:</string>
   <string name="title_pro_log">عرض سجل الحركة المحظورة</string>
