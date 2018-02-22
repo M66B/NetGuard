@@ -1998,7 +1998,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     start("foreground", ServiceSinkhole.this);
                 }
             } else
-                stop("background", ServiceSinkhole.this, false);
+                stop("background", ServiceSinkhole.this, true);
         }
     };
 
