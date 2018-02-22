@@ -637,6 +637,11 @@ I am happy to check what the cause of a crash is and I will fix it whenever poss
 Since logcats are mostly quite large, I will need the exact time of the crash as well.
 If you don't know how to capture a logcat from your PC, please use your favorite search engine to find one of the numerous guides.
 
+<a name="FAQ62"></a>
+**(62) Does NetGuard support multiple device users**
+
+Secondary users or user profiles are not supported by NetGuard because there are often bugs in the Android VPN service related to user switching.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like televisions or vehicles.**

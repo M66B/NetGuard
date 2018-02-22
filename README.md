@@ -22,7 +22,6 @@ Features:
 * Android 5.1 and later supported
 * IPv4/IPv6 TCP/UDP supported
 * Tethering supported
-* Multiple device users supported
 * Optionally allow when screen on
 * Optionally block when roaming
 * Optionally block system applications
