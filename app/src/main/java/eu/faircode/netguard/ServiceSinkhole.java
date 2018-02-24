@@ -115,7 +115,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class ServiceSinkhole extends VpnService implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Service";
 
-    private boolean registeredPowerSave = false;
     private boolean registeredUser = false;
     private boolean registeredIdleState = false;
     private boolean registeredConnectivityChanged = false;
@@ -132,7 +131,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean last_connected = false;
     private boolean last_metered = true;
     private boolean last_interactive = false;
-    private boolean powersaving = false;
 
     private int last_allowed = -1;
     private int last_blocked = -1;
@@ -715,9 +713,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         @Override
         public void handleMessage(Message msg) {
             try {
-                if (powersaving && (msg.what == MSG_PACKET || msg.what == MSG_USAGE))
-                    return;
-
                 switch (msg.what) {
                     case MSG_PACKET:
                         log((Packet) msg.obj, msg.arg1, msg.arg2 > 0);
@@ -1946,7 +1941,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
                         // Start/stop stats
                         statsHandler.sendEmptyMessage(
-                                Util.isInteractive(ServiceSinkhole.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
+                                Util.isInteractive(ServiceSinkhole.this) ? MSG_STATS_START : MSG_STATS_STOP);
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
@@ -1957,22 +1952,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     }
                 }
             });
-        }
-    };
-
-    private BroadcastReceiver powerSaveReceiver = new BroadcastReceiver() {
-        @Override
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-        public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
-            Util.logExtras(intent);
-
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            powersaving = pm.isPowerSaveMode();
-            Log.i(TAG, "Power saving=" + powersaving);
-
-            statsHandler.sendEmptyMessage(
-                    Util.isInteractive(ServiceSinkhole.this) && !powersaving ? MSG_STATS_START : MSG_STATS_STOP);
         }
     };
 
@@ -2338,16 +2317,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         logHandler = new LogHandler(logLooper);
         statsHandler = new StatsHandler(statsLooper);
 
-        // Listen for power save mode
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !Util.isPlayStoreInstall(this)) {
-            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-            powersaving = pm.isPowerSaveMode();
-            IntentFilter ifPower = new IntentFilter();
-            ifPower.addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED);
-            registerReceiver(powerSaveReceiver, ifPower);
-            registeredPowerSave = true;
-        }
-
         // Listen for user switches
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             IntentFilter ifUser = new IntentFilter();
@@ -2609,10 +2578,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
 
             // Register in onCreate
-            if (registeredPowerSave) {
-                unregisterReceiver(powerSaveReceiver);
-                registeredPowerSave = false;
-            }
             if (registeredUser) {
                 unregisterReceiver(userReceiver);
                 registeredUser = false;
