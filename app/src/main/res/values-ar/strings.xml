@@ -5,7 +5,7 @@
   <string name="app_copyright">حــقــوق الــطــبــع والــنــشــر والــتــوزيــع \u00A9 عام 2015–2018 من م. بوخورست (M66B)</string>
   <string name="app_android">يتطلب NetGuard أندرويد 5.1 أو إصدار أحدث</string>
   <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
-  <string name="app_license">By using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
+  <string name="app_license">بــإســتــخــدام NetGuard، مــعــنــاه أنــك مــوافــق عــلـى <a href="http://www.gnu.org/licenses/gpl.txt"> رخــصــة BNU الــعــمــومــيــة الــعــامــة الإصــدار 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/"> سياسة الخصوصية</a></string>
   <string name="app_first">اتخذت عناية كبيرة لتطوير واختبار NetGuard، لكن من المستحيل أن يضمن NetGuard سوف تعمل بشكل صحيح على كل جهاز. \n\nBy باستخدام NetGuard، يمكنك الموافقة على <a href="http://www.gnu.org/licenses/gpl.txt"> رخصة جنو العمومية الإصدار 3</a></string>
   <string name="app_admob">NetGuard يستخدم خدمة Google الإعلان AdMob. سياسة الخصوصية في AdMob يتوفر <a href="https://www.google.com/intl/en/policies/privacy/"> هنا</a>.</string>
