@@ -25,7 +25,7 @@
   <string name="menu_sort_uid">Sortare dupa UID</string>
   <string name="menu_sort_data">Sortare dupa traficul de date</string>
   <string name="menu_log">Arată jurnal</string>
-  <string name="menu_settings">Setari</string>
+  <string name="menu_settings">Setări</string>
   <string name="menu_invite">Invită</string>
   <string name="menu_legend">Legenda</string>
   <string name="menu_support">Suport tehnic</string>
@@ -38,9 +38,9 @@
   <string name="menu_resolve">Arată nume domenii</string>
   <string name="menu_organization">Arată organizația</string>
   <string name="menu_pcap_enabled">Activeaza PCAP</string>
-  <string name="menu_pcap_export">Exporta PCAP</string>
+  <string name="menu_pcap_export">Exportă PCAP</string>
   <string name="menu_clear">Curață jurnalul</string>
-  <string name="menu_reset">Reseteaza</string>
+  <string name="menu_reset">Restează</string>
   <string name="menu_add">Adauga</string>
   <string name="menu_delete">Sterge</string>
   <string name="menu_cleanup">Curatare</string>
@@ -50,9 +50,9 @@
   <string name="title_rport">Port destinație</string>
   <string name="title_ruid">Aplicație destinație</string>
   <string name="title_external">Pentru un server extern alegeti \'Proces fara utilizator\'</string>
-  <string name="setting_defaults">Setari implicite</string>
-  <string name="setting_whitelist_wifi">Blocheaza Wi-Fi</string>
-  <string name="setting_whitelist_other">Blocheaza datele mobile</string>
+  <string name="setting_defaults">Setări implicite</string>
+  <string name="setting_whitelist_wifi">Blochează Wi-Fi</string>
+  <string name="setting_whitelist_other">Blochează datele mobile</string>
   <string name="setting_screen_wifi">Permite Wi-Fi cu ecranul pornit</string>
   <string name="setting_screen_other">Permite datele mobile cu ecranul pornit</string>
   <string name="setting_whitelist_roaming">Blochează în roaming</string>
@@ -63,8 +63,8 @@
   <string name="setting_screen_on">Aplica regulile cand \'ecranul este pornit\'</string>
   <string name="setting_auto">Activează automat după %1$s minute</string>
   <string name="setting_delay">Temporizare la oprirea ecranului %1$s minute</string>
-  <string name="setting_update">Verifica actualizari</string>
-  <string name="setting_network_options">Optiuni conexiune</string>
+  <string name="setting_update">Verificați dacă există actualizări</string>
+  <string name="setting_network_options">Opțiuni conexiune</string>
   <string name="setting_subnet">Rutare subretea</string>
   <string name="setting_tethering">Permite partajarea conexiunii</string>
   <string name="setting_lan">Permite acces LAN</string>
@@ -90,7 +90,7 @@
   <string name="setting_track_usage">Urmărește folosirea conexiunii</string>
   <string name="setting_reset_usage">Resetează folosirea conexiunii</string>
   <string name="setting_show_resolved">Arată numele de domenii rezolvate</string>
-  <string name="setting_block_domains">Blocheaza domenii</string>
+  <string name="setting_block_domains">Blochează domenii</string>
   <string name="setting_rcode">Cod de răspuns DNS: %s</string>
   <string name="setting_forwarding">Redirectionare port</string>
   <string name="setting_vpn4">VPN IPv4: %s</string>
