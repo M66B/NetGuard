@@ -41,6 +41,8 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
@@ -221,6 +223,8 @@ public class AdapterLog extends CursorAdapter {
                 Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
                 GlideApp.with(context)
                         .load(uri)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
                         .override(iconSize, iconSize)
                         .into(ivIcon);
             }
