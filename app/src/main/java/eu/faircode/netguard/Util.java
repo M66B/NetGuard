@@ -286,6 +286,11 @@ public class Util {
             dns2 = jni_getprop("net.dns2");
         }
 
+        if (!TextUtils.isEmpty(dns1))
+            dns1 = dns1.split("%")[0];
+        if (!TextUtils.isEmpty(dns2))
+            dns2 = dns2.split("%")[0];
+
         List<String> listDns = new ArrayList<>();
         listDns.add(TextUtils.isEmpty(dns1) ? "8.8.8.8" : dns1);
         listDns.add(TextUtils.isEmpty(dns2) ? "8.8.4.4" : dns2);

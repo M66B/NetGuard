@@ -40,7 +40,7 @@
   <string name="menu_pcap_enabled">Activeaza PCAP</string>
   <string name="menu_pcap_export">Exportă PCAP</string>
   <string name="menu_clear">Curață jurnalul</string>
-  <string name="menu_reset">Restează</string>
+  <string name="menu_reset">Resetează</string>
   <string name="menu_add">Adauga</string>
   <string name="menu_delete">Sterge</string>
   <string name="menu_cleanup">Curatare</string>
