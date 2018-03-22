@@ -61,6 +61,8 @@
 #define SESSION_MAX 255 // number
 #define SESSION_LIMIT 30 // percent
 
+#define SEND_BUF_DEFAULT 163840 // bytes
+
 #define UID_MAX_AGE 30000 // milliseconds
 
 #define SOCKS5_NONE 1

@@ -173,6 +173,7 @@ uint32_t get_send_window(const struct tcp_session *cur) {
     else
         behind = (0x10000 + cur->local_seq - cur->acked);
     uint32_t window = (behind < cur->send_window ? cur->send_window - behind : 0);
+
     return window;
 }
 
@@ -188,14 +189,14 @@ int get_receive_buffer(const struct ng_session *cur) {
         log_android(ANDROID_LOG_WARN, "getsockopt SO_RCVBUF %d: %s", errno, strerror(errno));
 
     if (sendbuf == 0)
-        sendbuf = 16384; // Safe default
+        sendbuf = SEND_BUF_DEFAULT;
 
     // Get unsent data size
     int unsent = 0;
     if (ioctl(cur->socket, SIOCOUTQ, &unsent))
         log_android(ANDROID_LOG_WARN, "ioctl SIOCOUTQ %d: %s", errno, strerror(errno));
 
-    return (unsent < sendbuf / 2 ? sendbuf / 2 - unsent : 0);
+    return (unsent < sendbuf ? sendbuf - unsent : 0);
 }
 
 uint32_t get_receive_window(const struct ng_session *cur) {
