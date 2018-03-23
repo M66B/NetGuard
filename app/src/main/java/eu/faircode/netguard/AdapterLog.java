@@ -223,8 +223,8 @@ public class AdapterLog extends CursorAdapter {
                 Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
                 GlideApp.with(context)
                         .load(uri)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
+                        //.diskCacheStrategy(DiskCacheStrategy.NONE)
+                        //.skipMemoryCache(true)
                         .override(iconSize, iconSize)
                         .into(ivIcon);
             }
