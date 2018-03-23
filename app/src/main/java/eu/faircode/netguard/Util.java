@@ -443,6 +443,8 @@ public class Util {
     }
 
     public static boolean ownFault(Context context, Throwable ex) {
+        if (ex instanceof OutOfMemoryError)
+            return false;
         if (ex.getCause() != null)
             ex = ex.getCause();
         for (StackTraceElement ste : ex.getStackTrace())
