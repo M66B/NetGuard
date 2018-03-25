@@ -58,8 +58,8 @@
 #define TCP_KEEP_TIMEOUT 300 // seconds
 // https://en.wikipedia.org/wiki/Maximum_segment_lifetime
 
-#define SESSION_MAX 255 // number
 #define SESSION_LIMIT 30 // percent
+#define SESSION_MAX (1024 * SESSION_LIMIT / 100) // number
 
 #define SEND_BUF_DEFAULT 163840 // bytes
 
