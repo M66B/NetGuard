@@ -99,7 +99,7 @@ void *handle_events(void *a) {
         struct ng_session *s = args->ctx->ng_session;
         while (s != NULL) {
             if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
-                if (!s->icmp.stop)
+                if (s->icmp.stop <= 0)
                     isessions++;
             } else if (s->protocol == IPPROTO_UDP) {
                 if (s->udp.state == UDP_ACTIVE)
@@ -126,7 +126,7 @@ void *handle_events(void *a) {
                 int del = 0;
                 if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
                     del = check_icmp_session(args, s, sessions, maxsessions);
-                    if (!s->icmp.stop && !del) {
+                    if (s->icmp.stop == 0 && !del) {
                         int stimeout = s->icmp.time +
                                        get_icmp_timeout(&s->icmp, sessions, maxsessions) - now + 1;
                         if (stimeout > 0 && stimeout < timeout)
@@ -282,7 +282,7 @@ void check_allowed(const struct arguments *args) {
     struct ng_session *s = args->ctx->ng_session;
     while (s != NULL) {
         if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
-            if (!s->icmp.stop) {
+            if (s->icmp.stop <= 0) {
                 if (s->icmp.version == 4) {
                     inet_ntop(AF_INET, &s->icmp.saddr.ip4, source, sizeof(source));
                     inet_ntop(AF_INET, &s->icmp.daddr.ip4, dest, sizeof(dest));

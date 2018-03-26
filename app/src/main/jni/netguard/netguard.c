@@ -199,7 +199,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1get_1stats(
     struct ng_session *s = ctx->ng_session;
     while (s != NULL) {
         if (s->protocol == IPPROTO_ICMP || s->protocol == IPPROTO_ICMPV6) {
-            if (!s->icmp.stop)
+            if (s->icmp.stop <= 0)
                 jcount[0]++;
         } else if (s->protocol == IPPROTO_UDP) {
             if (s->udp.state == UDP_ACTIVE)
