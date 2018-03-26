@@ -35,7 +35,7 @@ int check_icmp_session(const struct arguments *args, struct ng_session *s,
     time_t now = time(NULL);
 
     int timeout = get_icmp_timeout(&s->icmp, sessions, maxsessions);
-    if (s->icmp.stop || s->icmp.time + timeout < now) {
+    if (s->icmp.stop > 0 || s->icmp.time + timeout < now) {
         char source[INET6_ADDRSTRLEN + 1];
         char dest[INET6_ADDRSTRLEN + 1];
         if (s->icmp.version == 4) {
@@ -108,8 +108,12 @@ void check_icmp_socket(const struct arguments *args, const struct epoll_event *e
                 // but for some unexplained reason this is not the case
                 // some bits seems to be set extra
                 struct icmp *icmp = (struct icmp *) buffer;
+                const uint8_t isValid = s->icmp.id == icmp->icmp_id;
+                if(isValid) {
+                    s->icmp.stop = -1; //mark as answered
+                }
                 log_android(
-                        s->icmp.id == icmp->icmp_id ? ANDROID_LOG_INFO : ANDROID_LOG_WARN,
+                        isValid ? ANDROID_LOG_INFO : ANDROID_LOG_WARN,
                         "ICMP recv bytes %d from %s for tun type %d code %d id %x/%x seq %d",
                         bytes, dest,
                         icmp->icmp_type, icmp->icmp_code,
@@ -173,7 +177,7 @@ jboolean handle_icmp(const struct arguments *args,
     struct ng_session *cur = args->ctx->ng_session;
     while (cur != NULL &&
            !((cur->protocol == IPPROTO_ICMP || cur->protocol == IPPROTO_ICMPV6) &&
-             !cur->icmp.stop && cur->icmp.version == version &&
+             cur->icmp.stop <= 0 && cur->icmp.version == version &&
              (version == 4 ? cur->icmp.saddr.ip4 == ip4->saddr &&
                              cur->icmp.daddr.ip4 == ip4->daddr
                            : memcmp(&cur->icmp.saddr.ip6, &ip6->ip6_src, 16) == 0 &&
@@ -182,6 +186,7 @@ jboolean handle_icmp(const struct arguments *args,
 
     // Create new session if needed
     if (cur == NULL) {
+posNewSession:
         log_android(ANDROID_LOG_INFO, "ICMP new session from %s to %s", source, dest);
 
         // Register session
@@ -208,6 +213,8 @@ jboolean handle_icmp(const struct arguments *args,
         // Open UDP socket
         s->socket = open_icmp_socket(args, &s->icmp);
         if (s->socket < 0) {
+            log_android(ANDROID_LOG_WARN, "ICMP open fail: id[%x] socket %d error %d: %s"
+                        , s->icmp.id, s->socket, errno, strerror(errno));
             free(s);
             return 0;
         }
@@ -225,6 +232,10 @@ jboolean handle_icmp(const struct arguments *args,
         args->ctx->ng_session = s;
 
         cur = s;
+    } else if(cur->icmp.stop == -1) { //if session is answered reuse that
+        cur->icmp.id = icmp->icmp_id;
+    } else { //else force new session
+        goto posNewSession;
     }
 
     // Modify ID
@@ -273,6 +284,9 @@ jboolean handle_icmp(const struct arguments *args,
             cur->icmp.stop = 1;
             return 0;
         }
+    } else {
+        log_android(ANDROID_LOG_VERBOSE, "ICMP sendto id[%x/%x]"
+                   , cur->icmp.id, icmp->icmp_id);
     }
 
     return 1;

@@ -119,7 +119,7 @@ struct icmp_session {
 
     uint16_t id;
 
-    uint8_t stop;
+    int8_t stop; //three state: 0:false, 1:true, -1:answered
 };
 
 #define UDP_ACTIVE 0
@@ -265,6 +265,7 @@ struct dns_header {
     uint16_t aa :1; // authoritive answer
     uint16_t opcode :4; // purpose of message
     uint16_t qr :1; // query/response flag
+    //next byte (8 bit)
     uint16_t rcode :4; // response code
     uint16_t cd :1; // checking disabled
     uint16_t ad :1; // authenticated data
@@ -276,6 +277,7 @@ struct dns_header {
     uint16_t aa :1; // authoritive answer
     uint16_t tc :1; // truncated message
     uint16_t rd :1; // recursion desired
+    //next byte (8 bit)
     uint16_t ra :1; // recursion available
     uint16_t z :1; // its z! reserved
     uint16_t ad :1; // authenticated data
