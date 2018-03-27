@@ -115,9 +115,9 @@ void check_icmp_socket(const struct arguments *args, const struct epoll_event *e
                         icmp->icmp_type, icmp->icmp_code,
                         s->icmp.id, icmp->icmp_id, icmp->icmp_seq);
 
-                //below hack did cause many problems with working server but if the sever sends
-                //       wrong respond that is not our mistake no need to hack
-                //icmp->icmp_id = s->icmp.id; //hack: restore original ID
+                //restore original ID: without below hack the ICMP response will not get accepted from requestor
+                //       have searched in "SoftEther4" source codes and they this too in "Virtual.c" for ICMP_TYPE_ECHO_RESPONSE
+                icmp->icmp_id = s->icmp.id;
 
                 uint16_t csum = 0;
                 if (s->icmp.version == 6) {
@@ -176,6 +176,7 @@ jboolean handle_icmp(const struct arguments *args,
     while (cur != NULL &&
            !((cur->protocol == IPPROTO_ICMP || cur->protocol == IPPROTO_ICMPV6) &&
              !cur->icmp.stop && cur->icmp.version == version &&
+             cur->icmp.id == icmp->icmp_id &&
              (version == 4 ? cur->icmp.saddr.ip4 == ip4->saddr &&
                              cur->icmp.daddr.ip4 == ip4->daddr
                            : memcmp(&cur->icmp.saddr.ip6, &ip6->ip6_src, 16) == 0 &&
