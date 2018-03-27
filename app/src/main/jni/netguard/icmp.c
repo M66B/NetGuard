@@ -115,10 +115,8 @@ void check_icmp_socket(const struct arguments *args, const struct epoll_event *e
                         icmp->icmp_type, icmp->icmp_code,
                         s->icmp.id, icmp->icmp_id, icmp->icmp_seq);
 
-                //below hack did cause many problems with working server but if the sever sends
-                //       wrong respond that is not our mistake no need to hack
-                //icmp->icmp_id = s->icmp.id; //hack: restore original ID
-
+                // restore original ID
+                icmp->icmp_id = s->icmp.id;
                 uint16_t csum = 0;
                 if (s->icmp.version == 6) {
                     // Untested
