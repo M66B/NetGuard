@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId = "eu.faircode.netguard"
-        versionName = "2.193"
+        versionName = "2.194"
         minSdkVersion 22
         targetSdkVersion 27
-        versionCode = 2018032801
+        versionCode = 2018032901
         archivesBaseName = "NetGuard-v$versionName"
 
         externalNativeBuild {
@@ -54,11 +54,11 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.+'
 
     // https://developers.google.com/android/guides/setup
-    implementation 'com.google.android.gms:play-services-base:12.0.0'
+    implementation 'com.google.android.gms:play-services-base:12.0.1'
 
     // https://firebase.google.com/docs/android/setup
-    implementation 'com.google.firebase:firebase-core:12.0.0'
-    implementation 'com.google.firebase:firebase-ads:12.0.0'
+    implementation 'com.google.firebase:firebase-core:12.0.1'
+    implementation 'com.google.firebase:firebase-ads:12.0.1'
 
     // https://bumptech.github.io/glide/
     implementation 'com.github.bumptech.glide:glide:4.6.1'
