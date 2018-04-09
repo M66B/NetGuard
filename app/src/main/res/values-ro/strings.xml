@@ -23,7 +23,7 @@
   <string name="menu_sort">Sortează aplicațiile</string>
   <string name="menu_sort_name">Sortare după nume</string>
   <string name="menu_sort_uid">Sortare după uid</string>
-  <string name="menu_sort_data">Sortare dupa traficul de date</string>
+  <string name="menu_sort_data">Sortare după traficul de date</string>
   <string name="menu_log">Arată jurnal</string>
   <string name="menu_settings">Setări</string>
   <string name="menu_invite">Invită</string>
@@ -37,11 +37,11 @@
   <string name="menu_refresh">Actualizare</string>
   <string name="menu_resolve">Arată nume domenii</string>
   <string name="menu_organization">Arată organizația</string>
-  <string name="menu_pcap_enabled">Activeaza PCAP</string>
+  <string name="menu_pcap_enabled">Activează PCAP</string>
   <string name="menu_pcap_export">Exportă PCAP</string>
-  <string name="menu_clear">Curață jurnalul</string>
+  <string name="menu_clear">Curăță jurnalul</string>
   <string name="menu_reset">Resetează</string>
-  <string name="menu_add">Adauga</string>
+  <string name="menu_add">Adaugă</string>
   <string name="menu_delete">Şterge</string>
   <string name="menu_cleanup">Curățare</string>
   <string name="title_protocol">Protocol</string>
@@ -118,7 +118,7 @@
   <string name="setting_hosts_download">Descarcă lista de nume de domenii de blocat</string>
   <string name="setting_technical">Informații tehnice</string>
   <string name="setting_technical_general">Generale</string>
-  <string name="setting_technical_networks">Retele</string>
+  <string name="setting_technical_networks">Reţele</string>
   <string name="setting_technical_subscription">Abonamente</string>
   <string name="summary_install">Arată o notificare în bara de stare pentru a configura aplicațiile noi instalate (versiune pro)</string>
   <string name="summary_auto">După dezactivare din widget, activează automat NetGuard după numărul selectat de minute (valoarea zero dezactivează opțiunea)</string>
@@ -185,11 +185,11 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="msg_reset_access">Se vor șterge din jurnal adresele accesate ce nu au fost condiționate cu permite/blochează</string>
   <string name="msg_import_last">Ultima importare: %s</string>
   <string name="msg_downloading">Se descarcă\n%1s</string>
-  <string name="msg_downloaded">Lista de domenii de blocat descarcată</string>
+  <string name="msg_downloaded">Lista de domenii de blocat descărcată</string>
   <string name="msg_download_last">Ultima descărcare: %s</string>
   <string name="msg_start_forward" formatted="false">Pornește redirecționarea de la %1$s port %2$d la %3$s:%4$d al \'%5$s\'?</string>
   <string name="msg_stop_forward">Opreste redirectionarea %1$s port %2$d?</string>
-  <string name="msg_metered">Reteaua este contorizata</string>
+  <string name="msg_metered">Rețeaua este contorizată</string>
   <string name="msg_inactive">Nu există conexiune la internet</string>
   <string name="msg_queue">NetGuard este ocupat</string>
   <string name="msg_update">Actualizare disponibilă, atingeți pentru a descărca</string>
@@ -226,7 +226,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="title_related">Filtrează aplicațiile asociate</string>
   <string name="title_access">Încercări de a accesa</string>
   <string name="title_precedence">Regulile de acces ale acestor adrese au prioritate</string>
-  <string name="title_options">Optiuni</string>
+  <string name="title_options">Opțiuni</string>
   <string name="title_notify">Notifică la încercările de acces la internet</string>
   <string name="title_logging_disabled">Jurnalul sau filtrul de trafic nu sunt activate</string>
   <string name="title_logging_enabled">Jurnalul și filtrul de trafic sunt activate</string>
