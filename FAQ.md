@@ -201,9 +201,9 @@ Disabling doze mode for NetGuard cannot be done from within NetGuard
 because, according to Google, NetGuard is [not an application type allowed to do this](http://developer.android.com/training/monitoring-device-state/doze-standby.html#whitelisting-cases).
 
 <a name="FAQ22"></a>
-**(22) Can I tether / use Wi-Fi calling while using NetGuard?**
+**(22) Can I tether (use the Android hotspot) / use Wi-Fi calling while using NetGuard?**
 
-Yes, but this needs to be enabled in NetGuard's settings.
+Yes, but you'll need to enable subnet routing and tethering in the NetGuard network settings.
 Whether or not it works depends on your Android version
 because some Android versions have a bug preventing tethering and the VPN service working together.
 
