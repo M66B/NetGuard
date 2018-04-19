@@ -195,7 +195,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 popup.getMenu().findItem(R.id.menu_protocol).setTitle(Util.getProtocolName(protocol, version, false));
 
                 // Whois
-                final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tcpiputils.com/whois-lookup/" + ip));
+                final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dnslytics.com/whois-lookup/" + ip));
                 if (pm.resolveActivity(lookupIP, 0) == null)
                     popup.getMenu().removeItem(R.id.menu_whois);
                 else
