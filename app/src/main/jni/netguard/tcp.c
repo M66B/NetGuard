@@ -172,6 +172,7 @@ uint32_t get_send_window(const struct tcp_session *cur) {
         behind = (cur->local_seq - cur->acked);
     else
         behind = (0x10000 + cur->local_seq - cur->acked);
+    behind += (cur->unconfirmed + 1) * 40; // Maximum header size
     uint32_t window = (behind < cur->send_window ? cur->send_window - behind : 0);
 
     return window;
@@ -584,8 +585,10 @@ void check_tcp_socket(const struct arguments *args,
                         s->tcp.received += bytes;
 
                         // Forward to tun
-                        if (write_data(args, &s->tcp, buffer, (size_t) bytes) >= 0)
+                        if (write_data(args, &s->tcp, buffer, (size_t) bytes) >= 0) {
                             s->tcp.local_seq += bytes;
+                            s->tcp.unconfirmed++;
+                        }
                     }
                     free(buffer);
                 }
@@ -711,6 +714,7 @@ jboolean handle_tcp(const struct arguments *args,
             s->tcp.recv_scale = ws;
             s->tcp.send_scale = ws;
             s->tcp.send_window = ((uint32_t) ntohs(tcphdr->window)) << s->tcp.send_scale;
+            s->tcp.unconfirmed = 0;
             s->tcp.remote_seq = ntohl(tcphdr->seq); // ISN remote
             s->tcp.local_seq = (uint32_t) rand(); // ISN local
             s->tcp.remote_start = s->tcp.remote_seq;
@@ -823,6 +827,7 @@ jboolean handle_tcp(const struct arguments *args,
             if (!tcphdr->syn)
                 cur->tcp.time = time(NULL);
             cur->tcp.send_window = ((uint32_t) ntohs(tcphdr->window)) << cur->tcp.send_scale;
+            cur->tcp.unconfirmed = 0;
 
             // Do not change the order of the conditions
 

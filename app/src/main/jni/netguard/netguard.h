@@ -160,6 +160,7 @@ struct tcp_session {
     uint8_t send_scale;
     uint32_t recv_window; // host notation, scaled
     uint32_t send_window; // host notation, scaled
+    uint16_t unconfirmed; // packets
 
     uint32_t remote_seq; // confirmed bytes received, host notation
     uint32_t local_seq; // confirmed bytes sent, host notation
