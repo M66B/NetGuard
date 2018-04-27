@@ -20,7 +20,7 @@ Because of routing bugs, some devices/Android versions require:
 
 * the advanced option *Manage system applications* to be enabled and/or
 * the network option *Subnet routing* to be disabled and/or
-* two (not just one) remote DNS server addresses to be set in the advanced options
+* two (not just one) DNS server addresses to be set in the advanced options, for example 8.8.8.8 and 8.8.4.4
 
 <br />
 
