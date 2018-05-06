@@ -339,8 +339,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         registerReceiver(packageChangedReceiver, intentFilter);
 
         // First use
-        boolean admob = prefs.getBoolean("admob", false);
-        if (!initialized || !admob) {
+        if (!initialized) {
             // Create view
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.first, null, false);
@@ -361,7 +360,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         public void onClick(DialogInterface dialog, int which) {
                             if (running) {
                                 prefs.edit().putBoolean("initialized", true).apply();
-                                prefs.edit().putBoolean("admob", true).apply();
+                                initAds();
                             }
                         }
                     })
@@ -414,9 +413,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
-
-        // Initialize ads
-        initAds();
 
         // Handle intent
         checkExtras(getIntent());
