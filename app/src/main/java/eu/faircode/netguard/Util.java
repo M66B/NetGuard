@@ -57,9 +57,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -426,11 +423,6 @@ public class Util {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             return false;
         }
-    }
-
-    public static boolean hasPlayServices(Context context) {
-        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
-        return (api.isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS);
     }
 
     public static boolean hasXposed(Context context) {

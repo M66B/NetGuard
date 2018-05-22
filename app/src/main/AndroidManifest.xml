@@ -21,14 +21,6 @@
 
     <uses-permission android:name="eu.faircode.netguard.permission.ADMIN" />
 
-    <!-- Firebase -->
-    <uses-permission
-        android:name="com.google.android.c2dm.permission.RECEIVE"
-        tools:node="remove" />
-    <uses-permission
-        android:name="eu.faircode.netguard.permission.C2D_MESSAGE"
-        tools:node="remove" />
-
     <uses-feature
         android:name="android.hardware.wifi"
         android:required="false" />
@@ -54,12 +46,6 @@
         android:theme="@style/AppThemeTeal"
         tools:ignore="ManifestResource">
 
-        <meta-data
-            android:name="firebase_analytics_collection_deactivated"
-            android:value="true" />
-        <meta-data
-            android:name="firebase_crash_collection_enabled"
-            android:value="false" />
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />

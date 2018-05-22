@@ -33,7 +33,6 @@ import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -47,13 +46,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ImageSpan;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -67,15 +64,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
 
@@ -339,18 +329,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         registerReceiver(packageChangedReceiver, intentFilter);
 
         // First use
-        boolean admob = prefs.getBoolean("admob", false);
-        if (!initialized || !admob) {
+        if (!initialized) {
             // Create view
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.first, null, false);
 
             TextView tvFirst = view.findViewById(R.id.tvFirst);
             TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
-            TextView tvAdmob = view.findViewById(R.id.tvAdmob);
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
             tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
-            tvAdmob.setMovementMethod(LinkMovementMethod.getInstance());
 
             // Show dialog
             dialogFirst = new AlertDialog.Builder(this)
@@ -361,7 +348,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         public void onClick(DialogInterface dialog, int which) {
                             if (running) {
                                 prefs.edit().putBoolean("initialized", true).apply();
-                                prefs.edit().putBoolean("admob", true).apply();
                             }
                         }
                     })
@@ -415,9 +401,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
 
-        // Initialize ads
-        initAds();
-
         // Handle intent
         checkExtras(getIntent());
     }
@@ -455,12 +438,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (adapter != null)
             adapter.notifyDataSetChanged();
 
-        // Ads
-        if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
-            enableAds();
-        else
-            disableAds();
-
         super.onResume();
     }
 
@@ -473,8 +450,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             return;
 
         DatabaseHelper.getInstance(this).removeAccessChangedListener(accessChangedListener);
-
-        disableAds();
     }
 
     @Override
@@ -484,10 +459,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         if (Build.VERSION.SDK_INT < MIN_SDK || Util.hasXposed(this))
             return;
-
-        disableAds();
-        if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
-            enableAds();
     }
 
     @Override
@@ -927,113 +898,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         });
     }
 
-    private void initAds() {
-        // https://developers.google.com/android/reference/com/google/android/gms/ads/package-summary
-        MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
-
-        final LinearLayout llAd = findViewById(R.id.llAd);
-        TextView tvAd = findViewById(R.id.tvAd);
-        final AdView adView = findViewById(R.id.adView);
-
-        SpannableString content = new SpannableString(getString(R.string.title_pro_ads));
-        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        tvAd.setText(content);
-
-        tvAd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ActivityMain.this, ActivityPro.class));
-            }
-        });
-
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                Log.i(TAG, "Ad loaded");
-                llAd.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                llAd.setVisibility(View.VISIBLE);
-                switch (errorCode) {
-                    case AdRequest.ERROR_CODE_INTERNAL_ERROR:
-                        Log.w(TAG, "Ad load error=INTERNAL_ERROR");
-                        break;
-                    case AdRequest.ERROR_CODE_INVALID_REQUEST:
-                        Log.w(TAG, "Ad load error=INVALID_REQUEST");
-                        break;
-                    case AdRequest.ERROR_CODE_NETWORK_ERROR:
-                        Log.w(TAG, "Ad load error=NETWORK_ERROR");
-                        break;
-                    case AdRequest.ERROR_CODE_NO_FILL:
-                        Log.w(TAG, "Ad load error=NO_FILL");
-                        break;
-                    default:
-                        Log.w(TAG, "Ad load error=" + errorCode);
-                }
-            }
-
-            @Override
-            public void onAdOpened() {
-                Log.i(TAG, "Ad opened");
-            }
-
-            @Override
-            public void onAdClosed() {
-                Log.i(TAG, "Ad closed");
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                Log.i(TAG, "Ad left app");
-            }
-        });
-    }
-
-    private void enableAds() {
-        RelativeLayout rlAd = findViewById(R.id.rlAd);
-        LinearLayout llAd = findViewById(R.id.llAd);
-        final AdView adView = findViewById(R.id.adView);
-
-        rlAd.setVisibility(View.VISIBLE);
-        llAd.setVisibility(View.VISIBLE);
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    AdRequest adRequest = new AdRequest.Builder()
-                            .addTestDevice(getString(R.string.ad_test_device_id))
-                            .build();
-                    adView.loadAd(adRequest);
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-            }
-        }, 1000);
-    }
-
-    private void disableAds() {
-        RelativeLayout rlAd = findViewById(R.id.rlAd);
-        AdView adView = findViewById(R.id.adView);
-
-        rlAd.setVisibility(View.GONE);
-
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) adView.getLayoutParams();
-        RelativeLayout parent = (RelativeLayout) adView.getParent();
-        parent.removeView(adView);
-
-        adView.destroy();
-        adView = new AdView(this);
-        adView.setAdSize(AdSize.SMART_BANNER);
-        adView.setAdUnitId(getString(R.string.ad_banner_unit_id));
-        adView.setId(R.id.adView);
-        adView.setLayoutParams(params);
-        parent.addView(adView);
-    }
-
     private void checkExtras(Intent intent) {
         // Approve request
         if (intent.hasExtra(EXTRA_APPROVE)) {
@@ -1252,7 +1116,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Button btnRate = view.findViewById(R.id.btnRate);
         TextView tvLicense = view.findViewById(R.id.tvLicense);
         TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
-        TextView tvAdmob = view.findViewById(R.id.tvAdmob);
 
         // Show version
         tvVersionName.setText(Util.getSelfVersionName(this));
@@ -1264,7 +1127,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
         tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
         tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
-        tvAdmob.setVisibility(IAB.isPurchasedAny(this) ? View.GONE : View.VISIBLE);
 
         // Handle logcat
         view.setOnClickListener(new View.OnClickListener() {

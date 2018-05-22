@@ -9,12 +9,6 @@
     <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, you agree to the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-    <string name="app_admob">NetGuard uses Google\'s AdMob advertising service.
-        AdMob uses the device\'s advertising ID to serve personalized ads.
-        AdMob\'s privacy policy is available <a href="http://www.google.com/policies/privacy/">here</a> and <a href="http://www.google.com/policies/privacy/partners/">here</a>.
-        You can opt-out from personalized ads <a href="https://www.google.com/settings/u/0/ads/authenticated">here</a>.
-        By using NetGuard, you agree to using AdMob to display ads.
-    </string>
     <string name="app_agree">I agree</string>
     <string name="app_disagree">I disagree</string>
 
@@ -348,8 +342,5 @@ Your internet traffic is not being sent to a remote VPN server.</string>
         <item>6</item>
     </string-array>
 
-    <string name="ad_app_id" translatable="false">ca-app-pub-6350249268625326~6636046697</string>
-    <string name="ad_banner_unit_id" translatable="false">ca-app-pub-6350249268625326/8112779894</string>
-    <string name="ad_test_device_id" translatable="false">552541D5D2716FC6104E56803A84F806</string>
     <string name="fingerprint" translatable="false">ef46f813d2c8a064d72c936b9b96d1cccc989378</string>
 </resources>
