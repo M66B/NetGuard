@@ -8,7 +8,6 @@
   <string name="app_license">Używając NetGuard, zgadzasz się z <a href="//www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Polityka prywatności</a></string>
   <string name="app_first">Podjęto wiele starań rozwojowi i testom aplikacji NetGuard, jednakże nie można zagwarantować, że NetGuard będzie działał poprawnie na każdym urządzeniu.\n\nUżywając NetGuard zgadzasz się z licencją <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_admob">NetGuard używa usług reklamowych Google AdMob. Polityka prywatności usług AdMob jest dostępna <a href="https://www.google.com/intl/en/policies/privacy/"> tutaj</a>.</string>
   <string name="app_agree">Zgadzam się</string>
   <string name="app_disagree">Nie zgadzam się</string>
   <string name="channel_foreground">Uruchomione usługi</string>
@@ -22,7 +21,7 @@
   <string name="menu_app_disabled">Pokaż aplikacje wyłączone</string>
   <string name="menu_sort">Sortuj aplikacje</string>
   <string name="menu_sort_name">Sortuj wg nazwy</string>
-  <string name="menu_sort_uid">Sortuj wg uid</string>
+  <string name="menu_sort_uid">Sortuj wg UID</string>
   <string name="menu_sort_data">Sortuj wg użycia danych</string>
   <string name="menu_log">Wyświetl dziennik</string>
   <string name="menu_settings">Ustawienia</string>

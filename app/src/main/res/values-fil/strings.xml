@@ -10,7 +10,6 @@
   <string name="app_first">Ang mahusay na pag-aalaga ay kinuha para magawa at subokan ang NetGuard,
 Ganun pa man ay imposibleng ang garantiya ng NetGuard ay gagana ng tama sa bawat kagamitan.
 \n\nSa paggamit ng NetGuard, ikaw ba ay sumasang-ayon sa <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_admob">Ginagamit ng NetGuard ang Google\'s AdMob serbisyo sa pag-aanusiyo. Ang AdMob\'s na patakaran sa pagiging pribado ay magagamit <a href="https://www.google.com/intl/en/policies/privacy/">dito</a>.</string>
   <string name="app_agree">Ako ay sumasang-ayon</string>
   <string name="app_disagree">Ako ay hindi sumasang-ayon</string>
   <string name="channel_foreground">Pinapatakbo ang mga serbisyo</string>

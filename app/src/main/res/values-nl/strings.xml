@@ -9,7 +9,6 @@
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">NetGuard is met veel zorg ontwikkeld en getest. Ondanks deze inspanningen is het onmogelijk te garanderen dat NetGuard feilloos werkt op elk apparaat.
 \n\nDoor gebruik te maken van NetGuard, gaat u akkoord met de <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public Licence versie 3</a></string>
-  <string name="app_admob">NetGuard gebruikt Google\'s AdMob advertentie platform. AdMob\'s privacybeleid is <a href="https://www.google.com/intl/en/policies/privacy/">hier</a> beschikbaar.</string>
   <string name="app_agree">Ik ga akkoord</string>
   <string name="app_disagree">Ik ga niet akkoord</string>
   <string name="channel_foreground">Running services</string>

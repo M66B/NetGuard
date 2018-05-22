@@ -8,7 +8,6 @@
   <string name="app_license">Genom att använda NetGuard, samtycker du till <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License version 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Sekretesspolicy</a></string>
   <string name="app_first">Stor omsorg har tagits att utveckla och testa NetGuard, men det är omöjligt att garantera NetGuard fungerar korrekt på varje enhet. \n\nGenom att använda NetGuard, godkänner du att <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License version 3</a></string>
-  <string name="app_admob">NetGuard använder Googles AdMob reklam tjänst. Admobs sekretesspolicy finns <a href="https://www.google.com/intl/en/policies/privacy/">här</a>.</string>
   <string name="app_agree">Jag godkänner</string>
   <string name="app_disagree">Jag godkänner inte</string>
   <string name="channel_foreground">Aktiva tjänster</string>

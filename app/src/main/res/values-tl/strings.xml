@@ -10,7 +10,6 @@
   <string name="app_first">Ang matinding pag-iingat ay ginawa sa pagpapahusay at pagsubok ng NetGuard,
 gayon man, hindi posibleng matiyak na ang NetGuard ay tatakbo ng tama sa lahat ng apataro.
 \n\nSa pag-gamit ng NetGuard, ikaw ay sumasang-ayon sa <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_admob">Ang NetGuard ay gumagamit ng serbisyong pang-advertayzing ng Google\'s AdMob. Ang patakaran sa pagiging pribado ng Admob ay makikita <a href="https://www.google.com/intl/en/policies/privacy/">dito</a>.</string>
   <string name="app_agree">Sumasang-ayon ako</string>
   <string name="app_disagree">Hindi ako sumasang-ayon</string>
   <string name="channel_foreground">Gumaganang mga serbisyo</string>

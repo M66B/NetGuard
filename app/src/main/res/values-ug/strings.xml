@@ -10,7 +10,6 @@
   <string name="app_first">Great care has been taken to develop and test NetGuard,
 however it is impossible to guarantee NetGuard will work correctly on every device.
 \n\nBy using NetGuard, قۇشۇلۇش <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_admob">NetGuard uses Google\'s ئېلان مۇلازىمىتى <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">قوشۇلىمەن</string>
   <string name="app_disagree">قوشۇلمايمەن</string>
   <string name="channel_foreground">Running services</string>

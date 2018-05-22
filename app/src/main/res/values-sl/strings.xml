@@ -9,7 +9,6 @@
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Politika zasebnosti</a></string>
   <string name="app_first">Veliko truda in preizkušanja je bilo vloženega v NetGuard, vendar je nemogoče zagotoviti da bo NetGuard deloval pravilo na vsaki napravi.
 \n\nZ uporabo NetGuard se strinjate s <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License različice 3</a></string>
-  <string name="app_admob">NetGuard uporablja Googlov AdMob oglaševalni sistem. AdMob ogled zasebnosti je na voljo<a href="https://www.google.com/intl/en/policies/privacy/">tukaj</a>.</string>
   <string name="app_agree">Strinjam se</string>
   <string name="app_disagree">Ne strinjam se</string>
   <string name="channel_foreground">Izvajajo storitve</string>

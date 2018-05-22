@@ -8,7 +8,6 @@
   <string name="app_license">Ao usar o NetGuard, está a concordar com a <a href="http://www.gnu.org/licenses/gpl.txt">Licença Pública Geral GNU - versão 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Política de privacidade</a></string>
   <string name="app_first">Houve grande cuidado em desenvolver e testar o NetGuard, no entanto é impossível garantir que o NetGuard funciona corretamente em todos os dispositivos.\n\nAo utilizar o NetGuard, concorda com a <a href="http://www.gnu.org/licenses/gpl.txt">GNU Licença Pública Geral versão 3</a></string>
-  <string name="app_admob">NetGuard usa o serviço de publicidade do Google AdMob. A Política de privacidade do AdMob está disponível <a href="https://www.google.com/intl/en/policies/privacy/"> aqui</a>.</string>
   <string name="app_agree">Eu concordo</string>
   <string name="app_disagree">Eu discordo</string>
   <string name="channel_foreground">Serviços em execução</string>

@@ -8,7 +8,6 @@
   <string name="app_license">Upotrebom NetGuarda, pristajete na korištenje <a href="http://www.gnu.org/licenses/gpl.txt">GNU opće javne licence 3</a></string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Pravilnik o privatnosti</a></string>
   <string name="app_first">Velika pažnja je dana razvoju i testiranju NetGuardua ali nema jamstva da će NetGuard ispravno raditi na svim uređajima.\n\nUpotrebom NetGuarda, pristajete na korištenje <a href="http://www.gnu.org/licenses/gpl.txt">GNU opće javne licence 3</a></string>
-  <string name="app_admob">NetGuard koristi Google AdMob uslugu oglašavanja. AdMob pravila privatnosti dostupna su ovdje <a href="https://www.google.com/intl/en/policies/privacy/"></a>.</string>
   <string name="app_agree">Slažem se</string>
   <string name="app_disagree">Ne slažem se</string>
   <string name="channel_foreground">Pokrenuti servisi</string>

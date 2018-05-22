@@ -9,7 +9,6 @@
   <string name="app_privacy"><a href="http://www.cyanogenmod.org/docs/privacy">Política de privacidade</a></string>
   <string name="app_first">NetGuard foi desenvolvido e testado com grande cuidado, porém é impossível garantir que o NetGuard funcionará corretamente em todos os dispositivos.
 \n\nUsando o NetGuard, você concorda com <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License version 3</a></string>
-  <string name="app_admob">NetGuard usa o serviço de anúncios do Google AdMob. A política de privacidade deste produto está disponível <a href="https://www.google.com/intl/en/policies/privacy/">aqui</a>.</string>
   <string name="app_agree">Eu concordo</string>
   <string name="app_disagree">Eu discordo</string>
   <string name="channel_foreground">Serviços em execução</string>

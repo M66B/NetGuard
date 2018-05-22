@@ -9,7 +9,6 @@
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Fortrolighedspolitik</a></string>
   <string name="app_first">Stor omhu er lagt i udvikling og test af NetGuard, men det er umuligt at garantere, at NetGuard vil fungere korrekt på alle enheder.\n
 \nAfbenyttelse af NetGuard konstituere din accept af <a href="http://www.gnu.org/licenses/gpl.txt"> GNU General Public License version 3</a></string>
-  <string name="app_admob">NetGuard benytter Googles AdMob-annonceringstjeneste. AdMobs fortrolighedspolitik er tilgængelig <a href="https://www.google.com/intl/en/policies/privacy/">her</a>.</string>
   <string name="app_agree">Jeg accepterer</string>
   <string name="app_disagree">Jeg accepterer ikke</string>
   <string name="channel_foreground">Aktive tjenester</string>

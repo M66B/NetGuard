@@ -10,7 +10,6 @@
   <string name="app_first">開發者在開發和測試NetGuard過程中已悉心盡力,
 但開發者無法確保本軟件在所有設備上均可正常運行。
 \n\n使用NetGuard即表明您接受 <a href="http://www.gnu.org/licenses/gpl.txt">GNU通用公共許可協議第三版</a></string>
-  <string name="app_admob">NetGuard 使用 Google AdMob 廣告服務. 您可在此查閱 AdMob 隱私權政策 <a href="https://www.google.com/intl/en/policies/privacy/">here</a>.</string>
   <string name="app_agree">我同意</string>
   <string name="app_disagree">我不同意</string>
   <string name="channel_foreground">正在運行的服務</string>
