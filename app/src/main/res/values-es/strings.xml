@@ -260,7 +260,6 @@
   <string name="title_pro_bought">Activado</string>
   <string name="title_pro_unavailable">No disponible</string>
   <string name="title_pro_details">Pulse en un título para más información</string>
-  <string name="title_pro_ads">La compra de cualquier característica de pago eliminará toda la publicidad</string>
   <string name="title_pro_challenge">Desafío</string>
   <string name="title_pro_reponse">Respuesta</string>
   <string-array name="themeNames">

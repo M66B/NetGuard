@@ -266,7 +266,6 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="title_pro_bought">Lubatud</string>
   <string name="title_pro_unavailable">Pole saadaval</string>
   <string name="title_pro_details">Tap on a title for more information</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Väljakutse</string>
   <string name="title_pro_reponse">Vastus</string>
   <string-array name="themeNames">

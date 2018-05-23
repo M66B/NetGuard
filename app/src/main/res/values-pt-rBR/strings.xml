@@ -263,7 +263,6 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="title_pro_bought">Ativado</string>
   <string name="title_pro_unavailable">Indisponível</string>
   <string name="title_pro_details">Toque em um título para obter mais informações</string>
-  <string name="title_pro_ads">Comprar qualquer recurso Pro irá desativar todos os anúncios</string>
   <string name="title_pro_challenge">Código de verificação</string>
   <string name="title_pro_reponse">Resposta</string>
   <string-array name="themeNames">

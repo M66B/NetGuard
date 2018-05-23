@@ -267,7 +267,6 @@
   <string name="title_pro_bought">啟用</string>
   <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Tap on a title for more information</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">驗證密碼</string>
   <string name="title_pro_reponse">回答</string>
   <string-array name="themeNames">

@@ -265,7 +265,6 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
   <string name="title_pro_bought">Povolené</string>
   <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Tap on a title for more information</string>
-  <string name="title_pro_ads">Buying any pro feature will disable all advertisements</string>
   <string name="title_pro_challenge">Výzva</string>
   <string name="title_pro_reponse">Odpoveď</string>
   <string-array name="themeNames">

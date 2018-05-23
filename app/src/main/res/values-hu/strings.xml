@@ -262,7 +262,6 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
   <string name="title_pro_bought">Engedélyezve</string>
   <string name="title_pro_unavailable">Nem érhető el</string>
   <string name="title_pro_details">Érintse meg a címet további információért</string>
-  <string name="title_pro_ads">Bármelyik Pro szolgáltatás megvásárlása letiltja az összes hirdetést</string>
   <string name="title_pro_challenge">Hívás</string>
   <string name="title_pro_reponse">Válasz</string>
   <string-array name="themeNames">

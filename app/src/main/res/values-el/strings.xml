@@ -260,7 +260,6 @@
   <string name="title_pro_bought">Ενεργοποιημένο</string>
   <string name="title_pro_unavailable">Μη διαθέσιμος/η</string>
   <string name="title_pro_details">Πατήστε στον τίτλο για περισσότερες πληροφορίες</string>
-  <string name="title_pro_ads">Αγοράζοντας οποιαδήποτε δυνατότητα pro θα απενεργοποιήσει όλες τις διαφημίσεις</string>
   <string name="title_pro_challenge">Πρόκληση</string>
   <string name="title_pro_reponse">Ανταπόκριση</string>
   <string-array name="themeNames">

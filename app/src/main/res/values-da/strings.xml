@@ -265,7 +265,6 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="title_pro_bought">Aktiveret</string>
   <string name="title_pro_unavailable">Utilgængelig</string>
   <string name="title_pro_details">Tryk på en titel for yderligere oplysninger</string>
-  <string name="title_pro_ads">Køb af enhver Pro-funktion vil deaktivere alle reklamer</string>
   <string name="title_pro_challenge">Udfordring</string>
   <string name="title_pro_reponse">Svar</string>
   <string-array name="themeNames">

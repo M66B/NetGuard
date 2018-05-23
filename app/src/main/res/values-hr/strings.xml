@@ -260,7 +260,6 @@
   <string name="title_pro_bought">Omogućeno</string>
   <string name="title_pro_unavailable">Nije dostupno</string>
   <string name="title_pro_details">Dodirnite naslov za više informacija</string>
-  <string name="title_pro_ads">Kupovinom bilo koje pro značajke uklanjate sve oglase</string>
   <string name="title_pro_challenge">Izazov</string>
   <string name="title_pro_reponse">Odgovor</string>
   <string-array name="themeNames">

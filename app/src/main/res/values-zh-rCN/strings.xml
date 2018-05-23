@@ -266,7 +266,6 @@
   <string name="title_pro_bought">已启用</string>
   <string name="title_pro_unavailable">无法使用</string>
   <string name="title_pro_details">点击标题查看更多信息</string>
-  <string name="title_pro_ads">购买任何 pro 功能将禁用所有的广告</string>
   <string name="title_pro_challenge">验证口令</string>
   <string name="title_pro_reponse">验证应答</string>
   <string-array name="themeNames">

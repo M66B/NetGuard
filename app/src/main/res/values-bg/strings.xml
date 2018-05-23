@@ -262,7 +262,6 @@
   <string name="title_pro_bought">Включено</string>
   <string name="title_pro_unavailable">Unavailable</string>
   <string name="title_pro_details">Натиснете върху заглавие за повече информация</string>
-  <string name="title_pro_ads">Закупуване на която и да е про функция ще премахне всички реклами</string>
   <string name="title_pro_challenge">Предизвикателство</string>
   <string name="title_pro_reponse">Отговор</string>
   <string-array name="themeNames">

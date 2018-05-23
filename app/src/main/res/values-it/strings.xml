@@ -260,7 +260,6 @@
   <string name="title_pro_bought">Abilitato</string>
   <string name="title_pro_unavailable">Non disponibile</string>
   <string name="title_pro_details">Tocca un titolo per maggiori informazioni</string>
-  <string name="title_pro_ads">L\'acquisto di una qualsiasi funzionalità aggiuntiva disattiverà tutte le pubblicità</string>
   <string name="title_pro_challenge">Domanda di verifica</string>
   <string name="title_pro_reponse">Risposta</string>
   <string-array name="themeNames">

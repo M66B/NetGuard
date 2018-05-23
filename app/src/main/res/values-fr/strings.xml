@@ -262,7 +262,6 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_pro_bought">Activé</string>
   <string name="title_pro_unavailable">Non disponible</string>
   <string name="title_pro_details">Tapez sur un titre pour plus d’information</string>
-  <string name="title_pro_ads">L\'achat de n\'importe quelle fonctionnalité pro désactivera toutes les publicités</string>
   <string name="title_pro_challenge">Code</string>
   <string name="title_pro_reponse">Réponse</string>
   <string-array name="themeNames">

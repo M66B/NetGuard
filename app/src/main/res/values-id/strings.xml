@@ -263,7 +263,6 @@
   <string name="title_pro_bought">Diaktifkan</string>
   <string name="title_pro_unavailable">Tidak tersedia</string>
   <string name="title_pro_details">Ketuk judul untuk informasi lebih lanjut</string>
-  <string name="title_pro_ads">Membeli fitur pro akan menonaktifkan semua iklan</string>
   <string name="title_pro_challenge">Tantangan</string>
   <string name="title_pro_reponse">Tanggapan</string>
   <string-array name="themeNames">

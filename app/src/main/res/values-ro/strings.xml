@@ -263,7 +263,6 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="title_pro_bought">Activat</string>
   <string name="title_pro_unavailable">Indisponibil</string>
   <string name="title_pro_details">Atingeți un titlu pentru mai multe informații</string>
-  <string name="title_pro_ads">Cumpărarea oricărei caracteristici Pro dezactivează toate reclamele din aplicație</string>
   <string name="title_pro_challenge">Întrebare de verificare</string>
   <string name="title_pro_reponse">Răspuns</string>
   <string-array name="themeNames">

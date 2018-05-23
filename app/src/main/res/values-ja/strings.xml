@@ -261,7 +261,6 @@
   <string name="title_pro_bought">有効</string>
   <string name="title_pro_unavailable">利用不可</string>
   <string name="title_pro_details">詳細情報はタイトルをタップします</string>
-  <string name="title_pro_ads">何かプロの機能を購入すると、すべての広告を無効にします</string>
   <string name="title_pro_challenge">チャレンジ</string>
   <string name="title_pro_reponse">応答</string>
   <string-array name="themeNames">
