@@ -41,7 +41,7 @@ Note that:
 
 The NetGuard version from GitHub:
 
-* is signed with the same signature as the version from the Google Play store, so any purchases will be restored
+* is signed with the same signature as the version from the Google Play store, so any purchases will be restored (this will not happen with for example the F-Droid version)
 * will automatically notify you if there are updates available via GitHub (this can be switched off in NetGuard's settings)
 
 <br />
