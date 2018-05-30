@@ -138,12 +138,10 @@ Some known (screen dimming) applications which can cause this are *Lux Brightnes
 To avoid this problem, at least temporarily, close all applications and/or services which may be running in the background.
 
 <a name="FAQ15"></a>
-**(15) Why won't you support the F-Droid builds?**
+**(15) Are F-Droid builds supported?**
 
-NetGuard contains ads since a while, because very few people support the NetGuard project in other ways.
-This means NetGuard will not be accepted by F-Droid.
-
-Another reason is that F-Droid builds are more often than not outdated, leaving users with an old version with known bugs.
+F-Droid builds are not supported because I have no control over if and when the F-Droid version of NetGuard will be updated,
+so I cannot guarantee timely updates, for example if there is a critical or security issue.
 
 <a name="FAQ16"></a>
 **(16) Why are some applications shown dimmed?**

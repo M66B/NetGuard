@@ -137,7 +137,7 @@ Frequently Asked Questions (FAQ)
 [**(14) Why can't I select OK to approve the VPN connection request?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ14)
 
 <a name="FAQ15"></a>
-[**(15) Why won't you support the F-Droid builds?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ15)
+[**(15) Are F-Droid builds supported?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ15)
 
 <a name="FAQ16"></a>
 [**(16) Why are some applications shown dimmed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ16)
