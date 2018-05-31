@@ -53,17 +53,21 @@ No, the minimum required Android version is 5.1 (<a href= "https://developer.and
 <a name="FAQ4"></a>
 **(4) Will NetGuard use extra battery power?**
 
-If you don't enable IP filtering or the network speed graph notification, probably not.
+By default NetGuard will hardly use any battery power.
+All settings resulting in extra battery usage, like IP filtering and logging, have a warning.
+If NetGuard uses a lot of battery power, please double check your settings.
 
-The battery usage when IP filtering is enabled depends on the quality of your Android VPN service implementation and the efficiency of the CPU of your device.
-Generally the battery usage on older devices might be unacceptable, yet hardly noticeable on modern devices with an efficient CPU.
+The battery usage when IP filtering is enabled depends on the quality of your Android VPN service implementation and the efficiency of the processor of your device.
+Generally the battery usage on older devices might be unacceptable, yet hardly noticeable on modern devices with an efficient processor.
 
 The network speed graph notification will use extra battery power.
 This is why the notification is shown only when the screen is on.
 You can decrease the update frequency using the settings to reduce the battery usage.
 
-Note that Android often (incorrectly) contribute battery usage of other applications to NetGuard,
-because the network traffic of other applications is flowing through NetGuard.
+Note that Android often incorrectly contribute battery usage of other apps to NetGuard,
+because the network traffic of other apps is flowing through NetGuard.
+This means that it might look like NetGuard is using a lot of battery power,
+but that in fact the total battery usage of all apps is still the same.
 
 <a name="FAQ6"></a>
 **(6) Will NetGuard send my internet traffic to an external (VPN) server?**
