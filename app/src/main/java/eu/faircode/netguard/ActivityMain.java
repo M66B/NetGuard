@@ -694,6 +694,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (Build.VERSION.SDK_INT < MIN_SDK)
             return false;
 
+        PackageManager pm = getPackageManager();
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
@@ -751,11 +753,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (!IAB.isPurchasedAny(this))
             markPro(menu.findItem(R.id.menu_pro), null);
 
-        if (!Util.hasValidFingerprint(this) || getIntentInvite(this).resolveActivity(getPackageManager()) == null)
+        if (!Util.hasValidFingerprint(this) || getIntentInvite(this).resolveActivity(pm) == null)
             menu.removeItem(R.id.menu_invite);
 
         if (getIntentSupport().resolveActivity(getPackageManager()) == null)
             menu.removeItem(R.id.menu_support);
+
+        menu.findItem(R.id.menu_apps).setEnabled(getIntentApps(this).resolveActivity(pm) != null);
 
         return true;
     }
@@ -870,6 +874,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             case R.id.menu_about:
                 menu_about();
+                return true;
+
+            case R.id.menu_apps:
+                menu_apps();
                 return true;
 
             default:
@@ -1200,6 +1208,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         dialogAbout.show();
     }
 
+    private void menu_apps() {
+        startActivity(getIntentApps(this));
+    }
+
     private static Intent getIntentInvite(Context context) {
         Intent intent = new Intent("com.google.android.gms.appinvite.ACTION_APP_INVITE");
         intent.setPackage("com.google.android.gms");
@@ -1208,6 +1220,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         intent.putExtra("com.google.android.gms.appinvite.BUTTON_TEXT", context.getString(R.string.msg_try));
         // com.google.android.gms.appinvite.DEEP_LINK_URL
         return intent;
+    }
+
+    private static Intent getIntentApps(Context context) {
+        return new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/search?q=Marcel+Bokhorst"));
     }
 
     private static Intent getIntentRate(Context context) {
