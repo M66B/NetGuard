@@ -195,7 +195,7 @@ public class IAB implements ServiceConnection {
         try {
             if (Util.isDebuggable(context)) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                return !(prefs.getBoolean("debug_iab", false) || prefs.getBoolean("debug_ads", false));
+                return !(prefs.getBoolean("debug_iab", false));
             }
 
             SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);

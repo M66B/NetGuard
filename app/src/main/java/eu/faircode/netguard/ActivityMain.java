@@ -46,11 +46,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ImageSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -401,6 +403,27 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
 
+        // Support
+        LinearLayout llSupport = findViewById(R.id.llSupport);
+        TextView tvSupport = findViewById(R.id.tvSupport);
+
+        SpannableString content = new SpannableString(getString(R.string.app_support));
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        tvSupport.setText(content);
+
+        llSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Util.isPlayStoreInstall(ActivityMain.this))
+                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
+                else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://contact.faircode.eu/?product=netguardstandalone"));
+                    startActivity(intent);
+                }
+            }
+        });
+
         // Handle intent
         checkExtras(getIntent());
     }
@@ -437,6 +460,9 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         DatabaseHelper.getInstance(this).addAccessChangedListener(accessChangedListener);
         if (adapter != null)
             adapter.notifyDataSetChanged();
+
+        LinearLayout llSupport = findViewById(R.id.llSupport);
+        llSupport.setVisibility(IAB.isPurchasedAny(this) ? View.GONE : View.VISIBLE);
 
         super.onResume();
     }

@@ -148,6 +148,45 @@
                 android:text="@android:string/ok"
                 android:textAppearance="@style/TextSmall" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSupport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dip"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginStart="4dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_security_color_24dp" />
+
+                <TextView
+                    android:id="@+id/tvSupport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
+                    android:textAppearance="@style/TextSmall"
+                    android:textColor="?attr/colorOff" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <View
