@@ -32,6 +32,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">Legenda</string>
   <string name="menu_support">Bantuan</string>
   <string name="menu_about">Tentang</string>
+  <string name="menu_apps">Other apps</string>
   <string name="menu_protocol_other">Lainnya</string>
   <string name="menu_traffic_allowed">Diizinkan</string>
   <string name="menu_traffic_blocked">Diblokir</string>

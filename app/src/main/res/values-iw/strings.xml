@@ -33,6 +33,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">מקרא</string>
   <string name="menu_support">תמיכה</string>
   <string name="menu_about">אודות</string>
+  <string name="menu_apps">Other apps</string>
   <string name="menu_protocol_other">אחר</string>
   <string name="menu_traffic_allowed">מורשה</string>
   <string name="menu_traffic_blocked">חסום</string>

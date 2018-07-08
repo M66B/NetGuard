@@ -32,6 +32,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">Legenda</string>
   <string name="menu_support">Suporte</string>
   <string name="menu_about">Sobre</string>
+  <string name="menu_apps">Other apps</string>
   <string name="menu_protocol_other">Outro</string>
   <string name="menu_traffic_allowed">Permitido</string>
   <string name="menu_traffic_blocked">Bloqueado</string>

@@ -32,6 +32,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">Jelmagyarázat</string>
   <string name="menu_support">Támogatás</string>
   <string name="menu_about">Névjegy</string>
+  <string name="menu_apps">Other apps</string>
   <string name="menu_protocol_other">Egyéb</string>
   <string name="menu_traffic_allowed">Engedélyezve</string>
   <string name="menu_traffic_blocked">Letiltva</string>

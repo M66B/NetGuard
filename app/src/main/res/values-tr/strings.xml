@@ -32,6 +32,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">İkonlar ve anlamları</string>
   <string name="menu_support">Destek</string>
   <string name="menu_about">Hakkında</string>
+  <string name="menu_apps">Other apps</string>
   <string name="menu_protocol_other">Diğer</string>
   <string name="menu_traffic_allowed">İzin verildi</string>
   <string name="menu_traffic_blocked">Engellendi</string>

@@ -32,6 +32,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">چۈشەندۈرۈش</string>
   <string name="menu_support">قوللاش</string>
   <string name="menu_about">ھەققىدە</string>
+  <string name="menu_apps">Other apps</string>
   <string name="menu_protocol_other">باشقا</string>
   <string name="menu_traffic_allowed">يول قويۇلدى</string>
   <string name="menu_traffic_blocked">توسۇلدى</string>

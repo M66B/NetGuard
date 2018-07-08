@@ -32,6 +32,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">Chú thích</string>
   <string name="menu_support">Hỗ trợ</string>
   <string name="menu_about">About</string>
+  <string name="menu_apps">Other apps</string>
   <string name="menu_protocol_other">Khác</string>
   <string name="menu_traffic_allowed">Cho phép</string>
   <string name="menu_traffic_blocked">Chặn</string>

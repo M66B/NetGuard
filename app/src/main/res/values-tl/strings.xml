@@ -32,6 +32,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">Paliwanag ng mga simbolong ginamit</string>
   <string name="menu_support">Suporta</string>
   <string name="menu_about">Tungkol sa</string>
+  <string name="menu_apps">Other apps</string>
   <string name="menu_protocol_other">Iba pa</string>
   <string name="menu_traffic_allowed">Pinahihintulutan</string>
   <string name="menu_traffic_blocked">Nakablock</string>

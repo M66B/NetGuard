@@ -32,6 +32,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">किंवदंती</string>
   <string name="menu_support">सहायता</string>
   <string name="menu_about">के बारे में</string>
+  <string name="menu_apps">Other apps</string>
   <string name="menu_protocol_other">अन्य</string>
   <string name="menu_traffic_allowed">अनुमति है</string>
   <string name="menu_traffic_blocked">अवरोधित</string>

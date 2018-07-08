@@ -32,6 +32,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">图例</string>
   <string name="menu_support">软件支持</string>
   <string name="menu_about">关于</string>
+  <string name="menu_apps">Other apps</string>
   <string name="menu_protocol_other">其它</string>
   <string name="menu_traffic_allowed">已允许</string>
   <string name="menu_traffic_blocked">已拦截</string>
