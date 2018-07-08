@@ -5,12 +5,14 @@
   <string name="app_copyright">Copyright \u00A9 2015–2018 by M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard は Android 5.1 以降が必要です</string>
   <string name="app_xposed">Xposed があまりにクラッシュを引き起こしすぎるため、NetGuard が Google Play ストアから削除される可能性があります。したがって Xposed がインストールされていると、NetGuard はサポートされていません</string>
-  <string name="app_license">NetGuard を使用すると <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾書バージョン 3</a> に同意したことになります</string>
+  <string name="app_license">THIS SOFTWARE IS PROVIDED BY THE AUTHOR \'\'AS IS\'\' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">プライバシーポリシー</a></string>
-  <string name="app_first">NetGuard は細心の注意を行って開発およびテストしました。しかしながら NetGuard がすべてのデバイスで正常に動作を保証することは不可能です。
-\n\nNetGuard を使用することで <a href="http://www.gnu.org/licenses/gpl.txt">GNU 一般公衆利用許諾契約書バージョン 3</a> に同意します</string>
+  <string name="app_first">Great care has been taken to develop and test NetGuard,
+however it is impossible to guarantee NetGuard will work correctly on every device.
+\n\nTHIS SOFTWARE IS PROVIDED BY THE AUTHOR \'\'AS IS\'\' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
   <string name="app_agree">同意する</string>
   <string name="app_disagree">同意しない</string>
+  <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
   <string name="channel_foreground">実行中のサービス</string>
   <string name="channel_notify">全般通知</string>
   <string name="channel_access">アクセス通知</string>
