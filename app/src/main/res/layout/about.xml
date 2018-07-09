@@ -87,11 +87,11 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/tvLicense"
+                android:id="@+id/tvEula"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/app_license"
+                android:text="@string/app_eula"
                 android:textAppearance="@style/TextSmall"
                 android:textSize="12sp" />
 
