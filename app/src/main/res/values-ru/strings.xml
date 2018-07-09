@@ -12,7 +12,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
 \n\nTHIS SOFTWARE IS PROVIDED BY THE AUTHOR \'\'AS IS\'\' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</string>
   <string name="app_agree">Я согласен</string>
   <string name="app_disagree">Я не согласен</string>
-  <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+  <string name="app_support">NetGuard нуждается в вашей помощи. Нажмите, чтобы приобрести функции PRO для помощи проекту.</string>
   <string name="channel_foreground">Запущенные службы</string>
   <string name="channel_notify">Общие уведомления</string>
   <string name="channel_access">Доступ к уведомлениям</string>
@@ -32,7 +32,7 @@ however it is impossible to guarantee NetGuard will work correctly on every devi
   <string name="menu_legend">Легенда</string>
   <string name="menu_support">Поддержка</string>
   <string name="menu_about">О приложении</string>
-  <string name="menu_apps">Other apps</string>
+  <string name="menu_apps">Другие приложения</string>
   <string name="menu_protocol_other">Другое</string>
   <string name="menu_traffic_allowed">Разрешено</string>
   <string name="menu_traffic_blocked">Заблокировано</string>
