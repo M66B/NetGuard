@@ -414,13 +414,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         llSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Util.isPlayStoreInstall(ActivityMain.this))
-                    startActivity(new Intent(ActivityMain.this, ActivityPro.class));
-                else {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("https://contact.faircode.eu/?product=netguardstandalone"));
-                    startActivity(intent);
-                }
+                startActivity(getIntentPro(ActivityMain.this));
             }
         });
 
@@ -461,8 +455,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (adapter != null)
             adapter.notifyDataSetChanged();
 
+        PackageManager pm = getPackageManager();
         LinearLayout llSupport = findViewById(R.id.llSupport);
-        llSupport.setVisibility(IAB.isPurchasedAny(this) ? View.GONE : View.VISIBLE);
+        llSupport.setVisibility(
+                IAB.isPurchasedAny(this) || getIntentPro(this).resolveActivity(pm) == null
+                        ? View.GONE : View.VISIBLE);
 
         super.onResume();
     }
@@ -1210,6 +1207,16 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private void menu_apps() {
         startActivity(getIntentApps(this));
+    }
+
+    private static Intent getIntentPro(Context context) {
+        if (Util.isPlayStoreInstall(context))
+            return new Intent(context, ActivityPro.class);
+        else {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://contact.faircode.eu/?product=netguardstandalone"));
+            return intent;
+        }
     }
 
     private static Intent getIntentInvite(Context context) {
