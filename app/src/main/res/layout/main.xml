@@ -92,7 +92,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:text="@android:string/ok"
-                android:textAppearance="@style/TextSmall" />
+                android:textAppearance="@style/TextMedium" />
         </LinearLayout>
 
         <LinearLayout
@@ -164,10 +164,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_marginStart="4dp"
+                android:layout_margin="4dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -183,8 +180,10 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="4dp"
                     android:layout_marginStart="4dp"
+                    android:text="@string/app_support"
                     android:textAppearance="@style/TextSmall"
-                    android:textColor="?attr/colorOff" />
+                    android:textColor="?attr/colorOff"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
