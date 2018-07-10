@@ -12,6 +12,7 @@ rm -R ${project_dir}/app/src/main/res/values-ar-rBH/
 rm -R ${project_dir}/app/src/main/res/values-ar-rEG/
 rm -R ${project_dir}/app/src/main/res/values-ar-rSA/
 rm -R ${project_dir}/app/src/main/res/values-ar-rYE/
+rm -R ${project_dir}/app/src/main/res/values-fi*
 
 python ${importer_dir}/crowdin.py --p=app/src/main -a=get -i netguard -k ${api_key}
 
