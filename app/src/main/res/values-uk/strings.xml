@@ -6,10 +6,10 @@
   <string name="app_android">Для роботи NetGuard необхідна Android 5.1 або пізніша версія</string>
   <string name="app_xposed">Xposed спричиняє багато помилок. Це може призвести до видалення NetGuard з магазину Google Play. Тому NetGuard не підтримується, доки встановлено Xposed</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Політика конфіденційності</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+  <string name="app_first">До розробки й тестування NetGuard було докладено багато зусиль, але неможливо гарантувати, що NetGuard працюватиме належним чином на будь-якому пристрої.</string>
   <string name="app_agree">Погоджуюся</string>
   <string name="app_disagree">Не погоджуюся</string>
-  <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+  <string name="app_support">NetGuard потребує вашої допомоги. Торкніться, щоб придбати професійні функції й підтримати подальше продовження проекту.</string>
   <string name="channel_foreground">Запущені служби</string>
   <string name="channel_notify">Загальні сповіщення</string>
   <string name="channel_access">Доступ до сповіщень</string>
@@ -29,7 +29,7 @@
   <string name="menu_legend">Легенда</string>
   <string name="menu_support">Підтримка</string>
   <string name="menu_about">Про</string>
-  <string name="menu_apps">Other apps</string>
+  <string name="menu_apps">Інші програми</string>
   <string name="menu_protocol_other">Інше</string>
   <string name="menu_traffic_allowed">Дозволено</string>
   <string name="menu_traffic_blocked">Заблоковано</string>

@@ -6,7 +6,7 @@
   <string name="app_android">NetGuard necesită Android 5.1 sau mai nou</string>
   <string name="app_xposed">Xposed cauzează prea multe erori care ar putea duce la scoaterea NetGuard din Google Play store, prin urmare, NetGuard nu va fi suportat atunci când Xposed este instalat</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Politica de confidențialitate</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+  <string name="app_first">NetGuard este dezvoltat și testat cu mare atenție, cu toate acestea este imposibil de garantat că va funcționa corect pe fiecare sau pe orice dispozitiv.</string>
   <string name="app_agree">Accept</string>
   <string name="app_disagree">Nu accept</string>
   <string name="app_support">NetGuard are nevoie de ajutorul dumneavoastră. Atingeți pentru a achiziţiona caracteristici pro și a putea dezvolta proiectul în continuare.</string>
