@@ -45,13 +45,13 @@
                 android:text="@string/app_first"
                 android:textAppearance="@style/TextMedium" />
 
-            <!--TextView
+            <TextView
                 android:id="@+id/tvEula"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/app_eula"
-                android:textAppearance="@style/TextSmall" /-->
+                android:textAppearance="@style/TextSmall" />
 
             <TextView
                 android:id="@+id/tvPrivacy"
