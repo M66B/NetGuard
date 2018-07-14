@@ -337,10 +337,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             View view = inflater.inflate(R.layout.first, null, false);
 
             TextView tvFirst = view.findViewById(R.id.tvFirst);
-            TextView tvEula = view.findViewById(R.id.tvEula);
+            //TextView tvEula = view.findViewById(R.id.tvEula);
             TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
-            tvEula.setMovementMethod(LinkMovementMethod.getInstance());
+            //tvEula.setMovementMethod(LinkMovementMethod.getInstance());
             tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
 
             // Show dialog
@@ -1147,7 +1147,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         TextView tvVersionName = view.findViewById(R.id.tvVersionName);
         TextView tvVersionCode = view.findViewById(R.id.tvVersionCode);
         Button btnRate = view.findViewById(R.id.btnRate);
-        TextView tvEula = view.findViewById(R.id.tvEula);
+        //TextView tvEula = view.findViewById(R.id.tvEula);
         TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
 
         // Show version
@@ -1157,7 +1157,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         tvVersionCode.setText(Integer.toString(Util.getSelfVersionCode(this)));
 
         // Handle license
-        tvEula.setMovementMethod(LinkMovementMethod.getInstance());
+        //tvEula.setMovementMethod(LinkMovementMethod.getInstance());
         tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Handle logcat

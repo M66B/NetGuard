@@ -86,14 +86,14 @@
                 android:text="@string/title_rate"
                 android:visibility="gone" />
 
-            <TextView
+            <!--TextView
                 android:id="@+id/tvEula"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/app_eula"
                 android:textAppearance="@style/TextSmall"
-                android:textSize="12sp" />
+                android:textSize="12sp" /-->
 
             <TextView
                 android:id="@+id/tvPrivacy"
