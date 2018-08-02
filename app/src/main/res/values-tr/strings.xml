@@ -6,10 +6,10 @@
   <string name="app_android">NetGuard, Android 5.1 veya üzerini gerektirir</string>
   <string name="app_xposed">Xposed, NetGuard\'ın Google Play Store\'dan kaldırılmasına neden olabilecek çok fazla çökmeye sebebiyet verir, bu nedenle NetGuard, Xposed yüklenirken desteklenmez</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Gizlilik Politikası</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+  <string name="app_first">NetGuard\'ı geliştirmek ve test etmek için büyük özen gösterilmiştir, ancak NetGuard\'ın her cihazda doğru şekilde çalışacağını garanti etmek imkansızdır.</string>
   <string name="app_agree">Kabul ediyorum</string>
   <string name="app_disagree">Kabul etmiyorum</string>
-  <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+  <string name="app_support">NetGuard\'ın yardımınıza ihtiyacı var. Projeyi devam ettirmek için pro özellikleri satın almak için dokunun.</string>
   <string name="channel_foreground">Çalışan servisler</string>
   <string name="channel_notify">Genel bildirimler</string>
   <string name="channel_access">Bildirimlere erişim</string>
@@ -29,7 +29,7 @@
   <string name="menu_legend">İkonlar ve anlamları</string>
   <string name="menu_support">Destek</string>
   <string name="menu_about">Hakkında</string>
-  <string name="menu_apps">Other apps</string>
+  <string name="menu_apps">Diğer uygulamalar</string>
   <string name="menu_protocol_other">Diğer</string>
   <string name="menu_traffic_allowed">İzin verildi</string>
   <string name="menu_traffic_blocked">Engellendi</string>

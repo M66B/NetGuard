@@ -6,10 +6,10 @@
   <string name="app_android">NetGuard-ek Android 5.1 edo berriagoa behar du</string>
   <string name="app_xposed">Xposed kraskatze gehiegi eragiten ditu, eta horregatik NetGuard kendu zezaketen Google Play Store-tik, beraz NetGuard-ek ez du euskarririk Xposed instalatuta badago</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Pribatutasun politika</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+  <string name="app_first">Kontu handiz garatu eta probatu da NetGuard, baina ezin dugu bermatu gailu guztietan ibiliko dela.</string>
   <string name="app_agree">Ados nago</string>
   <string name="app_disagree">Ez nago ados</string>
-  <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+  <string name="app_support">NetGuard proiektuak zure laguntza behar du. Sakatu ordainpeko ezaugarriak erosi eta proiektua babesteko.</string>
   <string name="channel_foreground">Zerbitzuak abian</string>
   <string name="channel_notify">Jakinarazpen orokorrak</string>
   <string name="channel_access">Sarbide-jakinarazpenak</string>
@@ -29,7 +29,7 @@
   <string name="menu_legend">Legenda</string>
   <string name="menu_support">Laguntza</string>
   <string name="menu_about">Honi buruz</string>
-  <string name="menu_apps">Other apps</string>
+  <string name="menu_apps">Beste aplikazioak</string>
   <string name="menu_protocol_other">Bestea</string>
   <string name="menu_traffic_allowed">Baimenduta</string>
   <string name="menu_traffic_blocked">Blokeatua</string>
