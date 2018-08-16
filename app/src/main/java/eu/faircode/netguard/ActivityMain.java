@@ -1231,7 +1231,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private static Intent getIntentApps(Context context) {
-        return new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/search?q=Marcel+Bokhorst"));
+        return new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/dev?id=8420080860664580239"));
     }
 
     private static Intent getIntentRate(Context context) {
