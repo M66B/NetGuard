@@ -128,10 +128,10 @@
   <string name="summary_subnet">Ar putea ajuta la apelurile prin Wi-Fi, dar la fel de bine ar putea declanșa erori prezente în Android și ar putea crește consumul de baterie</string>
   <string name="summary_lan">Permite aplicațiilor să se conecteze la adresele de rețea locală precum 10.0.0.0/8, 172.16.0.0/12 și 192.168.0.0/16</string>
   <string name="summary_ip6">Rutează traficul IPv6 în NetGuard pentru a putea fi permis sau blocat selectiv</string>
-  <string name="summary_wifi_home">Aplica regulile de retea Wi-Fi numai pentru conexiunile selectate (pentru alte retele Wi-Fi se aplica regulile de date mobile)</string>
+  <string name="summary_wifi_home">Aplică regulile de rețea Wi-Fi numai pentru conexiunile selectate (pentru alte rețele Wi-Fi se aplică regulile de date mobile)</string>
   <string name="summary_metered">Trateaza conexiunile Wi-Fi contorizate (cu plata, hot-spot) precum date mobile</string>
-  <string name="summary_metered_2g">Aplica regulile Wi-Fi pentru conexiunile de date 2G</string>
-  <string name="summary_metered_3g">Aplica regulile Wi-Fi pentru conexiunile de date 3G</string>
+  <string name="summary_metered_2g">Aplică regulile Wi-Fi pentru conexiunile de date 2G</string>
+  <string name="summary_metered_3g">Aplică regulile Wi-Fi pentru conexiunile de date 3G</string>
   <string name="summary_metered_4g">Aplică regulile Wi-Fi pentru conexiunile de date 4G/LTE</string>
   <string name="summary_national_roaming">Nu folosi regulile de roaming atunci când țara de origine a SIM-ului și țara rețelei mobile sunt identice</string>
   <string name="summary_eu_roaming">Nu se aplică regulile de roaming atunci când atât SIM-ul cât si reţeaua de telefonie sunt din si în Europa</string>
@@ -145,7 +145,7 @@
   <string name="summary_rcode">Valoarea implicită este 3 (NXDOMAIN), ceea ce înseamnă \"domeniu inexistent\".</string>
   <string name="summary_socks5_enabled">Dar traficul de date TCP va fi rutat spre serverul proxy</string>
   <string name="summary_watchdog">Verifica periodic dacă NetGuard rulează (introdu zero pentru a dezactiva). Aceasta opțiune poate duce la un consum ridicat al bateriei.</string>
-  <string name="summary_stats">Arată graficul de viteza al rețelei în bara de notificări</string>
+  <string name="summary_stats">Arată graficul de viteză al rețelei în bara de notificări</string>
   <string-array name="default_wifi_home"></string-array>
   <string name="msg_sure">Ești sigur(ă)?</string>
   <string name="msg_started">Limitări activate</string>
@@ -166,7 +166,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="msg_start_failed">Sistemul Android a refuzat să pornească serviciul VPN în acest moment. Cel mai probabil din cauza unei erori din această versiune de Android.</string>
   <string name="msg_try">Încearcă NetGuard</string>
   <string name="msg_terms">Donand esti de acord cu <a href="http://www.netguard.me/#terms">termenii si conditiile</a></string>
-  <string name="msg_dimming">Dacă în următoarea fereastră de dialog nu puteți apasă OK înseamna ca o aplicație ce manipulează ecranul (luminozitatea sau nuanță) blochează interacțiunea.</string>
+  <string name="msg_dimming">Dacă în următoarea fereastră de dialog nu puteți apasă OK înseamnă că o aplicație ce manipulează ecranul (luminozitatea sau nuanță) blochează interacțiunea.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/zi</string>
   <string name="msg_kbsec">%7.3f KB/s</string>
   <string name="msg_mbsec">%7.3f MB/s</string>

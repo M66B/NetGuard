@@ -6,10 +6,10 @@
   <string name="app_android">NetGuard zahtijeva Android 5.1 ili noviji</string>
   <string name="app_xposed">Xposed uzrokuje previše rušenja aplikacije, što može uzrokovati uklanjanje NetGuarda iz Trgovine Google Play, tako da NetGuard nije podržan sve dok je Xposed instaliran</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Pravilnik o privatnosti</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+  <string name="app_first">Velika pažnja je posvećena razvijanju i testiranju NetGuard aplikacije, no nemoguće je jamčiti da će NetGuard ispravno raditi na svim uređajima.</string>
   <string name="app_agree">Slažem se</string>
   <string name="app_disagree">Ne slažem se</string>
-  <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+  <string name="app_support">NetGuard treba Vašu pomoć. Dodirnite za kupnju pro-značajki za pomoć projektu.</string>
   <string name="channel_foreground">Pokrenuti servisi</string>
   <string name="channel_notify">Opće obavijesti</string>
   <string name="channel_access">Pristup obavijestima</string>
@@ -29,7 +29,7 @@
   <string name="menu_legend">Legenda</string>
   <string name="menu_support">Podrška</string>
   <string name="menu_about">O aplikaciji</string>
-  <string name="menu_apps">Other apps</string>
+  <string name="menu_apps">Ostale aplikacije</string>
   <string name="menu_protocol_other">Ostalo</string>
   <string name="menu_traffic_allowed">Dopušteno</string>
   <string name="menu_traffic_blocked">Blokirano</string>

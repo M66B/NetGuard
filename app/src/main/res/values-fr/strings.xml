@@ -52,7 +52,7 @@
   <string name="title_external">Pour un serveur externe, sélectionnez \"personne\"</string>
   <string name="setting_defaults">Valeurs par défaut (liste blanche/noire)</string>
   <string name="setting_whitelist_wifi">Bloquer le Wi-Fi</string>
-  <string name="setting_whitelist_other">Bloquer les données mobiles</string>
+  <string name="setting_whitelist_other">Bloquer les données</string>
   <string name="setting_screen_wifi">Autoriser le Wi-Fi quand l\'écran est allumé</string>
   <string name="setting_screen_other">Autoriser les données mobiles si l\'écran est allumé</string>
   <string name="setting_whitelist_roaming">Bloquer l\'itinérance</string>
@@ -239,10 +239,10 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="title_rate">Évaluer</string>
   <string name="title_allow">Autoriser</string>
   <string name="title_block">Bloquer</string>
-  <string name="title_allow_wifi">Autoriser la connexion Wi-Fi</string>
-  <string name="title_block_wifi">Bloquer la connexion Wi-Fi</string>
-  <string name="title_allow_other">Autoriser les données mobiles</string>
-  <string name="title_block_other">Bloquer les données mobiles</string>
+  <string name="title_allow_wifi">Autoriser Wi-Fi</string>
+  <string name="title_block_wifi">Bloquer Wi-Fi</string>
+  <string name="title_allow_other">Autoriser les données</string>
+  <string name="title_block_other">Bloquer les données</string>
   <string name="title_root">root</string>
   <string name="title_mediaserver">mediaserver</string>
   <string name="title_nobody">personne</string>
