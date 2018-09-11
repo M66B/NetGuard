@@ -250,11 +250,11 @@
   <string name="title_log_port">Порт %1$d</string>
   <string name="title_log_copy">Копіювати</string>
   <string name="title_pro">Pro-можливості</string>
-  <string name="title_pro_description">Доступно такі розширені (Pro) можливості:</string>
-  <string name="title_pro_log">Перегляд звіту заблокованого трафіку</string>
+  <string name="title_pro_description">Доступні такі розширені (Pro) можливості:</string>
+  <string name="title_pro_log">Перегляд журналу заблокованого трафіку</string>
   <string name="title_pro_filter">Фільтр мережевого трафіку</string>
-  <string name="title_pro_notify">Нові сповіщення додатків</string>
-  <string name="title_pro_speed">Графік швидкості мережі в сповіщеннях</string>
+  <string name="title_pro_notify">Сповіщення про нові додатки</string>
+  <string name="title_pro_speed">Графік швидкості мережі в сповіщенні</string>
   <string name="title_pro_theme">Зовнішній вигляд (тема, кольори)</string>
   <string name="title_pro_all">Усі зазначені вище pro-можливості</string>
   <string name="title_pro_dev">Підтримати розробку</string>
