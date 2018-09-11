@@ -50,7 +50,7 @@
   <string name="title_rport">Θύρα προορισμού</string>
   <string name="title_ruid">Εφαρμογή προορισμού</string>
   <string name="title_external">Για έναν εξωτερικό διακομιστή, επιλέξτε \'nobody\'</string>
-  <string name="setting_defaults">Προεπιλογές</string>
+  <string name="setting_defaults">Προεπιλογές (λευκή/μαύρη λίστα)</string>
   <string name="setting_whitelist_wifi">Αποκλεισμός Wi-Fi</string>
   <string name="setting_whitelist_other">Αποκλεισμός δεδομένων</string>
   <string name="setting_screen_wifi">Να επιτρέπεται το Wi-Fi όταν η οθόνη είναι ενεργοποιημένη</string>
