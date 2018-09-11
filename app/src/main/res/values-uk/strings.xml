@@ -64,7 +64,7 @@
   <string name="setting_auto">Автоматично увімкнути через %1$s хв</string>
   <string name="setting_delay">Затримка екрана — %1$s хв</string>
   <string name="setting_update">Перевірити наявність оновлень</string>
-  <string name="setting_network_options">Параметри мережі</string>
+  <string name="setting_network_options">Налаштування мережі</string>
   <string name="setting_subnet">Маршрутизація підмережі</string>
   <string name="setting_tethering">Дозволити прив\'язку</string>
   <string name="setting_lan">Дозволити доступ до LAN</string>
@@ -80,7 +80,7 @@
   <string name="setting_lockdown_wifi">Блокування Wi-Fi</string>
   <string name="setting_lockdown_other">Блокування моб. мережі</string>
   <string name="setting_reload_onconnectivity">Перезавантажувати при кожній зміні підключення</string>
-  <string name="setting_advanced_options">Розширені параметри</string>
+  <string name="setting_advanced_options">Розширені налаштування</string>
   <string name="setting_system">Керувати системними додатками</string>
   <string name="setting_log_app">Журнал доступу до мережі інтернет</string>
   <string name="setting_access">Сповіщення під час доступу до інтернету</string>
@@ -224,7 +224,7 @@
   <string name="title_related">Фільтрувати пов’язані</string>
   <string name="title_access">Спроби доступу</string>
   <string name="title_precedence">Правила доступу мають вищій пріоритет над іншим правилами</string>
-  <string name="title_options">Параметри</string>
+  <string name="title_options">Налаштування</string>
   <string name="title_notify">Сповістити при спробі доступу до інтернету</string>
   <string name="title_logging_disabled">Реєстрація подій або фільтрування не увімкнені</string>
   <string name="title_logging_enabled">Реєстрація подій і фільтрування увімкнені</string>
@@ -232,7 +232,7 @@
   <string name="title_enable_logging">Увімкнути реєстрацію подій лише для заблокованих адрес</string>
   <string name="title_enable_filtering">Увімкнути фільтрування лише для заблокованих адрес</string>
   <string name="title_enable_notify">Увімкнути сповіщення щодо доступу до нещодавно зареєстрованих адрес</string>
-  <string name="title_enable_help0">Ці настройки є глобальними і застосовуються до всіх додатків</string>
+  <string name="title_enable_help0">Ці налаштування є глобальними і застосовуються до всіх додатків</string>
   <string name="title_enable_help1">Фільтрування необхідне також для дозволу або блокування окремих адрес</string>
   <string name="title_enable_help2">Увімкнення реєстрації подій або фільтрування може прискорити витрату заряду і справити вплив на швидкість у мережі</string>
   <string name="title_rate">Оцінити</string>
