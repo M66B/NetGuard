@@ -784,7 +784,7 @@ jboolean handle_tcp(const struct arguments *args,
 
             struct tcp_session rst;
             memset(&rst, 0, sizeof(struct tcp_session));
-            rst.version = 4;
+            rst.version = version;
             rst.local_seq = ntohl(tcphdr->ack_seq);
             rst.remote_seq = ntohl(tcphdr->seq) + datalen + (tcphdr->syn || tcphdr->fin ? 1 : 0);
 
