@@ -417,12 +417,7 @@ public class Util {
     }
 
     public static boolean isPlayStoreInstall(Context context) {
-        try {
-            return "com.android.vending".equals(context.getPackageManager().getInstallerPackageName(context.getPackageName()));
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            return false;
-        }
+        return true;
     }
 
     public static boolean hasXposed(Context context) {

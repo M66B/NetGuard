@@ -33,15 +33,15 @@ import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -1211,13 +1211,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private static Intent getIntentPro(Context context) {
-        if (Util.isPlayStoreInstall(context))
-            return new Intent(context, ActivityPro.class);
-        else {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://contact.faircode.eu/?product=netguardstandalone"));
-            return intent;
-        }
+        return new Intent(context, ActivityPro.class);
     }
 
     private static Intent getIntentInvite(Context context) {

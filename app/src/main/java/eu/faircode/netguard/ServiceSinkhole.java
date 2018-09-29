@@ -73,15 +73,10 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -91,7 +86,6 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -109,8 +103,6 @@ import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class ServiceSinkhole extends VpnService implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "NetGuard.Service";
@@ -635,11 +627,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             // Clear expired DNS records
             DatabaseHelper.getInstance(ServiceSinkhole.this).cleanupDns();
-
-            // Check for update
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-            if (!Util.isPlayStoreInstall(ServiceSinkhole.this) && prefs.getBoolean("update_check", true))
-                checkUpdate();
         }
 
         private void watchdog(Intent intent) {
@@ -649,52 +636,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Log.e(TAG, "Service was killed");
                     start();
                 }
-            }
-        }
-
-        private void checkUpdate() {
-            StringBuilder json = new StringBuilder();
-            HttpsURLConnection urlConnection = null;
-            try {
-                URL url = new URL("https://api.github.com/repos/M66B/NetGuard/releases/latest");
-                urlConnection = (HttpsURLConnection) url.openConnection();
-                BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
-                String line;
-                while ((line = br.readLine()) != null)
-                    json.append(line);
-
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            } finally {
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-
-            try {
-                JSONObject jroot = new JSONObject(json.toString());
-                if (jroot.has("tag_name") && jroot.has("html_url") && jroot.has("assets")) {
-                    String url = jroot.getString("html_url");
-                    JSONArray jassets = jroot.getJSONArray("assets");
-                    if (jassets.length() > 0) {
-                        JSONObject jasset = jassets.getJSONObject(0);
-                        if (jasset.has("name")) {
-                            String version = jroot.getString("tag_name");
-                            String name = jasset.getString("name");
-                            Log.i(TAG, "Tag " + version + " name " + name + " url " + url);
-
-                            Version current = new Version(Util.getSelfVersionName(ServiceSinkhole.this));
-                            Version available = new Version(version);
-                            if (current.compareTo(available) < 0) {
-                                Log.i(TAG, "Update available from " + current + " to " + available);
-                                showUpdateNotification(name, url);
-                            } else
-                                Log.i(TAG, "Up-to-date current version " + current);
-                        }
-                    }
-                }
-            } catch (JSONException ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
         }
 
