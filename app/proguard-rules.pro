@@ -46,6 +46,7 @@
 #Support library
 -keep class android.support.v7.widget.** { *; }
 -dontwarn android.support.v4.**
+-keepclassmembers class * implements android.os.Parcelable {static ** CREATOR;}
 
 #Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
