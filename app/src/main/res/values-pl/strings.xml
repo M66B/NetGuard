@@ -9,7 +9,7 @@
   <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
   <string name="app_agree">Zgadzam się</string>
   <string name="app_disagree">Nie zgadzam się</string>
-  <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+  <string name="app_support">NetGuard potrzebuje Twojej pomocy. Kliknij, aby zakupić funkcje pro i wspomóc dalszy rozwój projektu.</string>
   <string name="channel_foreground">Uruchomione usługi</string>
   <string name="channel_notify">Ogólne powiadomienia</string>
   <string name="channel_access">Powiadomienia dostępu</string>
@@ -29,7 +29,7 @@
   <string name="menu_legend">Legenda</string>
   <string name="menu_support">Wsparcie</string>
   <string name="menu_about">Informacje o aplikacji</string>
-  <string name="menu_apps">Other apps</string>
+  <string name="menu_apps">Inne aplikacje</string>
   <string name="menu_protocol_other">Inne</string>
   <string name="menu_traffic_allowed">Dozwolone</string>
   <string name="menu_traffic_blocked">Zablokowane</string>

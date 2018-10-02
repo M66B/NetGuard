@@ -6,7 +6,7 @@
   <string name="app_android">Для работы NetGuard требуется Android 5.1 или более поздняя версия</string>
   <string name="app_xposed">Xposed вызывает слишком много сбоев, что может привести к удалению NetGuard из магазина Google Play, поэтому NetGuard не поддерживается, пока установлен Xposed</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Политика конфиденциальности</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+  <string name="app_first">Для разработки и тестирования NetGuard была предпринята большая осторожность, однако нельзя гарантировать, что NetGuard будет работать правильно на каждом устройстве.</string>
   <string name="app_agree">Я согласен</string>
   <string name="app_disagree">Я не согласен</string>
   <string name="app_support">NetGuard нуждается в вашей помощи. Нажмите, чтобы приобрести функции PRO для помощи проекту.</string>
