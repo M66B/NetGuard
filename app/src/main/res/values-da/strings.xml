@@ -203,6 +203,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="msg_on">Nedlukning af din enhed med NetGuard aktiv vil automatisk starte NetGuard ved genopstart af din enhed</string>
   <string name="msg_unavailable">Funktionen er utilgængelig i denne Android-version</string>
   <string name="msg_always_on">En anden VPN er opsat som Altid Aktiv-VPN</string>
+  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
   <string name="title_lockdown_enabled">Trafik er aflåst</string>
   <string name="title_unmetered_allowed">Ikke-forbrugsafregnet trafik er tilladt</string>
   <string name="title_unmetered_blocked">Ikke-forbrugsafregnet trafik er blokeret</string>

@@ -6,7 +6,7 @@
   <string name="app_android">Для работы NetGuard требуется Android 5.1 или более поздняя версия</string>
   <string name="app_xposed">Xposed вызывает слишком много сбоев, что может привести к удалению NetGuard из магазина Google Play, поэтому NetGuard не поддерживается, пока установлен Xposed</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Политика конфиденциальности</a></string>
-  <string name="app_first">Для разработки и тестирования NetGuard была предпринята большая осторожность, однако нельзя гарантировать, что NetGuard будет работать правильно на каждом устройстве.</string>
+  <string name="app_first">Разработке и тестированию NetGuard было уделено большое внимание, однако невозможно гарантировать, что NetGuard будет корректно работать на каждом устройстве.</string>
   <string name="app_agree">Я согласен</string>
   <string name="app_disagree">Я не согласен</string>
   <string name="app_support">NetGuard нуждается в вашей помощи. Нажмите, чтобы приобрести функции PRO для помощи проекту.</string>
@@ -201,6 +201,7 @@
   <string name="msg_on">Выключение устройства с запущенным NetGuard автоматически запустит NetGuard при включении вашего устройства</string>
   <string name="msg_unavailable">Эта функция недоступна в этой версии Android</string>
   <string name="msg_always_on">Новый VPN установлен, как базовый VPN</string>
+  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
   <string name="title_lockdown_enabled">Трафик заблокирован</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
   <string name="title_unmetered_blocked">Безлимитный трафик блокируется</string>

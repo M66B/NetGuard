@@ -203,6 +203,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
   <string name="msg_on">NetGuard نى ئىشلىتىپ توك مەنبەسىنى ئېتىشنى قوزغىتىش،تېلېفون قوزغالغاندا NetGuard ئاپتۇماتىك قوزغىلىدۇ</string>
   <string name="msg_unavailable">Android نەشىر بۇ ئىقتىدار ئىشلەيدۇ</string>
   <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
+  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
   <string name="title_lockdown_enabled">قۇلۇپلاندى</string>
   <string name="title_unmetered_allowed">يول قويۇلدى</string>
   <string name="title_unmetered_blocked">قۇلۇپلاندى</string>

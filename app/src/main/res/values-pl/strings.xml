@@ -199,6 +199,7 @@
   <string name="msg_on">Wyłączenie urządzenia z już uruchomioną aplikacją, spowoduje automatyczne uruchomienie aplikacji NetGuard po włączeniu urządzenia</string>
   <string name="msg_unavailable">Ta funkcja nie jest dostępna w tej wersji</string>
   <string name="msg_always_on">Inny usługa VPN jest ustawiona jako \"Włączony zawsze\" </string>
+  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
   <string name="title_lockdown_enabled">Ruch sieciowy zablokowany</string>
   <string name="title_unmetered_allowed">Połączenia nietaryfowe są dozwolone</string>
   <string name="title_unmetered_blocked">Połączenia nietaryfowe są zablokowane</string>

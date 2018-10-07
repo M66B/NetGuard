@@ -199,6 +199,7 @@
   <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
   <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
+  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Lưu lượng truy cập không trả phí được cho phép</string>
   <string name="title_unmetered_blocked">Lưu lượng truy cập không trả phí bị chặn</string>

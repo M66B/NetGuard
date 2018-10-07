@@ -199,6 +199,7 @@
   <string name="msg_on">Ako isključite uređaj s omogućenom značajkom NetGuard, automatski će se pokrenuti kada ponovno uključite uređaj</string>
   <string name="msg_unavailable">Ova značajka nije dostupna na ovoj verziji Androida</string>
   <string name="msg_always_on">Drugi VPN definiran je kao stalni VPN</string>
+  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
   <string name="title_lockdown_enabled">Promet je zaključan</string>
   <string name="title_unmetered_allowed">Neograničeni promet je dopušten</string>
   <string name="title_unmetered_blocked">Neograničeni promet je blokiran</string>

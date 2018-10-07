@@ -201,6 +201,7 @@ Ang iyong internet traffic ay hindi pinapadala sa isang liblib na vpn serber.</s
   <string name="msg_on">Kapag pinower-down mo ang iyong device na naka-enable ang NetGuard, awtomatikong gagana ang NetGuard sa pag-power up ng iyong device</string>
   <string name="msg_unavailable">Ang katangiang ito ay hindi magagamit sa bersyon ng iyong Android</string>
   <string name="msg_always_on">May isa pang VPN na nakatalaga bilang VPN na palaging nakabukas</string>
+  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
   <string name="title_lockdown_enabled">Ang traffic ay naka-lock down</string>
   <string name="title_unmetered_allowed">Ang hindi de-metrong traffic ay pinapahintulutan</string>
   <string name="title_unmetered_blocked">Ang hindi de-metrong traffic ay hinaharangan</string>

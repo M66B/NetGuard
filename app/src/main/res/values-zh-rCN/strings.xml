@@ -203,6 +203,7 @@
   <string name="msg_on">关机时启用网络守护将在下次开机时自动启动。</string>
   <string name="msg_unavailable">此特性在 Android 版本上不可用</string>
   <string name="msg_always_on">另一个 VPN 已设置为始终开启</string>
+  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
   <string name="title_lockdown_enabled">流量已锁定</string>
   <string name="title_unmetered_allowed">已允许非按流量计费的网络数据</string>
   <string name="title_unmetered_blocked">已阻止非按流量计费的网络数据</string>
