@@ -33,15 +33,15 @@ import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -194,11 +194,18 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 if (isChecked) {
                     String alwaysOn = Settings.Secure.getString(getContentResolver(), "always_on_vpn_app");
                     Log.i(TAG, "Always-on=" + alwaysOn);
-                    if (!TextUtils.isEmpty(alwaysOn) && !getPackageName().equals(alwaysOn)) {
-                        swEnabled.setChecked(false);
-                        Toast.makeText(ActivityMain.this, R.string.msg_always_on, Toast.LENGTH_LONG).show();
-                        return;
-                    }
+                    if (!TextUtils.isEmpty(alwaysOn))
+                        if (getPackageName().equals(alwaysOn)) {
+                            if (prefs.getBoolean("filter", false)) {
+                                swEnabled.setChecked(false);
+                                Toast.makeText(ActivityMain.this, R.string.msg_always_on_filter, Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        } else {
+                            swEnabled.setChecked(false);
+                            Toast.makeText(ActivityMain.this, R.string.msg_always_on, Toast.LENGTH_LONG).show();
+                            return;
+                        }
 
                     try {
                         final Intent prepare = VpnService.prepare(ActivityMain.this);
