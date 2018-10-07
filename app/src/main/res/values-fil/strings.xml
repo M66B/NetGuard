@@ -201,7 +201,7 @@ Ang iyong daloy ng internet ay hindi naipadala sa malayong serber ng VPN.</strin
   <string name="msg_on">Ang kapangyarahin ay ibaba ang iyong gamit kasama ang NetGuard ay naka-enable, gagawin nameng awtomato ang pagbukas ng NetGuard para sa pagpapataas ng kapangyarahin sa iyong gamit</string>
   <string name="msg_unavailable">Ang katangiang ito ay hindi pwede sa iyong beryon ng Android</string>
   <string name="msg_always_on">Ang panibagong VPN ay nakatakda para maging laging-bukas ang VPN</string>
-  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
+  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Ang daloy ay naka-lock down</string>
   <string name="title_unmetered_allowed">Ang hindi sinukat na daloy ay pinapayagan</string>
   <string name="title_unmetered_blocked">Ang hindi sinukat na dalot ay naka-block</string>

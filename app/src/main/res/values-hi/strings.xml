@@ -199,7 +199,7 @@
   <string name="msg_on">NetGuard के साथ अपने डिवाइस को बंद करने पर, आपके डिवाइस के शुरू होने के साथ NetGuard स्वचालित रूप से शुरू होगा।</string>
   <string name="msg_unavailable">यह सुविधा इस एंड्रॉइड संस्करण पर उपलब्ध नहीं है</string>
   <string name="msg_always_on">अन्य VPN हमेशा चालू रहने लिए निर्धारित हैं</string>
-  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
+  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">आवागमन बंद है</string>
   <string name="title_unmetered_allowed">Unmetered यातायात की अनुमति है</string>
   <string name="title_unmetered_blocked">Unmetered यातायात अवरुद्ध है</string>

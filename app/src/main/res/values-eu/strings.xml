@@ -203,7 +203,7 @@ Zure internet trafikoa ez da kanpo VPN zerbitzari batera bidaltzen.</string>
   <string name="msg_on">NetGuard gaituta dagoela gailua itzaltzen baduzu, NetGuard automatikoki abiatuko da gailua berriro piztean</string>
   <string name="msg_unavailable">Ezaugarri hau ez dago eskuragarri Android bertsio honetan</string>
   <string name="msg_always_on">Beste VPN bat ezarri da beti gaituta dagoen VPN gisa</string>
-  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
+  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Trafikoa blokeatuta dago</string>
   <string name="title_unmetered_allowed">Neurtu gabeko trafikoa onartzen da</string>
   <string name="title_unmetered_blocked">Neurtu gabeko trafikoa blokeatzen da</string>

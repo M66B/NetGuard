@@ -200,7 +200,7 @@
   <string name="msg_on">إيقاف جهازك مع تشغيل NetGuard، سؤدي لعمل NetGuard تلقائياً عند تشغيل الجهاز</string>
   <string name="msg_unavailable">هذه الوظيفة غير متوفرة في هذا الاصدار</string>
   <string name="msg_always_on">يتم تعيين VPN آخر دوماً على VPN</string>
-  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
+  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">تم تأمين مرور المعلومات</string>
   <string name="title_unmetered_allowed">الحركة الغير مقاسة مسموحة</string>
   <string name="title_unmetered_blocked">الحركة الغير مقاسة محظورة</string>

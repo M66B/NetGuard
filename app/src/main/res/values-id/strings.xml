@@ -201,7 +201,7 @@
   <string name="msg_on">Menghidupkan perangkat Anda dengan NetGuard diaktifkan, secara otomatis akan menghidupkan NetGuard saat menyalakan perangkat Anda</string>
   <string name="msg_unavailable">Fitur ini tidak tersedia di versi Android ini</string>
   <string name="msg_always_on">VPN lain diatur sebagai VPN Always-on</string>
-  <string name="msg_always_on_filter">NetGuard both in filtering mode and set to Always-on VPN will block all traffic</string>
+  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Lalu lintas dikunci</string>
   <string name="title_unmetered_allowed">Lalu lintas yang tidak diinginkan diizinkan</string>
   <string name="title_unmetered_blocked">Lalu lintas yang tidak macet diblokir</string>

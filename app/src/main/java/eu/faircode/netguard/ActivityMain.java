@@ -196,9 +196,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     Log.i(TAG, "Always-on=" + alwaysOn);
                     if (!TextUtils.isEmpty(alwaysOn))
                         if (getPackageName().equals(alwaysOn)) {
-                            if (prefs.getBoolean("filter", false)) {
+                            int lockdown = Settings.Secure.getInt(getContentResolver(), "always_on_vpn_lockdown", 0);
+                            if (lockdown != 0 && prefs.getBoolean("filter", false)) {
                                 swEnabled.setChecked(false);
-                                Toast.makeText(ActivityMain.this, R.string.msg_always_on_filter, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ActivityMain.this, R.string.msg_always_on_lockdown, Toast.LENGTH_LONG).show();
                                 return;
                             }
                         } else {
