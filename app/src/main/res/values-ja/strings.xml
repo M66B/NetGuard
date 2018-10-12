@@ -6,10 +6,10 @@
   <string name="app_android">NetGuard は Android 5.1 以降が必要です</string>
   <string name="app_xposed">Xposed があまりにクラッシュを引き起こしすぎるため、NetGuard が Google Play ストアから削除される可能性があります。したがって Xposed がインストールされていると、NetGuard はサポートされていません</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">プライバシーポリシー</a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+  <string name="app_first">NetGuard の開発およびテストには細心の注意を払いましたが、NetGuard がすべてのデバイスで正常に動作することを保証することはできません。</string>
   <string name="app_agree">同意する</string>
   <string name="app_disagree">同意しない</string>
-  <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+  <string name="app_support">NetGuard にはあなたの支援が必要です。プロジェクトを維持するため、タップしてプロ機能を購入してください。</string>
   <string name="channel_foreground">実行中のサービス</string>
   <string name="channel_notify">全般通知</string>
   <string name="channel_access">アクセス通知</string>
@@ -29,7 +29,7 @@
   <string name="menu_legend">凡例</string>
   <string name="menu_support">支援</string>
   <string name="menu_about">アプリについて</string>
-  <string name="menu_apps">Other apps</string>
+  <string name="menu_apps">他のアプリ</string>
   <string name="menu_protocol_other">その他</string>
   <string name="menu_traffic_allowed">許可</string>
   <string name="menu_traffic_blocked">ブロック</string>
@@ -199,7 +199,8 @@
   <string name="msg_on">NetGuard を有効にしてデバイスの電源を切ると、デバイスの電源投入時に NetGuard が自動的に開始されます</string>
   <string name="msg_unavailable">この機能はこのAndroidのバージョンでは利用できません。</string>
   <string name="msg_always_on">別の VPN が、常時オン VPN として設定されます</string>
-  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_always_on_lockdown">フィルタリングモードで NetGuard を使用するには、Android VPN 設定で \"VPN でない接続をブロック\" をオフにしてください</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">トラフィックを封鎖</string>
   <string name="title_unmetered_allowed">定額制のトラフィックを許可</string>
   <string name="title_unmetered_blocked">定額制のトラフィックをブロック</string>

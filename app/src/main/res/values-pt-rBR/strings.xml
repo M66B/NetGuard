@@ -202,6 +202,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
   <string name="msg_unavailable">Este recurso não está disponível nesta versão Android</string>
   <string name="msg_always_on">Outra VPN é definida como sempre-na VPN</string>
   <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Tráfego está bloqueado</string>
   <string name="title_unmetered_allowed">Tráfego ilimitado permitido</string>
   <string name="title_unmetered_blocked">Tráfego ilimitado bloqueado</string>

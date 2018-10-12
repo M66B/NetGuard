@@ -199,7 +199,8 @@
   <string name="msg_on">Wenn NetGuard beim Ausschalten aktiv war, dann startet NetGuard bein Einschalten automatisch wieder.</string>
   <string name="msg_unavailable">Diese Funktion ist in dieser Android-Version nicht verfügbar</string>
   <string name="msg_always_on">Eine andere VPN ist als \'VPN immer eingeschaltet\' festgelegt</string>
-  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_always_on_lockdown">Um NetGuard im Filtermodus benützen zu können, in den Android VPN Einstellungen \"Verbindungen ohne VPN blockieren\" deaktivieren</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Datenverkehr ist eingeschränkt</string>
   <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
   <string name="title_unmetered_blocked">Nicht volumenbeschränkter Verkehr ist blockiert</string>

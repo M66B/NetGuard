@@ -201,7 +201,8 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_on">Si vous éteignez votre appareil avec NetGuard activé, celui ci démarrera automatiquement lorsque vous rallumerez votre appareil</string>
   <string name="msg_unavailable">Cette fonctionnalité n’est pas disponible sur cette version d’Android</string>
   <string name="msg_always_on">Un autre VPN est défini comme VPN permanent</string>
-  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_always_on_lockdown">Désactiver \"Bloquer les connexions sans VPN\" dans les paramètres VPN d\'Android pour utiliser le filtrage de NetGuard</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Le trafic est verrouillé</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>
   <string name="title_unmetered_blocked">Le trafic illimité est bloqué</string>

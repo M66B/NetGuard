@@ -200,6 +200,7 @@
   <string name="msg_unavailable">Ta funkcja nie jest dostępna w tej wersji</string>
   <string name="msg_always_on">Inny usługa VPN jest ustawiona jako \"Włączony zawsze\" </string>
   <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Ruch sieciowy zablokowany</string>
   <string name="title_unmetered_allowed">Połączenia nietaryfowe są dozwolone</string>
   <string name="title_unmetered_blocked">Połączenia nietaryfowe są zablokowane</string>

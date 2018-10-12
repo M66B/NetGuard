@@ -200,6 +200,7 @@
   <string name="msg_unavailable">This feature is not available on this Android version</string>
   <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
   <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Lưu lượng truy cập không trả phí được cho phép</string>
   <string name="title_unmetered_blocked">Lưu lượng truy cập không trả phí bị chặn</string>

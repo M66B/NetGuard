@@ -202,6 +202,7 @@
   <string name="msg_unavailable">תכונה זו אינו זמינה בגרסת האנדרואיד הנוכחית</string>
   <string name="msg_always_on">חיבור VPN אחר מוגדר כ\'VPN מופעל תמיד\'</string>
   <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">תעבורה נעולה</string>
   <string name="title_unmetered_allowed">תעבורה חופשית מאופשרת</string>
   <string name="title_unmetered_blocked">תעבורה חופשית חסומה</string>

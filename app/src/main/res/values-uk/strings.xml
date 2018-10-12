@@ -200,7 +200,8 @@
   <string name="msg_on">Вимкнення пристрою із запущеним NetGuard автоматично запустить NetGuard під час увімкнення вашого пристрою</string>
   <string name="msg_unavailable">Ця функція недоступна в цій версії Android</string>
   <string name="msg_always_on">Інший VPN встановлено як завжди увімкнений VPN</string>
-  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_always_on_lockdown">Вимкніть параметр \"Блокувати підключення без VPN\" у параметрах VPN в Android, щоб використовувати NetGuard у режимі фільтрування</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Трафік заблоковано</string>
   <string name="title_unmetered_allowed">Безлімітний трафік дозволено</string>
   <string name="title_unmetered_blocked">Безлімітний трафік заблоковано</string>

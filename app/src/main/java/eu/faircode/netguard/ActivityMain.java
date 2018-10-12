@@ -192,21 +192,35 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 prefs.edit().putBoolean("enabled", isChecked).apply();
 
                 if (isChecked) {
+
                     String alwaysOn = Settings.Secure.getString(getContentResolver(), "always_on_vpn_app");
                     Log.i(TAG, "Always-on=" + alwaysOn);
                     if (!TextUtils.isEmpty(alwaysOn))
                         if (getPackageName().equals(alwaysOn)) {
-                            int lockdown = Settings.Secure.getInt(getContentResolver(), "always_on_vpn_lockdown", 0);
-                            if (lockdown != 0 && prefs.getBoolean("filter", false)) {
-                                swEnabled.setChecked(false);
-                                Toast.makeText(ActivityMain.this, R.string.msg_always_on_lockdown, Toast.LENGTH_LONG).show();
-                                return;
+                            if (prefs.getBoolean("filter", false)) {
+                                int lockdown = Settings.Secure.getInt(getContentResolver(), "always_on_vpn_lockdown", 0);
+                                Log.i(TAG, "Lockdown=" + lockdown);
+                                if (lockdown != 0) {
+                                    swEnabled.setChecked(false);
+                                    Toast.makeText(ActivityMain.this, R.string.msg_always_on_lockdown, Toast.LENGTH_LONG).show();
+                                    return;
+                                }
                             }
                         } else {
                             swEnabled.setChecked(false);
                             Toast.makeText(ActivityMain.this, R.string.msg_always_on, Toast.LENGTH_LONG).show();
                             return;
                         }
+
+                    String dns_mode = Settings.Global.getString(getContentResolver(), "private_dns_mode");
+                    Log.i(TAG, "Private DNS mode=" + dns_mode);
+                    if (dns_mode == null)
+                        dns_mode = "off";
+                    if (!"off".equals(dns_mode)) {
+                        swEnabled.setChecked(false);
+                        Toast.makeText(ActivityMain.this, R.string.msg_private_dns, Toast.LENGTH_LONG).show();
+                        return;
+                    }
 
                     try {
                         final Intent prepare = VpnService.prepare(ActivityMain.this);

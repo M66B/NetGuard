@@ -202,7 +202,8 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="msg_on">Cihazınızın gücünü NetGuard\'ı etkin duruma getirerek kapatın, cihazınızın gücü açıldığında NetGuard otomatik olarak başlayacak</string>
   <string name="msg_unavailable">Bu özellik, bu Android sürümünde mevcut değil</string>
   <string name="msg_always_on">Diğer VPN, Daima-açık VPN olarak ayarlanır</string>
-  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_always_on_lockdown">NetGuard\'ı filtreleme modunda kullanmak için Android VPN ayarlarından \"VPN olmadan bağlantıları engelle\" özelliğini kapatın</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Trafik kilitlendi</string>
   <string name="title_unmetered_allowed">İzin verilmiş hesaplanamayan veri kullanımı</string>
   <string name="title_unmetered_blocked">Engellenmiş hesaplanamayan veri kullanımı</string>

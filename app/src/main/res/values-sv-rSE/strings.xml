@@ -77,8 +77,8 @@
   <string name="setting_national_roaming">Ignorera nationell roaming</string>
   <string name="setting_eu_roaming">Ignorera EU-roaming</string>
   <string name="setting_call">Inaktivera under samtal</string>
-  <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
-  <string name="setting_lockdown_other">Lockdown mobile</string>
+  <string name="setting_lockdown_wifi">Lås Wi-Fi</string>
+  <string name="setting_lockdown_other">Lås mobil</string>
   <string name="setting_reload_onconnectivity">Ladda om vid förändrad uppkoppling</string>
   <string name="setting_advanced_options">Avancerade inställningar</string>
   <string name="setting_system">Hantera systemappar</string>
@@ -86,7 +86,7 @@
   <string name="setting_access">Meddela vid internetåtkomst</string>
   <string name="setting_filter">Filtrera trafik</string>
   <string name="setting_clear_onreload">Stäng anslutningar vid omladdning</string>
-  <string name="setting_lockdown">Lockdown traffic</string>
+  <string name="setting_lockdown">Lås trafik</string>
   <string name="setting_track_usage">Spåra nätverksanvändning</string>
   <string name="setting_reset_usage">Återställ nätverksanvändning</string>
   <string name="setting_show_resolved">Show resolved domain names</string>
@@ -204,6 +204,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_unavailable">Denna funktion är tillgänglig för denna Android-version</string>
   <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
   <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Traffic is locked down</string>
   <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
   <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>

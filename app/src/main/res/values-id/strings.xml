@@ -6,7 +6,7 @@
   <string name="app_android">NetGuard membutuhkan Android 5.1 ke atas</string>
   <string name="app_xposed">Xposed menyebabkan terlalu banyak crash, yang mungkin menyebabkan NetGuard dihapus dari Google Play Store, oleh karena itu NetGuard tidak didukung saat Xposed terinstal</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/"> Kebijakan privasi </a></string>
-  <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+  <string name="app_first">Hati-hati telah diambil untuk mengembangkan dan menguji NetGuard, namun itu mustahil untuk menjamin NetGuard akan bekerja dengan benar pada setiap perangkat.</string>
   <string name="app_agree">Saya setuju</string>
   <string name="app_disagree">Saya tidak setuju</string>
   <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
@@ -29,7 +29,7 @@
   <string name="menu_legend">Legenda</string>
   <string name="menu_support">Bantuan</string>
   <string name="menu_about">Tentang</string>
-  <string name="menu_apps">Other apps</string>
+  <string name="menu_apps">Aplikasi lainnya</string>
   <string name="menu_protocol_other">Lainnya</string>
   <string name="menu_traffic_allowed">Diizinkan</string>
   <string name="menu_traffic_blocked">Diblokir</string>
@@ -201,7 +201,8 @@
   <string name="msg_on">Menghidupkan perangkat Anda dengan NetGuard diaktifkan, secara otomatis akan menghidupkan NetGuard saat menyalakan perangkat Anda</string>
   <string name="msg_unavailable">Fitur ini tidak tersedia di versi Android ini</string>
   <string name="msg_always_on">VPN lain diatur sebagai VPN Always-on</string>
-  <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
+  <string name="msg_always_on_lockdown">Mematikan \"Blok koneksi tanpa VPN\" dalam pengaturan Android VPN untuk menggunakan NetGuard dalam mode penyaringan</string>
+  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
   <string name="title_lockdown_enabled">Lalu lintas dikunci</string>
   <string name="title_unmetered_allowed">Lalu lintas yang tidak diinginkan diizinkan</string>
   <string name="title_unmetered_blocked">Lalu lintas yang tidak macet diblokir</string>
