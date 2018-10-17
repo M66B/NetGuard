@@ -271,6 +271,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ61"></a>
 [**(61) Help, NetGuard crashed!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ61)
 
+<a name="FAQ62"></a>
+[**(62) How can I solve 'There was a problem parsing the package' ?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ62)
+
 Support
 -------
 

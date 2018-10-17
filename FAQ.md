@@ -48,7 +48,7 @@ However, NetGuard supports a [SOCKS5 proxy](https://en.wikipedia.org/wiki/SOCKS)
 <a name="FAQ3"></a>
 **(3) Can I use NetGuard on any Android version?**
 
-No, the minimum required Android version is 5.1 (<a href= "https://developer.android.com/about/versions/android-5.1.html">LOLLIPOP</a>)
+No, the minimum required Android version is 5.1 (<a href= "https://developer.android.com/about/versions/lollipop">Lollipop</a>)
 
 <a name="FAQ4"></a>
 **(4) Will NetGuard use extra battery power?**
@@ -432,6 +432,7 @@ Wildcards to allow/block addresses would have a significant performance and usab
 * RECEIVE_BOOT_COMPLETED ('*Run at startup*'): to start the firewall when booting the device
 * WAKE_LOCK ('*Prevent device from sleeping*'): to reliably reload rules in the background on connectivity changes
 * VIBRATE: to provide vibration feedback on widget tap
+* FOREGROUND_SERVICE ('foreground service'): to run a foreground service on Android 9 Pie and later
 * BILLING: to use in-app billing
 
 <a name="FAQ43"></a>
@@ -639,6 +640,12 @@ then it is mostly caused by bugs in your Android version
 I am happy to check what the cause of a crash is and I will fix it whenever possible, but I need a logcat captured from your PC with the crash log for this.
 Since logcats are mostly quite large, I will need the exact time of the crash as well.
 If you don't know how to capture a logcat from your PC, please use your favorite search engine to find one of the numerous guides.
+
+<a name="FAQ62"></a>
+**(62) How can I solve 'There was a problem parsing the package' ?**
+
+Likely causes are that the downloaded APK file is damaged (which could be caused by a virus scanner)
+or that you are trying to install NetGuard on a not supported Android version.
 
 <br />
 

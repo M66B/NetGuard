@@ -95,7 +95,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_LOGCAT = 3;
     public static final int REQUEST_ROAMING = 4;
 
-    private static final int MIN_SDK = Build.VERSION_CODES.M;
+    private static final int MIN_SDK = Build.VERSION_CODES.LOLLIPOP_MR1;
 
     public static final String ACTION_RULES_CHANGED = "eu.faircode.netguard.ACTION_RULES_CHANGED";
     public static final String ACTION_QUEUE_CHANGED = "eu.faircode.netguard.ACTION_QUEUE_CHANGED";
