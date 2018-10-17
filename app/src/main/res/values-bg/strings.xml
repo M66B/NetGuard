@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard предоставя прост, а също така и по-задълбочен начини за блокиране достъпа до интернет - без нужда от ROOT права. Достъпът на приложенията и адресите чрез Wi-Fi или мобилни данни, могат да се разрешават и забраняват по отделно.</string>
   <string name="app_copyright">\u00A9 2015–2018 автор - M. Bokhorst (M66B). Всички права запазени.</string>
-  <string name="app_android">NetGuard requires Android 6 or later</string>
+  <string name="app_android">NetGuard requires Android 5.1 or later</string>
   <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>

@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard இணைய - தேவை இல்லை வேர் தடுக்க எளிய மற்றும் மேம்பட்ட வழிகளை வழங்குகிறது. பயன்பாடுகள் மற்றும் முகவரிகளை தனித்தனியாக அனுமதிக்கப்பட்ட அல்லது இயலும் உங்கள் Wi-Fi மற்றும்/அல்லது மொபைல் இணைப்பை அணுகல் மறுக்கப்பட்டது.</string>
   <string name="app_copyright">பதிப்புரிமை \u00A9 வாக்கில்–2018 மூலம் அவதூறு Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requires Android 6 or later</string>
+  <string name="app_android">NetGuard requires Android 5.1 or later</string>
   <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
