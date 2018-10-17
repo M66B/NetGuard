@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard обеспечивает простые и широкие способы заблокировать доступ к интернету, который ещё и не требует root-прав. Приложениям и адресам можно индивидуально разрешить или заблокировать доступ к Wi-Fi и/или мобильной связи.</string>
   <string name="app_copyright">Авторское право \u00A9 2015–2018 М. Bokhorst (M66B)</string>
-  <string name="app_android">Для работы NetGuard требуется Android 5.1 или более поздняя версия</string>
+  <string name="app_android">Для работы NetGuard требуется Android 6 или более поздняя версия</string>
   <string name="app_xposed">Xposed вызывает слишком много сбоев, что может привести к удалению NetGuard из магазина Google Play, поэтому NetGuard не поддерживается, пока установлен Xposed</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Политика конфиденциальности</a></string>
   <string name="app_first">Разработке и тестированию NetGuard было уделено большое внимание, однако невозможно гарантировать, что NetGuard будет корректно работать на каждом устройстве.</string>
@@ -202,7 +202,7 @@
   <string name="msg_unavailable">Эта функция недоступна в этой версии Android</string>
   <string name="msg_always_on">Новый VPN установлен, как базовый VPN</string>
   <string name="msg_always_on_lockdown">Отключите «Блокировать подключения без VPN» в настройках Android VPN, чтобы использовать NetGuard в режиме фильтрации</string>
-  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">Отключите «Частный DNS» в настройках сети Android, чтобы использовать NetGuard в режиме фильтрации</string>
   <string name="title_lockdown_enabled">Трафик заблокирован</string>
   <string name="title_unmetered_allowed">Безлимитный трафик разрешен</string>
   <string name="title_unmetered_blocked">Безлимитный трафик блокируется</string>

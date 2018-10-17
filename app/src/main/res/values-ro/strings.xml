@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard oferă modalități simple și avansate de a bloca accesul la internet, ce nu necesită acces root. Accesul aplicațiilor la conexiunile Wi-Fi și/sau mobile poate fi permis sau blocat atât la nivel individual cât și la nivel de adresă.</string>
   <string name="app_copyright">Copyright \u00A9 2015–2018 by M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard necesită Android 5.1 sau mai nou</string>
+  <string name="app_android">NetGuard necesită Android 6 sau mai nou</string>
   <string name="app_xposed">Xposed cauzează prea multe erori care ar putea duce la scoaterea NetGuard din Google Play store, prin urmare, NetGuard nu va fi suportat atunci când Xposed este instalat</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Politica de confidențialitate</a></string>
   <string name="app_first">NetGuard este dezvoltat și testat cu mare atenție, cu toate acestea este imposibil de garantat că va funcționa corect pe fiecare sau pe orice dispozitiv.</string>
@@ -203,7 +203,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
   <string name="msg_unavailable">Această caracteristică nu este disponibilă în această versiune de Android</string>
   <string name="msg_always_on">O altă rețea VPN este setată ca activată permanent</string>
   <string name="msg_always_on_lockdown">Opriți \"Blocare conexiuni fără VPN\" în setările VPN ale sistemului Android pentru a putea folosi filtrul în NetGuard</string>
-  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">Opriți modul \"DNS privat\" în setările de rețea Android pentru a putea folosi NetGuard în modul filtrare</string>
   <string name="title_lockdown_enabled">Traficul este închis</string>
   <string name="title_unmetered_allowed">Traficul de date necontorizat este permis</string>
   <string name="title_unmetered_blocked">Traficul de date necontorizat este blocat</string>

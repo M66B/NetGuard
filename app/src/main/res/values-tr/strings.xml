@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard root gerektirmeden internet erişimini engellemek için basit ve gelişmiş yöntemler kullanır. Wi-Fi yada mobil bağlantı ürerinden uygulamalar ve adresler için internet erişimini tek tek engelleyebilirsiniz.</string>
   <string name="app_copyright">Telif Hakkı \u00A9 2015–2018 by M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard, Android 5.1 veya üzerini gerektirir</string>
+  <string name="app_android">NetGuard Android 6 veya daha yeni bir sürümü gerektirir</string>
   <string name="app_xposed">Xposed, NetGuard\'ın Google Play Store\'dan kaldırılmasına neden olabilecek çok fazla çökmeye sebebiyet verir, bu nedenle NetGuard, Xposed yüklenirken desteklenmez</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Gizlilik Politikası</a></string>
   <string name="app_first">NetGuard\'ı geliştirmek ve test etmek için büyük özen gösterilmiştir, ancak NetGuard\'ın her cihazda doğru şekilde çalışacağını garanti etmek imkansızdır.</string>
@@ -203,7 +203,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
   <string name="msg_unavailable">Bu özellik, bu Android sürümünde mevcut değil</string>
   <string name="msg_always_on">Diğer VPN, Daima-açık VPN olarak ayarlanır</string>
   <string name="msg_always_on_lockdown">NetGuard\'ı filtreleme modunda kullanmak için Android VPN ayarlarından \"VPN olmadan bağlantıları engelle\" özelliğini kapatın</string>
-  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">NetGuard\'ı filtreleme modunda kullanmak için Android ağ ayarlarındaki \"Özel DNS\" özelliğini kapatın</string>
   <string name="title_lockdown_enabled">Trafik kilitlendi</string>
   <string name="title_unmetered_allowed">İzin verilmiş hesaplanamayan veri kullanımı</string>
   <string name="title_unmetered_blocked">Engellenmiş hesaplanamayan veri kullanımı</string>

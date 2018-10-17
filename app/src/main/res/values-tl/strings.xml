@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">Ang NetGuard ay nagbibigay daan sa payak at pinahusay na mga pamamaraan upang hadlangan ang pag-access sa internet - na hindi nangangailangan ng pag-root. Ang mga app at mga addresses ay maaring isa-isang pahintulutan o hadlangan sa pag-access sa iyong Wi-Fi at/o koneksiyon sa mobile.</string>
   <string name="app_copyright">Copyright \u00A9 2015–2018 mula kay M. Bokhorst (M66B)</string>
-  <string name="app_android">Ang NetGuard ay nangangailangan ng Android 5.1 o mas bagong bersyon</string>
+  <string name="app_android">NetGuard requires Android 6 or later</string>
   <string name="app_xposed">Ang Xposed ay nagdudulot ng maraming pagkakataon ng pag-crash, na maaaring magresulta sa pagtanggal ng NetGuard mula sa Google Play Store, dahil dito and NetGuard ay hindi suportado habang naka-install ang Xposed</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Patakaran sa Pagiging Pribado</a></string>
   <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>

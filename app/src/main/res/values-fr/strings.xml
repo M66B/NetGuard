@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard offre des moyens simples et avancés pour bloquer l\'accès à internet - root non requis. L\'accès à votre connexion Wi-Fi et/ou mobile peut être individuellement autorisé ou refusé à des applications et à des adresses.</string>
   <string name="app_copyright">Copyright \u00A9 2015–2018 par M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requiert Android 5.1 ou ultérieur</string>
+  <string name="app_android">NetGuard nécessite Android 6 ou supérieur</string>
   <string name="app_xposed">Xposed provoque de trop nombreux plantages, qui pourraient faire en sorte que NetGuard soit retiré du Google Play Store, donc NetGuard n’est pas pris en charge tant que Xposed est installé</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Politique de confidentialité</a></string>
   <string name="app_first">Une grande attention a été apportée pour développer et tester NetGuard, cependant il est impossible de garantir un bon fonctionnement sur tous les appareils.</string>
@@ -202,7 +202,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
   <string name="msg_unavailable">Cette fonctionnalité n’est pas disponible sur cette version d’Android</string>
   <string name="msg_always_on">Un autre VPN est défini comme VPN permanent</string>
   <string name="msg_always_on_lockdown">Désactiver \"Bloquer les connexions sans VPN\" dans les paramètres VPN d\'Android pour utiliser le filtrage de NetGuard</string>
-  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">Désactivez l’option « DNS privé » dans les paramètres réseau Android pour utiliser NetGuard en mode filtrage</string>
   <string name="title_lockdown_enabled">Le trafic est verrouillé</string>
   <string name="title_unmetered_allowed">Le trafic illimité est autorisé</string>
   <string name="title_unmetered_blocked">Le trafic illimité est bloqué</string>

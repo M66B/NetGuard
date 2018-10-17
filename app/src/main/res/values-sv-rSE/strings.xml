@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard ger enkla och avancerade sätt att blockera åtkomst till internet - ingen root krävs. Appar och adresser kan individuellt tillåtas eller nekas åtkomst till din Wi-Fi eller mobil anslutning.</string>
   <string name="app_copyright">Copyright \u00A9 2015 – 2018 av M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard kräver Android 5.1 eller senare</string>
+  <string name="app_android">NetGuard requires Android 6 or later</string>
   <string name="app_xposed">Xposed orsakar alltför många krascher, vilket kan resultera i NetGuard tas bort från Google Play Store, därför stöds inte NetGuard medan Xposed är installerat</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Sekretesspolicy</a></string>
   <string name="app_first">Stor omsorg har tagits för att utveckla och testa NetGuard, men det är omöjligt att garantera att NetGuard fungerar korrekt på alla enheter.</string>
@@ -62,7 +62,7 @@
   <string name="setting_install">Meddela vid ny installation</string>
   <string name="setting_screen_on">Tillämpa regler \'när skärmen är påslagen\'</string>
   <string name="setting_auto">Aktivera automatiskt efter %1$s minuter</string>
-  <string name="setting_delay">Dröj i skärmavstängning i %1$s minuter</string>
+  <string name="setting_delay">Dröj skärmavstängning i %1$s minuter</string>
   <string name="setting_update">Sök efter uppdateringar</string>
   <string name="setting_network_options">Nätverksinställningar</string>
   <string name="setting_subnet">Subnet routing</string>
@@ -105,8 +105,8 @@
   <string name="setting_pcap_record_size">PCAP record size: %s B</string>
   <string name="setting_pcap_file_size">PCAP max. filstorlek: %s MB</string>
   <string name="setting_watchdog">Watchdog: varje %s minuter</string>
-  <string name="setting_stats_category">Hastighet meddelanden</string>
-  <string name="setting_stats">Visa hastighet meddelanden</string>
+  <string name="setting_stats_category">Hastighetsavisering</string>
+  <string name="setting_stats">Visa hastighetsaviseringar</string>
   <string name="setting_stats_top">Visa topp appar</string>
   <string name="setting_stats_frequency">Samplingsintervallet: %s ms</string>
   <string name="setting_stats_samples">Antal prover: %s s</string>
@@ -114,7 +114,7 @@
   <string name="setting_export">Exportera inställningar</string>
   <string name="setting_import">Importera inställningar</string>
   <string name="setting_hosts">Importera hosts-filen</string>
-  <string name="setting_hosts_url">Hosts file download URL</string>
+  <string name="setting_hosts_url">Hosts-filens hämtningswebbadress</string>
   <string name="setting_hosts_download">Hämta hosts-filen</string>
   <string name="setting_technical">Teknisk information</string>
   <string name="setting_technical_general">Allmänt</string>
@@ -151,7 +151,7 @@
   <string name="msg_started">Enforcing rules</string>
   <string name="msg_packages">%1$d tillåtna, %2$d blockerade</string>
   <string name="msg_hosts">%1$d tillåtna, %2$d blockerade, %3$d värdar</string>
-  <string name="msg_waiting">Waiting for event</string>
+  <string name="msg_waiting">Väntar på händelse</string>
   <string name="msg_disabled">NetGuard är inaktiverad, använd skjutreglage ovan för att aktivera NetGuard</string>
   <string name="msg_revoked">NetGuard har inaktiverats, sannolikt för att en annan VPN-baserade app används</string>
   <string name="msg_installed">\'%1$s\' installerad</string>
@@ -166,7 +166,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
   <string name="msg_error">Ett oväntat fel har inträffat: \'%s\'</string>
   <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
   <string name="msg_try">Prova NetGuard</string>
-  <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
+  <string name="msg_terms">Genom att donera samtycker du till <a href="http://www.netguard.me/#terms">villkor</a></string>
   <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) app is likely manipulating the screen.</string>
   <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dag</string>
   <string name="msg_kbsec">%7.3f KB/s</string>

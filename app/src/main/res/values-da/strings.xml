@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard tilbyder enkle og avancerede metoder til blokering af Internetadgang - ingen Root-rettighed krævet. Apps og adresser kan individuelt tillades eller nægtes adgang til din Wi-Fi- og/eller mobilforbindelse.</string>
   <string name="app_copyright">Ophavsrettighed \u00A9 2015–2018 M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard kræver Android 5.1 eller højere</string>
+  <string name="app_android">NetGuard kræver Android 6 eller senere</string>
   <string name="app_xposed">Xposed forårsager for mange nedbrud, som kan medføre, at NetGuard fjernes fra Google Play Butik. Derfor understøttes NetGuard er ikke, så længe Xposed er installeret</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Fortrolighedspolitik</a></string>
   <string name="app_first">Stor omhu er lagt i at udvikle og teste NetGuard, men det er umuligt at garanterer, at NetGuard vil fungere korrekt på alle eksisterende enheder.</string>
@@ -204,7 +204,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
   <string name="msg_unavailable">Funktionen er utilgængelig i denne Android-version</string>
   <string name="msg_always_on">En anden VPN er opsat som Altid Aktiv-VPN</string>
   <string name="msg_always_on_lockdown">Slå \"Blokér forbindelser uden VPN\" fra i Android VPN-indstillinger for at benytte NetGuard i filtreringstilstand</string>
-  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">Slå \"Private DNS\" fra i networksindstillinger for at benytte NetGuard i filtreringstilstand</string>
   <string name="title_lockdown_enabled">Trafik er aflåst</string>
   <string name="title_unmetered_allowed">Ikke-forbrugsafregnet trafik er tilladt</string>
   <string name="title_unmetered_blocked">Ikke-forbrugsafregnet trafik er blokeret</string>

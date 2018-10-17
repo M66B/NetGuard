@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard bietet einfache und erweiterte Möglichkeiten, um Zugriffe auf das Internet zu blockieren - keine Root-Rechte erforderlich! Anwendungen und Adressen kann der Zugriff auf die WLAN- und/oder mobile Datenverbindung einzeln erlaubt oder verweigert werden.</string>
   <string name="app_copyright">Copyright \u00A9 2015-2018 von M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard erfordert Android 5.1 oder höher</string>
+  <string name="app_android">NetGuard erfordert Android 6 oder höher</string>
   <string name="app_xposed">Xposed verursacht sehr viele Abstürze, dass dazu führen kann, das NetGuard aus dem Google Play Store entfernt werden könnte. Daher wird NetGuard nicht unterstützt, solange Xposed installiert ist</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Datenschutzerklärung</a></string>
   <string name="app_first">Die Entwicklung und das Testen von NetGuard wurden mit großer Sorgfalt durchgeführt, jedoch kann nicht garantiert werden, dass NetGuard auf jedem Gerät korrekt funktioniert.</string>
@@ -200,7 +200,7 @@
   <string name="msg_unavailable">Diese Funktion ist in dieser Android-Version nicht verfügbar</string>
   <string name="msg_always_on">Eine andere VPN ist als \'VPN immer eingeschaltet\' festgelegt</string>
   <string name="msg_always_on_lockdown">Um NetGuard im Filtermodus benützen zu können, in den Android VPN Einstellungen \"Verbindungen ohne VPN blockieren\" deaktivieren</string>
-  <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
+  <string name="msg_private_dns">\"Private DNS\" in Android Netzwerkeinstellungen deaktivieren, um NetGuard im Filtermodus zu verwenden</string>
   <string name="title_lockdown_enabled">Datenverkehr ist eingeschränkt</string>
   <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
   <string name="title_unmetered_blocked">Nicht volumenbeschränkter Verkehr ist blockiert</string>

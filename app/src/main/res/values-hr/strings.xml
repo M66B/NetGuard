@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard nudi jednostavne i napredne načine blokiranja pristupa internetu - root pristup nije potreban. Pristup Wi-Fi i/ili mobilnoj vezi može se individualno dopustiti ili odbiti aplikacijama i adresama.</string>
   <string name="app_copyright">Autorska prava \u00A9 2015. – 2018. M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard zahtijeva Android 5.1 ili noviji</string>
+  <string name="app_android">NetGuard zahtijeva Android 6 ili noviji</string>
   <string name="app_xposed">Xposed uzrokuje previše rušenja aplikacije, što može uzrokovati uklanjanje NetGuarda iz Trgovine Google Play, tako da NetGuard nije podržan sve dok je Xposed instaliran</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Pravilnik o privatnosti</a></string>
   <string name="app_first">Velika pažnja je posvećena razvijanju i testiranju NetGuard aplikacije, no nemoguće je jamčiti da će NetGuard ispravno raditi na svim uređajima.</string>
