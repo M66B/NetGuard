@@ -151,6 +151,12 @@ public class Rule {
             this.internet = true;
             this.enabled = true;
             this.pkg = false;
+        } else if (info.applicationInfo.uid == 1020) {
+            this.name = "MulticastDNSResponder";
+            this.system = true;
+            this.internet = true;
+            this.enabled = true;
+            this.pkg = false;
         } else if (info.applicationInfo.uid == 1021) {
             this.name = context.getString(R.string.title_gpsdaemon);
             this.system = true;
@@ -280,6 +286,16 @@ public class Rule {
             media.applicationInfo.uid = 1013;
             media.applicationInfo.icon = 0;
             listPI.add(media);
+
+            // MulticastDNSResponder
+            PackageInfo mdr = new PackageInfo();
+            mdr.packageName = "android.dns";
+            mdr.versionCode = Build.VERSION.SDK_INT;
+            mdr.versionName = Build.VERSION.RELEASE;
+            mdr.applicationInfo = new ApplicationInfo();
+            mdr.applicationInfo.uid = 1020;
+            mdr.applicationInfo.icon = 0;
+            listPI.add(mdr);
 
             // Add GPS daemon
             PackageInfo gps = new PackageInfo();
