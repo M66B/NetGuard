@@ -19,18 +19,36 @@ package eu.faircode.netguard;
     Copyright 2015-2018 by Marcel Bokhorst (M66B)
 */
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class ActivityDns extends AppCompatActivity {
     private static final String TAG = "NetGuard.DNS";
 
+    private static final int REQUEST_EXPORT = 1;
+
+    private boolean running;
     private AdapterDns adapter = null;
 
     @Override
@@ -45,6 +63,8 @@ public class ActivityDns extends AppCompatActivity {
         ListView lvDns = findViewById(R.id.lvDns);
         adapter = new AdapterDns(this, DatabaseHelper.getInstance(this).getDns());
         lvDns.setAdapter(adapter);
+
+        running = true;
     }
 
     @Override
@@ -52,6 +72,13 @@ public class ActivityDns extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.dns, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        PackageManager pm = getPackageManager();
+        menu.findItem(R.id.menu_export).setEnabled(getIntentExport().resolveActivity(pm) != null);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -72,6 +99,10 @@ public class ActivityDns extends AppCompatActivity {
                         clear();
                     }
                 });
+                return true;
+
+            case R.id.menu_export:
+                export();
                 return true;
         }
         return false;
@@ -115,6 +146,100 @@ public class ActivityDns extends AppCompatActivity {
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    private void export() {
+        startActivityForResult(getIntentExport(), REQUEST_EXPORT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResult request=" + requestCode + " result=" + requestCode + " ok=" + (resultCode == RESULT_OK));
+        if (requestCode == REQUEST_EXPORT) {
+            if (resultCode == RESULT_OK && data != null)
+                handleExport(data);
+        }
+    }
+
+    private Intent getIntentExport() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*"); // text/xml
+        intent.putExtra(Intent.EXTRA_TITLE, "netguard_dns_" + new SimpleDateFormat("yyyyMMdd").format(new Date().getTime()) + ".xml");
+        return intent;
+    }
+
+    private void handleExport(final Intent data) {
+        new AsyncTask<Object, Object, Throwable>() {
+            @Override
+            protected Throwable doInBackground(Object... objects) {
+                OutputStream out = null;
+                try {
+                    Uri target = data.getData();
+                    Log.i(TAG, "Writing URI=" + target);
+                    out = getContentResolver().openOutputStream(target);
+                    xmlExport(out);
+                    return null;
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    return ex;
+                } finally {
+                    if (out != null)
+                        try {
+                            out.close();
+                        } catch (IOException ex) {
+                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                        }
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Throwable ex) {
+                if (running) {
+                    if (ex == null)
+                        Toast.makeText(ActivityDns.this, R.string.msg_completed, Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(ActivityDns.this, ex.toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void xmlExport(OutputStream out) throws IOException {
+        XmlSerializer serializer = Xml.newSerializer();
+        serializer.setOutput(out, "UTF-8");
+        serializer.startDocument(null, true);
+        serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+        serializer.startTag(null, "netguard");
+
+        DateFormat df = new SimpleDateFormat("E, d MMM yyyy HH:mm:ss Z", Locale.US); // RFC 822
+
+        Cursor cursor = DatabaseHelper.getInstance(this).getDns();
+        int colTime = cursor.getColumnIndex("time");
+        int colQName = cursor.getColumnIndex("qname");
+        int colAName = cursor.getColumnIndex("aname");
+        int colResource = cursor.getColumnIndex("resource");
+        int colTTL = cursor.getColumnIndex("ttl");
+        while (cursor.moveToNext()) {
+            long time = cursor.getLong(colTime);
+            String qname = cursor.getString(colQName);
+            String aname = cursor.getString(colAName);
+            String resource = cursor.getString(colResource);
+            int ttl = cursor.getInt(colTTL);
+
+            serializer.startTag(null, "dns");
+            serializer.attribute(null, "time", df.format(time));
+            serializer.attribute(null, "qname", qname);
+            serializer.attribute(null, "aname", aname);
+            serializer.attribute(null, "resource", resource);
+            serializer.attribute(null, "ttl", Integer.toString(ttl));
+            serializer.endTag(null, "dns");
+        }
+        cursor.close();
+
+        serializer.endTag(null, "netguard");
+        serializer.endDocument();
+        serializer.flush();
+    }
+
     private void updateAdapter() {
         if (adapter != null)
             adapter.changeCursor(DatabaseHelper.getInstance(this).getDns());
@@ -122,6 +247,7 @@ public class ActivityDns extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        running = false;
         adapter = null;
         super.onDestroy();
     }

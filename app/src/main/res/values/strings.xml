@@ -45,6 +45,7 @@
     <string name="menu_pcap_enabled">PCAP enabled</string>
     <string name="menu_pcap_export">PCAP export</string>
     <string name="menu_clear">Clear</string>
+    <string name="menu_export">Export</string>
     <string name="menu_reset">Reset</string>
 
     <string name="menu_add">Add</string>
