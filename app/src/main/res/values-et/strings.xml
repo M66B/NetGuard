@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP lubatud</string>
   <string name="menu_pcap_export">PCAP eksport</string>
   <string name="menu_clear">Tühjenda</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">Lähtesta</string>
   <string name="menu_add">Lisa</string>
   <string name="menu_delete">Kustuta</string>

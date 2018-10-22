@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP er aktivert</string>
   <string name="menu_pcap_export">PCAP-eksport</string>
   <string name="menu_clear">Tøm</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">Tilbakestill</string>
   <string name="menu_add">Legg til</string>
   <string name="menu_delete">Slett</string>

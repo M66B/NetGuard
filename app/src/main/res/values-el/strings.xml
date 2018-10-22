@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP ενεργοποιημένο</string>
   <string name="menu_pcap_export">Εξαγωγή PCAP</string>
   <string name="menu_clear">Καθαρισμός</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">Μηδενισμός</string>
   <string name="menu_add">Προσθήκη</string>
   <string name="menu_delete">Διαγραφή</string>

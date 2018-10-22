@@ -41,6 +41,7 @@
   <string name="menu_pcap_enabled">PCAP מופעל</string>
   <string name="menu_pcap_export">ייצוא PCAP</string>
   <string name="menu_clear">נקה</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">איתחול מחדש</string>
   <string name="menu_add">הוסף</string>
   <string name="menu_delete">מחק</string>

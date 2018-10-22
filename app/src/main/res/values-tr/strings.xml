@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard root gerektirmeden internet erişimini engellemek için basit ve gelişmiş yöntemler kullanır. Wi-Fi yada mobil bağlantı ürerinden uygulamalar ve adresler için internet erişimini tek tek engelleyebilirsiniz.</string>
   <string name="app_copyright">Telif Hakkı \u00A9 2015–2018 by M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requires Android 5.1 or later</string>
+  <string name="app_android">NetGuard, Android 5.1 veya üzerini gerektirir</string>
   <string name="app_xposed">Xposed, NetGuard\'ın Google Play Store\'dan kaldırılmasına neden olabilecek çok fazla çökmeye sebebiyet verir, bu nedenle NetGuard, Xposed yüklenirken desteklenmez</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Gizlilik Politikası</a></string>
   <string name="app_first">NetGuard\'ı geliştirmek ve test etmek için büyük özen gösterilmiştir, ancak NetGuard\'ın her cihazda doğru şekilde çalışacağını garanti etmek imkansızdır.</string>
@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP etkin</string>
   <string name="menu_pcap_export">PCAP dosyasını kaydet</string>
   <string name="menu_clear">Temizle</string>
+  <string name="menu_export">Dışa aktar</string>
   <string name="menu_reset">Sıfırla</string>
   <string name="menu_add">Ekle</string>
   <string name="menu_delete">Sil</string>

@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP قوزغىتىش</string>
   <string name="menu_pcap_export">PCAP چىقىرىش</string>
   <string name="menu_clear">تازىلاش</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">ئەسلىگە قايتۇرۇش</string>
   <string name="menu_add">قوشۇش</string>
   <string name="menu_delete">ئۆچۈرۈش</string>

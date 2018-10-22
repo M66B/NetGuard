@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP aktiverad</string>
   <string name="menu_pcap_export">PCAP export</string>
   <string name="menu_clear">Rensa</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">Återställ</string>
   <string name="menu_add">Lägg till</string>
   <string name="menu_delete">Ta bort</string>

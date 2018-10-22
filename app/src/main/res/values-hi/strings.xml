@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP सक्षम</string>
   <string name="menu_pcap_export">PCAP निर्यात</string>
   <string name="menu_clear">खाली करें</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">रीसेट</string>
   <string name="menu_add">जोड़ें</string>
   <string name="menu_delete">मिटाना</string>

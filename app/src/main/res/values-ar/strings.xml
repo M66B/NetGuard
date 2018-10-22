@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">تمكين PCAP</string>
   <string name="menu_pcap_export">تصدير PCAP</string>
   <string name="menu_clear">محو</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">إعادة تعيين</string>
   <string name="menu_add">إضافة</string>
   <string name="menu_delete">حذف</string>

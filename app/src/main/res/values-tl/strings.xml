@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">Gumagana sa PCAP</string>
   <string name="menu_pcap_export">PCAP export</string>
   <string name="menu_clear">Nalinis</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">I-reset</string>
   <string name="menu_add">Idagdag</string>
   <string name="menu_delete">Burahin</string>

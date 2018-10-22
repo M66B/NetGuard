@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard は、インターネットへのアクセスをブロックするシンプルで高度な方法を提供します - root 権限は必要ありません。Wi-Fi および/またはモバイル接続へのアクセスを、アプリケーションとアドレスで個別に許可または拒否することができます。</string>
   <string name="app_copyright">Copyright \u00A9 2015–2018 by M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requires Android 5.1 or later</string>
+  <string name="app_android">NetGuard は Android 5.1 以降が必要です</string>
   <string name="app_xposed">Xposed があまりにクラッシュを引き起こしすぎるため、NetGuard が Google Play ストアから削除される可能性があります。したがって Xposed がインストールされていると、NetGuard はサポートされていません</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">プライバシーポリシー</a></string>
   <string name="app_first">NetGuard の開発およびテストには細心の注意を払いましたが、NetGuard がすべてのデバイスで正常に動作することを保証することはできません。</string>
@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP を有効</string>
   <string name="menu_pcap_export">PCAP をエクスポート</string>
   <string name="menu_clear">消去</string>
+  <string name="menu_export">エクスポート</string>
   <string name="menu_reset">リセット</string>
   <string name="menu_add">追加</string>
   <string name="menu_delete">削除</string>

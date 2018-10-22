@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP käytössä</string>
   <string name="menu_pcap_export">PCAP vienti</string>
   <string name="menu_clear">Tyhjennä</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">Palauta oletukset</string>
   <string name="menu_add">Lisää</string>
   <string name="menu_delete">Poista</string>

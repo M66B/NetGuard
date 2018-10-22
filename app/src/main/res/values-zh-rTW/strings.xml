@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard 提供簡便且專業的方式阻止網絡訪問 - 無需 root。可單獨允許或拒絕應用和地址訪問您的 Wi-Fi 和/或移動數據連接。</string>
   <string name="app_copyright">Copyright © 2015 by M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requires Android 5.1 or later</string>
+  <string name="app_android">NetGuard 需要 Android 版本5.1以上</string>
   <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
   <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP 已啟用</string>
   <string name="menu_pcap_export">PCAP 導出</string>
   <string name="menu_clear">清除</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">重置</string>
   <string name="menu_add">新增</string>
   <string name="menu_delete">刪除</string>

@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">Kích hoạt PCAP</string>
   <string name="menu_pcap_export">Xuất PCAP</string>
   <string name="menu_clear">Xóa</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">Thiết lập lại</string>
   <string name="menu_add">Thêm mới</string>
   <string name="menu_delete">Xoá</string>

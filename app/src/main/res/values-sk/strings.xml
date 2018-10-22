@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP povolené</string>
   <string name="menu_pcap_export">Exportovať PCAP</string>
   <string name="menu_clear">Vyčistiť</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">Resetovať</string>
   <string name="menu_add">Pridať</string>
   <string name="menu_delete">Vymazať</string>

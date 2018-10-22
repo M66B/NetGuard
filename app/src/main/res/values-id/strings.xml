@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP diaktifkan</string>
   <string name="menu_pcap_export">Ekspor PCAP</string>
   <string name="menu_clear">Bersihkan</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">Setel ulang</string>
   <string name="menu_add">Tambahkan</string>
   <string name="menu_delete">Hapus</string>

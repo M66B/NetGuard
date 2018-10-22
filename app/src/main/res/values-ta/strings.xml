@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP செயலாக்கம்</string>
   <string name="menu_pcap_export">PCAP ஏற்றுமதி</string>
   <string name="menu_clear">அழி</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">மீட்டமை</string>
   <string name="menu_add">சேர்</string>
   <string name="menu_delete">அழி</string>

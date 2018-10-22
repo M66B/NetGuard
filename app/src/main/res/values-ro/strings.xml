@@ -3,7 +3,7 @@
 <resources>
   <string name="app_description">NetGuard oferă modalități simple și avansate de a bloca accesul la internet, ce nu necesită acces root. Accesul aplicațiilor la conexiunile Wi-Fi și/sau mobile poate fi permis sau blocat atât la nivel individual cât și la nivel de adresă.</string>
   <string name="app_copyright">Copyright \u00A9 2015–2018 by M. Bokhorst (M66B)</string>
-  <string name="app_android">NetGuard requires Android 5.1 or later</string>
+  <string name="app_android">NetGuard necesită Android 5.1 sau mai nou</string>
   <string name="app_xposed">Xposed cauzează prea multe erori care ar putea duce la scoaterea NetGuard din Google Play store, prin urmare, NetGuard nu va fi suportat atunci când Xposed este instalat</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Politica de confidențialitate</a></string>
   <string name="app_first">NetGuard este dezvoltat și testat cu mare atenție, cu toate acestea este imposibil de garantat că va funcționa corect pe fiecare sau pe orice dispozitiv.</string>
@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">Activează PCAP</string>
   <string name="menu_pcap_export">Exportă PCAP</string>
   <string name="menu_clear">Curăță jurnalul</string>
+  <string name="menu_export">Exportă</string>
   <string name="menu_reset">Resetează</string>
   <string name="menu_add">Adaugă</string>
   <string name="menu_delete">Şterge</string>

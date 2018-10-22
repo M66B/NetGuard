@@ -40,6 +40,7 @@
   <string name="menu_pcap_enabled">PCAP engedélyezve</string>
   <string name="menu_pcap_export">PCAP exportálás</string>
   <string name="menu_clear">Törlés</string>
+  <string name="menu_export">Export</string>
   <string name="menu_reset">Visszaállitás</string>
   <string name="menu_add">Hozzáadás</string>
   <string name="menu_delete">Tőrlés</string>
