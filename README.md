@@ -51,6 +51,12 @@ Downloads:
 * [GitHub](https://github.com/M66B/NetGuard/releases)
 * [Google Play](https://play.google.com/store/apps/details?id=eu.faircode.netguard)
 
+Certificate fingerprints:
+
+* MD5: B6:4A:E8:08:1C:3C:9C:19:D6:9E:29:00:46:89:DA:73
+* SHA1: EF:46:F8:13:D2:C8:A0:64:D7:2C:93:6B:9B:96:D1:CC:CC:98:93:78
+* SHA256: E4:A2:60:A2:DC:E7:B7:AF:23:EE:91:9C:48:9E:15:FD:01:02:B9:3F:9E:7C:9D:82:B0:9C:0B:39:50:00:E4:D4
+
 Usage:
 
 * Enable the firewall using the switch in the action bar
