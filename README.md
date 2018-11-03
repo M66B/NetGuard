@@ -79,7 +79,7 @@ Compatibility
 
 The only way to build a no-root firewall on Android is to use the Android VPN service.
 Android doesn't allow chaining of VPN services, so you cannot use NetGuard together with other VPN based applications.
-See also [this FAQ](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ2).
+See also [this FAQ](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ2).
 
 NetGuard can be used on rooted devices too and even offers more features than most root firewalls.
 
@@ -107,178 +107,178 @@ Frequently Asked Questions (FAQ)
 --------------------------------
 
 <a name="FAQ0"></a>
-[**(0) How do I use NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ0)
+[**(0) How do I use NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ0)
 
 <a name="FAQ1"></a>
-[**(1) Can NetGuard completely protect my privacy?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ1)
+[**(1) Can NetGuard completely protect my privacy?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ1)
 
 <a name="FAQ2"></a>
-[**(2) Can I use another VPN application while using NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ2)
+[**(2) Can I use another VPN application while using NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ2)
 
 <a name="FAQ3"></a>
-[**(3) Can I use NetGuard on any Android version?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ3)
+[**(3) Can I use NetGuard on any Android version?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ3)
 
 <a name="FAQ4"></a>
-[**(4) Will NetGuard use extra battery power?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ4)
+[**(4) Will NetGuard use extra battery power?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ4)
 
 <a name="FAQ6"></a>
-[**(6) Will NetGuard send my internet traffic to an external (VPN) server?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ6)
+[**(6) Will NetGuard send my internet traffic to an external (VPN) server?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ6)
 
 <a name="FAQ7"></a>
-[**(7) Why are applications without internet permission shown?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ7)
+[**(7) Why are applications without internet permission shown?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ7)
 
 <a name="FAQ8"></a>
-[**(8) What do I need to enable for the Google Play™ store app to work?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ8)
+[**(8) What do I need to enable for the Google Play™ store app to work?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ8)
 
 <a name="FAQ9"></a>
-[**(9) Why is the VPN service being restarted?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ9)
+[**(9) Why is the VPN service being restarted?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ9)
 
 <a name="FAQ10"></a>
-[**(10) Will you provide a Tasker plug-in?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ10)
+[**(10) Will you provide a Tasker plug-in?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ10)
 
 <a name="FAQ13"></a>
-[**(13) How can I remove the ongoing NetGuard entry in the notification screen?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ13)
+[**(13) How can I remove the ongoing NetGuard entry in the notification screen?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ13)
 
 <a name="FAQ14"></a>
-[**(14) Why can't I select OK to approve the VPN connection request?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ14)
+[**(14) Why can't I select OK to approve the VPN connection request?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ14)
 
 <a name="FAQ15"></a>
-[**(15) Are F-Droid builds supported?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ15)
+[**(15) Are F-Droid builds supported?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ15)
 
 <a name="FAQ16"></a>
-[**(16) Why are some applications shown dimmed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ16)
+[**(16) Why are some applications shown dimmed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ16)
 
 <a name="FAQ17"></a>
-[**(17) Why is NetGuard using so much memory?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ17)
+[**(17) Why is NetGuard using so much memory?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ17)
 
 <a name="FAQ18"></a>
-[**(18) Why can't I find NetGuard in the Google Play™ store app?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ18)
+[**(18) Why can't I find NetGuard in the Google Play™ store app?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ18)
 
 <a name="FAQ19"></a>
-[**(19) Why does application XYZ still have internet access?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ19)
+[**(19) Why does application XYZ still have internet access?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ19)
 
 <a name="FAQ20"></a>
-[**(20) Can I Greenify/hibernate NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ20)
+[**(20) Can I Greenify/hibernate NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ20)
 
 <a name="FAQ21"></a>
-[**(21) Does doze mode affect NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ21)
+[**(21) Does doze mode affect NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ21)
 
 <a name="FAQ22"></a>
-[**(22) Can I tether (use the Android hotspot) / use Wi-Fi calling while using NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ22)
+[**(22) Can I tether (use the Android hotspot) / use Wi-Fi calling while using NetGuard?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ22)
 
 <a name="FAQ24"></a>
-[**(24) Can you remove the notification from the status bar?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ24)
+[**(24) Can you remove the notification from the status bar?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ24)
 
 <a name="FAQ25"></a>
-[**(25) Can you add a 'select all'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ25)
+[**(25) Can you add a 'select all'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ25)
 
 <a name="FAQ27"></a>
-[**(27) How do I read the blocked traffic log?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ27)
+[**(27) How do I read the blocked traffic log?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ27)
 
 <a name="FAQ28"></a>
-[**(28) Why is Google connectivity services allowed internet access by default?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ28)
+[**(28) Why is Google connectivity services allowed internet access by default?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ28)
 
 <a name="FAQ29"></a>
-[**(29) Why do I get 'The item you requested is not available for purchase'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ29)
+[**(29) Why do I get 'The item you requested is not available for purchase'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ29)
 
 <a name="FAQ30"></a>
-[**(30) Can I also run AFWall+ on the same device?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ30)
+[**(30) Can I also run AFWall+ on the same device?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ30)
 
 <a name="FAQ31"></a>
-[**(31) Why can some applications be configured as a group only?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ31)
+[**(31) Why can some applications be configured as a group only?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ31)
 
 <a name="FAQ32"></a>
-[**(32) Why is the battery/network usage of NetGuard so high**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ32)
+[**(32) Why is the battery/network usage of NetGuard so high**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ32)
 
 <a name="FAQ33"></a>
-[**(33) Can you add profiles?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ33)
+[**(33) Can you add profiles?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ33)
 
 <a name="FAQ34"></a>
-[**(34) Can you add the condition 'when on foreground'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ34)
+[**(34) Can you add the condition 'when on foreground'?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ34)
 
 <a name="FAQ35"></a>
-[**(35) Why does the VPN not start?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ35)
+[**(35) Why does the VPN not start?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ35)
 
 <a name="FAQ36"></a>
-[**(36) Can you add PIN or password protection?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ36)
+[**(36) Can you add PIN or password protection?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ36)
 
 <a name="FAQ37"></a>
-[**(37) Why are the pro features so expensive?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ37)
+[**(37) Why are the pro features so expensive?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ37)
 
 <a name="FAQ38"></a>
-[**(38) Why did NetGuard stop running?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ38)
+[**(38) Why did NetGuard stop running?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ38)
 
 <a name="FAQ39"></a>
-[**(39) How does a VPN based firewall differ from a iptables based firewall?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ39)
+[**(39) How does a VPN based firewall differ from a iptables based firewall?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ39)
 
 <a name="FAQ40"></a>
-[**(40) Can you add schedules?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ40)
+[**(40) Can you add schedules?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ40)
 
 <a name="FAQ41"></a>
-[**(41) Can you add wildcards?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ41)
+[**(41) Can you add wildcards?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ41)
 
 <a name="FAQ42"></a>
-[**(42) Why is permission ... needed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ42)
+[**(42) Why is permission ... needed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ42)
 
 <a name="FAQ43"></a>
-[**(43) I get 'This app is causing your device to run slowly'**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ43)
+[**(43) I get 'This app is causing your device to run slowly'**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ43)
 
 <a name="FAQ44"></a>
-[**(44) I don't get notifications on access**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ44)
+[**(44) I don't get notifications on access**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ44)
 
 <a name="FAQ45"></a>
-[**(45) Does NetGuard handle incoming connections?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ45)
+[**(45) Does NetGuard handle incoming connections?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ45)
 
 <a name="FAQ46"></a>
-[**(46) Can I get a refund?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ46)
+[**(46) Can I get a refund?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ46)
 
 <a name="FAQ47"></a>
-[**(47) Why are there in application advertisements?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ47)
+[**(47) Why are there in application advertisements?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ47)
 
 <a name="FAQ48"></a>
-[**(48) Why are some domain names blocked while they are set to be allowed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ48)
+[**(48) Why are some domain names blocked while they are set to be allowed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ48)
 
 <a name="FAQ49"></a>
-[**(49) Does NetGuard encrypt my internet traffic / hide my IP address?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ49)
+[**(49) Does NetGuard encrypt my internet traffic / hide my IP address?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ49)
 
 <a name="FAQ50"></a>
-[**(50) Will NetGuard automatically start on boot?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ50)
+[**(50) Will NetGuard automatically start on boot?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ50)
 
 <a name="FAQ51"></a>
-[**(51) NetGuard blocks all internet traffic!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ51)
+[**(51) NetGuard blocks all internet traffic!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ51)
 
 <a name="FAQ52"></a>
-[**(52) What is lockdown mode?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ52)
+[**(52) What is lockdown mode?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ52)
 
 <a name="FAQ53"></a>
-[**(53) The translation in my language is missing / incorrect / incomplete!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ53)
+[**(53) The translation in my language is missing / incorrect / incomplete!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ53)
 
 <a name="FAQ54"></a>
-[**(54) How to tunnel all TCP connections through the Tor network?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ54)
+[**(54) How to tunnel all TCP connections through the Tor network?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ54)
 
 <a name="FAQ55"></a>
-[**(55) Why does NetGuard connect to Amazon / ipinfo.io?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ55)
+[**(55) Why does NetGuard connect to Amazon / ipinfo.io?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ55)
 
 <a name="FAQ56"></a>
-[**(56) NetGuard allows all internet traffic!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ56)
+[**(56) NetGuard allows all internet traffic!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ56)
 
 <a name="FAQ57"></a>
-[**(57) Why does NetGuard use so much data?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ57)
+[**(57) Why does NetGuard use so much data?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ57)
 
 <a name="FAQ58"></a>
-[**(58) Why does loading the application list take a long time?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ58)
+[**(58) Why does loading the application list take a long time?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ58)
 
 <a name="FAQ59"></a>
-[**(59) Can you help me restore my purchase?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ59)
+[**(59) Can you help me restore my purchase?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ59)
 
 <a name="FAQ60"></a>
-[**(60) Why does IP (Wi-Fi) calling/SMS/MMS not work?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ60)
+[**(60) Why does IP (Wi-Fi) calling/SMS/MMS not work?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ60)
 
 <a name="FAQ61"></a>
-[**(61) Help, NetGuard crashed!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ61)
+[**(61) Help, NetGuard crashed!**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ61)
 
 <a name="FAQ62"></a>
-[**(62) How can I solve 'There was a problem parsing the package' ?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ62)
+[**(62) How can I solve 'There was a problem parsing the package' ?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ62)
 
 Support
 -------

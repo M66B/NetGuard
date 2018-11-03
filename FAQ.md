@@ -29,7 +29,7 @@ so it will not offer protection during early boot-up (although you can disable y
 It will, however, be much better than nothing.
 
 Android N and later allows NetGuard to be an [Always-On VPN](https://developer.android.com/preview/features/afw.html#always-on-vpn).
-On Android O do not enable '*Block connections without VPN*', see [question 51](#FAQ51)) for more information on this.
+On Android O do not enable '*Block connections without VPN*', see [question 51](#user-content-FAQ51)) for more information on this.
 
 To protect yourself more, remember to disable Wi-Fi and mobile data before rebooting,
 and only enable them on reboot, after the firewall service has started (and the key icon is visible in the status bar).
@@ -129,7 +129,7 @@ Note that, whether or not you get a dialog warning to agree upon,
 this operation will also disable any information or warning notifications from NetGuard,
 such as the new application installed notification.
 
-To read about the need for the notification in the first place, see [question 24](#FAQ24).
+To read about the need for the notification in the first place, see [question 24](#user-content-FAQ24).
 
 Some Android versions display an additional notification, which might include a key icon.
 This notification, unfortunately, cannot be removed.
@@ -219,7 +219,7 @@ This behavior can be disabled in the Android enhanced/advanced Wi-Fi settings.
 Android can kill background services at any time.
 This can only be prevented by turning a background service into a foreground service.
 Android requires an ongoing notification for all foreground services
-to make you aware of potential battery usage (see [question 4](#FAQ4)).
+to make you aware of potential battery usage (see [question 4](#user-content-FAQ4)).
 So, the notification cannot be removed without causing instability.
 However, the notification is being marked as low priority,
 which should result in moving it to the bottom of the list.
@@ -244,7 +244,7 @@ You can't disable this notification, but you can remove the icon from the status
 
 There is no need for a 'Select All' function
 because you can switch from block (blacklist) to allow (whitelist) mode using Netguard's settings.
-See also [question 0](#FAQ0).
+See also [question 0](#user-content-FAQ0).
 
 <a name="FAQ27"></a>
 **(27) How do I read the blocked traffic log?**
@@ -503,7 +503,7 @@ This value is used as a minimum DNS TTL value in an attempt to mimick the behavi
 <a name="FAQ49"></a>
 **(49) Does NetGuard encrypt my internet traffic / hide my IP address?**
 
-NetGuard is a firewall application that filters internet traffic on your device (see also [this question](#FAQ6)),
+NetGuard is a firewall application that filters internet traffic on your device (see also [this question](#user-content-FAQ6)),
 so it is not meant to - and does not - encrypt your internet traffic or hide your IP address.
 
 <a name="FAQ50"></a>
@@ -518,7 +518,7 @@ This can be disabled in the Android settings.
 **(51) Why does NetGuard block all internet traffic?!**
 
 Make sure you have put NetGuard on the doze exception list (Android 6 Marshmallow or later)
-and that Android allows NetGuard to use the internet in the background (see also [this question](#FAQ21)).
+and that Android allows NetGuard to use the internet in the background (see also [this question](#user-content-FAQ21)).
 
 Make sure you are not running NetGuard in allow (whitelist) mode (check the NetGuard default settings).
 
@@ -634,7 +634,7 @@ Please see the [compatibility section](https://github.com/M66B/NetGuard/#compati
 <a name="FAQ61"></a>
 **(61) Help, NetGuard crashed!**
 
-NetGuard rarely crashes ("unexpectedly stopped"), but if it crashed (which is something different than being stopped by Android, see [this FAQ](#FAQ38)),
+NetGuard rarely crashes ("unexpectedly stopped"), but if it crashed (which is something different than being stopped by Android, see [this FAQ](#user-content-FAQ38)),
 then it is mostly caused by bugs in your Android version
 (either in the [Android VPN service](https://developer.android.com/reference/android/net/VpnService.html) implementation or in the [Android Linux kernel](https://developer.android.com/guide/platform/index.html#linux-kernel)).
 I am happy to check what the cause of a crash is and I will fix it whenever possible, but I need a logcat captured from your PC with the crash log for this.
