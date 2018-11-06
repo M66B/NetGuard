@@ -647,6 +647,18 @@ If you don't know how to capture a logcat from your PC, please use your favorite
 Likely causes are that the downloaded APK file is damaged (which could be caused by a virus scanner)
 or that you are trying to install NetGuard on a not supported Android version.
 
+<a name="FAQ63"></a>
+**(63) Why is all DNS traffic allowed?**
+
+NetGuard blocks unlike any other Android firewall on real domain names.
+For this a list of domain names and IP address needs to be built.
+For this purpose, NetGuard allows all DNS traffic, even if the domain name is listed in the hosts file.
+However, this doesn't mean traffic to the resolved IP address is allowed.
+
+If you don't trust the system (Google's) or your provider's DNS servers, you can set alternative DNS servers in the advanced settings.
+Be sure to enter and confirm the addresses and to set two DNS server addresses.
+If you enter just one DNS server address, it will be used in addition to the default DNS server addresses.
+
 <br />
 
 **NetGuard is supported for phones and tablets only, so not for other device types like televisions or vehicles.**

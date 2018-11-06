@@ -280,6 +280,9 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ62"></a>
 [**(62) How can I solve 'There was a problem parsing the package' ?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ62)
 
+<a name="FAQ63"></a>
+[**(63) Why is all DNS traffic allowed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-FAQ63)
+
 Support
 -------
 
