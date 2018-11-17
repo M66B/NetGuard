@@ -25,7 +25,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.io.File;
@@ -38,6 +37,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import androidx.core.app.NotificationCompat;
 
 public class ServiceExternal extends IntentService {
     private static final String TAG = "NetGuard.External";

@@ -19,13 +19,14 @@ package eu.faircode.netguard;
     Copyright 2015-2018 by Marcel Bokhorst (M66B)
 */
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class IPUtil {
     private static final String TAG = "NetGuard.IPUtil";

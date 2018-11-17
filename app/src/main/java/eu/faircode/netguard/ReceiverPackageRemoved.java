@@ -22,13 +22,9 @@ package eu.faircode.netguard;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
-import java.util.Map;
+import androidx.core.app.NotificationManagerCompat;
 
 public class ReceiverPackageRemoved extends BroadcastReceiver {
     private static final String TAG = "NetGuard.Receiver";
