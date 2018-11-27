@@ -54,6 +54,8 @@ NetGuard provides the [StevenBlack hosts file](https://github.com/StevenBlack/ho
 * e.crashlytics.com
 * test.netguard.me
 
+Direct link to the hosts file: [https://github.com/StevenBlack/hosts/raw/master/hosts](https://github.com/StevenBlack/hosts/raw/master/hosts)
+
 <br />
 
 Automation:
