@@ -169,7 +169,7 @@ NetGuard requires at least Android 5.1, so it is not available in the Google Pla
 
 If you block internet access for an application, there is no way around it.
 However, applications could access the internet through other (system) applications/components.
-For example, Google Play services handles incoming push messages for most applications, including WhatsApp and Facebook messenger.
+For example, Google Play services receives incoming push messages and ads for most applications, including WhatsApp and Facebook messenger.
 You can prevent this by blocking internet access for the other application/component as well.
 You can block system applications and components, like Google Play services, by enabling the advanced NetGuard option *Manage system apps*.
 This can best be diagnosed by checking the global access log (three dot menu, *Show log*).
