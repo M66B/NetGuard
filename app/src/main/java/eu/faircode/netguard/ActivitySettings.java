@@ -615,6 +615,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             String vpn4 = prefs.getString(name, null);
             try {
                 checkAddress(vpn4);
+                prefs.edit().putString(name, vpn4.trim()).apply();
             } catch (Throwable ex) {
                 prefs.edit().remove(name).apply();
                 ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
@@ -629,6 +630,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             String vpn6 = prefs.getString(name, null);
             try {
                 checkAddress(vpn6);
+                prefs.edit().putString(name, vpn6.trim()).apply();
             } catch (Throwable ex) {
                 prefs.edit().remove(name).apply();
                 ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
@@ -643,6 +645,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             String dns = prefs.getString(name, null);
             try {
                 checkAddress(dns);
+                prefs.edit().putString(name, dns.trim()).apply();
             } catch (Throwable ex) {
                 prefs.edit().remove(name).apply();
                 ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
@@ -765,7 +768,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     private void checkAddress(String address) throws IllegalArgumentException, UnknownHostException {
-        if (address == null || TextUtils.isEmpty(address.trim()))
+        if (address != null)
+            address = address.trim();
+        if (TextUtils.isEmpty(address))
             throw new IllegalArgumentException("Bad address");
         if (!Util.isNumericAddress(address))
             throw new IllegalArgumentException("Bad address");
