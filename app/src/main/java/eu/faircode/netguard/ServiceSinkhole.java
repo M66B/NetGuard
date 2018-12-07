@@ -1338,6 +1338,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (ip6)
             builder.addRoute("2000::", 3); // unicast
 
+        // Set underlying network
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+            Network active = (cm == null ? null : cm.getActiveNetwork());
+            if (active != null) {
+                Log.i(TAG, "Setting underlying network=" + cm.getNetworkInfo(active));
+                builder.setUnderlyingNetworks(new Network[]{active});
+            }
+        }
+
         // MTU
         int mtu = jni_get_mtu();
         Log.i(TAG, "MTU=" + mtu);
