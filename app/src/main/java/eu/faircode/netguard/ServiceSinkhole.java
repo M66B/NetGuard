@@ -1174,7 +1174,19 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private ParcelFileDescriptor startVPN(Builder builder) throws SecurityException {
         try {
-            return builder.establish();
+            ParcelFileDescriptor pfd = builder.establish();
+
+            // Set underlying network
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                Network active = (cm == null ? null : cm.getActiveNetwork());
+                if (active != null) {
+                    Log.i(TAG, "Setting underlying network=" + cm.getNetworkInfo(active));
+                    setUnderlyingNetworks(new Network[]{active});
+                }
+            }
+
+            return pfd;
         } catch (SecurityException ex) {
             throw ex;
         } catch (Throwable ex) {
@@ -1337,16 +1349,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Log.i(TAG, "IPv6=" + ip6);
         if (ip6)
             builder.addRoute("2000::", 3); // unicast
-
-        // Set underlying network
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-            Network active = (cm == null ? null : cm.getActiveNetwork());
-            if (active != null) {
-                Log.i(TAG, "Setting underlying network=" + cm.getNetworkInfo(active));
-                builder.setUnderlyingNetworks(new Network[]{active});
-            }
-        }
 
         // MTU
         int mtu = jni_get_mtu();
