@@ -83,6 +83,7 @@ import java.util.Map;
 import java.util.Set;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.net.ConnectivityManagerCompat;
 
@@ -134,10 +135,16 @@ public class Util {
         }
     }
 
-    private static native String jni_getprop(String name);
+    /**
+     * @param name property name
+     * @return the system property value
+     */
+    @Nullable
+    private static native String jni_getprop(@NonNull String name);
 
     private static native boolean is_numeric_address(String ip);
 
+    @NonNull
     public static String getSelfVersionName(@NonNull Context context) {
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -150,6 +157,7 @@ public class Util {
     public static int getSelfVersionCode(@NonNull Context context) {
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            //noinspection deprecation getLongVersionCode() is not yet supported by most phones
             return pInfo.versionCode;
         } catch (PackageManager.NameNotFoundException ex) {
             return -1;
@@ -158,7 +166,7 @@ public class Util {
 
     public static boolean isNetworkActive(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return (cm == null ? false : cm.getActiveNetworkInfo() != null);
+        return cm != null && cm.getActiveNetworkInfo() != null;
     }
 
     public static boolean isConnected(@NonNull Context context) {
@@ -178,6 +186,7 @@ public class Util {
         return (cm != null && ConnectivityManagerCompat.isActiveNetworkMetered(cm));
     }
 
+    @NonNull
     public static String getWifiSSID(@NonNull Context context) {
         WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         String ssid = (wm == null ? null : wm.getConnectionInfo().getSSID());
@@ -190,6 +199,11 @@ public class Util {
         return (ni == null ? TelephonyManager.NETWORK_TYPE_UNKNOWN : ni.getSubtype());
     }
 
+    /**
+     * @param context the context used to obtain ConnectivityManager
+     * @return null when not connecting with mobile network, else return string like '4G'
+     */
+    @Nullable
     public static String getNetworkGeneration(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -202,6 +216,13 @@ public class Util {
         return (ni != null && ni.isRoaming());
     }
 
+    /**
+     * Determine if the device is connected with a network whose country iso is not the same as its
+     * sim's country iso.
+     *
+     * @param context the context used to obtain TelephonyManager
+     * @return true if network's country iso equals to sim's country iso
+     */
     public static boolean isNational(@NonNull Context context) {
         try {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -224,6 +245,7 @@ public class Util {
         return (country != null && listEU.contains(country.toUpperCase()));
     }
 
+    @NonNull
     public static String getNetworkGeneration(int networkType) {
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
