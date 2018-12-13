@@ -82,6 +82,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.net.ConnectivityManagerCompat;
 
@@ -137,7 +138,7 @@ public class Util {
 
     private static native boolean is_numeric_address(String ip);
 
-    public static String getSelfVersionName(Context context) {
+    public static String getSelfVersionName(@NonNull Context context) {
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return pInfo.versionName;
@@ -146,7 +147,7 @@ public class Util {
         }
     }
 
-    public static int getSelfVersionCode(Context context) {
+    public static int getSelfVersionCode(@NonNull Context context) {
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return pInfo.versionCode;
@@ -155,53 +156,53 @@ public class Util {
         }
     }
 
-    public static boolean isNetworkActive(Context context) {
+    public static boolean isNetworkActive(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return (cm == null ? false : cm.getActiveNetworkInfo() != null);
     }
 
-    public static boolean isConnected(Context context) {
+    public static boolean isConnected(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
         return (ni != null && ni.isConnected());
     }
 
-    public static boolean isWifiActive(Context context) {
+    public static boolean isWifiActive(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
         return (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
     }
 
-    public static boolean isMeteredNetwork(Context context) {
+    public static boolean isMeteredNetwork(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return (cm != null && ConnectivityManagerCompat.isActiveNetworkMetered(cm));
     }
 
-    public static String getWifiSSID(Context context) {
+    public static String getWifiSSID(@NonNull Context context) {
         WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         String ssid = (wm == null ? null : wm.getConnectionInfo().getSSID());
         return (ssid == null ? "NULL" : ssid);
     }
 
-    public static int getNetworkType(Context context) {
+    public static int getNetworkType(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
         return (ni == null ? TelephonyManager.NETWORK_TYPE_UNKNOWN : ni.getSubtype());
     }
 
-    public static String getNetworkGeneration(Context context) {
+    public static String getNetworkGeneration(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         return (ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE ? getNetworkGeneration(ni.getSubtype()) : null);
     }
 
-    public static boolean isRoaming(Context context) {
+    public static boolean isRoaming(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
         return (ni != null && ni.isRoaming());
     }
 
-    public static boolean isNational(Context context) {
+    public static boolean isNational(@NonNull Context context) {
         try {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             return (tm != null && tm.getSimCountryIso() != null && tm.getSimCountryIso().equals(tm.getNetworkCountryIso()));
@@ -210,7 +211,7 @@ public class Util {
         }
     }
 
-    public static boolean isEU(Context context) {
+    public static boolean isEU(@NonNull Context context) {
         try {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             return (tm != null && isEU(tm.getSimCountryIso()) && isEU(tm.getNetworkCountryIso()));
@@ -254,14 +255,14 @@ public class Util {
         }
     }
 
-    public static boolean hasPhoneStatePermission(Context context) {
+    public static boolean hasPhoneStatePermission(@NonNull Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             return (context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
         else
             return true;
     }
 
-    public static List<String> getDefaultDNS(Context context) {
+    public static List<String> getDefaultDNS(@NonNull Context context) {
         String dns1 = null;
         String dns2 = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -301,7 +302,7 @@ public class Util {
         return is_numeric_address(ip);
     }
 
-    public static boolean isInteractive(Context context) {
+    public static boolean isInteractive(@NonNull Context context) {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH)
             return (pm != null && pm.isScreenOn());
@@ -399,7 +400,7 @@ public class Util {
         return listResult;
     }
 
-    public static boolean canFilter(Context context) {
+    public static boolean canFilter(@NonNull Context context) {
         // https://android-review.googlesource.com/#/c/206710/1/untrusted_app.te
         File tcp = new File("/proc/net/tcp");
         File tcp6 = new File("/proc/net/tcp6");
@@ -415,11 +416,11 @@ public class Util {
         }
     }
 
-    public static boolean isDebuggable(Context context) {
+    public static boolean isDebuggable(@NonNull Context context) {
         return ((context.getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
     }
 
-    public static boolean isPlayStoreInstall(Context context) {
+    public static boolean isPlayStoreInstall(@NonNull Context context) {
         try {
             return "com.android.vending".equals(context.getPackageManager().getInstallerPackageName(context.getPackageName()));
         } catch (Throwable ex) {
@@ -428,7 +429,7 @@ public class Util {
         }
     }
 
-    public static boolean hasXposed(Context context) {
+    public static boolean hasXposed(@NonNull Context context) {
         if (true || !isPlayStoreInstall(context))
             return false;
         for (StackTraceElement ste : Thread.currentThread().getStackTrace())
@@ -448,7 +449,7 @@ public class Util {
         return false;
     }
 
-    public static String getFingerprint(Context context) {
+    public static String getFingerprint(@NonNull Context context) {
         try {
             PackageManager pm = context.getPackageManager();
             String pkg = context.getPackageName();
@@ -466,13 +467,13 @@ public class Util {
         }
     }
 
-    public static boolean hasValidFingerprint(Context context) {
+    public static boolean hasValidFingerprint(@NonNull Context context) {
         String calculated = getFingerprint(context);
         String expected = context.getString(R.string.fingerprint);
         return (calculated != null && calculated.equals(expected));
     }
 
-    public static void setTheme(Context context) {
+    public static void setTheme(@NonNull Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean dark = prefs.getBoolean("dark_theme", false);
         String theme = prefs.getString("theme", "teal");
@@ -494,7 +495,7 @@ public class Util {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private static void setTaskColor(Context context) {
+    private static void setTaskColor(@NonNull Context context) {
         TypedValue tv = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
         ((Activity) context).setTaskDescription(new ActivityManager.TaskDescription(null, null, tv.data));
@@ -698,7 +699,7 @@ public class Util {
         }
     }
 
-    public static String getGeneralInfo(Context context) {
+    public static String getGeneralInfo(@NonNull Context context) {
         StringBuilder sb = new StringBuilder();
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
@@ -727,7 +728,7 @@ public class Util {
         return sb.toString();
     }
 
-    public static String getNetworkInfo(Context context) {
+    public static String getNetworkInfo(@NonNull Context context) {
         StringBuilder sb = new StringBuilder();
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -781,13 +782,13 @@ public class Util {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public static boolean batteryOptimizing(Context context) {
+    public static boolean batteryOptimizing(@NonNull Context context) {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         return !pm.isIgnoringBatteryOptimizations(context.getPackageName());
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    public static boolean dataSaving(Context context) {
+    public static boolean dataSaving(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return (cm.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED);
     }
@@ -918,7 +919,7 @@ public class Util {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private static StringBuilder getTrafficLog(Context context) {
+    private static StringBuilder getTrafficLog(@NonNull Context context) {
         StringBuilder sb = new StringBuilder();
 
         Cursor cursor = DatabaseHelper.getInstance(context).getLog(true, true, true, true, true);
