@@ -123,10 +123,7 @@ public class Util {
             "SE", // Sweden
             "GB" // United Kingdom
     );
-
-    private static native String jni_getprop(String name);
-
-    private static native boolean is_numeric_address(String ip);
+    private static final Map<String, String> mapIPOrganization = new HashMap<>();
 
     static {
         try {
@@ -135,6 +132,10 @@ public class Util {
             System.exit(1);
         }
     }
+
+    private static native String jni_getprop(String name);
+
+    private static native boolean is_numeric_address(String ip);
 
     public static String getSelfVersionName(Context context) {
         try {
@@ -568,10 +569,6 @@ public class Util {
         return ((brief ? b : p) + (version > 0 ? version : ""));
     }
 
-    public interface DoubtListener {
-        void onSure();
-    }
-
     public static void areYouSure(Context context, int explanation, final DoubtListener listener) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.sure, null, false);
@@ -594,8 +591,6 @@ public class Util {
                 })
                 .create().show();
     }
-
-    private static final Map<String, String> mapIPOrganization = new HashMap<>();
 
     public static String getOrganization(String ip) throws Exception {
         synchronized (mapIPOrganization) {
@@ -1007,5 +1002,9 @@ public class Util {
                 }
         }
         return builder;
+    }
+
+    public interface DoubtListener {
+        void onSure();
     }
 }
