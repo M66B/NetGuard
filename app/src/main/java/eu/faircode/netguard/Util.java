@@ -85,6 +85,7 @@ import java.util.Set;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.net.ConnectivityManagerCompat;
 
+@SuppressWarnings("WeakerAccess")
 public class Util {
     private static final String TAG = "NetGuard.Util";
 
