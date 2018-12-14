@@ -151,22 +151,11 @@ public class Util {
 
     @NonNull
     public static String getSelfVersionName(@NonNull Context context) {
-        try {
-            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            return pInfo.versionName;
-        } catch (PackageManager.NameNotFoundException ex) {
-            return ex.toString();
-        }
+        return BuildConfig.VERSION_NAME;
     }
 
     public static int getSelfVersionCode(@NonNull Context context) {
-        try {
-            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            //noinspection deprecation getLongVersionCode() is not yet supported by most phones
-            return pInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException ex) {
-            return -1;
-        }
+        return BuildConfig.VERSION_CODE;
     }
 
     public static boolean isNetworkActive(@NonNull Context context) {
