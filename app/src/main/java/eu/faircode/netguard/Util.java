@@ -20,6 +20,7 @@ package eu.faircode.netguard;
 */
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -63,12 +64,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -79,11 +80,15 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.net.ConnectivityManagerCompat;
 
@@ -125,7 +130,7 @@ public class Util {
             "SE", // Sweden
             "GB" // United Kingdom
     );
-    private static final Map<String, String> mapIPOrganization = new HashMap<>();
+    private static final HashMap<String, String> mapIPOrganization = new HashMap<>();
 
     static {
         try {
@@ -142,7 +147,7 @@ public class Util {
     @Nullable
     private static native String jni_getprop(@NonNull String name);
 
-    private static native boolean is_numeric_address(String ip);
+    private static native boolean is_numeric_address(@NonNull String ip);
 
     @NonNull
     public static String getSelfVersionName(@NonNull Context context) {
@@ -178,6 +183,7 @@ public class Util {
     public static boolean isWifiActive(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
+        //noinspection deprecation
         return (ni != null && ni.getType() == ConnectivityManager.TYPE_WIFI);
     }
 
@@ -207,12 +213,14 @@ public class Util {
     public static String getNetworkGeneration(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
+        //noinspection deprecation
         return (ni != null && ni.getType() == ConnectivityManager.TYPE_MOBILE ? getNetworkGeneration(ni.getSubtype()) : null);
     }
 
     public static boolean isRoaming(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
+        //noinspection deprecation
         return (ni != null && ni.isRoaming());
     }
 
@@ -232,6 +240,12 @@ public class Util {
         }
     }
 
+    /**
+     * Determine if the device is connected with European Union's network
+     *
+     * @param context the context used to obtain TelephonyManager
+     * @return true if network belongs to EU
+     */
     public static boolean isEU(@NonNull Context context) {
         try {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -241,7 +255,7 @@ public class Util {
         }
     }
 
-    public static boolean isEU(String country) {
+    private static boolean isEU(@Nullable String country) {
         return (country != null && listEU.contains(country.toUpperCase()));
     }
 
@@ -284,12 +298,17 @@ public class Util {
             return true;
     }
 
+    /**
+     * @param context the context used to obtain ConnectivityManager
+     * @return a list contains default dns server's address
+     */
+    @NonNull
     public static List<String> getDefaultDNS(@NonNull Context context) {
         String dns1 = null;
         String dns2 = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {// or M(23) ?
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            Network an = cm.getActiveNetwork();
+            Network an = cm.getActiveNetwork();// require api level 23
             if (an != null) {
                 LinkProperties lp = cm.getLinkProperties(an);
                 if (lp != null) {
@@ -310,8 +329,10 @@ public class Util {
         }
 
         if (!TextUtils.isEmpty(dns1))
+            //noinspection ConstantConditions
             dns1 = dns1.split("%")[0];
         if (!TextUtils.isEmpty(dns2))
+            //noinspection ConstantConditions
             dns2 = dns2.split("%")[0];
 
         List<String> listDns = new ArrayList<>();
@@ -320,19 +341,21 @@ public class Util {
         return listDns;
     }
 
-    public static boolean isNumericAddress(String ip) {
+    public static boolean isNumericAddress(@NonNull String ip) {
         return is_numeric_address(ip);
     }
 
+    /**
+     * @param context the context used to obtain PowerManger
+     * @return true if the device is in an interactive state.
+     * @see PowerManager#isInteractive()
+     */
     public static boolean isInteractive(@NonNull Context context) {
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH)
-            return (pm != null && pm.isScreenOn());
-        else
-            return (pm != null && pm.isInteractive());
+        return (pm != null && pm.isInteractive());
     }
 
-    public static boolean isPackageInstalled(String packageName, Context context) {
+    public static boolean isPackageInstalled(@NonNull String packageName, @NonNull Context context) {
         try {
             context.getPackageManager().getPackageInfo(packageName, 0);
             return true;
@@ -367,9 +390,9 @@ public class Util {
         }
     }
 
-    public static boolean hasInternet(String packageName, Context context) {
+    public static boolean hasInternet(@NonNull String packageName, @NonNull Context context) {
         PackageManager pm = context.getPackageManager();
-        return (pm.checkPermission("android.permission.INTERNET", packageName) == PackageManager.PERMISSION_GRANTED);
+        return (pm.checkPermission(Manifest.permission.INTERNET, packageName) == PackageManager.PERMISSION_GRANTED);
     }
 
     public static boolean hasInternet(int uid, Context context) {
@@ -382,7 +405,12 @@ public class Util {
         return false;
     }
 
-    public static boolean isEnabled(PackageInfo info, Context context) {
+    /**
+     * @param info    the application to be determine
+     * @param context the context used to obtain PackageManager
+     * @return true if the application is enabled
+     */
+    public static boolean isEnabled(@NonNull PackageInfo info, @NonNull Context context) {
         int setting;
         try {
             PackageManager pm = context.getPackageManager();
@@ -397,7 +425,15 @@ public class Util {
             return (setting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
     }
 
-    public static List<String> getApplicationNames(int uid, Context context) {
+    /**
+     * uid -> application name[]
+     *
+     * @param uid     the uid to be determine
+     * @param context the context used to obtain PackageManager
+     * @return a collection contains the application's name (user readable)
+     */
+    @NonNull
+    public static List<String> getApplicationNames(int uid, @NonNull Context context) {
         List<String> listResult = new ArrayList<>();
         if (uid == 0)
             listResult.add(context.getString(R.string.title_root));
@@ -422,7 +458,7 @@ public class Util {
         return listResult;
     }
 
-    public static boolean canFilter(@NonNull Context context) {
+    public static boolean canFilter(@Nullable Context context) {
         // https://android-review.googlesource.com/#/c/206710/1/untrusted_app.te
         File tcp = new File("/proc/net/tcp");
         File tcp6 = new File("/proc/net/tcp6");
@@ -451,7 +487,11 @@ public class Util {
         }
     }
 
+    /**
+     * @return always false in this version
+     */
     public static boolean hasXposed(@NonNull Context context) {
+        //noinspection PointlessBooleanExpression,ConstantConditions
         if (true || !isPlayStoreInstall(context))
             return false;
         for (StackTraceElement ste : Thread.currentThread().getStackTrace())
@@ -460,7 +500,7 @@ public class Util {
         return false;
     }
 
-    public static boolean ownFault(Context context, Throwable ex) {
+    public static boolean ownFault(@NonNull Context context, @NonNull Throwable ex) {
         if (ex instanceof OutOfMemoryError)
             return false;
         if (ex.getCause() != null)
@@ -471,11 +511,15 @@ public class Util {
         return false;
     }
 
+    @Nullable
     public static String getFingerprint(@NonNull Context context) {
         try {
             PackageManager pm = context.getPackageManager();
             String pkg = context.getPackageName();
+            //noinspection deprecation
+            @SuppressLint("PackageManagerGetSignatures")
             PackageInfo info = pm.getPackageInfo(pkg, PackageManager.GET_SIGNATURES);
+            //noinspection deprecation not all device has field info.signingInfo.
             byte[] cert = info.signatures[0].toByteArray();
             MessageDigest digest = MessageDigest.getInstance("SHA1");
             byte[] bytes = digest.digest(cert);
@@ -498,7 +542,8 @@ public class Util {
     public static void setTheme(@NonNull Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean dark = prefs.getBoolean("dark_theme", false);
-        String theme = prefs.getString("theme", "teal");
+        String theme = Objects.requireNonNull(prefs.getString("theme", "teal"));
+        //noinspection IfCanBeSwitch shorten lines
         if (theme.equals("teal"))
             context.setTheme(dark ? R.style.AppThemeTealDark : R.style.AppThemeTeal);
         else if (theme.equals("blue"))
@@ -512,23 +557,21 @@ public class Util {
         else if (theme.equals("green"))
             context.setTheme(dark ? R.style.AppThemeGreenDark : R.style.AppThemeGreen);
 
-        if (context instanceof Activity && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (context instanceof Activity)
             setTaskColor(context);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private static void setTaskColor(@NonNull Context context) {
         TypedValue tv = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-        ((Activity) context).setTaskDescription(new ActivityManager.TaskDescription(null, null, tv.data));
+        ((Activity) context).setTaskDescription(new ActivityManager.TaskDescription(null, 0, tv.data));
     }
 
-    public static int dips2pixels(int dips, Context context) {
+    public static int dips2pixels(int dips, @NonNull Context context) {
         return Math.round(dips * context.getResources().getDisplayMetrics().density + 0.5f);
     }
 
-    private static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    private static int calculateInSampleSize(@NonNull BitmapFactory.Options options, int reqWidth, int reqHeight) {
         int height = options.outHeight;
         int width = options.outWidth;
         int inSampleSize = 1;
@@ -559,7 +602,7 @@ public class Util {
     public static String getProtocolName(int protocol, int version, boolean brief) {
         // https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
         String p = null;
-        String b = null;
+        String b = null;// abbreviation
         switch (protocol) {
             case 0:
                 p = "HOPO";
@@ -592,9 +635,9 @@ public class Util {
         return ((brief ? b : p) + (version > 0 ? version : ""));
     }
 
-    public static void areYouSure(Context context, int explanation, final DoubtListener listener) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.sure, null, false);
+    @SuppressLint("InflateParams")
+    public static void areYouSure(@NonNull Context context, @StringRes int explanation, @NonNull final DoubtListener listener) {
+        View view = LayoutInflater.from(context).inflate(R.layout.sure, null, false);
         TextView tvExplanation = view.findViewById(R.id.tvExplanation);
         tvExplanation.setText(explanation);
         new AlertDialog.Builder(context)
@@ -606,28 +649,26 @@ public class Util {
                         listener.onSure();
                     }
                 })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing
-                    }
-                })
+                .setNegativeButton(android.R.string.no, null)
                 .create().show();
     }
 
-    public static String getOrganization(String ip) throws Exception {
+    /**
+     * ip -> organization (synchronized http request)
+     */
+    @Nullable
+    @WorkerThread
+    public static String getOrganization(@NonNull String ip) throws IOException {
         synchronized (mapIPOrganization) {
             if (mapIPOrganization.containsKey(ip))
                 return mapIPOrganization.get(ip);
         }
-        BufferedReader reader = null;
-        try {
-            URL url = new URL("https://ipinfo.io/" + ip + "/org");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setReadTimeout(15 * 1000);
-            connection.connect();
-            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        URL url = new URL("https://ipinfo.io/" + ip + "/org");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.connect();
+        connection.setReadTimeout(15 * 1000);
+        connection.setRequestMethod("GET");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             String organization = reader.readLine();
             if ("undefined".equals(organization))
                 organization = null;
@@ -635,27 +676,25 @@ public class Util {
                 mapIPOrganization.put(ip, organization);
             }
             return organization;
-        } finally {
-            if (reader != null)
-                reader.close();
         }
     }
 
-    public static String md5(String text, String salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    @NonNull
+    public static String md5(@NonNull String text, @NonNull String salt) throws NoSuchAlgorithmException {
         // MD5
-        byte[] bytes = MessageDigest.getInstance("MD5").digest((text + salt).getBytes("UTF-8"));
+        byte[] bytes = MessageDigest.getInstance("MD5").digest((text + salt).getBytes(StandardCharsets.UTF_8));
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes)
             sb.append(String.format("%02X", b));
         return sb.toString();
     }
 
-    public static void logExtras(Intent intent) {
+    public static void logExtras(@Nullable Intent intent) {
         if (intent != null)
             logBundle(intent.getExtras());
     }
 
-    public static void logBundle(Bundle data) {
+    public static void logBundle(@Nullable Bundle data) {
         if (data != null) {
             Set<String> keys = data.keySet();
             StringBuilder stringBuilder = new StringBuilder();
@@ -737,8 +776,7 @@ public class Util {
             sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
 
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            sb.append(String.format("Power saving %B\r\n", pm.isPowerSaveMode()));
+        sb.append(String.format("Power saving %B\r\n", pm.isPowerSaveMode()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             sb.append(String.format("Battery optimizing %B\r\n", batteryOptimizing(context)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -750,6 +788,7 @@ public class Util {
         return sb.toString();
     }
 
+    @SuppressWarnings("deprecation")
     public static String getNetworkInfo(@NonNull Context context) {
         StringBuilder sb = new StringBuilder();
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -757,14 +796,11 @@ public class Util {
         NetworkInfo ani = cm.getActiveNetworkInfo();
         List<NetworkInfo> listNI = new ArrayList<>();
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-            listNI.addAll(Arrays.asList(cm.getAllNetworkInfo()));
-        else
-            for (Network network : cm.getAllNetworks()) {
-                NetworkInfo ni = cm.getNetworkInfo(network);
-                if (ni != null)
-                    listNI.add(ni);
-            }
+        for (Network network : cm.getAllNetworks()) {
+            NetworkInfo ni = cm.getNetworkInfo(network);
+            if (ni != null)
+                listNI.add(ni);
+        }
 
         for (NetworkInfo ni : listNI) {
             sb.append(ni.getTypeName()).append('/').append(ni.getSubtypeName())
@@ -816,7 +852,7 @@ public class Util {
     }
 
     public static void sendLogcat(final Uri uri, final Context context) {
-        AsyncTask task = new AsyncTask<Object, Object, Intent>() {
+        AsyncTask<Object, Object, Intent> task = new AsyncTask<Object, Object, Intent>() {
             @Override
             protected Intent doInBackground(Object... objects) {
                 StringBuilder sb = new StringBuilder();
@@ -825,8 +861,8 @@ public class Util {
 
                 // Get version info
                 String version = getSelfVersionName(context);
-                sb.append(String.format("NetGuard: %s/%d\r\n", version, getSelfVersionCode(context)));
-                sb.append(String.format("Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
+                sb.append(String.format(Locale.getDefault(), "NetGuard: %s/%d\r\n", version, getSelfVersionCode(context)));
+                sb.append(String.format(Locale.getDefault(), "Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
                 sb.append("\r\n");
 
                 // Get device info
@@ -841,10 +877,7 @@ public class Util {
                 sb.append(String.format("Fingerprint: %B\r\n", hasValidFingerprint(context)));
 
                 String abi;
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-                    abi = Build.CPU_ABI;
-                else
-                    abi = (Build.SUPPORTED_ABIS.length > 0 ? Build.SUPPORTED_ABIS[0] : "?");
+                abi = (Build.SUPPORTED_ABIS.length > 0 ? Build.SUPPORTED_ABIS[0] : "?");
                 sb.append(String.format("ABI: %s\r\n", abi));
 
                 sb.append("\r\n");
@@ -905,8 +938,10 @@ public class Util {
                 try {
                     Log.i(TAG, "Writing logcat URI=" + uri);
                     out = context.getContentResolver().openOutputStream(uri);
-                    out.write(getLogcat().toString().getBytes());
-                    out.write(getTrafficLog(context).toString().getBytes());
+                    if (out != null) {
+                        out.write(getLogcat().toString().getBytes());
+                        out.write(getTrafficLog(context).toString().getBytes());
+                    }
                 } catch (Throwable ex) {
                     Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     sb.append(ex.toString()).append("\r\n").append(Log.getStackTraceString(ex)).append("\r\n");
@@ -941,6 +976,7 @@ public class Util {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    @NonNull
     private static StringBuilder getTrafficLog(@NonNull Context context) {
         StringBuilder sb = new StringBuilder();
 
@@ -986,10 +1022,10 @@ public class Util {
         return sb;
     }
 
+    @NonNull
     private static StringBuilder getLogcat() {
         StringBuilder builder = new StringBuilder();
         Process process1 = null;
-        Process process2 = null;
         BufferedReader br = null;
         try {
             String[] command1 = new String[]{"logcat", "-d", "-v", "threadtime"};
@@ -1010,12 +1046,6 @@ public class Util {
                 try {
                     br.close();
                 } catch (IOException ignored) {
-                }
-            if (process2 != null)
-                try {
-                    process2.destroy();
-                } catch (Throwable ex) {
-                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 }
             if (process1 != null)
                 try {
