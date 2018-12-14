@@ -111,7 +111,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
+        Log.i(TAG, "Create version=" + Util.getSelfVersionName() + "/" + Util.getSelfVersionCode());
         Util.logExtras(getIntent());
 
         // Check minimum Android version
@@ -1174,10 +1174,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
 
         // Show version
-        tvVersionName.setText(Util.getSelfVersionName(this));
+        tvVersionName.setText(Util.getSelfVersionName());
         if (!Util.hasValidFingerprint(this))
             tvVersionName.setTextColor(Color.GRAY);
-        tvVersionCode.setText(Integer.toString(Util.getSelfVersionCode(this)));
+        tvVersionCode.setText(Integer.toString(Util.getSelfVersionCode()));
 
         // Handle license
         tvEula.setMovementMethod(LinkMovementMethod.getInstance());

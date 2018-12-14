@@ -59,7 +59,7 @@ public class ReceiverAutostart extends BroadcastReceiver {
         synchronized (context.getApplicationContext()) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             int oldVersion = prefs.getInt("version", -1);
-            int newVersion = Util.getSelfVersionCode(context);
+            int newVersion = Util.getSelfVersionCode();
             if (oldVersion == newVersion)
                 return;
             Log.i(TAG, "Upgrading from version " + oldVersion + " to " + newVersion);

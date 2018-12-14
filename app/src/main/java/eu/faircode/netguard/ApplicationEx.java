@@ -36,7 +36,7 @@ public class ApplicationEx extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "Create version=" + Util.getSelfVersionName(this) + "/" + Util.getSelfVersionCode(this));
+        Log.i(TAG, "Create version=" + Util.getSelfVersionName() + "/" + Util.getSelfVersionCode());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createNotificationChannels();

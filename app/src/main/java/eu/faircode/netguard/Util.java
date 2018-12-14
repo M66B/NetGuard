@@ -150,11 +150,11 @@ public class Util {
     private static native boolean is_numeric_address(@NonNull String ip);
 
     @NonNull
-    public static String getSelfVersionName(@NonNull Context context) {
+    public static String getSelfVersionName() {
         return BuildConfig.VERSION_NAME;
     }
 
-    public static int getSelfVersionCode(@NonNull Context context) {
+    public static int getSelfVersionCode() {
         return BuildConfig.VERSION_CODE;
     }
 
@@ -849,8 +849,8 @@ public class Util {
                 sb.append("\r\n\r\n\r\n\r\n");
 
                 // Get version info
-                String version = getSelfVersionName(context);
-                sb.append(String.format(Locale.getDefault(), "NetGuard: %s/%d\r\n", version, getSelfVersionCode(context)));
+                String version = getSelfVersionName();
+                sb.append(String.format(Locale.getDefault(), "NetGuard: %s/%d\r\n", version, getSelfVersionCode()));
                 sb.append(String.format(Locale.getDefault(), "Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
                 sb.append("\r\n");
 
