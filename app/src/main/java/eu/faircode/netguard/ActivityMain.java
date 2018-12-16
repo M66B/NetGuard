@@ -1244,12 +1244,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     }
 
     private static Intent getIntentInvite(Context context) {
-        Intent intent = new Intent("com.google.android.gms.appinvite.ACTION_APP_INVITE");
-        intent.setPackage("com.google.android.gms");
-        intent.putExtra("com.google.android.gms.appinvite.TITLE", context.getString(R.string.menu_invite));
-        intent.putExtra("com.google.android.gms.appinvite.MESSAGE", context.getString(R.string.msg_try));
-        intent.putExtra("com.google.android.gms.appinvite.BUTTON_TEXT", context.getString(R.string.msg_try));
-        // com.google.android.gms.appinvite.DEEP_LINK_URL
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name));
+        intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.msg_try) + "\n\nhttps://www.netguard.me/\n\n");
         return intent;
     }
 
