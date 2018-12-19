@@ -657,7 +657,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             StringBuilder json = new StringBuilder();
             HttpsURLConnection urlConnection = null;
             try {
-                URL url = new URL("https://api.github.com/repos/M66B/NetGuard/releases/latest");
+                URL url = new URL(BuildConfig.GITHUB_LATEST_API);
                 urlConnection = (HttpsURLConnection) url.openConnection();
                 BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 

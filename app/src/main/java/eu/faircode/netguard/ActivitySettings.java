@@ -725,7 +725,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
 
         else if ("hosts_url".equals(name))
-            getPreferenceScreen().findPreference(name).setSummary(prefs.getString(name, "http://www.netguard.me/hosts"));
+            getPreferenceScreen().findPreference(name).setSummary(prefs.getString(name, BuildConfig.HOSTS_FILE_URI));
 
         else if ("loglevel".equals(name))
             ServiceSinkhole.reload("changed " + name, this, false);

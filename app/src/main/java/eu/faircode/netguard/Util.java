@@ -418,6 +418,8 @@ public class Util {
     }
 
     public static boolean isPlayStoreInstall(Context context) {
+        if (BuildConfig.PLAY_STORE_RELEASE)
+            return true;
         try {
             return "com.android.vending".equals(context.getPackageManager().getInstallerPackageName(context.getPackageName()));
         } catch (Throwable ex) {
