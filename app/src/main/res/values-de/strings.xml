@@ -4,7 +4,7 @@
   <string name="app_description">NetGuard bietet einfache und erweiterte Möglichkeiten, um Zugriffe auf das Internet zu blockieren - keine Root-Rechte erforderlich! Anwendungen und Adressen kann der Zugriff auf die WLAN- und/oder mobile Datenverbindung einzeln erlaubt oder verweigert werden.</string>
   <string name="app_copyright">Copyright \u00A9 2015-2018 von M. Bokhorst (M66B)</string>
   <string name="app_android">NetGuard erfordert Android 5.1 oder höher</string>
-  <string name="app_xposed">Xposed verursacht sehr viele Abstürze, dass dazu führen kann, das NetGuard aus dem Google Play Store entfernt werden könnte. Daher wird NetGuard nicht unterstützt, solange Xposed installiert ist</string>
+  <string name="app_xposed">Xposed verursacht sehr viele Abstürze, dies könnte dazu führen, dass NetGuard aus dem Google Play Store entfernt wird. Daher wird NetGuard nicht unterstützt, solange Xposed installiert ist</string>
   <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Datenschutzerklärung</a></string>
   <string name="app_first">Die Entwicklung und das Testen von NetGuard wurden mit großer Sorgfalt durchgeführt, jedoch kann nicht garantiert werden, dass NetGuard auf jedem Gerät korrekt funktioniert.</string>
   <string name="app_agree">Stimme zu</string>
@@ -126,7 +126,7 @@
   <string name="summary_delay">Nach Ausschalten des Bildschirms, diesen während der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren dieser Option)</string>
   <string name="summary_update">Es wird auf GitHub zweimal täglich nach neuen Versionen gesucht</string>
   <string name="summary_tethering">Abhängig von der Android Version kann Tethering funktionieren. Dieser Verkehr kann nicht gefiltert werden.</string>
-  <string name="summary_subnet">Subnet-Routing aktivieren ermöglicht möglicherweise das Telefonieren über WLAN, triggert aber auch das Auftreten von Fehler in Android und läßt den Batterieverbrauch steigen</string>
+  <string name="summary_subnet">Subnet-Routing aktivieren ermöglicht möglicherweise das Telefonieren über WLAN, triggert aber auch das Auftreten von Fehlern in Android und lässt den Batterieverbrauch steigen</string>
   <string name="summary_lan">Apps den Zugriff auf lokale Netzwerkadressen wie 10.0.0.0/8, 172.16.0.0/12 und 192.168.0.0/16 erlauben.</string>
   <string name="summary_ip6">IP6-Datenverkehr an NetGuard weiterleiten, so dass es selektiv zugelassen oder blockiert werden kann</string>
   <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
@@ -193,14 +193,14 @@
   <string name="msg_update">Neue Version verfügbar, tippen zum Herunterladen</string>
   <string name="msg_usage">Sie können den Wi-Fi oder mobilen Internet-Zugang zulassen (grünlich) oder verweigern (rötlich), indem Sie auf die Symbole neben einer Anwendung tippen</string>
   <string name="msg_whitelist">Internet-Zugang ist standardmäßig erlaubt. Das kann in den Einstellungen geändert werden</string>
-  <string name="msg_push">Push-Nachrichten werden normalerweise durch die Systemkomponente Play-Dienste gesteuert, welche standardmäßig den Internetzugang erlauben</string>
+  <string name="msg_push">Push-Nachrichten werden normalerweise durch die Systemkomponente Play-Dienste gesteuert, dieser ist standardmäßig der Internetzugang erlaubt</string>
   <string name="msg_system">Verwalten von Systemanwendungen kann in den erweiterten Optionen aktiviert werden</string>
   <string name="msg_issue">Bitte beschreiben Sie Ihr Problem und geben Sie den Zeitpunkt an:</string>
   <string name="msg_vpn_cancelled">VPN-Verbindung abgebrochen\nHaben Sie eine andere VPN für die Funktion \'VPN immer eingeschaltet\' konfiguriert?</string>
   <string name="msg_on">Wenn NetGuard beim Ausschalten aktiv war, dann startet NetGuard bein Einschalten automatisch wieder.</string>
   <string name="msg_unavailable">Diese Funktion ist in dieser Android-Version nicht verfügbar</string>
   <string name="msg_always_on">Eine andere VPN ist als \'VPN immer eingeschaltet\' festgelegt</string>
-  <string name="msg_always_on_lockdown">Um NetGuard im Filtermodus benützen zu können, in den Android VPN Einstellungen \"Verbindungen ohne VPN blockieren\" deaktivieren</string>
+  <string name="msg_always_on_lockdown">Um NetGuard im Filtermodus benutzen zu können, in den Android VPN Einstellungen \"Verbindungen ohne VPN blockieren\" deaktivieren</string>
   <string name="msg_private_dns">\"Private DNS\" in Android Netzwerkeinstellungen deaktivieren, um NetGuard im Filtermodus zu verwenden</string>
   <string name="title_lockdown_enabled">Datenverkehr ist eingeschränkt</string>
   <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
