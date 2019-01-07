@@ -5,10 +5,10 @@ android {
 
     defaultConfig {
         applicationId = "eu.faircode.netguard"
-        versionName = "2.218"
+        versionName = "2.219"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode = 2018120701
+        versionCode = 2019010701
         archivesBaseName = "NetGuard-v$versionName"
 
         externalNativeBuild {
@@ -66,12 +66,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // https://developer.android.com/topic/libraries/support-library/revisions.html
+    // https://developer.android.com/topic/libraries/support-library/androidx-rn
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    annotationProcessor 'androidx.annotation:annotation:1.0.1'
 
     // https://bumptech.github.io/glide/
     implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'androidx.annotation:annotation:1.0.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 }
