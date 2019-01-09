@@ -124,7 +124,7 @@
     <string name="summary_auto">După dezactivare din widget, activează automat NetGuard după numărul selectat de minute (valoarea zero dezactivează opțiunea)</string>
     <string name="summary_delay">După oprirea ecranului, păstrează regulile ecran pornit pentru numărul selectat de minute (valoarea zero dezactivează opțiunea)</string>
     <string name="summary_update">De două ori pe zi se va verifica dacă a fost publicată pe GitHub o nouă versiune</string>
-    <string name="summary_tethering">In functie de versiunea de Android, partajarea conexiunii (tethering/hotspot) ar putea functiona sau nu. Traficul partajat nu poate fi filtrat.</string>
+    <string name="summary_tethering">În funcție de versiunea de Android, partajarea conexiunii (tethering/hotspot) ar putea funcționa sau nu. Traficul partajat nu poate fi filtrat.</string>
     <string name="summary_subnet">Ar putea ajuta la apelurile prin Wi-Fi, dar la fel de bine ar putea declanșa erori prezente în Android și ar putea crește consumul de baterie</string>
     <string name="summary_lan">Permite aplicațiilor să se conecteze la adresele de rețea locală precum 10.0.0.0/8, 172.16.0.0/12 și 192.168.0.0/16</string>
     <string name="summary_ip6">Rutează traficul IPv6 în NetGuard pentru a putea fi permis sau blocat selectiv</string>
@@ -138,13 +138,13 @@
     <string name="summary_call">Atunci când efectuați sau primiți un apel NetGuard se dezactivează temporar. Aceasta ar putea rezolva problemele legate de apelurile IP/Wi-Fi.</string>
     <string name="summary_system">Definește reguli pentru aplicațiile de sistem (pentru experți)</string>
     <string name="summary_log_app">Înregistrează în jurnal încercările de acces la internet ale aplicațiilor. Aceasta poate duce la un consum mai mare al bateriei.</string>
-    <string name="summary_access">Arată o notificare în bara de stare atunci când o aplicație încearcă sa acceseze o noua adresa de internet (când filtrare este dezactivată, numai accesul internet blocat va apărea în notificare)</string>
-    <string name="summary_filter">Filtrează pachetele IP ce ies prin tunelul VPN. Aceasta opțiune poate duce la un consum în plus al bateriei.</string>
+    <string name="summary_access">Arată o notificare în bara de stare atunci când o aplicație încearcă să acceseze o nouă adresă de internet (când filtrarea este dezactivată, numai accesul internet blocat va apărea în notificare)</string>
+    <string name="summary_filter">Filtrează pachetele IP ce ies prin tunelul VPN. Această opțiune poate duce la un consum în plus al bateriei.</string>
     <string name="summary_track_usage">Urmărește numărul de octeți trimiși și primiți de fiecare aplicație și adresă. Aceasta poate duce la un consum mai mare al bateriei.</string>
-    <string name="summary_block_domains">Răspunde cu acest cod DNS pentru domeniile blocate. Acesta opțiune este dezactivata dacă nu a fost încărcata o lista cu nume de domenii de blocat.</string>
+    <string name="summary_block_domains">Răspunde cu acest cod DNS pentru domeniile blocate. Acestă opțiune este dezactivată dacă nu a fost încărcată o lista cu nume de domenii de blocat.</string>
     <string name="summary_rcode">Valoarea implicită este 3 (NXDOMAIN), ceea ce înseamnă \"domeniu inexistent\".</string>
     <string name="summary_socks5_enabled">Dar traficul de date TCP va fi rutat spre serverul proxy</string>
-    <string name="summary_watchdog">Verifica periodic dacă NetGuard rulează (introdu zero pentru a dezactiva). Aceasta opțiune poate duce la un consum ridicat al bateriei.</string>
+    <string name="summary_watchdog">Verifică periodic dacă NetGuard rulează (introdu zero pentru a dezactiva). Această opțiune poate duce la un consum ridicat al bateriei.</string>
     <string name="summary_stats">Arată graficul de viteză al rețelei în bara de notificări</string>
     <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Ești sigur(ă)?</string>
@@ -161,7 +161,7 @@
     <string name="msg_completed">Acțiune realizată</string>
     <string name="msg_vpn">NetGuard utilizează o conexiune VPN locală pentru a filtra traficul pe internet.
 Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog următoare. Traficul de internet nu este trimis la un server VPN extern.</string>
-    <string name="msg_autostart">NetGuard nu a putut fi pornit automat dupa repornirea dispozitivului din cauza unei erori din aceasta versiune de Android</string>
+    <string name="msg_autostart">NetGuard nu a putut fi pornit automat după repornirea dispozitivului din cauza unei erori din această versiune de Android.</string>
     <string name="msg_error">A intervenit o eroare neașteptată: \'%s\'</string>
     <string name="msg_start_failed">Sistemul Android a refuzat să pornească serviciul VPN în acest moment. Cel mai probabil din cauza unei erori din această versiune de Android.</string>
     <string name="msg_try">Încearcă NetGuard</string>
