@@ -314,6 +314,9 @@
             <Preference
                 android:key="hosts_import"
                 android:title="@string/setting_hosts" />
+            <Preference
+                android:key="hosts_import_append"
+                android:title="@string/setting_hosts_append" />
             <EditTextPreference
                 android:defaultValue="https://www.netguard.me/hosts"
                 android:hint="https://www.netguard.me/hosts"

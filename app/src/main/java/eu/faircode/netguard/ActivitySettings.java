@@ -100,7 +100,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
     private static final int REQUEST_HOSTS = 3;
-    private static final int REQUEST_CALL = 4;
+    private static final int REQUEST_HOSTS_APPEND = 4;
+    private static final int REQUEST_CALL = 5;
 
     private AlertDialog dialogFilter = null;
 
@@ -300,6 +301,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         Preference pref_block_domains = screen.findPreference("use_hosts");
         EditTextPreference pref_rcode = (EditTextPreference) screen.findPreference("rcode");
         Preference pref_hosts_import = screen.findPreference("hosts_import");
+        Preference pref_hosts_import_append = screen.findPreference("hosts_import_append");
         EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
         final Preference pref_hosts_download = screen.findPreference("hosts_download");
 
@@ -312,6 +314,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             cat_advanced.removePreference(pref_rcode);
             cat_advanced.removePreference(pref_forwarding);
             cat_backup.removePreference(pref_hosts_import);
+            cat_backup.removePreference(pref_hosts_import_append);
             cat_backup.removePreference(pref_hosts_url);
             cat_backup.removePreference(pref_hosts_download);
 
@@ -330,6 +333,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     startActivityForResult(getIntentOpenHosts(), ActivitySettings.REQUEST_HOSTS);
+                    return true;
+                }
+            });
+            pref_hosts_import_append.setEnabled(pref_hosts_import.isEnabled());
+            pref_hosts_import_append.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivityForResult(getIntentOpenHosts(), ActivitySettings.REQUEST_HOSTS_APPEND);
                     return true;
                 }
             });
@@ -827,7 +838,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if (requestCode == REQUEST_HOSTS) {
             if (resultCode == RESULT_OK && data != null)
-                handleHosts(data);
+                handleHosts(data, false);
+
+        } else if (requestCode == REQUEST_HOSTS_APPEND) {
+            if (resultCode == RESULT_OK && data != null)
+                handleHosts(data, true);
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
@@ -913,7 +928,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private void handleHosts(final Intent data) {
+    private void handleHosts(final Intent data, final boolean append) {
         new AsyncTask<Object, Object, Throwable>() {
             @Override
             protected Throwable doInBackground(Object... objects) {
@@ -928,7 +943,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     String streamType = (streamTypes == null || streamTypes.length == 0 ? "*/*" : streamTypes[0]);
                     AssetFileDescriptor descriptor = resolver.openTypedAssetFileDescriptor(data.getData(), streamType, null);
                     in = descriptor.createInputStream();
-                    out = new FileOutputStream(hosts);
+                    out = new FileOutputStream(hosts, append);
 
                     int len;
                     long total = 0;
