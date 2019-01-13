@@ -114,6 +114,7 @@
     <string name="setting_export">Ang mga setting ay I-eksport</string>
     <string name="setting_import">Ang mga setting ay i-import</string>
     <string name="setting_hosts">Ang mga host na payl ay i-import</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">I-download ang URL ng mga host payl</string>
     <string name="setting_hosts_download">I-download ang mga host payl</string>
     <string name="setting_technical">Ang impormasyong teknikal</string>

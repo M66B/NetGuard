@@ -114,6 +114,7 @@
     <string name="setting_export">Xuất cài đặt</string>
     <string name="setting_import">Nhập cài đặt</string>
     <string name="setting_hosts">Nhập file hosts</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">URL tải file hosts</string>
     <string name="setting_hosts_download">Tải về file hosts</string>
     <string name="setting_technical">Thông tin kỹ thuật</string>

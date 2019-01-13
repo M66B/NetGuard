@@ -114,6 +114,7 @@
     <string name="setting_export">ஏற்றுமதி அமைப்புகள்</string>
     <string name="setting_import">இறக்குமதி அமைப்புகள்</string>
     <string name="setting_hosts">சேவையகங்கள் கோப்பு இறக்குமதி</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">சேவையகங்கள் கோப்பு பதிவிறக்கம் URL</string>
     <string name="setting_hosts_download">சேவையகங்கள் கோப்பு பதிவிறக்கம்</string>
     <string name="setting_technical">தொழில்நுட்ப தகவல்கள்</string>

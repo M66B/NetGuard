@@ -96,7 +96,7 @@
     <string name="setting_vpn4">الشبكة الافتراضية الخاصة IPv4: %s</string>
     <string name="setting_vpn6">IPv6 للشبكة الافتراضية الخاصة: %s</string>
     <string name="setting_dns">DNS للشبكة الافتراضية الخاصة: %s</string>
-    <string name="setting_ttl">Minimum DNS TTL: %s s</string>
+    <string name="setting_ttl">مدة الحياة الدنيا لـ DNS: %s ثا</string>
     <string name="setting_socks5_enabled">استخدام SOCKS5 الوكيل</string>
     <string name="setting_socks5_addr">عنوان SOCKS5: %s</string>
     <string name="setting_socks5_port">منفذ SOCKS5: %s</string>
@@ -114,6 +114,7 @@
     <string name="setting_export">تصدير الإعدادات</string>
     <string name="setting_import">استيراد الإعدادات</string>
     <string name="setting_hosts">استيراد ملف المضيفين</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">رابط تحميل ملف المضيفين</string>
     <string name="setting_hosts_download">تحميل ملف المضيفين</string>
     <string name="setting_technical">المعلومات التقنية</string>

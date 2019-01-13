@@ -114,6 +114,7 @@
     <string name="setting_export">Eksporter innstillingene</string>
     <string name="setting_import">Importér innstillinger</string>
     <string name="setting_hosts">Importer «hosts»-fil</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">«hosts»-filnedlastningsnettadresse</string>
     <string name="setting_hosts_download">Last ned «hosts»-fil</string>
     <string name="setting_technical">Teknisk informasjon</string>

@@ -114,6 +114,7 @@
     <string name="setting_export">I-export ang mga setting</string>
     <string name="setting_import">I-import ang mga setting</string>
     <string name="setting_hosts">I-angkat ang mga host file</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Ang URL sa pag-download ng mga host file</string>
     <string name="setting_hosts_download">I-download ang mga host file</string>
     <string name="setting_technical">Impormasyong pang-teknikal</string>

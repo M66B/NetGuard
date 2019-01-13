@@ -114,6 +114,7 @@
     <string name="setting_export">Export settings</string>
     <string name="setting_import">설정 가져오기</string>
     <string name="setting_hosts">Hosts 파일 가져오기</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Hosts 파일 다운로드 URL</string>
     <string name="setting_hosts_download">Hosts 파일 다운로드</string>
     <string name="setting_technical">Technical information</string>

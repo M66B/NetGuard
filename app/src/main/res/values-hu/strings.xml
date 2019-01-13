@@ -114,6 +114,7 @@
     <string name="setting_export">Beállítások exportálása</string>
     <string name="setting_import">Beállítások importálása</string>
     <string name="setting_hosts">Hosts fájl importálás</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Hosts fájl letöltési URL</string>
     <string name="setting_hosts_download">Hosts fájl letöltése</string>
     <string name="setting_technical">Technikai információk</string>

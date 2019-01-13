@@ -114,6 +114,7 @@
     <string name="setting_export">Vie asetukset</string>
     <string name="setting_import">Tuo asetukset</string>
     <string name="setting_hosts">Tuo hosts tiedosto</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Hosts tiedoston URL-osoite</string>
     <string name="setting_hosts_download">Lataa hosts tiedosto</string>
     <string name="setting_technical">Tekniset tiedot</string>

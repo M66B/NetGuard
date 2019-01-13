@@ -114,6 +114,7 @@
     <string name="setting_export">Exportă setări</string>
     <string name="setting_import">Importă setări</string>
     <string name="setting_hosts">Importă lista de domenii de blocat</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Adresa URL a listei de nume de domenii de blocat</string>
     <string name="setting_hosts_download">Descarcă lista de nume de domenii de blocat</string>
     <string name="setting_technical">Informații tehnice</string>

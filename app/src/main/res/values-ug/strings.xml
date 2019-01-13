@@ -114,6 +114,7 @@
     <string name="setting_export">چىقىرىش تەڭشەك</string>
     <string name="setting_import">كىرگۈزۈش تەڭشەك</string>
     <string name="setting_hosts">ئاساسىي ھۆججەت كىرگۈزۈش</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">ھۆججەت چۈشۈرۈش URL</string>
     <string name="setting_hosts_download">چۈشۈرۈلگەن ھۆججەت</string>
     <string name="setting_technical">تېخنىك ئۇچۇرى</string>

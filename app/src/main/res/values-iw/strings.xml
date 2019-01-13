@@ -115,6 +115,7 @@
     <string name="setting_export">ייצא הגדרות</string>
     <string name="setting_import">יבא הגדרות</string>
     <string name="setting_hosts">ייבוא קובץ hosts</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">URL להורדת קובץ hosts</string>
     <string name="setting_hosts_download">הורד קובץ hosts</string>
     <string name="setting_technical">מידע טכני</string>

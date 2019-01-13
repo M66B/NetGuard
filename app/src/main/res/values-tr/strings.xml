@@ -114,6 +114,7 @@
     <string name="setting_export">Ayarları Dışa Aktar</string>
     <string name="setting_import">Ayarları İçe Aktar</string>
     <string name="setting_hosts">Hosts dosyasını içe aktar</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Hosts dosyası indirme adresi</string>
     <string name="setting_hosts_download">Hosts dosyasını indir</string>
     <string name="setting_technical">Teknik bilgiler</string>

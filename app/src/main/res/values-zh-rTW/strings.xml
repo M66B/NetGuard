@@ -114,6 +114,7 @@
     <string name="setting_export">輸出設定</string>
     <string name="setting_import">輸入設定</string>
     <string name="setting_hosts">導出 hosts 文件</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Hosts 文件下載地址</string>
     <string name="setting_hosts_download">下载 hosts 文件</string>
     <string name="setting_technical">資訊</string>

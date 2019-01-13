@@ -114,6 +114,7 @@
     <string name="setting_export">Експортиране на настройките</string>
     <string name="setting_import">Внасяне на настройки</string>
     <string name="setting_hosts">Внасяне на \"hosts\" файл</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Адрес за сваляне на \"hosts\" файл</string>
     <string name="setting_hosts_download">Изтегляне на \"hosts\" файл</string>
     <string name="setting_technical">Техническа информация</string>

@@ -114,6 +114,7 @@
     <string name="setting_export">Exportovať nastavenia</string>
     <string name="setting_import">Importovať nastavenia</string>
     <string name="setting_hosts">Importovať súbor hosts</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Adresu URL pre sťahovanie súboru hosts</string>
     <string name="setting_hosts_download">Stiahnuť súbor hosts</string>
     <string name="setting_technical">Technické informácie</string>

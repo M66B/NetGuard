@@ -114,6 +114,7 @@
     <string name="setting_export">सेटिंग्स निर्यात</string>
     <string name="setting_import">सेटिंग्स आयात करें</string>
     <string name="setting_hosts">होस्ट्स फ़ाइल आयात करें</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">होस्ट्स फ़ाइल डाउनलोड URL</string>
     <string name="setting_hosts_download">होस्ट्स फ़ाइल डाउनलोड करें</string>
     <string name="setting_technical">तकनीकी जानकारी</string>

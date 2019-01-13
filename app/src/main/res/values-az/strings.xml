@@ -114,6 +114,7 @@
     <string name="setting_export">Tənzimləmələri ixrac et</string>
     <string name="setting_import">Tənzimləmələri idxal et</string>
     <string name="setting_hosts">Hosts fayllarını idxal et</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Hosts faylını endirmə bağlantısı</string>
     <string name="setting_hosts_download">Hosts faylını endir</string>
     <string name="setting_technical">Texniki məlumat</string>

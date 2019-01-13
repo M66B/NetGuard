@@ -114,6 +114,7 @@
     <string name="setting_export">設定をエクスポート</string>
     <string name="setting_import">設定をインポート</string>
     <string name="setting_hosts">hosts ファイルをインポート</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">hosts ファイルのダウンロード URL</string>
     <string name="setting_hosts_download">hosts ファイルをダウンロード</string>
     <string name="setting_technical">技術情報</string>

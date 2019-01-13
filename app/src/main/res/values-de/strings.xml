@@ -114,6 +114,7 @@
     <string name="setting_export">Einstellungen exportieren</string>
     <string name="setting_import">Einstellungen importieren</string>
     <string name="setting_hosts">Hosts-Datei importieren</string>
+    <string name="setting_hosts_append">Import hosts file (append)</string>
     <string name="setting_hosts_url">Hosts-Datei-Download-URL</string>
     <string name="setting_hosts_download">Hosts-Datei herunterladen</string>
     <string name="setting_technical">Technische Information</string>
