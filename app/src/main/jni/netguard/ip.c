@@ -384,6 +384,8 @@ jint get_uid_sub(const int version, const int protocol,
 
     static uint8_t zero[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
+    int ws = (version == 4 ? 1 : 4);
+
     // Check cache
     for (int i = 0; i < uid_cache_size; i++)
         if (now - uid_cache[i].time <= UID_MAX_AGE &&
@@ -391,10 +393,10 @@ jint get_uid_sub(const int version, const int protocol,
             uid_cache[i].protocol == protocol &&
             uid_cache[i].sport == sport &&
             (uid_cache[i].dport == dport || uid_cache[i].dport == 0) &&
-            (memcmp(uid_cache[i].saddr, saddr, version == 4 ? 4 : 16) == 0 ||
-             memcmp(uid_cache[i].saddr, zero, version == 4 ? 4 : 16) == 0) &&
-            (memcmp(uid_cache[i].daddr, daddr, version == 4 ? 4 : 16) == 0 ||
-             memcmp(uid_cache[i].daddr, zero, version == 4 ? 4 : 16) == 0)) {
+            (memcmp(uid_cache[i].saddr, saddr, (size_t) (ws * 4)) == 0 ||
+             memcmp(uid_cache[i].saddr, zero, (size_t) (ws * 4)) == 0) &&
+            (memcmp(uid_cache[i].daddr, daddr, (size_t) (ws * 4)) == 0 ||
+             memcmp(uid_cache[i].daddr, zero, (size_t) (ws * 4)) == 0)) {
 
             log_android(ANDROID_LOG_INFO, "uid v%d p%d %s/%u > %s/%u => %d (from cache)",
                         version, protocol, source, sport, dest, dport, uid_cache[i].uid);
@@ -444,7 +446,6 @@ jint get_uid_sub(const int version, const int protocol,
     int l = 0;
     *line = 0;
     int c = 0;
-    int ws = (version == 4 ? 1 : 4);
     const char *fmt = (version == 4
                        ? "%*d: %8s:%X %8s:%X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld"
                        : "%*d: %32s:%X %32s:%X %*X %*lX:%*lX %*X:%*X %*X %d %*d %*ld");
@@ -490,7 +491,7 @@ jint get_uid_sub(const int version, const int protocol,
             uid_cache[c].protocol = (uint8_t) protocol;
             memcpy(uid_cache[c].saddr, _saddr, (size_t) (ws * 4));
             uid_cache[c].sport = (uint16_t) _sport;
-            memcpy(uid_cache[c].daddr, daddr, (size_t) (ws * 4));
+            memcpy(uid_cache[c].daddr, _daddr, (size_t) (ws * 4));
             uid_cache[c].dport = (uint16_t) _dport;
             uid_cache[c].uid = _uid;
             uid_cache[c].time = now;
