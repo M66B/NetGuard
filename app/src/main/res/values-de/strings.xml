@@ -3,7 +3,7 @@
 <resources>
     <string name="app_description">NetGuard bietet einfache und erweiterte Möglichkeiten, um Zugriffe auf das Internet zu blockieren - keine Root-Rechte erforderlich! Anwendungen und Adressen kann der Zugriff auf die WLAN- und/oder mobile Datenverbindung einzeln erlaubt oder verweigert werden.</string>
     <string name="app_android">NetGuard erfordert Android 5.1 oder höher</string>
-    <string name="app_xposed">Xposed verursacht sehr viele Abstürze, dass dazu führen kann, dass NetGuard aus dem Google Play Store entfernt werden könnte. Daher wird NetGuard nicht unterstützt, solange Xposed installiert ist</string>
+    <string name="app_xposed">Xposed verursacht sehr viele Abstürze, was dazu führen kann, dass NetGuard aus dem Google Play Store entfernt werden könnte, deshalb wird NetGuard nicht unterstützt, solange Xposed installiert ist</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Datenschutzerklärung</a></string>
     <string name="app_first">Die Entwicklung und das Testen von NetGuard wurden mit großer Sorgfalt durchgeführt, jedoch kann nicht garantiert werden, dass NetGuard auf jedem Gerät korrekt funktioniert.</string>
     <string name="app_agree">Stimme zu</string>
@@ -114,7 +114,7 @@
     <string name="setting_export">Einstellungen exportieren</string>
     <string name="setting_import">Einstellungen importieren</string>
     <string name="setting_hosts">Hosts-Datei importieren</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Hosts-Datei importieren (anhängen)</string>
     <string name="setting_hosts_url">Hosts-Datei-Download-URL</string>
     <string name="setting_hosts_download">Hosts-Datei herunterladen</string>
     <string name="setting_technical">Technische Information</string>
@@ -197,7 +197,7 @@
     <string name="msg_system">Verwalten von Systemanwendungen kann in den erweiterten Optionen aktiviert werden</string>
     <string name="msg_issue">Bitte beschreiben Sie Ihr Problem und geben Sie den Zeitpunkt an:</string>
     <string name="msg_vpn_cancelled">VPN-Verbindung abgebrochen\nHaben Sie eine andere VPN für die Funktion \'VPN immer eingeschaltet\' konfiguriert?</string>
-    <string name="msg_on">Wenn NetGuard beim Ausschalten aktiv war, dann startet NetGuard bein Einschalten automatisch wieder.</string>
+    <string name="msg_on">Wenn NetGuard beim Ausschalten aktiv war, dann startet NetGuard beim Einschalten automatisch wieder.</string>
     <string name="msg_unavailable">Diese Funktion ist in dieser Android-Version nicht verfügbar</string>
     <string name="msg_always_on">Eine andere VPN ist als \'VPN immer eingeschaltet\' festgelegt</string>
     <string name="msg_always_on_lockdown">Um NetGuard im Filtermodus benutzen zu können, in den Android VPN Einstellungen \"Verbindungen ohne VPN blockieren\" deaktivieren</string>

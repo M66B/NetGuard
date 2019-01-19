@@ -114,7 +114,7 @@
     <string name="setting_export">Експортувати налаштування</string>
     <string name="setting_import">Імпортувати налаштування</string>
     <string name="setting_hosts">Імпортувати host-файл</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Імпортувати host-файли (додати)</string>
     <string name="setting_hosts_url">Посилання для завантаження host-файлу</string>
     <string name="setting_hosts_download">Завантажити host-файл</string>
     <string name="setting_technical">Технічна інформація</string>

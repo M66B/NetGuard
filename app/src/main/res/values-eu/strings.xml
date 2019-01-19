@@ -114,7 +114,7 @@
     <string name="setting_export">Esportatu ezarpenak</string>
     <string name="setting_import">Inportatu ezarpenak</string>
     <string name="setting_hosts">Inportatu ostalarien fitxategia</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Inportatu ostalarien fitxategia (gehitu)</string>
     <string name="setting_hosts_url">Ostalarien fitxategia deskargatzeko URL-a</string>
     <string name="setting_hosts_download">Deskargatu ostalarien fitxategia</string>
     <string name="setting_technical">Informazio teknikoa</string>
