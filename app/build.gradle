@@ -1,14 +1,18 @@
 apply plugin: 'com.android.application'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion = 28
 
     defaultConfig {
         applicationId = "eu.faircode.netguard"
-        versionName = "2.222"
+        versionName = "2.223"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode = 2019011301
+        versionCode = 2019011901
         archivesBaseName = "NetGuard-v$versionName"
 
         externalNativeBuild {
@@ -22,6 +26,14 @@ android {
         ndk {
             // https://developer.android.com/ndk/guides/abis.html#sa
             abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
         }
     }
 
@@ -40,6 +52,7 @@ android {
             minifyEnabled = true
             useProguard = true
             proguardFiles.add(file('proguard-rules.pro'))
+            signingConfig signingConfigs.release
             buildConfigField "boolean", "PLAY_STORE_RELEASE", "false"
             buildConfigField "String", "HOSTS_FILE_URI", "\"http://www.netguard.me/hosts\""
             buildConfigField "String", "GITHUB_LATEST_API", "\"https://api.github.com/repos/M66B/NetGuard/releases/latest\""
@@ -47,6 +60,7 @@ android {
         play {
             minifyEnabled = true
             useProguard = true
+            signingConfig signingConfigs.release
             proguardFiles.add(file('proguard-rules.pro'))
             buildConfigField "boolean", "PLAY_STORE_RELEASE", "true"
             buildConfigField "String", "HOSTS_FILE_URI", "\"\""
