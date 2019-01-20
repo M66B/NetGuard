@@ -126,6 +126,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         PreferenceGroup cat_options = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_options")).findPreference("category_options");
+        PreferenceGroup cat_network = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_network_options")).findPreference("category_network_options");
         PreferenceGroup cat_advanced = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_advanced_options")).findPreference("category_advanced_options");
         PreferenceGroup cat_stats = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_stats")).findPreference("category_stats");
         PreferenceGroup cat_backup = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_backup")).findPreference("category_backup");
@@ -151,23 +152,27 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Wi-Fi home
         MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) screen.findPreference("wifi_homes");
-        Set<String> ssids = prefs.getStringSet("wifi_homes", new HashSet<String>());
-        if (ssids.size() > 0)
-            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssids)));
-        else
-            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
+            cat_network.removePreference(pref_wifi_homes);
+        else {
+            Set<String> ssids = prefs.getStringSet("wifi_homes", new HashSet<String>());
+            if (ssids.size() > 0)
+                pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssids)));
+            else
+                pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
 
-        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        List<CharSequence> listSSID = new ArrayList<>();
-        List<WifiConfiguration> configs = wm.getConfiguredNetworks();
-        if (configs != null)
-            for (WifiConfiguration config : configs)
-                listSSID.add(config.SSID == null ? "NULL" : config.SSID);
-        for (String ssid : ssids)
-            if (!listSSID.contains(ssid))
-                listSSID.add(ssid);
-        pref_wifi_homes.setEntries(listSSID.toArray(new CharSequence[0]));
-        pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
+            WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            List<CharSequence> listSSID = new ArrayList<>();
+            List<WifiConfiguration> configs = wm.getConfiguredNetworks();
+            if (configs != null)
+                for (WifiConfiguration config : configs)
+                    listSSID.add(config.SSID == null ? "NULL" : config.SSID);
+            for (String ssid : ssids)
+                if (!listSSID.contains(ssid))
+                    listSSID.add(ssid);
+            pref_wifi_homes.setEntries(listSSID.toArray(new CharSequence[0]));
+            pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
+        }
 
         Preference pref_reset_usage = screen.findPreference("reset_usage");
         pref_reset_usage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

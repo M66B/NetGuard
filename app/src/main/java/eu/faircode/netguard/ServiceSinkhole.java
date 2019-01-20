@@ -1717,13 +1717,17 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean org_metered = metered;
         boolean org_roaming = roaming;
 
+        // https://issuetracker.google.com/issues/70633700
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
+            ssidHomes.clear();
+
         // Update metered state
         if (wifi && !useMetered)
             metered = false;
         if (wifi && ssidHomes.size() > 0 &&
                 !(ssidHomes.contains(ssidNetwork) || ssidHomes.contains('"' + ssidNetwork + '"'))) {
             metered = true;
-            Log.i(TAG, "!@home");
+            Log.i(TAG, "!@home=" + ssidNetwork + " homes=" + TextUtils.join(",", ssidHomes));
         }
         if (unmetered_2g && "2G".equals(generation))
             metered = false;
