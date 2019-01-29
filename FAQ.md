@@ -672,6 +672,25 @@ so it isn't worth the significant effort to add this.
 
 <br />
 
+<a name="faq65"></a>
+**(65) Why can NetGuard not block itself?**
+
+First of all, if NetGuard could block itself, you should trust that NetGuard really blocks itself,
+which is basically the same as trusting that NetGuard doesn't connect to the internet when not needed.
+
+Note that NetGuard needs to connect to the internet to forward traffic of other apps to the internet and to lookup information on IP addresses,
+see also [this FAQ](#user-content-faq55).
+
+NetGuard could block itself in older versions,
+but this required calling [VpnService.protect](https://developer.android.com/reference/android/net/VpnService.html#protect(int)) for each and every connection.
+Since there are lots of connections of lots of apps in a typical Android environment,
+this resulted in wasting battery power and in crashes on some Android versions with bugs in this function.
+
+So, because blocking NetGuard with itself didn't added anything useful
+and to save on battery power and to prevent crashes blocking NetGuard with itself was removed.
+
+<br />
+
 **NetGuard is supported for phones and tablets only, so not for other device types like televisions or vehicles.**
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me by using [this contact form](https://contact.faircode.eu/)**.

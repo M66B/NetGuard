@@ -283,6 +283,12 @@ Frequently Asked Questions (FAQ)
 <a name="FAQ63"></a>
 [**(63) Why is all DNS traffic allowed?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-faq63)
 
+<a name="FAQ64"></a>
+[**(64) Can you add DNS over TLS?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-faq64)
+
+<a name="FAQ65"></a>
+[**(65) Why can NetGuard not block itself?**](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-faq65)
+
 Support
 -------
 
