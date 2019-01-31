@@ -78,7 +78,7 @@
     <string name="setting_eu_roaming">Ignorera EU-roaming</string>
     <string name="setting_call">Inaktivera under samtal</string>
     <string name="setting_lockdown_wifi">Lås Wi-Fi</string>
-    <string name="setting_lockdown_other">Lås mobil</string>
+    <string name="setting_lockdown_other">Lås mobildata</string>
     <string name="setting_reload_onconnectivity">Uppdatera vid förändrad uppkoppling</string>
     <string name="setting_advanced_options">Avancerade inställningar</string>
     <string name="setting_system">Hantera systemappar</string>
@@ -114,7 +114,7 @@
     <string name="setting_export">Exportera inställningar</string>
     <string name="setting_import">Importera inställningar</string>
     <string name="setting_hosts">Importera hosts-filen</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Importera värdfil (lägg till)</string>
     <string name="setting_hosts_url">Hosts-filens hämtningswebbadress</string>
     <string name="setting_hosts_download">Hämta hosts-filen</string>
     <string name="setting_technical">Teknisk information</string>
@@ -210,8 +210,8 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
     <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
     <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
-    <string name="title_metered_allowed">Metered traffic is allowed</string>
-    <string name="title_metered_blocked">Metered traffic is blocked</string>
+    <string name="title_metered_allowed">Uppmätt trafik tillåts</string>
+    <string name="title_metered_blocked">Uppmätt trafik blockeras</string>
     <string name="title_metered_disabled">Metered rules are not applied</string>
     <string name="title_host_allowed">Adressen är blockerad</string>
     <string name="title_host_blocked">Adressen är blockerad</string>
