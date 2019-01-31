@@ -805,6 +805,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                     if (db.insert("dns", null, cv) == -1)
                         Log.e(TAG, "Insert dns failed");
+                    else
+                        rows = 1;
                 } else if (rows != 1)
                     Log.e(TAG, "Update dns failed rows=" + rows);
 
