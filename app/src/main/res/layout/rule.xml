@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
     android:paddingEnd="4dp"
     android:paddingRight="4dp"
-    android:paddingTop="8dp">
+    android:paddingBottom="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,8 +42,8 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:paddingLeft="8dp"
                 android:paddingStart="8dp"
+                android:paddingLeft="8dp"
                 android:textAppearance="@style/TextMedium" />
         </LinearLayout>
 
@@ -52,8 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:textAppearance="@style/TextSmall"
             android:textSize="12sp" />
 
@@ -61,8 +61,8 @@
             android:id="@+id/rlLockdown"
             android:layout_width="24dp"
             android:layout_height="?android:attr/listPreferredItemHeightSmall"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp">
 
             <ImageView
                 android:id="@+id/ivLockdown"
@@ -80,8 +80,8 @@
             <RelativeLayout
                 android:layout_width="24dp"
                 android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp">
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp">
 
                 <CheckBox
                     android:id="@+id/cbWifi"
@@ -120,8 +120,8 @@
             <RelativeLayout
                 android:layout_width="24dp"
                 android:layout_height="?android:attr/listPreferredItemHeightSmall"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp">
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp">
 
                 <CheckBox
                     android:id="@+id/cbOther"
@@ -162,8 +162,8 @@
         android:id="@+id/llConfiguration"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         android:visibility="gone">
@@ -180,8 +180,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextSmall"
-            android:textIsSelectable="true" />
+            android:textAppearance="@style/TextSmall" />
 
         <TextView
             android:id="@+id/tvVersion"
@@ -423,8 +422,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:minHeight="0dp"
                     android:minWidth="0dp"
+                    android:minHeight="0dp"
                     android:text="@string/title_logging_configure" />
             </LinearLayout>
 
