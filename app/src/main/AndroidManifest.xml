@@ -37,7 +37,7 @@
 
     <application
         android:name="ApplicationEx"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:appCategory="productivity"
         android:description="@string/app_description"
         android:icon="@mipmap/ic_launcher"
