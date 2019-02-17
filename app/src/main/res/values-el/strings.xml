@@ -114,7 +114,7 @@
     <string name="setting_export">Εξαγωγή ρυθμίσεων</string>
     <string name="setting_import">Εισαγωγή ρυθμίσεων</string>
     <string name="setting_hosts">Εισαγωγή αρχείου hosts</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Εισαγωγή αρχείου hosts (προσάρτηση)</string>
     <string name="setting_hosts_url">Διεύθυνση κατεβάσματος αρχείου Hosts</string>
     <string name="setting_hosts_download">Κατεβάστε το αρχείο hosts</string>
     <string name="setting_technical">Τεχνικές πληροφορίες</string>

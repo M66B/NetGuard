@@ -3,18 +3,18 @@
 <resources>
     <string name="app_description">NetGuard provides simple and advanced ways to block access to the internet - no root required. Apps and addresses can individually be allowed or denied access to your Wi-Fi and/or mobile connection.</string>
     <string name="app_android">NetGuard نیاز به اندیشه 5.1 و یا بعد از</string>
-    <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
-    <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
-    <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+    <string name="app_xposed">دفتر باعث تصادفات زیادی که منجر به NetGuard از فروشگاه بازی گوگل حذف ممکن است، بنابراین NetGuard پشتیبانی نمی شود در حالی که دفتر نصب شده است</string>
+    <string name="app_privacy"><a href="http://www.cyanogenmod.org/docs/privacy"> سیاست حفظ حریم خصوصی</a></string>
+    <string name="app_first">با این حال تضمین NetGuard درستی کار بر روی هر دستگاه است مراقبت بزرگ به منظور توسعه و test NetGuard، گرفته شده است.</string>
     <string name="app_agree">می پذیرم</string>
     <string name="app_disagree">نمی پذیرم</string>
-    <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
-    <string name="channel_foreground">Running services</string>
-    <string name="channel_notify">General notifications</string>
-    <string name="channel_access">Access notifications</string>
-    <string name="menu_search">Search for app</string>
-    <string name="menu_filter">Filter apps</string>
-    <string name="menu_app_user">Show user apps</string>
+    <string name="app_support">NetGuard به کمک شما نیاز دارد. برای خرید نرم افزار ویژگی های پروژه های رفتن را ضربه بزنید.</string>
+    <string name="channel_foreground">خدمات درحال اجرا</string>
+    <string name="channel_notify">اعلان های عمومی</string>
+    <string name="channel_access">اعلان های دسترسی</string>
+    <string name="menu_search">جستجو برای برنامه</string>
+    <string name="menu_filter">برنامه های فیلتر</string>
+    <string name="menu_app_user">فارسی</string>
     <string name="menu_app_system">Show system apps</string>
     <string name="menu_app_nointernet">Show apps without internet</string>
     <string name="menu_app_disabled">Show disabled apps</string>
