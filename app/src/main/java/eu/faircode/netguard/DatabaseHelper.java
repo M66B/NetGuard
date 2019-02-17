@@ -136,19 +136,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE log (" +
                 " ID INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ", time INTEGER NOT NULL" +
-                ", version INTEGER NULL" +
-                ", protocol INTEGER NULL" +
+                ", version INTEGER" +
+                ", protocol INTEGER" +
                 ", flags TEXT" +
                 ", saddr TEXT" +
-                ", sport INTEGER NULL" +
+                ", sport INTEGER" +
                 ", daddr TEXT" +
-                ", dport INTEGER NULL" +
-                ", dname TEXT NULL" +
-                ", uid INTEGER NULL" +
+                ", dport INTEGER" +
+                ", dname TEXT" +
+                ", uid INTEGER" +
                 ", data TEXT" +
-                ", allowed INTEGER NULL" +
-                ", connection INTEGER NULL" +
-                ", interactive INTEGER NULL" +
+                ", allowed INTEGER" +
+                ", connection INTEGER" +
+                ", interactive INTEGER" +
                 ");");
         db.execSQL("CREATE INDEX idx_log_time ON log(time)");
         db.execSQL("CREATE INDEX idx_log_dest ON log(daddr)");
@@ -167,11 +167,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", daddr TEXT NOT NULL" +
                 ", dport INTEGER NOT NULL" +
                 ", time INTEGER NOT NULL" +
-                ", allowed INTEGER NULL" +
+                ", allowed INTEGER" +
                 ", block INTEGER NOT NULL" +
-                ", sent INTEGER NULL" +
-                ", received INTEGER NULL" +
-                ", connections INTEGER NULL" +
+                ", sent INTEGER" +
+                ", received INTEGER" +
+                ", connections INTEGER" +
                 ");");
         db.execSQL("CREATE UNIQUE INDEX idx_access ON access(uid, version, protocol, daddr, dport)");
         db.execSQL("CREATE INDEX idx_access_daddr ON access(daddr)");
@@ -186,7 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", qname TEXT NOT NULL" +
                 ", aname TEXT NOT NULL" +
                 ", resource TEXT NOT NULL" +
-                ", ttl INTEGER NULL" +
+                ", ttl INTEGER" +
                 ");");
         db.execSQL("CREATE UNIQUE INDEX idx_dns ON dns(qname, aname, resource)");
         db.execSQL("CREATE INDEX idx_dns_resource ON dns(resource)");
@@ -240,33 +240,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             if (oldVersion < 2) {
                 if (!columnExists(db, "log", "version"))
-                    db.execSQL("ALTER TABLE log ADD COLUMN version INTEGER NULL");
+                    db.execSQL("ALTER TABLE log ADD COLUMN version INTEGER");
                 if (!columnExists(db, "log", "protocol"))
-                    db.execSQL("ALTER TABLE log ADD COLUMN protocol INTEGER NULL");
+                    db.execSQL("ALTER TABLE log ADD COLUMN protocol INTEGER");
                 if (!columnExists(db, "log", "uid"))
-                    db.execSQL("ALTER TABLE log ADD COLUMN uid INTEGER NULL");
+                    db.execSQL("ALTER TABLE log ADD COLUMN uid INTEGER");
                 oldVersion = 2;
             }
             if (oldVersion < 3) {
                 if (!columnExists(db, "log", "port"))
-                    db.execSQL("ALTER TABLE log ADD COLUMN port INTEGER NULL");
+                    db.execSQL("ALTER TABLE log ADD COLUMN port INTEGER");
                 if (!columnExists(db, "log", "flags"))
                     db.execSQL("ALTER TABLE log ADD COLUMN flags TEXT");
                 oldVersion = 3;
             }
             if (oldVersion < 4) {
                 if (!columnExists(db, "log", "connection"))
-                    db.execSQL("ALTER TABLE log ADD COLUMN connection INTEGER NULL");
+                    db.execSQL("ALTER TABLE log ADD COLUMN connection INTEGER");
                 oldVersion = 4;
             }
             if (oldVersion < 5) {
                 if (!columnExists(db, "log", "interactive"))
-                    db.execSQL("ALTER TABLE log ADD COLUMN interactive INTEGER NULL");
+                    db.execSQL("ALTER TABLE log ADD COLUMN interactive INTEGER");
                 oldVersion = 5;
             }
             if (oldVersion < 6) {
                 if (!columnExists(db, "log", "allowed"))
-                    db.execSQL("ALTER TABLE log ADD COLUMN allowed INTEGER NULL");
+                    db.execSQL("ALTER TABLE log ADD COLUMN allowed INTEGER");
                 oldVersion = 6;
             }
             if (oldVersion < 7) {
@@ -320,9 +320,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             if (oldVersion < 17) {
                 if (!columnExists(db, "access", "sent"))
-                    db.execSQL("ALTER TABLE access ADD COLUMN sent INTEGER NULL");
+                    db.execSQL("ALTER TABLE access ADD COLUMN sent INTEGER");
                 if (!columnExists(db, "access", "received"))
-                    db.execSQL("ALTER TABLE access ADD COLUMN received INTEGER NULL");
+                    db.execSQL("ALTER TABLE access ADD COLUMN received INTEGER");
                 oldVersion = 17;
             }
             if (oldVersion < 18) {
@@ -334,7 +334,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
             if (oldVersion < 19) {
                 if (!columnExists(db, "access", "connections"))
-                    db.execSQL("ALTER TABLE access ADD COLUMN connections INTEGER NULL");
+                    db.execSQL("ALTER TABLE access ADD COLUMN connections INTEGER");
                 oldVersion = 19;
             }
             if (oldVersion < 20) {
