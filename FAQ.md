@@ -477,15 +477,6 @@ since there wasn't paid anything for them and because they can be evaluated with
 I take my responsibility as seller to deliver what has been promised
 and I expect that you take responsibility for informing yourself of what you are buying.
 
-<a name="faq47"></a>
-**(47) Why are there in-application advertisements?**
-
-Developing NetGuard was quite a challenge and [really a lot of work](https://www.openhub.net/p/netguard/estimated_cost), but fun to do.
-A good product deserves good support, which means, in practice, that I am spending 30-60 minutes each and every day answering questions and solving problems.
-Just about 1 in 1000 downloaders purchase any of the pro features, so support is basically one way.
-This is not maintainable in the long run and this is why advertisements were added.
-Purchasing any of the pro features will completely disable advertisements and help keep the project going.
-
 <a name="faq48"></a>
 **(48) Why are some domain names blocked while they are set to be allowed?**
 
