@@ -859,6 +859,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getQName(int uid, String ip) {
+        long now = new Date().getTime();
         lock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -869,7 +870,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += " LEFT JOIN access AS a";
             query += "   ON a.daddr = d.qname AND a.uid = " + uid;
             query += " WHERE d.resource = '" + ip.replace("'", "''") + "'";
-            query += " ORDER BY CASE a.daddr WHEN NULL THEN 1 ELSE 0 END, d.qname";
+            query += " ORDER BY";
+            query += " CASE WHEN a.daddr IS NULL THEN 1 ELSE 0 END";
+            query += ", CASE WHEN d.time + d.ttl < " + now + " THEN 1 ELSE 0 END";
+            query += ", d.qname";
             query += " LIMIT 1";
             return db.compileStatement(query).simpleQueryForString();
         } catch (SQLiteDoneException ignored) {
