@@ -34,14 +34,17 @@ public class ReceiverPackageRemoved extends BroadcastReceiver {
         Log.i(TAG, "Received " + intent);
         Util.logExtras(intent);
 
-        int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
-        if (uid > 0) {
-            DatabaseHelper dh = DatabaseHelper.getInstance(context);
-            dh.clearLog(uid);
-            dh.clearAccess(uid, false);
+        String action = (intent == null ? null : intent.getAction());
+        if (Intent.ACTION_PACKAGE_FULLY_REMOVED.equals(action)) {
+            int uid = intent.getIntExtra(Intent.EXTRA_UID, 0);
+            if (uid > 0) {
+                DatabaseHelper dh = DatabaseHelper.getInstance(context);
+                dh.clearLog(uid);
+                dh.clearAccess(uid, false);
 
-            NotificationManagerCompat.from(context).cancel(uid); // installed notification
-            NotificationManagerCompat.from(context).cancel(uid + 10000); // access notification
+                NotificationManagerCompat.from(context).cancel(uid); // installed notification
+                NotificationManagerCompat.from(context).cancel(uid + 10000); // access notification
+            }
         }
     }
 }

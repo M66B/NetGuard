@@ -37,22 +37,24 @@ public class ReceiverAutostart extends BroadcastReceiver {
         Log.i(TAG, "Received " + intent);
         Util.logExtras(intent);
 
-        try {
-            // Upgrade settings
-            upgrade(true, context);
+        String action = (intent == null ? null : intent.getAction());
+        if (Intent.ACTION_BOOT_COMPLETED.equals(action) || Intent.ACTION_MY_PACKAGE_REPLACED.equals(action))
+            try {
+                // Upgrade settings
+                upgrade(true, context);
 
-            // Start service
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            if (prefs.getBoolean("enabled", false))
-                ServiceSinkhole.start("receiver", context);
-            else if (prefs.getBoolean("show_stats", false))
-                ServiceSinkhole.run("receiver", context);
+                // Start service
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                if (prefs.getBoolean("enabled", false))
+                    ServiceSinkhole.start("receiver", context);
+                else if (prefs.getBoolean("show_stats", false))
+                    ServiceSinkhole.run("receiver", context);
 
-            if (Util.isInteractive(context))
-                ServiceSinkhole.reloadStats("receiver", context);
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
+                if (Util.isInteractive(context))
+                    ServiceSinkhole.reloadStats("receiver", context);
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
     }
 
     public static void upgrade(boolean initialized, Context context) {
