@@ -870,10 +870,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             query += " LEFT JOIN access AS a";
             query += "   ON a.daddr = d.qname AND a.uid = " + uid;
             query += " WHERE d.resource = '" + ip.replace("'", "''") + "'";
-            query += " ORDER BY";
-            query += " CASE WHEN a.daddr IS NULL THEN 1 ELSE 0 END";
-            query += ", CASE WHEN d.time + d.ttl < " + now + " THEN 1 ELSE 0 END";
-            query += ", d.qname";
+            query += " ORDER BY CASE WHEN a.daddr IS NULL THEN 1 ELSE 0 END, d.qname";
             query += " LIMIT 1";
             return db.compileStatement(query).simpleQueryForString();
         } catch (SQLiteDoneException ignored) {
