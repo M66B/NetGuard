@@ -859,19 +859,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getQName(int uid, String ip) {
-        long now = new Date().getTime();
         lock.readLock().lock();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             // There is a segmented index on resource
-            // There is an index on access.daddr
             String query = "SELECT d.qname";
             query += " FROM dns AS d";
-            query += " LEFT JOIN access AS a";
-            query += "   ON a.daddr = d.qname AND a.uid = " + uid;
             query += " WHERE d.resource = '" + ip.replace("'", "''") + "'";
-            query += " ORDER BY CASE WHEN a.daddr IS NULL THEN 1 ELSE 0 END, d.qname";
+            query += " ORDER BY d.qname";
             query += " LIMIT 1";
+            // There is no way to known for sure which domain name an app used, so just pick the first one
             return db.compileStatement(query).simpleQueryForString();
         } catch (SQLiteDoneException ignored) {
             // Not found
