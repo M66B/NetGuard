@@ -1525,8 +1525,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         mapHostsBlocked.clear();
 
-        DatabaseHelper dh = DatabaseHelper.getInstance(ServiceSinkhole.this);
-
         int count = 0;
         BufferedReader br = null;
         try {
@@ -1542,19 +1540,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     if (words.length == 2) {
                         count++;
                         mapHostsBlocked.put(words[1], true);
-
-                        Cursor cursor = null;
-                        try {
-                            cursor = dh.getAlternateQNames(words[1]);
-                            while (cursor != null && cursor.moveToNext()) {
-                                String alt = cursor.getString(0);
-                                mapHostsBlocked.put(alt, true);
-                                Log.i(TAG, words[1] + " alt " + alt);
-                            }
-                        } finally {
-                            if (cursor != null)
-                                cursor.close();
-                        }
                     } else
                         Log.i(TAG, "Invalid hosts file line: " + line);
                 }
@@ -1826,32 +1811,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void dnsResolved(ResourceRecord rr) {
-        DatabaseHelper dh = DatabaseHelper.getInstance(ServiceSinkhole.this);
-        if (dh.insertDns(rr)) {
+        if (DatabaseHelper.getInstance(ServiceSinkhole.this).insertDns(rr)) {
             Log.i(TAG, "New IP " + rr);
             prepareUidIPFilters(rr.QName);
-
-            if (!mapHostsBlocked.containsKey(rr.QName)) {
-                lock.writeLock().lock();
-
-                Cursor cursor = null;
-                try {
-                    cursor = dh.getAlternateQNames(rr.QName);
-                    while (cursor != null && cursor.moveToNext()) {
-                        String alt = cursor.getString(0);
-                        if (mapHostsBlocked.containsKey(alt)) {
-                            mapHostsBlocked.put(rr.QName, true);
-                            Log.i(TAG, "New " + alt + " alt " + rr.QName);
-                            break;
-                        }
-                    }
-                } finally {
-                    if (cursor != null)
-                        cursor.close();
-                }
-
-                lock.writeLock().unlock();
-            }
         }
     }
 
