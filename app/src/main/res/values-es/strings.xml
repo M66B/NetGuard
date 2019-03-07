@@ -200,7 +200,7 @@
     <string name="msg_on">Al apagar el dispositivo con NetGuard activado, este se iniciará automáticamente al encender el dispositivo</string>
     <string name="msg_unavailable">Esta característica no está disponible para esta versión de Android</string>
     <string name="msg_always_on">Otra VPN está configurada como \'Siempre activa\'</string>
-    <string name="msg_always_on_lockdown">Desactivar \"Bloquear conexiones sin VPN\" en ajustes del VPN de Android para usar NetGuard en modo de filtrado</string>
+    <string name="msg_always_on_lockdown">Desactivar \"Bloquear conexiones sin VPN\" en ajustes de VPN de Android para usar NetGuard en modo de filtrado</string>
     <string name="msg_private_dns">Desactivar \"DNS privada\" en ajustes de red de Android para usar NetGuard en modo de filtrado</string>
     <string name="title_lockdown_enabled">El tráfico está bloqueado</string>
     <string name="title_unmetered_allowed">Tráfico ilimitado permitido</string>
@@ -231,7 +231,7 @@
     <string name="title_logging_disabled">El registro y filtrado están desactivados</string>
     <string name="title_logging_enabled">El registro y filtrado están activados</string>
     <string name="title_logging_configure">Configurar</string>
-    <string name="title_enable_logging">Activar registro solo de las direcciones bloqueadas</string>
+    <string name="title_enable_logging">Activar registro solo de direcciones bloqueadas</string>
     <string name="title_enable_filtering">Activar filtrado para registrar también las direcciones permitidas</string>
     <string name="title_enable_notify">Activar notificaciones de acceso para direcciones recién registradas</string>
     <string name="title_enable_help0">Esta configuración es global y se aplica a todas las aplicaciones</string>

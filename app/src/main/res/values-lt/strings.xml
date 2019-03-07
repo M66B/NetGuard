@@ -3,15 +3,15 @@
 <resources>
     <string name="app_description">NetGuard provides simple and advanced ways to block access to the internet - no root required. Apps and addresses can individually be allowed or denied access to your Wi-Fi and/or mobile connection.</string>
     <string name="app_android">NetGuard reikalauja Android 5.1 arba naujesnės versijos</string>
-    <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
+    <string name="app_xposed">Xposed sukelia per daug strigčių, kas savo ruožtu gali privesti prie NetGuard pašalinimo iš Google Play parduotuvės, todėl tol, kol yra įdiegta Xposed, NetGuard nėra palaikoma</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privatumo politika</a></string>
     <string name="app_first">Tam, kad NetGuard būtų sukurta ir išbandyta, buvo pridėta daug pastangų, vis dėlto neįmanoma garantuoti, kad NetGuard veiks visuose įrenginiuose.</string>
     <string name="app_agree">Aš sutinku</string>
     <string name="app_disagree">Aš nesutinku</string>
     <string name="app_support">NetGuard reikia jūsų pagalbos. Bakstelėkite, norėdami įsigyti pro ypatybes, kad palaikytumėte projekto gyvavimą.</string>
     <string name="channel_foreground">Running services</string>
-    <string name="channel_notify">General notifications</string>
-    <string name="channel_access">Access notifications</string>
+    <string name="channel_notify">Bendri pranešimai</string>
+    <string name="channel_access">Prieigos pranešimai</string>
     <string name="menu_search">Ieškoti programos</string>
     <string name="menu_filter">Filter apps</string>
     <string name="menu_app_user">Show user apps</string>
@@ -36,7 +36,7 @@
     <string name="menu_refresh">Įkelti iš naujo</string>
     <string name="menu_resolve">Rodyti pavadinimus</string>
     <string name="menu_organization">Show organization</string>
-    <string name="menu_pcap_enabled">PCAP enabled</string>
+    <string name="menu_pcap_enabled">PCAP įjungta</string>
     <string name="menu_pcap_export">PCAP export</string>
     <string name="menu_clear">Išvalyti</string>
     <string name="menu_export">Eksportuoti</string>
@@ -119,8 +119,8 @@
     <string name="setting_hosts_download">Download hosts file</string>
     <string name="setting_technical">Techninė informacija</string>
     <string name="setting_technical_general">General</string>
-    <string name="setting_technical_networks">Networks</string>
-    <string name="setting_technical_subscription">Subscriptions</string>
+    <string name="setting_technical_networks">Tinklai</string>
+    <string name="setting_technical_subscription">Prenumeratos</string>
     <string name="summary_install">Show status bar notification to directly configure newly installed apps (pro feature)</string>
     <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
     <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
@@ -181,7 +181,7 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
 \n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
     <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original apps</string>
-    <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
+    <string name="msg_filter4">Android 4 reikalauja, kad filtravimas būtų įjungtas</string>
     <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
     <string name="msg_clear_rules">Tai atstatys taisykles ir sąlygas į jų numatytąsias reikšmes</string>
     <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
