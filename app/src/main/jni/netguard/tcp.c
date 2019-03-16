@@ -1002,11 +1002,16 @@ void queue_tcp(const struct arguments *args,
                 s->len = datalen;
                 s->data = malloc(datalen);
                 memcpy(s->data, data, datalen);
-            } else
+            } else {
                 log_android(ANDROID_LOG_ERROR, "%s segment larger %u..%u < %u",
                             session,
                             s->seq - cur->remote_start, s->seq + s->len - cur->remote_start,
                             s->seq + datalen - cur->remote_start);
+                free(s->data);
+                s->len = datalen;
+                s->data = malloc(datalen);
+                memcpy(s->data, data, datalen);
+            }
         }
     }
 }
