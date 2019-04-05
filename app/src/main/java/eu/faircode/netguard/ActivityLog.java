@@ -340,19 +340,6 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         menuSearch = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) menuSearch.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            private String getUidForName(String query) {
-                if (query != null && query.length() > 0) {
-                    for (Rule rule : Rule.getRules(true, ActivityLog.this))
-                        if (rule.name != null && rule.name.toLowerCase().contains(query.toLowerCase())) {
-                            String newQuery = Integer.toString(rule.uid);
-                            Log.i(TAG, "Search " + query + " found " + rule.name + " new " + newQuery);
-                            return newQuery;
-                        }
-                    Log.i(TAG, "Search " + query + " not found");
-                }
-                return query;
-            }
-
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (adapter != null)
@@ -531,9 +518,22 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
             adapter.changeCursor(DatabaseHelper.getInstance(this).getLog(udp, tcp, other, allowed, blocked));
             if (menuSearch != null && menuSearch.isActionViewExpanded()) {
                 SearchView searchView = (SearchView) menuSearch.getActionView();
-                adapter.getFilter().filter(searchView.getQuery().toString());
+                adapter.getFilter().filter(getUidForName(searchView.getQuery().toString()));
             }
         }
+    }
+
+    private String getUidForName(String query) {
+        if (query != null && query.length() > 0) {
+            for (Rule rule : Rule.getRules(true, ActivityLog.this))
+                if (rule.name != null && rule.name.toLowerCase().contains(query.toLowerCase())) {
+                    String newQuery = Integer.toString(rule.uid);
+                    Log.i(TAG, "Search " + query + " found " + rule.name + " new " + newQuery);
+                    return newQuery;
+                }
+            Log.i(TAG, "Search " + query + " not found");
+        }
+        return query;
     }
 
     private Intent getIntentPCAPDocument() {
