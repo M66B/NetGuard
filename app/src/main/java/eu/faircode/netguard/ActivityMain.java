@@ -333,6 +333,21 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 showHints();
             }
         });
+
+        final LinearLayout llFairEmail = findViewById(R.id.llFairEmail);
+        TextView tvFairEmail = findViewById(R.id.tvFairEmail);
+        tvFairEmail.setMovementMethod(LinkMovementMethod.getInstance());
+        Button btnFairEmail = findViewById(R.id.btnFairEmail);
+        boolean hintFairEmail = prefs.getBoolean("hint_fairemail", true);
+        llFairEmail.setVisibility(hintFairEmail ? View.VISIBLE : View.GONE);
+        btnFairEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs.edit().putBoolean("hint_fairemail", false).apply();
+                llFairEmail.setVisibility(View.GONE);
+            }
+        });
+
         showHints();
 
         // Listen for preference changes

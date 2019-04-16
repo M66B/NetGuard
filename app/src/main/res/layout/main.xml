@@ -54,6 +54,34 @@
                 android:textAppearance="@style/TextSmall" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/llFairEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvFairEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/msg_fairemail"
+                android:textAppearance="@style/TextSmall" />
+
+            <Button
+                android:id="@+id/btnFairEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@android:string/ok"
+                android:textAppearance="@style/TextSmall" />
+        </LinearLayout>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
