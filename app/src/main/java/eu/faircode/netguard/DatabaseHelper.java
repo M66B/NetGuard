@@ -812,7 +812,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 db.setTransactionSuccessful();
 
-                return (rows == 0);
+                return (rows > 0);
             } finally {
                 db.endTransaction();
             }
