@@ -194,6 +194,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="msg_queue">NetGuard est occupé</string>
     <string name="msg_update">Mise à jour disponible, appuyez pour télécharger</string>
     <string name="msg_usage">Vous pouvez autoriser (vert) ou refuser (rouge) l\'accès à internet Wi-Fi ou mobile en cliquant sur les icônes à coté d’une application</string>
+    <string name="msg_fairemail">Si vous avez installé NetGuard pour protéger votre vie privée, vous pourriez être intéressé par <a href="https://email.faircode.eu/">FairEmail</a>, une application de messagerie open source, respectueuse de la vie privée également</string>
     <string name="msg_whitelist">L’accès Internet est autorisé par défaut (mode liste noire), ceci peut être modifié dans les paramètres</string>
     <string name="msg_push">Les messages Push sont principalement gérés par le composant système Play services, qui est autorisé à accéder à internet par défaut</string>
     <string name="msg_system">La gestion des applications système peut être activée dans les options avancées</string>

@@ -194,6 +194,7 @@ Ang iyong internet traffic ay hindi pinapadala sa isang liblib na vpn serber.</s
     <string name="msg_queue">Ang NetGuard ay may iba pang ginagawa</string>
     <string name="msg_update">May update na magagamit, pindutin upang i-download</string>
     <string name="msg_usage">Maaari mong pahintulutan (mala-luntian) or tanggihan (mamula-mula) ang pag-access sa internet ng Wi-Fi o mobile sa pamamagitan ng pagpindot ng mga imahe na nasa tabi ng isang app</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">Ang pag-access sa internet ay pinahihintulutan (blacklist mode), ito ay maaring ibahin sa mga setting</string>
     <string name="msg_push">Ang paparating (push) na mga mensahe ay karaniwan pinangangasiwaan ng system component Play services, na may pahintulot na i-access ang internet</string>
     <string name="msg_system">Ang pangangasiwa ng lahat (sistema) ng mga app ay maaaring paganahin sa mga setting</string>

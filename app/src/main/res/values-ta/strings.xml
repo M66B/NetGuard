@@ -192,6 +192,7 @@
     <string name="msg_queue">NetGuard பணியில் உள்ளது</string>
     <string name="msg_update">பதிவிறக்கம் புதுப்பித்தல் கிடைக்கும், ஆணி</string>
     <string name="msg_usage">நீங்கள் அனுமதி (வண்ணச்சாயலில்) அல்லது (சிவந்த) Wi-Fi அல்லது மொபைல் இணைய அணுகலை அருகில் ஒரு பயன்பாடு படவுருக்களை ஒட்டுக்கேட்பு மூலம் மறு</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">இணைய அணுகல் அனுமதிக்கப்படும் இயல்பாக, இது முடியும் மாற்ற அமைப்புகளில்</string>
     <string name="msg_push">தள்ளு செய்திகளை ஆகியவை பெரும்பாலும் வேண்டுமெனக் முறைமை உபகரணம் இயக்கு சேவைகள், இயல்புநிலை இணைய அணுகல் இது அனுமதிக்கப்பட்ட உள்ளது</string>
     <string name="msg_system">நிர்வாக முறைமை பயன்பாடுகள் முடியும் செயலாக்கம் செய்யப்படும் அமைப்புகளில்</string>

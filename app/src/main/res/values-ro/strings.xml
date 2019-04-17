@@ -195,6 +195,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="msg_queue">NetGuard este ocupat</string>
     <string name="msg_update">Actualizare disponibilă, atingeți pentru a descărca</string>
     <string name="msg_usage">Puteți permite (verzui) sau bloca (roșiatic) accesul la internet prin Wi-Fi sau date mobile atingând iconițele din dreptul unei aplicații</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">Accesul la internet este permis in mod implicit, acest lucru poate fi schimbat in meniul setari</string>
     <string name="msg_push">Mesajele \"push\" sunt de obicei gestionate de componentele de sistem ale serviciilor Google Play. carora le este permis in mod implicit accesul la internet</string>
     <string name="msg_system">Gestionarea aplicatiilor de sistem se activeaza din optiunile avansate</string>

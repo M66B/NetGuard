@@ -192,6 +192,7 @@
     <string name="msg_queue">NetGuard tehtävä jonossa</string>
     <string name="msg_update">Päivitys saatavilla, valitse ladataksesi</string>
     <string name="msg_usage">Voit sallia (vihertävä) tai estää (punertava) sovelluksen pääsyn internettiin Wi-Fi tai mobiiliverkon kautta valitsemalla sovelluksen vieressä oleva kuvake</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">Internetyhteys on sallittu oletuksena (musta lista), tämän voi muuttaa asetuksista</string>
     <string name="msg_push">Järjestelmäsivellus Play services käsittelee pääsääntöisesti saapuvat (push) viestit ja sen pääsy internetiin on sallittu oletuksena</string>
     <string name="msg_system">Kaikkien (järjestelmä)sovellusten hallinnan voi aktivoida asetuksista</string>

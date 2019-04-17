@@ -194,6 +194,7 @@
     <string name="msg_queue">NetGuard עמוס</string>
     <string name="msg_update">עדכון זמין, הקש כדי להוריד</string>
     <string name="msg_usage">באפשרותך לאשר (ירוק) או למנוע (אדום) מיישום גישה לרשתות Wi-Fi או לרשת האינטרנט הסלולרית באמצעות הקשה על הסמל שליד יישום</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">גישה לאינטרנט מותרת כברירת מחדל, ניתן לשנות זאת בתפריט ההגדרות</string>
     <string name="msg_push">הודעות Push מטופלות בעיקר על ידי רכיב המערכת Play services, אשר עבורו מאופשרת גישה לאינטרנט כברירת מחדל</string>
     <string name="msg_system">ניהול יישומי מערכת ניתן להפעלה מתוך תפריט הההגדרות</string>

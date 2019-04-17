@@ -194,6 +194,7 @@ Ang iyong daloy ng internet ay hindi naipadala sa malayong serber ng VPN.</strin
     <string name="msg_queue">Ang NetGuar ay maraming ginagawa</string>
     <string name="msg_update">Ang pag-updeyt ay pwede, tapikin para sa pagdownload</string>
     <string name="msg_usage">Pwede mong payagan ang (ma-berde) o tanggihan ang (mapula) na Wi-Fi o kaya ang pag-akses sa mobile interernet sa pamamagitan ng pagtapik sa mga imahe na susunod sa aplikasyon</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">Pinapayagan ang na i-akses ang internet sa pamamagitan ng default (blacklist mode), pwede nitong baguhin ang mga seting</string>
     <string name="msg_push">Ang paparating na mga mensahe ay ang mga madalas hawakan ayon sa nilalaman ng Play na mga serbisyo (itulak), kung saan ay pinapayagan na i-akses ang default na internet</string>
     <string name="msg_system">Pamahalaan ang lahat na (sistema) ng mga aplikasyon para ma-enable ang mga seting</string>

@@ -192,6 +192,7 @@
     <string name="msg_queue">NetGuard ist beschäftigt</string>
     <string name="msg_update">Neue Version verfügbar, tippen zum Herunterladen</string>
     <string name="msg_usage">Sie können den Wi-Fi oder mobilen Internet-Zugang zulassen (grünlich) oder verweigern (rötlich), indem Sie auf die Symbole neben einer Anwendung tippen</string>
+    <string name="msg_fairemail">Falls Sie NetGuard installiert haben um Ihre Privatsphäre zu schützen, könnten Sie auch an FairEmail, einer Open-Source, privatsphärenfreundlichen Email-App, interressiert sein.</string>
     <string name="msg_whitelist">Internet-Zugang ist standardmäßig erlaubt. Das kann in den Einstellungen geändert werden</string>
     <string name="msg_push">Push-Nachrichten werden normalerweise durch die Systemkomponente Play-Dienste gesteuert, dieser ist standardmäßig der Internetzugang erlaubt</string>
     <string name="msg_system">Verwalten von Systemanwendungen kann in den erweiterten Optionen aktiviert werden</string>

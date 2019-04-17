@@ -196,6 +196,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
     <string name="msg_queue">NetGuard is bezig</string>
     <string name="msg_update">Update beschikbaar, tik om te downloaden</string>
     <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access by tapping on the icons next to an app</string>
+    <string name="msg_fairemail">Als u NetGuard heeft geïnstalleerd om uw privacy te beschermen, bent u wellicht ook geïnteresseerd in <a href="https://email.faircode.eu/">FairEmail</a>, een open source, privacy vriendelijke e-mail app</string>
     <string name="msg_whitelist">Internet access is allowed by default (blacklist mode), this can be changed in the settings</string>
     <string name="msg_push">Incoming (push) messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
     <string name="msg_system">Managing all (system) apps can be enabled in the settings</string>

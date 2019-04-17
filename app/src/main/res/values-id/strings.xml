@@ -196,6 +196,7 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="msg_queue">NetGuard sedang sibuk</string>
     <string name="msg_update">Pembaruan tersedia, ketuk untuk mengunduh</string>
     <string name="msg_usage">Anda bisa izinkan (kehijauan) atau tolak (kemerahan) akses internet Wi-Fi atau seluler dengan mengetuk ikon di sebelah apl</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">Akses internet diizinkan secara bawaan (mode daftar hitam), ini bisa diubah di pengaturan</string>
     <string name="msg_push">Pesan masuk (push) umumnya ditangani oleh komponen sistem layanan Play, yang secara bawaan diizinkan mengakses internet</string>
     <string name="msg_system">Mengelola semua apl (sistem) bisa diaktifkan di pengaturan</string>

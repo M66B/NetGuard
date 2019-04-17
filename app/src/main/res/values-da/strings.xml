@@ -196,6 +196,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
     <string name="msg_queue">NetGuard er optaget</string>
     <string name="msg_update">Opdatering tilgængelig, tryk for at downloade</string>
     <string name="msg_usage">Du kan tillade (grønlig) eller nægte (rødlig) Wi-Fi eller mobil Internetadgang ved at trykke på ikonet ved siden af en app</string>
+    <string name="msg_fairemail">Installerede du NetGuard for at beskytte dit privatliv, kan <a href="https://email.faircode.eu/">FairEmail</a>, en open source, privatlivsorienteret e-mail app, måske også have din interesse</string>
     <string name="msg_whitelist">Internetadgang er som standard tilladt (sortlistetilstand), hvilket dog kan ændres i indstillingerne</string>
     <string name="msg_push">Push-beskeder håndteres primært af systemkomponenten Play-tjenester, der som standard tillader Internetadgang</string>
     <string name="msg_system">Håndtering af alle (system-)apps kan aktiveres i indstillingerne</string>

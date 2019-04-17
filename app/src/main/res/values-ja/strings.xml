@@ -192,6 +192,7 @@
     <string name="msg_queue">NetGuard はビジーです</string>
     <string name="msg_update">アップデートが利用できます。タップするとダウンロードします</string>
     <string name="msg_usage">アプリの横にあるアイコンをタップして、Wi-Fi またはモバイルインターネットアクセスを、許可 (緑) または拒否 (赤) することができます</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">デフォルトで、インターネットアクセスが許可されます。これは設定で変更することができます</string>
     <string name="msg_push">プッシュメッセージは、システムコンポーネントの Play サービス (デフォルトでインターネットアクセスが許可されています) によって主に処理されます。</string>
     <string name="msg_system">システムアプリの管理は、設定内で有効にできます</string>

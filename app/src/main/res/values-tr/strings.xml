@@ -195,6 +195,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
     <string name="msg_queue">NetGuard meşgul</string>
     <string name="msg_update">Güncelleme hazır, indirmek için dokunun</string>
     <string name="msg_usage">Bir uygulamanın yanındaki simgelere dokunarak Wi-Fi veya mobil internet erişimine izin verebilir (yeşilimsi) ya da reddedebilirsin (kırmızımsı)</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">Varsayılan olarak, Internet erişim verilir Bu, ayarlarından değiştirilebilir</string>
     <string name="msg_push">Gelen (basma) mesajlar çoğunlukla internet erişimi varsayılan olarak izin verilen sistem bileşeni Play hizmetleri tarafından işlenir</string>
     <string name="msg_system">Sistem uygulamalarını yönet gelişmiş seçenekler de etkin olabilir</string>

@@ -77,7 +77,7 @@
     <string name="setting_national_roaming">Ignorovat vnitrostátní roaming</string>
     <string name="setting_eu_roaming">Ignorovat EU roaming</string>
     <string name="setting_call">Vypnout během hovoru</string>
-    <string name="setting_lockdown_wifi">Blokovat Wi-Fi provoz</string>
+    <string name="setting_lockdown_wifi">Blokovat provoz Wi-Fi</string>
     <string name="setting_lockdown_other">Blokovat provoz mobilních dat</string>
     <string name="setting_reload_onconnectivity">Načíst znovu při každé změně připojení</string>
     <string name="setting_advanced_options">Pokročilé možnosti</string>
@@ -85,7 +85,7 @@
     <string name="setting_log_app">Protokolovat přístup k Internetu</string>
     <string name="setting_access">Upozornit na připojení k Internetu</string>
     <string name="setting_filter">Filtrovat komunikaci</string>
-    <string name="setting_clear_onreload">Při znovunačtení ukončit spojení</string>
+    <string name="setting_clear_onreload">Ukončit spojení při znovunačtení</string>
     <string name="setting_lockdown">Blokovat veškerý provoz</string>
     <string name="setting_track_usage">Sledovat využití sítě</string>
     <string name="setting_reset_usage">Resetovat využití sítě</string>
@@ -136,14 +136,14 @@
     <string name="summary_metered_4g">Použít pravidla Wi-Fi pro LTE datová spojení</string>
     <string name="summary_national_roaming">Nepoužívat pravidla pro roaming, pokud je SIM a země mobilní sítě totožná</string>
     <string name="summary_eu_roaming">Nepoužívat pravidla pro roaming, pokud je SIM a mobilní síť v zemích EU (ceny jako doma)</string>
-    <string name="summary_call">Zakázat NetGuard při příchozím nebo odchozím telefonním hovoru. Lze využít k řešení problémů s IP/Wi-Fi voláním.</string>
+    <string name="summary_call">Zakázat NetGuard při příchozím nebo odchozím telefonním hovoru. Může vyřešit problémy s IP/Wi-Fi voláním.</string>
     <string name="summary_system">Definovat pravidla pro systémové aplikace (pro odborníky)</string>
     <string name="summary_log_app">Zaznamenávat do protokolu pokusy aplikací o přístup k internetu. Může mít vliv na spotřebu baterie.</string>
     <string name="summary_access">Zobrazit upozornění ve stavovém řádku při pokusu aplikace o přístup k nové internetové adrese (při zakázaném filtrování budete upozorněni pouze na zablokované přístupy)</string>
     <string name="summary_filter">Filtrovat IP pakety procházející VPN tunelem směrem ven. Může mít vliv na spotřebu baterie.</string>
     <string name="summary_track_usage">Sledovat počet odeslaných a přijatých bytů pro každou aplikaci a adresu. Může mít vliv na spotřebu baterie.</string>
     <string name="summary_block_domains">Blokovaným doménám odpovídat přednastaveným kódem DNS odpovědi. Tato možnost je zakázána pokud není k dispozici soubor hosts.</string>
-    <string name="summary_rcode">Výchozí hodnota je 3 (NXDOMAIN), což znamená \'ne-existující doména\'.</string>
+    <string name="summary_rcode">Výchozí hodnota je 3 (NXDOMAIN), což znamená \'neexistující doména\'.</string>
     <string name="summary_socks5_enabled">Pouze TCP přenosy budou přenášeny skrze proxy server</string>
     <string name="summary_watchdog">Pravidelně kontrolovat, zda NetGuard stále běží (zadejte nulu pro vypnutí). Toto nastavení může mít vliv na spotřebu.</string>
     <string name="summary_stats">Zobrazit graf rychlosti sítě v notifikační liště</string>
@@ -163,11 +163,11 @@
     <string name="msg_vpn">NetGuard používá lokální VPN pro filtrování internetového provozu.
 Z tohoto důvodu prosím povolte VPN připojení v následujícím dialogu.
 Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.</string>
-    <string name="msg_autostart">NetGuard nemůže být spuštěn automaticky při startu zařízení kvůli chybě ve Vaší verzi Androidu.</string>
+    <string name="msg_autostart">NetGuard nemohl být spuštěn automaticky. Může to být způsobeno chybou ve vaší verzi Androidu.</string>
     <string name="msg_error">Došlo k neočekávané chybě: \'%s\'</string>
-    <string name="msg_start_failed">Android odmítl spustit službu VPN. Pravděpodobně je to způsobeno chybou ve Vaší verzi Androidu.</string>
+    <string name="msg_start_failed">Android odmítl spustit službu VPN. Může to být způsobeno chybou ve vaší verzi Androidu.</string>
     <string name="msg_try">Vyzkoušej NetGuard</string>
-    <string name="msg_terms">Darováním souhlasíte s <a href="http://www.netguard.me/#terms">podmínkami&amp; služby</a></string>
+    <string name="msg_terms">Darováním souhlasíte se <a href="http://www.netguard.me/#terms">smluvními podmínkami</a></string>
     <string name="msg_dimming">Pokud v následujícím dialogu nelze potvrdit OK, jiná aplikace (např. barevný filtr) pravděpodobně překrývá obrazovku.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/den</string>
     <string name="msg_kbsec">%7.3f KB/s</string>
@@ -177,7 +177,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
     <string name="msg_doze">Pro optimální výsledky by pro NetGuard měla být vypnuta optimalizace spotřeby baterie.
-\n\nV následujícím dialogu nahoře, vyberte \"Všechny aplikace\", v seznamu zvolte NetGuard a označte, a potvrďte volbu \"Neoptimalizovat\".</string>
+\n\nV následujícím dialogu nahoře se přepněte na \"Všechny aplikace\", v seznamu vyberte NetGuard a označte a potvrďte volbu \"Neoptimalizovat\".</string>
     <string name="msg_datasaving">Pro optimální výsledky by pro NetGuard měly být vypnuty funkce úspory dat systému Android
 \n\nV následujícím dialogu povolte možnosti \"Data na pozadí\" a \"Neomezené využití dat\"</string>
     <string name="msg_filter">Použití filtrování způsobí, že systém Android přiřadí využití dat a baterie aplikaci NetGuard, namísto původním aplikacím</string>
@@ -192,19 +192,20 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
     <string name="msg_start_forward" formatted="false">Začít přesměrovávat z %1$s port %2$d na %3$s:%4$d z \'%5$s\'?</string>
     <string name="msg_stop_forward">Přestat přesměrovávat %1$s port %2$d?</string>
     <string name="msg_metered">Síť je omezena</string>
-    <string name="msg_inactive">Žádná aktivní připojení k Internetu</string>
+    <string name="msg_inactive">Žádné aktivní připojení k Internetu</string>
     <string name="msg_queue">NetGuard je zaneprázdněn</string>
     <string name="msg_update">Aktualizace k dispozici, stiskněte pro stažení</string>
     <string name="msg_usage">Můžete povolit (zelená) nebo zakázat (červená) přístup k internetu pro Wi-Fi či mobilní připojení stisknutím ikon vedle aplikace</string>
-    <string name="msg_whitelist">Přístup k Internetu je ve výchozím stavu povolen (mód černé listiny), to je možné změnit v nastavení</string>
-    <string name="msg_push">Příchozí (push) zprávy jsou většinou zpracovány systémovou součástí služeb Play, která má ve výchozím stavu internetový přístup povolený</string>
+    <string name="msg_fairemail">Pokud jste si NetGuard nainstalovali aby chránil vaše soukromí, mohl by vás zaujmout i <a href="https://email.faircode.eu/">FairEmail</a>, e-mailový klient s otevřeným kódem zaměřený na soukromí</string>
+    <string name="msg_whitelist">Přístup k internetu je ve výchozím stavu povolen (režim černé listiny), může být změněno v nastavení</string>
+    <string name="msg_push">Příchozí (push) zprávy jsou převážně zajišťovány systémovou součástí služeb Play, která má ve výchozím stavu internetový přístup povolen</string>
     <string name="msg_system">Správu všech (systémových) aplikací lze povolit v nastavení</string>
     <string name="msg_issue">Prosím, popište problém a uveďte čas kdy k němu došlo:</string>
-    <string name="msg_vpn_cancelled">VPN spojení zrušeno\nNenastavili jste jinou VPN jako vždy-zapnutou VPN?</string>
-    <string name="msg_on">Dojdeli k vypnutí zařízení s povoleným NetGuardem, bude NetGuard při zapnutí automaticky spuštěn</string>
+    <string name="msg_vpn_cancelled">VPN spojení ukončeno\nNenastavili jste jinou VPN jako trvalou síť VPN?</string>
+    <string name="msg_on">Při vypnutí zařízení s povoleným NetGuardem bude NetGuard při zapnutí automaticky spuštěn</string>
     <string name="msg_unavailable">Tato funkce není na této verzi Androidu k dispozici</string>
-    <string name="msg_always_on">Jiná VPN je nastavena jako Vždy-zapnutá VPN</string>
-    <string name="msg_always_on_lockdown">Vypněte \"Blokovat připojení bez VPN\" v Android VPN nastavení pro použití NetGuard filtrovacího režimu</string>
+    <string name="msg_always_on">Jiná VPN je nastavena jako \"Trvalá síť VPN\"</string>
+    <string name="msg_always_on_lockdown">Vypněte \"Blokovat připojení bez VPN\" v nastavení VPN androidu pro použití NetGuardu v režimu filtrování</string>
     <string name="msg_private_dns">Vypněte \"Privátní DNS\" v Android síťovém nastavení pro použití NetGuard filtrovacího režimu</string>
     <string name="title_lockdown_enabled">Veškerý provoz je blokovaný</string>
     <string name="title_unmetered_allowed">Neomezená komunikace je povolena</string>

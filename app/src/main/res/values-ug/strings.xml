@@ -196,6 +196,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
     <string name="msg_queue">تور باشقۇرغۇچ ئالدىراش</string>
     <string name="msg_update">بېسىپ، يېڭلاڭ</string>
     <string name="msg_usage">ئەپ يىنىدىكى رەسىمنى بېسىپ تور ۋە wifi غا ئۇلىنىشنى باشقۇرالايسىز،يول قويۇش(يېشىل) ياكى رەت قىلىش(قىزىل)</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">تورغا ئۇلىنىش سۈكۈتتىكى ھالەت(قارا تىزىملىك)،تەڭشەكتىن ئۆزگەرتكىلى بولىدۇ</string>
     <string name="msg_push">Incoming (push) messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
     <string name="msg_system">بارلىق (سىستېما) ئەپنى تەڭشەكتىن باشقۇرغىلى بولىدۇ</string>

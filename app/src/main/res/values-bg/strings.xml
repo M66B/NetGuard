@@ -194,6 +194,7 @@
     <string name="msg_queue">NetGuard е зает</string>
     <string name="msg_update">Налична е актуализация, докоснете за сваляне</string>
     <string name="msg_usage">Можете да разрешите (зеленикаво) или забраните (червеникаво) Wi-Fi или мобилни данни за достъп, като натискате иконите до приложението</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">Интернет достъпът е разрешен по подразбиране, това може да се промени в настройките</string>
     <string name="msg_push">\"Push\" съобщенията се обработват предимно от системния комонент \"Play services\", който по подразбиране е с разрешен достъп до интернет</string>
     <string name="msg_system">Управлението на системните приложения може да бъде активирано в разширените настройки</string>

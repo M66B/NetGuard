@@ -192,6 +192,7 @@
     <string name="msg_queue">NetGuard đang bận</string>
     <string name="msg_update">Cập nhật có sẵn, bấm vào để tải về</string>
     <string name="msg_usage">Bạn có thể cho phép (xanh lục) hoặc từ chối (màu đỏ) truy cập internet Wi-Fi hoặc mạng di động bằng cách bấm vào biểu tượng bên cạnh ứng dụng</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">Truy cập Internet mặc định được cho phép, điều này có thể thay đổi trong cài đặt</string>
     <string name="msg_push">Đưa tin nhắn chủ yếu được xử lý bởi các thành phần Play services của hệ thống, mà mặc định cho phép truy cập internet</string>
     <string name="msg_system">Quản lý ứng dụng hệ thống có thể được kích hoạt trong cài đặt</string>

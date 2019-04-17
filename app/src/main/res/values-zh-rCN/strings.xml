@@ -196,6 +196,7 @@
     <string name="msg_queue">NetGuard 正忙</string>
     <string name="msg_update">有可用更新, 请点击下载</string>
     <string name="msg_usage">您可以点击应用旁的图标来允许 (绿色) 或禁止 (红色) Wi-Fi 或移动网络连接</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">默认允许网络连接, 可在设置中进行更改</string>
     <string name="msg_push">大部分消息推送由作为系统组件的 Play 服务完成, 因此默认允许其进行网络连接</string>
     <string name="msg_system">您可在高级选项中启用管理系统应用</string>

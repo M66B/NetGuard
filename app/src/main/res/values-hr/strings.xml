@@ -114,7 +114,7 @@
     <string name="setting_export">Izvezi postavke</string>
     <string name="setting_import">Uvezi postavke</string>
     <string name="setting_hosts">Uvezi datoteku hostova</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Uvezi datoteku hostova (nadopuni)</string>
     <string name="setting_hosts_url">URL za preuzimanje datoteke hostova</string>
     <string name="setting_hosts_download">Preuzmi datoteku hostova</string>
     <string name="setting_technical">Tehničke informacije</string>
@@ -192,6 +192,7 @@
     <string name="msg_queue">NetGuard je zauzet</string>
     <string name="msg_update">Ažuriranje je dostupno, dodirnite za preuzimanje</string>
     <string name="msg_usage">Možete omogućiti (zeleno) ili odbiti (crveni) pristup Wi-Fi ili mobilnom internetu klikom na ikone pored aplikacije</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">Pristup internetu dopušten je prema zadanim postavkama (način rada crne liste), to se može promijeniti u postavkama</string>
     <string name="msg_push">Push poruke primarno rješava komponenta sustava Play usluge, kojoj je dopušteno pristupanje internetu (zadana vrijednost)</string>
     <string name="msg_system">Upravljanje svim (sustav) aplikacijama može biti omogućeno u postavkama</string>

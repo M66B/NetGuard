@@ -192,6 +192,7 @@
     <string name="msg_queue">NetGuard व्यस्त है</string>
     <string name="msg_update">उपलब्ध अद्यतन के लिए, डाउनलोड करने के लिए टैप करें</string>
     <string name="msg_usage">आप कर सकते हैं या (हरा) की अनुमति दें (लाल) Wi-Fi या मोबाइल इंटरनेट का उपयोग करने के लिए किसी अनुप्रयोग के आगे चिह्न पर दोहन द्वारा इनकार</string>
+    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
     <string name="msg_whitelist">इंटरनेट का उपयोग की अनुमति दी है डिफ़ॉल्ट रूप से, यह सेटिंग में परिवर्तित किया जा सकता</string>
     <string name="msg_push">पुश संदेश ज्यादातर सिस्टम घटक प्ले सेवाओं द्वारा, जो डिफ़ॉल्ट रूप से इंटरनेट तक पहुँच की अनुमति दी है नियंत्रित किया जाता है</string>
     <string name="msg_system">सिस्टम अनुप्रयोगों के प्रबंधन सेटिंग्स में सक्षम कर सकते हैं</string>
