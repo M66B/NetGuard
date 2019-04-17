@@ -329,8 +329,10 @@ public class AdapterLog extends CursorAdapter {
     private String getKnownAddress(String addr) {
         try {
             InetAddress a = InetAddress.getByName(addr);
-            if (a.equals(dns1) || a.equals(dns2))
-                return "dns";
+            if (a.equals(dns1))
+                return "dns1";
+            if (a.equals(dns2))
+                return "dns2";
             if (a.equals(vpn4) || a.equals(vpn6))
                 return "vpn";
         } catch (UnknownHostException ignored) {
