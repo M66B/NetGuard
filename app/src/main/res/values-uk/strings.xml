@@ -193,7 +193,7 @@
     <string name="msg_queue">NetGuard зайнятий</string>
     <string name="msg_update">Доступне оновлення, торкніться для завантаження</string>
     <string name="msg_usage">Ви можете дозволити (зеленуватий колір значка) або заборонити (червонуватий колір значка) доступ до Wi-Fi або мобільного Інтернету, натиснувши на значок поряд із програмою</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">Якщо ви встановили NetGuard для захисту своєї конфіденційності, вас може зацікавити також <a href="https://email.faircode.eu/"> FairEmail</a> — це корисна програма з відкритим вихідним кодом, призначена для захисту конфіденційності</string>
     <string name="msg_whitelist">Доступ в Інтернет за замовчуванням дозволено (режим списку блокування). Це можна змінити в налаштуваннях</string>
     <string name="msg_push">Вхідні повідомлення (push) опрацьовуються здебільшого системними компонентами Google Play, яким за замовчуванням дозволено доступ в Інтернет</string>
     <string name="msg_system">Керування всіма (системними) програмами можна увімкнути в додаткових налаштуваннях</string>
