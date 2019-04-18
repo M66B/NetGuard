@@ -33,6 +33,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
@@ -41,8 +43,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityDns extends AppCompatActivity {
     private static final String TAG = "NetGuard.DNS";

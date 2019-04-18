@@ -21,12 +21,12 @@ package eu.faircode.netguard;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 public class IPUtil {
     private static final String TAG = "NetGuard.IPUtil";
