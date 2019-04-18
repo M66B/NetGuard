@@ -33,6 +33,7 @@ Note that:
 * When NetGuard imports the hosts file, it automatically discards any duplicates entries, so duplicate entries are not a problem and have no performance impact after the file is imported
 * you can check the number of hosts (domains) imported by pulling the NetGuard notification down using two fingers if your version of Android supports that functionality
 * wildcards are not supported due to performance and battery usage reasons
+* it is not possible to edit the hosts file (change/add/delete domain names) with NetGuard
 * **ad blocking is provided as-is**, see also [here](https://forum.xda-developers.com/showpost.php?p=71805655&postcount=4668)
 * **ad blocking is not available when NetGuard was installed from the Google Play store!** (disable automatic updates of NetGuard in the Play store application)
 
