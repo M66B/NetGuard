@@ -58,7 +58,7 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
     return (c ? off : ptr);
 }
 
-void parse_dns_response(const struct arguments *args, const struct udp_session *u,
+void parse_dns_response(const struct arguments *args, const struct ng_session *s,
                         const uint8_t *data, size_t *datalen) {
     if (*datalen < sizeof(struct dns_header) + 1) {
         log_android(ANDROID_LOG_WARN, "DNS response length %d", *datalen);
@@ -162,22 +162,42 @@ void parse_dns_response(const struct arguments *args, const struct udp_session *
             dns->add_count = 0;
             *datalen = aoff;
 
+            int version;
             char source[INET6_ADDRSTRLEN + 1];
             char dest[INET6_ADDRSTRLEN + 1];
-            if (u->version == 4) {
-                inet_ntop(AF_INET, &u->saddr.ip4, source, sizeof(source));
-                inet_ntop(AF_INET, &u->daddr.ip4, dest, sizeof(dest));
+            uint16_t sport;
+            uint16_t dport;
+
+            if (s->protocol == IPPROTO_UDP) {
+                version = s->udp.version;
+                sport = ntohs(s->udp.source);
+                dport = ntohs(s->udp.dest);
+                if (s->udp.version == 4) {
+                    inet_ntop(AF_INET, &s->udp.saddr.ip4, source, sizeof(source));
+                    inet_ntop(AF_INET, &s->udp.daddr.ip4, dest, sizeof(dest));
+                } else {
+                    inet_ntop(AF_INET6, &s->udp.saddr.ip6, source, sizeof(source));
+                    inet_ntop(AF_INET6, &s->udp.daddr.ip6, dest, sizeof(dest));
+                }
             } else {
-                inet_ntop(AF_INET6, &u->saddr.ip6, source, sizeof(source));
-                inet_ntop(AF_INET6, &u->daddr.ip6, dest, sizeof(dest));
+                version = s->tcp.version;
+                sport = ntohs(s->tcp.source);
+                dport = ntohs(s->tcp.dest);
+                if (s->tcp.version == 4) {
+                    inet_ntop(AF_INET, &s->tcp.saddr.ip4, source, sizeof(source));
+                    inet_ntop(AF_INET, &s->tcp.daddr.ip4, dest, sizeof(dest));
+                } else {
+                    inet_ntop(AF_INET6, &s->tcp.saddr.ip6, source, sizeof(source));
+                    inet_ntop(AF_INET6, &s->tcp.daddr.ip6, dest, sizeof(dest));
+                }
             }
 
             // Log qname
             char name[DNS_QNAME_MAX + 40 + 1];
             sprintf(name, "qtype %d qname %s rcode %d", qtype, qname, dns->rcode);
             jobject objPacket = create_packet(
-                    args, u->version, IPPROTO_UDP, "",
-                    source, ntohs(u->source), dest, ntohs(u->dest),
+                    args, version, s->protocol, "",
+                    source, sport, dest, dport,
                     name, 0, 0);
             log_packet(args, objPacket);
         }

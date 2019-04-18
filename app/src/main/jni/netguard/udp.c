@@ -131,7 +131,7 @@ void check_udp_socket(const struct arguments *args, const struct epoll_event *ev
 
                 // Process DNS response
                 if (ntohs(s->udp.dest) == 53)
-                    parse_dns_response(args, &s->udp, buffer, (size_t *) &bytes);
+                    parse_dns_response(args, s, buffer, (size_t *) &bytes);
 
                 // Forward to tun
                 if (write_udp(args, &s->udp, buffer, (size_t) bytes) < 0)
