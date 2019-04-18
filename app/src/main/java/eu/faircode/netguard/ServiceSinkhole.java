@@ -747,7 +747,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 dh.insertLog(packet, dname, connection, interactive);
 
             // Application log
-            if (log_app && packet.uid >= 0 && !(packet.uid == 0 && packet.protocol == 17 && packet.dport == 53)) {
+            if (log_app && packet.uid >= 0 &&
+                    !(packet.uid == 0 && (packet.protocol == 6 || packet.protocol == 17) && packet.dport == 53)) {
                 if (!(packet.protocol == 6 /* TCP */ || packet.protocol == 17 /* UDP */))
                     packet.dport = 0;
                 if (dh.updateAccess(packet, dname, -1)) {
