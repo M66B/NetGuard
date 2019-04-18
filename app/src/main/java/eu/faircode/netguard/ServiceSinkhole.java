@@ -1841,7 +1841,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         packet.allowed = false;
         if (prefs.getBoolean("filter", false)) {
             // https://android.googlesource.com/platform/system/core/+/master/include/private/android_filesystem_config.h
-            if (packet.uid < 2000 &&
+            if (packet.uid == 0 && packet.protocol == 6 /* TCP */ && packet.dport == 53) {
+                // Block DNS over TCP
+                packet.allowed = false;
+                Log.w(TAG, "Blocking DNS/TCP " + packet);
+            } else if (packet.uid < 2000 &&
                     !last_connected && isSupported(packet.protocol)) {
                 // Allow system applications in disconnected state
                 packet.allowed = true;
