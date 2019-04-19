@@ -8,7 +8,7 @@
     <string name="app_first">Vývoji a testování NetGuardu byla věnována velká péče. Není však možné garantovat bezchybné fungování na všech zařízeních.</string>
     <string name="app_agree">Souhlasím</string>
     <string name="app_disagree">Nesouhlasím</string>
-    <string name="app_support">NetGuard potřebuje vaši pomoc. Stiskněte pro zakoupení Pro-funkcí pro zajištění pokračování projektu.</string>
+    <string name="app_support">NetGuard potřebuje vaši pomoc. Stiskněte pro zakoupení Pro-funkcí a zajistěte tak pokračování projektu.</string>
     <string name="channel_foreground">Spuštěné služby</string>
     <string name="channel_notify">Obecná oznámení</string>
     <string name="channel_access">Oznámení o přístupu</string>
