@@ -401,7 +401,10 @@ jint get_uid_sub(const int version, const int protocol,
             log_android(ANDROID_LOG_INFO, "uid v%d p%d %s/%u > %s/%u => %d (from cache)",
                         version, protocol, source, sport, dest, dport, uid_cache[i].uid);
 
-            return uid_cache[i].uid;
+            if (protocol == IPPROTO_UDP)
+                return -2;
+            else
+                return uid_cache[i].uid;
         }
 
     // Get proc file name
