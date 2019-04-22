@@ -196,7 +196,7 @@ Zure internet trafikoa ez da kanpo VPN zerbitzari batera bidaltzen.</string>
     <string name="msg_queue">NetGuard lanpetuta dago</string>
     <string name="msg_update">Eguneraketa eskuragarri, sakatu deskargatzeko</string>
     <string name="msg_usage">Wi-Fi edo mugikor bidez Internetera sarbidea baimendu (berde) edo ukatu (gorri) aplikazioaren ondoan dauden ikonoak sakatuz</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">NetGuard zure pribatutasuna babesteko instalatu baduzu, agian <a href="https://email.faircode.eu/">FairEmail</a> interesatuko zaizu, e-mail bezero librea eta pribatutasuna aintzat duena</string>
     <string name="msg_whitelist">Internet sarbidea lehenetsita baimenduta dago (zerrenda beltza modua), hau ezarpenetan aldatu daiteke</string>
     <string name="msg_push">Jasotako (push) mezuak gehienbat Play Services osagaiak kudeatzen ditu, eta Internet sarbidea baimentzen zaio lehenetsita</string>
     <string name="msg_system">Aplikazio guztiak (sistemakoak) kudeatzea ezarpenetan gaitu daiteke</string>

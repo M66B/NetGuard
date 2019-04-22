@@ -192,7 +192,7 @@
     <string name="msg_queue">NetGuard está ocupado</string>
     <string name="msg_update">Actualización disponible, pulse para descargar</string>
     <string name="msg_usage">Puede permitir (verde) o denegar (rojo) el acceso a Internet Wi-Fi o móvil pulsando en los iconos al lado de cada aplicación</string>
-    <string name="msg_fairemail">Si ha instalado NetGuard para proteger su privacidad, podría estar interesado en <a href="https://email.faircode.eu/">FairEmail</a>, una aplicación de correo electrónico open source, y amiga de la privacidad también</string>
+    <string name="msg_fairemail">Si ha instalado NetGuard para proteger su privacidad, podría estar interesado en <a href="https://email.faircode.eu/">FairEmail</a>, una aplicación de correo electrónico de código y que respeta la privacidad</string>
     <string name="msg_whitelist">El acceso a Internet está permitido de forma predeterminada, esto puede cambiarse en los ajustes</string>
     <string name="msg_push">Las notificaciones (push) son gestionadas principalmente por el componente del sistema \"Play Services\", que está autorizado para acceder a Internet de forma predeterminada</string>
     <string name="msg_system">La gestión de las aplicaciones del sistema puede activarse en los ajustes</string>

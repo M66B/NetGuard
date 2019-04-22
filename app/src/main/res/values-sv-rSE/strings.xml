@@ -196,7 +196,7 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="msg_queue">NetGuard är upptagen</string>
     <string name="msg_update">Uppdatering tillgänglig, klicka för att hämta</string>
     <string name="msg_usage">Du kan tillåta (grönaktig) eller neka (rödaktig) Wi-Fi eller mobilt Internet genom att klicka på ikonerna bredvid en app</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">Om du har installerat NetGuard för att skydda din integritet kan du också vara intresserad av <a href="https://email.faircode.eu/">FairEmail</a>, e-postapp med öppen källkod som respekterar din integritet</string>
     <string name="msg_whitelist">Internetåtkomst är tillåtet som standard (svartlistläge), detta kan ändras i inställningarna</string>
     <string name="msg_push">Inkommande (push) meddelanden hanteras mestadels av systemkomponenten Play-tjänster, vilket är tillåten Internetåtkomst som standard</string>
     <string name="msg_system">Hantering av alla (system)appar kan aktiveras i inställningarna</string>
@@ -218,7 +218,7 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="title_host_blocked">Adressen är blockerad</string>
     <string name="title_interactive_allowed">Tillåt när skärmen är påslagen</string>
     <string name="title_roaming_blocked">Blockera vid roaming</string>
-    <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
+    <string name="title_metered">Som standard anses en Wi-Fi-anslutning vara obestämd och en mobilanslutning som uppmätt</string>
     <string name="title_internet">saknar internetbehörighet</string>
     <string name="title_disabled">är inaktiverad</string>
     <string name="title_apply">Tillämpa regler och villkor</string>
