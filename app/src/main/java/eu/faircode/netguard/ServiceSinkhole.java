@@ -2422,7 +2422,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
                 boolean unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED);
                 String generation = Util.getNetworkGeneration(ServiceSinkhole.this);
-                Log.i(TAG, "Capabilities changed generation=" + generation + " metered=" + unmetered);
+                Log.i(TAG, "Capabilities changed generation=" + generation + " unmetered=" + unmetered);
 
                 if (last_generation == null || !last_generation.equals(generation)) {
                     if (last_generation != null) {
