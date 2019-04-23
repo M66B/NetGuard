@@ -241,17 +241,17 @@
     <string name="title_rate">Đánh giá</string>
     <string name="title_allow">Cho phép</string>
     <string name="title_block">Chặn</string>
-    <string name="title_allow_wifi">Allow Wi-Fi</string>
-    <string name="title_block_wifi">Block Wi-Fi</string>
-    <string name="title_allow_other">Allow mobile</string>
-    <string name="title_block_other">Block mobile</string>
+    <string name="title_allow_wifi">Cho phép sử dụng Wi-Fi</string>
+    <string name="title_block_wifi">Chặn Wi-fi</string>
+    <string name="title_allow_other">Cho phép điện thoại di động</string>
+    <string name="title_block_other">Chặn điện thoại di động</string>
     <string name="title_root">root</string>
     <string name="title_mediaserver">Máy chủ media</string>
     <string name="title_nobody">không ai</string>
     <string name="title_dontask">Không hỏi lại</string>
     <string name="title_log_whois">Whois %1$s</string>
     <string name="title_log_port">Cổng %1$d</string>
-    <string name="title_log_copy">Copy</string>
+    <string name="title_log_copy">Sao chép</string>
     <string name="title_pro">Tính năng phiên bản Pro</string>
     <string name="title_pro_description">Các tính năng phiên bản pro có sẵn:</string>
     <string name="title_pro_log">Xem lưu lượng truy cập bị chặn</string>
@@ -260,20 +260,20 @@
     <string name="title_pro_speed">Thông báo biểu đồ tốc độ mạng</string>
     <string name="title_pro_theme">Giao diện (chủ đề, màu sắc)</string>
     <string name="title_pro_all">Tất cả các tính năng phiên bản pro trên</string>
-    <string name="title_pro_dev">Support development</string>
-    <string name="title_pro_buy">Buy</string>
-    <string name="title_pro_bought">Enabled</string>
+    <string name="title_pro_dev">Hỗ trợ phát triển sản phẩm</string>
+    <string name="title_pro_buy">Mua</string>
+    <string name="title_pro_bought">Kích hoạt</string>
     <string name="title_pro_unavailable">Unavailable</string>
     <string name="title_pro_details">Tap on a title for more information</string>
     <string name="title_pro_challenge">Challenge</string>
     <string name="title_pro_reponse">Response</string>
     <string-array name="themeNames">
         <item>teal/orange</item>
-        <item>blue/orange</item>
-        <item>purple/red</item>
+        <item>xanh dương/cam</item>
+        <item>tím/đỏ</item>
         <item>amber/blue</item>
         <item>orange/grey</item>
-        <item>green</item>
+        <item>xanh lá cây</item>
     </string-array>
     <string-array name="protocolNames">
         <item>UDP</item>

@@ -14,11 +14,11 @@
     <string name="channel_access">Prieigos pranešimai</string>
     <string name="menu_search">Ieškoti programos</string>
     <string name="menu_filter">Filter apps</string>
-    <string name="menu_app_user">Show user apps</string>
-    <string name="menu_app_system">Show system apps</string>
-    <string name="menu_app_nointernet">Show apps without internet</string>
-    <string name="menu_app_disabled">Show disabled apps</string>
-    <string name="menu_sort">Sort apps</string>
+    <string name="menu_app_user">Rodyti naudotojo programėles</string>
+    <string name="menu_app_system">Rodyti sistemines programėles</string>
+    <string name="menu_app_nointernet">Rodyti programėles be interneto</string>
+    <string name="menu_app_disabled">Rodyti išjungtas programėles</string>
+    <string name="menu_sort">Rikiuoti programėles</string>
     <string name="menu_sort_name">Rūšiuoti pagal pavadinimą</string>
     <string name="menu_sort_uid">Sort on uid</string>
     <string name="menu_sort_data">Sort on data usage</string>
@@ -28,7 +28,7 @@
     <string name="menu_legend">Legend</string>
     <string name="menu_support">Pagalba</string>
     <string name="menu_about">Apie</string>
-    <string name="menu_apps">Other apps</string>
+    <string name="menu_apps">Kitos programėlės</string>
     <string name="menu_protocol_other">Other</string>
     <string name="menu_traffic_allowed">Leidžiama</string>
     <string name="menu_traffic_blocked">Užblokuota</string>
@@ -61,7 +61,7 @@
     <string name="setting_dark">Naudoti tamsią temą</string>
     <string name="setting_install">Notify on new install</string>
     <string name="setting_screen_on">Apply \'when screen on\' rules</string>
-    <string name="setting_auto">Auto enable after %1$s minutes</string>
+    <string name="setting_auto">Automatiškai įjungti po %1$s min.</string>
     <string name="setting_delay">Delay screen off %1$s minutes</string>
     <string name="setting_update">Tikrinti ar yra atnaujinimų</string>
     <string name="setting_network_options">Tinklo parametrai</string>
@@ -97,7 +97,7 @@
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
-    <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
+    <string name="setting_socks5_enabled">Naudoti SOCKS5 įgaliotąjį serverį</string>
     <string name="setting_socks5_addr">SOCKS5 adresas: %s</string>
     <string name="setting_socks5_port">SOCKS5 prievadas: %s</string>
     <string name="setting_socks5_username">SOCKS5 naudotojo vardas: %s</string>
@@ -118,7 +118,7 @@
     <string name="setting_hosts_url">Hosts file download URL</string>
     <string name="setting_hosts_download">Download hosts file</string>
     <string name="setting_technical">Techninė informacija</string>
-    <string name="setting_technical_general">General</string>
+    <string name="setting_technical_general">Bendra</string>
     <string name="setting_technical_networks">Tinklai</string>
     <string name="setting_technical_subscription">Prenumeratos</string>
     <string name="summary_install">Show status bar notification to directly configure newly installed apps (pro feature)</string>
@@ -155,10 +155,10 @@
     <string name="msg_waiting">Waiting for event</string>
     <string name="msg_disabled">NetGuard išjungta, norėdami ją įjungti, naudokite perjungiklį viršuje</string>
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based app</string>
-    <string name="msg_installed">\'%1$s\' installed</string>
-    <string name="msg_installed_n">Has been installed</string>
-    <string name="msg_access">%1$s attempted internet access</string>
-    <string name="msg_access_n">Attempted internet access</string>
+    <string name="msg_installed">\"%1$s\" įdiegta</string>
+    <string name="msg_installed_n">Buvo įdiegta</string>
+    <string name="msg_access">%1$s bandė gauti prieigą prie interneto</string>
+    <string name="msg_access_n">Bandyta gauti prieigą prie interneto</string>
     <string name="msg_completed">Veiksmas užbaigtas</string>
     <string name="msg_vpn">Interneto srauto filtravimui NetGuard naudoja vietinį VPN.
 Dėl to, prašome kitame dialoge leisti VPN ryšį.
@@ -169,7 +169,7 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="msg_try">Try NetGuard</string>
     <string name="msg_terms">Paaukodami, jūs sutinkate su <a href="http://www.netguard.me/#terms">nuostatomis ir sąlygomis</a></string>
     <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) app is likely manipulating the screen.</string>
-    <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/day</string>
+    <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dieną</string>
     <string name="msg_kbsec">%7.3f KB/s</string>
     <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
@@ -264,7 +264,7 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="title_pro_speed">Network speed graph notification</string>
     <string name="title_pro_theme">Išvaizda (temos, spalvos)</string>
     <string name="title_pro_all">All above pro features</string>
-    <string name="title_pro_dev">Support development</string>
+    <string name="title_pro_dev">Palaikyti plėtojimą</string>
     <string name="title_pro_buy">Įsigyti</string>
     <string name="title_pro_bought">Įjungta</string>
     <string name="title_pro_unavailable">Neprieinama</string>
