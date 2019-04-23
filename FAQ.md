@@ -682,6 +682,21 @@ and to save on battery power and to prevent crashes blocking NetGuard with itsel
 
 <br />
 
+<a name="faq66"></a>
+**(66) Why is a blocked app still accessing the internet?**
+
+Blocked apps cannot access the internet. There are no exceptions to this.
+
+However:
+
+* Incoming (push) messages are received by the system component Google Play services and not apps, especially when the app is in the background or the screen is turned off
+* Similarly, advertisements are mostly received by the system component Google Play services
+* Downloads are often performed by the download manager and not the app
+
+If you like to block Google Play services or the download manager, you'll need to enable managing system apps in the advanced settings.
+
+<br />
+
 **NetGuard is supported for phones and tablets only, so not for other device types like televisions or vehicles.**
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me by using [this contact form](https://contact.faircode.eu/)**.
