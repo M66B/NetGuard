@@ -2398,7 +2398,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkRequest.Builder builder = new NetworkRequest.Builder();
         builder.addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
-        builder.addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+        // Some Android versions seem to not properly validate networks
+        // builder.addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
 
         ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
             private Boolean last_unmetered = null;
