@@ -4,8 +4,8 @@ Ad Blocking with NetGuard
 Instructions (you need to follow **all** the steps):
 
 1. Download/install the latest NetGuard version [from GitHub](https://github.com/M66B/NetGuard/releases)
-1. Enable the setting *'Filter traffic'* in the Advanced options (three dot menu > Settings > Advanced options > Filter traffic; default is disabled except always enabled in Android 5.0 and earlier)
-1. Enable the setting *'Block domain names'* in the Advanced options (three dot menu > Settings > Advanced options > Block domain names; default is enabled)
+1. Enable the setting *'Filter traffic'* in the advanced options (three dot menu > Settings > Advanced options > Filter traffic; default is disabled except always enabled in Android 5.0 and earlier)
+1. Enable the setting *'Block domain names'* in the advanced options (three dot menu > Settings > Advanced options > Block domain names; default is enabled)
 1. Import or download [a hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) using the NetGuard backup settings (three dot menu > Settings > Backup > Download hosts file)
 1. Disable browser compression (in Chrome: three dot menu > Settings > Data Saver > Off)
 1. Wait at least 10 minutes to let the Android DNS cache time out
@@ -34,6 +34,7 @@ Note that:
 * you can check the number of hosts (domains) imported by pulling the NetGuard notification down using two fingers if your version of Android supports that functionality
 * wildcards are not supported due to performance and battery usage reasons
 * it is not possible to edit the hosts file (change/add/delete domain names) with NetGuard
+* you can disable ad blocking by disabling the setting *'Block domain names'* in the advanced options
 * **ad blocking is provided as-is**, see also [here](https://forum.xda-developers.com/showpost.php?p=71805655&postcount=4668)
 * **ad blocking is not available when NetGuard was installed from the Google Play store!** (disable automatic updates of NetGuard in the Play store application)
 
