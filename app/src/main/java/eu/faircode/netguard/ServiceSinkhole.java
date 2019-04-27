@@ -354,6 +354,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Log.i(TAG, "Stopping listening for interactive state changes");
                     unregisterReceiver(interactiveStateReceiver);
                     registeredInteractiveState = false;
+                    last_interactive = false;
                 }
             }
 
