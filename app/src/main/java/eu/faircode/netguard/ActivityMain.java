@@ -212,11 +212,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                             return;
                         }
 
-                    if (hasPrivateDns()) {
-                        swEnabled.setChecked(false);
-                        return;
-                    }
-
                     try {
                         final Intent prepare = VpnService.prepare(ActivityMain.this);
                         if (prepare == null) {
@@ -264,12 +259,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     ServiceSinkhole.stop("switch off", ActivityMain.this, false);
             }
         });
-        if (enabled) {
+        if (enabled)
             checkDoze();
-            if (hasPrivateDns()) {
-                swEnabled.setChecked(false);
-            }
-        }
 
         // Network is metered
         ivMetered.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1113,22 +1104,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 }
             }
         }
-    }
-
-    private boolean hasPrivateDns() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean filter = prefs.getBoolean("filter", false);
-        if (filter) {
-            String dns_mode = Settings.Global.getString(getContentResolver(), "private_dns_mode");
-            Log.i(TAG, "Private DNS mode=" + dns_mode);
-            if (dns_mode == null)
-                dns_mode = "off";
-            if (!"off".equals(dns_mode)) {
-                Toast.makeText(ActivityMain.this, R.string.msg_private_dns, Toast.LENGTH_LONG).show();
-                return true;
-            }
-        }
-        return false;
     }
 
     private void menu_legend() {

@@ -1068,8 +1068,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         // Get custom DNS servers
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean ip6 = prefs.getBoolean("ip6", true);
-        String vpnDns1 = prefs.getString("dns", null);
-        String vpnDns2 = prefs.getString("dns2", null);
+        boolean pdns = Util.isPrivateDns(context);
+        // Make sure normal DNS servers are used when private DNS is enabled
+        String vpnDns1 = prefs.getString("dns", pdns ? "8.8.8.8" : null);
+        String vpnDns2 = prefs.getString("dns2", pdns ? "8.8.4.4" : null);
         Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN1=" + vpnDns1 + " VPN2=" + vpnDns2);
 
         if (vpnDns1 != null)
@@ -1092,7 +1094,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
 
         // Use system DNS servers only when no two custom DNS servers specified
-        if (listDns.size() <= 1)
+        if (listDns.size() < 2)
             for (String def_dns : sysDns)
                 try {
                     InetAddress ddns = InetAddress.getByName(def_dns);
