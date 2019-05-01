@@ -420,9 +420,11 @@ A rule condition like *When screen is on* is a better and more straightforward c
 Therefore schedules will not be added, but you are welcome to propose other new conditions.
 
 <a name="faq41"></a>
-**(41) Can you add wildcards?**
+**(41) Can you add wildcards / address/port ranges?**
 
-Wildcards to allow/block addresses would have a significant performance and usability impact and therefore will not be added.
+Wildcards to allow/block addresses and address/port ranges would have a significant performance and usability impact and therefore will not be added.
+Wildcards rules and address/port ranges would need to be checked for each and every connection attempt.
+Since NetGuard blocks, unlike any other no-root firewall, domain names instead of IP addresses there is hardly a need for wildcards.
 
 <a name="faq42"></a>
 **(42) Why is permission ... needed?**
