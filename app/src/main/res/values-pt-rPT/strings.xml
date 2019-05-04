@@ -5,10 +5,10 @@
     <string name="app_android">NetGuard requer Android 5.1 ou superior</string>
     <string name="app_xposed">Xposed provoca muitas falhas, que podem resultar no NetGuard ser removido da Google Play Store. Portanto, o NetGuard não é suportado enquanto o Xposed estiver instalado</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Política de privacidade</a></string>
-    <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+    <string name="app_first">Houve um grande cuidado a desenvolver e testar a NetGuard, contudo é impossível garantir que a NetGuard funcione correctamente em todos os dispositivos.</string>
     <string name="app_agree">Concordo</string>
     <string name="app_disagree">Discordo</string>
-    <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+    <string name="app_support">NetGuard necessita da sua ajuda. Toque para comprar funcionalidades pro para manter o projecto em andamento.</string>
     <string name="channel_foreground">Serviços em execução</string>
     <string name="channel_notify">Notificações gerais</string>
     <string name="channel_access">Aceder às notificações</string>
@@ -28,7 +28,7 @@
     <string name="menu_legend">Legenda</string>
     <string name="menu_support">Suporte</string>
     <string name="menu_about">Sobre</string>
-    <string name="menu_apps">Other apps</string>
+    <string name="menu_apps">Outras aplicações</string>
     <string name="menu_protocol_other">Outro</string>
     <string name="menu_traffic_allowed">Permitido</string>
     <string name="menu_traffic_blocked">Bloqueado</string>
@@ -39,7 +39,7 @@
     <string name="menu_pcap_enabled">PCAP ativado</string>
     <string name="menu_pcap_export">Exportar PCAP</string>
     <string name="menu_clear">Limpar</string>
-    <string name="menu_export">Export</string>
+    <string name="menu_export">Exportar</string>
     <string name="menu_reset">Repor</string>
     <string name="menu_add">Adicionar</string>
     <string name="menu_delete">Eliminar</string>
@@ -114,7 +114,7 @@
     <string name="setting_export">Exportar definições</string>
     <string name="setting_import">Importar definições</string>
     <string name="setting_hosts">Importar ficheiro hosts</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Importar ficheiro de hosts (acrescentar)</string>
     <string name="setting_hosts_url">URL de download de ficheiro de hosts</string>
     <string name="setting_hosts_download">Descarregar ficheiro hosts</string>
     <string name="setting_technical">Informações técnicas</string>
@@ -192,7 +192,7 @@
     <string name="msg_queue">NetGuard está ocupado</string>
     <string name="msg_update">Actualização disponivel, toque para descarregar</string>
     <string name="msg_usage">Você pode permitir (esverdeado) ou negar (avermelhado) o acesso Wi-Fi ou aos dados móveis tocando nos ícones ao lado de uma aplicação</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">Se instalou o NetGuard para proteger a sua privacidade, poderá estar também interessado em <a href="https://email.faircode.eu/">FairEmail</a>, uma aplicação de e-mail, de código aberto e amiga da privacidade</string>
     <string name="msg_whitelist">Acesso à internet é permitido por omissão, isto pode ser mudado nas definições</string>
     <string name="msg_push">Mensagens push são geridas principalmente pelo componente de serviço do Play, a que é permitido o acesso à internet por omissão</string>
     <string name="msg_system">Gerir aplicações de sistema pode ser ativado nas definições</string>
@@ -201,8 +201,8 @@
     <string name="msg_on">Desligando o seu dispositivo com NetGuard habilitado, automaticamente iniciará NetGuard ao ligar o seu dispositivo</string>
     <string name="msg_unavailable">Este recurso não está disponível nesta versão do Android</string>
     <string name="msg_always_on">Outra VPN está definida como VPN sempre ligada</string>
-    <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
-    <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
+    <string name="msg_always_on_lockdown">Desligar \"Bloquear conexões sem VPN\" nas configurações de VPN do Android para utilizar o modo de filtragem do NetGuard</string>
+    <string name="msg_private_dns">Desligar \"VPN Privada\" nas configurações de rede do Android para utilizar o modo de filtragem do NetGuard</string>
     <string name="title_lockdown_enabled">Tráfego está bloqueado</string>
     <string name="title_unmetered_allowed">Tráfego ilimitado é permitido</string>
     <string name="title_unmetered_blocked">Tráfego ilimitado é bloqueado</string>

@@ -11,7 +11,7 @@
     <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
     <string name="channel_foreground">Покренути сервиси</string>
     <string name="channel_notify">Генерална обавештења</string>
-    <string name="channel_access">Access notifications</string>
+    <string name="channel_access">Обавештења приступа</string>
     <string name="menu_search">Search for app</string>
     <string name="menu_filter">Filter apps</string>
     <string name="menu_app_user">Show user apps</string>
