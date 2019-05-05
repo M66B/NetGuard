@@ -145,7 +145,7 @@ int monitor_tcp_session(const struct arguments *args, struct ng_session *s, int 
         // Check for outgoing data
         if (s->tcp.forward != NULL) {
             uint32_t buffer_size = (uint32_t) get_receive_buffer(s);
-            if (s->tcp.forward->seq + s->tcp.forward->sent == s->tcp.remote_seq &&
+            if (s->tcp.forward->seq == s->tcp.remote_seq &&
                 s->tcp.forward->len - s->tcp.forward->sent < buffer_size)
                 events = events | EPOLLOUT;
             else
@@ -459,7 +459,7 @@ void check_tcp_socket(const struct arguments *args,
                 // Forward data
                 uint32_t buffer_size = (uint32_t) get_receive_buffer(s);
                 while (s->tcp.forward != NULL &&
-                       s->tcp.forward->seq + s->tcp.forward->sent == s->tcp.remote_seq &&
+                       s->tcp.forward->seq == s->tcp.remote_seq &&
                        s->tcp.forward->len - s->tcp.forward->sent < buffer_size) {
                     log_android(ANDROID_LOG_DEBUG, "%s fwd %u...%u sent %u",
                                 session,
@@ -488,9 +488,10 @@ void check_tcp_socket(const struct arguments *args,
                         buffer_size -= sent;
                         s->tcp.sent += sent;
                         s->tcp.forward->sent += sent;
-                        s->tcp.remote_seq = s->tcp.forward->seq + s->tcp.forward->sent;
 
                         if (s->tcp.forward->len == s->tcp.forward->sent) {
+                            s->tcp.remote_seq = s->tcp.forward->seq + s->tcp.forward->sent;
+
                             struct segment *p = s->tcp.forward;
                             s->tcp.forward = s->tcp.forward->next;
                             free(p->data);
