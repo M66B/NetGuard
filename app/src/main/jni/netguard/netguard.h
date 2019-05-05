@@ -96,6 +96,7 @@ struct allowed {
 struct segment {
     uint32_t seq;
     uint16_t len;
+    uint16_t sent;
     int psh;
     uint8_t *data;
     struct segment *next;
