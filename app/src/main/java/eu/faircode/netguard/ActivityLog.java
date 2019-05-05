@@ -209,7 +209,12 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 else
                     popup.getMenu().findItem(R.id.menu_port).setTitle(getString(R.string.title_log_port, port));
 
-                if (!prefs.getBoolean("filter", false)) {
+                if (prefs.getBoolean("filter", false)) {
+                    if (uid <= 0) {
+                        popup.getMenu().removeItem(R.id.menu_allow);
+                        popup.getMenu().removeItem(R.id.menu_block);
+                    }
+                } else {
                     popup.getMenu().removeItem(R.id.menu_allow);
                     popup.getMenu().removeItem(R.id.menu_block);
                 }
