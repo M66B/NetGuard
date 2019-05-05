@@ -485,26 +485,20 @@ void check_tcp_socket(const struct arguments *args,
                         fwd = 1;
                         buffer_size -= sent;
                         s->tcp.sent += sent;
-                        s->tcp.remote_seq = s->tcp.forward->seq + sent;
+                        s->tcp.forward->seq += sent;
+                        s->tcp.forward->len -= sent;
+                        s->tcp.remote_seq = s->tcp.forward->seq;
 
-                        if (sent != s->tcp.forward->len) {
+                        if (s->tcp.forward->len == 0) {
+                            struct segment *p = s->tcp.forward;
+                            s->tcp.forward = s->tcp.forward->next;
+                            free(p->data);
+                            free(p);
+                        } else {
                             log_android(ANDROID_LOG_WARN, "%s partial send %u/%u",
                                         session, sent, s->tcp.forward->len);
-
-                            struct segment *n = malloc(sizeof(struct segment));
-                            n->seq = s->tcp.forward->seq + sent;
-                            n->len = s->tcp.forward->len - (uint16_t) sent;
-                            n->data = malloc(n->len);
-                            memcpy(n->data, s->tcp.forward->data + sent, n->len);
-                            n->psh = s->tcp.forward->psh;
-                            n->next = s->tcp.forward->next;
-                            s->tcp.forward->next = n;
+                            break;
                         }
-
-                        struct segment *p = s->tcp.forward;
-                        s->tcp.forward = s->tcp.forward->next;
-                        free(p->data);
-                        free(p);
                     }
                 }
 
