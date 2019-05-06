@@ -380,7 +380,7 @@ void parse_dns_response(const struct arguments *args, const struct ng_session *s
 
 uint32_t get_send_window(const struct tcp_session *cur);
 
-int get_receive_buffer(const struct ng_session *cur);
+uint32_t get_receive_buffer(const struct ng_session *cur);
 
 uint32_t get_receive_window(const struct ng_session *cur);
 

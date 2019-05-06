@@ -144,7 +144,7 @@ int monitor_tcp_session(const struct arguments *args, struct ng_session *s, int 
 
         // Check for outgoing data
         if (s->tcp.forward != NULL) {
-            uint32_t buffer_size = (uint32_t) get_receive_buffer(s);
+            uint32_t buffer_size = get_receive_buffer(s);
             if (s->tcp.forward->seq == s->tcp.remote_seq &&
                 s->tcp.forward->len - s->tcp.forward->sent < buffer_size)
                 events = events | EPOLLOUT;
@@ -173,12 +173,16 @@ uint32_t get_send_window(const struct tcp_session *cur) {
     else
         behind = (0x10000 + cur->local_seq - cur->acked);
     behind += (cur->unconfirmed + 1) * 40; // Maximum header size
-    uint32_t window = (behind < cur->send_window ? cur->send_window - behind : 0);
 
-    return window;
+    uint32_t total = (behind < cur->send_window ? cur->send_window - behind : 0);
+
+    log_android(ANDROID_LOG_DEBUG, "Send window behind %u window %u total %u",
+                behind, cur->send_window, total);
+
+    return total;
 }
 
-int get_receive_buffer(const struct ng_session *cur) {
+uint32_t get_receive_buffer(const struct ng_session *cur) {
     if (cur->socket < 0)
         return 0;
 
@@ -197,7 +201,12 @@ int get_receive_buffer(const struct ng_session *cur) {
     if (ioctl(cur->socket, SIOCOUTQ, &unsent))
         log_android(ANDROID_LOG_WARN, "ioctl SIOCOUTQ %d: %s", errno, strerror(errno));
 
-    return (unsent < sendbuf ? sendbuf - unsent : 0);
+    uint32_t total = (uint32_t) (unsent < sendbuf ? sendbuf - unsent : 0);
+
+    log_android(ANDROID_LOG_DEBUG, "Send buffer %u unsent %u total %u",
+                sendbuf, unsent, total);
+
+    return total;
 }
 
 uint32_t get_receive_window(const struct ng_session *cur) {
@@ -209,17 +218,25 @@ uint32_t get_receive_window(const struct ng_session *cur) {
         q = q->next;
     }
 
-    uint32_t window = (uint32_t) get_receive_buffer(cur);
+    uint32_t window = get_receive_buffer(cur);
 
     uint32_t max = ((uint32_t) 0xFFFF) << cur->tcp.recv_scale;
-    if (window > max)
+    if (window > max) {
+        log_android(ANDROID_LOG_DEBUG, "Receive window %u > max %u", window, max);
         window = max;
+    }
 
-    window = (toforward < window ? window - toforward : 0);
-    if ((window >> cur->tcp.recv_scale) == 0)
-        window = 0;
+    uint32_t total = (toforward < window ? window - toforward : 0);
+    if ((total >> cur->tcp.recv_scale) == 0) {
+        log_android(ANDROID_LOG_DEBUG, "Receive total %u truncate scale %u",
+                    total, cur->tcp.recv_scale);
+        total = 0;
+    }
 
-    return window;
+    log_android(ANDROID_LOG_DEBUG, "Receive window toforward %u window %u total %u",
+                toforward, window, total);
+
+    return total;
 }
 
 void check_tcp_socket(const struct arguments *args,
@@ -457,7 +474,7 @@ void check_tcp_socket(const struct arguments *args,
             int fwd = 0;
             if (ev->events & EPOLLOUT) {
                 // Forward data
-                uint32_t buffer_size = (uint32_t) get_receive_buffer(s);
+                uint32_t buffer_size = get_receive_buffer(s);
                 while (s->tcp.forward != NULL &&
                        s->tcp.forward->seq == s->tcp.remote_seq &&
                        s->tcp.forward->len - s->tcp.forward->sent < buffer_size) {
