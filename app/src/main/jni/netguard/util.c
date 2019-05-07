@@ -45,8 +45,8 @@ int compare_u32(uint32_t s1, uint32_t s2) {
     if (s1 == s2)
         return 0;
 
-    int i1 = s1;
-    int i2 = s2;
+    uint32_t i1 = s1;
+    uint32_t i2 = s2;
     if ((i1 < i2 && i2 - i1 < 0x7FFFFFFF) ||
         (i1 > i2 && i1 - i2 > 0x7FFFFFFF))
         return -1;
