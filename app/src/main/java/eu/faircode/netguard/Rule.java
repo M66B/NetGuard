@@ -163,6 +163,12 @@ public class Rule {
             this.internet = true;
             this.enabled = true;
             this.pkg = false;
+        } else if (info.applicationInfo.uid == 1051) {
+            this.name = context.getString(R.string.title_dnsdaemon);
+            this.system = true;
+            this.internet = true;
+            this.enabled = true;
+            this.pkg = false;
         } else if (info.applicationInfo.uid == 9999) {
             this.name = context.getString(R.string.title_nobody);
             this.system = true;
@@ -306,6 +312,16 @@ public class Rule {
             gps.applicationInfo.uid = 1021;
             gps.applicationInfo.icon = 0;
             listPI.add(gps);
+
+            // Add DNS daemon
+            PackageInfo dns = new PackageInfo();
+            dns.packageName = "android.dns";
+            dns.versionCode = Build.VERSION.SDK_INT;
+            dns.versionName = Build.VERSION.RELEASE;
+            dns.applicationInfo = new ApplicationInfo();
+            dns.applicationInfo.uid = 1051;
+            dns.applicationInfo.icon = 0;
+            listPI.add(dns);
 
             // Add nobody
             PackageInfo nobody = new PackageInfo();
