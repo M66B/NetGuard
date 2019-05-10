@@ -185,7 +185,7 @@
     <string name="msg_downloading">Ταχύτητα κατεβάσματος\n%1s</string>
     <string name="msg_downloaded">Ολοκλήρωση κατεβάσματος αρχείου Hosts</string>
     <string name="msg_download_last">Τελευταία λήψη: %s</string>
-    <string name="msg_start_forward" formatted="false">Ξεκίνησε προώθηση από %1$s θύρα %2$d εως %3$s:%4$d απο %5$s\';</string>
+    <string name="msg_start_forward">Ξεκίνησε προώθηση από %1$s θύρα %2$d εως %3$s:%4$d απο %5$s\';</string>
     <string name="msg_stop_forward">Σταμάτημα προώθησης της %1$s θύρας %2$d;</string>
     <string name="msg_metered">Το δίκτυο μετριέται</string>
     <string name="msg_inactive">Δεν υπάρχει ενεργή σύνδεση στο διαδίκτυο</string>

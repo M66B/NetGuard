@@ -185,7 +185,7 @@
     <string name="msg_downloading">Scaricando\n%1s</string>
     <string name="msg_downloaded">File hosts scaricato</string>
     <string name="msg_download_last">Ultimo download: %s</string>
-    <string name="msg_start_forward" formatted="false">Inizia ad inoltrare da %1$s porta %2$d a %3$s:%4$d di \'%5$s\'?</string>
+    <string name="msg_start_forward">Inizia ad inoltrare da %1$s porta %2$d a %3$s:%4$d di \'%5$s\'?</string>
     <string name="msg_stop_forward">Interrompere l\'inoltro di %1$s porta %2$d?</string>
     <string name="msg_metered">La rete è a consumo</string>
     <string name="msg_inactive">Nessuna connessione internet attiva</string>

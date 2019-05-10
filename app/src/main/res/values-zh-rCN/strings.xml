@@ -158,7 +158,7 @@
     <string name="msg_installed">\'%1$s\' 已安装</string>
     <string name="msg_installed_n">已安装</string>
     <string name="msg_access">%1$s 尝试进行网络连接</string>
-    <string name="msg_access_n">%1$s 尝试进行网络连接</string>
+    <string name="msg_access_n">尝试的互联网访问</string>
     <string name="msg_completed">操作完成</string>
     <string name="msg_vpn">NetGuard 使用一个本地 VPN 对网络流量进行过滤.
 因此请在下一个对话框中允许建立网络连接.
@@ -189,7 +189,7 @@
     <string name="msg_downloading">下载中\n%1s</string>
     <string name="msg_downloaded">Hosts 文件已下载</string>
     <string name="msg_download_last">最近下载: %s</string>
-    <string name="msg_start_forward" formatted="false">开始从 %1$s 端口 %2$d 转发至 \'%5$s\' 的 %3$s:%4$d?</string>
+    <string name="msg_start_forward">开始从 %1$s 端口 %2$d 转发至 \'%5$s\' 的 %3$s:%4$d?</string>
     <string name="msg_stop_forward">停止转发 %1$s 端口 %2$d?</string>
     <string name="msg_metered">网络按流量计费</string>
     <string name="msg_inactive">无活跃网络连接</string>

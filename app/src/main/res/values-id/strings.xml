@@ -189,7 +189,7 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="msg_downloading">Mengunduh\n%1s</string>
     <string name="msg_downloaded">Berkas hos diunduh</string>
     <string name="msg_download_last">Unduhan terakhir: %s</string>
-    <string name="msg_start_forward" formatted="false">Mulai teruskan dari %1$s port %2$d ke %3$s:%4$d dari \'%5$s\'?</string>
+    <string name="msg_start_forward">Mulai teruskan dari %1$s port %2$d ke %3$s:%4$d dari \'%5$s\'?</string>
     <string name="msg_stop_forward">Hentikan penerusan %1$s port %2$d?</string>
     <string name="msg_metered">Jaringan terukur</string>
     <string name="msg_inactive">Tidak ada koneksi internet aktif</string>

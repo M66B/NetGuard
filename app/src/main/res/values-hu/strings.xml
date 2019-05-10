@@ -187,7 +187,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
     <string name="msg_downloading">Letöltés\n%1s</string>
     <string name="msg_downloaded">Hosts fájl letöltve</string>
     <string name="msg_download_last">Utolsó Letöltés: %s</string>
-    <string name="msg_start_forward" formatted="false">Port forward indítás %1$s port %2$d to %3$s:%4$d \'%5$s\'?</string>
+    <string name="msg_start_forward">Port forward indítás %1$s port %2$d to %3$s:%4$d \'%5$s\'?</string>
     <string name="msg_stop_forward">Port forward leállítás %1$s port %2$d?</string>
     <string name="msg_metered">Ez mért hálózat</string>
     <string name="msg_inactive">Nincs aktív internetkapcsolat</string>

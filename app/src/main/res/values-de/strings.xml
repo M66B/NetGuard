@@ -185,7 +185,7 @@
     <string name="msg_downloading">Herunterladen\n%1s</string>
     <string name="msg_downloaded">Hosts-Datei heruntergeladen</string>
     <string name="msg_download_last">Letztes Herunterladen: %s</string>
-    <string name="msg_start_forward" formatted="false">Weiterleitung von %2$d Port %1$s nach %3$s:%4$d von \'%5$s\' starten?</string>
+    <string name="msg_start_forward">Weiterleitung von %2$d Port %1$s nach %3$s:%4$d von \'%5$s\' starten?</string>
     <string name="msg_stop_forward">Weiterleitung von %1$s Port %2$d stoppen?</string>
     <string name="msg_metered">Volumenbeschränktes Netzwerk</string>
     <string name="msg_inactive">Keine aktive Internetverbindung</string>

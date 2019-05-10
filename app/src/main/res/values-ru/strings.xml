@@ -187,7 +187,7 @@
     <string name="msg_downloading">Загрузка\n%1s</string>
     <string name="msg_downloaded">hosts-файл загружен</string>
     <string name="msg_download_last">Последняя загрузка: %s</string>
-    <string name="msg_start_forward" formatted="false">Начать пересылку из %1$s порта %2$d в %3$s:%4$d из %5$s?</string>
+    <string name="msg_start_forward">Начать пересылку из %1$s порта %2$d в %3$s:%4$d из %5$s?</string>
     <string name="msg_stop_forward">Остановить пересылку из %1$s порта %2$d?</string>
     <string name="msg_metered">Лимитированные сети</string>
     <string name="msg_inactive">Отсутствует подключение к сети интернет</string>

@@ -187,7 +187,7 @@
     <string name="msg_downloading">Сваляне\n%1s</string>
     <string name="msg_downloaded">\"Hosts\" файлът е свален</string>
     <string name="msg_download_last">Последно сваляне: %s</string>
-    <string name="msg_start_forward" formatted="false">Започнете пренасочване от %1$s порт %2$d към %3$s:%4$d на \"%5$s\"?</string>
+    <string name="msg_start_forward">Започнете пренасочване от %1$s порт %2$d към %3$s:%4$d на \"%5$s\"?</string>
     <string name="msg_stop_forward">Спиране пренасочването на %1$s порт %2$d?</string>
     <string name="msg_metered">Трафикът е ограничен</string>
     <string name="msg_inactive">No active internet connection</string>

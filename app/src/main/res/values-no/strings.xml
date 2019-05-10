@@ -20,7 +20,7 @@
     <string name="menu_app_disabled">Vis avskrudde apper</string>
     <string name="menu_sort">Sorter apper</string>
     <string name="menu_sort_name">Sorter etter navn</string>
-    <string name="menu_sort_uid">Sorter etter UID</string>
+    <string name="menu_sort_uid">Sorter etter uid</string>
     <string name="menu_sort_data">Sorter etter databruk</string>
     <string name="menu_log">Vis loggboken</string>
     <string name="menu_settings">Innstillinger</string>
@@ -189,7 +189,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_downloading">Laster ned\n%1s</string>
     <string name="msg_downloaded">«hosts»-filen har blitt lastet ned</string>
     <string name="msg_download_last">Seneste nedlastning: %s</string>
-    <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
+    <string name="msg_start_forward">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
     <string name="msg_stop_forward">Vil du avslutte viderekoblingen av %1$s-porten %2$d?</string>
     <string name="msg_metered">Nettverket er forbrukspriset</string>
     <string name="msg_inactive">Ingen aktiv internettforbindelse</string>

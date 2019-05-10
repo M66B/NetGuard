@@ -187,7 +187,7 @@ Ang iyong daloy ng internet ay hindi naipadala sa malayong serber ng VPN.</strin
     <string name="msg_downloading">Dina-download\n%1s</string>
     <string name="msg_downloaded">Dinadownload ang mga host payl</string>
     <string name="msg_download_last">Ang huling pag-download: %s</string>
-    <string name="msg_start_forward" formatted="false">Simulan ang pagpapasa mula sa %1$s port %2$d at sa %3$s:%4$d ng \'%5$s\'?</string>
+    <string name="msg_start_forward">Simulan ang pagpapasa mula sa %1$s port %2$d at sa %3$s:%4$d ng \'%5$s\'?</string>
     <string name="msg_stop_forward">Ihinto ang pagpapasa ng %1$s port %2$d?</string>
     <string name="msg_metered">Sinusukat ang network</string>
     <string name="msg_inactive">Walang aktibong koneksyon para sa internet</string>

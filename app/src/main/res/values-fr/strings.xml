@@ -20,7 +20,7 @@
     <string name="menu_app_disabled">Afficher les applications désactivées</string>
     <string name="menu_sort">Trier les applications</string>
     <string name="menu_sort_name">Trier par nom</string>
-    <string name="menu_sort_uid">Trier par UID</string>
+    <string name="menu_sort_uid">Trier par uid</string>
     <string name="menu_sort_data">Trier par utilisation des données</string>
     <string name="menu_log">Afficher le journal</string>
     <string name="menu_settings">Paramètres</string>
@@ -187,7 +187,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="msg_downloading">Téléchargement\n%1s</string>
     <string name="msg_downloaded">Fichier hosts téléchargé</string>
     <string name="msg_download_last">Dernier téléchargement : %s</string>
-    <string name="msg_start_forward" formatted="false">Lancer la redirection du %1$s port %2$d au %3$s:%4$d de \'%5$s\' ?</string>
+    <string name="msg_start_forward">Lancer la redirection du %1$s port %2$d au %3$s:%4$d de \'%5$s\' ?</string>
     <string name="msg_stop_forward">Arrêter la redirection du %1$s port %2$d ?</string>
     <string name="msg_metered">Le réseau est limité</string>
     <string name="msg_inactive">Pas de connexion Internet</string>

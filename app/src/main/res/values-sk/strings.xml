@@ -20,7 +20,7 @@
     <string name="menu_app_disabled">Zobraziť zakázané aplikácie</string>
     <string name="menu_sort">Zoradiť aplikácie</string>
     <string name="menu_sort_name">Zoradenie podľa názvu</string>
-    <string name="menu_sort_uid">Zoradiť podľa UID</string>
+    <string name="menu_sort_uid">Zoradiť podľa uid</string>
     <string name="menu_sort_data">Zoradiť na využitia dát</string>
     <string name="menu_log">Zobraziť záznam</string>
     <string name="menu_settings">Nastavenia</string>
@@ -188,7 +188,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
     <string name="msg_downloading">Sťahovanie\n%1s</string>
     <string name="msg_downloaded">Súbor hosts bol stiahnutý</string>
     <string name="msg_download_last">Posledné sťahovanie: %s</string>
-    <string name="msg_start_forward" formatted="false">Zastaviť presmerovanie z %1$s port %2$d na %3$s:%4$d z \'%5$s\'?</string>
+    <string name="msg_start_forward">Zastaviť presmerovanie z %1$s port %2$d na %3$s:%4$d z \'%5$s\'?</string>
     <string name="msg_stop_forward">Zastaviť presmerovanie z %1$s port %2$d?</string>
     <string name="msg_metered">Meraná sieť</string>
     <string name="msg_inactive">No active internet connection</string>

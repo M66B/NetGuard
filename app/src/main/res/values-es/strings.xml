@@ -20,7 +20,7 @@
     <string name="menu_app_disabled">Mostrar aplicaciones desactivadas</string>
     <string name="menu_sort">Ordenar aplicaciones</string>
     <string name="menu_sort_name">Ordenar por nombre</string>
-    <string name="menu_sort_uid">Ordenar por UID</string>
+    <string name="menu_sort_uid">Ordenar por uid</string>
     <string name="menu_sort_data">Ordenar por uso de datos</string>
     <string name="menu_log">Mostrar registro</string>
     <string name="menu_settings">Ajustes</string>
@@ -185,7 +185,7 @@
     <string name="msg_downloading">Descargando\n%1s</string>
     <string name="msg_downloaded">Archivo hosts descargado</string>
     <string name="msg_download_last">Última descarga: %s</string>
-    <string name="msg_start_forward" formatted="false">¿Iniciar redirección desde el puerto %1$s, %2$d hacia %3$s:%4$d de \'%5$s\'?</string>
+    <string name="msg_start_forward">¿Iniciar redirección desde el puerto %1$s, %2$d hacia %3$s:%4$d de \'%5$s\'?</string>
     <string name="msg_stop_forward">¿Detener redirección de %1$s puerto %2$d?</string>
     <string name="msg_metered">La red está medida</string>
     <string name="msg_inactive">No hay conexión a Internet</string>

@@ -185,7 +185,7 @@
     <string name="msg_downloading">Downloading\n%1s</string>
     <string name="msg_downloaded">சேவையகங்கள் கோப்பு தகவலிறக்கம்</string>
     <string name="msg_download_last">இறுதியாக பதிவிறக்கம்: %s</string>
-    <string name="msg_start_forward" formatted="false">மேலனுப்ப \'%5$s\' %3$s:%4$d %1$s போர்ட் %2$d இருந்து தொடங்கும்?</string>
+    <string name="msg_start_forward">மேலனுப்ப \'%5$s\' %3$s:%4$d %1$s போர்ட் %2$d இருந்து தொடங்கும்?</string>
     <string name="msg_stop_forward">%1$s போர்ட் %2$d மேலனுப்ப நிறுத்து?</string>
     <string name="msg_metered">பிணைய metered</string>
     <string name="msg_inactive">No active internet connection</string>

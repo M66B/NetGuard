@@ -189,7 +189,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_downloading">Endirilir\n%1s</string>
     <string name="msg_downloaded">Hosts fayl endirildi</string>
     <string name="msg_download_last">Son endirmə: %s</string>
-    <string name="msg_start_forward" formatted="false">Yönləndirmə başladılsın, %1$s bağlantı nöqtəsi %2$d, hədəf %3$s:%4$d / \'%5$s\'?</string>
+    <string name="msg_start_forward">Yönləndirmə başladılsın, %1$s bağlantı nöqtəsi %2$d, hədəf %3$s:%4$d / \'%5$s\'?</string>
     <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
     <string name="msg_metered">Şəbəkə ölçüldü</string>
     <string name="msg_inactive">Aktiv internet bağlantısı yoxdur</string>

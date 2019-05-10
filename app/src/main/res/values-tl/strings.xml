@@ -187,7 +187,7 @@ Ang iyong internet traffic ay hindi pinapadala sa isang liblib na vpn serber.</s
     <string name="msg_downloading">Nagda-download\n%1s</string>
     <string name="msg_downloaded">Ang mga file ng mga host ay na-download na</string>
     <string name="msg_download_last">Huling download: %s</string>
-    <string name="msg_start_forward" formatted="false">Simulan ang pagpapasa mula sa %1$s port %2$d papunta sa %3$s:%4$d ng %5$s?</string>
+    <string name="msg_start_forward">Simulan ang pagpapasa mula sa %1$s port %2$d papunta sa %3$s:%4$d ng %5$s?</string>
     <string name="msg_stop_forward">Ihinto ang pagpapasa ng %1$s port %2$d?</string>
     <string name="msg_metered">De-metro ang network</string>
     <string name="msg_inactive">Kasalukuyang walang koneksyon sa internet</string>

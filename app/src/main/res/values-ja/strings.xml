@@ -185,7 +185,7 @@
     <string name="msg_downloading">ダウンロード中\n%1s</string>
     <string name="msg_downloaded">Hosts ファイルをダウンロードしました</string>
     <string name="msg_download_last">最終ダウンロード: %s</string>
-    <string name="msg_start_forward" formatted="false">%1$s ポート %2$d から \'%5$s\' の %3$s:%4$d に転送を開始しますか?</string>
+    <string name="msg_start_forward">%1$s ポート %2$d から \'%5$s\' の %3$s:%4$d に転送を開始しますか?</string>
     <string name="msg_stop_forward">%1$s ポート %2$d の転送を停止しますか?</string>
     <string name="msg_metered">ネットワークは従量制です</string>
     <string name="msg_inactive">アクティブなインターネット接続がありません</string>

@@ -188,7 +188,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
     <string name="msg_downloading">İndiriliyor\n%1s</string>
     <string name="msg_downloaded">Hosts dosyası indirildi</string>
     <string name="msg_download_last">Son indirme: %s</string>
-    <string name="msg_start_forward" formatted="false">Yönlendirmeyi başlat %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
+    <string name="msg_start_forward">Yönlendirmeyi başlat %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
     <string name="msg_stop_forward">Yönlendirmeyi durdur %1$s port %2$d?</string>
     <string name="msg_metered">Bağlantı veri kullanımı</string>
     <string name="msg_inactive">İnternet bağlantısı aktif değil</string>

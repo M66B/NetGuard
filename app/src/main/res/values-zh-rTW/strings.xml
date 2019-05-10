@@ -189,7 +189,7 @@
     <string name="msg_downloading">下載中\n%1s</string>
     <string name="msg_downloaded">Hosts 檔已下載</string>
     <string name="msg_download_last">最近下載：%s</string>
-    <string name="msg_start_forward" formatted="false">開始從 %1$s 埠 %2$d 轉送至 \'%5$s\' 的 %3$s:%4$d？</string>
+    <string name="msg_start_forward">開始從 %1$s 埠 %2$d 轉送至 \'%5$s\' 的 %3$s:%4$d？</string>
     <string name="msg_stop_forward">停止轉送 %1$s 埠 %2$d？</string>
     <string name="msg_metered">此為計量型網路</string>
     <string name="msg_inactive">無網際網路連線</string>
@@ -210,7 +210,7 @@
     <string name="title_lockdown_enabled">網路流量已全面封鎖</string>
     <string name="title_unmetered_allowed">已允許非計量型網路流量</string>
     <string name="title_unmetered_blocked">已封鎖非計量型網路流量</string>
-    <string name="title_unmetered_disabled">非計量型規則並未套用</string>
+    <string name="title_unmetered_disabled">並未套用非計量型規則</string>
     <string name="title_metered_allowed">已允許計量型網路流量</string>
     <string name="title_metered_blocked">已封鎖計量型網路流量</string>
     <string name="title_metered_disabled">並未套用計量型規則</string>
@@ -223,7 +223,7 @@
     <string name="title_disabled">已停用</string>
     <string name="title_apply">套用規則與狀態</string>
     <string name="title_conditions">狀態</string>
-    <string name="title_screen_wifi">在螢幕開啟時啟用Wi-fi</string>
+    <string name="title_screen_wifi">在螢幕開啟時啟用 Wi-fi</string>
     <string name="title_screen_other">在螢幕開啟時啟用行動數據</string>
     <string name="title_roaming_symbol">R</string>
     <string name="title_roaming">漫遊時阻擋</string>
@@ -237,8 +237,8 @@
     <string name="title_logging_enabled">記錄與過濾功能已啟用</string>
     <string name="title_logging_configure">配置</string>
     <string name="title_enable_logging">僅針對被封鎖的網址啟用記錄功能</string>
-    <string name="title_enable_filtering">啟用過濾功能以記錄被允許的網址</string>
-    <string name="title_enable_notify">為被記錄下來的新網址啟用存取通知</string>
+    <string name="title_enable_filtering">啟用過濾功能，即使網址被允許，亦記錄下來</string>
+    <string name="title_enable_notify">針對新記錄下來的網址啟用存取通知</string>
     <string name="title_enable_help0">這些設定為全域設定，將套用到所有 apps</string>
     <string name="title_enable_help1">過濾功能還需要您允許或封鎖個別網址</string>
     <string name="title_enable_help2">啟用記錄 (耗電較少) 或過濾 (耗電較多) 也許會增加耗電量，且會影響網路速度</string>

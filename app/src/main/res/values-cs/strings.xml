@@ -189,7 +189,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
     <string name="msg_downloading">Stahuji\n%1s</string>
     <string name="msg_downloaded">Soubor hosts úspěšně stažen</string>
     <string name="msg_download_last">Poslední stažení: %s</string>
-    <string name="msg_start_forward" formatted="false">Začít přesměrovávat z %1$s port %2$d na %3$s:%4$d z \'%5$s\'?</string>
+    <string name="msg_start_forward">Začít přesměrovávat z %1$s port %2$d na %3$s:%4$d z \'%5$s\'?</string>
     <string name="msg_stop_forward">Přestat přesměrovávat %1$s port %2$d?</string>
     <string name="msg_metered">Síť je účtovaná</string>
     <string name="msg_inactive">Žádné aktivní připojení k Internetu</string>

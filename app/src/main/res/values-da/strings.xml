@@ -189,7 +189,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
     <string name="msg_downloading">Downloader\n%1s</string>
     <string name="msg_downloaded">Værtsfil downloadet</string>
     <string name="msg_download_last">Seneste download: %s</string>
-    <string name="msg_start_forward" formatted="false">Start viderestilling af \'%5$s\' fra %1$s port %2$d til %3$s:%4$d?</string>
+    <string name="msg_start_forward">Start viderestilling af \'%5$s\' fra %1$s port %2$d til %3$s:%4$d?</string>
     <string name="msg_stop_forward">Stop viderestilling af %1$s port %2$d?</string>
     <string name="msg_metered">Netværk er forbrugsafregnet</string>
     <string name="msg_inactive">Ingen aktiv Internetforbindelse</string>

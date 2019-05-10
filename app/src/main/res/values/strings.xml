@@ -211,7 +211,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_downloading">Downloading\n%1s</string>
     <string name="msg_downloaded">Hosts file downloaded</string>
     <string name="msg_download_last">Last download: %s</string>
-    <string name="msg_start_forward" formatted="false">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
+    <string name="msg_start_forward">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
     <string name="msg_stop_forward">Stop forwarding of %1$s port %2$d?</string>
     <string name="msg_metered">Network is metered</string>
     <string name="msg_inactive">No active internet connection</string>

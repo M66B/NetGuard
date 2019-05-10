@@ -188,7 +188,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="msg_downloading">Se descarcă\n%1s</string>
     <string name="msg_downloaded">Lista de domenii de blocat descărcată</string>
     <string name="msg_download_last">Ultima descărcare: %s</string>
-    <string name="msg_start_forward" formatted="false">Pornește redirecționarea de la %1$s port %2$d la %3$s:%4$d al \'%5$s\'?</string>
+    <string name="msg_start_forward">Pornește redirecționarea de la %1$s port %2$d la %3$s:%4$d al \'%5$s\'?</string>
     <string name="msg_stop_forward">Opreste redirectionarea %1$s port %2$d?</string>
     <string name="msg_metered">Rețeaua este contorizată</string>
     <string name="msg_inactive">Nu există conexiune la internet</string>

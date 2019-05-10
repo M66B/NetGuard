@@ -185,7 +185,7 @@
     <string name="msg_downloading">A descarregar\n%1s</string>
     <string name="msg_downloaded">Ficheiro hosts descarregado</string>
     <string name="msg_download_last">Último descarregamento: %s</string>
-    <string name="msg_start_forward" formatted="false">Começar o encaminhamento do %1$s porto %2$d a %3$s:%4$d de \'%5$s\'?</string>
+    <string name="msg_start_forward">Começar o encaminhamento do %1$s porto %2$d a %3$s:%4$d de \'%5$s\'?</string>
     <string name="msg_stop_forward">Parar o encaminhamento de %2$d de porto %1$s?</string>
     <string name="msg_metered">Rede é limitada</string>
     <string name="msg_inactive">Sem ligação à Internet</string>

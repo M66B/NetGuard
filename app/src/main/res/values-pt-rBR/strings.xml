@@ -20,7 +20,7 @@
     <string name="menu_app_disabled">Mostrar apps desabilitados</string>
     <string name="menu_sort">Ordenar aplicativos</string>
     <string name="menu_sort_name">Ordenar por nome</string>
-    <string name="menu_sort_uid">Ordenar por UID</string>
+    <string name="menu_sort_uid">Ordenar por uid</string>
     <string name="menu_sort_data">Ordenar por uso de dados</string>
     <string name="menu_log">Mostrar registro</string>
     <string name="menu_settings">Configurações</string>
@@ -188,7 +188,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
     <string name="msg_downloading">Baixando\n%1s</string>
     <string name="msg_downloaded">Arquivos de hosts baixados</string>
     <string name="msg_download_last">Último download: %s</string>
-    <string name="msg_start_forward" formatted="false">Iniciar encaminhamento de %1$s porta %2$d para %3$s:%4$d de \'%5$s\'?</string>
+    <string name="msg_start_forward">Iniciar encaminhamento de %1$s porta %2$d para %3$s:%4$d de \'%5$s\'?</string>
     <string name="msg_stop_forward">Parar encaminhamento de %1$s porta %2$d?</string>
     <string name="msg_metered">A rede é limitada</string>
     <string name="msg_inactive">Não há conexão ativa com a internet</string>

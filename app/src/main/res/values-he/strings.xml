@@ -187,7 +187,7 @@
     <string name="msg_downloading">מוריד\n%1s</string>
     <string name="msg_downloaded">קובץ hosts הורד</string>
     <string name="msg_download_last">הורדה אחרונה: %s</string>
-    <string name="msg_start_forward" formatted="false">התחל העברה מ %1$s פורט %2$d ל%3$s:%4$d של \'%5$s\'?</string>
+    <string name="msg_start_forward">התחל העברה מ %1$s פורט %2$d ל%3$s:%4$d של \'%5$s\'?</string>
     <string name="msg_stop_forward">הפסק העברה של %1$s פורט %2$d?</string>
     <string name="msg_metered">הרשת מנוטרת</string>
     <string name="msg_inactive">אין חיבור לאינטרנט</string>

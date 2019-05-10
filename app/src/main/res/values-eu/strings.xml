@@ -189,7 +189,7 @@ Zure internet trafikoa ez da kanpo VPN zerbitzari batera bidaltzen.</string>
     <string name="msg_downloading">Deskargatzen\n%1s</string>
     <string name="msg_downloaded">Ostalarien fitxategia deskargatuta</string>
     <string name="msg_download_last">Azken deskarga: %s</string>
-    <string name="msg_start_forward" formatted="false">Hasi birbidalketa, hemendik %1$s ataka %2$d hona %3$s:%4$d - \'%5$s\'?</string>
+    <string name="msg_start_forward">Hasi birbidalketa, hemendik %1$s ataka %2$d hona %3$s:%4$d - \'%5$s\'?</string>
     <string name="msg_stop_forward">Utzi %1$s ataka %2$d birbidaltzeari?</string>
     <string name="msg_metered">Sarea neurtutakoa da</string>
     <string name="msg_inactive">Internet konexio aktiborik ez</string>

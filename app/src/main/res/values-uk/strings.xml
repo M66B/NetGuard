@@ -186,7 +186,7 @@
     <string name="msg_downloading">Завантаження\n%1s</string>
     <string name="msg_downloaded">Host-файл завантажено</string>
     <string name="msg_download_last">Останнє завантаження: %s</string>
-    <string name="msg_start_forward" formatted="false">Почати перенаправлення з %1$s порту %2$d до %3$s:%4$d з «%5$s»?</string>
+    <string name="msg_start_forward">Почати перенаправлення з %1$s порту %2$d до %3$s:%4$d з «%5$s»?</string>
     <string name="msg_stop_forward">Зупинити перенаправлення з %1$s порту %2$d?</string>
     <string name="msg_metered">Лімітована мережа</string>
     <string name="msg_inactive">Немає активного з\'єднання з Інтернетом</string>
