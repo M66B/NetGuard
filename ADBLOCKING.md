@@ -3,7 +3,7 @@ Ad Blocking with NetGuard
 
 Instructions (you need to follow **all** the steps):
 
-1. Download/install the latest NetGuard version [from GitHub](https://github.com/M66B/NetGuard/releases)
+1. Download/install the latest NetGuard version [from GitHub](https://github.com/M66B/NetGuard/releases) (ad blocking is not possible with the Play store version because Google does not allow ad blocking apps in the Play store)
 1. Enable the setting *'Filter traffic'* in the advanced options (three dot menu > Settings > Advanced options > Filter traffic; default is disabled except always enabled in Android 5.0 and earlier)
 1. Enable the setting *'Block domain names'* in the advanced options (three dot menu > Settings > Advanced options > Block domain names; default is enabled)
 1. Import or download [a hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) using the NetGuard backup settings (three dot menu > Settings > Backup > Download hosts file)
