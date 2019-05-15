@@ -20,8 +20,8 @@
     <string name="menu_app_disabled">Rodyti išjungtas programėles</string>
     <string name="menu_sort">Rikiuoti programėles</string>
     <string name="menu_sort_name">Rūšiuoti pagal pavadinimą</string>
-    <string name="menu_sort_uid">Sort on uid</string>
-    <string name="menu_sort_data">Sort on data usage</string>
+    <string name="menu_sort_uid">Rikiuoti pagal UID</string>
+    <string name="menu_sort_data">Rikiuoti pagal duomenų naudojimą</string>
     <string name="menu_log">Rodyti žurnalą</string>
     <string name="menu_settings">Nustatymai</string>
     <string name="menu_invite">Pakviesti</string>
@@ -32,7 +32,7 @@
     <string name="menu_protocol_other">Other</string>
     <string name="menu_traffic_allowed">Leidžiama</string>
     <string name="menu_traffic_blocked">Užblokuota</string>
-    <string name="menu_live">Live updates</string>
+    <string name="menu_live">Tiesioginiai atnaujinimai</string>
     <string name="menu_refresh">Įkelti iš naujo</string>
     <string name="menu_resolve">Rodyti pavadinimus</string>
     <string name="menu_organization">Show organization</string>
@@ -254,7 +254,7 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="title_nobody">nobody</string>
     <string name="title_dontask">Daugiau nebeklausti</string>
     <string name="title_log_whois">Whois %1$s</string>
-    <string name="title_log_port">Port %1$d</string>
+    <string name="title_log_port">Prievadas %1$d</string>
     <string name="title_log_copy">Kopijuoti</string>
     <string name="title_pro">Pro ypatybės</string>
     <string name="title_pro_description">Yra prieinamos šios pro ypatybės:</string>
