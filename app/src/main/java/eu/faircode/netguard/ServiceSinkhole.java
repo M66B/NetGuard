@@ -2986,6 +2986,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
 
         @Override
+        public Builder addRoute(InetAddress address, int prefixLength) {
+            listRoute.add(address.getHostAddress() + "/" + prefixLength);
+            super.addRoute(address, prefixLength);
+            return this;
+        }
+
+        @Override
         public Builder addDnsServer(InetAddress address) {
             listDns.add(address);
             super.addDnsServer(address);
