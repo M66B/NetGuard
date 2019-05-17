@@ -1405,8 +1405,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         private int getUid(String pkg) throws PackageManager.NameNotFoundException {
             if ("root".equals(pkg))
                 return 0;
-            else if ("mediaserver".equals(pkg))
+            else if ("android.media".equals(pkg))
                 return 1013;
+            else if ("android.dns".equals(pkg))
+                return 1020;
+            else if ("android.gps".equals(pkg))
+                return 1021;
+            else if ("android.dns".equals(pkg))
+                return 1051;
             else if ("nobody".equals(pkg))
                 return 9999;
             else
