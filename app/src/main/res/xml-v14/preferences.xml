@@ -180,6 +180,11 @@
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="filter"
+                android:key="filter_udp"
+                android:title="@string/setting_filter_udp" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:dependency="filter"
                 android:key="clear_onreload"
                 android:title="@string/setting_clear_onreload" />
             <CheckBoxPreference
