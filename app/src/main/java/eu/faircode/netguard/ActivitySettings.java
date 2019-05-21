@@ -1407,7 +1407,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 return 0;
             else if ("android.media".equals(pkg))
                 return 1013;
-            else if ("android.dns".equals(pkg))
+            else if ("android.multicast".equals(pkg))
                 return 1020;
             else if ("android.gps".equals(pkg))
                 return 1021;

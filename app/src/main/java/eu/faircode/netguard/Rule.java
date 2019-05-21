@@ -295,7 +295,7 @@ public class Rule {
 
             // MulticastDNSResponder
             PackageInfo mdr = new PackageInfo();
-            mdr.packageName = "android.dns";
+            mdr.packageName = "android.multicast";
             mdr.versionCode = Build.VERSION.SDK_INT;
             mdr.versionName = Build.VERSION.RELEASE;
             mdr.applicationInfo = new ApplicationInfo();
