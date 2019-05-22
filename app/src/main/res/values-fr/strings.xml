@@ -85,7 +85,7 @@
     <string name="setting_log_app">Journaliser l\'accès internet</string>
     <string name="setting_access">Notifier lors de l\'accès à internet</string>
     <string name="setting_filter">Filtrer le trafic</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">Filtrer le trafic UDP</string>
     <string name="setting_clear_onreload">Fermer les connexions lors du rechargement</string>
     <string name="setting_lockdown">Verrouiller le trafic</string>
     <string name="setting_track_usage">Surveiller l\'utilisation du réseau</string>
@@ -161,9 +161,9 @@
     <string name="msg_access">%1$s a tenté d\'accéder à internet</string>
     <string name="msg_access_n">A tenté d\'accéder à internet</string>
     <string name="msg_completed">Action terminée</string>
-    <string name="msg_vpn">"NetGuard utilise un VPN local pour filtrer le trafic Internet.
+    <string name="msg_vpn">NetGuard utilise un VPN local pour filtrer le trafic Internet.
 Pour cette raison, veuillez autoriser la connexion VPN lors du prochain message.
-Votre trafic Internet n'est pas envoyé vers un serveur VPN distant."</string>
+Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="msg_autostart">NetGuard n\'a pas pu démarrer automatiquement. Ceci est probablement dû à un bug dans votre version d\'Android.</string>
     <string name="msg_error">Une erreur inattendue s’est produite : \'%s\'</string>
     <string name="msg_start_failed">Android a refusé de démarrer le VPN maintenant. Ceci est probablement dû à un bug dans votre version d\'Android.</string>

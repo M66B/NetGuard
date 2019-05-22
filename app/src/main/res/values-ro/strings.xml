@@ -85,7 +85,7 @@
     <string name="setting_log_app">Înregistrează în jurnal accesul la internet</string>
     <string name="setting_access">Notifică la accesarea internetului</string>
     <string name="setting_filter">Filtru de trafic</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">Filtru de trafic UDP</string>
     <string name="setting_clear_onreload">Închide conexiunile la reîncărcare</string>
     <string name="setting_lockdown">Închide traficul internet</string>
     <string name="setting_track_usage">Urmărește folosirea conexiunii</string>
@@ -161,8 +161,8 @@
     <string name="msg_access">%1$s a încercat să acceseze internetul</string>
     <string name="msg_access_n">Tentativă de acces la internet</string>
     <string name="msg_completed">Acțiune realizată</string>
-    <string name="msg_vpn">"NetGuard utilizează o conexiune VPN locală pentru a filtra traficul pe internet.
-Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog următoare. Traficul de internet nu este trimis la un server VPN extern."</string>
+    <string name="msg_vpn">NetGuard utilizează o conexiune VPN locală pentru a filtra traficul pe internet.
+Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog următoare. Traficul de internet nu este trimis la un server VPN extern.</string>
     <string name="msg_autostart">NetGuard nu a putut fi pornit automat după repornirea dispozitivului din cauza unei erori din această versiune de Android.</string>
     <string name="msg_error">A intervenit o eroare neașteptată: \'%s\'</string>
     <string name="msg_start_failed">Sistemul Android a refuzat să pornească serviciul VPN în acest moment. Cel mai probabil din cauza unei erori din această versiune de Android.</string>
@@ -176,10 +176,10 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">"Pentru o funcționare consistentă, optimizările Android de baterie trebuie dezactivate pentru NetGuard.
-\n\nÎn următoarea fereastră de dialog selectați de sus \"Toate aplicațiile\" apoi selectați NetGuard în listă și confirmați \"Nu se optimizează\"."</string>
-    <string name="msg_datasaving">"Pentru rezultate consecvente, opțiunile Android de economisire a datelor ar trebui dezactivate pentru NetGuard
-\n\nÎn caseta de dialog următoare, activați opțiunile \"Date de fundal\" și \"Utilizare de date nelimitată\""</string>
+    <string name="msg_doze">Pentru o funcționare consistentă, optimizările Android de baterie trebuie dezactivate pentru NetGuard.
+\n\nÎn următoarea fereastră de dialog selectați de sus \"Toate aplicațiile\" apoi selectați NetGuard în listă și confirmați \"Nu se optimizează\".</string>
+    <string name="msg_datasaving">Pentru rezultate consecvente, opțiunile Android de economisire a datelor ar trebui dezactivate pentru NetGuard
+\n\nÎn caseta de dialog următoare, activați opțiunile \"Date de fundal\" și \"Utilizare de date nelimitată\"</string>
     <string name="msg_filter">Android va asocia consumul de baterie și date lui NetGuard atunci când activați filtrarea. De fapt aplicațiile ce accesează internetul consumă</string>
     <string name="msg_filter4">Android 4 necesită filtrul de trafic activat</string>
     <string name="msg_log_disabled">Înregistrarea traficului în jurnal este dezactivată, utilizați butonul de mai sus pentru a o activa. Opțiunea de înregistrare ar putea duce la un consumul suplimentar al bateriei.</string>
