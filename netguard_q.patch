@@ -1,0 +1,201 @@
+diff --git a/app/build.gradle b/app/build.gradle
+index bcab1ef0..096a6f8a 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -5,13 +5,13 @@ def keystoreProperties = new Properties()
+ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+ 
+ android {
+-    compileSdkVersion = 28
++    compileSdkVersion = 'android-Q'
+ 
+     defaultConfig {
+         applicationId = "eu.faircode.netguard"
+         versionName = "2.245"
+         minSdkVersion 22
+-        targetSdkVersion 28
++        targetSdkVersion 'Q'
+         versionCode = 2019051701
+         archivesBaseName = "NetGuard-v$versionName"
+ 
+diff --git a/app/proguard-rules.pro b/app/proguard-rules.pro
+index 501b6193..adf6d1ab 100644
+--- a/app/proguard-rules.pro
++++ b/app/proguard-rules.pro
+@@ -39,6 +39,7 @@
+     void logPacket(eu.faircode.netguard.Packet);
+     void dnsResolved(eu.faircode.netguard.ResourceRecord);
+     boolean isDomainBlocked(java.lang.String);
++    int getUidQ(int, int, java.lang.String, int, java.lang.String, int);
+     eu.faircode.netguard.Allowed isAddressAllowed(eu.faircode.netguard.Packet);
+     void accountUsage(eu.faircode.netguard.Usage);
+ }
+diff --git a/app/src/main/java/eu/faircode/netguard/ServiceSinkhole.java b/app/src/main/java/eu/faircode/netguard/ServiceSinkhole.java
+index 7587807f..96655af1 100644
+--- a/app/src/main/java/eu/faircode/netguard/ServiceSinkhole.java
++++ b/app/src/main/java/eu/faircode/netguard/ServiceSinkhole.java
+@@ -72,6 +72,7 @@ import android.widget.RemoteViews;
+ import androidx.core.app.NotificationCompat;
+ import androidx.core.app.NotificationManagerCompat;
+ import androidx.core.content.ContextCompat;
++import androidx.core.os.BuildCompat;
+ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+ 
+ import org.json.JSONArray;
+@@ -1829,6 +1830,25 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
+         return blocked;
+     }
+ 
++    // Called from native code
++    @TargetApi(Build.VERSION_CODES.Q)
++    private int getUidQ(int version, int protocol, String saddr, int sport, String daddr, int dport) {
++        if (protocol != 6 /* TCP */ && protocol != 17 /* UDP */)
++            return Process.INVALID_UID;
++
++        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
++        if (cm == null)
++            return Process.INVALID_UID;
++
++        InetSocketAddress local = new InetSocketAddress(saddr, sport);
++        InetSocketAddress remote = new InetSocketAddress(daddr, dport);
++
++        Log.i(TAG, "Get uid local=" + local + " remote=" + remote);
++        int uid = cm.getConnectionOwnerUid(protocol, local, remote);
++        Log.i(TAG, "Get uid=" + uid);
++        return uid;
++    }
++
+     private boolean isSupported(int protocol) {
+         return (protocol == 1 /* ICMPv4 */ ||
+                 protocol == 59 /* ICMPv6 */ ||
+@@ -2316,7 +2336,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
+         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+ 
+         // Native init
+-        jni_context = jni_init(Build.VERSION.SDK_INT);
++        jni_context = jni_init(BuildCompat.isAtLeastQ() ? 29 : Build.VERSION.SDK_INT);
+         boolean pcap = prefs.getBoolean("pcap", false);
+         setPcap(pcap, this);
+ 
+diff --git a/app/src/main/java/eu/faircode/netguard/Util.java b/app/src/main/java/eu/faircode/netguard/Util.java
+index 6d166aa5..35a0586b 100644
+--- a/app/src/main/java/eu/faircode/netguard/Util.java
++++ b/app/src/main/java/eu/faircode/netguard/Util.java
+@@ -58,6 +58,7 @@ import android.widget.TextView;
+ 
+ import androidx.appcompat.app.AlertDialog;
+ import androidx.core.net.ConnectivityManagerCompat;
++import androidx.core.os.BuildCompat;
+ 
+ import java.io.BufferedReader;
+ import java.io.File;
+@@ -407,6 +408,9 @@ public class Util {
+     }
+ 
+     public static boolean canFilter(Context context) {
++        if (BuildCompat.isAtLeastQ())
++            return true;
++
+         // https://android-review.googlesource.com/#/c/206710/1/untrusted_app.te
+         File tcp = new File("/proc/net/tcp");
+         File tcp6 = new File("/proc/net/tcp6");
+diff --git a/app/src/main/jni/netguard/ip.c b/app/src/main/jni/netguard/ip.c
+index 41d25c50..cd6a50f2 100644
+--- a/app/src/main/jni/netguard/ip.c
++++ b/app/src/main/jni/netguard/ip.c
+@@ -281,8 +281,12 @@ void handle_ip(const struct arguments *args,
+     jint uid = -1;
+     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6 ||
+         (protocol == IPPROTO_UDP && !has_udp_session(args, pkt, payload)) ||
+-        (protocol == IPPROTO_TCP && syn))
+-        uid = get_uid(version, protocol, saddr, sport, daddr, dport);
++        (protocol == IPPROTO_TCP && syn)) {
++        if (args->ctx->sdk <= 28) // Android 9 Pie
++            uid = get_uid(version, protocol, saddr, sport, daddr, dport);
++        else
++            uid = get_uid_q(args, version, protocol, source, sport, dest, dport);
++    }
+ 
+     log_android(ANDROID_LOG_DEBUG,
+                 "Packet v%d %s/%u > %s/%u proto %d flags %s uid %d",
+diff --git a/app/src/main/jni/netguard/netguard.c b/app/src/main/jni/netguard/netguard.c
+index a583cd1a..c9780e7b 100644
+--- a/app/src/main/jni/netguard/netguard.c
++++ b/app/src/main/jni/netguard/netguard.c
+@@ -625,6 +625,47 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
+     return jallowed;
+ }
+ 
++static jmethodID midGetUidQ = NULL;
++
++jint get_uid_q(const struct arguments *args,
++               jint version, jint protocol,
++               const char *source, jint sport,
++               const char *dest, jint dport) {
++#ifdef PROFILE_JNI
++    float mselapsed;
++    struct timeval start, end;
++    gettimeofday(&start, NULL);
++#endif
++
++    jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
++
++    const char *signature = "(IILjava/lang/String;ILjava/lang/String;I)I";
++    if (midGetUidQ == NULL)
++        midGetUidQ = jniGetMethodID(args->env, clsService, "getUidQ", signature);
++
++    jstring jsource = (*args->env)->NewStringUTF(args->env, source);
++    jstring jdest = (*args->env)->NewStringUTF(args->env, dest);
++
++    jint juid = (*args->env)->CallIntMethod(
++            args->env, args->instance, midGetUidQ,
++            version, protocol, jsource, sport, jdest, dport);
++    jniCheckException(args->env);
++
++    (*args->env)->DeleteLocalRef(args->env, jdest);
++    (*args->env)->DeleteLocalRef(args->env, jsource);
++    (*args->env)->DeleteLocalRef(args->env, clsService);
++
++#ifdef PROFILE_JNI
++    gettimeofday(&end, NULL);
++    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
++                (end.tv_usec - start.tv_usec) / 1000.0;
++    if (mselapsed > PROFILE_JNI)
++        log_android(ANDROID_LOG_WARN, "get_uid_q %f", mselapsed);
++#endif
++
++    return juid;
++}
++
+ static jmethodID midIsAddressAllowed = NULL;
+ jfieldID fidRaddr = NULL;
+ jfieldID fidRport = NULL;
+diff --git a/app/src/main/jni/netguard/netguard.h b/app/src/main/jni/netguard/netguard.h
+index 173be260..7ffcdc28 100644
+--- a/app/src/main/jni/netguard/netguard.h
++++ b/app/src/main/jni/netguard/netguard.h
+@@ -506,6 +506,14 @@ void dns_resolved(const struct arguments *args,
+ 
+ jboolean is_domain_blocked(const struct arguments *args, const char *name);
+ 
++jint get_uid_q(const struct arguments *args,
++               jint version,
++               jint protocol,
++               const char *source,
++               jint sport,
++               const char *dest,
++               jint dport);
++
+ struct allowed *is_address_allowed(const struct arguments *args, jobject objPacket);
+ 
+ jobject create_packet(const struct arguments *args,
+diff --git a/tools/addr2line.sh b/tools/addr2line.sh
+index 60b4fd38..240db4fc 100644
+--- a/tools/addr2line.sh
++++ b/tools/addr2line.sh
+@@ -1,4 +1,4 @@
+ #!/bin/sh
+ addr2line=/media/marcel/C720/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin/arm-linux-androideabi-addr2line
+-lib=./app/build/intermediates/cmake/release/obj/arm64-v8a/libnetguard.so
++lib=./app/build/intermediates/cmake/debug/obj/arm64-v8a/libnetguard.so
+ addr2line -C -f -e $lib $1
