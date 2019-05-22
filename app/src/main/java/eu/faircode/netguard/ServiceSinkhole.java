@@ -1843,10 +1843,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         lock.readLock().lock();
 
         packet.allowed = false;
-        if (prefs.getBoolean("filter", false) &&
-                (packet.protocol != 17 || prefs.getBoolean("filter_udp", false))) {
+        if (prefs.getBoolean("filter", false)) {
             // https://android.googlesource.com/platform/system/core/+/master/include/private/android_filesystem_config.h
-            if (packet.uid < 2000 &&
+            if (packet.protocol == 17 /* UDP */ && !prefs.getBoolean("filter_udp", false)) {
+                // Allow unfiltered UDP
+                packet.allowed = true;
+                Log.i(TAG, "Allowing UDP " + packet);
+            } else if (packet.uid < 2000 &&
                     !last_connected && isSupported(packet.protocol)) {
                 // Allow system applications in disconnected state
                 packet.allowed = true;
