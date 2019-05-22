@@ -85,6 +85,7 @@
     <string name="setting_log_app">Internet hozzáférés naplózása</string>
     <string name="setting_access">Értesítés internet hozzáféréskor</string>
     <string name="setting_filter">Forgalom szűrés</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Kapcsolatok lezárása újratöltéskor</string>
     <string name="setting_lockdown">Forgalom lezárás</string>
     <string name="setting_track_usage">Hálózat használat követés</string>
@@ -160,9 +161,9 @@
     <string name="msg_access">%1$s internet hozzáférési kísérlet</string>
     <string name="msg_access_n">Internet hozzáférési kísérlet</string>
     <string name="msg_completed">Művelet befejezve</string>
-    <string name="msg_vpn">A NetGuard helyi VPN-t használ az internetes forgalom szűréséhez.
+    <string name="msg_vpn">"A NetGuard helyi VPN-t használ az internetes forgalom szűréséhez.
 Ezért kérjük, hogy engedélyezze a VPN kapcsolatot a következő párbeszéd ablakban.
-Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
+Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz."</string>
     <string name="msg_autostart">A NetGuard nem indul el automatikusan a rendszer indításakor, mert egy hiba van ebben az Android verzióban</string>
     <string name="msg_error">Váratlan hiba történt: \'%s\'</string>
     <string name="msg_start_failed">Jelenleg az Android nem kezeli a VPN szolgáltatást. Ennek az oka valószínűleg egy Android bug.</string>

@@ -85,6 +85,7 @@
     <string name="setting_log_app">Loguj dostęp do internetu</string>
     <string name="setting_access">Powiadom o próbie dostępu do internetu</string>
     <string name="setting_filter">Filtruj ruch</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Zamknij połączenia i połącz ponownie</string>
     <string name="setting_lockdown">Zablokuj ruch sieciowy</string>
     <string name="setting_track_usage">Rejestruj użycie sieci</string>

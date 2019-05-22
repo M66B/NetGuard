@@ -8,7 +8,7 @@
     <string name="app_first">NetGuard este dezvoltat și testat cu mare atenție, cu toate acestea este imposibil de garantat că va funcționa corect pe fiecare sau pe orice dispozitiv.</string>
     <string name="app_agree">Accept</string>
     <string name="app_disagree">Nu accept</string>
-    <string name="app_support">NetGuard are nevoie de ajutorul dumneavoastră. Atingeți pentru a achiziţiona caracteristici pro și a putea dezvolta proiectul în continuare.</string>
+    <string name="app_support">NetGuard are nevoie de ajutorul dumneavoastră. Atingeți pentru a achiziționa caracteristici pro și a putea dezvolta proiectul în continuare.</string>
     <string name="channel_foreground">Serviciile care rulează</string>
     <string name="channel_notify">Notificări generale</string>
     <string name="channel_access">Notificări acces</string>
@@ -85,6 +85,7 @@
     <string name="setting_log_app">Înregistrează în jurnal accesul la internet</string>
     <string name="setting_access">Notifică la accesarea internetului</string>
     <string name="setting_filter">Filtru de trafic</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Închide conexiunile la reîncărcare</string>
     <string name="setting_lockdown">Închide traficul internet</string>
     <string name="setting_track_usage">Urmărește folosirea conexiunii</string>
@@ -92,18 +93,18 @@
     <string name="setting_show_resolved">Arată numele de domenii rezolvate</string>
     <string name="setting_block_domains">Blochează domenii</string>
     <string name="setting_rcode">Cod de răspuns DNS: %s</string>
-    <string name="setting_forwarding">Redirectionare port</string>
+    <string name="setting_forwarding">Redirecționare port</string>
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
     <string name="setting_ttl">DNS TTL minim: %s s</string>
-    <string name="setting_socks5_enabled">Utilizati proxy SOCKS5</string>
+    <string name="setting_socks5_enabled">Utilizați proxy SOCKS5</string>
     <string name="setting_socks5_addr">SOCKS5 adresa: %s</string>
     <string name="setting_socks5_port">SOCKS5 port: %s</string>
     <string name="setting_socks5_username">SOCKS5 nume utilizator: %s</string>
     <string name="setting_socks5_password">SOCKS5 parola: %s</string>
     <string name="setting_pcap_record_size">Mărime înregistrare PCAP: %s B</string>
-    <string name="setting_pcap_file_size">Marime max. fisier PCAP: %s MB</string>
+    <string name="setting_pcap_file_size">Mărime max. fișier PCAP: %s MB</string>
     <string name="setting_watchdog">Repornire automată: o dată la %s minute</string>
     <string name="setting_stats_category">Notificare viteză conexiune</string>
     <string name="setting_stats">Arată notificare viteză</string>
@@ -160,8 +161,8 @@
     <string name="msg_access">%1$s a încercat să acceseze internetul</string>
     <string name="msg_access_n">Tentativă de acces la internet</string>
     <string name="msg_completed">Acțiune realizată</string>
-    <string name="msg_vpn">NetGuard utilizează o conexiune VPN locală pentru a filtra traficul pe internet.
-Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog următoare. Traficul de internet nu este trimis la un server VPN extern.</string>
+    <string name="msg_vpn">"NetGuard utilizează o conexiune VPN locală pentru a filtra traficul pe internet.
+Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog următoare. Traficul de internet nu este trimis la un server VPN extern."</string>
     <string name="msg_autostart">NetGuard nu a putut fi pornit automat după repornirea dispozitivului din cauza unei erori din această versiune de Android.</string>
     <string name="msg_error">A intervenit o eroare neașteptată: \'%s\'</string>
     <string name="msg_start_failed">Sistemul Android a refuzat să pornească serviciul VPN în acest moment. Cel mai probabil din cauza unei erori din această versiune de Android.</string>
@@ -175,10 +176,10 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">Pentru o funcționare consistentă, optimizările Android de baterie trebuie dezactivate pentru NetGuard.
-\n\nÎn următoarea fereastră de dialog selectați de sus \"Toate aplicațiile\" apoi selectați NetGuard în listă și confirmați \"Nu se optimizează\".</string>
-    <string name="msg_datasaving">Pentru rezultate consecvente, opțiunile Android de economisire a datelor ar trebui dezactivate pentru NetGuard
-\n\nÎn caseta de dialog următoare, activați opțiunile \"Date de fundal\" și \"Utilizare de date nelimitată\"</string>
+    <string name="msg_doze">"Pentru o funcționare consistentă, optimizările Android de baterie trebuie dezactivate pentru NetGuard.
+\n\nÎn următoarea fereastră de dialog selectați de sus \"Toate aplicațiile\" apoi selectați NetGuard în listă și confirmați \"Nu se optimizează\"."</string>
+    <string name="msg_datasaving">"Pentru rezultate consecvente, opțiunile Android de economisire a datelor ar trebui dezactivate pentru NetGuard
+\n\nÎn caseta de dialog următoare, activați opțiunile \"Date de fundal\" și \"Utilizare de date nelimitată\""</string>
     <string name="msg_filter">Android va asocia consumul de baterie și date lui NetGuard atunci când activați filtrarea. De fapt aplicațiile ce accesează internetul consumă</string>
     <string name="msg_filter4">Android 4 necesită filtrul de trafic activat</string>
     <string name="msg_log_disabled">Înregistrarea traficului în jurnal este dezactivată, utilizați butonul de mai sus pentru a o activa. Opțiunea de înregistrare ar putea duce la un consumul suplimentar al bateriei.</string>

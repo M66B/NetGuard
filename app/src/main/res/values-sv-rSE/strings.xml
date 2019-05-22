@@ -42,7 +42,7 @@
     <string name="menu_export">Exportera</string>
     <string name="menu_reset">Återställ</string>
     <string name="menu_add">Lägg till</string>
-    <string name="menu_delete">Ta bort</string>
+    <string name="menu_delete">Radera</string>
     <string name="menu_cleanup">Städa</string>
     <string name="title_protocol">Protokoll</string>
     <string name="title_dport">Käll port</string>
@@ -85,6 +85,7 @@
     <string name="setting_log_app">Logga internetåtkomst</string>
     <string name="setting_access">Meddela vid internetåtkomst</string>
     <string name="setting_filter">Filtrera trafik</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Stäng anslutningar vid omladdning</string>
     <string name="setting_lockdown">Lås trafik</string>
     <string name="setting_track_usage">Spåra nätverksanvändning</string>
@@ -160,9 +161,9 @@
     <string name="msg_access">%1$s försökte få tillgång till internet</string>
     <string name="msg_access_n">Försökte få tillgång till internet</string>
     <string name="msg_completed">Åtgärdad</string>
-    <string name="msg_vpn">NetGuard använder en lokal VPN för att filtrera internettrafik.
+    <string name="msg_vpn">"NetGuard använder en lokal VPN för att filtrera internettrafik.
 Av denna anledning, vänligen tillåt en VPN-anslutning i nästa dialogruta.
-Din internettrafik skickas inte till en avlägsen VPN-server.</string>
+Din internettrafik skickas inte till en avlägsen VPN-server."</string>
     <string name="msg_autostart">NetGuard kunde inte starta automatiskt. Detta är sannolikt på grund av ett fel i din Android-version.</string>
     <string name="msg_error">Ett oväntat fel har inträffat: \'%s\'</string>
     <string name="msg_start_failed">Android vägrade att starta VPN-tjänsten just nu. Detta är sannolikt på grund av ett fel i din Android-version.</string>
@@ -176,10 +177,10 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">För konsekventa resultat bör Android-batterioptimeringarna inaktiveras för NetGuard.
-\n\nI nästa dialogruta väljer du \"Alla appar\" högst upp, klickar på NetGuard i listan och välj och bekräfta \"Optimera inte\".</string>
-    <string name="msg_datasaving">För konsekventa resultat ska Android-databesparingsalternativen inaktiveras för NetGuard
-\n\nI nästa dialogruta, aktivera alternativen \"Bakgrundsdata\" och \"Obegränsad dataanvändning\"</string>
+    <string name="msg_doze">"För konsekventa resultat bör Android-batterioptimeringarna inaktiveras för NetGuard.
+\n\nI nästa dialogruta väljer du \"Alla appar\" högst upp, klickar på NetGuard i listan och välj och bekräfta \"Optimera inte\"."</string>
+    <string name="msg_datasaving">"För konsekventa resultat ska Android-databesparingsalternativen inaktiveras för NetGuard
+\n\nI nästa dialogruta, aktivera alternativen \"Bakgrundsdata\" och \"Obegränsad dataanvändning\""</string>
     <string name="msg_filter">Genom att använda filtrering kommer Android att tillskriva data och strömförbrukning till NetGuard - Android förutsätter att data och ström används av NetGuard, snarare än de ursprungliga apparna</string>
     <string name="msg_filter4">Android 4 kräver att filtrering är aktiverat</string>
     <string name="msg_log_disabled">Trafikloggning är inaktiverad, använd reglage ovan för att aktivera loggning. Trafikloggning kan resultera i extra batterianvändning.</string>

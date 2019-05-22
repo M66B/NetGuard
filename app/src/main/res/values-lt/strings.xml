@@ -85,6 +85,7 @@
     <string name="setting_log_app">Log internet access</string>
     <string name="setting_access">Notify on internet access</string>
     <string name="setting_filter">Filter traffic</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Close connections on reload</string>
     <string name="setting_lockdown">Lockdown traffic</string>
     <string name="setting_track_usage">Track network usage</string>
@@ -160,9 +161,9 @@
     <string name="msg_access">%1$s bandė gauti prieigą prie interneto</string>
     <string name="msg_access_n">Bandyta gauti prieigą prie interneto</string>
     <string name="msg_completed">Veiksmas užbaigtas</string>
-    <string name="msg_vpn">Interneto srauto filtravimui NetGuard naudoja vietinį VPN.
+    <string name="msg_vpn">"Interneto srauto filtravimui NetGuard naudoja vietinį VPN.
 Dėl to, prašome kitame dialoge leisti VPN ryšį.
-Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serverį.</string>
+Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serverį."</string>
     <string name="msg_autostart">NetGuard nepavyko automatiškai pasileisti. Taip, tikriausiai, yra dėl klaidos jūsų Android versijoje.</string>
     <string name="msg_error">Įvyko netikėta klaida: \'%s\'</string>
     <string name="msg_start_failed">Šiuo metu Android atsisakė paleisti VPN tarnybą. Taip, tikriausiai, yra dėl klaidos jūsų Android versijoje.</string>
@@ -176,10 +177,10 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
-\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
-    <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
+    <string name="msg_doze">"For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don't optimize\"."</string>
+    <string name="msg_datasaving">"For consistent results, the Android data saving options should be disabled for NetGuard
+\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\""</string>
     <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original apps</string>
     <string name="msg_filter4">Android 4 reikalauja, kad filtravimas būtų įjungtas</string>
     <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>

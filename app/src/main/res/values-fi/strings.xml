@@ -85,6 +85,7 @@
     <string name="setting_log_app">Tallenna internet yhteydet lokiin</string>
     <string name="setting_access">Ilmoita internetyhteydestä</string>
     <string name="setting_filter">Suodattaa liikennettä</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Close connections on reload</string>
     <string name="setting_lockdown">Lockdown traffic</string>
     <string name="setting_track_usage">Seuraa verkon käyttöä</string>

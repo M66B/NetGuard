@@ -85,6 +85,7 @@
     <string name="setting_log_app">İnternet erişim günlüğü</string>
     <string name="setting_access">İnternet erişimini bildir</string>
     <string name="setting_filter">Veri kullanımını filtrele</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Yeniden yüklemede bağlantıyı kapat</string>
     <string name="setting_lockdown">Trafiğe kilitlen</string>
     <string name="setting_track_usage">Veri kullanımını izle</string>
@@ -160,9 +161,9 @@
     <string name="msg_access">%1$s internet erişimi deneniyor</string>
     <string name="msg_access_n">İnternet erişimi denendi</string>
     <string name="msg_completed">Eylem tamamlandı</string>
-    <string name="msg_vpn">NetGuard root gerektirmeden internet trafiğini filtreleyebilmek için yerel bir VPN sunucusu çalıştırır.
+    <string name="msg_vpn">"NetGuard root gerektirmeden internet trafiğini filtreleyebilmek için yerel bir VPN sunucusu çalıştırır.
 Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermeniz gerekir.
-İnternet trafiğiniz uzak bir VPN sunucusuna gönderilmiyor.</string>
+İnternet trafiğiniz uzak bir VPN sunucusuna gönderilmiyor."</string>
     <string name="msg_autostart">NetGuard, Android sürümünüzde ki bir hata nedeni ile başlanğıçta otomatik olarak başlatılamadı</string>
     <string name="msg_error">Beklenmeyen hata oluştu: \'%s\'</string>
     <string name="msg_start_failed">Android şu anda VPN hizmeti başlatmayı reddetti. Muhtemelen bunun sebebi sizin Android sürümünüzde ki bir hatadır.</string>
@@ -176,8 +177,8 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">NetGuard için batarya optimizasyonu devre dışı bırakılarak tutarlı sonuçlar elde edilebilir
-\n\nBir sonraki iletişim kutusunda, \"Tüm uygulamaların\" arasından NetGuard için \"Optimize etme\" seçeneği onaylanmalı.</string>
+    <string name="msg_doze">"NetGuard için batarya optimizasyonu devre dışı bırakılarak tutarlı sonuçlar elde edilebilir
+\n\nBir sonraki iletişim kutusunda, \"Tüm uygulamaların\" arasından NetGuard için \"Optimize etme\" seçeneği onaylanmalı."</string>
     <string name="msg_datasaving">Tutarlı sonuç için, NetGuard \n\nın sonraki diyaloğu için Androin veri kaydetme seçenekleri devre dışı olmalı, \"Arkaplan verisi\" ve \"Sınırsız veri kullanımı\" seçenekleri etkinleştirilmeli</string>
     <string name="msg_filter">NetGuard filtreleme kullanımı Android için veri ve güç kullanımında karmaşaya neden oluyormuş gibi görünebilir. Bazı durumlarda görünmeklede kalmaz</string>
     <string name="msg_filter4">Android 4 sorgularının filtrelenmesi etkinleştirildi</string>

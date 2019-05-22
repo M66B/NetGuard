@@ -85,6 +85,7 @@
     <string name="setting_log_app">Записувати доступ до мережі інтернет</string>
     <string name="setting_access">Сповіщувати про доступ до інтернету</string>
     <string name="setting_filter">Фільтрувати трафік</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Розривати з’єднання при перезавантаженні</string>
     <string name="setting_lockdown">Блокування трафіка</string>
     <string name="setting_track_usage">Відслідковувати використання мережі</string>
@@ -175,8 +176,8 @@
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ ГБ</string>
     <string name="msg_count">%dx</string>
     <string name="msg_doze">Для досягнення стабільних результатів необхідно вимкнути економію заряду акумулятора Android для NetGuard.\n\nУ верхній частині наступного діалогового вікна виберіть «Усі програми», знайдіть у списку NetGuard і виберіть його, а потім виберіть «Не економити» і підтвердьте.</string>
-    <string name="msg_datasaving">Для досягнення стабільних результатів обмеження даних Android необхідно вимкнути для NetGuard.
-\n\nУ наступному діалоговому вікні увімкніть опції «Фонові дані» та «Необмежене використання даних»</string>
+    <string name="msg_datasaving">"Для досягнення стабільних результатів обмеження даних Android необхідно вимкнути для NetGuard.
+\n\nУ наступному діалоговому вікні увімкніть опції «Фонові дані» та «Необмежене використання даних»"</string>
     <string name="msg_filter">Використання фільтрування призведе до того, що Android приписуватиме споживання даних та енергії NetGuard; Android вважатиме, що дані та енергія використовуються не програмами, які їх використовують, а NetGuard\'ом</string>
     <string name="msg_filter4">На Android 4 фільтрацію необхідно увімкнути</string>
     <string name="msg_log_disabled">Журналювання трафіку вимкнуто, використовуйте перемикач вище, аби увімкнути журналювання. Це може підвищити споживання заряду акумулятора.</string>

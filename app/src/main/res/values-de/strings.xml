@@ -85,6 +85,7 @@
     <string name="setting_log_app">Internetzugriff protokollieren</string>
     <string name="setting_access">Bei Internetzugriff benachrichtigen</string>
     <string name="setting_filter">Datenverkehr filtern</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Die Verbindungen beim Neuladen trennen</string>
     <string name="setting_lockdown">Datenverkehr-Zugriffsbeschränkung</string>
     <string name="setting_track_usage">Netzwerknutzung verfolgen</string>

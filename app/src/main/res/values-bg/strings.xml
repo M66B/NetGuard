@@ -85,6 +85,7 @@
     <string name="setting_log_app">Регистриране на достъпа до интернет във файл</string>
     <string name="setting_access">Уведомяване при достъп до интернет</string>
     <string name="setting_filter">Филтриране на трафика</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Close connections on reload</string>
     <string name="setting_lockdown">Lockdown traffic</string>
     <string name="setting_track_usage">Следене на достъпа до мрежа</string>
@@ -160,9 +161,9 @@
     <string name="msg_access">%1$s опита за достъп до интернет</string>
     <string name="msg_access_n">Опитвал достъп до интернет</string>
     <string name="msg_completed">Действието е завършено</string>
-    <string name="msg_vpn">NetGuard използва локаленVPN за филтриране на интернет трафика.
+    <string name="msg_vpn">"NetGuard използва локаленVPN за филтриране на интернет трафика.
 Поради тази причина моля, разрешете VPN свързването в следващия диалогов прозорец.
-Вашият интернет трафик не се изпраща към отдалечен VPN сървър.</string>
+Вашият интернет трафик не се изпраща към отдалечен VPN сървър."</string>
     <string name="msg_autostart">NetGuard не може да се стартира автоматично при стартиране на системата поради грешка в Android версията</string>
     <string name="msg_error">Възникна неочаквана грешка: \"%s\"</string>
     <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>

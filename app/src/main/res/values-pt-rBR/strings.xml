@@ -85,6 +85,7 @@
     <string name="setting_log_app">Registrar acesso à internet</string>
     <string name="setting_access">Notificar ao acessar a internet</string>
     <string name="setting_filter">Filtrar tráfego</string>
+    <string name="setting_filter_udp">Filter UDP traffic</string>
     <string name="setting_clear_onreload">Fechar conexões ao recarregar</string>
     <string name="setting_lockdown">Bloqueio total de tráfego</string>
     <string name="setting_track_usage">Controlar o uso de rede</string>
@@ -122,8 +123,8 @@
     <string name="setting_technical_networks">Redes</string>
     <string name="setting_technical_subscription">Inscrições</string>
     <string name="summary_install">Mostrar notificação na barra de status para configurar aplicativos recém-instalados (Versão Pro)</string>
-    <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados
-(Insira zero para desabilitar essa opção)</string>
+    <string name="summary_auto">"Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados
+(Insira zero para desabilitar essa opção)"</string>
     <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
     <string name="summary_update">Procurar por novos releases no GitHub duas vezes ao dia</string>
     <string name="summary_tethering">Dependendo da versão do Android, tethering pode não funcionar. Trafego via tethering não pode ser filtrado.</string>
@@ -161,9 +162,9 @@
     <string name="msg_access">%1$s tentou acessar a internet</string>
     <string name="msg_access_n">Tentativa de acesso à intenet</string>
     <string name="msg_completed">Ação concluída</string>
-    <string name="msg_vpn">NetGuard usa uma VPN local para filtrar o tráfego de internet.
+    <string name="msg_vpn">"NetGuard usa uma VPN local para filtrar o tráfego de internet.
 Por este motivo, por favor, permita uma conexão VPN na caixa de diálogo seguinte.
-O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.</string>
+O seu tráfego de internet não está sendo enviado para um servidor VPN remoto."</string>
     <string name="msg_autostart">NetGuard não pôde ser iniciado automaticamente. A causa mais provável seria um bug na sua versão do Android.</string>
     <string name="msg_error">Um erro inesperado ocorreu: \'%s\'</string>
     <string name="msg_start_failed">Android recusou-se a iniciar o serviço VPN nesse momento. A causa mais provável seria um bug na sua versão do Android.</string>
