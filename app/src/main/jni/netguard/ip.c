@@ -126,6 +126,7 @@ void handle_ip(const struct arguments *args,
     char source[INET6_ADDRSTRLEN + 1];
     char dest[INET6_ADDRSTRLEN + 1];
     char flags[10];
+    char data[16];
     int flen = 0;
     uint8_t *payload;
 
@@ -211,13 +212,16 @@ void handle_ip(const struct arguments *args,
     int syn = 0;
     uint16_t sport = 0;
     uint16_t dport = 0;
+    *data = 0;
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6) {
-        if (length - (payload - pkt) < sizeof(struct icmp)) {
+        if (length - (payload - pkt) < ICMP_MINLEN) {
             log_android(ANDROID_LOG_WARN, "ICMP packet too short");
             return;
         }
 
         struct icmp *icmp = (struct icmp *) payload;
+
+        sprintf(data, "type %d/%d", icmp->icmp_type, icmp->icmp_code);
 
         // http://lwn.net/Articles/443051/
         sport = ntohs(icmp->icmp_id);
@@ -297,7 +301,7 @@ void handle_ip(const struct arguments *args,
         allowed = 1; // assume existing session
     else {
         jobject objPacket = create_packet(
-                args, version, protocol, flags, source, sport, dest, dport, "", uid, 0);
+                args, version, protocol, flags, source, sport, dest, dport, data, uid, 0);
         redirect = is_address_allowed(args, objPacket);
         allowed = (redirect != NULL);
         if (redirect != NULL && (*redirect->raddr == 0 || redirect->rport == 0))
