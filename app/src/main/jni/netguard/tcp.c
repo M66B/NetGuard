@@ -227,11 +227,6 @@ uint32_t get_receive_window(const struct ng_session *cur) {
     }
 
     uint32_t total = (toforward < window ? window - toforward : 0);
-    if ((total >> cur->tcp.recv_scale) == 0) {
-        log_android(ANDROID_LOG_DEBUG, "Receive total %u truncate scale %u",
-                    total, cur->tcp.recv_scale);
-        total = 0;
-    }
 
     log_android(ANDROID_LOG_DEBUG, "Receive window toforward %u window %u total %u",
                 toforward, window, total);
