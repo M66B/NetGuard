@@ -13,7 +13,7 @@
     <string name="channel_notify">一般通知</string>
     <string name="channel_access">存取通知</string>
     <string name="menu_search">搜尋 app</string>
-    <string name="menu_filter">篩選 apps</string>
+    <string name="menu_filter">過濾 apps</string>
     <string name="menu_app_user">顯示使用者 apps</string>
     <string name="menu_app_system">顯示系統 apps</string>
     <string name="menu_app_nointernet">顯示不使用網際網路的 apps</string>
@@ -85,7 +85,7 @@
     <string name="setting_log_app">記錄網際網路存取</string>
     <string name="setting_access">當出現網際網路存取時通知</string>
     <string name="setting_filter">過濾流量</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">過濾 UDP 流量</string>
     <string name="setting_clear_onreload">重新載入後關閉連線</string>
     <string name="setting_lockdown">全面封鎖網路流量</string>
     <string name="setting_track_usage">追蹤網路用量</string>
@@ -108,7 +108,7 @@
     <string name="setting_watchdog">監控：每 %s 分鐘</string>
     <string name="setting_stats_category">網路速度通知</string>
     <string name="setting_stats">顯示網路速度通知</string>
-    <string name="setting_stats_top">顯示最高用量 apps</string>
+    <string name="setting_stats_top">顯示用量最高的 apps</string>
     <string name="setting_stats_frequency">取樣間隔：%s ms</string>
     <string name="setting_stats_samples">取樣數：%s s</string>
     <string name="setting_backup">備份</string>
@@ -161,9 +161,9 @@
     <string name="msg_access">%1$s 試圖存取網際網路</string>
     <string name="msg_access_n">試圖存取網際網路</string>
     <string name="msg_completed">動作完成</string>
-    <string name="msg_vpn">"NetGuard 使用本地端 VPN 來過濾網際網路流量。
+    <string name="msg_vpn">NetGuard 使用本地端 VPN 來過濾網際網路流量。
 因此，請在下一個對話方塊允許 VPN 連線。
-您的網際網路流量不會被送到遠端的 VPN 伺服器。"</string>
+您的網際網路流量不會被送到遠端的 VPN 伺服器。</string>
     <string name="msg_autostart">NetGuard 無法在開機時自動執行。這很可能是您所用的 Android 版本中的臭蟲所致。</string>
     <string name="msg_error">發生未預期的錯誤：\'%s\'</string>
     <string name="msg_start_failed">Android 拒絕啟動 VPN 服務。這很可能是您所用的 Android 版本中的臭蟲所致。</string>
@@ -177,10 +177,10 @@
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">"為使結果一致，應將 NetGuard 的 Android 電池最佳化選項停用
-\n\n請在下一個對話方塊中，在上方選擇 \"所有應用程式\"，然後點選清單中的 NetGuard 並選擇 \"不要最佳化\" 並按下 \"完成\""</string>
-    <string name="msg_datasaving">"為使結果一致，應將 NetGuard 的 Android 數據節省選項停用
-\n\n請在下一個對話方塊中，啟用 \"背景數據\" 以及 \"數據用量不受限\""</string>
+    <string name="msg_doze">為使結果一致，應將 NetGuard 的 Android 電池最佳化選項停用
+\n\n請在下一個對話方塊中，在上方選擇 \"所有應用程式\"，然後點選清單中的 NetGuard 並選擇 \"不要最佳化\" 並按下 \"完成\"</string>
+    <string name="msg_datasaving">為使結果一致，應將 NetGuard 的 Android 數據節省選項停用
+\n\n請在下一個對話方塊中，啟用 \"背景數據\" 以及 \"數據用量不受限\"</string>
     <string name="msg_filter">使用過濾功能將導致 Android 系統把數據用量與耗電量歸在 NetGuard 底下 -- 即 Android 會以為是 NetGuard 耗用這些數據用量及耗電量，而非那些被過濾的 apps 所致。</string>
     <string name="msg_filter4">Android 4 需啟用過濾</string>
     <string name="msg_log_disabled">流量記錄已停用，請用上方的切換開關啟用記錄。流量記錄可能會導致額外的耗電量。</string>
@@ -238,7 +238,7 @@
     <string name="title_logging_enabled">記錄與過濾功能已啟用</string>
     <string name="title_logging_configure">配置</string>
     <string name="title_enable_logging">僅針對被封鎖的網址啟用記錄功能</string>
-    <string name="title_enable_filtering">啟用過濾功能，即使網址被允許，亦記錄下來</string>
+    <string name="title_enable_filtering">啟用過濾功能，即使是被允許的網址，亦記錄下來</string>
     <string name="title_enable_notify">針對新記錄下來的網址啟用存取通知</string>
     <string name="title_enable_help0">這些設定為全域設定，將套用到所有 apps</string>
     <string name="title_enable_help1">過濾功能還需要您允許或封鎖個別網址</string>

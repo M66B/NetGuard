@@ -85,7 +85,7 @@
     <string name="setting_log_app">Registra accessi a internet</string>
     <string name="setting_access">Notifica accessi a internet</string>
     <string name="setting_filter">Filtra traffico</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">Filtra traffico UDP</string>
     <string name="setting_clear_onreload">Chiudi le connessioni quando ricarica</string>
     <string name="setting_lockdown">Arresta traffico</string>
     <string name="setting_track_usage">Tieni traccia dell\'utilizzo della rete</string>

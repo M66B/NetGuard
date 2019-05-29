@@ -85,7 +85,7 @@
     <string name="setting_log_app">Log Internetadgang</string>
     <string name="setting_access">Notificér ved Internetadgang</string>
     <string name="setting_filter">Filtrér trafik</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">Filtrér UDP-trafik</string>
     <string name="setting_clear_onreload">Luk forbindelse ved genindlæsning</string>
     <string name="setting_lockdown">Aflås trafik</string>
     <string name="setting_track_usage">Spor netværksforbrug</string>
@@ -161,9 +161,9 @@
     <string name="msg_access">%1$s internetadgangsforsøg</string>
     <string name="msg_access_n">Internetadgangsforsøg</string>
     <string name="msg_completed">Handling fuldført</string>
-    <string name="msg_vpn">"NetGuard benytter et lokalt VPN for at filtrere Internettrafik.
+    <string name="msg_vpn">NetGuard benytter et lokalt VPN for at filtrere Internettrafik.
 Af samme årsag bedes VPN-forbindelsen tillades i næste dialog.
-Din Internettrafik sendes ikke til en ekstern VPN-server."</string>
+Din Internettrafik sendes ikke til en ekstern VPN-server.</string>
     <string name="msg_autostart">NetGuard kunne ikke starte automatisk. Dette beror sandsynligvis på en fejl i din Android-version.</string>
     <string name="msg_error">En uventet fejl er opstået: %s</string>
     <string name="msg_start_failed">Android nægter i øjeblikket at starte VPN-tjenesten. Dette beror sandsynligvis på en fejl i din Android-version.</string>
@@ -177,10 +177,10 @@ Din Internettrafik sendes ikke til en ekstern VPN-server."</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">"Med henblik på ensartethed i resultaterne, bør Androids batterioptimering ikke inkludere NetGuard.\n\n
-Vælg \"Alle apps\" øverst i den næste dialog, tryk på NetGuard på listen og vælg - og bekræft - \"Optimér ikke\"."</string>
-    <string name="msg_datasaving">"Med henblik på ensartethed i resultaterne, bør Androids datasparefunktion ikke inkludere NetGuard.\n\n
-Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug\" i næste dialog"</string>
+    <string name="msg_doze">Med henblik på ensartethed i resultaterne, bør Androids batterioptimering ikke inkludere NetGuard.\n\n
+Vælg \"Alle apps\" øverst i den næste dialog, tryk på NetGuard på listen og vælg - og bekræft - \"Optimér ikke\".</string>
+    <string name="msg_datasaving">Med henblik på ensartethed i resultaterne, bør Androids datasparefunktion ikke inkludere NetGuard.\n\n
+Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug\" i næste dialog</string>
     <string name="msg_filter">Anvendelse af filtrering vil foranledige Android til at antage, at data- og strømforbrug hidrører fra NetGuard og ikke fra de oprindelige apps</string>
     <string name="msg_filter4">Android 4 kræver, at filtrering er aktiv</string>
     <string name="msg_log_disabled">Trafik-logning er inaktiv. Benyt kontakten ovenfor for at aktivere logning. Trafik-logning kan medføre forøget strømforbrug.</string>

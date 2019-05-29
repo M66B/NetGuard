@@ -85,7 +85,7 @@
     <string name="setting_log_app">Protokolovat přístup k Internetu</string>
     <string name="setting_access">Upozornit na připojení k Internetu</string>
     <string name="setting_filter">Filtrovat přenosy</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">Filtrovat UDP přenosy</string>
     <string name="setting_clear_onreload">Ukončit spojení při znovunačtení</string>
     <string name="setting_lockdown">Blokovat veškeré přenosy</string>
     <string name="setting_track_usage">Sledovat využití sítě</string>
@@ -161,9 +161,9 @@
     <string name="msg_access">%1$s se pokusil o přístup k internetu</string>
     <string name="msg_access_n">Pokus o přístup do Internetu</string>
     <string name="msg_completed">Akce byla dokončena</string>
-    <string name="msg_vpn">"NetGuard používá lokální VPN pro filtrování internetového provozu.
+    <string name="msg_vpn">NetGuard používá lokální VPN pro filtrování internetového provozu.
 Z tohoto důvodu prosím povolte VPN připojení v následujícím dialogu.
-Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru."</string>
+Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.</string>
     <string name="msg_autostart">NetGuard nemůže být spuštěn automaticky při startu zařízení kvůli chybě ve Vaší verzi Androidu.</string>
     <string name="msg_error">Došlo k neočekávané chybě: \'%s\'</string>
     <string name="msg_start_failed">Android odmítl spustit službu VPN. Může to být způsobeno chybou ve vaší verzi Androidu.</string>
@@ -177,10 +177,10 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru."
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">"Pro optimální výsledky by pro NetGuard měla být vypnuta optimalizace spotřeby baterie.
-\n\nV následujícím dialogu nahoře se přepněte na \"Všechny aplikace\", v seznamu vyberte NetGuard a označte a potvrďte volbu \"Neoptimalizovat\"."</string>
-    <string name="msg_datasaving">"Pro optimální výsledky by pro NetGuard měly být vypnuty funkce úspory dat systému Android
-\n\nV následujícím dialogu povolte možnosti \"Data na pozadí\" a \"Neomezené využití dat\""</string>
+    <string name="msg_doze">Pro optimální výsledky by pro NetGuard měla být vypnuta optimalizace spotřeby baterie.
+\n\nV následujícím dialogu nahoře se přepněte na \"Všechny aplikace\", v seznamu vyberte NetGuard a označte a potvrďte volbu \"Neoptimalizovat\".</string>
+    <string name="msg_datasaving">Pro optimální výsledky by pro NetGuard měly být vypnuty funkce úspory dat systému Android
+\n\nV následujícím dialogu povolte možnosti \"Data na pozadí\" a \"Neomezené využití dat\"</string>
     <string name="msg_filter">Použití filtrování způsobí, že systém Android přiřadí využití dat a baterie aplikaci NetGuard, namísto původním aplikacím</string>
     <string name="msg_filter4">Android 4 vyžaduje zapnuté filtrování</string>
     <string name="msg_log_disabled">Záznam síťových přenosů do protokolu je vypnutý, použijte přepínač výše pro jeho zapnutí. Může mít vliv na spotřebu baterie.</string>

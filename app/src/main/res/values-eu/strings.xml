@@ -85,7 +85,7 @@
     <string name="setting_log_app">Gorde Internet sarbideen egunkaria</string>
     <string name="setting_access">Jakinarazi internet atzitzen denean</string>
     <string name="setting_filter">Iragazi trafikoa</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">Iragazi UDP trafikoa</string>
     <string name="setting_clear_onreload">Itxi konexioak birkargatzean</string>
     <string name="setting_lockdown">Blokeatu trafikoa</string>
     <string name="setting_track_usage">Monitorizatu sare-erabilera</string>
@@ -161,9 +161,9 @@
     <string name="msg_access">%1$s internet atzitzen saiatu da</string>
     <string name="msg_access_n">Internet atzitzen saiatu da</string>
     <string name="msg_completed">Ekintza burututa</string>
-    <string name="msg_vpn">"NetGuard-ek VPN lokal bat darabil internet trafikoa iragazteko.
+    <string name="msg_vpn">NetGuard-ek VPN lokal bat darabil internet trafikoa iragazteko.
 Horregatik, baimendu VPN konexioa hurrengo elkarrizketa koadroan mesedez.
-Zure internet trafikoa ez da kanpo VPN zerbitzari batera bidaltzen."</string>
+Zure internet trafikoa ez da kanpo VPN zerbitzari batera bidaltzen.</string>
     <string name="msg_autostart">NetGuard ezin izan da automatikoki abiatu. Litekeena zure Android bertsioaren akats baten erruz.</string>
     <string name="msg_error">Ustekabeko errorea gertatu da: \'%s\'</string>
     <string name="msg_start_failed">Androidek uko egin dio VPN zerbitzua orain abiatzeari. Litekeena zure Android bertsioak akats bat duelako.</string>
@@ -177,10 +177,10 @@ Zure internet trafikoa ez da kanpo VPN zerbitzari batera bidaltzen."</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">"Emaitza egokiak izateko, Android sistemako bateria optimizazioak desgaitu behar dira NetGuard aplikazioarentzat.
-\n\nHurrengo elkarrizketa-koadroan, hautatu \"Aplikazio guztiak\" goian, sakatu NetGuard zerrendan eta berretsi \"Ez optimizatu\"."</string>
-    <string name="msg_datasaving">"Emaitza egokiak izateko, Android sistemako datuak aurrezteko optimizazioak desgaitu behar dira NetGuard aplikazioarentzat.
-\n\nHurrengo elkarrizketa-koadroan, gaitu \"bigarren planoko datuak\" eta \"mugagabeko datu erabilera\""</string>
+    <string name="msg_doze">Emaitza egokiak izateko, Android sistemako bateria optimizazioak desgaitu behar dira NetGuard aplikazioarentzat.
+\n\nHurrengo elkarrizketa-koadroan, hautatu \"Aplikazio guztiak\" goian, sakatu NetGuard zerrendan eta berretsi \"Ez optimizatu\".</string>
+    <string name="msg_datasaving">Emaitza egokiak izateko, Android sistemako datuak aurrezteko optimizazioak desgaitu behar dira NetGuard aplikazioarentzat.
+\n\nHurrengo elkarrizketa-koadroan, gaitu \"bigarren planoko datuak\" eta \"mugagabeko datu erabilera\"</string>
     <string name="msg_filter">Iragaztea erabiltzean Androiden NetGuard-i egotziko dio datu eta bateria erabilera - Androidek uste du NetGuard-ek erabiltzen duela datuak eta bateria, ez jatorrizko aplikazioek</string>
     <string name="msg_filter4">Android 4-k iragaztea gaitzera behartzen du</string>
     <string name="msg_log_disabled">Trafifoaren egunkaria desgaituta dago, erabili goiko etengailua egunkaria gaitzeko. Trafikoaren egunkariak bateria kontsumoa areagotu dezake.</string>
