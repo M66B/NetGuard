@@ -273,6 +273,8 @@ public class Rule {
             List<Rule> listRules = new ArrayList<>();
             List<PackageInfo> listPI = getPackages(context);
 
+            int userId = Process.myUid() / 100000;
+
             // Add root
             PackageInfo root = new PackageInfo();
             root.packageName = "root";
@@ -289,7 +291,7 @@ public class Rule {
             media.versionCode = Build.VERSION.SDK_INT;
             media.versionName = Build.VERSION.RELEASE;
             media.applicationInfo = new ApplicationInfo();
-            media.applicationInfo.uid = 1013;
+            media.applicationInfo.uid = 1013 + userId * 100000;
             media.applicationInfo.icon = 0;
             listPI.add(media);
 
@@ -299,7 +301,7 @@ public class Rule {
             mdr.versionCode = Build.VERSION.SDK_INT;
             mdr.versionName = Build.VERSION.RELEASE;
             mdr.applicationInfo = new ApplicationInfo();
-            mdr.applicationInfo.uid = 1020;
+            mdr.applicationInfo.uid = 1020 + userId * 100000;
             mdr.applicationInfo.icon = 0;
             listPI.add(mdr);
 
@@ -309,7 +311,7 @@ public class Rule {
             gps.versionCode = Build.VERSION.SDK_INT;
             gps.versionName = Build.VERSION.RELEASE;
             gps.applicationInfo = new ApplicationInfo();
-            gps.applicationInfo.uid = 1021;
+            gps.applicationInfo.uid = 1021 + userId * 100000;
             gps.applicationInfo.icon = 0;
             listPI.add(gps);
 
@@ -319,7 +321,7 @@ public class Rule {
             dns.versionCode = Build.VERSION.SDK_INT;
             dns.versionName = Build.VERSION.RELEASE;
             dns.applicationInfo = new ApplicationInfo();
-            dns.applicationInfo.uid = 1051;
+            dns.applicationInfo.uid = 1051 + userId * 100000;
             dns.applicationInfo.icon = 0;
             listPI.add(dns);
 
