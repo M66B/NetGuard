@@ -285,8 +285,12 @@ void handle_ip(const struct arguments *args,
     jint uid = -1;
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6 ||
         (protocol == IPPROTO_UDP && !has_udp_session(args, pkt, payload)) ||
-        (protocol == IPPROTO_TCP && syn))
-        uid = get_uid(version, protocol, saddr, sport, daddr, dport);
+        (protocol == IPPROTO_TCP && syn)) {
+        if (args->ctx->sdk <= 28) // Android 9 Pie
+            uid = get_uid(version, protocol, saddr, sport, daddr, dport);
+        else
+            uid = get_uid_q(args, version, protocol, source, sport, dest, dport);
+    }
 
     log_android(ANDROID_LOG_DEBUG,
                 "Packet v%d %s/%u > %s/%u proto %d flags %s uid %d",

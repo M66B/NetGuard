@@ -506,6 +506,14 @@ void dns_resolved(const struct arguments *args,
 
 jboolean is_domain_blocked(const struct arguments *args, const char *name);
 
+jint get_uid_q(const struct arguments *args,
+               jint version,
+               jint protocol,
+               const char *source,
+               jint sport,
+               const char *dest,
+               jint dport);
+
 struct allowed *is_address_allowed(const struct arguments *args, jobject objPacket);
 
 jobject create_packet(const struct arguments *args,

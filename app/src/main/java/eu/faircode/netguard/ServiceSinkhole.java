@@ -72,6 +72,7 @@ import android.widget.RemoteViews;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.os.BuildCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONArray;
@@ -1827,6 +1828,25 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean blocked = (mapHostsBlocked.containsKey(name) && mapHostsBlocked.get(name));
         lock.readLock().unlock();
         return blocked;
+    }
+
+    // Called from native code
+    @TargetApi(Build.VERSION_CODES.Q)
+    private int getUidQ(int version, int protocol, String saddr, int sport, String daddr, int dport) {
+        if (protocol != 6 /* TCP */ && protocol != 17 /* UDP */)
+            return Process.INVALID_UID;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (cm == null)
+            return Process.INVALID_UID;
+
+        InetSocketAddress local = new InetSocketAddress(saddr, sport);
+        InetSocketAddress remote = new InetSocketAddress(daddr, dport);
+
+        Log.i(TAG, "Get uid local=" + local + " remote=" + remote);
+        int uid = cm.getConnectionOwnerUid(protocol, local, remote);
+        Log.i(TAG, "Get uid=" + uid);
+        return uid;
     }
 
     private boolean isSupported(int protocol) {

@@ -625,6 +625,47 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
     return jallowed;
 }
 
+static jmethodID midGetUidQ = NULL;
+
+jint get_uid_q(const struct arguments *args,
+               jint version, jint protocol,
+               const char *source, jint sport,
+               const char *dest, jint dport) {
+#ifdef PROFILE_JNI
+    float mselapsed;
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
+#endif
+
+    jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
+
+    const char *signature = "(IILjava/lang/String;ILjava/lang/String;I)I";
+    if (midGetUidQ == NULL)
+        midGetUidQ = jniGetMethodID(args->env, clsService, "getUidQ", signature);
+
+    jstring jsource = (*args->env)->NewStringUTF(args->env, source);
+    jstring jdest = (*args->env)->NewStringUTF(args->env, dest);
+
+    jint juid = (*args->env)->CallIntMethod(
+            args->env, args->instance, midGetUidQ,
+            version, protocol, jsource, sport, jdest, dport);
+    jniCheckException(args->env);
+
+    (*args->env)->DeleteLocalRef(args->env, jdest);
+    (*args->env)->DeleteLocalRef(args->env, jsource);
+    (*args->env)->DeleteLocalRef(args->env, clsService);
+
+#ifdef PROFILE_JNI
+    gettimeofday(&end, NULL);
+    mselapsed = (end.tv_sec - start.tv_sec) * 1000.0 +
+                (end.tv_usec - start.tv_usec) / 1000.0;
+    if (mselapsed > PROFILE_JNI)
+        log_android(ANDROID_LOG_WARN, "get_uid_q %f", mselapsed);
+#endif
+
+    return juid;
+}
+
 static jmethodID midIsAddressAllowed = NULL;
 jfieldID fidRaddr = NULL;
 jfieldID fidRport = NULL;
