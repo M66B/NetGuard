@@ -571,28 +571,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     last_builder = builder;
                     Log.i(TAG, "VPN restart");
 
-                    // Attempt seamless handover
-                    ParcelFileDescriptor prev = vpn;
+                    if (vpn != null){
+                        stopNative(vpn, clear);
+                        stopVPN(vpn);
+                    }
+
                     vpn = startVPN(builder);
-
-                    if (prev != null && vpn == null) {
-                        Log.w(TAG, "Handover failed");
-                        stopNative(prev, clear);
-                        stopVPN(prev);
-                        prev = null;
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException ignored) {
-                        }
-                        vpn = startVPN(last_builder);
-                        if (vpn == null)
-                            throw new IllegalStateException("Handover failed");
-                    }
-
-                    if (prev != null) {
-                        stopNative(prev, clear);
-                        stopVPN(prev);
-                    }
                 }
             }
 
