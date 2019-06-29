@@ -8,7 +8,7 @@
     <string name="app_first">Stor omsorg har tagits för att utveckla och testa NetGuard, men det är omöjligt att garantera att NetGuard fungerar korrekt på alla enheter.</string>
     <string name="app_agree">Jag godkänner</string>
     <string name="app_disagree">Jag godkänner inte</string>
-    <string name="app_support">NetGuard behöver din hjälp. Klicka för att köpa pro-funktioner för att hålla projektet rullande.</string>
+    <string name="app_support">NetGuard behöver din hjälp. Tryck för att köpa pro-funktioner för att hålla projektet rullande.</string>
     <string name="channel_foreground">Aktiva tjänster</string>
     <string name="channel_notify">Allmänna aviseringar</string>
     <string name="channel_access">Tillgång meddelanden</string>
@@ -42,13 +42,13 @@
     <string name="menu_export">Exportera</string>
     <string name="menu_reset">Återställ</string>
     <string name="menu_add">Lägg till</string>
-    <string name="menu_delete">Radera</string>
+    <string name="menu_delete">Ta bort</string>
     <string name="menu_cleanup">Städa</string>
     <string name="title_protocol">Protokoll</string>
     <string name="title_dport">Käll port</string>
     <string name="title_raddr">Destinationsadress</string>
-    <string name="title_rport">Destination port</string>
-    <string name="title_ruid">Destination app</string>
+    <string name="title_rport">Destinationsport</string>
+    <string name="title_ruid">Destinationsapp</string>
     <string name="title_external">För en extern server, välj \'nobody\'</string>
     <string name="setting_defaults">Standardvärden (vit-/svartlista)</string>
     <string name="setting_whitelist_wifi">Blockera Wi-Fi</string>
@@ -56,7 +56,7 @@
     <string name="setting_screen_wifi">Tillåt Wi-Fi när skärmen är påslagen</string>
     <string name="setting_screen_other">Tillåt mobildata när skärmen är påslagen</string>
     <string name="setting_whitelist_roaming">Blockera roaming</string>
-    <string name="setting_options">Inställningar</string>
+    <string name="setting_options">Alternativ</string>
     <string name="setting_theme">Tema: %1$s</string>
     <string name="setting_dark">Använd mörkt tema</string>
     <string name="setting_install">Meddela vid ny installation</string>
@@ -85,7 +85,7 @@
     <string name="setting_log_app">Logga internetåtkomst</string>
     <string name="setting_access">Meddela vid internetåtkomst</string>
     <string name="setting_filter">Filtrera trafik</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">Filtrera UDP-trafik</string>
     <string name="setting_clear_onreload">Stäng anslutningar vid omladdning</string>
     <string name="setting_lockdown">Lås trafik</string>
     <string name="setting_track_usage">Spåra nätverksanvändning</string>
@@ -124,7 +124,7 @@
     <string name="setting_technical_subscription">Prenumerationer</string>
     <string name="summary_install">Visa statusfält aviseringar för att direkt konfigurera nyinstallerade appar (pro-funktion)</string>
     <string name="summary_auto">När du har inaktiverat gränssnittskomponenten aktiverar du automatiskt NetGuard igen efter det valda antalet minuter (ange noll för att inaktivera det här alternativet)</string>
-    <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
+    <string name="summary_delay">När du har stängt av skärmen, behåll regler för skärmen på aktiva för det valda antalet minuter (ange noll för att inaktivera det här alternativet)</string>
     <string name="summary_update">Sök efter nya utgåvor på GitHub två gånger dagligen</string>
     <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
     <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
@@ -161,9 +161,9 @@
     <string name="msg_access">%1$s försökte få tillgång till internet</string>
     <string name="msg_access_n">Försökte få tillgång till internet</string>
     <string name="msg_completed">Åtgärdad</string>
-    <string name="msg_vpn">"NetGuard använder en lokal VPN för att filtrera internettrafik.
+    <string name="msg_vpn">NetGuard använder en lokal VPN för att filtrera internettrafik.
 Av denna anledning, vänligen tillåt en VPN-anslutning i nästa dialogruta.
-Din internettrafik skickas inte till en avlägsen VPN-server."</string>
+Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="msg_autostart">NetGuard kunde inte starta automatiskt. Detta är sannolikt på grund av ett fel i din Android-version.</string>
     <string name="msg_error">Ett oväntat fel har inträffat: \'%s\'</string>
     <string name="msg_start_failed">Android vägrade att starta VPN-tjänsten just nu. Detta är sannolikt på grund av ett fel i din Android-version.</string>
@@ -177,10 +177,10 @@ Din internettrafik skickas inte till en avlägsen VPN-server."</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">"För konsekventa resultat bör Android-batterioptimeringarna inaktiveras för NetGuard.
-\n\nI nästa dialogruta väljer du \"Alla appar\" högst upp, klickar på NetGuard i listan och välj och bekräfta \"Optimera inte\"."</string>
-    <string name="msg_datasaving">"För konsekventa resultat ska Android-databesparingsalternativen inaktiveras för NetGuard
-\n\nI nästa dialogruta, aktivera alternativen \"Bakgrundsdata\" och \"Obegränsad dataanvändning\""</string>
+    <string name="msg_doze">För konsekventa resultat bör Android-batterioptimeringarna inaktiveras för NetGuard.
+\n\nI nästa dialogruta väljer du \"Alla appar\" högst upp, tryck på NetGuard i listan och välj och bekräfta \"Optimera inte\".</string>
+    <string name="msg_datasaving">För konsekventa resultat ska Android-databesparingsalternativen inaktiveras för NetGuard
+\n\nI nästa dialogruta, aktivera alternativen \"Bakgrundsdata\" och \"Obegränsad dataanvändning\"</string>
     <string name="msg_filter">Genom att använda filtrering kommer Android att tillskriva data och strömförbrukning till NetGuard - Android förutsätter att data och ström används av NetGuard, snarare än de ursprungliga apparna</string>
     <string name="msg_filter4">Android 4 kräver att filtrering är aktiverat</string>
     <string name="msg_log_disabled">Trafikloggning är inaktiverad, använd reglage ovan för att aktivera loggning. Trafikloggning kan resultera i extra batterianvändning.</string>
@@ -195,8 +195,8 @@ Din internettrafik skickas inte till en avlägsen VPN-server."</string>
     <string name="msg_metered">Nätverket är uppmätt</string>
     <string name="msg_inactive">Ingen aktiv internetanslutning</string>
     <string name="msg_queue">NetGuard är upptagen</string>
-    <string name="msg_update">Uppdatering tillgänglig, klicka för att hämta</string>
-    <string name="msg_usage">Du kan tillåta (grönaktig) eller neka (rödaktig) Wi-Fi eller mobilt Internet genom att klicka på ikonerna bredvid en app</string>
+    <string name="msg_update">Uppdatering tillgänglig, tryck för att hämta</string>
+    <string name="msg_usage">Du kan tillåta (grönaktig) eller neka (rödaktig) Wi-Fi eller mobilt Internet genom att trycka på ikonerna bredvid en app</string>
     <string name="msg_fairemail">Om du har installerat NetGuard för att skydda din integritet kan du också vara intresserad av <a href="https://email.faircode.eu/">FairEmail</a>, e-postapp med öppen källkod som respekterar din integritet</string>
     <string name="msg_whitelist">Internetåtkomst är tillåtet som standard (svartlistläge), detta kan ändras i inställningarna</string>
     <string name="msg_push">Inkommande (push) meddelanden hanteras mestadels av systemkomponenten Play-tjänster, vilket är tillåten Internetåtkomst som standard</string>
@@ -269,7 +269,7 @@ Din internettrafik skickas inte till en avlägsen VPN-server."</string>
     <string name="title_pro_buy">Köp</string>
     <string name="title_pro_bought">Aktiverad</string>
     <string name="title_pro_unavailable">Otillgängligt</string>
-    <string name="title_pro_details">Klicka på en titel för mer information</string>
+    <string name="title_pro_details">Tryck på en titel för mer information</string>
     <string name="title_pro_challenge">Utmaning</string>
     <string name="title_pro_reponse">Svar</string>
     <string-array name="themeNames">

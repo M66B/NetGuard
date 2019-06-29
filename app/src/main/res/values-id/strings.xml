@@ -85,7 +85,7 @@
     <string name="setting_log_app">Catat akses internet</string>
     <string name="setting_access">Beritahu pada akses internet</string>
     <string name="setting_filter">Filter lalu lintas</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">Filter lalu lintas UDP</string>
     <string name="setting_clear_onreload">Tutup koneksi saat memuat ulang</string>
     <string name="setting_lockdown">Kunci lalu lintas</string>
     <string name="setting_track_usage">Lacak penggunaan jaringan</string>
@@ -161,9 +161,9 @@
     <string name="msg_access">%1$s mencoba akses internet</string>
     <string name="msg_access_n">Mencoba akses internet</string>
     <string name="msg_completed">Tindakan selesai</string>
-    <string name="msg_vpn">"NetGuard menggunakan VPN lokal untuk menyaring lalu lintas internet.
+    <string name="msg_vpn">NetGuard menggunakan VPN lokal untuk menyaring lalu lintas internet.
 Untuk alasan ini, silakan izinkan koneksi VPN di dialog berikutnya.
-Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal."</string>
+Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="msg_autostart">NetGuard tidak bisa memulai secara otomatis. Hal ini mungkin karena adanya bug di versi Android anda.</string>
     <string name="msg_error">Terjadi kesalahan tak terduga: \'%s\'</string>
     <string name="msg_start_failed">Android menolak untuk memulai layanan VPN saat ini. Hal ini mungkin karena adanya bug di versi Android anda.</string>
@@ -177,10 +177,10 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal."</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">"Agar hasil konsisten, pengoptimalan baterai Android harus dinonaktifkan untuk NetGuard.
-\n\nPada dialog berikutnya, pilih \"Semua aplikasi\" dibagian atas, ketuk NetGuard dalam daftar dan pilih \"Jangan optimalkan\"."</string>
-    <string name="msg_datasaving">"Agar hasil konsisten, opsi penghemat data Android harus dinonaktifkan untuk NetGuard
-\n\nPada dialog berikutnya, aktifkan opsi \"Data latar belakang\" dan \"Penggunaan data tak terbatas\""</string>
+    <string name="msg_doze">Agar hasil konsisten, pengoptimalan baterai Android harus dinonaktifkan untuk NetGuard.
+\n\nPada dialog berikutnya, pilih \"Semua aplikasi\" dibagian atas, ketuk NetGuard dalam daftar dan pilih \"Jangan optimalkan\".</string>
+    <string name="msg_datasaving">Agar hasil konsisten, opsi penghemat data Android harus dinonaktifkan untuk NetGuard
+\n\nPada dialog berikutnya, aktifkan opsi \"Data latar belakang\" dan \"Penggunaan data tak terbatas\"</string>
     <string name="msg_filter">Munggunakan penyaringan akan membuat Android mengaitkan penggunaan data dan daya ke NetGuard - Android berasumsi kalau data dan daya sedang digunakan oleh NetGuard, bukan apl aslinya</string>
     <string name="msg_filter4">Android 4 membutuhkan penyaringan diaktifkan</string>
     <string name="msg_log_disabled">Pencatatan lalu lintas dinonaktifkan, gunakan opsi di atas untuk mengaktifkan pencatatan. Pencatatan lalu lintas mungkin menyebabkan penggunaan baterai ekstra.</string>
@@ -197,7 +197,7 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal."</string>
     <string name="msg_queue">NetGuard sedang sibuk</string>
     <string name="msg_update">Pembaruan tersedia, ketuk untuk mengunduh</string>
     <string name="msg_usage">Anda bisa izinkan (kehijauan) atau tolak (kemerahan) akses internet Wi-Fi atau seluler dengan mengetuk ikon di sebelah apl</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">Jika anda memasang NetGuard untuk melindungi privasi anda, anda mungkin juga tertarik dengan <a href="https://email.faircode.eu/">FairEmail</a>, aplikasi email sumber terbuka, ramah privasi</string>
     <string name="msg_whitelist">Akses internet diizinkan secara bawaan (mode daftar hitam), ini bisa diubah di pengaturan</string>
     <string name="msg_push">Pesan masuk (push) umumnya ditangani oleh komponen sistem layanan Play, yang secara bawaan diizinkan mengakses internet</string>
     <string name="msg_system">Mengelola semua apl (sistem) bisa diaktifkan di pengaturan</string>

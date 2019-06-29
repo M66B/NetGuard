@@ -85,7 +85,7 @@
     <string name="setting_log_app">网络访问日志</string>
     <string name="setting_access">网络连接通知</string>
     <string name="setting_filter">过滤流量</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">过滤 UDP 流量</string>
     <string name="setting_clear_onreload">在重新加载时关闭连接</string>
     <string name="setting_lockdown">锁定流量</string>
     <string name="setting_track_usage">跟踪网络使用记录</string>
@@ -161,9 +161,9 @@
     <string name="msg_access">%1$s 尝试进行网络连接</string>
     <string name="msg_access_n">尝试的互联网访问</string>
     <string name="msg_completed">操作完成</string>
-    <string name="msg_vpn">"NetGuard 使用一个本地 VPN 对网络流量进行过滤.
+    <string name="msg_vpn">NetGuard 使用一个本地 VPN 对网络流量进行过滤.
 因此请在下一个对话框中允许建立网络连接.
-您的网络流量不会被导向任何远程 VPN 服务器."</string>
+您的网络流量不会被导向任何远程 VPN 服务器.</string>
     <string name="msg_autostart">由于您使用的 Android 版本存在 bug, NetGuard 无法开机自启.</string>
     <string name="msg_error">发生未知错误: \'%s\'</string>
     <string name="msg_start_failed">Android 拒绝启动 VPN 服务. 这可能是由您当前使用的 Android 版本中的 bug 导致.</string>
@@ -177,10 +177,10 @@
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">"为获得一致的使用效果, 请停用 Android 系统针对 NetGuard的电池优化.
-\n\nIn 在下一个对话框中, 选择上方的 \"所有应用\", 点击列表中的 NetGuard 并选择和确认 \"不要优化\"."</string>
-    <string name="msg_datasaving">"为保证一致性, 请为 NetGuard 禁用 Android 的流量控制功能
-\n\n请在下一个对话框中, 启用 \"后台数据\" 及 \"不限制数据使用\""</string>
+    <string name="msg_doze">为获得一致的使用效果, 请停用 Android 系统针对 NetGuard的电池优化.
+\n\nIn 在下一个对话框中, 选择上方的 \"所有应用\", 点击列表中的 NetGuard 并选择和确认 \"不要优化\".</string>
+    <string name="msg_datasaving">为保证一致性, 请为 NetGuard 禁用 Android 的流量控制功能
+\n\n请在下一个对话框中, 启用 \"后台数据\" 及 \"不限制数据使用\"</string>
     <string name="msg_filter">使用过滤功能将导致系统认为 NetGuard 使用了额外的电量和数据流量, 尽管这些使用量是由原应用所致.</string>
     <string name="msg_filter4">Android 4 需启用过滤</string>
     <string name="msg_log_disabled">流量记录已禁用, 使用上方的开关以启用日志. 流量记录可能会导致额外电量消耗.</string>
