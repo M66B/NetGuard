@@ -30,9 +30,9 @@
     <string name="menu_about">Par</string>
     <string name="menu_apps">Citas lietotnes</string>
     <string name="menu_protocol_other">Citi</string>
-    <string name="menu_traffic_allowed">Atļauti</string>
-    <string name="menu_traffic_blocked">Bloķētās</string>
-    <string name="menu_live">Jauninājumi tiešsaistē</string>
+    <string name="menu_traffic_allowed">Atļautais</string>
+    <string name="menu_traffic_blocked">Bloķētais</string>
+    <string name="menu_live">Nepārtraukti atsvaidzināt</string>
     <string name="menu_refresh">Atsvaidzināt</string>
     <string name="menu_resolve">Rādīt nosaukumu</string>
     <string name="menu_organization">Parādīt organizāciju</string>
@@ -109,8 +109,8 @@
     <string name="setting_stats_category">Informācija par ātrumu</string>
     <string name="setting_stats">Rādīt informāciju par ātrumu</string>
     <string name="setting_stats_top">Rādīt top lietotnes</string>
-    <string name="setting_stats_frequency">Mērījumu biežums: %s ms</string>
-    <string name="setting_stats_samples">Mērījumu daudzums: %s s</string>
+    <string name="setting_stats_frequency">Mērījumu intervāls: %s ms</string>
+    <string name="setting_stats_samples">Mērījuma ilgums: %s s</string>
     <string name="setting_backup">Rezerves kopija</string>
     <string name="setting_export">Eksportēt iestatījumus</string>
     <string name="setting_import">Importēt iestatījumus</string>
@@ -125,10 +125,10 @@
     <string name="summary_install">Parādīt statusa joslā paziņojumu par jauno instalēto lietotni, lai pa tiešo veiktu konfigurāciju (PRO versija)</string>
     <string name="summary_auto">Pēc atspējošanas ar logrīku, atkal iespējot NetGuard pēc noteikta minūšu skaita (nulle atspējo šo funkciju)</string>
     <string name="summary_delay">Izslēdzot ekrānu, saglabāt ieslēgta ekrāna noteikumus norādītās minūtes (nulle atspējo šo funkciju)</string>
-    <string name="summary_update">Meklēt divreiz dienā jaunāko versiju uz GitHub</string>
+    <string name="summary_update">Divreiz dienā meklēt jaunāko versiju uz GitHub</string>
     <string name="summary_tethering">Atkarībā no Android versijas, Tīklājs var darboties vai nedarboties. Tīklāja datu plūsmu nav iespējams filtrēt.</string>
     <string name="summary_subnet">Apakštīkla maršrutēšanas iespējošana; var ļaut veikt Wi-Fi zvanus, bet var arī radīt Android sistēmā kļūdas un palielināt baterijas noslodzi</string>
-    <string name="summary_lan">Ļauj lietotnēm pieslēgties iekšējā tīkla adresēm. Tādām kā 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
+    <string name="summary_lan">Ļauj lietotnēm pieslēgties iekšējā tīkla adresēm. Tādām kā 10.0.0.0/8, 172.16.0.0/12 un 192.168.0.0/16</string>
     <string name="summary_ip6">Maršrutēt IPv6 datu plūsmu uz NetGuard, lai to izlases kārtā varētu atļaut vai bloķēt</string>
     <string name="summary_wifi_home">Piemēro Wi-Fi tīkla noteikumus tikai izvēlētajam tīklam (piemēro mobilā tīkla noteikumus visiem pārējiem Wi-Fi tīkliem)</string>
     <string name="summary_metered">Piemērot mobilo tīklu noteikumus mērītajiem (maksas, Tīklāja) Wi-Fi tīkliem</string>
@@ -144,7 +144,7 @@
     <string name="summary_filter">Filtrēt IP paketes, kas iet caur VPN. Tas var izraisīt lielāku baterijas patēriņu.</string>
     <string name="summary_track_usage">Sekot līdzi baitu skaitam, ko nosūta un saņem katra lietotne un adrese. Tas var izraisīt lielāku baterijas patēriņu.</string>
     <string name="summary_block_domains">Uz bloķēto domēnu vārdiem atbildēt ar konfigurētu DNS atbildes kodu. Slēdzis ir izslēgts, kad hosts fails nav pieejams.</string>
-    <string name="summary_rcode">Noklusētā vērtība ir 3 (NXDOMAIN), kas nozīmē \"neeksistējošs domēns\'.</string>
+    <string name="summary_rcode">Noklusētā vērtība ir 3 (NXDOMAIN), kas nozīmē \'neeksistējošs domēns\'.</string>
     <string name="summary_socks5_enabled">Tikai TCP datu plūsma tiks sūtīta uz proxy serveri</string>
     <string name="summary_watchdog">Periodiski pārbauda, vai NetGuard vēl joprojām darbojas (nulle atspējo šo funkciju). Var palielināt baterijas noslodzi.</string>
     <string name="summary_stats">Parāda tīkla ātruma grafiku statusa joslā</string>
