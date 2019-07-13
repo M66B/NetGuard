@@ -72,7 +72,6 @@ import android.widget.RemoteViews;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.os.BuildCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONArray;
@@ -571,7 +570,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     last_builder = builder;
                     Log.i(TAG, "VPN restart");
 
-                    if (vpn != null){
+                    if (vpn != null) {
                         stopNative(vpn, clear);
                         stopVPN(vpn);
                     }
@@ -2414,26 +2413,34 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
             private Boolean last_unmetered = null;
             private String last_generation = null;
+            private List<InetAddress> last_dns = null;
 
             @Override
             public void onAvailable(Network network) {
+                Log.i(TAG, "Available network=" + network);
                 reload("network available", ServiceSinkhole.this, false);
             }
 
             @Override
             public void onLinkPropertiesChanged(Network network, LinkProperties linkProperties) {
                 // Make sure the right DNS servers are being used
+                List<InetAddress> dns = linkProperties.getDnsServers();
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                 if (prefs.getBoolean("reload_onconnectivity", false) ||
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) && !same(last_dns, dns)) {
+                    last_dns = dns;
+                    Log.i(TAG, "Changed link properties=" + linkProperties);
                     reload("link properties changed", ServiceSinkhole.this, false);
+                }
             }
 
             @Override
             public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
+                Log.i(TAG, "Changed capabilities=" + network);
+
                 boolean unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED);
                 String generation = Util.getNetworkGeneration(ServiceSinkhole.this);
-                Log.i(TAG, "Capabilities changed generation=" + generation + " unmetered=" + unmetered);
+                Log.i(TAG, "Generation=" + generation + " unmetered=" + unmetered);
 
                 if (last_generation == null || !last_generation.equals(generation)) {
                     if (last_generation != null) {
@@ -2459,7 +2466,21 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             @Override
             public void onLost(Network network) {
+                Log.i(TAG, "Lost network=" + network);
                 reload("network lost", ServiceSinkhole.this, false);
+            }
+
+            boolean same(List<InetAddress> last, List<InetAddress> current) {
+                if (last == null || current == null)
+                    return false;
+                if (last == null || last.size() != current.size())
+                    return false;
+
+                for (int i = 0; i < current.size(); i++)
+                    if (!last.get(i).equals(current.get(i)))
+                        return false;
+
+                return true;
             }
         };
         cm.registerNetworkCallback(builder.build(), nc);
