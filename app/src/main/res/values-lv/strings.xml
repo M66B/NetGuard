@@ -177,7 +177,7 @@ Tava interneta datu plūsma netiks sūtīta uz kādu ārējo VPN serveri.</strin
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">Lai sasniegtu stabilu rezultātu, Android baterijas optimizēšana lietotnei NetGuard ir jābūt atslēgtai.
+    <string name="msg_doze">Lai nodrošinātu stabilu rezultātu, Android baterijas optimizēšana lietotnei NetGuard ir jābūt atslēgtai.
 \n\nNākamajā dialoglogā augšā izvēlies \"Visas lietotnes\", no saraksta izvēlies NetGuard, izvēlies \"Neoptimizēt\", un to pastiprini.</string>
     <string name="msg_datasaving">Lai iegūtu stabilu rezultātu, Android datu lietojuma samazinātājam uz NetGuard jābūt izslēgtam.
 \n\nNākamajā dialoglogā lietotnei NetGuard iespējo \"Fona dati\" un \"Neierobežots datu lietojums\"</string>
