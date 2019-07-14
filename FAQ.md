@@ -703,6 +703,14 @@ If you like to block Google Play services or the download manager, you'll need t
 
 <br />
 
+<a name="faq67"></a>
+**(67) Who is 'nobody'?**
+
+["nobody" is the conventional name of a user account](https://en.wikipedia.org/wiki/Nobody_(username))
+which owns no files, is in no privileged groups, and has no abilities except those which every other user has.
+
+<br />
+
 **NetGuard is supported for phones and tablets only, so not for other device types like televisions or vehicles.**
 
 **If you didn't find the answer to your question, you can ask your questions [in this forum](http://forum.xda-developers.com/showthread.php?t=3233012) or contact me by using [this contact form](https://contact.faircode.eu/)**.
