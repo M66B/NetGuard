@@ -36,6 +36,9 @@ extern FILE *pcap_file;
 extern size_t pcap_record_size;
 extern long pcap_file_size;
 
+extern int uid_cache_size;
+extern struct uid_cache_entry *uid_cache;
+
 // JNI
 
 jclass clsPacket;
@@ -324,6 +327,11 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1done(
     for (int i = 0; i < 2; i++)
         if (close(ctx->pipefds[i]))
             log_android(ANDROID_LOG_ERROR, "Close pipe error %d: %s", errno, strerror(errno));
+
+    if (uid_cache != NULL)
+        free(uid_cache);
+    uid_cache_size = 0;
+    uid_cache = NULL;
 
     free(ctx);
 }
