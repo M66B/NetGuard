@@ -45,6 +45,7 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -76,6 +77,7 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -841,6 +843,14 @@ public class Util {
                 else
                     abi = (Build.SUPPORTED_ABIS.length > 0 ? Build.SUPPORTED_ABIS[0] : "?");
                 sb.append(String.format("ABI: %s\r\n", abi));
+
+                Runtime rt = Runtime.getRuntime();
+                long hused = (rt.totalMemory() - rt.freeMemory()) / 1024L;
+                long hmax = rt.maxMemory() / 1024L;
+                long nheap = Debug.getNativeHeapAllocatedSize() / 1024L;
+                NumberFormat nf = NumberFormat.getIntegerInstance();
+                sb.append(String.format("Heap usage: %s/%s KiB native: %s KiB\r\n",
+                        nf.format(hused), nf.format(hmax), nf.format(nheap)));
 
                 sb.append("\r\n");
 
