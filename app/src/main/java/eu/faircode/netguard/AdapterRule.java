@@ -313,7 +313,11 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Context context = holder.itemView.getContext();
+
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final boolean log_app = prefs.getBoolean("log_app", false);
+        final boolean filter = prefs.getBoolean("filter", false);
+        final boolean notify_access = prefs.getBoolean("notify_access", false);
 
         // Get rule
         final Rule rule = listFiltered.get(position);
@@ -486,7 +490,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             holder.ibLaunch.setVisibility(View.GONE);
 
         // Apply
-        holder.cbApply.setEnabled(rule.pkg);
+        holder.cbApply.setEnabled(rule.pkg && filter);
         holder.cbApply.setOnCheckedChangeListener(null);
         holder.cbApply.setChecked(rule.apply);
         holder.cbApply.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -602,9 +606,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         });
 
         // Show logging/filtering is disabled
-        final boolean log_app = prefs.getBoolean("log_app", false);
-        final boolean filter = prefs.getBoolean("filter", false);
-        final boolean notify_access = prefs.getBoolean("notify_access", false);
         holder.tvLogging.setText(log_app && filter ? R.string.title_logging_enabled : R.string.title_logging_disabled);
         holder.btnLogging.setOnClickListener(new View.OnClickListener() {
             @Override
