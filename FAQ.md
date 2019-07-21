@@ -615,6 +615,8 @@ So, the only thing I can do, is give some advice:
 * Open the Play store application and wait at least a minute to give it time to synchronize with the Google servers
 * Open NetGuard and navigate to the pro features screen; NetGuard will check the purchases again
 
+You can also try to clear the cache of the Play store app via the Android apps settings.
+
 Note that:
 
 * Purchases are stored in the Google cloud and cannot get lost
