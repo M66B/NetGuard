@@ -86,6 +86,7 @@
     <string name="setting_access">Notifică la accesarea internetului</string>
     <string name="setting_filter">Filtru de trafic</string>
     <string name="setting_filter_udp">Filtru de trafic UDP</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Închide conexiunile la reîncărcare</string>
     <string name="setting_lockdown">Închide traficul internet</string>
     <string name="setting_track_usage">Urmărește folosirea conexiunii</string>

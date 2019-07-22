@@ -86,6 +86,7 @@
     <string name="setting_access">Ang notipikasyon sa akses para sa internet</string>
     <string name="setting_filter">Pagsasala sa daloy</string>
     <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Isarado ang mga koneksyon sa kapag ni-reload</string>
     <string name="setting_lockdown">I-lockdown ang daloy</string>
     <string name="setting_track_usage">Subaybayan ang gamit ng network</string>
@@ -161,9 +162,9 @@
     <string name="msg_access">%1$s tinangka ang akses para sa internet</string>
     <string name="msg_access_n">Tinangka ang akses para sa internet</string>
     <string name="msg_completed">Kumpleto na ang aksyon</string>
-    <string name="msg_vpn">"Ginamit ang NetGuard ang lokal na VPN para salain ang daloy ng internet.
+    <string name="msg_vpn">Ginamit ang NetGuard ang lokal na VPN para salain ang daloy ng internet.
 Para sa dahilang ito, pakiusap payagan ang VPN na koneksyon sa susunod na diyalogo.
-Ang iyong daloy ng internet ay hindi naipadala sa malayong serber ng VPN."</string>
+Ang iyong daloy ng internet ay hindi naipadala sa malayong serber ng VPN.</string>
     <string name="msg_autostart">Ang NetGuard ay hindi awtomatikong magbubukas. Dahil ito ay malamang na bug sa iyong bersyon ng Android.</string>
     <string name="msg_error">May hindi inaasahang mali na naganap: \'%s\'</string>
     <string name="msg_start_failed">Ang android ay tinanggihan na magsimula ang serbisyo ng VPN sa mga sandaling ito. Ito ay dahil sa malamang sa bug sa iyong bersyon ng Android.</string>

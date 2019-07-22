@@ -86,6 +86,7 @@
     <string name="setting_access">Abisuhan sa pag-access ng internet</string>
     <string name="setting_filter">Salain ang traffic</string>
     <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Isara ang konesyon kapag nag-reload</string>
     <string name="setting_lockdown">I-lockdown ang traffic</string>
     <string name="setting_track_usage">Alamin ang gamit sa network</string>
@@ -161,9 +162,9 @@
     <string name="msg_access">%1$s tangkang pag-access sa internet</string>
     <string name="msg_access_n">Tangkang pag-access sa internet</string>
     <string name="msg_completed">Tapos na ang Aksyon</string>
-    <string name="msg_vpn">"Ang NetGuard ay gumagamit ng lokal na VPN upang masala ang internet traffic.
+    <string name="msg_vpn">Ang NetGuard ay gumagamit ng lokal na VPN upang masala ang internet traffic.
 Sa kadahilanang ito, mangyari lamang pahintulutan ang isang koneksyon sa VPN sa susunod na dialogo.
-Ang iyong internet traffic ay hindi pinapadala sa isang liblib na vpn serber."</string>
+Ang iyong internet traffic ay hindi pinapadala sa isang liblib na vpn serber.</string>
     <string name="msg_autostart">Hindi awtomatikong makapag-umpisa ang NetGuard. Marahil dahil ito sa isang bug sa bersyon ng iyong Android.</string>
     <string name="msg_error">Naganap ang hindi inaasahang error: \'%s\'</string>
     <string name="msg_start_failed">Tumanggi ang Android na simulang ang serbisyo ng VPN sa sandaling ito. Marahil dahil ito sa isang bug sa bersyon ng iyong Android.</string>

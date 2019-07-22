@@ -86,6 +86,7 @@
     <string name="setting_access">Сповіщувати про доступ до інтернету</string>
     <string name="setting_filter">Фільтрувати трафік</string>
     <string name="setting_filter_udp">Фільтрувати трафік UDP</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Розривати з’єднання при перезавантаженні</string>
     <string name="setting_lockdown">Блокування трафіка</string>
     <string name="setting_track_usage">Відслідковувати використання мережі</string>

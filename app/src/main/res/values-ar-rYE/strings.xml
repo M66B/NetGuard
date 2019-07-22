@@ -86,6 +86,7 @@
     <string name="setting_access">إخطار عند الوصول إلى الإنترنت</string>
     <string name="setting_filter">تصفية الحركة</string>
     <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">إغلاق الاتصالات عند التحديث</string>
     <string name="setting_lockdown">تأمين مرور المعلومات</string>
     <string name="setting_track_usage">متابعة استخدام الشبكة</string>
@@ -122,8 +123,7 @@
     <string name="setting_technical_general">الاعدادات العامة</string>
     <string name="setting_technical_networks">الشبكات</string>
     <string name="setting_technical_subscription">الإشتراكات</string>
-    <string name="summary_install">"إظهار إعلام في شريط المعلومات للتطبيقات المثبتة حديثا (ميزة برو)
-"</string>
+    <string name="summary_install">إظهار إعلام في شريط المعلومات للتطبيقات المثبتة حديثا (ميزة برو)</string>
     <string name="summary_auto">بعد تعطيل NetGuard باستخدام الويدجت، فعل NetGuard تلقائيا مرة أخرى بعد عدد محدد من الدقائق  (ادخل صفر لتعطيل هذا الخيار)</string>
     <string name="summary_delay">بعد إغلاق الشاشة، إبقاء الشاشة على القواعد نشطة لعدد محدد من الدقائق (ادخل صفر لتعطيل هذا الخيار)</string>
     <string name="summary_update">التحقق من وجود إصدارات جديدة في GitHub مرتين يوميا</string>

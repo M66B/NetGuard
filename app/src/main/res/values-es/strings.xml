@@ -86,6 +86,7 @@
     <string name="setting_access">Notificar accesos a Internet</string>
     <string name="setting_filter">Filtrar tráfico</string>
     <string name="setting_filter_udp">Filtrar tráfico UDP</string>
+    <string name="setting_handover">Transferencia de VPN sin interrupción al recargar</string>
     <string name="setting_clear_onreload">Cerrar conexiones al recargar</string>
     <string name="setting_lockdown">Bloquear tráfico</string>
     <string name="setting_track_usage">Registrar uso de red</string>

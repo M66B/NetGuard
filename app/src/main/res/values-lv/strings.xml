@@ -86,6 +86,7 @@
     <string name="setting_access">Paziņot par piekļuvi internetam</string>
     <string name="setting_filter">Filtrēt datu plūsmu</string>
     <string name="setting_filter_udp">Filtrēt UDP datu plūsmu</string>
+    <string name="setting_handover">Bez pārtraukuma VPN pārslēgšana pārlādes laikā</string>
     <string name="setting_clear_onreload">Pārlādes gadījumā aizvērt visus savienojumus</string>
     <string name="setting_lockdown">Bloķēt datu plūsmu</string>
     <string name="setting_track_usage">Izsekot tīkla lietojumu</string>

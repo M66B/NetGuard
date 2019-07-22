@@ -86,6 +86,7 @@
     <string name="setting_access">インターネットアクセス時に通知</string>
     <string name="setting_filter">トラフィックをフィルター</string>
     <string name="setting_filter_udp">Netguard</string>
+    <string name="setting_handover">再読み込み時にシームレスVPNハンドオーバー</string>
     <string name="setting_clear_onreload">再読み込み時に接続を閉じる</string>
     <string name="setting_lockdown">トラフィックを封鎖</string>
     <string name="setting_track_usage">ネットワークの使用状況を追跡</string>

@@ -86,6 +86,7 @@
     <string name="setting_access">當出現網際網路存取時通知</string>
     <string name="setting_filter">過濾流量</string>
     <string name="setting_filter_udp">過濾 UDP 流量</string>
+    <string name="setting_handover">重載後無縫切換 VPN</string>
     <string name="setting_clear_onreload">重新載入後關閉連線</string>
     <string name="setting_lockdown">全面封鎖網路流量</string>
     <string name="setting_track_usage">追蹤網路用量</string>

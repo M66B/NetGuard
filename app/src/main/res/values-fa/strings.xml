@@ -86,6 +86,7 @@
     <string name="setting_access">Notify on internet access</string>
     <string name="setting_filter">Filter traffic</string>
     <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Close connections on reload</string>
     <string name="setting_lockdown">Lockdown traffic</string>
     <string name="setting_track_usage">Track network usage</string>

@@ -86,6 +86,7 @@
     <string name="setting_access">Notificar ao acessar a internet</string>
     <string name="setting_filter">Filtrar tráfego</string>
     <string name="setting_filter_udp">Filtrar tráfego UDP</string>
+    <string name="setting_handover">Transição VPN automática ao recarregar</string>
     <string name="setting_clear_onreload">Fechar conexões ao recarregar</string>
     <string name="setting_lockdown">Bloqueio total de tráfego</string>
     <string name="setting_track_usage">Controlar o uso de rede</string>
@@ -123,8 +124,8 @@
     <string name="setting_technical_networks">Redes</string>
     <string name="setting_technical_subscription">Inscrições</string>
     <string name="summary_install">Mostrar notificação na barra de status para configurar aplicativos recém-instalados (Versão Pro)</string>
-    <string name="summary_auto">"Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados
-(Insira zero para desabilitar essa opção)"</string>
+    <string name="summary_auto">Após desabilitar usando o widget, automaticamente habilitar outra vez após o número de minutos selecionados
+(Insira zero para desabilitar essa opção)</string>
     <string name="summary_delay">Após desligar tela, manter as regras ativas pelo número de minutos selecionados (digite 0 para desabilitar essa opção)</string>
     <string name="summary_update">Procurar por novos releases no GitHub duas vezes ao dia</string>
     <string name="summary_tethering">Dependendo da versão do Android, tethering pode não funcionar. Trafego via tethering não pode ser filtrado.</string>

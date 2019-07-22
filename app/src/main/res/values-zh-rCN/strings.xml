@@ -86,6 +86,7 @@
     <string name="setting_access">网络连接通知</string>
     <string name="setting_filter">过滤流量</string>
     <string name="setting_filter_udp">过滤 UDP 流量</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">在重新加载时关闭连接</string>
     <string name="setting_lockdown">锁定流量</string>
     <string name="setting_track_usage">跟踪网络使用记录</string>

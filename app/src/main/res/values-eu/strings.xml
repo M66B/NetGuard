@@ -86,6 +86,7 @@
     <string name="setting_access">Jakinarazi internet atzitzen denean</string>
     <string name="setting_filter">Iragazi trafikoa</string>
     <string name="setting_filter_udp">Iragazi UDP trafikoa</string>
+    <string name="setting_handover">Pasatu VPNra etenik gabe birkargatzean</string>
     <string name="setting_clear_onreload">Itxi konexioak birkargatzean</string>
     <string name="setting_lockdown">Blokeatu trafikoa</string>
     <string name="setting_track_usage">Monitorizatu sare-erabilera</string>

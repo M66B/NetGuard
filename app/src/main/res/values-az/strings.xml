@@ -86,6 +86,7 @@
     <string name="setting_access">İnternet müraciətində bildir</string>
     <string name="setting_filter">Trafiki filtrlə</string>
     <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Yenidən yükləmədə bağlantını kəs</string>
     <string name="setting_lockdown">Trafiki kilidlə</string>
     <string name="setting_track_usage">Şəbəkə istifadəsini izlə</string>
@@ -161,9 +162,9 @@
     <string name="msg_access">%1$s attempted internet access</string>
     <string name="msg_access_n">Attempted internet access</string>
     <string name="msg_completed">Action completed</string>
-    <string name="msg_vpn">"NetGuard uses a local VPN to filter internet traffic.
+    <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
 For this reason, please allow a VPN connection in the next dialog.
-Your internet traffic is not being sent to a remote VPN server."</string>
+Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_autostart">NetGuard could not start automatically. This is likely because of a bug in your Android version.</string>
     <string name="msg_error">An unexpected error has occurred: \'%s\'</string>
     <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
@@ -177,10 +178,10 @@ Your internet traffic is not being sent to a remote VPN server."</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">"For consistent results, the Android battery optimizations should be disabled for NetGuard.
-\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don't optimize\"."</string>
-    <string name="msg_datasaving">"For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\""</string>
+    <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
+    <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
+\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
     <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original apps</string>
     <string name="msg_filter4">Android 4 filtrləmənin fəallaşdırılmasını tələb edir</string>
     <string name="msg_log_disabled">Trafik qeydalması ləğv edildi, fəallaşdırmaq üçün yuxarıdakı açarı istifadə edin. Trafik qeydalmanı fəallaşdırmaq əlavə batereya istifadəsi ilə nəticələnə bilər.</string>

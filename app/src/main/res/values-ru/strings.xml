@@ -86,6 +86,7 @@
     <string name="setting_access">Уведомить при доступе в интернет</string>
     <string name="setting_filter">Фильтр трафика</string>
     <string name="setting_filter_udp">Фильтр UDP трафика</string>
+    <string name="setting_handover">Бесшовная передача VPN при перезагрузке</string>
     <string name="setting_clear_onreload">Закрыть соединения при перезагрузке</string>
     <string name="setting_lockdown">Блокировка трафика</string>
     <string name="setting_track_usage">Отслеживание использования сети</string>

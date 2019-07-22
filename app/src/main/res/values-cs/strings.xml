@@ -86,6 +86,7 @@
     <string name="setting_access">Upozornit na připojení k Internetu</string>
     <string name="setting_filter">Filtrovat přenosy</string>
     <string name="setting_filter_udp">Filtrovat UDP přenosy</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Ukončit spojení při znovunačtení</string>
     <string name="setting_lockdown">Blokovat veškeré přenosy</string>
     <string name="setting_track_usage">Sledovat využití sítě</string>

@@ -86,6 +86,7 @@
     <string name="setting_access">Meddela vid internetåtkomst</string>
     <string name="setting_filter">Filtrera trafik</string>
     <string name="setting_filter_udp">Filtrera UDP-trafik</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Stäng anslutningar vid omladdning</string>
     <string name="setting_lockdown">Lås trafik</string>
     <string name="setting_track_usage">Spåra nätverksanvändning</string>

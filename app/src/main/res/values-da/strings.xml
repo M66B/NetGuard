@@ -86,6 +86,7 @@
     <string name="setting_access">Notificér ved Internetadgang</string>
     <string name="setting_filter">Filtrér trafik</string>
     <string name="setting_filter_udp">Filtrér UDP-trafik</string>
+    <string name="setting_handover">Problemfri VPN-overdragelse ved genindlæsning</string>
     <string name="setting_clear_onreload">Luk forbindelse ved genindlæsning</string>
     <string name="setting_lockdown">Aflås trafik</string>
     <string name="setting_track_usage">Spor netværksforbrug</string>

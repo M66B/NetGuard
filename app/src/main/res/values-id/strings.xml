@@ -86,6 +86,7 @@
     <string name="setting_access">Beritahu pada akses internet</string>
     <string name="setting_filter">Filter lalu lintas</string>
     <string name="setting_filter_udp">Filter lalu lintas UDP</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Tutup koneksi saat memuat ulang</string>
     <string name="setting_lockdown">Kunci lalu lintas</string>
     <string name="setting_track_usage">Lacak penggunaan jaringan</string>

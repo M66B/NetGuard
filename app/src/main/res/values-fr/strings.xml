@@ -54,7 +54,7 @@
     <string name="setting_whitelist_wifi">Bloquer le Wi-Fi</string>
     <string name="setting_whitelist_other">Bloquer les données</string>
     <string name="setting_screen_wifi">Autoriser le Wi-Fi quand l\'écran est allumé</string>
-    <string name="setting_screen_other">Autoriser les données mobiles si l\'écran est allumé</string>
+    <string name="setting_screen_other">Autoriser les données mobiles quand l\'écran est allumé</string>
     <string name="setting_whitelist_roaming">Bloquer l\'itinérance</string>
     <string name="setting_options">Options</string>
     <string name="setting_theme">Thème : %1$s</string>
@@ -86,6 +86,7 @@
     <string name="setting_access">Notifier lors de l\'accès à internet</string>
     <string name="setting_filter">Filtrer le trafic</string>
     <string name="setting_filter_udp">Filtrer le trafic UDP</string>
+    <string name="setting_handover">Transmission au VPN sans interruption lors du rechargement</string>
     <string name="setting_clear_onreload">Fermer les connexions lors du rechargement</string>
     <string name="setting_lockdown">Verrouiller le trafic</string>
     <string name="setting_track_usage">Surveiller l\'utilisation du réseau</string>
@@ -226,7 +227,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="title_screen_other">Autoriser les données mobiles quand l\'écran est allumé</string>
     <string name="title_roaming_symbol">R</string>
     <string name="title_roaming">Bloquer si itinérance</string>
-    <string name="title_lockdown">Autoriser en mode de verrouillage</string>
+    <string name="title_lockdown">Autoriser en mode verrouillage</string>
     <string name="title_related">Filtre lié</string>
     <string name="title_access">Tentatives d\'accès</string>
     <string name="title_precedence">Les règles d\'accès ont la priorité sur les autres</string>

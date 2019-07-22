@@ -86,6 +86,7 @@
     <string name="setting_access">Bei Internetzugriff benachrichtigen</string>
     <string name="setting_filter">Datenverkehr filtern</string>
     <string name="setting_filter_udp">UDP-Datenverkehr filtern</string>
+    <string name="setting_handover">Nahtlose VPN-Übergabe beim Neuladen</string>
     <string name="setting_clear_onreload">Die Verbindungen beim Neuladen trennen</string>
     <string name="setting_lockdown">Datenverkehr-Zugriffsbeschränkung</string>
     <string name="setting_track_usage">Netzwerknutzung verfolgen</string>

@@ -86,6 +86,7 @@
     <string name="setting_access">Melding bij internet toegang</string>
     <string name="setting_filter">Verkeer filteren</string>
     <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Close connections on reload</string>
     <string name="setting_lockdown">Lockdown traffic</string>
     <string name="setting_track_usage">Bijhouden van netwerkgebruik</string>
@@ -161,9 +162,9 @@
     <string name="msg_access">%1$s benaderde het internet</string>
     <string name="msg_access_n">Probeerde verbinding te maken met het internet</string>
     <string name="msg_completed">Actie uitgevoerd</string>
-    <string name="msg_vpn">"NetGuard maakt gebruik van een lokale VPN om internetverkeer te filteren.
+    <string name="msg_vpn">NetGuard maakt gebruik van een lokale VPN om internetverkeer te filteren.
 Vanwege deze reden vragen wij u de VPN-verbinding in het volgende dialoogvenster toe te staan.
-Uw internetverkeer wordt niet verzonden naar een VPN-server."</string>
+Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
     <string name="msg_autostart">NetGuard kon niet automatisch worden gestart tijdens het opstarten vanwege een bug in uw Android-versie.</string>
     <string name="msg_error">Er is een onverwachte fout opgetreden: \'%s\'</string>
     <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
@@ -177,10 +178,10 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server."</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">"For consistent results, the Android battery optimizations should be disabled for NetGuard.
-\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don't optimize\"."</string>
-    <string name="msg_datasaving">"For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\""</string>
+    <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
+\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
+    <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
+\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
     <string name="msg_filter">Het gebruik van filteren zorgt ervoor dat Android gegevens- en batterijgebruik aan NetGuard toewijst - Android denkt dat de gegevens en batterij door NetGuard worden gebruikt i.p.v. door de originele apps.</string>
     <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
     <string name="msg_log_disabled">Internetverkeer loggen is uitgeschakeld. Gebruik de schakelaar hierboven om het loggen in te schakelen. Internetverkeer loggen kan het batterijgebruik verhogen.</string>

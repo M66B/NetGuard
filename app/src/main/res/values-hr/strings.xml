@@ -86,6 +86,7 @@
     <string name="setting_access">Obavijesti pri pristupu internetu</string>
     <string name="setting_filter">Filtriraj promet</string>
     <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Zatvorite vezu prilikom ponovnog učitavanja</string>
     <string name="setting_lockdown">Zaključaj promet</string>
     <string name="setting_track_usage">Prati korištenje mreže</string>

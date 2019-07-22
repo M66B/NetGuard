@@ -86,6 +86,7 @@
     <string name="setting_access">इंटरनेट का उपयोग पर सूचित करें</string>
     <string name="setting_filter">इंटरनेट यातायात छाटें</string>
     <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">पुनः लोड पर कनेक्शन बंद करें</string>
     <string name="setting_lockdown">लॉकडाउन आवागमन</string>
     <string name="setting_track_usage">नेटवर्क के उपयोग को ट्रैक</string>
