@@ -22,12 +22,15 @@ You can use *Settings > Defaults* to change from block/blacklist mode (disable *
 **(1) Can NetGuard completely protect my privacy?**
 
 No - nothing can completely protect your privacy.
-NetGuard will do its best, but it is limited by the fact it must use the VPN service.
+NetGuard will do its best, but it is limited by the fact it must use the Android VPN service.
 This is the trade-off required to make a firewall which does not require root access.
 The firewall can only start when Android "allows" it to start,
 so it will not offer protection during early boot-up (although you can disable your network before rebooting).
-Also, the VPN service needs to be restarted to apply new rules when connectivity has changed or when the screen is being turned on or off.
+Also, the Android VPN service needs to be restarted to apply new rules when connectivity has changed or when the screen is being turned on or off.
 It will, however, be much better than nothing.
+
+In the advanced options you can enable *Seamless VPN handover on reload* to prevent traffic from leaking when the Android VPN service is being restarted.
+However, this does not work properly on all Android versions/variants causing NetGuard to hang and block all connections.
 
 Android N and later allows NetGuard to be an [Always-On VPN](https://developer.android.com/preview/features/afw.html#always-on-vpn).
 On Android O do not enable '*Block connections without VPN*', see [question 51](#user-content-faq51)) for more information on this.
@@ -697,11 +700,14 @@ Blocked apps cannot access the internet. There are no exceptions to this.
 
 However:
 
-* Incoming (push) messages are received by the system component Google Play services and not apps, especially when the app is in the background or the screen is turned off
+* Incoming (push) messages are received by the system component Google Play services and not apps, especially when the app is in the background or when the screen is turned off
 * Similarly, advertisements are mostly received by the system component Google Play services
-* Downloads are often performed by the download manager and not the app
+* Downloads are often performed by the download manager and not apps
 
 If you like to block Google Play services or the download manager, you'll need to enable managing system apps in the advanced settings.
+
+To be clear: in most cases **you cannot block ads by blocking apps**.
+However, you can block ads for all apps with NetGuard, please see [here](https://github.com/M66B/NetGuard/blob/master/ADBLOCKING.md) about how to.
 
 <br />
 
