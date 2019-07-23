@@ -137,6 +137,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private int last_blocked = -1;
     private int last_hosts = -1;
 
+    private static Object jni_lock = new Object();
     private static long jni_context = 0;
     private Thread tunnelThread = null;
     private ServiceSinkhole.Builder last_builder = null;
@@ -2352,8 +2353,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         if (jni_context != 0) {
             jni_stop(jni_context);
-            jni_done(jni_context);
-            jni_context = 0;
+            synchronized (jni_lock) {
+                jni_done(jni_context);
+                jni_context = 0;
+            }
         }
 
         // Native init
@@ -2718,7 +2721,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
 
-            jni_done(jni_context);
+            synchronized (jni_lock) {
+                jni_done(jni_context);
+                jni_context = 0;
+            }
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.unregisterOnSharedPreferenceChangeListener(this);
