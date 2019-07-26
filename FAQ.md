@@ -407,7 +407,7 @@ On most devices, NetGuard will keep running in the background with its foregroun
 On some devices (in particular some Samsung models), where there are lots of applications competing for memory, Android may still stop NetGuard as a last resort.
 Some Android versions, in particular of Huawei (see [here](https://www.forbes.com/sites/bensin/2016/07/04/push-notifications-not-coming-through-to-your-huawei-phone-heres-how-to-fix-it/) for a fix) or Xiaomi (see [here](https://www.forbes.com/sites/bensin/2016/11/17/how-to-fix-push-notifications-on-xiaomis-miui-8-for-real/) for a fix) stop apps and services too aggressively.
 Unfortunately this cannot be fixed by NetGuard, and can be considered a shortcoming of the device and/or as a bug in Android.
-As a matter of fact lots of apps suffer from this, see [here](https://dontkillmyapp.com/) for more information.
+As a matter of fact lots of apps suffer from this, see the website [Don't kill my app!](https://dontkillmyapp.com/) for more information and solutions.
 You can workaround this problem by enabling the watchdog in the NetGuard advanced options to check every 10-15 minutes.
 
 <a name="faq39"></a>
