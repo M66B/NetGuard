@@ -222,9 +222,13 @@ void *handle_events(void *a) {
                                 (ev[i].events & EPOLLERR) != 0,
                                 (ev[i].events & EPOLLHUP) != 0);
 
-                    while (!error && is_readable(args->tun))
+                    int count = 0;
+                    while (count < TUN_YIELD && !error && !args->ctx->stopping &&
+                           is_readable(args->tun)) {
+                        count++;
                         if (check_tun(args, &ev[i], epoll_fd, sessions, maxsessions) < 0)
                             error = 1;
+                    }
 
                 } else {
                     // Check downstream
@@ -243,9 +247,13 @@ void *handle_events(void *a) {
                         session->protocol == IPPROTO_ICMPV6)
                         check_icmp_socket(args, &ev[i]);
                     else if (session->protocol == IPPROTO_UDP) {
-                        while (!(ev[i].events & EPOLLERR) && (ev[i].events & EPOLLIN) &&
-                               is_readable(session->socket))
+                        int count = 0;
+                        while (count < UDP_YIELD && !args->ctx->stopping &&
+                               !(ev[i].events & EPOLLERR) && (ev[i].events & EPOLLIN) &&
+                               is_readable(session->socket)) {
+                            count++;
                             check_udp_socket(args, &ev[i]);
+                        }
                     } else if (session->protocol == IPPROTO_TCP)
                         check_tcp_socket(args, &ev[i], epoll_fd);
                 }
