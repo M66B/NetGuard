@@ -722,8 +722,48 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     private final class LogHandler extends Handler {
+        public int queue = 0;
+
+        private static final int MAX_QUEUE = 250;
+
         public LogHandler(Looper looper) {
             super(looper);
+        }
+
+        public void queue(Packet packet) {
+            Message msg = obtainMessage();
+            msg.obj = packet;
+            msg.what = MSG_PACKET;
+            msg.arg1 = (last_connected ? (last_metered ? 2 : 1) : 0);
+            msg.arg2 = (last_interactive ? 1 : 0);
+
+            synchronized (this) {
+                if (queue > MAX_QUEUE) {
+                    Log.w(TAG, "Log queue full");
+                    return;
+                }
+
+                sendMessage(msg);
+
+                queue++;
+            }
+        }
+
+        public void account(Usage usage) {
+            Message msg = obtainMessage();
+            msg.obj = usage;
+            msg.what = MSG_USAGE;
+
+            synchronized (this) {
+                if (queue > MAX_QUEUE) {
+                    Log.w(TAG, "Log queue full");
+                    return;
+                }
+
+                sendMessage(msg);
+
+                queue++;
+            }
         }
 
         @Override
@@ -741,6 +781,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     default:
                         Log.e(TAG, "Unknown log message=" + msg.what);
                 }
+
+                synchronized (this) {
+                    queue--;
+                }
+
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
@@ -1822,12 +1867,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void logPacket(Packet packet) {
-        Message msg = logHandler.obtainMessage();
-        msg.obj = packet;
-        msg.what = MSG_PACKET;
-        msg.arg1 = (last_connected ? (last_metered ? 2 : 1) : 0);
-        msg.arg2 = (last_interactive ? 1 : 0);
-        logHandler.sendMessage(msg);
+        logHandler.queue(packet);
     }
 
     // Called from native code
@@ -1955,10 +1995,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     // Called from native code
     private void accountUsage(Usage usage) {
-        Message msg = logHandler.obtainMessage();
-        msg.obj = usage;
-        msg.what = MSG_USAGE;
-        logHandler.sendMessage(msg);
+        logHandler.account(usage);
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {
