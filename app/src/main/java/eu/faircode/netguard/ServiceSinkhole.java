@@ -1451,13 +1451,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 jni_socks5("", 0, "", "");
 
             if (tunnelThread == null) {
-                Log.i(TAG, "Starting tunnel thread");
+                Log.i(TAG, "Starting tunnel thread context=" + jni_context);
                 jni_start(jni_context, prio);
 
                 tunnelThread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i(TAG, "Running tunnel");
+                        Log.i(TAG, "Running tunnel context=" + jni_context);
                         jni_run(jni_context, vpn.getFd(), mapForward.containsKey(53), rcode);
                         Log.i(TAG, "Tunnel exited");
                         tunnelThread = null;
@@ -1480,12 +1480,15 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             jni_stop(jni_context);
 
             Thread thread = tunnelThread;
-            while (thread != null)
+            while (thread != null && thread.isAlive()) {
                 try {
+                    Log.i(TAG, "Joining tunnel thread context=" + jni_context);
                     thread.join();
-                    break;
                 } catch (InterruptedException ignored) {
+                    Log.i(TAG, "Joined tunnel interrupted");
                 }
+                thread = tunnelThread;
+            }
             tunnelThread = null;
 
             if (clear)
@@ -2352,6 +2355,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (jni_context != 0) {
+            Log.w(TAG, "Create with context=" + jni_context);
             jni_stop(jni_context);
             synchronized (jni_lock) {
                 jni_done(jni_context);
@@ -2361,6 +2365,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         // Native init
         jni_context = jni_init(Build.VERSION.SDK_INT);
+        Log.i(TAG, "Created context=" + jni_context);
         boolean pcap = prefs.getBoolean("pcap", false);
         setPcap(pcap, this);
 
@@ -2721,6 +2726,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
 
+            Log.i(TAG, "Destroy context=" + jni_context);
             synchronized (jni_lock) {
                 jni_done(jni_context);
                 jni_context = 0;
