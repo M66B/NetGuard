@@ -130,6 +130,8 @@ public class Util {
 
     private static native boolean is_numeric_address(String ip);
 
+    private static native void dump_memory_profile();
+
     static {
         try {
             System.loadLibrary("netguard");
@@ -906,6 +908,7 @@ public class Util {
                 sb.append("\r\n");
 
                 // Write logcat
+                dump_memory_profile();
                 OutputStream out = null;
                 try {
                     Log.i(TAG, "Writing logcat URI=" + uri);

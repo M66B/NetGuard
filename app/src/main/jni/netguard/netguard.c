@@ -972,6 +972,7 @@ void account_usage(const struct arguments *args, jint version, jint protocol,
 
 struct alloc_record {
     const char *tag;
+    time_t time;
     void *ptr;
 };
 
@@ -1009,6 +1010,7 @@ void ng_add_alloc(void *ptr, const char *tag) {
     }
 
     alloc[c].tag = tag;
+    alloc[c].time = time(NULL);
     alloc[c].ptr = ptr;
     balance++;
 
@@ -1040,11 +1042,6 @@ void ng_delete_alloc(void *ptr) {
     log_android(found ? ANDROID_LOG_DEBUG : ANDROID_LOG_ERROR,
                 "alloc/free balance %d records %d found %d", balance, allocs, found);
 
-    int r = 0;
-    for (int c = 0; c < allocs; c++)
-        if (alloc[c].ptr != NULL)
-            log_android(ANDROID_LOG_DEBUG, "holding %d [%s]", ++r, alloc[c].tag);
-
     if (pthread_mutex_unlock(alock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
 #endif
@@ -1072,4 +1069,29 @@ void *ng_realloc(void *__ptr, size_t __byte_count, const char *tag) {
 void ng_free(void *__ptr) {
     ng_delete_alloc(__ptr);
     free(__ptr);
+}
+
+void ng_dump() {
+    int r = 0;
+    for (int c = 0; c < allocs; c++)
+        if (alloc[c].ptr != NULL)
+            log_android(ANDROID_LOG_DEBUG,
+                        "holding %d [%s] %s",
+                        ++r, alloc[c].tag, ctime(&alloc[c].time));
+}
+
+JNIEXPORT void JNICALL
+Java_eu_faircode_netguard_Util_dump_1memory_1profile(JNIEnv *env, jclass type) {
+#ifdef PROFILE_MEMORY
+    log_android(ANDROID_LOG_DEBUG, "Dump memory profile");
+
+    if (pthread_mutex_lock(alock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_lock failed");
+
+    ng_dump();
+
+    if (pthread_mutex_unlock(alock))
+        log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+
+#endif
 }
