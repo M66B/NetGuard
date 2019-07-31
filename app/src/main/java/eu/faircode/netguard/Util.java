@@ -949,44 +949,44 @@ public class Util {
     private static StringBuilder getTrafficLog(Context context) {
         StringBuilder sb = new StringBuilder();
 
-        Cursor cursor = DatabaseHelper.getInstance(context).getLog(true, true, true, true, true);
+        try (Cursor cursor = DatabaseHelper.getInstance(context).getLog(true, true, true, true, true)) {
 
-        int colTime = cursor.getColumnIndex("time");
-        int colVersion = cursor.getColumnIndex("version");
-        int colProtocol = cursor.getColumnIndex("protocol");
-        int colFlags = cursor.getColumnIndex("flags");
-        int colSAddr = cursor.getColumnIndex("saddr");
-        int colSPort = cursor.getColumnIndex("sport");
-        int colDAddr = cursor.getColumnIndex("daddr");
-        int colDPort = cursor.getColumnIndex("dport");
-        int colDName = cursor.getColumnIndex("dname");
-        int colUid = cursor.getColumnIndex("uid");
-        int colData = cursor.getColumnIndex("data");
-        int colAllowed = cursor.getColumnIndex("allowed");
-        int colConnection = cursor.getColumnIndex("connection");
-        int colInteractive = cursor.getColumnIndex("interactive");
+            int colTime = cursor.getColumnIndex("time");
+            int colVersion = cursor.getColumnIndex("version");
+            int colProtocol = cursor.getColumnIndex("protocol");
+            int colFlags = cursor.getColumnIndex("flags");
+            int colSAddr = cursor.getColumnIndex("saddr");
+            int colSPort = cursor.getColumnIndex("sport");
+            int colDAddr = cursor.getColumnIndex("daddr");
+            int colDPort = cursor.getColumnIndex("dport");
+            int colDName = cursor.getColumnIndex("dname");
+            int colUid = cursor.getColumnIndex("uid");
+            int colData = cursor.getColumnIndex("data");
+            int colAllowed = cursor.getColumnIndex("allowed");
+            int colConnection = cursor.getColumnIndex("connection");
+            int colInteractive = cursor.getColumnIndex("interactive");
 
-        DateFormat format = SimpleDateFormat.getDateTimeInstance();
+            DateFormat format = SimpleDateFormat.getDateTimeInstance();
 
-        int count = 0;
-        while (cursor.moveToNext() && ++count < 250) {
-            sb.append(format.format(cursor.getLong(colTime)));
-            sb.append(" v").append(cursor.getInt(colVersion));
-            sb.append(" p").append(cursor.getInt(colProtocol));
-            sb.append(' ').append(cursor.getString(colFlags));
-            sb.append(' ').append(cursor.getString(colSAddr));
-            sb.append('/').append(cursor.getInt(colSPort));
-            sb.append(" > ").append(cursor.getString(colDAddr));
-            sb.append('/').append(cursor.getString(colDName));
-            sb.append('/').append(cursor.getInt(colDPort));
-            sb.append(" u").append(cursor.getInt(colUid));
-            sb.append(" a").append(cursor.getInt(colAllowed));
-            sb.append(" c").append(cursor.getInt(colConnection));
-            sb.append(" i").append(cursor.getInt(colInteractive));
-            sb.append(' ').append(cursor.getString(colData));
-            sb.append("\r\n");
+            int count = 0;
+            while (cursor.moveToNext() && ++count < 250) {
+                sb.append(format.format(cursor.getLong(colTime)));
+                sb.append(" v").append(cursor.getInt(colVersion));
+                sb.append(" p").append(cursor.getInt(colProtocol));
+                sb.append(' ').append(cursor.getString(colFlags));
+                sb.append(' ').append(cursor.getString(colSAddr));
+                sb.append('/').append(cursor.getInt(colSPort));
+                sb.append(" > ").append(cursor.getString(colDAddr));
+                sb.append('/').append(cursor.getString(colDName));
+                sb.append('/').append(cursor.getInt(colDPort));
+                sb.append(" u").append(cursor.getInt(colUid));
+                sb.append(" a").append(cursor.getInt(colAllowed));
+                sb.append(" c").append(cursor.getInt(colConnection));
+                sb.append(" i").append(cursor.getInt(colInteractive));
+                sb.append(' ').append(cursor.getString(colData));
+                sb.append("\r\n");
+            }
         }
-        cursor.close();
 
         return sb;
     }

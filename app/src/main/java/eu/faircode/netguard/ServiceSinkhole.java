@@ -1639,70 +1639,70 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
         }
 
-        Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessDns(dname);
-        int colUid = cursor.getColumnIndex("uid");
-        int colVersion = cursor.getColumnIndex("version");
-        int colProtocol = cursor.getColumnIndex("protocol");
-        int colDAddr = cursor.getColumnIndex("daddr");
-        int colResource = cursor.getColumnIndex("resource");
-        int colDPort = cursor.getColumnIndex("dport");
-        int colBlock = cursor.getColumnIndex("block");
-        int colTime = cursor.getColumnIndex("time");
-        int colTTL = cursor.getColumnIndex("ttl");
-        while (cursor.moveToNext()) {
-            int uid = cursor.getInt(colUid);
-            int version = cursor.getInt(colVersion);
-            int protocol = cursor.getInt(colProtocol);
-            String daddr = cursor.getString(colDAddr);
-            String dresource = (cursor.isNull(colResource) ? null : cursor.getString(colResource));
-            int dport = cursor.getInt(colDPort);
-            boolean block = (cursor.getInt(colBlock) > 0);
-            long time = (cursor.isNull(colTime) ? new Date().getTime() : cursor.getLong(colTime));
-            long ttl = (cursor.isNull(colTTL) ? 7 * 24 * 3600 * 1000L : cursor.getLong(colTTL));
+        try (Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessDns(dname)) {
+            int colUid = cursor.getColumnIndex("uid");
+            int colVersion = cursor.getColumnIndex("version");
+            int colProtocol = cursor.getColumnIndex("protocol");
+            int colDAddr = cursor.getColumnIndex("daddr");
+            int colResource = cursor.getColumnIndex("resource");
+            int colDPort = cursor.getColumnIndex("dport");
+            int colBlock = cursor.getColumnIndex("block");
+            int colTime = cursor.getColumnIndex("time");
+            int colTTL = cursor.getColumnIndex("ttl");
+            while (cursor.moveToNext()) {
+                int uid = cursor.getInt(colUid);
+                int version = cursor.getInt(colVersion);
+                int protocol = cursor.getInt(colProtocol);
+                String daddr = cursor.getString(colDAddr);
+                String dresource = (cursor.isNull(colResource) ? null : cursor.getString(colResource));
+                int dport = cursor.getInt(colDPort);
+                boolean block = (cursor.getInt(colBlock) > 0);
+                long time = (cursor.isNull(colTime) ? new Date().getTime() : cursor.getLong(colTime));
+                long ttl = (cursor.isNull(colTTL) ? 7 * 24 * 3600 * 1000L : cursor.getLong(colTTL));
 
-            if (isLockedDown(last_metered)) {
-                String[] pkg = getPackageManager().getPackagesForUid(uid);
-                if (pkg != null && pkg.length > 0) {
-                    if (!lockdown.getBoolean(pkg[0], false))
-                        continue;
+                if (isLockedDown(last_metered)) {
+                    String[] pkg = getPackageManager().getPackagesForUid(uid);
+                    if (pkg != null && pkg.length > 0) {
+                        if (!lockdown.getBoolean(pkg[0], false))
+                            continue;
+                    }
                 }
-            }
 
-            IPKey key = new IPKey(version, protocol, dport, uid);
-            synchronized (mapUidIPFilters) {
-                if (!mapUidIPFilters.containsKey(key))
-                    mapUidIPFilters.put(key, new HashMap());
+                IPKey key = new IPKey(version, protocol, dport, uid);
+                synchronized (mapUidIPFilters) {
+                    if (!mapUidIPFilters.containsKey(key))
+                        mapUidIPFilters.put(key, new HashMap());
 
-                try {
-                    String name = (dresource == null ? daddr : dresource);
-                    if (Util.isNumericAddress(name)) {
-                        InetAddress iname = InetAddress.getByName(name);
-                        if (version == 4 && !(iname instanceof Inet4Address))
-                            continue;
-                        if (version == 6 && !(iname instanceof Inet6Address))
-                            continue;
+                    try {
+                        String name = (dresource == null ? daddr : dresource);
+                        if (Util.isNumericAddress(name)) {
+                            InetAddress iname = InetAddress.getByName(name);
+                            if (version == 4 && !(iname instanceof Inet4Address))
+                                continue;
+                            if (version == 6 && !(iname instanceof Inet6Address))
+                                continue;
 
-                        //if (dname != null)
-                        Log.i(TAG, "Set filter " + key + " " + daddr + "/" + dresource + "=" + block);
+                            //if (dname != null)
+                            Log.i(TAG, "Set filter " + key + " " + daddr + "/" + dresource + "=" + block);
 
-                        boolean exists = mapUidIPFilters.get(key).containsKey(iname);
-                        if (!exists || !mapUidIPFilters.get(key).get(iname).isBlocked()) {
-                            IPRule rule = new IPRule(key, name + "/" + iname, block, time + ttl);
-                            mapUidIPFilters.get(key).put(iname, rule);
-                            if (exists)
-                                Log.w(TAG, "Address conflict " + key + " " + daddr + "/" + dresource);
-                        } else if (exists) {
-                            mapUidIPFilters.get(key).get(iname).updateExpires(time + ttl);
-                            Log.w(TAG, "Address updated " + key + " " + daddr + "/" + dresource);
-                        }
-                    } else
-                        Log.w(TAG, "Address not numeric " + name);
-                } catch (UnknownHostException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                            boolean exists = mapUidIPFilters.get(key).containsKey(iname);
+                            if (!exists || !mapUidIPFilters.get(key).get(iname).isBlocked()) {
+                                IPRule rule = new IPRule(key, name + "/" + iname, block, time + ttl);
+                                mapUidIPFilters.get(key).put(iname, rule);
+                                if (exists)
+                                    Log.w(TAG, "Address conflict " + key + " " + daddr + "/" + dresource);
+                            } else if (exists) {
+                                mapUidIPFilters.get(key).get(iname).updateExpires(time + ttl);
+                                Log.w(TAG, "Address updated " + key + " " + daddr + "/" + dresource);
+                            }
+                        } else
+                            Log.w(TAG, "Address not numeric " + name);
+                    } catch (UnknownHostException ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    }
                 }
             }
         }
-        cursor.close();
 
         lock.writeLock().unlock();
     }
@@ -1713,23 +1713,23 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean("filter", false)) {
-            Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getForwarding();
-            int colProtocol = cursor.getColumnIndex("protocol");
-            int colDPort = cursor.getColumnIndex("dport");
-            int colRAddr = cursor.getColumnIndex("raddr");
-            int colRPort = cursor.getColumnIndex("rport");
-            int colRUid = cursor.getColumnIndex("ruid");
-            while (cursor.moveToNext()) {
-                Forward fwd = new Forward();
-                fwd.protocol = cursor.getInt(colProtocol);
-                fwd.dport = cursor.getInt(colDPort);
-                fwd.raddr = cursor.getString(colRAddr);
-                fwd.rport = cursor.getInt(colRPort);
-                fwd.ruid = cursor.getInt(colRUid);
-                mapForward.put(fwd.dport, fwd);
-                Log.i(TAG, "Forward " + fwd);
+            try (Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getForwarding()) {
+                int colProtocol = cursor.getColumnIndex("protocol");
+                int colDPort = cursor.getColumnIndex("dport");
+                int colRAddr = cursor.getColumnIndex("raddr");
+                int colRPort = cursor.getColumnIndex("rport");
+                int colRUid = cursor.getColumnIndex("ruid");
+                while (cursor.moveToNext()) {
+                    Forward fwd = new Forward();
+                    fwd.protocol = cursor.getInt(colProtocol);
+                    fwd.dport = cursor.getInt(colDPort);
+                    fwd.raddr = cursor.getString(colRAddr);
+                    fwd.rport = cursor.getInt(colRPort);
+                    fwd.ruid = cursor.getInt(colRUid);
+                    mapForward.put(fwd.dport, fwd);
+                    Log.i(TAG, "Forward " + fwd);
+                }
             }
-            cursor.close();
         }
         lock.writeLock().unlock();
     }
@@ -3004,33 +3004,33 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             } catch (PackageManager.NameNotFoundException ignored) {
             }
 
-        Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessUnset(uid, 7, since);
-        int colDAddr = cursor.getColumnIndex("daddr");
-        int colTime = cursor.getColumnIndex("time");
-        int colAllowed = cursor.getColumnIndex("allowed");
-        while (cursor.moveToNext()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(df.format(cursor.getLong(colTime))).append(' ');
+        try (Cursor cursor = DatabaseHelper.getInstance(ServiceSinkhole.this).getAccessUnset(uid, 7, since)) {
+            int colDAddr = cursor.getColumnIndex("daddr");
+            int colTime = cursor.getColumnIndex("time");
+            int colAllowed = cursor.getColumnIndex("allowed");
+            while (cursor.moveToNext()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(df.format(cursor.getLong(colTime))).append(' ');
 
-            String daddr = cursor.getString(colDAddr);
-            if (Util.isNumericAddress(daddr))
-                try {
-                    daddr = InetAddress.getByName(daddr).getHostName();
-                } catch (UnknownHostException ignored) {
-                }
-            sb.append(daddr);
+                String daddr = cursor.getString(colDAddr);
+                if (Util.isNumericAddress(daddr))
+                    try {
+                        daddr = InetAddress.getByName(daddr).getHostName();
+                    } catch (UnknownHostException ignored) {
+                    }
+                sb.append(daddr);
 
-            int allowed = cursor.getInt(colAllowed);
-            if (allowed >= 0) {
-                int pos = sb.indexOf(daddr);
-                Spannable sp = new SpannableString(sb);
-                ForegroundColorSpan fgsp = new ForegroundColorSpan(allowed > 0 ? colorOn : colorOff);
-                sp.setSpan(fgsp, pos, pos + daddr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                notification.addLine(sp);
-            } else
-                notification.addLine(sb);
+                int allowed = cursor.getInt(colAllowed);
+                if (allowed >= 0) {
+                    int pos = sb.indexOf(daddr);
+                    Spannable sp = new SpannableString(sb);
+                    ForegroundColorSpan fgsp = new ForegroundColorSpan(allowed > 0 ? colorOn : colorOff);
+                    sp.setSpan(fgsp, pos, pos + daddr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    notification.addLine(sp);
+                } else
+                    notification.addLine(sb);
+            }
         }
-        cursor.close();
 
         NotificationManagerCompat.from(this).notify(uid + 10000, notification.build());
     }

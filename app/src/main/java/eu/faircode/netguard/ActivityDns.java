@@ -213,28 +213,28 @@ public class ActivityDns extends AppCompatActivity {
 
         DateFormat df = new SimpleDateFormat("E, d MMM yyyy HH:mm:ss Z", Locale.US); // RFC 822
 
-        Cursor cursor = DatabaseHelper.getInstance(this).getDns();
-        int colTime = cursor.getColumnIndex("time");
-        int colQName = cursor.getColumnIndex("qname");
-        int colAName = cursor.getColumnIndex("aname");
-        int colResource = cursor.getColumnIndex("resource");
-        int colTTL = cursor.getColumnIndex("ttl");
-        while (cursor.moveToNext()) {
-            long time = cursor.getLong(colTime);
-            String qname = cursor.getString(colQName);
-            String aname = cursor.getString(colAName);
-            String resource = cursor.getString(colResource);
-            int ttl = cursor.getInt(colTTL);
+        try (Cursor cursor = DatabaseHelper.getInstance(this).getDns()) {
+            int colTime = cursor.getColumnIndex("time");
+            int colQName = cursor.getColumnIndex("qname");
+            int colAName = cursor.getColumnIndex("aname");
+            int colResource = cursor.getColumnIndex("resource");
+            int colTTL = cursor.getColumnIndex("ttl");
+            while (cursor.moveToNext()) {
+                long time = cursor.getLong(colTime);
+                String qname = cursor.getString(colQName);
+                String aname = cursor.getString(colAName);
+                String resource = cursor.getString(colResource);
+                int ttl = cursor.getInt(colTTL);
 
-            serializer.startTag(null, "dns");
-            serializer.attribute(null, "time", df.format(time));
-            serializer.attribute(null, "qname", qname);
-            serializer.attribute(null, "aname", aname);
-            serializer.attribute(null, "resource", resource);
-            serializer.attribute(null, "ttl", Integer.toString(ttl));
-            serializer.endTag(null, "dns");
+                serializer.startTag(null, "dns");
+                serializer.attribute(null, "time", df.format(time));
+                serializer.attribute(null, "qname", qname);
+                serializer.attribute(null, "aname", aname);
+                serializer.attribute(null, "resource", resource);
+                serializer.attribute(null, "ttl", Integer.toString(ttl));
+                serializer.endTag(null, "dns");
+            }
         }
-        cursor.close();
 
         serializer.endTag(null, "netguard");
         serializer.endDocument();

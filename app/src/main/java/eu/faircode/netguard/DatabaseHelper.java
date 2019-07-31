@@ -577,28 +577,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         Integer.toString(usage.DPort)
                 };
 
-                Cursor cursor = db.query("access", new String[]{"sent", "received", "connections"}, selection, selectionArgs, null, null, null);
-                long sent = 0;
-                long received = 0;
-                int connections = 0;
-                int colSent = cursor.getColumnIndex("sent");
-                int colReceived = cursor.getColumnIndex("received");
-                int colConnections = cursor.getColumnIndex("connections");
-                if (cursor.moveToNext()) {
-                    sent = cursor.isNull(colSent) ? 0 : cursor.getLong(colSent);
-                    received = cursor.isNull(colReceived) ? 0 : cursor.getLong(colReceived);
-                    connections = cursor.isNull(colConnections) ? 0 : cursor.getInt(colConnections);
+                try (Cursor cursor = db.query("access", new String[]{"sent", "received", "connections"}, selection, selectionArgs, null, null, null)) {
+                    long sent = 0;
+                    long received = 0;
+                    int connections = 0;
+                    int colSent = cursor.getColumnIndex("sent");
+                    int colReceived = cursor.getColumnIndex("received");
+                    int colConnections = cursor.getColumnIndex("connections");
+                    if (cursor.moveToNext()) {
+                        sent = cursor.isNull(colSent) ? 0 : cursor.getLong(colSent);
+                        received = cursor.isNull(colReceived) ? 0 : cursor.getLong(colReceived);
+                        connections = cursor.isNull(colConnections) ? 0 : cursor.getInt(colConnections);
+                    }
+
+                    ContentValues cv = new ContentValues();
+                    cv.put("sent", sent + usage.Sent);
+                    cv.put("received", received + usage.Received);
+                    cv.put("connections", connections + 1);
+
+                    int rows = db.update("access", cv, selection, selectionArgs);
+                    if (rows != 1)
+                        Log.e(TAG, "Update usage failed rows=" + rows);
                 }
-                cursor.close();
-
-                ContentValues cv = new ContentValues();
-                cv.put("sent", sent + usage.Sent);
-                cv.put("received", received + usage.Received);
-                cv.put("connections", connections + 1);
-
-                int rows = db.update("access", cv, selection, selectionArgs);
-                if (rows != 1)
-                    Log.e(TAG, "Update usage failed rows=" + rows);
 
                 db.setTransactionSuccessful();
             } finally {

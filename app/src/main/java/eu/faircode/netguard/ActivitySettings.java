@@ -1143,47 +1143,47 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     private void filterExport(XmlSerializer serializer) throws IOException {
-        Cursor cursor = DatabaseHelper.getInstance(this).getAccess();
-        int colUid = cursor.getColumnIndex("uid");
-        int colVersion = cursor.getColumnIndex("version");
-        int colProtocol = cursor.getColumnIndex("protocol");
-        int colDAddr = cursor.getColumnIndex("daddr");
-        int colDPort = cursor.getColumnIndex("dport");
-        int colTime = cursor.getColumnIndex("time");
-        int colBlock = cursor.getColumnIndex("block");
-        while (cursor.moveToNext())
-            for (String pkg : getPackages(cursor.getInt(colUid))) {
-                serializer.startTag(null, "rule");
-                serializer.attribute(null, "pkg", pkg);
-                serializer.attribute(null, "version", Integer.toString(cursor.getInt(colVersion)));
-                serializer.attribute(null, "protocol", Integer.toString(cursor.getInt(colProtocol)));
-                serializer.attribute(null, "daddr", cursor.getString(colDAddr));
-                serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
-                serializer.attribute(null, "time", Long.toString(cursor.getLong(colTime)));
-                serializer.attribute(null, "block", Integer.toString(cursor.getInt(colBlock)));
-                serializer.endTag(null, "rule");
-            }
-        cursor.close();
+        try (Cursor cursor = DatabaseHelper.getInstance(this).getAccess()) {
+            int colUid = cursor.getColumnIndex("uid");
+            int colVersion = cursor.getColumnIndex("version");
+            int colProtocol = cursor.getColumnIndex("protocol");
+            int colDAddr = cursor.getColumnIndex("daddr");
+            int colDPort = cursor.getColumnIndex("dport");
+            int colTime = cursor.getColumnIndex("time");
+            int colBlock = cursor.getColumnIndex("block");
+            while (cursor.moveToNext())
+                for (String pkg : getPackages(cursor.getInt(colUid))) {
+                    serializer.startTag(null, "rule");
+                    serializer.attribute(null, "pkg", pkg);
+                    serializer.attribute(null, "version", Integer.toString(cursor.getInt(colVersion)));
+                    serializer.attribute(null, "protocol", Integer.toString(cursor.getInt(colProtocol)));
+                    serializer.attribute(null, "daddr", cursor.getString(colDAddr));
+                    serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
+                    serializer.attribute(null, "time", Long.toString(cursor.getLong(colTime)));
+                    serializer.attribute(null, "block", Integer.toString(cursor.getInt(colBlock)));
+                    serializer.endTag(null, "rule");
+                }
+        }
     }
 
     private void forwardExport(XmlSerializer serializer) throws IOException {
-        Cursor cursor = DatabaseHelper.getInstance(this).getForwarding();
-        int colProtocol = cursor.getColumnIndex("protocol");
-        int colDPort = cursor.getColumnIndex("dport");
-        int colRAddr = cursor.getColumnIndex("raddr");
-        int colRPort = cursor.getColumnIndex("rport");
-        int colRUid = cursor.getColumnIndex("ruid");
-        while (cursor.moveToNext())
-            for (String pkg : getPackages(cursor.getInt(colRUid))) {
-                serializer.startTag(null, "port");
-                serializer.attribute(null, "pkg", pkg);
-                serializer.attribute(null, "protocol", Integer.toString(cursor.getInt(colProtocol)));
-                serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
-                serializer.attribute(null, "raddr", cursor.getString(colRAddr));
-                serializer.attribute(null, "rport", Integer.toString(cursor.getInt(colRPort)));
-                serializer.endTag(null, "port");
-            }
-        cursor.close();
+        try (Cursor cursor = DatabaseHelper.getInstance(this).getForwarding()) {
+            int colProtocol = cursor.getColumnIndex("protocol");
+            int colDPort = cursor.getColumnIndex("dport");
+            int colRAddr = cursor.getColumnIndex("raddr");
+            int colRPort = cursor.getColumnIndex("rport");
+            int colRUid = cursor.getColumnIndex("ruid");
+            while (cursor.moveToNext())
+                for (String pkg : getPackages(cursor.getInt(colRUid))) {
+                    serializer.startTag(null, "port");
+                    serializer.attribute(null, "pkg", pkg);
+                    serializer.attribute(null, "protocol", Integer.toString(cursor.getInt(colProtocol)));
+                    serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
+                    serializer.attribute(null, "raddr", cursor.getString(colRAddr));
+                    serializer.attribute(null, "rport", Integer.toString(cursor.getInt(colRPort)));
+                    serializer.endTag(null, "port");
+                }
+        }
     }
 
     private String[] getPackages(int uid) {
