@@ -83,7 +83,7 @@ void check_icmp_socket(const struct arguments *args, const struct epoll_event *e
             s->icmp.time = time(NULL);
 
             uint16_t blen = (uint16_t) (s->icmp.version == 4 ? ICMP4_MAXMSG : ICMP6_MAXMSG);
-            uint8_t *buffer = ng_malloc(blen);
+            uint8_t *buffer = ng_malloc(blen, "icmp socket");
             ssize_t bytes = recv(s->socket, buffer, blen, 0);
             if (bytes < 0) {
                 // Socket error
@@ -185,7 +185,7 @@ jboolean handle_icmp(const struct arguments *args,
         log_android(ANDROID_LOG_INFO, "ICMP new session from %s to %s", source, dest);
 
         // Register session
-        struct ng_session *s = ng_malloc(sizeof(struct ng_session));
+        struct ng_session *s = ng_malloc(sizeof(struct ng_session), "icmp session");
         s->protocol = (uint8_t) (version == 4 ? IPPROTO_ICMP : IPPROTO_ICMPV6);
 
         s->icmp.time = time(NULL);
@@ -306,7 +306,7 @@ ssize_t write_icmp(const struct arguments *args, const struct icmp_session *cur,
     // Build packet
     if (cur->version == 4) {
         len = sizeof(struct iphdr) + datalen;
-        buffer = ng_malloc(len);
+        buffer = ng_malloc(len, "icmp write4");
         struct iphdr *ip4 = (struct iphdr *) buffer;
         if (datalen)
             memcpy(buffer + sizeof(struct iphdr), data, datalen);
@@ -325,7 +325,7 @@ ssize_t write_icmp(const struct arguments *args, const struct icmp_session *cur,
         ip4->check = ~calc_checksum(0, (uint8_t *) ip4, sizeof(struct iphdr));
     } else {
         len = sizeof(struct ip6_hdr) + datalen;
-        buffer = ng_malloc(len);
+        buffer = ng_malloc(len, "icmp write6");
         struct ip6_hdr *ip6 = (struct ip6_hdr *) buffer;
         if (datalen)
             memcpy(buffer + sizeof(struct ip6_hdr), data, datalen);

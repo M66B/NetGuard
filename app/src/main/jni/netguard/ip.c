@@ -53,7 +53,7 @@ int check_tun(const struct arguments *args,
 
     // Check tun read
     if (ev->events & EPOLLIN) {
-        uint8_t *buffer = ng_malloc(get_mtu());
+        uint8_t *buffer = ng_malloc(get_mtu(), "tun read");
         ssize_t length = read(args->tun, buffer, get_mtu());
         if (length < 0) {
             ng_free(buffer);
@@ -483,11 +483,11 @@ jint get_uid_sub(const int version, const int protocol,
 
             if (c >= uid_cache_size) {
                 if (uid_cache_size == 0)
-                    uid_cache = ng_malloc(sizeof(struct uid_cache_entry));
+                    uid_cache = ng_malloc(sizeof(struct uid_cache_entry), "uid_cache init");
                 else
                     uid_cache = ng_realloc(uid_cache,
-                                        sizeof(struct uid_cache_entry) *
-                                        (uid_cache_size + 1));
+                                           sizeof(struct uid_cache_entry) *
+                                           (uid_cache_size + 1), "uid_cache extend");
                 c = uid_cache_size;
                 uid_cache_size++;
             }
