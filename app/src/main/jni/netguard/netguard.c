@@ -265,6 +265,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1pcap(
         log_android(ANDROID_LOG_WARN, "PCAP disabled");
     } else {
         const char *name = (*env)->GetStringUTFChars(env, name_, 0);
+        ng_add_alloc(name, "name");
         log_android(ANDROID_LOG_WARN, "PCAP file %s record size %d truncate @%ld",
                     name, pcap_record_size, pcap_file_size);
 
@@ -286,6 +287,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1pcap(
         }
 
         (*env)->ReleaseStringUTFChars(env, name_, name);
+        ng_delete_alloc(name);
     }
 
     //if (pthread_mutex_unlock(&lock))
@@ -299,6 +301,9 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1socks5(JNIEnv *env, jobject insta
     const char *addr = (*env)->GetStringUTFChars(env, addr_, 0);
     const char *username = (*env)->GetStringUTFChars(env, username_, 0);
     const char *password = (*env)->GetStringUTFChars(env, password_, 0);
+    ng_add_alloc(addr, "addr");
+    ng_add_alloc(username, "username");
+    ng_add_alloc(password, "password");
 
     strcpy(socks5_addr, addr);
     socks5_port = port;
@@ -311,6 +316,9 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1socks5(JNIEnv *env, jobject insta
     (*env)->ReleaseStringUTFChars(env, addr_, addr);
     (*env)->ReleaseStringUTFChars(env, username_, username);
     (*env)->ReleaseStringUTFChars(env, password_, password);
+    ng_delete_alloc(addr);
+    ng_delete_alloc(username);
+    ng_delete_alloc(password);
 }
 
 JNIEXPORT void JNICALL
@@ -341,19 +349,24 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1done(
 JNIEXPORT jstring JNICALL
 Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring name_) {
     const char *name = (*env)->GetStringUTFChars(env, name_, 0);
+    ng_add_alloc(name, "name");
 
     char value[PROP_VALUE_MAX + 1] = "";
     __system_property_get(name, value);
 
     (*env)->ReleaseStringUTFChars(env, name_, name);
+    ng_delete_alloc(name);
 
-    return (*env)->NewStringUTF(env, value);
+    jstring result = (*env)->NewStringUTF(env, value);
+    ng_add_alloc(result, "result");
+    return result;
 }
 
 JNIEXPORT jboolean JNICALL
 Java_eu_faircode_netguard_Util_is_1numeric_1address(JNIEnv *env, jclass type, jstring ip_) {
     jboolean numeric = 0;
     const char *ip = (*env)->GetStringUTFChars(env, ip_, 0);
+    ng_add_alloc(ip, "ip");
 
     struct addrinfo hints;
     memset(&hints, 0, sizeof(struct addrinfo));
@@ -367,11 +380,13 @@ Java_eu_faircode_netguard_Util_is_1numeric_1address(JNIEnv *env, jclass type, js
         numeric = (jboolean) (result != NULL);
 
     (*env)->ReleaseStringUTFChars(env, ip_, ip);
+    ng_delete_alloc(ip);
     return numeric;
 }
 
 void report_exit(const struct arguments *args, const char *fmt, ...) {
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
+    ng_add_alloc(cls, "cls");
     jmethodID mid = jniGetMethodID(args->env, cls, "nativeExit", "(Ljava/lang/String;)V");
 
     jstring jreason = NULL;
@@ -381,19 +396,24 @@ void report_exit(const struct arguments *args, const char *fmt, ...) {
         va_start(argptr, fmt);
         vsprintf(line, fmt, argptr);
         jreason = (*args->env)->NewStringUTF(args->env, line);
+        ng_add_alloc(jreason, "jreason");
         va_end(argptr);
     }
 
     (*args->env)->CallVoidMethod(args->env, args->instance, mid, jreason);
     jniCheckException(args->env);
 
-    if (jreason != NULL)
+    if (jreason != NULL) {
         (*args->env)->DeleteLocalRef(args->env, jreason);
+        ng_delete_alloc(jreason);
+    }
     (*args->env)->DeleteLocalRef(args->env, cls);
+    ng_delete_alloc(cls);
 }
 
 void report_error(const struct arguments *args, jint error, const char *fmt, ...) {
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
+    ng_add_alloc(cls, "cls");
     jmethodID mid = jniGetMethodID(args->env, cls, "nativeError", "(ILjava/lang/String;)V");
 
     jstring jreason = NULL;
@@ -403,15 +423,19 @@ void report_error(const struct arguments *args, jint error, const char *fmt, ...
         va_start(argptr, fmt);
         vsprintf(line, fmt, argptr);
         jreason = (*args->env)->NewStringUTF(args->env, line);
+        ng_add_alloc(jreason, "jreason");
         va_end(argptr);
     }
 
     (*args->env)->CallVoidMethod(args->env, args->instance, mid, error, jreason);
     jniCheckException(args->env);
 
-    if (jreason != NULL)
+    if (jreason != NULL) {
         (*args->env)->DeleteLocalRef(args->env, jreason);
+        ng_delete_alloc(jreason);
+    }
     (*args->env)->DeleteLocalRef(args->env, cls);
+    ng_delete_alloc(cls);
 }
 
 static jmethodID midProtect = NULL;
@@ -421,6 +445,7 @@ int protect_socket(const struct arguments *args, int socket) {
         return 0;
 
     jclass cls = (*args->env)->GetObjectClass(args->env, args->instance);
+    ng_add_alloc(cls, "cls");
     if (cls == NULL) {
         log_android(ANDROID_LOG_ERROR, "protect socket failed to get class");
         return -1;
@@ -443,6 +468,7 @@ int protect_socket(const struct arguments *args, int socket) {
     }
 
     (*args->env)->DeleteLocalRef(args->env, cls);
+    ng_delete_alloc(cls);
 
     return 0;
 }
@@ -497,6 +523,7 @@ int jniCheckException(JNIEnv *env) {
         (*env)->ExceptionDescribe(env);
         (*env)->ExceptionClear(env);
         (*env)->DeleteLocalRef(env, ex);
+        ng_delete_alloc(ex);
         return 1;
     }
     return 0;
@@ -512,6 +539,7 @@ void log_packet(const struct arguments *args, jobject jpacket) {
 #endif
 
     jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
+    ng_add_alloc(clsService, "clsService");
 
     const char *signature = "(Leu/faircode/netguard/Packet;)V";
     if (midLogPacket == NULL)
@@ -522,6 +550,8 @@ void log_packet(const struct arguments *args, jobject jpacket) {
 
     (*args->env)->DeleteLocalRef(args->env, clsService);
     (*args->env)->DeleteLocalRef(args->env, jpacket);
+    ng_delete_alloc(clsService);
+    ng_delete_alloc(jpacket);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -549,6 +579,7 @@ void dns_resolved(const struct arguments *args,
 #endif
 
     jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
+    ng_add_alloc(clsService, "clsService");
 
     const char *signature = "(Leu/faircode/netguard/ResourceRecord;)V";
     if (midDnsResolved == NULL)
@@ -559,6 +590,7 @@ void dns_resolved(const struct arguments *args,
         midInitRR = jniGetMethodID(args->env, clsRR, "<init>", "()V");
 
     jobject jrr = jniNewObject(args->env, clsRR, midInitRR, rr);
+    ng_add_alloc(jrr, "jrr");
 
     if (fidQTime == NULL) {
         const char *string = "Ljava/lang/String;";
@@ -573,6 +605,9 @@ void dns_resolved(const struct arguments *args,
     jstring jqname = (*args->env)->NewStringUTF(args->env, qname);
     jstring janame = (*args->env)->NewStringUTF(args->env, aname);
     jstring jresource = (*args->env)->NewStringUTF(args->env, resource);
+    ng_add_alloc(jqname, "jqname");
+    ng_add_alloc(janame, "janame");
+    ng_add_alloc(jresource, "jresource");
 
     (*args->env)->SetLongField(args->env, jrr, fidQTime, jtime);
     (*args->env)->SetObjectField(args->env, jrr, fidQName, jqname);
@@ -588,6 +623,11 @@ void dns_resolved(const struct arguments *args,
     (*args->env)->DeleteLocalRef(args->env, jqname);
     (*args->env)->DeleteLocalRef(args->env, jrr);
     (*args->env)->DeleteLocalRef(args->env, clsService);
+    ng_delete_alloc(jresource);
+    ng_delete_alloc(janame);
+    ng_delete_alloc(jqname);
+    ng_delete_alloc(jrr);
+    ng_delete_alloc(clsService);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -608,12 +648,14 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
 #endif
 
     jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
+    ng_add_alloc(clsService, "clsService");
 
     const char *signature = "(Ljava/lang/String;)Z";
     if (midIsDomainBlocked == NULL)
         midIsDomainBlocked = jniGetMethodID(args->env, clsService, "isDomainBlocked", signature);
 
     jstring jname = (*args->env)->NewStringUTF(args->env, name);
+    ng_add_alloc(jname, "jname");
 
     jboolean jallowed = (*args->env)->CallBooleanMethod(
             args->env, args->instance, midIsDomainBlocked, jname);
@@ -621,6 +663,8 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
 
     (*args->env)->DeleteLocalRef(args->env, jname);
     (*args->env)->DeleteLocalRef(args->env, clsService);
+    ng_delete_alloc(jname);
+    ng_delete_alloc(clsService);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -646,6 +690,7 @@ jint get_uid_q(const struct arguments *args,
 #endif
 
     jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
+    ng_add_alloc(clsService, "clsService");
 
     const char *signature = "(IILjava/lang/String;ILjava/lang/String;I)I";
     if (midGetUidQ == NULL)
@@ -653,6 +698,8 @@ jint get_uid_q(const struct arguments *args,
 
     jstring jsource = (*args->env)->NewStringUTF(args->env, source);
     jstring jdest = (*args->env)->NewStringUTF(args->env, dest);
+    ng_add_alloc(jsource, "jsource");
+    ng_add_alloc(jdest, "jdest");
 
     jint juid = (*args->env)->CallIntMethod(
             args->env, args->instance, midGetUidQ,
@@ -662,6 +709,9 @@ jint get_uid_q(const struct arguments *args,
     (*args->env)->DeleteLocalRef(args->env, jdest);
     (*args->env)->DeleteLocalRef(args->env, jsource);
     (*args->env)->DeleteLocalRef(args->env, clsService);
+    ng_delete_alloc(jdest);
+    ng_delete_alloc(jsource);
+    ng_delete_alloc(clsService);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -687,6 +737,7 @@ struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket
 #endif
 
     jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
+    ng_add_alloc(clsService, "clsService");
 
     const char *signature = "(Leu/faircode/netguard/Packet;)Leu/faircode/netguard/Allowed;";
     if (midIsAddressAllowed == NULL)
@@ -704,22 +755,29 @@ struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket
         }
 
         jstring jraddr = (*args->env)->GetObjectField(args->env, jallowed, fidRaddr);
+        ng_add_alloc(jraddr, "jraddr");
         if (jraddr == NULL)
             *allowed.raddr = 0;
         else {
             const char *raddr = (*args->env)->GetStringUTFChars(args->env, jraddr, NULL);
+            ng_add_alloc(raddr, "raddr");
             strcpy(allowed.raddr, raddr);
             (*args->env)->ReleaseStringUTFChars(args->env, jraddr, raddr);
+            ng_delete_alloc(raddr);
         }
         allowed.rport = (uint16_t) (*args->env)->GetIntField(args->env, jallowed, fidRport);
 
         (*args->env)->DeleteLocalRef(args->env, jraddr);
+        ng_delete_alloc(jraddr);
     }
 
 
     (*args->env)->DeleteLocalRef(args->env, jpacket);
     (*args->env)->DeleteLocalRef(args->env, clsService);
     (*args->env)->DeleteLocalRef(args->env, jallowed);
+    ng_delete_alloc(jpacket);
+    ng_delete_alloc(clsService);
+    ng_delete_alloc(jallowed);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -775,6 +833,7 @@ jobject create_packet(const struct arguments *args,
     if (midInitPacket == NULL)
         midInitPacket = jniGetMethodID(env, clsPacket, "<init>", "()V");
     jobject jpacket = jniNewObject(env, clsPacket, midInitPacket, packet);
+    ng_add_alloc(jpacket, "jpacket");
 
     if (fidTime == NULL) {
         const char *string = "Ljava/lang/String;";
@@ -798,6 +857,10 @@ jobject create_packet(const struct arguments *args,
     jstring jsource = (*env)->NewStringUTF(env, source);
     jstring jdest = (*env)->NewStringUTF(env, dest);
     jstring jdata = (*env)->NewStringUTF(env, data);
+    ng_add_alloc(jflags, "jflags");
+    ng_add_alloc(jsource, "jsource");
+    ng_add_alloc(jdest, "jdest");
+    ng_add_alloc(jdata, "jdata");
 
     (*env)->SetLongField(env, jpacket, fidTime, t);
     (*env)->SetIntField(env, jpacket, fidVersion, version);
@@ -815,6 +878,10 @@ jobject create_packet(const struct arguments *args,
     (*env)->DeleteLocalRef(env, jdest);
     (*env)->DeleteLocalRef(env, jsource);
     (*env)->DeleteLocalRef(env, jflags);
+    ng_delete_alloc(jdata);
+    ng_delete_alloc(jdest);
+    ng_delete_alloc(jsource);
+    ng_delete_alloc(jflags);
     // Caller needs to delete reference to packet
 
 #ifdef PROFILE_JNI
@@ -848,6 +915,7 @@ void account_usage(const struct arguments *args, jint version, jint protocol,
 #endif
 
     jclass clsService = (*args->env)->GetObjectClass(args->env, args->instance);
+    ng_add_alloc(clsService, "clsService");
 
     const char *signature = "(Leu/faircode/netguard/Usage;)V";
     if (midAccountUsage == NULL)
@@ -858,6 +926,7 @@ void account_usage(const struct arguments *args, jint version, jint protocol,
         midInitUsage = jniGetMethodID(args->env, clsUsage, "<init>", "()V");
 
     jobject jusage = jniNewObject(args->env, clsUsage, midInitUsage, usage);
+    ng_add_alloc(jusage, "jusage");
 
     if (fidUsageTime == NULL) {
         const char *string = "Ljava/lang/String;";
@@ -873,6 +942,7 @@ void account_usage(const struct arguments *args, jint version, jint protocol,
 
     jlong jtime = time(NULL) * 1000LL;
     jstring jdaddr = (*args->env)->NewStringUTF(args->env, daddr);
+    ng_add_alloc(jdaddr, "jdaddr");
 
     (*args->env)->SetLongField(args->env, jusage, fidUsageTime, jtime);
     (*args->env)->SetIntField(args->env, jusage, fidUsageVersion, version);
@@ -889,6 +959,9 @@ void account_usage(const struct arguments *args, jint version, jint protocol,
     (*args->env)->DeleteLocalRef(args->env, jdaddr);
     (*args->env)->DeleteLocalRef(args->env, jusage);
     (*args->env)->DeleteLocalRef(args->env, clsService);
+    ng_delete_alloc(jdaddr);
+    ng_delete_alloc(jusage);
+    ng_delete_alloc(clsService);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);

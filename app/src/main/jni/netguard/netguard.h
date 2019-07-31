@@ -552,6 +552,10 @@ int is_writable(int fd);
 
 long long get_ms();
 
+void ng_add_alloc(void *ptr, const char *tag);
+
+void ng_delete_alloc(void *ptr);
+
 void *ng_malloc(size_t __byte_count, const char *tag);
 
 void *ng_calloc(size_t __item_count, size_t __item_size, const char *tag);
