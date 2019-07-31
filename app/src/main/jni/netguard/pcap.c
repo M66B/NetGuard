@@ -53,7 +53,7 @@ void write_pcap_rec(const uint8_t *buffer, size_t length) {
 
     write_pcap(pcap_rec, rlen);
 
-    ng_free(pcap_rec);
+    ng_free(pcap_rec, __FILE__, __LINE__);
 }
 
 void write_pcap(const void *ptr, size_t len) {

@@ -142,7 +142,7 @@ void check_udp_socket(const struct arguments *args, const struct epoll_event *ev
                         s->udp.state = UDP_FINISHING;
                 }
             }
-            ng_free(buffer);
+            ng_free(buffer, __FILE__, __LINE__);
         }
     }
 }
@@ -300,7 +300,7 @@ jboolean handle_udp(const struct arguments *args,
         // Open UDP socket
         s->socket = open_udp_socket(args, &s->udp, redirect);
         if (s->socket < 0) {
-            ng_free(s);
+            ng_free(s, __FILE__, __LINE__);
             return 0;
         }
 
@@ -538,7 +538,7 @@ ssize_t write_udp(const struct arguments *args, const struct udp_session *cur,
     } else
         log_android(ANDROID_LOG_WARN, "UDP write error %d: %s", errno, strerror(errno));
 
-    ng_free(buffer);
+    ng_free(buffer, __FILE__, __LINE__);
 
     if (res != len) {
         log_android(ANDROID_LOG_ERROR, "write %d/%d", res, len);

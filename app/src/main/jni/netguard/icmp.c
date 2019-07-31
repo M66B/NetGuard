@@ -136,7 +136,7 @@ void check_icmp_socket(const struct arguments *args, const struct epoll_event *e
                 if (write_icmp(args, &s->icmp, buffer, (size_t) bytes) < 0)
                     s->icmp.stop = 1;
             }
-            ng_free(buffer);
+            ng_free(buffer, __FILE__, __LINE__);
         }
     }
 }
@@ -208,7 +208,7 @@ jboolean handle_icmp(const struct arguments *args,
         // Open UDP socket
         s->socket = open_icmp_socket(args, &s->icmp);
         if (s->socket < 0) {
-            ng_free(s);
+            ng_free(s, __FILE__, __LINE__);
             return 0;
         }
 
@@ -363,7 +363,7 @@ ssize_t write_icmp(const struct arguments *args, const struct icmp_session *cur,
     } else
         log_android(ANDROID_LOG_WARN, "ICMP write error %d: %s", errno, strerror(errno));
 
-    ng_free(buffer);
+    ng_free(buffer, __FILE__, __LINE__);
 
     if (res != len) {
         log_android(ANDROID_LOG_ERROR, "write %d/%d", res, len);

@@ -136,7 +136,7 @@ int check_dhcp(const struct arguments *args, const struct udp_session *u,
 
         write_udp(args, u, (uint8_t *) response, 500);
 
-        ng_free(response);
+        ng_free(response, __FILE__, __LINE__);
     }
 
     return 0;

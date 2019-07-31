@@ -287,7 +287,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1pcap(
         }
 
         (*env)->ReleaseStringUTFChars(env, name_, name);
-        ng_delete_alloc(name);
+        ng_delete_alloc(name, __FILE__, __LINE__);
     }
 
     //if (pthread_mutex_unlock(&lock))
@@ -316,9 +316,9 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1socks5(JNIEnv *env, jobject insta
     (*env)->ReleaseStringUTFChars(env, addr_, addr);
     (*env)->ReleaseStringUTFChars(env, username_, username);
     (*env)->ReleaseStringUTFChars(env, password_, password);
-    ng_delete_alloc(addr);
-    ng_delete_alloc(username);
-    ng_delete_alloc(password);
+    ng_delete_alloc(addr, __FILE__, __LINE__);
+    ng_delete_alloc(username, __FILE__, __LINE__);
+    ng_delete_alloc(password, __FILE__, __LINE__);
 }
 
 JNIEXPORT void JNICALL
@@ -337,11 +337,11 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1done(
             log_android(ANDROID_LOG_ERROR, "Close pipe error %d: %s", errno, strerror(errno));
 
     if (uid_cache != NULL)
-        ng_free(uid_cache);
+        ng_free(uid_cache, __FILE__, __LINE__);
     uid_cache_size = 0;
     uid_cache = NULL;
 
-    ng_free(ctx);
+    ng_free(ctx, __FILE__, __LINE__);
 }
 
 // JNI Util
@@ -355,7 +355,7 @@ Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring na
     __system_property_get(name, value);
 
     (*env)->ReleaseStringUTFChars(env, name_, name);
-    ng_delete_alloc(name);
+    ng_delete_alloc(name, __FILE__, __LINE__);
 
     return (*env)->NewStringUTF(env, value); // Freed by Java
 }
@@ -378,7 +378,7 @@ Java_eu_faircode_netguard_Util_is_1numeric_1address(JNIEnv *env, jclass type, js
         numeric = (jboolean) (result != NULL);
 
     (*env)->ReleaseStringUTFChars(env, ip_, ip);
-    ng_delete_alloc(ip);
+    ng_delete_alloc(ip, __FILE__, __LINE__);
     return numeric;
 }
 
@@ -403,10 +403,10 @@ void report_exit(const struct arguments *args, const char *fmt, ...) {
 
     if (jreason != NULL) {
         (*args->env)->DeleteLocalRef(args->env, jreason);
-        ng_delete_alloc(jreason);
+        ng_delete_alloc(jreason, __FILE__, __LINE__);
     }
     (*args->env)->DeleteLocalRef(args->env, cls);
-    ng_delete_alloc(cls);
+    ng_delete_alloc(cls, __FILE__, __LINE__);
 }
 
 void report_error(const struct arguments *args, jint error, const char *fmt, ...) {
@@ -430,10 +430,10 @@ void report_error(const struct arguments *args, jint error, const char *fmt, ...
 
     if (jreason != NULL) {
         (*args->env)->DeleteLocalRef(args->env, jreason);
-        ng_delete_alloc(jreason);
+        ng_delete_alloc(jreason, __FILE__, __LINE__);
     }
     (*args->env)->DeleteLocalRef(args->env, cls);
-    ng_delete_alloc(cls);
+    ng_delete_alloc(cls, __FILE__, __LINE__);
 }
 
 static jmethodID midProtect = NULL;
@@ -466,7 +466,7 @@ int protect_socket(const struct arguments *args, int socket) {
     }
 
     (*args->env)->DeleteLocalRef(args->env, cls);
-    ng_delete_alloc(cls);
+    ng_delete_alloc(cls, __FILE__, __LINE__);
 
     return 0;
 }
@@ -521,7 +521,7 @@ int jniCheckException(JNIEnv *env) {
         (*env)->ExceptionDescribe(env);
         (*env)->ExceptionClear(env);
         (*env)->DeleteLocalRef(env, ex);
-        ng_delete_alloc(ex);
+        ng_delete_alloc(ex, __FILE__, __LINE__);
         return 1;
     }
     return 0;
@@ -548,8 +548,8 @@ void log_packet(const struct arguments *args, jobject jpacket) {
 
     (*args->env)->DeleteLocalRef(args->env, clsService);
     (*args->env)->DeleteLocalRef(args->env, jpacket);
-    ng_delete_alloc(clsService);
-    ng_delete_alloc(jpacket);
+    ng_delete_alloc(clsService, __FILE__, __LINE__);
+    ng_delete_alloc(jpacket, __FILE__, __LINE__);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -621,11 +621,11 @@ void dns_resolved(const struct arguments *args,
     (*args->env)->DeleteLocalRef(args->env, jqname);
     (*args->env)->DeleteLocalRef(args->env, jrr);
     (*args->env)->DeleteLocalRef(args->env, clsService);
-    ng_delete_alloc(jresource);
-    ng_delete_alloc(janame);
-    ng_delete_alloc(jqname);
-    ng_delete_alloc(jrr);
-    ng_delete_alloc(clsService);
+    ng_delete_alloc(jresource, __FILE__, __LINE__);
+    ng_delete_alloc(janame, __FILE__, __LINE__);
+    ng_delete_alloc(jqname, __FILE__, __LINE__);
+    ng_delete_alloc(jrr, __FILE__, __LINE__);
+    ng_delete_alloc(clsService, __FILE__, __LINE__);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -661,8 +661,8 @@ jboolean is_domain_blocked(const struct arguments *args, const char *name) {
 
     (*args->env)->DeleteLocalRef(args->env, jname);
     (*args->env)->DeleteLocalRef(args->env, clsService);
-    ng_delete_alloc(jname);
-    ng_delete_alloc(clsService);
+    ng_delete_alloc(jname, __FILE__, __LINE__);
+    ng_delete_alloc(clsService, __FILE__, __LINE__);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -707,9 +707,9 @@ jint get_uid_q(const struct arguments *args,
     (*args->env)->DeleteLocalRef(args->env, jdest);
     (*args->env)->DeleteLocalRef(args->env, jsource);
     (*args->env)->DeleteLocalRef(args->env, clsService);
-    ng_delete_alloc(jdest);
-    ng_delete_alloc(jsource);
-    ng_delete_alloc(clsService);
+    ng_delete_alloc(jdest, __FILE__, __LINE__);
+    ng_delete_alloc(jsource, __FILE__, __LINE__);
+    ng_delete_alloc(clsService, __FILE__, __LINE__);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -743,6 +743,7 @@ struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket
 
     jobject jallowed = (*args->env)->CallObjectMethod(
             args->env, args->instance, midIsAddressAllowed, jpacket);
+    ng_add_alloc(jallowed, "jallowed");
     jniCheckException(args->env);
 
     if (jallowed != NULL) {
@@ -761,21 +762,21 @@ struct allowed *is_address_allowed(const struct arguments *args, jobject jpacket
             ng_add_alloc(raddr, "raddr");
             strcpy(allowed.raddr, raddr);
             (*args->env)->ReleaseStringUTFChars(args->env, jraddr, raddr);
-            ng_delete_alloc(raddr);
+            ng_delete_alloc(raddr, __FILE__, __LINE__);
         }
         allowed.rport = (uint16_t) (*args->env)->GetIntField(args->env, jallowed, fidRport);
 
         (*args->env)->DeleteLocalRef(args->env, jraddr);
-        ng_delete_alloc(jraddr);
+        ng_delete_alloc(jraddr, __FILE__, __LINE__);
     }
 
 
     (*args->env)->DeleteLocalRef(args->env, jpacket);
     (*args->env)->DeleteLocalRef(args->env, clsService);
     (*args->env)->DeleteLocalRef(args->env, jallowed);
-    ng_delete_alloc(jpacket);
-    ng_delete_alloc(clsService);
-    ng_delete_alloc(jallowed);
+    ng_delete_alloc(jpacket, __FILE__, __LINE__);
+    ng_delete_alloc(clsService, __FILE__, __LINE__);
+    ng_delete_alloc(jallowed, __FILE__, __LINE__);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -876,10 +877,10 @@ jobject create_packet(const struct arguments *args,
     (*env)->DeleteLocalRef(env, jdest);
     (*env)->DeleteLocalRef(env, jsource);
     (*env)->DeleteLocalRef(env, jflags);
-    ng_delete_alloc(jdata);
-    ng_delete_alloc(jdest);
-    ng_delete_alloc(jsource);
-    ng_delete_alloc(jflags);
+    ng_delete_alloc(jdata, __FILE__, __LINE__);
+    ng_delete_alloc(jdest, __FILE__, __LINE__);
+    ng_delete_alloc(jsource, __FILE__, __LINE__);
+    ng_delete_alloc(jflags, __FILE__, __LINE__);
     // Caller needs to delete reference to packet
 
 #ifdef PROFILE_JNI
@@ -957,9 +958,9 @@ void account_usage(const struct arguments *args, jint version, jint protocol,
     (*args->env)->DeleteLocalRef(args->env, jdaddr);
     (*args->env)->DeleteLocalRef(args->env, jusage);
     (*args->env)->DeleteLocalRef(args->env, clsService);
-    ng_delete_alloc(jdaddr);
-    ng_delete_alloc(jusage);
-    ng_delete_alloc(clsService);
+    ng_delete_alloc(jdaddr, __FILE__, __LINE__);
+    ng_delete_alloc(jusage, __FILE__, __LINE__);
+    ng_delete_alloc(clsService, __FILE__, __LINE__);
 
 #ifdef PROFILE_JNI
     gettimeofday(&end, NULL);
@@ -1019,7 +1020,7 @@ void ng_add_alloc(void *ptr, const char *tag) {
 #endif
 }
 
-void ng_delete_alloc(void *ptr) {
+void ng_delete_alloc(void *ptr, const char *file, int line) {
 #ifdef PROFILE_MEMORY
     if (ptr == NULL)
         return;
@@ -1041,6 +1042,8 @@ void ng_delete_alloc(void *ptr) {
 
     log_android(found ? ANDROID_LOG_DEBUG : ANDROID_LOG_ERROR,
                 "alloc/free balance %d records %d found %d", balance, allocs, found);
+    if (found == 0)
+        log_android(ANDROID_LOG_ERROR, "Not found at %s:%d", file, line);
 
     if (pthread_mutex_unlock(alock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
@@ -1060,14 +1063,14 @@ void *ng_calloc(size_t __item_count, size_t __item_size, const char *tag) {
 }
 
 void *ng_realloc(void *__ptr, size_t __byte_count, const char *tag) {
-    ng_delete_alloc(__ptr);
+    ng_delete_alloc(__ptr, NULL, 0);
     void *ptr = realloc(__ptr, __byte_count);
     ng_add_alloc(ptr, tag);
     return ptr;
 }
 
-void ng_free(void *__ptr) {
-    ng_delete_alloc(__ptr);
+void ng_free(void *__ptr, const char *file, int line) {
+    ng_delete_alloc(__ptr, file, line);
     free(__ptr);
 }
 
