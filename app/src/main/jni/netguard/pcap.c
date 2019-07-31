@@ -42,7 +42,7 @@ void write_pcap_rec(const uint8_t *buffer, size_t length) {
 
     size_t plen = (length < pcap_record_size ? length : pcap_record_size);
     size_t rlen = sizeof(struct pcaprec_hdr_s) + plen;
-    struct pcaprec_hdr_s *pcap_rec = malloc(rlen);
+    struct pcaprec_hdr_s *pcap_rec = ng_malloc(rlen);
 
     pcap_rec->ts_sec = (guint32_t) ts.tv_sec;
     pcap_rec->ts_usec = (guint32_t) (ts.tv_nsec / 1000);
@@ -53,7 +53,7 @@ void write_pcap_rec(const uint8_t *buffer, size_t length) {
 
     write_pcap(pcap_rec, rlen);
 
-    free(pcap_rec);
+    ng_free(pcap_rec);
 }
 
 void write_pcap(const void *ptr, size_t len) {

@@ -551,3 +551,11 @@ int is_readable(int fd);
 int is_writable(int fd);
 
 long long get_ms();
+
+void *ng_malloc(size_t __byte_count);
+
+void *ng_calloc(size_t __item_count, size_t __item_size);
+
+void *ng_realloc(void *__ptr, size_t __byte_count);
+
+void ng_free(void *__ptr);

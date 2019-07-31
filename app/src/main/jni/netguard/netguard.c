@@ -100,7 +100,7 @@ void JNI_OnUnload(JavaVM *vm, void *reserved) {
 JNIEXPORT jlong JNICALL
 Java_eu_faircode_netguard_ServiceSinkhole_jni_1init(
         JNIEnv *env, jobject instance, jint sdk) {
-    struct context *ctx = calloc(1, sizeof(struct context));
+    struct context *ctx = ng_calloc(1, sizeof(struct context));
     ctx->sdk = sdk;
 
     loglevel = ANDROID_LOG_WARN;
@@ -155,7 +155,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1run(
                     errno, strerror(errno));
 
     // Get arguments
-    struct arguments *args = malloc(sizeof(struct arguments));
+    struct arguments *args = ng_malloc(sizeof(struct arguments));
     args->env = env;
     args->instance = instance;
     args->tun = tun;
@@ -329,11 +329,11 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1done(
             log_android(ANDROID_LOG_ERROR, "Close pipe error %d: %s", errno, strerror(errno));
 
     if (uid_cache != NULL)
-        free(uid_cache);
+        ng_free(uid_cache);
     uid_cache_size = 0;
     uid_cache = NULL;
 
-    free(ctx);
+    ng_free(ctx);
 }
 
 // JNI Util
@@ -898,3 +898,20 @@ void account_usage(const struct arguments *args, jint version, jint protocol,
         log_android(ANDROID_LOG_WARN, "log_packet %f", mselapsed);
 #endif
 }
+
+void *ng_malloc(size_t __byte_count) {
+    return malloc(__byte_count);
+}
+
+void *ng_calloc(size_t __item_count, size_t __item_size) {
+    return calloc(__item_count, __item_size);
+}
+
+void *ng_realloc(void *__ptr, size_t __byte_count) {
+    return realloc(__ptr, __byte_count);
+}
+
+void ng_free(void *__ptr) {
+    free(__ptr);
+}
+

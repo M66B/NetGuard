@@ -53,10 +53,10 @@ int check_tun(const struct arguments *args,
 
     // Check tun read
     if (ev->events & EPOLLIN) {
-        uint8_t *buffer = malloc(get_mtu());
+        uint8_t *buffer = ng_malloc(get_mtu());
         ssize_t length = read(args->tun, buffer, get_mtu());
         if (length < 0) {
-            free(buffer);
+            ng_free(buffer);
 
             log_android(ANDROID_LOG_ERROR, "tun %d read error %d: %s",
                         args->tun, errno, strerror(errno));
@@ -81,10 +81,10 @@ int check_tun(const struct arguments *args,
             // Handle IP from tun
             handle_ip(args, buffer, (size_t) length, epoll_fd, sessions, maxsessions);
 
-            free(buffer);
+            ng_free(buffer);
         } else {
             // tun eof
-            free(buffer);
+            ng_free(buffer);
 
             log_android(ANDROID_LOG_ERROR, "tun %d empty read", args->tun);
             report_exit(args, "tun %d empty read", args->tun);
@@ -483,9 +483,9 @@ jint get_uid_sub(const int version, const int protocol,
 
             if (c >= uid_cache_size) {
                 if (uid_cache_size == 0)
-                    uid_cache = malloc(sizeof(struct uid_cache_entry));
+                    uid_cache = ng_malloc(sizeof(struct uid_cache_entry));
                 else
-                    uid_cache = realloc(uid_cache,
+                    uid_cache = ng_realloc(uid_cache,
                                         sizeof(struct uid_cache_entry) *
                                         (uid_cache_size + 1));
                 c = uid_cache_size;

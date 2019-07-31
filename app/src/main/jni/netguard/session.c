@@ -29,7 +29,7 @@ void clear(struct context *ctx) {
             clear_tcp_data(&s->tcp);
         struct ng_session *p = s;
         s = s->next;
-        free(p);
+        ng_free(p);
     }
     ctx->ng_session = NULL;
 }
@@ -160,7 +160,7 @@ void *handle_events(void *a) {
                     s = s->next;
                     if (c->protocol == IPPROTO_TCP)
                         clear_tcp_data(&c->tcp);
-                    free(c);
+                    ng_free(c);
                 } else {
                     sl = s;
                     s = s->next;
@@ -276,7 +276,7 @@ void *handle_events(void *a) {
                     "epoll close error %d: %s", errno, strerror(errno));
 
     // Cleanup
-    free(args);
+    ng_free(args);
 
     log_android(ANDROID_LOG_WARN, "Stopped events tun=%d", args->tun);
     return NULL;
@@ -337,7 +337,7 @@ void check_allowed(const struct arguments *args) {
 
                 struct ng_session *c = s;
                 s = s->next;
-                free(c);
+                ng_free(c);
                 continue;
             }
 

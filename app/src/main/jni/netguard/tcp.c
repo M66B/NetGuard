@@ -31,8 +31,8 @@ void clear_tcp_data(struct tcp_session *cur) {
     while (s != NULL) {
         struct segment *p = s;
         s = s->next;
-        free(p->data);
-        free(p);
+        ng_free(p->data);
+        ng_free(p);
     }
 }
 
@@ -328,7 +328,7 @@ void check_tcp_socket(const struct arguments *args,
                     } else {
                         char *h = hex(buffer, (const size_t) bytes);
                         log_android(ANDROID_LOG_INFO, "%s recv SOCKS5 %s", session, h);
-                        free(h);
+                        ng_free(h);
 
                         if (s->tcp.socks5 == SOCKS5_HELLO &&
                             bytes == 2 && buffer[0] == 5) {
@@ -395,7 +395,7 @@ void check_tcp_socket(const struct arguments *args,
                 char *h = hex(buffer, sizeof(buffer));
                 log_android(ANDROID_LOG_INFO, "%s sending SOCKS5 hello: %s",
                             session, h);
-                free(h);
+                ng_free(h);
                 ssize_t sent = send(s->socket, buffer, sizeof(buffer), MSG_NOSIGNAL);
                 if (sent < 0) {
                     log_android(ANDROID_LOG_ERROR, "%s send SOCKS5 hello error %d: %s",
@@ -418,7 +418,7 @@ void check_tcp_socket(const struct arguments *args,
                 char *h = hex(buffer, len);
                 log_android(ANDROID_LOG_INFO, "%s sending SOCKS5 auth: %s",
                             session, h);
-                free(h);
+                ng_free(h);
                 ssize_t sent = send(s->socket, buffer, len, MSG_NOSIGNAL);
                 if (sent < 0) {
                     log_android(ANDROID_LOG_ERROR,
@@ -446,7 +446,7 @@ void check_tcp_socket(const struct arguments *args,
                 char *h = hex(buffer, len);
                 log_android(ANDROID_LOG_INFO, "%s sending SOCKS5 connect: %s",
                             session, h);
-                free(h);
+                ng_free(h);
                 ssize_t sent = send(s->socket, buffer, len, MSG_NOSIGNAL);
                 if (sent < 0) {
                     log_android(ANDROID_LOG_ERROR,
@@ -506,8 +506,8 @@ void check_tcp_socket(const struct arguments *args,
 
                             struct segment *p = s->tcp.forward;
                             s->tcp.forward = s->tcp.forward->next;
-                            free(p->data);
-                            free(p);
+                            ng_free(p->data);
+                            ng_free(p);
                         } else {
                             log_android(ANDROID_LOG_WARN,
                                         "%s partial send %u/%u",
@@ -557,7 +557,7 @@ void check_tcp_socket(const struct arguments *args,
 
                     uint32_t buffer_size = (send_window > s->tcp.mss
                                             ? s->tcp.mss : send_window);
-                    uint8_t *buffer = malloc(buffer_size);
+                    uint8_t *buffer = ng_malloc(buffer_size);
                     ssize_t bytes = recv(s->socket, buffer, (size_t) buffer_size, 0);
                     if (bytes < 0) {
                         // Socket error
@@ -609,7 +609,7 @@ void check_tcp_socket(const struct arguments *args,
                             s->tcp.unconfirmed++;
                         }
                     }
-                    free(buffer);
+                    ng_free(buffer);
                 }
             }
         }
@@ -723,7 +723,7 @@ jboolean handle_tcp(const struct arguments *args,
                         packet, mss, ws, ntohs(tcphdr->window) << ws);
 
             // Register session
-            struct ng_session *s = malloc(sizeof(struct ng_session));
+            struct ng_session *s = ng_malloc(sizeof(struct ng_session));
             s->protocol = IPPROTO_TCP;
 
             s->tcp.time = time(NULL);
@@ -760,12 +760,12 @@ jboolean handle_tcp(const struct arguments *args,
 
             if (datalen) {
                 log_android(ANDROID_LOG_WARN, "%s SYN data", packet);
-                s->tcp.forward = malloc(sizeof(struct segment));
+                s->tcp.forward = ng_malloc(sizeof(struct segment));
                 s->tcp.forward->seq = s->tcp.remote_seq;
                 s->tcp.forward->len = datalen;
                 s->tcp.forward->sent = 0;
                 s->tcp.forward->psh = tcphdr->psh;
-                s->tcp.forward->data = malloc(datalen);
+                s->tcp.forward->data = ng_malloc(datalen);
                 memcpy(s->tcp.forward->data, data, datalen);
                 s->tcp.forward->next = NULL;
             }
@@ -774,7 +774,7 @@ jboolean handle_tcp(const struct arguments *args,
             s->socket = open_tcp_socket(args, &s->tcp, redirect);
             if (s->socket < 0) {
                 // Remote might retry
-                free(s);
+                ng_free(s);
                 return 0;
             }
 
@@ -995,12 +995,12 @@ void queue_tcp(const struct arguments *args,
             log_android(ANDROID_LOG_DEBUG, "%s queuing %u...%u",
                         session,
                         seq - cur->remote_start, seq + datalen - cur->remote_start);
-            struct segment *n = malloc(sizeof(struct segment));
+            struct segment *n = ng_malloc(sizeof(struct segment));
             n->seq = seq;
             n->len = datalen;
             n->sent = 0;
             n->psh = tcphdr->psh;
-            n->data = malloc(datalen);
+            n->data = ng_malloc(datalen);
             memcpy(n->data, data, datalen);
             n->next = s;
             if (p == NULL)
@@ -1017,18 +1017,18 @@ void queue_tcp(const struct arguments *args,
                             session,
                             s->seq - cur->remote_start, s->seq + s->len - cur->remote_start,
                             s->seq + datalen - cur->remote_start);
-                free(s->data);
+                ng_free(s->data);
                 s->len = datalen;
-                s->data = malloc(datalen);
+                s->data = ng_malloc(datalen);
                 memcpy(s->data, data, datalen);
             } else {
                 log_android(ANDROID_LOG_ERROR, "%s segment larger %u..%u < %u",
                             session,
                             s->seq - cur->remote_start, s->seq + s->len - cur->remote_start,
                             s->seq + datalen - cur->remote_start);
-                free(s->data);
+                ng_free(s->data);
                 s->len = datalen;
-                s->data = malloc(datalen);
+                s->data = ng_malloc(datalen);
                 memcpy(s->data, data, datalen);
             }
         }
@@ -1188,7 +1188,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
     uint8_t *options;
     if (cur->version == 4) {
         len = sizeof(struct iphdr) + sizeof(struct tcphdr) + optlen + datalen;
-        buffer = malloc(len);
+        buffer = ng_malloc(len);
         struct iphdr *ip4 = (struct iphdr *) buffer;
         tcp = (struct tcphdr *) (buffer + sizeof(struct iphdr));
         options = buffer + sizeof(struct iphdr) + sizeof(struct tcphdr);
@@ -1219,7 +1219,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
         csum = calc_checksum(0, (uint8_t *) &pseudo, sizeof(struct ippseudo));
     } else {
         len = sizeof(struct ip6_hdr) + sizeof(struct tcphdr) + optlen + datalen;
-        buffer = malloc(len);
+        buffer = ng_malloc(len);
         struct ip6_hdr *ip6 = (struct ip6_hdr *) buffer;
         tcp = (struct tcphdr *) (buffer + sizeof(struct ip6_hdr));
         options = buffer + sizeof(struct ip6_hdr) + sizeof(struct tcphdr);
@@ -1316,7 +1316,7 @@ ssize_t write_tcp(const struct arguments *args, const struct tcp_session *cur,
                     datalen,
                     errno, strerror((errno)));
 
-    free(buffer);
+    ng_free(buffer);
 
     if (res != len) {
         log_android(ANDROID_LOG_ERROR, "TCP write %d/%d", res, len);
