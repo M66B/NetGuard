@@ -357,9 +357,7 @@ Java_eu_faircode_netguard_Util_jni_1getprop(JNIEnv *env, jclass type, jstring na
     (*env)->ReleaseStringUTFChars(env, name_, name);
     ng_delete_alloc(name);
 
-    jstring result = (*env)->NewStringUTF(env, value);
-    ng_add_alloc(result, "result");
-    return result;
+    return (*env)->NewStringUTF(env, value); // Freed by Java
 }
 
 JNIEXPORT jboolean JNICALL
@@ -983,6 +981,7 @@ struct alloc_record *alloc = NULL;
 pthread_mutex_t *alock = NULL;
 
 void ng_add_alloc(void *ptr, const char *tag) {
+#ifdef PROFILE_MEMORY
     if (ptr == NULL)
         return;
 
@@ -1015,9 +1014,11 @@ void ng_add_alloc(void *ptr, const char *tag) {
 
     if (pthread_mutex_unlock(alock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+#endif
 }
 
 void ng_delete_alloc(void *ptr) {
+#ifdef PROFILE_MEMORY
     if (ptr == NULL)
         return;
 
@@ -1046,6 +1047,7 @@ void ng_delete_alloc(void *ptr) {
 
     if (pthread_mutex_unlock(alock))
         log_android(ANDROID_LOG_ERROR, "pthread_mutex_unlock failed");
+#endif
 }
 
 void *ng_malloc(size_t __byte_count, const char *tag) {
