@@ -17,15 +17,18 @@ android {
 
         externalNativeBuild {
             cmake {
-                cppFlags ""
-                arguments "-DANDROID_PLATFORM=android-22"
+                //cppFlags ""
+                //arguments "-DANDROID_PLATFORM=android-22"
                 // https://developer.android.com/ndk/guides/cmake.html
+                arguments "-DANDROID_PLATFORM=android-22", "-DANDROID_ARM_MODE=arm", "-DANDROID_STL=c++_shared"
+                cppFlags "-fsanitize=address -fno-omit-frame-pointer"
+                // https://developer.android.com/ndk/guides/asan
             }
         }
 
         ndk {
             // https://developer.android.com/ndk/guides/abis.html#sa
-            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            abiFilters 'armeabi-v7a', 'x86', 'x86_64'
         }
     }
     signingConfigs {
