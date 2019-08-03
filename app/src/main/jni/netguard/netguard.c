@@ -1088,7 +1088,7 @@ void ng_dump() {
     int r = 0;
     for (int c = 0; c < allocs; c++)
         if (alloc[c].ptr != NULL)
-            log_android(ANDROID_LOG_DEBUG,
+            log_android(ANDROID_LOG_WARN,
                         "holding %d [%s] %s",
                         ++r, alloc[c].tag, ctime(&alloc[c].time));
 }
