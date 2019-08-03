@@ -1128,9 +1128,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean ip6 = prefs.getBoolean("ip6", true);
         boolean pdns = Util.isPrivateDns(context);
+        boolean filter = prefs.getBoolean("filter", false);
         // Make sure normal DNS servers are used when private DNS is enabled
-        String vpnDns1 = prefs.getString("dns", pdns ? "8.8.8.8" : null);
-        String vpnDns2 = prefs.getString("dns2", pdns ? "8.8.4.4" : null);
+        String vpnDns1 = prefs.getString("dns", pdns && filter ? "8.8.8.8" : null);
+        String vpnDns2 = prefs.getString("dns2", pdns && filter ? "8.8.4.4" : null);
         Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN1=" + vpnDns1 + " VPN2=" + vpnDns2);
 
         if (vpnDns1 != null)
@@ -1167,8 +1168,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         // Remove local DNS servers when not routing LAN
         boolean lan = prefs.getBoolean("lan", false);
-        boolean use_hosts = prefs.getBoolean("filter", false) && prefs.getBoolean("use_hosts", false);
-        if (lan && use_hosts) {
+        boolean use_hosts = prefs.getBoolean("use_hosts", false);
+        if (lan && use_hosts && filter) {
             List<InetAddress> listLocal = new ArrayList<>();
             try {
                 Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
