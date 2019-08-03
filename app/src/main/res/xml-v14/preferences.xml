@@ -190,11 +190,6 @@
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="filter"
-                android:key="clear_onreload"
-                android:title="@string/setting_clear_onreload" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:dependency="filter"
                 android:key="track_usage"
                 android:summary="@string/summary_track_usage"
                 android:title="@string/setting_track_usage" />
