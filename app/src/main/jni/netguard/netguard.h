@@ -36,7 +36,7 @@
 #define TAG "NetGuard.JNI"
 
 // #define PROFILE_JNI 5
-#define PROFILE_MEMORY
+// #define PROFILE_MEMORY
 
 #define EPOLL_TIMEOUT 3600 // seconds
 #define EPOLL_EVENTS 20
