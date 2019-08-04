@@ -21,7 +21,6 @@ package eu.faircode.netguard;
 
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Icon;
 import android.os.Build;
@@ -29,6 +28,7 @@ import android.preference.PreferenceManager;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.Log;
+import android.widget.Toast;
 
 @TargetApi(Build.VERSION_CODES.N)
 public class ServiceTileGraph extends TileService implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -71,7 +71,7 @@ public class ServiceTileGraph extends TileService implements SharedPreferences.O
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean stats = !prefs.getBoolean("show_stats", false);
         if (stats && !IAB.isPurchased(ActivityPro.SKU_SPEED, this))
-            startActivity(new Intent(this, ActivityPro.class));
+            Toast.makeText(this, R.string.title_pro_feature, Toast.LENGTH_SHORT).show();
         else
             prefs.edit().putBoolean("show_stats", stats).apply();
         ServiceSinkhole.reloadStats("tile", this);

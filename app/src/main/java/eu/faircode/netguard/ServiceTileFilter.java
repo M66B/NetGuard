@@ -21,7 +21,6 @@ package eu.faircode.netguard;
 
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Icon;
 import android.os.Build;
@@ -74,7 +73,7 @@ public class ServiceTileFilter extends TileService implements SharedPreferences.
                 prefs.edit().putBoolean("filter", !prefs.getBoolean("filter", false)).apply();
                 ServiceSinkhole.reload("tile", this, false);
             } else
-                startActivity(new Intent(this, ActivityPro.class));
+                Toast.makeText(this, R.string.title_pro_feature, Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(this, R.string.msg_unavailable, Toast.LENGTH_SHORT).show();
     }
