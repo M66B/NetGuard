@@ -91,7 +91,6 @@ import java.net.InetSocketAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -1307,22 +1306,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
 
             if (lan) {
-                try {
-                    Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
-                    while (nis.hasMoreElements()) {
-                        NetworkInterface ni = nis.nextElement();
-                        if (ni != null && ni.isUp() && !ni.isLoopback() &&
-                                ni.getName() != null && !ni.getName().startsWith("tun"))
-                            for (InterfaceAddress ia : ni.getInterfaceAddresses())
-                                if (ia.getAddress() instanceof Inet4Address) {
-                                    IPUtil.CIDR local = new IPUtil.CIDR(ia.getAddress(), ia.getNetworkPrefixLength());
-                                    Log.i(TAG, "Excluding " + ni.getName() + " " + local);
-                                    listExclude.add(local);
-                                }
-                    }
-                } catch (SocketException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
+                // https://tools.ietf.org/html/rfc1918
+                listExclude.add(new IPUtil.CIDR("10.0.0.0", 8));
+                listExclude.add(new IPUtil.CIDR("172.16.0.0", 12));
+                listExclude.add(new IPUtil.CIDR("192.168.0.0", 16));
             }
 
             // https://en.wikipedia.org/wiki/Mobile_country_code
