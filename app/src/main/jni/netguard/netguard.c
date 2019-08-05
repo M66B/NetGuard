@@ -387,7 +387,8 @@ Java_eu_faircode_netguard_Util_is_1numeric_1address(JNIEnv *env, jclass type, js
     else
         numeric = (jboolean) (result != NULL);
 
-    freeaddrinfo(result);
+    if (result != NULL)
+        freeaddrinfo(result);
 
     (*env)->ReleaseStringUTFChars(env, ip_, ip);
     ng_delete_alloc(ip, __FILE__, __LINE__);
