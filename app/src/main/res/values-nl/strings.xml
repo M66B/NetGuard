@@ -273,6 +273,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
     <string name="title_pro_details">Klik op een titel voor meer informatie</string>
     <string name="title_pro_challenge">Uitdaging</string>
     <string name="title_pro_reponse">Reactie</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>groen/oranje</item>
         <item>blauw/oranje</item>

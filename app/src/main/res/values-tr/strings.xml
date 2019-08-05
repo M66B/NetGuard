@@ -272,6 +272,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
     <string name="title_pro_details">Daha fazla bilgi için başlığa dokunun</string>
     <string name="title_pro_challenge">Meydan okuma</string>
     <string name="title_pro_reponse">Yanıt</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>deniz mavisi/turuncu</item>
         <item>mavi/turuncu</item>

@@ -269,6 +269,7 @@
     <string name="title_pro_details">अधिक जानकारी के लिए एक शीर्षक पर टैप करें</string>
     <string name="title_pro_challenge">चुनौती</string>
     <string name="title_pro_reponse">प्रतिक्रिया</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>चैती/ऑरेंज</item>
         <item>ब्लू ऑरेंज /</item>

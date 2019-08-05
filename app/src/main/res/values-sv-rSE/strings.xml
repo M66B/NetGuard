@@ -273,6 +273,7 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="title_pro_details">Tryck på en titel för mer information</string>
     <string name="title_pro_challenge">Utmaning</string>
     <string name="title_pro_reponse">Svar</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>teal/orange</item>
         <item>blå/orange</item>

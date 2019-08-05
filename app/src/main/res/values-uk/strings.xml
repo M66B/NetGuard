@@ -270,6 +270,7 @@
     <string name="title_pro_details">Для отримання додаткової інформації натисніть на заголовок</string>
     <string name="title_pro_challenge">Завдання</string>
     <string name="title_pro_reponse">Відповідь</string>
+    <string name="title_pro_feature">Це функція професійної версії</string>
     <string-array name="themeNames">
         <item>бірюзовий/рудий</item>
         <item>синій/помаранчевий</item>

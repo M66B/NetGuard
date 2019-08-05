@@ -273,6 +273,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
     <string name="title_pro_details">Tryk på en titel for yderligere oplysninger</string>
     <string name="title_pro_challenge">Udfordring</string>
     <string name="title_pro_reponse">Svar</string>
+    <string name="title_pro_feature">Dette er en Pro-funktion</string>
     <string-array name="themeNames">
         <item>blågrøn/orange</item>
         <item>blå/orange</item>

@@ -269,6 +269,7 @@
     <string name="title_pro_details">اضغط على العنوان لمزيد مِن المعلومات</string>
     <string name="title_pro_challenge">تحدّي</string>
     <string name="title_pro_reponse">الاستجابة</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>أزرق مخضر/برتقالي</item>
         <item>أزرق/برتقالي</item>

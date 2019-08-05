@@ -269,6 +269,7 @@
     <string name="title_pro_details">Pulse en un título para más información</string>
     <string name="title_pro_challenge">Desafío</string>
     <string name="title_pro_reponse">Respuesta</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>turquesa/anaranjado</item>
         <item>azul/anaranjado</item>

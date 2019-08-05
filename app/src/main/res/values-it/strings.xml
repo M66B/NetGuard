@@ -269,6 +269,7 @@
     <string name="title_pro_details">Tocca un titolo per maggiori informazioni</string>
     <string name="title_pro_challenge">Domanda di verifica</string>
     <string name="title_pro_reponse">Risposta</string>
+    <string name="title_pro_feature">Questa è una funzionalità Pro</string>
     <string-array name="themeNames">
         <item>foglia di tè/arancione</item>
         <item>blu/arancione</item>

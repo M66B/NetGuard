@@ -269,6 +269,7 @@
     <string name="title_pro_details">Kliknij na tytuł aby uzyskać więcej informacji</string>
     <string name="title_pro_challenge">Wezwanie</string>
     <string name="title_pro_reponse">Odpowiedź</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>teal/orange</item>
         <item>blue/orange</item>

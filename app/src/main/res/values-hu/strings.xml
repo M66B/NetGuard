@@ -271,6 +271,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
     <string name="title_pro_details">Érintse meg a címet további információért</string>
     <string name="title_pro_challenge">Hívás</string>
     <string name="title_pro_reponse">Válasz</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>zöldeskék/narancssárga</item>
         <item>kék/narancssárga</item>

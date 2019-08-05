@@ -269,6 +269,7 @@
     <string name="title_pro_details">மேலும் தகவலுக்கு ஒரு தலைப்பு துறையில்</string>
     <string name="title_pro_challenge">சவால்விடு</string>
     <string name="title_pro_reponse">பதில்</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>வெளிர்நீலம்/ஆரஞ்சு</item>
         <item>நீலம்/ஆரஞ்சு</item>

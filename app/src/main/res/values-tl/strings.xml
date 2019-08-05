@@ -271,6 +271,7 @@ Ang iyong internet traffic ay hindi pinapadala sa isang liblib na vpn serber.</s
     <string name="title_pro_details">Pinduting ang tile para sa mas maraming impormasyon</string>
     <string name="title_pro_challenge">Hamon</string>
     <string name="title_pro_reponse">Sagot</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>teal/kahel</item>
         <item>asul/kahel</item>

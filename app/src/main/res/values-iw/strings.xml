@@ -271,6 +271,7 @@
     <string name="title_pro_details">לחץ על הכותרת למידע נוסף</string>
     <string name="title_pro_challenge">אתגר</string>
     <string name="title_pro_reponse">תגובה</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>טורקיז/כתום</item>
         <item>כחול/כתום</item>

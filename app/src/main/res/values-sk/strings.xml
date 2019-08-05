@@ -272,6 +272,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
     <string name="title_pro_details">Tap on a title for more information</string>
     <string name="title_pro_challenge">Výzva</string>
     <string name="title_pro_reponse">Odpoveď</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>modrozelená/oranžová</item>
         <item>modrá/oranžová</item>

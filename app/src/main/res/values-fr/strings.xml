@@ -271,6 +271,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="title_pro_details">Tapez sur un titre pour plus d’information</string>
     <string name="title_pro_challenge">Code</string>
     <string name="title_pro_reponse">Réponse</string>
+    <string name="title_pro_feature">Ceci est une fonctionnalité Pro</string>
     <string-array name="themeNames">
         <item>bleu sarcelle/orange</item>
         <item>bleu/orange</item>

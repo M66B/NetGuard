@@ -271,6 +271,7 @@
     <string name="title_pro_details">Нажмите на название для получения дополнительной информации</string>
     <string name="title_pro_challenge">Задание</string>
     <string name="title_pro_reponse">Ответ</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>бирюзовый/оранжевый</item>
         <item>синий/оранжевый</item>

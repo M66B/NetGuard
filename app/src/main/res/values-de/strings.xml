@@ -269,6 +269,7 @@
     <string name="title_pro_details">Auf einen Titel für weitere Informationen tippen</string>
     <string name="title_pro_challenge">Puzzle</string>
     <string name="title_pro_reponse">Antwort</string>
+    <string name="title_pro_feature">Dies ist eine Pro-Funktion</string>
     <string-array name="themeNames">
         <item>Blaugrün/Orange</item>
         <item>Blau/Orange</item>

@@ -273,6 +273,7 @@
     <string name="title_pro_details">点击标题查看更多信息</string>
     <string name="title_pro_challenge">验证口令</string>
     <string name="title_pro_reponse">验证应答</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>蓝绿色/橙色</item>
         <item>蓝色/橙色</item>

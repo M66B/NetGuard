@@ -269,6 +269,7 @@
     <string name="title_pro_details">Πατήστε στον τίτλο για περισσότερες πληροφορίες</string>
     <string name="title_pro_challenge">Πρόκληση</string>
     <string name="title_pro_reponse">Ανταπόκριση</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>κυπαρισσί/πορτοκαλί</item>
         <item>μπλε/πορτοκαλί</item>

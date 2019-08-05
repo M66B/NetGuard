@@ -273,6 +273,7 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="title_pro_details">Ketuk judul untuk informasi lebih lanjut</string>
     <string name="title_pro_challenge">Tantangan</string>
     <string name="title_pro_reponse">Respons</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>teal/oranye</item>
         <item>biru/oranye</item>

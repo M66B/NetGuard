@@ -273,6 +273,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
     <string name="title_pro_details">تېىمىنى بېسىپ كۆپ ئۇچۇرغا ئېرشىڭ</string>
     <string name="title_pro_challenge">چاقىرماق</string>
     <string name="title_pro_reponse">ئىنكاس</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>كۆك يېشىل/سىرىق</item>
         <item>كۆك/سىرىق</item>

@@ -273,6 +273,7 @@ Zure internet trafikoa ez da kanpo VPN zerbitzari batera bidaltzen.</string>
     <string name="title_pro_details">Sakatu lauza bat informazio gehiagorako</string>
     <string name="title_pro_challenge">Erronka</string>
     <string name="title_pro_reponse">Erantzuna</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>berdexka/laranja</item>
         <item>urdina/laranja</item>

@@ -271,6 +271,7 @@
     <string name="title_pro_details">Натиснете върху заглавие за повече информация</string>
     <string name="title_pro_challenge">Предизвикателство</string>
     <string name="title_pro_reponse">Отговор</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>синьо-зелено/оранжево</item>
         <item>синьо/оранжево</item>

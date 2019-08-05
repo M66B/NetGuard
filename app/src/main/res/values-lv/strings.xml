@@ -273,6 +273,7 @@ Tava interneta datu plūsma netiks sūtīta uz kādu ārējo VPN serveri.</strin
     <string name="title_pro_details">Spied uz virsrakstu, lai iegūtu vairāk informācijas</string>
     <string name="title_pro_challenge">Izaicinājums</string>
     <string name="title_pro_reponse">Atsauce</string>
+    <string name="title_pro_feature">Šī ir PRO funkcija</string>
     <string-array name="themeNames">
         <item>zilgans/oranžs</item>
         <item>zils/oranžs</item>

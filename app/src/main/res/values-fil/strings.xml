@@ -271,6 +271,7 @@ Ang iyong daloy ng internet ay hindi naipadala sa malayong serber ng VPN.</strin
     <string name="title_pro_details">Para sa maraming impormasyon tapikin ang titulo</string>
     <string name="title_pro_challenge">Pagsubok</string>
     <string name="title_pro_reponse">Tugon</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>tial/kahel</item>
         <item>kulay asul/kahel</item>

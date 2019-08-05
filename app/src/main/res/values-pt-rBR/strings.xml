@@ -272,6 +272,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
     <string name="title_pro_details">Toque em um título para obter mais informações</string>
     <string name="title_pro_challenge">Código de verificação</string>
     <string name="title_pro_reponse">Resposta</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>verde-azulado/laranja</item>
         <item>azul/laranja</item>

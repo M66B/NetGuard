@@ -273,6 +273,7 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="title_pro_details">Išsamesnei informacijai, bakstelėkite ant pavadinimo</string>
     <string name="title_pro_challenge">Challenge</string>
     <string name="title_pro_reponse">Response</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>žalsvai mėlyna/oranžinė</item>
         <item>mėlyna/oranžinė</item>

@@ -269,6 +269,7 @@
     <string name="title_pro_details">詳細情報はタイトルをタップします</string>
     <string name="title_pro_challenge">チャレンジ</string>
     <string name="title_pro_reponse">応答</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>ティール/オレンジ</item>
         <item>ブルー/オレンジ</item>

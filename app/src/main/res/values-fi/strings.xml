@@ -269,6 +269,7 @@
     <string name="title_pro_details">Valitse otsikko saadaksesi lisätietoja</string>
     <string name="title_pro_challenge">Haaste</string>
     <string name="title_pro_reponse">Vastaus</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>sinivihreä/oranssi</item>
         <item>sininen/oranssi</item>

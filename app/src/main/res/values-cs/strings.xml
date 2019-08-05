@@ -273,6 +273,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
     <string name="title_pro_details">Stiskněte název pro více informací</string>
     <string name="title_pro_challenge">Výzva</string>
     <string name="title_pro_reponse">Odpověď</string>
+    <string name="title_pro_feature">This is a pro feature</string>
     <string-array name="themeNames">
         <item>modro-zelená/oranžová</item>
         <item>modrá/oranžová</item>

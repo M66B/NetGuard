@@ -273,6 +273,7 @@
     <string name="title_pro_details">點選標題以獲得更多資訊</string>
     <string name="title_pro_challenge">挑戰</string>
     <string name="title_pro_reponse">回應</string>
+    <string name="title_pro_feature">這是專業 (PRO) 版功能</string>
     <string-array name="themeNames">
         <item>藍綠/橙</item>
         <item>藍/橙</item>
