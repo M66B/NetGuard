@@ -210,8 +210,8 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="msg_always_on_lockdown">Stäng av \"blockera anslutningar utan VPN\" i Android VPN-inställningar för att använda NetGuard i filtreringsläge</string>
     <string name="msg_private_dns">Stäng av \"Private DNS\" i Android-nätverksinställningar för att använda NetGuard i filtreringsläge</string>
     <string name="title_lockdown_enabled">Trafiken är låst</string>
-    <string name="title_unmetered_allowed">Unmetered traffic is allowed</string>
-    <string name="title_unmetered_blocked">Unmetered traffic is blocked</string>
+    <string name="title_unmetered_allowed">Ouppmätt trafik är tillåten</string>
+    <string name="title_unmetered_blocked">Ouppmätt trafik är blockerad</string>
     <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
     <string name="title_metered_allowed">Uppmätt trafik tillåts</string>
     <string name="title_metered_blocked">Uppmätt trafik blockeras</string>
@@ -273,7 +273,7 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="title_pro_details">Tryck på en titel för mer information</string>
     <string name="title_pro_challenge">Utmaning</string>
     <string name="title_pro_reponse">Svar</string>
-    <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_feature">Detta är en pro-funktion</string>
     <string-array name="themeNames">
         <item>teal/orange</item>
         <item>blå/orange</item>
