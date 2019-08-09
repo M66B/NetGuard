@@ -50,6 +50,7 @@ Downloads:
 
 * [GitHub](https://github.com/M66B/NetGuard/releases)
 * [Google Play](https://play.google.com/store/apps/details?id=eu.faircode.netguard)
+* [FDroid](https://f-droid.org/en/packages/eu.faircode.netguard/)
 
 Certificate fingerprints:
 
