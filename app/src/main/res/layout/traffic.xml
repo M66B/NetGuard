@@ -17,13 +17,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorGrayed"
             android:typeface="monospace" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:alpha="0.5"
             android:text="▲"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
@@ -34,16 +35,17 @@
             android:id="@+id/tvRx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorGrayed"
             android:typeface="monospace" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:alpha="0.5"
             android:text="▼"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
@@ -55,39 +57,42 @@
         android:id="@+id/tvSessions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorGrayed"
         android:textSize="10sp" />
 
     <TextView
         android:id="@+id/tvTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:singleLine="false"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorGrayed"
         android:textSize="10sp" />
 
     <TextView
         android:id="@+id/tvFiles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorGrayed"
         android:textSize="10sp" />
 
     <ImageView
         android:id="@+id/ivTraffic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:scaleType="fitXY" />
 
