@@ -20,6 +20,9 @@ package eu.faircode.netguard;
 */
 
 import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -37,11 +40,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
+
+import static android.content.ClipDescription.MIMETYPE_TEXT_PLAIN;
 
 public class ActivityPro extends AppCompatActivity {
     private static final String TAG = "NetGuard.Pro";
@@ -288,17 +295,28 @@ public class ActivityPro extends AppCompatActivity {
                 .create();
 
         String android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        String challenge = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? Build.SERIAL : "O3" + android_id);
+        final String challenge = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? Build.SERIAL : "O3" + android_id);
         String seed = (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ? "NetGuard2" : "NetGuard3");
 
         // Challenge
         TextView tvChallenge = view.findViewById(R.id.tvChallenge);
         tvChallenge.setText(challenge);
 
+        ImageButton ibCopy = view.findViewById(R.id.ibCopy);
+        ibCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText(getString(R.string.title_pro_challenge), challenge);
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(ActivityPro.this, android.R.string.copy, Toast.LENGTH_LONG).show();
+            }
+        });
+
         // Response
+        final EditText etResponse = view.findViewById(R.id.etResponse);
         try {
             final String response = Util.md5(challenge, seed);
-            EditText etResponse = view.findViewById(R.id.etResponse);
             etResponse.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -323,6 +341,20 @@ public class ActivityPro extends AppCompatActivity {
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
+
+        ImageButton ibPaste = view.findViewById(R.id.ibPaste);
+        ibPaste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                if (clipboard != null &&
+                        clipboard.hasPrimaryClip() &&
+                        clipboard.getPrimaryClipDescription().hasMimeType(MIMETYPE_TEXT_PLAIN)) {
+                    ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+                    etResponse.setText(item.getText().toString());
+                }
+            }
+        });
 
         dialog.show();
     }
