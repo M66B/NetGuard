@@ -8,7 +8,7 @@
     <string name="app_first">Une grande attention a été apportée pour développer et tester NetGuard, cependant il est impossible de garantir un bon fonctionnement sur tous les appareils.</string>
     <string name="app_agree">J\'accepte</string>
     <string name="app_disagree">Je refuse</string>
-    <string name="app_support">NetGuard a besoin de votre aide. Appuyez pour acheter des fonctionnalités pro pour continuer à faire avancer le projet.</string>
+    <string name="app_support">NetGuard a besoin de votre aide. Appuyez pour acheter des fonctionnalités Pro pour continuer à faire avancer le projet.</string>
     <string name="channel_foreground">Services en cours d\'exécution</string>
     <string name="channel_notify">Notifications générales</string>
     <string name="channel_access">Accéder aux notifications</string>
