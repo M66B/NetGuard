@@ -62,7 +62,7 @@
     <string name="setting_install">Pranešti naujo įdiegimo metu</string>
     <string name="setting_screen_on">Taikyti „aktyvaus ekrano“ taisykles</string>
     <string name="setting_auto">Automatiškai įjungti po %1$s min.</string>
-    <string name="setting_delay">Uždelsti ekrano užrakinimą%1$s minučių</string>
+    <string name="setting_delay">Uždelsti ekrano užrakinimą %1$s minučių</string>
     <string name="setting_update">Naujinių tikrinimas</string>
     <string name="setting_network_options">Tinklo nustatymai</string>
     <string name="setting_subnet">Potinklio nukreipimas</string>
@@ -153,7 +153,7 @@
     <string name="msg_sure">Ar esate įsitikinę?</string>
     <string name="msg_started">Taisyklių vykdymas</string>
     <string name="msg_packages">%1$d leista, %2$d užblokuota</string>
-    <string name="msg_hosts">%1$d leista, %2$d užblokuota, %3$d blokuojami adresai</string>
+    <string name="msg_hosts">%1$d leista, %2$d užblokuota, %3$d blokuojamų adresų</string>
     <string name="msg_waiting">Laukiama įvykio</string>
     <string name="msg_disabled">NetGuard išjungta, įjungimui naudokite jungiklį programos viršuje</string>
     <string name="msg_revoked">NetGuard buvo išjungta, greičiausiai dėl kitos VPN programos</string>
