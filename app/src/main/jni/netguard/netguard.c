@@ -28,6 +28,8 @@ char socks5_addr[INET6_ADDRSTRLEN + 1];
 int socks5_port = 0;
 char socks5_username[127 + 1];
 char socks5_password[127 + 1];
+bool sock5_udp_relay_enabled;
+
 int loglevel = ANDROID_LOG_WARN;
 
 extern int max_tun_msg;
@@ -307,7 +309,7 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1pcap(
 JNIEXPORT void JNICALL
 Java_eu_faircode_netguard_ServiceSinkhole_jni_1socks5(JNIEnv *env, jobject instance, jstring addr_,
                                                       jint port, jstring username_,
-                                                      jstring password_) {
+                                                      jstring password_, jboolean udp_relay_) {
     const char *addr = (*env)->GetStringUTFChars(env, addr_, 0);
     const char *username = (*env)->GetStringUTFChars(env, username_, 0);
     const char *password = (*env)->GetStringUTFChars(env, password_, 0);
@@ -319,9 +321,10 @@ Java_eu_faircode_netguard_ServiceSinkhole_jni_1socks5(JNIEnv *env, jobject insta
     socks5_port = port;
     strcpy(socks5_username, username);
     strcpy(socks5_password, password);
+    sock5_udp_relay_enabled = udp_relay_;
 
-    log_android(ANDROID_LOG_WARN, "SOCKS5 %s:%d user=%s",
-                socks5_addr, socks5_port, socks5_username);
+    log_android(ANDROID_LOG_WARN, "SOCKS5 %s:%d user=%s udp_relay=%d",
+                socks5_addr, socks5_port, socks5_username, sock5_udp_relay_enabled);
 
     (*env)->ReleaseStringUTFChars(env, addr_, addr);
     (*env)->ReleaseStringUTFChars(env, username_, username);

@@ -74,6 +74,9 @@
 #define SOCKS5_AUTH 3
 #define SOCKS5_CONNECT 4
 #define SOCKS5_CONNECTED 5
+#define SOCKS5_UDP_ASSOCIATE 6
+#define SOCKS5_UDP_ASSOCIATED 7
+#define SOCKS5_UDP_ASSOCIATE_FAILED 8
 
 struct context {
     pthread_mutex_t lock;
@@ -204,6 +207,18 @@ struct ng_session {
     jint socket;
     struct epoll_event ev;
     struct ng_session *next;
+};
+
+struct socks5_client {
+    uint8_t socks5;
+    jint socks5_fd;
+    struct epoll_event socks5_ev;
+    int version;
+    union {
+        __be32 ip4; // network notation
+        struct in6_addr ip6;
+    } daddr;
+    __be16 socks5_udp_dest;
 };
 
 struct uid_cache_entry {
@@ -374,6 +389,18 @@ int check_tun(const struct arguments *args,
               int sessions, int maxsessions);
 
 void check_icmp_socket(const struct arguments *args, const struct epoll_event *ev);
+
+int socks5_client_recv_cb(int socksfd, uint8_t *socks5_status,
+                          int ipver, int type, void *bind_addr, __be16 *bind_port,
+                          char *session);
+
+int socks5_client_send_cb(int socksfd, uint8_t *socks5_status,
+                          int ipver, int type, void *dest_addr, __be16 dest_port,
+                          char *session);
+
+int start_socks5_udp_relay_client(const struct arguments *args, int epoll_fd);
+
+void check_socks5_udp_relay_client(const struct arguments *args, const struct epoll_event *ev, const int epoll_fd);
 
 void check_udp_socket(const struct arguments *args, const struct epoll_event *ev);
 

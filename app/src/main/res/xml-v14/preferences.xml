@@ -238,6 +238,12 @@
                 android:key="socks5_enabled"
                 android:summary="@string/summary_socks5_enabled"
                 android:title="@string/setting_socks5_enabled" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:dependency="socks5_enabled"
+                android:key="sock5_udp_relay_enabled"
+                android:summary="@string/summary_sock5_udp_relay_enabled"
+                android:title="@string/setting_sock5_udp_relay_enabled" />
             <EditTextPreference
                 android:dependency="filter"
                 android:hint="127.0.0.1"

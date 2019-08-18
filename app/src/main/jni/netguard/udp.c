@@ -19,6 +19,12 @@
 
 #include "netguard.h"
 
+extern char socks5_addr[INET6_ADDRSTRLEN + 1];
+extern int socks5_port;
+extern bool sock5_udp_relay_enabled;
+
+struct socks5_client socks5_udp_relay_client;
+
 extern FILE *pcap_file;
 
 int get_udp_timeout(const struct udp_session *u, int sessions, int maxsessions) {
@@ -82,6 +88,41 @@ int check_udp_session(const struct arguments *args, struct ng_session *s,
     return 0;
 }
 
+void check_socks5_udp_relay_client(const struct arguments *args, const struct epoll_event *ev, const int epoll_fd) {
+    struct socks5_client *client = (struct socks5_client *)ev->data.ptr;
+    unsigned int events = EPOLLERR;
+    if (ev->events & EPOLLERR) {
+//        client->socks5 = SOCKS5_UDP_ASSOCIATE_FAILED;
+    } else {
+        if (ev->events & EPOLLIN) {
+            if (socks5_client_recv_cb(client->socks5_fd, &client->socks5,
+                    4, SOCK_DGRAM, &client->daddr, &client->socks5_udp_dest, NULL) < 0) {
+                client->socks5 = SOCKS5_UDP_ASSOCIATE_FAILED;
+            }
+            client->version = 4;
+        }
+        struct in6_addr inaddr;
+        memset(&inaddr, 0, sizeof(struct in6_addr));
+        if (socks5_client_send_cb(client->socks5_fd, &client->socks5,
+                4, SOCK_DGRAM, &inaddr, 0, NULL) < 0) {
+            client->socks5 = SOCKS5_UDP_ASSOCIATE_FAILED;
+        } else {
+            events = events | EPOLLIN;
+        }
+        if (client->socks5 == SOCKS5_UDP_ASSOCIATED) {
+            // TODO
+        }
+    }
+    if (events != client->socks5_ev.events) {
+        client->socks5_ev.events = events;
+        if (epoll_ctl(epoll_fd, EPOLL_CTL_MOD, client->socks5_fd, &client->socks5_ev)) {
+            log_android(ANDROID_LOG_ERROR, "epoll mod SOCKS5 tcp error %d: %s", errno, strerror(errno));
+        } else
+            log_android(ANDROID_LOG_DEBUG, "epoll mod SOCKS5 tcp socket %d in %d out %d",
+                        client->socks5_fd, (events & EPOLLIN) != 0, (events & EPOLLOUT) != 0);
+    }
+}
+
 void check_udp_socket(const struct arguments *args, const struct epoll_event *ev) {
     struct ng_session *s = (struct ng_session *) ev->data.ptr;
 
@@ -105,6 +146,7 @@ void check_udp_socket(const struct arguments *args, const struct epoll_event *ev
             s->udp.time = time(NULL);
 
             uint8_t *buffer = ng_malloc(s->udp.mss, "udp recv");
+            uint8_t *data = buffer;
             ssize_t bytes = recv(s->socket, buffer, s->udp.mss, 0);
             if (bytes < 0) {
                 // Socket error
@@ -118,6 +160,40 @@ void check_udp_socket(const struct arguments *args, const struct epoll_event *ev
                 s->udp.state = UDP_FINISHING;
 
             } else {
+                if (socks5_udp_relay_client.socks5 == SOCKS5_UDP_ASSOCIATED) {
+                    // strip UDP request header
+
+                    // +----+------+------+----------+----------+----------+
+                    // |RSV | FRAG | ATYP | DST.ADDR | DST.PORT |   DATA   |
+                    // +----+------+------+----------+----------+----------+
+                    // | 2  |  1   |  1   | Variable |    2     | Variable |
+                    // +----+------+------+----------+----------+----------+
+                    if (bytes < 12)
+                        goto done;
+                    if (*data++ != 0x00) // msb of RSV
+                        goto done;
+                    if (*data++ != 0x00) // lsb of RSV
+                        goto done;
+                    if (*data++ != 0x00) // FRAG
+                        goto done; // TODO: SUPPORT FRAG
+                    if (*data == 1) // ATYP: IPv4
+                        data += (1 + 4);
+                    else if (*data == 3) { // ATYP: DOMAINNAME
+                        while (*data != '\0')
+                            data++;
+                        if (bytes < ((data - buffer) + 2))
+                            goto done;
+                    }
+                    else if (*data == 4) { // ATYP: IPv6
+                        if (bytes < 22) goto done;
+                        data += (1 + 16);
+                    }
+                    else
+                        goto done;
+                    data += 2; // DST.PORT
+                    bytes -= (data - buffer);
+                }
+
                 // Socket read data
                 char dest[INET6_ADDRSTRLEN + 1];
                 if (s->udp.version == 4)
@@ -131,10 +207,10 @@ void check_udp_socket(const struct arguments *args, const struct epoll_event *ev
 
                 // Process DNS response
                 if (ntohs(s->udp.dest) == 53)
-                    parse_dns_response(args, s, buffer, (size_t *) &bytes);
+                    parse_dns_response(args, s, data, (size_t *) &bytes);
 
                 // Forward to tun
-                if (write_udp(args, &s->udp, buffer, (size_t) bytes) < 0)
+                if (write_udp(args, &s->udp, data, (size_t) bytes) < 0)
                     s->udp.state = UDP_FINISHING;
                 else {
                     // Prevent too many open files
@@ -142,6 +218,7 @@ void check_udp_socket(const struct arguments *args, const struct epoll_event *ev
                         s->udp.state = UDP_FINISHING;
                 }
             }
+            done:
             ng_free(buffer, __FILE__, __LINE__);
         }
     }
@@ -231,7 +308,7 @@ jboolean handle_udp(const struct arguments *args,
     const struct ip6_hdr *ip6 = (struct ip6_hdr *) pkt;
     const struct udphdr *udphdr = (struct udphdr *) payload;
     const uint8_t *data = payload + sizeof(struct udphdr);
-    const size_t datalen = length - (data - pkt);
+    size_t datalen = length - (data - pkt);
 
     // Search session
     struct ng_session *cur = args->ctx->ng_session;
@@ -333,6 +410,7 @@ jboolean handle_udp(const struct arguments *args,
     int rversion;
     struct sockaddr_in addr4;
     struct sockaddr_in6 addr6;
+    uint8_t *socksdata = NULL;
     if (redirect == NULL) {
         rversion = cur->udp.version;
         if (cur->udp.version == 4) {
@@ -343,6 +421,48 @@ jboolean handle_udp(const struct arguments *args,
             addr6.sin6_family = AF_INET6;
             memcpy(&addr6.sin6_addr, &cur->udp.daddr.ip6, 16);
             addr6.sin6_port = cur->udp.dest;
+        }
+
+        if (sock5_udp_relay_enabled) {
+            // construct SOCK5 UDP request
+            if (socks5_udp_relay_client.socks5 == SOCKS5_UDP_ASSOCIATED) {
+                socksdata = ng_malloc(datalen + 30, "udp socks5 data");
+                uint8_t *psocksdata = socksdata;
+
+                *psocksdata++ = 0x00; // msb of RSV
+                *psocksdata++ = 0x00; // msb of RSV
+                *psocksdata++ = 0; // FRAG
+                *psocksdata++ = (cur->udp.version == 4 ? 1 : 4); // ATYP
+                if (cur->udp.version == 4) {
+                    memcpy(psocksdata, &cur->udp.daddr.ip4, 4); // DST.ADDR
+                    psocksdata += 4;
+                } else {
+                    memcpy(psocksdata, &cur->udp.daddr.ip6, 16); // DST.ADDR
+                    psocksdata += 16;
+                }
+                memcpy(psocksdata, &cur->udp.dest, 2); // DST.PORT
+                psocksdata += 2;
+                memcpy(psocksdata, data, datalen);
+                psocksdata += datalen;
+
+                data = socksdata;
+                datalen += (psocksdata - socksdata);
+
+                rversion = socks5_udp_relay_client.version;
+
+                if (rversion == 4) {
+                    addr4.sin_family = AF_INET;
+                    addr4.sin_addr.s_addr = socks5_udp_relay_client.daddr.ip4;
+                    addr4.sin_port = socks5_udp_relay_client.socks5_udp_dest;
+                } else {
+                    addr6.sin6_family = AF_INET6;
+                    memcpy(&addr6.sin6_addr, &socks5_udp_relay_client.daddr.ip6, 16);
+                    addr6.sin6_port = socks5_udp_relay_client.socks5_udp_dest;
+                }
+            } else if (socks5_udp_relay_client.socks5 == SOCKS5_UDP_ASSOCIATE_FAILED) {
+                cur->udp.state = UDP_FINISHING;
+                return 0;
+            }
         }
     } else {
         rversion = (strstr(redirect->raddr, ":") == NULL ? 4 : 6);
@@ -367,11 +487,13 @@ jboolean handle_udp(const struct arguments *args,
         log_android(ANDROID_LOG_ERROR, "UDP sendto error %d: %s", errno, strerror(errno));
         if (errno != EINTR && errno != EAGAIN) {
             cur->udp.state = UDP_FINISHING;
+            ng_free(socksdata, __FILE__, __LINE__);
             return 0;
         }
     } else
         cur->udp.sent += datalen;
 
+    ng_free(socksdata, __FILE__, __LINE__);
     return 1;
 }
 
@@ -431,6 +553,79 @@ int open_udp_socket(const struct arguments *args,
                             errno, strerror(errno));
         }
     }
+
+    return sock;
+}
+
+int start_socks5_udp_relay_client(const struct arguments *args, int epoll_fd) {
+    int sock;
+    int version;
+
+    memset(&socks5_udp_relay_client, 0, sizeof(struct socks5_client));
+
+    log_android(ANDROID_LOG_INFO, "start SOCKS5 udp relay client");
+    version = (strstr(socks5_addr, ":") == NULL ? 4 : 6);
+
+    // Get TCP socket
+    if ((sock = socket(version == 4 ? PF_INET : PF_INET6, SOCK_STREAM, 0)) < 0) {
+        log_android(ANDROID_LOG_ERROR, "socket error %d: %s", errno, strerror(errno));
+        return -1;
+    }
+
+    // Protect
+    if (protect_socket(args, sock) < 0)
+        return -1;
+
+    int on = 1;
+    if (setsockopt(sock, SOL_TCP, TCP_NODELAY, &on, sizeof(on)) < 0)
+        log_android(ANDROID_LOG_ERROR, "setsockopt TCP_NODELAY error %d: %s",
+                    errno, strerror(errno));
+
+    // Set non blocking
+    int flags = fcntl(sock, F_GETFL, 0);
+    if (flags < 0 || fcntl(sock, F_SETFL, flags | O_NONBLOCK) < 0) {
+        log_android(ANDROID_LOG_ERROR, "fcntl socket O_NONBLOCK error %d: %s",
+                    errno, strerror(errno));
+        return -1;
+    }
+
+    // Build target address
+    struct sockaddr_in addr4;
+    struct sockaddr_in6 addr6;
+    log_android(ANDROID_LOG_WARN, "TCP%d SOCKS5 to %s/%u for UDP",
+                version, socks5_addr, socks5_port);
+
+    if (version == 4) {
+        addr4.sin_family = AF_INET;
+        inet_pton(AF_INET, socks5_addr, &addr4.sin_addr);
+        addr4.sin_port = htons(socks5_port);
+    } else {
+        addr6.sin6_family = AF_INET6;
+        inet_pton(AF_INET6, socks5_addr, &addr6.sin6_addr);
+        addr6.sin6_port = htons(socks5_port);
+    }
+
+    // Initiate connect
+    int err = connect(sock,
+                      (version == 4 ? (const struct sockaddr *) &addr4
+                                    : (const struct sockaddr *) &addr6),
+                      (socklen_t) (version == 4
+                                   ? sizeof(struct sockaddr_in)
+                                   : sizeof(struct sockaddr_in6)));
+    if (err < 0 && errno != EINPROGRESS) {
+        log_android(ANDROID_LOG_ERROR, "connect error %d: %s", errno, strerror(errno));
+        return -1;
+    }
+
+    socks5_udp_relay_client.socks5_fd = sock;
+    socks5_udp_relay_client.socks5 = SOCKS5_HELLO;
+
+    // Monitor SOCKS5 events
+    memset(&socks5_udp_relay_client.socks5_ev, 0, sizeof(struct epoll_event));
+    socks5_udp_relay_client.socks5_ev.events = EPOLLOUT | EPOLLERR;
+    socks5_udp_relay_client.socks5_ev.data.ptr = &socks5_udp_relay_client;
+    if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, socks5_udp_relay_client.socks5_fd, &socks5_udp_relay_client.socks5_ev))
+        log_android(ANDROID_LOG_ERROR, "epoll add tcp error %d: %s", errno, strerror(errno));
 
     return sock;
 }

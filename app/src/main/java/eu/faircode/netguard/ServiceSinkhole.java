@@ -212,7 +212,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private static native void jni_pcap(String name, int record_size, int file_size);
 
-    private native void jni_socks5(String addr, int port, String username, String password);
+    private native void jni_socks5(String addr, int port, String username, String password, boolean udp_relay);
 
     private native void jni_done(long context);
 
@@ -1478,9 +1478,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         prefs.getString("socks5_addr", ""),
                         Integer.parseInt(prefs.getString("socks5_port", "0")),
                         prefs.getString("socks5_username", ""),
-                        prefs.getString("socks5_password", ""));
+                        prefs.getString("socks5_password", ""),
+                        prefs.getBoolean("sock5_udp_relay_enabled", false));
             else
-                jni_socks5("", 0, "", "");
+                jni_socks5("", 0, "", "", false);
 
             if (tunnelThread == null) {
                 Log.i(TAG, "Starting tunnel thread context=" + jni_context);

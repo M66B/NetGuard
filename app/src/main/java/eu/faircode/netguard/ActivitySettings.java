@@ -682,7 +682,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     getString(R.string.setting_rcode, prefs.getString(name, "3")));
             ServiceSinkhole.reload("changed " + name, this, false);
 
-        } else if ("socks5_enabled".equals(name))
+        } else if ("socks5_enabled".equals(name) || "socks5_udp_enabled".equals(name))
             ServiceSinkhole.reload("changed " + name, this, false);
 
         else if ("socks5_addr".equals(name)) {

@@ -113,6 +113,7 @@
     <string name="setting_dns">VPN DNS: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
+    <string name="setting_sock5_udp_relay_enabled">forward UDP to SOCKS5 server</string>
     <string name="setting_socks5_addr">SOCKS5 address: %s</string>
     <string name="setting_socks5_port">SOCKS5 port: %s</string>
     <string name="setting_socks5_username">SOCKS5 username: %s</string>
@@ -166,6 +167,7 @@
     <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
     <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
     <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
+    <string name="summary_sock5_udp_relay_enabled">UDP traffic will be sent to the proxy server</string>
     <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
 
     <string name="summary_stats">Show network speed graph in status bar notification</string>
