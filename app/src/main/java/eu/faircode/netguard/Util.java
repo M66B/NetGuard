@@ -273,8 +273,8 @@ public class Util {
     }
 
     public static List<String> getDefaultDNS(Context context) {
-        String dns1 = null;
-        String dns2 = null;
+        List<String> listDns = new ArrayList<>();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             Network an = cm.getActiveNetwork();
@@ -282,29 +282,22 @@ public class Util {
                 LinkProperties lp = cm.getLinkProperties(an);
                 if (lp != null) {
                     List<InetAddress> dns = lp.getDnsServers();
-                    if (dns != null) {
-                        if (dns.size() > 0)
-                            dns1 = dns.get(0).getHostAddress();
-                        if (dns.size() > 1)
-                            dns2 = dns.get(1).getHostAddress();
-                        for (InetAddress d : dns)
+                    if (dns != null)
+                        for (InetAddress d : dns) {
                             Log.i(TAG, "DNS from LP: " + d.getHostAddress());
-                    }
+                            listDns.add(d.getHostAddress().split("%")[0]);
+                        }
                 }
             }
         } else {
-            dns1 = jni_getprop("net.dns1");
-            dns2 = jni_getprop("net.dns2");
+            String dns1 = jni_getprop("net.dns1");
+            String dns2 = jni_getprop("net.dns2");
+            if (dns1 != null)
+                listDns.add(dns1.split("%")[0]);
+            if (dns2 != null)
+                listDns.add(dns2.split("%")[0]);
         }
 
-        if (!TextUtils.isEmpty(dns1))
-            dns1 = dns1.split("%")[0];
-        if (!TextUtils.isEmpty(dns2))
-            dns2 = dns2.split("%")[0];
-
-        List<String> listDns = new ArrayList<>();
-        listDns.add(TextUtils.isEmpty(dns1) ? "8.8.8.8" : dns1);
-        listDns.add(TextUtils.isEmpty(dns2) ? "8.8.4.4" : dns2);
         return listDns;
     }
 

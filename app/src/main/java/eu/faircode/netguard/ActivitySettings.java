@@ -239,11 +239,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         EditTextPreference pref_dns1 = (EditTextPreference) screen.findPreference("dns");
         EditTextPreference pref_dns2 = (EditTextPreference) screen.findPreference("dns2");
         EditTextPreference pref_ttl = (EditTextPreference) screen.findPreference("ttl");
-        List<String> def_dns = Util.getDefaultDNS(this);
-        pref_dns1.getEditText().setHint(def_dns.get(0));
-        pref_dns2.getEditText().setHint(def_dns.get(1));
-        pref_dns1.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns.get(0))));
-        pref_dns2.setTitle(getString(R.string.setting_dns, prefs.getString("dns2", def_dns.get(1))));
+        pref_dns1.setTitle(getString(R.string.setting_dns, prefs.getString("dns", "-")));
+        pref_dns2.setTitle(getString(R.string.setting_dns, prefs.getString("dns2", "-")));
         pref_ttl.setTitle(getString(R.string.setting_ttl, prefs.getString("ttl", "259200")));
 
         // SOCKS5 parameters
@@ -669,8 +666,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
             getPreferenceScreen().findPreference(name).setTitle(
-                    getString(R.string.setting_dns,
-                            prefs.getString(name, Util.getDefaultDNS(this).get("dns".equals(name) ? 0 : 1))));
+                    getString(R.string.setting_dns, prefs.getString(name, "-")));
             ServiceSinkhole.reload("changed " + name, this, false);
 
         } else if ("ttl".equals(name))

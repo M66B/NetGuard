@@ -1125,12 +1125,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         // Get custom DNS servers
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean ip6 = prefs.getBoolean("ip6", true);
-        boolean pdns = Util.isPrivateDns(context);
         boolean filter = prefs.getBoolean("filter", false);
-        // Make sure normal DNS servers are used when private DNS is enabled
-        String vpnDns1 = prefs.getString("dns", pdns && filter ? "8.8.8.8" : null);
-        String vpnDns2 = prefs.getString("dns2", pdns && filter ? "8.8.4.4" : null);
-        Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " VPN1=" + vpnDns1 + " VPN2=" + vpnDns2);
+        String vpnDns1 = prefs.getString("dns", null);
+        String vpnDns2 = prefs.getString("dns2", null);
+        Log.i(TAG, "DNS system=" + TextUtils.join(",", sysDns) + " config=" + vpnDns1 + "," + vpnDns2);
 
         if (vpnDns1 != null)
             try {
@@ -1167,8 +1165,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         // Remove local DNS servers when not routing LAN
         boolean lan = prefs.getBoolean("lan", false);
         boolean use_hosts = prefs.getBoolean("use_hosts", false);
-        if (lan && use_hosts && filter) {
-            List<InetAddress> listLocal = new ArrayList<>();
+        if (lan && use_hosts && filter)
             try {
                 Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
                 if (nis != null)
@@ -1184,13 +1181,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                                     int prefix = ia.getNetworkPrefixLength();
                                     BigInteger mask = BigInteger.valueOf(-1).shiftLeft(hostAddress.getAddress().length * 8 - prefix);
 
-                                    for (InetAddress dns : listDns)
+                                    for (InetAddress dns : new ArrayList<>(listDns))
                                         if (hostAddress.getAddress().length == dns.getAddress().length) {
                                             BigInteger ip = new BigInteger(1, dns.getAddress());
 
                                             if (host.and(mask).equals(ip.and(mask))) {
                                                 Log.i(TAG, "Local DNS server host=" + hostAddress + "/" + prefix + " dns=" + dns);
-                                                listLocal.add(dns);
+                                                listDns.remove(dns);
                                             }
                                         }
                                 }
@@ -1200,35 +1197,20 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
 
-            List<InetAddress> listDns4 = new ArrayList<>();
-            List<InetAddress> listDns6 = new ArrayList<>();
+        // Always set DNS servers
+        if (listDns.size() == 0)
             try {
-                listDns4.add(InetAddress.getByName("8.8.8.8"));
-                listDns4.add(InetAddress.getByName("8.8.4.4"));
+                listDns.add(InetAddress.getByName("8.8.8.8"));
+                listDns.add(InetAddress.getByName("8.8.4.4"));
                 if (ip6) {
-                    listDns6.add(InetAddress.getByName("2001:4860:4860::8888"));
-                    listDns6.add(InetAddress.getByName("2001:4860:4860::8844"));
+                    listDns.add(InetAddress.getByName("2001:4860:4860::8888"));
+                    listDns.add(InetAddress.getByName("2001:4860:4860::8844"));
                 }
-
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
 
-            for (InetAddress dns : listLocal) {
-                listDns.remove(dns);
-                if (dns instanceof Inet4Address) {
-                    if (listDns4.size() > 0) {
-                        listDns.add(listDns4.get(0));
-                        listDns4.remove(0);
-                    }
-                } else {
-                    if (listDns6.size() > 0) {
-                        listDns.add(listDns6.get(0));
-                        listDns6.remove(0);
-                    }
-                }
-            }
-        }
+        Log.i(TAG, "Get DNS=" + TextUtils.join(",", listDns));
 
         return listDns;
     }
@@ -1272,11 +1254,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         // VPN address
         String vpn4 = prefs.getString("vpn4", "10.1.10.1");
-        Log.i(TAG, "vpn4=" + vpn4);
+        Log.i(TAG, "Using VPN4=" + vpn4);
         builder.addAddress(vpn4, 32);
         if (ip6) {
             String vpn6 = prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1");
-            Log.i(TAG, "vpn6=" + vpn6);
+            Log.i(TAG, "Using VPN6=" + vpn6);
             builder.addAddress(vpn6, 128);
         }
 
@@ -1284,7 +1266,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (filter)
             for (InetAddress dns : getDns(ServiceSinkhole.this)) {
                 if (ip6 || dns instanceof Inet4Address) {
-                    Log.i(TAG, "dns=" + dns);
+                    Log.i(TAG, "Using DNS=" + dns);
                     builder.addDnsServer(dns);
                 }
             }
