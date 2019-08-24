@@ -39,7 +39,7 @@
     <string name="menu_pcap_enabled">PCAP włączone</string>
     <string name="menu_pcap_export">Eksport PCAP</string>
     <string name="menu_clear">Wyczyść</string>
-    <string name="menu_export">Export</string>
+    <string name="menu_export">Eksportuj</string>
     <string name="menu_reset">Resetuj</string>
     <string name="menu_add">Dodaj</string>
     <string name="menu_delete">Usuń</string>

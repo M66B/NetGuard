@@ -43,7 +43,7 @@
     <string name="menu_reset">Réinitialiser</string>
     <string name="menu_add">Ajouter</string>
     <string name="menu_delete">Supprimer</string>
-    <string name="menu_cleanup">Nettoyage</string>
+    <string name="menu_cleanup">Nettoyer</string>
     <string name="title_protocol">Protocole</string>
     <string name="title_dport">Port source</string>
     <string name="title_raddr">Adresse de destination</string>
@@ -217,7 +217,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="title_host_allowed">L\'adresse est autorisée</string>
     <string name="title_host_blocked">L\'adresse est bloquée</string>
     <string name="title_interactive_allowed">Autoriser lorsque l\'écran est allumé</string>
-    <string name="title_roaming_blocked">Bloquer si itinérance</string>
+    <string name="title_roaming_blocked">Bloquer en itinérance</string>
     <string name="title_metered">Par défaut, une connexion Wi-Fi est considérée comme illimitée et une connexion mobile limitée</string>
     <string name="title_internet">n\'a aucune autorisation internet</string>
     <string name="title_disabled">est désactivé</string>
@@ -226,7 +226,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="title_screen_wifi">Autoriser le Wi-Fi quand l\'écran est allumé</string>
     <string name="title_screen_other">Autoriser les données mobiles quand l\'écran est allumé</string>
     <string name="title_roaming_symbol">R</string>
-    <string name="title_roaming">Bloquer si itinérance</string>
+    <string name="title_roaming">Bloquer en itinérance</string>
     <string name="title_lockdown">Autoriser en mode verrouillage</string>
     <string name="title_related">Filtre lié</string>
     <string name="title_access">Tentatives d\'accès</string>
@@ -246,7 +246,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="title_allow">Autoriser</string>
     <string name="title_block">Bloquer</string>
     <string name="title_allow_wifi">Autoriser Wi-Fi</string>
-    <string name="title_block_wifi">Bloquer Wi-Fi</string>
+    <string name="title_block_wifi">Bloquer le Wi-Fi</string>
     <string name="title_allow_other">Autoriser les données</string>
     <string name="title_block_other">Bloquer les données</string>
     <string name="title_root">root</string>
