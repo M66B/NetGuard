@@ -324,7 +324,7 @@ If you cannot build yourself, there are prebuilt versions of NetGuard available 
 * If your language is not listed, please send a message to marcel(plus)netguard(at)faircode(dot)eu
 * You can see the status of all translations [here](https://crowdin.com/project/netguard).
 
-Please note that you agree to the license below by contributing, including the copyright.
+Please note that by contributing you agree to the license below, including the copyright, without any additional terms or conditions.
 
 Attribution
 -----------
