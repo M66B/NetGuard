@@ -1149,18 +1149,19 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
 
-        // Use system DNS servers only when no two custom DNS servers specified
-        if (listDns.size() < 2)
-            for (String def_dns : sysDns)
-                try {
-                    InetAddress ddns = InetAddress.getByName(def_dns);
-                    if (!listDns.contains(ddns) &&
-                            !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()) &&
-                            (ip6 || ddns instanceof Inet4Address))
-                        listDns.add(ddns);
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
+        if (listDns.size() == 2)
+            return listDns;
+
+        for (String def_dns : sysDns)
+            try {
+                InetAddress ddns = InetAddress.getByName(def_dns);
+                if (!listDns.contains(ddns) &&
+                        !(ddns.isLoopbackAddress() || ddns.isAnyLocalAddress()) &&
+                        (ip6 || ddns instanceof Inet4Address))
+                    listDns.add(ddns);
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
 
         // Remove local DNS servers when not routing LAN
         boolean lan = prefs.getBoolean("lan", false);
