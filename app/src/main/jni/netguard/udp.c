@@ -88,12 +88,46 @@ int check_udp_session(const struct arguments *args, struct ng_session *s,
     return 0;
 }
 
+static int start_connect_to_sock5(int sock) {
+    int version = (strstr(socks5_addr, ":") == NULL ? 4 : 6);
+    // Build target address
+    struct sockaddr_in addr4;
+    struct sockaddr_in6 addr6;
+    log_android(ANDROID_LOG_WARN, "TCP%d SOCKS5 to %s/%u for UDP relay",
+                version, socks5_addr, socks5_port);
+
+    if (version == 4) {
+        addr4.sin_family = AF_INET;
+        inet_pton(AF_INET, socks5_addr, &addr4.sin_addr);
+        addr4.sin_port = htons(socks5_port);
+    } else {
+        addr6.sin6_family = AF_INET6;
+        inet_pton(AF_INET6, socks5_addr, &addr6.sin6_addr);
+        addr6.sin6_port = htons(socks5_port);
+    }
+
+    // Initiate connect
+    int err = connect(sock,
+                      (version == 4 ? (const struct sockaddr *) &addr4
+                                    : (const struct sockaddr *) &addr6),
+                      (socklen_t) (version == 4
+                                   ? sizeof(struct sockaddr_in)
+                                   : sizeof(struct sockaddr_in6)));
+    if (err < 0 && errno != EINPROGRESS) {
+        log_android(ANDROID_LOG_ERROR, "connect error %d: %s", errno, strerror(errno));
+        return -1;
+    }
+
+    return 0;
+}
+
 void check_socks5_udp_relay_client(const struct arguments *args, const struct epoll_event *ev, const int epoll_fd) {
     struct socks5_client *client = (struct socks5_client *)ev->data.ptr;
     unsigned int events = EPOLLERR;
     if (ev->events & EPOLLERR) {
-//        client->socks5 = SOCKS5_UDP_ASSOCIATE_FAILED;
-    } else {
+        client->socks5 = SOCKS5_UDP_ASSOCIATE_FAILED;
+
+    } else if (ev->events & (EPOLLIN | EPOLLOUT)) {
         if (ev->events & EPOLLIN) {
             if (socks5_client_recv_cb(client->socks5_fd, &client->socks5,
                     4, SOCK_DGRAM, &client->daddr, &client->socks5_udp_dest, NULL) < 0) {
@@ -110,7 +144,7 @@ void check_socks5_udp_relay_client(const struct arguments *args, const struct ep
             events = events | EPOLLIN;
         }
         if (client->socks5 == SOCKS5_UDP_ASSOCIATED) {
-            // TODO
+            // no need to do more
         }
     }
     if (events != client->socks5_ev.events) {
@@ -425,6 +459,7 @@ jboolean handle_udp(const struct arguments *args,
 
         if (sock5_udp_relay_enabled) {
             // construct SOCK5 UDP request
+            // TODO: put udp packets into buffer when SOCKS5 UDP relay server is not ready
             if (socks5_udp_relay_client.socks5 == SOCKS5_UDP_ASSOCIATED) {
                 socksdata = ng_malloc(datalen + 30, "udp socks5 data");
                 uint8_t *psocksdata = socksdata;
@@ -460,7 +495,11 @@ jboolean handle_udp(const struct arguments *args,
                     addr6.sin6_port = socks5_udp_relay_client.socks5_udp_dest;
                 }
             } else if (socks5_udp_relay_client.socks5 == SOCKS5_UDP_ASSOCIATE_FAILED) {
-                cur->udp.state = UDP_FINISHING;
+                // try to reconnect when there are udp packets
+                if (start_connect_to_sock5(socks5_udp_relay_client.socks5_fd) < 0) {
+                    cur->udp.state = UDP_FINISHING;
+                }
+                socks5_udp_relay_client.socks5 = SOCKS5_HELLO;
                 return 0;
             }
         }
@@ -589,31 +628,7 @@ int start_socks5_udp_relay_client(const struct arguments *args, int epoll_fd) {
         return -1;
     }
 
-    // Build target address
-    struct sockaddr_in addr4;
-    struct sockaddr_in6 addr6;
-    log_android(ANDROID_LOG_WARN, "TCP%d SOCKS5 to %s/%u for UDP",
-                version, socks5_addr, socks5_port);
-
-    if (version == 4) {
-        addr4.sin_family = AF_INET;
-        inet_pton(AF_INET, socks5_addr, &addr4.sin_addr);
-        addr4.sin_port = htons(socks5_port);
-    } else {
-        addr6.sin6_family = AF_INET6;
-        inet_pton(AF_INET6, socks5_addr, &addr6.sin6_addr);
-        addr6.sin6_port = htons(socks5_port);
-    }
-
-    // Initiate connect
-    int err = connect(sock,
-                      (version == 4 ? (const struct sockaddr *) &addr4
-                                    : (const struct sockaddr *) &addr6),
-                      (socklen_t) (version == 4
-                                   ? sizeof(struct sockaddr_in)
-                                   : sizeof(struct sockaddr_in6)));
-    if (err < 0 && errno != EINPROGRESS) {
-        log_android(ANDROID_LOG_ERROR, "connect error %d: %s", errno, strerror(errno));
+    if (start_connect_to_sock5(sock) < 0) {
         return -1;
     }
 
