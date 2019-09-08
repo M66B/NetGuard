@@ -88,6 +88,11 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (!IAB.isPurchased(ActivityPro.SKU_LOG, this)) {
+            startActivity(new Intent(this, ActivityPro.class));
+            finish();
+        }
+
         Util.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logging);
