@@ -86,7 +86,7 @@
     <string name="setting_access">Upozornit na připojení k Internetu</string>
     <string name="setting_filter">Filtrovat přenosy</string>
     <string name="setting_filter_udp">Filtrovat UDP přenosy</string>
-    <string name="setting_handover">Seamless VPN handover on reload</string>
+    <string name="setting_handover">Plynulé předání VPN při znovunačtení</string>
     <string name="setting_clear_onreload">Ukončit spojení při znovunačtení</string>
     <string name="setting_lockdown">Blokovat veškeré přenosy</string>
     <string name="setting_track_usage">Sledovat využití sítě</string>
@@ -273,7 +273,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
     <string name="title_pro_details">Stiskněte název pro více informací</string>
     <string name="title_pro_challenge">Výzva</string>
     <string name="title_pro_reponse">Odpověď</string>
-    <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_feature">Toto je Pro funkce</string>
     <string-array name="themeNames">
         <item>modro-zelená/oranžová</item>
         <item>modrá/oranžová</item>
