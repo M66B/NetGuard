@@ -1164,6 +1164,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
 
         // Remove local DNS servers when not routing LAN
+        int count = listDns.size();
         boolean lan = prefs.getBoolean("lan", false);
         boolean use_hosts = prefs.getBoolean("use_hosts", false);
         if (lan && use_hosts && filter)
@@ -1199,7 +1200,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
 
         // Always set DNS servers
-        if (listDns.size() == 0)
+        if (listDns.size() == 0 || listDns.size() < count)
             try {
                 listDns.add(InetAddress.getByName("8.8.8.8"));
                 listDns.add(InetAddress.getByName("8.8.4.4"));
