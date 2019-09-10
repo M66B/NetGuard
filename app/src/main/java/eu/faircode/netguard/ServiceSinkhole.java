@@ -66,6 +66,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.util.Pair;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
@@ -88,8 +89,6 @@ import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -99,7 +98,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -1169,32 +1167,28 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         boolean use_hosts = prefs.getBoolean("use_hosts", false);
         if (lan && use_hosts && filter)
             try {
-                Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
-                if (nis != null)
-                    while (nis.hasMoreElements()) {
-                        NetworkInterface ni = nis.nextElement();
-                        if (ni != null && ni.isUp() && !ni.isLoopback()) {
-                            List<InterfaceAddress> ias = ni.getInterfaceAddresses();
-                            if (ias != null)
-                                for (InterfaceAddress ia : ias) {
-                                    InetAddress hostAddress = ia.getAddress();
-                                    BigInteger host = new BigInteger(1, hostAddress.getAddress());
+                List<Pair<InetAddress, Integer>> subnets = new ArrayList<>();
+                subnets.add(new Pair<>(InetAddress.getByName("10.0.0.0"), 8));
+                subnets.add(new Pair<>(InetAddress.getByName("172.16.0.0"), 12));
+                subnets.add(new Pair<>(InetAddress.getByName("192.168.0.0"), 16));
 
-                                    int prefix = ia.getNetworkPrefixLength();
-                                    BigInteger mask = BigInteger.valueOf(-1).shiftLeft(hostAddress.getAddress().length * 8 - prefix);
+                for (Pair<InetAddress, Integer> subnet : subnets) {
+                    InetAddress hostAddress = subnet.first;
+                    BigInteger host = new BigInteger(1, hostAddress.getAddress());
 
-                                    for (InetAddress dns : new ArrayList<>(listDns))
-                                        if (hostAddress.getAddress().length == dns.getAddress().length) {
-                                            BigInteger ip = new BigInteger(1, dns.getAddress());
+                    int prefix = subnet.second;
+                    BigInteger mask = BigInteger.valueOf(-1).shiftLeft(hostAddress.getAddress().length * 8 - prefix);
 
-                                            if (host.and(mask).equals(ip.and(mask))) {
-                                                Log.i(TAG, "Local DNS server host=" + hostAddress + "/" + prefix + " dns=" + dns);
-                                                listDns.remove(dns);
-                                            }
-                                        }
-                                }
+                    for (InetAddress dns : new ArrayList<>(listDns))
+                        if (hostAddress.getAddress().length == dns.getAddress().length) {
+                            BigInteger ip = new BigInteger(1, dns.getAddress());
+
+                            if (host.and(mask).equals(ip.and(mask))) {
+                                Log.i(TAG, "Local DNS server host=" + hostAddress + "/" + prefix + " dns=" + dns);
+                                listDns.remove(dns);
+                            }
                         }
-                    }
+                }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
             }
