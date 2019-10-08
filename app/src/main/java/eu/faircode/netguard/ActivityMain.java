@@ -259,13 +259,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                     ServiceSinkhole.stop("switch off", ActivityMain.this, false);
             }
         });
-        if (enabled) {
-            Intent prepare = VpnService.prepare(ActivityMain.this);
-            if (prepare == null)
-                ServiceSinkhole.start("ui", this);
-
+        if (enabled)
             checkDoze();
-        }
 
         // Network is metered
         ivMetered.setOnLongClickListener(new View.OnLongClickListener() {
