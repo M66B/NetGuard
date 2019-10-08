@@ -85,8 +85,8 @@
     <string name="setting_log_app">Zapisuj pristup internetu</string>
     <string name="setting_access">Obavijesti pri pristupu internetu</string>
     <string name="setting_filter">Filtriraj promet</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
-    <string name="setting_handover">Seamless VPN handover on reload</string>
+    <string name="setting_filter_udp">Filtriraj UDP promet</string>
+    <string name="setting_handover">Prebacite se na VPN bez prekida za ponovno učitavanje</string>
     <string name="setting_clear_onreload">Zatvorite vezu prilikom ponovnog učitavanja</string>
     <string name="setting_lockdown">Zaključaj promet</string>
     <string name="setting_track_usage">Prati korištenje mreže</string>
@@ -194,7 +194,7 @@
     <string name="msg_queue">NetGuard je zauzet</string>
     <string name="msg_update">Ažuriranje je dostupno, dodirnite za preuzimanje</string>
     <string name="msg_usage">Možete omogućiti (zeleno) ili odbiti (crveni) pristup Wi-Fi ili mobilnom internetu klikom na ikone pored aplikacije</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">Ako ste NetGuard instalirali radi zaštite svoje privatnosti, možda će Vas zanimati <a href="https://email.faircode.eu/">FairEmail</a>, aplikacija e-pošte, otvorenog koda</string>
     <string name="msg_whitelist">Pristup internetu dopušten je prema zadanim postavkama (način rada crne liste), to se može promijeniti u postavkama</string>
     <string name="msg_push">Push poruke primarno rješava komponenta sustava Play usluge, kojoj je dopušteno pristupanje internetu (zadana vrijednost)</string>
     <string name="msg_system">Upravljanje svim (sustav) aplikacijama može biti omogućeno u postavkama</string>
@@ -269,7 +269,7 @@
     <string name="title_pro_details">Dodirnite naslov za više informacija</string>
     <string name="title_pro_challenge">Izazov</string>
     <string name="title_pro_reponse">Odgovor</string>
-    <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_feature">Ovo je pro funkcija</string>
     <string-array name="themeNames">
         <item>tirkizna/narančasta</item>
         <item>plava/narančasta</item>

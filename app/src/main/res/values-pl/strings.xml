@@ -5,7 +5,7 @@
     <string name="app_android">NetGuard wymaga systemu Android 5.1 lub nowszego</string>
     <string name="app_xposed">Xposed może powodować wiele błędów w działaniu aplikacji, które mogą skutkować usunięciem aplikacji NetGuard ze Sklepu Play, z tego też powodu NetGuard nie jest wspierany w przypadku istniejącej instalacji Xposed</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Polityka prywatności</a></string>
-    <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+    <string name="app_first">Z wielką starannością opracowano i przetestowano NetGuard. Nie można jednak zagwarantować bezbłędnego działania na wszystkich urządzeniach.</string>
     <string name="app_agree">Zgadzam się</string>
     <string name="app_disagree">Nie zgadzam się</string>
     <string name="app_support">NetGuard potrzebuje Twojej pomocy. Kliknij, aby zakupić funkcje pro i wspomóc dalszy rozwój projektu.</string>
@@ -85,8 +85,8 @@
     <string name="setting_log_app">Loguj dostęp do internetu</string>
     <string name="setting_access">Powiadom o próbie dostępu do internetu</string>
     <string name="setting_filter">Filtruj ruch</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
-    <string name="setting_handover">Seamless VPN handover on reload</string>
+    <string name="setting_filter_udp">Filtruj ruch UDP</string>
+    <string name="setting_handover">Płynne przekazywanie VPN po przeładowaniu</string>
     <string name="setting_clear_onreload">Zamknij połączenia i połącz ponownie</string>
     <string name="setting_lockdown">Zablokuj ruch sieciowy</string>
     <string name="setting_track_usage">Rejestruj użycie sieci</string>
@@ -116,7 +116,7 @@
     <string name="setting_export">Eksportuj ustawienia</string>
     <string name="setting_import">Importuj ustawienia</string>
     <string name="setting_hosts">Importuj plik hosts</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Importuj plik hosts (podłącz)</string>
     <string name="setting_hosts_url">Adres URL pliku hosts</string>
     <string name="setting_hosts_download">Pobierz plik hosts</string>
     <string name="setting_technical">Informacje techniczne</string>
@@ -194,7 +194,7 @@
     <string name="msg_queue">NetGuard jest zajęty</string>
     <string name="msg_update">Aktualizacja jest dostępna, stuknij aby pobrać</string>
     <string name="msg_usage">Można zezwolić (zielonkawy) lub zablokować (czerwonawy) dostęp do Wi-Fi lub internetu mobilnego poprzez dotknięcie ikony obok aplikacji</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">Jeśli zainstalowałeś NetGuard w celu ochrony swojej prywatności, możesz być również zainteresowany <a href="https://email.faircode.eu/"> FairEmail </a>, klientem poczty e-mail o otwartym kodzie źródłowym</string>
     <string name="msg_whitelist">Dostęp do Internetu jest dozwolony domyślnie (tryb \"czarna lista\"). To można zmienić w ustawieniach</string>
     <string name="msg_push">Przychodzące wiadomości (push) są głównie obsługiwane przez składnik systemowej usługi Play, który domyślnie ma dostęp do Internetu</string>
     <string name="msg_system">Zarządzanie wszystkimi (systemowymi) aplikacjami może być włączone w ustawieniach</string>
@@ -203,8 +203,8 @@
     <string name="msg_on">Wyłączenie urządzenia z już uruchomioną aplikacją, spowoduje automatyczne uruchomienie aplikacji NetGuard po włączeniu urządzenia</string>
     <string name="msg_unavailable">Ta funkcja nie jest dostępna w tej wersji</string>
     <string name="msg_always_on">Inny usługa VPN jest ustawiona jako \"Włączony zawsze\" </string>
-    <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
-    <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
+    <string name="msg_always_on_lockdown">Wyłącz „Blokuj połączenie bez VPN” w ustawieniach VPN systemu Android, aby korzystać z trybu filtrowania NetGuard</string>
+    <string name="msg_private_dns">Wyłącz „Prywatny DNS” w ustawieniach sieci Androida, aby używać NetGuard w trybie filtrowania</string>
     <string name="title_lockdown_enabled">Ruch sieciowy zablokowany</string>
     <string name="title_unmetered_allowed">Połączenia nietaryfowe są dozwolone</string>
     <string name="title_unmetered_blocked">Połączenia nietaryfowe są zablokowane</string>
@@ -269,7 +269,7 @@
     <string name="title_pro_details">Kliknij na tytuł aby uzyskać więcej informacji</string>
     <string name="title_pro_challenge">Wezwanie</string>
     <string name="title_pro_reponse">Odpowiedź</string>
-    <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_feature">Jest to funkcja Pro</string>
     <string-array name="themeNames">
         <item>teal/orange</item>
         <item>blue/orange</item>
