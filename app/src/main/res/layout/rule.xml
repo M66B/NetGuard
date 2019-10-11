@@ -158,6 +158,16 @@
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvRemarkMessaging"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:text="@string/title_messaging"
+        android:textAppearance="@style/TextSmall"
+        android:textStyle="italic"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/llConfiguration"
         android:layout_width="match_parent"

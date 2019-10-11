@@ -74,6 +74,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> implements Filterable {
@@ -94,6 +95,18 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private List<Rule> listAll = new ArrayList<>();
     private List<Rule> listFiltered = new ArrayList<>();
 
+    private List<String> messaging = Arrays.asList(
+            "com.discord",
+            "com.facebook.mlite",
+            "com.facebook.orca",
+            "com.instagram.android",
+            "com.Slack",
+            "com.skype.raider",
+            "com.snapchat.android",
+            "com.whatsapp",
+            "com.whatsapp.w4b"
+    );
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
 
@@ -113,6 +126,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public CheckBox cbOther;
         public ImageView ivScreenOther;
         public TextView tvRoaming;
+
+        public TextView tvRemarkMessaging;
 
         public LinearLayout llConfiguration;
         public TextView tvUid;
@@ -170,6 +185,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             cbOther = itemView.findViewById(R.id.cbOther);
             ivScreenOther = itemView.findViewById(R.id.ivScreenOther);
             tvRoaming = itemView.findViewById(R.id.tvRoaming);
+
+            tvRemarkMessaging = itemView.findViewById(R.id.tvRemarkMessaging);
 
             llConfiguration = itemView.findViewById(R.id.llConfiguration);
             tvUid = itemView.findViewById(R.id.tvUid);
@@ -432,6 +449,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.tvRoaming.setTextColor(rule.apply ? colorOff : colorGrayed);
         holder.tvRoaming.setAlpha(otherActive ? 1 : 0.5f);
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.screen_other) ? View.VISIBLE : View.INVISIBLE);
+
+        holder.tvRemarkMessaging.setVisibility(messaging.contains(rule.packageName) ? View.VISIBLE : View.GONE);
 
         // Expanded configuration section
         holder.llConfiguration.setVisibility(rule.expanded ? View.VISIBLE : View.GONE);
