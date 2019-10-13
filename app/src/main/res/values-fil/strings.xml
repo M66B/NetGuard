@@ -221,6 +221,7 @@ Ang iyong daloy ng internet ay hindi naipadala sa malayong serber ng VPN.</strin
     <string name="title_metered">Sa pamamagitan ng default ang koneksyon ng Wi-Fi ay itinuturing na hindi na kwenta at ang koneksyon ng mobile ay nakwenta</string>
     <string name="title_internet">ay walang pahintulot sa internet</string>
     <string name="title_disabled">ito ay naka-disable</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">I-aplay ang mga alituntunin at mga kondisyon</string>
     <string name="title_conditions">Ang mga kondisyon</string>
     <string name="title_screen_wifi">Payagan ang Wi-Fi kapag ang iskrin ay bukas</string>

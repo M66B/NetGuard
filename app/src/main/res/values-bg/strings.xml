@@ -221,6 +221,7 @@
     <string name="title_metered">По подразбиране, Wi-Fi връзката се счита за неограничен достъп, а мобилна връзка за ограничен достъп</string>
     <string name="title_internet">няма разрешение за интернет достъп</string>
     <string name="title_disabled">е изключен</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Прилагане на павилата и условията</string>
     <string name="title_conditions">Условия</string>
     <string name="title_screen_wifi">Позволяване на  Wi-Fi, когато екранът е включен</string>

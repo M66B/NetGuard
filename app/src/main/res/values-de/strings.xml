@@ -219,6 +219,7 @@
     <string name="title_metered">Standardmäßig wird eine WLAN-Verbindung als nicht volumenbeschränkt und eine mobile Verbindung als volumenbeschränkt betrachtet.</string>
     <string name="title_internet">hat keine Internet-Berechtigung</string>
     <string name="title_disabled">ist deaktiviert</string>
+    <string name="title_messaging">Eingehende Nachrichten werden von den Google Play-Diensten empfangen und nicht von dieser App und können daher nicht durch Blockieren dieser App blockiert werden</string>
     <string name="title_apply">Regeln und Bedingungen anwenden</string>
     <string name="title_conditions">Bedingungen</string>
     <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>

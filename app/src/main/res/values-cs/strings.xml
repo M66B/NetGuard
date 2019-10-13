@@ -223,6 +223,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
     <string name="title_metered">Ve výchozím stavu je připojení Wi-Fi považováno za neomezené a mobilní připojení za účtované</string>
     <string name="title_internet">nemá oprávnění pro přístup k internetu</string>
     <string name="title_disabled">je zakázáno</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Nastavit pravidla a podmínky</string>
     <string name="title_conditions">Podmínky</string>
     <string name="title_screen_wifi">Povolit Wi-Fi při zapnuté obrazovce</string>

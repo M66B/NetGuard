@@ -223,6 +223,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
     <string name="title_metered">سۈكۈتتىكى ھالەتتە Wifi تورىنى ھىسابلىمايدۇ. كۆچمە تور ھىسابلىندۇ</string>
     <string name="title_internet">تور ھوقوقى يوق</string>
     <string name="title_disabled">توسۇلدى</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">ئىشلىتىش قائىدىسى ۋە شەرت</string>
     <string name="title_conditions">شەرت</string>
     <string name="title_screen_wifi">ئېكران يورۇن ۋاقىتتا Wi-Fiيول قويۇش</string>

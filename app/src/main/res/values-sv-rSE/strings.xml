@@ -223,6 +223,7 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="title_metered">Som standard anses en Wi-Fi-anslutning vara obestämd och en mobilanslutning som uppmätt</string>
     <string name="title_internet">saknar internetbehörighet</string>
     <string name="title_disabled">är inaktiverad</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Tillämpa regler och villkor</string>
     <string name="title_conditions">Villkor</string>
     <string name="title_screen_wifi">Tillåt Wi-Fi när skärmen är påslagen</string>

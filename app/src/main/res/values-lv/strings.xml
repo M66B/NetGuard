@@ -223,6 +223,7 @@ Tava interneta datu plūsma netiks sūtīta uz kādu ārējo VPN serveri.</strin
     <string name="title_metered">Pēc noklusējuma Wi-Fi savienojums tiek uzskatīts kā neierobežots (Nemērīts) un mobilais datu kā ierobežots (Mērīts) savienojums</string>
     <string name="title_internet">nav atļauts internets</string>
     <string name="title_disabled">ir atspējots</string>
+    <string name="title_messaging">Ienākošie ziņojumi tiek saņemti caur Google Play servisiem un nevis no šīs aplikācijas, tāpēc tos nevar nobloķēt bloķējot šo aplikāciju</string>
     <string name="title_apply">Apstiprināt noteikumus un nosacījumus</string>
     <string name="title_conditions">Nosacījumi</string>
     <string name="title_screen_wifi">Atļaut Wi-Fi, kad ekrāns ir ieslēgts</string>

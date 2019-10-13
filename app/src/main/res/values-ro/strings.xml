@@ -222,6 +222,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="title_metered">În mod implicit conexiunile Wi-Fi sunt considerate necontorizate iar cele mobile drept contorizate</string>
     <string name="title_internet">nu are permisiunea de a accesa internetul</string>
     <string name="title_disabled">este dezactivată</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Aplică regulile și condițiile</string>
     <string name="title_conditions">Restricții</string>
     <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>

@@ -220,6 +220,7 @@
     <string name="title_metered">За замовчуванням Wi-Fi-з\'єднання вважається безлімітним, а мобільна мережа - лімітованою</string>
     <string name="title_internet">не має доступу до інтернету</string>
     <string name="title_disabled">вимкнено</string>
+    <string name="title_messaging">Вхідні повідомлення отримуються службами Google Play, а не цією програмою, а тому можуть не блокуватися нею</string>
     <string name="title_apply">Застосувати правила та умови</string>
     <string name="title_conditions">Умови</string>
     <string name="title_screen_wifi">Дозволити Wi-Fi, коли екран увімкнено</string>

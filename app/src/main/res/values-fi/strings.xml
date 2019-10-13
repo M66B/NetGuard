@@ -219,6 +219,7 @@
     <string name="title_metered">Oletuksena mobiiliyhteyttä pidetään käytön mukaan laskutettavana mutta Wi-Fi yhteyttä ei</string>
     <string name="title_internet">ei ole internet-lupaa</string>
     <string name="title_disabled">ei käytössä</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Ota käyttöön säännöt ja ehdot</string>
     <string name="title_conditions">Ehdot</string>
     <string name="title_screen_wifi">Salli Wi-Fi kun näyttö on päällä</string>

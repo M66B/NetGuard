@@ -223,6 +223,7 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="title_metered">Secara bawaan koneksi Wi-Fi dianggap tak terukur dan koneksi seluler terukur</string>
     <string name="title_internet">tidak memiliki izin internet</string>
     <string name="title_disabled">dinonaktifkan</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Terapkan aturan dan kondisi</string>
     <string name="title_conditions">Kondisi</string>
     <string name="title_screen_wifi">Izinkan Wi-Fi saat layar aktif</string>

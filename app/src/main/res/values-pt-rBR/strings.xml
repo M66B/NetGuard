@@ -222,6 +222,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
     <string name="title_metered">Por padrão, uma conexão Wi-Fi é considerada ilimitada e uma conexão móvel limitada</string>
     <string name="title_internet">não tem permissão de acesso a internet</string>
     <string name="title_disabled">está desativado</string>
+    <string name="title_messaging">As mensagens são recebidas pelos serviços Google Play e não por esta aplicação. Por este motivo não podem ser bloqueadas bloqueando esta aplicação</string>
     <string name="title_apply">Aplicar regras e condições</string>
     <string name="title_conditions">Condições</string>
     <string name="title_screen_wifi">Permitir Wi-Fi com a tela ligada</string>
@@ -272,7 +273,7 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
     <string name="title_pro_details">Toque em um título para obter mais informações</string>
     <string name="title_pro_challenge">Código de verificação</string>
     <string name="title_pro_reponse">Resposta</string>
-    <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_feature">Esta é uma funcionalidade da versão pro</string>
     <string-array name="themeNames">
         <item>verde-azulado/laranja</item>
         <item>azul/laranja</item>

@@ -223,6 +223,7 @@
     <string name="title_metered">一般來說，Wi-Fi 連線可被視為非計量型網路，而行動數據連線可被視為計量型網路。</string>
     <string name="title_internet">沒有網際網路權限</string>
     <string name="title_disabled">已停用</string>
+    <string name="title_messaging">您所收到的訊息是由 Google Play 服務所接收，而非本 app ，因此無法由本 app 封鎖。</string>
     <string name="title_apply">套用規則與狀態</string>
     <string name="title_conditions">狀態</string>
     <string name="title_screen_wifi">在螢幕開啟時啟用 Wi-fi</string>

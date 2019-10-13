@@ -222,6 +222,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
     <string name="title_metered">Varsayılan olarak Wi-Fi bağlantısının ölçümlenemediği kabul edilir ve mobil bağlantı verisi hesaplanır</string>
     <string name="title_internet">İnternet izni yok</string>
     <string name="title_disabled">devre dışı</string>
+    <string name="title_messaging">Gelen mesajlar, bu uygulama tarafından değil, Google Play servisleri tarafından alınır ve bu nedenle bu uygulamayı engelleyerek engellenemez</string>
     <string name="title_apply">İzin verilmiş kurallar</string>
     <string name="title_conditions">Koşullar</string>
     <string name="title_screen_wifi">Ekran açıkken Wİ-Fİ ye izin ver</string>

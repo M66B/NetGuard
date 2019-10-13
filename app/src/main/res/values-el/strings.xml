@@ -219,6 +219,7 @@
     <string name="title_metered">Από προεπιλογή, μια σύνδεση Wi-Fi θεωρείται να είναι χρονικά απεριόριστη και μια σύνδεση κινητού χρονοχρέωση</string>
     <string name="title_internet">δεν έχει άδεια χρήσης Διαδικτύου</string>
     <string name="title_disabled">είναι απενεργοποιημένη</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Εφαρμογή κανόνων και προϋποθέσεων</string>
     <string name="title_conditions">Προϋποθέσεις</string>
     <string name="title_screen_wifi">Επέτρεψε Wi-Fi, όταν η οθόνη είναι ενεργοποιημένη</string>

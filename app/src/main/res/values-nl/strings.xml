@@ -223,6 +223,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
     <string name="title_metered">Standaard is een Wi-Fi verbinding een ongelimiteerde verbinding en een mobiele verbinding een gelimiteerde</string>
     <string name="title_internet">heeft geen internet toegang</string>
     <string name="title_disabled">is uitgezet</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Pas regels en voorwaarden toe</string>
     <string name="title_conditions">Condities</string>
     <string name="title_screen_wifi">Sta Wi-Fi toe als het scherm aan is</string>

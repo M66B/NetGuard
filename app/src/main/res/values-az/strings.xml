@@ -223,6 +223,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_metered">İlkin olaraq Wi-Fi bağlantısı ölçülməmiş hesab edilir və mobil bağlantı ölçülür</string>
     <string name="title_internet">internet icazəsi yoxdur</string>
     <string name="title_disabled">ləğv edildi</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Qaydaları və şərtləri tətbiq et</string>
     <string name="title_conditions">Şərtlər</string>
     <string name="title_screen_wifi">Wi-Fi-a ekran açıq olanda icazə ver</string>

@@ -223,6 +223,7 @@
     <string name="title_metered">Wi-Fi 连接默认为非按流量计费, 移动数据连接默认为按流量计费</string>
     <string name="title_internet">无网络访问权限</string>
     <string name="title_disabled">已禁用</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">应用规则和条件</string>
     <string name="title_conditions">条件</string>
     <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>

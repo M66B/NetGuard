@@ -219,6 +219,7 @@
     <string name="title_metered">இயல்புநிலை ஒரு Wi-Fi இணைப்பு இருக்கும்படி கொள்ளப்படும் unmetered மற்றும் மொபைல் இணைப்பை metered இருக்க</string>
     <string name="title_internet">எந்த இணைய அனுமதி அளித்துள்ளது</string>
     <string name="title_disabled">செயலிழக்கம் செய்யப்பட்டுள்ளது</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">விதிகள் மற்றும் நிபந்தனைகள் பயன்படுத்து</string>
     <string name="title_conditions">நிபந்தனைகள்</string>
     <string name="title_screen_wifi">Wi-Fi திரை இயக்கத்தில் இருந்தால் அனுமதி</string>

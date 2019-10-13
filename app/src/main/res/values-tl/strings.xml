@@ -221,6 +221,7 @@ Ang iyong internet traffic ay hindi pinapadala sa isang liblib na vpn serber.</s
     <string name="title_metered">Ang koneksyon sa Wi-Fi ay kinikilala bilang hindi de-metro at ang koneksyon sa mobile bilang de-metro</string>
     <string name="title_internet">walang pahintulot para sa internet</string>
     <string name="title_disabled">ay hindi gumagana</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Gamitin ang mga tuntunin at mga kondisyones</string>
     <string name="title_conditions">Mga kundisyon</string>
     <string name="title_screen_wifi">Pahintulutan ang Wi-Fi kung buhay ang screen</string>

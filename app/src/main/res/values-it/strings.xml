@@ -219,6 +219,7 @@
     <string name="title_metered">Per impostazione predefinita, le connessioni Wi-Fi sono considerate non a pagamento e le connessioni mobili al consumo</string>
     <string name="title_internet">non ha accesso a internet</string>
     <string name="title_disabled">è disabilitata</string>
+    <string name="title_messaging">I messaggi in arrivo sono ricevuti dai servizi di Google Play e non da questa app e quindi non possono essere bloccati bloccando questa app</string>
     <string name="title_apply">Applicare regole e condizioni</string>
     <string name="title_conditions">Condizioni</string>
     <string name="title_screen_wifi">Permetti il Wi-Fi quando lo schermo è acceso</string>

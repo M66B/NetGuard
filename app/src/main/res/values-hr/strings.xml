@@ -219,6 +219,7 @@
     <string name="title_metered">Prema zadanim postavkama Wi-Fi veza se smatra neograničenom, a mobilna veza ograničenom</string>
     <string name="title_internet">nema dopuštenje za internet</string>
     <string name="title_disabled">je onemogućen</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Primijeni pravila i uvjete</string>
     <string name="title_conditions">Uvjeti</string>
     <string name="title_screen_wifi">Dopusti Wi-Fi kada je zaslon uključen</string>

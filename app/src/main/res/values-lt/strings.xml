@@ -223,6 +223,7 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="title_metered">Numatyta Wi-Fi ryšį stebėti ir nestebėti mobiliųjų duomenų ryšio</string>
     <string name="title_internet">neturi interneto prieigos</string>
     <string name="title_disabled">išjungta</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Taikyti taisykles ir sąlygas</string>
     <string name="title_conditions">Sąlygos</string>
     <string name="title_screen_wifi">Leisti Wi-Fi pažadinant ekraną</string>

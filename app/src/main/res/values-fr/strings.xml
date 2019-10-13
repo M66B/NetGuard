@@ -221,6 +221,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="title_metered">Par défaut, une connexion Wi-Fi est considérée comme illimitée et une connexion mobile limitée</string>
     <string name="title_internet">n\'a aucune autorisation internet</string>
     <string name="title_disabled">est désactivé</string>
+    <string name="title_messaging">Les messages entrants sont reçus par les services Google Play et non par cette application et ne peuvent donc pas être bloqués en bloquant cette application</string>
     <string name="title_apply">Appliquer les règles et conditions</string>
     <string name="title_conditions">Conditions</string>
     <string name="title_screen_wifi">Autoriser le Wi-Fi quand l\'écran est allumé</string>

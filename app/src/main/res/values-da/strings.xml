@@ -223,6 +223,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
     <string name="title_metered">Som standard betragtes en Wi-Fi-forbindelse som ikke-forbrugsafregnet og en mobilforbindelse som forbrugsafregnet</string>
     <string name="title_internet">har ingen Internettilladelse</string>
     <string name="title_disabled">er deaktiveret</string>
+    <string name="title_messaging">Indgående beskeder modtages af Google Play-tjenester og ikke af denne app. De kan derfor ikke blokeres ved at blokere denne app</string>
     <string name="title_apply">Anvend regler og betingelser</string>
     <string name="title_conditions">Betingelser</string>
     <string name="title_screen_wifi">Tillad Wi-Fi, når skærmen er tændt</string>

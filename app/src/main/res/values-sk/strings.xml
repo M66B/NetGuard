@@ -222,6 +222,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
     <string name="title_metered">V predvolenom nastavení Wi-Fi pripojenie je považované za nemerané a mobilné pripojenie za merané</string>
     <string name="title_internet">Nemá prístup k internetu</string>
     <string name="title_disabled">Zakázané</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Použiť pravidlá a podmienky</string>
     <string name="title_conditions">Podmienky</string>
     <string name="title_screen_wifi">Povoliť Wi-Fi pri zapnutej obrazovke</string>

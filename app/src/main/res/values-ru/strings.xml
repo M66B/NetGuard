@@ -221,6 +221,7 @@
     <string name="title_metered">По умолчанию Wi-Fi соединение считается безлимитным, а мобильная связь лимитированной</string>
     <string name="title_internet">не имеет доступа в интернет</string>
     <string name="title_disabled">отключено</string>
+    <string name="title_messaging">Входящие сообщения принимаются службами Google Play, а не этим приложением, поэтому не могут быть им заблокированы</string>
     <string name="title_apply">Применить правила и условия</string>
     <string name="title_conditions">Условия</string>
     <string name="title_screen_wifi">Разрешить Wi-Fi при включенном экране</string>

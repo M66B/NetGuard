@@ -219,6 +219,7 @@
     <string name="title_metered">デフォルトで Wi-Fi 接続は定額制、モバイル接続は従量制と見なされます</string>
     <string name="title_internet">インターネット アクセス許可がありません</string>
     <string name="title_disabled">無効</string>
+    <string name="title_messaging">このアプリをブロックしても、受信メッセージはこのアプリではなく Google Play サービスによって受信されるため、ブロックできません</string>
     <string name="title_apply">ルールと条件を適用</string>
     <string name="title_conditions">条件</string>
     <string name="title_screen_wifi">画面が点灯中は Wi-Fi 通信を許可</string>

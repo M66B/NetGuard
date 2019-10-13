@@ -223,6 +223,7 @@ Zure internet trafikoa ez da kanpo VPN zerbitzari batera bidaltzen.</string>
     <string name="title_metered">Lehenetsita Wi-Fi konexio bat neurtu gabekotzat hartzen da eta sare mugikorra neurtutzat</string>
     <string name="title_internet">ez du Interneterako baimena</string>
     <string name="title_disabled">desgaituta dago</string>
+    <string name="title_messaging">Mezuak Google Play services bidez jasotzen dira, ez ditu aplikazio honek zuzenean jasotzen, beraz ezin dira blokeatu aplikazio hau blokeatuz</string>
     <string name="title_apply">Aplikatu arau eta baldintzak</string>
     <string name="title_conditions">Baldintzak</string>
     <string name="title_screen_wifi">Baimendu Wi-Fia pantaila piztuta dagoenean</string>

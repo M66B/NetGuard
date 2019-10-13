@@ -219,6 +219,7 @@
     <string name="title_metered">بشكل افتراضي، تعتبر شبكات الاتصال اللاسلكي غير مقاسة وشبكات اتصال الهاتف مقاسة</string>
     <string name="title_internet">ليس لديه اذن انترنت</string>
     <string name="title_disabled">معطل</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">تطبيق القواعد والشروط</string>
     <string name="title_conditions">الشروط</string>
     <string name="title_screen_wifi">السماح للشبكات اللاسلكية عندما تكون الشاشة فعالة</string>

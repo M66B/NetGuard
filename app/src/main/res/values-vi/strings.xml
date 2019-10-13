@@ -219,6 +219,7 @@
     <string name="title_metered">Theo mặc định, kết nối Wi-Fi được coi là không trả phí và kết nối điện thoại di động được coi là có trả phí</string>
     <string name="title_internet">không có sự cho phép của internet</string>
     <string name="title_disabled">bị vô hiệu hóa</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Áp dụng các quy tắc và trạng thái</string>
     <string name="title_conditions">Điều kiện</string>
     <string name="title_screen_wifi">Cho phép Wi-Fi khi màn hình bật</string>

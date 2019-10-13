@@ -219,6 +219,7 @@
     <string name="title_metered">Por defecto, una conexión Wi-Fi se considera ilimitada y una conexión móvil medida</string>
     <string name="title_internet">sin permiso de acceso a Internet</string>
     <string name="title_disabled">está desactivado</string>
+    <string name="title_messaging">Los mensajes entrantes son recibidos por los servicios de Google Play y no por esta aplicación y por lo tanto no se puede bloquear bloqueando esta aplicación</string>
     <string name="title_apply">Aplicar reglas y condiciones</string>
     <string name="title_conditions">Condiciones</string>
     <string name="title_screen_wifi">Permitir Wi-Fi con la pantalla encendida</string>

@@ -221,6 +221,7 @@
     <string name="title_metered">כברירת מחדל, חיבור Wi-Fi נחשב כתעבורה לא נמדדת (חופשית), וחיבור סלולרי כתעבורה נמדדת</string>
     <string name="title_internet">אין הרשאות אינטרנט</string>
     <string name="title_disabled">מושבת</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">החל את הכללים והתנאים</string>
     <string name="title_conditions">תנאים</string>
     <string name="title_screen_wifi">אפשר גישה ל-Wi-Fi כאשר המסך פעיל</string>

@@ -223,6 +223,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_metered">By default a Wi-Fi connection is considered to be unmetered and a mobile connection to be metered</string>
     <string name="title_internet">has no internet permission</string>
     <string name="title_disabled">is disabled</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Apply rules and conditions</string>
     <string name="title_conditions">Tingimused</string>
     <string name="title_screen_wifi">Luba WiFi, kui ekraan on sisse lülitatud</string>

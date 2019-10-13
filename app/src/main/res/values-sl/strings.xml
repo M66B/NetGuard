@@ -223,6 +223,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_metered">Privzeto je Wi-Fi povezava tretirana tako da je neomejena in mobile povezave lahko merijo</string>
     <string name="title_internet">nima internetnih dovoljenj</string>
     <string name="title_disabled">je onemogočen</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Uporabljaj pravila in pogoje</string>
     <string name="title_conditions">Pogoji</string>
     <string name="title_screen_wifi">Dovoli Wi-Fi ko je zaslon vklopljen</string>

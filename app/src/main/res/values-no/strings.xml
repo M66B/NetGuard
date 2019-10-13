@@ -223,6 +223,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_metered">Som standard er en Wi-Fi-tilkobling ansett for å ikke være forbruksmålt, mens en mobilnettilkobling ansees for å være forbruksmålt</string>
     <string name="title_internet">har ikke tilgang til internettet</string>
     <string name="title_disabled">er skrudd av</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Benytt regler og forhold</string>
     <string name="title_conditions">Forhold</string>
     <string name="title_screen_wifi">Tillat Wi-Fi når skjermen er skrudd på</string>

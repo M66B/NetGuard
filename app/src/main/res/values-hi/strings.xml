@@ -219,6 +219,7 @@
     <string name="title_metered">द्वारा डिफ़ॉल्ट एक Wi-Fi कनेक्शन unmetered माना जाता है और मीटर के जरिए किया जा करने के लिए एक मोबाइल कनेक्शन</string>
     <string name="title_internet">कोई इंटरनेट की अनुमति है</string>
     <string name="title_disabled">अक्षम है</string>
+    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">नियम और शर्तें लागू</string>
     <string name="title_conditions">शर्तें</string>
     <string name="title_screen_wifi">जब स्क्रीन पर Wi-Fi की अनुमति दें</string>
