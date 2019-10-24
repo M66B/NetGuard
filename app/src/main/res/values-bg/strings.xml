@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Използвайте SOCKS5 прокси</string>
     <string name="setting_socks5_addr">SOCKS5 адрес: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Проследяване на броя байтове, изпратени и получени за всяко приложение и адрес. Това може да доведе до допълнителено използване на батерията.</string>
     <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
     <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Само TCP трафикът ще бъде изпратен към прокси сървъра</string>
     <string name="summary_watchdog">Периодично проверява дали NetGuard е активен (въведете 0 за деазктивиране на опцията). Това може да доведе до допълнителен разход на батерията.</string>
     <string name="summary_stats">Показване на скоростта на трафика в лентата за уведомяване</string>
@@ -222,6 +224,7 @@
     <string name="title_internet">няма разрешение за интернет достъп</string>
     <string name="title_disabled">е изключен</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Прилагане на павилата и условията</string>
     <string name="title_conditions">Условия</string>
     <string name="title_screen_wifi">Позволяване на  Wi-Fi, когато екранът е включен</string>

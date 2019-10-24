@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Мінімальний DNS TTL: %s с</string>
     <string name="setting_socks5_enabled">Використовувати проксі SOCKS5</string>
     <string name="setting_socks5_addr">Адреса SOCKS5: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Відслідковувати кількість надісланих і отриманих байтів для кожної програми й адреси. Це може призвести до збільшення витрати заряду акумулятора.</string>
     <string name="summary_block_domains">Відповідати кодом відповіді налаштованого DNS для заблокованих доменних імен. Цей перемикач вимкнено, якщо доступних host-файлів немає.</string>
     <string name="summary_rcode">Значенням за замовчуванням є 3 (NXDOMAIN) - це означає «неіснуючий домен».</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">На проксі-сервер направлятиметься лише TCP-трафік</string>
     <string name="summary_watchdog">Періодично перевіряти, чи запущено NetGuard (введіть нуль, щоб вимкнути цю опцію). Це може призвести до збільшення витрати заряду акумулятора.</string>
     <string name="summary_stats">Показувати графік швидкості мережі у рядку сповіщень</string>
@@ -221,6 +223,7 @@
     <string name="title_internet">не має доступу до інтернету</string>
     <string name="title_disabled">вимкнено</string>
     <string name="title_messaging">Вхідні повідомлення отримуються службами Google Play, а не цією програмою, а тому можуть не блокуватися нею</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Застосувати правила та умови</string>
     <string name="title_conditions">Умови</string>
     <string name="title_screen_wifi">Дозволити Wi-Fi, коли екран увімкнено</string>

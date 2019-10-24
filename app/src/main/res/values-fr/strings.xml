@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4 : %s</string>
     <string name="setting_vpn6">VPN IPv6 : %s</string>
     <string name="setting_dns">VPN DNS : %s</string>
+    <string name="setting_validate">Valider à : %s</string>
     <string name="setting_ttl">DNS TTL minimum : %s s</string>
     <string name="setting_socks5_enabled">Utiliser un proxy SOCKS5</string>
     <string name="setting_socks5_addr">Adresse SOCKS5 : %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Surveiller le nombre d\'octets envoyés et reçus pour chaque application et adresse. Cela peut entraîner une surconsommation de la batterie.</string>
     <string name="summary_block_domains">Répondre avec le code retour DNS configuré pour les noms de domaine bloqués. Cette option est désactivée lorsqu\'aucun fichier hosts n’est disponible.</string>
     <string name="summary_rcode">La valeur par défaut est 3 (NXDOMAIN), ce qui signifie « domaine inexistant ».</string>
+    <string name="summary_validate">Nom de domaine utilisé pour valider la connexion internet sur le port 443 (https).</string>
     <string name="summary_socks5_enabled">Seul le trafic TCP sera envoyé au serveur proxy</string>
     <string name="summary_watchdog">Vérifier périodiquement si NetGuard est toujours en fonctionnement (entrez zéro pour désactiver cette option). Cela peut entraîner une surconsommation de la batterie.</string>
     <string name="summary_stats">Afficher le graphe de débit du réseau dans la barre d\'état</string>
@@ -222,6 +224,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="title_internet">n\'a aucune autorisation internet</string>
     <string name="title_disabled">est désactivé</string>
     <string name="title_messaging">Les messages entrants sont reçus par les services Google Play et non par cette application et ne peuvent donc pas être bloqués en bloquant cette application</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Appliquer les règles et conditions</string>
     <string name="title_conditions">Conditions</string>
     <string name="title_screen_wifi">Autoriser le Wi-Fi quand l\'écran est allumé</string>

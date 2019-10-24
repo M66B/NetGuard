@@ -99,6 +99,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">TTL DNS מינימלי: %s s</string>
     <string name="setting_socks5_enabled">השתמש ב- SOCKS5 proxy</string>
     <string name="setting_socks5_addr">כתובת SOCKS5: %s</string>
@@ -147,6 +148,7 @@
     <string name="summary_track_usage">עקוב אחרי כמות המידע שנשלחה והתקבלה עבור כל יישום וכתובת. עלול להגביר צריכת סוללה.</string>
     <string name="summary_block_domains">הגב עם תגובת הDNS המוגדרת עבור דומיינים חסומים. אפשרות זו מושבתת כאשר קובץ hosts אינו זמין.</string>
     <string name="summary_rcode">ערך ברירת המחדל הוא 3, שפירושו \'תחום לא קיים\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">רק תעבורת TCP תועבר אל שרת ה-proxy</string>
     <string name="summary_watchdog">בדוק מדי פרק הזמן המוגדר האם NetGuard עדיין פועל (הזן 0 כדי לבטל אפשרות זו). עלול לגרום לצריכת סוללה מוגברת.</string>
     <string name="summary_stats">הצג גרף מהירות רשת בהתראת שורת המצב</string>
@@ -222,6 +224,7 @@
     <string name="title_internet">אין הרשאות אינטרנט</string>
     <string name="title_disabled">מושבת</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">החל את הכללים והתנאים</string>
     <string name="title_conditions">תנאים</string>
     <string name="title_screen_wifi">אפשר גישה ל-Wi-Fi כאשר המסך פעיל</string>

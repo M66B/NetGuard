@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">最低 DNS TTL：%s 秒</string>
     <string name="setting_socks5_enabled">使用 SOCKS5 代理</string>
     <string name="setting_socks5_addr">SOCKS5 地址: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">跟踪每个应用程序和地址发送和接收的字节数. 这可能会导致额外电量消耗.</string>
     <string name="summary_block_domains">使用配置的 DNS 回应码回应已封禁的域名。此选项将在 Hosts 文件不可用时禁用。</string>
     <string name="summary_rcode">默认值为 3 (NXDOMAIN)，即“域名不存在”。</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">仅将 TCP 流量导向至代理服务器</string>
     <string name="summary_watchdog">定时检查 NetGuard 运行状况 (输入 0 禁用此选项). 这可能导致额外电量消耗.</string>
     <string name="summary_stats">在状态栏通知中显示网速示意图</string>
@@ -224,6 +226,7 @@
     <string name="title_internet">无网络访问权限</string>
     <string name="title_disabled">已禁用</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">应用规则和条件</string>
     <string name="title_conditions">条件</string>
     <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>

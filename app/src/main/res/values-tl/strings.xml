@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Use SOCKS5 proxy</string>
     <string name="setting_socks5_addr">SOCKS5 address: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Alamin ang bilang ng mga byte na napadala at natanggap para sa bawat isang app at address. Maaari itong magresulta sa dagdag na gamit sa batterya.</string>
     <string name="summary_block_domains">Sumagot gamit ang na-configure response code ng DNS para sa mga nahaharangang mga pangalan ng domain. Ang switch ay hindi gumagana kapag walang magagamit na hosts file.</string>
     <string name="summary_rcode">Ang nakatalagang value ay 3 (NXDOMAIN), na ang ibig sabihin ay \'hindi umiiral na domain\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Tanging ang TCP traffic ang ipapadala sa proxy serber</string>
     <string name="summary_watchdog">Maya\'t mayang suriin kung ang NetGuard ay tumatakbo pa (ilagay ang zero upang di paganahin ito). Ito ay maaaring magresulta sa mas malakas ng pagamit ng baterya.</string>
     <string name="summary_stats">Ipakita ang graph para sa bilis ng network bilang isang abiso sa status bar</string>
@@ -222,6 +224,7 @@ Ang iyong internet traffic ay hindi pinapadala sa isang liblib na vpn serber.</s
     <string name="title_internet">walang pahintulot para sa internet</string>
     <string name="title_disabled">ay hindi gumagana</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Gamitin ang mga tuntunin at mga kondisyones</string>
     <string name="title_conditions">Mga kundisyon</string>
     <string name="title_screen_wifi">Pahintulutan ang Wi-Fi kung buhay ang screen</string>

@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">SOCKS5 proksi istifadə et</string>
     <string name="setting_socks5_addr">SOCKS5 ünvanı: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Track the number of bytes sent and received for each app and address. This might result in extra battery usage.</string>
     <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
     <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Only TCP traffic will be sent to the proxy server</string>
     <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
     <string name="summary_stats">Show network speed graph in status bar notification</string>
@@ -224,6 +226,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_internet">internet icazəsi yoxdur</string>
     <string name="title_disabled">ləğv edildi</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Qaydaları və şərtləri tətbiq et</string>
     <string name="title_conditions">Şərtlər</string>
     <string name="title_screen_wifi">Wi-Fi-a ekran açıq olanda icazə ver</string>

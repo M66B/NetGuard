@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">SOCKS5 பதிலி பயன்படுத்தவும்</string>
     <string name="setting_socks5_addr">SOCKS5 முகவரி: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">தடம் பைட்கள் அனுப்பிய மற்றும் பெறப்பட்ட ஒவ்வொரு பயன்பாடு மற்றும் முகவரி எண்ணிக்கை. கூடுதல் மின்கல பயன்பாட்டு இது இதனால் இருக்கலாம்.</string>
     <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
     <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">TCP போக்குவரத்து மட்டும் பதிலிச் சேவையகம் அனுப்பப்படும்</string>
     <string name="summary_watchdog">அவ்வப்போது என்றால் NetGuard இயங்கிக்கொண்டிருக்கும் சரிபார்க்கவும் (இந்த விருப்பத்தை முடக்க பூஜ்யம் உள்ளிட). கூடுதல் மின்கல பயன்பாட்டு இது இதனால் இருக்கலாம்.</string>
     <string name="summary_stats">நிலை பட்டி அறிவிக்கை பிணைய வேகம் வரைபடம் காண்பி</string>
@@ -220,6 +222,7 @@
     <string name="title_internet">எந்த இணைய அனுமதி அளித்துள்ளது</string>
     <string name="title_disabled">செயலிழக்கம் செய்யப்பட்டுள்ளது</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">விதிகள் மற்றும் நிபந்தனைகள் பயன்படுத்து</string>
     <string name="title_conditions">நிபந்தனைகள்</string>
     <string name="title_screen_wifi">Wi-Fi திரை இயக்கத்தில் இருந்தால் அனுமதி</string>

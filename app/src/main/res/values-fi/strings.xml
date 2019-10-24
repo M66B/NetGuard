@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Vähimmäis DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Käytä SOCKS5 proxypalvelinta</string>
     <string name="setting_socks5_addr">SOCKS5 osoite: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Seuraa jokaisen sovelluksen lähettämiä ja vastaanottamia bittejä. Saattaa lisätä virrankulutusta.</string>
     <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
     <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Vain TCP liikenne lähetetään proxy palvelimelle</string>
     <string name="summary_watchdog">Tarkasta väliajoin NetGuardin päälläolo (aseta 0 estääksesi toiminto). Saattaa aiheuttaa virran kulutusta.</string>
     <string name="summary_stats">Näytä verkon nopeuskuvaaja ilmoituspalkissa</string>
@@ -220,6 +222,7 @@
     <string name="title_internet">ei ole internet-lupaa</string>
     <string name="title_disabled">ei käytössä</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Ota käyttöön säännöt ja ehdot</string>
     <string name="title_conditions">Ehdot</string>
     <string name="title_screen_wifi">Salli Wi-Fi kun näyttö on päällä</string>

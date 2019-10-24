@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Minimální DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Použít SOCKS5 proxy</string>
     <string name="setting_socks5_addr">SOCKS5 adresa: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Sledovat počet odeslaných a přijatých bytů pro každou aplikaci a adresu. Může mít vliv na spotřebu baterie.</string>
     <string name="summary_block_domains">Blokovaným doménám odpovídat přednastaveným kódem DNS odpovědi. Tato možnost je zakázána pokud není k dispozici soubor hosts.</string>
     <string name="summary_rcode">Výchozí hodnota je 3 (NXDOMAIN), což znamená \'neexistující doména\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Pouze TCP přenosy budou přenášeny skrze proxy server</string>
     <string name="summary_watchdog">Pravidelně kontrolovat, zda NetGuard stále běží (zadejte nulu pro vypnutí). Toto nastavení může mít vliv na spotřebu.</string>
     <string name="summary_stats">Zobrazit graf rychlosti sítě v notifikační liště</string>
@@ -223,7 +225,8 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
     <string name="title_metered">Ve výchozím stavu je připojení Wi-Fi považováno za neomezené a mobilní připojení za účtované</string>
     <string name="title_internet">nemá oprávnění pro přístup k internetu</string>
     <string name="title_disabled">je zakázáno</string>
-    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_messaging">Příchozí zprávy jsou přijímány službami Google Play a ne touto aplikací a nemohou být proto blokovány zablokováním této aplikace</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Nastavit pravidla a podmínky</string>
     <string name="title_conditions">Podmínky</string>
     <string name="title_screen_wifi">Povolit Wi-Fi při zapnuté obrazovce</string>

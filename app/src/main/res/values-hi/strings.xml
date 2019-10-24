@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">न्यूनतम DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">SOCKS5 प्रॉक्सी का उपयोग करें</string>
     <string name="setting_socks5_addr">SOCKS5 पता: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">भेजा है और प्रत्येक अनुप्रयोग और पते के लिए प्राप्त बाइट्स की संख्या ट्रैक। यह अतिरिक्त बैटरी उपयोग में परिणाम हो सकता है।</string>
     <string name="summary_block_domains">ब्लॉक किए गए डोमेन नाम के लिए कॉन्फ़िगर किया गया DNS प्रतिसाद कोड के साथ प्रतिसाद दें । यह स्विच अक्षम है जब कोई होस्ट्स फ़ाइल उपलब्ध नहीं है ।</string>
     <string name="summary_rcode">डिफ़ॉल्ट मान 3 (NXDOMAIN) है, जिसका अर्थ है \'गैर-मौजूद डोमेन\'।</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">केवल TCP यातायात प्रॉक्सी सर्वर से भेजा जाएगा</string>
     <string name="summary_watchdog">समय-समय पर NetGuard अभी भी चल रहा है या नहीं की जाँच करें (इस विकल्प को अक्षम करने के लिए शून्य दर्ज करें)। यह अतिरिक्त बैटरी उपयोग में परिणाम हो सकता है।</string>
     <string name="summary_stats">स्थिति पट्टी में सूचना नेटवर्क गति ग्राफ़ दिखाएँ</string>
@@ -220,6 +222,7 @@
     <string name="title_internet">कोई इंटरनेट की अनुमति है</string>
     <string name="title_disabled">अक्षम है</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">नियम और शर्तें लागू</string>
     <string name="title_conditions">शर्तें</string>
     <string name="title_screen_wifi">जब स्क्रीन पर Wi-Fi की अनुमति दें</string>

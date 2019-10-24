@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Minimális DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">SOCKS5 proxy használata</string>
     <string name="setting_socks5_addr">SOCKS5 cím: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Nyomon követheti a küldött és fogadott bájtok számát minden egyes alkalmazáshoz és címhez. Ez egy kis extra akkumulátor használattal járhat.</string>
     <string name="summary_block_domains">A beállított DNS válasz kódot válaszolja a letiltott domain neveknek. Ez a kapcsoló le van tiltva, ha nincs elérhető hosts fájl.</string>
     <string name="summary_rcode">Az alapértelmezett érték 3 (NXDOMAIN), ami azt jelenti: \'nem létező domain\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Csak a TCP forgalom küldése a proxy szerverre</string>
     <string name="summary_watchdog">Rendszeresen ellenőrzi ha a NetGuard fut (a 0 beírása letiltja azt az opciót). Ez extra akkumulátor használattal járhat.</string>
     <string name="summary_stats">Mutassa a hálózat sebesség grafikont az értesítés sávon</string>
@@ -222,6 +224,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
     <string name="title_internet">nincs internet elérés engedélye</string>
     <string name="title_disabled">letiltva</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Szabályok és feltételek alkalmazása</string>
     <string name="title_conditions">Feltételek</string>
     <string name="title_screen_wifi">Wi-Fi engedélyezése amikor a képernyő be van kapcsolva</string>

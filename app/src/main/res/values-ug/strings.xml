@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">ئەڭ كىچىك DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">ئىشلىتىش ۋاكالەتلىك SOCKS5</string>
     <string name="setting_socks5_addr">SOCKS5 ئادرېس: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">ھەر بىر ئەپنىڭ ئىشلىتىش ۋە يوللاش خاتىرسىنى تەكشۈرۈش توكنى كۆپ ئىسراپ قىلىدۇ.</string>
     <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
     <string name="summary_rcode">سۈكۈتتىكى قىممەت 3 (NXDOMAIN)،\"يوق ئادىرس\" نى بىلدۈرىدۇ.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">پەقەت TCP ئېقىم مىقدارى ۋاكالىتەن مۇلازىمەتچى ئەۋەتىپ بېرىلىدۇ</string>
     <string name="summary_watchdog">ۋاقىت بەلگىلەپ NetGuard نىڭ ھەرىكىتىنى تەكشۈرۈش.(0 نى كىرگۈزۈپ بۇ تاللاشنى چەكلەش)، بۇ بەلكىم توك ئىسراپچىلىقىنى كەلتۈرۈپ چېقىرىشى مومكىن.</string>
     <string name="summary_stats">ئىستوندا تور سۈرئىتى كۆرۈنۈش</string>
@@ -224,6 +226,7 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
     <string name="title_internet">تور ھوقوقى يوق</string>
     <string name="title_disabled">توسۇلدى</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">ئىشلىتىش قائىدىسى ۋە شەرت</string>
     <string name="title_conditions">شەرت</string>
     <string name="title_screen_wifi">ئېكران يورۇن ۋاقىتتا Wi-Fiيول قويۇش</string>

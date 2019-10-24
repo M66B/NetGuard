@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Ελάχιστη DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Χρήση διαμεσολαβητή SOCKS5</string>
     <string name="setting_socks5_addr">SOCKS5 διεύθυνση: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Παρακολουθείστε τον αριθμό των bytes που αποστέλλονται και λαμβάνονται για κάθε εφαρμογή και κάθε διεύθυνση. Αυτό μπορεί να οδηγήσει σε πρόσθετη κατανάλωση μπαταρίας.</string>
     <string name="summary_block_domains">Ανταπόκριση με το ρυθμισμένο κωδικό απόκρισης DNS για αποκλεισμένους τομείς. Αυτός ο διακόπτης είναι απενεργοποιημένος όταν δεν υπάρχει διαθέσιμο αρχείο hosts.</string>
     <string name="summary_rcode">Η προεπιλεγμένη τιμή είναι 3 (NXDOMAIN), που σημαίνει «ανύπαρκτος τομέας».</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Μόνο η κυκλοφορία TCP θα αποστέλλεται στο διακομιστή μεσολάβησης</string>
     <string name="summary_watchdog">Ελέγχετε περιοδικά αν εκτελείται ακόμα το NetGuard (εισάγετε το μηδέν για να απενεργοποιήσετε αυτή την επιλογή). Αυτό μπορεί να οδηγήσει σε πρόσθετη κατανάλωση μπαταρίας.</string>
     <string name="summary_stats">Εμφάνιση γραφήματος ταχύτητας δικτύου στη γραμμή κατάστασης</string>
@@ -220,6 +222,7 @@
     <string name="title_internet">δεν έχει άδεια χρήσης Διαδικτύου</string>
     <string name="title_disabled">είναι απενεργοποιημένη</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Εφαρμογή κανόνων και προϋποθέσεων</string>
     <string name="title_conditions">Προϋποθέσεις</string>
     <string name="title_screen_wifi">Επέτρεψε Wi-Fi, όταν η οθόνη είναι ενεργοποιημένη</string>

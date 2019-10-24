@@ -98,6 +98,7 @@
     <string name="setting_vpn4">IPv4 VPN: %s</string>
     <string name="setting_vpn6">IPv6 VPN: %s</string>
     <string name="setting_dns">DNS VPN: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Gunakan proksi SOCKS5</string>
     <string name="setting_socks5_addr">Alamat SOCKS5: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Lacak jumlah byte yang dikirim dan diterima untuk setiap apl dan alamat. Hal ini mungkin menyebabkan penggunaan baterai ekstra.</string>
     <string name="summary_block_domains">Tanggapi dengan kode respons DNS yang dikonfigurasi untuk nama domain yang diblokir. Opsi ini dinonaktifkan ketika tidak ada berkas hos yang tersedia.</string>
     <string name="summary_rcode">Nilai bawaannya adalah 3 (NXDOMAIN), yang berarti \'tidak ada domain\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Hanya lalu lintas TCP yang akan dikirim ke server proksi</string>
     <string name="summary_watchdog">Periksa secara berkala apakah NetGuard masih berjalan (masukkan nol untuk menonaktifkan opsi ini). Hal ini mungkin menyebabkan penggunaan baterai ekstra.</string>
     <string name="summary_stats">Tampilkan grafik kecepatan jaringan di notifikasi bilah status</string>
@@ -224,6 +226,7 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="title_internet">tidak memiliki izin internet</string>
     <string name="title_disabled">dinonaktifkan</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Terapkan aturan dan kondisi</string>
     <string name="title_conditions">Kondisi</string>
     <string name="title_screen_wifi">Izinkan Wi-Fi saat layar aktif</string>

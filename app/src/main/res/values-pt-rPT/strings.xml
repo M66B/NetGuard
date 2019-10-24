@@ -98,6 +98,7 @@
     <string name="setting_vpn4">IPv4 VPN: %s</string>
     <string name="setting_vpn6">IPv4 VPN: %s</string>
     <string name="setting_dns">DNS da VPN: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">TTL mínimo de DNS: %s s</string>
     <string name="setting_socks5_enabled">Usar proxy SOCKS5</string>
     <string name="setting_socks5_addr">Endereço SOCKS5: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Controlar o número de bytes enviados e recebidos para cada aplicação e endereço. Isto pode resultar num uso adicional da bateria.</string>
     <string name="summary_block_domains">Responder com o código de resposta do DNS configurado para nomes de domínio bloqueados. Esta opção é desativada quando não está disponível nenhum ficheiro hosts.</string>
     <string name="summary_rcode">O valor padrão é 3 (NXDOMAIN), que significa \"domínio inexistente\".</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Somente o tráfego TCP será enviado para o servidor proxy</string>
     <string name="summary_watchdog">Verificar periodicamente se o NetGuard ainda está em execução (entrar zero para desativar esta opção). Isto pode resultar num uso extra de bateria.</string>
     <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
@@ -220,6 +222,7 @@
     <string name="title_internet">não tem permissão de acesso a internet</string>
     <string name="title_disabled">está desativado</string>
     <string name="title_messaging">As mensagens são recebidas pelos serviços Google Play e não por esta aplicação. Por este motivo não podem ser bloqueadas bloqueando esta aplicação</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Aplicar as regras e condições</string>
     <string name="title_conditions">Condições</string>
     <string name="title_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>

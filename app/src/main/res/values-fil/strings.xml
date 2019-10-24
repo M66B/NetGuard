@@ -98,6 +98,7 @@
     <string name="setting_vpn4">Ang VPN IPv4: %s</string>
     <string name="setting_vpn6">Ang VPN IPv6: %s</string>
     <string name="setting_dns">Ang VPN ng DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Ang pinakamababang DNS sa TTL: %s s</string>
     <string name="setting_socks5_enabled">Gamitin ang proksi na SOCKS5</string>
     <string name="setting_socks5_addr">Ang SOCKS5 address: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Subaybayan ang bilang ng mga byte na napadala at natanggap para sa bawat aplikasyon at adres. Ito ay maaaring magkaresulta ng dagdag gamit sa baterya.</string>
     <string name="summary_block_domains">Romesponde sa pagkukumpigura sa DNS tumugod sa kowd para i-block ang mga pangalan ng domain. Ang pindutang ito ay naka-disable kapag walang mga payl na host ang pwede.</string>
     <string name="summary_rcode">Ang default na mga halaga ay 3 (NXDOMAIN), ang ibig sabihin \'walang-sumobrang domain\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Ang daloy ng TCP lamang ang ipapadala sa serber ng proksi</string>
     <string name="summary_watchdog">Pana-panahon ang pagtsi-tsek kung ang NetGuard ay nanatiling tumatakbo parin (ilagay ang bokya para i-disable ang opsyong ito). ito ay maaaring magkaresulta ng dagdag gamit sa baterya.</string>
     <string name="summary_stats">Ipakita ang bilis ng network sa talangguhitan at sa notipikasyon ng bar na estado</string>
@@ -222,6 +224,7 @@ Ang iyong daloy ng internet ay hindi naipadala sa malayong serber ng VPN.</strin
     <string name="title_internet">ay walang pahintulot sa internet</string>
     <string name="title_disabled">ito ay naka-disable</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">I-aplay ang mga alituntunin at mga kondisyon</string>
     <string name="title_conditions">Ang mga kondisyon</string>
     <string name="title_screen_wifi">Payagan ang Wi-Fi kapag ang iskrin ay bukas</string>

@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Koristi SOCKS5 proxy</string>
     <string name="setting_socks5_addr">SOCKS5 adresa: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Pratite broj poslanih i primljenih bajtova za svaku aplikaciju i adresu. To može dovesti do prekomjerne potrošnje baterije.</string>
     <string name="summary_block_domains">Odgovorite s DNS povratnim kodom konfiguriranim za blokirane nazive domena. Ova je opcija onemogućena kada nije dostupna nijedna datoteka hostova.</string>
     <string name="summary_rcode">Zadana je vrijednost 3 (NXDOMAIN), što znači \"nepostojeća domena\".</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Samo TCP promet će biti poslan na proxy poslužitelj</string>
     <string name="summary_watchdog">Periodički provjeri da li je NetGuard još pokrenut (unesite nulu da biste onemogućili ovu opciju). To može dovesti do prekomjerne potrošnje baterije.</string>
     <string name="summary_stats">Prikaži grafikon mrežne propusnosti na traci statusa</string>
@@ -220,6 +222,7 @@
     <string name="title_internet">nema dopuštenje za internet</string>
     <string name="title_disabled">je onemogućen</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Primijeni pravila i uvjete</string>
     <string name="title_conditions">Uvjeti</string>
     <string name="title_screen_wifi">Dopusti Wi-Fi kada je zaslon uključen</string>

@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">Minimalny DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Użyj serwera proxy SOCKS5</string>
     <string name="setting_socks5_addr">Adres SOCKS5: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">Rejestruj ilość bajtów wysłanych i odebranych dla każdej aplikacji i adresu. Może zwiększyć użycie baterii.</string>
     <string name="summary_block_domains">Odpowiadaj jako skonfigurowana odpowiedź DNS dla zablokowanych nazw domen. Przełącznik ten jest wyłączony gdy plik hosts nie jest dostępny.</string>
     <string name="summary_rcode">Wartość domyślna to 3 (NXDOMAIN), co oznacza \'nieistniejąca domena\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">Tylko ruch TCP zostanie przesłany do serwera proxy</string>
     <string name="summary_watchdog">Sprawdź okresowo, czy NetGuard nadal działa (wpisz zero, aby wyłączyć tę opcję). Może to spowodować większe zużycie baterii.</string>
     <string name="summary_stats">Pokazuj wykres prędkości sieci w powiadomieniach aplikacji</string>
@@ -220,6 +222,7 @@
     <string name="title_internet">brak uprawnień do Internetu</string>
     <string name="title_disabled">jest niesprawny</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Zastosuj reguły i warunki</string>
     <string name="title_conditions">Warunki</string>
     <string name="title_screen_wifi">Zezwól na Wi-Fi przy włączonym ekranie</string>

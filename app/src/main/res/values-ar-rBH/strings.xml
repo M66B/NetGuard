@@ -98,6 +98,7 @@
     <string name="setting_vpn4">الشبكة الافتراضية الخاصة IPv4: %s</string>
     <string name="setting_vpn6">IPv6 للشبكة الافتراضية الخاصة: %s</string>
     <string name="setting_dns">DNS للشبكة الافتراضية الخاصة: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">مدة الحياة الدنيا لـ DNS: %s ثا</string>
     <string name="setting_socks5_enabled">استخدام SOCKS5 الوكيل</string>
     <string name="setting_socks5_addr">عنوان SOCKS5: %s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">تتبع عدد وحدات البايت المرسلة والمتلقاة لكل تطبيق وعنوان. قد ينتج عن هذا استخدام إضافي للبطارية.</string>
     <string name="summary_block_domains">الاستجابة ب \'اسم خاطئ\' (NXDOMAIN) لأسماء النطاقات المحظورة. يعطل هذا الخيار عند عدم وجود ملف المضيفين.</string>
     <string name="summary_rcode">الـقيمة الافتراضية هي 3 (NXDOMAIN)، وهذا يعني \'أنّ اسم النطاق غير موجود\'.</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">يـــتـــم إرســال حــركـــة مـــرور TCP فـــقـــط إلـــى الـــمـــلـــقـــم الـــوكــيـــل</string>
     <string name="summary_watchdog">الــفـــحـــص الــدوري إذا كــان قـــيـــد تـــشـــغـــيـــل NetGuard (فــأدخـــل صـــفـــر لـــتـــعـــطـــيـــل هـــذا الــخـــيـــار). قـــد يـــســـتـــلـــزم هـــذا إســـتـــخـــدام أكـــثـــر لـلـــبـــطــاريـــة.</string>
     <string name="summary_stats">إظهار الرسم البياني لسرعة الشبكة على شريط حالة الإشعارات</string>
@@ -220,6 +222,7 @@
     <string name="title_internet">ليس لديه اذن انترنت</string>
     <string name="title_disabled">معطل</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">تطبيق القواعد والشروط</string>
     <string name="title_conditions">الشروط</string>
     <string name="title_screen_wifi">السماح للشبكات اللاسلكية عندما تكون الشاشة فعالة</string>

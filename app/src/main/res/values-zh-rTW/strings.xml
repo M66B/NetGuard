@@ -98,6 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_validate">Validate at: %s</string>
     <string name="setting_ttl">DNS TTL 最小值：%s s</string>
     <string name="setting_socks5_enabled">使用 SOCKS5 代理</string>
     <string name="setting_socks5_addr">SOCKS5 網址：%s</string>
@@ -146,6 +147,7 @@
     <string name="summary_track_usage">追蹤每個 app 與網址所傳送與接收的 bytes 數。這可能會導致額外的耗電量。</string>
     <string name="summary_block_domains">回應設定好的 DNS 回應碼 (R-code) 以封鎖網域名稱。當無法使用 hosts 檔時，該選項停用。</string>
     <string name="summary_rcode">預設值是 3 (NXDOMAIN)，意思是 “不存在的網域”。</string>
+    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
     <string name="summary_socks5_enabled">僅 TCP 流量會被送到代理伺服器</string>
     <string name="summary_watchdog">定時檢查 NetGuard 是否仍在運行 (輸入 0 停用此選項)。這可能導致額外的耗電量。</string>
     <string name="summary_stats">在狀態欄通知列上顯示網路速度圖</string>
@@ -224,6 +226,7 @@
     <string name="title_internet">沒有網際網路權限</string>
     <string name="title_disabled">已停用</string>
     <string name="title_messaging">您所收到的訊息是由 Google Play 服務所接收，而非本 app ，因此無法由本 app 封鎖。</string>
+    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">套用規則與狀態</string>
     <string name="title_conditions">狀態</string>
     <string name="title_screen_wifi">在螢幕開啟時啟用 Wi-fi</string>
