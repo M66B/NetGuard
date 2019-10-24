@@ -62,6 +62,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
+import androidx.core.util.PatternsCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.xml.sax.Attributes;
@@ -238,9 +239,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         screen.findPreference("vpn6").setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
         EditTextPreference pref_dns1 = (EditTextPreference) screen.findPreference("dns");
         EditTextPreference pref_dns2 = (EditTextPreference) screen.findPreference("dns2");
+        EditTextPreference pref_validate = (EditTextPreference) screen.findPreference("validate");
         EditTextPreference pref_ttl = (EditTextPreference) screen.findPreference("ttl");
         pref_dns1.setTitle(getString(R.string.setting_dns, prefs.getString("dns", "-")));
         pref_dns2.setTitle(getString(R.string.setting_dns, prefs.getString("dns2", "-")));
+        pref_validate.setTitle(getString(R.string.setting_validate, prefs.getString("validate", "www.google.com")));
         pref_ttl.setTitle(getString(R.string.setting_ttl, prefs.getString("ttl", "259200")));
 
         // SOCKS5 parameters
@@ -669,6 +672,21 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     getString(R.string.setting_dns, prefs.getString(name, "-")));
             ServiceSinkhole.reload("changed " + name, this, false);
 
+        } else if ("validate".equals(name)) {
+            String host = prefs.getString(name, "www.google.com");
+            try {
+                checkDomain(host);
+                prefs.edit().putString(name, host.trim()).apply();
+            } catch (Throwable ex) {
+                prefs.edit().remove(name).apply();
+                ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
+                if (!TextUtils.isEmpty(host))
+                    Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+            getPreferenceScreen().findPreference(name).setTitle(
+                    getString(R.string.setting_validate, prefs.getString(name, "www.google.com")));
+            ServiceSinkhole.reload("changed " + name, this, false);
+
         } else if ("ttl".equals(name))
             getPreferenceScreen().findPreference(name).setTitle(
                     getString(R.string.setting_ttl, prefs.getString(name, "259200")));
@@ -791,6 +809,17 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             if (iaddr.isLoopbackAddress() || iaddr.isAnyLocalAddress())
                 throw new IllegalArgumentException("Bad address");
         }
+    }
+
+    private void checkDomain(String address) throws IllegalArgumentException, UnknownHostException {
+        if (address != null)
+            address = address.trim();
+        if (TextUtils.isEmpty(address))
+            throw new IllegalArgumentException("Bad address");
+        if (Util.isNumericAddress(address))
+            throw new IllegalArgumentException("Bad address");
+        if (!PatternsCompat.DOMAIN_NAME.matcher(address).matches())
+            throw new IllegalArgumentException("Bad address");
     }
 
     private BroadcastReceiver interactiveStateReceiver = new BroadcastReceiver() {

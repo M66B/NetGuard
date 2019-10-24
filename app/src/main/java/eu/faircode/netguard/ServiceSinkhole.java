@@ -2142,13 +2142,15 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     }
                 }
 
-                Log.i(TAG, "Validating " + network + " " + ni);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                String host = prefs.getString("validate", "www.google.com");
+                Log.i(TAG, "Validating " + network + " " + ni + " host=" + host);
 
                 Socket socket = null;
                 try {
                     socket = network.getSocketFactory().createSocket();
-                    socket.connect(new InetSocketAddress("www.google.com", 443), 10000);
-                    Log.i(TAG, "Validated " + network + " " + ni);
+                    socket.connect(new InetSocketAddress(host, 443), 10000);
+                    Log.i(TAG, "Validated " + network + " " + ni + " host=" + host);
                     synchronized (validated) {
                         validated.put(network, new Date().getTime());
                     }

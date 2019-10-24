@@ -229,6 +229,11 @@
                 android:inputType="text"
                 android:key="dns2" />
             <EditTextPreference
+                android:hint="www.google.com"
+                android:inputType="text"
+                android:key="validate"
+                android:summary="@string/summary_validate" />
+            <EditTextPreference
                 android:dependency="filter"
                 android:inputType="number"
                 android:key="ttl" />
