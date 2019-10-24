@@ -107,6 +107,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             "com.whatsapp.w4b"
     );
 
+    private List<String> download = Arrays.asList(
+            "com.google.android.youtube"
+    );
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
 
@@ -128,6 +132,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public TextView tvRoaming;
 
         public TextView tvRemarkMessaging;
+        public TextView tvRemarkDownload;
 
         public LinearLayout llConfiguration;
         public TextView tvUid;
@@ -187,6 +192,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             tvRoaming = itemView.findViewById(R.id.tvRoaming);
 
             tvRemarkMessaging = itemView.findViewById(R.id.tvRemarkMessaging);
+            tvRemarkDownload = itemView.findViewById(R.id.tvRemarkDownload);
 
             llConfiguration = itemView.findViewById(R.id.llConfiguration);
             tvUid = itemView.findViewById(R.id.tvUid);
@@ -451,6 +457,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.screen_other) ? View.VISIBLE : View.INVISIBLE);
 
         holder.tvRemarkMessaging.setVisibility(messaging.contains(rule.packageName) ? View.VISIBLE : View.GONE);
+        holder.tvRemarkDownload.setVisibility(download.contains(rule.packageName) ? View.VISIBLE : View.GONE);
 
         // Expanded configuration section
         holder.llConfiguration.setVisibility(rule.expanded ? View.VISIBLE : View.GONE);

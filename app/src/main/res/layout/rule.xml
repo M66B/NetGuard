@@ -168,6 +168,16 @@
         android:textStyle="italic"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/tvRemarkDownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:text="@string/title_download"
+        android:textAppearance="@style/TextSmall"
+        android:textStyle="italic"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/llConfiguration"
         android:layout_width="match_parent"
