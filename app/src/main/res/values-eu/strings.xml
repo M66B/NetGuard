@@ -98,7 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Balioztatu hemen: %s</string>
     <string name="setting_ttl">Gutxieneko DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Erabili SOCKS5 proxya</string>
     <string name="setting_socks5_addr">SOCKS5 helbidea: %s</string>
@@ -147,7 +147,7 @@
     <string name="summary_track_usage">Monitorizatu aplikazio eta helbide bakoitzak bidali eta jasotako byte kopurua. Honek bateria kontsumoa areagotzea ekar lezake.</string>
     <string name="summary_block_domains">Erantzun blokeatutako domeinuentzat konfiguratutako DNS erantzun kodearekin. Etengailu hau desgaituta dago hosts fitxategirik ez badago.</string>
     <string name="summary_rcode">Lehenetsitako balioa 3 (NXDOMAIN) da, eta \'domeinua ez da existitzen\' esan nahi du.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">Internet konexioa 443 atakan (https) balioztatzeko erabilitako domeinuaren izena.</string>
     <string name="summary_socks5_enabled">TCP trafikoa besterik ez da bidaliko proxy zerbitzarira</string>
     <string name="summary_watchdog">Egiaztatu aldiro NetGuarg oraindik martxan dagoen (idatzi 0 ezaugarri hau desgaitzeko). Honek bateria gehiago erabiltzea ekar lezake.</string>
     <string name="summary_stats">Erakutsi sare-abiaduraren grafikoak egoera-barrako jakinarazpenetan</string>
@@ -226,7 +226,7 @@ Zure internet trafikoa ez da kanpo VPN zerbitzari batera bidaltzen.</string>
     <string name="title_internet">ez du Interneterako baimena</string>
     <string name="title_disabled">desgaituta dago</string>
     <string name="title_messaging">Mezuak Google Play services bidez jasotzen dira, ez ditu aplikazio honek zuzenean jasotzen, beraz ezin dira blokeatu aplikazio hau blokeatuz</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Deskargak deskarga kudeatzaileak egiten ditu eta ez aplikazio honek, ondorioz ezin dira blokeatu aplikazio hau blokeatuz</string>
     <string name="title_apply">Aplikatu arau eta baldintzak</string>
     <string name="title_conditions">Baldintzak</string>
     <string name="title_screen_wifi">Baimendu Wi-Fia pantaila piztuta dagoenean</string>

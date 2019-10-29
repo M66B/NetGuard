@@ -98,7 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Doğrula: %s</string>
     <string name="setting_ttl">En az DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">SOCKS5 proxy kullan</string>
     <string name="setting_socks5_addr">SOCKS5 adresi: %s</string>
@@ -147,7 +147,7 @@
     <string name="summary_track_usage">Her bir uygulama için alınan ve gönderilen veri miktarını izleyin. Bu, ekstra batarya kullanımına neden olabilir.</string>
     <string name="summary_block_domains">Engellenen alan adları için ayarlanmış DNS yanıt kodu ile yanıt ver. Host dosyaları mevcut olmadığı zaman bu anahtar devre dışıdır.</string>
     <string name="summary_rcode">Varsayılan değer 3(NXDOMAIN), yani \'mevcut olmayan alan adı\'.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">443 numaralı porttaki (https) internet bağlantısını doğrulamak için kullanılan alan adı.</string>
     <string name="summary_socks5_enabled">Sadece TCP trafiği proxy sunucusuna gönderecek</string>
     <string name="summary_watchdog">NetGuard\'ın hala çalışıp çalışmadığını düzenli olarak kontrol edin (bu seçeneği devre dışı bırakmak için sıfır girin). Bu ekstra pil kullanımıyla sonuçlanabilir.</string>
     <string name="summary_stats">İnternet hız grafiği bildirimi göster</string>
@@ -225,7 +225,7 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
     <string name="title_internet">İnternet izni yok</string>
     <string name="title_disabled">devre dışı</string>
     <string name="title_messaging">Gelen mesajlar, bu uygulama tarafından değil, Google Play servisleri tarafından alınır ve bu nedenle bu uygulamayı engelleyerek engellenemez</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">İndirmeler bu uygulama tarafından değil, indirme yöneticisi tarafından yapılır ve bu nedenle bu uygulamayı engelleyerek engellenemez</string>
     <string name="title_apply">İzin verilmiş kurallar</string>
     <string name="title_conditions">Koşullar</string>
     <string name="title_screen_wifi">Ekran açıkken Wİ-Fİ ye izin ver</string>

@@ -98,7 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Apstiprināt uz: %s</string>
     <string name="setting_ttl">Minimums DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Lietot SOCKS5 proxy</string>
     <string name="setting_socks5_addr">SOCKS5 adrese: %s</string>
@@ -147,7 +147,7 @@
     <string name="summary_track_usage">Sekot līdzi baitu skaitam, ko nosūta un saņem katra lietotne un adrese. Tas var izraisīt lielāku baterijas patēriņu.</string>
     <string name="summary_block_domains">Uz bloķēto domēnu vārdiem atbildēt ar konfigurētu DNS atbildes kodu. Slēdzis ir izslēgts, kad hosts fails nav pieejams.</string>
     <string name="summary_rcode">Noklusētā vērtība ir 3 (NXDOMAIN), kas nozīmē \'neeksistējošs domēns\'.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">Domēna vārds, ko izmanto, lai apstiprinātu interneta savienojumu 443. portā (https).</string>
     <string name="summary_socks5_enabled">Tikai TCP datu plūsma tiks sūtīta uz proxy serveri</string>
     <string name="summary_watchdog">Periodiski pārbauda, vai NetGuard vēl joprojām darbojas (nulle atspējo šo funkciju). Var palielināt baterijas noslodzi.</string>
     <string name="summary_stats">Parāda tīkla ātruma grafiku statusa joslā</string>
@@ -226,7 +226,7 @@ Tava interneta datu plūsma netiks sūtīta uz kādu ārējo VPN serveri.</strin
     <string name="title_internet">nav atļauts internets</string>
     <string name="title_disabled">ir atspējots</string>
     <string name="title_messaging">Ienākošie ziņojumi tiek saņemti caur Google Play servisiem un nevis no šīs aplikācijas, tāpēc tos nevar nobloķēt bloķējot šo aplikāciju</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Lejupielādes veic lejupielāžu pārvaldnieks (Download manager) un nevis šī aplikācija, tāpēc tās nevar nobloķēt bloķējot šo aplikāciju</string>
     <string name="title_apply">Apstiprināt noteikumus un nosacījumus</string>
     <string name="title_conditions">Nosacījumi</string>
     <string name="title_screen_wifi">Atļaut Wi-Fi, kad ekrāns ir ieslēgts</string>

@@ -98,7 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Validar en: %s</string>
     <string name="setting_ttl">TTL mínimo para DNS: %s s</string>
     <string name="setting_socks5_enabled">Usar proxy SOCKS5</string>
     <string name="setting_socks5_addr">Dirección de SOCKS5: %s</string>
@@ -147,7 +147,7 @@
     <string name="summary_track_usage">Registrar número de bytes enviados y recibidos para cada aplicación y dirección. Esto podría consumir más batería.</string>
     <string name="summary_block_domains">Responder con el código de respuesta DNS configurado para nombres de dominio bloqueados. Esta opción está desactivada cuando no hay ningún archivo hosts disponible.</string>
     <string name="summary_rcode">El valor predeterminado es 3 (NXDOMAIN), que significa \'dominio inexistente\'.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">Nombre de dominio usado para validar la conexión a internet en el puerto 443 (https).</string>
     <string name="summary_socks5_enabled">Sólo se enviará el tráfico TCP al servidor proxy</string>
     <string name="summary_watchdog">Comprobar periódicamente si NetGuard está ejecutándose (introduzca cero para desactivar esta opción). Esto podría consumir más batería.</string>
     <string name="summary_stats">Mostrar gráfico de velocidad de red en notificaciones de la barra de estado</string>

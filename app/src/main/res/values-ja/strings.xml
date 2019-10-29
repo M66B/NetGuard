@@ -98,7 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">検証: %s</string>
     <string name="setting_ttl">最小 DNS TTL: %s 秒</string>
     <string name="setting_socks5_enabled">SOCKS5 プロキシを使用</string>
     <string name="setting_socks5_addr">SOCKS5 アドレス: %s</string>
@@ -147,7 +147,7 @@
     <string name="summary_track_usage">各アプリとアドレスごとの送受信バイト数を追跡します。バッテリー使用量が増えることがあります。</string>
     <string name="summary_block_domains">ブロックしたドメイン名に対して、設定した DNS 応答コードで応答します。hosts ファイルが使用できない場合、このスイッチは無効です。</string>
     <string name="summary_rcode">デフォルト値は 3 (NXDOMAIN) です。\'ドメインが存在しない\' の意味です。</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">ポート 443 (https) でインターネット接続の検証に使用するドメイン名。</string>
     <string name="summary_socks5_enabled">プロキシサーバーには TCP トラフィックのみが送信されます</string>
     <string name="summary_watchdog">NetGuard が実行されているかどうかを定期的にチェックします (0 を入力すると、このオプションを無効にします)。余分にバッテリーを使用することがあります。</string>
     <string name="summary_stats">通知領域にネットワーク速度のグラフを表示します</string>
@@ -222,7 +222,7 @@
     <string name="title_internet">インターネット アクセス許可がありません</string>
     <string name="title_disabled">無効</string>
     <string name="title_messaging">このアプリをブロックしても、受信メッセージはこのアプリではなく Google Play サービスによって受信されるため、ブロックできません</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">このアプリではなくダウンロードマネージャーによってダウンロードが実行されるため、このアプリをブロックしてもダウンロードはブロックできません</string>
     <string name="title_apply">ルールと条件を適用</string>
     <string name="title_conditions">条件</string>
     <string name="title_screen_wifi">画面が点灯中は Wi-Fi 通信を許可</string>

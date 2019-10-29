@@ -98,7 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Validér på: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Benyt SOCKS5-proxy</string>
     <string name="setting_socks5_addr">SOCKS5-adresse: %s</string>
@@ -147,7 +147,7 @@
     <string name="summary_track_usage">Spor antal afsendte og modtagne bytes for hver app og adresse. Dette kan medføre forøget strømforbrug.</string>
     <string name="summary_block_domains">Besvar med opsat DNS-svarkode til blokerede domænenavne. Denne omskifter er inaktiv, såfremt ingen hosts-filer er tilgængelige.</string>
     <string name="summary_rcode">Standardværdien er 3 (NXDOMAIN), som betyder \'ikke-eksisterende domæne\'.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">Domænenavn benyttet til validering af Internetforbindelsen på port 443 (HTTPS).</string>
     <string name="summary_socks5_enabled">Kun TCP-trafik sendes til proxy-serveren</string>
     <string name="summary_watchdog">Kontrollér periodisk at NetGuard stadig kører (angiv 0 for at deaktivere denne funktion). Dette kan medføre forøget strømforbrug.</string>
     <string name="summary_stats">Vis netværkshastighedsgraf i statusbjælkenotifikation</string>
@@ -226,7 +226,7 @@ Aktivér venligst indstillingerne \"Baggrundsdata\" og \"Ubegrænset dataforbrug
     <string name="title_internet">har ingen Internettilladelse</string>
     <string name="title_disabled">er deaktiveret</string>
     <string name="title_messaging">Indgående beskeder modtages af Google Play-tjenester og ikke af denne app. De kan derfor ikke blokeres ved at blokere denne app</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Downloads udføres af download-håndteringren og ikke af denne app, og de kan derfor ikke blokeres ved at blokere denne app</string>
     <string name="title_apply">Anvend regler og betingelser</string>
     <string name="title_conditions">Betingelser</string>
     <string name="title_screen_wifi">Tillad Wi-Fi, når skærmen er tændt</string>
