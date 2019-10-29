@@ -213,11 +213,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         }
 
                     boolean filter = prefs.getBoolean("filter", false);
-                    if (filter && Util.isPrivateDns(ActivityMain.this)) {
-                        swEnabled.setChecked(false);
+                    if (filter && Util.isPrivateDns(ActivityMain.this))
                         Toast.makeText(ActivityMain.this, R.string.msg_private_dns, Toast.LENGTH_LONG).show();
-                        return;
-                    }
 
                     try {
                         final Intent prepare = VpnService.prepare(ActivityMain.this);
