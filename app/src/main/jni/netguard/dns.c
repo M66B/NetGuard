@@ -28,7 +28,10 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
     uint8_t len = *(data + ptr);
     while (len) {
         if (len & 0xC0) {
-            ptr = (uint16_t) ((len & 0x3F) * 256 + *(data + ptr + 1));
+            uint16_t jump = (uint16_t) ((len & 0x3F) * 256 + *(data + ptr + 1));
+            if (jump >= datalen)
+                break;
+            ptr = jump;
             len = *(data + ptr);
             log_android(ANDROID_LOG_DEBUG, "DNS qname compression ptr %d len %d", ptr, len);
             if (!c) {
