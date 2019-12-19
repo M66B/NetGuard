@@ -34,7 +34,7 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
         if (count++ > 25)
             break;
 
-        if (len & 0xC0) {
+        if (ptr + 1 < datalen && (len & 0xC0)) {
             uint16_t jump = (uint16_t) ((len & 0x3F) * 256 + *(data + ptr + 1));
             if (jump >= datalen) {
                 log_android(ANDROID_LOG_DEBUG, "DNS invalid jump");
