@@ -22,6 +22,9 @@
 int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qname) {
     *qname = 0;
 
+    if (off >= datalen)
+        return -1;
+
     uint16_t c = 0;
     uint8_t noff = 0;
     uint16_t ptr = off;
