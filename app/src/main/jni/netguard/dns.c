@@ -29,11 +29,17 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
     uint8_t noff = 0;
     uint16_t ptr = off;
     uint8_t len = *(data + ptr);
+    uint8_t count = 0;
     while (len) {
+        if (count++ > 25)
+            break;
+
         if (len & 0xC0) {
             uint16_t jump = (uint16_t) ((len & 0x3F) * 256 + *(data + ptr + 1));
-            if (jump >= datalen)
+            if (jump >= datalen) {
+                log_android(ANDROID_LOG_DEBUG, "DNS invalid jump");
                 break;
+            }
             ptr = jump;
             len = *(data + ptr);
             log_android(ANDROID_LOG_DEBUG, "DNS qname compression ptr %d len %d", ptr, len);
@@ -41,12 +47,17 @@ int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char 
                 c = 1;
                 off += 2;
             }
-        } else if (ptr + 1 + len <= datalen && noff + len <= DNS_QNAME_MAX) {
+        } else if (ptr + 1 + len < datalen && noff + len <= DNS_QNAME_MAX) {
             memcpy(qname + noff, data + ptr + 1, len);
             *(qname + noff + len) = '.';
             noff += (len + 1);
 
-            ptr += (len + 1);
+            uint16_t jump = (uint16_t) (ptr + 1 + len);
+            if (jump >= datalen) {
+                log_android(ANDROID_LOG_DEBUG, "DNS invalid jump");
+                break;
+            }
+            ptr = jump;
             len = *(data + ptr);
         } else
             break;
