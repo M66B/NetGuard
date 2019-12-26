@@ -226,7 +226,7 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
     <string name="title_internet">nemá oprávnění pro přístup k internetu</string>
     <string name="title_disabled">je zakázáno</string>
     <string name="title_messaging">Příchozí zprávy jsou přijímány službami Google Play a ne touto aplikací a nemohou být proto blokovány zablokováním této aplikace</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Stahování jsou prováděna správcem stahování a nikoliv touto aplikací a nelze je proto zablokovat blokováním této aplikace</string>
     <string name="title_apply">Nastavit pravidla a podmínky</string>
     <string name="title_conditions">Podmínky</string>
     <string name="title_screen_wifi">Povolit Wi-Fi při zapnuté obrazovce</string>

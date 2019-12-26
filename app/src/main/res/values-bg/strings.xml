@@ -28,7 +28,7 @@
     <string name="menu_legend">Легенда</string>
     <string name="menu_support">Поддръжка</string>
     <string name="menu_about">За приложението</string>
-    <string name="menu_apps">Other apps</string>
+    <string name="menu_apps">Други приложения</string>
     <string name="menu_protocol_other">Други</string>
     <string name="menu_traffic_allowed">Разрешен</string>
     <string name="menu_traffic_blocked">Блокиран</string>
@@ -39,7 +39,7 @@
     <string name="menu_pcap_enabled">PCAP разрешено</string>
     <string name="menu_pcap_export">PCAP експортиране</string>
     <string name="menu_clear">Изчистване</string>
-    <string name="menu_export">Export</string>
+    <string name="menu_export">Експорт</string>
     <string name="menu_reset">Нулиране</string>
     <string name="menu_add">Добавяне</string>
     <string name="menu_delete">Изтриване</string>
@@ -75,7 +75,7 @@
     <string name="setting_metered_3g">Приемане на 3G за неограничен достъп</string>
     <string name="setting_metered_4g">Приемане на LTE за неограничен достъп</string>
     <string name="setting_national_roaming">Игнориране на национален роуминг</string>
-    <string name="setting_eu_roaming">Ignore EU roaming</string>
+    <string name="setting_eu_roaming">Игнорирай роуминга в ЕС</string>
     <string name="setting_call">Disable on call</string>
     <string name="setting_lockdown_wifi">Lockdown Wi-Fi</string>
     <string name="setting_lockdown_other">Lockdown mobile</string>
@@ -117,7 +117,7 @@
     <string name="setting_export">Експортиране на настройките</string>
     <string name="setting_import">Внасяне на настройки</string>
     <string name="setting_hosts">Внасяне на \"hosts\" файл</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Импортирай hosts файла (добавяне)</string>
     <string name="setting_hosts_url">Адрес за сваляне на \"hosts\" файл</string>
     <string name="setting_hosts_download">Изтегляне на \"hosts\" файл</string>
     <string name="setting_technical">Техническа информация</string>
@@ -249,8 +249,8 @@
     <string name="title_rate">Оценете</string>
     <string name="title_allow">Разрешаване</string>
     <string name="title_block">Блокиране</string>
-    <string name="title_allow_wifi">Allow Wi-Fi</string>
-    <string name="title_block_wifi">Block Wi-Fi</string>
+    <string name="title_allow_wifi">Разреши Wi-Fi</string>
+    <string name="title_block_wifi">Блокирай Wi-Fi</string>
     <string name="title_allow_other">Allow mobile</string>
     <string name="title_block_other">Block mobile</string>
     <string name="title_root">Root достъп</string>
@@ -271,11 +271,11 @@
     <string name="title_pro_dev">Подкрепете разработката</string>
     <string name="title_pro_buy">Купувам</string>
     <string name="title_pro_bought">Включено</string>
-    <string name="title_pro_unavailable">Unavailable</string>
+    <string name="title_pro_unavailable">Не е наличен</string>
     <string name="title_pro_details">Натиснете върху заглавие за повече информация</string>
     <string name="title_pro_challenge">Предизвикателство</string>
     <string name="title_pro_reponse">Отговор</string>
-    <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_feature">Това е pro функция</string>
     <string-array name="themeNames">
         <item>синьо-зелено/оранжево</item>
         <item>синьо/оранжево</item>
