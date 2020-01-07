@@ -135,10 +135,17 @@ void parse_dns_response(const struct arguments *args, const struct ng_session *s
                         (qtype == DNS_QTYPE_A || qtype == DNS_QTYPE_AAAA)) {
 
                         char rd[INET6_ADDRSTRLEN + 1];
-                        if (qtype == DNS_QTYPE_A)
-                            inet_ntop(AF_INET, data + off, rd, sizeof(rd));
-                        else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_AAAA)
-                            inet_ntop(AF_INET6, data + off, rd, sizeof(rd));
+                        if (qtype == DNS_QTYPE_A) {
+                            if (off + sizeof(__be32) < *datalen)
+                                inet_ntop(AF_INET, data + off, rd, sizeof(rd));
+                            else
+                                return;
+                        } else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_AAAA) {
+                            if (off + sizeof(struct in6_addr) < *datalen)
+                                inet_ntop(AF_INET6, data + off, rd, sizeof(rd));
+                            else
+                                return;
+                        }
 
                         dns_resolved(args, qname, name, rd, ttl);
                         log_android(ANDROID_LOG_DEBUG,
