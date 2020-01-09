@@ -53,8 +53,8 @@
     <string name="setting_defaults">चूक</string>
     <string name="setting_whitelist_wifi">वाईफ़ाई अवरोधित करें</string>
     <string name="setting_whitelist_other">मोबाइल अवरोधित करें</string>
-    <string name="setting_screen_wifi">स्क्रीन चालू होने पर वाईफ़ाई की अनुमति दें</string>
-    <string name="setting_screen_other">स्क्रीन चालू होने पर मोबाइल को अनुमति दें</string>
+    <string name="setting_screen_wifi">जब स्क्रीन चालू हो तब वाईफ़ाई की अनुमति दें</string>
+    <string name="setting_screen_other">जब स्क्रीन चालू हो तब मोबाइल की अनुमति दें</string>
     <string name="setting_whitelist_roaming">ब्लॉक रोमिंग</string>
     <string name="setting_options">विकल्प</string>
     <string name="setting_theme">दिखावट: %1$s</string>
@@ -216,7 +216,7 @@
     <string name="title_metered_disabled">मीटर लगाए गए नियम लागू नहीं होते</string>
     <string name="title_host_allowed">पते की अनुमति है</string>
     <string name="title_host_blocked">पता ब्लॉक किया गया है</string>
-    <string name="title_interactive_allowed">जब स्क्रीन पर अनुमति दें</string>
+    <string name="title_interactive_allowed">स्क्रीन चालू होने पर अनुमति दें</string>
     <string name="title_roaming_blocked">रोमिंग पर ब्लॉक</string>
     <string name="title_metered">द्वारा डिफ़ॉल्ट एक Wi-Fi कनेक्शन unmetered माना जाता है और मीटर के जरिए किया जा करने के लिए एक मोबाइल कनेक्शन</string>
     <string name="title_internet">इंटरनेट की अनुमति नहीं है</string>
@@ -225,8 +225,8 @@
     <string name="title_download">डाउनलोड प्रबंधक द्वारा डाउनलोड किए जाते हैं और इस एप्लिकेशन द्वारा नहीं किए जाते हैं और इसलिए इस एप्लिकेशन को अवरुद्ध करके नहीं किया जा सकता है</string>
     <string name="title_apply">नियम और शर्तें लागू</string>
     <string name="title_conditions">शर्तें</string>
-    <string name="title_screen_wifi">जब स्क्रीन पर Wi-Fi की अनुमति दें</string>
-    <string name="title_screen_other">जब स्क्रीन पर मोबाइल की अनुमति दें</string>
+    <string name="title_screen_wifi">जब स्क्रीन चालू हो तब वाईफ़ाई की अनुमति दें</string>
+    <string name="title_screen_other">जब स्क्रीन चालू हो तब मोबाइल की अनुमति दें</string>
     <string name="title_roaming_symbol">R</string>
     <string name="title_roaming">रोमिंग पर ब्लॉक</string>
     <string name="title_lockdown">लॉकडाउन मोड में अनुमति दें</string>
@@ -258,7 +258,7 @@
     <string name="title_log_whois">Whois %1$s</string>
     <string name="title_log_port">पोर्ट %1$d</string>
     <string name="title_log_copy">कॉपी करें</string>
-    <string name="title_pro">प्रो सुविधाओं</string>
+    <string name="title_pro">प्रो सुविधाएँ</string>
     <string name="title_pro_description">निम्न प्रो सुविधाएँ उपलब्ध हैं:</string>
     <string name="title_pro_log">अवरुद्ध ट्रैफ़िक लॉग देखें</string>
     <string name="title_pro_filter">नेटवर्क ट्रैफ़िक फ़िल्टर करें</string>
