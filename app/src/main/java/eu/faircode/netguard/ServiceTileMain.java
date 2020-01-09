@@ -28,10 +28,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Icon;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import java.util.Date;
 

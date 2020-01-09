@@ -47,7 +47,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -59,6 +58,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.net.ConnectivityManagerCompat;
+import androidx.preference.PreferenceManager;
 
 import java.io.BufferedReader;
 import java.io.File;

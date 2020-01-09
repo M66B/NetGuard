@@ -81,11 +81,16 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // https://developer.android.com/jetpack/androidx/releases/
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    annotationProcessor 'androidx.annotation:annotation:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+    annotationProcessor 'androidx.annotation:annotation:1.1.0'
 
     // https://bumptech.github.io/glide/
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation('com.github.bumptech.glide:glide:4.10.0') {
+        exclude group: "com.android.support"
+    }
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 }

@@ -24,10 +24,11 @@ import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Icon;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 @TargetApi(Build.VERSION_CODES.N)
 public class ServiceTileLockdown extends TileService implements SharedPreferences.OnSharedPreferenceChangeListener {

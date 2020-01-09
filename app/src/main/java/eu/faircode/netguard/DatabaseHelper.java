@@ -29,8 +29,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

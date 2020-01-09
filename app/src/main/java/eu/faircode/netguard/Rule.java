@@ -28,8 +28,9 @@ import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Process;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
 
