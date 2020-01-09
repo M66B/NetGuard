@@ -2474,7 +2474,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 List<InetAddress> dns = linkProperties.getDnsServers();
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                 if (prefs.getBoolean("reload_onconnectivity", false) ||
-                        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) && !same(last_dns, dns)) {
+                        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !same(last_dns, dns))) {
                     last_dns = dns;
                     Log.i(TAG, "Changed link properties=" + linkProperties);
                     reload("link properties changed", ServiceSinkhole.this, false);
