@@ -136,12 +136,12 @@ void parse_dns_response(const struct arguments *args, const struct ng_session *s
 
                         char rd[INET6_ADDRSTRLEN + 1];
                         if (qtype == DNS_QTYPE_A) {
-                            if (off + sizeof(__be32) < *datalen)
+                            if (off + sizeof(__be32) <= *datalen)
                                 inet_ntop(AF_INET, data + off, rd, sizeof(rd));
                             else
                                 return;
                         } else if (qclass == DNS_QCLASS_IN && qtype == DNS_QTYPE_AAAA) {
-                            if (off + sizeof(struct in6_addr) < *datalen)
+                            if (off + sizeof(struct in6_addr) <= *datalen)
                                 inet_ntop(AF_INET6, data + off, rd, sizeof(rd));
                             else
                                 return;
