@@ -650,7 +650,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             // Check for update
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-            if (!Util.isPlayStoreInstall(ServiceSinkhole.this) && prefs.getBoolean("update_check", true))
+            if (!Util.isPlayStoreInstall(ServiceSinkhole.this) &&
+                    Util.hasValidFingerprint(ServiceSinkhole.this) &&
+                    prefs.getBoolean("update_check", true))
                 checkUpdate();
         }
 
