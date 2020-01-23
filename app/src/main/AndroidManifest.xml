@@ -211,7 +211,7 @@
         <receiver
             android:name=".ReceiverAutostart"
             android:label="@string/app_name">
-            <intent-filter>
+            <intent-filter android:priority="999">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
