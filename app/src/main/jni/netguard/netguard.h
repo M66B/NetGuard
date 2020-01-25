@@ -49,7 +49,7 @@
 #define UDP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
 #define UDP6_MAXMSG (IPV6_MAXPACKET - 40 - 8) // bytes (socket)
 
-#define ICMP_TIMEOUT 15 // seconds
+#define ICMP_TIMEOUT 5 // seconds
 
 #define UDP_TIMEOUT_53 15 // seconds
 #define UDP_TIMEOUT_ANY 300 // seconds
