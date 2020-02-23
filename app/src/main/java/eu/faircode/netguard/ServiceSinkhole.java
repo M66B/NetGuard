@@ -1648,8 +1648,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                             if (version == 6 && !(iname instanceof Inet6Address))
                                 continue;
 
-                            //if (dname != null)
-                            Log.i(TAG, "Set filter " + key + " " + daddr + "/" + dresource + "=" + block);
+                            if (dname != null)
+                                Log.i(TAG, "Set filter " + key + " " + daddr + "/" + dresource + "=" + block);
 
                             boolean exists = mapUidIPFilters.get(key).containsKey(iname);
                             if (!exists || !mapUidIPFilters.get(key).get(iname).isBlocked()) {
@@ -1659,7 +1659,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                                     Log.w(TAG, "Address conflict " + key + " " + daddr + "/" + dresource);
                             } else if (exists) {
                                 mapUidIPFilters.get(key).get(iname).updateExpires(time + ttl);
-                                Log.w(TAG, "Address updated " + key + " " + daddr + "/" + dresource);
+                                if (dname != null)
+                                    Log.w(TAG, "Address updated " + key + " " + daddr + "/" + dresource);
                             }
                         } else
                             Log.w(TAG, "Address not numeric " + name);
