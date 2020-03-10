@@ -700,6 +700,7 @@ Blocked apps cannot access the internet. There are no exceptions to this.
 
 However:
 
+* Apps can show locally cached content
 * Incoming (push) messages are received by the system component Google Play services and not apps, especially when the app is in the background or when the screen is turned off
 * Similarly, advertisements are mostly received by the system component Google Play services
 * Downloads are often performed by the download manager and not apps
