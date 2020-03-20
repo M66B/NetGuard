@@ -85,7 +85,7 @@
     <string name="setting_access">网络连接通知</string>
     <string name="setting_filter">过滤流量</string>
     <string name="setting_filter_udp">过滤 UDP 流量</string>
-    <string name="setting_handover">Seamless VPN handover on reload</string>
+    <string name="setting_handover">重新加载时无缝切换 VPN</string>
     <string name="setting_clear_onreload">在重新加载时关闭连接</string>
     <string name="setting_lockdown">锁定流量</string>
     <string name="setting_track_usage">跟踪网络使用记录</string>
@@ -97,7 +97,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">验证：%s</string>
     <string name="setting_ttl">最低 DNS TTL：%s 秒</string>
     <string name="setting_socks5_enabled">使用 SOCKS5 代理</string>
     <string name="setting_socks5_addr">SOCKS5 地址: %s</string>
@@ -146,7 +146,7 @@
     <string name="summary_track_usage">跟踪每个应用程序和地址发送和接收的字节数. 这可能会导致额外电量消耗.</string>
     <string name="summary_block_domains">使用配置的 DNS 回应码回应已封禁的域名。此选项将在 Hosts 文件不可用时禁用。</string>
     <string name="summary_rcode">默认值为 3 (NXDOMAIN)，即“域名不存在”。</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">用于验证网络连接端口为 443 (https) 的域名。</string>
     <string name="summary_socks5_enabled">仅将 TCP 流量导向至代理服务器</string>
     <string name="summary_watchdog">定时检查 NetGuard 运行状况 (输入 0 禁用此选项). 这可能导致额外电量消耗.</string>
     <string name="summary_stats">在状态栏通知中显示网速示意图</string>
@@ -199,7 +199,7 @@
     <string name="msg_queue">NetGuard 正忙</string>
     <string name="msg_update">有可用更新, 请点击下载</string>
     <string name="msg_usage">您可以点击应用旁的图标来允许 (绿色) 或禁止 (红色) Wi-Fi 或移动网络连接</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">如果您安装了 NetGuard 来保护您的隐私，你也许会对 <a href="https://email.faircode.eu/">FairEmail</a> 感兴趣，一个开源、隐私友好的电子邮件应用。</string>
     <string name="msg_whitelist">默认允许网络连接, 可在设置中进行更改</string>
     <string name="msg_push">大部分消息推送由作为系统组件的 Play 服务完成, 因此默认允许其进行网络连接</string>
     <string name="msg_system">您可在高级选项中启用管理系统应用</string>
@@ -224,8 +224,8 @@
     <string name="title_metered">Wi-Fi 连接默认为非按流量计费, 移动数据连接默认为按流量计费</string>
     <string name="title_internet">无网络访问权限</string>
     <string name="title_disabled">已禁用</string>
-    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_messaging">接收消息是由 Google Play 服务接收而非此应用，因此不能通过屏蔽此应用来阻止接收消息</string>
+    <string name="title_download">下载是通过下载管理器下载而非此应用，因此不能通过屏蔽此应用来阻止下载</string>
     <string name="title_apply">应用规则和条件</string>
     <string name="title_conditions">条件</string>
     <string name="title_screen_wifi">亮屏时允许Wi-Fi网络</string>
@@ -276,7 +276,7 @@
     <string name="title_pro_details">点击标题查看更多信息</string>
     <string name="title_pro_challenge">验证口令</string>
     <string name="title_pro_reponse">验证应答</string>
-    <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_feature">这是专业版的功能</string>
     <string-array name="themeNames">
         <item>蓝绿色/橙色</item>
         <item>蓝色/橙色</item>
