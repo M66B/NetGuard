@@ -1250,6 +1250,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Builder builder = new Builder();
         builder.setSession(getString(R.string.app_name));
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            builder.setMetered(Util.isMeteredNetwork(this));
+        }
+
         // VPN address
         String vpn4 = prefs.getString("vpn4", "10.1.10.1");
         Log.i(TAG, "Using VPN4=" + vpn4);
