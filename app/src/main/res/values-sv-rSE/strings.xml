@@ -90,7 +90,7 @@
     <string name="setting_lockdown">Lås trafik</string>
     <string name="setting_track_usage">Spåra nätverksanvändning</string>
     <string name="setting_reset_usage">Återställ nätverksanvändning</string>
-    <string name="setting_show_resolved">Show resolved domain names</string>
+    <string name="setting_show_resolved">Visa lösta domännamn</string>
     <string name="setting_block_domains">Blockera domännamn</string>
     <string name="setting_rcode">DNS-svarskod: %s</string>
     <string name="setting_forwarding">Vidarebefordring av port</string>

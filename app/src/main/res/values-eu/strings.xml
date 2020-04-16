@@ -56,8 +56,8 @@
     <string name="setting_screen_other">Baimendu mugikorra pantaila piztuta dagoenean</string>
     <string name="setting_whitelist_roaming">Blokeatu ibiltaritza</string>
     <string name="setting_options">Aukerak</string>
-    <string name="setting_theme">Gaia: %1$s</string>
-    <string name="setting_dark">Erabili gai iluna</string>
+    <string name="setting_theme">Azala: %1$s</string>
+    <string name="setting_dark">Erabili azal iluna</string>
     <string name="setting_install">Jakinarazi instalazio berria</string>
     <string name="setting_screen_on">Aplikatu \'pantaila piztuta dagoenean\' arauak</string>
     <string name="setting_auto">Automatikoki gaitu %1$s minutura</string>
@@ -267,7 +267,7 @@ Zure internet trafikoa ez da kanpo VPN zerbitzari batera bidaltzen.</string>
     <string name="title_pro_filter">Iragazi sareko trafikoa</string>
     <string name="title_pro_notify">Aplikazio berrien jakinarazpenak</string>
     <string name="title_pro_speed">Sare-abiaduraren grafikoen jakinarazpenak</string>
-    <string name="title_pro_theme">Itxura (gaia, koloreak)</string>
+    <string name="title_pro_theme">Itxura (azala, koloreak)</string>
     <string name="title_pro_all">Goiko ordainpeko ezaugarri guztiak</string>
     <string name="title_pro_dev">Babestu garapena</string>
     <string name="title_pro_buy">Erosi</string>
