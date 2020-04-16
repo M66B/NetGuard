@@ -181,9 +181,6 @@ public class IAB implements ServiceConnection {
             }
 
             SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
-            if (ActivityPro.SKU_SUPPORT1.equals(sku) || ActivityPro.SKU_SUPPORT2.equals(sku))
-                return prefs.getBoolean(sku, false);
-
             return (prefs.getBoolean(sku, false) ||
                     prefs.getBoolean(ActivityPro.SKU_PRO1, false) ||
                     prefs.getBoolean(ActivityPro.SKU_DONATION, false));
