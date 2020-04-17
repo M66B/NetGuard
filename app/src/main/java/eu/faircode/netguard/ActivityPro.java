@@ -64,6 +64,8 @@ public class ActivityPro extends AppCompatActivity {
     private static final int SKU_SPEED_ID = 4;
     private static final int SKU_THEME_ID = 5;
     private static final int SKU_PRO1_ID = 6;
+    private static final int SKU_SUPPORT1_ID = 7;
+    private static final int SKU_SUPPORT2_ID = 8;
 
     public static final String SKU_LOG = "log";
     public static final String SKU_FILTER = "filter";
@@ -71,6 +73,8 @@ public class ActivityPro extends AppCompatActivity {
     public static final String SKU_SPEED = "speed";
     public static final String SKU_THEME = "theme";
     public static final String SKU_PRO1 = "pro1";
+    public static final String SKU_SUPPORT1 = "support1";
+    public static final String SKU_SUPPORT2 = "support2";
     public static final String SKU_DONATION = "donation";
 
     @Override
@@ -94,6 +98,8 @@ public class ActivityPro extends AppCompatActivity {
         TextView tvSpeedTitle = findViewById(R.id.tvSpeedTitle);
         TextView tvThemeTitle = findViewById(R.id.tvThemeTitle);
         TextView tvAllTitle = findViewById(R.id.tvAllTitle);
+        TextView tvDev1Title = findViewById(R.id.tvDev1Title);
+        TextView tvDev2Title = findViewById(R.id.tvDev2Title);
 
         tvLogTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvFilterTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -101,6 +107,8 @@ public class ActivityPro extends AppCompatActivity {
         tvSpeedTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvThemeTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvAllTitle.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvDev1Title.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvDev2Title.setPaintFlags(tvLogTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -125,6 +133,12 @@ public class ActivityPro extends AppCompatActivity {
                     case R.id.tvAllTitle:
                         sku = SKU_PRO1;
                         break;
+                    case R.id.tvDev1Title:
+                        sku = SKU_SUPPORT1;
+                        break;
+                    case R.id.tvDev2Title:
+                        sku = SKU_SUPPORT2;
+                        break;
                     default:
                         sku = SKU_PRO1;
                         break;
@@ -143,6 +157,8 @@ public class ActivityPro extends AppCompatActivity {
         tvSpeedTitle.setOnClickListener(listener);
         tvThemeTitle.setOnClickListener(listener);
         tvAllTitle.setOnClickListener(listener);
+        tvDev1Title.setOnClickListener(listener);
+        tvDev2Title.setOnClickListener(listener);
 
         try {
             iab = new IAB(new IAB.Delegate() {
@@ -159,6 +175,8 @@ public class ActivityPro extends AppCompatActivity {
                         final Button btnSpeed = findViewById(R.id.btnSpeed);
                         final Button btnTheme = findViewById(R.id.btnTheme);
                         final Button btnAll = findViewById(R.id.btnAll);
+                        final Button btnDev1 = findViewById(R.id.btnDev1);
+                        final Button btnDev2 = findViewById(R.id.btnDev2);
 
                         View.OnClickListener listener = new View.OnClickListener() {
                             @Override
@@ -184,6 +202,12 @@ public class ActivityPro extends AppCompatActivity {
                                     } else if (view == btnAll) {
                                         id = SKU_PRO1_ID;
                                         pi = iab.getBuyIntent(SKU_PRO1, false);
+                                    } else if (view == btnDev1) {
+                                        id = SKU_SUPPORT1_ID;
+                                        pi = iab.getBuyIntent(SKU_SUPPORT1, true);
+                                    } else if (view == btnDev2) {
+                                        id = SKU_SUPPORT2_ID;
+                                        pi = iab.getBuyIntent(SKU_SUPPORT2, true);
                                     }
 
                                     if (id > 0 && pi != null)
@@ -200,6 +224,8 @@ public class ActivityPro extends AppCompatActivity {
                         btnSpeed.setOnClickListener(listener);
                         btnTheme.setOnClickListener(listener);
                         btnAll.setOnClickListener(listener);
+                        btnDev1.setOnClickListener(listener);
+                        btnDev2.setOnClickListener(listener);
 
                         btnLog.setEnabled(true);
                         btnFilter.setEnabled(true);
@@ -207,6 +233,8 @@ public class ActivityPro extends AppCompatActivity {
                         btnSpeed.setEnabled(true);
                         btnTheme.setEnabled(true);
                         btnAll.setEnabled(true);
+                        btnDev1.setEnabled(true);
+                        btnDev2.setEnabled(true);
 
                     } catch (Throwable ex) {
                         Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
@@ -360,6 +388,14 @@ public class ActivityPro extends AppCompatActivity {
                     IAB.setBought(SKU_PRO1, this);
                     updateState();
                     break;
+                case SKU_SUPPORT1_ID:
+                    IAB.setBought(SKU_SUPPORT1, this);
+                    updateState();
+                    break;
+                case SKU_SUPPORT2_ID:
+                    IAB.setBought(SKU_SUPPORT2, this);
+                    updateState();
+                    break;
             }
         }
     }
@@ -371,12 +407,16 @@ public class ActivityPro extends AppCompatActivity {
         Button btnSpeed = findViewById(R.id.btnSpeed);
         Button btnTheme = findViewById(R.id.btnTheme);
         Button btnAll = findViewById(R.id.btnAll);
+        Button btnDev1 = findViewById(R.id.btnDev1);
+        Button btnDev2 = findViewById(R.id.btnDev2);
         TextView tvLog = findViewById(R.id.tvLog);
         TextView tvFilter = findViewById(R.id.tvFilter);
         TextView tvNotify = findViewById(R.id.tvNotify);
         TextView tvSpeed = findViewById(R.id.tvSpeed);
         TextView tvTheme = findViewById(R.id.tvTheme);
         TextView tvAll = findViewById(R.id.tvAll);
+        TextView tvDev1 = findViewById(R.id.tvDev1);
+        TextView tvDev2 = findViewById(R.id.tvDev2);
 
         TextView tvLogUnavailable = findViewById(R.id.tvLogUnavailable);
         TextView tvFilterUnavailable = findViewById(R.id.tvFilterUnavailable);
@@ -389,6 +429,8 @@ public class ActivityPro extends AppCompatActivity {
         btnSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.GONE : View.VISIBLE);
         btnTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.GONE : View.VISIBLE);
         btnAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.GONE : View.VISIBLE);
+        btnDev1.setVisibility(IAB.isPurchased(SKU_SUPPORT1, this) ? View.GONE : View.VISIBLE);
+        btnDev2.setVisibility(IAB.isPurchased(SKU_SUPPORT2, this) ? View.GONE : View.VISIBLE);
 
         tvLog.setVisibility(IAB.isPurchased(SKU_LOG, this) && can ? View.VISIBLE : View.GONE);
         tvFilter.setVisibility(IAB.isPurchased(SKU_FILTER, this) && can ? View.VISIBLE : View.GONE);
@@ -396,6 +438,8 @@ public class ActivityPro extends AppCompatActivity {
         tvSpeed.setVisibility(IAB.isPurchased(SKU_SPEED, this) ? View.VISIBLE : View.GONE);
         tvTheme.setVisibility(IAB.isPurchased(SKU_THEME, this) ? View.VISIBLE : View.GONE);
         tvAll.setVisibility(IAB.isPurchased(SKU_PRO1, this) ? View.VISIBLE : View.GONE);
+        tvDev1.setVisibility(IAB.isPurchased(SKU_SUPPORT1, this) ? View.VISIBLE : View.GONE);
+        tvDev2.setVisibility(IAB.isPurchased(SKU_SUPPORT2, this) ? View.VISIBLE : View.GONE);
 
         tvLogUnavailable.setVisibility(can ? View.GONE : View.VISIBLE);
         tvFilterUnavailable.setVisibility(can ? View.GONE : View.VISIBLE);
