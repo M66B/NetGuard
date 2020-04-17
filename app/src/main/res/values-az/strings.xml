@@ -277,6 +277,9 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_pro_challenge">Tapşırıq</string>
     <string name="title_pro_reponse">Cavab</string>
     <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
+        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    </string>
     <string-array name="themeNames">
         <item>tünd yaşıl/narıncı</item>
         <item>mavi/narıncı</item>

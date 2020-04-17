@@ -273,6 +273,9 @@
     <string name="title_pro_challenge">チャレンジ</string>
     <string name="title_pro_reponse">応答</string>
     <string name="title_pro_feature">これはプロ版の機能です</string>
+    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
+        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    </string>
     <string-array name="themeNames">
         <item>ティール/オレンジ</item>
         <item>ブルー/オレンジ</item>

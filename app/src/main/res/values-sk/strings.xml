@@ -276,6 +276,9 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
     <string name="title_pro_challenge">Výzva</string>
     <string name="title_pro_reponse">Odpoveď</string>
     <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
+        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    </string>
     <string-array name="themeNames">
         <item>modrozelená/oranžová</item>
         <item>modrá/oranžová</item>

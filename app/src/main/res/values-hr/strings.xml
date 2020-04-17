@@ -273,6 +273,9 @@
     <string name="title_pro_challenge">Izazov</string>
     <string name="title_pro_reponse">Odgovor</string>
     <string name="title_pro_feature">Ovo je pro funkcija</string>
+    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
+        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    </string>
     <string-array name="themeNames">
         <item>tirkizna/narančasta</item>
         <item>plava/narančasta</item>

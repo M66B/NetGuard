@@ -276,6 +276,9 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="title_pro_challenge">Întrebare de verificare</string>
     <string name="title_pro_reponse">Răspuns</string>
     <string name="title_pro_feature">Aceasta este o caracteristică Pro</string>
+    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
+        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    </string>
     <string-array name="themeNames">
         <item>verde albăstrui/portocaliu</item>
         <item>albastru/portocaliu</item>

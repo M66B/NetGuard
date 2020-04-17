@@ -277,6 +277,9 @@ VPN مۇلازىمىتى چېقىرۋىتىش يوللانمىغان.</string>
     <string name="title_pro_challenge">چاقىرماق</string>
     <string name="title_pro_reponse">ئىنكاس</string>
     <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
+        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    </string>
     <string-array name="themeNames">
         <item>كۆك يېشىل/سىرىق</item>
         <item>كۆك/سىرىق</item>

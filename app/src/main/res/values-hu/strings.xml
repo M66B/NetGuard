@@ -275,6 +275,9 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
     <string name="title_pro_challenge">Hívás</string>
     <string name="title_pro_reponse">Válasz</string>
     <string name="title_pro_feature">Ez egy pro szolgáltatás</string>
+    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
+        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    </string>
     <string-array name="themeNames">
         <item>zöldeskék/narancssárga</item>
         <item>kék/narancssárga</item>
