@@ -273,8 +273,8 @@
     <string name="title_pro_challenge">Wezwanie</string>
     <string name="title_pro_reponse">Odpowiedź</string>
     <string name="title_pro_feature">Jest to funkcja Pro</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    <string name="title_pro_subscription">        Miesięczne subskrypcje w wysokości 1 lub 2 euro (nie licząc lokalnego opodatkowania) aktywują wszystkie funkcje pro.
+        Możesz anulować lub zarządzać subskrypcją w zakładce subskrypcji w aplikacji Sklep Play.
     </string>
     <string-array name="themeNames">
         <item>teal/orange</item>

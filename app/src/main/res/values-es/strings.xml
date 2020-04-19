@@ -221,7 +221,7 @@
     <string name="title_internet">sin permiso de acceso a Internet</string>
     <string name="title_disabled">está desactivado</string>
     <string name="title_messaging">Los mensajes entrantes son recibidos por los servicios de Google Play y no por esta aplicación y por lo tanto no se puede bloquear bloqueando esta aplicación</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Las descargas las realiza el gestor de descargas y no esta aplicación y por tanto no pueden ser bloqueadas bloqueando esta aplicación</string>
     <string name="title_apply">Aplicar reglas y condiciones</string>
     <string name="title_conditions">Condiciones</string>
     <string name="title_screen_wifi">Permitir Wi-Fi con la pantalla encendida</string>
@@ -273,8 +273,8 @@
     <string name="title_pro_challenge">Desafío</string>
     <string name="title_pro_reponse">Respuesta</string>
     <string name="title_pro_feature">Esta es una característica Pro</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    <string name="title_pro_subscription">        Una suscripción mensual de 1 o 2 euros (excluyendo impuestos locales) activará todas las características profesionales.
+        Puedes cancelar o administrar una suscripción a través de la pestaña de suscripciones en la aplicación Play Store.
     </string>
     <string-array name="themeNames">
         <item>turquesa/anaranjado</item>

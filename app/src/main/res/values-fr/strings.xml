@@ -275,8 +275,8 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="title_pro_challenge">Code</string>
     <string name="title_pro_reponse">Réponse</string>
     <string name="title_pro_feature">Ceci est une fonctionnalité Pro</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    <string name="title_pro_subscription">        Un abonnement mensuel de 1 à 2 euros (hors taxes locales) activera toutes les fonctionnalités Pro.
+        Vous pouvez annuler ou gérer un abonnement via l\'onglet Abonnements dans l\'application Play Store.
     </string>
     <string-array name="themeNames">
         <item>bleu sarcelle/orange</item>

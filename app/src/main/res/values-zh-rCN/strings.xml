@@ -277,8 +277,8 @@
     <string name="title_pro_challenge">验证口令</string>
     <string name="title_pro_reponse">验证应答</string>
     <string name="title_pro_feature">这是专业版的功能</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscription tab in the Play store app.
+    <string name="title_pro_subscription">每月订阅1或2欧元（不包括地方税）将激活所有专业功能。
+        您可以通过Play商店应用中的“订阅”标签取消或管理订阅。
     </string>
     <string-array name="themeNames">
         <item>蓝绿色/橙色</item>

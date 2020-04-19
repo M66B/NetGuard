@@ -278,7 +278,7 @@ Uw internetverkeer wordt niet verzonden naar een VPN-server.</string>
     <string name="title_pro_reponse">Reactie</string>
     <string name="title_pro_feature">This is a pro feature</string>
     <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscription tab in the Play store app.
+        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
     </string>
     <string-array name="themeNames">
         <item>groen/oranje</item>

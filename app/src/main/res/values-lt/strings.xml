@@ -97,7 +97,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Galioja iki: %s</string>
     <string name="setting_ttl">Mažiausia DNS TTL reikšmė: %s s</string>
     <string name="setting_socks5_enabled">Naudoti SOCKS5 tarpinį serverį</string>
     <string name="setting_socks5_addr">SOCKS5 adresas: %s</string>
@@ -146,7 +146,7 @@
     <string name="summary_track_usage">Stebėti kiekvienos programos ir adreso siunčiamą ir gaunamą baitų kiekį. Tai gali lemti didesnį baterijos energijos naudojimą.</string>
     <string name="summary_block_domains">Atsakyti nustatytu DNS atsakymo kodu blokuojamiems domenų vardams. Ši funkcija yra išjungta jei nepasiekiamas blokuojamų adresų sąrašas.</string>
     <string name="summary_rcode">Numatytoji reikšmė yra 3 (NXDOMAIN), tai reiškia „neegzistuojantis domenas“.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">Domeno pavadinimas panaudotas interneto prieigos patvirtinimui ties prievadu 443 (https).</string>
     <string name="summary_socks5_enabled">Tik TCP duomenų srautas bus siunčiamas į tarpinį serverį</string>
     <string name="summary_watchdog">Periodiškai tikrinti NetGuard aktyvumo būseną (nustatymo išjungimui įveskite nulį). Tai gali lemti didesnį baterijos energijos naudojimą.</string>
     <string name="summary_stats">Rodyti tinklo greičio grafiko pranešimą būsenos juostoje</string>
@@ -224,7 +224,7 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="title_metered">Numatyta Wi-Fi ryšį stebėti ir nestebėti mobiliųjų duomenų ryšio</string>
     <string name="title_internet">neturi interneto prieigos</string>
     <string name="title_disabled">išjungta</string>
-    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_messaging">Ateinantys pranešimai gaunami dėl Google Play paslaugų ir negali būti išjungti blokuojant šią programą</string>
     <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Taikyti taisykles ir sąlygas</string>
     <string name="title_conditions">Sąlygos</string>
@@ -278,7 +278,7 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="title_pro_reponse">Atsakas</string>
     <string name="title_pro_feature">Tai PRO funkcija</string>
     <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscription tab in the Play store app.
+        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
     </string>
     <string-array name="themeNames">
         <item>žalsvai mėlyna/oranžinė</item>
