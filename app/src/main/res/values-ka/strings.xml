@@ -6,7 +6,7 @@
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Tasertit n tbaḍnit</a></string>
     <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
     <string name="app_agree">Qebleɣ</string>
-    <string name="app_disagree">I disagree</string>
+    <string name="app_disagree">Ur qbileɣ ara</string>
     <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
     <string name="channel_foreground">Running services</string>
     <string name="channel_notify">Tilɣa timuta</string>
