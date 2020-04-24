@@ -118,7 +118,9 @@ public class IAB implements ServiceConnection {
 
     public void updatePurchases() throws RemoteException {
         // Get purchases
-        List<String> skus = getPurchases();
+        List<String> skus = new ArrayList<>();
+        skus.addAll(getPurchases("inapp"));
+        skus.addAll(getPurchases("subs"));
 
         SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -134,13 +136,13 @@ public class IAB implements ServiceConnection {
         editor.apply();
     }
 
-    public boolean isPurchased(String sku) throws RemoteException {
-        return getPurchases().contains(sku);
+    public boolean isPurchased(String sku, String type) throws RemoteException {
+        return getPurchases(type).contains(sku);
     }
 
-    public List<String> getPurchases() throws RemoteException {
+    public List<String> getPurchases(String type) throws RemoteException {
         // Get purchases
-        Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), "inapp", null);
+        Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), type, null);
         Log.i(TAG, "getPurchases");
         Util.logBundle(bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
