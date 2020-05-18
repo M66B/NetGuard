@@ -188,6 +188,8 @@ public class IAB implements ServiceConnection {
 
             return (prefs.getBoolean(sku, false) ||
                     prefs.getBoolean(ActivityPro.SKU_PRO1, false) ||
+                    prefs.getBoolean(ActivityPro.SKU_SUPPORT1, false) ||
+                    prefs.getBoolean(ActivityPro.SKU_SUPPORT2, false) ||
                     prefs.getBoolean(ActivityPro.SKU_DONATION, false));
         } catch (SecurityException ignored) {
             return false;
