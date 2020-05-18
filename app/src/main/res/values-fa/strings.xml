@@ -71,7 +71,7 @@
     <string name="setting_wifi_home">شبکه خانگی Wi-Fi:%1$s</string>
     <string name="setting_metered">بار شبکه وای فای را اندازه گیری کنید</string>
     <string name="setting_metered_2g">Consider 2G unmetered</string>
-    <string name="setting_metered_3g">Consider 3G unmetered</string>
+    <string name="setting_metered_3g">Consider 2G unmetered</string>
     <string name="setting_metered_4g">Consider LTE unmetered</string>
     <string name="setting_national_roaming">Ignore national roaming</string>
     <string name="setting_eu_roaming">نادیده گرفتن رومینگ اروپا</string>

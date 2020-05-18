@@ -64,7 +64,7 @@
     <string name="setting_delay">Forsink avskruing av skjermen med %1$s minutter</string>
     <string name="setting_update">Se etter oppdateringer</string>
     <string name="setting_network_options">Nettverksinnstillinger</string>
-    <string name="setting_subnet">Subnet routing</string>
+    <string name="setting_subnet">Subnet ruting</string>
     <string name="setting_tethering">Tillat USB-nettverksvidereføring</string>
     <string name="setting_lan">Tillat LAN-tilgang</string>
     <string name="setting_ip6">Skru på IPv6-trafikk</string>
@@ -84,7 +84,7 @@
     <string name="setting_log_app">Loggfør internettilgang</string>
     <string name="setting_access">Meld ifra om internettilgang</string>
     <string name="setting_filter">Filtrer trafikk</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
+    <string name="setting_filter_udp">Sett_filter_udp</string>
     <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Lukk tilkoblinger ved ominnlastinger</string>
     <string name="setting_lockdown">Skru av trafikk</string>

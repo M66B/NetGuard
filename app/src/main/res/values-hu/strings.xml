@@ -4,10 +4,10 @@
     <string name="app_android">A NetGuard használatához Android 5.1 vagy újabb szükséges</string>
     <string name="app_xposed">Az Xposed túl sokszor összeomlik, ami a NetGuard eltávolítását eredményezheti a Google Play Áruházból, ezért a NetGuard nem támogatott amikor az Xposed telepítve van</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Adatvédelmi irányelvek</a></string>
-    <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
+    <string name="app_first">Nagy figyelmet fordítanak arra, hogy fejlesszék és teszteljék NetGuard-ot, de arra lehetetlen garanciát vállalni, hogy a NetGuard minden eszközön jól fog működni.</string>
     <string name="app_agree">Elfogadom</string>
     <string name="app_disagree">Nem fogadom el</string>
-    <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+    <string name="app_support">A NetGuard-nak szüksége van a segítségére. Koppintson a pro szolgáltatások megvásárlásához, hogy a projekt fennmaradhasson.</string>
     <string name="channel_foreground">Futó szolgáltatások</string>
     <string name="channel_notify">Általános értesítések</string>
     <string name="channel_access">Hozzáférés az értesítésekhez</string>
@@ -97,7 +97,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Érvényesítés itt: %s</string>
     <string name="setting_ttl">Minimális DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">SOCKS5 proxy használata</string>
     <string name="setting_socks5_addr">SOCKS5 cím: %s</string>
@@ -197,7 +197,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
     <string name="msg_queue">A NetGuard elfoglalt</string>
     <string name="msg_update">Frissítés érhető el, érintse meg a letöltéshez</string>
     <string name="msg_usage">Engedélyezni (zöldes) vagy tiltani (vöröses) tudja a Wi-Fi vagy mobil internet hozzáférést, ha megérinti az alkalmazás melleti ikont</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">Ha a NetGuard-ot az adatvédelmed érdekében telepítetted, akkor érdekelhet a <a href="https://email.faircode.eu/">FairEmail</a>, egy nyilt forráskódú, adatvédelem-barát alkalmazás is téged</string>
     <string name="msg_whitelist">Az internet hozzáférés alapértelmezésként engedélyezve van, ezt meg lehet változtatni a beállításokban</string>
     <string name="msg_push">A Push üzeneteket többnyire a rendszer Play szolgáltatások komponense kezeli, aminek alapértelmezésben engedélyezve van az internet hozzáférés</string>
     <string name="msg_system">A speciális beállítások engedélyezve a rendszer alkalmazások kezeléséhez</string>
@@ -207,7 +207,7 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
     <string name="msg_unavailable">Ez a funkció nem érhető el ezen az Android verzión</string>
     <string name="msg_always_on">Másik VPN beállítása állandóra</string>
     <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
-    <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
+    <string name="msg_private_dns">Kapcsold ki a \"Privát DNS\"-t az Android Hálózati beállításaiban hogy a NetGuard-ot használhasd szűrés módban</string>
     <string name="title_lockdown_enabled">A forgalom lezárva</string>
     <string name="title_unmetered_allowed">Méretlen forgalom engedélyezve</string>
     <string name="title_unmetered_blocked">Méretlen forgalom letiltva</string>
@@ -222,8 +222,8 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
     <string name="title_metered">Alapértelmezésben a Wi-Fi kapcsolat méretlennek a mobil kapcsolat pedig mértnek minősül</string>
     <string name="title_internet">nincs internet elérés engedélye</string>
     <string name="title_disabled">letiltva</string>
-    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_messaging">Az üzeneteket a Google Play szolgáltatások fogadják, nem pedig ezzel az alkalmazással, ezáltal az üzeneteket nem lehet blokkolni e alkalmazás blokkolásával</string>
+    <string name="title_download">A letöltések a Letöltéskezelővel történnek meg, nem pedig ezzel az alkalmazással, ezáltal a letöltéseket nem lehet blokkolni e alkalmazás blokkolásával</string>
     <string name="title_apply">Szabályok és feltételek alkalmazása</string>
     <string name="title_conditions">Feltételek</string>
     <string name="title_screen_wifi">Wi-Fi engedélyezése amikor a képernyő be van kapcsolva</string>
@@ -275,8 +275,8 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
     <string name="title_pro_challenge">Hívás</string>
     <string name="title_pro_reponse">Válasz</string>
     <string name="title_pro_feature">Ez egy pro szolgáltatás</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
+    <string name="title_pro_subscription">        Egy havi 1 vagy 2 eurós előfizetéssel (hely adók levonásával) lehet aktiválni a pro funkciókat.
+        Az előfizetést a Play Áruház előfizetések oldalán tudja megszüntetni vagy kezelni.
     </string>
     <string-array name="themeNames">
         <item>zöldeskék/narancssárga</item>

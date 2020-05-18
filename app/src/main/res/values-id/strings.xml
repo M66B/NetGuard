@@ -146,7 +146,7 @@
     <string name="summary_track_usage">Lacak jumlah byte yang dikirim dan diterima untuk setiap apl dan alamat. Hal ini mungkin menyebabkan penggunaan baterai ekstra.</string>
     <string name="summary_block_domains">Tanggapi dengan kode respons DNS yang dikonfigurasi untuk nama domain yang diblokir. Opsi ini dinonaktifkan ketika tidak ada berkas hos yang tersedia.</string>
     <string name="summary_rcode">Nilai bawaannya adalah 3 (NXDOMAIN), yang berarti \'tidak ada domain\'.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">Nama domain digunakan untuk memvalidasi sambungan internet pada port 443 (https).</string>
     <string name="summary_socks5_enabled">Hanya lalu lintas TCP yang akan dikirim ke server proksi</string>
     <string name="summary_watchdog">Periksa secara berkala apakah NetGuard masih berjalan (masukkan nol untuk menonaktifkan opsi ini). Hal ini mungkin menyebabkan penggunaan baterai ekstra.</string>
     <string name="summary_stats">Tampilkan grafik kecepatan jaringan di notifikasi bilah status</string>
@@ -224,8 +224,8 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="title_metered">Secara bawaan koneksi Wi-Fi dianggap tak terukur dan koneksi seluler terukur</string>
     <string name="title_internet">tidak memiliki izin internet</string>
     <string name="title_disabled">dinonaktifkan</string>
-    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_messaging">Pesan masuk diterima oleh Google Play Service dan bukan aplikasi ini sehingga tidak akan diblokir dengan memblokir aplikasi ini</string>
+    <string name="title_download">Unduhan dijalankan oleh pengelola unduhan dan bukan aplikasi ini sehingga tidak akan diblokir dengan memblokir aplikasi ini</string>
     <string name="title_apply">Terapkan aturan dan kondisi</string>
     <string name="title_conditions">Kondisi</string>
     <string name="title_screen_wifi">Izinkan Wi-Fi saat layar aktif</string>
@@ -276,9 +276,9 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="title_pro_details">Ketuk judul untuk informasi lebih lanjut</string>
     <string name="title_pro_challenge">Tantangan</string>
     <string name="title_pro_reponse">Respons</string>
-    <string name="title_pro_feature">This is a pro feature</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
+    <string name="title_pro_feature">Ini adalah fitur Pro</string>
+    <string name="title_pro_subscription">        Langganan bulanan dengan 1 atau 2 euro (tidak termasuk pajak lokal) akan mengaktifkan semua fitur pro.
+        Kamu dapat membatalkan atau mengelola langganan melalui tab langganan di aplikasi Play Store.
     </string>
     <string-array name="themeNames">
         <item>teal/oranye</item>

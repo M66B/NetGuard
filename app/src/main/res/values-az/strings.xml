@@ -69,7 +69,7 @@
     <string name="setting_lan">LAN müraciətinə icazə ver</string>
     <string name="setting_ip6">IPv6 trafikini fəallaşdır</string>
     <string name="setting_wifi_home">Wi-Fi ev şəbəkələri: %1$s</string>
-    <string name="setting_metered">Handle metered Wi-Fi networks</string>
+    <string name="setting_metered">Wi-Fi şəbəkəsinə limit qoyun</string>
     <string name="setting_metered_2g">2G istifadəsini nəzərə al</string>
     <string name="setting_metered_3g">3G istifadəsini nəzərə al</string>
     <string name="setting_metered_4g">LTE istifadəsini nəzərə al</string>
@@ -84,8 +84,8 @@
     <string name="setting_log_app">İnternet müraciəti qeyd jurnalı</string>
     <string name="setting_access">İnternet müraciətində bildir</string>
     <string name="setting_filter">Trafiki filtrlə</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
-    <string name="setting_handover">Seamless VPN handover on reload</string>
+    <string name="setting_filter_udp">UDP trafikini filtrlə</string>
+    <string name="setting_handover">Yükləmədə kəsintisiz VPN dövrü</string>
     <string name="setting_clear_onreload">Yenidən yükləmədə bağlantını kəs</string>
     <string name="setting_lockdown">Trafiki kilidlə</string>
     <string name="setting_track_usage">Şəbəkə istifadəsini izlə</string>
@@ -97,7 +97,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Təsdiqlə: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">SOCKS5 proksi istifadə et</string>
     <string name="setting_socks5_addr">SOCKS5 ünvanı: %s</string>
@@ -116,7 +116,7 @@
     <string name="setting_export">Tənzimləmələri ixrac et</string>
     <string name="setting_import">Tənzimləmələri idxal et</string>
     <string name="setting_hosts">Hosts fayllarını idxal et</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Host faylını idxal et (əlavə)</string>
     <string name="setting_hosts_url">Hosts faylını endirmə bağlantısı</string>
     <string name="setting_hosts_download">Hosts faylını endir</string>
     <string name="setting_technical">Texniki məlumat</string>
@@ -132,12 +132,12 @@
     <string name="summary_lan">Tətbiqetmələrə 10.0.0.0/8, 172.16.0.0/12 və 192.168.0.0/16 kimi yerli ərazi şəbəkə ünvanları ilə bağlantı qurmasına icazə verər</string>
     <string name="summary_ip6">IPv6 trafik marşrutunu NetGuard-a yönləndir, beləliklə seçilməsinə icazə verilə və ya əngəllənə bilər</string>
     <string name="summary_wifi_home">Yalnız seçilmiş şəbəkə üçün Wi-Fi şəbəkə qaydalarını tətbiq et (digər Wi-Fi şəbəkələri üçün mobil şəbəkə qaydalarını tətbiq et)</string>
-    <string name="summary_metered">Apply mobile network rules to metered (paid, tethered) Wi-Fi networks</string>
-    <string name="summary_metered_2g">Apply Wi-Fi network rules for 2G data connections</string>
-    <string name="summary_metered_3g">Apply Wi-Fi network rules for 3G data connections</string>
-    <string name="summary_metered_4g">Apply Wi-Fi network rules for LTE data connections</string>
-    <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
-    <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
+    <string name="summary_metered">Mobil şəbəkə qaydalarını ölçülmüş Wi-Fi şəbəkələrinə tətbiq et</string>
+    <string name="summary_metered_2g">2G verilənlər bağlantıları üçün Wi-Fi şəbəkə qaydalarını tətbiq et</string>
+    <string name="summary_metered_3g">3G verilənlər bağlantıları üçün Wi-Fi şəbəkə qaydalarını tətbiq et</string>
+    <string name="summary_metered_4g">LTE verilənlər bağlantıları üçün Wi-Fi şəbəkə qaydalarını tətbiq et</string>
+    <string name="summary_national_roaming">SIM kart və mobil şəbəkə ölkəsi eyni olanda roaminq qaydalarını tətbiq etmə</string>
+    <string name="summary_eu_roaming">SIM kart və mobil şəbəkə ölkəsi AB-da (evdəki kimi roaminq) olanda roaminq qaydalarını tətbiq etmə</string>
     <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
     <string name="summary_system">Define rules for system apps (for experts)</string>
     <string name="summary_log_app">Log attempts to access the internet for apps. This might result in extra battery usage.</string>
