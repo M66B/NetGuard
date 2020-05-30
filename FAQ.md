@@ -707,6 +707,8 @@ However:
 
 If you like to block Google Play services or the download manager, you'll need to enable managing system apps in the advanced settings.
 
+If you like to make sure that push messages will always be received, you can disable *Apply rules and conditions* for Google Play services.
+
 To be clear: in most cases **you cannot block ads by blocking apps**.
 However, you can block ads for all apps with NetGuard, please see [here](https://github.com/M66B/NetGuard/blob/master/ADBLOCKING.md) about how to.
 
