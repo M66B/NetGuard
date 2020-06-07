@@ -160,7 +160,7 @@ public class Util {
 
     public static boolean isNetworkActive(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return (cm == null ? false : cm.getActiveNetworkInfo() != null);
+        return (cm != null && cm.getActiveNetworkInfo() != null);
     }
 
     public static boolean isConnected(Context context) {
