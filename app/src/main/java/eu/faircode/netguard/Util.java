@@ -165,8 +165,24 @@ public class Util {
 
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
-        return (ni != null && ni.isConnected());
+        if (cm == null)
+            return false;
+
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni != null && ni.isConnected())
+            return true;
+
+        Network[] networks = cm.getAllNetworks();
+        if (networks == null)
+            return false;
+
+        for (Network network : networks) {
+            ni = cm.getNetworkInfo(network);
+            if (ni != null && ni.getType() != ConnectivityManager.TYPE_VPN && ni.isConnected())
+                return true;
+        }
+
+        return false;
     }
 
     public static boolean isWifiActive(Context context) {
