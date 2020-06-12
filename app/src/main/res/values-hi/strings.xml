@@ -47,8 +47,8 @@
     <string name="title_dport">स्रोत पोर्ट</string>
     <string name="title_raddr">गंतव्य पता</string>
     <string name="title_rport">गंतव्य पोर्ट</string>
-    <string name="title_ruid">गंतव्य आवेदन</string>
-    <string name="title_external">एक बाहरी सर्वर के लिए \'कोई नहीं\' का चयन</string>
+    <string name="title_ruid">गंतव्य ऐप</string>
+    <string name="title_external">बाहरी सर्वर के लिए \'कोई नहीं\' का चयन करें</string>
     <string name="setting_defaults">चूक</string>
     <string name="setting_whitelist_wifi">वाईफ़ाई अवरोधित करें</string>
     <string name="setting_whitelist_other">मोबाइल अवरोधित करें</string>

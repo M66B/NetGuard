@@ -8,8 +8,8 @@
     <string name="app_agree">আমি সম্মতি দিচ্ছি</string>
     <string name="app_disagree">আমি সম্মতি দিচ্ছি না</string>
     <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
-    <string name="channel_foreground">Running services</string>
-    <string name="channel_notify">General notifications</string>
+    <string name="channel_foreground">চলমান পরিষেবা</string>
+    <string name="channel_notify">সাধারণ বিজ্ঞপ্তি</string>
     <string name="channel_access">Access notifications</string>
     <string name="menu_search">Search for app</string>
     <string name="menu_filter">Filter apps</string>

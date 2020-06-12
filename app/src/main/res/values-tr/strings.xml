@@ -276,9 +276,8 @@ Bu nedenle, bir sonraki iletişim kutusunda VPN bağlantı isteğine onay vermen
     <string name="title_pro_challenge">Meydan okuma</string>
     <string name="title_pro_reponse">Yanıt</string>
     <string name="title_pro_feature">Bu bir Pro özelliğidir</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
-    </string>
+    <string name="title_pro_subscription">Aylık 1 veya 2 euroluk abonelik (yerel vergiler hariç) tüm profesyonel özellikleri etkinleştirir. 
+Play Store uygulamasındaki abonelikler sekmesini kullanarak bir aboneliği iptal edebilir veya yönetebilirsiniz.    </string>
     <string-array name="themeNames">
         <item>deniz mavisi/turuncu</item>
         <item>mavi/turuncu</item>

@@ -222,8 +222,8 @@
     <string name="title_metered">Oletuksena mobiiliyhteyttä pidetään käytön mukaan laskutettavana mutta Wi-Fi-yhteyttä ei</string>
     <string name="title_internet">ei ole internetoikeuksia</string>
     <string name="title_disabled">on poistettu käytöstä</string>
-    <string name="title_messaging">Google Play Palvelut ottaa vastaan tulevat viestit eikä tämä sovellus, joten viestejä ei voi estää tämän sovelluksen estämällä</string>
-    <string name="title_download">Lataukset ovat latausten hallinnan eivätkä tämän sovelluksen suorittamia, joten niitä ei voi estää tämän sovelluksen estämällä</string>
+    <string name="title_messaging">Google Play Palvelut ottaa vastaan tulevat viestit, joten tämän sovelluksen estäminen ei estä viestejä</string>
+    <string name="title_download">Latauksista vastaa latausten hallinta, eikä tämän sovelluksen estäminen estä niitä</string>
     <string name="title_apply">Käytä sääntöjä ja ehtoja</string>
     <string name="title_conditions">Ehdot</string>
     <string name="title_screen_wifi">Salli Wi-Fi näytön ollessa päällä</string>
@@ -239,7 +239,7 @@
     <string name="title_logging_disabled">Lokiin kirjaaminen tai suodatus eivät ole käytössä</string>
     <string name="title_logging_enabled">Lokiin kirjaaminen ja suodatus ovat käytössä</string>
     <string name="title_logging_configure">Määritä</string>
-    <string name="title_enable_logging">Ota käyttöön vain estettyjen osoitteiden lokiin kirjaamimen</string>
+    <string name="title_enable_logging">Ota käyttöön vain estettyjen osoitteiden lokiin kirjaaminen</string>
     <string name="title_enable_filtering">Ota käyttöön myös sallittujen osoitteiden lokiin kirjaaminen</string>
     <string name="title_enable_notify">Ota käyttöön yhteysilmoitukset uusille lokiin kirjatuille osoitteille</string>
     <string name="title_enable_help0">Nämä asetukset ovat globaaleja ja vaikuttavat kaikkiin sovelluksiin</string>
