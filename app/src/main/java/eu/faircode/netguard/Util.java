@@ -741,8 +741,29 @@ public class Util {
 
         if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
             sb.append(String.format("SIM %s/%s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName(), tm.getSimOperator()));
-        if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
+        //if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
+        try {
             sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
+        } catch (Throwable ex) {
+            /*
+                06-14 13:02:41.331 19703 19703 W ircode.netguar: Accessing hidden method Landroid/view/View;->computeFitSystemWindows(Landroid/graphics/Rect;Landroid/graphics/Rect;)Z (greylist, reflection, allowed)
+                06-14 13:02:41.332 19703 19703 W ircode.netguar: Accessing hidden method Landroid/view/ViewGroup;->makeOptionalFitsSystemWindows()V (greylist, reflection, allowed)
+                06-14 13:02:41.495 19703 19703 I TetheringManager: registerTetheringEventCallback:eu.faircode.netguard
+                06-14 13:02:41.518 19703 19703 E AndroidRuntime: Process: eu.faircode.netguard, PID: 19703
+                06-14 13:02:41.518 19703 19703 E AndroidRuntime:        at eu.faircode.netguard.Util.getGeneralInfo(SourceFile:744)
+                06-14 13:02:41.518 19703 19703 E AndroidRuntime:        at eu.faircode.netguard.ActivitySettings.updateTechnicalInfo(SourceFile:858)
+                06-14 13:02:41.518 19703 19703 E AndroidRuntime:        at eu.faircode.netguard.ActivitySettings.onPostCreate(SourceFile:425)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App: java.lang.SecurityException: getDataNetworkTypeForSubscriber
+                06-14 13:02:41.520 19703 19703 W NetGuard.App: java.lang.SecurityException: getDataNetworkTypeForSubscriber
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.os.Parcel.createExceptionOrNull(Parcel.java:2373)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.os.Parcel.createException(Parcel.java:2357)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.os.Parcel.readException(Parcel.java:2340)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.os.Parcel.readException(Parcel.java:2282)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at com.android.internal.telephony.ITelephony$Stub$Proxy.getNetworkTypeForSubscriber(ITelephony.java:8711)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.telephony.TelephonyManager.getNetworkType(TelephonyManager.java:2945)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.telephony.TelephonyManager.getNetworkType(TelephonyManager.java:2909)
+             */
+        }
 
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
