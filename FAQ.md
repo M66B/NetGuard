@@ -440,7 +440,7 @@ Since NetGuard blocks, unlike any other no-root firewall, domain names instead o
 * WAKE_LOCK ('*Prevent device from sleeping*'): to reliably reload rules in the background on connectivity changes
 * VIBRATE: to provide vibration feedback on widget tap
 * FOREGROUND_SERVICE ('foreground service'): to run a foreground service on Android 9 Pie and later
-* QUERY_ALL_PACKAGES: to list all apps
+* QUERY_ALL_PACKAGES: to list all apps on Android 11 and later
 * BILLING: to use in-app billing
 
 <a name="faq43"></a>
