@@ -1367,7 +1367,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     start = IPUtil.plus1(exclude.getEnd());
                 }
                 String end = (lan ? "255.255.255.254" : "255.255.255.255");
-                for (IPUtil.CIDR include : IPUtil.toCIDR("224.0.0.0", end))
+                for (IPUtil.CIDR include : IPUtil.toCIDR("240.0.0.0", end))
                     try {
                         builder.addRoute(include.address, include.prefix);
                     } catch (Throwable ex) {
@@ -3069,6 +3069,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         @Override
         public Builder addRoute(String address, int prefixLength) {
+            Log.i(TAG, "Add route=" + address + "/" + prefixLength);
             listRoute.add(address + "/" + prefixLength);
             super.addRoute(address, prefixLength);
             return this;
@@ -3076,6 +3077,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         @Override
         public Builder addRoute(InetAddress address, int prefixLength) {
+            Log.i(TAG, "Add route=" + address.getHostAddress() + "/" + prefixLength);
             listRoute.add(address.getHostAddress() + "/" + prefixLength);
             super.addRoute(address, prefixLength);
             return this;
