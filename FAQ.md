@@ -100,7 +100,7 @@ You need 3 packages (applications) enabled (use search in NetGuard to find them 
 * com.android.providers.downloads (Download manager)
 
 Since the Google Play™ store app has a tendency to check for updates or even download them all by itself (even if no account is associated),
-one can keep it in check by enabling "*Allow when device in use*" for all 3 of these packages.
+one can keep it in check by enabling "*Allow when screen is on*" for all 3 of these packages.
 Click on the down arrow on the left side of an application name and check that option,
 but leave the network icons set to red (hence blocked).  The little human icon will appear for those packages.
 
