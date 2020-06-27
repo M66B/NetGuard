@@ -225,7 +225,7 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="title_internet">neturi interneto prieigos</string>
     <string name="title_disabled">išjungta</string>
     <string name="title_messaging">Ateinantys pranešimai gaunami dėl Google Play paslaugų ir negali būti išjungti blokuojant šią programą</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_download">Atsisiuntimai vykdomi atsisiuntimų tvarkyklės ir negali būti blokuojami blokuojant šią programą</string>
     <string name="title_apply">Taikyti taisykles ir sąlygas</string>
     <string name="title_conditions">Sąlygos</string>
     <string name="title_screen_wifi">Leisti Wi-Fi pažadinant ekraną</string>
@@ -277,9 +277,7 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="title_pro_challenge">Iššūkis</string>
     <string name="title_pro_reponse">Atsakas</string>
     <string name="title_pro_feature">Tai PRO funkcija</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
-    </string>
+    <string name="title_pro_subscription">Mėnesinė 1 ar 2 eurų prenumerata (įskaičiuojant vietinius mokesčius) aktyvins visas pro versijos funkcijas. Prenumeratą galite atšaukti ar valdyti prenumeratų skiltyje „Play“ parduotuvės programoje.    </string>
     <string-array name="themeNames">
         <item>žalsvai mėlyna/oranžinė</item>
         <item>mėlyna/oranžinė</item>
