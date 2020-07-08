@@ -85,8 +85,8 @@
     <string name="setting_log_app">יומן גישה לאינטרנט</string>
     <string name="setting_access">התראה על גישה לאינטרנט</string>
     <string name="setting_filter">סנן תעבורה</string>
-    <string name="setting_filter_udp">Filter UDP traffic</string>
-    <string name="setting_handover">Seamless VPN handover on reload</string>
+    <string name="setting_filter_udp">סנן תעבורת UDP</string>
+    <string name="setting_handover">העברה חלקה של ה-VPN בטעינה מחדש</string>
     <string name="setting_clear_onreload">סגור חיבורים ברענון</string>
     <string name="setting_lockdown">נעילת תעבורה</string>
     <string name="setting_track_usage">עקוב אחר השימוש ברשת</string>
@@ -98,7 +98,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">אמת ב: %s</string>
     <string name="setting_ttl">TTL DNS מינימלי: %s s</string>
     <string name="setting_socks5_enabled">השתמש ב- SOCKS5 proxy</string>
     <string name="setting_socks5_addr">כתובת SOCKS5: %s</string>
@@ -117,7 +117,7 @@
     <string name="setting_export">ייצא הגדרות</string>
     <string name="setting_import">יבא הגדרות</string>
     <string name="setting_hosts">ייבוא קובץ hosts</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">יבא קובץ hosts (הוספה)</string>
     <string name="setting_hosts_url">URL להורדת קובץ hosts</string>
     <string name="setting_hosts_download">הורד קובץ hosts</string>
     <string name="setting_technical">מידע טכני</string>
@@ -147,7 +147,7 @@
     <string name="summary_track_usage">עקוב אחרי כמות המידע שנשלחה והתקבלה עבור כל יישום וכתובת. עלול להגביר צריכת סוללה.</string>
     <string name="summary_block_domains">הגב עם תגובת הDNS המוגדרת עבור דומיינים חסומים. אפשרות זו מושבתת כאשר קובץ hosts אינו זמין.</string>
     <string name="summary_rcode">ערך ברירת המחדל הוא 3, שפירושו \'תחום לא קיים\'.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">שם דומיין לביצוע אימות חיבור לאינטרנט בפורט 443 (https).</string>
     <string name="summary_socks5_enabled">רק תעבורת TCP תועבר אל שרת ה-proxy</string>
     <string name="summary_watchdog">בדוק מדי פרק הזמן המוגדר האם NetGuard עדיין פועל (הזן 0 כדי לבטל אפשרות זו). עלול לגרום לצריכת סוללה מוגברת.</string>
     <string name="summary_stats">הצג גרף מהירות רשת בהתראת שורת המצב</string>
@@ -197,7 +197,7 @@
     <string name="msg_queue">NetGuard עמוס</string>
     <string name="msg_update">עדכון זמין, הקש כדי להוריד</string>
     <string name="msg_usage">באפשרותך לאשר (ירוק) או למנוע (אדום) מיישום גישה לרשתות Wi-Fi או לרשת האינטרנט הסלולרית באמצעות הקשה על הסמל שליד יישום</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">אם התקנת את NetGuard לשמירה על פרטיותך, אולי תהיה מעוניין גם ב <a href="https://email.faircode.eu/">FairEmail</a> - אפליקציית email בקוד פתוח ששמה דגש על פרטיות</string>
     <string name="msg_whitelist">גישה לאינטרנט מותרת כברירת מחדל, ניתן לשנות זאת בתפריט ההגדרות</string>
     <string name="msg_push">הודעות Push מטופלות בעיקר על ידי רכיב המערכת Play services, אשר עבורו מאופשרת גישה לאינטרנט כברירת מחדל</string>
     <string name="msg_system">ניהול יישומי מערכת ניתן להפעלה מתוך תפריט הההגדרות</string>
@@ -222,8 +222,8 @@
     <string name="title_metered">כברירת מחדל, חיבור Wi-Fi נחשב כתעבורה לא נמדדת (חופשית), וחיבור סלולרי כתעבורה נמדדת</string>
     <string name="title_internet">אין הרשאות אינטרנט</string>
     <string name="title_disabled">מושבת</string>
-    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_messaging">הודעות מתקבלות ע\"י שירותי Google Play ולא ע\"י האפליקציה הזאת ולכן לא אפשרי לחסום אותן</string>
+    <string name="title_download">הורדות מתבצעות ע\"י מנהל ההורדות ולא ע\"י האפליקציה הזאת ולכן לא אפשרי לחסום אותן</string>
     <string name="title_apply">החל את הכללים והתנאים</string>
     <string name="title_conditions">תנאים</string>
     <string name="title_screen_wifi">אפשר גישה ל-Wi-Fi כאשר המסך פעיל</string>
@@ -274,10 +274,9 @@
     <string name="title_pro_details">לחץ על הכותרת למידע נוסף</string>
     <string name="title_pro_challenge">אתגר</string>
     <string name="title_pro_reponse">תגובה</string>
-    <string name="title_pro_feature">This is a pro feature</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
-    </string>
+    <string name="title_pro_feature">זוהי יכולת של גירסת ה-pro</string>
+    <string name="title_pro_subscription">מנוי חודשי של 1 או 2 יורו (לפני מיסים) יפעיל את כל יכולות גירסת ה-pro.
+יש באפשרותך לבטל את המנוי דרך טאב הממויים של ה-Play Store (חנות האפליקציות של גוגל).    </string>
     <string-array name="themeNames">
         <item>טורקיז/כתום</item>
         <item>כחול/כתום</item>
