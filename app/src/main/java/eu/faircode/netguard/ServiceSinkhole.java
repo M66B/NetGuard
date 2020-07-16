@@ -2478,6 +2478,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             @Override
             public void onLinkPropertiesChanged(Network network, LinkProperties linkProperties) {
+                Log.i(TAG, "Changed properties=" + network + " props=" + linkProperties);
+
                 // Make sure the right DNS servers are being used
                 List<InetAddress> dns = linkProperties.getDnsServers();
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
@@ -2494,17 +2496,19 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             @Override
             public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
-                Log.i(TAG, "Changed capabilities=" + network);
+                Log.i(TAG, "Changed capabilities=" + network + " caps=" + networkCapabilities);
 
                 boolean connected = Util.isConnected(ServiceSinkhole.this);
+                boolean unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED);
+                String generation = Util.getNetworkGeneration(ServiceSinkhole.this);
+                Log.i(TAG, "Connected=" + connected + "/" + last_connected +
+                        " generation=" + generation + "/" + last_generation +
+                        " unmetered=" + unmetered + "/" + last_unmetered);
+
                 if (connected && (last_connected == null || !last_connected)) {
                     last_connected = connected;
                     reload("Connected state changed", ServiceSinkhole.this, false);
                 }
-
-                boolean unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED);
-                String generation = Util.getNetworkGeneration(ServiceSinkhole.this);
-                Log.i(TAG, "Generation=" + generation + " unmetered=" + unmetered);
 
                 if (last_generation == null || !last_generation.equals(generation)) {
                     if (last_generation != null) {
