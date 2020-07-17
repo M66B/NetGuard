@@ -2502,34 +2502,26 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 boolean unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED);
                 String generation = Util.getNetworkGeneration(ServiceSinkhole.this);
                 Log.i(TAG, "Connected=" + connected + "/" + last_connected +
-                        " generation=" + generation + "/" + last_generation +
-                        " unmetered=" + unmetered + "/" + last_unmetered);
+                        " unmetered=" + unmetered + "/" + last_unmetered +
+                        " generation=" + generation + "/" + last_generation);
 
-                if (connected && (last_connected == null || !last_connected)) {
-                    last_connected = connected;
+                if (last_connected != null && !last_connected.equals(connected))
                     reload("Connected state changed", ServiceSinkhole.this, false);
+
+                if (last_unmetered != null && !last_unmetered.equals(unmetered))
+                    reload("Unmetered state changed", ServiceSinkhole.this, false);
+
+                if (last_generation != null && !last_generation.equals(generation)) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+                    if (prefs.getBoolean("unmetered_2g", false) ||
+                            prefs.getBoolean("unmetered_3g", false) ||
+                            prefs.getBoolean("unmetered_4g", false))
+                        reload("Generation changed", ServiceSinkhole.this, false);
                 }
 
-                if (last_generation == null || !last_generation.equals(generation)) {
-                    if (last_generation != null) {
-                        Log.i(TAG, "New network generation=" + generation);
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-                        if (prefs.getBoolean("unmetered_2g", false) ||
-                                prefs.getBoolean("unmetered_3g", false) ||
-                                prefs.getBoolean("unmetered_4g", false))
-                            reload("data connection state changed", ServiceSinkhole.this, false);
-                    }
-
-                    last_generation = generation;
-                }
-
-                if (last_unmetered == null || !last_unmetered.equals(unmetered)) {
-                    if (last_unmetered != null) {
-                        Log.i(TAG, "New unmetered=" + unmetered);
-                        reload("unmetered state changed", ServiceSinkhole.this, false);
-                    }
-                    last_unmetered = unmetered;
-                }
+                last_connected = connected;
+                last_unmetered = unmetered;
+                last_generation = generation;
             }
 
             @Override
