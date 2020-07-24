@@ -183,7 +183,7 @@
                 android:key="filter_udp"
                 android:title="@string/setting_filter_udp" />
             <eu.faircode.netguard.SwitchPreference
-                android:defaultValue="true"
+                android:defaultValue="false"
                 android:dependency="filter"
                 android:key="handover"
                 android:title="@string/setting_handover" />
