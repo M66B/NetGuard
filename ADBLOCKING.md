@@ -36,6 +36,7 @@ Note that:
 * wildcards are not supported due to performance and battery usage reasons
 * it is not possible to edit the hosts file (change/add/delete domain names) with NetGuard
 * you can disable ad blocking by disabling the setting *'Block domain names'* in the advanced options
+* you cannot exclude a single app from ad blocking because Android resolves domain names on behalf of all apps
 * **ad blocking is provided as-is**, see also [here](https://forum.xda-developers.com/showpost.php?p=71805655&postcount=4668)
 * **ad blocking is not available when NetGuard was installed from the Google Play store!** (disable automatic updates of NetGuard in the Play store application)
 
