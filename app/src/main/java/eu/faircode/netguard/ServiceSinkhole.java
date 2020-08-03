@@ -2149,7 +2149,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
-                String host = prefs.getString("validate", "www.google.com");
+                String host = prefs.getString("validate", "www.f-droid.org");
                 Log.i(TAG, "Validating " + network + " " + ni + " host=" + host);
 
                 Socket socket = null;

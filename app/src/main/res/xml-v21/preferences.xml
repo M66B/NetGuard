@@ -229,7 +229,7 @@
                 android:inputType="text"
                 android:key="dns2" />
             <EditTextPreference
-                android:hint="www.google.com"
+                android:hint="www.f-droid.org"
                 android:inputType="text"
                 android:key="validate"
                 android:summary="@string/summary_validate" />

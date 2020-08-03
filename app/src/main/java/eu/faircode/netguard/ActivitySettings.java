@@ -243,7 +243,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         EditTextPreference pref_ttl = (EditTextPreference) screen.findPreference("ttl");
         pref_dns1.setTitle(getString(R.string.setting_dns, prefs.getString("dns", "-")));
         pref_dns2.setTitle(getString(R.string.setting_dns, prefs.getString("dns2", "-")));
-        pref_validate.setTitle(getString(R.string.setting_validate, prefs.getString("validate", "www.google.com")));
+        pref_validate.setTitle(getString(R.string.setting_validate, prefs.getString("validate", "www.f-droid.org")));
         pref_ttl.setTitle(getString(R.string.setting_ttl, prefs.getString("ttl", "259200")));
 
         // SOCKS5 parameters
@@ -675,7 +675,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             ServiceSinkhole.reload("changed " + name, this, false);
 
         } else if ("validate".equals(name)) {
-            String host = prefs.getString(name, "www.google.com");
+            String host = prefs.getString(name, "www.f-droid.org");
             try {
                 checkDomain(host);
                 prefs.edit().putString(name, host.trim()).apply();
@@ -686,7 +686,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
             getPreferenceScreen().findPreference(name).setTitle(
-                    getString(R.string.setting_validate, prefs.getString(name, "www.google.com")));
+                    getString(R.string.setting_validate, prefs.getString(name, "www.f-droid.org")));
             ServiceSinkhole.reload("changed " + name, this, false);
 
         } else if ("ttl".equals(name))
