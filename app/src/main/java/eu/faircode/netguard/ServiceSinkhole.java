@@ -1198,11 +1198,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         // Always set DNS servers
         if (listDns.size() == 0 || listDns.size() < count)
             try {
-                listDns.add(InetAddress.getByName("8.8.8.8"));
-                listDns.add(InetAddress.getByName("8.8.4.4"));
+                listDns.add(InetAddress.getByName("1.1.1.1"));
+                listDns.add(InetAddress.getByName("1.0.0.1"));
                 if (ip6) {
-                    listDns.add(InetAddress.getByName("2001:4860:4860::8888"));
-                    listDns.add(InetAddress.getByName("2001:4860:4860::8844"));
+                    listDns.add(InetAddress.getByName("2606:4700:4700::1111"));
+                    listDns.add(InetAddress.getByName("2606:4700:4700::1001"));
                 }
             } catch (Throwable ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
