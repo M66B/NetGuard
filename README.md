@@ -83,11 +83,18 @@ See also [this FAQ](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-con
 
 NetGuard can be used on rooted devices too and even offers more features than most root firewalls.
 
-Some Android versions, expecially not updated Samsung Android versions, have a buggy VPN implementation,
+Some Android versions, especially Samsung's Android versions, have a buggy VPN implementation,
 which results in Android refusing to start the VPN service in certain circumstances,
-like when there is no internet conncectivity yet (when starting up your device)
+like when there is no internet connectivity yet (when starting up your device)
 or when incorrectly requiring manual approval of the VPN service again (when starting up your device).
-Unfortunately these Android bugs cannot be worked around by NetGuard.
+NetGuard will try to workaround this and remove the error message when it succeeds, else you are out of luck.
+
+Some LineageOS versions have a broken Android VPN implementation, causing all traffic to be blocked,
+please see [this FAQ](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-faq51) for more information.
+
+NetGuard is not supported for apps installed in a [work profile](https://developer.android.com/work/managed-profiles)
+or in a [Secure Folder](https://www.samsung.com/uk/support/mobile-devices/what-is-the-secure-folder-and-how-do-i-use-it/) (Samsung)
+because the Android VPN service too often does not work correctly in this situation, which can't be fixed by NetGuard.
 
 Filtering mode cannot be used on [CopperheadOS](https://copperhead.co/android/).
 
