@@ -4,7 +4,7 @@
     <string name="app_android">NetGuard requer Android versão 5.1 ou superior</string>
     <string name="app_xposed">Xposed provoca muitos erros, que podem resultar no NetGuard sendo removido da Google Play Store, portanto NetGuard não é suportado quando o Xposed estiver instalado</string>
     <string name="app_privacy"><a href="http://www.cyanogenmod.org/docs/privacy">Política de privacidade</a></string>
-    <string name="app_first">Muito cuidado foi tomado para desenvolver e testar NetGuard, entranto, é impossível garantir que NetGuard funcionará corretamente em todos os dispositivos.</string>
+    <string name="app_first">Muito cuidado foi tomado para desenvolver e testar o NetGuard, entretanto, é impossível garantir que o NetGuard funcionará corretamente em todos os dispositivos.</string>
     <string name="app_agree">Eu concordo</string>
     <string name="app_disagree">Eu discordo</string>
     <string name="app_support">NetGuard precisa da sua ajuda. Toque para comprar Recursos Pro para manter o projeto.</string>
@@ -97,7 +97,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Validar em: %s</string>
     <string name="setting_ttl">DNS TTL Mínimo: %s s</string>
     <string name="setting_socks5_enabled">Usar proxy SOCKS5</string>
     <string name="setting_socks5_addr">Endereço do SOCKS5: %s</string>
@@ -147,7 +147,7 @@
     <string name="summary_track_usage">Controle o número de bytes enviados e recebidos para cada aplicativo e endereço. Isso pode resultar no uso da bateria extra.</string>
     <string name="summary_block_domains">Responde os pedidos DNS com o código de resposta configurado para bloqueio de nomes de domínio. Esta opção é desabilitada quando não houver arquivo hosts disponível.</string>
     <string name="summary_rcode">O valor padrão é 3 (NXDDOMAIN), que significa \'domínio não existente\'.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">Nome do domínio utilizado para validar a conexão de internet na porta 443 (https).</string>
     <string name="summary_socks5_enabled">Somente tráfico TCP será enviado ao servidor proxy</string>
     <string name="summary_watchdog">Verificar periodicamente se NetGuard ainda está rodando (coloque zero para desativar essa opção). Isso pode resultar em consumo adicional de bateria.</string>
     <string name="summary_stats">Mostrar gráfico de velocidade da rede na barra de notificação</string>
@@ -223,8 +223,8 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
     <string name="title_metered">Por padrão, uma conexão Wi-Fi é considerada ilimitada e uma conexão móvel limitada</string>
     <string name="title_internet">não tem permissão de acesso a internet</string>
     <string name="title_disabled">está desativado</string>
-    <string name="title_messaging">As mensagens são recebidas pelos serviços Google Play e não por esta aplicação. Por este motivo não podem ser bloqueadas bloqueando esta aplicação</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_messaging">As mensagens são recebidas pelos serviços do Google Play e não por esse aplicativo e por isso não podem ser bloqueadas simplesmente bloqueando esse aplicativo</string>
+    <string name="title_download">Os downloads são executados pelo gerenciador de downloads e não por esse aplicativo, portanto, não podem ser bloqueados simplesmente bloqueando esse aplicativo</string>
     <string name="title_apply">Aplicar regras e condições</string>
     <string name="title_conditions">Condições</string>
     <string name="title_screen_wifi">Permitir Wi-Fi com a tela ligada</string>
@@ -275,9 +275,9 @@ O seu tráfego de internet não está sendo enviado para um servidor VPN remoto.
     <string name="title_pro_details">Toque em um título para obter mais informações</string>
     <string name="title_pro_challenge">Código de verificação</string>
     <string name="title_pro_reponse">Resposta</string>
-    <string name="title_pro_feature">Esta é uma funcionalidade da versão pro</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
+    <string name="title_pro_feature">Essa é uma funcionalidade Pro</string>
+    <string name="title_pro_subscription">        Uma assinatura mensal de 1 ou 2 euros (excluindo taxas locais) irá ativar todas as funcionalidades Pro.
+        Você pode cancelar ou gerenciar uma assinatura através da guia de assinaturas do aplicativo da Play Store.
     </string>
     <string-array name="themeNames">
         <item>verde-azulado/laranja</item>

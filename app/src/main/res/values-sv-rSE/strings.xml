@@ -65,7 +65,7 @@
     <string name="setting_update">Sök efter uppdateringar</string>
     <string name="setting_network_options">Nätverksinställningar</string>
     <string name="setting_subnet">Subnet routing</string>
-    <string name="setting_tethering">Allow tethering</string>
+    <string name="setting_tethering">Tillåt sammanlänkning</string>
     <string name="setting_lan">Tillåt LAN-åtkomst</string>
     <string name="setting_ip6">Aktivera IPv6-trafik</string>
     <string name="setting_wifi_home">Wi-Fi hemmanätverk: %1$s</string>
@@ -85,7 +85,7 @@
     <string name="setting_access">Meddela vid internetåtkomst</string>
     <string name="setting_filter">Filtrera trafik</string>
     <string name="setting_filter_udp">Filtrera UDP-trafik</string>
-    <string name="setting_handover">Seamless VPN handover on reload</string>
+    <string name="setting_handover">Sömlös VPN-överlämning vid omladdning</string>
     <string name="setting_clear_onreload">Stäng anslutningar vid omladdning</string>
     <string name="setting_lockdown">Lås trafik</string>
     <string name="setting_track_usage">Spåra nätverksanvändning</string>
@@ -127,8 +127,8 @@
     <string name="summary_auto">När du har inaktiverat gränssnittskomponenten aktiverar du automatiskt NetGuard igen efter det valda antalet minuter (ange noll för att inaktivera det här alternativet)</string>
     <string name="summary_delay">När du har stängt av skärmen, behåll regler för skärmen på aktiva för det valda antalet minuter (ange noll för att inaktivera det här alternativet)</string>
     <string name="summary_update">Sök efter nya utgåvor på GitHub två gånger dagligen</string>
-    <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
-    <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
+    <string name="summary_tethering">Beroende på Android-versionen, kan sammanlänkning fungera eller inte fungera. Sammanlänkad trafik kan inte filtreras.</string>
+    <string name="summary_subnet">Aktivera subnätsrouting; kan aktivera Wi-Fi-samtal, men kan också utlösa buggar i Android och öka batterianvändningen</string>
     <string name="summary_lan">Tillåt apparna att ansluta till LAN-adresser, som 10.0.0.0/8, 172.16.0.0/12 och 192.168.0.0/16</string>
     <string name="summary_ip6">Vidarebefodra IP-version 6 trafik till NetGuard så det kan selektivt tillåtas eller blockeras</string>
     <string name="summary_wifi_home">Tillämpa Wi-Fi-nätverksregler endast för valt nätverk (tillämpa regler för mobilt nätverk för andra Wi-Fi-nätverk)</string>
@@ -213,10 +213,10 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="title_lockdown_enabled">Trafiken är låst</string>
     <string name="title_unmetered_allowed">Ouppmätt trafik är tillåten</string>
     <string name="title_unmetered_blocked">Ouppmätt trafik är blockerad</string>
-    <string name="title_unmetered_disabled">Unmetered rules are not applied</string>
+    <string name="title_unmetered_disabled">Mätningsregler tillämpas inte</string>
     <string name="title_metered_allowed">Uppmätt trafik tillåts</string>
     <string name="title_metered_blocked">Uppmätt trafik blockeras</string>
-    <string name="title_metered_disabled">Metered rules are not applied</string>
+    <string name="title_metered_disabled">Mätningsregler tillämpas inte</string>
     <string name="title_host_allowed">Adressen är blockerad</string>
     <string name="title_host_blocked">Adressen är blockerad</string>
     <string name="title_interactive_allowed">Tillåt när skärmen är påslagen</string>

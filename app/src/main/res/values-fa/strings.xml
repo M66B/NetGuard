@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">NetGuard provides simple and advanced ways to block access to the internet - no root required. Apps and addresses can individually be allowed or denied access to your Wi-Fi and/or mobile connection.</string>
+    <string name="app_description">NetGuard راهکارهای ساده و پیشرفته‌ای برای مسدود کردن دسترسی به اینترنت فراهم می‌کند - بدون نیاز به روت بودن گوشی. هرکدام از برنامه‌ها و سایتها می‌توانند جداگانه به وای‌فای/داده موبایل دسترسی مجاز یا غیر مجاز داشته باشند.</string>
     <string name="app_android">NetGuard نیاز به اندروید 5.1 یا بالاتر دارد</string>
     <string name="app_xposed">Xposed موجب خطاهای زیاد می‌شود، که شاید موجب حذف شدن NetGuard از گوگل پلی استور شود، برای همین NetGuard هنگامی که Xposed نصب شده است ، پشتیبانی نمی‌شود</string>
     <string name="app_privacy"><a href="http://www.cyanogenmod.org/docs/privacy"> سیاست حفظ حریم خصوصی</a></string>
@@ -21,7 +21,7 @@
     <string name="menu_sort_name">مرتب‌سازی براساس نام</string>
     <string name="menu_sort_uid">مرتب‌سازی براساس uid</string>
     <string name="menu_sort_data">مرتب‌سازی براساس مصرف داده</string>
-    <string name="menu_log">نمایش گزارش</string>
+    <string name="menu_log">نمایش گزارش رویداد</string>
     <string name="menu_settings">تنظیمات</string>
     <string name="menu_invite">دعوت کردن</string>
     <string name="menu_legend">راهنما و علائم</string>
@@ -97,7 +97,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">تایید اعتبار در: %s</string>
     <string name="setting_ttl">Minimum DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">استفاده از پروکسی SOCKS5</string>
     <string name="setting_socks5_addr">نشانی SOCKS5: %s</string>
@@ -127,25 +127,25 @@
     <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
     <string name="summary_delay">After turning the screen off, keep screen on rules active for the selected number of minutes (enter zero to disable this option)</string>
     <string name="summary_update">بررسی برای نگارش‌های جدید دوبار در روز</string>
-    <string name="summary_tethering">Depending on the Android version, tethering may work or may not work. Tethered traffic cannot be filtered.</string>
+    <string name="summary_tethering">بسته به نگارش tethering ، Android ممکن است کار کند یا ممکن است کار نکند. ترافیک tethering نمی‌تواند پالایش شود.</string>
     <string name="summary_subnet">Enable subnet routing; might enable Wi-Fi calling, but might also trigger bugs in Android and increase battery usage</string>
     <string name="summary_lan">Allow apps to connect to local area network addresses, like 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16</string>
     <string name="summary_ip6">Route IP version 6 traffic to NetGuard so it can selectively be allowed or blocked</string>
-    <string name="summary_wifi_home">Apply Wi-Fi network rules for selected network only (apply mobile network rules for other Wi-Fi networks)</string>
+    <string name="summary_wifi_home">قوانین شبکه‌ی وای‌فای را فقط برای شبکه‌ی انتخاب شده اِعمال کن (قوانین شبکه‌ی همراه را برای دیگر شبکه‌های وای‌فای اِعمال کن)</string>
     <string name="summary_metered">قوانین شبکه‌های همراه را برای شبکه‌های وای‌فای اندازه‌گیری شده (پولی،متصل به نقطه) اعمال کن</string>
     <string name="summary_metered_2g">قوانین شبکه وای‌فای را برای اتصال‌های داده 2G اعمال کن</string>
     <string name="summary_metered_3g">قوانین شبکه وای‌فای را برای اتصال‌های داده 3G اعمال کن</string>
     <string name="summary_metered_4g">قوانین شبکه وای‌فای را برای اتصال‌های داده LTE اعمال کن</string>
-    <string name="summary_national_roaming">Do not apply roaming rules when the SIM and mobile network country are the same</string>
-    <string name="summary_eu_roaming">Do not apply roaming rules when the SIM and mobile network country are within the EU (roam like at home)</string>
-    <string name="summary_call">Disable NetGuard on incoming or outgoing telephone call. This can be used to work around IP/Wi-Fi calling problems.</string>
-    <string name="summary_system">Define rules for system apps (for experts)</string>
-    <string name="summary_log_app">Log attempts to access the internet for apps. This might result in extra battery usage.</string>
-    <string name="summary_access">Show a status bar notification when an app attempts to access a new internet address (when filtering is disabled, only blocked internet access attempts will be notified)</string>
-    <string name="summary_filter">Filter IP packets going out of the VPN tunnel. This might result in extra battery usage.</string>
-    <string name="summary_track_usage">Track the number of bytes sent and received for each app and address. This might result in extra battery usage.</string>
-    <string name="summary_block_domains">Respond with the configured DNS response code for blocked domain names. This switch is disabled when no hosts file is available.</string>
-    <string name="summary_rcode">The default value is 3 (NXDOMAIN), which means \'non-existent domain\'.</string>
+    <string name="summary_national_roaming">قوانین رومینگ را زمانیکه شبکه‌ی کشور سیم‌کارت و همراه مشابه‌اند اِعمال نکن</string>
+    <string name="summary_eu_roaming">قوانین رومینگ را زمانیکه شبکه‌ی کشور سیم‌کارت و همراه درون اروپا هستند اِعمال نکن (رومینگ شبیه داخلی)</string>
+    <string name="summary_call">غیرفعال کردن NetGuard برای تماس‌های تلفنی ورودی یا خروجی. این تنظیم میتواند برای استفاده از مشکلات تماس‌های آی‌پی/وای‌فای استفاده شود.</string>
+    <string name="summary_system">تعیین قوانین برای برنامه‌های سیستم (برای کارشناسان)</string>
+    <string name="summary_log_app">تلاش‌های دسترسی به اینترنت برای برنامه‌ها را ثبت کن. این ممکن است منجر به مصرف باتری اضافی شود.</string>
+    <string name="summary_access">هنگام تلاش برای دستیابی به یک آدرس اینترنتی جدید ، اعلان نوار وضعیت را نشان بده (وقتی فیلتر غیرفعال است ، فقط به تلاشهای دسترسی به اینترنت مسدود شده اطلاع داده می‌شود)</string>
+    <string name="summary_filter">بسته های IP را که از تونل VPN خارج می شوند فیلتر کن. این ممکن است منجر به مصرف باتری اضافی شود.</string>
+    <string name="summary_track_usage">تعداد بایت های ارسال شده و دریافت شده برای هر برنامه و آدرس را دنبال کن. این ممکن است منجر به مصرف باتری اضافی شود.</string>
+    <string name="summary_block_domains">با کد پاسخ DNS تنظیم شده برای نام‌های دامنه مسدود شده پاسخ دهد. این سوئیچ هنگامی که فایل میزبان در دسترس نیست غیرفعال می شود.</string>
+    <string name="summary_rcode">مقدار پیش فرض ۳ (NXDOMAIN) است که به معنی \"دامنه غیر وجود\" است.</string>
     <string name="summary_validate">نام دامنه استفاده شده برای تایید اعتبار اتصال اینترنت برای درگاه ۴۴۳ (https).</string>
     <string name="summary_socks5_enabled">تنها ترافیک TCP به سرور پروکسی فرستاده خواهد شد</string>
     <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
@@ -163,15 +163,15 @@
     <string name="msg_access">%1$s تلاش برای دسترسی به اینترنت</string>
     <string name="msg_access_n">تلاش برای دسترسی به اینترنت</string>
     <string name="msg_completed">کنش کامل شد</string>
-    <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
-For this reason, please allow a VPN connection in the next dialog.
-Your internet traffic is not being sent to a remote VPN server.</string>
+    <string name="msg_vpn">NetGuard از یک VPN محلی برای فیلتر کردن ترافیک اینترنت استفاده می کند.
+ به همین دلیل ، لطفاً در گفتگوی بعدی اتصال VPN را مجاز کنید.
+ ترافیک اینترنت شما به یک سرور VPN از راه دور ارسال نمی‌شود.</string>
     <string name="msg_autostart">NetGuard نمی‌تواند خودکار اجرا شود. این شاید به‌خاطر یک باگ در نگارش اندروید شماست.</string>
     <string name="msg_error">یک خطای غیر منتظره رخ داده است: \'%s\'</string>
-    <string name="msg_start_failed">Android refused to start the VPN service at this moment. This is likely because of a bug in your Android version.</string>
+    <string name="msg_start_failed">اندروید در این لحظه از شروع سرویس VPN خودداری کرد. این به احتمال زیاد به دلیل اشکال در نسخه اندروید شما است.</string>
     <string name="msg_try">NetGuard را بیازمایید</string>
-    <string name="msg_terms">By donating you agree to the <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
-    <string name="msg_dimming">If you cannot press OK in the next dialog, another (screen dimming) app is likely manipulating the screen.</string>
+    <string name="msg_terms">با اهداء شما با <a href="http://www.netguard.me/#terms"> شرایط و مقررات &amp; موافقت می‌کنید</a></string>
+    <string name="msg_dimming">اگر در گفتگوی بعدی نمی‌توانید OK را فشار دهید ، احتمالاً برنامه دیگری (کم رنگ کننده صفحه) صفحه را دستکاری می‌کند.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼مگابایت/روز</string>
     <string name="msg_kbsec">%7.3f KB/s</string>
     <string name="msg_mbsec">%7.3f MB/s</string>
@@ -179,12 +179,12 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼مگابایت</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ گیگابایت</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
-\n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
-    <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
-\n\nIn the next dialog, enable the options \"Background data\" and \"Unrestricted data usage\"</string>
-    <string name="msg_filter">Using filtering will cause Android to attribute data and power usage to NetGuard - Android assumes the data and power are being used by NetGuard, rather than the original apps</string>
-    <string name="msg_filter4">Android 4 requires filtering to be enabled</string>
+    <string name="msg_doze">برای عملکرد درست ، بهینه سازی باتری اندروید باید برای NetGuard غیرفعال شود.
+\n\n در گفتگوی بعدی ، \"همه برنامه ها\" را در بالا انتخاب کنید ، روی NetGuard در لیست ضربه بزنید و \"بهینه سازی نکنید\" را انتخاب و تأیید کنید.</string>
+    <string name="msg_datasaving">برای نتایج مداوم ، گزینه های ذخیره داده اندرویدی باید برای NetGuard غیرفعال شود
+\n\n در گفتگوی بعدی گزینه های \"داده پس زمینه\" و \"استفاده از داده های بدون محدودیت\" را فعال کنید</string>
+    <string name="msg_filter">استفاده از فیلتر باعث می‌شود انتقال داده اندروید و مصرف برق را به NetGuard نسبت دهد - اندروید فرض می‌کند که داده‌ها و قدرت توسط NetGuard استفاده می‌شود ، نه برنامه های اصلی</string>
+    <string name="msg_filter4">در اندروید ۴ فیلتر باید فعال باشد</string>
     <string name="msg_log_disabled">Traffic logging is disabled, use the switch above to enable logging. Traffic logging might result in extra battery usage.</string>
     <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
     <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
@@ -199,20 +199,20 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_queue">NetGuard مشغول است</string>
     <string name="msg_update">به‌روزرسانی موجود است، برای بارگیری لمس کنید</string>
     <string name="msg_usage">You can allow (greenish) or deny (reddish) Wi-Fi or mobile internet access by tapping on the icons next to an app</string>
-    <string name="msg_fairemail">If you installed NetGuard to protect your privacy, you might be interested in <a href="https://email.faircode.eu/">FairEmail</a>, an open source, privacy friendly email app, too</string>
+    <string name="msg_fairemail">اگر شما NetGuard را برای حفاظت از حریم خصوصی خود نصب کرده‌اید شاید به <a href="https://email.faircode.eu/">FairEmail</a> نیز علاقه مند باشید، یک برنامه ایمیل، منبع باز و نیز دوستدار حریم خصوصی</string>
     <string name="msg_whitelist">Internet access is allowed by default (blacklist mode), this can be changed in the settings</string>
     <string name="msg_push">Incoming (push) messages are mostly handled by the system component Play services, which is allowed internet access by default</string>
     <string name="msg_system">Managing all (system) apps can be enabled in the settings</string>
-    <string name="msg_issue">Please describe the problem and indicate the time of the problem:</string>
+    <string name="msg_issue">لطفاً مشکل را شرح داده و به زمان مشکل نیز اشاره کنید:</string>
     <string name="msg_vpn_cancelled">اتصال VPN لغو شد\n آیا شما یک VPN دیگر را به عنوان همیشه-روشن پیکربندی کرده‌اید؟</string>
     <string name="msg_on">Powering down your device with NetGuard enabled, will automatically start NetGuard on powering up your device</string>
-    <string name="msg_unavailable">This feature is not available on this Android version</string>
-    <string name="msg_always_on">Another VPN is set as Always-on VPN</string>
-    <string name="msg_always_on_lockdown">Turn off \"Block connections without VPN\" in Android VPN settings to use NetGuard in filtering mode</string>
-    <string name="msg_private_dns">Turn off \"Private DNS\" in Android network settings to use NetGuard in filtering mode</string>
-    <string name="title_lockdown_enabled">ترافیک قفل شده</string>
-    <string name="title_unmetered_allowed">ترافیک اندازه‌گیری نشده مجاز است</string>
-    <string name="title_unmetered_blocked">ترافیک اندازه‌گیری نشده مسدود است</string>
+    <string name="msg_unavailable">این ویژگی در این نسخه اندروید در دسترس نیست</string>
+    <string name="msg_always_on">VPN دیگری به عنوان VPN همیشه-فعال تنظیم شده است</string>
+    <string name="msg_always_on_lockdown">\"اتصال اتصالات بدون VPN\" را در تنظیمات VPN اندروید خاموش کنید تا از NetGuard در حالت فیلتر استفاده کنید</string>
+    <string name="msg_private_dns">\"DNS خصوصی\" را در تنظیمات شبکه اندروید خاموش کنید تا از NetGuard در حالت فیلتر استفاده کنید</string>
+    <string name="title_lockdown_enabled">ترافیک قفل شد</string>
+    <string name="title_unmetered_allowed">ترافیکِ اندازه‌گیری نشده مجاز شد</string>
+    <string name="title_unmetered_blocked">ترافیک اندازه‌گیری نشده مسدود شد</string>
     <string name="title_unmetered_disabled">قوانین اندازه‌گیری نشده اعمال نمی‌شوند</string>
     <string name="title_metered_allowed">ترافیک اندازه‌گیری شده مجاز است</string>
     <string name="title_metered_blocked">ترافیک اندازه‌گیری شده مسدود است</string>
@@ -224,8 +224,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_metered">اتصال وای‌فای به طور پیش‌فرض اندازه گیری نشده و داده همراه اندازه‌گیری شده در نظر گرفته می‌شود</string>
     <string name="title_internet">هیچ اجازه اینترنتی ندارد</string>
     <string name="title_disabled">غیرفعال است</string>
-    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_messaging">پیام های دریافتی توسط خدمات گوگل‌پِلی و نه توسط این برنامه دریافت می‌شوند و بنابراین نمی‌توان با مسدود کردن این برنامه آنرا مسدود کرد</string>
+    <string name="title_download">دانلودها توسط مدیرِ دانلود انجام می‌شود و نه توسط این برنامه و بنابراین نمی‌توان با مسدود کردن این برنامه آنها را مسدود کرد</string>
     <string name="title_apply">اعمال قوانین و وضعیت‌ها</string>
     <string name="title_conditions">وضعیت‌ها</string>
     <string name="title_screen_wifi">هنگام روشن بودن صفحه به وای‌فای اجازه استفاده بده</string>
@@ -235,18 +235,18 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_lockdown">اجازه در حالت قفل</string>
     <string name="title_related">وابسته به پالایش</string>
     <string name="title_access">تلاش‌های دسترسی</string>
-    <string name="title_precedence">Access rules take precedence over other rules</string>
+    <string name="title_precedence">قوانین دسترسی بر سایر قوانین مقدم‌اند</string>
     <string name="title_options">تنظیمات</string>
-    <string name="title_notify">Notify internet access attempts</string>
+    <string name="title_notify">اعلان برای تلاش های دسترسی به اینترنت</string>
     <string name="title_logging_disabled">گزارش‌گیری یا پالایش فعال نمی‌باشد</string>
     <string name="title_logging_enabled">گزارش‌گیری و پالایش فعال می‌باشند</string>
     <string name="title_logging_configure">پیکربندی</string>
-    <string name="title_enable_logging">Enable logging of blocked addresses only</string>
-    <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
-    <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
-    <string name="title_enable_help0">These settings are global settings that apply to all apps</string>
-    <string name="title_enable_help1">Filtering is also required to allow or block individual addresses</string>
-    <string name="title_enable_help2">Enabling logging (less) or filtering (more) might increase battery usage and might affect network speed</string>
+    <string name="title_enable_logging">فعال شدن ورود به سیستم فقط برای آدرس‌های مسدود شده</string>
+    <string name="title_enable_filtering">فعال کردن فیلتر همچنین برای ورود به آدرسهای مجاز</string>
+    <string name="title_enable_notify">فعال شدن اعلان‌های دسترسی برای آدرس‌های تازه</string>
+    <string name="title_enable_help0">این تنظیمات، تنظیمات جهانی است که برای همه برنامه ها اعمال می شود</string>
+    <string name="title_enable_help1">فیلتر کردن همچنین برای مجاز یا مسدود کردن آدرس‌های فردی لازم است</string>
+    <string name="title_enable_help2">فعال کردن ورود به سیستم با فیلترینگ (کمتر) یا (بیشتر) ممکن است باعث افزایش مصرف باتری شود و بر سرعت شبکه تأثیر بگذارد</string>
     <string name="title_rate">امتیازدهی</string>
     <string name="title_allow">اجازه دادن</string>
     <string name="title_block">مسدود کردن</string>
@@ -262,7 +262,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_log_port">درگاه %1$d</string>
     <string name="title_log_copy">روگرفت</string>
     <string name="title_pro">ویژگی‌های حرفه‌ای</string>
-    <string name="title_pro_description">The following pro features are available:</string>
+    <string name="title_pro_description">ویژگی‌های حرفه‌ای زیر موجود است:</string>
     <string name="title_pro_log">نمایش گزارش ترافیک مسدود شده</string>
     <string name="title_pro_filter">ترافیک شبکه را فیلتر کن</string>
     <string name="title_pro_notify">اعلان‌های جدید برنامه</string>
@@ -277,8 +277,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_pro_challenge">چالش</string>
     <string name="title_pro_reponse">واکنش</string>
     <string name="title_pro_feature">این یک ویژگی نسخه حرفه‌ای است</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
+    <string name="title_pro_subscription">        اشتراک ماهانه 1 یا 2 یورو (به استثنای مالیات محلی) تمام ویژگی‌های حرفه‌ای را فعال می‌کند. 
+        می توانید اشتراک را از طریق برگه اشتراک در برنامه فروشگاه Play لغو یا مدیریت کنید.
     </string>
     <string-array name="themeNames">
         <item>آبی دریایی/نارنجی</item>

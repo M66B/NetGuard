@@ -115,7 +115,7 @@
     <string name="setting_backup">備份</string>
     <string name="setting_export">匯出設定</string>
     <string name="setting_import">匯入設定</string>
-    <string name="setting_hosts">匯出 hosts 檔</string>
+    <string name="setting_hosts">匯入 hosts 檔</string>
     <string name="setting_hosts_append">匯入 hosts 檔 (附加)</string>
     <string name="setting_hosts_url">Hosts 檔下載 URL</string>
     <string name="setting_hosts_download">下載 hosts 檔</string>
