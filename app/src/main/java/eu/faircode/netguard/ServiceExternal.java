@@ -62,6 +62,9 @@ public class ServiceExternal extends IntentService {
                 final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
                 String hosts_url = prefs.getString("hosts_url", null);
+                if ("https://www.netguard.me/hosts".equals(hosts_url))
+                    hosts_url = "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts";
+
                 File tmp = new File(getFilesDir(), "hosts.tmp");
                 File hosts = new File(getFilesDir(), "hosts.txt");
 
