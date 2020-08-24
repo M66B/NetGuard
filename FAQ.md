@@ -151,6 +151,8 @@ To avoid this problem, at least temporarily, close all applications and/or servi
 F-Droid builds are not supported because I have no control over if and when the F-Droid version of NetGuard will be updated,
 so I cannot guarantee timely updates, for example if there is a critical or security issue.
 
+Because F-Droid builds and GitHub releases are signed differently, an F-Droid build needs to be uninstalled first to be able to update to a GitHub release.
+
 <a name="faq16"></a>
 **(16) Why are some applications shown dimmed?**
 
