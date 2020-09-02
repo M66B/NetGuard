@@ -31,7 +31,11 @@ cp -R ${project_dir}/app/src/main/res/values-ar/* ${project_dir}/app/src/main/re
 cp -R ${project_dir}/app/src/main/res/values-ar/* ${project_dir}/app/src/main/res/values-ar-rYE/
 cp -R ${project_dir}/app/src/main/res/values-no/* ${project_dir}/app/src/main/res/values-nb/
 
-sed -i s/-2016/–2018/ ${project_dir}/app/src/main/res/values*/strings.xml
-sed -i s/–2016/–2018/ ${project_dir}/app/src/main/res/values*/strings.xml
-sed -i s/-2017/–2018/ ${project_dir}/app/src/main/res/values*/strings.xml
-sed -i s/–2017/–2018/ ${project_dir}/app/src/main/res/values*/strings.xml
+sed -i s/-2016/–2020/ ${project_dir}/app/src/main/res/values*/strings.xml
+sed -i s/–2016/–2020/ ${project_dir}/app/src/main/res/values*/strings.xml
+sed -i s/-2017/–2020/ ${project_dir}/app/src/main/res/values*/strings.xml
+sed -i s/–2017/–2020/ ${project_dir}/app/src/main/res/values*/strings.xml
+sed -i s/-2018/–2020/ ${project_dir}/app/src/main/res/values*/strings.xml
+sed -i s/–2018/–2020/ ${project_dir}/app/src/main/res/values*/strings.xml
+sed -i s/-2019/–2020/ ${project_dir}/app/src/main/res/values*/strings.xml
+sed -i s/–2019/–2020/ ${project_dir}/app/src/main/res/values*/strings.xml
