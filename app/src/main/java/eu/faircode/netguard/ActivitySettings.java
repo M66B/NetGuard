@@ -363,7 +363,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
                     String hosts_url = pref_hosts_url.getText();
                     if ("https://www.netguard.me/hosts".equals(hosts_url))
-                        hosts_url = "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts";
+                        hosts_url = BuildConfig.HOSTS_FILE_URI;
 
                     try {
                         new DownloadTask(ActivitySettings.this, new URL(hosts_url), tmp, new DownloadTask.Listener() {
