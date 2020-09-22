@@ -540,7 +540,12 @@ In lockdown mode, all traffic for all applictions will be blocked,
 except for applications with the condition *'Allow in lockdown mode'* enabled.
 You can use this mode to limit battery usage or network usage,
 for example, when your battery is almost empty or when your data allotment is almost exhausted.
-Note that system applications will only be blocked in this mode
+
+Note that Lockdown mode applies only if the corresponding option is also set in "Network options" 
+(one for Wi-Fi mode, one for Mobile data), allowing to have lockdown in only one of the two network modes 
+and not in the other (eg. Lock down if mobile data are active, but not if Wi-Fi is currently used).
+
+Note also that system applications will only be blocked in this mode
 when managing system applications is enabled in the advanced settings.
 
 You can enable/disable lockdown mode in the main menu, using a widget, or using a settings tile (Android 7 Nougat or later).
