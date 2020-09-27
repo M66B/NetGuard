@@ -175,6 +175,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            TwoStatePreference pref_handover =
+                    (TwoStatePreference) screen.findPreference("handover");
+            cat_advanced.removePreference(pref_handover);
+        }
+
         Preference pref_reset_usage = screen.findPreference("reset_usage");
         pref_reset_usage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
