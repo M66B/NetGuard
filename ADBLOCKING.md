@@ -51,14 +51,7 @@ The NetGuard version from GitHub:
 <br />
 
 Which hosts (ad servers) will be blocked depends on the hosts file being used.
-NetGuard provides the [StevenBlack hosts file](https://github.com/StevenBlack/hosts) download with the following additions:
-
-* reports.crashlytics.com
-* settings.crashlytics.com
-* e.crashlytics.com
-* test.netguard.me
-
-Direct link to the hosts file: [https://github.com/StevenBlack/hosts/raw/master/hosts](https://github.com/StevenBlack/hosts/raw/master/hosts)
+NetGuard downloads the [StevenBlack hosts file](https://github.com/StevenBlack/hosts) by default.
 
 <br />
 
