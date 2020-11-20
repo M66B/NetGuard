@@ -83,7 +83,7 @@ See also [this FAQ](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-con
 
 NetGuard can be used on rooted devices too and even offers more features than most root firewalls.
 
-Some Android versions, especially Samsung's Android versions, have a buggy VPN implementation,
+Some older Android versions, especially Samsung's Android versions, have a buggy VPN implementation,
 which results in Android refusing to start the VPN service in certain circumstances,
 like when there is no internet connectivity yet (when starting up your device)
 or when incorrectly requiring manual approval of the VPN service again (when starting up your device).
