@@ -30,6 +30,8 @@ Note that:
 * applications, like web browsers, may cache data, so you may need to clear caches
 * applications, browsers mostly, that have a *"data saver"*-like feature that proxies requests through their servers (eg. Opera w/ Turbo, Opera Max, Puffin, Chrome w/ data saver, UC Browser, Yandex w/ Turbo, Apus Browser, KK Browser, Onavo Extend, Maxthon) will not have ads blocked as NetGuard cannot see those domain requests
 * applications, browsers mostly, can have a private DNS feature (Chrome: three-dots menu, Settings, Privacy, Use secure DNS, turn off)
+* applications, including browser, can be system apps, which require managing system apps in the advanced settings to be enabled
+* the Android always-on VPN setting *Block connections without VPN* will result in stop sending domain names to the VPN after some time
 * YouTube ads are not domain-based, and thus cannot be blocked with NetGuard
 * NetGuard ignores the IP addresses in the hosts file, because it does not route blocked domains to localhost
 * When NetGuard imports the hosts file, it automatically discards any duplicates entries, so duplicate entries are not a problem and have no performance impact after the file is imported
