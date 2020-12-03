@@ -13,7 +13,7 @@
     <string name="channel_access">Access notifications</string>
     <string name="menu_search">Search for app</string>
     <string name="menu_filter">Filter apps</string>
-    <string name="menu_app_user">Show user apps</string>
+    <string name="menu_app_user">පරිශීලක යෙදුම් පෙන්වන්න</string>
     <string name="menu_app_system">Show system apps</string>
     <string name="menu_app_nointernet">Show apps without internet</string>
     <string name="menu_app_disabled">Show disabled apps</string>
@@ -27,7 +27,7 @@
     <string name="menu_legend">Legend</string>
     <string name="menu_support">සහාය</string>
     <string name="menu_about">පිලිබඳ</string>
-    <string name="menu_apps">Other apps</string>
+    <string name="menu_apps">වෙනත් යෙදුම්</string>
     <string name="menu_protocol_other">වෙනත්</string>
     <string name="menu_traffic_allowed">Allowed</string>
     <string name="menu_traffic_blocked">Blocked</string>
@@ -41,7 +41,7 @@
     <string name="menu_export">Export</string>
     <string name="menu_reset">යලි පිහිටුවන්න</string>
     <string name="menu_add">එකතු කරන්න</string>
-    <string name="menu_delete">Delete</string>
+    <string name="menu_delete">මකන්න</string>
     <string name="menu_cleanup">Cleanup</string>
     <string name="title_protocol">Protocol</string>
     <string name="title_dport">Source port</string>
@@ -57,12 +57,12 @@
     <string name="setting_whitelist_roaming">Block roaming</string>
     <string name="setting_options">Options</string>
     <string name="setting_theme">Theme: %1$s</string>
-    <string name="setting_dark">Use dark theme</string>
+    <string name="setting_dark">අඳුරු තේමාව භාවිතා කරන්න</string>
     <string name="setting_install">Notify on new install</string>
     <string name="setting_screen_on">Apply \'when screen on\' rules</string>
     <string name="setting_auto">Auto enable after %1$s minutes</string>
     <string name="setting_delay">Delay screen off %1$s minutes</string>
-    <string name="setting_update">Check for updates</string>
+    <string name="setting_update">යාවත්කාලීනයන් සඳහා පිරික්සන්න</string>
     <string name="setting_network_options">Network options</string>
     <string name="setting_subnet">Subnet routing</string>
     <string name="setting_tethering">Allow tethering</string>
@@ -160,7 +160,7 @@
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based app</string>
     <string name="msg_installed">\'%1$s\' installed</string>
     <string name="msg_installed_n">Has been installed</string>
-    <string name="msg_access">%1$s attempted internet access</string>
+    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">%1$s attempted internet access</string>
     <string name="msg_access_n">Attempted internet access</string>
     <string name="msg_completed">Action completed</string>
     <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
@@ -178,7 +178,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-    <string name="msg_count">%dx</string>
+    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
     <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
 \n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
     <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
@@ -260,22 +260,22 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_dontask">Don\'t ask again</string>
     <string name="title_log_whois">Whois %1$s</string>
     <string name="title_log_port">Port %1$d</string>
-    <string name="title_log_copy">Copy</string>
+    <string name="title_log_copy">පිටපත්</string>
     <string name="title_pro">Pro features</string>
     <string name="title_pro_description">The following pro features are available:</string>
     <string name="title_pro_log">View blocked traffic log</string>
     <string name="title_pro_filter">Filter network traffic</string>
-    <string name="title_pro_notify">New app notifications</string>
-    <string name="title_pro_speed">Network speed graph notification</string>
-    <string name="title_pro_theme">Appearance (theme, colors)</string>
+    <string name="title_pro_notify">නව යෙදුම් දැනුම්දීම්</string>
+    <string name="title_pro_speed">ජාල වේග ප්‍රස්ථාර දැනුම්දීම</string>
+    <string name="title_pro_theme">පෙනුම (තේමාව, වර්ණ)</string>
     <string name="title_pro_all">All above pro features</string>
     <string name="title_pro_dev">Support development</string>
     <string name="title_pro_buy">මිලදී ගන්න</string>
-    <string name="title_pro_bought">Enabled</string>
+    <string name="title_pro_bought">සබල කර ඇත</string>
     <string name="title_pro_unavailable">Unavailable</string>
     <string name="title_pro_details">Tap on a title for more information</string>
     <string name="title_pro_challenge">Challenge</string>
-    <string name="title_pro_reponse">Response</string>
+    <string name="title_pro_reponse">ප්‍රතිචාරය</string>
     <string name="title_pro_feature">This is a pro feature</string>
     <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
         You can cancel or manage a subscription via the subscriptions tab in the Play store app.
@@ -290,6 +290,6 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     </string-array>
     <string-array name="protocolNames">
         <item>UDP</item>
-        <item>TCP</item>
+        <item>ස.පා.කෙ (TCP)</item>
     </string-array>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_description">NetGuard poskytuje jednoduché a pokročilé spôsoby blokovania prístupu na internet - nevyžadujúcich root prístup. Aplikáciám a adresám môže byť individuálne povolený alebo odmietnutý prístup k Wi-Fi alebo mobilnému pripojeniu.</string>
-    <string name="app_android">NetGuard requires Android 5.1 or later</string>
+    <string name="app_android">NetGuard vyžaduje Android vo verzii 5.1 alebo novšej</string>
     <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
     <string name="app_first">Great care has been taken to develop and test NetGuard, however it is impossible to guarantee NetGuard will work correctly on every device.</string>
@@ -160,7 +160,7 @@
     <string name="msg_revoked">NetGuard bol zakázaný, pravdepodobne použitím inej aplikácie založenej na VPN</string>
     <string name="msg_installed">Aplikácia \'%1$s\' bola nainštalovaná</string>
     <string name="msg_installed_n">Nainštalované</string>
-    <string name="msg_access">Aplikácia %1$s sa pokúsila o prístup k internetu</string>
+    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">Aplikácia %1$s sa pokúsila o prístup k internetu</string>
     <string name="msg_access_n">Pokus o pripojenie na internet</string>
     <string name="msg_completed">Akcia bola dokončená</string>
     <string name="msg_vpn">NetGuard používa miestne VPN pripojenie na filtrovanie internetového prenosu. 
@@ -177,7 +177,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-    <string name="msg_count">%dx</string>
+    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
     <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
 \n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
     <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard
