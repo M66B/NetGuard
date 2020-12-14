@@ -481,7 +481,7 @@ If a purchased pro feature doesn't work [as described](https://www.netguard.me/)
 and this isn't caused by a problem in the free features
 and I cannot fix the problem in a timely manner, you can get a refund.
 In all other cases there is no refund possible.
-In no circumstances there is a refund possible for any problem related to the free features,
+In no circumstances there can be a refund for any problem related to the free features,
 since there wasn't paid anything for them and because they can be evaluated without any limitation.
 I take my responsibility as seller to deliver what has been promised
 and I expect that you take responsibility for informing yourself of what you are buying.
