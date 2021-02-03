@@ -92,8 +92,9 @@ NetGuard will try to workaround this and remove the error message when it succee
 Some LineageOS versions have a broken Android VPN implementation, causing all traffic to be blocked,
 please see [this FAQ](https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-faq51) for more information.
 
-NetGuard is not supported for apps installed in a [work profile](https://developer.android.com/work/managed-profiles)
-or in a [Secure Folder](https://www.samsung.com/uk/support/mobile-devices/what-is-the-secure-folder-and-how-do-i-use-it/) (Samsung)
+NetGuard is not supported for apps installed in a [work profile](https://developer.android.com/work/managed-profiles),
+or in a [Secure Folder](https://www.samsung.com/uk/support/mobile-devices/what-is-the-secure-folder-and-how-do-i-use-it/) (Samsung),
+or as second instance (MIUI)
 because the Android VPN service too often does not work correctly in this situation, which can't be fixed by NetGuard.
 
 Filtering mode cannot be used on [CopperheadOS](https://copperhead.co/android/).
