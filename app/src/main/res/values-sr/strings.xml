@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">НетГард нуди једноставне и напредне начине блокирања приступа интернету без потребе за рутовањем. Апликацијама и адресама се може појединачно дозволити или одбити приступ бежичној и/или мобилној вези.</string>
-    <string name="app_android">НетГард захтева Андроид 5.1 или новији</string>
-    <string name="app_xposed">\'Xposed\' изазива превише грешака које могу резултирати да НетГард буде уклоњен са Гугл плеј продвнице. Стога, НетГард није подржан док је \'Xposed\' инсталиран</string>
+    <string name="app_description">Нетгард нуди једноставне и напредне начине блокирања приступа интернету без потребе за рутовањем. Апликацијама и адресама се може појединачно дозволити или одбити приступ бежичној и/или мобилној вези.</string>
+    <string name="app_android">Нетгард захтева Андроид 5.1 или новији</string>
+    <string name="app_xposed">\'Xposed\' изазива превише грешака које могу резултирати да Нетгард буде уклоњен са Гугл плеј продвнице. Стога, Нетгард није подржан док је \'Xposed\' инсталиран</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Политика приватности</a></string>
-    <string name="app_first">Огромна пажња је посвећена развоју и тестирању НетГард апликације. Међутим, немогуће је гарантовати да ће НетГард радити исправно на сваком уређају.</string>
+    <string name="app_first">Огромна пажња је посвећена развоју и тестирању Нетгард апликације. Међутим, немогуће је гарантовати да ће Нетгард радити исправно на сваком уређају.</string>
     <string name="app_agree">Слажем се</string>
     <string name="app_disagree">Не слажем се</string>
-    <string name="app_support">НетГарду треба ваша помоћ. Кликните да купите профи могућности да би пројекат живео.</string>
+    <string name="app_support">Нетгарду треба ваша помоћ. Кликните да купите профи могућности да би пројекат живео.</string>
     <string name="channel_foreground">Покренути сервиси</string>
     <string name="channel_notify">Општа обавештења</string>
     <string name="channel_access">Обавештења о приступу</string>
@@ -35,8 +35,8 @@
     <string name="menu_refresh">Освежи</string>
     <string name="menu_resolve">Приказ назива</string>
     <string name="menu_organization">Приказ организација</string>
-    <string name="menu_pcap_enabled">\"PCAP\" укључен</string>
-    <string name="menu_pcap_export">\"PCAP\" извоз</string>
+    <string name="menu_pcap_enabled">„PCAP“ укључен</string>
+    <string name="menu_pcap_export">„PCAP“ извоз</string>
     <string name="menu_clear">Очисти</string>
     <string name="menu_export">Извоз</string>
     <string name="menu_reset">Ресет</string>
@@ -48,7 +48,7 @@
     <string name="title_raddr">Адреса одредишта</string>
     <string name="title_rport">Порт одредишта</string>
     <string name="title_ruid">Апликација одредишта</string>
-    <string name="title_external">За спољни сервер изаберите \"нико\"</string>
+    <string name="title_external">За спољни сервер изаберите „нико“</string>
     <string name="setting_defaults">Подразумевано (бела/црна листа)</string>
     <string name="setting_whitelist_wifi">Блокирај бежичну</string>
     <string name="setting_whitelist_other">Блокирај мобилну</string>
@@ -104,8 +104,8 @@
     <string name="setting_socks5_port">СОКС5 порт: %s</string>
     <string name="setting_socks5_username">СОКС5 корисничко име: %s</string>
     <string name="setting_socks5_password">СОКС5 лозинка: %s</string>
-    <string name="setting_pcap_record_size">\'PCAP\' величина записа: %s B</string>
-    <string name="setting_pcap_file_size">\'PCAP\' макс. вел. фајла: %s MB</string>
+    <string name="setting_pcap_record_size">„PCAP“ величина записа: %s B</string>
+    <string name="setting_pcap_file_size">„PCAP“ макс. вел. фајла: %s MB</string>
     <string name="setting_watchdog">Вочдог: сваких %s мин.</string>
     <string name="setting_stats_category">Обавештење о брзини</string>
     <string name="setting_stats">Приказ обавештења о брзини</string>
@@ -124,13 +124,13 @@
     <string name="setting_technical_networks">Мрежe</string>
     <string name="setting_technical_subscription">Претплате</string>
     <string name="summary_install">Приказ у статусној траци за директно подешавање ново инсталираних апликација (профи могућност)</string>
-    <string name="summary_auto">Након искључивања путем виџета, аутоматски укључи НетГард након изабраног броја минута (унесите нулу да искључите ову опцију)</string>
+    <string name="summary_auto">Након искључивања путем виџета, аутоматски укључи Нетгард након изабраног броја минута (унесите нулу да искључите ову опцију)</string>
     <string name="summary_delay">Након гашења екрана, правила за упаљени екран биће активна изабрани број минута (унесите нулу да искључите опцију)</string>
-    <string name="summary_update">Провери нова издања на ГитХабу два пута дневно</string>
+    <string name="summary_update">Провери нова издања на Гитхабу два пута дневно</string>
     <string name="summary_tethering">Зависно од верзије Андроида, тетеринг ће можда радити а можда и не. Његов саобраћај се не може филтрирати.</string>
     <string name="summary_subnet">Укључује подмрежно рутирање. Може укључити бежично позивање али може изазвати грешке и повећати потрошњу батерије</string>
     <string name="summary_lan">Дозвољава апликацијама повезивање са адресама локалне мреже попут 10.0.0.0/8, 172.16.0.0/12 и 192.168.0.0/16</string>
-    <string name="summary_ip6">Рутира ИПв6 саобраћај на НетГард како би могао бити дозвољен или блокиран</string>
+    <string name="summary_ip6">Рутира ИПв6 саобраћај на Нетгард како би могао бити дозвољен или блокиран</string>
     <string name="summary_wifi_home">Примени правила бежичне мреже само за изабране (на остале бежичне, примењуј правила мобилне мреже)</string>
     <string name="summary_metered">Примени правила мобилне мреже на мерене (плаћене, тетероване) бежичне мреже</string>
     <string name="summary_metered_2g">Примени правила бежичне мреже за 2Г мреже</string>
@@ -138,17 +138,17 @@
     <string name="summary_metered_4g">Примени правила бежичне мреже за ЛТЕ мреже</string>
     <string name="summary_national_roaming">Не примењуј роминг правила када су државе СИМ картице и мобилне мреже исте</string>
     <string name="summary_eu_roaming">Не примењуј роминг правила када су државе СИМ картице и мобилне мреже из ЕУ (роминг као код куће)</string>
-    <string name="summary_call">Искључи НетГард код телефонских позива. Ово може решити проблем позива преко ИП/бежичне везе.</string>
+    <string name="summary_call">Искључи Нетгард код телефонских позива. Ово може решити проблем позива преко ИП/бежичне везе.</string>
     <string name="summary_system">Одреди правила за системске апликације (за стручњаке)</string>
     <string name="summary_log_app">Бележи покушаје приступа интернету. Може повећати потрошњу батерије.</string>
     <string name="summary_access">Прикажи обавештење кад апликација покуша приступ новој интернет адреси (кад је филтрирање искључено, само блокирани покушаји биће објављени)</string>
     <string name="summary_filter">Филтрирај ИП пакете који излазе из ВПН тунела. Може повећати потрошњу батерије.</string>
     <string name="summary_track_usage">Прати број послатих и примљених бајтова за сваку апликацију и адресу. Може повећати потрошњу батерије.</string>
-    <string name="summary_block_domains">Одговори са подешеним ДНС кодом за блокиране називе домена. Искључено је када \'hosts\' фајл није доступан.</string>
+    <string name="summary_block_domains">Одговори са подешеним ДНС кодом одговора за блокиране називе домена. Искључено је када \'hosts\' фајл није доступан.</string>
     <string name="summary_rcode">Подразумевана вредност је 3 (NXDOMAIN), што значи „непостојећи домен“.</string>
     <string name="summary_validate">Назив домена где се проверава интернет веза на порту 443 (https).</string>
     <string name="summary_socks5_enabled">Само ТЦП саобраћај ће бити послат на проокси сервер</string>
-    <string name="summary_watchdog">Периодично проверава да ли НетГард и даље ради (нула искључује ову опцију). Може повећати потрошњу батерије.</string>
+    <string name="summary_watchdog">Периодично проверава да ли Нетгард и даље ради (нула искључује ову опцију). Може повећати потрошњу батерије.</string>
     <string name="summary_stats">Приказује график брзине мреже у обавештењима</string>
     <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Да ли сте сигурни?</string>
@@ -156,20 +156,20 @@
     <string name="msg_packages">дозвољено %1$d, блокирано %2$d</string>
     <string name="msg_hosts">дозвољено %1$d, блокирано %2$d, домаћина %3$d</string>
     <string name="msg_waiting">Чекам на догађај</string>
-    <string name="msg_disabled">НетГард је искључен. Користите прекидач изнад да га укључите</string>
-    <string name="msg_revoked">НетГард је искључен. Вероватно од стране друге ВПН апликације</string>
+    <string name="msg_disabled">Нетгард је искључен. Користите прекидач изнад да га укључите</string>
+    <string name="msg_revoked">Нетгард је искључен. Вероватно од стране друге ВПН апликације</string>
     <string name="msg_installed">инсталирано \'%1$s\'</string>
-    <string name="msg_installed_n">Било инсталирано</string>
+    <string name="msg_installed_n">Је инсталирано</string>
     <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">%1$s покушава приступ интернету</string>
     <string name="msg_access_n">Покушан приступ интернету</string>
     <string name="msg_completed">Радња извршена</string>
-    <string name="msg_vpn">НетГард користи локални ВПН за филтрирање интернет саобаћаја.
+    <string name="msg_vpn">Нетгард користи локални ВПН за филтрирање интернет саобаћаја.
 Зато дозволите ВПН везе у следећем дијалогу.
 Ваш интернет саобраћај се не шаље на удаљени ВПН сервер.</string>
-    <string name="msg_autostart">НетГард се није покренуо аутоматски. Могуће је да је то услед грешке у вашој верзији Андроида.</string>
+    <string name="msg_autostart">Нетгард се није покренуо аутоматски. Могуће је да је то услед грешке у вашој верзији Андроида.</string>
     <string name="msg_error">Дошло је до неочекиване грешке: %s</string>
     <string name="msg_start_failed">Андроид тренутно одбија да покрене ВПН сервис. Могуће је да је због грешке у вашој верзији Андроида.</string>
-    <string name="msg_try">Пробајте НетГард</string>
+    <string name="msg_try">Пробајте Нетгард</string>
     <string name="msg_terms">Донирајући, сагласни сте са <a href="http://www.netguard.me/#terms">одредбама и условима</a></string>
     <string name="msg_dimming">Ако на следећем дијалогу не можете да изаберете „У реду“, могуће је да нека апликација управља екраном.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/дневно</string>
@@ -179,11 +179,11 @@
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
-    <string name="msg_doze">Ради добрих резултата, НетГард треба искључити из Андроидове оптимизације батерије.
-\n\nУ следећем дијалогу изаберите „Све апликације“, тапните на НатГард у листи и изаберите „Не оптимизуј“.</string>
-    <string name="msg_datasaving">Ради добрих резултата, НетГард треба искључити из Андроидове опције уштеде података
+    <string name="msg_doze">Ради добрих резултата, Нетгард треба искључити из Андроидове оптимизације батерије.
+\n\nУ следећем дијалогу изаберите „Све апликације“, тапните на Нетгард у листи и изаберите „Не оптимизуј“.</string>
+    <string name="msg_datasaving">Ради добрих резултата, Нетгард треба искључити из Андроидове опције уштеде података
 \n\nУ следећем дијалогу изаберите опције „Подаци у позадини“ и „Неограничено коришћење података“</string>
-    <string name="msg_filter">Употреба филтрирања ће довести да Андроид припише саобраћај и потрошњу батерије НатГарду а не оним апликацијама које заиста, преко НатГарда, покушавају повезивање</string>
+    <string name="msg_filter">Употреба филтрирања ће довести да Андроид припише саобраћај и потрошњу батерије Натгарду а не оним апликацијама које заиста, преко Натгарда, покушавају повезивање</string>
     <string name="msg_filter4">Андроид 4 захтева да филтрирање буде укључено</string>
     <string name="msg_log_disabled">Бележење саобраћаја је искључено. Прекидачем изнад, укључите бележење. Може повећати потрошњу батерије.</string>
     <string name="msg_clear_rules">Ово ће ресетовати правила и услове на подразумеване вредности</string>
@@ -196,16 +196,16 @@
     <string name="msg_stop_forward">Да зауставим прослеђивање %1$s порт %2$d?</string>
     <string name="msg_metered">Проток се мери</string>
     <string name="msg_inactive">Не постоји веза са интернетом</string>
-    <string name="msg_queue">НетГард је заузет</string>
+    <string name="msg_queue">Нетгард је заузет</string>
     <string name="msg_update">Ажурирање доступно. Тапните за преузимање</string>
     <string name="msg_usage">Можете дозволити (зеленкасто) или одбити (црвенкасто) бежични или мобилн приступ интернету додиром на иконицу поред апликације</string>
-    <string name="msg_fairemail">Ако сте инсталирали НетГард ради заштите своје приватности, можда ћете бити заинтересовани и за <a href="https://email.faircode.eu/">Фер Е-пошту - FairEmail</a>, апликацију за е-пошту отвореног кода</string>
+    <string name="msg_fairemail">Ако сте инсталирали Нетгард ради заштите своје приватности, можда ћете бити заинтересовани и за <a href="https://email.faircode.eu/">Фер Е-пошту - FairEmail</a>, апликацију за е-пошту отвореног кода</string>
     <string name="msg_whitelist">Интернет приступ је подразумевано дозвољен (црна листа). Ово се може променити у поставкама</string>
     <string name="msg_push">Долазне (push) поруке углавном стижу преко системске компоненте „Плеј сервиси“ којој је подразумевано дозвољен приступ интернету</string>
     <string name="msg_system">Управљање свим (и системским) апликацијама може бити укључено у поставкама</string>
     <string name="msg_issue">Опишите проблем и наведите време када се догодио:</string>
     <string name="msg_vpn_cancelled">ВПН веза је отказана\nДа ли сте подесили други ВПН који је стално активан?</string>
-    <string name="msg_on">Искљичивањем уређаја док је НетГард активан, обезбеђујете да се НетГард покрене и при паљењу уређаја</string>
+    <string name="msg_on">Искљичивањем уређаја док је Нетгард активан, обезбеђујете да се Нетгард покрене и при паљењу уређаја</string>
     <string name="msg_unavailable">Ова могућност није доступна на овој верзији Андроида</string>
     <string name="msg_always_on">Други ВПН је постављен као увек активан ВПН</string>
     <string name="msg_always_on_lockdown">Искључите „Блокирај везе без ВПН“ у Андроид подешавањима да бисте користили режим филтрирања</string>
@@ -255,7 +255,7 @@
     <string name="title_allow_other">Дозволи мобилну</string>
     <string name="title_block_other">Блокирај мобилну</string>
     <string name="title_root">root</string>
-    <string name="title_mediaserver">mediaserver</string>
+    <string name="title_mediaserver">сервер медија</string>
     <string name="title_nobody">нико</string>
     <string name="title_dontask">Не питај поново</string>
     <string name="title_log_whois">Ко је %1$s</string>

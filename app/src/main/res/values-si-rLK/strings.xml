@@ -43,7 +43,7 @@
     <string name="menu_add">එකතු කරන්න</string>
     <string name="menu_delete">මකන්න</string>
     <string name="menu_cleanup">Cleanup</string>
-    <string name="title_protocol">Protocol</string>
+    <string name="title_protocol">කෙටුම්පත</string>
     <string name="title_dport">Source port</string>
     <string name="title_raddr">Destination address</string>
     <string name="title_rport">Destination port</string>
@@ -55,8 +55,8 @@
     <string name="setting_screen_wifi">Allow Wi-Fi when screen on</string>
     <string name="setting_screen_other">Allow mobile when screen on</string>
     <string name="setting_whitelist_roaming">Block roaming</string>
-    <string name="setting_options">Options</string>
-    <string name="setting_theme">Theme: %1$s</string>
+    <string name="setting_options">විකල්ප</string>
+    <string name="setting_theme">තේමාව: %1$s</string>
     <string name="setting_dark">අඳුරු තේමාව භාවිතා කරන්න</string>
     <string name="setting_install">Notify on new install</string>
     <string name="setting_screen_on">Apply \'when screen on\' rules</string>
@@ -80,7 +80,7 @@
     <string name="setting_lockdown_other">Lockdown mobile</string>
     <string name="setting_reload_onconnectivity">Reload on every connectivity change</string>
     <string name="setting_advanced_options">Advanced options</string>
-    <string name="setting_system">Manage system apps</string>
+    <string name="setting_system">පද්ධති යෙදුම් කළමනාකරණය</string>
     <string name="setting_log_app">Log internet access</string>
     <string name="setting_access">Notify on internet access</string>
     <string name="setting_filter">Filter traffic</string>
@@ -121,7 +121,7 @@
     <string name="setting_hosts_download">Download hosts file</string>
     <string name="setting_technical">Technical information</string>
     <string name="setting_technical_general">General</string>
-    <string name="setting_technical_networks">Networks</string>
+    <string name="setting_technical_networks">ජාල</string>
     <string name="setting_technical_subscription">Subscriptions</string>
     <string name="summary_install">Show status bar notification to directly configure newly installed apps (pro feature)</string>
     <string name="summary_auto">After disabling using the widget, automatically enable NetGuard again after the selected number of minutes (enter zero to disable this option)</string>
@@ -151,7 +151,7 @@
     <string name="summary_watchdog">Periodically check if NetGuard is still running (enter zero to disable this option). This might result in extra battery usage.</string>
     <string name="summary_stats">Show network speed graph in status bar notification</string>
     <string-array name="default_wifi_home"></string-array>
-    <string name="msg_sure">Are you sure?</string>
+    <string name="msg_sure">ඔබට විශ්වාසද?</string>
     <string name="msg_started">Enforcing rules</string>
     <string name="msg_packages">%1$d allowed, %2$d blocked</string>
     <string name="msg_hosts">%1$d allowed, %2$d blocked, %3$d hosts</string>
@@ -189,7 +189,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_clear_rules">This will reset the rules and conditions to their default values</string>
     <string name="msg_reset_access">This will delete access attempt log lines without allow/block rules</string>
     <string name="msg_import_last">Last import: %s</string>
-    <string name="msg_downloading">Downloading\n%1s</string>
+    <string name="msg_downloading">\n%1s බාගත වෙමින්</string>
     <string name="msg_downloaded">Hosts file downloaded</string>
     <string name="msg_download_last">Last download: %s</string>
     <string name="msg_start_forward">Start forwarding from %1$s port %2$d to %3$s:%4$d of \'%5$s\'?</string>
@@ -227,7 +227,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
     <string name="title_apply">Apply rules and conditions</string>
-    <string name="title_conditions">Conditions</string>
+    <string name="title_conditions">කොන්දේසි</string>
     <string name="title_screen_wifi">Allow Wi-Fi when screen is on</string>
     <string name="title_screen_other">Allow mobile when screen is on</string>
     <string name="title_roaming_symbol">R</string>
@@ -236,11 +236,11 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_related">Filter related</string>
     <string name="title_access">Access attempts</string>
     <string name="title_precedence">Access rules take precedence over other rules</string>
-    <string name="title_options">Options</string>
+    <string name="title_options">විකල්ප</string>
     <string name="title_notify">Notify internet access attempts</string>
     <string name="title_logging_disabled">Logging or filtering is not enabled</string>
     <string name="title_logging_enabled">Logging and filtering are enabled</string>
-    <string name="title_logging_configure">Configure</string>
+    <string name="title_logging_configure">වින්‍යාසගත කරන්න</string>
     <string name="title_enable_logging">Enable logging of blocked addresses only</string>
     <string name="title_enable_filtering">Enable filtering to log allowed addresses too</string>
     <string name="title_enable_notify">Enable access notifications for newly logged addresses</string>
@@ -257,7 +257,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_root">root</string>
     <string name="title_mediaserver">mediaserver</string>
     <string name="title_nobody">nobody</string>
-    <string name="title_dontask">Don\'t ask again</string>
+    <string name="title_dontask">නැවත අසන්න එපා</string>
     <string name="title_log_whois">Whois %1$s</string>
     <string name="title_log_port">Port %1$d</string>
     <string name="title_log_copy">පිටපත්</string>
@@ -282,14 +282,14 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     </string>
     <string-array name="themeNames">
         <item>teal/orange</item>
-        <item>blue/orange</item>
-        <item>purple/red</item>
+        <item>නිල්/තැඹිලි</item>
+        <item>දම්/රතු</item>
         <item>amber/blue</item>
         <item>තැඹිලි/අළු</item>
         <item>කොළ</item>
     </string-array>
     <string-array name="protocolNames">
-        <item>UDP</item>
+        <item>යූ.ඩී.පී.</item>
         <item>ස.පා.කෙ (TCP)</item>
     </string-array>
 </resources>

@@ -247,7 +247,7 @@
     <string name="title_allow">سماح</string>
     <string name="title_block">حظر</string>
     <string name="title_allow_wifi">السماح ل Wi-Fi</string>
-    <string name="title_block_wifi">حجب Wi-Fi</string>
+    <string name="title_block_wifi">حظر Wi-Fi</string>
     <string name="title_allow_other">السماح للجوال</string>
     <string name="title_block_other">حظر المحمول</string>
     <string name="title_root">الجذر</string>
@@ -267,19 +267,19 @@
     <string name="title_pro_all">كل ميزات النسخة الكاملة أعلاه</string>
     <string name="title_pro_dev">دعــم الــتـــطـــويـــر</string>
     <string name="title_pro_buy">شراء</string>
-    <string name="title_pro_bought">ممكن</string>
+    <string name="title_pro_bought">مفعل</string>
     <string name="title_pro_unavailable">غير متاح</string>
     <string name="title_pro_details">اضغط على العنوان لمزيد مِن المعلومات</string>
     <string name="title_pro_challenge">تحدّي</string>
     <string name="title_pro_reponse">الاستجابة</string>
     <string name="title_pro_feature">هذه ميزة الإصدار المهنية</string>
-    <string name="title_pro_subscription">        اشتراكات شهرية بقيمة 1 أو 2 يورو (باستثناء الضرائب المحلية) ستفعل كافة الميزات المحترفة.
-        يمكنك إلغاء أو إدارة اشتراك عبر لسان الاشتراكات في تطبيق متجر  غوغل بلاي للتطبيقات.
+    <string name="title_pro_subscription">        اشتراكات شهرية بقيمة ١  أو ٢ يورو (باستثناء الضرائب المحلية) ستفعل كافة الميزات المحترفة.
+        يمكنك إلغاء أو إدارة اشتراك عبر لسان الاشتراكات في تطبيق Play store.
     </string>
     <string-array name="themeNames">
         <item>أزرق مخضر/برتقالي</item>
         <item>أزرق/برتقالي</item>
-        <item>أحمر/أرجواني</item>
+        <item>بنفسجي/أحمر</item>
         <item>عنبر/ أزرق</item>
         <item>برتقالي/ رمادي</item>
         <item>أخضر</item>

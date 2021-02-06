@@ -3,12 +3,12 @@
     <string name="app_description">NetGuard cung cấp những cách đơn giản và nâng cao để chặn quyền truy cập vào internet - không yêu cầu root. Ứng dụng và địa chỉ có thể được cá nhân cho phép hoặc từ chối truy cập Wi-Fi và/hoặc kết nối di động của bạn.</string>
     <string name="app_android">NetGuard yêu cầu Android 5.1 hoặc cao hơn</string>
     <string name="app_xposed">Xposed gây ra quá nhiều lỗi, mà có ảnh hưởng đến NetGuard bị gỡ bỏ khỏicửa hàng Google Play; Do đó, NetGuard sẽ không được hỗ trợ nếu Xposed được cài đặt.</string>
-    <string name="app_privacy">chính sách bảo mật <a href="https://www.netguard.me/privacy/"></a></string>
+    <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Chính sách riêng tư</a></string>
     <string name="app_first">Chăm sóc tuyệt vời đã được thực hiện để phát triển và thử nghiệm NetGuard, Tuy nhiên chúng tôi không thể đảm bảo NetGuard sẽ làm việc chính xác trên mọi thiết bị</string>
     <string name="app_agree">Tôi đồng ý</string>
     <string name="app_disagree">Tôi không đồng ý</string>
-    <string name="app_support">NetGuard cần sự giúp đỡ của bạn.Nhấn để mua các tính năng Pro để trải nghiệm tốt hơn.</string>
-    <string name="channel_foreground">Các dịch vụ đang hoạt động</string>
+    <string name="app_support">NetGuard cần sự giúp đỡ của bạn. Nhấn để mua các tính năng Pro để giữ cho dự án hoạt động.</string>
+    <string name="channel_foreground">Các dịch vụ đang chạy</string>
     <string name="channel_notify">Thông báo chung</string>
     <string name="channel_access">Truy cập thông báo</string>
     <string name="menu_search">Tìm kiếm các ứng dụng</string>
@@ -24,7 +24,7 @@
     <string name="menu_log">Xem lịch sử</string>
     <string name="menu_settings">Cài đặt</string>
     <string name="menu_invite">Mời</string>
-    <string name="menu_legend">Chú thích</string>
+    <string name="menu_legend">Chú giải</string>
     <string name="menu_support">Hỗ trợ</string>
     <string name="menu_about">Giới thiệu</string>
     <string name="menu_apps">Ứng dụng khác</string>
@@ -160,7 +160,7 @@
     <string name="msg_revoked">NetGuard đã bị vô hiệu hóa, rất có thể do đang sử dụng một ứng dụng dựa trên VPN khác</string>
     <string name="msg_installed">\'%1$s\' được cài đặt</string>
     <string name="msg_installed_n">Đã được cài đặt</string>
-    <string name="msg_access">%1$s cố gắng truy cập internet</string>
+    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">%1$s cố gắng truy cập internet</string>
     <string name="msg_access_n">Cố gắng truy cập internet</string>
     <string name="msg_completed">Hoàn tất hành động</string>
     <string name="msg_vpn">NetGuard sử dụng một local VPN để lọc lưu lượng truy cập internet. Vì lý do này, xin vui lòng cho phép một kết nối VPN trong hộp thoại tiếp theo. Lưu lượng truy cập internet của bạn không được gửi đến một máy chủ VPN từ xa.</string>
@@ -176,7 +176,7 @@
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-    <string name="msg_count">%dx</string>
+    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
     <string name="msg_doze">Để có kết quả phù hợp, tối ưu hóa pin Android nên bị vô hiệu hóa cho NetGuard. \n\nTrong hộp thoại kế tiếp, chọn \"Tất cả ứng dụng\" ở phía trên cùng, bấm vào NetGuard trong danh sách và chọn và xác nhận \"Don\'t optimize\".</string>
     <string name="msg_datasaving">Để có kết quả phù hợp, tùy chọn tiết kiệm dữ liệu Android nên được vô hiệu hóa cho NetGuard \n\nTrong trong hộp thoại kế tiếp, cho phép tùy chọn \"Background data\" và \"Unrestricted data usage\"</string>
     <string name="msg_filter">Sử dụng bộ lọc sẽ làm cho Android hiểu lầm NetGuard sử dụng dữ liệu và năng lượng - Android giả định dữ liệu và năng lượng đang được sử dụng bởi NetGuard, chứ không phải là các ứng dụng ban đầu</string>
