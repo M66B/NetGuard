@@ -529,7 +529,7 @@ Make sure you are not running NetGuard in allow (whitelist) mode (check the NetG
 Make sure you didn't enable the Always-On VPN setting '*Block connections without VPN*' (Android 8 Oreo or later).
 This will block resolving domain names too (is it a bug or feature?).
 
-Some Android versions, including LineageOS for some devices, contain a bug resulting in all internet traffic being blocked.
+Some Android versions, including LineageOS and /e/ for some devices, contain a bug resulting in all internet traffic being blocked.
 Mostly, you can workaround this bug by enabling filtering in NetGuard's *Advanced options*.
 If this doesn't solve the issue, the problem can unfortunately not be fixed or worked around by NetGuard.
 
