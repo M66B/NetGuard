@@ -532,6 +532,7 @@ This will block resolving domain names too (is it a bug or feature?).
 Some Android versions, including LineageOS and /e/ for some devices, contain a bug resulting in all internet traffic being blocked.
 Mostly, you can workaround this bug by enabling filtering in NetGuard's *Advanced options*.
 If this doesn't solve the issue, the problem can unfortunately not be fixed or worked around by NetGuard.
+Please [see here](https://forum.xda-developers.com/t/app-6-0-netguard-no-root-firewall.3233012/post-84457527) for a fix.
 
 <a name="faq52"></a>
 **(52) What is lockdown mode?**
