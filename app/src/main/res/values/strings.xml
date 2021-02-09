@@ -22,9 +22,9 @@
     <string name="menu_app_nointernet">Show apps without internet</string>
     <string name="menu_app_disabled">Show disabled apps</string>
     <string name="menu_sort">Sort apps</string>
-    <string name="menu_sort_name">Sort on name</string>
-    <string name="menu_sort_uid">Sort on uid</string>
-    <string name="menu_sort_data">Sort on data usage</string>
+    <string name="menu_sort_name">Sort by name</string>
+    <string name="menu_sort_uid">Sort by uid</string>
+    <string name="menu_sort_data">Sort by data usage</string>
     <string name="menu_log">Show log</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_invite">Invite</string>
