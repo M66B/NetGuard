@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class Rule {
     private static final String TAG = "NetGuard.Rule";
@@ -443,6 +444,21 @@ public class Rule {
         boolean default_other = prefs.getBoolean("whitelist_other", true) && screen_on;
         boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
         updateChanged(default_wifi, default_other, default_roaming);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Rule) {
+            Rule other = (Rule) obj;
+            return (this.uid == other.uid &&
+                    Objects.equals(this.packageName, other.packageName));
+        } else
+            return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return (this.packageName == null ? this.uid : this.packageName.hashCode());
     }
 
     @Override
