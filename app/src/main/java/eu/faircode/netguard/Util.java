@@ -250,6 +250,14 @@ public class Util {
         return (!"off".equals(dns_mode));
     }
 
+    public static String getPrivateDnsSpecifier(Context context) {
+        String dns_mode = Settings.Global.getString(context.getContentResolver(), "private_dns_mode");
+        if ("hostname".equals(dns_mode))
+            return Settings.Global.getString(context.getContentResolver(), "private_dns_specifier");
+        else
+            return null;
+    }
+
     public static String getNetworkGeneration(int networkType) {
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
