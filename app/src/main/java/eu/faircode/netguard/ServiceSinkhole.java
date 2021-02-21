@@ -1297,6 +1297,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 listExclude.add(new IPUtil.CIDR("192.168.0.0", 16));
             }
 
+            if (!filter)
+                for (InetAddress dns : getDns(ServiceSinkhole.this))
+                    if (dns instanceof Inet4Address)
+                        listExclude.add(new IPUtil.CIDR(dns.getHostAddress(), 32));
+
             // https://en.wikipedia.org/wiki/Mobile_country_code
             Configuration config = getResources().getConfiguration();
 
