@@ -1409,22 +1409,19 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         // Add list of allowed applications
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (last_connected && !filter) {
-                for (Rule rule : listRule)
-                    if (!listAllowed.contains(rule))
-                        try {
-                            Log.i(TAG, "Sink=" + rule.packageName);
-                            builder.addAllowedApplication(rule.packageName);
-                        } catch (PackageManager.NameNotFoundException ex) {
-                            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                        }
-            } else if (filter) {
-                try {
-                    builder.addDisallowedApplication(getPackageName());
-                } catch (PackageManager.NameNotFoundException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-
+            try {
+                builder.addDisallowedApplication(getPackageName());
+            } catch (PackageManager.NameNotFoundException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+            if (last_connected && !filter)
+                for (Rule rule : listAllowed)
+                    try {
+                        builder.addDisallowedApplication(rule.packageName);
+                    } catch (PackageManager.NameNotFoundException ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    }
+            else if (filter)
                 for (Rule rule : listRule)
                     if (!rule.apply || (!system && rule.system))
                         try {
@@ -1433,7 +1430,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         } catch (PackageManager.NameNotFoundException ex) {
                             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                         }
-            }
         }
 
         // Build configure intent
@@ -3073,7 +3069,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         private List<String> listAddress = new ArrayList<>();
         private List<String> listRoute = new ArrayList<>();
         private List<InetAddress> listDns = new ArrayList<>();
-        private List<String> listAllowed = new ArrayList<>();
         private List<String> listDisallowed = new ArrayList<>();
 
         private Builder() {
@@ -3118,13 +3113,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
 
         @Override
-        public Builder addAllowedApplication(String packageName) throws PackageManager.NameNotFoundException {
-            listAllowed.add(packageName);
-            super.addAllowedApplication(packageName);
-            return this;
-        }
-
-        @Override
         public Builder addDisallowedApplication(String packageName) throws PackageManager.NameNotFoundException {
             listDisallowed.add(packageName);
             super.addDisallowedApplication(packageName);
@@ -3154,9 +3142,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             if (this.listDns.size() != other.listDns.size())
                 return false;
 
-            if (this.listAllowed.size() != other.listAllowed.size())
-                return false;
-
             if (this.listDisallowed.size() != other.listDisallowed.size())
                 return false;
 
@@ -3170,10 +3155,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             for (InetAddress dns : this.listDns)
                 if (!other.listDns.contains(dns))
-                    return false;
-
-            for (String pkg : this.listAllowed)
-                if (!other.listAllowed.contains(pkg))
                     return false;
 
             for (String pkg : this.listDisallowed)
