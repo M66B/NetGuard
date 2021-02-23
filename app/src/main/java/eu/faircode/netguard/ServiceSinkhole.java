@@ -1390,8 +1390,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     Log.i(TAG, "Exclude " + exclude.getStart().getHostAddress() + "..." + exclude.getEnd().getHostAddress());
                     for (IPUtil.CIDR include : IPUtil.toCIDR(start, IPUtil.minus1(exclude.getStart())))
                         try {
-                            if (!"0.0.0.0".equals(include.address.getHostAddress()))
-                                builder.addRoute(include.address, include.prefix);
+                            builder.addRoute(include.address, include.prefix);
                         } catch (Throwable ex) {
                             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                         }
