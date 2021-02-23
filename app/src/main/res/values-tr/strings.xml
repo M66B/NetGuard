@@ -160,7 +160,7 @@
     <string name="msg_revoked">Netguard muhtemelen farklı bir VPN tabanlı uygulama kullanıldığı için devre dışı bırakıldı</string>
     <string name="msg_installed">\'%1$s\' yüklendi</string>
     <string name="msg_installed_n">Yüklendi</string>
-    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">%1$s internete erişmeye çalıştı</string>
+    <string name="msg_access">%1$s internete erişmeye çalıştı</string>
     <string name="msg_access_n">İnternete erişmeye çalıştı</string>
     <string name="msg_completed">Eylem tamamlandı</string>
     <string name="msg_vpn">NetGuard internet trafiğini filtrelemek için yerel olarak VPN çalıştırır.
@@ -178,7 +178,7 @@ Bu yüzden bir sonraki diyalogda lütfen VPN bağlantısına izin verin.
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
+    <string name="msg_count">%dx</string>
     <string name="msg_doze">NetGuard\'ın daha istikrarlı çalışması için Android pil optimizasyonları devre dışı bırakılmalıdır.
 \n\nSonraki diyalogda yukarıdan \"Tüm Uygulamalar\" seçip listeden Netguard\'ı bulun ve \"Optimize Etme\" seçeneğine dokunun.</string>
     <string name="msg_datasaving">NetGuard\'ın daha istikrarlı çalışması için Android veri tasarrufu devre dışı bırakılmalıdır.

@@ -18,9 +18,9 @@
     <string name="menu_app_nointernet">Show apps without internet</string>
     <string name="menu_app_disabled">Show disabled apps</string>
     <string name="menu_sort">Sort apps</string>
-    <string name="menu_sort_name">Sort on name</string>
-    <string name="menu_sort_uid">Sort on uid</string>
-    <string name="menu_sort_data">Sort on data usage</string>
+    <string name="menu_sort_name">Sort by name</string>
+    <string name="menu_sort_uid">Sort by uid</string>
+    <string name="menu_sort_data">Sort by data usage</string>
     <string name="menu_log">ലോഗുകൾ കാണിക്കുക</string>
     <string name="menu_settings">ക്രമീകരണങ്ങള്‍</string>
     <string name="menu_invite">ക്ഷണിക്കുക</string>
@@ -160,7 +160,7 @@
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based app</string>
     <string name="msg_installed">\'%1$s\' ഇൻസ്റ്റാളുചെയ്‌തു</string>
     <string name="msg_installed_n">Has been installed</string>
-    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">%1$s ഇന്റർനെറ്റ് ആക്‌സസ് ചെയ്യാൻ ശ്രമിച്ചു</string>
+    <string name="msg_access">%1$s ഇന്റർനെറ്റ് ആക്‌സസ് ചെയ്യാൻ ശ്രമിച്ചു</string>
     <string name="msg_access_n">ഇന്റർനെറ്റ് ആക്‌സസ് ചെയ്യാൻ ശ്രമിച്ചു</string>
     <string name="msg_completed">പ്രവർത്തനം പൂർത്തിയായി</string>
     <string name="msg_vpn">NetGuard uses a local VPN to filter internet traffic.
@@ -178,7 +178,7 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
+    <string name="msg_count">%dx</string>
     <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
 \n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
     <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard

@@ -160,7 +160,7 @@
     <string name="msg_revoked">NetGuard on poistettu käytöstä luultavasti käyttämällä toista VPN-sovellusta</string>
     <string name="msg_installed">\'%1$s\' asennettu</string>
     <string name="msg_installed_n">On asennettu</string>
-    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">%1$s yritti ottaa yhteyttä internetiin</string>
+    <string name="msg_access">%1$s yritti ottaa yhteyttä internetiin</string>
     <string name="msg_access_n">Yritetty internetyhteyttä</string>
     <string name="msg_completed">Toiminto suoritettu</string>
     <string name="msg_vpn">NetGuard käyttää paikallista VPN-yhteyttä internetyhteyksien suodattamiseen. Tämän takia tulee sallia VPN-yhteys seuraavassa valikossa. Verkkoliikennettäsi ei ohjata ulkoiselle VPN-palvelimelle.</string>
@@ -176,7 +176,7 @@
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
+    <string name="msg_count">%dx</string>
     <string name="msg_doze">Androidin akun käytön optimointi tulisi sulkea NetGuardin osalta luotettavan toiminnan takaamiseksi.
 \n\nValitse seuraavassa valikossa ylhäältä \"Kaikki ohjelmat\", NetGuard ja valitse sekä hyväksy \"Älä optimoi\".</string>
     <string name="msg_datasaving">Androidin dataa säästävät asetukset tulisi laittaa pois päältä NetGuardin osalta luotettavan toiminnan takaamiseksi.

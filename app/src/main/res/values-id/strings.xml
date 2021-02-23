@@ -160,7 +160,7 @@
     <string name="msg_revoked">NetGuard telah dinonaktifkan, kemungkinan karena menggunakan apl berbasis VPN lainnya</string>
     <string name="msg_installed">\'%1$s\' terpasang</string>
     <string name="msg_installed_n">Telah terpasang</string>
-    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">%1$s mencoba akses internet</string>
+    <string name="msg_access">%1$s mencoba akses internet</string>
     <string name="msg_access_n">Mencoba akses internet</string>
     <string name="msg_completed">Tindakan selesai</string>
     <string name="msg_vpn">NetGuard menggunakan VPN lokal untuk menyaring lalu lintas internet.
@@ -178,7 +178,7 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
+    <string name="msg_count">%dx</string>
     <string name="msg_doze">Agar hasil konsisten, pengoptimalan baterai Android harus dinonaktifkan untuk NetGuard.
 \n\nPada dialog berikutnya, pilih \"Semua aplikasi\" dibagian atas, ketuk NetGuard dalam daftar dan pilih \"Jangan optimalkan\".</string>
     <string name="msg_datasaving">Agar hasil konsisten, opsi penghemat data Android harus dinonaktifkan untuk NetGuard

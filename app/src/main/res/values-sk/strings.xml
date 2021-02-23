@@ -160,7 +160,7 @@
     <string name="msg_revoked">NetGuard bol zakázaný, pravdepodobne použitím inej aplikácie založenej na VPN</string>
     <string name="msg_installed">Aplikácia \'%1$s\' bola nainštalovaná</string>
     <string name="msg_installed_n">Nainštalované</string>
-    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">Aplikácia %1$s sa pokúsila o prístup k internetu</string>
+    <string name="msg_access">Aplikácia %1$s sa pokúsila o prístup k internetu</string>
     <string name="msg_access_n">Pokus o pripojenie na internet</string>
     <string name="msg_completed">Akcia bola dokončená</string>
     <string name="msg_vpn">NetGuard používa miestne VPN pripojenie na filtrovanie internetového prenosu. 
@@ -177,7 +177,7 @@ Z tohto dôvodu povoľte VPN pripojenie v ďalšom dialógovom okne. Váš inter
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
+    <string name="msg_count">%dx</string>
     <string name="msg_doze">For consistent results, the Android battery optimizations should be disabled for NetGuard.
 \n\nIn the next dialog, select \"All apps\" at the top, tap on NetGuard in the list and select and confirm \"Don\'t optimize\".</string>
     <string name="msg_datasaving">For consistent results, the Android data saving options should be disabled for NetGuard

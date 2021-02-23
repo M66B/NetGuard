@@ -160,7 +160,7 @@
     <string name="msg_revoked">NetGuard har inaktiverats, sannolikt för att en annan VPN-baserade app används</string>
     <string name="msg_installed">\'%1$s\' installerad</string>
     <string name="msg_installed_n">Har installerats</string>
-    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">%1$s försökte få tillgång till internet</string>
+    <string name="msg_access">%1$s försökte få tillgång till internet</string>
     <string name="msg_access_n">Försökte få tillgång till internet</string>
     <string name="msg_completed">Åtgärdad</string>
     <string name="msg_vpn">NetGuard använder en lokal VPN för att filtrera internettrafik.
@@ -178,7 +178,7 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
+    <string name="msg_count">%dx</string>
     <string name="msg_doze">För konsekventa resultat bör Android-batterioptimeringarna inaktiveras för NetGuard.
 \n\nI nästa dialogruta väljer du \"Alla appar\" högst upp, tryck på NetGuard i listan och välj och bekräfta \"Optimera inte\".</string>
     <string name="msg_datasaving">För konsekventa resultat ska Android-databesparingsalternativen inaktiveras för NetGuard

@@ -160,7 +160,7 @@
     <string name="msg_revoked">تم تعطيل NetGuard، يُحتمل أنّ السبب راجع إلى استخدام تطبيق VPN آخر في آن واحد</string>
     <string name="msg_installed">\'%1$s\' مثبت</string>
     <string name="msg_installed_n">تم تثبيته</string>
-    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">لقد حاول %1$s الوصول إلى الإنترنت</string>
+    <string name="msg_access">لقد حاول %1$s الوصول إلى الإنترنت</string>
     <string name="msg_access_n">حاوَلَ الوصول إلى الإنترنت</string>
     <string name="msg_completed">اكتمل الإجراء</string>
     <string name="msg_vpn">يستخدم NetGuard شبكة VPN محلية لتصفية حركة الانترنت. لهذا، يرجى السماح لاتصال VPN في مربع الحوار القادم. حركة الانترنت الخاصة بك لا يتم ارسالها الى خادم VPN بعيد.</string>
@@ -176,7 +176,7 @@
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ كيلو بايت</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ ميجا بايت</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ جيجابايت</string>
-    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dس</string>
+    <string name="msg_count">%dس</string>
     <string name="msg_doze">للحصول على نتائج متناسقة، يجب تعطيل تحسينات البطارية للاندرويد لـ NetGuard. عن طريق \n\n ، حدد \"جميع التطبيقات\" في الجزء العلوي، انقر على NetGuard في القائمة وتحديد وتأكيد \"تعطيل تحسينات البطارية\".</string>
     <string name="msg_datasaving">للحصول على نتائج متسقة، يجب تعطيل البيانات الروبوت توفير خيارات ل NetGuard \n\nIn مربع الحوار التالي، تمكين خيارات \"بيانات أساسية\" و \"استخدام البيانات غير المقيد\"</string>
     <string name="msg_filter">استخدام التصفية سيتسبب بأن ينسب الأندرويد استخدام البيانات والطاقة الى NetGuard - يفترض الأندرويد أن البيانات والطاقة تستخدمان من قبل NetGuard بدلاً من التطبيقات الأصلية</string>

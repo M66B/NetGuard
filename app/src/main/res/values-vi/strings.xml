@@ -160,7 +160,7 @@
     <string name="msg_revoked">NetGuard đã bị vô hiệu hóa, rất có thể do đang sử dụng một ứng dụng dựa trên VPN khác</string>
     <string name="msg_installed">\'%1$s\' được cài đặt</string>
     <string name="msg_installed_n">Đã được cài đặt</string>
-    <string name="msg_access" comment="msg_access&#10;&#10;&lt;app name&gt; attempted internet access">%1$s cố gắng truy cập internet</string>
+    <string name="msg_access">%1$s cố gắng truy cập internet</string>
     <string name="msg_access_n">Cố gắng truy cập internet</string>
     <string name="msg_completed">Hoàn tất hành động</string>
     <string name="msg_vpn">NetGuard sử dụng một local VPN để lọc lưu lượng truy cập internet. Vì lý do này, xin vui lòng cho phép một kết nối VPN trong hộp thoại tiếp theo. Lưu lượng truy cập internet của bạn không được gửi đến một máy chủ VPN từ xa.</string>
@@ -176,7 +176,7 @@
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
-    <string name="msg_count" comment="msg_count&#10;&lt;number&gt;x (connections)">%dx</string>
+    <string name="msg_count">%dx</string>
     <string name="msg_doze">Để có kết quả phù hợp, tối ưu hóa pin Android nên bị vô hiệu hóa cho NetGuard. \n\nTrong hộp thoại kế tiếp, chọn \"Tất cả ứng dụng\" ở phía trên cùng, bấm vào NetGuard trong danh sách và chọn và xác nhận \"Don\'t optimize\".</string>
     <string name="msg_datasaving">Để có kết quả phù hợp, tùy chọn tiết kiệm dữ liệu Android nên được vô hiệu hóa cho NetGuard \n\nTrong trong hộp thoại kế tiếp, cho phép tùy chọn \"Background data\" và \"Unrestricted data usage\"</string>
     <string name="msg_filter">Sử dụng bộ lọc sẽ làm cho Android hiểu lầm NetGuard sử dụng dữ liệu và năng lượng - Android giả định dữ liệu và năng lượng đang được sử dụng bởi NetGuard, chứ không phải là các ứng dụng ban đầu</string>
