@@ -1274,16 +1274,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
             }
 
-        boolean calling = true;
-        String dns_specifier = Util.getPrivateDnsSpecifier(ServiceSinkhole.this);
-        if (!filter && !subnet && !TextUtils.isEmpty(dns_specifier)) {
-            subnet = true;
-            tethering = false;
-            lan = false;
-            calling = false;
-            // always exclude broadcast
-        }
-
         // Subnet routing
         if (subnet) {
             // Exclude IP ranges
@@ -1312,6 +1302,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     if (dns instanceof Inet4Address)
                         listExclude.add(new IPUtil.CIDR(dns.getHostAddress(), 32));
 
+                String dns_specifier = Util.getPrivateDnsSpecifier(ServiceSinkhole.this);
                 if (!TextUtils.isEmpty(dns_specifier))
                     try {
                         Log.i(TAG, "Resolving private dns=" + dns_specifier);
@@ -1323,60 +1314,58 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     }
             }
 
-            if (calling) {
-                // https://en.wikipedia.org/wiki/Mobile_country_code
-                Configuration config = getResources().getConfiguration();
+            // https://en.wikipedia.org/wiki/Mobile_country_code
+            Configuration config = getResources().getConfiguration();
 
-                // T-Mobile Wi-Fi calling
-                if (config.mcc == 310 && (config.mnc == 160 ||
-                        config.mnc == 200 ||
-                        config.mnc == 210 ||
-                        config.mnc == 220 ||
-                        config.mnc == 230 ||
-                        config.mnc == 240 ||
-                        config.mnc == 250 ||
-                        config.mnc == 260 ||
-                        config.mnc == 270 ||
-                        config.mnc == 310 ||
-                        config.mnc == 490 ||
-                        config.mnc == 660 ||
-                        config.mnc == 800)) {
-                    listExclude.add(new IPUtil.CIDR("66.94.2.0", 24));
-                    listExclude.add(new IPUtil.CIDR("66.94.6.0", 23));
-                    listExclude.add(new IPUtil.CIDR("66.94.8.0", 22));
-                    listExclude.add(new IPUtil.CIDR("208.54.0.0", 16));
-                }
+            // T-Mobile Wi-Fi calling
+            if (config.mcc == 310 && (config.mnc == 160 ||
+                    config.mnc == 200 ||
+                    config.mnc == 210 ||
+                    config.mnc == 220 ||
+                    config.mnc == 230 ||
+                    config.mnc == 240 ||
+                    config.mnc == 250 ||
+                    config.mnc == 260 ||
+                    config.mnc == 270 ||
+                    config.mnc == 310 ||
+                    config.mnc == 490 ||
+                    config.mnc == 660 ||
+                    config.mnc == 800)) {
+                listExclude.add(new IPUtil.CIDR("66.94.2.0", 24));
+                listExclude.add(new IPUtil.CIDR("66.94.6.0", 23));
+                listExclude.add(new IPUtil.CIDR("66.94.8.0", 22));
+                listExclude.add(new IPUtil.CIDR("208.54.0.0", 16));
+            }
 
-                // Verizon wireless calling
-                if ((config.mcc == 310 &&
-                        (config.mnc == 4 ||
-                                config.mnc == 5 ||
-                                config.mnc == 6 ||
-                                config.mnc == 10 ||
-                                config.mnc == 12 ||
-                                config.mnc == 13 ||
-                                config.mnc == 350 ||
-                                config.mnc == 590 ||
-                                config.mnc == 820 ||
-                                config.mnc == 890 ||
-                                config.mnc == 910)) ||
-                        (config.mcc == 311 && (config.mnc == 12 ||
-                                config.mnc == 110 ||
-                                (config.mnc >= 270 && config.mnc <= 289) ||
-                                config.mnc == 390 ||
-                                (config.mnc >= 480 && config.mnc <= 489) ||
-                                config.mnc == 590)) ||
-                        (config.mcc == 312 && (config.mnc == 770))) {
-                    listExclude.add(new IPUtil.CIDR("66.174.0.0", 16)); // 66.174.0.0 - 66.174.255.255
-                    listExclude.add(new IPUtil.CIDR("66.82.0.0", 15)); // 69.82.0.0 - 69.83.255.255
-                    listExclude.add(new IPUtil.CIDR("69.96.0.0", 13)); // 69.96.0.0 - 69.103.255.255
-                    listExclude.add(new IPUtil.CIDR("70.192.0.0", 11)); // 70.192.0.0 - 70.223.255.255
-                    listExclude.add(new IPUtil.CIDR("97.128.0.0", 9)); // 97.128.0.0 - 97.255.255.255
-                    listExclude.add(new IPUtil.CIDR("174.192.0.0", 9)); // 174.192.0.0 - 174.255.255.255
-                    listExclude.add(new IPUtil.CIDR("72.96.0.0", 9)); // 72.96.0.0 - 72.127.255.255
-                    listExclude.add(new IPUtil.CIDR("75.192.0.0", 9)); // 75.192.0.0 - 75.255.255.255
-                    listExclude.add(new IPUtil.CIDR("97.0.0.0", 10)); // 97.0.0.0 - 97.63.255.255
-                }
+            // Verizon wireless calling
+            if ((config.mcc == 310 &&
+                    (config.mnc == 4 ||
+                            config.mnc == 5 ||
+                            config.mnc == 6 ||
+                            config.mnc == 10 ||
+                            config.mnc == 12 ||
+                            config.mnc == 13 ||
+                            config.mnc == 350 ||
+                            config.mnc == 590 ||
+                            config.mnc == 820 ||
+                            config.mnc == 890 ||
+                            config.mnc == 910)) ||
+                    (config.mcc == 311 && (config.mnc == 12 ||
+                            config.mnc == 110 ||
+                            (config.mnc >= 270 && config.mnc <= 289) ||
+                            config.mnc == 390 ||
+                            (config.mnc >= 480 && config.mnc <= 489) ||
+                            config.mnc == 590)) ||
+                    (config.mcc == 312 && (config.mnc == 770))) {
+                listExclude.add(new IPUtil.CIDR("66.174.0.0", 16)); // 66.174.0.0 - 66.174.255.255
+                listExclude.add(new IPUtil.CIDR("66.82.0.0", 15)); // 69.82.0.0 - 69.83.255.255
+                listExclude.add(new IPUtil.CIDR("69.96.0.0", 13)); // 69.96.0.0 - 69.103.255.255
+                listExclude.add(new IPUtil.CIDR("70.192.0.0", 11)); // 70.192.0.0 - 70.223.255.255
+                listExclude.add(new IPUtil.CIDR("97.128.0.0", 9)); // 97.128.0.0 - 97.255.255.255
+                listExclude.add(new IPUtil.CIDR("174.192.0.0", 9)); // 174.192.0.0 - 174.255.255.255
+                listExclude.add(new IPUtil.CIDR("72.96.0.0", 9)); // 72.96.0.0 - 72.127.255.255
+                listExclude.add(new IPUtil.CIDR("75.192.0.0", 9)); // 75.192.0.0 - 75.255.255.255
+                listExclude.add(new IPUtil.CIDR("97.0.0.0", 10)); // 97.0.0.0 - 97.63.255.255
             }
 
             // Broadcast
