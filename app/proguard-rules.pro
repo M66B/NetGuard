@@ -39,13 +39,15 @@
     void logPacket(eu.faircode.netguard.Packet);
     void dnsResolved(eu.faircode.netguard.ResourceRecord);
     boolean isDomainBlocked(java.lang.String);
+    int getUidQ(int, int, java.lang.String, int, java.lang.String, int);
     eu.faircode.netguard.Allowed isAddressAllowed(eu.faircode.netguard.Packet);
     void accountUsage(eu.faircode.netguard.Usage);
 }
 
-#Support library
--keep class android.support.v7.widget.** { *; }
--dontwarn android.support.v4.**
+#AndroidX
+-keep class androidx.appcompat.widget.** { *; }
+-keep class androidx.appcompat.app.AppCompatViewInflater { <init>(...); }
+-keepclassmembers class * implements android.os.Parcelable { static ** CREATOR; }
 
 #Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule

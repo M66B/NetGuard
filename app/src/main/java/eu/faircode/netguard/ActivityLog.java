@@ -16,7 +16,7 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 import android.content.ClipData;
@@ -29,11 +29,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -47,6 +42,12 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.NavUtils;
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -87,6 +88,11 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (!IAB.isPurchased(ActivityPro.SKU_LOG, this)) {
+            startActivity(new Intent(this, ActivityPro.class));
+            finish();
+        }
+
         Util.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logging);
@@ -195,7 +201,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 popup.getMenu().findItem(R.id.menu_protocol).setTitle(Util.getProtocolName(protocol, version, false));
 
                 // Whois
-                final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tcpiputils.com/whois-lookup/" + ip));
+                final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dnslytics.com/whois-lookup/" + ip));
                 if (pm.resolveActivity(lookupIP, 0) == null)
                     popup.getMenu().removeItem(R.id.menu_whois);
                 else
@@ -208,7 +214,12 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
                 else
                     popup.getMenu().findItem(R.id.menu_port).setTitle(getString(R.string.title_log_port, port));
 
-                if (!prefs.getBoolean("filter", false)) {
+                if (prefs.getBoolean("filter", false)) {
+                    if (uid <= 0) {
+                        popup.getMenu().removeItem(R.id.menu_allow);
+                        popup.getMenu().removeItem(R.id.menu_block);
+                    }
+                } else {
                     popup.getMenu().removeItem(R.id.menu_allow);
                     popup.getMenu().removeItem(R.id.menu_block);
                 }
@@ -339,19 +350,6 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
         menuSearch = menu.findItem(R.id.menu_search);
         SearchView searchView = (SearchView) menuSearch.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            private String getUidForName(String query) {
-                if (query != null && query.length() > 0) {
-                    for (Rule rule : Rule.getRules(true, ActivityLog.this))
-                        if (rule.name != null && rule.name.toLowerCase().contains(query.toLowerCase())) {
-                            String newQuery = Integer.toString(rule.uid);
-                            Log.i(TAG, "Search " + query + " found " + rule.name + " new " + newQuery);
-                            return newQuery;
-                        }
-                    Log.i(TAG, "Search " + query + " not found");
-                }
-                return query;
-            }
-
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (adapter != null)
@@ -509,7 +507,7 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
 
             case R.id.menu_log_support:
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://github.com/M66B/NetGuard/blob/master/FAQ.md#FAQ27"));
+                intent.setData(Uri.parse("https://github.com/M66B/NetGuard/blob/master/FAQ.md#user-content-faq27"));
                 if (getPackageManager().resolveActivity(intent, 0) != null)
                     startActivity(intent);
                 return true;
@@ -530,9 +528,22 @@ public class ActivityLog extends AppCompatActivity implements SharedPreferences.
             adapter.changeCursor(DatabaseHelper.getInstance(this).getLog(udp, tcp, other, allowed, blocked));
             if (menuSearch != null && menuSearch.isActionViewExpanded()) {
                 SearchView searchView = (SearchView) menuSearch.getActionView();
-                adapter.getFilter().filter(searchView.getQuery().toString());
+                adapter.getFilter().filter(getUidForName(searchView.getQuery().toString()));
             }
         }
+    }
+
+    private String getUidForName(String query) {
+        if (query != null && query.length() > 0) {
+            for (Rule rule : Rule.getRules(true, ActivityLog.this))
+                if (rule.name != null && rule.name.toLowerCase().contains(query.toLowerCase())) {
+                    String newQuery = Integer.toString(rule.uid);
+                    Log.i(TAG, "Search " + query + " found " + rule.name + " new " + newQuery);
+                    return newQuery;
+                }
+            Log.i(TAG, "Search " + query + " not found");
+        }
+        return query;
     }
 
     private Intent getIntentPCAPDocument() {

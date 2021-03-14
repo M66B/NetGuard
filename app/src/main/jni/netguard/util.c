@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 #include "netguard.h"
@@ -45,8 +45,8 @@ int compare_u32(uint32_t s1, uint32_t s2) {
     if (s1 == s2)
         return 0;
 
-    int i1 = s1;
-    int i2 = s2;
+    uint32_t i1 = s1;
+    uint32_t i2 = s2;
     if ((i1 < i2 && i2 - i1 < 0x7FFFFFFF) ||
         (i1 > i2 && i1 - i2 > 0x7FFFFFFF))
         return -1;
@@ -130,7 +130,7 @@ char *hex(const u_int8_t *data, const size_t len) {
     char hex_str[] = "0123456789ABCDEF";
 
     char *hexout;
-    hexout = (char *) malloc(len * 3 + 1); // TODO free
+    hexout = (char *) ng_malloc(len * 3 + 1, "hex"); // TODO free
 
     for (size_t i = 0; i < len; i++) {
         hexout[i * 3 + 0] = hex_str[(data[i] >> 4) & 0x0F];

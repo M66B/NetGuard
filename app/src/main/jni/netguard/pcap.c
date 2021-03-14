@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 #include "netguard.h"
@@ -41,15 +41,19 @@ void write_pcap_rec(const uint8_t *buffer, size_t length) {
         log_android(ANDROID_LOG_ERROR, "clock_gettime error %d: %s", errno, strerror(errno));
 
     size_t plen = (length < pcap_record_size ? length : pcap_record_size);
-    struct pcaprec_hdr_s pcap_rec;
+    size_t rlen = sizeof(struct pcaprec_hdr_s) + plen;
+    struct pcaprec_hdr_s *pcap_rec = ng_malloc(rlen, "pcap");
 
-    pcap_rec.ts_sec = (guint32_t) ts.tv_sec;
-    pcap_rec.ts_usec = (guint32_t) (ts.tv_nsec / 1000);
-    pcap_rec.incl_len = (guint32_t) plen;
-    pcap_rec.orig_len = (guint32_t) length;
+    pcap_rec->ts_sec = (guint32_t) ts.tv_sec;
+    pcap_rec->ts_usec = (guint32_t) (ts.tv_nsec / 1000);
+    pcap_rec->incl_len = (guint32_t) plen;
+    pcap_rec->orig_len = (guint32_t) length;
 
-    write_pcap(&pcap_rec, sizeof(struct pcaprec_hdr_s));
-    write_pcap(buffer, plen);
+    memcpy(((uint8_t *) pcap_rec) + sizeof(struct pcaprec_hdr_s), buffer, plen);
+
+    write_pcap(pcap_rec, rlen);
+
+    ng_free(pcap_rec, __FILE__, __LINE__);
 }
 
 void write_pcap(const void *ptr, size_t len) {

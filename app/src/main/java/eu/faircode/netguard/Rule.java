@@ -16,7 +16,7 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 import android.content.Context;
@@ -28,8 +28,9 @@ import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Process;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -151,8 +152,20 @@ public class Rule {
             this.internet = true;
             this.enabled = true;
             this.pkg = false;
+        } else if (info.applicationInfo.uid == 1020) {
+            this.name = "MulticastDNSResponder";
+            this.system = true;
+            this.internet = true;
+            this.enabled = true;
+            this.pkg = false;
         } else if (info.applicationInfo.uid == 1021) {
             this.name = context.getString(R.string.title_gpsdaemon);
+            this.system = true;
+            this.internet = true;
+            this.enabled = true;
+            this.pkg = false;
+        } else if (info.applicationInfo.uid == 1051) {
+            this.name = context.getString(R.string.title_dnsdaemon);
             this.system = true;
             this.internet = true;
             this.enabled = true;
@@ -261,6 +274,8 @@ public class Rule {
             List<Rule> listRules = new ArrayList<>();
             List<PackageInfo> listPI = getPackages(context);
 
+            int userId = Process.myUid() / 100000;
+
             // Add root
             PackageInfo root = new PackageInfo();
             root.packageName = "root";
@@ -277,9 +292,19 @@ public class Rule {
             media.versionCode = Build.VERSION.SDK_INT;
             media.versionName = Build.VERSION.RELEASE;
             media.applicationInfo = new ApplicationInfo();
-            media.applicationInfo.uid = 1013;
+            media.applicationInfo.uid = 1013 + userId * 100000;
             media.applicationInfo.icon = 0;
             listPI.add(media);
+
+            // MulticastDNSResponder
+            PackageInfo mdr = new PackageInfo();
+            mdr.packageName = "android.multicast";
+            mdr.versionCode = Build.VERSION.SDK_INT;
+            mdr.versionName = Build.VERSION.RELEASE;
+            mdr.applicationInfo = new ApplicationInfo();
+            mdr.applicationInfo.uid = 1020 + userId * 100000;
+            mdr.applicationInfo.icon = 0;
+            listPI.add(mdr);
 
             // Add GPS daemon
             PackageInfo gps = new PackageInfo();
@@ -287,9 +312,19 @@ public class Rule {
             gps.versionCode = Build.VERSION.SDK_INT;
             gps.versionName = Build.VERSION.RELEASE;
             gps.applicationInfo = new ApplicationInfo();
-            gps.applicationInfo.uid = 1021;
+            gps.applicationInfo.uid = 1021 + userId * 100000;
             gps.applicationInfo.icon = 0;
             listPI.add(gps);
+
+            // Add DNS daemon
+            PackageInfo dns = new PackageInfo();
+            dns.packageName = "android.dns";
+            dns.versionCode = Build.VERSION.SDK_INT;
+            dns.versionName = Build.VERSION.RELEASE;
+            dns.applicationInfo = new ApplicationInfo();
+            dns.applicationInfo.uid = 1051 + userId * 100000;
+            dns.applicationInfo.icon = 0;
+            listPI.add(dns);
 
             // Add nobody
             PackageInfo nobody = new PackageInfo();

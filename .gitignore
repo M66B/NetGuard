@@ -8,4 +8,7 @@
 /build
 /captures
 /tools/config.sh
-app/.externalNativeBuild
+/app/.externalNativeBuild
+/app/release
+/app/play
+keystore.properties

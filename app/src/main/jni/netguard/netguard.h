@@ -36,21 +36,25 @@
 #define TAG "NetGuard.JNI"
 
 // #define PROFILE_JNI 5
+// #define PROFILE_MEMORY
 
 #define EPOLL_TIMEOUT 3600 // seconds
 #define EPOLL_EVENTS 20
 #define EPOLL_MIN_CHECK 100 // milliseconds
+
+#define TUN_YIELD 10 // packets
 
 #define ICMP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
 #define ICMP6_MAXMSG (IPV6_MAXPACKET - 40 - 8) // bytes (socket)
 #define UDP4_MAXMSG (IP_MAXPACKET - 20 - 8) // bytes (socket)
 #define UDP6_MAXMSG (IPV6_MAXPACKET - 40 - 8) // bytes (socket)
 
-#define ICMP_TIMEOUT 15 // seconds
+#define ICMP_TIMEOUT 5 // seconds
 
 #define UDP_TIMEOUT_53 15 // seconds
 #define UDP_TIMEOUT_ANY 300 // seconds
 #define UDP_KEEP_TIMEOUT 60 // seconds
+#define UDP_YIELD 10 // packets
 
 #define TCP_INIT_TIMEOUT 20 // seconds ~net.inet.tcp.keepinit
 #define TCP_IDLE_TIMEOUT 3600 // seconds ~net.inet.tcp.keepidle
@@ -58,8 +62,10 @@
 #define TCP_KEEP_TIMEOUT 300 // seconds
 // https://en.wikipedia.org/wiki/Maximum_segment_lifetime
 
-#define SESSION_MAX 384 // number
-#define SESSION_LIMIT 30 // percent
+#define SESSION_LIMIT 40 // percent
+#define SESSION_MAX (1024 * SESSION_LIMIT / 100) // number
+
+#define SEND_BUF_DEFAULT 163840 // bytes
 
 #define UID_MAX_AGE 30000 // milliseconds
 
@@ -158,6 +164,7 @@ struct tcp_session {
     uint8_t send_scale;
     uint32_t recv_window; // host notation, scaled
     uint32_t send_window; // host notation, scaled
+    uint16_t unconfirmed; // packets
 
     uint32_t remote_seq; // confirmed bytes received, host notation
     uint32_t local_seq; // confirmed bytes sent, host notation
@@ -372,12 +379,12 @@ void check_udp_socket(const struct arguments *args, const struct epoll_event *ev
 
 int32_t get_qname(const uint8_t *data, const size_t datalen, uint16_t off, char *qname);
 
-void parse_dns_response(const struct arguments *args, const struct udp_session *u,
+void parse_dns_response(const struct arguments *args, const struct ng_session *session,
                         const uint8_t *data, size_t *datalen);
 
 uint32_t get_send_window(const struct tcp_session *cur);
 
-int get_receive_buffer(const struct ng_session *cur);
+uint32_t get_receive_buffer(const struct ng_session *cur);
 
 uint32_t get_receive_window(const struct ng_session *cur);
 
@@ -412,14 +419,6 @@ jboolean handle_udp(const struct arguments *args,
                     const uint8_t *payload,
                     int uid, struct allowed *redirect,
                     const int epoll_fd);
-
-int get_dns_query(const struct arguments *args, const struct udp_session *u,
-                  const uint8_t *data, const size_t datalen,
-                  uint16_t *qtype, uint16_t *qclass, char *qname);
-
-int check_domain(const struct arguments *args, const struct udp_session *u,
-                 const uint8_t *data, const size_t datalen,
-                 uint16_t qclass, uint16_t qtype, const char *name);
 
 int check_dhcp(const struct arguments *args, const struct udp_session *u,
                const uint8_t *data, const size_t datalen);
@@ -511,6 +510,14 @@ void dns_resolved(const struct arguments *args,
 
 jboolean is_domain_blocked(const struct arguments *args, const char *name);
 
+jint get_uid_q(const struct arguments *args,
+               jint version,
+               jint protocol,
+               const char *source,
+               jint sport,
+               const char *dest,
+               jint dport);
+
 struct allowed *is_address_allowed(const struct arguments *args, jobject objPacket);
 
 jobject create_packet(const struct arguments *args,
@@ -545,3 +552,17 @@ int is_readable(int fd);
 int is_writable(int fd);
 
 long long get_ms();
+
+void ng_add_alloc(void *ptr, const char *tag);
+
+void ng_delete_alloc(void *ptr, const char *file, int line);
+
+void *ng_malloc(size_t __byte_count, const char *tag);
+
+void *ng_calloc(size_t __item_count, size_t __item_size, const char *tag);
+
+void *ng_realloc(void *__ptr, size_t __byte_count, const char *tag);
+
+void ng_free(void *__ptr, const char *file, int line);
+
+void ng_dump();

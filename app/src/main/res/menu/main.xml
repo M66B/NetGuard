@@ -5,7 +5,7 @@
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/menu_search"
-        netguard:actionViewClass="android.support.v7.widget.SearchView"
+        netguard:actionViewClass="androidx.appcompat.widget.SearchView"
         netguard:showAsAction="always|collapseActionView"/>
     <item
         android:id="@+id/menu_filter"
@@ -72,4 +72,7 @@
     <item
         android:id="@+id/menu_about"
         android:title="@string/menu_about"/>
+    <item
+        android:id="@+id/menu_apps"
+        android:title="@string/menu_apps"/>
 </menu>

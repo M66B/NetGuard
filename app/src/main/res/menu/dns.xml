@@ -9,4 +9,7 @@
     <item
         android:id="@+id/menu_clear"
         android:title="@string/menu_clear" />
+    <item
+        android:id="@+id/menu_export"
+        android:title="@string/menu_export" />
 </menu>

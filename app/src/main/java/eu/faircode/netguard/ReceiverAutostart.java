@@ -16,7 +16,7 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 import android.content.BroadcastReceiver;
@@ -24,8 +24,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import java.util.Map;
 
@@ -37,22 +38,24 @@ public class ReceiverAutostart extends BroadcastReceiver {
         Log.i(TAG, "Received " + intent);
         Util.logExtras(intent);
 
-        try {
-            // Upgrade settings
-            upgrade(true, context);
+        String action = (intent == null ? null : intent.getAction());
+        if (Intent.ACTION_BOOT_COMPLETED.equals(action) || Intent.ACTION_MY_PACKAGE_REPLACED.equals(action))
+            try {
+                // Upgrade settings
+                upgrade(true, context);
 
-            // Start service
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            if (prefs.getBoolean("enabled", false))
-                ServiceSinkhole.start("receiver", context);
-            else if (prefs.getBoolean("show_stats", false))
-                ServiceSinkhole.run("receiver", context);
+                // Start service
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                if (prefs.getBoolean("enabled", false))
+                    ServiceSinkhole.start("receiver", context);
+                else if (prefs.getBoolean("show_stats", false))
+                    ServiceSinkhole.run("receiver", context);
 
-            if (Util.isInteractive(context))
-                ServiceSinkhole.reloadStats("receiver", context);
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
+                if (Util.isInteractive(context))
+                    ServiceSinkhole.reloadStats("receiver", context);
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
     }
 
     public static void upgrade(boolean initialized, Context context) {
@@ -92,6 +95,7 @@ public class ReceiverAutostart extends BroadcastReceiver {
 
             } else {
                 Log.i(TAG, "Initializing sdk=" + Build.VERSION.SDK_INT);
+                editor.putBoolean("filter_udp", true);
                 editor.putBoolean("whitelist_wifi", false);
                 editor.putBoolean("whitelist_other", false);
                 if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP)

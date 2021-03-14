@@ -16,7 +16,7 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 import android.Manifest;
@@ -45,10 +45,9 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
-import android.support.v4.net.ConnectivityManagerCompat;
-import android.support.v7.app.AlertDialog;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -57,8 +56,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.net.ConnectivityManagerCompat;
+import androidx.preference.PreferenceManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -77,6 +77,7 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -129,6 +130,8 @@ public class Util {
 
     private static native boolean is_numeric_address(String ip);
 
+    private static native void dump_memory_profile();
+
     static {
         try {
             System.loadLibrary("netguard");
@@ -157,13 +160,29 @@ public class Util {
 
     public static boolean isNetworkActive(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return (cm == null ? false : cm.getActiveNetworkInfo() != null);
+        return (cm != null && cm.getActiveNetworkInfo() != null);
     }
 
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = (cm == null ? null : cm.getActiveNetworkInfo());
-        return (ni != null && ni.isConnected());
+        if (cm == null)
+            return false;
+
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni != null && ni.isConnected())
+            return true;
+
+        Network[] networks = cm.getAllNetworks();
+        if (networks == null)
+            return false;
+
+        for (Network network : networks) {
+            ni = cm.getNetworkInfo(network);
+            if (ni != null && ni.getType() != ConnectivityManager.TYPE_VPN && ni.isConnected())
+                return true;
+        }
+
+        return false;
     }
 
     public static boolean isWifiActive(Context context) {
@@ -223,6 +242,22 @@ public class Util {
         return (country != null && listEU.contains(country.toUpperCase()));
     }
 
+    public static boolean isPrivateDns(Context context) {
+        String dns_mode = Settings.Global.getString(context.getContentResolver(), "private_dns_mode");
+        Log.i(TAG, "Private DNS mode=" + dns_mode);
+        if (dns_mode == null)
+            dns_mode = "off";
+        return (!"off".equals(dns_mode));
+    }
+
+    public static String getPrivateDnsSpecifier(Context context) {
+        String dns_mode = Settings.Global.getString(context.getContentResolver(), "private_dns_mode");
+        if ("hostname".equals(dns_mode))
+            return Settings.Global.getString(context.getContentResolver(), "private_dns_specifier");
+        else
+            return null;
+    }
+
     public static String getNetworkGeneration(int networkType) {
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_1xRTT:
@@ -262,8 +297,8 @@ public class Util {
     }
 
     public static List<String> getDefaultDNS(Context context) {
-        String dns1 = null;
-        String dns2 = null;
+        List<String> listDns = new ArrayList<>();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             Network an = cm.getActiveNetwork();
@@ -271,24 +306,22 @@ public class Util {
                 LinkProperties lp = cm.getLinkProperties(an);
                 if (lp != null) {
                     List<InetAddress> dns = lp.getDnsServers();
-                    if (dns != null) {
-                        if (dns.size() > 0)
-                            dns1 = dns.get(0).getHostAddress();
-                        if (dns.size() > 1)
-                            dns2 = dns.get(1).getHostAddress();
-                        for (InetAddress d : dns)
+                    if (dns != null)
+                        for (InetAddress d : dns) {
                             Log.i(TAG, "DNS from LP: " + d.getHostAddress());
-                    }
+                            listDns.add(d.getHostAddress().split("%")[0]);
+                        }
                 }
             }
         } else {
-            dns1 = jni_getprop("net.dns1");
-            dns2 = jni_getprop("net.dns2");
+            String dns1 = jni_getprop("net.dns1");
+            String dns2 = jni_getprop("net.dns2");
+            if (dns1 != null)
+                listDns.add(dns1.split("%")[0]);
+            if (dns2 != null)
+                listDns.add(dns2.split("%")[0]);
         }
 
-        List<String> listDns = new ArrayList<>();
-        listDns.add(TextUtils.isEmpty(dns1) ? "8.8.8.8" : dns1);
-        listDns.add(TextUtils.isEmpty(dns2) ? "8.8.4.4" : dns2);
         return listDns;
     }
 
@@ -395,6 +428,9 @@ public class Util {
     }
 
     public static boolean canFilter(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            return true;
+
         // https://android-review.googlesource.com/#/c/206710/1/untrusted_app.te
         File tcp = new File("/proc/net/tcp");
         File tcp6 = new File("/proc/net/tcp6");
@@ -415,6 +451,8 @@ public class Util {
     }
 
     public static boolean isPlayStoreInstall(Context context) {
+        if (BuildConfig.PLAY_STORE_RELEASE)
+            return true;
         try {
             return "com.android.vending".equals(context.getPackageManager().getInstallerPackageName(context.getPackageName()));
         } catch (Throwable ex) {
@@ -423,12 +461,9 @@ public class Util {
         }
     }
 
-    public static boolean hasPlayServices(Context context) {
-        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
-        return (api.isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS);
-    }
-
     public static boolean hasXposed(Context context) {
+        if (true || !isPlayStoreInstall(context))
+            return false;
         for (StackTraceElement ste : Thread.currentThread().getStackTrace())
             if (ste.getClassName().startsWith("de.robv.android.xposed"))
                 return true;
@@ -436,6 +471,8 @@ public class Util {
     }
 
     public static boolean ownFault(Context context, Throwable ex) {
+        if (ex instanceof OutOfMemoryError)
+            return false;
         if (ex.getCause() != null)
             ex = ex.getCause();
         for (StackTraceElement ste : ex.getStackTrace())
@@ -712,8 +749,29 @@ public class Util {
 
         if (tm.getSimState() == TelephonyManager.SIM_STATE_READY)
             sb.append(String.format("SIM %s/%s/%s\r\n", tm.getSimCountryIso(), tm.getSimOperatorName(), tm.getSimOperator()));
-        if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
+        //if (tm.getNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN)
+        try {
             sb.append(String.format("Network %s/%s/%s\r\n", tm.getNetworkCountryIso(), tm.getNetworkOperatorName(), tm.getNetworkOperator()));
+        } catch (Throwable ex) {
+            /*
+                06-14 13:02:41.331 19703 19703 W ircode.netguar: Accessing hidden method Landroid/view/View;->computeFitSystemWindows(Landroid/graphics/Rect;Landroid/graphics/Rect;)Z (greylist, reflection, allowed)
+                06-14 13:02:41.332 19703 19703 W ircode.netguar: Accessing hidden method Landroid/view/ViewGroup;->makeOptionalFitsSystemWindows()V (greylist, reflection, allowed)
+                06-14 13:02:41.495 19703 19703 I TetheringManager: registerTetheringEventCallback:eu.faircode.netguard
+                06-14 13:02:41.518 19703 19703 E AndroidRuntime: Process: eu.faircode.netguard, PID: 19703
+                06-14 13:02:41.518 19703 19703 E AndroidRuntime:        at eu.faircode.netguard.Util.getGeneralInfo(SourceFile:744)
+                06-14 13:02:41.518 19703 19703 E AndroidRuntime:        at eu.faircode.netguard.ActivitySettings.updateTechnicalInfo(SourceFile:858)
+                06-14 13:02:41.518 19703 19703 E AndroidRuntime:        at eu.faircode.netguard.ActivitySettings.onPostCreate(SourceFile:425)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App: java.lang.SecurityException: getDataNetworkTypeForSubscriber
+                06-14 13:02:41.520 19703 19703 W NetGuard.App: java.lang.SecurityException: getDataNetworkTypeForSubscriber
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.os.Parcel.createExceptionOrNull(Parcel.java:2373)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.os.Parcel.createException(Parcel.java:2357)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.os.Parcel.readException(Parcel.java:2340)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.os.Parcel.readException(Parcel.java:2282)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at com.android.internal.telephony.ITelephony$Stub$Proxy.getNetworkTypeForSubscriber(ITelephony.java:8711)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.telephony.TelephonyManager.getNetworkType(TelephonyManager.java:2945)
+                06-14 13:02:41.520 19703 19703 W NetGuard.App:  at android.telephony.TelephonyManager.getNetworkType(TelephonyManager.java:2909)
+             */
+        }
 
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -826,6 +884,14 @@ public class Util {
                     abi = (Build.SUPPORTED_ABIS.length > 0 ? Build.SUPPORTED_ABIS[0] : "?");
                 sb.append(String.format("ABI: %s\r\n", abi));
 
+                Runtime rt = Runtime.getRuntime();
+                long hused = (rt.totalMemory() - rt.freeMemory()) / 1024L;
+                long hmax = rt.maxMemory() / 1024L;
+                long nheap = Debug.getNativeHeapAllocatedSize() / 1024L;
+                NumberFormat nf = NumberFormat.getIntegerInstance();
+                sb.append(String.format("Heap usage: %s/%s KiB native: %s KiB\r\n",
+                        nf.format(hused), nf.format(hmax), nf.format(nheap)));
+
                 sb.append("\r\n");
 
                 sb.append(String.format("VPN dialogs: %B\r\n", isPackageInstalled("com.android.vpndialogs", context)));
@@ -880,6 +946,7 @@ public class Util {
                 sb.append("\r\n");
 
                 // Write logcat
+                dump_memory_profile();
                 OutputStream out = null;
                 try {
                     Log.i(TAG, "Writing logcat URI=" + uri);
@@ -923,44 +990,44 @@ public class Util {
     private static StringBuilder getTrafficLog(Context context) {
         StringBuilder sb = new StringBuilder();
 
-        Cursor cursor = DatabaseHelper.getInstance(context).getLog(true, true, true, true, true);
+        try (Cursor cursor = DatabaseHelper.getInstance(context).getLog(true, true, true, true, true)) {
 
-        int colTime = cursor.getColumnIndex("time");
-        int colVersion = cursor.getColumnIndex("version");
-        int colProtocol = cursor.getColumnIndex("protocol");
-        int colFlags = cursor.getColumnIndex("flags");
-        int colSAddr = cursor.getColumnIndex("saddr");
-        int colSPort = cursor.getColumnIndex("sport");
-        int colDAddr = cursor.getColumnIndex("daddr");
-        int colDPort = cursor.getColumnIndex("dport");
-        int colDName = cursor.getColumnIndex("dname");
-        int colUid = cursor.getColumnIndex("uid");
-        int colData = cursor.getColumnIndex("data");
-        int colAllowed = cursor.getColumnIndex("allowed");
-        int colConnection = cursor.getColumnIndex("connection");
-        int colInteractive = cursor.getColumnIndex("interactive");
+            int colTime = cursor.getColumnIndex("time");
+            int colVersion = cursor.getColumnIndex("version");
+            int colProtocol = cursor.getColumnIndex("protocol");
+            int colFlags = cursor.getColumnIndex("flags");
+            int colSAddr = cursor.getColumnIndex("saddr");
+            int colSPort = cursor.getColumnIndex("sport");
+            int colDAddr = cursor.getColumnIndex("daddr");
+            int colDPort = cursor.getColumnIndex("dport");
+            int colDName = cursor.getColumnIndex("dname");
+            int colUid = cursor.getColumnIndex("uid");
+            int colData = cursor.getColumnIndex("data");
+            int colAllowed = cursor.getColumnIndex("allowed");
+            int colConnection = cursor.getColumnIndex("connection");
+            int colInteractive = cursor.getColumnIndex("interactive");
 
-        DateFormat format = SimpleDateFormat.getDateTimeInstance();
+            DateFormat format = SimpleDateFormat.getDateTimeInstance();
 
-        int count = 0;
-        while (cursor.moveToNext() && ++count < 250) {
-            sb.append(format.format(cursor.getLong(colTime)));
-            sb.append(" v").append(cursor.getInt(colVersion));
-            sb.append(" p").append(cursor.getInt(colProtocol));
-            sb.append(' ').append(cursor.getString(colFlags));
-            sb.append(' ').append(cursor.getString(colSAddr));
-            sb.append('/').append(cursor.getInt(colSPort));
-            sb.append(" > ").append(cursor.getString(colDAddr));
-            sb.append('/').append(cursor.getString(colDName));
-            sb.append('/').append(cursor.getInt(colDPort));
-            sb.append(" u").append(cursor.getInt(colUid));
-            sb.append(" a").append(cursor.getInt(colAllowed));
-            sb.append(" c").append(cursor.getInt(colConnection));
-            sb.append(" i").append(cursor.getInt(colInteractive));
-            sb.append(' ').append(cursor.getString(colData));
-            sb.append("\r\n");
+            int count = 0;
+            while (cursor.moveToNext() && ++count < 250) {
+                sb.append(format.format(cursor.getLong(colTime)));
+                sb.append(" v").append(cursor.getInt(colVersion));
+                sb.append(" p").append(cursor.getInt(colProtocol));
+                sb.append(' ').append(cursor.getString(colFlags));
+                sb.append(' ').append(cursor.getString(colSAddr));
+                sb.append('/').append(cursor.getInt(colSPort));
+                sb.append(" > ").append(cursor.getString(colDAddr));
+                sb.append('/').append(cursor.getString(colDName));
+                sb.append('/').append(cursor.getInt(colDPort));
+                sb.append(" u").append(cursor.getInt(colUid));
+                sb.append(" a").append(cursor.getInt(colAllowed));
+                sb.append(" c").append(cursor.getInt(colConnection));
+                sb.append(" i").append(cursor.getInt(colInteractive));
+                sb.append(' ').append(cursor.getString(colData));
+                sb.append("\r\n");
+            }
         }
-        cursor.close();
 
         return sb;
     }

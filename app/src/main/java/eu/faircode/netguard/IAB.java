@@ -16,7 +16,7 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 import android.app.PendingIntent;
@@ -28,8 +28,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 import com.android.vending.billing.IInAppBillingService;
 
@@ -117,7 +118,9 @@ public class IAB implements ServiceConnection {
 
     public void updatePurchases() throws RemoteException {
         // Get purchases
-        List<String> skus = getPurchases();
+        List<String> skus = new ArrayList<>();
+        skus.addAll(getPurchases("inapp"));
+        skus.addAll(getPurchases("subs"));
 
         SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -133,13 +136,13 @@ public class IAB implements ServiceConnection {
         editor.apply();
     }
 
-    public boolean isPurchased(String sku) throws RemoteException {
-        return getPurchases().contains(sku);
+    public boolean isPurchased(String sku, String type) throws RemoteException {
+        return getPurchases(type).contains(sku);
     }
 
-    public List<String> getPurchases() throws RemoteException {
+    public List<String> getPurchases(String type) throws RemoteException {
         // Get purchases
-        Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), "inapp", null);
+        Bundle bundle = service.getPurchases(IAB_VERSION, context.getPackageName(), type, null);
         Log.i(TAG, "getPurchases");
         Util.logBundle(bundle);
         int response = (bundle == null ? -1 : bundle.getInt("RESPONSE_CODE", -1));
@@ -185,6 +188,8 @@ public class IAB implements ServiceConnection {
 
             return (prefs.getBoolean(sku, false) ||
                     prefs.getBoolean(ActivityPro.SKU_PRO1, false) ||
+                    prefs.getBoolean(ActivityPro.SKU_SUPPORT1, false) ||
+                    prefs.getBoolean(ActivityPro.SKU_SUPPORT2, false) ||
                     prefs.getBoolean(ActivityPro.SKU_DONATION, false));
         } catch (SecurityException ignored) {
             return false;
@@ -195,7 +200,7 @@ public class IAB implements ServiceConnection {
         try {
             if (Util.isDebuggable(context)) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                return !(prefs.getBoolean("debug_iab", false) || prefs.getBoolean("debug_ads", false));
+                return !(prefs.getBoolean("debug_iab", false));
             }
 
             SharedPreferences prefs = context.getSharedPreferences("IAB", Context.MODE_PRIVATE);

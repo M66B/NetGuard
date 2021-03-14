@@ -16,7 +16,7 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 import android.content.BroadcastReceiver;
@@ -33,20 +33,8 @@ import android.net.Uri;
 import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SwitchCompat;
+import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -67,15 +55,20 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 
@@ -202,11 +195,26 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 if (isChecked) {
                     String alwaysOn = Settings.Secure.getString(getContentResolver(), "always_on_vpn_app");
                     Log.i(TAG, "Always-on=" + alwaysOn);
-                    if (!TextUtils.isEmpty(alwaysOn) && !getPackageName().equals(alwaysOn)) {
-                        swEnabled.setChecked(false);
-                        Toast.makeText(ActivityMain.this, R.string.msg_always_on, Toast.LENGTH_LONG).show();
-                        return;
-                    }
+                    if (!TextUtils.isEmpty(alwaysOn))
+                        if (getPackageName().equals(alwaysOn)) {
+                            if (prefs.getBoolean("filter", false)) {
+                                int lockdown = Settings.Secure.getInt(getContentResolver(), "always_on_vpn_lockdown", 0);
+                                Log.i(TAG, "Lockdown=" + lockdown);
+                                if (lockdown != 0) {
+                                    swEnabled.setChecked(false);
+                                    Toast.makeText(ActivityMain.this, R.string.msg_always_on_lockdown, Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                            }
+                        } else {
+                            swEnabled.setChecked(false);
+                            Toast.makeText(ActivityMain.this, R.string.msg_always_on, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                    boolean filter = prefs.getBoolean("filter", false);
+                    if (filter && Util.isPrivateDns(ActivityMain.this))
+                        Toast.makeText(ActivityMain.this, R.string.msg_private_dns, Toast.LENGTH_LONG).show();
 
                     try {
                         final Intent prepare = VpnService.prepare(ActivityMain.this);
@@ -283,9 +291,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         // Application list
         RecyclerView rvApplication = findViewById(R.id.rvApplication);
-        rvApplication.setHasFixedSize(true);
-        rvApplication.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AdapterRule(this);
+        rvApplication.setHasFixedSize(false);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setAutoMeasureEnabled(true);
+        rvApplication.setLayoutManager(llm);
+        adapter = new AdapterRule(this, findViewById(R.id.vwPopupAnchor));
         rvApplication.setAdapter(adapter);
 
         // Swipe to refresh
@@ -316,6 +326,21 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 showHints();
             }
         });
+
+        final LinearLayout llFairEmail = findViewById(R.id.llFairEmail);
+        TextView tvFairEmail = findViewById(R.id.tvFairEmail);
+        tvFairEmail.setMovementMethod(LinkMovementMethod.getInstance());
+        Button btnFairEmail = findViewById(R.id.btnFairEmail);
+        boolean hintFairEmail = prefs.getBoolean("hint_fairemail", true);
+        llFairEmail.setVisibility(hintFairEmail ? View.VISIBLE : View.GONE);
+        btnFairEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs.edit().putBoolean("hint_fairemail", false).apply();
+                llFairEmail.setVisibility(View.GONE);
+            }
+        });
+
         showHints();
 
         // Listen for preference changes
@@ -337,18 +362,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         registerReceiver(packageChangedReceiver, intentFilter);
 
         // First use
-        boolean admob = prefs.getBoolean("admob", false);
-        if (!initialized || !admob) {
+        if (!initialized) {
             // Create view
             LayoutInflater inflater = LayoutInflater.from(this);
             View view = inflater.inflate(R.layout.first, null, false);
 
             TextView tvFirst = view.findViewById(R.id.tvFirst);
+            TextView tvEula = view.findViewById(R.id.tvEula);
             TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
-            TextView tvAdmob = view.findViewById(R.id.tvAdmob);
             tvFirst.setMovementMethod(LinkMovementMethod.getInstance());
+            tvEula.setMovementMethod(LinkMovementMethod.getInstance());
             tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
-            tvAdmob.setMovementMethod(LinkMovementMethod.getInstance());
 
             // Show dialog
             dialogFirst = new AlertDialog.Builder(this)
@@ -359,7 +383,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                         public void onClick(DialogInterface dialog, int which) {
                             if (running) {
                                 prefs.edit().putBoolean("initialized", true).apply();
-                                prefs.edit().putBoolean("admob", true).apply();
                             }
                         }
                     })
@@ -413,8 +436,20 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         }
 
-        // Initialize ads
-        initAds();
+        // Support
+        LinearLayout llSupport = findViewById(R.id.llSupport);
+        TextView tvSupport = findViewById(R.id.tvSupport);
+
+        SpannableString content = new SpannableString(getString(R.string.app_support));
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        tvSupport.setText(content);
+
+        llSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(getIntentPro(ActivityMain.this));
+            }
+        });
 
         // Handle intent
         checkExtras(getIntent());
@@ -453,11 +488,11 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (adapter != null)
             adapter.notifyDataSetChanged();
 
-        // Ads
-        if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
-            enableAds();
-        else
-            disableAds();
+        PackageManager pm = getPackageManager();
+        LinearLayout llSupport = findViewById(R.id.llSupport);
+        llSupport.setVisibility(
+                IAB.isPurchasedAny(this) || getIntentPro(this).resolveActivity(pm) == null
+                        ? View.GONE : View.VISIBLE);
 
         super.onResume();
     }
@@ -471,8 +506,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             return;
 
         DatabaseHelper.getInstance(this).removeAccessChangedListener(accessChangedListener);
-
-        disableAds();
     }
 
     @Override
@@ -482,10 +515,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         if (Build.VERSION.SDK_INT < MIN_SDK || Util.hasXposed(this))
             return;
-
-        disableAds();
-        if (!IAB.isPurchasedAny(this) && Util.hasPlayServices(this))
-            enableAds();
     }
 
     @Override
@@ -695,6 +724,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (Build.VERSION.SDK_INT < MIN_SDK)
             return false;
 
+        PackageManager pm = getPackageManager();
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
@@ -752,11 +783,13 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         if (!IAB.isPurchasedAny(this))
             markPro(menu.findItem(R.id.menu_pro), null);
 
-        if (!Util.hasValidFingerprint(this) || getIntentInvite(this).resolveActivity(getPackageManager()) == null)
+        if (!Util.hasValidFingerprint(this) || getIntentInvite(this).resolveActivity(pm) == null)
             menu.removeItem(R.id.menu_invite);
 
         if (getIntentSupport().resolveActivity(getPackageManager()) == null)
             menu.removeItem(R.id.menu_support);
+
+        menu.findItem(R.id.menu_apps).setEnabled(getIntentApps(this).resolveActivity(pm) != null);
 
         return true;
     }
@@ -873,6 +906,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 menu_about();
                 return true;
 
+            case R.id.menu_apps:
+                menu_apps();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -923,113 +960,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 llSystem.setVisibility(View.GONE);
             }
         });
-    }
-
-    private void initAds() {
-        // https://developers.google.com/android/reference/com/google/android/gms/ads/package-summary
-        MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
-
-        final LinearLayout llAd = findViewById(R.id.llAd);
-        TextView tvAd = findViewById(R.id.tvAd);
-        final AdView adView = findViewById(R.id.adView);
-
-        SpannableString content = new SpannableString(getString(R.string.title_pro_ads));
-        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        tvAd.setText(content);
-
-        tvAd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ActivityMain.this, ActivityPro.class));
-            }
-        });
-
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                Log.i(TAG, "Ad loaded");
-                llAd.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                llAd.setVisibility(View.VISIBLE);
-                switch (errorCode) {
-                    case AdRequest.ERROR_CODE_INTERNAL_ERROR:
-                        Log.w(TAG, "Ad load error=INTERNAL_ERROR");
-                        break;
-                    case AdRequest.ERROR_CODE_INVALID_REQUEST:
-                        Log.w(TAG, "Ad load error=INVALID_REQUEST");
-                        break;
-                    case AdRequest.ERROR_CODE_NETWORK_ERROR:
-                        Log.w(TAG, "Ad load error=NETWORK_ERROR");
-                        break;
-                    case AdRequest.ERROR_CODE_NO_FILL:
-                        Log.w(TAG, "Ad load error=NO_FILL");
-                        break;
-                    default:
-                        Log.w(TAG, "Ad load error=" + errorCode);
-                }
-            }
-
-            @Override
-            public void onAdOpened() {
-                Log.i(TAG, "Ad opened");
-            }
-
-            @Override
-            public void onAdClosed() {
-                Log.i(TAG, "Ad closed");
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                Log.i(TAG, "Ad left app");
-            }
-        });
-    }
-
-    private void enableAds() {
-        RelativeLayout rlAd = findViewById(R.id.rlAd);
-        LinearLayout llAd = findViewById(R.id.llAd);
-        final AdView adView = findViewById(R.id.adView);
-
-        rlAd.setVisibility(View.VISIBLE);
-        llAd.setVisibility(View.VISIBLE);
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    AdRequest adRequest = new AdRequest.Builder()
-                            .addTestDevice(getString(R.string.ad_test_device_id))
-                            .build();
-                    adView.loadAd(adRequest);
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-            }
-        }, 1000);
-    }
-
-    private void disableAds() {
-        RelativeLayout rlAd = findViewById(R.id.rlAd);
-        AdView adView = findViewById(R.id.adView);
-
-        rlAd.setVisibility(View.GONE);
-
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) adView.getLayoutParams();
-        RelativeLayout parent = (RelativeLayout) adView.getParent();
-        parent.removeView(adView);
-
-        adView.destroy();
-        adView = new AdView(this);
-        adView.setAdSize(AdSize.SMART_BANNER);
-        adView.setAdUnitId(getString(R.string.ad_banner_unit_id));
-        adView.setId(R.id.adView);
-        adView.setLayoutParams(params);
-        parent.addView(adView);
     }
 
     private void checkExtras(Intent intent) {
@@ -1145,38 +1075,41 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             final Intent settings = new Intent(
                     Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS,
                     Uri.parse("package:" + getPackageName()));
-            if (Util.dataSaving(this) && getPackageManager().resolveActivity(settings, 0) != null) {
-                final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                if (!prefs.getBoolean("nodata", false)) {
-                    LayoutInflater inflater = LayoutInflater.from(this);
-                    View view = inflater.inflate(R.layout.datasaving, null, false);
-                    final CheckBox cbDontAsk = view.findViewById(R.id.cbDontAsk);
-                    dialogDoze = new AlertDialog.Builder(this)
-                            .setView(view)
-                            .setCancelable(true)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    prefs.edit().putBoolean("nodata", cbDontAsk.isChecked()).apply();
-                                    startActivity(settings);
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    prefs.edit().putBoolean("nodata", cbDontAsk.isChecked()).apply();
-                                }
-                            })
-                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialogInterface) {
-                                    dialogDoze = null;
-                                }
-                            })
-                            .create();
-                    dialogDoze.show();
+            if (Util.dataSaving(this) && getPackageManager().resolveActivity(settings, 0) != null)
+                try {
+                    final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                    if (!prefs.getBoolean("nodata", false)) {
+                        LayoutInflater inflater = LayoutInflater.from(this);
+                        View view = inflater.inflate(R.layout.datasaving, null, false);
+                        final CheckBox cbDontAsk = view.findViewById(R.id.cbDontAsk);
+                        dialogDoze = new AlertDialog.Builder(this)
+                                .setView(view)
+                                .setCancelable(true)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        prefs.edit().putBoolean("nodata", cbDontAsk.isChecked()).apply();
+                                        startActivity(settings);
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        prefs.edit().putBoolean("nodata", cbDontAsk.isChecked()).apply();
+                                    }
+                                })
+                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialogInterface) {
+                                        dialogDoze = null;
+                                    }
+                                })
+                                .create();
+                        dialogDoze.show();
+                    }
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex + "\n" + ex.getStackTrace());
                 }
-            }
         }
     }
 
@@ -1248,9 +1181,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         TextView tvVersionName = view.findViewById(R.id.tvVersionName);
         TextView tvVersionCode = view.findViewById(R.id.tvVersionCode);
         Button btnRate = view.findViewById(R.id.btnRate);
-        TextView tvLicense = view.findViewById(R.id.tvLicense);
+        TextView tvEula = view.findViewById(R.id.tvEula);
         TextView tvPrivacy = view.findViewById(R.id.tvPrivacy);
-        TextView tvAdmob = view.findViewById(R.id.tvAdmob);
 
         // Show version
         tvVersionName.setText(Util.getSelfVersionName(this));
@@ -1259,10 +1191,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         tvVersionCode.setText(Integer.toString(Util.getSelfVersionCode(this)));
 
         // Handle license
-        tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
-        tvLicense.setMovementMethod(LinkMovementMethod.getInstance());
+        tvEula.setMovementMethod(LinkMovementMethod.getInstance());
         tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
-        tvAdmob.setVisibility(IAB.isPurchasedAny(this) ? View.GONE : View.VISIBLE);
 
         // Handle logcat
         view.setOnClickListener(new View.OnClickListener() {
@@ -1310,14 +1240,30 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         dialogAbout.show();
     }
 
+    private void menu_apps() {
+        startActivity(getIntentApps(this));
+    }
+
+    private static Intent getIntentPro(Context context) {
+        if (Util.isPlayStoreInstall(context))
+            return new Intent(context, ActivityPro.class);
+        else {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://contact.faircode.eu/?product=netguardstandalone"));
+            return intent;
+        }
+    }
+
     private static Intent getIntentInvite(Context context) {
-        Intent intent = new Intent("com.google.android.gms.appinvite.ACTION_APP_INVITE");
-        intent.setPackage("com.google.android.gms");
-        intent.putExtra("com.google.android.gms.appinvite.TITLE", context.getString(R.string.menu_invite));
-        intent.putExtra("com.google.android.gms.appinvite.MESSAGE", context.getString(R.string.msg_try));
-        intent.putExtra("com.google.android.gms.appinvite.BUTTON_TEXT", context.getString(R.string.msg_try));
-        // com.google.android.gms.appinvite.DEEP_LINK_URL
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name));
+        intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.msg_try) + "\n\nhttps://www.netguard.me/\n\n");
         return intent;
+    }
+
+    private static Intent getIntentApps(Context context) {
+        return new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/dev?id=8420080860664580239"));
     }
 
     private static Intent getIntentRate(Context context) {

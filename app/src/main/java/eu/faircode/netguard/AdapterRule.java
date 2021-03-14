@@ -16,11 +16,12 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,13 +34,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.widget.CompoundButtonCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
@@ -67,14 +61,26 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.widget.CompoundButtonCompat;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> implements Filterable {
     private static final String TAG = "NetGuard.Adapter";
 
-    private Activity context;
+    private View anchor;
     private LayoutInflater inflater;
     private RecyclerView rv;
     private int colorText;
@@ -88,6 +94,22 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     private boolean live = true;
     private List<Rule> listAll = new ArrayList<>();
     private List<Rule> listFiltered = new ArrayList<>();
+
+    private List<String> messaging = Arrays.asList(
+            "com.discord",
+            "com.facebook.mlite",
+            "com.facebook.orca",
+            "com.instagram.android",
+            "com.Slack",
+            "com.skype.raider",
+            "com.snapchat.android",
+            "com.whatsapp",
+            "com.whatsapp.w4b"
+    );
+
+    private List<String> download = Arrays.asList(
+            "com.google.android.youtube"
+    );
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -108,6 +130,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         public CheckBox cbOther;
         public ImageView ivScreenOther;
         public TextView tvRoaming;
+
+        public TextView tvRemarkMessaging;
+        public TextView tvRemarkDownload;
 
         public LinearLayout llConfiguration;
         public TextView tvUid;
@@ -165,6 +190,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             cbOther = itemView.findViewById(R.id.cbOther);
             ivScreenOther = itemView.findViewById(R.id.ivScreenOther);
             tvRoaming = itemView.findViewById(R.id.tvRoaming);
+
+            tvRemarkMessaging = itemView.findViewById(R.id.tvRemarkMessaging);
+            tvRemarkDownload = itemView.findViewById(R.id.tvRemarkDownload);
 
             llConfiguration = itemView.findViewById(R.id.llConfiguration);
             tvUid = itemView.findViewById(R.id.tvUid);
@@ -230,10 +258,10 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         }
     }
 
-    public AdapterRule(Activity context) {
+    public AdapterRule(Context context, View anchor) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        this.context = context;
+        this.anchor = anchor;
         this.inflater = LayoutInflater.from(context);
 
         if (prefs.getBoolean("dark_theme", false))
@@ -307,7 +335,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Context context = holder.itemView.getContext();
+
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final boolean log_app = prefs.getBoolean("log_app", false);
+        final boolean filter = prefs.getBoolean("filter", false);
+        final boolean notify_access = prefs.getBoolean("notify_access", false);
 
         // Get rule
         final Rule rule = listFiltered.get(position);
@@ -332,8 +365,11 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             holder.ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
         else {
             Uri uri = Uri.parse("android.resource://" + rule.packageName + "/" + rule.icon);
-            GlideApp.with(context)
+            GlideApp.with(holder.itemView.getContext())
+                    .applyDefaultRequestOptions(new RequestOptions().format(DecodeFormat.PREFER_RGB_565))
                     .load(uri)
+                    //.diskCacheStrategy(DiskCacheStrategy.NONE)
+                    //.skipMemoryCache(true)
                     .override(iconSize, iconSize)
                     .into(holder.ivIcon);
         }
@@ -379,7 +415,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 rule.wifi_blocked = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -404,7 +440,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 rule.other_blocked = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -419,6 +455,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         holder.tvRoaming.setTextColor(rule.apply ? colorOff : colorGrayed);
         holder.tvRoaming.setAlpha(otherActive ? 1 : 0.5f);
         holder.tvRoaming.setVisibility(rule.roaming && (!rule.other_blocked || rule.screen_other) ? View.VISIBLE : View.INVISIBLE);
+
+        holder.tvRemarkMessaging.setVisibility(messaging.contains(rule.packageName) ? View.VISIBLE : View.GONE);
+        holder.tvRemarkDownload.setVisibility(download.contains(rule.packageName) ? View.VISIBLE : View.GONE);
 
         // Expanded configuration section
         holder.llConfiguration.setVisibility(rule.expanded ? View.VISIBLE : View.GONE);
@@ -477,14 +516,14 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             holder.ibLaunch.setVisibility(View.GONE);
 
         // Apply
-        holder.cbApply.setEnabled(rule.pkg);
+        holder.cbApply.setEnabled(rule.pkg && filter);
         holder.cbApply.setOnCheckedChangeListener(null);
         holder.cbApply.setChecked(rule.apply);
         holder.cbApply.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 rule.apply = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -503,7 +542,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.screen_wifi = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -522,7 +561,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.screen_other = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -535,7 +574,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @TargetApi(Build.VERSION_CODES.M)
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.roaming = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -554,7 +593,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @TargetApi(Build.VERSION_CODES.M)
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 rule.lockdown = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
 
@@ -593,9 +632,6 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         });
 
         // Show logging/filtering is disabled
-        final boolean log_app = prefs.getBoolean("log_app", false);
-        final boolean filter = prefs.getBoolean("filter", false);
-        final boolean notify_access = prefs.getBoolean("notify_access", false);
         holder.tvLogging.setText(log_app && filter ? R.string.title_logging_enabled : R.string.title_logging_disabled);
         holder.btnLogging.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -675,7 +711,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     long time = cursor.getLong(cursor.getColumnIndex("time"));
                     int block = cursor.getInt(cursor.getColumnIndex("block"));
 
-                    PopupMenu popup = new PopupMenu(context, context.findViewById(R.id.vwPopupAnchor));
+                    PopupMenu popup = new PopupMenu(context, anchor);
                     popup.inflate(R.menu.access);
 
                     popup.getMenu().findItem(R.id.menu_host).setTitle(
@@ -697,11 +733,11 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                     }
                     popup.getMenu().findItem(R.id.menu_host).setEnabled(multiple);
 
-                    markPro(popup.getMenu().findItem(R.id.menu_allow), ActivityPro.SKU_FILTER);
-                    markPro(popup.getMenu().findItem(R.id.menu_block), ActivityPro.SKU_FILTER);
+                    markPro(context, popup.getMenu().findItem(R.id.menu_allow), ActivityPro.SKU_FILTER);
+                    markPro(context, popup.getMenu().findItem(R.id.menu_block), ActivityPro.SKU_FILTER);
 
                     // Whois
-                    final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tcpiputils.com/whois-lookup/" + daddr));
+                    final Intent lookupIP = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dnslytics.com/whois-lookup/" + daddr));
                     if (pm.resolveActivity(lookupIP, 0) == null)
                         popup.getMenu().removeItem(R.id.menu_whois);
                     else
@@ -756,6 +792,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                                     ServiceSinkhole.reload("reset host", context, false);
                                     result = true;
                                     break;
+
+                                case R.id.menu_copy:
+                                    ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("netguard", daddr);
+                                    clipboard.setPrimaryClip(clip);
+                                    return true;
                             }
 
                             if (menu == R.id.menu_allow || menu == R.id.menu_block || menu == R.id.menu_reset)
@@ -816,7 +858,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 rule.notify = isChecked;
-                updateRule(rule, true, listAll);
+                updateRule(context, rule, true, listAll);
             }
         });
     }
@@ -824,6 +866,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
     @Override
     public void onViewRecycled(ViewHolder holder) {
         super.onViewRecycled(holder);
+
+        //Context context = holder.itemView.getContext();
+        //GlideApp.with(context).clear(holder.ivIcon);
 
         CursorAdapter adapter = (CursorAdapter) holder.lvAccess.getAdapter();
         if (adapter != null) {
@@ -833,7 +878,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         }
     }
 
-    private void markPro(MenuItem menu, String sku) {
+    private void markPro(Context context, MenuItem menu, String sku) {
         if (sku == null || !IAB.isPurchased(sku, context)) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             boolean dark = prefs.getBoolean("dark_theme", false);
@@ -843,7 +888,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         }
     }
 
-    private void updateRule(Rule rule, boolean root, List<Rule> listAll) {
+    private void updateRule(Context context, Rule rule, boolean root, List<Rule> listAll) {
         SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
         SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
         SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
@@ -917,7 +962,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         for (Rule modified : listModified)
             listSearch.remove(modified);
         for (Rule modified : listModified)
-            updateRule(modified, false, listSearch);
+            updateRule(context, modified, false, listSearch);
 
         if (root) {
             notifyDataSetChanged();

@@ -16,7 +16,7 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 import android.Manifest;
@@ -44,14 +44,8 @@ import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.TwoStatePreference;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -62,6 +56,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
+import androidx.core.util.PatternsCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -99,7 +101,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     private static final int REQUEST_EXPORT = 1;
     private static final int REQUEST_IMPORT = 2;
     private static final int REQUEST_HOSTS = 3;
-    private static final int REQUEST_CALL = 4;
+    private static final int REQUEST_HOSTS_APPEND = 4;
+    private static final int REQUEST_CALL = 5;
 
     private AlertDialog dialogFilter = null;
 
@@ -124,6 +127,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         PreferenceGroup cat_options = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_options")).findPreference("category_options");
+        PreferenceGroup cat_network = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_network_options")).findPreference("category_network_options");
         PreferenceGroup cat_advanced = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_advanced_options")).findPreference("category_advanced_options");
         PreferenceGroup cat_stats = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_stats")).findPreference("category_stats");
         PreferenceGroup cat_backup = (PreferenceGroup) ((PreferenceGroup) screen.findPreference("screen_backup")).findPreference("category_backup");
@@ -149,23 +153,33 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         // Wi-Fi home
         MultiSelectListPreference pref_wifi_homes = (MultiSelectListPreference) screen.findPreference("wifi_homes");
-        Set<String> ssids = prefs.getStringSet("wifi_homes", new HashSet<String>());
-        if (ssids.size() > 0)
-            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssids)));
-        else
-            pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
+            cat_network.removePreference(pref_wifi_homes);
+        else {
+            Set<String> ssids = prefs.getStringSet("wifi_homes", new HashSet<String>());
+            if (ssids.size() > 0)
+                pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, TextUtils.join(", ", ssids)));
+            else
+                pref_wifi_homes.setTitle(getString(R.string.setting_wifi_home, "-"));
 
-        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        List<CharSequence> listSSID = new ArrayList<>();
-        List<WifiConfiguration> configs = wm.getConfiguredNetworks();
-        if (configs != null)
-            for (WifiConfiguration config : configs)
-                listSSID.add(config.SSID == null ? "NULL" : config.SSID);
-        for (String ssid : ssids)
-            if (!listSSID.contains(ssid))
-                listSSID.add(ssid);
-        pref_wifi_homes.setEntries(listSSID.toArray(new CharSequence[0]));
-        pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
+            WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            List<CharSequence> listSSID = new ArrayList<>();
+            List<WifiConfiguration> configs = wm.getConfiguredNetworks();
+            if (configs != null)
+                for (WifiConfiguration config : configs)
+                    listSSID.add(config.SSID == null ? "NULL" : config.SSID);
+            for (String ssid : ssids)
+                if (!listSSID.contains(ssid))
+                    listSSID.add(ssid);
+            pref_wifi_homes.setEntries(listSSID.toArray(new CharSequence[0]));
+            pref_wifi_homes.setEntryValues(listSSID.toArray(new CharSequence[0]));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            TwoStatePreference pref_handover =
+                    (TwoStatePreference) screen.findPreference("handover");
+            cat_advanced.removePreference(pref_handover);
+        }
 
         Preference pref_reset_usage = screen.findPreference("reset_usage");
         pref_reset_usage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -231,12 +245,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         screen.findPreference("vpn6").setTitle(getString(R.string.setting_vpn6, prefs.getString("vpn6", "fd00:1:fd00:1:fd00:1:fd00:1")));
         EditTextPreference pref_dns1 = (EditTextPreference) screen.findPreference("dns");
         EditTextPreference pref_dns2 = (EditTextPreference) screen.findPreference("dns2");
+        EditTextPreference pref_validate = (EditTextPreference) screen.findPreference("validate");
         EditTextPreference pref_ttl = (EditTextPreference) screen.findPreference("ttl");
-        List<String> def_dns = Util.getDefaultDNS(this);
-        pref_dns1.getEditText().setHint(def_dns.get(0));
-        pref_dns2.getEditText().setHint(def_dns.get(1));
-        pref_dns1.setTitle(getString(R.string.setting_dns, prefs.getString("dns", def_dns.get(0))));
-        pref_dns2.setTitle(getString(R.string.setting_dns, prefs.getString("dns2", def_dns.get(1))));
+        pref_dns1.setTitle(getString(R.string.setting_dns, prefs.getString("dns", "-")));
+        pref_dns2.setTitle(getString(R.string.setting_dns, prefs.getString("dns2", "-")));
+        pref_validate.setTitle(getString(R.string.setting_validate, prefs.getString("validate", "www.google.com")));
         pref_ttl.setTitle(getString(R.string.setting_ttl, prefs.getString("ttl", "259200")));
 
         // SOCKS5 parameters
@@ -299,18 +312,22 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         Preference pref_block_domains = screen.findPreference("use_hosts");
         EditTextPreference pref_rcode = (EditTextPreference) screen.findPreference("rcode");
         Preference pref_hosts_import = screen.findPreference("hosts_import");
+        Preference pref_hosts_import_append = screen.findPreference("hosts_import_append");
         EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
         final Preference pref_hosts_download = screen.findPreference("hosts_download");
 
         pref_rcode.setTitle(getString(R.string.setting_rcode, prefs.getString("rcode", "3")));
 
+        if (Util.isPlayStoreInstall(this) || !Util.hasValidFingerprint(this))
+            cat_options.removePreference(screen.findPreference("update_check"));
+
         if (Util.isPlayStoreInstall(this)) {
             Log.i(TAG, "Play store install");
-            cat_options.removePreference(screen.findPreference("update_check"));
             cat_advanced.removePreference(pref_block_domains);
             cat_advanced.removePreference(pref_rcode);
             cat_advanced.removePreference(pref_forwarding);
             cat_backup.removePreference(pref_hosts_import);
+            cat_backup.removePreference(pref_hosts_import_append);
             cat_backup.removePreference(pref_hosts_url);
             cat_backup.removePreference(pref_hosts_download);
 
@@ -332,6 +349,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     return true;
                 }
             });
+            pref_hosts_import_append.setEnabled(pref_hosts_import.isEnabled());
+            pref_hosts_import_append.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivityForResult(getIntentOpenHosts(), ActivitySettings.REQUEST_HOSTS_APPEND);
+                    return true;
+                }
+            });
 
             // Handle hosts file download
             pref_hosts_url.setSummary(pref_hosts_url.getText());
@@ -340,9 +365,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                 public boolean onPreferenceClick(Preference preference) {
                     final File tmp = new File(getFilesDir(), "hosts.tmp");
                     final File hosts = new File(getFilesDir(), "hosts.txt");
+
                     EditTextPreference pref_hosts_url = (EditTextPreference) screen.findPreference("hosts_url");
+                    String hosts_url = pref_hosts_url.getText();
+                    if ("https://www.netguard.me/hosts".equals(hosts_url))
+                        hosts_url = BuildConfig.HOSTS_FILE_URI;
+
                     try {
-                        new DownloadTask(ActivitySettings.this, new URL(pref_hosts_url.getText()), tmp, new DownloadTask.Listener() {
+                        new DownloadTask(ActivitySettings.this, new URL(hosts_url), tmp, new DownloadTask.Listener() {
                             @Override
                             public void onCompleted() {
                                 if (hosts.exists())
@@ -613,7 +643,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         else if ("vpn4".equals(name)) {
             String vpn4 = prefs.getString(name, null);
             try {
-                checkAddress(vpn4);
+                checkAddress(vpn4, false);
+                prefs.edit().putString(name, vpn4.trim()).apply();
             } catch (Throwable ex) {
                 prefs.edit().remove(name).apply();
                 ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
@@ -627,7 +658,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("vpn6".equals(name)) {
             String vpn6 = prefs.getString(name, null);
             try {
-                checkAddress(vpn6);
+                checkAddress(vpn6, false);
+                prefs.edit().putString(name, vpn6.trim()).apply();
             } catch (Throwable ex) {
                 prefs.edit().remove(name).apply();
                 ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
@@ -641,7 +673,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("dns".equals(name) || "dns2".equals(name)) {
             String dns = prefs.getString(name, null);
             try {
-                checkAddress(dns);
+                checkAddress(dns, true);
+                prefs.edit().putString(name, dns.trim()).apply();
             } catch (Throwable ex) {
                 prefs.edit().remove(name).apply();
                 ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
@@ -649,8 +682,22 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
             }
             getPreferenceScreen().findPreference(name).setTitle(
-                    getString(R.string.setting_dns,
-                            prefs.getString(name, Util.getDefaultDNS(this).get("dns".equals(name) ? 0 : 1))));
+                    getString(R.string.setting_dns, prefs.getString(name, "-")));
+            ServiceSinkhole.reload("changed " + name, this, false);
+
+        } else if ("validate".equals(name)) {
+            String host = prefs.getString(name, "www.google.com");
+            try {
+                checkDomain(host);
+                prefs.edit().putString(name, host.trim()).apply();
+            } catch (Throwable ex) {
+                prefs.edit().remove(name).apply();
+                ((EditTextPreference) getPreferenceScreen().findPreference(name)).setText(null);
+                if (!TextUtils.isEmpty(host))
+                    Toast.makeText(ActivitySettings.this, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+            getPreferenceScreen().findPreference(name).setTitle(
+                    getString(R.string.setting_validate, prefs.getString(name, "www.google.com")));
             ServiceSinkhole.reload("changed " + name, this, false);
 
         } else if ("ttl".equals(name))
@@ -721,7 +768,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             getPreferenceScreen().findPreference(name).setTitle(getString(R.string.setting_stats_samples, prefs.getString(name, "90")));
 
         else if ("hosts_url".equals(name))
-            getPreferenceScreen().findPreference(name).setSummary(prefs.getString(name, "http://www.netguard.me/hosts"));
+            getPreferenceScreen().findPreference(name).setSummary(prefs.getString(name, BuildConfig.HOSTS_FILE_URI));
 
         else if ("loglevel".equals(name))
             ServiceSinkhole.reload("changed " + name, this, false);
@@ -763,13 +810,28 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
             ServiceSinkhole.reload("permission granted", this, false);
     }
 
-    private void checkAddress(String address) throws IllegalArgumentException, UnknownHostException {
-        if (address == null || TextUtils.isEmpty(address.trim()))
+    private void checkAddress(String address, boolean allow_local) throws IllegalArgumentException, UnknownHostException {
+        if (address != null)
+            address = address.trim();
+        if (TextUtils.isEmpty(address))
             throw new IllegalArgumentException("Bad address");
         if (!Util.isNumericAddress(address))
             throw new IllegalArgumentException("Bad address");
-        InetAddress idns = InetAddress.getByName(address);
-        if (idns.isLoopbackAddress() || idns.isAnyLocalAddress())
+        if (!allow_local) {
+            InetAddress iaddr = InetAddress.getByName(address);
+            if (iaddr.isLoopbackAddress() || iaddr.isAnyLocalAddress())
+                throw new IllegalArgumentException("Bad address");
+        }
+    }
+
+    private void checkDomain(String address) throws IllegalArgumentException, UnknownHostException {
+        if (address != null)
+            address = address.trim();
+        if (TextUtils.isEmpty(address))
+            throw new IllegalArgumentException("Bad address");
+        if (Util.isNumericAddress(address))
+            throw new IllegalArgumentException("Bad address");
+        if (!PatternsCompat.DOMAIN_NAME.matcher(address).matches())
             throw new IllegalArgumentException("Bad address");
     }
 
@@ -821,7 +883,11 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         } else if (requestCode == REQUEST_HOSTS) {
             if (resultCode == RESULT_OK && data != null)
-                handleHosts(data);
+                handleHosts(data, false);
+
+        } else if (requestCode == REQUEST_HOSTS_APPEND) {
+            if (resultCode == RESULT_OK && data != null)
+                handleHosts(data, true);
 
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
@@ -907,7 +973,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private void handleHosts(final Intent data) {
+    private void handleHosts(final Intent data, final boolean append) {
         new AsyncTask<Object, Object, Throwable>() {
             @Override
             protected Throwable doInBackground(Object... objects) {
@@ -922,7 +988,7 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
                     String streamType = (streamTypes == null || streamTypes.length == 0 ? "*/*" : streamTypes[0]);
                     AssetFileDescriptor descriptor = resolver.openTypedAssetFileDescriptor(data.getData(), streamType, null);
                     in = descriptor.createInputStream();
-                    out = new FileOutputStream(hosts);
+                    out = new FileOutputStream(hosts, append);
 
                     int len;
                     long total = 0;
@@ -1115,47 +1181,47 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
     }
 
     private void filterExport(XmlSerializer serializer) throws IOException {
-        Cursor cursor = DatabaseHelper.getInstance(this).getAccess();
-        int colUid = cursor.getColumnIndex("uid");
-        int colVersion = cursor.getColumnIndex("version");
-        int colProtocol = cursor.getColumnIndex("protocol");
-        int colDAddr = cursor.getColumnIndex("daddr");
-        int colDPort = cursor.getColumnIndex("dport");
-        int colTime = cursor.getColumnIndex("time");
-        int colBlock = cursor.getColumnIndex("block");
-        while (cursor.moveToNext())
-            for (String pkg : getPackages(cursor.getInt(colUid))) {
-                serializer.startTag(null, "rule");
-                serializer.attribute(null, "pkg", pkg);
-                serializer.attribute(null, "version", Integer.toString(cursor.getInt(colVersion)));
-                serializer.attribute(null, "protocol", Integer.toString(cursor.getInt(colProtocol)));
-                serializer.attribute(null, "daddr", cursor.getString(colDAddr));
-                serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
-                serializer.attribute(null, "time", Long.toString(cursor.getLong(colTime)));
-                serializer.attribute(null, "block", Integer.toString(cursor.getInt(colBlock)));
-                serializer.endTag(null, "rule");
-            }
-        cursor.close();
+        try (Cursor cursor = DatabaseHelper.getInstance(this).getAccess()) {
+            int colUid = cursor.getColumnIndex("uid");
+            int colVersion = cursor.getColumnIndex("version");
+            int colProtocol = cursor.getColumnIndex("protocol");
+            int colDAddr = cursor.getColumnIndex("daddr");
+            int colDPort = cursor.getColumnIndex("dport");
+            int colTime = cursor.getColumnIndex("time");
+            int colBlock = cursor.getColumnIndex("block");
+            while (cursor.moveToNext())
+                for (String pkg : getPackages(cursor.getInt(colUid))) {
+                    serializer.startTag(null, "rule");
+                    serializer.attribute(null, "pkg", pkg);
+                    serializer.attribute(null, "version", Integer.toString(cursor.getInt(colVersion)));
+                    serializer.attribute(null, "protocol", Integer.toString(cursor.getInt(colProtocol)));
+                    serializer.attribute(null, "daddr", cursor.getString(colDAddr));
+                    serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
+                    serializer.attribute(null, "time", Long.toString(cursor.getLong(colTime)));
+                    serializer.attribute(null, "block", Integer.toString(cursor.getInt(colBlock)));
+                    serializer.endTag(null, "rule");
+                }
+        }
     }
 
     private void forwardExport(XmlSerializer serializer) throws IOException {
-        Cursor cursor = DatabaseHelper.getInstance(this).getForwarding();
-        int colProtocol = cursor.getColumnIndex("protocol");
-        int colDPort = cursor.getColumnIndex("dport");
-        int colRAddr = cursor.getColumnIndex("raddr");
-        int colRPort = cursor.getColumnIndex("rport");
-        int colRUid = cursor.getColumnIndex("ruid");
-        while (cursor.moveToNext())
-            for (String pkg : getPackages(cursor.getInt(colRUid))) {
-                serializer.startTag(null, "port");
-                serializer.attribute(null, "pkg", pkg);
-                serializer.attribute(null, "protocol", Integer.toString(cursor.getInt(colProtocol)));
-                serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
-                serializer.attribute(null, "raddr", cursor.getString(colRAddr));
-                serializer.attribute(null, "rport", Integer.toString(cursor.getInt(colRPort)));
-                serializer.endTag(null, "port");
-            }
-        cursor.close();
+        try (Cursor cursor = DatabaseHelper.getInstance(this).getForwarding()) {
+            int colProtocol = cursor.getColumnIndex("protocol");
+            int colDPort = cursor.getColumnIndex("dport");
+            int colRAddr = cursor.getColumnIndex("raddr");
+            int colRPort = cursor.getColumnIndex("rport");
+            int colRUid = cursor.getColumnIndex("ruid");
+            while (cursor.moveToNext())
+                for (String pkg : getPackages(cursor.getInt(colRUid))) {
+                    serializer.startTag(null, "port");
+                    serializer.attribute(null, "pkg", pkg);
+                    serializer.attribute(null, "protocol", Integer.toString(cursor.getInt(colProtocol)));
+                    serializer.attribute(null, "dport", Integer.toString(cursor.getInt(colDPort)));
+                    serializer.attribute(null, "raddr", cursor.getString(colRAddr));
+                    serializer.attribute(null, "rport", Integer.toString(cursor.getInt(colRPort)));
+                    serializer.endTag(null, "port");
+                }
+        }
     }
 
     private String[] getPackages(int uid) {
@@ -1379,8 +1445,14 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         private int getUid(String pkg) throws PackageManager.NameNotFoundException {
             if ("root".equals(pkg))
                 return 0;
-            else if ("mediaserver".equals(pkg))
+            else if ("android.media".equals(pkg))
                 return 1013;
+            else if ("android.multicast".equals(pkg))
+                return 1020;
+            else if ("android.gps".equals(pkg))
+                return 1021;
+            else if ("android.dns".equals(pkg))
+                return 1051;
             else if ("nobody".equals(pkg))
                 return 9999;
             else

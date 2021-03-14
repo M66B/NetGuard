@@ -3,12 +3,12 @@ Ad Blocking with NetGuard
 
 Instructions (you need to follow **all** the steps):
 
-1. Download/install the latest NetGuard version [from GitHub](https://github.com/M66B/NetGuard/releases)
-1. Enable the setting *'Filter traffic'* in the Advanced options (three dot menu > Settings > Advanced options > Filter traffic; default is disabled except always enabled in Android 5.0 and earlier)
-1. Enable the setting *'Block domain names'* in the Advanced options (three dot menu > Settings > Advanced options > Block domain names; default is enabled)
+1. Download/install the latest NetGuard version [from GitHub](https://github.com/M66B/NetGuard/releases) (ad blocking is not possible with the Play store version because Google does not allow ad blocking apps in the Play store)
+1. Enable the setting *'Filter traffic'* in the advanced options (three dot menu > Settings > Advanced options > Filter traffic; default is disabled except always enabled in Android 5.0 and earlier)
+1. Enable the setting *'Block domain names'* in the advanced options (three dot menu > Settings > Advanced options > Block domain names; default is enabled)
 1. Import or download [a hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) using the NetGuard backup settings (three dot menu > Settings > Backup > Download hosts file)
-1. Disable browser compression (in Chrome: three dot menu > Settings > Data Saver > Off)
-1. Wait at least 10 minutes to let the Android DNS cache time out
+1. Disable browser compression (in Chrome: three dot menu > Settings > Lite mode > Off)
+1. Wait at least 10 minutes to let the Android DNS cache time out (clear via Chrome: [chrome://net-internals/#dns](chrome://net-internals/#dns))
 1. Test to see if ad blocking works by opening [this page](http://www.netguard.me/test)
 1. Enjoy ad blocking, but don't forget to support application developers and website authors in other ways
 
@@ -20,7 +20,8 @@ Because of routing bugs, some devices/Android versions require:
 
 * the advanced option *Manage system applications* to be enabled and/or
 * the network option *Subnet routing* to be disabled and/or
-* two (not just one) custom DNS server addresses to be set in the advanced options
+* two (not just one) DNS server addresses to be set in the advanced options, for example 8.8.8.8 and 8.8.4.4 or more privacy friendly [these](https://dns.watch/)
+* disabling of private DNS
 
 <br />
 
@@ -28,12 +29,17 @@ Note that:
 
 * applications, like web browsers, may cache data, so you may need to clear caches
 * applications, browsers mostly, that have a *"data saver"*-like feature that proxies requests through their servers (eg. Opera w/ Turbo, Opera Max, Puffin, Chrome w/ data saver, UC Browser, Yandex w/ Turbo, Apus Browser, KK Browser, Onavo Extend, Maxthon) will not have ads blocked as NetGuard cannot see those domain requests
+* applications, browsers mostly, can have a private DNS feature (Chrome: three-dots menu, Settings, Privacy, Use secure DNS, turn off)
+* applications, including browser, can be system apps, which require managing system apps in the advanced settings to be enabled
+* the Android always-on VPN setting *Block connections without VPN* will result in stop sending domain names to the VPN after some time
 * YouTube ads are not domain-based, and thus cannot be blocked with NetGuard
 * NetGuard ignores the IP addresses in the hosts file, because it does not route blocked domains to localhost
-* NetGuard does not concatenate hosts files, so you will have to use a source which does this for you or do it yourself
 * When NetGuard imports the hosts file, it automatically discards any duplicates entries, so duplicate entries are not a problem and have no performance impact after the file is imported
 * you can check the number of hosts (domains) imported by pulling the NetGuard notification down using two fingers if your version of Android supports that functionality
 * wildcards are not supported due to performance and battery usage reasons
+* it is not possible to edit the hosts file (change/add/delete domain names) with NetGuard
+* you can disable ad blocking by disabling the setting *'Block domain names'* in the advanced options
+* you cannot exclude a single app from ad blocking because Android resolves domain names on behalf of all apps
 * **ad blocking is provided as-is**, see also [here](https://forum.xda-developers.com/showpost.php?p=71805655&postcount=4668)
 * **ad blocking is not available when NetGuard was installed from the Google Play store!** (disable automatic updates of NetGuard in the Play store application)
 
@@ -41,18 +47,13 @@ Note that:
 
 The NetGuard version from GitHub:
 
-* is signed with the same signature as the version from the Google Play store, so any purchases will be restored
+* is signed with the same signature as the version from the Google Play store, so any purchases will be restored (this will not happen with for example the F-Droid version)
 * will automatically notify you if there are updates available via GitHub (this can be switched off in NetGuard's settings)
 
 <br />
 
 Which hosts (ad servers) will be blocked depends on the hosts file being used.
-NetGuard provides the [StevenBlack hosts file](https://github.com/StevenBlack/hosts) download with the following additions:
-
-* reports.crashlytics.com
-* settings.crashlytics.com
-* e.crashlytics.com
-* test.netguard.me
+NetGuard downloads the [StevenBlack hosts file](https://github.com/StevenBlack/hosts) by default.
 
 <br />
 

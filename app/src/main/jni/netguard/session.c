@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 #include "netguard.h"
@@ -29,7 +29,7 @@ void clear(struct context *ctx) {
             clear_tcp_data(&s->tcp);
         struct ng_session *p = s;
         s = s->next;
-        free(p);
+        ng_free(p, __FILE__, __LINE__);
     }
     ctx->ng_session = NULL;
 }
@@ -160,7 +160,7 @@ void *handle_events(void *a) {
                     s = s->next;
                     if (c->protocol == IPPROTO_TCP)
                         clear_tcp_data(&c->tcp);
-                    free(c);
+                    ng_free(c, __FILE__, __LINE__);
                 } else {
                     sl = s;
                     s = s->next;
@@ -222,9 +222,13 @@ void *handle_events(void *a) {
                                 (ev[i].events & EPOLLERR) != 0,
                                 (ev[i].events & EPOLLHUP) != 0);
 
-                    while (!error && is_readable(args->tun))
+                    int count = 0;
+                    while (count < TUN_YIELD && !error && !args->ctx->stopping &&
+                           is_readable(args->tun)) {
+                        count++;
                         if (check_tun(args, &ev[i], epoll_fd, sessions, maxsessions) < 0)
                             error = 1;
+                    }
 
                 } else {
                     // Check downstream
@@ -243,9 +247,13 @@ void *handle_events(void *a) {
                         session->protocol == IPPROTO_ICMPV6)
                         check_icmp_socket(args, &ev[i]);
                     else if (session->protocol == IPPROTO_UDP) {
-                        while (!(ev[i].events & EPOLLERR) && (ev[i].events & EPOLLIN) &&
-                               is_readable(session->socket))
+                        int count = 0;
+                        while (count < UDP_YIELD && !args->ctx->stopping &&
+                               !(ev[i].events & EPOLLERR) && (ev[i].events & EPOLLIN) &&
+                               is_readable(session->socket)) {
+                            count++;
                             check_udp_socket(args, &ev[i]);
+                        }
                     } else if (session->protocol == IPPROTO_TCP)
                         check_tcp_socket(args, &ev[i], epoll_fd);
                 }
@@ -268,7 +276,7 @@ void *handle_events(void *a) {
                     "epoll close error %d: %s", errno, strerror(errno));
 
     // Cleanup
-    free(args);
+    ng_free(args, __FILE__, __LINE__);
 
     log_android(ANDROID_LOG_WARN, "Stopped events tun=%d", args->tun);
     return NULL;
@@ -329,7 +337,7 @@ void check_allowed(const struct arguments *args) {
 
                 struct ng_session *c = s;
                 s = s->next;
-                free(c);
+                ng_free(c, __FILE__, __LINE__);
                 continue;
             }
 

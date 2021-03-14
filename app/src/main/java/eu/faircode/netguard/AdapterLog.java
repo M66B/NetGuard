@@ -16,7 +16,7 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 import android.content.Context;
@@ -28,9 +28,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.preference.PreferenceManager;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
@@ -40,6 +37,10 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.view.ViewCompat;
+import androidx.preference.PreferenceManager;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -221,6 +222,8 @@ public class AdapterLog extends CursorAdapter {
                 Uri uri = Uri.parse("android.resource://" + info.packageName + "/" + info.icon);
                 GlideApp.with(context)
                         .load(uri)
+                        //.diskCacheStrategy(DiskCacheStrategy.NONE)
+                        //.skipMemoryCache(true)
                         .override(iconSize, iconSize)
                         .into(ivIcon);
             }
@@ -326,8 +329,10 @@ public class AdapterLog extends CursorAdapter {
     private String getKnownAddress(String addr) {
         try {
             InetAddress a = InetAddress.getByName(addr);
-            if (a.equals(dns1) || a.equals(dns2))
-                return "dns";
+            if (a.equals(dns1))
+                return "dns1";
+            if (a.equals(dns2))
+                return "dns2";
             if (a.equals(vpn4) || a.equals(vpn6))
                 return "vpn";
         } catch (UnknownHostException ignored) {

@@ -16,7 +16,7 @@ package eu.faircode.netguard;
     You should have received a copy of the GNU General Public License
     along with NetGuard.  If not, see <http://www.gnu.org/licenses/>.
 
-    Copyright 2015-2018 by Marcel Bokhorst (M66B)
+    Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
 
@@ -24,10 +24,11 @@ import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Icon;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.Log;
+
+import androidx.preference.PreferenceManager;
 
 @TargetApi(Build.VERSION_CODES.N)
 public class ServiceTileLockdown extends TileService implements SharedPreferences.OnSharedPreferenceChangeListener {

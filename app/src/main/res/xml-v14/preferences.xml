@@ -180,8 +180,13 @@
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="filter"
-                android:key="clear_onreload"
-                android:title="@string/setting_clear_onreload" />
+                android:key="filter_udp"
+                android:title="@string/setting_filter_udp" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:dependency="filter"
+                android:key="handover"
+                android:title="@string/setting_handover" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="filter"
@@ -223,6 +228,11 @@
                 android:dependency="filter"
                 android:inputType="text"
                 android:key="dns2" />
+            <EditTextPreference
+                android:hint="www.google.com"
+                android:inputType="text"
+                android:key="validate"
+                android:summary="@string/summary_validate" />
             <EditTextPreference
                 android:dependency="filter"
                 android:inputType="number"
@@ -314,6 +324,9 @@
             <Preference
                 android:key="hosts_import"
                 android:title="@string/setting_hosts" />
+            <Preference
+                android:key="hosts_import_append"
+                android:title="@string/setting_hosts_append" />
             <EditTextPreference
                 android:defaultValue="https://www.netguard.me/hosts"
                 android:hint="https://www.netguard.me/hosts"
@@ -348,10 +361,6 @@
                 android:defaultValue="false"
                 android:key="debug_iab"
                 android:title="Debug IAB" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="debug_ads"
-                android:title="Debug advertisements" />
         </PreferenceCategory>
     </PreferenceScreen>
 
