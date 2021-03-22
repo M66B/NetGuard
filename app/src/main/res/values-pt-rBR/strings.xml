@@ -161,7 +161,7 @@
     <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>
     <string name="msg_installed">\'%1$s\' instalado</string>
     <string name="msg_installed_n">Foi instalado</string>
-    <string name="msg_access">%1$s tentou acessar a internet</string>
+    <string name="msg_access">%1$s não tem acesso à internet</string>
     <string name="msg_access_n">Tentativa de acesso à Internet</string>
     <string name="msg_completed">Ação concluída</string>
     <string name="msg_vpn">NetGuard usa uma VPN local para filtrar o tráfego de internet.

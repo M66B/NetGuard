@@ -85,7 +85,7 @@
     <string name="setting_access">Értesítés internet hozzáféréskor</string>
     <string name="setting_filter">Forgalom szűrés</string>
     <string name="setting_filter_udp">UDP forgalom szűrő</string>
-    <string name="setting_handover">Seamless VPN handover on reload</string>
+    <string name="setting_handover">Zökkenőmentes VPN átadás újratöltéskor</string>
     <string name="setting_clear_onreload">Kapcsolatok lezárása újratöltéskor</string>
     <string name="setting_lockdown">Forgalom lezárás</string>
     <string name="setting_track_usage">Hálózat használat követés</string>
@@ -116,7 +116,7 @@
     <string name="setting_export">Beállítások exportálása</string>
     <string name="setting_import">Beállítások importálása</string>
     <string name="setting_hosts">Hosts fájl importálás</string>
-    <string name="setting_hosts_append">Import hosts file (append)</string>
+    <string name="setting_hosts_append">Hosts fájl importálása (append)</string>
     <string name="setting_hosts_url">Hosts fájl letöltési URL</string>
     <string name="setting_hosts_download">Hosts fájl letöltése</string>
     <string name="setting_technical">Technikai információk</string>

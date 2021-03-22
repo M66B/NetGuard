@@ -4,19 +4,19 @@
     <string name="app_android">NetGuard yêu cầu Android 5.1 hoặc cao hơn</string>
     <string name="app_xposed">Xposed gây ra quá nhiều lỗi, mà có ảnh hưởng đến NetGuard bị gỡ bỏ khỏicửa hàng Google Play; Do đó, NetGuard sẽ không được hỗ trợ nếu Xposed được cài đặt.</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Chính sách riêng tư</a></string>
-    <string name="app_first">Chăm sóc tuyệt vời đã được thực hiện để phát triển và thử nghiệm NetGuard, Tuy nhiên chúng tôi không thể đảm bảo NetGuard sẽ làm việc chính xác trên mọi thiết bị</string>
+    <string name="app_first">Tôi đã rất cẩn thận để phát triển và thử nghiệm NetGuard, tuy nhiên không thể đảm bảo NetGuard sẽ làm việc chính xác trên mọi thiết bị.</string>
     <string name="app_agree">Tôi đồng ý</string>
     <string name="app_disagree">Tôi không đồng ý</string>
     <string name="app_support">NetGuard cần sự giúp đỡ của bạn. Nhấn để mua các tính năng Pro để giữ cho dự án hoạt động.</string>
     <string name="channel_foreground">Các dịch vụ đang chạy</string>
     <string name="channel_notify">Thông báo chung</string>
     <string name="channel_access">Truy cập thông báo</string>
-    <string name="menu_search">Tìm kiếm các ứng dụng</string>
-    <string name="menu_filter">Bộ lọc ứng dụng</string>
+    <string name="menu_search">Tìm kiếm ứng dụng</string>
+    <string name="menu_filter">Lọc ứng dụng</string>
     <string name="menu_app_user">Hiển thị ứng dụng của người dùng</string>
     <string name="menu_app_system">Hiển thị các ứng dụng hệ thống</string>
-    <string name="menu_app_nointernet">Hiển thị các ứng dụng mà không có internet</string>
-    <string name="menu_app_disabled">Hiển thị ứng dụng bị vô hiệu hóa</string>
+    <string name="menu_app_nointernet">Hiển thị các ứng dụng không có internet</string>
+    <string name="menu_app_disabled">Hiển thị các ứng dụng bị tắt</string>
     <string name="menu_sort">Sắp xếp ứng dụng</string>
     <string name="menu_sort_name">Sắp xếp theo tên</string>
     <string name="menu_sort_uid">Sắp xếp theo uid</string>
@@ -47,7 +47,7 @@
     <string name="title_dport">Cổng nguồn</string>
     <string name="title_raddr">Địa chỉ nơi đến</string>
     <string name="title_rport">Cổng nơi đến</string>
-    <string name="title_ruid">Đích đến</string>
+    <string name="title_ruid">Ứng dụng đích đến</string>
     <string name="title_external">Đối với một máy chủ bên ngoài chọn \'nobody\'</string>
     <string name="setting_defaults">Mặc định (white/blacklist)</string>
     <string name="setting_whitelist_wifi">Chặn Wi-Fi</string>
@@ -272,7 +272,7 @@
     <string name="title_pro_details">Nhấn vào một tiêu đề để biết thêm thông tin</string>
     <string name="title_pro_challenge">Thử thách</string>
     <string name="title_pro_reponse">Phản ứng:</string>
-    <string name="title_pro_feature">This is a pro feature</string>
+    <string name="title_pro_feature">Đây là một tính năng pro</string>
     <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
         You can cancel or manage a subscription via the subscriptions tab in the Play store app.
     </string>
@@ -280,8 +280,8 @@
         <item>teal/orange</item>
         <item>xanh dương/cam</item>
         <item>tím/đỏ</item>
-        <item>amber/blue</item>
-        <item>orange/grey</item>
+        <item>hổ phách/xanh dương</item>
+        <item>cam/xám</item>
         <item>xanh lá cây</item>
     </string-array>
     <string-array name="protocolNames">
