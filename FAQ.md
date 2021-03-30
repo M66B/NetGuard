@@ -405,6 +405,8 @@ See [here](http://forum.xda-developers.com/showpost.php?p=67892427&postcount=303
 <a name="faq38"></a>
 **(38) Why did NetGuard stop running?**
 
+First of all, please make sure you disabled battery optimizations for NetGuard in the Android settings.
+
 On most devices, NetGuard will keep running in the background with its foreground service.
 On some devices (in particular some Samsung models), where there are lots of applications competing for memory, Android may still stop NetGuard as a last resort.
 Some Android versions, in particular of Huawei (see [here](https://www.forbes.com/sites/bensin/2016/07/04/push-notifications-not-coming-through-to-your-huawei-phone-heres-how-to-fix-it/) for a fix) or Xiaomi (see [here](https://www.forbes.com/sites/bensin/2016/11/17/how-to-fix-push-notifications-on-xiaomis-miui-8-for-real/) for a fix) stop apps and services too aggressively.
