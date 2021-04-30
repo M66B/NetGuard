@@ -97,7 +97,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Xác thực tại: %s</string>
     <string name="setting_ttl">Tối thiểu DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Dùng Socks5 proxy</string>
     <string name="setting_socks5_addr">Địa chỉ (Socks5): %s</string>
@@ -146,7 +146,7 @@
     <string name="summary_track_usage">Theo dõi số lượng byte gửi và nhận được cho mỗi ứng dụng và địa chỉ. Điều này có thể dẫn đến việc hao pin.</string>
     <string name="summary_block_domains">DNS được định cấu hình cho các tên miền bị chặn. Tùy chọn này bị vô hiệu hóa khi không có sẵn file hosts.</string>
     <string name="summary_rcode">Giá trị mặc định là 3 (NXDOMAIN), có nghĩa là \'không tồn tại tên miền\'.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">Tên miền được sử dụng để xác thực kết nối internet tại cổng 443 (https).</string>
     <string name="summary_socks5_enabled">Lưu lượng TCP sẽ được gửi đến máy chủ proxy</string>
     <string name="summary_watchdog">Định kỳ kiểm tra nếu NetGuard vẫn chạy (nhập 0 để tắt tùy chọn này). Điều này có thể dẫn đến việc hao pin.</string>
     <string name="summary_stats">Hiển thị đồ thị tốc độ mạng trên thanh thông báo trạng thái</string>
@@ -220,8 +220,8 @@
     <string name="title_metered">Theo mặc định, kết nối Wi-Fi được coi là không trả phí và kết nối điện thoại di động được coi là có trả phí</string>
     <string name="title_internet">không có sự cho phép của internet</string>
     <string name="title_disabled">bị vô hiệu hóa</string>
-    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_messaging">Các thông báo đến được dịch vụ Google Play nhận và không phải ứng dụng này và do đó không thể bị chặn bằng cách chặn ứng dụng này</string>
+    <string name="title_download">Các lượt tải xuống được trình quản lý tải xuống thực hiện và không phải ứng dụng này và do đó không thể bị chặn bằng cách chặn ứng dụng này</string>
     <string name="title_apply">Áp dụng các quy tắc và trạng thái</string>
     <string name="title_conditions">Điều kiện</string>
     <string name="title_screen_wifi">Cho phép Wi-Fi khi màn hình bật</string>
@@ -273,11 +273,11 @@
     <string name="title_pro_challenge">Thử thách</string>
     <string name="title_pro_reponse">Phản ứng:</string>
     <string name="title_pro_feature">Đây là một tính năng pro</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
+    <string name="title_pro_subscription">        Một gói đăng ký 1 hoặc 2 euro (chưa bao gồm thuế ở địa phương) sẽ kích hoạt tất cả tính năng pro.
+        Bạn có thể huỷ hoặc quản lý gói đăng ký qua tab gói đăng ký trong ứng dụng CH Play.
     </string>
     <string-array name="themeNames">
-        <item>teal/orange</item>
+        <item>xanh mòng két/cam</item>
         <item>xanh dương/cam</item>
         <item>tím/đỏ</item>
         <item>hổ phách/xanh dương</item>

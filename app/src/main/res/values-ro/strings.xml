@@ -109,9 +109,9 @@
     <string name="setting_watchdog">Repornire automată: o dată la %s minute</string>
     <string name="setting_stats_category">Notificare viteză conexiune</string>
     <string name="setting_stats">Arată notificare viteză</string>
-    <string name="setting_stats_top">Arată aplicațiile consumatoare</string>
+    <string name="setting_stats_top">Arată aplicațiile consumătoare</string>
     <string name="setting_stats_frequency">Interval de eșantionare: %s ms</string>
-    <string name="setting_stats_samples">Numar de esantioane: %s s</string>
+    <string name="setting_stats_samples">Număr de eșantioane: %s s</string>
     <string name="setting_backup">Copie de siguranță</string>
     <string name="setting_export">Exportă setări</string>
     <string name="setting_import">Importă setări</string>
@@ -227,8 +227,8 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="title_download">Descărcările sunt realizate de către managerul de descărcări și nu de către această aplicație, în consecință nu pot fi blocate prin blocarea acesteia</string>
     <string name="title_apply">Aplică regulile și condițiile</string>
     <string name="title_conditions">Restricții</string>
-    <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
-    <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>
+    <string name="title_screen_wifi">Permite Wi-Fi când ecranul este pornit</string>
+    <string name="title_screen_other">Permite date mobile când ecranul este pornit</string>
     <string name="title_roaming_symbol">R</string>
     <string name="title_roaming">Blochează în roaming</string>
     <string name="title_lockdown">Permite când traficul este închis</string>
@@ -266,7 +266,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="title_pro_filter">Filtrează traficul de rețea</string>
     <string name="title_pro_notify">Notificare aplicație nou instalată</string>
     <string name="title_pro_speed">Notificare cu grafic viteza conexiune</string>
-    <string name="title_pro_theme">Tema, culori configurabile</string>
+    <string name="title_pro_theme">Aspect (temă, culori)</string>
     <string name="title_pro_all">Toate funcțiile avansate de mai sus</string>
     <string name="title_pro_dev">Sprijină dezvoltarea</string>
     <string name="title_pro_buy">Cumpără</string>
@@ -282,7 +282,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string-array name="themeNames">
         <item>verde albăstrui/portocaliu</item>
         <item>albastru/portocaliu</item>
-        <item>mov/rosu</item>
+        <item>mov/roșu</item>
         <item>culoarea chihlimbarului/albastru</item>
         <item>portocaliu/gri</item>
         <item>verde</item>

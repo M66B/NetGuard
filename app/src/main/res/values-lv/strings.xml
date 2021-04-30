@@ -3,7 +3,7 @@
     <string name="app_description">NetGuard nodrošina vienkāršu un uzlabotu veidu, kā bloķēt piekļuvi internetam. Lietotnēm un adresēm var individuāli atļaut vai aizliegt piekļuvi internetam caur Wi-Fi un/vai mobilo datu savienojumu.</string>
     <string name="app_android">NetGuard nepieciešams Android 5.1 vai jaunāks</string>
     <string name="app_xposed">Xposed rada pārāk daudz avāriju, kas var radīt situāciju, ka NetGuard var tikt izņemts no Google Play veikala, tāpēc NetGuard netiek atbalstīs ar vienlaicīgi instalētu Xposed</string>
-    <string name="app_privacy"><a href="http://www.cyanogenmod.org/docs/privacy">Privātuma politika</a></string>
+    <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privātuma politika</a></string>
     <string name="app_first">Liels darbs ir ieguldīts NetGuard izstrādē un testēšanā. Tai pat laikā nav iespējams garantēt, ka NetGuard darbosies korekti pilnīgi visās ierīcēs.</string>
     <string name="app_agree">Es piekrītu</string>
     <string name="app_disagree">Nepiekrītu</string>
